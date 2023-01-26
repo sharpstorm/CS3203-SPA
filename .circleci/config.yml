@@ -1,0 +1,129 @@
+version: 2.1
+
+orbs:
+  win: circleci/windows@5.0
+
+jobs:
+  build-windows:
+    executor:
+      name: win/default
+      shell: bash.exe
+    environment:
+      BUILD_TYPE: Release
+      CMAKE_DIR: 'C:\Program Files\CMake\bin'
+
+    steps:
+      - checkout
+      - restore_cache:
+          name: Load CMake Installation
+          keys:
+            - cmake-cache-windows
+      - run:
+          name: Install CMake
+          command: |
+            [ ! -d '/C/Program Files/cmake' ] && choco install cmake -y --installargs 'ADD_CMAKE_TO_PATH=System' || echo 'CMake is already installed'
+      - save_cache:
+          name: Save CMake Installation
+          key: cmake-cache-windows
+          paths:
+            - "C:/Program Files/cmake"
+      - run:
+          name: Generate CMake Project
+          command: |
+            export PATH=$PATH:"/C/Program Files/cmake/bin"
+            cd Team00/Code00
+            mkdir build
+            cd build
+            cmake -A x64 ..
+      - run:
+          name: Compile SPA
+          command: |
+            export PATH=$PATH:"/C/Program Files/cmake/bin"
+            cd Team00/Code00/build
+            cmake --build . --target unit_testing --config ${BUILD_TYPE} -j 4
+            cmake --build . --target integration_testing --config ${BUILD_TYPE} -j 4
+            cmake --build . --target autotester --config ${BUILD_TYPE} -j 4
+
+  build-darwin:
+    macos:
+      xcode: 14.2.0
+    environment:
+      BUILD_TYPE: Release
+    steps:
+      - checkout
+      - restore_cache:
+          name: Load CMake Installation
+          keys:
+            - cmake-cache-darwin2
+      - run:
+          name: Install CMake
+          command: |
+            [ ! -f '/usr/bin/cmake' ] && brew install cmake || echo 'CMake is already installed'
+      - save_cache:
+           name: Save CMake Installation
+           key: cmake-cache-darwin2
+           paths:
+             - "/usr/local/bin/cmake"
+             - "/usr/local/Cellar/cmake"
+      - run:
+          name: Generate CMake Project
+          working_directory: ./Team00/Code00
+          command: |
+            cmake -E make_directory ./build
+      - run:
+          name: Configure CMake
+          working_directory: ./Team00/Code00/build
+          command: |
+            cmake ../ -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
+      - run:
+          name: Compile SPA
+          working_directory: ./Team00/Code00/build
+          command: |
+            cmake --build . --target unit_testing --config ${BUILD_TYPE} -j 4
+            cmake --build . --target integration_testing --config ${BUILD_TYPE} -j 4
+            cmake --build . --target autotester --config ${BUILD_TYPE} -j 4
+
+  build-linux:
+    docker:
+      - image: cimg/base:current
+    resource_class: medium
+    environment:
+      BUILD_TYPE: Release
+    steps:
+      - checkout
+      - run:
+          name: Generate CMake Project
+          working_directory: ./Team00/Code00
+          command: |
+            cmake -E make_directory ./build
+      - run:
+          name: Configure CMake
+          working_directory: ./Team00/Code00/build
+          command: |
+            cmake ../ -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
+      - run:
+          name: Compile SPA
+          working_directory: ./Team00/Code00/build
+          command: |
+            cmake --build . --target unit_testing --config ${BUILD_TYPE} -j 4
+            cmake --build . --target integration_testing --config ${BUILD_TYPE} -j 4
+            cmake --build . --target autotester --config ${BUILD_TYPE} -j 4
+    
+    
+
+workflows:
+  commit-build-workflow:
+    jobs:
+      - build-windows:
+          filters:
+            branches:
+              only:
+                - release
+                - module/*
+      - build-darwin:
+          filters:
+            branches:
+              only: 
+                - release
+                - module/*
+      - build-linux
