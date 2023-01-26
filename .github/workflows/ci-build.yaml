@@ -17,6 +17,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: master
 
       - name: Generate CMake Project
         working-directory: ./Team30/Code30
@@ -42,6 +44,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: master
 
       - name: Setup Build Folder
         working-directory: ./Team30/Code30
@@ -68,6 +72,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: master
 
       - name: Setup Build Folder
         working-directory: ./Team30/Code30
