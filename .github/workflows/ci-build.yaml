@@ -1,12 +1,9 @@
 name: CI Build
 
-on: push
-# If you are doing triggering your workflow from pushes or merging more than twice a day on average,
-# please execute your workflow on a schedule instead.
-# Comment the above 7 lines, and uncomment the following 3 lines
-# on:
-#   schedule:
-#     - cron: "0 10,22 * * *"
+# on: push
+on:
+  schedule:
+    - cron: "0 10,22 * * *"
 
 env:
     BUILD_TYPE: Release
