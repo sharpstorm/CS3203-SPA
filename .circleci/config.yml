@@ -31,7 +31,7 @@ jobs:
           name: Generate CMake Project
           command: |
             export PATH=$PATH:"/C/Program Files/cmake/bin"
-            cd Team00/Code00
+            cd Team30/Code30
             mkdir build
             cd build
             cmake -A x64 ..
@@ -39,7 +39,7 @@ jobs:
           name: Compile SPA
           command: |
             export PATH=$PATH:"/C/Program Files/cmake/bin"
-            cd Team00/Code00/build
+            cd Team30/Code30/build
             cmake --build . --target unit_testing --config ${BUILD_TYPE} -j 4
             cmake --build . --target integration_testing --config ${BUILD_TYPE} -j 4
             cmake --build . --target autotester --config ${BUILD_TYPE} -j 4
@@ -67,17 +67,17 @@ jobs:
              - "/usr/local/Cellar/cmake"
       - run:
           name: Generate CMake Project
-          working_directory: ./Team00/Code00
+          working_directory: ./Team30/Code30
           command: |
             cmake -E make_directory ./build
       - run:
           name: Configure CMake
-          working_directory: ./Team00/Code00/build
+          working_directory: ./Team30/Code30/build
           command: |
             cmake ../ -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
       - run:
           name: Compile SPA
-          working_directory: ./Team00/Code00/build
+          working_directory: ./Team30/Code30/build
           command: |
             cmake --build . --target unit_testing --config ${BUILD_TYPE} -j 4
             cmake --build . --target integration_testing --config ${BUILD_TYPE} -j 4
@@ -93,17 +93,17 @@ jobs:
       - checkout
       - run:
           name: Generate CMake Project
-          working_directory: ./Team00/Code00
+          working_directory: ./Team30/Code30
           command: |
             cmake -E make_directory ./build
       - run:
           name: Configure CMake
-          working_directory: ./Team00/Code00/build
+          working_directory: ./Team30/Code30/build
           command: |
             cmake ../ -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
       - run:
           name: Compile SPA
-          working_directory: ./Team00/Code00/build
+          working_directory: ./Team30/Code30/build
           command: |
             cmake --build . --target unit_testing --config ${BUILD_TYPE} -j 4
             cmake --build . --target integration_testing --config ${BUILD_TYPE} -j 4
