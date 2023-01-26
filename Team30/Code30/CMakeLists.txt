@@ -16,6 +16,12 @@ endif()
 if(NOT MSVC)
   set(CMAKE_CXX_FLAGS_DEBUG "-g")
   set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+
+endif()
+
+if(CMAKE_SYSTEM_NAME MATCHES "Linux")
+    message(STATUS "Detected Linux System: Adding -no-pie flag")
+    add_link_options(-no-pie)
 endif()
 
 set(CMAKE_CXX_STANDARD 17)
