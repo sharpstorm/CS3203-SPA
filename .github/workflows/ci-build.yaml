@@ -1,4 +1,4 @@
-name: CI Build - Windows
+name: CI Build
 
 on: push
 # If you are doing triggering your workflow from pushes or merging more than twice a day on average,
@@ -14,7 +14,7 @@ env:
 jobs:
   build-windows:
     runs-on: windows-latest
-    timeout-minutes: 2
+    timeout-minutes: 3
     strategy:
       fail-fast: true
 
@@ -39,7 +39,7 @@ jobs:
 
   build-darwin:
     runs-on: macos-latest
-    timeout-minutes: 2
+    timeout-minutes: 3
     strategy:
       fail-fast: true
 
