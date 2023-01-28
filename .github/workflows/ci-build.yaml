@@ -1,0 +1,93 @@
+name: CI Build
+
+# on: push
+on:
+  schedule:
+    - cron: "0 10,22 * * *"
+
+env:
+    BUILD_TYPE: Release
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    timeout-minutes: 3
+    strategy:
+      fail-fast: true
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: master
+
+      - name: Generate CMake Project
+        working-directory: ./Team30/Code30
+        shell: bash
+        run: |
+          cmake -E make_directory ./build
+          cd build
+          cmake -A x64 ..
+      
+      - name: Compile SPA
+        shell: bash
+        working-directory: ./Team30/Code30/build
+        run: |
+          cmake --build . --target unit_testing --config Release
+          cmake --build . --target integration_testing --config Release
+          cmake --build . --target autotester --config Release
+
+  build-darwin:
+    runs-on: macos-latest
+    timeout-minutes: 3
+    strategy:
+      fail-fast: true
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: master
+
+      - name: Setup Build Folder
+        working-directory: ./Team30/Code30
+        run: |
+          cmake -E make_directory ./build
+
+      - name: Generate CMake Project
+        working-directory: ./Team30/Code30/build
+        run: |
+          cmake ../ -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
+
+      - name: Compile SPA
+        working-directory: ./Team30/Code30/build
+        run: |
+          cmake --build . --target unit_testing --config Release
+          cmake --build . --target integration_testing --config Release
+          cmake --build . --target autotester --config Release
+
+  build-linux:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    strategy:
+      fail-fast: true
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: master
+
+      - name: Setup Build Folder
+        working-directory: ./Team30/Code30
+        run: |
+          cmake -E make_directory ./build
+
+      - name: Generate CMake Project
+        working-directory: ./Team30/Code30/build
+        run: |
+          cmake ../ -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
+
+      - name: Compile SPA
+        working-directory: ./Team30/Code30/build
+        run: |
+          cmake --build . --target unit_testing --config Release
+          cmake --build . --target integration_testing --config Release
+          cmake --build . --target autotester --config Release
