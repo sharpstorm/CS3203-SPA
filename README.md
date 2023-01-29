@@ -34,4 +34,4 @@ Ong Wei Xin | 91338951 | e0544325@u.nus.edu | **OS:** Ubuntu 22.04 on WSL <br/> 
 Kwan Hao Wei | 97523357 | e0544249@u.nus.edu | **OS:** Manjaro Linux <br/> **IDE:** <br/> **Toolchain:** GCC + Clang 14.0.0 LLVM Frontend
 Dai Tianle |  | ddt@u.nus.edu | **OS:** macOS Ventura <br/> **IDE:** CLion 2022.3 <br/> **Toolchain:** GCC + AppleClang
 Ng Lingshan |  | ng.lingshan@u.nus.edu | **OS:** Windows 11 <br/> **IDE:** Visual Studio <br/> **Toolchain:** MSVC Toolchain (Visual Studio Bundled)
-Al Ghrairy Abdulelah Faisal S |  | e0556733@u.nus.edu | **OS:** Windows 11 <br/> **IDE:** Visual Studio <br/> **Toolchain:** MSVC Toolchain (Visual Studio Bundled)
+Al Ghrairy Abdulelah Faisal S | 84676838 | e0556733@u.nus.edu | **OS:** Windows 10 <br/> **IDE:** Visual Studio <br/> **Toolchain:** MSVC Toolchain (Visual Studio Bundled)
