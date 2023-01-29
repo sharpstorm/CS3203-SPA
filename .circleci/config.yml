@@ -119,11 +119,13 @@ workflows:
             branches:
               only:
                 - release
+                - master
                 - module/*
       - build-darwin:
           filters:
             branches:
               only: 
                 - release
+                - master
                 - module/*
       - build-linux
