@@ -1,0 +1,20 @@
+#pragma once
+
+#include <string>
+
+using std::string;
+
+enum PQL_VAR_TYPE {
+  PQL_VAR_TYPE_STMT,
+  PQL_VAR_TYPE_READ,
+  PQL_VAR_TYPE_PRINT,
+  PQL_VAR_TYPE_CALL,
+  PQL_VAR_TYPE_WHILE,
+  PQL_VAR_TYPE_IF,
+  PQL_VAR_TYPE_ASSIGN,
+  PQL_VAR_TYPE_VARIABLE,
+  PQL_VAR_TYPE_CONSTANT,
+  PQL_VAR_TYPE_PROCEDURE
+};
+
+typedef string PQL_VAR_NAME;
