@@ -19,7 +19,7 @@ jobs:
 
       - name: Lint CPP
         run: |
-          cpplint --filter=-legal/copyright --recursive ./Team30/Code30/src
+          cpplint --filter=-legal/copyright --recursive ./Team30/Code30/src/spa/src
 
       - name: Setup Build Folder
         working-directory: ./Team30/Code30
