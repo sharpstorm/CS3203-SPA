@@ -17,6 +17,10 @@ jobs:
         with:
           ref: master
 
+      - name: Lint CPP
+        run: |
+          cpplint --filter=-legal/copyright --recursive ./Team30/Code30/src
+
       - name: Setup Build Folder
         working-directory: ./Team30/Code30
         run: |
@@ -25,7 +29,7 @@ jobs:
       - name: Generate CMake Project
         working-directory: ./Team30/Code30/build
         run: |
-          cmake ../ -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
+          CC=clang CXX=clang++ cmake ../ -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
 
       - name: Compile SPA
         working-directory: ./Team30/Code30/build
