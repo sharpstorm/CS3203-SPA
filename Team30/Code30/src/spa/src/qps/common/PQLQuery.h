@@ -26,4 +26,5 @@ public:
     PQLQuery(vector<QueryVariable> vars, QueryVariable resVar, vector<Clause> c);
 //    void addSymbol(PQL_VAR_NAME name,PQL_VAR_TYPE type);
     PQL_VAR_TYPE getSymbol(PQL_VAR_NAME name);
+    vector<IEvaluatable>* getEvaluatables();
 };

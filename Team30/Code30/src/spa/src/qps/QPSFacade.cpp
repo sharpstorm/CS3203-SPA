@@ -3,5 +3,8 @@
 #include "QPSFacade.h"
 
 string *QPSFacade::evaluate(string query) {
-  return nullptr;
+    QueryResult* queryResult = driver.evaluate(&query);
+    string* projectedResult = projector.project(queryResult);
+    // return projectedResult;
+    return nullptr;
 }

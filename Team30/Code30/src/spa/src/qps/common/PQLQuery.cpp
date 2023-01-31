@@ -24,3 +24,13 @@ PQL_VAR_TYPE PQLQuery::getSymbol(PQL_VAR_NAME name) {
     QueryVariable qVar = variables[name];
     return qVar.type;
 }
+
+vector<IEvaluatable>* PQLQuery::getEvaluatables() {
+//    return clauses;
+    vector<IEvaluatable>* evals = new vector<IEvaluatable>();
+    for (IEvaluatable ie : clauses) {
+        evals->push_back(ie);
+    }
+
+    return evals;
+}

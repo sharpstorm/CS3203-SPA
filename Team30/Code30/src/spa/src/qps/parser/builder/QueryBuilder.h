@@ -6,6 +6,9 @@
 #include "../../clauses/PatternClause.h"
 
 class QueryBuilder {
+    QueryVariable qVar;
+    vector<QueryVariable> vars;
+    vector<Clause> clauses;
  public:
   QueryBuilder();
   void setResultType(PQL_VAR_TYPE type);
