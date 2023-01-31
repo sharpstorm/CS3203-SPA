@@ -1,10 +1,11 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
-using std::string;
+using std::string, std::vector;
 
 class QueryLexer {
  public:
-  string* getTokenStream(string* query);
+  vector<string>* getTokenStream(string* query);
 };
