@@ -14,12 +14,6 @@ void PQLQuery::populateVariables(vector<QueryVariable> vars) {
     }
 }
 
-//void PQLQuery::addSymbol(PQL_VAR_NAME name, PQL_VAR_TYPE type) {
-//    QueryVariable qVar = {type, name};
-//    pair<string, QueryVariable> varEntry(name, qVar);
-//    variables.insert(varEntry);
-//}
-
 PQL_VAR_TYPE PQLQuery::getSymbol(PQL_VAR_NAME name) {
     QueryVariable qVar = variables[name];
     return qVar.type;
