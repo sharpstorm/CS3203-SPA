@@ -1,14 +1,15 @@
 #pragma once
 
 #include <string>
-#include <unordered_map>
+//#include <unordered_map>
 #include <vector>
 
 #include "PQLTypes.h"
 #include "PQLVariable.h"
 #include "qps/clauses/Clause.h"
 
-using std::string, std::unordered_map, std::vector;
+//using std::string, std::unordered_map, std::vector;
+using std::string, std::vector;
 
 //struct QueryVariable {
 //  PQL_VAR_TYPE type;

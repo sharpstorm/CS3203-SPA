@@ -26,7 +26,6 @@ PQL_VAR_TYPE PQLQuery::getSymbol(PQL_VAR_NAME name) {
 }
 
 vector<IEvaluatable>* PQLQuery::getEvaluatables() {
-//    return clauses;
     vector<IEvaluatable>* evals = new vector<IEvaluatable>();
     for (IEvaluatable ie : clauses) {
         evals->push_back(ie);
