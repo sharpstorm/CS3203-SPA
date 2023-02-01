@@ -20,5 +20,4 @@ string *ResultProjector::project(QueryResult* queryResult) {
     }
 
     return &result;
-
 }
