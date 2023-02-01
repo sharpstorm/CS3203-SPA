@@ -1,0 +1,56 @@
+#pragma once
+
+#include <string>
+
+using std::string;
+
+enum PQL_TOKEN_TYPE {
+  // Processing markers
+  PQL_TOKEN_INVALID,
+  PQL_TOKEN_IGNORE,
+  PQL_TOKEN_DELIMITER,
+
+  // Symbols
+  PQL_TOKEN_SEMICOLON,
+  PQL_TOKEN_BRACKET_OPEN,
+  PQL_TOKEN_BRACKET_CLOSE,
+  PQL_TOKEN_COMMA,
+  PQL_TOKEN_PERIOD,
+  PQL_TOKEN_UNDERSCORE,
+  PQL_TOKEN_QUOTE,
+
+  // Declarations
+  PQL_TOKEN_STMT,
+  PQL_TOKEN_READ,
+  PQL_TOKEN_PRINT,
+  PQL_TOKEN_CALL,
+  PQL_TOKEN_WHILE,
+  PQL_TOKEN_IF,
+  PQL_TOKEN_ASSIGN,
+  PQL_TOKEN_VARIABLE,
+  PQL_TOKEN_CONSTANT,
+  PQL_TOKEN_PROCEDURE,
+
+  // Query Keywords
+  PQL_TOKEN_SELECT,
+  PQL_TOKEN_SUCH,
+  PQL_TOKEN_THAT,
+  PQL_TOKEN_PATTERN,
+
+  // Relationship Keywords
+  PQL_TOKEN_FOLLOWS,
+  PQL_TOKEN_PARENT,
+  PQL_TOKEN_USES,
+  PQL_TOKEN_MODIFIES,
+
+  PQL_TOKEN_STRING,
+  PQL_TOKEN_INTEGER,
+  PQL_TOKEN_CHAR,
+};
+
+class PQLToken {
+ public:
+  PQL_TOKEN_TYPE type;
+  string tokenData;
+  bool operator==(const PQLToken& other) const;
+};
