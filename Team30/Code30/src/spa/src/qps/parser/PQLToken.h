@@ -52,5 +52,6 @@ class PQLToken {
  public:
   PQL_TOKEN_TYPE type;
   string tokenData;
+  bool isType(PQL_TOKEN_TYPE);
   bool operator==(const PQLToken& other) const;
 };
