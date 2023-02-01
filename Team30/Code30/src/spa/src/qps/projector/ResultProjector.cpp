@@ -9,17 +9,16 @@ string *ResultProjector::project(QueryResult* queryResult) {
 
     string result;
     if (queryResult->getEntityList().size() == 0) {
-       // Convert statement list to a list of strings
-       for (int stmt : queryResult->getStatementList()) {
-           result += to_string(stmt);
-       }
+        // Convert statement list to a list of strings
+        for (int stmt : queryResult->getStatementList()) {
+            result += to_string(stmt);
+        }
     } else {
         for (string &entity : queryResult->getEntityList()) {
             result += entity;
         }
     }
 
-//    return &result;
+    return &result;
 
-    return nullptr;
 }
