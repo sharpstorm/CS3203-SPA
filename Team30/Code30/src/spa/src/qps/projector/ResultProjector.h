@@ -7,5 +7,5 @@ using std::string;
 
 class ResultProjector {
  public:
-  string* project(QueryResult*);
+  string* project(QueryResult* queryResult);
 };
