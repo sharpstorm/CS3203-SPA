@@ -1,3 +1,4 @@
+#include <memory>
 #include "TokenParser.h"
 #include "../../errors/QPSParserError.h"
 
@@ -9,7 +10,8 @@ unique_ptr<PQLQuery> TokenParser::build() {
   TokenParseState state(&this->tokens);
 
   while (!state.isEnd()) {
-    unique_ptr<IPQLContext> context = contextProvider.getContext(state.getCurrentToken());
+    unique_ptr<IPQLContext> context = contextProvider
+        .getContext(state.getCurrentToken());
     if (context == nullptr) {
       throw QPSParserError("Unexpected token");
     }

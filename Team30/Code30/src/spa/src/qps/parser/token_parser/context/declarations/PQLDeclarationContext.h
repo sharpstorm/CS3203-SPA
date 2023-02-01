@@ -8,5 +8,7 @@ class PQLDeclarationContext: public AbstractPQLContext {
 
  public:
   void parse(TokenParseState* parserState);
+
+ protected:
   explicit PQLDeclarationContext(PQL_VAR_TYPE variableType);
 };

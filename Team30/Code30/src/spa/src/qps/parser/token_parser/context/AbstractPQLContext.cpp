@@ -17,10 +17,13 @@ PQLToken* AbstractPQLContext::expectInternal(TokenParseState* parserState,
   throw QPSParserError("Unexpected token encountered during parsing");
 }
 
-PQLToken* AbstractPQLContext::expect(TokenParseState* parserState, PQL_TOKEN_TYPE tokenType) {
+PQLToken* AbstractPQLContext::expect(TokenParseState* parserState,
+                                     PQL_TOKEN_TYPE tokenType) {
   return expectInternal(parserState, tokenType);
 }
 
-PQLToken* AbstractPQLContext::expect(TokenParseState* parserState, PQL_TOKEN_TYPE token1, PQL_TOKEN_TYPE token2) {
+PQLToken* AbstractPQLContext::expect(TokenParseState* parserState,
+                                     PQL_TOKEN_TYPE token1,
+                                     PQL_TOKEN_TYPE token2) {
   return expectInternal(parserState, token1, token2);
 }

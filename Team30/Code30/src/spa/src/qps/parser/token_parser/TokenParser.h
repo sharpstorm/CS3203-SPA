@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 #include "../../common/PQLQuery.h"
 #include "TokenParseState.h"
 #include "context/PQLGrammarContextProvider.h"

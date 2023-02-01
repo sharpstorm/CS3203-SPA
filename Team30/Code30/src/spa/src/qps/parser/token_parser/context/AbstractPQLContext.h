@@ -9,7 +9,8 @@ class AbstractPQLContext: public IPQLContext {
 
  protected:
   PQLToken* expect(TokenParseState* parserState, PQL_TOKEN_TYPE tokenType);
-  PQLToken* expect(TokenParseState* parserState, PQL_TOKEN_TYPE token1, PQL_TOKEN_TYPE token2);
+  PQLToken* expect(TokenParseState* parserState, PQL_TOKEN_TYPE token1,
+                   PQL_TOKEN_TYPE token2);
 
  private:
   template<typename... PQL_TOKEN_TYPE>

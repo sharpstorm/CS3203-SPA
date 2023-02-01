@@ -1,6 +1,7 @@
 #include "PQLDeclarationContext.h"
 
-PQLDeclarationContext::PQLDeclarationContext(PQL_VAR_TYPE variableType): AbstractPQLContext() {
+PQLDeclarationContext::PQLDeclarationContext(
+    PQL_VAR_TYPE variableType):AbstractPQLContext() {
   this->variableType = variableType;
 }
 

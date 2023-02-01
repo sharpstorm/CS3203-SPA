@@ -21,7 +21,7 @@ class PQLQuery {
   QueryVariable resultVariable;
 
  public:
-  PQLQuery(vector<QueryVariable> variables);
+  explicit PQLQuery(vector<QueryVariable> variables);
   int getVariableCount();
   QueryVariable* getVariable(string name);
 };
