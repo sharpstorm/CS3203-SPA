@@ -1,5 +1,3 @@
-#pragma once
-
 #include "TokenParser.h"
 
 void TokenParser::addTokens(string* tokens) {

@@ -1,5 +1,3 @@
-#pragma once
-
 #include "QueryParser.h"
 
 PQLQuery *QueryParser::parseQuery(string* query) {
