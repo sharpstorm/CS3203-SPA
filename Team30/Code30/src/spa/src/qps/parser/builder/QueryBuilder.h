@@ -1,5 +1,7 @@
 #pragma once
 
+#include<vector>
+
 #include "../../common/PQLTypes.h"
 #include "../../common/PQLQuery.h"
 #include "../../clauses/SuchThatClause.h"

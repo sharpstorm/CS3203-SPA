@@ -10,6 +10,6 @@ QueryResult *QueryOrchestrator::execute(PQLQuery* query,
     }
 
     // Convert to QueryResult
-    // TODO: WIP
+    // TODO(KwanHW): WIP
     return new QueryResult;
 }

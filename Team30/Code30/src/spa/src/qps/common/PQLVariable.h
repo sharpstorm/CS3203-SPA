@@ -1,6 +1,7 @@
 #pragma once
 
 #include "PQLTypes.h"
+#include <string>
 #include <unordered_map>
 
 using std::unordered_map;

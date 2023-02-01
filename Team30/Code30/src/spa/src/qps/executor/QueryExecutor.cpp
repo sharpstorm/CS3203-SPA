@@ -1,3 +1,5 @@
+#include <vector>
+
 #include "QueryExecutor.h"
 #include "qps/common/IEvaluatable.h"
 

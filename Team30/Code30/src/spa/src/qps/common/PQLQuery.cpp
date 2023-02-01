@@ -2,7 +2,8 @@
 
 using std::pair;
 
-PQLQuery::PQLQuery(vector<QueryVariable> vars, QueryVariable resVar, vector<Clause> c) {
+PQLQuery::PQLQuery(vector<QueryVariable> vars, QueryVariable resVar,
+                   vector<Clause> c) {
     populateVariables(vars);
     resultVariable = resVar;
     clauses = c;
