@@ -5,7 +5,6 @@
 #include <tuple>
 
 #include "catch.hpp"
-#include "qps/parser/lexer/QueryLexer.h"
 #include "qps/parser/token_parser/TokenParser.h"
 #include "qps/parser/PQLToken.h"
 #include "qps/common/PQLQuery.h"
@@ -35,6 +34,15 @@ void testPQLParsing(vector<PQLToken> testcase, vector<QueryVariable> expectedVar
 TEST_CASE("Test QPS Parser Variables") {
   tuple<string, PQL_TOKEN_TYPE, PQL_VAR_TYPE> types[] = {
       { "stmt", PQL_TOKEN_STMT, PQL_VAR_TYPE_STMT },
+      { "read", PQL_TOKEN_READ, PQL_VAR_TYPE_READ },
+      { "print", PQL_TOKEN_PRINT, PQL_VAR_TYPE_PRINT },
+      { "call", PQL_TOKEN_CALL, PQL_VAR_TYPE_CALL },
+      { "while", PQL_TOKEN_WHILE, PQL_VAR_TYPE_WHILE },
+      { "if", PQL_TOKEN_IF, PQL_VAR_TYPE_IF },
+      { "assign", PQL_TOKEN_ASSIGN, PQL_VAR_TYPE_ASSIGN },
+      { "variable", PQL_TOKEN_VARIABLE, PQL_VAR_TYPE_VARIABLE },
+      { "constant", PQL_TOKEN_CONSTANT, PQL_VAR_TYPE_CONSTANT },
+      { "procedure", PQL_TOKEN_PROCEDURE, PQL_VAR_TYPE_PROCEDURE },
   };
 
   for (int i = 0; i < sizeof(types) / sizeof(types[0]); i++) {

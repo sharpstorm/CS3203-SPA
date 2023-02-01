@@ -1,5 +1,4 @@
 #include "TokenParseState.h"
-#include <iostream>
 
 TokenParseState::TokenParseState(vector<PQLToken> *tokens) {
   this->tokens = tokens;

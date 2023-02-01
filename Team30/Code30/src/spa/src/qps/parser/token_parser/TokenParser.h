@@ -2,7 +2,7 @@
 
 #include <string>
 #include <vector>
-#include "qps/common/PQLQuery.h"
+#include "../../common/PQLQuery.h"
 #include "TokenParseState.h"
 #include "context/PQLGrammarContextProvider.h"
 
