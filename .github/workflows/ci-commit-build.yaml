@@ -34,3 +34,8 @@ jobs:
         run: |
           cmake --build . --target unit_testing --config ${BUILD_TYPE} -j 2
           cmake --build . --target autotester --config ${BUILD_TYPE} -j 2
+
+      - name: Test Unit Testing
+        working-directory: ./Team30/Code30/build
+        run: |
+          ./src/unit_testing.unit_testing -r xml -d yes --order lex
