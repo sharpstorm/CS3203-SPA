@@ -6,9 +6,9 @@
 
 using std::unordered_map;
 
-struct QueryVariable {
+struct PQLQueryVariable {
     PQLSynonymType type;
     PQL_VAR_NAME name;
 };
 
-typedef unordered_map<string, QueryVariable> VariableTable;
+typedef unordered_map<string, PQLQueryVariable> VariableTable;

@@ -6,6 +6,7 @@
 #include "qps/parser/token_parser/TokenParser.h"
 #include "qps/parser/PQLToken.h"
 #include "qps/common/PQLQuery.h"
+#include "qps/common/PQLQueryVariable.h"
 #include "qps/errors/QPSError.h"
 
 using std::vector, std::string, std::tuple, std::exception;
@@ -23,7 +24,7 @@ tuple<string, PQLTokenType, PQLSynonymType> TEST_TYPE_MAP[] = {
     { "procedure", PQL_TOKEN_PROCEDURE, PQL_VAR_TYPE_PROCEDURE },
 };
 
-void testPQLParsing(vector<PQLToken> testcase, vector<QueryVariable> expectedVariables) {
+void testPQLParsing(vector<PQLToken> testcase, vector<PQLQueryVariable> expectedVariables) {
   TokenParser parser(testcase);
   unique_ptr<PQLQuery> result;
   try {
@@ -63,8 +64,8 @@ TEST_CASE("Test QPS Parser Variables") {
         PQLToken{PQL_TOKEN_SEMICOLON, ";"},
         PQLToken{PQL_TOKEN_SELECT, ""},
         PQLToken{PQL_TOKEN_STRING, "a"},
-    }, vector<QueryVariable>{
-        QueryVariable{std::get<2>(TEST_TYPE_MAP[i]), "a"}
+    }, vector<PQLQueryVariable>{
+        PQLQueryVariable{std::get<2>(TEST_TYPE_MAP[i]), "a"}
     });
 
     testPQLParsing(vector<PQLToken>{
@@ -75,9 +76,9 @@ TEST_CASE("Test QPS Parser Variables") {
         PQLToken{PQL_TOKEN_SEMICOLON, ";"},
         PQLToken{PQL_TOKEN_SELECT, ""},
         PQLToken{PQL_TOKEN_STRING, "a"},
-    }, vector<QueryVariable>{
-        QueryVariable{std::get<2>(TEST_TYPE_MAP[i]), "a"},
-        QueryVariable{std::get<2>(TEST_TYPE_MAP[i]), "b"}
+    }, vector<PQLQueryVariable>{
+        PQLQueryVariable{std::get<2>(TEST_TYPE_MAP[i]), "a"},
+        PQLQueryVariable{std::get<2>(TEST_TYPE_MAP[i]), "b"}
     });
   }
 }
@@ -90,8 +91,8 @@ TEST_CASE("Test QPS Parser Keyword Variable Name") {
         PQLToken{PQL_TOKEN_SEMICOLON, ";"},
         PQLToken{PQL_TOKEN_SELECT, ""},
         PQLToken{PQL_TOKEN_STRING, std::get<0>(TEST_TYPE_MAP[i])},
-    }, vector<QueryVariable>{
-        QueryVariable{std::get<2>(TEST_TYPE_MAP[i]), std::get<0>(TEST_TYPE_MAP[i])}
+    }, vector<PQLQueryVariable>{
+        PQLQueryVariable{std::get<2>(TEST_TYPE_MAP[i]), std::get<0>(TEST_TYPE_MAP[i])}
     });
   }
 }
