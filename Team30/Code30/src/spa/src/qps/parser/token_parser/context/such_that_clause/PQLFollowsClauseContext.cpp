@@ -9,7 +9,9 @@ void PQLFollowsClauseContext::parse(TokenParseState *parserState) {
   PQLSuchThatClauseContext::parse(parserState);
   bool isTransitive = false;
 
-  PQLToken* nextToken = expect(parserState, PQL_TOKEN_BRACKET_OPEN, PQL_TOKEN_ASTRIX);
+  PQLToken* nextToken = expect(parserState,
+                               PQL_TOKEN_BRACKET_OPEN,
+                               PQL_TOKEN_ASTRIX);
   if (nextToken->isType(PQL_TOKEN_ASTRIX)) {
     isTransitive = true;
     expect(parserState, PQL_TOKEN_BRACKET_OPEN);
@@ -25,5 +27,6 @@ void PQLFollowsClauseContext::parse(TokenParseState *parserState) {
     clause = new FollowsTClause(left, right);
   }
 
-  parserState->getQueryBuilder()->addSuchThat(unique_ptr<SuchThatClause>(clause));
+  parserState->getQueryBuilder()
+    ->addSuchThat(unique_ptr<SuchThatClause>(clause));
 }
