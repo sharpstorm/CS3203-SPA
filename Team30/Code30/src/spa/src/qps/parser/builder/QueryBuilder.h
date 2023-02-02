@@ -16,9 +16,9 @@ class QueryBuilder {
   vector<Clause*> clauses;
  public:
   QueryBuilder();
-  void setResultType(PQL_VAR_TYPE type);
+  void setResultType(PQLSynonymType type);
   void setResultVariable(PQL_VAR_NAME name);
-  void addVariable(PQL_VAR_NAME name, PQL_VAR_TYPE type);
+  void addVariable(PQL_VAR_NAME name, PQLSynonymType type);
   void addSuchThat(SuchThatClause* clause);
   unique_ptr<PQLQuery> build();
 };

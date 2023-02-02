@@ -32,7 +32,7 @@ void testPQLParsing(vector<PQLToken> testcase, vector<QueryVariable> expectedVar
 }
 
 TEST_CASE("Test QPS Parser Variables") {
-  tuple<string, PQLTokenType, PQL_VAR_TYPE> types[] = {
+  tuple<string, PQLTokenType, PQLSynonymType> types[] = {
       { "stmt", PQL_TOKEN_STMT, PQL_VAR_TYPE_STMT },
       { "read", PQL_TOKEN_READ, PQL_VAR_TYPE_READ },
       { "print", PQL_TOKEN_PRINT, PQL_VAR_TYPE_PRINT },

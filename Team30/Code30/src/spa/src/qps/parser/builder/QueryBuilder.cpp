@@ -9,10 +9,10 @@ QueryBuilder::QueryBuilder() {
 void QueryBuilder::setResultVariable(PQL_VAR_NAME name) {
 }
 
-void QueryBuilder::setResultType(PQL_VAR_TYPE type) {
+void QueryBuilder::setResultType(PQLSynonymType type) {
 }
 
-void QueryBuilder::addVariable(PQL_VAR_NAME name, PQL_VAR_TYPE type) {
+void QueryBuilder::addVariable(PQL_VAR_NAME name, PQLSynonymType type) {
   variables.push_back(QueryVariable{type, name});
 }
 

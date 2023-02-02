@@ -4,11 +4,11 @@
 #include "../../../PQLToken.h"
 
 class PQLDeclarationContext: public AbstractPQLContext {
-  PQL_VAR_TYPE variableType;
+  PQLSynonymType variableType;
 
  public:
   void parse(TokenParseState* parserState);
 
  protected:
-  explicit PQLDeclarationContext(PQL_VAR_TYPE variableType);
+  explicit PQLDeclarationContext(PQLSynonymType variableType);
 };
