@@ -1,23 +1,25 @@
 #include "TokenParseState.h"
+#include "../../errors/QPSParserError.h"
 
 TokenParseState::TokenParseState(vector<PQLToken> *tokens) {
   this->tokens = tokens;
   currentIndex = 0;
   totalTokenSize = tokens->size();
+  currentStage = TOKEN_PARSE_STAGE_INIT;
 }
 
-bool TokenParseState::isEnd() {
+bool TokenParseState::isTokenStreamEnd() {
   return currentIndex >= totalTokenSize;
 }
 
 void TokenParseState::advanceToken() {
-  if (!isEnd()) {
+  if (!isTokenStreamEnd()) {
     currentIndex++;
   }
 }
 
 PQLToken* TokenParseState::getCurrentToken() {
-  if (isEnd()) {
+  if (isTokenStreamEnd()) {
     return nullptr;
   }
 
@@ -26,4 +28,13 @@ PQLToken* TokenParseState::getCurrentToken() {
 
 QueryBuilder* TokenParseState::getQueryBuilder() {
   return &queryBuilder;
+}
+
+void TokenParseState::advanceStage(TokenParsingStage newStage) {
+  unordered_set<TokenParsingStage> allowed = parsingAllowedTransitions[currentStage];
+  if (allowed.find(newStage) == allowed.end()) {
+    throw QPSParserError("Unexpected sequence of clauses");
+  }
+
+  currentStage = newStage;
 }
