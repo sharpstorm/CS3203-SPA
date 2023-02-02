@@ -30,8 +30,6 @@ void testPQLParsing(vector<PQLToken> testcase, vector<QueryVariable> expectedVar
     result = parser.build();
   } catch (const QPSError& err) {
     FAIL("FAILED with error: " + err.message);
-  } catch (const exception& err) {
-    FAIL("FAILED with error: " + *err.what());
   } catch (...) {
     FAIL("Failed with unknown exception");
   }
