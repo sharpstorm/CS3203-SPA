@@ -23,7 +23,8 @@ class QueryBuilder {
   void setResultVariable(PQL_VAR_NAME name);
   bool hasVariable(PQL_VAR_NAME name);
   void addVariable(PQL_VAR_NAME name, PQLSynonymType type);
-  PQLSynonymType* getVariable(PQL_VAR_NAME name);
+  PQLSynonymType* getVariableType(PQL_VAR_NAME name);
+  PQLQueryVariable* getVariable(PQL_VAR_NAME name);
   void addSuchThat(SuchThatClause* clause);
   unique_ptr<PQLQuery> build();
 };
