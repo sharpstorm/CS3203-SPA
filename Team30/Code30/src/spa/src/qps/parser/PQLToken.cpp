@@ -6,3 +6,7 @@ bool PQLToken::operator==(const PQLToken& other) const {
   }
   return type == other.type;
 }
+
+bool PQLToken::isType(PQLTokenType target) {
+  return type == target;
+}

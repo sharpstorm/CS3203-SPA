@@ -1,20 +1,24 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 #include "../../common/PQLTypes.h"
 #include "../../common/PQLQuery.h"
 #include "../../clauses/SuchThatClause.h"
 #include "../../clauses/PatternClause.h"
 
+using std::vector, std::unique_ptr;
+
 class QueryBuilder {
-    QueryVariable qVar;
-    vector<QueryVariable> vars;
-    vector<Clause> clauses;
+ private:
+  vector<QueryVariable> variables;
+  QueryVariable resultVariable;
+  vector<Clause*> clauses;
  public:
   QueryBuilder();
-  void setResultType(PQL_VAR_TYPE type);
+  void setResultType(PQLSynonymType type);
   void setResultVariable(PQL_VAR_NAME name);
-  void addVariable(PQL_VAR_NAME name, PQL_VAR_TYPE type);
+  void addVariable(PQL_VAR_NAME name, PQLSynonymType type);
   void addSuchThat(SuchThatClause* clause);
-  PQLQuery* build();
+  unique_ptr<PQLQuery> build();
 };

@@ -6,6 +6,6 @@ using std::string;
 
 class QPSError {
  public:
-  explicit QPSError(string message) { message = message; }
+  explicit QPSError(string message) { this->message = message; }
   string message;
 };

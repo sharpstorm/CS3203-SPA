@@ -59,3 +59,16 @@ QueryLexerTokenTable::QueryLexerTokenTable() {
     tokens[i] = PQL_TOKEN_CHAR;
   }
 }
+
+bool QueryLexerTokenTable::isLetter(char c) {
+  return (c >= ASCII_LOWER_A && c <= ASCII_LOWER_Z) ||
+      (c >= ASCII_UPPER_Z && c <= ASCII_UPPER_Z);
+}
+
+bool QueryLexerTokenTable::isDigit(char c) {
+  return c >= ASCII_0 && c <= ASCII_9;
+}
+
+bool QueryLexerTokenTable::isZero(char c) {
+  return c == ASCII_0;
+}

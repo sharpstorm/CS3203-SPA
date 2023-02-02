@@ -3,7 +3,7 @@
 using std::pair;
 
 PQLQuery::PQLQuery(vector<QueryVariable> vars, QueryVariable resVar,
-                   vector<Clause> c) {
+                   vector<Clause*> c) {
     populateVariables(vars);
     resultVariable = resVar;
     clauses = c;
@@ -15,15 +15,23 @@ void PQLQuery::populateVariables(vector<QueryVariable> vars) {
     }
 }
 
-PQL_VAR_TYPE PQLQuery::getSymbol(PQL_VAR_NAME name) {
-    QueryVariable qVar = variables[name];
-    return qVar.type;
+int PQLQuery::getVariableCount() {
+  return variables.size();
 }
 
-vector<IEvaluatable>* PQLQuery::getEvaluatables() {
-    vector<IEvaluatable>* evals = new vector<IEvaluatable>();
-    for (IEvaluatable ie : clauses) {
-        evals->push_back(ie);
+QueryVariable* PQLQuery::getVariable(PQL_VAR_NAME name) {
+  auto item = variables.find(name);
+  if (item == variables.end()) {
+    return nullptr;
+  }
+
+  return &item->second;
+}
+
+vector<IEvaluatable*> PQLQuery::getEvaluatables() {
+    vector<IEvaluatable*> evals = vector<IEvaluatable*>();
+    for (IEvaluatable* ie : clauses) {
+        evals.push_back(ie);
     }
 
     return evals;

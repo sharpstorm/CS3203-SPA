@@ -4,7 +4,7 @@
 
 using std::string;
 
-enum PQL_VAR_TYPE {
+enum PQLSynonymType {
   PQL_VAR_TYPE_STMT,
   PQL_VAR_TYPE_READ,
   PQL_VAR_TYPE_PRINT,

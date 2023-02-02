@@ -15,7 +15,7 @@ vector<PQLToken>* QueryLexer::getTokenStream(string* query) {
 
   for (size_t pos = 0; pos < query->length(); pos++) {
     char c = query->at(pos);
-    PQL_TOKEN_TYPE tokenType = tokenTable.tokens[c];
+    PQLTokenType tokenType = tokenTable.tokens[c];
 
     switch (tokenType) {
       case PQL_TOKEN_INVALID:
@@ -55,16 +55,37 @@ vector<PQLToken>* QueryLexer::getTokenStream(string* query) {
 
 PQLToken QueryLexer::resolveStringToken(string buffer, bool hasSeenChar) {
   try {
-    PQL_TOKEN_TYPE token = tokenTable.keywordMap.at(buffer);
+    PQLTokenType token = tokenTable.keywordMap.at(buffer);
     return PQLToken{
         token,
         buffer
     };
   } catch (out_of_range&) {
-    string tokenCopy = buffer;
-    return PQLToken{
-        hasSeenChar ? PQL_TOKEN_STRING : PQL_TOKEN_INTEGER,
-        buffer
-    };
+    if (!hasSeenChar) {
+      return validateIntegerToken(&buffer);
+    }
+
+    return validateIdentifier(&buffer);
   }
+}
+
+PQLToken QueryLexer::validateIntegerToken(string* buffer) {
+  if (buffer->length() > 1 && tokenTable.isZero(buffer->at(0))) {
+    throw QPSLexerError("Integer token starts with zero");
+  }
+  return PQLToken{
+      PQL_TOKEN_INTEGER,
+      *buffer
+  };
+}
+
+PQLToken QueryLexer::validateIdentifier(string *buffer) {
+  if (tokenTable.isDigit(buffer->at(0))) {
+    throw QPSLexerError("String token starts with digit");
+  }
+
+  return PQLToken{
+    PQL_TOKEN_STRING,
+    *buffer
+  };
 }

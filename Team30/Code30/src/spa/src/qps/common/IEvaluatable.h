@@ -4,5 +4,5 @@
 
 class IEvaluatable {
  public:
-  virtual IntermediateResultSet* evaluateOn();
+  virtual IntermediateResultSet* evaluateOn() = 0;
 };

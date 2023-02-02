@@ -7,7 +7,7 @@
 using std::unordered_map;
 
 struct QueryVariable {
-    PQL_VAR_TYPE type;
+    PQLSynonymType type;
     PQL_VAR_NAME name;
 };
 

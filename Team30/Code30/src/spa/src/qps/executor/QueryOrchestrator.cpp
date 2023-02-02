@@ -1,11 +1,11 @@
 #include "QueryOrchestrator.h"
 
 QueryResult *QueryOrchestrator::execute(PQLQuery* query,
-                                        vector<IEvaluatable>* evaluatables) {
-    IntermediateResultSet* finalResult;
+                                        vector<IEvaluatable*> evaluatables) {
+    IntermediateResultSet* finalResult = nullptr;
     IntermediateResultSet* currentResult;
-    for (IEvaluatable ie : *evaluatables) {
-        currentResult = ie.evaluateOn();
+    for (IEvaluatable* ie : evaluatables) {
+        currentResult = ie->evaluateOn();
         finalResult = coalescer.merge(finalResult, currentResult);
     }
 
