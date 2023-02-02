@@ -5,6 +5,7 @@
 
 class PKB {
 public:
+	PKB();
 	static FollowsStorage followsStore;
 	static ParentStorage parentStore;
 
