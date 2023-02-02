@@ -1,6 +1,9 @@
 #pragma once
 
+#include <string>
 #include "../common/PQLQueryVariable.h"
+
+using std::string;
 
 enum ClauseArgumentType {
   CLAUSE_ARG_WILDCARD,
@@ -17,10 +20,10 @@ class ClauseArgument {
   string ident;
 
  public:
-  ClauseArgument(ClauseArgumentType type);
-  ClauseArgument(PQLQueryVariable variable);
-  ClauseArgument(int stmt);
-  ClauseArgument(string ident);
+  explicit ClauseArgument(ClauseArgumentType type);
+  explicit ClauseArgument(PQLQueryVariable variable);
+  explicit ClauseArgument(int stmt);
+  explicit ClauseArgument(string ident);
 
   bool isWildcard();
   bool isSynonym();

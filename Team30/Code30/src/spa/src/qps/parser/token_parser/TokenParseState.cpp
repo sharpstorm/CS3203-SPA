@@ -31,7 +31,8 @@ QueryBuilder* TokenParseState::getQueryBuilder() {
 }
 
 void TokenParseState::advanceStage(TokenParsingStage newStage) {
-  unordered_set<TokenParsingStage> allowed = parsingAllowedTransitions[currentStage];
+  unordered_set<TokenParsingStage> allowed =
+      parsingAllowedTransitions[currentStage];
   if (allowed.find(newStage) == allowed.end()) {
     throw QPSParserError("Unexpected sequence of clauses");
   }
