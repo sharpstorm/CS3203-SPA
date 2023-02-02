@@ -10,14 +10,20 @@ enum PQLTokenCategory {
   PQL_DECLARATION_TOKEN = 0x400,
   PQL_QUERY_TOKEN = 0x800,
   PQL_RELATIONSHIP_TOKEN = 0x1000,
-  PQL_GENERIC_TOKEN = 0x2000,
+  PQL_STRING_TOKEN = 0x2000,
+  PQL_INTEGER_TOKEN = 0x4000,
 };
+
+const int PQL_TOKEN_CATEGORY_MASK = 0xFFFFFF00;
+const int PQL_TOKEN_VARCHAR_MASK = PQL_DECLARATION_TOKEN | PQL_QUERY_TOKEN |
+    PQL_RELATIONSHIP_TOKEN | PQL_STRING_TOKEN | PQL_INTEGER_TOKEN;
 
 enum PQLTokenType {
   // Processing markers
   PQL_TOKEN_INVALID = PQL_PROCESSING_TOKEN,
   PQL_TOKEN_IGNORE,
   PQL_TOKEN_DELIMITER,
+  PQL_TOKEN_CHAR,
 
   // Symbols
   PQL_TOKEN_SEMICOLON = PQL_SYMBOL_TOKEN,
@@ -52,9 +58,8 @@ enum PQLTokenType {
   PQL_TOKEN_USES,
   PQL_TOKEN_MODIFIES,
 
-  PQL_TOKEN_STRING = PQL_GENERIC_TOKEN,
-  PQL_TOKEN_INTEGER,
-  PQL_TOKEN_CHAR,
+  PQL_TOKEN_STRING = PQL_STRING_TOKEN,
+  PQL_TOKEN_INTEGER = PQL_INTEGER_TOKEN,
 };
 
 class PQLToken {
@@ -62,6 +67,7 @@ class PQLToken {
   PQLTokenType type;
   string tokenData;
   bool isType(PQLTokenType);
-  bool isCategory();
+  bool isCategory(PQLTokenCategory);
+  bool isVarchar();
   bool operator==(const PQLToken& other) const;
 };
