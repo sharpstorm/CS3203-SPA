@@ -61,6 +61,8 @@ TEST_CASE("Test QPS Parser Variables") {
         PQLToken{std::get<1>(TEST_TYPE_MAP[i]), std::get<0>(TEST_TYPE_MAP[i])},
         PQLToken{PQL_TOKEN_STRING, "a"},
         PQLToken{PQL_TOKEN_SEMICOLON, ";"},
+        PQLToken{PQL_TOKEN_SELECT, ""},
+        PQLToken{PQL_TOKEN_STRING, "a"},
     }, vector<QueryVariable>{
         QueryVariable{std::get<2>(TEST_TYPE_MAP[i]), "a"}
     });
@@ -71,6 +73,8 @@ TEST_CASE("Test QPS Parser Variables") {
         PQLToken{PQL_TOKEN_COMMA, ","},
         PQLToken{PQL_TOKEN_STRING, "b"},
         PQLToken{PQL_TOKEN_SEMICOLON, ";"},
+        PQLToken{PQL_TOKEN_SELECT, ""},
+        PQLToken{PQL_TOKEN_STRING, "a"},
     }, vector<QueryVariable>{
         QueryVariable{std::get<2>(TEST_TYPE_MAP[i]), "a"},
         QueryVariable{std::get<2>(TEST_TYPE_MAP[i]), "b"}
@@ -84,6 +88,8 @@ TEST_CASE("Test QPS Parser Keyword Variable Name") {
         PQLToken{std::get<1>(TEST_TYPE_MAP[i]), std::get<0>(TEST_TYPE_MAP[i])},
         PQLToken{std::get<1>(TEST_TYPE_MAP[i]), std::get<0>(TEST_TYPE_MAP[i])},
         PQLToken{PQL_TOKEN_SEMICOLON, ";"},
+        PQLToken{PQL_TOKEN_SELECT, ""},
+        PQLToken{PQL_TOKEN_STRING, std::get<0>(TEST_TYPE_MAP[i])},
     }, vector<QueryVariable>{
         QueryVariable{std::get<2>(TEST_TYPE_MAP[i]), std::get<0>(TEST_TYPE_MAP[i])}
     });

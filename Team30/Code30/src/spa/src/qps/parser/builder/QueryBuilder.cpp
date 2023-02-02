@@ -24,6 +24,14 @@ bool QueryBuilder::hasVariable(PQL_VAR_NAME name) {
   return variables.find(name) != variables.end();
 }
 
+PQLSynonymType* QueryBuilder::getVariable(PQL_VAR_NAME name) {
+  if (!hasVariable(name)) {
+    return nullptr;
+  }
+
+  return &variables[name].type;
+}
+
 void QueryBuilder::addSuchThat(SuchThatClause* clause) {
 }
 
