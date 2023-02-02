@@ -20,6 +20,7 @@ void QueryBuilder::addSuchThat(SuchThatClause* clause) {
 }
 
 unique_ptr<PQLQuery> QueryBuilder::build() {
-  unique_ptr<PQLQuery> created(new PQLQuery(variables, resultVariable, clauses));
+  unique_ptr<PQLQuery> created(new PQLQuery(variables,
+                                            resultVariable, clauses));
   return created;
 }
