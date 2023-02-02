@@ -1,6 +1,7 @@
 #include <memory>
 #include "TokenParser.h"
 #include "../../errors/QPSParserError.h"
+#include "../builder/QueryBuilderError.h"
 
 TokenParser::TokenParser(vector<PQLToken> tokens) {
   this->tokens = tokens;
@@ -16,7 +17,12 @@ unique_ptr<PQLQuery> TokenParser::build() {
       throw QPSParserError("Unexpected token");
     }
     state.advanceToken();
-    context->parse(&state);
+
+    try {
+      context->parse(&state);
+    } catch (const QueryBuilderError& err) {
+      throw QPSParserError(err.message);
+    }
   }
 
   return state.getQueryBuilder()->build();

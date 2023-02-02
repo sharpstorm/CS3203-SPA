@@ -1,5 +1,6 @@
 #include <iostream>
 #include "QueryBuilder.h"
+#include "QueryBuilderError.h"
 
 using std::cout;
 
@@ -13,7 +14,14 @@ void QueryBuilder::setResultType(PQLSynonymType type) {
 }
 
 void QueryBuilder::addVariable(PQL_VAR_NAME name, PQLSynonymType type) {
-  variables.push_back(QueryVariable{type, name});
+  if (hasVariable(name)) {
+    throw QueryBuilderError("Found duplicate variable");
+  }
+  variables[name] = (QueryVariable{type, name});
+}
+
+bool QueryBuilder::hasVariable(PQL_VAR_NAME name) {
+  return variables.find(name) != variables.end();
 }
 
 void QueryBuilder::addSuchThat(SuchThatClause* clause) {

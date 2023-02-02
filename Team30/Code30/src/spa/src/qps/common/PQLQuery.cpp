@@ -2,17 +2,12 @@
 
 using std::pair;
 
-PQLQuery::PQLQuery(vector<QueryVariable> vars, QueryVariable resVar,
+PQLQuery::PQLQuery(unordered_map<string, QueryVariable> vars,
+                   QueryVariable resVar,
                    vector<Clause*> c) {
-    populateVariables(vars);
-    resultVariable = resVar;
-    clauses = c;
-}
-
-void PQLQuery::populateVariables(vector<QueryVariable> vars) {
-    for (QueryVariable qv : vars) {
-        variables.insert({qv.name, qv});
-    }
+  variables = vars;
+  resultVariable = resVar;
+  clauses = c;
 }
 
 int PQLQuery::getVariableCount() {
@@ -29,10 +24,10 @@ QueryVariable* PQLQuery::getVariable(PQL_VAR_NAME name) {
 }
 
 vector<IEvaluatable*> PQLQuery::getEvaluatables() {
-    vector<IEvaluatable*> evals = vector<IEvaluatable*>();
-    for (IEvaluatable* ie : clauses) {
-        evals.push_back(ie);
-    }
+  vector<IEvaluatable*> evals = vector<IEvaluatable*>();
+  for (IEvaluatable* ie : clauses) {
+      evals.push_back(ie);
+  }
 
-    return evals;
+  return evals;
 }

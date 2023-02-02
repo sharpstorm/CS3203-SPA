@@ -15,9 +15,9 @@ class PQLQuery {
     VariableTable variables;
     QueryVariable resultVariable;
     vector<Clause*> clauses;
-    void populateVariables(vector<QueryVariable> vars);
  public:
-    PQLQuery(vector<QueryVariable> vars, QueryVariable resVar,
+    PQLQuery(unordered_map<string, QueryVariable> vars,
+             QueryVariable resVar,
              vector<Clause*> c);
     int getVariableCount();
     QueryVariable* getVariable(PQL_VAR_NAME name);
