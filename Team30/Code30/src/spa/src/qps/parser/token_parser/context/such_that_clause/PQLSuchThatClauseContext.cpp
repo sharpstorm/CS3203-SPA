@@ -40,3 +40,7 @@ ClauseArgument PQLSuchThatClauseContext::extractCommonRef(
 
   return ClauseArgument(*var);
 }
+
+void PQLSuchThatClauseContext::parse(TokenParseState *parserState) {
+  parserState->advanceStage(TOKEN_PARSE_STAGE_CONDITION);
+}

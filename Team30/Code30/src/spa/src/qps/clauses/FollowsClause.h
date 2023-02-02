@@ -10,4 +10,6 @@ class FollowsClause: public SuchThatClause {
 
  public:
   FollowsClause(ClauseArgument left, ClauseArgument right);
+  IntermediateResultSet* evaluateOn();
+  bool validateArgTypes(VariableTable *variables);
 };

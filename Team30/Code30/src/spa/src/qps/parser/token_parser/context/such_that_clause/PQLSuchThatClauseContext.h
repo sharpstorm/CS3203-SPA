@@ -6,7 +6,7 @@
 
 class PQLSuchThatClauseContext: public AbstractPQLContext {
  public:
-  void parse(TokenParseState* parserState);
+  virtual void parse(TokenParseState* parserState) = 0;
 
  protected:
   PQLSuchThatClauseContext();
