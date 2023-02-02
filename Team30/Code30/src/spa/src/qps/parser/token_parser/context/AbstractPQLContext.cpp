@@ -18,12 +18,12 @@ PQLToken* AbstractPQLContext::expectInternal(TokenParseState* parserState,
 }
 
 PQLToken* AbstractPQLContext::expect(TokenParseState* parserState,
-                                     PQL_TOKEN_TYPE tokenType) {
+                                     PQLTokenType tokenType) {
   return expectInternal(parserState, tokenType);
 }
 
 PQLToken* AbstractPQLContext::expect(TokenParseState* parserState,
-                                     PQL_TOKEN_TYPE token1,
-                                     PQL_TOKEN_TYPE token2) {
+                                     PQLTokenType token1,
+                                     PQLTokenType token2) {
   return expectInternal(parserState, token1, token2);
 }

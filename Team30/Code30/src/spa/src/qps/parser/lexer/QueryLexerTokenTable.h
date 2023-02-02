@@ -30,7 +30,7 @@ const char PQL_KEYWORD_PATTERN[] = "pattern";
 
 class QueryLexerTokenTable {
  public:
-  unordered_map<string, PQL_TOKEN_TYPE> keywordMap = {
+  unordered_map<string, PQLTokenType> keywordMap = {
       {PQL_KEYWORD_SELECT, PQL_TOKEN_SELECT},
       {PQL_KEYWORD_STMT, PQL_TOKEN_STMT},
       {PQL_KEYWORD_READ, PQL_TOKEN_READ},
@@ -50,7 +50,7 @@ class QueryLexerTokenTable {
       {PQL_KEYWORD_SUCH, PQL_TOKEN_SUCH},
       {PQL_KEYWORD_THAT, PQL_TOKEN_THAT},
   };
-  PQL_TOKEN_TYPE tokens[256];
+  PQLTokenType tokens[256];
   QueryLexerTokenTable();
   static bool isLetter(char c);
   static bool isDigit(char c);

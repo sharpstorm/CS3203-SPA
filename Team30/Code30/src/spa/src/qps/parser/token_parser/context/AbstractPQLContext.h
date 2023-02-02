@@ -8,12 +8,12 @@ class AbstractPQLContext: public IPQLContext {
   virtual void parse(TokenParseState* parserState) = 0;
 
  protected:
-  PQLToken* expect(TokenParseState* parserState, PQL_TOKEN_TYPE tokenType);
-  PQLToken* expect(TokenParseState* parserState, PQL_TOKEN_TYPE token1,
-                   PQL_TOKEN_TYPE token2);
+  PQLToken* expect(TokenParseState* parserState, PQLTokenType tokenType);
+  PQLToken* expect(TokenParseState* parserState, PQLTokenType token1,
+                   PQLTokenType token2);
 
  private:
-  template<typename... PQL_TOKEN_TYPE>
+  template<typename... PQLTokenType>
   PQLToken* expectInternal(TokenParseState* parserState,
-                  PQL_TOKEN_TYPE... tokenType);
+                           PQLTokenType... tokenType);
 };
