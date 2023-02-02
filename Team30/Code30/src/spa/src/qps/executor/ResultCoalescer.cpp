@@ -1,5 +1,3 @@
-#pragma once
-
 #include "ResultCoalescer.h"
 
 IntermediateResultSet *ResultCoalescer::merge(IntermediateResultSet *setA,

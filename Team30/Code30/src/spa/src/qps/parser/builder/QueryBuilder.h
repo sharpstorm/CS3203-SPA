@@ -12,7 +12,8 @@ using std::vector, std::unique_ptr;
 class QueryBuilder {
  private:
   vector<QueryVariable> variables;
-
+  QueryVariable resultVariable;
+  vector<Clause*> clauses;
  public:
   QueryBuilder();
   void setResultType(PQL_VAR_TYPE type);

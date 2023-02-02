@@ -8,5 +8,5 @@ using std::vector;
 
 class QueryPlanner {
  public:
-  vector<IEvaluatable>* getExecuteOrder(PQLQuery* query);
+  vector<IEvaluatable*> getExecuteOrder(PQLQuery* query);
 };
