@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../common/IntermediateResultSet.h"
+#include "../common/QueryResult.h"
 
 class ResultCoalescer {
  public:
-  IntermediateResultSet* merge(IntermediateResultSet* setA,
-                               IntermediateResultSet* setB);
+  QueryResult* merge(QueryResult* setA,
+                               QueryResult* setB);
 };

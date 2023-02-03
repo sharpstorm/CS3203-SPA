@@ -4,7 +4,7 @@ FollowsClause::FollowsClause(ClauseArgument leftArg, ClauseArgument rightArg):
   left(leftArg), right(rightArg) {
 }
 
-IntermediateResultSet* FollowsClause::evaluateOn() {
+QueryResult* FollowsClause::evaluateOn() {
   return nullptr;
 }
 

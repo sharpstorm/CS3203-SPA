@@ -4,7 +4,7 @@ ParentTClause::ParentTClause(ClauseArgument leftArg, ClauseArgument rightArg):
   left(leftArg), right(rightArg) {
 }
 
-IntermediateResultSet* ParentTClause::evaluateOn() {
+QueryResult* ParentTClause::evaluateOn() {
   return nullptr;
 }
 

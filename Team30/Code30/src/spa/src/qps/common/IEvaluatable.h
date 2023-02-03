@@ -1,9 +1,9 @@
 #pragma once
 
-#include "IntermediateResultSet.h"
+#include "QueryResult.h"
 
 class IEvaluatable {
  public:
   virtual ~IEvaluatable() = default;
-  virtual IntermediateResultSet* evaluateOn() = 0;
+  virtual QueryResult* evaluateOn() = 0;
 };

@@ -1,6 +1,6 @@
 #include "ResultCoalescer.h"
 
-IntermediateResultSet *ResultCoalescer::merge(IntermediateResultSet *setA,
-                                              IntermediateResultSet *setB) {
+QueryResult *ResultCoalescer::merge(QueryResult *setA,
+                                              QueryResult *setB) {
   return nullptr;
 }

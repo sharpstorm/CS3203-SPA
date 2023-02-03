@@ -10,6 +10,6 @@ class ParentTClause: public SuchThatClause {
 
  public:
   ParentTClause(ClauseArgument left, ClauseArgument right);
-  IntermediateResultSet* evaluateOn();
+  QueryResult* evaluateOn();
   bool validateArgTypes(VariableTable *variables);
 };
