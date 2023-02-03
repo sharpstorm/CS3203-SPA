@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 #include "../common/PQLQuery.h"
 #include "../common/IEvaluatable.h"
 
@@ -8,5 +9,5 @@ using std::vector;
 
 class QueryPlanner {
  public:
-  vector<IEvaluatable*> getExecuteOrder(PQLQuery* query);
+  vector<shared_ptr<IEvaluatable>> getExecuteOrder(PQLQuery* query);
 };

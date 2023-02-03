@@ -1,5 +1,6 @@
 #include "QueryPlanner.h"
 
-vector<IEvaluatable*> QueryPlanner::getExecuteOrder(PQLQuery* query) {
+vector<shared_ptr<IEvaluatable>> QueryPlanner::getExecuteOrder(
+    PQLQuery* query) {
     return query->getEvaluatables();
 }

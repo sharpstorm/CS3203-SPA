@@ -4,7 +4,7 @@ using std::pair;
 
 PQLQuery::PQLQuery(unordered_map<string, PQLQueryVariable> vars,
                    PQLQueryVariable resVar,
-                   vector<Clause*> c) {
+                   vector<shared_ptr<Clause>> c) {
   variables = vars;
   resultVariable = resVar;
   clauses = c;
@@ -23,9 +23,9 @@ PQLQueryVariable* PQLQuery::getVariable(PQL_VAR_NAME name) {
   return &item->second;
 }
 
-vector<IEvaluatable*> PQLQuery::getEvaluatables() {
-  vector<IEvaluatable*> evals = vector<IEvaluatable*>();
-  for (IEvaluatable* ie : clauses) {
+vector<shared_ptr<IEvaluatable>> PQLQuery::getEvaluatables() {
+  vector<shared_ptr<IEvaluatable>> evals = vector<shared_ptr<IEvaluatable>>();
+  for (shared_ptr<Clause> ie : clauses) {
       evals.push_back(ie);
   }
 

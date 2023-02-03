@@ -4,19 +4,20 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <utility>
 #include "../../common/PQLTypes.h"
 #include "../../common/PQLQuery.h"
 #include "../../common/PQLQueryVariable.h"
 #include "../../clauses/SuchThatClause.h"
 #include "../../clauses/PatternClause.h"
 
-using std::string, std::vector, std::unique_ptr, std::unordered_map;
+using std::string, std::vector, std::unique_ptr std::unordered_map;
 
 class QueryBuilder {
  private:
   unordered_map<string, PQLQueryVariable> variables;
   PQLQueryVariable resultVariable;
-  vector<Clause*> clauses;
+  vector<shared_ptr<Clause>> clauses;
  public:
   QueryBuilder();
   void setResultType(PQLSynonymType type);
