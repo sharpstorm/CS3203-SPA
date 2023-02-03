@@ -7,6 +7,8 @@ SymbolStorage::SymbolStorage() {
 void SymbolStorage::addSymbol \
     (const std::string& entityName, EntityType entityType) {
     SymbolTable[entityName] = entityType;
+    // add to reverse symbol table
+    ReverseSymbolTable[entityType].push_back(entityName);
 }
 
 EntityType SymbolStorage::getSymbol(const std::string& entityName) {
