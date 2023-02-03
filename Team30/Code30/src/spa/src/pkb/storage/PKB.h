@@ -4,9 +4,8 @@
 #include "ParentStorage.h"
 
 class PKB {
-public:
-	PKB();
-	static FollowsStorage followsStore;
-	static ParentStorage parentStore;
-
+ public:
+  PKB();
+  static FollowsStorage* followsStore;
+  static ParentStorage* parentStore;
 };

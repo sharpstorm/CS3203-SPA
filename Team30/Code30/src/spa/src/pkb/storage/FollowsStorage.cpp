@@ -1,3 +1,5 @@
 #include "FollowsStorage.h"
 
-FollowsStorage::FollowsStorage() {};
+FollowsStorage::FollowsStorage() {}
+
+void FollowsStorage::test() {}

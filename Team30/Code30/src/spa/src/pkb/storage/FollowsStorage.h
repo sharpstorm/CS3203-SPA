@@ -1,7 +1,7 @@
 #pragma once
 
 class FollowsStorage {
-public:
-	FollowsStorage();
-
+ public:
+  FollowsStorage();
+  void test();
 };

@@ -1,3 +1,3 @@
 #include "ParentStorage.h"
 
-ParentStorage::ParentStorage() {};
+ParentStorage::ParentStorage() {}
