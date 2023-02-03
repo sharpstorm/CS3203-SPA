@@ -7,8 +7,8 @@ TEST_CASE("Test PQL Declaration parsing") {
   PQLStmtContext context;
 
   auto dummyStream = vector<PQLToken>{
-      PQLToken{PQL_TOKEN_STMT},
       PQLToken{PQL_TOKEN_STRING, "s"},
+      PQLToken{PQL_TOKEN_SEMICOLON},
   };
   TokenParseState state(&dummyStream);
   context.parse(&state);
@@ -19,8 +19,8 @@ TEST_CASE("Test PQL Declaration Duplicated Name") {
   PQLStmtContext context;
 
   auto dummyStream = vector<PQLToken>{
-      PQLToken{PQL_TOKEN_STMT},
       PQLToken{PQL_TOKEN_STMT, "stmt"},
+      PQLToken{PQL_TOKEN_SEMICOLON},
   };
   TokenParseState state(&dummyStream);
   context.parse(&state);
@@ -31,8 +31,17 @@ TEST_CASE("Test PQL Declaration Bad Symbol") {
   PQLStmtContext context;
 
   auto dummyStream = vector<PQLToken>{
-      PQLToken{PQL_TOKEN_STMT},
       PQLToken{PQL_TOKEN_COMMA},
+  };
+  TokenParseState state(&dummyStream);
+  REQUIRE_THROWS_AS(context.parse(&state), QPSParserError);
+}
+
+TEST_CASE("Test PQL Declaration No semicolon") {
+  PQLStmtContext context;
+
+  auto dummyStream = vector<PQLToken>{
+      PQLToken{PQL_TOKEN_STMT, "stmt"},
   };
   TokenParseState state(&dummyStream);
   REQUIRE_THROWS_AS(context.parse(&state), QPSParserError);
