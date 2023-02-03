@@ -3,12 +3,11 @@
 #include <string>
 #include <vector>
 
-using namespace std;
-
 #include "./pkb/storage/PKB.h"
 #include "TNode.h"
 
-int Parse () {
+#include "Parser.h"
 
+int Parse() {
 	return 0;
 }

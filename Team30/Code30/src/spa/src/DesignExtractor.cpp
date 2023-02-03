@@ -3,11 +3,8 @@
 #include <string>
 #include <vector>
 
-using namespace std;
-
-
 #include "./pkb/storage/PKB.h"
 
-int DesignExtractor () {
+int DesignExtractor() {
 	return 0;
 }
