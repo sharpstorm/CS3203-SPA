@@ -6,5 +6,6 @@
 
 class Clause : public IEvaluatable {
  public:
+  virtual ~Clause() = default;
   virtual bool validateArgTypes(VariableTable* variables) = 0;
 };

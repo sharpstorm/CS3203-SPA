@@ -1,6 +1,8 @@
 #include "QueryBuilder.h"
 #include "QueryBuilderError.h"
 
+using std::move;
+
 QueryBuilder::QueryBuilder() {
 }
 
@@ -39,6 +41,7 @@ PQLQueryVariable* QueryBuilder::getVariable(PQL_VAR_NAME name) {
 }
 
 void QueryBuilder::addSuchThat(unique_ptr<SuchThatClause> clause) {
+  clauses.push_back(move(clause));
 }
 
 unique_ptr<PQLQuery> QueryBuilder::build() {

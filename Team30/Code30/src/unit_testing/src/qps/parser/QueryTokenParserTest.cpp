@@ -8,6 +8,8 @@
 #include "qps/common/PQLQuery.h"
 #include "qps/common/PQLQueryVariable.h"
 #include "qps/errors/QPSError.h"
+#include "qps/clauses/FollowsClause.h"
+#include "qps/clauses/ParentClause.h"
 
 using std::vector, std::string, std::tuple, std::exception;
 
@@ -24,7 +26,7 @@ tuple<string, PQLTokenType, PQLSynonymType> TEST_TYPE_MAP[] = {
     { "procedure", PQL_TOKEN_PROCEDURE, PQL_VAR_TYPE_PROCEDURE },
 };
 
-void testPQLParsing(vector<PQLToken> testcase, vector<PQLQueryVariable> expectedVariables) {
+unique_ptr<PQLQuery> testPQLParsing(vector<PQLToken> testcase, vector<PQLQueryVariable> expectedVariables) {
   TokenParser parser(testcase);
   unique_ptr<PQLQuery> result;
   try {
@@ -43,6 +45,8 @@ void testPQLParsing(vector<PQLToken> testcase, vector<PQLQueryVariable> expected
     REQUIRE(var->name == expectedVar.name);
     REQUIRE(var->type == expectedVar.type);
   }
+
+  return result;
 }
 
 void testPQLParsingRejection(vector<PQLToken> testcase) {
@@ -107,4 +111,106 @@ TEST_CASE("Test QPS Parser Duplicate Variable Rejection") {
         PQLToken{PQL_TOKEN_SEMICOLON, ";"},
     });
   }
+}
+
+TEST_CASE("Test QPS Parser Follows Query") {
+  auto query = testPQLParsing(vector<PQLToken>{
+      PQLToken{PQL_TOKEN_STMT, "stmt"},
+      PQLToken{PQL_TOKEN_STRING, "a"},
+      PQLToken{PQL_TOKEN_SEMICOLON, ";"},
+      PQLToken{PQL_TOKEN_SELECT},
+      PQLToken{PQL_TOKEN_STRING, "a"},
+      PQLToken{PQL_TOKEN_SUCH},
+      PQLToken{PQL_TOKEN_THAT},
+      PQLToken{PQL_TOKEN_FOLLOWS},
+      PQLToken{PQL_TOKEN_BRACKET_OPEN},
+      PQLToken{PQL_TOKEN_INTEGER, "2"},
+      PQLToken{PQL_TOKEN_COMMA},
+      PQLToken{PQL_TOKEN_INTEGER, "1"},
+      PQLToken{PQL_TOKEN_BRACKET_CLOSE},
+
+  }, vector<PQLQueryVariable>{
+      PQLQueryVariable{PQL_VAR_TYPE_STMT, "a"}
+  });
+  REQUIRE(query->getEvaluatables().size() == 1);
+
+  FollowsClause* fc = dynamic_cast<FollowsClause*>(query->getEvaluatables().at(0).get());
+  REQUIRE(fc != nullptr);
+
+  query = testPQLParsing(vector<PQLToken>{
+      PQLToken{PQL_TOKEN_STMT, "stmt"},
+      PQLToken{PQL_TOKEN_STRING, "a"},
+      PQLToken{PQL_TOKEN_COMMA},
+      PQLToken{PQL_TOKEN_STRING, "b"},
+      PQLToken{PQL_TOKEN_SEMICOLON, ";"},
+      PQLToken{PQL_TOKEN_SELECT},
+      PQLToken{PQL_TOKEN_STRING, "a"},
+      PQLToken{PQL_TOKEN_SUCH},
+      PQLToken{PQL_TOKEN_THAT},
+      PQLToken{PQL_TOKEN_FOLLOWS},
+      PQLToken{PQL_TOKEN_BRACKET_OPEN},
+      PQLToken{PQL_TOKEN_STRING, "a"},
+      PQLToken{PQL_TOKEN_COMMA},
+      PQLToken{PQL_TOKEN_STRING, "b"},
+      PQLToken{PQL_TOKEN_BRACKET_CLOSE},
+
+  }, vector<PQLQueryVariable>{
+      PQLQueryVariable{PQL_VAR_TYPE_STMT, "a"},
+      PQLQueryVariable{PQL_VAR_TYPE_STMT, "b"}
+  });
+  REQUIRE(query->getEvaluatables().size() == 1);
+
+  fc = dynamic_cast<FollowsClause*>(query->getEvaluatables().at(0).get());
+  REQUIRE(fc != nullptr);
+}
+
+TEST_CASE("Test QPS Parser Parent Query") {
+  auto query = testPQLParsing(vector<PQLToken>{
+      PQLToken{PQL_TOKEN_STMT, "stmt"},
+      PQLToken{PQL_TOKEN_STRING, "a"},
+      PQLToken{PQL_TOKEN_SEMICOLON, ";"},
+      PQLToken{PQL_TOKEN_SELECT},
+      PQLToken{PQL_TOKEN_STRING, "a"},
+      PQLToken{PQL_TOKEN_SUCH},
+      PQLToken{PQL_TOKEN_THAT},
+      PQLToken{PQL_TOKEN_PARENT},
+      PQLToken{PQL_TOKEN_BRACKET_OPEN},
+      PQLToken{PQL_TOKEN_INTEGER, "2"},
+      PQLToken{PQL_TOKEN_COMMA},
+      PQLToken{PQL_TOKEN_INTEGER, "1"},
+      PQLToken{PQL_TOKEN_BRACKET_CLOSE},
+
+  }, vector<PQLQueryVariable>{
+      PQLQueryVariable{PQL_VAR_TYPE_STMT, "a"}
+  });
+  REQUIRE(query->getEvaluatables().size() == 1);
+
+  ParentClause* fc = dynamic_cast<ParentClause*>(query->getEvaluatables().at(0).get());
+  REQUIRE(fc != nullptr);
+
+  query = testPQLParsing(vector<PQLToken>{
+      PQLToken{PQL_TOKEN_STMT, "stmt"},
+      PQLToken{PQL_TOKEN_STRING, "a"},
+      PQLToken{PQL_TOKEN_COMMA},
+      PQLToken{PQL_TOKEN_STRING, "b"},
+      PQLToken{PQL_TOKEN_SEMICOLON, ";"},
+      PQLToken{PQL_TOKEN_SELECT},
+      PQLToken{PQL_TOKEN_STRING, "a"},
+      PQLToken{PQL_TOKEN_SUCH},
+      PQLToken{PQL_TOKEN_THAT},
+      PQLToken{PQL_TOKEN_PARENT},
+      PQLToken{PQL_TOKEN_BRACKET_OPEN},
+      PQLToken{PQL_TOKEN_STRING, "a"},
+      PQLToken{PQL_TOKEN_COMMA},
+      PQLToken{PQL_TOKEN_STRING, "b"},
+      PQLToken{PQL_TOKEN_BRACKET_CLOSE},
+
+  }, vector<PQLQueryVariable>{
+      PQLQueryVariable{PQL_VAR_TYPE_STMT, "a"},
+      PQLQueryVariable{PQL_VAR_TYPE_STMT, "b"}
+  });
+  REQUIRE(query->getEvaluatables().size() == 1);
+
+  fc = dynamic_cast<ParentClause*>(query->getEvaluatables().at(0).get());
+  REQUIRE(fc != nullptr);
 }

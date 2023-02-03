@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <utility>
 #include "../../common/PQLTypes.h"
 #include "../../common/PQLQuery.h"
 #include "../../common/PQLQueryVariable.h"
@@ -16,7 +17,7 @@ class QueryBuilder {
  private:
   unordered_map<string, PQLQueryVariable> variables;
   PQLQueryVariable resultVariable;
-  vector<Clause*> clauses;
+  vector<shared_ptr<Clause>> clauses;
  public:
   QueryBuilder();
   void setResultType(PQLSynonymType type);

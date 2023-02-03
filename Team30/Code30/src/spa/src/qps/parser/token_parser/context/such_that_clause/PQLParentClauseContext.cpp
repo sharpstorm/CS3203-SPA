@@ -1,11 +1,11 @@
 #include <memory>
-#include "PQLFollowsClauseContext.h"
-#include "../../../../clauses/FollowsClause.h"
-#include "../../../../clauses/FollowsTClause.h"
+#include "PQLParentClauseContext.h"
+#include "../../../../clauses/ParentClause.h"
+#include "../../../../clauses/ParentTClause.h"
 
 using std::unique_ptr;
 
-void PQLFollowsClauseContext::parse(TokenParseState *parserState) {
+void PQLParentClauseContext::parse(TokenParseState *parserState) {
   PQLSuchThatClauseContext::parse(parserState);
   bool isTransitive = false;
 
@@ -16,7 +16,6 @@ void PQLFollowsClauseContext::parse(TokenParseState *parserState) {
     isTransitive = true;
     expect(parserState, PQL_TOKEN_BRACKET_OPEN);
   }
-
   ClauseArgument left = extractStatementRef(parserState);
   expect(parserState, PQL_TOKEN_COMMA);
   ClauseArgument right = extractStatementRef(parserState);
@@ -24,9 +23,9 @@ void PQLFollowsClauseContext::parse(TokenParseState *parserState) {
 
   SuchThatClause* clause;
   if (isTransitive) {
-    clause = new FollowsTClause(left, right);
+    clause = new ParentTClause(left, right);
   } else {
-    clause = new FollowsClause(left, right);
+    clause = new ParentClause(left, right);
   }
 
   parserState->getQueryBuilder()
