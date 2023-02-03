@@ -25,7 +25,6 @@ struct std::hash<std::pair<T1, T2>> {
   }
 };
 
-// note: error will occur if T or U is not primitive
 template <typename T, typename U>
 struct QueryResult {
   std::unordered_set<T> firstArgVals;
