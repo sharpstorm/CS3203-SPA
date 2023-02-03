@@ -23,9 +23,9 @@ void PQLParentClauseContext::parse(TokenParseState *parserState) {
 
   SuchThatClause* clause;
   if (isTransitive) {
-    clause = new ParentClause(left, right);
-  } else {
     clause = new ParentTClause(left, right);
+  } else {
+    clause = new ParentClause(left, right);
   }
 
   parserState->getQueryBuilder()

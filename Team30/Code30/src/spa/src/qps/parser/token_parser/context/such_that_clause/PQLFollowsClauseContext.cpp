@@ -24,9 +24,9 @@ void PQLFollowsClauseContext::parse(TokenParseState *parserState) {
 
   SuchThatClause* clause;
   if (isTransitive) {
-    clause = new FollowsClause(left, right);
-  } else {
     clause = new FollowsTClause(left, right);
+  } else {
+    clause = new FollowsClause(left, right);
   }
 
   parserState->getQueryBuilder()
