@@ -2,10 +2,14 @@
 
 using std::stoi;
 
+PQLSuchThatClauseContext::PQLSuchThatClauseContext() {
+}
+
 ClauseArgument PQLSuchThatClauseContext::extractStatementRef(
     TokenParseState* state) {
   if (state->getCurrentToken()->isType(PQL_TOKEN_INTEGER)) {
     int value = stoi(state->getCurrentToken()->tokenData);
+    state->advanceToken();
     return ClauseArgument(value);
   }
 
@@ -15,6 +19,7 @@ ClauseArgument PQLSuchThatClauseContext::extractStatementRef(
 ClauseArgument PQLSuchThatClauseContext::extractEntityRef(
     TokenParseState* state) {
   if (state->getCurrentToken()->isType(PQL_TOKEN_QUOTE)) {
+    state->advanceToken();
     PQLToken* entityRef = expectVarchar(state);
     expect(state, PQL_TOKEN_QUOTE);
     return ClauseArgument(entityRef->tokenData);
@@ -26,6 +31,7 @@ ClauseArgument PQLSuchThatClauseContext::extractEntityRef(
 ClauseArgument PQLSuchThatClauseContext::extractCommonRef(
     TokenParseState* state) {
   if (state->getCurrentToken()->isType(PQL_TOKEN_UNDERSCORE)) {
+    state->advanceToken();
     return ClauseArgument(CLAUSE_ARG_WILDCARD);
   } else if (!state->getCurrentToken()->isVarchar()) {
     throw QPSParserError("Unknown Such That clause argument");

@@ -16,7 +16,9 @@ void PQLFollowsClauseContext::parse(TokenParseState *parserState) {
     isTransitive = true;
     expect(parserState, PQL_TOKEN_BRACKET_OPEN);
   }
+
   ClauseArgument left = extractStatementRef(parserState);
+  expect(parserState, PQL_TOKEN_COMMA);
   ClauseArgument right = extractStatementRef(parserState);
   expect(parserState, PQL_TOKEN_BRACKET_CLOSE);
 
