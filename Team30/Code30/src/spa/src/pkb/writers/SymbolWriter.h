@@ -1,8 +1,13 @@
-//
-// Created by Ddx on 3/2/23.
-//
+#pragma once
 
-#ifndef SPA_SYMBOLWRITER_H
-#define SPA_SYMBOLWRITER_H
+#include <string>
+#include "../storage/SymbolStorage.h"
+#include "../../common/Types.h"
+class SymbolWriter {
+ public:
+    explicit SymbolWriter(SymbolStorage* symbolStorage);
+    void addSymbol(const std::string& , EntityType);
 
-#endif //SPA_SYMBOLWRITER_H
+ private:
+    SymbolStorage* symbolStorage;
+};

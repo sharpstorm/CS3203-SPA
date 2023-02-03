@@ -1,8 +1,13 @@
-//
-// Created by Ddx on 3/2/23.
-//
+#pragma once
 
-#ifndef SPA_STATEMENTWRITER_H
-#define SPA_STATEMENTWRITER_H
+#include <string>
+#include "../storage/StatementStorage.h"
+#include "../../common/Types.h"
+class StatementWriter {
+ public:
+    explicit StatementWriter(StatementStorage* statementStorage);
+    void addStatement(int , StmtType);
 
-#endif //SPA_STATEMENTWRITER_H
+ private:
+    StatementStorage* statementStorage;
+};
