@@ -4,7 +4,7 @@
 #include <utility>
 #include "../common/PQLQueryVariable.h"
 
-using std::string, std::pair;
+using std::string;
 
 enum ClauseArgumentType {
   CLAUSE_ARG_WILDCARD,
@@ -31,5 +31,3 @@ class ClauseArgument {
   bool isStmtRef();
   bool isEntRef();
 };
-
-typedef pair<ClauseArgument, ClauseArgument> ClausePair;

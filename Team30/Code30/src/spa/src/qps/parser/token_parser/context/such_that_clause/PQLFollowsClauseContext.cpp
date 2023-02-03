@@ -24,11 +24,10 @@ void PQLFollowsClauseContext::parse(TokenParseState *parserState) {
   expect(parserState, PQL_TOKEN_BRACKET_CLOSE);
 
   SuchThatClause* clause;
-  ClausePair args(left, right);
   if (isTransitive) {
-    clause = new FollowsTClause(left, right, args);
+    clause = new FollowsTClause(left, right);
   } else {
-    clause = new FollowsClause(left, right, args);
+    clause = new FollowsClause(left, right);
   }
 
   parserState->getQueryBuilder()

@@ -9,7 +9,7 @@ class ParentTClause: public SuchThatClause {
   ClauseArgument right;
 
  public:
-  ParentTClause(ClauseArgument left, ClauseArgument right, ClausePair args);
+  ParentTClause(ClauseArgument left, ClauseArgument right);
   QueryResult* evaluateOn();
   bool validateArgTypes(VariableTable *variables);
 };
