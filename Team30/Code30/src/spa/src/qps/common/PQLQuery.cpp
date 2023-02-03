@@ -2,24 +2,19 @@
 
 using std::pair;
 
-PQLQuery::PQLQuery(vector<QueryVariable> vars, QueryVariable resVar,
+PQLQuery::PQLQuery(unordered_map<string, PQLQueryVariable> vars,
+                   PQLQueryVariable resVar,
                    vector<Clause*> c) {
-    populateVariables(vars);
-    resultVariable = resVar;
-    clauses = c;
-}
-
-void PQLQuery::populateVariables(vector<QueryVariable> vars) {
-    for (QueryVariable qv : vars) {
-        variables.insert({qv.name, qv});
-    }
+  variables = vars;
+  resultVariable = resVar;
+  clauses = c;
 }
 
 int PQLQuery::getVariableCount() {
   return variables.size();
 }
 
-QueryVariable* PQLQuery::getVariable(PQL_VAR_NAME name) {
+PQLQueryVariable* PQLQuery::getVariable(PQL_VAR_NAME name) {
   auto item = variables.find(name);
   if (item == variables.end()) {
     return nullptr;
@@ -29,10 +24,10 @@ QueryVariable* PQLQuery::getVariable(PQL_VAR_NAME name) {
 }
 
 vector<IEvaluatable*> PQLQuery::getEvaluatables() {
-    vector<IEvaluatable*> evals = vector<IEvaluatable*>();
-    for (IEvaluatable* ie : clauses) {
-        evals.push_back(ie);
-    }
+  vector<IEvaluatable*> evals = vector<IEvaluatable*>();
+  for (IEvaluatable* ie : clauses) {
+      evals.push_back(ie);
+  }
 
-    return evals;
+  return evals;
 }

@@ -9,6 +9,8 @@
 #include "declarations/PQLVariableContext.h"
 #include "declarations/PQLConstantContext.h"
 #include "declarations/PQLProcedureContext.h"
+#include "query/PQLSelectContext.h"
+#include "query/PQLSuchThatContext.h"
 
 unique_ptr<IPQLContext> PQLGrammarContextProvider::getContext(PQLToken *token) {
   switch (token->type) {
@@ -32,6 +34,10 @@ unique_ptr<IPQLContext> PQLGrammarContextProvider::getContext(PQLToken *token) {
       return std::make_unique<PQLConstantContext>();
     case PQL_TOKEN_PROCEDURE:
       return std::make_unique<PQLProcedureContext>();
+    case PQL_TOKEN_SELECT:
+      return std::make_unique<PQLSelectContext>();
+    case PQL_TOKEN_SUCH:
+      return std::make_unique<PQLSuchThatContext>();
     default:
       return nullptr;
   }

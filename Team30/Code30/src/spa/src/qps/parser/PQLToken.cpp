@@ -10,3 +10,12 @@ bool PQLToken::operator==(const PQLToken& other) const {
 bool PQLToken::isType(PQLTokenType target) {
   return type == target;
 }
+
+bool PQLToken::isCategory(PQLTokenCategory target) {
+  return (type & PQL_TOKEN_CATEGORY_MASK) == target;
+}
+
+bool PQLToken::isVarchar() {
+  return ((type & PQL_TOKEN_CATEGORY_MASK)
+    & PQL_TOKEN_VARCHAR_MASK) > 0;
+}
