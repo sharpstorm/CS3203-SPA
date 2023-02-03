@@ -5,10 +5,10 @@
 
 class FollowsQueryHandler {
  public:
-  explicit FollowsQueryHandler(FollowsStorage* followsStore);
+  explicit FollowsQueryHandler(const FollowsStorage* followsStore);
 
-  QueryResult<int, int> queryFollows(StmtRef s1, StmtRef s2);
+  QueryResult<int, int> queryFollows(StmtRef s1, StmtRef s2) const;
 
  private:
-  FollowsStorage* followsStore;
+  const FollowsStorage* followsStore;
 };

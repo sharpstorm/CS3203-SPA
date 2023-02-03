@@ -5,10 +5,10 @@
 
 class ParentQueryHandler {
  public:
-  explicit ParentQueryHandler(ParentStorage* parentStore);
+  explicit ParentQueryHandler(const ParentStorage* parentStore);
 
-  QueryResult<int, int> queryParent(StmtRef s1, StmtRef s2);
+  QueryResult<int, int> queryParent(StmtRef s1, StmtRef s2) const;
 
  private:
-  ParentStorage* parentStore;
+  const ParentStorage* parentStore;
 };

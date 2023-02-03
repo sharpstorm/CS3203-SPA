@@ -3,5 +3,5 @@
 class FollowsStorage {
  public:
   FollowsStorage();
-  void test();
+  void test() const;
 };

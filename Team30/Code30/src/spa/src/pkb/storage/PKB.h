@@ -6,6 +6,6 @@
 class PKB {
  public:
   PKB();
-  static FollowsStorage* followsStore;
-  static ParentStorage* parentStore;
+  FollowsStorage* followsStore;
+  ParentStorage* parentStore;
 };

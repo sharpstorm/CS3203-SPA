@@ -2,4 +2,4 @@
 
 FollowsStorage::FollowsStorage() {}
 
-void FollowsStorage::test() {}
+void FollowsStorage::test() const {}
