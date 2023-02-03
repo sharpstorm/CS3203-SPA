@@ -1,9 +1,10 @@
+#include <utility>
 #include <memory>
 #include "PQLFollowsClauseContext.h"
 #include "../../../../clauses/FollowsClause.h"
 #include "../../../../clauses/FollowsTClause.h"
 
-using std::unique_ptr;
+using std::unique_ptr, std::pair;
 
 void PQLFollowsClauseContext::parse(TokenParseState *parserState) {
   PQLSuchThatClauseContext::parse(parserState);
@@ -23,10 +24,11 @@ void PQLFollowsClauseContext::parse(TokenParseState *parserState) {
   expect(parserState, PQL_TOKEN_BRACKET_CLOSE);
 
   SuchThatClause* clause;
+  ClausePair args(left, right);
   if (isTransitive) {
-    clause = new FollowsTClause(left, right);
+    clause = new FollowsTClause(left, right, args);
   } else {
-    clause = new FollowsClause(left, right);
+    clause = new FollowsClause(left, right, args);
   }
 
   parserState->getQueryBuilder()

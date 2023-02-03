@@ -1,8 +1,8 @@
 #include "FollowsClause.h"
 
-FollowsClause::FollowsClause(ClauseArgument leftArg, ClauseArgument rightArg):
-  left(leftArg), right(rightArg) {
-}
+
+FollowsClause::FollowsClause(ClauseArgument leftArg, ClauseArgument rightArg, pair<ClauseArgument,ClauseArgument> args):
+        SuchThatClause(args), left(leftArg), right(rightArg) {}
 
 QueryResult* FollowsClause::evaluateOn() {
   return nullptr;

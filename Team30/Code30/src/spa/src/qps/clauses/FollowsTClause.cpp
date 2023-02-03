@@ -1,7 +1,8 @@
 #include "FollowsTClause.h"
 
-FollowsTClause::FollowsTClause(ClauseArgument leftArg, ClauseArgument rightArg):
-  left(leftArg), right(rightArg) {
+FollowsTClause::FollowsTClause(ClauseArgument leftArg, ClauseArgument rightArg,
+                               ClausePair args):
+        SuchThatClause(args), left(leftArg), right(rightArg) {
 }
 
 QueryResult* FollowsTClause::evaluateOn() {

@@ -1,7 +1,7 @@
 #include "ParentClause.h"
 
-ParentClause::ParentClause(ClauseArgument leftArg, ClauseArgument rightArg):
-  left(leftArg), right(rightArg) {
+ParentClause::ParentClause(ClauseArgument leftArg, ClauseArgument rightArg, ClausePair args):
+        SuchThatClause(args), left(leftArg), right(rightArg) {
 }
 
 QueryResult* ParentClause::evaluateOn() {

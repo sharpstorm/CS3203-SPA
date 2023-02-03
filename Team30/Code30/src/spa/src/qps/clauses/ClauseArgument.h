@@ -1,9 +1,10 @@
 #pragma once
 
 #include <string>
+#include <utility>
 #include "../common/PQLQueryVariable.h"
 
-using std::string;
+using std::string, std::pair;
 
 enum ClauseArgumentType {
   CLAUSE_ARG_WILDCARD,
@@ -30,3 +31,5 @@ class ClauseArgument {
   bool isStmtRef();
   bool isEntRef();
 };
+
+typedef pair<ClauseArgument, ClauseArgument> ClausePair;

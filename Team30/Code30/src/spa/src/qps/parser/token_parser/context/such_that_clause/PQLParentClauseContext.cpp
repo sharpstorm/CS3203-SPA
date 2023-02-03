@@ -22,10 +22,11 @@ void PQLParentClauseContext::parse(TokenParseState *parserState) {
   expect(parserState, PQL_TOKEN_BRACKET_CLOSE);
 
   SuchThatClause* clause;
+  ClausePair args(left, right);
   if (isTransitive) {
-    clause = new ParentTClause(left, right);
+    clause = new ParentTClause(left, right, args);
   } else {
-    clause = new ParentClause(left, right);
+    clause = new ParentClause(left, right, args);
   }
 
   parserState->getQueryBuilder()

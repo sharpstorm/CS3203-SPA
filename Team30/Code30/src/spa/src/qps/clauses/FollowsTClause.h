@@ -9,7 +9,7 @@ class FollowsTClause: public SuchThatClause {
   ClauseArgument right;
 
  public:
-  FollowsTClause(ClauseArgument left, ClauseArgument right);
+  FollowsTClause(ClauseArgument left, ClauseArgument right, ClausePair args);
   QueryResult* evaluateOn();
   bool validateArgTypes(VariableTable *variables);
 };
