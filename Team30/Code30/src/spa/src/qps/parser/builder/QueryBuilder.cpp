@@ -31,7 +31,7 @@ PQLSynonymType* QueryBuilder::getVariableType(PQL_VAR_NAME name) {
     return nullptr;
   }
 
-  return &var->type;
+  return &(var->type);
 }
 
 PQLQueryVariable* QueryBuilder::getVariable(PQL_VAR_NAME name) {

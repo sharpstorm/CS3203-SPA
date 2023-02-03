@@ -6,9 +6,8 @@ void PQLSelectContext::parse(TokenParseState *parserState) {
   PQLToken* currentToken = expectVarchar(parserState);
   PQLSynonymType* type = parserState->getQueryBuilder()
       ->getVariableType(currentToken->tokenData);
-
   if (type == nullptr) {
-    throw new QPSParserError("Select clause references unknown synonym");
+    throw QPSParserError("Select clause references unknown synonym");
   }
 
   parserState->getQueryBuilder()->setResultType(*type);

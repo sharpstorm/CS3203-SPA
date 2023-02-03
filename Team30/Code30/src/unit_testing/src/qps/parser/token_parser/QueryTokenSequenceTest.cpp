@@ -7,7 +7,9 @@
 using std::vector, std::make_unique;
 
 TEST_CASE("Test TokenParseState Stage Valid Flows") {
-  auto dummyStream = vector<PQLToken>{PQL_TOKEN_SELECT};
+  auto dummyStream = vector<PQLToken>{
+    PQLToken{PQL_TOKEN_SELECT}
+  };
 
   unique_ptr<TokenParseState> state = make_unique<TokenParseState>(&dummyStream);
   state->advanceStage(TOKEN_PARSE_STAGE_DECLARATION);
@@ -43,7 +45,9 @@ TEST_CASE("Test TokenParseState Stage Valid Flows") {
 }
 
 TEST_CASE("Test TokenParseState Stage Invalid Flows") {
-  auto dummyStream = vector<PQLToken>{PQL_TOKEN_SELECT};
+  auto dummyStream = vector<PQLToken>{
+      PQLToken{PQL_TOKEN_SELECT}
+  };
   TokenParseState state(&dummyStream);
 
   REQUIRE_THROWS_AS(state.advanceStage(TOKEN_PARSE_STAGE_CONDITION_MARKER), QPSParserError);
