@@ -18,18 +18,19 @@ struct EntityRef {
   std::string name;
 };
 
-struct pair_hash {
-  template <class T1, class T2>
+template <class T1, class T2>
+struct std::hash<std::pair<T1, T2>> {
   std::size_t operator()(const std::pair<T1, T2>& pair) const {
     return std::hash<T1>()(pair.first) ^ std::hash<T2>()(pair.second);
   }
 };
 
+// note: error will occur if T or U is not primitive
 template <typename T, typename U>
 struct QueryResult {
   std::unordered_set<T> firstArgVals;
   std::unordered_set<U> secondArgVals;
-  std::unordered_set<std::pair<T, U>, pair_hash> pairVals;
+  std::unordered_set<std::pair<T, U>> pairVals;
   bool isEmpty = true;
 
   void add(T first, U second) {
