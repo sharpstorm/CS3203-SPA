@@ -12,6 +12,7 @@
 #include "query/PQLSelectContext.h"
 #include "query/PQLSuchThatContext.h"
 #include "such_that_clause/PQLFollowsClauseContext.h"
+#include "such_that_clause/PQLParentClauseContext.h"
 
 unique_ptr<IPQLContext> PQLGrammarContextProvider::getContext(PQLToken *token) {
   switch (token->type) {
@@ -41,6 +42,8 @@ unique_ptr<IPQLContext> PQLGrammarContextProvider::getContext(PQLToken *token) {
       return std::make_unique<PQLSuchThatContext>();
     case PQL_TOKEN_FOLLOWS:
       return std::make_unique<PQLFollowsClauseContext>();
+    case PQL_TOKEN_PARENT:
+      return std::make_unique<PQLParentClauseContext>();
     default:
       return nullptr;
   }

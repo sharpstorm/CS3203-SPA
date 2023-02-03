@@ -11,7 +11,7 @@
 #include "../../clauses/SuchThatClause.h"
 #include "../../clauses/PatternClause.h"
 
-using std::string, std::vector, std::unique_ptr std::unordered_map;
+using std::string, std::vector, std::unique_ptr, std::unordered_map;
 
 class QueryBuilder {
  private:
