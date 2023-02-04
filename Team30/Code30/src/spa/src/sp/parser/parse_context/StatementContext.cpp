@@ -20,6 +20,8 @@ shared_ptr<ASTNode> StatementContext::generateSubtree(SourceParseState *state) {
 shared_ptr<ASTNode> StatementContext::generateAssign(SourceParseState* state) {
   shared_ptr<ASTNode> leftNode = contextProvider->getContext(VARIABLE_CONTEXT)->generateSubtree(state);
   expect(state, SIMPLE_TOKEN_ASSIGN);
+
+  state->clearCached();
   shared_ptr<ASTNode> rightNode = contextProvider->getContext(EXPR_CONTEXT)->generateSubtree(state);
 
   AssignASTNode* assignNode = new AssignASTNode();

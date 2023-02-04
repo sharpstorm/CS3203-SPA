@@ -15,7 +15,7 @@ shared_ptr<ASTNode> SourceTokenParser::parse(vector<SourceToken>* tokens) {
     gcp.getContext(token->getType())->generateSubtree(&state);
   }*/
 
-  return state.curRoot;
+  return state.getCached();
     /* SourceParseState state(tokens);
     GrammarContextProvider gcp;
     vector<Token> arr;

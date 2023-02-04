@@ -15,8 +15,8 @@ shared_ptr<ASTNode> ConstantParseContext::generateSubtree(SourceParseState* stat
   shared_ptr<ASTNode> newNode = shared_ptr<ASTNode>(
       new ConstantASTNode(value));
 
-  if (state->curRoot == nullptr) {
-      state->curRoot = newNode;
+  if (!state->hasCached()) {
+      state->setCached(newNode);
   }
 
   return newNode;

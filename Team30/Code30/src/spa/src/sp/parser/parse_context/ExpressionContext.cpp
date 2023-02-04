@@ -9,18 +9,28 @@ bool ExpressionContext::validate(SourceParseState *state) {
 }
 
 shared_ptr<ASTNode> ExpressionContext::generateSubtree(SourceParseState *state) {
-  if (state->nextTokenIsOfType(SIMPLE_TOKEN_PLUS)) {
-    shared_ptr<ASTNode> leftNode = contextProvider->getContext(FACTOR_CONTEXT)->generateSubtree(state);
-    SourceToken* token = expect(state, SIMPLE_TOKEN_PLUS, SIMPLE_TOKEN_MINUS);
-    shared_ptr<PlusASTNode> middleNode = generatePlus(state, leftNode);
+  if (!state->hasCached()) {
+    // I'm first
+    state->setCached(contextProvider->getContext(TERM_CONTEXT)->generateSubtree(state));
+  }
+
+  shared_ptr<ASTNode> leftNode = state->getCached();
+  shared_ptr<PlusASTNode> middleNode;
+  SourceToken* token = expect(state, SIMPLE_TOKEN_PLUS, SIMPLE_TOKEN_MINUS);
+  if (token->isType(SIMPLE_TOKEN_PLUS)) {
+    middleNode = generatePlus(state, leftNode);
     middleNode->setRightChild(contextProvider->getContext(TERM_CONTEXT)->generateSubtree(state));
-    state->curRoot = middleNode;
-    return middleNode;
+    state->setCached(middleNode);
   } else if (state->nextTokenIsOfType(SIMPLE_TOKEN_MINUS)) {
 
-  } else {
-    return contextProvider->getContext(FACTOR_CONTEXT)->generateSubtree(state);
   }
+
+  if (state->peekNextToken()->isType(SIMPLE_TOKEN_PLUS) ||
+      state->peekNextToken()->isType(SIMPLE_TOKEN_MINUS)) {
+    return contextProvider->getContext(EXPR_CONTEXT)->generateSubtree(state);
+  }
+
+  return middleNode;
 //  shared_ptr<ASTNode> leftNode = contextProvider->getContext(VARIABLE_CONTEXT)->generateSubtree(state);
 //  SourceToken* token = expect(state, SIMPLE_TOKEN_PLUS, SIMPLE_TOKEN_MINUS);
 //

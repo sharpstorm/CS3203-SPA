@@ -6,7 +6,7 @@ SourceParseState::SourceParseState(vector<SourceToken>* t) {
   curIndex = 0;
   tokenLength = t->size();
   tokens = t;
-  curRoot = nullptr;
+  curCache = nullptr;
 }
 
 void SourceParseState::advanceToken() {
@@ -32,4 +32,20 @@ SourceToken *SourceParseState::peekNextToken() {
 
 bool SourceParseState::nextTokenIsOfType(SourceTokenType type) {
   return peekNextToken()->isType(type);
+}
+
+void SourceParseState::setCached(shared_ptr<ASTNode> node) {
+  curCache = node;
+}
+
+void SourceParseState::clearCached() {
+  curCache = nullptr;
+}
+
+bool SourceParseState::hasCached() {
+  return curCache != nullptr;
+}
+
+shared_ptr<ASTNode> SourceParseState::getCached() {
+  return curCache;
 }
