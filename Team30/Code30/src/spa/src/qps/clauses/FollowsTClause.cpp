@@ -6,7 +6,7 @@
 using std::pair, std::vector;
 
 FollowsTClause::FollowsTClause(ClauseArgument leftArg, ClauseArgument rightArg):
-        left(leftArg), right(rightArg) {
+  left(leftArg), right(rightArg) {
 }
 
 QueryResult* FollowsTClause::evaluateOn() {

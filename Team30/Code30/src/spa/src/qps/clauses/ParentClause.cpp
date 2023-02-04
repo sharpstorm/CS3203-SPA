@@ -6,7 +6,7 @@
 using std::pair, std::vector;
 
 ParentClause::ParentClause(ClauseArgument leftArg, ClauseArgument rightArg):
-        left(leftArg), right(rightArg) {
+  left(leftArg), right(rightArg) {
 }
 
 QueryResult* ParentClause::evaluateOn() {

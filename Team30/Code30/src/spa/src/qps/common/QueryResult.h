@@ -27,21 +27,21 @@ typedef unordered_map<PQL_VAR_NAME, StatementResult> STATEMENT_MAP;
 typedef unordered_map<PQL_VAR_NAME, EntityResult> ENTITY_MAP;
 
 class QueryResult {
-    unordered_map<PQL_VAR_NAME, StatementResult> statementMap;
-    unordered_map<PQL_VAR_NAME, EntityResult> entityMap;
-    string error;
+  unordered_map<PQL_VAR_NAME, StatementResult> statementMap;
+  unordered_map<PQL_VAR_NAME, EntityResult> entityMap;
+  string error;
 
  public:
-    bool isStatementMapEmpty();
-    bool isEntityMapEmpty();
-    STATEMENT_MAP getStatementMap();
-    ENTITY_MAP getEntityMap();
-    void addToStatementMap(PQL_VAR_NAME name, StatementResult result);
-    void addToEntityMap(PQL_VAR_NAME name, EntityResult result);
-    StatementResult* getFromStatementMap(PQL_VAR_NAME var);
-    EntityResult* getFromEntityMap(PQL_VAR_NAME var);
-    string getError();
-    void setError(string errorMessage);
-    QueryResult* resultFromVariable(PQLQueryVariable queryVar);
+  bool isStatementMapEmpty();
+  bool isEntityMapEmpty();
+  STATEMENT_MAP getStatementMap();
+  ENTITY_MAP getEntityMap();
+  void addToStatementMap(PQL_VAR_NAME name, StatementResult result);
+  void addToEntityMap(PQL_VAR_NAME name, EntityResult result);
+  StatementResult* getFromStatementMap(PQL_VAR_NAME var);
+  EntityResult* getFromEntityMap(PQL_VAR_NAME var);
+  string getError();
+  void setError(string errorMessage);
+  QueryResult* resultFromVariable(PQLQueryVariable queryVar);
 };
 
