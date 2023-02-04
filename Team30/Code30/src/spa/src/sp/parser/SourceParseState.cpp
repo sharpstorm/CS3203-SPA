@@ -19,6 +19,10 @@ bool SourceParseState::isEnd() {
   return curIndex >= tokenLength;
 }
 
+bool SourceParseState::isAtLast() {
+  return curIndex == tokenLength - 1;
+}
+
 SourceToken *SourceParseState::getCurrToken() {
   return &tokens->at(curIndex);
 }

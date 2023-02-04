@@ -10,10 +10,10 @@ shared_ptr<ASTNode> ExpressionContext::generateSubtree(SourceParseState *state) 
   // each expression should be parsed with a state
   if (!state->hasCached()) {
     // I'm first
-    shared_ptr<ASTNode>firstNode = (contextProvider->getContext(TERM_CONTEXT)->generateSubtree(state));
+    shared_ptr<ASTNode>firstNode = (contextProvider->getContext(FACTOR_CONTEXT)->generateSubtree(state));
     state->setCached(firstNode);
     //handles single digit/var expressions such as '1;'
-    if (state->getCurrToken()->isType(SIMPLE_TOKEN_SEMICOLON)) {
+    if (state->isAtLast()) {
       return firstNode;
     }
   }
@@ -23,7 +23,9 @@ shared_ptr<ASTNode> ExpressionContext::generateSubtree(SourceParseState *state) 
       state->peekNextToken()->isType(SIMPLE_TOKEN_MINUS) ||
       state->peekNextToken()->isType(SIMPLE_TOKEN_TIMES) ||
       state->peekNextToken()->isType(SIMPLE_TOKEN_SEMICOLON) ||
-      state->peekNextToken()->isType(SIMPLE_TOKEN_BRACKET_ROUND_RIGHT)) {
+      state->peekNextToken()->isType(SIMPLE_TOKEN_BRACKET_ROUND_RIGHT) ||
+      state->peekNextToken()->isType(SIMPLE_TOKEN_LT)
+      ) {
     return contextProvider->getContext(FACTOR_CONTEXT)->generateSubtree(state);
   }
 
@@ -34,7 +36,8 @@ shared_ptr<ASTNode> ExpressionContext::generateSubtree(SourceParseState *state) 
   }
 
   // if expression is a factor of type '(' expr ')'
-  if (state->getCurrToken()->isType(SIMPLE_TOKEN_BRACKET_ROUND_LEFT)) {
+  if (state->getCurrToken()->isType(SIMPLE_TOKEN_BRACKET_ROUND_LEFT) ||
+          state->getCurrToken()->isType(SIMPLE_TOKEN_INTEGER)) {
     shared_ptr<ASTNode> node = contextProvider->getContext(FACTOR_CONTEXT)->generateSubtree(state);
     return node;
   }
@@ -46,7 +49,7 @@ shared_ptr<ASTNode> ExpressionContext::generateSubtree(SourceParseState *state) 
 
   if (token->isType(SIMPLE_TOKEN_PLUS)) {
     middleNode = generatePlus(state, leftNode);
-  } else if (state->nextTokenIsOfType(SIMPLE_TOKEN_MINUS)) {
+  } else if (token->isType(SIMPLE_TOKEN_MINUS)) {
     middleNode = generateMinus(state, leftNode);
   }
 

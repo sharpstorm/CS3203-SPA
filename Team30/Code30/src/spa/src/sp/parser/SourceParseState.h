@@ -25,6 +25,7 @@ class SourceParseState {
   SourceToken* peekNextToken();
   bool nextTokenIsOfType(SourceTokenType type);
   bool isEnd();
+  bool isAtLast();
 
   void setCached(shared_ptr<ASTNode> node);
   void clearCached();
