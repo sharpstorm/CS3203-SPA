@@ -18,6 +18,10 @@ shared_ptr<ASTNode> ExpressionContext::generateSubtree(SourceParseState *state) 
     }
   }
 
+  if (state->isAtLast()) {
+    return contextProvider->getContext(FACTOR_CONTEXT)->generateSubtree(state);
+  }
+
   // if current constant / variable is followed by , return constant / variable
   if (state->peekNextToken()->isType(SIMPLE_TOKEN_PLUS) ||
       state->peekNextToken()->isType(SIMPLE_TOKEN_MINUS) ||

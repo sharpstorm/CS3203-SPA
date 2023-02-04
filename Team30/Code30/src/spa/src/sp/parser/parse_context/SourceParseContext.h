@@ -33,7 +33,7 @@ SourceToken* SourceParseContext::expect(SourceParseState* parserState,
 
   if ((currentToken->isType(tokenType)  || ... || false)) {
 
-    if (!parserState->isEnd()) {
+    if (!parserState->isAtLast()) {
         parserState->advanceToken();
     }
 

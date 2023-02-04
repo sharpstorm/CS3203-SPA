@@ -24,6 +24,9 @@ bool SourceParseState::isAtLast() {
 }
 
 SourceToken *SourceParseState::getCurrToken() {
+  if (curIndex >= tokenLength) {
+    return nullptr;
+  }
   return &tokens->at(curIndex);
 }
 
