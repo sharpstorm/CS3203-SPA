@@ -4,7 +4,6 @@
 #include "StatementStorage.h"
 
 StatementStorage::StatementStorage() {
-
 }
 
 void StatementStorage::addStatement(int lineNumber, StmtType stmtType) {

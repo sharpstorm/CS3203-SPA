@@ -1,7 +1,6 @@
 #include "SymbolStorage.h"
 
 SymbolStorage::SymbolStorage() {
-
 }
 
 void SymbolStorage::addSymbol \

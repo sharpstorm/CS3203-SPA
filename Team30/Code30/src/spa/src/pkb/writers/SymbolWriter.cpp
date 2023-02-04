@@ -4,7 +4,6 @@
 #include "SymbolWriter.h"
 
 SymbolWriter::SymbolWriter(SymbolStorage *symbolStorage) {
-
 }
 
 void SymbolWriter::addSymbol \
