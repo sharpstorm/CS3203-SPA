@@ -1,9 +1,10 @@
 #include <vector>
-#include <sstream>
-#include <iostream>
+#include <stdexcept>
 #include "SourceLexer.h"
 
 #include "../errors/SPError.h"
+
+using std::out_of_range;
 
 const int SOURCE_LEXER_BUFFER_SIZE = 1024;
 
@@ -36,7 +37,6 @@ vector<SourceToken> SourceLexer::tokenize(string* programLines) {
           pos++;
         } else {
           deferredPush = SIMPLE_TOKEN_NOT;
-
         }
         break;
 
@@ -116,7 +116,8 @@ vector<SourceToken> SourceLexer::tokenize(string* programLines) {
   return resultVector;
 }
 
-bool SourceLexer::isNextOfType(string* buffer, int curPos, SourceTokenType expectedType) {
+bool SourceLexer::isNextOfType(string* buffer, int curPos,
+                               SourceTokenType expectedType) {
   int peek = peekNextChar(buffer, curPos);
   return (peek >= 0 && tokenTable.tokens[peek] == expectedType);
 }

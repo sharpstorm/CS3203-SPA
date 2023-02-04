@@ -1,10 +1,10 @@
 #pragma once
-#include <iostream>
+#include <string>
 #include <vector>
 #include "../common/SourceToken.h"
 #include "SourceLexerTokenTable.h"
 
-using namespace std;
+using std::string, std::vector;
 
 class SourceLexer {
  public:

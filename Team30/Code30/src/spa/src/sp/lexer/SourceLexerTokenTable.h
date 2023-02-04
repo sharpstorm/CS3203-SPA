@@ -1,6 +1,7 @@
 #pragma once
 
 #include <unordered_map>
+#include <string>
 #include "../common/SourceToken.h"
 
 const char SOURCE_KEYWORD_PROCEDURE[] = "procedure";

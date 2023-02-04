@@ -1,5 +1,4 @@
 #include <string>
-#include <regex>
 #include "SourceToken.h"
 
 SourceToken::SourceToken(SourceTokenType type, string value):

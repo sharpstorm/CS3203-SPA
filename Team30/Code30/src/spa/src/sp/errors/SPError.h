@@ -6,6 +6,6 @@ using std::string;
 
 class SPError {
  public:
-  SPError(string msg): message(msg) {}
+  explicit SPError(string msg): message(msg) {}
   string message;
 };
