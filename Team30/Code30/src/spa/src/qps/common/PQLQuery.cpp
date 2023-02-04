@@ -14,6 +14,10 @@ int PQLQuery::getVariableCount() {
   return variables.size();
 }
 
+PQLQueryVariable PQLQuery::getResultVariable() {
+  return resultVariable;
+}
+
 PQLQueryVariable* PQLQuery::getVariable(PQL_VAR_NAME name) {
   auto item = variables.find(name);
   if (item == variables.end()) {
@@ -21,6 +25,10 @@ PQLQueryVariable* PQLQuery::getVariable(PQL_VAR_NAME name) {
   }
 
   return &item->second;
+}
+
+PQL_VAR_NAME PQLQuery::getResultName() {
+  return resultVariable.name;
 }
 
 vector<shared_ptr<IEvaluatable>> PQLQuery::getEvaluatables() {

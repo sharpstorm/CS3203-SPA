@@ -5,7 +5,22 @@ ParentClause::ParentClause(ClauseArgument leftArg, ClauseArgument rightArg):
 }
 
 QueryResult* ParentClause::evaluateOn() {
-  return nullptr;
+  // Temporary implementation
+  // TODO(KwanHW): Wait for pkb implementation
+  StatementResult statementResult;
+  statementResult.linePairs = vector<pair<int,int>>({{3,4},{3,5}, {3,6}});
+  statementResult.lines = {3,4,5,6};
+
+  QueryResult* queryResult = new QueryResult();
+  if (left.isSynonym()) {
+    queryResult->addToStatementMap(left.getSynonymName(), statementResult);
+  }
+
+  if (right.isSynonym()) {
+    queryResult->addToStatementMap(right.getSynonymName(), statementResult);
+  }
+
+  return queryResult;
 }
 
 bool ParentClause::validateArgTypes(VariableTable *variables) {

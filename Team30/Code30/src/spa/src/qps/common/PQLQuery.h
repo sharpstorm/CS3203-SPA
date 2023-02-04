@@ -21,6 +21,8 @@ class PQLQuery {
              PQLQueryVariable resVar,
              vector<shared_ptr<Clause>> c);
     int getVariableCount();
+    PQLQueryVariable getResultVariable();
     PQLQueryVariable* getVariable(PQL_VAR_NAME name);
+    PQL_VAR_NAME getResultName();
     vector<shared_ptr<IEvaluatable>> getEvaluatables();
 };

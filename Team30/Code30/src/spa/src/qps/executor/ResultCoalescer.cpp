@@ -2,5 +2,5 @@
 
 QueryResult *ResultCoalescer::merge(QueryResult *setA,
                                               QueryResult *setB) {
-  return nullptr;
+  return setB;
 }
