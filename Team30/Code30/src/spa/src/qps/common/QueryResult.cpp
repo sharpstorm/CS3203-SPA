@@ -16,11 +16,11 @@ StatementResult* QueryResult::getFromStatementMap(PQL_VAR_NAME var) {
   return &statementMap.find(var)->second;
 }
 
-unordered_map<PQL_VAR_NAME, StatementResult> QueryResult::getStatementMap() {
+STATEMENT_MAP QueryResult::getStatementMap() {
   return statementMap;
 }
 
-unordered_map<PQL_VAR_NAME, EntityResult> QueryResult::getEntityMap() {
+ENTITY_MAP QueryResult::getEntityMap() {
   return entityMap;
 }
 
