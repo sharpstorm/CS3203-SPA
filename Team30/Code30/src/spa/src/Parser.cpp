@@ -9,4 +9,6 @@
 #include "./pkb/storage/PKB.h"
 #include "TNode.h"
 
-int Parse() { return 0; }
+int Parse() {
+  return 0;
+}
