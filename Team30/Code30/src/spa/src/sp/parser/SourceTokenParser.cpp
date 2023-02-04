@@ -7,8 +7,8 @@ SourceTokenParser::SourceTokenParser() {
 shared_ptr<ASTNode> SourceTokenParser::parse(vector<SourceToken>* tokens) {
   SourceParseState state(tokens);
   GrammarContextProvider gcp;
-  cout << "SSSSSSSSSSSSSSSSSSSSSSSSSSSSS" << endl;
   gcp.getContext(EXPR_CONTEXT)->generateSubtree(&state);
+//  gcp.getContext(EXPR_CONTEXT)->generateSubtree(&state);
    /*while (!state.isEnd()) {
     SourceToken* token = state.getCurrToken();
     std::cout << token->getType() << "\n";

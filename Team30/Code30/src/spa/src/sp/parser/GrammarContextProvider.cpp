@@ -17,7 +17,7 @@ SourceParseContext* GrammarContextProvider::getContext(
     case TERM_CONTEXT:
       return &termContext;
     case FACTOR_CONTEXT:
-        return &factorContext;
+      return &factorContext;
     case CONST_CONTEXT:
       return &constantParseContext;
     case VARIABLE_CONTEXT:
