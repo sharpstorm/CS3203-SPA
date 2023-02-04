@@ -50,7 +50,7 @@ void QueryResult::setError(string errorMessage) {
 QueryResult* QueryResult::resultFromVariable(PQLQueryVariable queryVar) {
   QueryResult* queryResult = new QueryResult();
   PQL_VAR_NAME var = queryVar.name;
-  switch(queryVar.type) {
+  switch (queryVar.type) {
     case PQL_VAR_TYPE_STMT:
       // Fallthrough
     case PQL_VAR_TYPE_READ:

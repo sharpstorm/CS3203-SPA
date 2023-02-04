@@ -13,14 +13,14 @@ using std::pair, std::string, std::unordered_map, std::vector;
 // Temporary Results
 // TODO(KwanHW): Integrate when PKB comes in
 struct StatementResult {
-   vector<int> lines;
-   vector<pair<int,int>> linePairs;
+  vector<int> lines;
+  vector<pair<int, int>> linePairs;
 };
 
 struct EntityResult {
-    vector<int> lines;
-    vector<string> entities;
-    vector<pair<int,string>> enitityPairs;
+  vector<int> lines;
+  vector<string> entities;
+  vector<pair<int, string>> enitityPairs;
 };
 
 typedef unordered_map<PQL_VAR_NAME, StatementResult> STATEMENT_MAP;

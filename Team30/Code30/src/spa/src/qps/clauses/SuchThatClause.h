@@ -6,6 +6,6 @@
 #include "ClauseArgument.h"
 
 class SuchThatClause: public Clause {
-public:
+ public:
   virtual ~SuchThatClause() = default;
 };
