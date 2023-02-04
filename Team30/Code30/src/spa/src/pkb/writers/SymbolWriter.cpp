@@ -1,6 +1,3 @@
-//
-// Created by Ddx on 3/2/23.
-//
 #include "SymbolWriter.h"
 
 SymbolWriter::SymbolWriter(SymbolStorage *symbolStorage) {

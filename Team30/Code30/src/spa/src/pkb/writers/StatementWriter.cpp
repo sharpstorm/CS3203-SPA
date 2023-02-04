@@ -1,6 +1,3 @@
-//
-// Created by Ddx on 3/2/23.
-//
 #include "StatementWriter.h"
 
 StatementWriter::StatementWriter(StatementStorage *statementStorage) {
