@@ -15,8 +15,14 @@ QueryResult* ParentTClause::evaluateOn() {
   StatementResult statementResult;
   statementResult.linePairs = vector<pair<int, int>>({{3, 4}, {3, 5}, {3, 6}});
   statementResult.lines = {3, 4, 5, 6};
+  statementResult.isStaticTrue = false;
 
   QueryResult* queryResult = new QueryResult();
+  if (!left.isSynonym() && !right.isSynonym()) {
+    queryResult->setIsStaticTrue(true);
+    return queryResult;
+  }
+
   if (left.isSynonym()) {
     queryResult->addToStatementMap(left.getSynonymName(), statementResult);
   }

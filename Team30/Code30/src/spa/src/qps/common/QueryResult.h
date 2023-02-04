@@ -15,14 +15,14 @@ using std::pair, std::string, std::unordered_map, std::vector;
 struct StatementResult {
   vector<int> lines;
   vector<pair<int, int>> linePairs;
-  bool isStatic;
+  bool isStaticTrue;
 };
 
 struct EntityResult {
   vector<int> lines;
   vector<string> entities;
   vector<pair<int, string>> enitityPairs;
-  bool isStatic;
+  bool isStaticTrue;
 };
 
 typedef unordered_map<PQL_VAR_NAME, StatementResult> STATEMENT_MAP;
@@ -32,6 +32,7 @@ class QueryResult {
   STATEMENT_MAP statementMap;
   ENTITY_MAP entityMap;
   string error;
+  bool isStaticTrue;
 
  public:
   bool isStatementMapEmpty();
@@ -44,6 +45,8 @@ class QueryResult {
   EntityResult* getFromEntityMap(PQL_VAR_NAME var);
   string getError();
   void setError(string errorMessage);
+  bool getIsStaticTrue();
+  void setIsStaticTrue(bool staticRes);
   QueryResult* resultFromVariable(PQLQueryVariable queryVar);
   virtual ~QueryResult() = default;
 };

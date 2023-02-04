@@ -47,6 +47,14 @@ void QueryResult::setError(string errorMessage) {
   error = errorMessage;
 }
 
+bool QueryResult::getIsStaticTrue() {
+  return isStaticTrue;
+}
+
+void QueryResult::setIsStaticTrue(bool staticRes) {
+  isStaticTrue = staticRes;
+}
+
 QueryResult* QueryResult::resultFromVariable(PQLQueryVariable queryVar) {
   QueryResult* queryResult = new QueryResult();
   PQL_VAR_NAME var = queryVar.name;

@@ -7,6 +7,10 @@ string *ResultProjector::project(QueryResult* queryResult) {
         return new string(queryResult->getError());
     }
 
+    if (queryResult->getIsStaticTrue()) {
+      return new string();
+    }
+
     string result;
     if (queryResult->isEntityMapEmpty()) {
       STATEMENT_MAP statementMap = queryResult->getStatementMap();

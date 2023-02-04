@@ -18,8 +18,14 @@ QueryResult* FollowsTClause::evaluateOn() {
                                                       {4, 5}, {1, 3}, {1, 4},
                                                       {1, 5}});
   statementResult.lines = {1, 2, 3, 4, 5};
+  statementResult.isStaticTrue = false;
 
   QueryResult* queryResult = new QueryResult();
+  if (!left.isSynonym() && !right.isSynonym()) {
+    queryResult->setIsStaticTrue(true);
+    return queryResult;
+  }
+
   if (left.isSynonym()) {
     queryResult->addToStatementMap(left.getSynonymName(), statementResult);
   }

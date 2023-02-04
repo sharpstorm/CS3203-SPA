@@ -16,8 +16,14 @@ QueryResult* FollowsClause::evaluateOn() {
   statementResult.linePairs = vector<pair<int, int>>({{1, 2}, {2, 3}, {3, 4},
                                                       {4, 5}});
   statementResult.lines = {1, 2, 3, 4, 5};
+  statementResult.isStaticTrue = false;
 
   QueryResult* queryResult = new QueryResult();
+  if (!left.isSynonym() && !right.isSynonym()) {
+    queryResult->setIsStaticTrue(true);
+    return queryResult;
+  }
+
   if (left.isSynonym()) {
     queryResult->addToStatementMap(left.getSynonymName(), statementResult);
   }
