@@ -11,9 +11,15 @@ class HashKeyTable : public BaseTable<K, V> {
   std::unordered_map<K, std::unordered_set<V>> table;
 
  public:
-  HashKeyTable();
+  HashKeyTable() : table() {}
 
-  void set(K key, V value);
+  void set(K key, V value) override { table[key].insert(value); }
 
-  std::unordered_set<V> get(K key);
+  std::unordered_set<V> get(K key) const override {
+    auto iter = table.find(key);
+    if (iter != table.end()) {
+      return iter->second;
+    }
+    return {};
+  }
 };

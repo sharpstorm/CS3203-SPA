@@ -10,9 +10,9 @@ class ContiguousTable : public BaseTable<int, V> {
   std::unordered_set<V> table[10];
 
  public:
-  ContiguousTable();
+  ContiguousTable() : table() {}
 
-  void set(int key, V value);
+  void set(int key, V value) override { table[key].insert(value); }
 
-  std::unordered_set<V> get(int key);
+  std::unordered_set<V> get(int key) const override { return table[key]; }
 };

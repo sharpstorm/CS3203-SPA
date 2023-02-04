@@ -5,6 +5,7 @@
 template <typename K, typename V>
 class BaseTable {
  public:
-  virtual void set(K key, V value) {}
-  virtual std::unordered_set<V> get(K key) {}
+  virtual ~BaseTable() {}
+  virtual void set(K key, V value) = 0;
+  virtual std::unordered_set<V> get(K key) const = 0;
 };
