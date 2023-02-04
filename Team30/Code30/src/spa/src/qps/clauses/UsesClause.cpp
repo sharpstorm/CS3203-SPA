@@ -4,7 +4,7 @@ UsesClause::UsesClause(ClauseArgument leftArg, ClauseArgument rightArg):
   left(leftArg), right(rightArg) {
 }
 
-IntermediateResultSet* UsesClause::evaluateOn() {
+QueryResult* UsesClause::evaluateOn() {
   return nullptr;
 }
 

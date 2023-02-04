@@ -1,4 +1,5 @@
 #include <memory>
+
 #include "PQLUsesClauseContext.h"
 #include "../../../../clauses/UsesClause.h"
 

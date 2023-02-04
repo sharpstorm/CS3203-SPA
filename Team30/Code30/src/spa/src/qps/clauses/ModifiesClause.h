@@ -10,6 +10,6 @@ class ModifiesClause: public SuchThatClause {
 
  public:
   ModifiesClause(ClauseArgument left, ClauseArgument right);
-  IntermediateResultSet* evaluateOn();
+  QueryResult* evaluateOn();
   bool validateArgTypes(VariableTable *variables);
 };
