@@ -12,6 +12,7 @@ class ASTNode {
   virtual void accept() = 0;
   virtual string toString() = 0;
   vector<shared_ptr<ASTNode>> getChildren();
+  void setChild(int index, shared_ptr<ASTNode> node);
 
  protected:
   vector<shared_ptr<ASTNode>> children;
