@@ -23,6 +23,10 @@ PQLQueryVariable* PQLQuery::getVariable(PQL_VAR_NAME name) {
   return &item->second;
 }
 
+PQLQueryVariable PQLQuery::getResultVariable() {
+  return resultVariable;
+}
+
 vector<shared_ptr<IEvaluatable>> PQLQuery::getEvaluatables() {
   vector<shared_ptr<IEvaluatable>> evals = vector<shared_ptr<IEvaluatable>>();
   for (shared_ptr<Clause> ie : clauses) {

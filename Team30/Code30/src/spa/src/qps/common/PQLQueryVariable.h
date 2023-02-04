@@ -6,9 +6,11 @@
 
 using std::unordered_map;
 
-struct PQLQueryVariable {
-    PQLSynonymType type;
-    PQL_VAR_NAME name;
+class PQLQueryVariable {
+ public:
+  PQLSynonymType type;
+  PQL_VAR_NAME name;
+  bool operator==(const PQLQueryVariable& other) const;
 };
 
 typedef unordered_map<string, PQLQueryVariable> VariableTable;
