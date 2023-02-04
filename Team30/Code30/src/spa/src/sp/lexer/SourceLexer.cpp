@@ -113,6 +113,10 @@ vector<SourceToken> SourceLexer::tokenize(string* programLines) {
     hasSeenChar = false;
   }
 
+  if (buffer.length() > 0) {
+    resultVector.push_back(resolveStringToken(buffer, hasSeenChar));
+  }
+
   return resultVector;
 }
 
