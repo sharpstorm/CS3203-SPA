@@ -7,7 +7,8 @@ AbstractMathASTNode::AbstractMathASTNode(string repr) : repr(repr) {
 }
 
 string AbstractMathASTNode::toString() {
-  return repr + ":  left:" + getLeftChild()->toString();
+  return repr + ":  left:" + getLeftChild()->toString()
+              + ": right: " + getRightChild()->toString();
 }
 
 void AbstractMathASTNode::accept() {
