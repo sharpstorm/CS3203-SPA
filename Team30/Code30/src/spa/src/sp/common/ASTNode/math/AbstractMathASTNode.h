@@ -11,6 +11,7 @@ class AbstractMathASTNode: public AbstractBinaryASTNode {
   virtual ~AbstractMathASTNode() = default;
   void accept();
   string toString();
+  int getPriority();
 
  protected:
   AbstractMathASTNode(string repr);

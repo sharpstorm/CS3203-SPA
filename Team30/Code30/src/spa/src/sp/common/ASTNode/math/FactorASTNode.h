@@ -2,7 +2,8 @@
 
 #include "AbstractMathASTNode.h"
 
-class PlusASTNode: public AbstractMathASTNode {
+class FactorASTNode: public AbstractMathASTNode {
  public:
-  PlusASTNode(): AbstractMathASTNode("+") {}
+    FactorASTNode(): AbstractMathASTNode("f") {}
+    int getPriority() {return 0;}
 };

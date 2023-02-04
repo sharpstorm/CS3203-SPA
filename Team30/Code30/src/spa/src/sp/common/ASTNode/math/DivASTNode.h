@@ -2,8 +2,8 @@
 
 #include "AbstractMathASTNode.h"
 
-class TimesASTNode: public AbstractMathASTNode {
+class DivASTNode: public AbstractMathASTNode {
  public:
-  TimesASTNode(): AbstractMathASTNode("*") {}
+    DivASTNode(): AbstractMathASTNode("/") {}
     int getPriority() {return 1;}
 };

@@ -5,4 +5,5 @@
 class PlusASTNode: public AbstractMathASTNode {
  public:
   PlusASTNode(): AbstractMathASTNode("+") {}
+  int getPriority() {return 2;}
 };
