@@ -11,33 +11,37 @@ string *ResultProjector::project(QueryResult* queryResult) {
       return new string();
     }
 
-    string result;
     if (queryResult->isEntityMapEmpty()) {
       STATEMENT_MAP statementMap = queryResult->getStatementMap();
-      projectStatements(&result, statementMap);
+      return projectStatements( statementMap);
     } else if (queryResult->isStatementMapEmpty()) {
       ENTITY_MAP entityMap = queryResult->getEntityMap();
-      projectEntities(&result, entityMap);
+      return projectEntities( entityMap);
     }
 
-    return &result;
+    return new string();
 }
 
-void ResultProjector::projectStatements(string *result,
-                                        STATEMENT_MAP statementMap) {
+string* ResultProjector::projectStatements(STATEMENT_MAP statementMap) {
+  string* result = new string();
   for (auto it=statementMap.begin(); it != statementMap.end(); ++it) {
     StatementResult statementResult = it->second;
     for (int stmt : statementResult.lines) {
       *result += to_string(stmt);
     }
   }
+
+  return result;
 }
 
-void ResultProjector::projectEntities(string *result, ENTITY_MAP entityMap) {
+string* ResultProjector::projectEntities(ENTITY_MAP entityMap) {
+  string* result = new string();
   for (auto it=entityMap.begin(); it != entityMap.end(); ++it)  {
     EntityResult entityResult = it->second;
     for (string &entity : entityResult.entities) {
       *result += entity;
     }
   }
+
+  return result;
 }
