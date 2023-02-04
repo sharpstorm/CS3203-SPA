@@ -9,6 +9,11 @@ bool TermContext::validate(SourceParseState *state) {
 
 shared_ptr<ASTNode> TermContext::generateSubtree(SourceParseState *state) {
 
+
+  if (state->isAtLast()) {
+    return contextProvider->getContext(FACTOR_CONTEXT)->generateSubtree(state);
+  }
+
   // if current constant / variable is followed by a *, /, % or ;, return constant / variable
   if (state->peekNextToken()->isType(SIMPLE_TOKEN_TIMES) ||
       state->peekNextToken()->isType(SIMPLE_TOKEN_DIV) ||
@@ -38,17 +43,19 @@ shared_ptr<ASTNode> TermContext::generateSubtree(SourceParseState *state) {
   switch(token->getType()) {
     case SIMPLE_TOKEN_TIMES:
       middleNode = generateTimes(state, leftNode);
+      break;
     case SIMPLE_TOKEN_DIV:
-      middleNode = generateTimes(state, leftNode);
+      middleNode = generateDiv(state, leftNode);
+      break;
     case SIMPLE_TOKEN_MOD:
-      middleNode = generateTimes(state, leftNode);
+      middleNode = generateMod(state, leftNode);
       break;
   }
 
   // re-root
   if (toReRoot) {
-    middleNode->setRightChild(contextProvider->getContext(TERM_CONTEXT)->generateSubtree(state));
     state->getCached()->setChild(1, middleNode);
+    middleNode->setRightChild(contextProvider->getContext(TERM_CONTEXT)->generateSubtree(state));
   } else {
     state->setCached(middleNode);
     middleNode->setRightChild(contextProvider->getContext(TERM_CONTEXT)->generateSubtree(state));
