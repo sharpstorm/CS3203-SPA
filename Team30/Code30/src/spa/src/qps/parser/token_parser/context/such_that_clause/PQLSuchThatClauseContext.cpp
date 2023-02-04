@@ -8,9 +8,7 @@ PQLSuchThatClauseContext::PQLSuchThatClauseContext() {
 ClauseArgument PQLSuchThatClauseContext::extractStatementRef(
     TokenParseState* state) {
   if (state->getCurrentToken()->isType(PQL_TOKEN_INTEGER)) {
-    int value = stoi(state->getCurrentToken()->tokenData);
-    state->advanceToken();
-    return ClauseArgument(value);
+    return extractStatement(state);
   }
 
   return extractCommonRef(state);
@@ -19,12 +17,18 @@ ClauseArgument PQLSuchThatClauseContext::extractStatementRef(
 ClauseArgument PQLSuchThatClauseContext::extractEntityRef(
     TokenParseState* state) {
   if (state->getCurrentToken()->isType(PQL_TOKEN_QUOTE)) {
-    state->advanceToken();
-    PQLToken* entityRef = expectVarchar(state);
-    expect(state, PQL_TOKEN_QUOTE);
-    return ClauseArgument(entityRef->tokenData);
+    return extractEntity(state);
   }
 
+  return extractCommonRef(state);
+}
+
+ClauseArgument PQLSuchThatClauseContext::extractAnyRef(TokenParseState* state) {
+  if (state->getCurrentToken()->isType(PQL_TOKEN_INTEGER)) {
+    return extractStatement(state);
+  } else if (state->getCurrentToken()->isType(PQL_TOKEN_QUOTE)) {
+    return extractEntity(state);
+  }
   return extractCommonRef(state);
 }
 
@@ -45,6 +49,21 @@ ClauseArgument PQLSuchThatClauseContext::extractCommonRef(
   }
 
   return ClauseArgument(*var);
+}
+
+ClauseArgument PQLSuchThatClauseContext::extractEntity(
+    TokenParseState* state) {
+  state->advanceToken();
+  PQLToken* entityRef = expectVarchar(state);
+  expect(state, PQL_TOKEN_QUOTE);
+  return ClauseArgument(entityRef->tokenData);
+}
+
+ClauseArgument PQLSuchThatClauseContext::extractStatement(
+    TokenParseState* state) {
+  int value = stoi(state->getCurrentToken()->tokenData);
+  state->advanceToken();
+  return ClauseArgument(value);
 }
 
 void PQLSuchThatClauseContext::parse(TokenParseState *parserState) {

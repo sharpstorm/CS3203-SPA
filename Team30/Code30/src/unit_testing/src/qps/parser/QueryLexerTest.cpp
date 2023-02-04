@@ -79,10 +79,11 @@ TEST_CASE("Test QPS Lexer Symbols") {
       PQLToken{PQL_TOKEN_PERIOD},
       PQLToken{PQL_TOKEN_UNDERSCORE},
       PQLToken{PQL_TOKEN_QUOTE},
+      PQLToken{PQL_TOKEN_ASTRIX},
   };
 
-  testPQLLexing(";(),._\"", symbolSet);
-  testPQLLexing("; ( ) , . _ \" ", symbolSet);
+  testPQLLexing(";(),._\"*", symbolSet);
+  testPQLLexing("; ( ) , . _ \" * ", symbolSet);
 }
 
 TEST_CASE("Test QPS Lexer Relationships") {
@@ -92,7 +93,7 @@ TEST_CASE("Test QPS Lexer Relationships") {
   testPQLLexSingleToken("Modifies", PQL_TOKEN_MODIFIES);
 }
 
-TEST_CASE("Test Lex full query ") {
+TEST_CASE("Test QPS Lexer full query") {
   testPQLLexing("assign a,b; Select a such that Follows(a, b)", vector<PQLToken>{
     PQLToken{PQL_TOKEN_ASSIGN},
     PQLToken{PQL_TOKEN_STRING, "a"},
@@ -109,5 +110,27 @@ TEST_CASE("Test Lex full query ") {
     PQLToken{PQL_TOKEN_COMMA},
     PQLToken{PQL_TOKEN_STRING, "b"},
     PQLToken{PQL_TOKEN_BRACKET_CLOSE},
+  });
+}
+
+TEST_CASE("Test QPS Lexer Case Sensitivity") {
+  testPQLLexing("Stmt Read Print Call While If Assign Variable Constant Procedure", vector<PQLToken>{
+      PQLToken{PQL_TOKEN_STRING, "Stmt"},
+      PQLToken{PQL_TOKEN_STRING, "Read"},
+      PQLToken{PQL_TOKEN_STRING, "Print"},
+      PQLToken{PQL_TOKEN_STRING, "Call"},
+      PQLToken{PQL_TOKEN_STRING, "While"},
+      PQLToken{PQL_TOKEN_STRING, "If"},
+      PQLToken{PQL_TOKEN_STRING, "Assign"},
+      PQLToken{PQL_TOKEN_STRING, "Variable"},
+      PQLToken{PQL_TOKEN_STRING, "Constant"},
+      PQLToken{PQL_TOKEN_STRING, "Procedure"}
+  });
+
+  testPQLLexing("sElect Such That Pattern", vector<PQLToken>{
+      PQLToken{PQL_TOKEN_STRING, "sElect"},
+      PQLToken{PQL_TOKEN_STRING, "Such"},
+      PQLToken{PQL_TOKEN_STRING, "That"},
+      PQLToken{PQL_TOKEN_STRING, "Pattern"}
   });
 }

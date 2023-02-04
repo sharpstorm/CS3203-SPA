@@ -12,7 +12,10 @@ class PQLSuchThatClauseContext: public AbstractPQLContext {
   PQLSuchThatClauseContext();
   ClauseArgument extractStatementRef(TokenParseState* state);
   ClauseArgument extractEntityRef(TokenParseState* state);
+  ClauseArgument extractAnyRef(TokenParseState* state);
 
  private:
   ClauseArgument extractCommonRef(TokenParseState* state);
+  ClauseArgument extractEntity(TokenParseState* state);
+  ClauseArgument extractStatement(TokenParseState* state);
 };

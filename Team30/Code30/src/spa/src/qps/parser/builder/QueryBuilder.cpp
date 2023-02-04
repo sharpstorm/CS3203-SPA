@@ -7,9 +7,11 @@ QueryBuilder::QueryBuilder() {
 }
 
 void QueryBuilder::setResultVariable(PQL_VAR_NAME name) {
+  resultVariable.name = name;
 }
 
 void QueryBuilder::setResultType(PQLSynonymType type) {
+  resultVariable.type = type;
 }
 
 void QueryBuilder::addVariable(PQL_VAR_NAME name, PQLSynonymType type) {
@@ -29,7 +31,7 @@ PQLSynonymType* QueryBuilder::getVariableType(PQL_VAR_NAME name) {
     return nullptr;
   }
 
-  return &var->type;
+  return &(var->type);
 }
 
 PQLQueryVariable* QueryBuilder::getVariable(PQL_VAR_NAME name) {
