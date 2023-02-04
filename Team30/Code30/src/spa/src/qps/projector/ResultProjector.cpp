@@ -7,17 +7,41 @@ string *ResultProjector::project(QueryResult* queryResult) {
         return new string(queryResult->getError());
     }
 
-    string result;
-    if (queryResult->getEntityList().size() == 0) {
-        // Convert statement list to a list of strings
-        for (int stmt : queryResult->getStatementList()) {
-            result += to_string(stmt);
-        }
-    } else {
-        for (string &entity : queryResult->getEntityList()) {
-            result += entity;
-        }
+    if (queryResult->getIsStaticTrue()) {
+      return new string();
     }
 
-    return &result;
+    if (queryResult->isEntityMapEmpty()) {
+      STATEMENT_MAP statementMap = queryResult->getStatementMap();
+      return projectStatements( statementMap);
+    } else if (queryResult->isStatementMapEmpty()) {
+      ENTITY_MAP entityMap = queryResult->getEntityMap();
+      return projectEntities( entityMap);
+    }
+
+    return new string();
+}
+
+string* ResultProjector::projectStatements(STATEMENT_MAP statementMap) {
+  string* result = new string();
+  for (auto it=statementMap.begin(); it != statementMap.end(); ++it) {
+    StatementResult statementResult = it->second;
+    for (int stmt : statementResult.lines) {
+      *result += to_string(stmt);
+    }
+  }
+
+  return result;
+}
+
+string* ResultProjector::projectEntities(ENTITY_MAP entityMap) {
+  string* result = new string();
+  for (auto it=entityMap.begin(); it != entityMap.end(); ++it)  {
+    EntityResult entityResult = it->second;
+    for (string &entity : entityResult.entities) {
+      *result += entity;
+    }
+  }
+
+  return result;
 }

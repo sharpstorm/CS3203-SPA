@@ -9,8 +9,7 @@ void PQLFollowsClauseContext::parse(TokenParseState *parserState) {
   PQLSuchThatClauseContext::parse(parserState);
   bool isTransitive = false;
 
-  PQLToken* nextToken = expect(parserState,
-                               PQL_TOKEN_BRACKET_OPEN,
+  PQLToken* nextToken = expect(parserState, PQL_TOKEN_BRACKET_OPEN,
                                PQL_TOKEN_ASTRIX);
   if (nextToken->isType(PQL_TOKEN_ASTRIX)) {
     isTransitive = true;

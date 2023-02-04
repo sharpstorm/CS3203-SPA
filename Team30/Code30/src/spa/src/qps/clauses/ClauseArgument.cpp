@@ -19,6 +19,10 @@ ClauseArgument::ClauseArgument(string ident) {
   this->ident = ident;
 }
 
+PQL_VAR_NAME ClauseArgument::getSynonymName() {
+  return this->synonym.name;
+}
+
 bool ClauseArgument::isWildcard() {
   return this->argType == CLAUSE_ARG_WILDCARD;
 }

@@ -25,6 +25,7 @@ class ClauseArgument {
   explicit ClauseArgument(int stmt);
   explicit ClauseArgument(string ident);
 
+  PQL_VAR_NAME getSynonymName();
   bool isWildcard();
   bool isSynonym();
   bool isStmtRef();
