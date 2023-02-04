@@ -2,7 +2,7 @@
 
 #include "../../common/Types.h"
 #include "../storage/StructureMappingProvider.h"
-#include "IsStmtOfTypePredicate.h"
+#include "Predicate.h"
 
 class PredicateFactory {
  private:
@@ -10,5 +10,6 @@ class PredicateFactory {
 
  public:
   explicit PredicateFactory(const StructureMappingProvider* p);
-  IsStmtOfTypePredicate getIsStmtOfTypePredicate(StmtType stmtType) const;
+
+  Predicate<int> getPredicate(StmtRef stmtRef) const;
 };

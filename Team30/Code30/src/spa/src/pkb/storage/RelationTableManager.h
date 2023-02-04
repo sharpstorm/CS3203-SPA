@@ -26,12 +26,14 @@ class RelationTableManager {
     reverseTable->set(arg2, arg1);
   }
 
-  unordered_set<V> getByFirstArg(K arg1) { return table->get(arg1); }
+  unordered_set<V> getByFirstArg(K arg1) const { return table->get(arg1); }
 
-  unordered_set<K> getBySecondArg(V arg2) { return reverseTable->get(arg2); }
+  unordered_set<K> getBySecondArg(V arg2) const {
+    return reverseTable->get(arg2);
+  }
 
   QueryResult<K, V> query(unordered_set<K> arg1Values,
-                          Predicate<V> arg2Predicate) {
+                          Predicate<V> arg2Predicate) const {
     QueryResult<K, V> result;
     for (auto arg1 : arg1Values) {
       auto arg2Values = table->get(arg1);
@@ -45,7 +47,7 @@ class RelationTableManager {
   }
 
   QueryResult<K, V> query(Predicate<K> arg1Predicate,
-                          unordered_set<V> arg2Values) {
+                          unordered_set<V> arg2Values) const {
     QueryResult<K, V> result;
     for (auto arg2 : arg2Values) {
       auto arg1Values = reverseTable->get(arg2);
@@ -58,11 +60,11 @@ class RelationTableManager {
     return result;
   }
 
-  QueryResult<K, V> query(K arg1, Predicate<V> arg2Predicate) {
-    return query(unordered_set<K>({arg1}), arg2Predicate);
+  QueryResult<K, V> query(Predicate<K> arg1Predicate, V arg2) const {
+    return query(arg1Predicate, unordered_set<V>({arg2}));
   }
 
-  QueryResult<K, V> query(Predicate<K> arg1Predicate, V arg2) {
-    return query(arg1Predicate, unordered_set<V>({arg2}));
+  QueryResult<K, V> query(K arg1, Predicate<V> arg2Predicate) const {
+    return query(unordered_set<K>({arg1}), arg2Predicate);
   }
 };

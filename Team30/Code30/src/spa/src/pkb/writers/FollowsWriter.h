@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../storage/FollowsStorage.h"
+#include "../storage/StorageTypes.h"
 
 class FollowsWriter {
  public:

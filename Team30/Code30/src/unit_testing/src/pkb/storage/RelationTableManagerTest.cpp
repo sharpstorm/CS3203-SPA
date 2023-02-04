@@ -1,5 +1,4 @@
 
-#include <functional>
 #include <memory>
 #include <string>
 #include <unordered_set>
@@ -17,7 +16,7 @@ using std::make_shared;
 using std::string;
 using std::unordered_set;
 
-TEST_CASE("RelationTableManager getByArg1 getByArg2") {
+TEST_CASE("RelationTableManager insert and getByArg1, getByArg2") {
   RelationTableManager<int, string> tableManager(
       make_shared<ContiguousTable<string>>(),
       make_shared<HashKeyTable<string, int>>());

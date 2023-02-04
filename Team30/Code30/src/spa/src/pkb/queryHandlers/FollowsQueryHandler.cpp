@@ -1,11 +1,25 @@
+
 #include "FollowsQueryHandler.h"
 
-FollowsQueryHandler::FollowsQueryHandler(const FollowsStorage* store,
-                                         const PredicateFactory* predFactory)
-    : followsStore(store), predicateFactory(predFactory) {}
+FollowsQueryHandler::FollowsQueryHandler(
+    const FollowsStorage* store, const PredicateFactory* predicateFactory,
+    const StructureMappingProvider* stuctureProvider)
+    : store(store),
+      predicateFactory(predicateFactory),
+      structureProvider(stuctureProvider) {}
 
 QueryResult<int, int> FollowsQueryHandler::queryFollows(StmtRef s1,
                                                         StmtRef s2) const {
-  followsStore->test();
-  return QueryResult<int, int>();
+  if (s1.lineNum != 0) {
+    // known arg1 and unknown arg2
+    // or both args known
+    return store->query(s1.lineNum, predicateFactory->getPredicate(s2));
+  } else if (s2.lineNum != 0) {
+    // unknown arg1 and known arg2
+    return store->query(predicateFactory->getPredicate(s1), s2.lineNum);
+  } else {
+    // both args unknown
+    return store->query(structureProvider->getStatementsOfType(s1.type),
+                        predicateFactory->getPredicate(s2));
+  }
 }

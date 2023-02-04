@@ -4,14 +4,11 @@
 
 #include "tables/ContiguousTable.h"
 
-FollowsStorage::FollowsStorage()
-    : table(new ContiguousTable<int>()),
-      reverseTable(new ContiguousTable<int>()),
-      tableManager(RelationTableManager(table, reverseTable)) {}
+using std::make_shared;
 
-FollowsStorage::~FollowsStorage() {
-  delete table;
-  delete reverseTable;
-}
+FollowsStorageX::FollowsStorageX()
+    : tableManager(RelationTableManager<int, int>(
+          make_shared<ContiguousTable<int>>(),
+          make_shared<ContiguousTable<int>>())) {}
 
-void FollowsStorage::test() const {}
+void FollowsStorageX::test() const {}

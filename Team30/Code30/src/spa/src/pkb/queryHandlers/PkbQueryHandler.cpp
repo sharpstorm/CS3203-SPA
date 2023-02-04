@@ -1,7 +1,8 @@
 #include "PkbQueryHandler.h"
 
 PkbQueryHandler::PkbQueryHandler(PKB* pkb)
-    : followsHandler(pkb->followsStore, pkb->predicateFactory),
+    : followsHandler(pkb->followsStore, pkb->predicateFactory,
+                     pkb->structureProvider),
       parentHandler(pkb->parentStore) {}
 
 QueryResult<int, int> PkbQueryHandler::queryFollows(StmtRef s1, StmtRef s2) {
