@@ -4,5 +4,5 @@
 
 class StructureMappingProvider {
  public:
-  bool IsStmtOfTypePredicate(int s, StmtType stmtType) const;
+  bool isStatementOfType(int s, StmtType stmtType) const;
 };

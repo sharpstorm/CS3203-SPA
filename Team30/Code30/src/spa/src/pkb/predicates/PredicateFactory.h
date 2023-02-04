@@ -6,7 +6,7 @@
 
 class PredicateFactory {
  private:
-  StructureMappingProvider* provider;
+  const StructureMappingProvider* provider;
 
  public:
   explicit PredicateFactory(const StructureMappingProvider* p);

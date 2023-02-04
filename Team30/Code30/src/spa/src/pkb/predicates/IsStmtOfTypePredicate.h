@@ -5,10 +5,10 @@
 
 class IsStmtOfTypePredicate : public Predicate<int> {
  private:
-  StructureMappingProvider* provider;
+  const StructureMappingProvider* provider;
   StmtType stmtType;
 
  public:
-  IsStmtOfTypePredicate(StructureMappingProvider* p, int x);
-  bool operator()(int y);
+  IsStmtOfTypePredicate(const StructureMappingProvider* p, StmtType stmtType);
+  bool operator()(int stmt) const;
 };

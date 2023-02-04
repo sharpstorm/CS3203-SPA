@@ -1,8 +1,9 @@
 #include "IsStmtOfTypePredicate.h"
 
-IsStmtOfTypePredicate::IsStmtOfTypePredicate(StructureMappingProvider* p, int x)
-    : provider(p), x(x) {}
+IsStmtOfTypePredicate::IsStmtOfTypePredicate(const StructureMappingProvider* p,
+                                             StmtType stmtType)
+    : provider(p), stmtType(stmtType) {}
 
-bool IsStmtOfTypePredicate::operator()(int y) {
-  return provider->isStatementOfType(x, stmtType);
+bool IsStmtOfTypePredicate::operator()(int stmt) const {
+  return provider->isStatementOfType(stmt, stmtType);
 }

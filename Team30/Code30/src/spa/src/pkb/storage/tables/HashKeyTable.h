@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "BaseTable.h"
 // map K -> set<V>
 template <typename K, typename V>
 class HashKeyTable : public BaseTable<K, V> {

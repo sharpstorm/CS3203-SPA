@@ -2,6 +2,7 @@
 
 #include <unordered_set>
 
+#include "BaseTable.h"
 // map int -> set<V>
 template <typename V>
 class ContiguousTable : public BaseTable<int, V> {
