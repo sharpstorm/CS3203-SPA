@@ -5,13 +5,18 @@ using namespace std;
 
 
 GrammarContextProvider::GrammarContextProvider() : factorContext(this),
-termContext(this), expressionContext(this) {
+termContext(this), expressionContext(this), relationalFactorContext(this),
+                                                   relationalExpressionContext(this){
 
 }
 
 SourceParseContext* GrammarContextProvider::getContext(
     SourceGrammarContextType type) {
   switch (type) {
+    case REL_CONTEXT:
+      return &relationalExpressionContext;
+    case REL_FACTOR_CONTEXT:
+      return &relationalFactorContext;
     case EXPR_CONTEXT:
       return &expressionContext;
     case TERM_CONTEXT:
@@ -23,38 +28,6 @@ SourceParseContext* GrammarContextProvider::getContext(
     case VARIABLE_CONTEXT:
       return &variableParseContext;
   }
-  /*
-  switch (state->getCurrTokenType()) {
-      case (Token::SIMPLE_TYPE_NAME):
-          if (state->getCurrTokenValue() == "procedure") {
 
-          } else if (state->getCurrTokenValue() == "read") {
-
-          } else if (state->getCurrTokenValue() == "print") {
-
-          } else if (state->getCurrTokenValue() == "while") {
-
-          } else if (state->getCurrTokenValue() == "if") {
-
-          } else {
-              ctx = &variableParseContext;
-          }
-          break;
-      case (Token::SIMPLE_TYPE_TIMES):
-      case (Token::SIMPLE_TYPE_DIV):
-      case (Token::SIMPLE_TYPE_MOD):
-          ctx = &termParseContext;
-          break;
-      case (Token::SIMPLE_TYPE_MINUS):
-      case (Token::SIMPLE_TYPE_PLUS):
-          ctx = &expressionParseContext;
-          break;
-      case (Token::SIMPLE_TYPE_INTEGER):
-          ctx =  &constantParseContext;
-          break;
-      case (Token::SIMPLE_TYPE_BRACKET_ROUND_LEFT):
-          ctx = &factorParseContext;
-          break;
-  }*/
   return nullptr;
 }
