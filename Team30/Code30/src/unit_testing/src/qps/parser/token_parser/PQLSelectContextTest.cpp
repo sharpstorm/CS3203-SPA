@@ -9,7 +9,7 @@ TEST_CASE("Test PQL Select parsing") {
   auto dummyStream = vector<PQLToken>{
       PQLToken{PQL_TOKEN_STRING, "s"},
   };
-  TokenParseState state(&dummyStream);
+  QueryTokenParseState state(&dummyStream);
   state.getQueryBuilder()->addVariable("s", PQL_VAR_TYPE_STMT);
   context.parse(&state);
 
@@ -24,7 +24,7 @@ TEST_CASE("Test PQL Select unknown synonym") {
   auto dummyStream = vector<PQLToken>{
       PQLToken{PQL_TOKEN_STRING, "s"},
   };
-  TokenParseState state(&dummyStream);
+  QueryTokenParseState state(&dummyStream);
   REQUIRE_THROWS_AS(context.parse(&state), QPSParserError);
 }
 
@@ -34,6 +34,6 @@ TEST_CASE("Test PQL Select bad symbol") {
   auto dummyStream = vector<PQLToken>{
       PQLToken{PQL_TOKEN_SEMICOLON},
   };
-  TokenParseState state(&dummyStream);
+  QueryTokenParseState state(&dummyStream);
   REQUIRE_THROWS_AS(context.parse(&state), QPSParserError);
 }

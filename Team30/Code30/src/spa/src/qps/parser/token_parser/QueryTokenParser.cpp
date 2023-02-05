@@ -1,14 +1,14 @@
 #include <memory>
-#include "TokenParser.h"
+#include "QueryTokenParser.h"
 #include "../../errors/QPSParserError.h"
 #include "../builder/QueryBuilderError.h"
 
-TokenParser::TokenParser(vector<PQLToken> tokens) {
+QueryTokenParser::QueryTokenParser(vector<PQLToken> tokens) {
   this->tokens = tokens;
 }
 
-unique_ptr<PQLQuery> TokenParser::build() {
-  TokenParseState state(&this->tokens);
+unique_ptr<PQLQuery> QueryTokenParser::build() {
+  QueryTokenParseState state(&this->tokens);
 
   while (!state.isTokenStreamEnd()) {
     unique_ptr<IPQLContext> context = contextProvider
