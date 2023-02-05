@@ -10,6 +10,7 @@ void testModifiesParsing(vector<PQLToken> inputs) {
   state.advanceStage(TOKEN_PARSE_STAGE_COMMAND);
   state.advanceStage(TOKEN_PARSE_STAGE_CONDITION_MARKER);
   state.getQueryBuilder()->addVariable("s", PQL_VAR_TYPE_STMT);
+  state.getQueryBuilder()->addVariable("v", PQL_VAR_TYPE_VARIABLE);
   context.parse(&state);
 
   auto clauses = state.getQueryBuilder()->build()->getEvaluatables();
@@ -50,7 +51,7 @@ TEST_CASE("Test PQL Modifies 1 Constant Left") {
       PQLToken{PQL_TOKEN_STRING, "main"},
       PQLToken{PQL_TOKEN_QUOTE},
       PQLToken{PQL_TOKEN_COMMA},
-      PQLToken{PQL_TOKEN_STRING, "s"},
+      PQLToken{PQL_TOKEN_STRING, "v"},
       PQLToken{PQL_TOKEN_BRACKET_CLOSE},
   });
 
@@ -58,7 +59,7 @@ TEST_CASE("Test PQL Modifies 1 Constant Left") {
       PQLToken{PQL_TOKEN_BRACKET_OPEN},
       PQLToken{PQL_TOKEN_INTEGER, "1"},
       PQLToken{PQL_TOKEN_COMMA},
-      PQLToken{PQL_TOKEN_INTEGER, "s"},
+      PQLToken{PQL_TOKEN_INTEGER, "v"},
       PQLToken{PQL_TOKEN_BRACKET_CLOSE},
   });
 }
@@ -90,7 +91,7 @@ TEST_CASE("Test PQL Modifies 0 Constant") {
       PQLToken{PQL_TOKEN_BRACKET_OPEN},
       PQLToken{PQL_TOKEN_STRING, "s"},
       PQLToken{PQL_TOKEN_COMMA},
-      PQLToken{PQL_TOKEN_STRING, "s"},
+      PQLToken{PQL_TOKEN_STRING, "v"},
       PQLToken{PQL_TOKEN_BRACKET_CLOSE},
   });
 }

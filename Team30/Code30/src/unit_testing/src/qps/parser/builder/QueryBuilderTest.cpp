@@ -2,6 +2,7 @@
 #include "qps/parser/builder/QueryBuilder.h"
 #include "qps/clauses/FollowsClause.h"
 #include "qps/clauses/ParentClause.h"
+#include "qps/clauses/ModifiesClause.h"
 #include "qps/parser/builder/QueryBuilderError.h"
 
 using std::make_unique, std::move;
@@ -55,4 +56,43 @@ TEST_CASE("Test QueryBuilder Duplicate Variable") {
   qb.addVariable("a", PQL_VAR_TYPE_STMT);
   REQUIRE_THROWS_AS(qb.addVariable("a", PQL_VAR_TYPE_PROCEDURE), QueryBuilderError);
   qb.build();
+}
+
+TEST_CASE("Test QueryBuilder Invalid Clause - Follows") {
+  QueryBuilder qb;
+  qb.addVariable("a", PQL_VAR_TYPE_CONSTANT);
+  qb.addSuchThat(make_unique<FollowsClause>(
+      ClauseArgument(PQLQueryVariable{PQL_VAR_TYPE_CONSTANT, "a"}),
+      ClauseArgument(2)));
+  REQUIRE_THROWS_AS(qb.build(), QueryBuilderError);
+
+  QueryBuilder qb2;
+  qb2.addVariable("a", PQL_VAR_TYPE_CONSTANT);
+  qb2.addSuchThat(make_unique<FollowsClause>(
+      ClauseArgument(2),
+      ClauseArgument(PQLQueryVariable{PQL_VAR_TYPE_CONSTANT, "a"})
+  ));
+  REQUIRE_THROWS_AS(qb2.build(), QueryBuilderError);
+}
+
+TEST_CASE("Test QueryBuilder Invalid Clause - Modifies") {
+  QueryBuilder qb;
+  qb.addVariable("a", PQL_VAR_TYPE_CONSTANT);
+  qb.addSuchThat(make_unique<ModifiesClause>(
+      ClauseArgument(PQLQueryVariable{PQL_VAR_TYPE_CONSTANT, "a"}),
+      ClauseArgument("a")));
+  REQUIRE_THROWS_AS(qb.build(), QueryBuilderError);
+
+  QueryBuilder qb2;
+  qb2.addSuchThat(make_unique<ModifiesClause>(
+      ClauseArgument(CLAUSE_ARG_WILDCARD),
+      ClauseArgument("a")));
+  REQUIRE_THROWS_AS(qb2.build(), QueryBuilderError);
+
+  QueryBuilder qb3;
+  qb3.addVariable("a", PQL_VAR_TYPE_CONSTANT);
+  qb3.addSuchThat(make_unique<ModifiesClause>(
+      ClauseArgument("a"),
+      ClauseArgument(PQLQueryVariable{PQL_VAR_TYPE_CONSTANT, "a"})));
+  REQUIRE_THROWS_AS(qb3.build(), QueryBuilderError);
 }
