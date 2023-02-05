@@ -72,9 +72,7 @@ PQLQueryResult* PQLQueryResult::resultFromVariable(PQLQueryVariable queryVar) {
       }
       break;
     case PQL_VAR_TYPE_VARIABLE:
-      // Fallthrough
     case PQL_VAR_TYPE_CONSTANT:
-      // Fallthrough
     case PQL_VAR_TYPE_PROCEDURE:
       if (getFromEntityMap(var) != nullptr) {
         queryResult->addToEntityMap(var, *getFromEntityMap(var));

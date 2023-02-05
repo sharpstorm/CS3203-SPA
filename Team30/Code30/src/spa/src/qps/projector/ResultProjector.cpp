@@ -26,8 +26,12 @@ string* ResultProjector::projectStatements(STATEMENT_MAP statementMap) {
   string* result = new string();
   for (auto it=statementMap.begin(); it != statementMap.end(); ++it) {
     StatementResult statementResult = it->second;
-    for (int stmt : statementResult.lines) {
-      *result += to_string(stmt);
+    for (auto stmt : statementResult.linePairs) {
+      if (statementResult.isLeftArg) {
+        *result += to_string(stmt.first);
+      } else {
+        *result += to_string(stmt.second);
+      }
     }
   }
 
@@ -38,8 +42,12 @@ string* ResultProjector::projectEntities(ENTITY_MAP entityMap) {
   string* result = new string();
   for (auto it=entityMap.begin(); it != entityMap.end(); ++it)  {
     EntityResult entityResult = it->second;
-    for (string &entity : entityResult.entities) {
-      *result += entity;
+    for (auto &entity : entityResult.enitityPairs) {
+      if (entityResult.isLeftArg) {
+        *result += entity.first;
+      } else {
+        *result += entity.second;
+      }
     }
   }
 

@@ -14,6 +14,7 @@ struct StatementResult {
   vector<int> lines;
   vector<pair<int, int>> linePairs;
   bool isStaticTrue;
+  bool isLeftArg;
 };
 
 struct EntityResult {
@@ -21,6 +22,7 @@ struct EntityResult {
   vector<string> entities;
   vector<pair<int, string>> enitityPairs;
   bool isStaticTrue;
+  bool isLeftArg;
 };
 
 typedef unordered_map<PQL_VAR_NAME, StatementResult> STATEMENT_MAP;
@@ -31,6 +33,7 @@ class PQLQueryResult {
   ENTITY_MAP entityMap;
   string error;
   bool isStaticTrue;
+  bool isLeftArg;
 
  public:
   bool isStatementMapEmpty();
