@@ -15,9 +15,9 @@ class TermContext: public RecursiveParseContext {
   shared_ptr<ASTNode> generateSubtree(SourceParseState* state);
  private:
   shared_ptr<AbstractMathASTNode>
-  generateTimes(SourceParseState* state, shared_ptr<ASTNode> leftNode);
+  generateTimes(shared_ptr<ASTNode> leftNode);
   shared_ptr<AbstractMathASTNode>
-  generateDiv(SourceParseState* state, shared_ptr<ASTNode> leftNode);
+  generateDiv(shared_ptr<ASTNode> leftNode);
   shared_ptr<AbstractMathASTNode>
-  generateMod(SourceParseState* state, shared_ptr<ASTNode> leftNode);
+  generateMod(shared_ptr<ASTNode> leftNode);
 };

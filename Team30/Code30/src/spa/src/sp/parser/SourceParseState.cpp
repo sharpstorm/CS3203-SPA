@@ -12,6 +12,7 @@ SourceParseState::SourceParseState(vector<SourceToken>* t) {
 
 void SourceParseState::advanceToken() {
   if (!isEnd()) {
+    std::cout << "Consume " << tokens->at(curIndex).getType() << "\n";
     curIndex++;
   }
 }

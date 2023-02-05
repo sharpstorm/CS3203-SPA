@@ -11,33 +11,48 @@ bool TermContext::validate(SourceParseState *state) {
 }
 
 shared_ptr<ASTNode> TermContext::generateSubtree(SourceParseState *state) {
-
-  if (!state->peekNextToken()->isType(SIMPLE_TOKEN_PLUS) &&
-      !state->peekNextToken()->isType(SIMPLE_TOKEN_MINUS) &&
-      !state->peekNextToken()->isType(SIMPLE_TOKEN_TIMES) &&
-      !state->peekNextToken()->isType(SIMPLE_TOKEN_DIV) &&
-      !state->peekNextToken()->isType(SIMPLE_TOKEN_MOD) &&
-      !state->peekNextToken()->isType(SIMPLE_TOKEN_INTEGER) &&
-      !state->peekNextToken()->isType(SIMPLE_TOKEN_VARIABLE)) {
-    return contextProvider->getContext(FACTOR_CONTEXT)->generateSubtree(state);
+  if (!state->hasCached()) {
+    // Expect term
+    shared_ptr<ASTNode> firstExpr = contextProvider
+        ->getContext(FACTOR_CONTEXT)->generateSubtree(state);
+    state->setCached(firstExpr);
   }
 
-  if (!state->peekNextToken()->isType(SIMPLE_TOKEN_TIMES)  &&
-      !state->peekNextToken()->isType(SIMPLE_TOKEN_DIV)  &&
-      !state->peekNextToken()->isType(SIMPLE_TOKEN_MOD)) {
-    return contextProvider->getContext(FACTOR_CONTEXT)->generateSubtree(state);
+  SourceToken* curToken = state->getCurrToken();
+  if (curToken == nullptr) {
+    return state->getCached();
+  }
+
+  shared_ptr<AbstractMathASTNode> middleNode;
+  if (curToken->isType(SIMPLE_TOKEN_TIMES)) {
+    middleNode = generateTimes(state->getCached());
+  } else if (curToken->isType(SIMPLE_TOKEN_DIV)) {
+    middleNode = generateDiv(state->getCached());
+  } else if (curToken->isType(SIMPLE_TOKEN_MOD)) {
+    middleNode = generateMod(state->getCached());
   } else {
-    shared_ptr<ASTNode> leftNode = contextProvider->getContext(TERM_CONTEXT)->generateSubtree(state);
-    SourceToken* token = expect(state, SIMPLE_TOKEN_TIMES, SIMPLE_TOKEN_DIV, SIMPLE_TOKEN_MOD);
-    shared_ptr<AbstractMathASTNode> middleNode; middleNode = generateTimes(state, leftNode);
-    middleNode->setRightChild(contextProvider->getContext(FACTOR_CONTEXT)->generateSubtree(state));
-    return middleNode;
+    return state->getCached();
   }
+
+  state->advanceToken();
+  state->clearCached();
+  shared_ptr<ASTNode> rightTerm = contextProvider
+      ->getContext(FACTOR_CONTEXT)->generateSubtree(state);
+  middleNode->setRightChild(rightTerm);
+  state->setCached(middleNode);
+
+  if (state->getCurrToken() == nullptr) {
+    return middleNode;
+  } else if (state->getCurrToken()->isType(SIMPLE_TOKEN_TIMES)
+      || state->getCurrToken()->isType(SIMPLE_TOKEN_DIV)
+      || state->getCurrToken()->isType(SIMPLE_TOKEN_MOD)) {
+    return contextProvider->getContext(FACTOR_CONTEXT)->generateSubtree(state);
+  }
+  return middleNode;
 }
 
 shared_ptr<AbstractMathASTNode>
-TermContext::generateTimes(SourceParseState *state,
-                           shared_ptr<ASTNode> leftNode) {
+TermContext::generateTimes(shared_ptr<ASTNode> leftNode) {
   TimesASTNode* node = new TimesASTNode();
   node->setLeftChild(leftNode);
   shared_ptr<TimesASTNode> newNode = shared_ptr<TimesASTNode>(node);
@@ -45,8 +60,7 @@ TermContext::generateTimes(SourceParseState *state,
 }
 
 shared_ptr<AbstractMathASTNode>
-TermContext::generateDiv(SourceParseState *state,
-                         shared_ptr<ASTNode> leftNode) {
+TermContext::generateDiv(shared_ptr<ASTNode> leftNode) {
   DivASTNode* node = new DivASTNode();
   node->setLeftChild(leftNode);
   shared_ptr<DivASTNode> newNode = shared_ptr<DivASTNode>(node);
@@ -54,8 +68,7 @@ TermContext::generateDiv(SourceParseState *state,
 }
 
 shared_ptr<AbstractMathASTNode>
-TermContext::generateMod(SourceParseState *state,
-                         shared_ptr<ASTNode> leftNode) {
+TermContext::generateMod(shared_ptr<ASTNode> leftNode) {
   ModASTNode* node = new ModASTNode();
   node->setLeftChild(leftNode);
   shared_ptr<ModASTNode> newNode = shared_ptr<ModASTNode>(node);

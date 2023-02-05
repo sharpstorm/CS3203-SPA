@@ -17,8 +17,8 @@ class ExpressionContext: public RecursiveParseContext {
 
  private:
   shared_ptr<PlusASTNode>
-  generatePlus(SourceParseState* state, shared_ptr<ASTNode> leftNode);
+  generatePlus(shared_ptr<ASTNode> leftNode);
 
   shared_ptr<MinusASTNode>
-  generateMinus(SourceParseState* state, shared_ptr<ASTNode> leftNode);
+  generateMinus(shared_ptr<ASTNode> leftNode);
 };
