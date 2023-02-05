@@ -5,6 +5,7 @@
 #include <utility>
 
 #include "catch.hpp"
+#include "common/Types.h"
 #include "pkb/predicates/Predicate.h"
 #include "pkb/predicates/PredicateFactory.h"
 #include "pkb/storage/RelationTableManager.h"
@@ -12,8 +13,8 @@
 #include "pkb/storage/tables/ContiguousTable.h"
 #include "pkb/storage/tables/HashKeyTable.h"
 
-using std::make_pair;
 using std::make_shared;
+using std::pair;
 using std::string;
 using std::unordered_set;
 
@@ -31,7 +32,7 @@ TEST_CASE("RelationTableManager insert and getByArg1, getByArg2") {
   REQUIRE(tableManager.getBySecondArg("b") == unordered_set<int>({2, 4}));
 }
 
-TEST_CASE("RelationTableManager known arg1 values with arg2 predicate") {
+TEST_CASE("RelationTableManager query known arg1 values with arg2 predicate") {
   RelationTableManager<int, string> tableManager(
       make_shared<ContiguousTable<string>>(),
       make_shared<HashKeyTable<string, int>>());
@@ -47,18 +48,14 @@ TEST_CASE("RelationTableManager known arg1 values with arg2 predicate") {
     return validValues.find(s) != validValues.end();
   };
 
-  auto res = tableManager.query(unordered_set<int>({1, 2, 4}), isValid);
+  auto res = tableManager.query({1, 2, 4}, isValid);
 
   REQUIRE(res.firstArgVals == unordered_set<int>({1, 4}));
   REQUIRE(res.secondArgVals == unordered_set<string>({"a", "e"}));
-
-  unordered_set<std::pair<int, string>> pairs;
-  pairs.insert(make_pair(1, "a"));
-  pairs.insert(make_pair(4, "e"));
-  REQUIRE(res.pairVals == pairs);
+  REQUIRE(res.pairVals == pair_set<int, string>({{1, "a"}, {4, "e"}}));
 }
 
-TEST_CASE("RelationTableManager known arg2 values with arg1 predicate") {
+TEST_CASE("RelationTableManager query known arg2 values with arg1 predicate") {
   RelationTableManager<int, string> tableManager(
       make_shared<ContiguousTable<string>>(),
       make_shared<HashKeyTable<string, int>>());
@@ -74,19 +71,14 @@ TEST_CASE("RelationTableManager known arg2 values with arg1 predicate") {
     return validValues.find(s) != validValues.end();
   };
 
-  auto res =
-      tableManager.query(isValid, unordered_set<string>({"a", "b", "f"}));
+  auto res = tableManager.query(isValid, {"a", "b", "f"});
 
   REQUIRE(res.firstArgVals == unordered_set<int>({2, 4}));
   REQUIRE(res.secondArgVals == unordered_set<string>({"a", "b"}));
-
-  unordered_set<std::pair<int, string>> pairs;
-  pairs.insert(make_pair(4, "a"));
-  pairs.insert(make_pair(2, "b"));
-  REQUIRE(res.pairVals == pairs);
+  REQUIRE(res.pairVals == pair_set<int, string>({{4, "a"}, {2, "b"}}));
 }
 
-TEST_CASE("RelationTableManager known arg1 with arg2 predicate") {
+TEST_CASE("RelationTableManager query known arg1 with arg2 predicate") {
   RelationTableManager<int, string> tableManager(
       make_shared<ContiguousTable<string>>(),
       make_shared<HashKeyTable<string, int>>());
@@ -103,13 +95,10 @@ TEST_CASE("RelationTableManager known arg1 with arg2 predicate") {
 
   REQUIRE(res.firstArgVals == unordered_set<int>({2}));
   REQUIRE(res.secondArgVals == unordered_set<string>({"b"}));
-
-  unordered_set<std::pair<int, string>> pairs;
-  pairs.insert(make_pair(2, "b"));
-  REQUIRE(res.pairVals == pairs);
+  REQUIRE(res.pairVals == pair_set<int, string>({{2, "b"}}));
 }
 
-TEST_CASE("RelationTableManager known arg2 with arg1 predicate") {
+TEST_CASE("RelationTableManager query known arg2 with arg1 predicate") {
   RelationTableManager<int, string> tableManager(
       make_shared<ContiguousTable<string>>(),
       make_shared<HashKeyTable<string, int>>());
@@ -126,8 +115,5 @@ TEST_CASE("RelationTableManager known arg2 with arg1 predicate") {
 
   REQUIRE(res.firstArgVals == unordered_set<int>({4}));
   REQUIRE(res.secondArgVals == unordered_set<string>({"a"}));
-
-  unordered_set<std::pair<int, string>> pairs;
-  pairs.insert(make_pair(4, "a"));
-  REQUIRE(res.pairVals == pairs);
+  REQUIRE(res.pairVals == unordered_set<pair<int, string>>({{4, "a"}}));
 }

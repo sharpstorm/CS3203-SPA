@@ -3,12 +3,12 @@
 #include <utility>
 
 #include "catch.hpp"
+#include "common/Types.h"
 #include "pkb/predicates/PredicateFactory.h"
 #include "pkb/queryHandlers/FollowsQueryHandler.h"
 #include "pkb/storage/PKB.h"
 #include "pkb/storage/StructureMappingProvider.h"
 
-using std::make_pair;
 using std::pair;
 using std::unordered_map;
 using std::unordered_set;
@@ -76,7 +76,7 @@ TEST_CASE("FollowsQueryHandler follows(stmtNum,stmtType)") {
   REQUIRE(result1.isEmpty == false);
   REQUIRE(result1.firstArgVals == unordered_set<int>({1}));
   REQUIRE(result1.secondArgVals == unordered_set<int>({2}));
-  REQUIRE(result1.pairVals == unordered_set<pair<int, int>>({make_pair(1, 2)}));
+  REQUIRE(result1.pairVals == pair_set<int, int>({{1, 2}}));
 
   auto result2 = handler.queryFollows({StmtType::None, 2}, {StmtType::Read, 0});
   REQUIRE(result2.isEmpty == true);
@@ -97,7 +97,7 @@ TEST_CASE("FollowsQueryHandler follows(stmtType, stmtNum)") {
   REQUIRE(result1.isEmpty == false);
   REQUIRE(result1.firstArgVals == unordered_set<int>({2}));
   REQUIRE(result1.secondArgVals == unordered_set<int>({5}));
-  REQUIRE(result1.pairVals == unordered_set<pair<int, int>>({make_pair(2, 5)}));
+  REQUIRE(result1.pairVals == pair_set<int, int>({{2, 5}}));
 
   auto result2 = handler.queryFollows({StmtType::Read, 0}, {StmtType::None, 8});
   REQUIRE(result2.isEmpty == true);
@@ -119,6 +119,5 @@ TEST_CASE("FollowsQueryHandler follows(stmtType, stmtType)") {
   REQUIRE(result1.isEmpty == false);
   REQUIRE(result1.firstArgVals == unordered_set<int>({2, 3}));
   REQUIRE(result1.secondArgVals == unordered_set<int>({5, 4}));
-  REQUIRE(result1.pairVals ==
-          unordered_set<pair<int, int>>({make_pair(2, 5), make_pair(3, 4)}));
+  REQUIRE(result1.pairVals == pair_set<int, int>({{2, 5}, {3, 4}}));
 }
