@@ -5,5 +5,4 @@
 class ModASTNode: public AbstractMathASTNode {
  public:
     ModASTNode(): AbstractMathASTNode("%") {}
-    int getPriority() {return 1;}
 };

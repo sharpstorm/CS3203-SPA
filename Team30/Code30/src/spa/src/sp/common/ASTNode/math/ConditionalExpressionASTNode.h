@@ -5,5 +5,4 @@
 class ConditionalExpressionASTNode: public AbstractMathASTNode {
  public:
   ConditionalExpressionASTNode(): AbstractMathASTNode("ce") {}
-  int getPriority() {return 0;}
 };
