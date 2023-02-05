@@ -26,5 +26,5 @@ StatementResult StatementResultBuilder::buildStatementResult(bool isLeft,
       pairsSet.begin(), pairsSet.end());
   vector<int> lines = vector<int>(linesSet.begin(), linesSet.end());
 
-  return StatementResult{lines, linePairs, false, isLeft};
+  return StatementResult{lines, linePairs, isLeft};
 }

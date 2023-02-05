@@ -13,7 +13,6 @@ using std::pair, std::string, std::unordered_map, std::vector;
 struct StatementResult {
   vector<int> lines;
   vector<pair<int, int>> linePairs;
-  bool isStaticTrue;
   bool isLeftArg;
 };
 
@@ -21,7 +20,6 @@ struct EntityResult {
   vector<int> lines;
   vector<string> entities;
   vector<pair<int, string>> enitityPairs;
-  bool isStaticTrue;
   bool isLeftArg;
 };
 
@@ -33,7 +31,6 @@ class PQLQueryResult {
   ENTITY_MAP entityMap;
   string error;
   bool isStaticTrue;
-  bool isLeftArg;
 
  public:
   bool isStatementMapEmpty();

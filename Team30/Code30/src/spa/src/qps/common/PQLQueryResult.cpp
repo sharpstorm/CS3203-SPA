@@ -58,6 +58,11 @@ void PQLQueryResult::setIsStaticTrue(bool staticRes) {
 
 PQLQueryResult* PQLQueryResult::resultFromVariable(PQLQueryVariable queryVar) {
   PQLQueryResult* queryResult = new PQLQueryResult();
+
+  if (isStaticTrue) {
+    return queryResult;
+  }
+
   PQL_VAR_NAME var = queryVar.name;
   switch (queryVar.type) {
     case PQL_VAR_TYPE_STMT:
