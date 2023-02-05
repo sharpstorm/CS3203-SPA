@@ -10,7 +10,6 @@ using std::pair, std::unordered_set;
 
 class StatementResultBuilder {
  public:
-  static StatementResult buildStatementResult(unordered_set<int> linesSet,
-                                              unordered_set<pair<int, int>>
-                                              pairsSet);
+  static StatementResult buildStatementResult(bool isLeft,
+                                              QueryResult<int, int> queryResult);
 };

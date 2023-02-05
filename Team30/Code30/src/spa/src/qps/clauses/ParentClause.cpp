@@ -29,12 +29,15 @@ PQLQueryResult* ParentClause::evaluateOn(
   StatementResult result;
   if (left.isSynonym()) {
     synonym = left.getSynonymName();
-    result = StatementResultBuilder::buildStatementResult(
-        queryResult.firstArgVals, queryResult.pairVals);
+    result = StatementResultBuilder::buildStatementResult(true,
+                                                          queryResult);
     pqlQueryResult->addToStatementMap(synonym, result);
   }
 
   if (right.isSynonym()) {
+    synonym = right.getSynonymName();
+    result = StatementResultBuilder::buildStatementResult(false,
+                                                          queryResult);
     pqlQueryResult->addToStatementMap(synonym, result);
   }
 
