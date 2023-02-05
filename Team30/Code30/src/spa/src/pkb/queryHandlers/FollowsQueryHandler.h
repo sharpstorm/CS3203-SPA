@@ -7,10 +7,9 @@
 
 class FollowsQueryHandler {
  public:
-  explicit FollowsQueryHandler(
-      const FollowsStorage* followsStore,
-      const PredicateFactory* predicateFactory,
-      const StructureMappingProvider* stuctureProvider);
+  FollowsQueryHandler(const FollowsStorage* store,
+                      const PredicateFactory* predicateFactory,
+                      const StructureMappingProvider* stuctureProvider);
 
   QueryResult<int, int> queryFollows(StmtRef s1, StmtRef s2) const;
   QueryResult<int, int> queryFollowsStar(StmtRef s1, StmtRef s2) const;

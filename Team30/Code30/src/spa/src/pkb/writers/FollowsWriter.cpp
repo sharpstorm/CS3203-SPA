@@ -1,7 +1,7 @@
 #include "FollowsWriter.h"
 
-FollowsWriter::FollowsWriter(FollowsStorage* store) : followsStore(store) {}
+FollowsWriter::FollowsWriter(FollowsStorage* store) : store(store) {}
 
 void FollowsWriter::addFollows(int arg1, int arg2) {
-  followsStore->insert(arg1, arg2);
+  store->insert(arg1, arg2);
 }

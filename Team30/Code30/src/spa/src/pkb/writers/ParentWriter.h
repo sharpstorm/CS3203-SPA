@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../storage/ParentStorage.h"
+#include "../storage/StorageTypes.h"
 
 class ParentWriter {
  public:
@@ -9,5 +9,5 @@ class ParentWriter {
   void addParent(int arg1, int arg2);
 
  private:
-  ParentStorage* parentStore;
+  ParentStorage* store;
 };

@@ -9,5 +9,5 @@ class FollowsWriter {
   void addFollows(int arg1, int arg2);
 
  private:
-  FollowsStorage* followsStore;
+  FollowsStorage* store;
 };
