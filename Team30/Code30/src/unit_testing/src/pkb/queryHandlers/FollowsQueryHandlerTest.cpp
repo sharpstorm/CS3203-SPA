@@ -119,6 +119,6 @@ TEST_CASE("FollowsQueryHandler follows(stmtType, stmtType)") {
   REQUIRE(result1.isEmpty == false);
   REQUIRE(result1.firstArgVals == unordered_set<int>({2, 3}));
   REQUIRE(result1.secondArgVals == unordered_set<int>({5, 4}));
-  // REQUIRE(result1.pairVals ==
-  //        unordered_set<pair<int, int>>({make_pair(2, 3), make_pair(4, 5)}));
+  REQUIRE(result1.pairVals ==
+          unordered_set<pair<int, int>>({make_pair(2, 5), make_pair(3, 4)}));
 }
