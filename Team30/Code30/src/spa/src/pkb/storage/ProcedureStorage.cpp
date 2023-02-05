@@ -4,8 +4,7 @@ ProcedureStorage::ProcedureStorage()
     : ProcedureTable(), ReverseProcedureTable() {}
 
 void ProcedureStorage::addProcedure(const std::string &procedureName,
-                                    int startLineNum,
-                                    int endLineNum) {
+                                    int startLineNum, int endLineNum) {
   ProcedureTable[procedureName] = std::make_pair(startLineNum, endLineNum);
   if (endLineNum > ReverseProcedureTable.size()) {
     ReverseProcedureTable.resize(endLineNum * 2);
@@ -15,11 +14,11 @@ void ProcedureStorage::addProcedure(const std::string &procedureName,
   }
 }
 
-std::pair<int,int> ProcedureStorage::getProcedure(const std::string &procedureName) const {
+std::pair<int, int> ProcedureStorage::getProcedure(
+    const std::string &procedureName) const {
   return ProcedureTable.at(procedureName);
 }
 
 std::string ProcedureStorage::getProcedureForStatement(int lineNumber) const {
   return ReverseProcedureTable.at(lineNumber);
 }
-

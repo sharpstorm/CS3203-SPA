@@ -1,12 +1,12 @@
 #pragma once
 
+#include "EntityMappingProvider.h"
 #include "FollowsStorage.h"
 #include "ParentStorage.h"
-#include "SymbolStorage.h"
-#include "StatementStorage.h"
 #include "ProcedureStorage.h"
+#include "StatementStorage.h"
 #include "StructureMappingProvider.h"
-#include "EntityMappingProvider.h"
+#include "SymbolStorage.h"
 
 class PKB {
  public:

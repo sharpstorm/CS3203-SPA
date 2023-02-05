@@ -1,11 +1,12 @@
 #pragma once
 
-#include <unordered_set>
 #include <string>
+#include <unordered_set>
 #include <utility>
-#include "StatementStorage.h"
-#include "ProcedureStorage.h"
+
 #include "../../common/Types.h"
+#include "ProcedureStorage.h"
+#include "StatementStorage.h"
 
 class StructureMappingProvider {
  public:

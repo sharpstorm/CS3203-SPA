@@ -13,6 +13,7 @@ class StatementStorage {
   void addStatement(int, StmtType);
   StmtType getStatement(int) const;
   std::unordered_set<int> getStatementsOfType(StmtType) const;
+
  private:
   std::vector<StmtType> StatementTable;
   std::unordered_map<StmtType, std::unordered_set<int>> ReverseStatementTable;

@@ -3,7 +3,6 @@
 SymbolWriter::SymbolWriter(SymbolStorage *symbolStorage) {
 }
 
-void SymbolWriter::addSymbol \
-    (const std::string& entityName, EntityType entityType) {
+void SymbolWriter::addSymbol (const std::string& entityName, EntityType entityType) {
     symbolStorage->addSymbol(entityName, entityType);
 }

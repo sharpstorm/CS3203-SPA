@@ -1,13 +1,14 @@
 #pragma once
 
 #include <string>
-#include "../storage/StatementStorage.h"
+
 #include "../../common/Types.h"
+#include "../storage/StatementStorage.h"
 class StatementWriter {
  public:
-    explicit StatementWriter(StatementStorage* statementStorage);
-    void addStatement(int , StmtType);
+  explicit StatementWriter(StatementStorage* statementStorage);
+  void addStatement(int, StmtType);
 
  private:
-    StatementStorage* statementStorage;
+  StatementStorage* statementStorage;
 };

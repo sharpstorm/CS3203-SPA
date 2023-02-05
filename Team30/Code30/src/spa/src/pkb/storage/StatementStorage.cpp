@@ -19,7 +19,7 @@ StmtType StatementStorage::getStatement(int lineNumber) const {
   return StatementTable.at(lineNumber);
 }
 
-std::unordered_set<int> StatementStorage::getStatementsOfType(StmtType stmtType) const {
+std::unordered_set<int> StatementStorage::getStatementsOfType(
+    StmtType stmtType) const {
   return ReverseStatementTable.at(stmtType);
 }
-
