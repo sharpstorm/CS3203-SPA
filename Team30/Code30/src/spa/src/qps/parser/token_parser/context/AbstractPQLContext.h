@@ -42,8 +42,8 @@ PQLToken* AbstractPQLContext::expect(QueryTokenParseState* parserState,
 }
 
 template<typename... PQLTokenCategory>
-PQLToken* AbstractPQLContext::expectCategory(QueryTokenParseState* parserState,
-                                             PQLTokenCategory... tokenCategory) {
+PQLToken* AbstractPQLContext::expectCategory(
+    QueryTokenParseState* parserState, PQLTokenCategory... tokenCategory) {
   PQLToken* currentToken = parserState->getCurrentToken();
 
   if (currentToken == nullptr) {
