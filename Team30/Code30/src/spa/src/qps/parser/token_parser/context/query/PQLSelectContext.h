@@ -5,5 +5,5 @@
 
 class PQLSelectContext: public AbstractPQLContext {
  public:
-  void parse(TokenParseState* parserState);
+  void parse(QueryTokenParseState* parserState);
 };

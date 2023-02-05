@@ -8,7 +8,7 @@
 using std::string;
 
 class QueryDriver: public IQueryDriver {
-    IQueryParser parser;
+    IQueryParser* parser;
     IQueryExecutor executor;
  public:
   QueryDriver(IQueryParser parser, IQueryExecutor executor);

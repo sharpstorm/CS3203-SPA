@@ -1,24 +1,24 @@
-#include "TokenParseState.h"
+#include "QueryTokenParseState.h"
 #include "../../errors/QPSParserError.h"
 
-TokenParseState::TokenParseState(vector<PQLToken> *tokens) {
+QueryTokenParseState::QueryTokenParseState(vector<PQLToken> *tokens) {
   this->tokens = tokens;
   currentIndex = 0;
   totalTokenSize = tokens->size();
   currentStage = TOKEN_PARSE_STAGE_INIT;
 }
 
-bool TokenParseState::isTokenStreamEnd() {
+bool QueryTokenParseState::isTokenStreamEnd() {
   return currentIndex >= totalTokenSize;
 }
 
-void TokenParseState::advanceToken() {
+void QueryTokenParseState::advanceToken() {
   if (!isTokenStreamEnd()) {
     currentIndex++;
   }
 }
 
-PQLToken* TokenParseState::getCurrentToken() {
+PQLToken* QueryTokenParseState::getCurrentToken() {
   if (isTokenStreamEnd()) {
     return nullptr;
   }
@@ -26,11 +26,11 @@ PQLToken* TokenParseState::getCurrentToken() {
   return &tokens->at(currentIndex);
 }
 
-QueryBuilder* TokenParseState::getQueryBuilder() {
+QueryBuilder* QueryTokenParseState::getQueryBuilder() {
   return &queryBuilder;
 }
 
-void TokenParseState::advanceStage(TokenParsingStage newStage) {
+void QueryTokenParseState::advanceStage(TokenParsingStage newStage) {
   unordered_set<TokenParsingStage> allowed =
       parsingAllowedTransitions[currentStage];
   if (allowed.find(newStage) == allowed.end()) {

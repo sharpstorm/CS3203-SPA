@@ -4,7 +4,7 @@
 
 using std::unique_ptr;
 
-void PQLModifiesClauseContext::parse(TokenParseState *parserState) {
+void PQLModifiesClauseContext::parse(QueryTokenParseState *parserState) {
   PQLSuchThatClauseContext::parse(parserState);
 
   expect(parserState, PQL_TOKEN_BRACKET_OPEN);

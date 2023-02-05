@@ -9,7 +9,7 @@ using std::string, std::vector;
 class QueryLexer {
   QueryLexerTokenTable tokenTable;
  public:
-  vector<PQLToken> *getTokenStream(string *query);
+  vector<PQLToken> getTokenStream(string *query);
  private:
   PQLToken resolveStringToken(string buffer, bool hasSeenChar);
   PQLToken validateIntegerToken(string* buffer);

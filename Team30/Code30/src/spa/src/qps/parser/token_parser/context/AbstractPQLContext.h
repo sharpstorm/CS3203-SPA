@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../TokenParseState.h"
+#include "../QueryTokenParseState.h"
 #include "IPQLContext.h"
 #include "../../../errors/QPSParserError.h"
 
@@ -10,22 +10,22 @@ const char QPS_PARSER_ERR_UNEXPECTED[] =
 
 class AbstractPQLContext: public IPQLContext {
  public:
-  virtual void parse(TokenParseState* parserState) = 0;
+  virtual void parse(QueryTokenParseState* parserState) = 0;
 
  protected:
   template<typename... PQLTokenType>
-  PQLToken *expect(TokenParseState* parserState,
+  PQLToken *expect(QueryTokenParseState* parserState,
                    PQLTokenType... tokenType);
 
   template<typename... PQLTokenCategory>
-  PQLToken *expectCategory(TokenParseState* parserState,
-                   PQLTokenCategory... tokenCategory);
+  PQLToken *expectCategory(QueryTokenParseState* parserState,
+                           PQLTokenCategory... tokenCategory);
 
-  PQLToken *expectVarchar(TokenParseState *parserState);
+  PQLToken *expectVarchar(QueryTokenParseState *parserState);
 };
 
 template<typename... PQLTokenType>
-PQLToken* AbstractPQLContext::expect(TokenParseState* parserState,
+PQLToken* AbstractPQLContext::expect(QueryTokenParseState* parserState,
                                      PQLTokenType... tokenType) {
   PQLToken* currentToken = parserState->getCurrentToken();
 
@@ -42,8 +42,8 @@ PQLToken* AbstractPQLContext::expect(TokenParseState* parserState,
 }
 
 template<typename... PQLTokenCategory>
-PQLToken* AbstractPQLContext::expectCategory(TokenParseState* parserState,
-                                     PQLTokenCategory... tokenCategory) {
+PQLToken* AbstractPQLContext::expectCategory(
+    QueryTokenParseState* parserState, PQLTokenCategory... tokenCategory) {
   PQLToken* currentToken = parserState->getCurrentToken();
 
   if (currentToken == nullptr) {

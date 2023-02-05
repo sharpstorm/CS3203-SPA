@@ -5,7 +5,7 @@ PQLDeclarationContext::PQLDeclarationContext(
   this->variableType = variableType;
 }
 
-void PQLDeclarationContext::parse(TokenParseState *parserState) {
+void PQLDeclarationContext::parse(QueryTokenParseState *parserState) {
   parserState->advanceStage(TOKEN_PARSE_STAGE_DECLARATION);
 
   PQLToken* currentToken = expectVarchar(parserState);

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../TokenParseState.h"
+#include "../QueryTokenParseState.h"
 
 class IPQLContext {
  public:
   virtual ~IPQLContext() = default;
-  virtual void parse(TokenParseState* parserState) = 0;
+  virtual void parse(QueryTokenParseState* parserState) = 0;
 };

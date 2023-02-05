@@ -4,17 +4,17 @@
 #include <vector>
 #include <memory>
 #include "../../common/PQLQuery.h"
-#include "TokenParseState.h"
+#include "QueryTokenParseState.h"
 #include "context/PQLGrammarContextProvider.h"
 
 using std::string, std::vector;
 
-class TokenParser {
+class QueryTokenParser {
  private:
   vector<PQLToken> tokens;
   PQLGrammarContextProvider contextProvider;
 
  public:
-  explicit TokenParser(vector<PQLToken> tokens);
+  explicit QueryTokenParser(vector<PQLToken> tokens);
   unique_ptr<PQLQuery> build();
 };
