@@ -1,6 +1,6 @@
 #include "ResultCoalescer.h"
 
-QueryResult *ResultCoalescer::merge(QueryResult *setA,
-                                              QueryResult *setB) {
+PQLQueryResult *ResultCoalescer::merge(PQLQueryResult *setA,
+                                       PQLQueryResult *setB) {
   return setB;
 }

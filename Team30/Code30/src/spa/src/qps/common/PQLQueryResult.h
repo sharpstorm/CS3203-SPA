@@ -28,7 +28,7 @@ struct EntityResult {
 typedef unordered_map<PQL_VAR_NAME, StatementResult> STATEMENT_MAP;
 typedef unordered_map<PQL_VAR_NAME, EntityResult> ENTITY_MAP;
 
-class QueryResult {
+class PQLQueryResult {
   STATEMENT_MAP statementMap;
   ENTITY_MAP entityMap;
   string error;
@@ -47,7 +47,7 @@ class QueryResult {
   void setError(string errorMessage);
   bool getIsStaticTrue();
   void setIsStaticTrue(bool staticRes);
-  QueryResult* resultFromVariable(PQLQueryVariable queryVar);
-  virtual ~QueryResult() = default;
+  PQLQueryResult* resultFromVariable(PQLQueryVariable queryVar);
+  virtual ~PQLQueryResult() = default;
 };
 

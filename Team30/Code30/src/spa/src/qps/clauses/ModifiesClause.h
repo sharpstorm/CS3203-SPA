@@ -10,6 +10,6 @@ class ModifiesClause: public SuchThatClause {
 
  public:
   ModifiesClause(ClauseArgument left, ClauseArgument right);
-  QueryResult* evaluateOn();
+  PQLQueryResult* evaluateOn();
   bool validateArgTypes(VariableTable *variables);
 };

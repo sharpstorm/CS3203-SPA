@@ -1,13 +1,13 @@
 #pragma once
 
 #include <string>
-#include "../common/QueryResult.h"
+#include "qps/common/PQLQueryResult.h"
 
 using std::string;
 
 class ResultProjector {
  public:
-  string* project(QueryResult* queryResult);
+  string* project(PQLQueryResult* queryResult);
   string* projectEntities(ENTITY_MAP entityMap);
   string* projectStatements(STATEMENT_MAP statementMap);
 };

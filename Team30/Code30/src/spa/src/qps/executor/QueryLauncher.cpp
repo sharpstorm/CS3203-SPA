@@ -1,5 +1,5 @@
 #include "QueryLauncher.h"
 
-QueryResult *QueryLauncher::execute(IEvaluatable *evaluatable) {
-  return nullptr;
+PQLQueryResult *QueryLauncher::execute(IEvaluatable *evaluatable) {
+  return evaluatable->evaluateOn();
 }

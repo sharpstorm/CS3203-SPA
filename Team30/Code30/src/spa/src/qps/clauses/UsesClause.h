@@ -10,6 +10,6 @@ class UsesClause: public SuchThatClause {
 
  public:
   UsesClause(ClauseArgument left, ClauseArgument right);
-  QueryResult* evaluateOn();
+  PQLQueryResult* evaluateOn();
   bool validateArgTypes(VariableTable *variables);
 };

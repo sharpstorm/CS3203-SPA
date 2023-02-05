@@ -1,9 +1,9 @@
 #pragma once
 
-#include "QueryResult.h"
+#include "PQLQueryResult.h"
 
 class IEvaluatable {
  public:
   virtual ~IEvaluatable() = default;
-  virtual QueryResult* evaluateOn() = 0;
+  virtual PQLQueryResult* evaluateOn() = 0;
 };

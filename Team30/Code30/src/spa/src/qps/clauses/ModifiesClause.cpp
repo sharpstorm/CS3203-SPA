@@ -4,7 +4,7 @@ ModifiesClause::ModifiesClause(ClauseArgument leftArg, ClauseArgument rightArg):
   left(leftArg), right(rightArg) {
 }
 
-QueryResult* ModifiesClause::evaluateOn() {
+PQLQueryResult* ModifiesClause::evaluateOn() {
   return nullptr;
 }
 

@@ -1,14 +1,14 @@
-#include "QueryResult.h"
+#include "PQLQueryResult.h"
 
-bool QueryResult::isEntityMapEmpty() {
+bool PQLQueryResult::isEntityMapEmpty() {
   return entityMap.empty();
 }
 
-bool QueryResult::isStatementMapEmpty() {
+bool PQLQueryResult::isStatementMapEmpty() {
   return statementMap.empty();
 }
 
-StatementResult* QueryResult::getFromStatementMap(PQL_VAR_NAME var) {
+StatementResult* PQLQueryResult::getFromStatementMap(PQL_VAR_NAME var) {
   if (statementMap.find(var) == statementMap.end()) {
     return nullptr;
   }
@@ -16,61 +16,55 @@ StatementResult* QueryResult::getFromStatementMap(PQL_VAR_NAME var) {
   return &statementMap.find(var)->second;
 }
 
-STATEMENT_MAP QueryResult::getStatementMap() {
+STATEMENT_MAP PQLQueryResult::getStatementMap() {
   return statementMap;
 }
 
-ENTITY_MAP QueryResult::getEntityMap() {
+ENTITY_MAP PQLQueryResult::getEntityMap() {
   return entityMap;
 }
 
-void QueryResult::addToStatementMap(PQL_VAR_NAME name, StatementResult result) {
+void PQLQueryResult::addToStatementMap(PQL_VAR_NAME name, StatementResult result) {
   statementMap.insert({name, result});
 }
 
-void QueryResult::addToEntityMap(PQL_VAR_NAME name, EntityResult result) {
+void PQLQueryResult::addToEntityMap(PQL_VAR_NAME name, EntityResult result) {
   entityMap.insert({name, result});
 }
 
-EntityResult* QueryResult::getFromEntityMap(PQL_VAR_NAME var) {
+EntityResult* PQLQueryResult::getFromEntityMap(PQL_VAR_NAME var) {
   if (entityMap.find(var) == entityMap.end()) {
     return nullptr;
   }
   return &entityMap.find(var)->second;
 }
 
-string QueryResult::getError() {
+string PQLQueryResult::getError() {
     return error;
 }
 
-void QueryResult::setError(string errorMessage) {
+void PQLQueryResult::setError(string errorMessage) {
   error = errorMessage;
 }
 
-bool QueryResult::getIsStaticTrue() {
+bool PQLQueryResult::getIsStaticTrue() {
   return isStaticTrue;
 }
 
-void QueryResult::setIsStaticTrue(bool staticRes) {
+void PQLQueryResult::setIsStaticTrue(bool staticRes) {
   isStaticTrue = staticRes;
 }
 
-QueryResult* QueryResult::resultFromVariable(PQLQueryVariable queryVar) {
-  QueryResult* queryResult = new QueryResult();
+PQLQueryResult* PQLQueryResult::resultFromVariable(PQLQueryVariable queryVar) {
+  PQLQueryResult* queryResult = new PQLQueryResult();
   PQL_VAR_NAME var = queryVar.name;
   switch (queryVar.type) {
     case PQL_VAR_TYPE_STMT:
-      // Fallthrough
     case PQL_VAR_TYPE_READ:
-      // Fallthrough
     case PQL_VAR_TYPE_PRINT:
-      // Fallthrough
     case PQL_VAR_TYPE_CALL:
-      // Fallthrough
     case PQL_VAR_TYPE_WHILE:
-      // Fallthrough
     case PQL_VAR_TYPE_IF:
-      // Fallthrough
     case PQL_VAR_TYPE_ASSIGN:
       if (getFromStatementMap(var) != nullptr) {
         queryResult->addToStatementMap(var, *getFromStatementMap(var));

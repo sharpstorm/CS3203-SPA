@@ -1,7 +1,8 @@
 #pragma once
 
-#include "SuchThatClause.h"
 #include "ClauseArgument.h"
+#include "SuchThatClause.h"
+#include "common/Types.h"
 
 class FollowsClause: public SuchThatClause {
  private:
@@ -10,6 +11,7 @@ class FollowsClause: public SuchThatClause {
 
  public:
   FollowsClause(ClauseArgument left, ClauseArgument right);
-  QueryResult* evaluateOn();
+  PQLQueryResult* evaluateOn();
   bool validateArgTypes(VariableTable *variables);
+  StmtRef buildStatementRef(ClauseArgument argument);
 };

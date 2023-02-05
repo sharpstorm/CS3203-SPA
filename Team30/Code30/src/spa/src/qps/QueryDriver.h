@@ -11,5 +11,5 @@ class QueryDriver: public IQueryDriver {
     IQueryParser parser;
     IQueryExecutor executor;
  public:
-  QueryResult* evaluate(string* query);
+  PQLQueryResult* evaluate(string* query);
 };

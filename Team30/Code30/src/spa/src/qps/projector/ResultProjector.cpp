@@ -2,7 +2,7 @@
 
 using std::to_string;
 
-string *ResultProjector::project(QueryResult* queryResult) {
+string *ResultProjector::project(PQLQueryResult* queryResult) {
     if (queryResult->getError() != "") {
         return new string(queryResult->getError());
     }

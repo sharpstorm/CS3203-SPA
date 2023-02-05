@@ -9,7 +9,7 @@ ParentClause::ParentClause(ClauseArgument leftArg, ClauseArgument rightArg):
   left(leftArg), right(rightArg) {
 }
 
-QueryResult* ParentClause::evaluateOn() {
+PQLQueryResult* ParentClause::evaluateOn() {
   // Temporary implementation
   // TODO(KwanHW): Wait for pkb implementation
   StatementResult statementResult;
@@ -17,7 +17,7 @@ QueryResult* ParentClause::evaluateOn() {
   statementResult.lines = {3, 4, 5, 6};
   statementResult.isStaticTrue = false;
 
-  QueryResult* queryResult = new QueryResult();
+  PQLQueryResult* queryResult = new PQLQueryResult();
   if (!left.isSynonym() && !right.isSynonym()) {
     queryResult->setIsStaticTrue(true);
     return queryResult;

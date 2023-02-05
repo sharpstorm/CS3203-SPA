@@ -4,11 +4,11 @@
 #include "QueryOrchestrator.h"
 #include "QueryPlanner.h"
 #include "../common/PQLQuery.h"
-#include "../common/QueryResult.h"
+#include "../common/PQLQueryResult.h"
 
 class QueryExecutor: public IQueryExecutor {
     QueryPlanner planner;
     QueryOrchestrator orchestrator;
  public:
-    QueryResult* executeQuery(PQLQuery* query);
+    PQLQueryResult* executeQuery(PQLQuery* query);
 };

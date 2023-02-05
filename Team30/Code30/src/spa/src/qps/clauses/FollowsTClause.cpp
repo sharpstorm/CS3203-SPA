@@ -9,7 +9,7 @@ FollowsTClause::FollowsTClause(ClauseArgument leftArg, ClauseArgument rightArg):
   left(leftArg), right(rightArg) {
 }
 
-QueryResult* FollowsTClause::evaluateOn() {
+PQLQueryResult* FollowsTClause::evaluateOn() {
   // Temporary implementation
   // TODO(KwanHW): Wait for pkb implementation
   StatementResult statementResult;
@@ -20,7 +20,7 @@ QueryResult* FollowsTClause::evaluateOn() {
   statementResult.lines = {1, 2, 3, 4, 5};
   statementResult.isStaticTrue = false;
 
-  QueryResult* queryResult = new QueryResult();
+  PQLQueryResult* queryResult = new PQLQueryResult();
   if (!left.isSynonym() && !right.isSynonym()) {
     queryResult->setIsStaticTrue(true);
     return queryResult;
