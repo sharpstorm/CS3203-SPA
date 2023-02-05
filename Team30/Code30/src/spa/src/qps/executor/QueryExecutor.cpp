@@ -3,9 +3,15 @@
 #include "QueryExecutor.h"
 #include "qps/common/IEvaluatable.h"
 
+QueryExecutor::QueryExecutor(QueryOrchestrator orchestrator) :
+        orchestrator(orchestrator) {
+
+}
+
 PQLQueryResult *QueryExecutor::executeQuery(PQLQuery* query) {
   vector<shared_ptr<IEvaluatable>> evaluatables =
       planner.getExecuteOrder(query);
     PQLQueryResult* result = orchestrator.execute(query, evaluatables);
     return result;
 }
+

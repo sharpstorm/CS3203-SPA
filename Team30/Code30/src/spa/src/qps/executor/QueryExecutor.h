@@ -7,8 +7,9 @@
 #include "../common/PQLQueryResult.h"
 
 class QueryExecutor: public IQueryExecutor {
-    QueryPlanner planner;
-    QueryOrchestrator orchestrator;
- public:
-    PQLQueryResult* executeQuery(PQLQuery* query);
+  QueryPlanner planner;
+  QueryOrchestrator orchestrator;
+public:
+  QueryExecutor(QueryOrchestrator orchestrator);
+  PQLQueryResult* executeQuery(PQLQuery* query);
 };

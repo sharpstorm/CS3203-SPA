@@ -1,5 +1,10 @@
 #include "QueryOrchestrator.h"
 
+QueryOrchestrator::QueryOrchestrator(QueryLauncher launcher) :
+        launcher(launcher) {
+
+}
+
 PQLQueryResult *QueryOrchestrator::execute(PQLQuery* query,
                                            vector<shared_ptr<IEvaluatable>> evaluatables) {
     PQLQueryResult* finalResult = nullptr;
