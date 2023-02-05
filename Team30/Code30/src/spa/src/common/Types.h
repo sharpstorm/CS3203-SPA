@@ -4,6 +4,9 @@
 #include <unordered_set>
 #include <utility>
 
+using std::pair;
+using std::unordered_set;
+
 enum class EntityType { Statement, Variable, Constant, None };
 
 enum class StmtType { Read, Print, Assign, Call, While, If, None };
@@ -18,18 +21,21 @@ struct EntityRef {
   std::string name;
 };
 
-struct pair_hash {
-  template <class T1, class T2>
-  std::size_t operator()(const std::pair<T1, T2>& pair) const {
+template <class T1, class T2>
+struct std::hash<pair<T1, T2>> {
+  std::size_t operator()(const pair<T1, T2>& pair) const {
     return std::hash<T1>()(pair.first) ^ std::hash<T2>()(pair.second);
   }
 };
 
+template <typename K, typename V>
+using pair_set = unordered_set<pair<K, V>>;
+
 template <typename T, typename U>
 struct QueryResult {
-  std::unordered_set<T> firstArgVals;
-  std::unordered_set<U> secondArgVals;
-  std::unordered_set<std::pair<T, U>, pair_hash> pairVals;
+  unordered_set<T> firstArgVals;
+  unordered_set<U> secondArgVals;
+  pair_set<T, U> pairVals;
   bool isEmpty = true;
 
   void add(T first, U second) {
