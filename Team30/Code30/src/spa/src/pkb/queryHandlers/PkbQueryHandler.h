@@ -5,7 +5,7 @@
 #include "../queryHandlers/ParentQueryHandler.h"
 #include "../storage/PKB.h"
 
-class PkbQueryHandler {
+class PkbQueryHandler : public IFollowsQueryHandler, IParentQueryHandler {
  public:
   explicit PkbQueryHandler(PKB* pkb);
 
