@@ -14,17 +14,15 @@
 using std::vector, std::string, std::cout, std::unique_ptr, std::shared_ptr;
 
 unique_ptr<PQLQuery> testPQLParsing(string testCase) {
-  unique_ptr<PQLQuery> result = QueryParser().parseQuery(&testCase);
-
   try {
-    result = parser.build();
+    return QueryParser().parseQuery(&testCase);
   } catch (const QPSError& err) {
     FAIL("FAILED with error: " + err.message);
   } catch (...) {
     FAIL("Failed with unknown exception");
   }
 
-  return result;
+  FAIL("Failed with unknown exception");
 }
 
 void requireSynonyms(shared_ptr<PQLQuery> result, vector<PQLQueryVariable> expectedVariables) {

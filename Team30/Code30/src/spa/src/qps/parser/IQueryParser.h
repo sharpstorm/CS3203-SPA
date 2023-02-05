@@ -8,5 +8,5 @@ using std::string, std::unique_ptr;
 
 class IQueryParser {
  public:
-  virtual unique_ptr<PQLQuery> parseQuery(string*);
+  virtual unique_ptr<PQLQuery> parseQuery(string*) = 0;
 };

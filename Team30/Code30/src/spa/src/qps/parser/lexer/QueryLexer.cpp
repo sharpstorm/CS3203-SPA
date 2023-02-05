@@ -32,11 +32,11 @@ vector<PQLToken> QueryLexer::getTokenStream(string* query) {
 
       default:
         if (buffer.length() > 0) {
-          resultVector->push_back(resolveStringToken(buffer, hasSeenChar));
+          resultVector.push_back(resolveStringToken(buffer, hasSeenChar));
         }
 
         if (tokenType != PQL_TOKEN_DELIMITER) {
-          resultVector->push_back(PQLToken{
+          resultVector.push_back(PQLToken{
             tokenType
           });
         }
@@ -47,7 +47,7 @@ vector<PQLToken> QueryLexer::getTokenStream(string* query) {
   }
 
   if (buffer.length() > 0) {
-    resultVector->push_back(resolveStringToken(buffer, hasSeenChar));
+    resultVector.push_back(resolveStringToken(buffer, hasSeenChar));
   }
 
   return resultVector;
