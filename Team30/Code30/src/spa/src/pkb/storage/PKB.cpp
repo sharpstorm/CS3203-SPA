@@ -11,10 +11,10 @@ PKB::PKB()
                                       make_shared<ContiguousTable<int>>())),
       parentStore(new ParentStorage(make_shared<ContiguousTable<int>>(),
                                     make_shared<ContiguousTable<int>>())),
-      predicateFactory(new PredicateFactory(structureProvider)),
       symbolStorage(new SymbolStorage()),
       statementStorage(new StatementStorage()),
       procedureStorage(new ProcedureStorage()),
       structureProvider(
           new StructureMappingProvider(statementStorage, procedureStorage)),
-      entityMappingProvider(new EntityMappingProvider(symbolStorage)) {}
+      entityMappingProvider(new EntityMappingProvider(symbolStorage)),
+      predicateFactory(new PredicateFactory(structureProvider)) {}
