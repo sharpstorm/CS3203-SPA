@@ -1,11 +1,11 @@
 #include "ConstantASTNode.h"
 
 ConstantASTNode::ConstantASTNode(string v) {
-    value = v;
+  value = v;
 }
 
 string ConstantASTNode::toString() {
-    return "const(" + value + ")";
+  return "const(" + value + ")";
 }
 
 void ConstantASTNode::accept() {

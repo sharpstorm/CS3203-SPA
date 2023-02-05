@@ -14,7 +14,7 @@ class AbstractMathASTNode: public AbstractBinaryASTNode {
   int getPriority();
 
  protected:
-  AbstractMathASTNode(string repr);
+  explicit AbstractMathASTNode(string repr);
 
  private:
   string repr;

@@ -4,6 +4,6 @@
 
 class RelationalExpressionASTNode: public AbstractMathASTNode {
  public:
-    RelationalExpressionASTNode(string repr): AbstractMathASTNode(repr) {}
+    RelationalExpressionASTNode(): AbstractMathASTNode("re") {}
     int getPriority() {return 0;}
 };

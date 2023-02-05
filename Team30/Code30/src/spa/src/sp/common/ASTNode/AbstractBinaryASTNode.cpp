@@ -1,9 +1,11 @@
+#include <vector>
+#include <memory>
 #include "AbstractBinaryASTNode.h"
 
-using std::make_unique;
+using std::vector, std::shared_ptr;
 
 AbstractBinaryASTNode::AbstractBinaryASTNode() {
-  children = vector<shared_ptr<ASTNode>>{ nullptr, nullptr };
+  children = vector<shared_ptr<ASTNode>>{nullptr, nullptr };
 }
 
 void AbstractBinaryASTNode::setLeftChild(shared_ptr<ASTNode> left) {
