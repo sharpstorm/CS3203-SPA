@@ -1,6 +1,5 @@
 #include "SourceParseState.h"
 #include <stack>
-#include <iostream>
 
 SourceParseState::SourceParseState(vector<SourceToken>* t) {
   curIndex = 0;
@@ -12,7 +11,6 @@ SourceParseState::SourceParseState(vector<SourceToken>* t) {
 
 void SourceParseState::advanceToken() {
   if (!isEnd()) {
-    std::cout << "Consume " << tokens->at(curIndex).getType() << "\n";
     curIndex++;
   }
 }
