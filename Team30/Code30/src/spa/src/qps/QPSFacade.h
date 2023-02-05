@@ -11,6 +11,6 @@ class QPSFacade: public IQPS {
     IQueryDriver driver;
     ResultProjector projector;
  public:
-  QPSFacade(IQueryDriver driver);
+  explicit QPSFacade(IQueryDriver driver);
   string* evaluate(string query);
 };

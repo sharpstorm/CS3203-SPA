@@ -5,7 +5,6 @@
 
 QueryExecutor::QueryExecutor(QueryOrchestrator orchestrator) :
         orchestrator(orchestrator) {
-
 }
 
 PQLQueryResult *QueryExecutor::executeQuery(PQLQuery* query) {
@@ -14,4 +13,3 @@ PQLQueryResult *QueryExecutor::executeQuery(PQLQuery* query) {
     PQLQueryResult* result = orchestrator.execute(query, evaluatables);
     return result;
 }
-

@@ -1,9 +1,11 @@
 #include <utility>
 #include <vector>
 
+#include <memory>
+
 #include "FollowsTClause.h"
 
-using std::pair, std::vector;
+using std::pair, std::vector, std::shared_ptr;
 
 FollowsTClause::FollowsTClause(ClauseArgument leftArg, ClauseArgument rightArg):
   left(leftArg), right(rightArg) {

@@ -1,7 +1,6 @@
 #include "QPSFacade.h"
 
-QPSFacade::QPSFacade(IQueryDriver driver) : driver(driver){
-
+QPSFacade::QPSFacade(IQueryDriver driver) : driver(driver) {
 }
 
 string *QPSFacade::evaluate(string query) {
@@ -9,4 +8,3 @@ string *QPSFacade::evaluate(string query) {
     string* projectedResult = projector.project(queryResult);
     return projectedResult;
 }
-

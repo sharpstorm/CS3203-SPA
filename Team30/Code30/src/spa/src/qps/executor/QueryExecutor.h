@@ -9,7 +9,7 @@
 class QueryExecutor: public IQueryExecutor {
   QueryPlanner planner;
   QueryOrchestrator orchestrator;
-public:
-  QueryExecutor(QueryOrchestrator orchestrator);
+ public:
+  explicit QueryExecutor(QueryOrchestrator orchestrator);
   PQLQueryResult* executeQuery(PQLQuery* query);
 };

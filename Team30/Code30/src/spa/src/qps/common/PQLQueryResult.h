@@ -3,13 +3,12 @@
 #include <utility>
 #include <string>
 #include <unordered_map>
-#include <unordered_set>
 #include <vector>
 
 #include "PQLTypes.h"
 #include "PQLQueryVariable.h"
 
-using std::pair, std::string, std::unordered_map, std::unordered_set, std::vector;
+using std::pair, std::string, std::unordered_map, std::vector;
 
 struct StatementResult {
   vector<int> lines;

@@ -11,6 +11,6 @@ using std::shared_ptr;
 class QueryLauncher {
   shared_ptr<PkbQueryHandler> pkbQueryHandler;
  public:
-  QueryLauncher(shared_ptr<PkbQueryHandler> pkbQH);
+  explicit QueryLauncher(shared_ptr<PkbQueryHandler> pkbQH);
   PQLQueryResult* execute(IEvaluatable* evaluatable);
 };

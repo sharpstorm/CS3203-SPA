@@ -14,7 +14,7 @@ class QueryOrchestrator {
     QueryLauncher launcher;
     ResultCoalescer coalescer;
  public:
-  QueryOrchestrator(QueryLauncher launcher);
+  explicit QueryOrchestrator(QueryLauncher launcher);
   PQLQueryResult* execute(PQLQuery* query,
                           vector<shared_ptr<IEvaluatable>> evaluatables);
 };

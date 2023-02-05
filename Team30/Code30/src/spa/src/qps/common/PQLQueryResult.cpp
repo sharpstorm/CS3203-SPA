@@ -24,7 +24,8 @@ ENTITY_MAP PQLQueryResult::getEntityMap() {
   return entityMap;
 }
 
-void PQLQueryResult::addToStatementMap(PQL_VAR_NAME name, StatementResult result) {
+void PQLQueryResult::addToStatementMap(PQL_VAR_NAME name,
+                                       StatementResult result) {
   statementMap.insert({name, result});
 }
 

@@ -1,7 +1,11 @@
 #pragma once
 
+#include <memory>
+
 #include "SuchThatClause.h"
 #include "ClauseArgument.h"
+
+using std::shared_ptr;
 
 class ModifiesClause: public SuchThatClause {
  private:

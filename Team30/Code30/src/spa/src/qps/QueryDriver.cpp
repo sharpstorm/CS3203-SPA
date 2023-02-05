@@ -8,5 +8,5 @@ PQLQueryResult *QueryDriver::evaluate(string* query) {
 }
 
 QueryDriver::QueryDriver(IQueryParser parser, IQueryExecutor executor) :
-  parser(parser), executor(executor){
+  parser(parser), executor(executor) {
 }

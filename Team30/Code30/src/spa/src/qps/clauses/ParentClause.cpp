@@ -1,9 +1,10 @@
+#include <memory>
 #include <utility>
 #include <vector>
 
 #include "ParentClause.h"
 
-using std::pair, std::vector;
+using std::pair, std::vector, std::shared_ptr;
 
 ParentClause::ParentClause(ClauseArgument leftArg, ClauseArgument rightArg):
   left(leftArg), right(rightArg) {
