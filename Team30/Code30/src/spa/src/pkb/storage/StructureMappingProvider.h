@@ -15,7 +15,7 @@ class StructureMappingProvider {
   ProcedureStorage *procedureStorage;
   StmtType getStatementType(int) const;
   virtual bool isStatementOfType(int, StmtType) const;
-  std::unordered_set<int> getStatementsOfType(StmtType) const;
+  virtual std::unordered_set<int> getStatementsOfType(StmtType) const;
   std::pair<int, int> getProcedureLines(std::string) const;
   std::string getProcedureForLine(int) const;
 };
