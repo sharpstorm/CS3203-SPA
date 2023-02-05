@@ -3,11 +3,12 @@
 #include <unordered_set>
 
 #include "BaseTable.h"
-// map int -> set<V>
+constexpr int MAX_STMTS = 1000;
+
 template <typename V>
 class ContiguousTable : public BaseTable<int, V> {
  private:
-  std::unordered_set<V> table[10];
+  std::unordered_set<V> table[MAX_STMTS];
 
  public:
   ContiguousTable() : table() {}
