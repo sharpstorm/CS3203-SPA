@@ -14,13 +14,13 @@ class TransitiveRelationTableManager : public RelationTableManager<T, T> {
  public:
   TransitiveRelationTableManager(shared_ptr<BaseTable<T, T>> table,
                                  shared_ptr<BaseTable<T, T>> reverseTable)
-      : RelationTableManager(table, reverseTable) {}
+      : RelationTableManager<T, T>(table, reverseTable) {}
 
   /**
    * Get set of arg2 where R*(arg1, arg2) is true, given arg1.
    */
   unordered_set<T> getByFirstArgT(T arg1) const {
-    auto result = table->get(arg1);
+    auto result = this->table->get(arg1);
     for (auto r : result) {
       auto subResult = getByFirstArgT(r);
       result.insert(subResult.begin(), subResult.end());
@@ -32,7 +32,7 @@ class TransitiveRelationTableManager : public RelationTableManager<T, T> {
    * Get set of arg1 where R*(arg1, arg2) is true, given arg2.
    */
   unordered_set<T> getBySecondArgT(T arg2) const {
-    auto result = reverseTable->get(arg2);
+    auto result = this->reverseTable->get(arg2);
     for (auto r : result) {
       auto subResult = getBySecondArgT(r);
       result.insert(subResult.begin(), subResult.end());

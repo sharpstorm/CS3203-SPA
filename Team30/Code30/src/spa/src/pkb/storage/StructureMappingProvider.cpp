@@ -2,12 +2,26 @@
 
 StructureMappingProvider::StructureMappingProvider() {}
 
-bool StructureMappingProvider::isStatementOfType(int s,
-                                                 StmtType stmtType) const {
-  return false;
+StmtType StructureMappingProvider::getStatementType(int lineNumber) const {
+  return statementStorage->getStatement(lineNumber);
 }
 
-unordered_set<int> StructureMappingProvider::getStatementsOfType(
+bool StructureMappingProvider::isStatementOfType(int lineNumber,
+                                                 StmtType stmtType) const {
+  return stmtType == statementStorage->getStatement(lineNumber);
+}
+
+std::unordered_set<int> StructureMappingProvider::getStatementsOfType(
     StmtType stmtType) const {
-  return unordered_set<int>();
+  return statementStorage->getStatementsOfType(stmtType);
+}
+
+std::pair<int, int> StructureMappingProvider::getProcedureLines(
+    std::string procedureName) const {
+  return procedureStorage->getProcedure(procedureName);
+}
+
+std::string StructureMappingProvider::getProcedureForLine(
+    int lineNumber) const {
+  return procedureStorage->getProcedureForStatement(lineNumber);
 }
