@@ -32,3 +32,7 @@ bool SourceToken::isCategory(SourceTokenType type,
                                     SourceTokenCategory target) {
   return (type & SIMPLE_TOKEN_CATEGORY_MASK) == target;
 }
+
+bool SourceToken::isVarchar() {
+  return ((type & SIMPLE_TOKEN_CATEGORY_MASK) & SIMPLE_VARCHAR_MASK) > 0;
+}

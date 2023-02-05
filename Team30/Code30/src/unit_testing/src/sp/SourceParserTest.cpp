@@ -30,9 +30,13 @@ TEST_CASE("Test SP Parser - Procedure") {
     tokensList.push_back(lexer.tokenize(&s));
   }
   for (vector<SourceToken> v : tokensList) {
-    auto root = parser.parse(&v);
-    REQUIRE(root.getRoot() != nullptr);
-    cout << root.getRoot()->toString() << "\n";
+    try {
+      auto root = parser.parse(&v);
+      REQUIRE(root.getRoot() != nullptr);
+      cout << root.getRoot()->toString() << "\n";
+    } catch (const SPError& ex) {
+      FAIL("Caught SP Error " + ex.message);
+    }
   }
 }
 //

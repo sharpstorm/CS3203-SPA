@@ -20,6 +20,8 @@ class SourceParseContext {
   template<typename... SourceTokenType>
   SourceToken *expect(SourceParseState* parserState,
                       SourceTokenType... tokenType);
+
+  SourceToken* expectVarchar(SourceParseState* parserState);
 };
 
 template<typename... SourceTokenType>
@@ -32,9 +34,7 @@ SourceToken* SourceParseContext::expect(SourceParseState* parserState,
   }
 
   if ((currentToken->isType(tokenType)  || ... || false)) {
-    if (!parserState->isAtLast()) {
-      parserState->advanceToken();
-    }
+    parserState->advanceToken();
     return currentToken;
   }
   throw SPError("Unexpected Token");

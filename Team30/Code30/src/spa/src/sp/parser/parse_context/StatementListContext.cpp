@@ -19,6 +19,7 @@ shared_ptr<ASTNode> StatementListContext::generateSubtree(SourceParseState *stat
         getContext(STMT_CONTEXT)->generateSubtree(state);
     node->addChild(newNode);
   }
+
   expect(state, SIMPLE_TOKEN_BRACKET_CURLY_RIGHT);
   state->setCached(node);
 

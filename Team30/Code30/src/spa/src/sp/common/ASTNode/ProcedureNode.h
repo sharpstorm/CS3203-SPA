@@ -11,5 +11,7 @@ class ProcedureNode : public ASTNode {
   ~ProcedureNode() = default;
   string toString();
   void accept();
+
+ private:
   string procName;
 };
