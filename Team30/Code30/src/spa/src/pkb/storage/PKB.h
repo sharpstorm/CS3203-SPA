@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../predicates/PredicateFactory.h"
-//#include "FollowsStorage.h"
 #include "ParentStorage.h"
 #include "StorageTypes.h"
 #include "StructureMappingProvider.h"
