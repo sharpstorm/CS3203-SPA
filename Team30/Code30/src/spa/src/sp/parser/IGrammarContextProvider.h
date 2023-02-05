@@ -29,6 +29,4 @@ enum SourceGrammarContextType {
 class IGrammarContextProvider {
  public:
   virtual SourceParseContext* getContext(SourceGrammarContextType type) = 0;
-  virtual int currLineCounter() = 0;
-  virtual void advanceLineCounter() = 0;
 };

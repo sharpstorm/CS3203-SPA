@@ -8,8 +8,9 @@ bool StatementContext::validate(SourceParseState *state) {
   return true;
 }
 
-shared_ptr<ASTNode> StatementContext::generateSubtree(SourceParseState *state) {
-  shared_ptr<ASTNode> node;
+shared_ptr<ASTNode> StatementContext::generateSubtree(SourceParseState *state) {;
+  state->advanceLine();
+  state->clearCached();
   switch (state->getCurrToken()->getType()) {
     case SIMPLE_TOKEN_KEYWORD_PRINT:
       return contextProvider->

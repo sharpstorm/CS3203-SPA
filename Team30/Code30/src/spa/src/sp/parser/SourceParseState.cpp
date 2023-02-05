@@ -4,6 +4,7 @@
 
 SourceParseState::SourceParseState(vector<SourceToken>* t) {
   curIndex = 0;
+  lineNumber = 0;
   tokenLength = t->size();
   tokens = t;
   curCache = nullptr;
@@ -55,4 +56,12 @@ bool SourceParseState::hasCached() {
 
 shared_ptr<ASTNode> SourceParseState::getCached() {
   return curCache;
+}
+
+int SourceParseState::getLineNumber() {
+  return lineNumber;
+}
+
+void SourceParseState::advanceLine() {
+  lineNumber += 1;
 }
