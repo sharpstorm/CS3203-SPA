@@ -6,7 +6,7 @@ PQLSuchThatClauseContext::PQLSuchThatClauseContext() {
 }
 
 ClauseArgument PQLSuchThatClauseContext::extractStatementRef(
-    TokenParseState* state) {
+    QueryTokenParseState* state) {
   if (state->getCurrentToken()->isType(PQL_TOKEN_INTEGER)) {
     return extractStatement(state);
   }
@@ -15,7 +15,7 @@ ClauseArgument PQLSuchThatClauseContext::extractStatementRef(
 }
 
 ClauseArgument PQLSuchThatClauseContext::extractEntityRef(
-    TokenParseState* state) {
+    QueryTokenParseState* state) {
   if (state->getCurrentToken()->isType(PQL_TOKEN_QUOTE)) {
     return extractEntity(state);
   }
@@ -23,7 +23,8 @@ ClauseArgument PQLSuchThatClauseContext::extractEntityRef(
   return extractCommonRef(state);
 }
 
-ClauseArgument PQLSuchThatClauseContext::extractAnyRef(TokenParseState* state) {
+ClauseArgument PQLSuchThatClauseContext::extractAnyRef(
+    QueryTokenParseState* state) {
   if (state->getCurrentToken()->isType(PQL_TOKEN_INTEGER)) {
     return extractStatement(state);
   } else if (state->getCurrentToken()->isType(PQL_TOKEN_QUOTE)) {
@@ -33,7 +34,7 @@ ClauseArgument PQLSuchThatClauseContext::extractAnyRef(TokenParseState* state) {
 }
 
 ClauseArgument PQLSuchThatClauseContext::extractCommonRef(
-    TokenParseState* state) {
+    QueryTokenParseState* state) {
   if (state->getCurrentToken()->isType(PQL_TOKEN_UNDERSCORE)) {
     state->advanceToken();
     return ClauseArgument(CLAUSE_ARG_WILDCARD);
@@ -52,7 +53,7 @@ ClauseArgument PQLSuchThatClauseContext::extractCommonRef(
 }
 
 ClauseArgument PQLSuchThatClauseContext::extractEntity(
-    TokenParseState* state) {
+    QueryTokenParseState* state) {
   state->advanceToken();
   PQLToken* entityRef = expectVarchar(state);
   expect(state, PQL_TOKEN_QUOTE);
@@ -60,12 +61,12 @@ ClauseArgument PQLSuchThatClauseContext::extractEntity(
 }
 
 ClauseArgument PQLSuchThatClauseContext::extractStatement(
-    TokenParseState* state) {
+    QueryTokenParseState* state) {
   int value = stoi(state->getCurrentToken()->tokenData);
   state->advanceToken();
   return ClauseArgument(value);
 }
 
-void PQLSuchThatClauseContext::parse(TokenParseState *parserState) {
+void PQLSuchThatClauseContext::parse(QueryTokenParseState *parserState) {
   parserState->advanceStage(TOKEN_PARSE_STAGE_CONDITION);
 }

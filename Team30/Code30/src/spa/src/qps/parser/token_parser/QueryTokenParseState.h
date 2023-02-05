@@ -31,7 +31,7 @@ const unordered_set<TokenParsingStage> parsingAllowedTransitions[] = {
     {},
 };
 
-class TokenParseState {
+class QueryTokenParseState {
  private:
   int currentIndex;
   int totalTokenSize;
@@ -40,7 +40,7 @@ class TokenParseState {
   TokenParsingStage currentStage;
 
  public:
-  explicit TokenParseState(vector<PQLToken>* tokens);
+  explicit QueryTokenParseState(vector<PQLToken>* tokens);
   bool isTokenStreamEnd();
   void advanceToken();
   void advanceStage(TokenParsingStage newStage);

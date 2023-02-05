@@ -4,5 +4,5 @@
 
 class PQLUsesClauseContext: public PQLSuchThatClauseContext {
  public:
-  void parse(TokenParseState* parserState);
+  void parse(QueryTokenParseState* parserState);
 };

@@ -6,8 +6,8 @@ using std::out_of_range, std::string;
 
 const int LEXER_BUFFER_SIZE = 2048;
 
-vector<PQLToken>* QueryLexer::getTokenStream(string* query) {
-  vector<PQLToken>* resultVector = new vector<PQLToken>();
+vector<PQLToken> QueryLexer::getTokenStream(string* query) {
+  vector<PQLToken> resultVector = vector<PQLToken>();
 
   bool hasSeenChar = false;
   string buffer;

@@ -3,7 +3,7 @@
 #include <tuple>
 
 #include "catch.hpp"
-#include "qps/parser/token_parser/TokenParser.h"
+#include "qps/parser/token_parser/QueryTokenParser.h"
 #include "qps/parser/PQLToken.h"
 #include "qps/common/PQLQuery.h"
 #include "qps/common/PQLQueryVariable.h"
@@ -27,7 +27,7 @@ tuple<string, PQLTokenType, PQLSynonymType> TEST_TYPE_MAP[] = {
 };
 
 unique_ptr<PQLQuery> testPQLParsing(vector<PQLToken> testcase, vector<PQLQueryVariable> expectedVariables) {
-  TokenParser parser(testcase);
+  QueryTokenParser parser(testcase);
   unique_ptr<PQLQuery> result;
   try {
     result = parser.build();
@@ -50,7 +50,7 @@ unique_ptr<PQLQuery> testPQLParsing(vector<PQLToken> testcase, vector<PQLQueryVa
 }
 
 void testPQLParsingRejection(vector<PQLToken> testcase) {
-  TokenParser parser(testcase);
+  QueryTokenParser parser(testcase);
   try {
     auto result = parser.build();
     FAIL("Test did not fail with error");

@@ -7,7 +7,7 @@ class PQLDeclarationContext: public AbstractPQLContext {
   PQLSynonymType variableType;
 
  public:
-  void parse(TokenParseState* parserState);
+  void parse(QueryTokenParseState* parserState);
 
  protected:
   explicit PQLDeclarationContext(PQLSynonymType variableType);

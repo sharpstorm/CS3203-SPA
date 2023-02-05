@@ -5,7 +5,7 @@
 
 using std::unique_ptr;
 
-void PQLFollowsClauseContext::parse(TokenParseState *parserState) {
+void PQLFollowsClauseContext::parse(QueryTokenParseState *parserState) {
   PQLSuchThatClauseContext::parse(parserState);
   bool isTransitive = false;
 

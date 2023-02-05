@@ -6,7 +6,7 @@
 
 void testParentParsing(vector<PQLToken> inputs) {
   PQLParentClauseContext context;
-  TokenParseState state(&inputs);
+  QueryTokenParseState state(&inputs);
   state.advanceStage(TOKEN_PARSE_STAGE_COMMAND);
   state.advanceStage(TOKEN_PARSE_STAGE_CONDITION_MARKER);
   state.getQueryBuilder()->addVariable("s", PQL_VAR_TYPE_STMT);

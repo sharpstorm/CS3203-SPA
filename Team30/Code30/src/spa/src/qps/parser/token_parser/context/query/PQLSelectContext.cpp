@@ -1,6 +1,6 @@
 #include "PQLSelectContext.h"
 
-void PQLSelectContext::parse(TokenParseState *parserState) {
+void PQLSelectContext::parse(QueryTokenParseState *parserState) {
   parserState->advanceStage(TOKEN_PARSE_STAGE_COMMAND);
 
   PQLToken* currentToken = expectVarchar(parserState);

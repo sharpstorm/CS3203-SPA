@@ -9,7 +9,7 @@ TEST_CASE("Test PQL Such That parsing") {
   auto dummyStream = vector<PQLToken>{
       PQLToken{PQL_TOKEN_THAT, "that"},
   };
-  TokenParseState state(&dummyStream);
+  QueryTokenParseState state(&dummyStream);
   state.advanceStage(TOKEN_PARSE_STAGE_COMMAND);
   context.parse(&state);
 }
@@ -20,7 +20,7 @@ TEST_CASE("Test PQL Such That bad symbol") {
   auto dummyStream = vector<PQLToken>{
       PQLToken{PQL_TOKEN_STRING, "those"},
   };
-  TokenParseState state(&dummyStream);
+  QueryTokenParseState state(&dummyStream);
   state.advanceStage(TOKEN_PARSE_STAGE_COMMAND);
   REQUIRE_THROWS_AS(context.parse(&state), QPSParserError);
 }

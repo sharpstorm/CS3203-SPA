@@ -10,7 +10,7 @@ TEST_CASE("Test PQL Declaration parsing") {
       PQLToken{PQL_TOKEN_STRING, "s"},
       PQLToken{PQL_TOKEN_SEMICOLON},
   };
-  TokenParseState state(&dummyStream);
+  QueryTokenParseState state(&dummyStream);
   context.parse(&state);
   REQUIRE(state.getQueryBuilder()->hasVariable("s"));
 }
@@ -22,7 +22,7 @@ TEST_CASE("Test PQL Declaration Duplicated Name") {
       PQLToken{PQL_TOKEN_STMT, "stmt"},
       PQLToken{PQL_TOKEN_SEMICOLON},
   };
-  TokenParseState state(&dummyStream);
+  QueryTokenParseState state(&dummyStream);
   context.parse(&state);
   REQUIRE(state.getQueryBuilder()->hasVariable("stmt"));
 }
@@ -33,7 +33,7 @@ TEST_CASE("Test PQL Declaration Bad Symbol") {
   auto dummyStream = vector<PQLToken>{
       PQLToken{PQL_TOKEN_COMMA},
   };
-  TokenParseState state(&dummyStream);
+  QueryTokenParseState state(&dummyStream);
   REQUIRE_THROWS_AS(context.parse(&state), QPSParserError);
 }
 
@@ -43,6 +43,6 @@ TEST_CASE("Test PQL Declaration No semicolon") {
   auto dummyStream = vector<PQLToken>{
       PQLToken{PQL_TOKEN_STMT, "stmt"},
   };
-  TokenParseState state(&dummyStream);
+  QueryTokenParseState state(&dummyStream);
   REQUIRE_THROWS_AS(context.parse(&state), QPSParserError);
 }
