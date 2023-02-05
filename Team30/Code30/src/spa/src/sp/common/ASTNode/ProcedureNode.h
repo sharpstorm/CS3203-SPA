@@ -7,8 +7,9 @@ using std::string;
 
 class ProcedureNode : public ASTNode {
  public:
-  ProcedureNode();
+  ProcedureNode(string name);
   ~ProcedureNode() = default;
   string toString();
   void accept();
+  string procName;
 };
