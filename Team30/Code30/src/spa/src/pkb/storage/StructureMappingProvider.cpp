@@ -4,7 +4,7 @@ StructureMappingProvider::StructureMappingProvider() {}
 
 bool StructureMappingProvider::isStatementOfType(int s,
                                                  StmtType stmtType) const {
-  return stmtType == StmtType::Assign;
+  return false;
 }
 
 unordered_set<int> StructureMappingProvider::getStatementsOfType(

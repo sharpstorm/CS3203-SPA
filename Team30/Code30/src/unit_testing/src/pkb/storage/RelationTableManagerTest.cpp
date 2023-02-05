@@ -12,6 +12,7 @@
 #include "pkb/storage/tables/ContiguousTable.h"
 #include "pkb/storage/tables/HashKeyTable.h"
 
+using std::make_pair;
 using std::make_shared;
 using std::string;
 using std::unordered_set;
@@ -52,8 +53,8 @@ TEST_CASE("RelationTableManager known arg1 values with arg2 predicate") {
   REQUIRE(res.secondArgVals == unordered_set<string>({"a", "e"}));
 
   unordered_set<std::pair<int, string>> pairs;
-  pairs.insert(std::make_pair(1, "a"));
-  pairs.insert(std::make_pair(4, "e"));
+  pairs.insert(make_pair(1, "a"));
+  pairs.insert(make_pair(4, "e"));
   REQUIRE(res.pairVals == pairs);
 }
 
@@ -80,8 +81,8 @@ TEST_CASE("RelationTableManager known arg2 values with arg1 predicate") {
   REQUIRE(res.secondArgVals == unordered_set<string>({"a", "b"}));
 
   unordered_set<std::pair<int, string>> pairs;
-  pairs.insert(std::make_pair(4, "a"));
-  pairs.insert(std::make_pair(2, "b"));
+  pairs.insert(make_pair(4, "a"));
+  pairs.insert(make_pair(2, "b"));
   REQUIRE(res.pairVals == pairs);
 }
 
@@ -104,7 +105,7 @@ TEST_CASE("RelationTableManager known arg1 with arg2 predicate") {
   REQUIRE(res.secondArgVals == unordered_set<string>({"b"}));
 
   unordered_set<std::pair<int, string>> pairs;
-  pairs.insert(std::make_pair(2, "b"));
+  pairs.insert(make_pair(2, "b"));
   REQUIRE(res.pairVals == pairs);
 }
 
@@ -127,6 +128,6 @@ TEST_CASE("RelationTableManager known arg2 with arg1 predicate") {
   REQUIRE(res.secondArgVals == unordered_set<string>({"a"}));
 
   unordered_set<std::pair<int, string>> pairs;
-  pairs.insert(std::make_pair(4, "a"));
+  pairs.insert(make_pair(4, "a"));
   REQUIRE(res.pairVals == pairs);
 }

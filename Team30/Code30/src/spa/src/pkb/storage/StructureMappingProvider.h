@@ -9,6 +9,6 @@ class StructureMappingProvider {
  public:
   StructureMappingProvider();
 
-  bool isStatementOfType(int s, StmtType stmtType) const;
-  unordered_set<int> getStatementsOfType(StmtType stmtType) const;
+  virtual bool isStatementOfType(int s, StmtType stmtType) const;
+  virtual unordered_set<int> getStatementsOfType(StmtType stmtType) const;
 };
