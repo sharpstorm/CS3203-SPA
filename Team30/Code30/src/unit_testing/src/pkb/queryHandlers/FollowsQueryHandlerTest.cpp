@@ -1,5 +1,4 @@
 #include <memory>
-#include <unordered_map>
 #include <unordered_set>
 #include <utility>
 
@@ -12,12 +11,11 @@
 
 using std::make_shared;
 using std::pair;
-using std::unordered_map;
 using std::unordered_set;
 
-class StructureMappingProviderStub : public StructureMappingProvider {
+class FollowsQHStructureProviderStub : public StructureMappingProvider {
  public:
-  StructureMappingProviderStub(){};
+  FollowsQHStructureProviderStub(){};
 
   bool isStatementOfType(int s, StmtType stmtType) const override {
     switch (s) {
@@ -59,7 +57,8 @@ TEST_CASE("FollowsQueryHandler follows(stmtNum,stmtNum)") {
   auto table = make_shared<ContiguousTable<int>>();
   auto reverseTable = make_shared<ContiguousTable<int>>();
   auto store = new FollowsStorage(table, reverseTable);
-  StructureMappingProviderStub* provider = new StructureMappingProviderStub();
+  FollowsQHStructureProviderStub* provider =
+      new FollowsQHStructureProviderStub();
   PredicateFactory* factory = new PredicateFactory(provider);
   FollowsQueryHandler handler = FollowsQueryHandler(store, factory, provider);
 
@@ -84,7 +83,8 @@ TEST_CASE("FollowsQueryHandler follows(stmtNum,stmtType)") {
   auto table = make_shared<ContiguousTable<int>>();
   auto reverseTable = make_shared<ContiguousTable<int>>();
   auto store = new FollowsStorage(table, reverseTable);
-  StructureMappingProviderStub* provider = new StructureMappingProviderStub();
+  FollowsQHStructureProviderStub* provider =
+      new FollowsQHStructureProviderStub();
   PredicateFactory* factory = new PredicateFactory(provider);
   FollowsQueryHandler handler = FollowsQueryHandler(store, factory, provider);
 
@@ -107,7 +107,8 @@ TEST_CASE("FollowsQueryHandler follows(stmtType, stmtNum)") {
   auto table = make_shared<ContiguousTable<int>>();
   auto reverseTable = make_shared<ContiguousTable<int>>();
   auto store = new FollowsStorage(table, reverseTable);
-  StructureMappingProviderStub* provider = new StructureMappingProviderStub();
+  FollowsQHStructureProviderStub* provider =
+      new FollowsQHStructureProviderStub();
   PredicateFactory* factory = new PredicateFactory(provider);
   FollowsQueryHandler handler = FollowsQueryHandler(store, factory, provider);
 
@@ -130,7 +131,8 @@ TEST_CASE("FollowsQueryHandler follows(stmtType, stmtType)") {
   auto table = make_shared<ContiguousTable<int>>();
   auto reverseTable = make_shared<ContiguousTable<int>>();
   auto store = new FollowsStorage(table, reverseTable);
-  StructureMappingProviderStub* provider = new StructureMappingProviderStub();
+  FollowsQHStructureProviderStub* provider =
+      new FollowsQHStructureProviderStub();
   PredicateFactory* factory = new PredicateFactory(provider);
   FollowsQueryHandler handler = FollowsQueryHandler(store, factory, provider);
 
@@ -152,7 +154,8 @@ TEST_CASE("FollowsQueryHandler followsStar(stmtNum,stmtNum)") {
   auto table = make_shared<ContiguousTable<int>>();
   auto reverseTable = make_shared<ContiguousTable<int>>();
   auto store = new FollowsStorage(table, reverseTable);
-  StructureMappingProviderStub* provider = new StructureMappingProviderStub();
+  FollowsQHStructureProviderStub* provider =
+      new FollowsQHStructureProviderStub();
   PredicateFactory* factory = new PredicateFactory(provider);
   FollowsQueryHandler handler = FollowsQueryHandler(store, factory, provider);
 
@@ -173,7 +176,8 @@ TEST_CASE("FollowsQueryHandler followsStar(stmtNum,stmtType)") {
   auto table = make_shared<ContiguousTable<int>>();
   auto reverseTable = make_shared<ContiguousTable<int>>();
   auto store = new FollowsStorage(table, reverseTable);
-  StructureMappingProviderStub* provider = new StructureMappingProviderStub();
+  FollowsQHStructureProviderStub* provider =
+      new FollowsQHStructureProviderStub();
   PredicateFactory* factory = new PredicateFactory(provider);
   FollowsQueryHandler handler = FollowsQueryHandler(store, factory, provider);
 
@@ -197,7 +201,8 @@ TEST_CASE("FollowsQueryHandler followsStar(stmtType,stmtNum)") {
   auto table = make_shared<ContiguousTable<int>>();
   auto reverseTable = make_shared<ContiguousTable<int>>();
   auto store = new FollowsStorage(table, reverseTable);
-  StructureMappingProviderStub* provider = new StructureMappingProviderStub();
+  FollowsQHStructureProviderStub* provider =
+      new FollowsQHStructureProviderStub();
   PredicateFactory* factory = new PredicateFactory(provider);
   FollowsQueryHandler handler = FollowsQueryHandler(store, factory, provider);
 
@@ -221,7 +226,8 @@ TEST_CASE("FollowsQueryHandler followsStar(stmtType,stmtType)") {
   auto table = make_shared<ContiguousTable<int>>();
   auto reverseTable = make_shared<ContiguousTable<int>>();
   auto store = new FollowsStorage(table, reverseTable);
-  StructureMappingProviderStub* provider = new StructureMappingProviderStub();
+  FollowsQHStructureProviderStub* provider =
+      new FollowsQHStructureProviderStub();
   PredicateFactory* factory = new PredicateFactory(provider);
   FollowsQueryHandler handler = FollowsQueryHandler(store, factory, provider);
 
@@ -238,3 +244,26 @@ TEST_CASE("FollowsQueryHandler followsStar(stmtType,stmtType)") {
   REQUIRE(result1.pairVals ==
           pair_set<int, int>({{11, 12}, {11, 16}, {14, 16}}));
 }
+
+// TEST_CASE("FollowsQueryHandler followsStar(_,stmtType)") {
+//  auto table = make_shared<ContiguousTable<int>>();
+//  auto reverseTable = make_shared<ContiguousTable<int>>();
+//  auto store = new FollowsStorage(table, reverseTable);
+//  FollowsQHStructureProviderStub* provider =
+//      new FollowsQHStructureProviderStub();
+//  PredicateFactory* factory = new PredicateFactory(provider);
+//  FollowsQueryHandler handler = FollowsQueryHandler(store, factory, provider);
+//
+//  table->set(11, 12);
+//  table->set(12, 14);
+//  table->set(14, 15);
+//  table->set(15, 16);
+//
+//  auto result1 =
+//      handler.queryFollowsStar({StmtType::None, 0}, {StmtType::While, 0});
+//  REQUIRE(result1.isEmpty == false);
+//  REQUIRE(result1.firstArgVals == unordered_set<int>({11, 12, 14, 15}));
+//  REQUIRE(result1.secondArgVals == unordered_set<int>({12, 16}));
+//  REQUIRE(result1.pairVals ==
+//          pair_set<int, int>({{11, 12}, {12, 16}, {14, 16}, {15, 16}}));
+//}

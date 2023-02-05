@@ -11,14 +11,14 @@ FollowsQueryHandler::FollowsQueryHandler(
 QueryResult<int, int> FollowsQueryHandler::queryFollows(StmtRef s1,
                                                         StmtRef s2) const {
   if (s1.lineNum != 0) {
-    // known arg1 and unknown arg2
-    // or both args known
+    // (stmtNum,stmtType)
+    // or (stmtNum, stmtNum)
     return store->query(s1.lineNum, predicateFactory->getPredicate(s2));
   } else if (s2.lineNum != 0) {
-    // unknown arg1 and known arg2
+    // (stmtType, stmtNum)
     return store->query(predicateFactory->getPredicate(s1), s2.lineNum);
   } else {
-    // both args unknown
+    // (stmtType, stmtType)
     return store->query(structureProvider->getStatementsOfType(s1.type),
                         predicateFactory->getPredicate(s2));
   }
@@ -27,14 +27,14 @@ QueryResult<int, int> FollowsQueryHandler::queryFollows(StmtRef s1,
 QueryResult<int, int> FollowsQueryHandler::queryFollowsStar(StmtRef s1,
                                                             StmtRef s2) const {
   if (s1.lineNum != 0) {
-    // known arg1 and unknown arg2
-    // or both args known
+    // (stmtNum,stmtType)
+    // or (stmtNum, stmtNum)
     return store->queryT(s1.lineNum, predicateFactory->getPredicate(s2));
   } else if (s2.lineNum != 0) {
-    // unknown arg1 and known arg2
+    // (stmtType, stmtNum)
     return store->queryT(predicateFactory->getPredicate(s1), s2.lineNum);
   } else {
-    // both args unknown
+    // (stmtType, stmtType)
     return store->queryT(structureProvider->getStatementsOfType(s1.type),
                          predicateFactory->getPredicate(s2));
   }
