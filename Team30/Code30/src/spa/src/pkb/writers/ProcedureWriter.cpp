@@ -1,6 +1,7 @@
 #include "ProcedureWriter.h"
 
-ProcedureWriter::ProcedureWriter(ProcedureStorage *procedureStorage) {}
+ProcedureWriter::ProcedureWriter(ProcedureStorage *procedureStorage)
+    : procedureStorage(procedureStorage) {}
 
 void ProcedureWriter::addProcedure(const std::string &procedureName,
                                    int startLineNum, int endLineNum) {
