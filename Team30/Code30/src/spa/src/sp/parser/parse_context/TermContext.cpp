@@ -11,71 +11,28 @@ bool TermContext::validate(SourceParseState *state) {
 }
 
 shared_ptr<ASTNode> TermContext::generateSubtree(SourceParseState *state) {
-  if (state->isAtLast()) {
+
+  if (!state->peekNextToken()->isType(SIMPLE_TOKEN_PLUS) &&
+      !state->peekNextToken()->isType(SIMPLE_TOKEN_MINUS) &&
+      !state->peekNextToken()->isType(SIMPLE_TOKEN_TIMES) &&
+      !state->peekNextToken()->isType(SIMPLE_TOKEN_DIV) &&
+      !state->peekNextToken()->isType(SIMPLE_TOKEN_MOD) &&
+      !state->peekNextToken()->isType(SIMPLE_TOKEN_INTEGER) &&
+      !state->peekNextToken()->isType(SIMPLE_TOKEN_VARIABLE)) {
     return contextProvider->getContext(FACTOR_CONTEXT)->generateSubtree(state);
   }
 
-  // if current token is factor integer, create node and return it
-  if (state->getCurrToken()->isType(SIMPLE_TOKEN_INTEGER) ||
-      state->getCurrToken()->isType(SIMPLE_TOKEN_VARIABLE) ||
-      state->getCurrToken()->isType(SIMPLE_TOKEN_BRACKET_ROUND_LEFT))  {
-    shared_ptr<ASTNode> node = contextProvider->
-        getContext(FACTOR_CONTEXT)->generateSubtree(state);
-    return node;
-  }
-
-  bool toReRoot = state->getCached()->toString().at(0) == '+' ||
-      state->getCached()->toString().at(0) == '-';
-
-  shared_ptr<ASTNode> leftNode;
-  leftNode = toReRoot ? state->getCached()->
-      getChildren().at(1) : state->getCached();
-
-  shared_ptr<AbstractMathASTNode> middleNode;
-  SourceToken* token = expect(state,
-                              SIMPLE_TOKEN_TIMES,
-                              SIMPLE_TOKEN_DIV,
-                              SIMPLE_TOKEN_MOD);
-
-  switch (token->getType()) {
-    case SIMPLE_TOKEN_TIMES:
-      middleNode = generateTimes(state, leftNode);
-      break;
-    case SIMPLE_TOKEN_DIV:
-      middleNode = generateDiv(state, leftNode);
-      break;
-    case SIMPLE_TOKEN_MOD:
-      middleNode = generateMod(state, leftNode);
-      break;
-  }
-
-  // re-root
-  if (toReRoot) {
-    state->getCached()->setChild(1, middleNode);
-    middleNode->setRightChild(contextProvider->
-        getContext(TERM_CONTEXT)->generateSubtree(state));
+  if (!state->peekNextToken()->isType(SIMPLE_TOKEN_TIMES)  &&
+      !state->peekNextToken()->isType(SIMPLE_TOKEN_DIV)  &&
+      !state->peekNextToken()->isType(SIMPLE_TOKEN_MOD)) {
+    return contextProvider->getContext(FACTOR_CONTEXT)->generateSubtree(state);
   } else {
-    state->setCached(middleNode);
-    middleNode->setRightChild(contextProvider->
-        getContext(TERM_CONTEXT)->generateSubtree(state));
+    shared_ptr<ASTNode> leftNode = contextProvider->getContext(TERM_CONTEXT)->generateSubtree(state);
+    SourceToken* token = expect(state, SIMPLE_TOKEN_TIMES, SIMPLE_TOKEN_DIV, SIMPLE_TOKEN_MOD);
+    shared_ptr<AbstractMathASTNode> middleNode; middleNode = generateTimes(state, leftNode);
+    middleNode->setRightChild(contextProvider->getContext(FACTOR_CONTEXT)->generateSubtree(state));
+    return middleNode;
   }
-
-  // If next token is a + / - perform EXPR_CONTEXT on it
-  if (state->getCurrToken()->isType(SIMPLE_TOKEN_PLUS) ||
-      state->getCurrToken()->isType(SIMPLE_TOKEN_MINUS) ) {
-    return contextProvider->getContext(EXPR_CONTEXT)->
-        generateSubtree(state);
-  }
-
-  // if next is a * / '/' / '%' - perform TERM_CONTEXT on it
-  if (state->getCurrToken()->isType(SIMPLE_TOKEN_TIMES) ||
-      state->getCurrToken()->isType(SIMPLE_TOKEN_DIV) ||
-      state->getCurrToken()->isType(SIMPLE_TOKEN_MOD)) {
-    return contextProvider->getContext(TERM_CONTEXT)->
-        generateSubtree(state);
-  }
-
-  return state->getCached();
 }
 
 shared_ptr<AbstractMathASTNode>

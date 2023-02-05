@@ -27,22 +27,8 @@ shared_ptr<ASTNode> FactorContext::generateSubtree(SourceParseState *state) {
       node = contextProvider->
           getContext(EXPR_CONTEXT)->generateSubtree(state);
       expect(state, SIMPLE_TOKEN_BRACKET_ROUND_RIGHT);
-      if (currCache == nullptr) {
-        if (node->getChildren().size() == 0) {
-          state->setCached(node);
-          return node;
-        } else {
-          newNode->setLeftChild(node->getChildren().at(0));
-          newNode->setRightChild(node->getChildren().at(1));
-          state->setCached(newNode);
-        }
-      } else {
-        newNode->setLeftChild(node->getChildren().at(0));
-        newNode->setRightChild(node->getChildren().at(1));
-        state->setCached(currCache);
-        state->getCached()->setChild(1, newNode);
-      }
-      return newNode;
+      state->setCached(node);
+      return node;
     default:
       throw SPError("Unknown token sequence");
   }

@@ -10,83 +10,27 @@ bool ExpressionContext::validate(SourceParseState *state) {
 shared_ptr<ASTNode> ExpressionContext::generateSubtree(
     SourceParseState *state) {
 
-  if (!state->hasCached()) {
-    shared_ptr<ASTNode>firstNode = (contextProvider->
-        getContext(FACTOR_CONTEXT)->generateSubtree(state));
-    state->setCached(firstNode);
-    if (state->isAtLast()) {
-      return firstNode;
-    }
-    if (!state->getCurrToken()->isType(SIMPLE_TOKEN_PLUS) &&
-        !state->getCurrToken()->isType(SIMPLE_TOKEN_MINUS) &&
-        !state->getCurrToken()->isType(SIMPLE_TOKEN_TIMES) &&
-        !state->getCurrToken()->isType(SIMPLE_TOKEN_DIV) &&
-        !state->getCurrToken()->isType(SIMPLE_TOKEN_MOD)) {
-      return firstNode;
-    }
+  if (!state->peekNextToken()->isType(SIMPLE_TOKEN_PLUS) &&
+      !state->peekNextToken()->isType(SIMPLE_TOKEN_MINUS) &&
+      !state->peekNextToken()->isType(SIMPLE_TOKEN_TIMES) &&
+      !state->peekNextToken()->isType(SIMPLE_TOKEN_DIV) &&
+      !state->peekNextToken()->isType(SIMPLE_TOKEN_MOD) &&
+      !state->peekNextToken()->isType(SIMPLE_TOKEN_INTEGER) &&
+      !state->peekNextToken()->isType(SIMPLE_TOKEN_VARIABLE)) {
+    return contextProvider->getContext(FACTOR_CONTEXT)->generateSubtree(state);
   }
 
-  // if is last character of expression, must be a factor
-  if (state->isAtLast()) {
-    return contextProvider->getContext(FACTOR_CONTEXT)->
-        generateSubtree(state);
-  }
-
-  // if next constant / variable is not a factor
-  if (!state->peekNextToken()->isType(SIMPLE_TOKEN_INTEGER) &&
-      !state->peekNextToken()->isType(SIMPLE_TOKEN_VARIABLE) &&
-      !state->peekNextToken()->isType(SIMPLE_TOKEN_BRACKET_ROUND_LEFT)) {
-    return contextProvider->getContext(TERM_CONTEXT)->
-        generateSubtree(state);
-  }
-
-  // Throw expression to term context
-  if (state->getCurrToken()->isType(SIMPLE_TOKEN_TIMES)  ||
-      state->getCurrToken()->isType(SIMPLE_TOKEN_DIV)  ||
-      state->getCurrToken()->isType(SIMPLE_TOKEN_MOD)) {
-    shared_ptr<ASTNode> node = contextProvider->
-        getContext(TERM_CONTEXT)->generateSubtree(state);
-    return node;
-  }
-
-  // if expression is a factor of type '(' expr ')'
-  if (state->getCurrToken()->isType(SIMPLE_TOKEN_BRACKET_ROUND_LEFT) ||
-      state->getCurrToken()->isType(SIMPLE_TOKEN_INTEGER) ||
-      state->getCurrToken()->isType(SIMPLE_TOKEN_VARIABLE)) {
-    shared_ptr<ASTNode> node = contextProvider->
-        getContext(FACTOR_CONTEXT)->generateSubtree(state);
-    return node;
-  }
-
-  // create + / - AST node
-  shared_ptr<ASTNode> leftNode = state->getCached();
-  shared_ptr<AbstractMathASTNode> middleNode;
-  SourceToken* token = expect(state, SIMPLE_TOKEN_PLUS, SIMPLE_TOKEN_MINUS);
-
-  if (token->isType(SIMPLE_TOKEN_PLUS)) {
-    middleNode = generatePlus(state, leftNode);
-  } else if (token->isType(SIMPLE_TOKEN_MINUS)) {
-    middleNode = generateMinus(state, leftNode);
-  }
-
-  state->setCached(middleNode);
-  middleNode->setRightChild(contextProvider->
-      getContext(EXPR_CONTEXT)->generateSubtree(state));
-
-  // If next token is a + / - perform EXPR_CONTEXT on it
-  if (state->getCurrToken()->isType(SIMPLE_TOKEN_PLUS) ||
-      state->getCurrToken()->isType(SIMPLE_TOKEN_MINUS) ) {
-    return contextProvider->getContext(EXPR_CONTEXT)->generateSubtree(state);
-  }
-
-  // if next is a * / '/' / % perform EXPR_CONTEXT on it
-  if (state->getCurrToken()->isType(SIMPLE_TOKEN_TIMES)  ||
-      state->getCurrToken()->isType(SIMPLE_TOKEN_DIV)  ||
-      state->getCurrToken()->isType(SIMPLE_TOKEN_MOD)) {
+  if (!state->peekNextToken()->isType(SIMPLE_TOKEN_PLUS)  ||
+      !state->peekNextToken()->isType(SIMPLE_TOKEN_MINUS)) {
     return contextProvider->getContext(TERM_CONTEXT)->generateSubtree(state);
+  } else {
+    shared_ptr<ASTNode> leftNode = contextProvider->getContext(EXPR_CONTEXT)->generateSubtree(state);
+    SourceToken* token = expect(state, SIMPLE_TOKEN_PLUS, SIMPLE_TOKEN_MINUS);
+    shared_ptr<AbstractMathASTNode> middleNode; middleNode = generatePlus(state, leftNode);
+    middleNode->setRightChild(contextProvider->getContext(TERM_CONTEXT)->generateSubtree(state));
+    return middleNode;
   }
 
-  return middleNode;
 }
 
 shared_ptr<PlusASTNode> ExpressionContext::generatePlus(
