@@ -14,7 +14,6 @@ class ASTNode {
   vector<shared_ptr<ASTNode>> getChildren();
   void setChild(int index, shared_ptr<ASTNode> node);
   void addChild(shared_ptr<ASTNode> node);
-  int lineNumber;
  protected:
   vector<shared_ptr<ASTNode>> children;
 };
