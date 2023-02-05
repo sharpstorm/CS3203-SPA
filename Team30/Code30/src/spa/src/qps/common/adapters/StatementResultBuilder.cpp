@@ -13,7 +13,7 @@ StatementResult StatementResultBuilder::buildStatementResult(bool isLeft,
   }
 
   unordered_set<int> linesSet;
-  unordered_set<pair<int,int>> pairsSet;
+  unordered_set<pair<int, int>> pairsSet;
 
   if (isLeft) {
     linesSet = queryResult.firstArgVals;

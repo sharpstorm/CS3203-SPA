@@ -23,8 +23,8 @@ PQLQueryResult* FollowsClause::evaluateOn(
   unordered_set<pair<int, int>> tempPairs;
   tempPairs.insert({1, 2});
   tempPairs.insert({2, 3});
-  tempPairs.insert({3,4});
-  tempPairs.insert({4,5});
+  tempPairs.insert({3, 4});
+  tempPairs.insert({4, 5});
   queryResult.firstArgVals.insert(1);
   for (int i = 1; i < 5; i++) {
     queryResult.secondArgVals.insert(i + 1);

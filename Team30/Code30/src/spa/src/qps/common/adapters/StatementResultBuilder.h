@@ -11,5 +11,6 @@ using std::pair, std::unordered_set;
 class StatementResultBuilder {
  public:
   static StatementResult buildStatementResult(bool isLeft,
-                                              QueryResult<int, int> queryResult);
+                                              QueryResult<int, int>
+                                                  queryResult);
 };
