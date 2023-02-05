@@ -3,6 +3,10 @@
 
 using std::shared_ptr;
 
+ThenNode::ThenNode() {}
+
+void ThenNode::accept() {}
+
 string ThenNode::toString() {
   string ss = "";
   for (shared_ptr<ASTNode> node : children) {

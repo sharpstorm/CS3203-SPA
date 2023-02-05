@@ -8,6 +8,8 @@ IfNode::IfNode() {
   children = vector<shared_ptr<ASTNode>>{nullptr, nullptr, nullptr};
 }
 
+void IfNode::accept() {}
+
 void IfNode::addChild(shared_ptr<ASTNode> node) {
   children.push_back(node);
 }

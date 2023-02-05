@@ -1,4 +1,4 @@
-#include <memory>>
+#include <memory>
 #include "StatementContext.h"
 #include "../../errors/SPError.h"
 

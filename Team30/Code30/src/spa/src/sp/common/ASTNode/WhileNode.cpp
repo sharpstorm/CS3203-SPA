@@ -8,6 +8,8 @@ WhileNode::WhileNode() {
   children = vector<shared_ptr<ASTNode>>{nullptr};
 }
 
+void WhileNode::accept() {}
+
 void WhileNode::addChild(shared_ptr<ASTNode> node) {
   children.push_back(node);
 }
