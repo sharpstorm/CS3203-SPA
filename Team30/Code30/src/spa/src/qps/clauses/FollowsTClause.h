@@ -10,6 +10,6 @@ class FollowsTClause: public SuchThatClause {
 
  public:
   FollowsTClause(ClauseArgument left, ClauseArgument right);
-  PQLQueryResult* evaluateOn();
+  PQLQueryResult* evaluateOn(PkbQueryHandler pkbQueryHandler);
   bool validateArgTypes(VariableTable *variables);
 };

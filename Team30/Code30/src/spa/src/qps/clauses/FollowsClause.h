@@ -11,7 +11,12 @@ class FollowsClause: public SuchThatClause {
 
  public:
   FollowsClause(ClauseArgument left, ClauseArgument right);
-  PQLQueryResult* evaluateOn();
+  PQLQueryResult* evaluateOn(PkbQueryHandler pkbQueryHandler);
   bool validateArgTypes(VariableTable *variables);
   StmtRef buildStatementRef(ClauseArgument argument);
+//  StatementResult buildStatementResult(QueryResult<int, int> queryResult,
+//                                       PQL_VAR_NAME varName);
+  StatementResult buildStatementResult(unordered_set<int> linesSet,
+                                       unordered_set<pair<int, int>> pairsSet,
+                                       PQL_VAR_NAME varName);
 };

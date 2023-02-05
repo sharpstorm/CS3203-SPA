@@ -1,8 +1,7 @@
 #pragma once
 
-#include "qps/common/PQLQueryResult.h"
-#include "qps/common/PQLQuery.h"
 #include "qps/common/IEvaluatable.h"
+#include "qps/common/PQLQueryResult.h"
 
 class Clause : public IEvaluatable {
  public:

@@ -19,6 +19,10 @@ ClauseArgument::ClauseArgument(string ident) {
   this->ident = ident;
 }
 
+PQLSynonymType ClauseArgument::getSynonymType() {
+  return this->synonym.type;
+}
+
 PQL_VAR_NAME ClauseArgument::getSynonymName() {
   return this->synonym.name;
 }
@@ -37,4 +41,12 @@ bool ClauseArgument::isStmtRef() {
 
 bool ClauseArgument::isEntRef() {
   return this->argType == CLAUSE_ARG_STRING;
+}
+
+int ClauseArgument::getStatement() {
+  return statement;
+}
+
+string ClauseArgument::getIdent() {
+  return ident;
 }

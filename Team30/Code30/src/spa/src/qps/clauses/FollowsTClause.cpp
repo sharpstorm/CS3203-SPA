@@ -9,7 +9,7 @@ FollowsTClause::FollowsTClause(ClauseArgument leftArg, ClauseArgument rightArg):
   left(leftArg), right(rightArg) {
 }
 
-PQLQueryResult* FollowsTClause::evaluateOn() {
+PQLQueryResult* FollowsTClause::evaluateOn(PkbQueryHandler pkbQueryHandler) {
   // Temporary implementation
   // TODO(KwanHW): Wait for pkb implementation
   StatementResult statementResult;

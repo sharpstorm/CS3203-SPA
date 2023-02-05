@@ -7,5 +7,6 @@
 class QueryLauncher {
   PkbQueryHandler pkbQueryHandler;
  public:
+  QueryLauncher(PkbQueryHandler pkbQH);
   PQLQueryResult* execute(IEvaluatable* evaluatable);
 };

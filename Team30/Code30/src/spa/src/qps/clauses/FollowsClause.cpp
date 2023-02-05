@@ -1,41 +1,44 @@
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "FollowsClause.h"
-#include "common/Types.h"
 
-using std::pair, std::vector;
+using std::pair, std::unordered_set, std::vector;
 
 FollowsClause::FollowsClause(ClauseArgument leftArg, ClauseArgument rightArg):
   left(leftArg), right(rightArg) {
 }
 
-PQLQueryResult* FollowsClause::evaluateOn() {
+PQLQueryResult* FollowsClause::evaluateOn(PkbQueryHandler pkbQueryHandler) {
   StmtRef leftStatement = buildStatementRef(left);
   StmtRef rightStatement = buildStatementRef(right);
+  QueryResult<int, int> queryResult = pkbQueryHandler.queryFollows(leftStatement, rightStatement);
 
-  // Temporary implementation
-  // TODO(KwanHW): Wait for pkb implementation
-  StatementResult statementResult;
-  statementResult.linePairs = vector<pair<int, int>>({{1, 2}, {2, 3}, {3, 4},
-                                                      {4, 5}});
-  statementResult.lines = {1, 2, 3, 4, 5};
-  statementResult.isStaticTrue = false;
-  PQLQueryResult* queryResult = new PQLQueryResult();
+  PQLQueryResult*  pqlQueryResult = new PQLQueryResult();
+
   if (!left.isSynonym() && !right.isSynonym()) {
-    queryResult->setIsStaticTrue(true);
-    return queryResult;
+    pqlQueryResult->setIsStaticTrue(true);
+    return pqlQueryResult;
   }
 
+  StatementResult statementResult;
+  PQL_VAR_NAME synonym;
   if (left.isSynonym()) {
-    queryResult->addToStatementMap(left.getSynonymName(), statementResult);
+    synonym = left.getSynonymName();
+    statementResult = buildStatementResult(queryResult.firstArgVals,
+                                           queryResult.pairVals, synonym);
+    pqlQueryResult->addToStatementMap(synonym, statementResult);
   }
 
   if (right.isSynonym()) {
-    queryResult->addToStatementMap(right.getSynonymName(), statementResult);
+    synonym = right.getSynonymName();
+    statementResult = buildStatementResult(queryResult.secondArgVals,
+                                           queryResult.pairVals, synonym);
+    pqlQueryResult->addToStatementMap(synonym, statementResult);
   }
 
-  return queryResult;
+  return pqlQueryResult;
 }
 
 bool FollowsClause::validateArgTypes(VariableTable *variables) {
@@ -73,4 +76,18 @@ StmtRef FollowsClause::buildStatementRef(ClauseArgument argument) {
   }
 
   return StmtRef{stmtType, 0};
+}
+
+StatementResult FollowsClause::buildStatementResult(unordered_set<int> linesSet,
+                                                    unordered_set<pair<int, int>> pairsSet,
+                                                    PQL_VAR_NAME varName) {
+  vector<pair<int, int>> linePairs = vector<pair<int, int>>(pairsSet.begin(),
+                                                            pairsSet.end());
+  vector<int> lines = vector<int>(lines.begin(), lines.end());
+
+  StatementResult statementResult;
+  statementResult.lines = lines;
+  statementResult.linePairs = linePairs;
+  statementResult.isStaticTrue = false;
+  return statementResult;
 }
