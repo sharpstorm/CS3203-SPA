@@ -4,7 +4,7 @@
 #include "sp/common/SourceToken.h"
 #include "sp/common/ASTNode/ASTNode.h"
 
-using std::shared_ptr;
+using std::vector, std::shared_ptr;
 
 enum SourceParseLevel {
   SOURCE_PARSE_LEVEL_NONE,
@@ -19,7 +19,7 @@ const int IS_FACTOR_MASK = 0x4;
 
 class SourceParseState {
  public:
-  SourceParseState(vector<SourceToken>* tokens);
+  explicit SourceParseState(vector<SourceToken>* tokens);
   void advanceToken();
   SourceToken* getCurrToken();
   SourceToken* peekNextToken();

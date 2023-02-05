@@ -6,6 +6,6 @@
 class RecursiveParseContext: public SourceParseContext {
  protected:
   IGrammarContextProvider* contextProvider;
-  RecursiveParseContext(IGrammarContextProvider* contextProvider):
+  explicit RecursiveParseContext(IGrammarContextProvider* contextProvider):
       contextProvider(contextProvider) {}
 };

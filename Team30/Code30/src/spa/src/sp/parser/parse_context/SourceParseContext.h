@@ -19,12 +19,12 @@ class SourceParseContext {
  protected:
   template<typename... SourceTokenType>
   SourceToken *expect(SourceParseState* parserState,
-                   SourceTokenType... tokenType);
+                      SourceTokenType... tokenType);
 };
 
 template<typename... SourceTokenType>
 SourceToken* SourceParseContext::expect(SourceParseState* parserState,
-                                     SourceTokenType... tokenType) {
+                                        SourceTokenType... tokenType) {
   SourceToken* currentToken = parserState->getCurrToken();
 
   if (currentToken == nullptr) {
@@ -32,13 +32,10 @@ SourceToken* SourceParseContext::expect(SourceParseState* parserState,
   }
 
   if ((currentToken->isType(tokenType)  || ... || false)) {
-
     if (!parserState->isAtLast()) {
-        parserState->advanceToken();
+      parserState->advanceToken();
     }
-
     return currentToken;
   }
-
   throw SPError("Unexpected Token");
 }

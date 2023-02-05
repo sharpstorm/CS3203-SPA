@@ -1,13 +1,14 @@
+#include <vector>
 #include "SourceTokenParser.h"
-#include <iostream>
+#include "sp/common/AST.h"
 
-SourceTokenParser::SourceTokenParser() {
-};
+using std::vector;
 
-shared_ptr<ASTNode> SourceTokenParser::parse(vector<SourceToken>* tokens) {
+SourceTokenParser::SourceTokenParser() {}
+
+AST SourceTokenParser::parse(vector<SourceToken>* tokens) {
   SourceParseState state(tokens);
   GrammarContextProvider gcp;
-  gcp.getContext(REL_CONTEXT)->generateSubtree(&state);
-
-  return state.getCached();
+  gcp.getContext(PROCEDURE_CONTEXT)->generateSubtree(&state);
+  return AST(state.getCached());
 }

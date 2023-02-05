@@ -4,11 +4,12 @@
 #include <memory>
 #include "../common/SourceToken.h"
 #include "GrammarContextProvider.h"
+#include "sp/common/AST.h"
 
 using std::shared_ptr;
 
 class SourceTokenParser {
  public:
   SourceTokenParser();
-  shared_ptr<ASTNode> parse(vector<SourceToken>* tokens);
+  AST parse(vector<SourceToken>* tokens);
 };

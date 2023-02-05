@@ -1,18 +1,34 @@
 #include "GrammarContextProvider.h"
 
-using namespace std;
-
-
-
-GrammarContextProvider::GrammarContextProvider() : factorContext(this),
-termContext(this), expressionContext(this), relationalFactorContext(this),
-                                                   relationalExpressionContext(this){
-
-}
+GrammarContextProvider::GrammarContextProvider() :
+    factorContext(this),
+    termContext(this), expressionContext(this),
+    relationalFactorContext(this),
+    relationalExpressionContext(this),
+    conditionalExpressionContext(this),
+    assignContext(this), printContext(this),
+    whileContext(this), statementContext(this),
+    ifContext(this),
+    readContext(this),
+    procedureContext(this) {}
 
 SourceParseContext* GrammarContextProvider::getContext(
     SourceGrammarContextType type) {
   switch (type) {
+    case PROCEDURE_CONTEXT:
+      return &procedureContext;
+    case IF_CONTEXT:
+      return &ifContext;
+    case STMT_CONTEXT:
+      return &statementContext;
+    case WHILE_CONTEXT:
+      return &whileContext;
+    case PRINT_CONTEXT:
+      return &printContext;
+    case ASSIGN_CONTEXT:
+      return &assignContext;
+    case COND_CONTEXT:
+      return &conditionalExpressionContext;
     case REL_CONTEXT:
       return &relationalExpressionContext;
     case REL_FACTOR_CONTEXT:
@@ -27,7 +43,8 @@ SourceParseContext* GrammarContextProvider::getContext(
       return &constantParseContext;
     case VARIABLE_CONTEXT:
       return &variableParseContext;
+    case READ_CONTEXT:
+      return &readContext;
   }
-
   return nullptr;
 }
