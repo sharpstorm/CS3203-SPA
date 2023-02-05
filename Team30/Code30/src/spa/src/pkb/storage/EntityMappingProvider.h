@@ -1,16 +1,15 @@
 #pragma once
 
-#include <vector>
-#include <string>
+#include <unordered_set>
 #include <utility>
+#include <string>
 #include "SymbolStorage.h"
 #include "../../common/Types.h"
 
-
 class EntityMappingProvider {
  public:
-    EntityMappingProvider();
-    static SymbolStorage* symbolStorage;
-    EntityType getSymbolTable(std::string);
-    std::vector<std::string> getSymbolsOfType(EntityType);
+  EntityMappingProvider();
+  SymbolStorage *symbolStorage;
+  EntityType getSymbolTable(std::string) const;
+  std::unordered_set<std::string> getSymbolsOfType(EntityType) const;
 };

@@ -3,20 +3,23 @@
 //
 #include "StatementStorage.h"
 
-StatementStorage::StatementStorage() {
-}
+StatementStorage::StatementStorage()
+    : StatementTable(), ReverseStatementTable() {}
 
 void StatementStorage::addStatement(int lineNumber, StmtType stmtType) {
-    StatementTable.insert(StatementTable.begin() + lineNumber, stmtType);
-    // add to reverse table
-    ReverseStatementTable[stmtType].push_back(lineNumber);
+  if (lineNumber > StatementTable.size()) {
+    StatementTable.resize(lineNumber * 2);
+  }
+  StatementTable[lineNumber] = stmtType;
+  // add to reverse table
+  ReverseStatementTable[stmtType].insert(lineNumber);
 }
 
-StmtType StatementStorage::getStatement(int lineNumber) {
-    return StatementTable.at(lineNumber);
+StmtType StatementStorage::getStatement(int lineNumber) const {
+  return StatementTable.at(lineNumber);
 }
 
-std::vector<int> StatementStorage::getStatementsOfType(StmtType stmtType) {
-    return ReverseStatementTable.at(stmtType);
+std::unordered_set<int> StatementStorage::getStatementsOfType(StmtType stmtType) const {
+  return ReverseStatementTable.at(stmtType);
 }
 

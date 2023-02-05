@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vector>
+#include <unordered_set>
 #include <string>
 #include <utility>
 #include "StatementStorage.h"
@@ -9,12 +9,12 @@
 
 class StructureMappingProvider {
  public:
-    StructureMappingProvider();
-    static StatementStorage* statementStorage;
-    static ProcedureStorage* procedureStorage;
-    StmtType getStatementType(int);
-    bool isStatementOfType(int, StmtType);
-    std::vector<int> getStatementsOfType(StmtType);
-    std::pair<int, int> getProcedureLines(std::string);
-    std::string getProcedureForLine(int);
+  StructureMappingProvider();
+  StatementStorage *statementStorage;
+  ProcedureStorage *procedureStorage;
+  StmtType getStatementType(int) const;
+  virtual bool isStatementOfType(int, StmtType) const;
+  std::unordered_set<int> getStatementsOfType(StmtType) const;
+  std::pair<int, int> getProcedureLines(std::string) const;
+  std::string getProcedureForLine(int) const;
 };

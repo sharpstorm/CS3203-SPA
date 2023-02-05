@@ -2,11 +2,11 @@
 
 EntityMappingProvider::EntityMappingProvider() {}
 
-EntityType EntityMappingProvider::getSymbolTable(std::string entityName) {
-    return symbolStorage->getSymbol(entityName);
+EntityType EntityMappingProvider::getSymbolTable(std::string entityName) const {
+  return symbolStorage->getSymbol(entityName);
 }
 
-std::vector<std::string> EntityMappingProvider::getSymbolsOfType \
-    (EntityType entityType) {
-    return symbolStorage->getSymbolsOfType(entityType);
+std::unordered_set<std::string> EntityMappingProvider::getSymbolsOfType(
+    EntityType entityType) const {
+  return symbolStorage->getSymbolsOfType(entityType);
 }
