@@ -1,0 +1,17 @@
+#pragma once
+
+#include <string>
+#include <memory>
+#include "ASTNode.h"
+
+using std::string, std::shared_ptr;
+
+class WhileNode : public ASTNode {
+ public:
+  WhileNode();
+  ~WhileNode() = default;
+  string toString();
+  void accept();
+  void addChild(shared_ptr<ASTNode> node);
+  AST_NODE_TYPE getType() {return AST_NODE_WHILE;}
+};
