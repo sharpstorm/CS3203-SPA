@@ -7,16 +7,14 @@
 #include "qps/parser/lexer/QueryLexer.h"
 #include "qps/common/PQLQuery.h"
 #include "qps/errors/QPSError.h"
-#include "qps/parser/token_parser/TokenParser.h"
+#include "qps/parser/token_parser/QueryTokenParser.h"
 #include "qps/clauses/FollowsClause.h"
+#include "qps/parser/QueryParser.h"
 
 using std::vector, std::string, std::cout, std::unique_ptr, std::shared_ptr;
 
 unique_ptr<PQLQuery> testPQLParsing(string testCase) {
-  QueryLexer lexer;
-  vector<PQLToken>* tokenStream = lexer.getTokenStream(&testCase);
-  TokenParser parser(*tokenStream);
-  unique_ptr<PQLQuery> result;
+  unique_ptr<PQLQuery> result = QueryParser().parseQuery(&testCase);
 
   try {
     result = parser.build();
