@@ -12,13 +12,14 @@
 #include "parse_context/RelationalFactorContext.h"
 #include "parse_context/RelationalExpressionContext.h"
 #include "sp/parser/parse_context/ConditionalExpressionContext.h"
-#include "sp/parser/parse_context/AssignContext.h"
-#include "sp/parser/parse_context/PrintContext.h"
-#include "sp/parser/parse_context/WhileContext.h"
+#include "sp/parser/parse_context/StatementContext/AssignContext.h"
+#include "sp/parser/parse_context/StatementContext/PrintContext.h"
+#include "sp/parser/parse_context/StatementContext/WhileContext.h"
 #include "sp/parser/parse_context/StatementContext.h"
-#include "sp/parser/parse_context/IfContext.h"
-#include "sp/parser/parse_context/ReadContext.h"
+#include "sp/parser/parse_context/StatementContext/IfContext.h"
+#include "sp/parser/parse_context/StatementContext/ReadContext.h"
 #include "sp/parser/parse_context/ProcedureContext.h"
+#include "sp/parser/parse_context/StatementListContext.h"
 
 class GrammarContextProvider: public IGrammarContextProvider {
  public:
@@ -43,4 +44,5 @@ class GrammarContextProvider: public IGrammarContextProvider {
   IfContext ifContext;
   ReadContext readContext;
   ProcedureContext procedureContext;
+  StatementListContext statementListContext;
 };

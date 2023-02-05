@@ -10,25 +10,20 @@ GrammarContextProvider::GrammarContextProvider() :
     whileContext(this), statementContext(this),
     ifContext(this),
     readContext(this),
-    procedureContext(this) {}
-
-int GrammarContextProvider::currLineCounter() {
-  return lineCounter;
-}
-
-void GrammarContextProvider::advanceLineCounter() {
-  lineCounter += 1;
-}
+    procedureContext(this),
+    statementListContext(this) {}
 
 SourceParseContext* GrammarContextProvider::getContext(
     SourceGrammarContextType type) {
   switch (type) {
     case PROCEDURE_CONTEXT:
       return &procedureContext;
-    case IF_CONTEXT:
-      return &ifContext;
+    case STMT_LIST_CONTEXT:
+      return &statementListContext;
     case STMT_CONTEXT:
       return &statementContext;
+    case IF_CONTEXT:
+      return &ifContext;
     case WHILE_CONTEXT:
       return &whileContext;
     case PRINT_CONTEXT:
