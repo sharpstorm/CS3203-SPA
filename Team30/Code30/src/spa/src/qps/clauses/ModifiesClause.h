@@ -10,6 +10,6 @@ class ModifiesClause: public SuchThatClause {
 
  public:
   ModifiesClause(ClauseArgument left, ClauseArgument right);
-  PQLQueryResult* evaluateOn(PkbQueryHandler pkbQueryHandler);
+  PQLQueryResult* evaluateOn(shared_ptr<PkbQueryHandler> pkbQueryHandler);
   bool validateArgTypes(VariableTable *variables);
 };

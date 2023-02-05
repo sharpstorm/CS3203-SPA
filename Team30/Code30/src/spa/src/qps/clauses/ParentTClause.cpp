@@ -9,7 +9,8 @@ ParentTClause::ParentTClause(ClauseArgument leftArg, ClauseArgument rightArg):
   left(leftArg), right(rightArg) {
 }
 
-PQLQueryResult* ParentTClause::evaluateOn(PkbQueryHandler pkbQueryHandler) {
+PQLQueryResult* ParentTClause::evaluateOn(
+        shared_ptr<PkbQueryHandler> pkbQueryHandler) {
   // Temporary implementation
   // TODO(KwanHW): Wait for pkb implementation
   StatementResult statementResult;

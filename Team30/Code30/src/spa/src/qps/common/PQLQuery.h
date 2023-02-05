@@ -7,8 +7,7 @@
 
 #include "PQLTypes.h"
 #include "PQLQueryVariable.h"
-#include "../clauses/Clause.h"
-#include "IEvaluatable.h"
+#include "qps/clauses/Clause.h"
 
 using std::string, std::unordered_map, std::vector, std::shared_ptr;
 

@@ -4,7 +4,8 @@ ModifiesClause::ModifiesClause(ClauseArgument leftArg, ClauseArgument rightArg):
   left(leftArg), right(rightArg) {
 }
 
-PQLQueryResult* ModifiesClause::evaluateOn(PkbQueryHandler pkbQueryHandler) {
+PQLQueryResult* ModifiesClause::evaluateOn(
+        shared_ptr<PkbQueryHandler> pkbQueryHandler) {
   return nullptr;
 }
 

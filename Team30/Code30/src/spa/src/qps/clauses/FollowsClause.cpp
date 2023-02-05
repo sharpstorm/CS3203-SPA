@@ -10,10 +10,11 @@ FollowsClause::FollowsClause(ClauseArgument leftArg, ClauseArgument rightArg):
   left(leftArg), right(rightArg) {
 }
 
-PQLQueryResult* FollowsClause::evaluateOn(PkbQueryHandler pkbQueryHandler) {
+PQLQueryResult* FollowsClause::evaluateOn(
+        shared_ptr<PkbQueryHandler> pkbQueryHandler) {
   StmtRef leftStatement = buildStatementRef(left);
   StmtRef rightStatement = buildStatementRef(right);
-  QueryResult<int, int> queryResult = pkbQueryHandler.queryFollows(leftStatement, rightStatement);
+  QueryResult<int, int> queryResult = pkbQueryHandler->queryFollows(leftStatement, rightStatement);
 
   PQLQueryResult*  pqlQueryResult = new PQLQueryResult();
 

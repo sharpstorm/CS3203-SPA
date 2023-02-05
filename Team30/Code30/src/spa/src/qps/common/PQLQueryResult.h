@@ -3,15 +3,14 @@
 #include <utility>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 #include "PQLTypes.h"
 #include "PQLQueryVariable.h"
 
-using std::pair, std::string, std::unordered_map, std::vector;
+using std::pair, std::string, std::unordered_map, std::unordered_set, std::vector;
 
-// Temporary Results
-// TODO(KwanHW): Integrate when PKB comes in
 struct StatementResult {
   vector<int> lines;
   vector<pair<int, int>> linePairs;
