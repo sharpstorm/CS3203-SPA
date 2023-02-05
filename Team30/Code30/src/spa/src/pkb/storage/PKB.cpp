@@ -1,3 +1,19 @@
 #include "PKB.h"
 
-PKB::PKB() : followsStore(), parentStore() {}
+#include <memory>
+
+#include "tables/ContiguousTable.h"
+
+using std::make_shared;
+
+PKB::PKB()
+    : followsStore(new FollowsStorage(make_shared<ContiguousTable<int>>(),
+                                      make_shared<ContiguousTable<int>>())),
+      parentStore(new ParentStorage(make_shared<ContiguousTable<int>>(),
+                                    make_shared<ContiguousTable<int>>())),
+      predicateFactory(new PredicateFactory(structureProvider)),
+      symbolStorage(new SymbolStorage()),
+      statementStorage(new StatementStorage()),
+      procedureStorage(new ProcedureStorage()),
+      structureProvider(new StructureMappingProvider()),
+      entityMappingProvider(new EntityMappingProvider()) {}
