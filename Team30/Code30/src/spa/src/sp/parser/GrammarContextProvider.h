@@ -24,7 +24,10 @@ class GrammarContextProvider: public IGrammarContextProvider {
  public:
   GrammarContextProvider();
   SourceParseContext* getContext(SourceGrammarContextType type);
+  int currLineCounter();
+  void advanceLineCounter();
  private:
+  int lineCounter = 1;
   VariableParseContext variableParseContext;
   ConstantParseContext constantParseContext;
   FactorContext factorContext;

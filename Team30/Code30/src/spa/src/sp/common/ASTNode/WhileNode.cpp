@@ -15,7 +15,8 @@ void WhileNode::addChild(shared_ptr<ASTNode> node) {
 }
 
 string WhileNode::toString() {
-  string ss = "while: " + children[0]->toString() + " | Children: ";
+  string ss = std::to_string(lineNumber) + ": while: "
+      + children[0]->toString() + " | Children: ";
   for (shared_ptr<ASTNode> node : children) {
     ss += node->toString() + "\n";
   }

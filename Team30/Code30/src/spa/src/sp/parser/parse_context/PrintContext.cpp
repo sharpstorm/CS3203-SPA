@@ -13,6 +13,9 @@ shared_ptr<ASTNode> PrintContext::generateSubtree(SourceParseState* state) {
   shared_ptr<ASTNode> printNode = shared_ptr<ASTNode>(new PrintNode());
   printNode->setChild(0, var);
   state->setCached(printNode);
+  printNode->lineNumber = contextProvider->currLineCounter();
+  var->lineNumber = contextProvider->currLineCounter();
+  contextProvider->advanceLineCounter();
   return printNode;
 }
 

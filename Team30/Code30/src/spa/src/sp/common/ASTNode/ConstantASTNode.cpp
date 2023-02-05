@@ -1,4 +1,7 @@
+#include <string>
 #include "ConstantASTNode.h"
+
+using std::string;
 
 ConstantASTNode::ConstantASTNode(string v) {
   value = v;

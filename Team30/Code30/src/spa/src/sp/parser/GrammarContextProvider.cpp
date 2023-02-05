@@ -12,6 +12,14 @@ GrammarContextProvider::GrammarContextProvider() :
     readContext(this),
     procedureContext(this) {}
 
+int GrammarContextProvider::currLineCounter() {
+  return lineCounter;
+}
+
+void GrammarContextProvider::advanceLineCounter() {
+  lineCounter += 1;
+}
+
 SourceParseContext* GrammarContextProvider::getContext(
     SourceGrammarContextType type) {
   switch (type) {

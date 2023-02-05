@@ -13,6 +13,10 @@ shared_ptr<ASTNode> AssignContext::generateSubtree(SourceParseState* state) {
   assignNode->setChild(0, name);
   assignNode->setChild(1, expr);
   state->setCached(assignNode);
+  assignNode->lineNumber = contextProvider->currLineCounter();
+  name->lineNumber = contextProvider->currLineCounter();
+  expr->setAllLine(contextProvider->currLineCounter());
+  contextProvider->advanceLineCounter();
   return assignNode;
 }
 

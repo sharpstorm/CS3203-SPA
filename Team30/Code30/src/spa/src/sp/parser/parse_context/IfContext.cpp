@@ -12,10 +12,14 @@ shared_ptr<ASTNode> IfContext::generateSubtree(SourceParseState* state) {
   shared_ptr<ASTNode> cond = contextProvider->
       getContext(COND_CONTEXT)->generateSubtree(state);
   expect(state, SIMPLE_TOKEN_BRACKET_ROUND_RIGHT);
+  ifNode->lineNumber = contextProvider->currLineCounter();
+  cond->lineNumber = contextProvider->currLineCounter();
 
   // then child
   expect(state, SIMPLE_TOKEN_KEYWORD_THEN);
   shared_ptr<ASTNode> thenNode = shared_ptr<ASTNode>(new ThenNode());
+  thenNode->lineNumber = contextProvider->currLineCounter();
+  contextProvider->advanceLineCounter();
   expect(state, SIMPLE_TOKEN_BRACKET_CURLY_LEFT);
   while (!state->getCurrToken()->isType(SIMPLE_TOKEN_BRACKET_CURLY_RIGHT)) {
     shared_ptr<ASTNode> newNode = contextProvider->

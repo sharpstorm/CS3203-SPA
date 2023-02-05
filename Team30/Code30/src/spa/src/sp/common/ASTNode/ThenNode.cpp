@@ -8,7 +8,7 @@ ThenNode::ThenNode() {}
 void ThenNode::accept() {}
 
 string ThenNode::toString() {
-  string ss = "";
+  string ss = "T";
   for (shared_ptr<ASTNode> node : children) {
     ss += node->toString() + "\n";
   }
