@@ -16,7 +16,7 @@ string FileReader::readFromFile(string fileName) {
     throw SPError(fileName + " not found");
   }
   while (getline(file, line)) {
-    programLines += line;
+    programLines += line + "\n";
   }
   return programLines;
 }
