@@ -15,7 +15,6 @@ class AbstractBinaryASTNode: public ASTNode {
   void setRightChild(shared_ptr<ASTNode> right);
   shared_ptr<ASTNode> getLeftChild();
   shared_ptr<ASTNode> getRightChild();
-  AST_NODE_TYPE getType() {return AST_NODE_MATH;}
  protected:
   AbstractBinaryASTNode();
 };

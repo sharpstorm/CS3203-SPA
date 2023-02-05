@@ -10,7 +10,6 @@ class ConstantASTNode : public ASTNode {
   ~ConstantASTNode() = default;
   string toString();
   void accept();
-  AST_NODE_TYPE getType() {return AST_NODE_CONST;}
  private:
   string value;
 };

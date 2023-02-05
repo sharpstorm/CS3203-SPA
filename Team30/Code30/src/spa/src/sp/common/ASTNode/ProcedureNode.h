@@ -11,5 +11,4 @@ class ProcedureNode : public ASTNode {
   ~ProcedureNode() = default;
   string toString();
   void accept();
-  AST_NODE_TYPE getType() {return AST_NODE_PROCEDURE;}
 };
