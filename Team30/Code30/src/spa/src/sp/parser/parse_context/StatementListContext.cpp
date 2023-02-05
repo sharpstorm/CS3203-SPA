@@ -10,8 +10,10 @@ bool StatementListContext::validate(SourceParseState *state) {
   return true;
 }
 
-shared_ptr<ASTNode> StatementListContext::generateSubtree(SourceParseState *state) {
-  shared_ptr<StatementListNode> node = shared_ptr<StatementListNode>(new StatementListNode());
+shared_ptr<ASTNode> StatementListContext::generateSubtree(
+    SourceParseState *state) {
+  shared_ptr<StatementListNode> node =
+      shared_ptr<StatementListNode>(new StatementListNode());
 
   expect(state, SIMPLE_TOKEN_BRACKET_CURLY_LEFT);
   while (!state->getCurrToken()->isType(SIMPLE_TOKEN_BRACKET_CURLY_RIGHT)) {
