@@ -4,6 +4,8 @@
 #include <memory>
 
 #include "FollowsTClause.h"
+#include "qps/common/adapters/ClauseArgumentRef.h"
+#include "qps/common/adapters/StatementResultBuilder.h"
 
 using std::pair, std::vector, std::shared_ptr;
 
@@ -13,31 +15,36 @@ FollowsTClause::FollowsTClause(ClauseArgument leftArg, ClauseArgument rightArg):
 
 PQLQueryResult* FollowsTClause::evaluateOn(
         shared_ptr<PkbQueryHandler> pkbQueryHandler) {
-  // Temporary implementation
-  // TODO(KwanHW): Wait for pkb implementation
-  StatementResult statementResult;
+  StmtRef leftStatement = ClauseArgumentRef::toStmtRef(left);
+  StmtRef rightStatement = ClauseArgumentRef::toStmtRef(right);
+  // Waiting for PkbQueryHandler to expose interface
+  QueryResult<int, int> queryResult =
+      pkbQueryHandler->queryFollows(leftStatement, rightStatement);
+//      pkbQueryHandler->queryFollowsT(leftStatement, rightStatement);
 
-  statementResult.linePairs = vector<pair<int, int>>({{1, 2}, {2, 3}, {3, 4},
-                                                      {4, 5}, {1, 3}, {1, 4},
-                                                      {1, 5}});
-  statementResult.lines = {1, 2, 3, 4, 5};
-  statementResult.isStaticTrue = false;
-
-  PQLQueryResult* queryResult = new PQLQueryResult();
+  PQLQueryResult* pqlQueryResult = new PQLQueryResult();
   if (!left.isSynonym() && !right.isSynonym()) {
-    queryResult->setIsStaticTrue(true);
-    return queryResult;
+    pqlQueryResult->setIsStaticTrue(true);
+    return pqlQueryResult;
   }
 
+  PQL_VAR_NAME synonym;
+  StatementResult result;
   if (left.isSynonym()) {
-    queryResult->addToStatementMap(left.getSynonymName(), statementResult);
+    synonym = left.getSynonymName();
+    result = StatementResultBuilder::buildStatementResult(
+        queryResult.firstArgVals, queryResult.pairVals);
+    pqlQueryResult->addToStatementMap(synonym, result);
   }
 
   if (right.isSynonym()) {
-    queryResult->addToStatementMap(right.getSynonymName(), statementResult);
+    synonym = right.getSynonymName();
+    result = StatementResultBuilder::buildStatementResult(
+        queryResult.secondArgVals, queryResult.pairVals);
+    pqlQueryResult->addToStatementMap(synonym, result);
   }
 
-  return queryResult;
+  return pqlQueryResult;
 }
 
 bool FollowsTClause::validateArgTypes(VariableTable *variables) {
