@@ -23,3 +23,19 @@ QueryResult<int, int> FollowsQueryHandler::queryFollows(StmtRef s1,
                         predicateFactory->getPredicate(s2));
   }
 }
+
+QueryResult<int, int> FollowsQueryHandler::queryFollowsStar(StmtRef s1,
+                                                            StmtRef s2) const {
+  if (s1.lineNum != 0) {
+    // known arg1 and unknown arg2
+    // or both args known
+    return store->queryT(s1.lineNum, predicateFactory->getPredicate(s2));
+  } else if (s2.lineNum != 0) {
+    // unknown arg1 and known arg2
+    return store->queryT(predicateFactory->getPredicate(s1), s2.lineNum);
+  } else {
+    // both args unknown
+    return store->queryT(structureProvider->getStatementsOfType(s1.type),
+                         predicateFactory->getPredicate(s2));
+  }
+}

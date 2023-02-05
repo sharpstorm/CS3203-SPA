@@ -1,5 +1,5 @@
 #pragma once
 
-#include "RelationTableManager.h"
+#include "TransitiveRelationTableManager.h"
 
-using FollowsStorage = RelationTableManager<int, int>;
+using FollowsStorage = TransitiveRelationTableManager<int>;

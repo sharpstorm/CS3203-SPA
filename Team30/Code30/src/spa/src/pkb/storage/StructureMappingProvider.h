@@ -5,6 +5,7 @@
 using std::unordered_set;
 
 #include "../../common/Types.h"
+
 class StructureMappingProvider {
  public:
   StructureMappingProvider();

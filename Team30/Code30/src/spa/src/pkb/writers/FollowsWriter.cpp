@@ -3,6 +3,5 @@
 FollowsWriter::FollowsWriter(FollowsStorage* store) : followsStore(store) {}
 
 void FollowsWriter::addFollows(int arg1, int arg2) {
-  // to implement
-  return;
+  followsStore->insert(arg1, arg2);
 }

@@ -13,6 +13,7 @@ class FollowsQueryHandler {
       const StructureMappingProvider* stuctureProvider);
 
   QueryResult<int, int> queryFollows(StmtRef s1, StmtRef s2) const;
+  QueryResult<int, int> queryFollowsStar(StmtRef s1, StmtRef s2) const;
 
  private:
   const FollowsStorage* store;
