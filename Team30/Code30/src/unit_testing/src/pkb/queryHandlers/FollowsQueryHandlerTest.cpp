@@ -1,3 +1,4 @@
+#include <memory>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -6,9 +7,10 @@
 #include "common/Types.h"
 #include "pkb/predicates/PredicateFactory.h"
 #include "pkb/queryHandlers/FollowsQueryHandler.h"
-#include "pkb/storage/PKB.h"
 #include "pkb/storage/StructureMappingProvider.h"
+#include "pkb/storage/tables/ContiguousTable.h"
 
+using std::make_shared;
 using std::pair;
 using std::unordered_map;
 using std::unordered_set;
@@ -54,13 +56,15 @@ class StructureMappingProviderStub : public StructureMappingProvider {
 /* Follows */
 
 TEST_CASE("FollowsQueryHandler follows(stmtNum,stmtNum)") {
-  PKB pkb = PKB();
+  auto table = make_shared<ContiguousTable<int>>();
+  auto reverseTable = make_shared<ContiguousTable<int>>();
+  auto store = new FollowsStorage(table, reverseTable);
   StructureMappingProviderStub* provider = new StructureMappingProviderStub();
   PredicateFactory* factory = new PredicateFactory(provider);
-  FollowsQueryHandler handler =
-      FollowsQueryHandler(pkb.followsStore, factory, provider);
-  pkb.followsStore->insert(1, 2);
-  pkb.followsStore->insert(2, 4);
+  FollowsQueryHandler handler = FollowsQueryHandler(store, factory, provider);
+
+  table->set(1, 2);
+  table->set(2, 4);
 
   REQUIRE(
       handler.queryFollows({StmtType::None, 1}, {StmtType::None, 2}).isEmpty ==
@@ -77,14 +81,16 @@ TEST_CASE("FollowsQueryHandler follows(stmtNum,stmtNum)") {
 }
 
 TEST_CASE("FollowsQueryHandler follows(stmtNum,stmtType)") {
-  PKB pkb = PKB();
+  auto table = make_shared<ContiguousTable<int>>();
+  auto reverseTable = make_shared<ContiguousTable<int>>();
+  auto store = new FollowsStorage(table, reverseTable);
   StructureMappingProviderStub* provider = new StructureMappingProviderStub();
   PredicateFactory* factory = new PredicateFactory(provider);
-  FollowsQueryHandler handler =
-      FollowsQueryHandler(pkb.followsStore, factory, provider);
-  pkb.followsStore->insert(1, 2);
-  pkb.followsStore->insert(2, 3);
-  pkb.followsStore->insert(3, 5);
+  FollowsQueryHandler handler = FollowsQueryHandler(store, factory, provider);
+
+  table->set(1, 2);
+  table->set(2, 3);
+  table->set(3, 5);
 
   auto result1 =
       handler.queryFollows({StmtType::None, 1}, {StmtType::Assign, 0});
@@ -98,14 +104,16 @@ TEST_CASE("FollowsQueryHandler follows(stmtNum,stmtType)") {
 }
 
 TEST_CASE("FollowsQueryHandler follows(stmtType, stmtNum)") {
-  PKB pkb = PKB();
+  auto table = make_shared<ContiguousTable<int>>();
+  auto reverseTable = make_shared<ContiguousTable<int>>();
+  auto store = new FollowsStorage(table, reverseTable);
   StructureMappingProviderStub* provider = new StructureMappingProviderStub();
   PredicateFactory* factory = new PredicateFactory(provider);
-  FollowsQueryHandler handler =
-      FollowsQueryHandler(pkb.followsStore, factory, provider);
-  pkb.followsStore->insert(2, 5);
-  pkb.followsStore->insert(5, 6);
-  pkb.followsStore->insert(6, 8);
+  FollowsQueryHandler handler = FollowsQueryHandler(store, factory, provider);
+
+  reverseTable->set(5, 2);
+  reverseTable->set(6, 5);
+  reverseTable->set(8, 6);
 
   auto result1 =
       handler.queryFollows({StmtType::Assign, 0}, {StmtType::None, 5});
@@ -119,14 +127,16 @@ TEST_CASE("FollowsQueryHandler follows(stmtType, stmtNum)") {
 }
 
 TEST_CASE("FollowsQueryHandler follows(stmtType, stmtType)") {
-  PKB pkb = PKB();
+  auto table = make_shared<ContiguousTable<int>>();
+  auto reverseTable = make_shared<ContiguousTable<int>>();
+  auto store = new FollowsStorage(table, reverseTable);
   StructureMappingProviderStub* provider = new StructureMappingProviderStub();
   PredicateFactory* factory = new PredicateFactory(provider);
-  FollowsQueryHandler handler =
-      FollowsQueryHandler(pkb.followsStore, factory, provider);
-  pkb.followsStore->insert(2, 5);
-  pkb.followsStore->insert(3, 4);
-  pkb.followsStore->insert(5, 6);
+  FollowsQueryHandler handler = FollowsQueryHandler(store, factory, provider);
+
+  table->set(2, 5);
+  table->set(3, 4);
+  table->set(5, 6);
 
   auto result1 =
       handler.queryFollows({StmtType::Assign, 0}, {StmtType::Read, 0});
@@ -139,13 +149,15 @@ TEST_CASE("FollowsQueryHandler follows(stmtType, stmtType)") {
 
 /* FollowsStar */
 TEST_CASE("FollowsQueryHandler followsStar(stmtNum,stmtNum)") {
-  PKB pkb = PKB();
+  auto table = make_shared<ContiguousTable<int>>();
+  auto reverseTable = make_shared<ContiguousTable<int>>();
+  auto store = new FollowsStorage(table, reverseTable);
   StructureMappingProviderStub* provider = new StructureMappingProviderStub();
   PredicateFactory* factory = new PredicateFactory(provider);
-  FollowsQueryHandler handler =
-      FollowsQueryHandler(pkb.followsStore, factory, provider);
-  pkb.followsStore->insert(1, 2);
-  pkb.followsStore->insert(2, 5);
+  FollowsQueryHandler handler = FollowsQueryHandler(store, factory, provider);
+
+  table->set(1, 2);
+  table->set(2, 5);
 
   REQUIRE(handler.queryFollowsStar({StmtType::None, 1}, {StmtType::None, 2})
               .isEmpty == false);
@@ -158,14 +170,16 @@ TEST_CASE("FollowsQueryHandler followsStar(stmtNum,stmtNum)") {
 }
 
 TEST_CASE("FollowsQueryHandler followsStar(stmtNum,stmtType)") {
-  PKB pkb = PKB();
+  auto table = make_shared<ContiguousTable<int>>();
+  auto reverseTable = make_shared<ContiguousTable<int>>();
+  auto store = new FollowsStorage(table, reverseTable);
   StructureMappingProviderStub* provider = new StructureMappingProviderStub();
   PredicateFactory* factory = new PredicateFactory(provider);
-  FollowsQueryHandler handler =
-      FollowsQueryHandler(pkb.followsStore, factory, provider);
-  pkb.followsStore->insert(10, 11);
-  pkb.followsStore->insert(11, 12);
-  pkb.followsStore->insert(12, 16);
+  FollowsQueryHandler handler = FollowsQueryHandler(store, factory, provider);
+
+  table->set(10, 11);
+  table->set(11, 12);
+  table->set(12, 16);
 
   auto result1 =
       handler.queryFollowsStar({StmtType::None, 10}, {StmtType::While, 0});
@@ -180,14 +194,16 @@ TEST_CASE("FollowsQueryHandler followsStar(stmtNum,stmtType)") {
 }
 
 TEST_CASE("FollowsQueryHandler followsStar(stmtType,stmtNum)") {
-  PKB pkb = PKB();
+  auto table = make_shared<ContiguousTable<int>>();
+  auto reverseTable = make_shared<ContiguousTable<int>>();
+  auto store = new FollowsStorage(table, reverseTable);
   StructureMappingProviderStub* provider = new StructureMappingProviderStub();
   PredicateFactory* factory = new PredicateFactory(provider);
-  FollowsQueryHandler handler =
-      FollowsQueryHandler(pkb.followsStore, factory, provider);
-  pkb.followsStore->insert(11, 12);
-  pkb.followsStore->insert(12, 13);
-  pkb.followsStore->insert(13, 14);
+  FollowsQueryHandler handler = FollowsQueryHandler(store, factory, provider);
+
+  reverseTable->set(12, 11);
+  reverseTable->set(13, 12);
+  reverseTable->set(14, 13);
 
   auto result1 =
       handler.queryFollowsStar({StmtType::If, 0}, {StmtType::None, 13});
@@ -202,15 +218,17 @@ TEST_CASE("FollowsQueryHandler followsStar(stmtType,stmtNum)") {
 }
 
 TEST_CASE("FollowsQueryHandler followsStar(stmtType,stmtType)") {
-  PKB pkb = PKB();
+  auto table = make_shared<ContiguousTable<int>>();
+  auto reverseTable = make_shared<ContiguousTable<int>>();
+  auto store = new FollowsStorage(table, reverseTable);
   StructureMappingProviderStub* provider = new StructureMappingProviderStub();
   PredicateFactory* factory = new PredicateFactory(provider);
-  FollowsQueryHandler handler =
-      FollowsQueryHandler(pkb.followsStore, factory, provider);
-  pkb.followsStore->insert(11, 12);
-  pkb.followsStore->insert(12, 14);
-  pkb.followsStore->insert(14, 15);
-  pkb.followsStore->insert(15, 16);
+  FollowsQueryHandler handler = FollowsQueryHandler(store, factory, provider);
+
+  table->set(11, 12);
+  table->set(12, 14);
+  table->set(14, 15);
+  table->set(15, 16);
 
   auto result1 =
       handler.queryFollowsStar({StmtType::If, 0}, {StmtType::While, 0});
