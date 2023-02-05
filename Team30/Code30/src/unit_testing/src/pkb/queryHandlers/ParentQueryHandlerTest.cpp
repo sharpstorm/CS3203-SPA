@@ -15,7 +15,9 @@ using std::unordered_set;
 
 class ParentQHStructureProviderStub : public StructureMappingProvider {
  public:
-  ParentQHStructureProviderStub(){};
+  ParentQHStructureProviderStub()
+      : StructureMappingProvider(new StatementStorage(),
+                                 new ProcedureStorage()){};
 
   bool isStatementOfType(int s, StmtType stmtType) const override {
     switch (s) {

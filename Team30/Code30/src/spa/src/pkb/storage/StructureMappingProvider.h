@@ -10,7 +10,7 @@
 
 class StructureMappingProvider {
  public:
-  StructureMappingProvider();
+  StructureMappingProvider(StatementStorage *, ProcedureStorage *);
   StatementStorage *statementStorage;
   ProcedureStorage *procedureStorage;
   StmtType getStatementType(int) const;

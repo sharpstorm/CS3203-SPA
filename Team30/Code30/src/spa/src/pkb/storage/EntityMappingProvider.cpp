@@ -1,6 +1,7 @@
 #include "EntityMappingProvider.h"
 
-EntityMappingProvider::EntityMappingProvider() {}
+EntityMappingProvider::EntityMappingProvider(SymbolStorage *symbolStorage)
+    : symbolStorage(symbolStorage) {}
 
 EntityType EntityMappingProvider::getSymbolTable(std::string entityName) const {
   return symbolStorage->getSymbol(entityName);

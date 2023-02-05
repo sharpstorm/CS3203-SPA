@@ -4,10 +4,10 @@
 #include "StatementStorage.h"
 
 StatementStorage::StatementStorage()
-    : StatementTable(), ReverseStatementTable() {}
+    : StatementTable(100), ReverseStatementTable() {}
 
 void StatementStorage::addStatement(int lineNumber, StmtType stmtType) {
-  if (lineNumber > StatementTable.size()) {
+  if (lineNumber >= StatementTable.size()) {
     StatementTable.resize(lineNumber * 2);
   }
   StatementTable[lineNumber] = stmtType;

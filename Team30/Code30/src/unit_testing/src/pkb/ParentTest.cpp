@@ -10,7 +10,9 @@ using std::unordered_set;
 
 class ParentTestStructureProviderStub : public StructureMappingProvider {
  public:
-  ParentTestStructureProviderStub(){};
+  ParentTestStructureProviderStub()
+      : StructureMappingProvider(new StatementStorage(),
+                                 new ProcedureStorage()){};
 
   bool isStatementOfType(int s, StmtType stmtType) const override {
     switch (s) {
