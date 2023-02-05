@@ -2,8 +2,9 @@
 
 #include "../../common/Types.h"
 #include "../storage/ParentStorage.h"
+#include "interfaces/IParentQueryHandler.h"
 
-class ParentQueryHandler {
+class ParentQueryHandler: public IParentQueryHandler {
  public:
   explicit ParentQueryHandler(const ParentStorage* parentStore);
 
