@@ -10,6 +10,7 @@ PrintNode::PrintNode() {
 }
 
 void PrintNode::accept(shared_ptr<Extractor> e) {
+  e->visit(*this);
 }
 
 string PrintNode::toString() {
