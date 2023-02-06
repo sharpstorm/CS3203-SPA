@@ -8,9 +8,5 @@ using std::string;
 
 class SpFacade : public ISp {
  public:
-  void parseSource(string input);
-
- private:
-  FileReader fileReader;
-  SourceParser parser;
+  void parseSource(string input, PkbWriter* pkbWriter);
 };

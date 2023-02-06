@@ -4,7 +4,7 @@
 
 using std::vector, std::shared_ptr;
 
-void AbstractMathASTNode::accept() {}
+void AbstractMathASTNode::accept(shared_ptr<Extractor> e) {}
 
 AbstractMathASTNode::AbstractMathASTNode(string repr) : repr(repr) {
   children = vector<shared_ptr<ASTNode>>{ nullptr, nullptr };

@@ -3,4 +3,4 @@
 
 using std::string;
 
-void StatementASTNode::accept() {}
+void StatementASTNode::accept(shared_ptr<Extractor> e) {}

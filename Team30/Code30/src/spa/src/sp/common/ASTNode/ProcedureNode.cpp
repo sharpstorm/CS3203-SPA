@@ -1,11 +1,14 @@
 #include <memory>
 #include "ProcedureNode.h"
+#include "sp/extractor/Extractor.h"
 
 using std::shared_ptr;
 
-ProcedureNode::ProcedureNode(string name): procName(name) {}
+ProcedureNode::ProcedureNode(string name): procName(name) {
+}
 
-void ProcedureNode::accept() {}
+void ProcedureNode::accept(shared_ptr<Extractor> e) {
+}
 
 string ProcedureNode::toString() {
   string ss = "Procedure(" + procName + ") {";

@@ -7,7 +7,9 @@ StatementListNode::StatementListNode() {
   children = vector<shared_ptr<ASTNode>>{};
 }
 
-void StatementListNode::accept() {}
+void StatementListNode::accept(shared_ptr<Extractor> e) {
+  e->visit(*this);
+}
 
 string StatementListNode::toString() {
   string ss = "StmtLst:\n";

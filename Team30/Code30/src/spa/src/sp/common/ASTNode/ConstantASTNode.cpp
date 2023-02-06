@@ -11,5 +11,5 @@ string ConstantASTNode::toString() {
   return "const(" + value + ")";
 }
 
-void ConstantASTNode::accept() {
+void ConstantASTNode::accept(shared_ptr<Extractor> e) {
 }
