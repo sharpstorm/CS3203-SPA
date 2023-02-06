@@ -11,7 +11,7 @@ StmtRef ClauseArgumentRef::toStmtRef(ClauseArgument clauseArgument) {
 
   PQLSynonymType synType = clauseArgument.getSynonymType();
   switch (synType) {
-    case PQL_VAR_TYPE_STMT:
+    case PQL_VAR_TYPE_ASSIGN:
       return StmtRef{StmtType::Assign, 0};
     case PQL_VAR_TYPE_READ:
       return StmtRef{StmtType::Read, 0};
@@ -19,6 +19,8 @@ StmtRef ClauseArgumentRef::toStmtRef(ClauseArgument clauseArgument) {
       return StmtRef{StmtType::Call, 0};
     case PQL_VAR_TYPE_WHILE:
       return StmtRef{StmtType::While, 0};
+    case PQL_VAR_TYPE_PRINT:
+      return StmtRef{StmtType::Print, 0};
     default:
       return StmtRef{StmtType::None, 0};
   }
