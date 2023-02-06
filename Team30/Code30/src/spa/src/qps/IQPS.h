@@ -6,5 +6,6 @@ using std::string;
 
 class IQPS {
  public:
-    virtual string* evaluate(string query);
+  virtual ~IQPS() = default;
+  virtual string* evaluate(string query) = 0;
 };
