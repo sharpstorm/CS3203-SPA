@@ -1,6 +1,4 @@
 #include "DesignExtractor.h"
-#include "sp/extractor/concrete_extractors/FollowsExtractor.h"
-#include "sp/extractor/concrete_extractors/ParentExtractor.h"
 
 DesignExtractor::DesignExtractor(PkbWriter* pkbWriter) {
   shared_ptr<AbstractExtractor> followsExtractor =
@@ -11,7 +9,4 @@ DesignExtractor::DesignExtractor(PkbWriter* pkbWriter) {
   extractors.push_back(parentExtractor);
 }
 
-void DesignExtractor::extract(AST ast) {
-  treeWalker.walkAST(ast, extractors);
-}
-
+void DesignExtractor::extract(AST ast) { treeWalker.walkAST(ast, extractors); }
