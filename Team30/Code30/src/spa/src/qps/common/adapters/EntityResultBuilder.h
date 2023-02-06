@@ -2,6 +2,7 @@
 
 #include <unordered_set>
 #include <utility>
+#include <string>
 
 #include "common/Types.h"
 #include "qps/common/PQLQueryResult.h"

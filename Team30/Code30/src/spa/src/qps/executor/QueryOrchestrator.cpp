@@ -17,8 +17,10 @@ PQLQueryResult *QueryOrchestrator::execute(PQLQuery* query,
     if (plan->hasSelectClause()) {
       bool shouldMerge = finalResult == nullptr;
       if (finalResult != nullptr) {
-        shouldMerge |= (finalResult->isStaticResult() && !finalResult->getIsStaticFalse());
-        shouldMerge |= !finalResult->isStaticResult() && (!finalResult->isEntityMapEmpty()
+        shouldMerge |= (finalResult->isStaticResult()
+            && !finalResult->getIsStaticFalse());
+        shouldMerge |= !finalResult->isStaticResult()
+            && (!finalResult->isEntityMapEmpty()
             || !finalResult->isStatementMapEmpty());
       }
 

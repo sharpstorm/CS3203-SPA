@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <string>
 
 #include "PQLQueryResult.h"
 #include "pkb/queryHandlers/PkbQueryHandler.h"

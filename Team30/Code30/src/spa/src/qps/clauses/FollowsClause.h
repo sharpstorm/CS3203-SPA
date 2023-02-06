@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <string>
 
 #include "ClauseArgument.h"
 #include "SuchThatClause.h"

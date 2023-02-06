@@ -11,7 +11,7 @@ class QueryPlan {
   QueryPlan(
       shared_ptr<IEvaluatable> selectClause,
       vector<shared_ptr<IEvaluatable>> conditionalClauses);
-  QueryPlan(vector<shared_ptr<IEvaluatable>> conditionalClauses);
+  explicit QueryPlan(vector<shared_ptr<IEvaluatable>> conditionalClauses);
   shared_ptr<IEvaluatable> getSelectClause();
   vector<shared_ptr<IEvaluatable>> getConditionalClauses();
   bool hasSelectClause();

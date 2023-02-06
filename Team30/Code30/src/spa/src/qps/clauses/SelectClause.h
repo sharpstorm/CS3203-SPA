@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include "Clause.h"
 #include "ClauseArgument.h"
 

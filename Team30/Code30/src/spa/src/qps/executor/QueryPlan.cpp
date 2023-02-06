@@ -6,7 +6,7 @@ QueryPlan::QueryPlan(
     selectClause(selectClause), conditionalClauses(conditionalClauses) {}
 
 QueryPlan::QueryPlan(vector<shared_ptr<IEvaluatable>> conditionalClauses):
-    selectClause(nullptr), conditionalClauses(conditionalClauses){}
+    selectClause(nullptr), conditionalClauses(conditionalClauses) {}
 
 bool QueryPlan::hasSelectClause() {
   return selectClause != nullptr;
