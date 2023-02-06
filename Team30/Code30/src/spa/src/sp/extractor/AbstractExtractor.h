@@ -1,12 +1,13 @@
 #pragma once
 
 #include "Extractor.h"
+#include "pkb/writers/PkbWriter.h"
 #include "sp/common/ASTNode/StatementListNode.h"
-#include "sp/common/ASTNode/statement/IfNode.h"
 #include "sp/common/ASTNode/statement/AssignNode.h"
+#include "sp/common/ASTNode/statement/IfNode.h"
 #include "sp/common/ASTNode/statement/PrintNode.h"
-#include "sp/common/ASTNode/statement/WhileNode.h"
 #include "sp/common/ASTNode/statement/ReadNode.h"
+#include "sp/common/ASTNode/statement/WhileNode.h"
 
 class StatementListNode;
 class IfNode;
@@ -20,4 +21,7 @@ class AbstractExtractor : public Extractor {
   virtual void visit(AssignNode node);
   virtual void visit(PrintNode node);
   virtual void visit(WhileNode node);
+
+ protected:
+  PkbWriter writer;
 };
