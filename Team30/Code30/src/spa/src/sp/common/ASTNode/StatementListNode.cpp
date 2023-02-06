@@ -8,6 +8,7 @@ StatementListNode::StatementListNode() {
 }
 
 void StatementListNode::accept(shared_ptr<Extractor> e) {
+  e->visit(*this);
 }
 
 string StatementListNode::toString() {
