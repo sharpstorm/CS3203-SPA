@@ -22,6 +22,7 @@ class AbstractExtractor : public Extractor {
   virtual void visit(AssignNode node);
   virtual void visit(PrintNode node);
   virtual void visit(WhileNode node);
+
  private:
   PkbWriter* pkbWriter;
 };
