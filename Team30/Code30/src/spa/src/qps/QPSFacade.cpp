@@ -4,7 +4,12 @@
 
 using std::vector;
 
-QPSFacade::QPSFacade(IQueryDriver* driver) : driver(driver) {
+QPSFacade::QPSFacade(shared_ptr<PkbQueryHandler> pkbQH) {
+  driver = new QueryDriver(pkbQH);
+}
+
+QPSFacade::~QPSFacade() noexcept {
+  delete(driver);
 }
 
 vector<string> *QPSFacade::evaluate(string query) {

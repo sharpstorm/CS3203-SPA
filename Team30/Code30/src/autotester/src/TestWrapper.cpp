@@ -2,7 +2,7 @@
 #include <vector>
 
 #include "TestWrapper.h"
-#include "qps/QPSInitialiser.h"
+#include "qps/QPSFacade.h"
 
 using std::shared_ptr, std::vector;
 
@@ -19,12 +19,16 @@ volatile bool AbstractWrapper::GlobalStop = false;
 TestWrapper::TestWrapper() {
   // create any objects here as instance variables of this class
   // as well as any initialization required for your spa program
-  PKB* pkb = new PKB();
+  pkb = new PKB();
   PkbQueryHandler* pkbQH = new PkbQueryHandler(pkb);
   shared_ptr<PkbQueryHandler> pkbQH_ptr = shared_ptr<PkbQueryHandler>(pkbQH);
 
-  QPSInitialiser qpsInitialiser;
-  qps = qpsInitialiser.initQPS(pkbQH_ptr);
+  qps = new QPSFacade(pkbQH_ptr);
+}
+
+TestWrapper::~TestWrapper() {
+  delete(qps);
+  delete(pkb);
 }
 
 // method for parsing the SIMPLE source
