@@ -5,5 +5,5 @@ using std::string;
 
 class ISp {
  public:
-  void parseSource(string input);
+  virtual void parseSource(string input) = 0;
 };
