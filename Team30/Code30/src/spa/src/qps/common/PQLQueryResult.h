@@ -10,25 +10,23 @@
 
 using std::pair, std::string, std::unordered_map, std::vector;
 
-// Temporary Results
-// TODO(KwanHW): Integrate when PKB comes in
 struct StatementResult {
   vector<int> lines;
   vector<pair<int, int>> linePairs;
-  bool isStaticTrue;
+  bool isLeftArg;
 };
 
 struct EntityResult {
   vector<int> lines;
   vector<string> entities;
   vector<pair<int, string>> enitityPairs;
-  bool isStaticTrue;
+  bool isLeftArg;
 };
 
 typedef unordered_map<PQL_VAR_NAME, StatementResult> STATEMENT_MAP;
 typedef unordered_map<PQL_VAR_NAME, EntityResult> ENTITY_MAP;
 
-class QueryResult {
+class PQLQueryResult {
   STATEMENT_MAP statementMap;
   ENTITY_MAP entityMap;
   string error;
@@ -47,7 +45,7 @@ class QueryResult {
   void setError(string errorMessage);
   bool getIsStaticTrue();
   void setIsStaticTrue(bool staticRes);
-  QueryResult* resultFromVariable(PQLQueryVariable queryVar);
-  virtual ~QueryResult() = default;
+  PQLQueryResult* resultFromVariable(PQLQueryVariable queryVar);
+  virtual ~PQLQueryResult() = default;
 };
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "qps/common/QueryResult.h"
+#include "qps/common/PQLQueryResult.h"
 #include "qps/common/PQLQuery.h"
 #include "qps/clauses/Clause.h"
 

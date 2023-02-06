@@ -1,8 +1,12 @@
 #include "QueryDriver.h"
 #include <memory>
 
-QueryResult *QueryDriver::evaluate(string* query) {
+PQLQueryResult *QueryDriver::evaluate(string* query) {
   unique_ptr<PQLQuery> pqlQuery = parser->parseQuery(query);
-  QueryResult* result = executor.executeQuery(pqlQuery.get());
+  PQLQueryResult* result = executor.executeQuery(pqlQuery.get());
   return result;
+}
+
+QueryDriver::QueryDriver(IQueryParser* parser, IQueryExecutor executor) :
+  parser(parser), executor(executor) {
 }

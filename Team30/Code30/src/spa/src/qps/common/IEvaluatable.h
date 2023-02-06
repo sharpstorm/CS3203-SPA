@@ -1,9 +1,15 @@
 #pragma once
 
-#include "QueryResult.h"
+#include <memory>
+
+#include "PQLQueryResult.h"
+#include "pkb/queryHandlers/PkbQueryHandler.h"
+
+using std::shared_ptr;
 
 class IEvaluatable {
  public:
   virtual ~IEvaluatable() = default;
-  virtual QueryResult* evaluateOn() = 0;
+  virtual PQLQueryResult* evaluateOn(
+          shared_ptr<PkbQueryHandler> pkbQueryHandler) = 0;
 };

@@ -1,7 +1,12 @@
 #pragma once
 
-#include "SuchThatClause.h"
+#include <memory>
+
 #include "ClauseArgument.h"
+#include "SuchThatClause.h"
+#include "common/Types.h"
+
+using std::shared_ptr;
 
 class FollowsClause: public SuchThatClause {
  private:
@@ -10,6 +15,6 @@ class FollowsClause: public SuchThatClause {
 
  public:
   FollowsClause(ClauseArgument left, ClauseArgument right);
-  QueryResult* evaluateOn();
+  PQLQueryResult* evaluateOn(shared_ptr<PkbQueryHandler> pkbQueryHandler);
   bool validateArgTypes(VariableTable *variables);
 };

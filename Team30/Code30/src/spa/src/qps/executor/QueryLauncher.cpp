@@ -1,5 +1,10 @@
 #include "QueryLauncher.h"
 
-QueryResult *QueryLauncher::execute(IEvaluatable *evaluatable) {
-  return nullptr;
+QueryLauncher::QueryLauncher(shared_ptr<PkbQueryHandler> pkbQH) {
+  pkbQueryHandler = pkbQH;
 }
+
+PQLQueryResult *QueryLauncher::execute(IEvaluatable *evaluatable) {
+  return evaluatable->evaluateOn(pkbQueryHandler);
+}
+

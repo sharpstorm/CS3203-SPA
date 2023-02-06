@@ -1,7 +1,11 @@
 #pragma once
 
+#include <memory>
+
 #include "SuchThatClause.h"
 #include "ClauseArgument.h"
+
+using std::shared_ptr;
 
 class ParentTClause: public SuchThatClause {
  private:
@@ -10,6 +14,6 @@ class ParentTClause: public SuchThatClause {
 
  public:
   ParentTClause(ClauseArgument left, ClauseArgument right);
-  QueryResult* evaluateOn();
+  PQLQueryResult* evaluateOn(shared_ptr<PkbQueryHandler> pkbQueryHandler);
   bool validateArgTypes(VariableTable *variables);
 };

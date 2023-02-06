@@ -4,7 +4,8 @@ UsesClause::UsesClause(ClauseArgument leftArg, ClauseArgument rightArg):
   left(leftArg), right(rightArg) {
 }
 
-QueryResult* UsesClause::evaluateOn() {
+PQLQueryResult* UsesClause::evaluateOn(
+        shared_ptr<PkbQueryHandler> pkbQueryHandler) {
   return nullptr;
 }
 

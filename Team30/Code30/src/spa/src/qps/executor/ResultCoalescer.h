@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../common/QueryResult.h"
+#include "qps/common/PQLQueryResult.h"
 
 class ResultCoalescer {
  public:
-  QueryResult* merge(QueryResult* setA,
-                               QueryResult* setB);
+  PQLQueryResult* merge(PQLQueryResult* setA,
+                        PQLQueryResult* setB);
 };
