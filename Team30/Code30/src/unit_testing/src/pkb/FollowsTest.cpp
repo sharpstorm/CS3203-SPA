@@ -113,13 +113,9 @@ TEST_CASE("Follows") {
   REQUIRE(result4.isEmpty == false);
   REQUIRE(result4.pairVals == pair_set<int, int>({{3, 4}}));
 
-/*  auto result5 =
-      queryHandler.queryFollows({StmtType::None, 0}, {StmtType::None, 0});
-  REQUIRE(result5.isEmpty == false);*/
-  //REQUIRE(result5.pairVals == pair_set<int, int>({{3, 4}}));
 }
 
-TEST_CASE("Follows follows(s,stmtType) or followsStar(s,s)") {
+TEST_CASE("Follows follows(s,stmtType) or follows(s,s)") {
   PKB *pkb = new PKB();
   PkbWriter writer = PkbWriter(pkb);
   PkbQueryHandler queryHandler = PkbQueryHandler(pkb);
@@ -187,20 +183,30 @@ TEST_CASE("FollowsStar") {
   REQUIRE(result3.pairVals == pair_set<int, int>({{2, 4}, {3, 4}}));
 }
 
-TEST_CASE("FollowsStar queryT") {
+TEST_CASE("FollowsStar followsStar(s,stmtType) or followsStar(s,s)") {
   PKB *pkb = new PKB();
   PkbWriter writer = PkbWriter(pkb);
+  PkbQueryHandler queryHandler = PkbQueryHandler(pkb);
 
   writer.addFollows(1, 2);
   writer.addFollows(2, 3);
   writer.addFollows(3, 4);
-  writer.addFollows(4, 5);
 
-  // writer.addSymbol("a", EntityType::Variable)
   writer.addStatement(1, StmtType::Assign);
   writer.addStatement(2, StmtType::Read);
   writer.addStatement(3, StmtType::Read);
   writer.addStatement(4, StmtType::Print);
-  writer.addStatement(5, StmtType::If);
+
+  auto result1 =
+      queryHandler.queryFollowsStar({StmtType::None, 0}, {StmtType::Read, 0});
+  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.pairVals == pair_set<int, int>({{1, 2}, {2, 3}, {1, 3}}));
+
+  auto result2 =
+      queryHandler.queryFollowsStar({StmtType::None, 0}, {StmtType::None, 0});
+  REQUIRE(result2.isEmpty == false);
+  REQUIRE(result2.pairVals
+              == pair_set<int, int>({{1, 2}, {2, 3}, {3, 4}, {1, 3}, {1, 4},
+                                     {2, 4}}));
 
 }
