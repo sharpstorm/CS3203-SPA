@@ -3,6 +3,7 @@
 
 #include "TestWrapper.h"
 #include "qps/QPSFacade.h"
+#include "sp/SpFacade.h"
 
 using std::shared_ptr, std::vector;
 
@@ -24,17 +25,19 @@ TestWrapper::TestWrapper() {
   shared_ptr<PkbQueryHandler> pkbQH_ptr = shared_ptr<PkbQueryHandler>(pkbQH);
 
   qps = new QPSFacade(pkbQH_ptr);
+  sp = new SpFacade();
+  pkbWriter = new PkbWriter(pkb);
 }
 
 TestWrapper::~TestWrapper() {
   delete(qps);
+  delete(sp);
   delete(pkb);
 }
 
 // method for parsing the SIMPLE source
 void TestWrapper::parse(std::string filename) {
-	// call your parser to do the parsing
-  // ...rest of your code...
+  sp->parseSource(filename, pkbWriter);
 }
 
 // method to evaluating a query
