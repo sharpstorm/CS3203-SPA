@@ -13,10 +13,12 @@ string *ResultProjector::project(PQLQueryResult* queryResult) {
 
     if (queryResult->isEntityMapEmpty()) {
       STATEMENT_MAP statementMap = queryResult->getStatementMap();
-      return projectStatements( statementMap);
-    } else if (queryResult->isStatementMapEmpty()) {
+      return projectStatements(statementMap);
+    }
+
+    if (queryResult->isStatementMapEmpty()) {
       ENTITY_MAP entityMap = queryResult->getEntityMap();
-      return projectEntities( entityMap);
+      return projectEntities(entityMap);
     }
 
     return new string();
