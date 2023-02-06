@@ -9,9 +9,12 @@
 using std::string, std::vector;
 
 class QPSFacade: public IQPS {
-    IQueryDriver* driver;
-    ResultProjector projector;
+ private:
+  IQueryDriver* driver;
+  ResultProjector projector;
+
  public:
-  explicit QPSFacade(IQueryDriver* driver);
+  QPSFacade(shared_ptr<PkbQueryHandler> pkbQH);
+  ~QPSFacade();
   vector<string>* evaluate(string query);
 };

@@ -8,6 +8,6 @@ class QueryExecutor: public IQueryExecutor {
   QueryPlanner planner;
   QueryOrchestrator orchestrator;
  public:
-  explicit QueryExecutor(QueryOrchestrator orchestrator);
+  QueryExecutor(shared_ptr<PkbQueryHandler> pkbQH);
   PQLQueryResult* executeQuery(PQLQuery* query);
 };

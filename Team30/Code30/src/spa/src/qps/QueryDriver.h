@@ -8,9 +8,12 @@
 using std::string;
 
 class QueryDriver: public IQueryDriver {
-    IQueryParser* parser;
-    IQueryExecutor* executor;
+ private:
+  IQueryParser* parser;
+  IQueryExecutor* executor;
  public:
+  QueryDriver(shared_ptr<PkbQueryHandler> pkbQH);
   QueryDriver(IQueryParser* parser, IQueryExecutor* executor);
+  ~QueryDriver();
   PQLQueryResult* evaluate(string* query);
 };

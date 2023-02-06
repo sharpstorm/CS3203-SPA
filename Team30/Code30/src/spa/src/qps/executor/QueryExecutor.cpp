@@ -6,8 +6,8 @@
 
 using::std::shared_ptr, std::vector;
 
-QueryExecutor::QueryExecutor(QueryOrchestrator orchestrator) :
-        orchestrator(orchestrator) {
+QueryExecutor::QueryExecutor(shared_ptr<PkbQueryHandler> pkbQH):
+    orchestrator(QueryOrchestrator(QueryLauncher(pkbQH))) {
 }
 
 PQLQueryResult *QueryExecutor::executeQuery(PQLQuery* query) {
