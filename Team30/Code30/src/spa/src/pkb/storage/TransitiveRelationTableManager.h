@@ -9,7 +9,7 @@
  * - R(arg1, arg2) or
  * - R(arg1, a) and R*(a, arg2) for some a
  */
-template <typename T>
+template<typename T>
 class TransitiveRelationTableManager : public RelationTableManager<T, T> {
  public:
   TransitiveRelationTableManager(shared_ptr<BaseTable<T, T>> table,

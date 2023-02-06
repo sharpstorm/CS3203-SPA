@@ -1,6 +1,6 @@
 #include "PkbQueryHandler.h"
 
-PkbQueryHandler::PkbQueryHandler(PKB* pkb)
+PkbQueryHandler::PkbQueryHandler(PKB *pkb)
     : followsHandler(pkb->followsStore, pkb->predicateFactory,
                      pkb->structureProvider),
       parentHandler(pkb->parentStore, pkb->predicateFactory,
