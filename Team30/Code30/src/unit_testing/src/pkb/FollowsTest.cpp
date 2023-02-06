@@ -14,32 +14,28 @@ class FollowsTestStructureProviderStub : public StructureMappingProvider {
  public:
   FollowsTestStructureProviderStub()
       : StructureMappingProvider(new StatementStorage(),
-                                 new ProcedureStorage()){};
+                                 new ProcedureStorage()) {};
 
   bool isStatementOfType(int s, StmtType stmtType) const override {
     switch (s) {
       case 5:
-      case 7:
-        return stmtType == StmtType::Assign;
-      default:
-        return false;
+      case 7:return stmtType == StmtType::Assign;
+      default:return false;
     }
   }
   unordered_set<int> getStatementsOfType(StmtType stmtType) const override {
     switch (stmtType) {
-      case StmtType::Assign:
-        return {5, 7};
-      default:
-        return unordered_set<int>();
+      case StmtType::Assign:return {5, 7};
+      default:return unordered_set<int>();
     }
   }
 };
 
 TEST_CASE("Follows with StructureMapProvider stub") {
   PKB pkb = PKB();
-  FollowsTestStructureProviderStub* provider =
+  FollowsTestStructureProviderStub *provider =
       new FollowsTestStructureProviderStub();
-  PredicateFactory* factory = new PredicateFactory(provider);
+  PredicateFactory *factory = new PredicateFactory(provider);
   FollowsQueryHandler queryHandler =
       FollowsQueryHandler(pkb.followsStore, factory, provider);
   FollowsWriter writer = FollowsWriter(pkb.followsStore);
@@ -59,9 +55,9 @@ TEST_CASE("Follows with StructureMapProvider stub") {
 
 TEST_CASE("FollowsStar with StructureMapProvider stub") {
   PKB pkb = PKB();
-  FollowsTestStructureProviderStub* provider =
+  FollowsTestStructureProviderStub *provider =
       new FollowsTestStructureProviderStub();
-  PredicateFactory* factory = new PredicateFactory(provider);
+  PredicateFactory *factory = new PredicateFactory(provider);
   FollowsQueryHandler queryHandler =
       FollowsQueryHandler(pkb.followsStore, factory, provider);
   FollowsWriter writer = FollowsWriter(pkb.followsStore);
@@ -79,7 +75,7 @@ TEST_CASE("FollowsStar with StructureMapProvider stub") {
 }
 
 TEST_CASE("Follows") {
-  PKB* pkb = new PKB();
+  PKB *pkb = new PKB();
   PkbWriter writer = PkbWriter(pkb);
 
   writer.addFollows(1, 2);
@@ -111,10 +107,47 @@ TEST_CASE("Follows") {
       queryHandler.queryFollows({StmtType::Read, 0}, {StmtType::Print, 0});
   REQUIRE(result3.isEmpty == false);
   REQUIRE(result3.pairVals == pair_set<int, int>({{3, 4}}));
+
+  auto result4 =
+      queryHandler.queryFollows({StmtType::None, 0}, {StmtType::None, 4});
+  REQUIRE(result4.isEmpty == false);
+  REQUIRE(result4.pairVals == pair_set<int, int>({{3, 4}}));
+
+/*  auto result5 =
+      queryHandler.queryFollows({StmtType::None, 0}, {StmtType::None, 0});
+  REQUIRE(result5.isEmpty == false);*/
+  //REQUIRE(result5.pairVals == pair_set<int, int>({{3, 4}}));
+}
+
+TEST_CASE("Follows follows(s,stmtType) or followsStar(s,s)") {
+  PKB *pkb = new PKB();
+  PkbWriter writer = PkbWriter(pkb);
+  PkbQueryHandler queryHandler = PkbQueryHandler(pkb);
+
+  writer.addFollows(1, 2);
+  writer.addFollows(2, 3);
+  writer.addFollows(3, 4);
+
+  // writer.addSymbol("a", EntityType::Variable)
+  writer.addStatement(1, StmtType::Assign);
+  writer.addStatement(2, StmtType::Read);
+  writer.addStatement(3, StmtType::Read);
+  writer.addStatement(4, StmtType::Print);
+
+  auto result1 =
+      queryHandler.queryFollows({StmtType::None, 0}, {StmtType::Read, 0});
+  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.pairVals == pair_set<int, int>({{1, 2}, {2, 3}}));
+
+  auto result2 =
+      queryHandler.queryFollows({StmtType::None, 0}, {StmtType::None, 0});
+  REQUIRE(result2.isEmpty == false);
+  REQUIRE(result2.pairVals == pair_set<int, int>({{1, 2}, {2, 3}, {3, 4}}));
+
 }
 
 TEST_CASE("FollowsStar") {
-  PKB* pkb = new PKB();
+  PKB *pkb = new PKB();
   PkbWriter writer = PkbWriter(pkb);
 
   writer.addFollows(1, 2);
@@ -152,4 +185,22 @@ TEST_CASE("FollowsStar") {
       queryHandler.queryFollowsStar({StmtType::Read, 0}, {StmtType::Print, 0});
   REQUIRE(result3.isEmpty == false);
   REQUIRE(result3.pairVals == pair_set<int, int>({{2, 4}, {3, 4}}));
+}
+
+TEST_CASE("FollowsStar queryT") {
+  PKB *pkb = new PKB();
+  PkbWriter writer = PkbWriter(pkb);
+
+  writer.addFollows(1, 2);
+  writer.addFollows(2, 3);
+  writer.addFollows(3, 4);
+  writer.addFollows(4, 5);
+
+  // writer.addSymbol("a", EntityType::Variable)
+  writer.addStatement(1, StmtType::Assign);
+  writer.addStatement(2, StmtType::Read);
+  writer.addStatement(3, StmtType::Read);
+  writer.addStatement(4, StmtType::Print);
+  writer.addStatement(5, StmtType::If);
+
 }
