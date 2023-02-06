@@ -4,10 +4,11 @@
 
 class ParentExtractor : public AbstractExtractor {
  public:
-  ParentExtractor() = default;
+  ParentExtractor(PkbWriter* pkbWriter);
   virtual void visit(IfNode node);
   virtual void visit(WhileNode node);
 
  private:
   void addParentRelation(int x, int y);
+  PkbWriter* pkbWriter;
 };

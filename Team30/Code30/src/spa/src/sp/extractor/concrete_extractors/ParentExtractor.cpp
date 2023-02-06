@@ -21,5 +21,5 @@ void ParentExtractor::visit(WhileNode node) {
 }
 
 void ParentExtractor::addParentRelation(int x, int y) {
-  ParentExtractor::writer.addParent(x, y);
+  pkbWriter->addParent(x, y);
 }

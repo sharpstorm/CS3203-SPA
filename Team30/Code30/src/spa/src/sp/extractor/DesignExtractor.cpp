@@ -1,9 +1,17 @@
 #include "DesignExtractor.h"
+#include "sp/extractor/concrete_extractors/FollowsExtractor.h"
+#include "sp/extractor/concrete_extractors/ParentExtractor.h"
 
-DesignExtractor::DesignExtractor() = default;
-
-void DesignExtractor::extractRelations(AST ast) {
+DesignExtractor::DesignExtractor(PkbWriter* pkbWriter) {
+  shared_ptr<AbstractExtractor> followsExtractor =
+      shared_ptr<AbstractExtractor>(new FollowsExtractor(pkbWriter));
+  shared_ptr<AbstractExtractor> parentExtractor =
+      shared_ptr<AbstractExtractor>(new ParentExtractor(pkbWriter));
+  extractors.push_back(followsExtractor);
+  extractors.push_back(parentExtractor);
 }
 
-void DesignExtractor::extractEntities(AST ast) {
+void DesignExtractor::extract(AST ast) {
+  treeWalker.walkAST(ast, extractors);
 }
+

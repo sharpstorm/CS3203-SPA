@@ -11,5 +11,5 @@ void FollowsExtractor::visit(StatementListNode node) {
 }
 
 void FollowsExtractor::addFollowsRelation(int x, int y) {
-  FollowsExtractor::writer.addFollows(x, y);
+  pkbWriter->addFollows(x, y);
 }

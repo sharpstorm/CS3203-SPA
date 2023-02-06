@@ -22,8 +22,6 @@ class AbstractExtractor : public Extractor {
   virtual void visit(AssignNode node);
   virtual void visit(PrintNode node);
   virtual void visit(WhileNode node);
-
- protected:
-  PKB* pkb = new PKB();
-  PkbWriter writer = PkbWriter(pkb);
+ private:
+  PkbWriter* pkbWriter;
 };

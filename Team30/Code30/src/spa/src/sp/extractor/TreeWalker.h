@@ -2,11 +2,14 @@
 
 #include <memory>
 #include "sp/common/AST.h"
+#include "AbstractExtractor.h"
 
 class TreeWalker {
  public:
   TreeWalker() = default;
-  void walkAST(AST ast);  // TODO(Wei-Xinn) implement with extractor
+  void walkAST(AST ast,
+               vector<shared_ptr<Extractor>> extractors);
  private:
-  void DFS(shared_ptr<ASTNode> ast, shared_ptr<Extractor> f);
+  void DFS(shared_ptr<ASTNode> ast,
+           vector<shared_ptr<Extractor>> extractors);
 };
