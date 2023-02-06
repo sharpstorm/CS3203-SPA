@@ -7,8 +7,6 @@
 #include "TreeWalker.h"
 #include "pkb/writers/PkbWriter.h"
 #include "sp/common/AST.h"
-#include "sp/extractor/concrete_extractors/FollowsExtractor.h"
-#include "sp/extractor/concrete_extractors/ParentExtractor.h"
 
 using std::vector;
 
