@@ -26,8 +26,18 @@ TEST_CASE("Parser") {
 
 
 TEST_CASE("SP facade") {
+  PKB pkb;
+  PkbWriter pkbWriter(&pkb);
+//  auto pkb = std::make_unique<PKB>();
+//  auto pkbWriter = std::make_unique<PkbWriter>(pkb.get());
   SpFacade spFacade = SpFacade();
-  spFacade.parseSource("test.txt");
+  spFacade.parseSource("test.txt", &pkbWriter);
+  unordered_set<int> :: iterator itr;
+  unordered_set<int> f = pkb.followsStore->getByFirstArgT(3);
+  for (itr = f.begin(); itr != f.end(); itr++) {
+    cout << (*itr) << "\n";
+  }
+
 }
 
 TEST_CASE("File Reader") {

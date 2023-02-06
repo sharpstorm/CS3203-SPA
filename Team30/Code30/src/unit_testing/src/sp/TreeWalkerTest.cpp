@@ -22,7 +22,9 @@ TEST_CASE("Tree Walker") {
   SourceParser parser;
   TreeWalker treeWalker;
   AST ast = parser.parseSource(ss);
-  treeWalker.walkAST(ast);
+  PKB pkb;
+
+//  PkbWriter pkbWriter(&pkb)
 //  shared_ptr<Extractor> f = shared_ptr<Extractor>(new FollowsExtractor);
 //  ast.getRoot()->getChildren()[0]->accept(f);
 

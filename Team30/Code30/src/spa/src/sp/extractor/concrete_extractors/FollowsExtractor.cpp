@@ -1,5 +1,9 @@
 #include "FollowsExtractor.h"
 
+FollowsExtractor::FollowsExtractor(PkbWriter* writer) {
+  pkbWriter = writer;
+}
+
 void FollowsExtractor::visit(StatementListNode node) {
   vector<shared_ptr<ASTNode>> children = node.getChildren();
   for (int i = 0; i < children.size() - 1; i++) {
