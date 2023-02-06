@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <string>
 
 #include "PQLQueryResult.h"
 #include "pkb/queryHandlers/PkbQueryHandler.h"
@@ -12,4 +13,5 @@ class IEvaluatable {
   virtual ~IEvaluatable() = default;
   virtual PQLQueryResult* evaluateOn(
           shared_ptr<PkbQueryHandler> pkbQueryHandler) = 0;
+  virtual bool usesSynonym(string varName) = 0;
 };

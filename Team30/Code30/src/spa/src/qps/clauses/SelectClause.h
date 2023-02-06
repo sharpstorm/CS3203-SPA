@@ -1,20 +1,16 @@
 #pragma once
 
-#include <memory>
 #include <string>
-
-#include "SuchThatClause.h"
+#include <memory>
+#include "Clause.h"
 #include "ClauseArgument.h"
 
-using std::shared_ptr;
-
-class UsesClause: public SuchThatClause {
+class SelectClause : public Clause {
  private:
-  ClauseArgument left;
-  ClauseArgument right;
+  PQLQueryVariable target;
 
  public:
-  UsesClause(ClauseArgument left, ClauseArgument right);
+  explicit SelectClause(PQLQueryVariable target);
   PQLQueryResult* evaluateOn(shared_ptr<PkbQueryHandler> pkbQueryHandler);
   bool validateArgTypes(VariableTable *variables);
   bool usesSynonym(string varName);

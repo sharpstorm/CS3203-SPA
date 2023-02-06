@@ -7,6 +7,7 @@
 #include "../common/IEvaluatable.h"
 #include "ResultCoalescer.h"
 #include "QueryLauncher.h"
+#include "QueryPlan.h"
 
 using std::vector;
 
@@ -16,5 +17,5 @@ class QueryOrchestrator {
  public:
   explicit QueryOrchestrator(QueryLauncher launcher);
   PQLQueryResult* execute(PQLQuery* query,
-                          vector<shared_ptr<IEvaluatable>> evaluatables);
+                          shared_ptr<QueryPlan> evaluatables);
 };

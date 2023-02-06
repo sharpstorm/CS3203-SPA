@@ -18,5 +18,4 @@ enum PQLSynonymType {
 };
 
 const int PQL_VAR_STMT_MASK = PQL_VAR_TYPE_STMT;
-
 typedef string PQL_VAR_NAME;

@@ -29,3 +29,8 @@ bool UsesClause::validateArgTypes(VariableTable *variables) {
   }
   return true;
 }
+
+bool UsesClause::usesSynonym(string varName) {
+  return (left.isSynonym() && left.getSynonymName() == varName)
+      || (right.isSynonym() && right.getSynonymName() == varName);
+}
