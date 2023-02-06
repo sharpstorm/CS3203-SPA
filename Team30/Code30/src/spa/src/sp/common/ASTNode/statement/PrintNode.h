@@ -10,5 +10,5 @@ class PrintNode : public StatementASTNode {
   PrintNode();
   ~PrintNode() = default;
   string toString();
-  void accept();
+  void accept(shared_ptr<Extractor> e);
 };

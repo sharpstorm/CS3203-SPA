@@ -11,5 +11,5 @@ class AssignNode : public StatementASTNode {
   AssignNode();
   ~AssignNode() = default;
   string toString();
-  void accept();
+  void accept(shared_ptr<Extractor> e);
 };

@@ -12,6 +12,6 @@ class WhileNode : public StatementASTNode {
   WhileNode();
   ~WhileNode() = default;
   string toString();
-  void accept();
+  void accept(shared_ptr<Extractor> e);
   void addChild(shared_ptr<ASTNode> node);
 };

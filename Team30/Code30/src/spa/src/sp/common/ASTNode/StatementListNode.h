@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "ASTNode.h"
+#include "sp/extractor/AbstractExtractor.h"
 
 using std::string;
 
@@ -11,5 +12,5 @@ class StatementListNode : public ASTNode {
   StatementListNode();
   ~StatementListNode() = default;
   string toString();
-  void accept();
+  void accept(const Extractor *e);
 };

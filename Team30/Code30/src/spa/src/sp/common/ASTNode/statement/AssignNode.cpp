@@ -11,7 +11,7 @@ AssignNode::AssignNode() {
   children = vector<shared_ptr<ASTNode>>{nullptr, nullptr};
 }
 
-void AssignNode::accept() {}
+void AssignNode::accept(shared_ptr<Extractor> e) {}
 
 string AssignNode::toString() {
   return std::to_string(lineNumber) + ": Assign:   "

@@ -10,6 +10,6 @@ class StatementASTNode: public ASTNode {
  public:
   virtual ~StatementASTNode() = default;
   virtual string toString() = 0;
-  virtual void accept() = 0;
+  virtual void accept(shared_ptr<Extractor> e) = 0;
   int lineNumber;
 };

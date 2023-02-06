@@ -9,7 +9,7 @@ ReadNode::ReadNode() {
   children = vector<shared_ptr<ASTNode>>{nullptr};
 }
 
-void ReadNode::accept() {}
+void ReadNode::accept(shared_ptr<Extractor> e) {}
 
 void ReadNode::addChild(shared_ptr<ASTNode> node) {
   children.push_back(node);

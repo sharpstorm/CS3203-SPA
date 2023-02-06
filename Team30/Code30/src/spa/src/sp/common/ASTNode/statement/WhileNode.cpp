@@ -11,7 +11,7 @@ WhileNode::WhileNode() {
   children = vector<shared_ptr<ASTNode>>{nullptr, nullptr};
 }
 
-void WhileNode::accept() {}
+void WhileNode::accept(shared_ptr<Extractor> e) {}
 
 void WhileNode::addChild(shared_ptr<ASTNode> node) {
   children.push_back(node);

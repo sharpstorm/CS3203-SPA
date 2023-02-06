@@ -9,7 +9,7 @@ using std::string, std::shared_ptr;
 class AbstractMathASTNode: public AbstractBinaryASTNode {
  public:
   virtual ~AbstractMathASTNode() = default;
-  void accept();
+  void accept(shared_ptr<Extractor> e);
   string toString();
 
  protected:

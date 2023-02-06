@@ -9,7 +9,7 @@ PrintNode::PrintNode() {
   children = vector<shared_ptr<ASTNode>>{nullptr};
 }
 
-void PrintNode::accept() {
+void PrintNode::accept(shared_ptr<Extractor> e) {
 }
 
 string PrintNode::toString() {
