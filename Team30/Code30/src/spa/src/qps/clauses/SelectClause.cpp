@@ -16,7 +16,6 @@ SelectClause::SelectClause(PQLQueryVariable target):
 
 PQLQueryResult* SelectClause::evaluateOn(
         shared_ptr<PkbQueryHandler> pkbQueryHandler) {
-
   PQLQueryResult* pqlQueryResult = new PQLQueryResult();
   if (target.isStatementType()) {
     StmtRef stmtVar = ClauseArgumentRef::toStmtRef(ClauseArgument(target));
