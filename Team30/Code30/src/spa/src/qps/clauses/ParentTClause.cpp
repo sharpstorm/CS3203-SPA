@@ -16,10 +16,8 @@ PQLQueryResult* ParentTClause::evaluateOn(
         shared_ptr<PkbQueryHandler> pkbQueryHandler) {
   StmtRef leftStatement = ClauseArgumentRef::toStmtRef(left);
   StmtRef rightStatement = ClauseArgumentRef::toStmtRef(right);
-  // Waiting for PkbQueryHandler to expose interface
   QueryResult<int, int> queryResult =
-      pkbQueryHandler->queryParent(leftStatement, rightStatement);
-//    pkbQueryHandler->queryParentT(leftStatement, rightStatement);
+      pkbQueryHandler->queryParentStar(leftStatement, rightStatement);
 
   PQLQueryResult* pqlQueryResult = new PQLQueryResult();
   if (!left.isSynonym() && !right.isSynonym()) {
@@ -47,5 +45,13 @@ PQLQueryResult* ParentTClause::evaluateOn(
 }
 
 bool ParentTClause::validateArgTypes(VariableTable *variables) {
+  if (left.isSynonym()
+      && !variables->at(left.getSynonymName()).isStatementType()) {
+    return false;
+  }
+  if (right.isSynonym()
+      && !variables->at(right.getSynonymName()).isStatementType()) {
+    return false;
+  }
   return true;
 }

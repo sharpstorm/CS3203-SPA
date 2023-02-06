@@ -45,5 +45,13 @@ PQLQueryResult* ParentClause::evaluateOn(
 }
 
 bool ParentClause::validateArgTypes(VariableTable *variables) {
+  if (left.isSynonym()
+      && !variables->at(left.getSynonymName()).isStatementType()) {
+    return false;
+  }
+  if (right.isSynonym()
+      && !variables->at(right.getSynonymName()).isStatementType()) {
+    return false;
+  }
   return true;
 }

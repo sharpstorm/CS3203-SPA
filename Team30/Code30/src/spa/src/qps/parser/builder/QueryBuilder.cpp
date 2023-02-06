@@ -47,6 +47,12 @@ void QueryBuilder::addSuchThat(unique_ptr<SuchThatClause> clause) {
 }
 
 unique_ptr<PQLQuery> QueryBuilder::build() {
+  for (int i = 0; i < clauses.size(); i++) {
+    if (!clauses.at(i)->validateArgTypes(&variables)) {
+      throw QueryBuilderError("Semantic Error, Invalid typing");
+    }
+  }
+
   unique_ptr<PQLQuery> created(new PQLQuery(variables,
                                             resultVariable, clauses));
   return created;

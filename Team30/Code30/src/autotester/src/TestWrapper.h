@@ -5,10 +5,17 @@
 #include <iostream>
 #include <list>
 
+#include "qps/IQPS.h"
+#include "pkb/storage/PKB.h"
+
 // include your other headers here
 #include "AbstractWrapper.h"
 
 class TestWrapper : public AbstractWrapper {
+ private:
+  IQPS* qps;
+  PKB* pkb;
+
  public:
   // default constructor
   TestWrapper();

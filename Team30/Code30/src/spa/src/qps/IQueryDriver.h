@@ -5,5 +5,6 @@
 
 class IQueryDriver {
  public:
-  virtual PQLQueryResult* evaluate(string* query);
+  virtual ~IQueryDriver() = default;
+  virtual PQLQueryResult* evaluate(string* query) = 0;
 };

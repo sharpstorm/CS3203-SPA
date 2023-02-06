@@ -1,10 +1,19 @@
+#include <vector>
+
 #include "QPSFacade.h"
 
-QPSFacade::QPSFacade(IQueryDriver driver) : driver(driver) {
+using std::vector;
+
+QPSFacade::QPSFacade(shared_ptr<PkbQueryHandler> pkbQH) {
+  driver = new QueryDriver(pkbQH);
 }
 
-string *QPSFacade::evaluate(string query) {
-    PQLQueryResult* queryResult = driver.evaluate(&query);
-    string* projectedResult = projector.project(queryResult);
+QPSFacade::~QPSFacade() noexcept {
+  delete(driver);
+}
+
+vector<string> *QPSFacade::evaluate(string query) {
+    PQLQueryResult* queryResult = driver->evaluate(&query);
+    vector<string>* projectedResult = projector.project(queryResult);
     return projectedResult;
 }
