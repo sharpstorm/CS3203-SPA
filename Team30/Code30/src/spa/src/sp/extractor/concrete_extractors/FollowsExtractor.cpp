@@ -6,5 +6,5 @@
 //}
 
 void FollowsExtractor::addFollowsRelation(int x, int y) {
-  std::cout << std::to_string(x) << " : " << std::to_string(y) << std::endl;
+  std::cout << x << " : " << y << std::endl;
 }

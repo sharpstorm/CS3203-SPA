@@ -2,6 +2,7 @@
 
 #include <string>
 #include "StatementASTNode.h"
+#include "sp/extractor/Extractor.h"
 
 using std::string;
 

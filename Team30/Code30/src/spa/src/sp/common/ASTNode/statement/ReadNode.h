@@ -4,6 +4,7 @@
 #include <memory>
 #include "sp/common/ASTNode/ASTNode.h"
 #include "StatementASTNode.h"
+#include "sp/extractor/Extractor.h"
 
 using std::string, std::shared_ptr;
 
