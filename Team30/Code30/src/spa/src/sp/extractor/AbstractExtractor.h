@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Extractor.h"
+#include "pkb/storage/PKB.h"
 #include "pkb/writers/PkbWriter.h"
 #include "sp/common/ASTNode/StatementListNode.h"
 #include "sp/common/ASTNode/statement/AssignNode.h"
@@ -23,5 +24,6 @@ class AbstractExtractor : public Extractor {
   virtual void visit(WhileNode node);
 
  protected:
-  PkbWriter writer;
+  PKB* pkb = new PKB();
+  PkbWriter writer = PkbWriter(pkb);
 };
