@@ -3,6 +3,6 @@
 #include "SourceParser.h"
 
 void SpDriver::parseSource(string input) {
-  ISourceParser iSourceParser = SourceParser();
-  iSourceParser.parseSource(input);
+  SourceParser sourceParser = SourceParser();
+  sourceParser.parseSource(input);
 }

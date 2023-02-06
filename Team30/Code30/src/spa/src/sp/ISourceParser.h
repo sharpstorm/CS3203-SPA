@@ -7,5 +7,5 @@ using std::string;
 
 class ISourceParser {
  public:
-  virtual AST parseSource(string input);
+  virtual AST parseSource(string input) = 0;
 };
