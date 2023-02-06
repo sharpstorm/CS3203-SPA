@@ -4,8 +4,9 @@
 #include "../predicates/PredicateFactory.h"
 #include "../storage/StorageTypes.h"
 #include "../storage/StructureMappingProvider.h"
+#include "interfaces/IFollowsQueryHandler.h"
 
-class FollowsQueryHandler {
+class FollowsQueryHandler: public IFollowsQueryHandler {
  public:
   FollowsQueryHandler(const FollowsStorage* store,
                       const PredicateFactory* predicateFactory,

@@ -4,7 +4,9 @@
 #include "../predicates/PredicateFactory.h"
 #include "../storage/StorageTypes.h"
 #include "../storage/StructureMappingProvider.h"
-class ParentQueryHandler {
+#include "interfaces/IParentQueryHandler.h"
+
+class ParentQueryHandler: public IParentQueryHandler {
  public:
   ParentQueryHandler(const ParentStorage* store,
                      const PredicateFactory* predicateFactory,

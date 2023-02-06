@@ -4,29 +4,28 @@ ParentExtractor::ParentExtractor(PkbWriter* writer) { pkbWriter = writer; }
 
 void ParentExtractor::visit(IfNode node) {
   vector<shared_ptr<ASTNode>> children = node.getChildren();
-  vector<shared_ptr<ASTNode>> stmtlst = children[1]->getChildren();
-  for (int i = 0; i < stmtlst.size(); i++) {
+  vector<shared_ptr<ASTNode>> ifLst = children[1]->getChildren();
+  vector<shared_ptr<ASTNode>> elseLst = children[2]->getChildren();
+  for (int i = 0; i < ifLst.size(); i++) {
     ParentExtractor::addParentRelation(
         node.lineNumber,
-        std::dynamic_pointer_cast<StatementASTNode>(stmtlst[i])->lineNumber);
+        std::dynamic_pointer_cast<StatementASTNode>(ifLst[i])->lineNumber);
+  }
+
+  for (int i = 0; i < elseLst.size(); i++) {
+    ParentExtractor::addParentRelation(
+        node.lineNumber,
+        std::dynamic_pointer_cast<StatementASTNode>(elseLst[i])->lineNumber);
   }
 }
 
 void ParentExtractor::visit(WhileNode node) {
   vector<shared_ptr<ASTNode>> children = node.getChildren();
-  vector<shared_ptr<ASTNode>> ifStmtLst = children[1]->getChildren();
-  vector<shared_ptr<ASTNode>> elseStmtLst = children[2]->getChildren();
-  for (int i = 0; i < ifStmtLst.size(); i++) {
+  vector<shared_ptr<ASTNode>> stmtList = children[1]->getChildren();
+  for (int i = 0; i < stmtList.size(); i++) {
     ParentExtractor::addParentRelation(
         node.lineNumber,
-        std::dynamic_pointer_cast<StatementASTNode>(ifStmtLst[i])->lineNumber);
-  }
-
-  for (int i = 0; i < elseStmtLst.size(); i++) {
-    ParentExtractor::addParentRelation(
-        node.lineNumber,
-        std::dynamic_pointer_cast<StatementASTNode>(elseStmtLst[i])
-            ->lineNumber);
+        std::dynamic_pointer_cast<StatementASTNode>(stmtList[i])->lineNumber);
   }
 }
 

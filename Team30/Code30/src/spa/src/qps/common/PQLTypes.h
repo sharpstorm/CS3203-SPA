@@ -1,0 +1,21 @@
+#pragma once
+
+#include <string>
+
+using std::string;
+
+enum PQLSynonymType {
+  PQL_VAR_TYPE_VARIABLE,
+  PQL_VAR_TYPE_CONSTANT,
+  PQL_VAR_TYPE_PROCEDURE,
+  PQL_VAR_TYPE_STMT = 0x100,
+  PQL_VAR_TYPE_READ,
+  PQL_VAR_TYPE_PRINT,
+  PQL_VAR_TYPE_CALL,
+  PQL_VAR_TYPE_WHILE,
+  PQL_VAR_TYPE_IF,
+  PQL_VAR_TYPE_ASSIGN,
+};
+
+const int PQL_VAR_STMT_MASK = PQL_VAR_TYPE_STMT;
+typedef string PQL_VAR_NAME;
