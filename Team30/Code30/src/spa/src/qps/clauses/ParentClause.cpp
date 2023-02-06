@@ -21,7 +21,7 @@ PQLQueryResult* ParentClause::evaluateOn(
 
   PQLQueryResult* pqlQueryResult = new PQLQueryResult();
   if (!left.isSynonym() && !right.isSynonym()) {
-    pqlQueryResult->setIsStaticTrue(true);
+    pqlQueryResult->setIsStaticFalse(queryResult.isEmpty);
     return pqlQueryResult;
   }
 
@@ -54,4 +54,9 @@ bool ParentClause::validateArgTypes(VariableTable *variables) {
     return false;
   }
   return true;
+}
+
+bool ParentClause::usesSynonym(string varName) {
+  return (left.isSynonym() && left.getSynonymName() == varName)
+      || (right.isSynonym() && right.getSynonymName() == varName);
 }

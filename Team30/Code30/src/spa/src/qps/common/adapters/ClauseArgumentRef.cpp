@@ -27,5 +27,21 @@ StmtRef ClauseArgumentRef::toStmtRef(ClauseArgument clauseArgument) {
 }
 
 EntityRef ClauseArgumentRef::toEntityRef(ClauseArgument clauseArgument) {
-  return {EntityType::None, "nothing"};
+  if (clauseArgument.isEntRef()) {
+    return EntityRef{EntityType::None, clauseArgument.getIdent()};
+  }
+
+  if (clauseArgument.isWildcard()) {
+    return EntityRef{EntityType::None, 0};
+  }
+
+  PQLSynonymType synType = clauseArgument.getSynonymType();
+  switch (synType) {
+    case PQL_VAR_TYPE_VARIABLE:
+      return EntityRef{EntityType::Variable, 0};
+    case PQL_VAR_TYPE_CONSTANT:
+      return EntityRef{EntityType::Constant, 0};
+    default:
+      return EntityRef{EntityType::None};
+  }
 }

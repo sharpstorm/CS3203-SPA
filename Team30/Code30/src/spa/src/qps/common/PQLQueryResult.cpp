@@ -1,11 +1,30 @@
 #include "PQLQueryResult.h"
 
+bool StatementResult::isEmpty() {
+  return lines.empty() && linePairs.empty();
+}
+
+bool EntityResult::isEmpty() {
+  return lines.empty() && entities.empty() && enitityPairs.empty();
+}
+
+PQLQueryResult::PQLQueryResult():
+    isStaticFalse(false), error("") {}
+
 bool PQLQueryResult::isEntityMapEmpty() {
-  return entityMap.empty();
+  bool isEmpty = true;
+  for (auto &it : entityMap) {
+    isEmpty = isEmpty & it.second.isEmpty();
+  }
+  return isEmpty;
 }
 
 bool PQLQueryResult::isStatementMapEmpty() {
-  return statementMap.empty();
+  bool isEmpty = true;
+  for (auto &it : statementMap) {
+    isEmpty = isEmpty & it.second.isEmpty();
+  }
+  return isEmpty;
 }
 
 StatementResult* PQLQueryResult::getFromStatementMap(PQL_VAR_NAME var) {
@@ -41,25 +60,25 @@ EntityResult* PQLQueryResult::getFromEntityMap(PQL_VAR_NAME var) {
 }
 
 string PQLQueryResult::getError() {
-    return error;
+  return error;
 }
 
 void PQLQueryResult::setError(string errorMessage) {
   error = errorMessage;
 }
 
-bool PQLQueryResult::getIsStaticTrue() {
-  return isStaticTrue;
+bool PQLQueryResult::getIsStaticFalse() {
+  return isStaticFalse;
 }
 
-void PQLQueryResult::setIsStaticTrue(bool staticRes) {
-  isStaticTrue = staticRes;
+void PQLQueryResult::setIsStaticFalse(bool staticRes) {
+  isStaticFalse = staticRes;
 }
 
 PQLQueryResult* PQLQueryResult::resultFromVariable(PQLQueryVariable queryVar) {
   PQLQueryResult* queryResult = new PQLQueryResult();
 
-  if (isStaticTrue) {
+  if (isStaticFalse) {
     return queryResult;
   }
 

@@ -22,7 +22,7 @@ PQLQueryResult* FollowsTClause::evaluateOn(
 
   PQLQueryResult* pqlQueryResult = new PQLQueryResult();
   if (!left.isSynonym() && !right.isSynonym()) {
-    pqlQueryResult->setIsStaticTrue(true);
+    pqlQueryResult->setIsStaticFalse(queryResult.isEmpty);
     return pqlQueryResult;
   }
 
@@ -55,4 +55,9 @@ bool FollowsTClause::validateArgTypes(VariableTable *variables) {
     return false;
   }
   return true;
+}
+
+bool FollowsTClause::usesSynonym(string varName) {
+  return (left.isSynonym() && left.getSynonymName() == varName)
+      || (right.isSynonym() && right.getSynonymName() == varName);
 }

@@ -27,7 +27,6 @@ struct std::hash<pair<T1, T2>> {
     return std::hash<T1>()(pair.first) ^ std::hash<T2>()(pair.second);
   }
 };
-
 template <typename K, typename V>
 using pair_set = unordered_set<pair<K, V>>;
 

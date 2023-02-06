@@ -8,10 +8,10 @@
 
 using std::pair, std::unordered_set;
 
-class StatementResultBuilder {
+class EntityResultBuilder {
  public:
-  static StatementResult buildStatementResult(bool isLeft,
-                                              QueryResult<int, int>
+  static EntityResult buildEntityResult(bool isLeft,
+                                              QueryResult<int, string>
                                                   queryResult);
-  static StatementResult buildStatementResult(unordered_set<int> lines);
+  static EntityResult buildEntityResult(unordered_set<string> items);
 };

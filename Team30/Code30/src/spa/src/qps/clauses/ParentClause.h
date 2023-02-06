@@ -16,4 +16,5 @@ class ParentClause: public SuchThatClause {
   ParentClause(ClauseArgument left, ClauseArgument right);
   PQLQueryResult* evaluateOn(shared_ptr<PkbQueryHandler> pkbQueryHandler);
   bool validateArgTypes(VariableTable *variables);
+  bool usesSynonym(string varName);
 };

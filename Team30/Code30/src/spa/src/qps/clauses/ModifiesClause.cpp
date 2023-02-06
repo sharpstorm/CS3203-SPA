@@ -33,3 +33,8 @@ bool ModifiesClause::validateArgTypes(VariableTable *variables) {
   }
   return true;
 }
+
+bool ModifiesClause::usesSynonym(string varName) {
+  return (left.isSynonym() && left.getSynonymName() == varName)
+      || (right.isSynonym() && right.getSynonymName() == varName);
+}

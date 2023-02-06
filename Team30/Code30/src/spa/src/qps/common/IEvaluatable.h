@@ -12,4 +12,5 @@ class IEvaluatable {
   virtual ~IEvaluatable() = default;
   virtual PQLQueryResult* evaluateOn(
           shared_ptr<PkbQueryHandler> pkbQueryHandler) = 0;
+  virtual bool usesSynonym(string varName) = 0;
 };

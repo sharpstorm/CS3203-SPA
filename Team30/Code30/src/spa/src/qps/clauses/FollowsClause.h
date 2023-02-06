@@ -17,4 +17,5 @@ class FollowsClause: public SuchThatClause {
   FollowsClause(ClauseArgument left, ClauseArgument right);
   PQLQueryResult* evaluateOn(shared_ptr<PkbQueryHandler> pkbQueryHandler);
   bool validateArgTypes(VariableTable *variables);
+  bool usesSynonym(string varName);
 };

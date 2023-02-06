@@ -6,5 +6,5 @@
 class ClauseArgumentRef {
  public:
   static StmtRef toStmtRef(ClauseArgument clauseArgument);
-  EntityRef toEntityRef(ClauseArgument clauseArgument);
+  static EntityRef toEntityRef(ClauseArgument clauseArgument);
 };

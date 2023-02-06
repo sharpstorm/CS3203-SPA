@@ -12,19 +12,14 @@ StatementResult StatementResultBuilder::buildStatementResult(bool isLeft,
     return StatementResult{};
   }
 
-  unordered_set<int> linesSet;
-  unordered_set<pair<int, int>> pairsSet;
+  return StatementResult{
+    isLeft ? queryResult.firstArgVals : queryResult.secondArgVals,
+    queryResult.pairVals,
+    isLeft
+  };
+}
 
-  if (isLeft) {
-    linesSet = queryResult.firstArgVals;
-  } else {
-    linesSet = queryResult.secondArgVals;
-  }
-  pairsSet = queryResult.pairVals;
-
-  vector<pair<int, int>> linePairs = vector<pair<int, int>>(
-      pairsSet.begin(), pairsSet.end());
-  vector<int> lines = vector<int>(linesSet.begin(), linesSet.end());
-
-  return StatementResult{lines, linePairs, isLeft};
+StatementResult StatementResultBuilder::buildStatementResult(
+    unordered_set<int> lines) {
+  return StatementResult{lines, unordered_set<pair<int, int>>{}, false};
 }
