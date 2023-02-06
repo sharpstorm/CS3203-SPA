@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 #include "IQPS.h"
 #include "qps/projector/ResultProjector.h"
 #include "QueryDriver.h"
@@ -14,7 +15,7 @@ class QPSFacade: public IQPS {
   ResultProjector projector;
 
  public:
-  QPSFacade(shared_ptr<PkbQueryHandler> pkbQH);
+  explicit QPSFacade(shared_ptr<PkbQueryHandler> pkbQH);
   ~QPSFacade();
   vector<string>* evaluate(string query);
 };
