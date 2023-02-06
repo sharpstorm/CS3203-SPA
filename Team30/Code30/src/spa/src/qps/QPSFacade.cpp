@@ -1,10 +1,14 @@
+#include <vector>
+
 #include "QPSFacade.h"
+
+using std::vector;
 
 QPSFacade::QPSFacade(IQueryDriver* driver) : driver(driver) {
 }
 
-string *QPSFacade::evaluate(string query) {
+vector<string> *QPSFacade::evaluate(string query) {
     PQLQueryResult* queryResult = driver->evaluate(&query);
-    string* projectedResult = projector.project(queryResult);
+    vector<string>* projectedResult = projector.project(queryResult);
     return projectedResult;
 }
