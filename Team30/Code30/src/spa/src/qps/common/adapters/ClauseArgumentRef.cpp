@@ -32,15 +32,15 @@ EntityRef ClauseArgumentRef::toEntityRef(ClauseArgument clauseArgument) {
   }
 
   if (clauseArgument.isWildcard()) {
-    return EntityRef{EntityType::None, 0};
+    return EntityRef{EntityType::None, ""};
   }
 
   PQLSynonymType synType = clauseArgument.getSynonymType();
   switch (synType) {
     case PQL_VAR_TYPE_VARIABLE:
-      return EntityRef{EntityType::Variable, 0};
+      return EntityRef{EntityType::Variable, ""};
     case PQL_VAR_TYPE_CONSTANT:
-      return EntityRef{EntityType::Constant, 0};
+      return EntityRef{EntityType::Constant, ""};
     default:
       return EntityRef{EntityType::None};
   }

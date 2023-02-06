@@ -89,4 +89,7 @@ TEST_CASE("Test QP Query Basic Follows") {
   launchQuery(qps.get(), "assign s1, s2; Select s1",
               unordered_set<string>{ "1", "2", "3", "4", "5" });
 
+  launchQuery(qps.get(), "variable v; Select v",
+              unordered_set<string>{ "x", "y", "z" });
+
 }
