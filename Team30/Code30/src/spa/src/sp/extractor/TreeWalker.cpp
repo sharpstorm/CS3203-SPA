@@ -1,8 +1,9 @@
 #include "TreeWalker.h"
-#include "sp/common/ASTNode/statement/StatementASTNode.h"
+
+#include <iostream>
 #include "sp/common/ASTNode/StatementListNode.h"
 #include "sp/extractor/concrete_extractors/FollowsExtractor.h"
-#include <iostream>
+
 
 using std::cout, std::endl;
 
@@ -18,7 +19,7 @@ void TreeWalker::DFS(shared_ptr<ASTNode> node) {
     for (shared_ptr<ASTNode> child : node->getChildren()) {
       // Dynamic cast to check if child is a statement
       if (std::dynamic_pointer_cast<StatementListNode>(child) != nullptr) {
-        // TODO StatementList children size 0 check
+        // TODO(Wei-Xinn) StatementList children size 0 check
         for (shared_ptr<ASTNode> baby : child->getChildren()) {
           DFS(baby);
         }

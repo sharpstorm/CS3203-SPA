@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <memory>
 #include "ASTNode.h"
 #include "sp/extractor/Extractor.h"
 

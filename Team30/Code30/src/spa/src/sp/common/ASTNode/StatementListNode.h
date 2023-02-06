@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 #include "ASTNode.h"
 #include "sp/extractor/Extractor.h"
 

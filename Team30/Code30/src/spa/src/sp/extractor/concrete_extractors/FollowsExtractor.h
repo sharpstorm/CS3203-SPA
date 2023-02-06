@@ -5,7 +5,7 @@
 class FollowsExtractor : public AbstractExtractor {
  public:
   FollowsExtractor() = default;
-//  void visit(StatementListNode node);
+  virtual void visit(StatementListNode node);
  private:
   void addFollowsRelation(int x, int y);
 };
