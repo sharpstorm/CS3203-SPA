@@ -11,7 +11,7 @@ using std::string;
 using std::unordered_set;
 
 TEST_CASE("Entities write and read") {
-  PKB* pkb = new PKB();
+  PKB *pkb = new PKB();
   PkbWriter writer = PkbWriter(pkb);
   PkbQueryHandler queryHandler = PkbQueryHandler(pkb);
 
@@ -22,13 +22,13 @@ TEST_CASE("Entities write and read") {
   writer.addSymbol("1", EntityType::Constant);
 
   REQUIRE(queryHandler.getSymbolsOfType(EntityType::Variable) ==
-          unordered_set<string>({"a", "b", "c"}));
+      unordered_set<string>({"a", "b", "c"}));
   REQUIRE(queryHandler.getSymbolsOfType(EntityType::Constant) ==
-          unordered_set<string>({"0", "1"}));
+      unordered_set<string>({"0", "1"}));
 }
 
 TEST_CASE("Statements write and read") {
-  PKB* pkb = new PKB();
+  PKB *pkb = new PKB();
   PkbWriter writer = PkbWriter(pkb);
   PkbQueryHandler queryHandler = PkbQueryHandler(pkb);
 
@@ -38,7 +38,11 @@ TEST_CASE("Statements write and read") {
   writer.addStatement(4, StmtType::Read);
 
   REQUIRE(queryHandler.getStatementsOfType(StmtType::Assign) ==
-          unordered_set<int>({1, 2, 3}));
+      unordered_set<int>({1, 2, 3}));
   REQUIRE(queryHandler.getStatementsOfType(StmtType::Read) ==
-          unordered_set<int>({4}));
+      unordered_set<int>({4}));
+  // get all statements
+  REQUIRE(queryHandler.getStatementsOfType(StmtType::None) ==
+      unordered_set<int>({1, 2, 3, 4}));
 }
+
