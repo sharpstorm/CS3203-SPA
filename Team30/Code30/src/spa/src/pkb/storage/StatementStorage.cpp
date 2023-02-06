@@ -21,5 +21,12 @@ StmtType StatementStorage::getStatement(int lineNumber) const {
 
 std::unordered_set<int> StatementStorage::getStatementsOfType(
     StmtType stmtType) const {
+  if (stmtType == StmtType::None) {
+    std::unordered_set<int> result;
+    for (auto const &set : ReverseStatementTable) {
+      result.insert(set.second.begin(), set.second.end());
+    }
+    return result;
+  }
   return ReverseStatementTable.at(stmtType);
 }
