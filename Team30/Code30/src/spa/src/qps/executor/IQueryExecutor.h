@@ -5,5 +5,6 @@
 
 class IQueryExecutor {
  public:
-  PQLQueryResult* executeQuery(PQLQuery* query);
+  virtual ~IQueryExecutor() = default;
+  virtual PQLQueryResult* executeQuery(PQLQuery* query) = 0;
 };

@@ -17,19 +17,8 @@ PQLQueryResult* FollowsClause::evaluateOn(
         shared_ptr<PkbQueryHandler> pkbQueryHandler) {
   StmtRef leftStatement = ClauseArgumentRef::toStmtRef(left);
   StmtRef rightStatement = ClauseArgumentRef::toStmtRef(right);
-//  QueryResult<int, int> queryResult =
-//      pkbQueryHandler->queryFollows(leftStatement, rightStatement);
-  QueryResult<int, int> queryResult;
-  unordered_set<pair<int, int>> tempPairs;
-  tempPairs.insert({1, 2});
-  tempPairs.insert({2, 3});
-  tempPairs.insert({3, 4});
-  tempPairs.insert({4, 5});
-  queryResult.firstArgVals.insert(1);
-  for (int i = 1; i < 5; i++) {
-    queryResult.secondArgVals.insert(i + 1);
-  }
-  queryResult.isEmpty = false;
+  QueryResult<int, int> queryResult =
+      pkbQueryHandler->queryFollows(leftStatement, rightStatement);
 
   PQLQueryResult*  pqlQueryResult = new PQLQueryResult();
 

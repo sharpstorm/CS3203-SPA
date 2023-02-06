@@ -17,10 +17,8 @@ PQLQueryResult* FollowsTClause::evaluateOn(
         shared_ptr<PkbQueryHandler> pkbQueryHandler) {
   StmtRef leftStatement = ClauseArgumentRef::toStmtRef(left);
   StmtRef rightStatement = ClauseArgumentRef::toStmtRef(right);
-  // Waiting for PkbQueryHandler to expose interface
   QueryResult<int, int> queryResult =
-      pkbQueryHandler->queryFollows(leftStatement, rightStatement);
-//      pkbQueryHandler->queryFollowsT(leftStatement, rightStatement);
+      pkbQueryHandler->queryFollowsStar(leftStatement, rightStatement);
 
   PQLQueryResult* pqlQueryResult = new PQLQueryResult();
   if (!left.isSynonym() && !right.isSynonym()) {
