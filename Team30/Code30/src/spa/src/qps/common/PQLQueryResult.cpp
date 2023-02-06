@@ -27,6 +27,10 @@ bool PQLQueryResult::isStatementMapEmpty() {
   return isEmpty;
 }
 
+bool PQLQueryResult::isStaticResult() {
+  return statementMap.empty() && entityMap.empty();
+}
+
 StatementResult* PQLQueryResult::getFromStatementMap(PQL_VAR_NAME var) {
   if (statementMap.find(var) == statementMap.end()) {
     return nullptr;

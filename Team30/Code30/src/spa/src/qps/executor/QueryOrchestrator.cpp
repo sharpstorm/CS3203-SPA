@@ -1,4 +1,5 @@
 #include "QueryOrchestrator.h"
+#include <iostream>
 
 QueryOrchestrator::QueryOrchestrator(QueryLauncher launcher) :
         launcher(launcher) {
@@ -14,8 +15,14 @@ PQLQueryResult *QueryOrchestrator::execute(PQLQuery* query,
     }
 
     if (plan->hasSelectClause()) {
-      if (finalResult == nullptr || !finalResult->isEntityMapEmpty()
-          || !finalResult->isStatementMapEmpty()) {
+      bool shouldMerge = finalResult == nullptr;
+      if (finalResult != nullptr) {
+        shouldMerge |= (finalResult->isStaticResult() && !finalResult->getIsStaticFalse());
+        shouldMerge |= !finalResult->isStaticResult() && (!finalResult->isEntityMapEmpty()
+            || !finalResult->isStatementMapEmpty());
+      }
+
+      if (shouldMerge) {
         currentResult = launcher.execute(plan->getSelectClause().get());
         finalResult = coalescer.merge(finalResult, currentResult);
       }

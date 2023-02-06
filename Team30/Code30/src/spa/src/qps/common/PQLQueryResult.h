@@ -52,6 +52,7 @@ class PQLQueryResult {
   void setError(string errorMessage);
   bool getIsStaticFalse();
   void setIsStaticFalse(bool staticRes);
+  bool isStaticResult();
   PQLQueryResult* resultFromVariable(PQLQueryVariable queryVar);
   virtual ~PQLQueryResult() = default;
 };
