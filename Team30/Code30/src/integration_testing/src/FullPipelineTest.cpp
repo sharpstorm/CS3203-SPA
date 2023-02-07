@@ -2,24 +2,12 @@
 
 #include <memory>
 #include <unordered_set>
-#include <iostream>
 #include "qps/QPSFacade.h"
 #include "pkb/writers/PkbWriter.h"
 #include "qps/errors/QPSError.h"
-#include "sp/SpFacade.h"
-#include "sp/ISp.h"
 #include "sp/SpDriver.h"
 
 using std::make_unique, std::make_shared, std::unordered_set, std::to_string;
-
-/*
- * procedure ANYA {
- *   x = 1;
- *   y = 2;
- *   z = 3;
- * }
- *
- */
 
 void assertSetEquality2(unordered_set<string> a, unordered_set<string> b) {
   REQUIRE(a.size() == b.size());
@@ -75,8 +63,8 @@ TEST_CASE("Test Full End-to-end") {
                        "    i = i - 1; }\n"
                        "  z = x + 1; }", pkbWriter.get());
 
-  launchQuery2(qps.get(), "if ifs;\n"
-                          "Select ifs such that Follows(5, ifs)",
+  launchQuery2(qps.get(), "if ifs; stmt s;\n"
+                          "Select if such that Follows(ifs, s)",
               unordered_set<string>{ "6" });
 
 }
