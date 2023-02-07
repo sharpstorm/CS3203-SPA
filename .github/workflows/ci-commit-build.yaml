@@ -22,7 +22,7 @@ jobs:
       - name: Cache Build directory
         uses: actions/cache@v3
         with:
-          key: ${{ github.head_ref || github.ref_name }}-build-cache
+          key: ${{ github.head_ref || github.ref_name }}-build-cache-spa
           path: |
             ./Team30/Code30/build
 
@@ -34,6 +34,9 @@ jobs:
       - name: Generate CMake Project
         working-directory: ./Team30/Code30/build
         run: |
+          sudo /usr/sbin/update-ccache-symlinks
+          export PATH="/usr/lib/ccache:$PATH"
+          export CCACHE_DIR="./build-cache"
           CC=clang CXX=clang++ cmake ../ -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
 
       - name: Compile SPA
