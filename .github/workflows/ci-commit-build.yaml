@@ -19,6 +19,9 @@ jobs:
         run: |
           cpplint --filter=-legal/copyright --recursive ./Team30/Code30/src/spa/src
 
+      - name: Setup CCache
+        run: sudo apt-get install ccache
+        
       - name: Cache Build directory
         uses: actions/cache@v3
         with:
@@ -37,7 +40,7 @@ jobs:
           sudo /usr/sbin/update-ccache-symlinks
           export PATH="/usr/lib/ccache:$PATH"
           export CCACHE_DIR="./build-cache"
-          CC=clang CXX=clang++ cmake ../ -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
+          CC=clang CXX=clang++ cmake ../ -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -D CMAKE_C_COMPILER_LAUNCHER=ccache -D CMAKE_CXX_COMPILER_LAUNCHER=ccache
 
       - name: Compile SPA
         working-directory: ./Team30/Code30/build
