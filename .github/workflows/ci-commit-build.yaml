@@ -54,7 +54,7 @@ jobs:
         run: |
           ./src/unit_testing/unit_testing -r console -d yes --order lex
 
-      - name: Test Unit Testing
+      - name: Test Integration Testing
         working-directory: ./Team30/Code30/build
         run: |
-          ./src/unit_testing/integration_testing -r console -d yes --order lex
+          ./src/integration_testing/integration_testing -r console -d yes --order lex
