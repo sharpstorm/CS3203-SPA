@@ -19,6 +19,13 @@ jobs:
         run: |
           cpplint --filter=-legal/copyright --recursive ./Team30/Code30/src/spa/src
 
+      - name: Cache Build directory
+        uses: actions/cache@v3
+        with:
+          key: ${{ github.head_ref || github.ref_name }}-build-cache
+          path: |
+            ./Team30/Code30/build
+
       - name: Setup Build Folder
         working-directory: ./Team30/Code30
         run: |
