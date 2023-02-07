@@ -75,6 +75,16 @@ jobs:
         with:
           ref: master
 
+      - name: Setup CCache
+        run: sudo apt-get install ccache
+
+      - name: Cache Build directory
+        uses: actions/cache@v3
+        with:
+          key: ${{ github.head_ref || github.ref_name }}-build-cache-spa
+          path: |
+            ./Team30/Code30/build
+
       - name: Setup Build Folder
         working-directory: ./Team30/Code30
         run: |
@@ -83,7 +93,10 @@ jobs:
       - name: Generate CMake Project
         working-directory: ./Team30/Code30/build
         run: |
-          cmake ../ -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
+          sudo /usr/sbin/update-ccache-symlinks
+          export PATH="/usr/lib/ccache:$PATH"
+          export CCACHE_DIR="./build-cache"
+          CC=clang CXX=clang++ cmake ../ -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER_LAUNCHER=ccache -D CMAKE_CXX_COMPILER_LAUNCHER=ccache
 
       - name: Compile SPA
         working-directory: ./Team30/Code30/build
@@ -91,3 +104,13 @@ jobs:
           cmake --build . --target unit_testing --config Release -j 4
           cmake --build . --target integration_testing --config Release -j 4
           cmake --build . --target autotester --config Release -j 4
+
+      - name: Test Unit Testing
+        working-directory: ./Team30/Code30/build
+        run: |
+          ./src/unit_testing/unit_testing -r console -d yes --order lex
+
+      - name: Test Integration Testing
+        working-directory: ./Team30/Code30/build
+        run: |
+          ./src/integration_testing/integration_testing -r console -d yes --order lex
