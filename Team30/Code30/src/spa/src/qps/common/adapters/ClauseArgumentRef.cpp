@@ -19,6 +19,8 @@ StmtRef ClauseArgumentRef::toStmtRef(ClauseArgument clauseArgument) {
       return StmtRef{StmtType::Call, 0};
     case PQL_VAR_TYPE_WHILE:
       return StmtRef{StmtType::While, 0};
+    case PQL_VAR_TYPE_IF:
+      return StmtRef{StmtType::If, 0};
     case PQL_VAR_TYPE_PRINT:
       return StmtRef{StmtType::Print, 0};
     default:
