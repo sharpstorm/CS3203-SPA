@@ -27,7 +27,5 @@ using std::cout;
 //  PkbWriter pkbWriter(&pkb)
 //  shared_ptr<Extractor> f = shared_ptr<Extractor>(new FollowsExtractor);
 //  ast.getRoot()->getChildren()[0]->accept(f);
-
-
-}
+//}
 
