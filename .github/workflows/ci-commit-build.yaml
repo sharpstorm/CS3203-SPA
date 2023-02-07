@@ -21,7 +21,7 @@ jobs:
 
       - name: Setup CCache
         run: sudo apt-get install ccache
-        
+
       - name: Cache Build directory
         uses: actions/cache@v3
         with:
@@ -46,9 +46,15 @@ jobs:
         working-directory: ./Team30/Code30/build
         run: |
           cmake --build . --target unit_testing --config ${BUILD_TYPE} -j 2
+          cmake --build . --target integration_testing --config ${BUILD_TYPE} -j 2
           cmake --build . --target autotester --config ${BUILD_TYPE} -j 2
 
       - name: Test Unit Testing
         working-directory: ./Team30/Code30/build
         run: |
           ./src/unit_testing/unit_testing -r console -d yes --order lex
+
+      - name: Test Unit Testing
+        working-directory: ./Team30/Code30/build
+        run: |
+          ./src/unit_testing/integration_testing -r console -d yes --order lex
