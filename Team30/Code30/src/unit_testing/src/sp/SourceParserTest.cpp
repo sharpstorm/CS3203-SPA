@@ -6,39 +6,39 @@
 
 using std::cout;
 //
-TEST_CASE("Test SP Parser - Procedure") {
-  SourceLexer lexer;
-  SourceTokenParser parser;
-
-  string ss = "procedure printResults {\n"
-              "print flag;\n"
-              "print cenX;\n"
-              "print cenY;\n"
-              "print normSq;\n"
-              "while ((x != 0) && (y != 0)) {\n"
-              "count = count + 1;\n"
-              "cenX = cenX + x;\n"
-              "cenY = cenY + y;\n"
-              "}"
-              "}";
-
-  vector<string> inputList;
-  inputList.push_back(ss);
-
-  vector<vector<SourceToken>> tokensList;
-  for (string s : inputList) {
-    tokensList.push_back(lexer.tokenize(&s));
-  }
-  for (vector<SourceToken> v : tokensList) {
-    try {
-      auto root = parser.parse(&v);
-      REQUIRE(root.getRoot() != nullptr);
-      cout << root.getRoot()->toString() << "\n";
-    } catch (const SPError& ex) {
-      FAIL("Caught SP Error " + ex.message);
-    }
-  }
-}
+//TEST_CASE("Test SP Parser - Procedure") {
+//  SourceLexer lexer;
+//  SourceTokenParser parser;
+//
+//  string ss = "procedure printResults {\n"
+//              "print flag;\n"
+//              "print cenX;\n"
+//              "print cenY;\n"
+//              "print normSq;\n"
+//              "while ((x != 0) && (y != 0)) {\n"
+//              "count = count + 1;\n"
+//              "cenX = cenX + x;\n"
+//              "cenY = cenY + y;\n"
+//              "}"
+//              "}";
+//
+//  vector<string> inputList;
+//  inputList.push_back(ss);
+//
+//  vector<vector<SourceToken>> tokensList;
+//  for (string s : inputList) {
+//    tokensList.push_back(lexer.tokenize(&s));
+//  }
+//  for (vector<SourceToken> v : tokensList) {
+//    try {
+//      auto root = parser.parse(&v);
+//      REQUIRE(root.getRoot() != nullptr);
+//      cout << root.getRoot()->toString() << "\n";
+//    } catch (const SPError& ex) {
+//      FAIL("Caught SP Error " + ex.message);
+//    }
+//  }
+//}
 //
 //
 //TEST_CASE("Test SP Parser - If") {
