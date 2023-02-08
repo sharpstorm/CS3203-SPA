@@ -78,17 +78,17 @@ jobs:
       - name: Setup CCache
         run: sudo apt-get install ccache
 
+      - name: Setup Build Folder
+        working-directory: ./Team30/Code30
+        run: |
+          cmake -E make_directory ./build
+
       - name: Cache Build directory
         uses: actions/cache@v3
         with:
           key: master-scheduled-build-cache
           path: |
-            ./Team30/Code30/build
-
-      - name: Setup Build Folder
-        working-directory: ./Team30/Code30
-        run: |
-          cmake -E make_directory ./build
+            ./Team30/Code30/build/build-cache
 
       - name: Generate CMake Project
         working-directory: ./Team30/Code30/build
