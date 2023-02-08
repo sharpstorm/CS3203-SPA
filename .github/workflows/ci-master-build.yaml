@@ -1,4 +1,4 @@
-name: CI Build
+name: Master CI Build
 
 # on: push
 on:
@@ -20,21 +20,23 @@ jobs:
         with:
           ref: master
 
-      - name: Generate CMake Project
-        working-directory: ./Team30/Code30
+      - name: Setup Build Folder
         shell: bash
-        run: |
-          cmake -E make_directory ./build
-          cd build
-          cmake -A x64 ..
+        working-directory: ./Team30/Code30
+        run: cmake -E make_directory ./build
+
+      - name: Generate CMake Project
+        working-directory: ./Team30/Code30/build
+        shell: bash
+        run: cmake -A x64 .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
       
       - name: Compile SPA
         shell: bash
         working-directory: ./Team30/Code30/build
         run: |
-          cmake --build . --target unit_testing --config Release -j 4
-          cmake --build . --target integration_testing --config Release -j 4
-          cmake --build . --target autotester --config Release -j 4
+          cmake --build . --target unit_testing --config ${BUILD_TYPE} -j 4
+          cmake --build . --target integration_testing --config ${BUILD_TYPE} -j 4
+          cmake --build . --target autotester --config ${BUILD_TYPE} -j 4
 
   build-darwin:
     runs-on: macos-latest
@@ -49,20 +51,18 @@ jobs:
 
       - name: Setup Build Folder
         working-directory: ./Team30/Code30
-        run: |
-          cmake -E make_directory ./build
+        run: cmake -E make_directory ./build
 
       - name: Generate CMake Project
         working-directory: ./Team30/Code30/build
-        run: |
-          cmake ../ -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
-
+        run: cmake ../ -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
+      
       - name: Compile SPA
         working-directory: ./Team30/Code30/build
         run: |
-          cmake --build . --target unit_testing --config Release -j 4
-          cmake --build . --target integration_testing --config Release -j 4
-          cmake --build . --target autotester --config Release -j 4
+          cmake --build . --target unit_testing --config ${BUILD_TYPE} -j 4
+          cmake --build . --target integration_testing --config ${BUILD_TYPE} -j 4
+          cmake --build . --target autotester --config ${BUILD_TYPE} -j 4
 
   build-linux:
     runs-on: ubuntu-latest
@@ -81,7 +81,7 @@ jobs:
       - name: Cache Build directory
         uses: actions/cache@v3
         with:
-          key: ${{ github.head_ref || github.ref_name }}-build-cache-spa
+          key: master-scheduled-build-cache
           path: |
             ./Team30/Code30/build
 
