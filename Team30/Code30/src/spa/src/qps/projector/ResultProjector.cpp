@@ -39,11 +39,6 @@ vector<string>* ResultProjector::projectStatements(STATEMENT_MAP statementMap) {
         result->push_back(to_string(stmt));
       }
     }
-    } else {
-      for (auto stmt : statementResult.lines) {
-        result->push_back(to_string(stmt));
-      }
-    }
   }
 
   return result;
