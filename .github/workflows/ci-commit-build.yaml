@@ -20,7 +20,7 @@ jobs:
           cpplint --filter=-legal/copyright --recursive ./Team30/Code30/src/spa/src
 
       - name: Setup CCache
-        run: sudo apt-get install ccache
+        run: sudo apt-get install -y ccache
 
       - name: Cache Build directory
         uses: actions/cache@v3
