@@ -1,45 +1,36 @@
 #include "catch.hpp"
-#include <vector>
+#include <unordered_set>
 
 #include "qps/common/PQLQueryResult.h"
 
-using std::vector;
+using std::unordered_set;
+
+PQL_VAR_NAME TEST_VAR_NAME = "a";
+PQL_VAR_NAME TEST_NOT_EXIST_VAR_NAME = "z";
+
+pair_set<int, int> LINE_PAIRS = pair_set<int, int>({{1, 2}, {2, 3}, {3, 4}});
+unordered_set<int> STATEMENT_LINES = unordered_set<int>({1, 2, 3, 4});
+
+pair_set<int, string> ENTITY_PAIRS = pair_set<int, string>({ {1, "x"}, {1, "y"}});
+unordered_set<int> ENTITY_LINES = unordered_set<int>({1, 2});
+unordered_set<string> ENTITIES = unordered_set<string>({"x", "y"});
 
 StatementResult buildStatementResult() {
   StatementResult result;
   result.isLeftArg = true;
-  result.linePairs = vector<pair<int, int>>({{1, 2}, {2, 3}, {3, 4}});
-  result.lines = vector<int>({1, 2, 3, 4});
+  result.linePairs = LINE_PAIRS;
+  result.lines = STATEMENT_LINES;
   return result;
 }
 
 EntityResult buildEntityResult() {
   EntityResult result;
   result.isLeftArg = true;
-  result.enitityPairs = vector<pair<int, string>>({ {1, "x"}, {1, "y"}});
-  result.lines = vector<int>({1, 2});
-  result.entities = vector<string>({"x", "y"});
+  result.enitityPairs = ENTITY_PAIRS;
+  result.lines = ENTITY_LINES;
+  result.entities = ENTITIES;
   return result;
 }
-
-bool isStatementResultSame(StatementResult a, StatementResult b) {
-  bool isLeftArgEqual = a.isLeftArg == b.isLeftArg;
-  bool isLinesEqual = a.lines == b.lines;
-  bool isLinePairsEqual = a.linePairs == b.linePairs;
-  return isLeftArgEqual && isLinesEqual && isLinePairsEqual;
-}
-
-bool isEntityResultSame(EntityResult a, EntityResult b) {
-  bool isLeftArgEqual = a.isLeftArg == b.isLeftArg;
-  bool isLinesEqual = a.lines == b.lines;
-  bool isEntitiesEqual = a.entities == b.entities;
-  bool isEntityPairsEqual = a.enitityPairs == b.enitityPairs;
-  return isLeftArgEqual && isLinesEqual && isEntitiesEqual &&
-      isEntityPairsEqual;
-}
-
-PQL_VAR_NAME TEST_VAR_NAME = "a";
-PQL_VAR_NAME TEST_NOT_EXIST_VAR_NAME = "z";
 
 TEST_CASE("Add to StatementMap") {
   PQLQueryResult result;
@@ -50,7 +41,7 @@ TEST_CASE("Add to StatementMap") {
   REQUIRE(statementMap.find(TEST_VAR_NAME) != statementMap.end());
 
   StatementResult stmtResult = statementMap[TEST_VAR_NAME];
-  REQUIRE(isStatementResultSame(stmtResult, buildStatementResult()) == true);
+  REQUIRE(stmtResult == buildStatementResult());
 }
 
 TEST_CASE("Add to EntityMap") {
@@ -62,7 +53,7 @@ TEST_CASE("Add to EntityMap") {
   REQUIRE(entityMap.find(TEST_VAR_NAME) != entityMap.end());
 
   EntityResult entityResult = entityMap[TEST_VAR_NAME];
-  REQUIRE(isEntityResultSame(entityResult, buildEntityResult()));
+    REQUIRE(entityResult == buildEntityResult());
 }
 
 TEST_CASE("StatementMap Emptiness Check") {
@@ -97,4 +88,31 @@ TEST_CASE("Retrieve EntityResult") {
   result.addToEntityMap(TEST_VAR_NAME, buildEntityResult());
   REQUIRE(result.getFromEntityMap(TEST_VAR_NAME) != nullptr);
   REQUIRE(result.getFromEntityMap(TEST_NOT_EXIST_VAR_NAME) == nullptr);
+}
+
+TEST_CASE("Retrieve Variable from Result") {
+  PQLQueryResult result;
+  PQLQueryResult expected;
+  PQLQueryVariable queryVariable{PQL_VAR_TYPE_ASSIGN, TEST_VAR_NAME};
+
+  // Static Result E.g. Follows(1,2)
+  result.setIsStaticFalse(true);
+  REQUIRE(*(result.resultFromVariable(queryVariable)) == expected);
+
+  // Statement Result with target variable not in map
+  // E.g. assign a1, a2; Select a2 such that Follows(a1, 4)
+  result = PQLQueryResult();
+  queryVariable = {PQL_VAR_TYPE_ASSIGN, TEST_NOT_EXIST_VAR_NAME};
+  result.addToStatementMap(TEST_VAR_NAME, buildStatementResult());
+  REQUIRE(*(result.resultFromVariable(queryVariable)) == expected);
+
+  // Statement Result with target variable in map
+  // E.g. assign a; Select a such that Follows(a, 2)
+  result = PQLQueryResult();
+  queryVariable = {PQL_VAR_TYPE_ASSIGN, TEST_VAR_NAME};
+  expected.addToStatementMap(TEST_VAR_NAME, buildStatementResult());
+  REQUIRE(*(result.resultFromVariable(queryVariable)) == expected);
+
+
+
 }
