@@ -103,7 +103,7 @@ PQLQueryResult* PQLQueryResult::resultFromVariable(PQLQueryVariable queryVar) {
 
   return queryResult;
 }
-bool PQLQueryResult::operator==(PQLQueryResult pqr) const{
+bool PQLQueryResult::operator==(PQLQueryResult pqr) const {
   bool statementMapEqual = statementMap == pqr.getStatementMap();
   bool entityMapEqual = entityMap == pqr.getEntityMap();
   bool errorEqual = error == pqr.getError();

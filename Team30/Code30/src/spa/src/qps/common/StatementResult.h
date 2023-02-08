@@ -1,4 +1,4 @@
-# pragma once
+#pragma once
 
 #include <unordered_set>
 #include "common/Types.h"

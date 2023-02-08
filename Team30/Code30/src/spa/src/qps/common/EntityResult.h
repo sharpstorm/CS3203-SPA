@@ -15,4 +15,3 @@ class EntityResult {
   bool isEmpty();
   bool operator ==(EntityResult er) const;
 };
-
