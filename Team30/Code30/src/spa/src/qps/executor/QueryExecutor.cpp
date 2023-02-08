@@ -10,8 +10,7 @@ QueryExecutor::QueryExecutor(shared_ptr<PkbQueryHandler> pkbQH):
 }
 
 PQLQueryResult *QueryExecutor::executeQuery(PQLQuery* query) {
-  vector<shared_ptr<IEvaluatable>> evaluatables =
-      planner.getExecuteOrder(query);
-  PQLQueryResult* result = orchestrator.execute(query, evaluatables);
+  shared_ptr<QueryPlan> plan = planner.getExecutionPlan(query);
+  PQLQueryResult* result = orchestrator.execute(query, plan);
   return result;
 }

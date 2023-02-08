@@ -13,4 +13,5 @@ class StatementResultBuilder {
   static StatementResult buildStatementResult(bool isLeft,
                                               QueryResult<int, int>
                                                   queryResult);
+  static StatementResult buildStatementResult(unordered_set<int> lines);
 };

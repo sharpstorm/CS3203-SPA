@@ -3,24 +3,30 @@
 #include <utility>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 #include "PQLTypes.h"
 #include "PQLQueryVariable.h"
+#include "pkb/queryHandlers/PkbQueryHandler.h"
 
-using std::pair, std::string, std::unordered_map, std::vector;
+using std::pair, std::string, std::unordered_map, std::unordered_set;
 
-struct StatementResult {
-  vector<int> lines;
-  vector<pair<int, int>> linePairs;
+class StatementResult {
+ public:
+  unordered_set<int> lines;
+  pair_set<int, int> linePairs;
   bool isLeftArg;
+  bool isEmpty();
 };
 
 struct EntityResult {
-  vector<int> lines;
-  vector<string> entities;
-  vector<pair<int, string>> enitityPairs;
+ public:
+  unordered_set<int> lines;
+  unordered_set<string> entities;
+  pair_set<int, string> enitityPairs;
   bool isLeftArg;
+  bool isEmpty();
 };
 
 typedef unordered_map<PQL_VAR_NAME, StatementResult> STATEMENT_MAP;
@@ -30,9 +36,10 @@ class PQLQueryResult {
   STATEMENT_MAP statementMap;
   ENTITY_MAP entityMap;
   string error;
-  bool isStaticTrue;
+  bool isStaticFalse;
 
  public:
+  PQLQueryResult();
   bool isStatementMapEmpty();
   bool isEntityMapEmpty();
   STATEMENT_MAP getStatementMap();
@@ -43,8 +50,9 @@ class PQLQueryResult {
   EntityResult* getFromEntityMap(PQL_VAR_NAME var);
   string getError();
   void setError(string errorMessage);
-  bool getIsStaticTrue();
-  void setIsStaticTrue(bool staticRes);
+  bool getIsStaticFalse();
+  void setIsStaticFalse(bool staticRes);
+  bool isStaticResult();
   PQLQueryResult* resultFromVariable(PQLQueryVariable queryVar);
   virtual ~PQLQueryResult() = default;
 };

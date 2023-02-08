@@ -2,6 +2,7 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
+#include <iostream>
 
 #include "FollowsClause.h"
 #include "qps/common/adapters/ClauseArgumentRef.h"
@@ -10,11 +11,11 @@
 using std::pair, std::unordered_set, std::vector, std::shared_ptr;
 
 FollowsClause::FollowsClause(ClauseArgument leftArg, ClauseArgument rightArg):
-  left(leftArg), right(rightArg) {
+    left(leftArg), right(rightArg) {
 }
 
 PQLQueryResult* FollowsClause::evaluateOn(
-        shared_ptr<PkbQueryHandler> pkbQueryHandler) {
+    shared_ptr<PkbQueryHandler> pkbQueryHandler) {
   StmtRef leftStatement = ClauseArgumentRef::toStmtRef(left);
   StmtRef rightStatement = ClauseArgumentRef::toStmtRef(right);
   QueryResult<int, int> queryResult =
@@ -23,7 +24,7 @@ PQLQueryResult* FollowsClause::evaluateOn(
   PQLQueryResult*  pqlQueryResult = new PQLQueryResult();
 
   if (!left.isSynonym() && !right.isSynonym()) {
-    pqlQueryResult->setIsStaticTrue(true);
+    pqlQueryResult->setIsStaticFalse(queryResult.isEmpty);
     return pqlQueryResult;
   }
 
@@ -56,4 +57,9 @@ bool FollowsClause::validateArgTypes(VariableTable *variables) {
     return false;
   }
   return true;
+}
+
+bool FollowsClause::usesSynonym(string varName) {
+  return (left.isSynonym() && left.getSynonymName() == varName)
+      || (right.isSynonym() && right.getSynonymName() == varName);
 }
