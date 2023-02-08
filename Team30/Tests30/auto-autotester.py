@@ -1,6 +1,11 @@
+## Author: ZH (sharpstorm)
+
 import xml.etree.ElementTree as ET
-import sys
 import argparse
+from os.path import exists
+import glob
+import os
+import subprocess
 
 class style:
     MAGENTA = '\033[95m'
@@ -158,11 +163,76 @@ def printResult(data, args):
     else:
         print(f'{style.GREEN}{passCount}/{len(resultArr)} Tests Passed, {style.RED}{len(resultArr) - passCount} Failed.{style.RESET}')
 
+def execTests(args, jobs):
+    tempFileName = 'out.xml'
+    autotesterBinary = args.autotester_binary
+    isFastFail = not args.slow_fail
+
+    isOverallFail = False
+    passCount = 0
+    totalCount = 0
+    for j in jobs:
+        query = j[0]
+        source = j[1]
+        isFailure = False
+
+        print(f'{style.MAGENTA}-------- Run: {query} --------{style.RESET}')
+        exitCode = subprocess.run([autotesterBinary, source, query, tempFileName],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.STDOUT).returncode
+        if exitCode != 0:
+            print(f'{style.RED} !!!!!! Non-Zero Exit Code: {exitCode} !!!!!!! {style.RED}')
+            isFailure = True
+
+        if exists(tempFileName):
+            result = parseXML(tempFileName)
+            printResult(result, args)
+            passCount += result['passCount']
+            totalCount += len(result['result'])
+            os.remove(tempFileName)
+
+            if passCount != totalCount:
+                isFailure = True
+
+        print(f'{style.MAGENTA}------------------------------{style.RESET}')
+        print()
+        
+        isOverallFail = isOverallFail or isFailure
+        if isOverallFail and isFastFail:
+            print(f'{style.RED} Batch Testing Failed{style.RESET}')
+            return 1
+
+    if isOverallFail:
+        print(f'{style.RED} Slow-Fail Batch Testing Failed{style.RESET}')
+        return 1
+
+    if passCount == totalCount:
+        print(f'{style.GREEN}All {passCount} Tests Passed.${style.RESET}')
+    else:
+        print(f'{style.GREEN}{passCount}/{len(resultArr)} Tests Passed, {style.RED}{len(resultArr) - passCount} Failed.{style.RESET}')
+    
+
+def runTests(args):
+    testDir = args.test_folder
+    jobs = []
+    queryFiles = glob.glob(f'{testDir}/**/*-queries.txt', recursive=True)
+    print(testDir)
+    for x in queryFiles:
+        expectedSource = f'{x[:-12]}-source.txt'
+        print(expectedSource)
+        if exists(expectedSource):
+            jobs.append((x, expectedSource))
+    
+    print(f'{style.MAGENTA}-------- Auto Autotester Found {len(jobs)} Jobs --------{style.RESET}')
+    print()
+    return execTests(args, jobs)
+
 def main():
     parser = argparse.ArgumentParser(
         prog='auto-autotester.py'
     )
-    parser.add_argument('filename', help='The output XML file from autotester')
+    parser.add_argument('autotester_binary', help='The autotester binary')
+    parser.add_argument('test_folder', help='The folder containing all the tests')
     parser.add_argument('-t', '--show-time', help='Show Time', action='store_true')
     parser.add_argument('-c', '--show-comment', help='Print comment', action='store_true')
     parser.add_argument('-r', '--show-answer', help='Print answer information', action='store_true')
@@ -170,8 +240,10 @@ def main():
     parser.add_argument('-f', '--show-fail-data', help='Print test queries', action='store_true')
     parser.add_argument('-s', '--summary', help='Prints only a 1-line summary', action='store_true')
 
+    # Testing Behaviour
+    parser.add_argument('-sf', '--slow-fail', help='Do not stop upon encountering an error', action='store_true')
+
     args = parser.parse_args()
-    data = parseXML(args.filename)
-    exit(printResult(data, args))
+    exit(runTests(args))
 
 main()
