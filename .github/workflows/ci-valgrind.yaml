@@ -18,7 +18,7 @@ env:
 jobs:
   valgrind-check:
     name: Run Valgrind
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux]
 
     steps:
       - name: Checkout Git Repo

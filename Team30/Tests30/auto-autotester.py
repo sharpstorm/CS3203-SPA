@@ -159,7 +159,7 @@ def printResult(data, args):
         print()
 
     if passCount == totalCount:
-        print(f'{style.GREEN}All {passCount} Tests Passed.${style.RESET}')
+        print(f'{style.GREEN}All {passCount} Tests Passed.{style.RESET}')
     else:
         print(f'{style.GREEN}{passCount}/{len(resultArr)} Tests Passed, {style.RED}{len(resultArr) - passCount} Failed.{style.RESET}')
 
@@ -206,8 +206,9 @@ def execTests(args, jobs):
         print(f'{style.RED} Slow-Fail Batch Testing Failed{style.RESET}')
         return 1
 
+    print(f'{style.MAGENTA}-------- Suite Summary --------{style.RESET}')
     if passCount == totalCount:
-        print(f'{style.GREEN}All {passCount} Tests Passed.${style.RESET}')
+        print(f'{style.GREEN}All {passCount} Tests Passed.{style.RESET}')
     else:
         print(f'{style.GREEN}{passCount}/{len(resultArr)} Tests Passed, {style.RED}{len(resultArr) - passCount} Failed.{style.RESET}')
     
