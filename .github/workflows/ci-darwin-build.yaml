@@ -1,0 +1,49 @@
+name: OSX Self-Hosted Build and Test
+
+on: pull_request
+
+env:
+    BUILD_TYPE: Release
+
+jobs:
+  build-darwin:
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 10
+    strategy:
+      fail-fast: true
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: master
+
+      - name: Setup Build Folder
+        working-directory: ./Team30/Code30
+        run: cmake -E make_directory ./build
+
+      - name: Generate CMake Project
+        working-directory: ./Team30/Code30/build
+        run: cmake ../ -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
+      
+      - name: Compile SPA
+        working-directory: ./Team30/Code30/build
+        run: |
+          cmake --build . --target unit_testing --config ${BUILD_TYPE} -j 4
+          cmake --build . --target integration_testing --config ${BUILD_TYPE} -j 4
+          cmake --build . --target autotester --config ${BUILD_TYPE} -j 4
+
+      - name: Run Unit Testing
+        working-directory: ./Team30/Code30/build
+        run: ./src/unit_testing/unit_testing
+
+      - name: Run Integration Testing
+        working-directory: ./Team30/Code30/build
+        run: ./src/integration_testing/integration_testing
+
+      - name: Cleanup Directory
+        if: always()
+        run: |
+          ls -la ./
+          rm -rf ./* || true
+          rm -rf ./.??* || true
+          ls -la ./

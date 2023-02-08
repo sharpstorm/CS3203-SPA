@@ -1,0 +1,55 @@
+name: Windows Self-Hosted Build and Test
+
+on: pull_request
+
+env:
+    BUILD_TYPE: Release
+
+jobs:
+  build-windows:
+    runs-on: [self-hosted, Windows]
+    timeout-minutes: 10
+    strategy:
+      fail-fast: true
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: master
+
+      - name: Setup Build Folder
+        shell: bash
+        working-directory: ./Team30/Code30
+        run: cmake -E make_directory ./build
+
+      - name: Generate CMake Project
+        working-directory: ./Team30/Code30/build
+        shell: bash
+        run: cmake -A x64 .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
+      
+      - name: Compile SPA
+        shell: bash
+        working-directory: ./Team30/Code30/build
+        run: |
+          cmake --build . --target unit_testing --config ${BUILD_TYPE} -j 4
+          cmake --build . --target integration_testing --config ${BUILD_TYPE} -j 4
+          cmake --build . --target autotester --config ${BUILD_TYPE} -j 4
+
+      - name: Run Unit Testing
+        shell: bash
+        working-directory: ./Team30/Code30/build
+        run: ./src/unit_testing/${BUILD_TYPE}/unit_testing.exe
+
+      - name: Run Integration Testing
+        shell: bash
+        working-directory: ./Team30/Code30/build
+        run: ./src/integration_testing/${BUILD_TYPE}/integration_testing.exe
+
+      - name: Cleanup Directory
+        if: always()
+        shell: bash
+        run: |
+          ls -la ./
+          rm -rf ./* || true
+          rm -rf ./.??* || true
+          ls -la ./
