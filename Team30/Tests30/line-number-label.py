@@ -1,3 +1,5 @@
+## Author: ZH (sharpstorm)
+
 import argparse
 from os.path import exists
 import os
@@ -26,6 +28,7 @@ def parseSource(args):
     for i in range(len(af)):
         if af[i] == ';' or af[i] == '{' or af[i] == '}':
             buffer = buffer.replace('\n', '')
+            buffer = buffer.replace('\t', ' ')
             result.append(buffer + af[i])
             buffer = ''
         else:
