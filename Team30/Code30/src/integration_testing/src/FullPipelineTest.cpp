@@ -64,7 +64,7 @@ TEST_CASE("Test Full End-to-end") {
                        "  z = x + 1; }", pkbWriter.get());
 
   launchQuery2(qps.get(), "if ifs; stmt s;\n"
-                          "Select if such that Follows(ifs, s)",
+                          "Select ifs such that Follows(ifs, s)",
               unordered_set<string>{ "6" });
 
 }
