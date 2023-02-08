@@ -108,11 +108,9 @@ TEST_CASE("Retrieve Variable from Result") {
 
   // Statement Result with target variable in map
   // E.g. assign a; Select a such that Follows(a, 2)
-  result = PQLQueryResult();
   queryVariable = {PQL_VAR_TYPE_ASSIGN, TEST_VAR_NAME};
   expected.addToStatementMap(TEST_VAR_NAME, buildStatementResult());
+  PQLQueryResult output = *(result.resultFromVariable(queryVariable));
   REQUIRE(*(result.resultFromVariable(queryVariable)) == expected);
-
-
 
 }
