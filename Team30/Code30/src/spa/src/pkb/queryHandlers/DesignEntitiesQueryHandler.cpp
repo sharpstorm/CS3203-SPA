@@ -1,8 +1,8 @@
 #include "DesignEntitiesQueryHandler.h"
 
 DesignEntitiesQueryHandler::DesignEntitiesQueryHandler(
-    const EntityMappingProvider *entityMappingProvider,
-    const StructureMappingProvider *structureMappingProvider)
+    const IEntityMappingProvider *entityMappingProvider,
+    const IStructureMappingProvider *structureMappingProvider)
     : entityMappingProvider(entityMappingProvider),
       structureMappingProvider(structureMappingProvider) {}
 

@@ -2,8 +2,8 @@
 #include "ParentQueryHandler.h"
 
 ParentQueryHandler::ParentQueryHandler(
-    const ParentStorage* store, const PredicateFactory* predicateFactory,
-    const StructureMappingProvider* stuctureProvider)
+    const ParentStorage *store, const PredicateFactory *predicateFactory,
+    const IStructureMappingProvider *stuctureProvider)
     : store(store),
       predicateFactory(predicateFactory),
       structureProvider(stuctureProvider) {}

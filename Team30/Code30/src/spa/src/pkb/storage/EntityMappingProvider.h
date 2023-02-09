@@ -6,11 +6,16 @@
 
 #include "../../common/Types.h"
 #include "SymbolStorage.h"
+#include "interfaces/IEntityMappingProvider.h"
 
-class EntityMappingProvider {
+using std::string;
+using std::unordered_set;
+
+class EntityMappingProvider : public IEntityMappingProvider {
  public:
   explicit EntityMappingProvider(SymbolStorage *);
   SymbolStorage *symbolStorage;
-  EntityType getSymbolTable(std::string) const;
-  std::unordered_set<std::string> getSymbolsOfType(EntityType) const;
+  EntityType getTypeOfSymbol(string) const override;
+  unordered_set<string> getSymbolsOfType(EntityType) const override;
+  bool isSymbolOfType(string, EntityType) const override;
 };

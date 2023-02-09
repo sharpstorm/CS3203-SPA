@@ -35,7 +35,7 @@ TEST_CASE("Follows with StructureMapProvider stub") {
   PKB pkb = PKB();
   FollowsTestStructureProviderStub *provider =
       new FollowsTestStructureProviderStub();
-  PredicateFactory *factory = new PredicateFactory(provider);
+  PredicateFactory *factory = new PredicateFactory(provider, nullptr);
   FollowsQueryHandler queryHandler =
       FollowsQueryHandler(pkb.followsStore, factory, provider);
   FollowsWriter writer = FollowsWriter(pkb.followsStore);
@@ -57,7 +57,7 @@ TEST_CASE("FollowsStar with StructureMapProvider stub") {
   PKB pkb = PKB();
   FollowsTestStructureProviderStub *provider =
       new FollowsTestStructureProviderStub();
-  PredicateFactory *factory = new PredicateFactory(provider);
+  PredicateFactory *factory = new PredicateFactory(provider, nullptr);
   FollowsQueryHandler queryHandler =
       FollowsQueryHandler(pkb.followsStore, factory, provider);
   FollowsWriter writer = FollowsWriter(pkb.followsStore);
