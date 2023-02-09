@@ -1,0 +1,54 @@
+procedure Example {
+  a = 1;
+  print a;
+  read b;
+
+  if (x == 1) then {
+    x = 2;
+    read x;
+    print y;
+
+    while (x == 0) {
+      print z;
+      y = 3;
+      read w;
+    }
+
+    x = 2;
+    read x;
+    print y;
+  } else {
+    print z;
+    y = 3;
+    read w;
+
+    while (x == 0) {
+      print zz;
+      yy = 4;
+      read ww;
+    }
+
+    x = 2;
+    read x;
+    print y;
+  }
+
+  a = 1;
+  print a;
+  read b;
+
+  while (x == 1) {
+    print z;
+    read w;
+    y = 2;
+    if (x == 1) then {
+      print z;
+      read w;
+      y = 2;
+    } else {
+      print z;
+      read w;
+      y = 2;
+    }
+  }
+}

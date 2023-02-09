@@ -14,11 +14,13 @@ on:
 
 env:
     BUILD_TYPE: Release
+    CCACHE_DIR: ${{ github.workspace }}/Team30/Code30/build/build-cache
+    CCACHE_BASEDIR: ${{ github.workspace }}/Team30/Code30
 
 jobs:
   valgrind-check:
     name: Run Valgrind
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux]
 
     steps:
       - name: Checkout Git Repo
@@ -26,13 +28,6 @@ jobs:
 
       - name: Setup Valgrind
         run: sudo apt-get install -y valgrind ccache
-
-      - name: Cache Build directory
-        uses: actions/cache@v3
-        with:
-          key: ${{ github.head_ref || github.ref_name }}-build-cache-spa
-          path: |
-            ./Team30/Code30/build
 
       - name: Setup Build Folder
         working-directory: ./Team30/Code30
@@ -44,12 +39,27 @@ jobs:
         run: |
           sudo /usr/sbin/update-ccache-symlinks
           export PATH="/usr/lib/ccache:$PATH"
-          export CCACHE_DIR="./build-cache"
+          ccache --set-config=cache_dir=${CCACHE_DIR}
           CC=clang CXX=clang++ cmake ../ -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -D CMAKE_C_COMPILER_LAUNCHER=ccache -D CMAKE_CXX_COMPILER_LAUNCHER=ccache
+
+      - name: Restore Build Cache
+        uses: actions/cache/restore@v3
+        with:
+          key: build-cache-${{ github.head_ref || github.ref_name }}-${{github.sha}}
+          path: ./Team30/Code30/build/build-cache
+          restore-keys: |
+            build-cache-${{ github.head_ref || github.ref_name }}-
+            master-scheduled-build-cache
 
       - name: Compile SPA
         working-directory: ./Team30/Code30/build
         run: cmake --build . --target ${{github.events.inputs.action}} --config ${BUILD_TYPE} -j 2
+
+      - name: Save Build Cache
+        uses: actions/cache/save@v3
+        with:
+          key: build-cache-${{ github.head_ref || github.ref_name }}-${{github.sha}}
+          path: ./Team30/Code30/build/build-cache
 
       - name: Run Valgrind
         working-directory: ./Team30/Code30/build

@@ -1,6 +1,8 @@
-name: Linux CI Build
+name: Auto Autotester Run
 
-on: push
+on:
+  - workflow_dispatch
+  - pull_request
 
 env:
     BUILD_TYPE: Release
@@ -8,18 +10,13 @@ env:
     CCACHE_BASEDIR: ${{ github.workspace }}/Team30/Code30
 
 jobs:
-  build-linux:
+  valgrind-check:
+    name: Run auto autotester
     runs-on: [self-hosted, Linux]
-    timeout-minutes: 30
-    strategy:
-      fail-fast: true
 
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Lint CPP
-        run: |
-          cpplint --filter=-legal/copyright --recursive ./Team30/Code30/src/spa/src
+      - name: Checkout Git Repo
+        uses: actions/checkout@v3
 
       - name: Setup CCache
         run: sudo apt-get install -y ccache
@@ -53,13 +50,10 @@ jobs:
       - name: Show CCache Stats
         run: |
           ccache -v -s
-
-      - name: Compile SPA
+      
+      - name: Compile Autotester
         working-directory: ./Team30/Code30/build
-        run: |
-          cmake --build . --target unit_testing --config ${BUILD_TYPE} -j 2
-          cmake --build . --target integration_testing --config ${BUILD_TYPE} -j 2
-          cmake --build . --target autotester --config ${BUILD_TYPE} -j 2
+        run: cmake --build . --target autotester --config ${BUILD_TYPE} -j 2
 
       - name: Show CCache Stats
         run: |
@@ -70,13 +64,7 @@ jobs:
         with:
           key: build-cache-${{ github.head_ref || github.ref_name }}-${{github.sha}}
           path: ./Team30/Code30/build/build-cache
-
-      - name: Test Unit Testing
-        working-directory: ./Team30/Code30/build
-        run: |
-          ./src/unit_testing/unit_testing -r console -d yes --order lex
-
-      - name: Test Integration Testing
-        working-directory: ./Team30/Code30/build
-        run: |
-          ./src/integration_testing/integration_testing -r console -d yes --order lex
+  
+      - name: Run Auto Autotester
+        working-directory: ./Team30
+        run: python3 Tests30/auto-autotester.py ./Code30/build/src/autotester/autotester ./Tests30/target-queries
