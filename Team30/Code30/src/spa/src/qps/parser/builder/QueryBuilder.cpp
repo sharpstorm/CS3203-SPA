@@ -46,6 +46,10 @@ void QueryBuilder::addSuchThat(unique_ptr<SuchThatClause> clause) {
   clauses.push_back(move(clause));
 }
 
+void QueryBuilder::addPattern(unique_ptr<PatternClause> clause) {
+  clauses.push_back(move(clause));
+}
+
 unique_ptr<PQLQuery> QueryBuilder::build() {
   for (int i = 0; i < clauses.size(); i++) {
     if (!clauses.at(i)->validateArgTypes(&variables)) {

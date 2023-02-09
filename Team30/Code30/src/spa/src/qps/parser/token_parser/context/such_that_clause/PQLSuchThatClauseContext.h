@@ -5,4 +5,6 @@
 #include "../../../../clauses/ClauseArgument.h"
 
 class PQLSuchThatClauseContext: public AbstractPQLContext {
+ protected:
+  void PQLSuchThatClauseContext::parse(QueryTokenParseState *parserState);
 };

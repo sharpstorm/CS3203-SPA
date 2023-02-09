@@ -51,14 +51,14 @@ ClauseArgument AbstractPQLContext::extractCommonRef(
     state->advanceToken();
     return ClauseArgument(CLAUSE_ARG_WILDCARD);
   } else if (!state->getCurrentToken()->isVarchar()) {
-    throw QPSParserError("Unknown Such That clause argument");
+    throw QPSParserError(QPS_PARSER_ERR_UNKNOWN_TOKEN);
   }
 
   PQLToken* synonym = expectVarchar(state);
   PQLQueryVariable* var = state->getQueryBuilder()
       ->getVariable(synonym->tokenData);
   if (var == nullptr) {
-    throw QPSParserError("Unknown synonym in such that clause");
+    throw QPSParserError(QPS_PARSER_ERR_UNKNOWN_TOKEN);
   }
 
   return ClauseArgument(*var);
@@ -79,6 +79,3 @@ ClauseArgument AbstractPQLContext::extractStatement(
   return ClauseArgument(value);
 }
 
-void AbstractPQLContext::parse(QueryTokenParseState *parserState) {
-  parserState->advanceStage(TOKEN_PARSE_STAGE_CONDITION);
-}
