@@ -49,6 +49,7 @@ jobs:
           path: ./Team30/Code30/build/build-cache
           restore-keys: |
             build-cache-${{ github.head_ref || github.ref_name }}-
+            build-cache-
             master-scheduled-build-cache
 
       - name: Compile SPA

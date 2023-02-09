@@ -45,6 +45,7 @@ jobs:
           enableCrossOsArchive: true
           restore-keys: |
             build-cache-${{ github.head_ref || github.ref_name }}-
+            build-cache-
             master-scheduled-build-cache
 
       - name: Show CCache Stats

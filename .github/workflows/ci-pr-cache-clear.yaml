@@ -13,6 +13,7 @@ jobs:
         
       - name: Cleanup Caches
         run: |
+          sudo apt install gh -y
           gh extension install actions/gh-actions-cache
           
           REPO=${{ github.repository }}

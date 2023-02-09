@@ -4,6 +4,7 @@ name: Master CI Build
 on:
   schedule:
     - cron: "0 22 * * *"
+  workflow_dispatch:
 
 env:
     BUILD_TYPE: Release
