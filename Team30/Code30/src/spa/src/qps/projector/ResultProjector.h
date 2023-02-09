@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <vector>
+#include "common/UtilityTypes.h"
 
 #include "qps/common/PQLQueryResult.h"
 
@@ -9,7 +9,9 @@ using std::string, std::vector;
 
 class ResultProjector {
  public:
-  vector<string>* project(PQLQueryResult* queryResult);
-  vector<string>* projectEntities(ENTITY_MAP entityMap);
-  vector<string>* projectStatements(STATEMENT_MAP statementMap);
+  UniqueVectorPtr<string> project(PQLQueryResult* queryResult);
+
+ private:
+  UniqueVectorPtr<string> projectEntities(ENTITY_MAP entityMap);
+  UniqueVectorPtr<string> projectStatements(STATEMENT_MAP statementMap);
 };

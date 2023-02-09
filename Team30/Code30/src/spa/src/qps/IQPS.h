@@ -1,12 +1,12 @@
 #pragma once
 
 #include <string>
-#include <vector>
+#include "common/UtilityTypes.h"
 
-using std::string, std::vector;
+using std::string;
 
 class IQPS {
  public:
   virtual ~IQPS() = default;
-  virtual vector<string>* evaluate(string query) = 0;
+  virtual UniqueVectorPtr<string> evaluate(string query) = 0;
 };

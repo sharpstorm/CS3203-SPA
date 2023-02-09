@@ -10,9 +10,8 @@ PQLQueryResult *QueryDriver::evaluate(string* query) {
   return result;
 }
 
-QueryDriver::QueryDriver(shared_ptr<PkbQueryHandler> pkbQH) {
-  parser =  new QueryParser();
-  executor = new QueryExecutor(pkbQH);
+QueryDriver::QueryDriver(shared_ptr<PkbQueryHandler> pkbQH):
+  parser(new QueryParser()), executor(new QueryExecutor(pkbQH)) {
 }
 
 QueryDriver::QueryDriver(IQueryParser* parser, IQueryExecutor* executor) :
