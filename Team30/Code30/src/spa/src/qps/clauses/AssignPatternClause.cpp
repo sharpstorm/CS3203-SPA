@@ -9,13 +9,15 @@ AssignPatternClause::AssignPatternClause(PQLQueryVariable assignSynonym,
     patternPhrase(patternPhrase),
     allowPartial(allowPartial) {}
 
-PQLQueryResult *AssignPatternClause::evaluateOn(shared_ptr<PkbQueryHandler> pkbQueryHandler) {
+PQLQueryResult *AssignPatternClause::evaluateOn(
+    shared_ptr<PkbQueryHandler> pkbQueryHandler) {
   return nullptr;
 }
 
 bool AssignPatternClause::usesSynonym(string varName) {
   return assignSynonym.name == varName
-      || (leftArgument.isSynonym() && leftArgument.getSynonymName() == varName);
+      || (leftArgument.isSynonym()
+          && leftArgument.getSynonymName() == varName);
 }
 
 bool AssignPatternClause::validateArgTypes(VariableTable *variables) {

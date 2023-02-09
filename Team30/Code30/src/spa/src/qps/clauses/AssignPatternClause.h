@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <memory>
 #include "PatternClause.h"
 #include "ClauseArgument.h"
 
