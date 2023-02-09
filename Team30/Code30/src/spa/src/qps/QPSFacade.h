@@ -16,6 +16,6 @@ class QPSFacade: public IQPS {
 
  public:
   explicit QPSFacade(shared_ptr<PkbQueryHandler> pkbQH);
-  ~QPSFacade();
+  ~QPSFacade() noexcept;
   vector<string>* evaluate(string query);
 };
