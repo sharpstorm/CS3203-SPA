@@ -1,0 +1,25 @@
+{
+    "timeout": "5000",
+    "queries": [
+        {
+            "query": "[0] a;\nSelect a",
+            "comment": "Select single [0]"
+        },
+        {
+            "query": "[0] a,b,c,d;\nSelect c",
+            "comment": "Select many [0]"
+        },
+        {
+            "query": "[0] a; [1] b;\nSelect a",
+            "comment": "Select pair ([0], [1]) Left"
+        },
+        {
+            "query": "[0] a; [1] b;\nSelect b",
+            "comment": "Select pair ([0], [1]) Right"
+        }
+    ],
+    "varying": [
+        ["assign", "read", "print", "if", "while", "stmt"],
+        ["assign", "read", "print", "if", "while", "stmt"]
+    ]
+}
