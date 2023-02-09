@@ -22,6 +22,14 @@ class AbstractPQLContext: public IPQLContext {
                            PQLTokenCategory... tokenCategory);
 
   PQLToken *expectVarchar(QueryTokenParseState *parserState);
+  ClauseArgument extractStatementRef(QueryTokenParseState* state);
+  ClauseArgument extractEntityRef(QueryTokenParseState* state);
+  ClauseArgument extractAnyRef(QueryTokenParseState* state);
+
+ private:
+  ClauseArgument extractCommonRef(QueryTokenParseState* state);
+  ClauseArgument extractEntity(QueryTokenParseState* state);
+  ClauseArgument extractStatement(QueryTokenParseState* state);
 };
 
 template<typename... PQLTokenType>
