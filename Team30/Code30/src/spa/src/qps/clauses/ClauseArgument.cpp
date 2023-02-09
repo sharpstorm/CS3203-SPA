@@ -1,22 +1,18 @@
 #include "ClauseArgument.h"
 
-ClauseArgument::ClauseArgument(ClauseArgumentType type) {
-  this->argType = type;
+ClauseArgument::ClauseArgument(ClauseArgumentType type): argType(type) {
 }
 
-ClauseArgument::ClauseArgument(PQLQueryVariable variable) {
-  this->argType = CLAUSE_ARG_SYNONYM;
-  this->synonym = variable;
+ClauseArgument::ClauseArgument(PQLQueryVariable variable):
+    argType(CLAUSE_ARG_SYNONYM), synonym(variable) {
 }
 
-ClauseArgument::ClauseArgument(int stmt) {
-  this->argType = CLAUSE_ARG_INTEGER;
-  this->statement = stmt;
+ClauseArgument::ClauseArgument(int stmt):
+    argType(CLAUSE_ARG_INTEGER), statement(stmt) {
 }
 
-ClauseArgument::ClauseArgument(string ident) {
-  this->argType = CLAUSE_ARG_STRING;
-  this->ident = ident;
+ClauseArgument::ClauseArgument(string ident):
+    argType(CLAUSE_ARG_STRING), ident(ident) {
 }
 
 PQLSynonymType ClauseArgument::getSynonymType() {
