@@ -8,7 +8,6 @@ void testAssignPatternParsing(vector<PQLToken> inputs) {
   PQLAssignPatternClauseContext context;
   QueryTokenParseState state(&inputs);
   state.advanceStage(TOKEN_PARSE_STAGE_COMMAND);
-  state.advanceStage(TOKEN_PARSE_STAGE_PATTERN_MARKER);
   state.getQueryBuilder()->addVariable("a", PQL_VAR_TYPE_ASSIGN);
   state.getQueryBuilder()->addVariable("x", PQL_VAR_TYPE_VARIABLE);
   state.getQueryBuilder()->addVariable("s", PQL_VAR_TYPE_STMT);

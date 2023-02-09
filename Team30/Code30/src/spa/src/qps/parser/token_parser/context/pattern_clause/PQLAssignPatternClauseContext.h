@@ -2,7 +2,7 @@
 
 #include "PQLPatternClauseContext.h"
 
-class PQLAssignPatternClauseContext : PQLPatternClauseContext {
+class PQLAssignPatternClauseContext : public PQLPatternClauseContext {
  public:
   void parse(QueryTokenParseState* parserState);
 };

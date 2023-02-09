@@ -7,6 +7,8 @@
 using std::make_unique, std::string;
 
 void PQLAssignPatternClauseContext::parse(QueryTokenParseState *parserState) {
+  parserState->advanceStage(TOKEN_PARSE_STAGE_PATTERN_MARKER);
+
   PQLToken* synonym = expectVarchar(parserState);
   PQLQueryVariable* synonymVar = parserState->getQueryBuilder()
       ->getVariable(synonym->tokenData);
@@ -35,7 +37,7 @@ void PQLAssignPatternClauseContext::parse(QueryTokenParseState *parserState) {
   }
 
   if (hasExpression) {
-    nextToken = expect(parserState, PQL_TOKEN_VARIABLE, PQL_TOKEN_INTEGER);
+    nextToken = expectVarchar(parserState);
     patternString = nextToken->tokenData;
     expect(parserState, PQL_TOKEN_QUOTE);
     if (isWildcard) {
@@ -43,7 +45,7 @@ void PQLAssignPatternClauseContext::parse(QueryTokenParseState *parserState) {
     }
     expect(parserState, PQL_TOKEN_BRACKET_CLOSE);
   }
-
+  parserState->advanceStage(TOKEN_PARSE_STAGE_PATTERN);
   parserState->getQueryBuilder()->addPattern(make_unique<AssignPatternClause>(
       *synonymVar, left, patternString, isWildcard));
 }
