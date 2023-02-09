@@ -19,6 +19,8 @@
 #include "such_that_clause/PQLUsesClauseContext.h"
 #include "such_that_clause/PQLModifiesClauseContext.h"
 
+#include "pattern_clause/PQLAssignPatternClauseContext.h"
+
 unique_ptr<IPQLContext> PQLGrammarContextProvider::getContext(PQLToken *token) {
   switch (token->type) {
     case PQL_TOKEN_STMT:
@@ -53,6 +55,8 @@ unique_ptr<IPQLContext> PQLGrammarContextProvider::getContext(PQLToken *token) {
       return std::make_unique<PQLUsesClauseContext>();
     case PQL_TOKEN_MODIFIES:
       return std::make_unique<PQLModifiesClauseContext>();
+    case PQL_TOKEN_PATTERN:
+      return std::make_unique<PQLAssignPatternClauseContext>();
     default:
       return nullptr;
   }

@@ -10,6 +10,7 @@
 #include "qps/parser/token_parser/QueryTokenParser.h"
 #include "qps/clauses/FollowsClause.h"
 #include "qps/parser/QueryParser.h"
+#include "qps/clauses/AssignPatternClause.h"
 
 using std::vector, std::string, std::cout, std::unique_ptr, std::shared_ptr;
 
@@ -105,4 +106,50 @@ TEST_CASE("Test Conditional Select - 0 Constants") {
   REQUIRE(resultShared->getEvaluatables().size() == 1);
   FollowsClause* fc = dynamic_cast<FollowsClause*>(resultShared->getEvaluatables().at(0).get());
   REQUIRE(fc != nullptr);
+}
+
+TEST_CASE("Test Pattern Select - Constant LHS") {
+  auto result = testPQLParsing("assign a; Select a pattern a(\"x\", \"y\")");
+  shared_ptr<PQLQuery> resultShared = shared_ptr<PQLQuery>(std::move(result));
+
+  requireSynonyms(resultShared, vector<PQLQueryVariable>{
+      PQLQueryVariable{PQL_VAR_TYPE_ASSIGN, "a"}
+  });
+  REQUIRE(resultShared->getResultVariable().name == "a");
+  REQUIRE(resultShared->getResultVariable().type == PQL_VAR_TYPE_ASSIGN);
+
+  REQUIRE(resultShared->getEvaluatables().size() == 1);
+  AssignPatternClause* pc = dynamic_cast<AssignPatternClause*>(resultShared->getEvaluatables().at(0).get());
+  REQUIRE(pc != nullptr);
+}
+
+TEST_CASE("Test Pattern Select - Wildcard LHS, Partial Match") {
+  auto result = testPQLParsing("assign a; Select a pattern a(_, _\"y\"_)");
+  shared_ptr<PQLQuery> resultShared = shared_ptr<PQLQuery>(std::move(result));
+
+  requireSynonyms(resultShared, vector<PQLQueryVariable>{
+      PQLQueryVariable{PQL_VAR_TYPE_ASSIGN, "a"}
+  });
+  REQUIRE(resultShared->getResultVariable().name == "a");
+  REQUIRE(resultShared->getResultVariable().type == PQL_VAR_TYPE_ASSIGN);
+
+  REQUIRE(resultShared->getEvaluatables().size() == 1);
+  AssignPatternClause* pc = dynamic_cast<AssignPatternClause*>(resultShared->getEvaluatables().at(0).get());
+  REQUIRE(pc != nullptr);
+}
+
+TEST_CASE("Test Pattern Select - Variable, Wildcard") {
+  auto result = testPQLParsing("assign a; variable v; Select v pattern a(v, _)");
+  shared_ptr<PQLQuery> resultShared = shared_ptr<PQLQuery>(std::move(result));
+
+  requireSynonyms(resultShared, vector<PQLQueryVariable>{
+      PQLQueryVariable{PQL_VAR_TYPE_ASSIGN, "a"},
+      PQLQueryVariable{PQL_VAR_TYPE_VARIABLE, "v"},
+  });
+  REQUIRE(resultShared->getResultVariable().name == "v");
+  REQUIRE(resultShared->getResultVariable().type == PQL_VAR_TYPE_VARIABLE);
+
+  REQUIRE(resultShared->getEvaluatables().size() == 1);
+  AssignPatternClause* pc = dynamic_cast<AssignPatternClause*>(resultShared->getEvaluatables().at(0).get());
+  REQUIRE(pc != nullptr);
 }

@@ -7,6 +7,8 @@
 const char QPS_PARSER_ERR_EOS[] = "Unexpected end of token stream";
 const char QPS_PARSER_ERR_UNEXPECTED[] =
     "Unexpected token encountered during parsing";
+const char QPS_PARSER_ERR_UNKNOWN_TOKEN[] = "Unknown synonym encountered";
+const char QPS_PARSER_ERR_PATTERN_TYPE[] = "Invalid synonym type in pattern";
 
 class AbstractPQLContext: public IPQLContext {
  public:
@@ -22,6 +24,14 @@ class AbstractPQLContext: public IPQLContext {
                            PQLTokenCategory... tokenCategory);
 
   PQLToken *expectVarchar(QueryTokenParseState *parserState);
+  ClauseArgument extractStatementRef(QueryTokenParseState* state);
+  ClauseArgument extractEntityRef(QueryTokenParseState* state);
+  ClauseArgument extractAnyRef(QueryTokenParseState* state);
+
+ private:
+  ClauseArgument extractCommonRef(QueryTokenParseState* state);
+  ClauseArgument extractEntity(QueryTokenParseState* state);
+  ClauseArgument extractStatement(QueryTokenParseState* state);
 };
 
 template<typename... PQLTokenType>
