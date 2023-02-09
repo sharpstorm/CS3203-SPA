@@ -90,27 +90,53 @@ TEST_CASE("Retrieve EntityResult") {
   REQUIRE(result.getFromEntityMap(TEST_NOT_EXIST_VAR_NAME) == nullptr);
 }
 
-TEST_CASE("Retrieve Variable from Result") {
+TEST_CASE("Retrieve Variable from Static Result") {
   PQLQueryResult result;
   PQLQueryResult expected;
+  expected.setIsStaticFalse(true);
   PQLQueryVariable queryVariable{PQL_VAR_TYPE_ASSIGN, TEST_VAR_NAME};
 
   // Static Result E.g. Follows(1,2)
   result.setIsStaticFalse(true);
   REQUIRE(*(result.resultFromVariable(queryVariable)) == expected);
+}
+
+TEST_CASE("Retrieve Variable from Statement Result") {
+  PQLQueryResult expected;
+  PQLQueryResult actual;
+  PQLQueryResult result =  PQLQueryResult();
+  PQLQueryVariable queryVariable = {PQL_VAR_TYPE_ASSIGN, TEST_NOT_EXIST_VAR_NAME};
 
   // Statement Result with target variable not in map
   // E.g. assign a1, a2; Select a2 such that Follows(a1, 4)
-  result = PQLQueryResult();
-  queryVariable = {PQL_VAR_TYPE_ASSIGN, TEST_NOT_EXIST_VAR_NAME};
   result.addToStatementMap(TEST_VAR_NAME, buildStatementResult());
-  REQUIRE(*(result.resultFromVariable(queryVariable)) == expected);
+  actual = *(result.resultFromVariable(queryVariable));
+  REQUIRE(actual == expected);
 
   // Statement Result with target variable in map
   // E.g. assign a; Select a such that Follows(a, 2)
   queryVariable = {PQL_VAR_TYPE_ASSIGN, TEST_VAR_NAME};
   expected.addToStatementMap(TEST_VAR_NAME, buildStatementResult());
-  PQLQueryResult output = *(result.resultFromVariable(queryVariable));
-  REQUIRE(*(result.resultFromVariable(queryVariable)) == expected);
+  actual = *(result.resultFromVariable(queryVariable));
+  REQUIRE(actual == expected);
+}
 
+TEST_CASE("Retrieve Variable from Entity Result") {
+  PQLQueryResult expected;
+  PQLQueryResult actual;
+  PQLQueryResult result = PQLQueryResult();
+  PQLQueryVariable query_variable = {PQL_VAR_TYPE_VARIABLE, TEST_NOT_EXIST_VAR_NAME};
+
+  // Entity Result with target variable not in map
+  // E.g. variable v1, v2; Select v2 such that Uses(3, v1)
+  result.addToEntityMap(TEST_VAR_NAME, buildEntityResult());
+  actual = *(result.resultFromVariable(query_variable));
+  REQUIRE(actual == expected);
+
+  // Entity Result with target variable in map
+  // E.g. variable v; Select v such that Uses(a, v)
+  query_variable = {PQL_VAR_TYPE_VARIABLE, TEST_VAR_NAME};
+  expected.addToEntityMap(TEST_VAR_NAME, buildEntityResult());
+  actual = *(result.resultFromVariable(query_variable));
+  REQUIRE(actual == expected);
 }

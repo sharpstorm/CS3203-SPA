@@ -75,6 +75,7 @@ PQLQueryResult* PQLQueryResult::resultFromVariable(PQLQueryVariable queryVar) {
   PQLQueryResult* queryResult = new PQLQueryResult();
 
   if (isStaticFalse) {
+    queryResult->setIsStaticFalse(isStaticFalse);
     return queryResult;
   }
 
