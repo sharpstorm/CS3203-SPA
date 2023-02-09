@@ -30,7 +30,8 @@ PQLQueryResult *QueryOrchestrator::execute(PQLQuery* query,
   return filtered;
 }
 
-bool QueryOrchestrator::shouldExecuteSelect(QueryPlan *plan, PQLQueryResult* state) {
+bool QueryOrchestrator::shouldExecuteSelect(QueryPlan *plan,
+                                            PQLQueryResult* state) {
   if (state == nullptr) {
     return true;
   }

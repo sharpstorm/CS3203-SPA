@@ -1,6 +1,9 @@
 #pragma once
 
+#include <string>
 #include "qps/common/PQLQueryResult.h"
+
+using std::string;
 
 class ResultCoalescer {
  public:
