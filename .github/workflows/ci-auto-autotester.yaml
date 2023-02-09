@@ -42,6 +42,7 @@ jobs:
         with:
           key: build-cache-${{ github.head_ref || github.ref_name }}-${{github.sha}}
           path: ./Team30/Code30/build/build-cache
+          enableCrossOsArchive: true
           restore-keys: |
             build-cache-${{ github.head_ref || github.ref_name }}-
             master-scheduled-build-cache
