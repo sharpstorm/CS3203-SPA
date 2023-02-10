@@ -59,7 +59,7 @@ shared_ptr<StatementListNode> simplyLst() {
   return simple;
 }
 
-shared_ptr<StatementListNode> simplyLstWithWhile() {
+shared_ptr<StatementListNode> stmListWithWhile() {
   shared_ptr<StatementListNode> simple =
       shared_ptr<StatementListNode>(new StatementListNode());
 
@@ -147,5 +147,7 @@ TEST_CASE("FollowsExtractor Statement with While loop inbetween") {
 
   REQUIRE(table->get(1) == unordered_set<int>({2}));
   REQUIRE(table->get(2) == unordered_set<int>({3}));
-  REQUIRE(table->get(3) != unordered_set<int>({4}));
+  REQUIRE(table->get(3) !=
+          unordered_set<int>(
+              {4}));  // statement 4 should not follow from statement 3
 }

@@ -114,6 +114,53 @@ shared_ptr<WhileNode> simplyWhile() {
   return simpleWhile;
 }
 
+shared_ptr<IfNode> ifWithWhile() {
+  shared_ptr<IfNode> ifNode = shared_ptr<IfNode>(new IfNode());
+
+  shared_ptr<StatementListNode> ifLst =
+      shared_ptr<StatementListNode>(new StatementListNode());
+
+  shared_ptr<StatementListNode> elseLst =
+      shared_ptr<StatementListNode>(new StatementListNode());
+
+  shared_ptr<StatementASTNode> stmtIf =
+      shared_ptr<StatementASTNode>(new PrintNode());
+
+  shared_ptr<ConditionalExpressionASTNode> condition =
+      shared_ptr<ConditionalExpressionASTNode>(
+          new ConditionalExpressionASTNode());
+
+  shared_ptr<WhileNode> whileNode = shared_ptr<WhileNode>(new WhileNode());
+
+  shared_ptr<StatementListNode> stmtLstWhile =
+      shared_ptr<StatementListNode>(new StatementListNode());
+
+  shared_ptr<StatementASTNode> firstWhileStmt =
+      shared_ptr<StatementASTNode>(new PrintNode());
+
+  shared_ptr<ConditionalExpressionASTNode> conditionWhile =
+      shared_ptr<ConditionalExpressionASTNode>();
+
+  ifNode->lineNumber = 1;
+  whileNode->lineNumber = 2;
+  firstWhileStmt->lineNumber = 3;
+  stmtIf->lineNumber = 4;
+
+  stmtLstWhile->addChild(firstWhileStmt);
+
+  whileNode->setChild(0, conditionWhile);
+  whileNode->setChild(1, stmtLstWhile);
+
+  ifLst->addChild(whileNode);
+  elseLst->addChild(stmtIf);
+
+  ifNode->setChild(0, condition);
+  ifNode->setChild(1, ifLst);
+  ifNode->setChild(2, elseLst);
+
+  return ifNode;
+}
+
 TEST_CASE("ParentExtractor simple If") {
   shared_ptr<IfNode> simpleIf = simplyIf();
 
@@ -155,4 +202,25 @@ TEST_CASE("ParentExtractor simple While") {
   REQUIRE(reverseTable->get(2) == unordered_set<int>({1}));
   REQUIRE(reverseTable->get(3) == unordered_set<int>({1}));
   REQUIRE(reverseTable->get(4) == unordered_set<int>({1}));
+}
+
+TEST_CASE("ParentExtractor if with while stmt") {
+  shared_ptr<IfNode> ifNode = ifWithWhile();
+
+  auto table = make_shared<ContiguousTable<int>>();
+  auto reverseTable = make_shared<ContiguousTable<int>>();
+  auto store = new ParentStorage(table, reverseTable);
+  ParentWriter writerAccessible = ParentWriter(store);
+  PKB* pkb = new PKB();
+
+  PkbWriterStubForParent writer = PkbWriterStubForParent(pkb, writerAccessible);
+
+  ParentExtractor* extractor = new ParentExtractor(&writer);
+
+  extractor->visit(*ifWithWhile());
+
+  REQUIRE(table->get(1) == unordered_set<int>({2, 4}));
+  REQUIRE(
+      reverseTable->get(3) !=
+      unordered_set<int>({1}));  // statement 3 should not have 1 as its parent
 }
