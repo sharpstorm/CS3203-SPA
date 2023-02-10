@@ -1,8 +1,9 @@
 #include "catch.hpp"
 
+#include <iostream>
+#include <algorithm>
 #include <vector>
 #include <unordered_set>
-#include <algorithm>
 
 #include "qps/projector/ResultProjector.h"
 
@@ -41,7 +42,7 @@ TEST_CASE("Project error result") {
   PQLQueryResult result;
   result.setError(ERROR_MESSAGE);
 
-  vector<string>* projectedResult = projector.project(&result);
+  UniqueVectorPtr<string> projectedResult = projector.project(&result);
   REQUIRE(*projectedResult == EXPECTED_ERROR);
 }
 
@@ -50,82 +51,84 @@ TEST_CASE("Project when result is static") {
   PQLQueryResult result;
   result.setIsStaticFalse(true);
 
-  vector<string>* projectedResult = projector.project(&result);
+  UniqueVectorPtr<string> projectedResult = projector.project(&result);
   REQUIRE(projectedResult->empty());
 }
 
 TEST_CASE("Projecting Statement map") {
-  PQLQueryResult result;
-  vector<string>* actual;
-  vector<string>* expected;
+  PQLQueryResult* result;
+  UniqueVectorPtr<string> actual;
+  UniqueVectorPtr<string> expected;
 
   // Projecting on Left arg
   // E.g. assign a; Select a such that Follows*(a,4);
-  result.addToStatementMap("a", buildStatementResult(true));
-  expected = new vector<string>({"1", "2", "3"});
-  actual = projector.projectStatements(result.getStatementMap());
-  testResultProjection(expected, actual);
+  result = new PQLQueryResult();
+  result->addToStatementMap("a", buildStatementResult(true));
+  expected = UniqueVectorPtr<string>(new vector<string>({"1", "1", "2", "2", "3", "3", "4" }));
+  actual = projector.project(result);
+  testResultProjection(expected.get(), actual.get());
 
   // Projecting on Right arg
   // E.g. assign a; Select a such that Follows*(1,a);
-  result = PQLQueryResult();
-  expected = new vector<string>({"2", "3", "4"});
-  result.addToStatementMap("a", buildStatementResult(false));
-  actual = projector.projectStatements(result.getStatementMap());
-  testResultProjection(expected, actual);
+  result = new PQLQueryResult();
+  result->addToStatementMap("a", buildStatementResult(false));
+  expected = UniqueVectorPtr<string>(new vector<string>({"1", "2", "2", "3", "3", "4", "4"}));
+  actual = projector.project(result);
+  testResultProjection(expected.get(), actual.get());
 
   // Projecting when pairs empty
   // E.g. assign a; Select a
   StatementResult stmtResult;
   stmtResult.lines = unordered_set<int>({1, 2, 3, 4});
-  result = PQLQueryResult();
-  result.addToStatementMap("a", stmtResult);
+  result = new PQLQueryResult();
+  result->addToStatementMap("a", stmtResult);
 
-  expected = new vector<string>({"1", "2", "3", "4"});
-  actual = projector.projectStatements(result.getStatementMap());
-  testResultProjection(expected, actual);
+  expected = UniqueVectorPtr<string>(new vector<string>({"1", "2", "3", "4"}));
+  actual = projector.project(result);
+  testResultProjection(expected.get(), actual.get());
 }
 
 TEST_CASE("Projecting entity map") {
-  PQLQueryResult result;
+  PQLQueryResult* result;
   EntityResult er;
-  vector<string>* actual;
-  vector<string>* expected;
+  UniqueVectorPtr<string> actual;
+  UniqueVectorPtr<string> expected;
 
   // Projecting on left arg
   // E.g. assign a; variable v; Select a such that Uses(a, v)
-  result.addToEntityMap("a", buildEntityResult(true));
+  result = new PQLQueryResult();
+  result->addToEntityMap("a", buildEntityResult(true));
 
-  expected = new vector<string>({"1", "1"});
-  actual = projector.projectEntities(result.getEntityMap());
-  testResultProjection(expected, actual);
+  expected = UniqueVectorPtr<string>(new vector<string>({"1", "1"}));
+  actual = projector.project(result);
+  testResultProjection(expected.get(), actual.get());
 
   // Projecting on right arg
   // E.g. assign a; variable v; Select v such that Uses(a,v)
-  result = PQLQueryResult();
-  result.addToEntityMap("v", buildEntityResult(false));
+  result = new PQLQueryResult();
+  result->addToEntityMap("v", buildEntityResult(false));
 
-  expected = new vector<string>({"x", "y"});
-  actual = projector.projectEntities(result.getEntityMap());
-  testResultProjection(expected, actual);
+  expected = UniqueVectorPtr<string>(new vector<string>({"x", "y"}));
+  actual = projector.project(result);
+  testResultProjection(expected.get(), actual.get());
 
   // Projecting when pairs empty - Statement Type Synonym
   er = EntityResult() ;
-  result = PQLQueryResult();
+  result = new PQLQueryResult();
   er.lines = unordered_set<int>({1});
-  result.addToEntityMap("a", er);
+  result->addToEntityMap("a", er);
 
-  expected = new vector<string>({"1"});
-  actual = projector.projectEntities(result.getEntityMap());
-  testResultProjection(expected, actual);
+  expected = UniqueVectorPtr<string>(new vector<string>({"1"}));
+  actual = projector.project(result);
+  testResultProjection(expected.get(), actual.get());
 
   // Projecting when pairs empty - Entity Type Synonym
-  result = PQLQueryResult();
+  result = new PQLQueryResult();
   er = EntityResult() ;
   er.entities = unordered_set<string>({"x", "y"});
-  result.addToEntityMap("a", er);
+  result->addToEntityMap("a", er);
 
-  expected = new vector<string>({"x", "y"});
-  actual = projector.projectEntities(result.getEntityMap());
-  testResultProjection(expected, actual);
+  expected = UniqueVectorPtr<string>(new vector<string>({"x", "y"}));
+  actual = projector.project(result);
+  testResultProjection(expected.get(), actual.get());
 }

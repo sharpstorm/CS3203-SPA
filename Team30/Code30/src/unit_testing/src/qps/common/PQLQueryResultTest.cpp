@@ -98,7 +98,7 @@ TEST_CASE("Retrieve Variable from Static Result") {
 
   // Static Result E.g. Follows(1,2)
   result.setIsStaticFalse(true);
-  REQUIRE(*(result.resultFromVariable(queryVariable)) == expected);
+  REQUIRE(*(result.filterResultTo(queryVariable)) == expected);
 }
 
 TEST_CASE("Retrieve Variable from Statement Result") {
@@ -110,14 +110,14 @@ TEST_CASE("Retrieve Variable from Statement Result") {
   // Statement Result with target variable not in map
   // E.g. assign a1, a2; Select a2 such that Follows(a1, 4)
   result.addToStatementMap(TEST_VAR_NAME, buildStatementResult());
-  actual = *(result.resultFromVariable(queryVariable));
+  actual = *(result.filterResultTo(queryVariable));
   REQUIRE(actual == expected);
 
   // Statement Result with target variable in map
   // E.g. assign a; Select a such that Follows(a, 2)
   queryVariable = {PQL_VAR_TYPE_ASSIGN, TEST_VAR_NAME};
   expected.addToStatementMap(TEST_VAR_NAME, buildStatementResult());
-  actual = *(result.resultFromVariable(queryVariable));
+  actual = *(result.filterResultTo(queryVariable));
   REQUIRE(actual == expected);
 }
 
@@ -130,13 +130,13 @@ TEST_CASE("Retrieve Variable from Entity Result") {
   // Entity Result with target variable not in map
   // E.g. variable v1, v2; Select v2 such that Uses(3, v1)
   result.addToEntityMap(TEST_VAR_NAME, buildEntityResult());
-  actual = *(result.resultFromVariable(query_variable));
+  actual = *(result.filterResultTo(query_variable));
   REQUIRE(actual == expected);
 
   // Entity Result with target variable in map
   // E.g. variable v; Select v such that Uses(a, v)
   query_variable = {PQL_VAR_TYPE_VARIABLE, TEST_VAR_NAME};
   expected.addToEntityMap(TEST_VAR_NAME, buildEntityResult());
-  actual = *(result.resultFromVariable(query_variable));
+  actual = *(result.filterResultTo(query_variable));
   REQUIRE(actual == expected);
 }
