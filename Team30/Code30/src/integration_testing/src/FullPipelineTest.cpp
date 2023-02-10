@@ -68,4 +68,7 @@ TEST_CASE("Test Full End-to-end") {
                           "Select ifs such that Follows(ifs, s)",
               unordered_set<string>{ "6" });
 
+//  launchQuery2(qps.get(), "assign a;\n"
+//                          "Select a",
+//               unordered_set<string>{ "6" });
 }
