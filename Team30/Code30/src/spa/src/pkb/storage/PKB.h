@@ -11,6 +11,7 @@
 class PKB {
  public:
   PKB();
+  ~PKB();
   FollowsStorage* followsStore;
   ParentStorage* parentStore;
   SymbolStorage* symbolStorage;

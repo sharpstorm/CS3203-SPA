@@ -1,5 +1,4 @@
 #include "ResultCoalescer.h"
-#include <string>
 
 PQLQueryResult *ResultCoalescer::merge(PQLQueryResult *setA,
                                        PQLQueryResult *setB) {
@@ -10,8 +9,23 @@ PQLQueryResult *ResultCoalescer::merge(PQLQueryResult *setA,
   }
 
   PQLQueryResult* result = new PQLQueryResult();
-  result->setIsStaticFalse(setA->getIsStaticFalse()
-  || setB->getIsStaticFalse());
+  result->setIsStaticFalse(mergeStaticResult(setA, setB));
+  result->setError(mergeError(setA, setB));
+  mergeEntityResult(setA, setB, result);
+  mergeStatementResult(setA, setB, result);
+
+  delete(setA);
+  delete(setB);
+  return result;
+}
+
+bool ResultCoalescer::mergeStaticResult(PQLQueryResult *setA,
+                                        PQLQueryResult *setB) {
+  return setA->getIsStaticFalse() || setB->getIsStaticFalse();
+}
+
+string ResultCoalescer::mergeError(PQLQueryResult *setA,
+                                   PQLQueryResult *setB) {
   string error = "";
   if (setA->getError() != "") {
     error += setA->getError() + " ";
@@ -19,26 +33,31 @@ PQLQueryResult *ResultCoalescer::merge(PQLQueryResult *setA,
   if (setB->getError() != "") {
     error += setB->getError() + " ";
   }
-  result->setError(error);
 
+  return error;
+}
+
+void ResultCoalescer::mergeEntityResult(PQLQueryResult *setA,
+                                        PQLQueryResult *setB,
+                                        PQLQueryResult *output) {
   for (auto& it : setA->getEntityMap()) {
-    result->addToEntityMap(it.first, it.second);
+    output->addToEntityMap(it.first, it.second);
   }
 
   for (auto& it : setB->getEntityMap()) {
-    result->addToEntityMap(it.first, it.second);
+    output->addToEntityMap(it.first, it.second);
   }
+}
 
+void ResultCoalescer::mergeStatementResult(PQLQueryResult *setA,
+                                           PQLQueryResult *setB,
+                                           PQLQueryResult *output) {
   for (auto& it : setA->getStatementMap()) {
-    result->addToStatementMap(it.first, it.second);
+    output->addToStatementMap(it.first, it.second);
   }
 
   for (auto& it : setB->getStatementMap()) {
-    result->addToStatementMap(it.first, it.second);
+    output->addToStatementMap(it.first, it.second);
   }
-
-  delete(setA);
-  delete(setB);
-
-  return result;
 }
+

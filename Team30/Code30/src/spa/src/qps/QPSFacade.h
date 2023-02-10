@@ -1,13 +1,13 @@
 #pragma once
 
 #include <string>
-#include <vector>
 #include <memory>
 #include "IQPS.h"
 #include "qps/projector/ResultProjector.h"
 #include "QueryDriver.h"
+#include "common/UtilityTypes.h"
 
-using std::string, std::vector;
+using std::string;
 
 class QPSFacade: public IQPS {
  private:
@@ -16,6 +16,6 @@ class QPSFacade: public IQPS {
 
  public:
   explicit QPSFacade(shared_ptr<PkbQueryHandler> pkbQH);
-  ~QPSFacade();
-  vector<string>* evaluate(string query);
+  ~QPSFacade() noexcept;
+  UniqueVectorPtr<string> evaluate(string query);
 };

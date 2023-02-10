@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <unordered_set>
+#include "common/UtilityTypes.h"
 #include "qps/QPSFacade.h"
 #include "pkb/writers/PkbWriter.h"
 #include "qps/errors/QPSError.h"
@@ -19,7 +20,7 @@ void assertSetEquality2(unordered_set<string> a, unordered_set<string> b) {
 void launchQuery2(IQPS* qps, string query, unordered_set<string> answer) {
   INFO("-----------------------------------------------\n");
   INFO("Query: " << query << "\n");
-  vector<string>* result = nullptr;
+  UniqueVectorPtr<string> result = nullptr;
   try {
     result = qps->evaluate(query);
   } catch (const QPSError& ex) {

@@ -5,6 +5,7 @@
 #include "qps/QPSFacade.h"
 #include "pkb/writers/PkbWriter.h"
 #include "qps/errors/QPSError.h"
+#include "common/UtilityTypes.h"
 
 using std::make_unique, std::make_shared, std::unordered_set, std::to_string;
 
@@ -27,7 +28,7 @@ void assertSetEquality(unordered_set<string> a, unordered_set<string> b) {
 void launchQuery(IQPS* qps, string query, unordered_set<string> answer) {
   INFO("-----------------------------------------------\n");
   INFO("Query: " << query << "\n");
-  vector<string>* result = nullptr;
+  UniqueVectorPtr<string> result = nullptr;
   try {
     result = qps->evaluate(query);
   } catch (const QPSError& ex) {

@@ -5,4 +5,6 @@
 #include "qps/clauses/Clause.h"
 
 class PatternClause: public Clause {
+ public:
+  virtual ~PatternClause() = default;
 };
