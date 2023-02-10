@@ -4,6 +4,8 @@ on: push
 
 env:
     BUILD_TYPE: Release
+    CCACHE_DIR: ${{ github.workspace }}/Team30/Code30/build/build-cache
+    CCACHE_BASEDIR: ${{ github.workspace }}/Team30/Code30
 
 jobs:
   build-linux:
@@ -22,25 +24,36 @@ jobs:
       - name: Setup CCache
         run: sudo apt-get install -y ccache
 
-      - name: Cache Build directory
-        uses: actions/cache@v3
-        with:
-          key: ${{ github.head_ref || github.ref_name }}-build-cache-spa
-          path: |
-            ./Team30/Code30/build
-
       - name: Setup Build Folder
         working-directory: ./Team30/Code30
         run: |
           cmake -E make_directory ./build
+          cmake -E make_directory ./build/build-cache
 
       - name: Generate CMake Project
         working-directory: ./Team30/Code30/build
         run: |
           sudo /usr/sbin/update-ccache-symlinks
           export PATH="/usr/lib/ccache:$PATH"
-          export CCACHE_DIR="./build-cache"
+          ccache --set-config=cache_dir=${CCACHE_DIR}
+          ccache --set-config=base_dir=${CCACHE_BASEDIR}
+          ccache --set-config=hash_dir=false
           CC=clang CXX=clang++ cmake ../ -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -D CMAKE_C_COMPILER_LAUNCHER=ccache -D CMAKE_CXX_COMPILER_LAUNCHER=ccache
+
+      - name: Restore Build Cache
+        uses: actions/cache/restore@v3
+        with:
+          key: build-cache-${{ github.head_ref || github.ref_name }}-${{github.sha}}
+          path: ./Team30/Code30/build/build-cache
+          enableCrossOsArchive: true
+          restore-keys: |
+            build-cache-${{ github.head_ref || github.ref_name }}-
+            build-cache-
+            master-scheduled-build-cache
+
+      - name: Show CCache Stats
+        run: |
+          ccache -v -s
 
       - name: Compile SPA
         working-directory: ./Team30/Code30/build
@@ -48,6 +61,16 @@ jobs:
           cmake --build . --target unit_testing --config ${BUILD_TYPE} -j 2
           cmake --build . --target integration_testing --config ${BUILD_TYPE} -j 2
           cmake --build . --target autotester --config ${BUILD_TYPE} -j 2
+
+      - name: Show CCache Stats
+        run: |
+          ccache -v -s
+
+      - name: Save Build Cache
+        uses: actions/cache/save@v3
+        with:
+          key: build-cache-${{ github.head_ref || github.ref_name }}-${{github.sha}}
+          path: ./Team30/Code30/build/build-cache
 
       - name: Test Unit Testing
         working-directory: ./Team30/Code30/build
