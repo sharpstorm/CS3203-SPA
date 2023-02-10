@@ -1,6 +1,6 @@
 #include <memory>
 #include "PrintContext.h"
-#include "sp/common/ASTNode/statement/PrintNode.h"
+#include "common/ASTNode/statement/PrintNode.h"
 
 using std::shared_ptr;
 

@@ -1,6 +1,6 @@
 #include <memory>
 #include "ProcedureContext.h"
-#include "../../common/ASTNode/ProcedureNode.h"
+#include "common/ASTNode/ProcedureNode.h"
 
 using std::shared_ptr;
 

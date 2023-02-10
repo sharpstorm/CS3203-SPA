@@ -1,8 +1,8 @@
 #include <memory>
 #include "RelationalExpressionContext.h"
-#include "sp/common/ASTNode/math/RelationalExpressionASTNode.h"
+#include "common/ASTNode/math/RelationalExpressionASTNode.h"
 #include "ConditionalExpressionContext.h"
-#include "sp/common/ASTNode/math/ConditionalExpressionASTNode.h"
+#include "common/ASTNode/math/ConditionalExpressionASTNode.h"
 
 using std::shared_ptr;
 

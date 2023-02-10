@@ -1,6 +1,5 @@
 #include <memory>
 #include "StatementContext.h"
-#include "../../errors/SPError.h"
 
 using std::shared_ptr;
 

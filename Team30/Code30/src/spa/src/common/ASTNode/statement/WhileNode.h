@@ -2,7 +2,7 @@
 
 #include <string>
 #include <memory>
-#include "sp/common/ASTNode/ASTNode.h"
+#include "common/ASTNode/ASTNode.h"
 #include "StatementASTNode.h"
 #include "sp/extractor/Extractor.h"
 

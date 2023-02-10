@@ -3,12 +3,12 @@
 #include "Extractor.h"
 #include "pkb/storage/PKB.h"
 #include "pkb/writers/PkbWriter.h"
-#include "sp/common/ASTNode/StatementListNode.h"
-#include "sp/common/ASTNode/statement/AssignNode.h"
-#include "sp/common/ASTNode/statement/IfNode.h"
-#include "sp/common/ASTNode/statement/PrintNode.h"
-#include "sp/common/ASTNode/statement/ReadNode.h"
-#include "sp/common/ASTNode/statement/WhileNode.h"
+#include "common/ASTNode/StatementListNode.h"
+#include "common/ASTNode/statement/AssignNode.h"
+#include "common/ASTNode/statement/IfNode.h"
+#include "common/ASTNode/statement/PrintNode.h"
+#include "common/ASTNode/statement/ReadNode.h"
+#include "common/ASTNode/statement/WhileNode.h"
 
 class StatementListNode;
 class IfNode;

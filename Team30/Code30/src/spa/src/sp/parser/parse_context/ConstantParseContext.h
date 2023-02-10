@@ -2,7 +2,7 @@
 
 #include <memory>
 #include "SourceParseContext.h"
-#include "../../common/ASTNode/ASTNode.h"
+#include "common/ASTNode/ASTNode.h"
 
 using std::shared_ptr;
 

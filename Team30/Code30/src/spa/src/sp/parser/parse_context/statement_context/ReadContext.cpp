@@ -1,6 +1,6 @@
 #include <memory>
 #include "ReadContext.h"
-#include "sp/common/ASTNode/statement/ReadNode.h"
+#include "common/ASTNode/statement/ReadNode.h"
 
 using std::shared_ptr;
 
@@ -14,7 +14,7 @@ shared_ptr<ASTNode> ReadContext::generateSubtree(SourceParseState* state) {
 
   // Expect ';'
   expect(state, SIMPLE_TOKEN_SEMICOLON);
-  
+
   shared_ptr<ReadNode> readNode = shared_ptr<ReadNode>(new ReadNode());
   readNode->setChild(0, var);
   state->setCached(readNode);

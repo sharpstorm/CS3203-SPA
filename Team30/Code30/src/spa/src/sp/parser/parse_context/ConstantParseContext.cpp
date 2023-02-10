@@ -1,6 +1,6 @@
 #include <string>
 #include "ConstantParseContext.h"
-#include "../../common/ASTNode/ConstantASTNode.h"
+#include "common/ASTNode/ConstantASTNode.h"
 
 using std::string;
 

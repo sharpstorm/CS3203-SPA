@@ -1,7 +1,7 @@
 #include <memory>
 #include "FactorContext.h"
-#include "sp/common/ASTNode/math/PlusASTNode.h"
-#include "sp/common/ASTNode/math/FactorASTNode.h"
+#include "common/ASTNode/math/PlusASTNode.h"
+#include "common/ASTNode/math/FactorASTNode.h"
 
 using std::shared_ptr;
 

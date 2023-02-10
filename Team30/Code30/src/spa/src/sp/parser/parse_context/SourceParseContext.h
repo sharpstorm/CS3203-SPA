@@ -1,9 +1,9 @@
 #pragma once
 
 #include <memory>
-#include "../../common/SourceToken.h"
+#include "sp/common/SourceToken.h"
 #include "sp/parser/SourceParseState.h"
-#include "../../common/ASTNode/ASTNode.h"
+#include "common/ASTNode/ASTNode.h"
 #include "sp/errors/SPError.h"
 
 using std::shared_ptr;

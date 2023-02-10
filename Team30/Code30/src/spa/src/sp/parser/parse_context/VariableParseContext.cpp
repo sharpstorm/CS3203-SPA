@@ -1,7 +1,7 @@
 #include <string>
 #include <memory>
 #include "VariableParseContext.h"
-#include "../../common/ASTNode/VariableASTNode.h"
+#include "common/ASTNode/VariableASTNode.h"
 
 using std::string, std::shared_ptr;
 

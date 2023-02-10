@@ -1,7 +1,6 @@
 #include <memory>
 #include "StatementContext.h"
-#include "../../errors/SPError.h"
-#include "sp/common/ASTNode/StatementListNode.h"
+#include "common/ASTNode/StatementListNode.h"
 #include "StatementListContext.h"
 
 using std::shared_ptr;

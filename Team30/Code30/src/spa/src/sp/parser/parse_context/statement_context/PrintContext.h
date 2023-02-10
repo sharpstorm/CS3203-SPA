@@ -2,7 +2,7 @@
 
 #include <memory>
 #include "sp/parser/parse_context/RecursiveParseContext.h"
-#include "sp/common/ASTNode/ASTNode.h"
+#include "common/ASTNode/ASTNode.h"
 
 using std::shared_ptr;
 

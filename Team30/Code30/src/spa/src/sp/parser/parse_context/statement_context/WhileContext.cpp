@@ -1,5 +1,5 @@
 #include "WhileContext.h"
-#include "sp/common/ASTNode/statement/WhileNode.h"
+#include "common/ASTNode/statement/WhileNode.h"
 
 shared_ptr<ASTNode> WhileContext::generateSubtree(SourceParseState* state) {
   shared_ptr<WhileNode> whileNode = shared_ptr<WhileNode>(new WhileNode());

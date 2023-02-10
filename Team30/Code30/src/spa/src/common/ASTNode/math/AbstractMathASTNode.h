@@ -2,7 +2,7 @@
 
 #include <string>
 #include <memory>
-#include "../AbstractBinaryASTNode.h"
+#include "common/ASTNode/AbstractBinaryASTNode.h"
 #include "sp/extractor/Extractor.h"
 
 using std::string, std::shared_ptr;

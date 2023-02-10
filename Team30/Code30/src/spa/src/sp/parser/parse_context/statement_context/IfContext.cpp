@@ -1,6 +1,6 @@
 #include "IfContext.h"
-#include "sp/common/ASTNode/statement/IfNode.h"
-#include "sp/common/ASTNode/StatementListNode.h"
+#include "common/ASTNode/statement/IfNode.h"
+#include "common/ASTNode/StatementListNode.h"
 
 shared_ptr<ASTNode> IfContext::generateSubtree(SourceParseState* state) {
   // If Node

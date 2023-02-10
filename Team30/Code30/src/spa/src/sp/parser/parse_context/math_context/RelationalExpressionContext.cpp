@@ -1,6 +1,6 @@
 #include <memory>
 #include "RelationalExpressionContext.h"
-#include "sp/common/ASTNode/math/RelationalExpressionASTNode.h"
+#include "common/ASTNode/math/RelationalExpressionASTNode.h"
 
 using std::shared_ptr;
 

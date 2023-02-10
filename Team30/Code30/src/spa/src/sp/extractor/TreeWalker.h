@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "AbstractExtractor.h"
-#include "sp/common/AST.h"
+#include "common/AST.h"
 
 class TreeWalker {
  public:
