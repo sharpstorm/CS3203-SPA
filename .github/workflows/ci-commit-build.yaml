@@ -58,9 +58,9 @@ jobs:
       - name: Compile SPA
         working-directory: ./Team30/Code30/build
         run: |
-          cmake --build . --target unit_testing --config ${BUILD_TYPE} -j 2
-          cmake --build . --target integration_testing --config ${BUILD_TYPE} -j 2
-          cmake --build . --target autotester --config ${BUILD_TYPE} -j 2
+          cmake --build . --target unit_testing --config ${BUILD_TYPE} -j 8
+          cmake --build . --target integration_testing --config ${BUILD_TYPE} -j 8
+          cmake --build . --target autotester --config ${BUILD_TYPE} -j 8
 
       - name: Show CCache Stats
         run: |
