@@ -1,5 +1,5 @@
 #include <unordered_set>
-
+#include <memory>
 #include "catch.hpp"
 #include "pkb/queryHandlers/FollowsQueryHandler.h"
 #include "pkb/queryHandlers/PkbQueryHandler.h"
@@ -9,12 +9,12 @@
 #include "pkb/writers/PkbWriter.h"
 
 using std::unordered_set;
+using std::make_unique;
 
 class FollowsTestStructureProviderStub : public StructureMappingProvider {
  public:
   FollowsTestStructureProviderStub()
-      : StructureMappingProvider(new StatementStorage(),
-                                 new ProcedureStorage()) {};
+      : StructureMappingProvider(nullptr, nullptr) {};
 
   bool isStatementOfType(int s, StmtType stmtType) const override {
     switch (s) {
@@ -33,12 +33,11 @@ class FollowsTestStructureProviderStub : public StructureMappingProvider {
 
 TEST_CASE("Follows with StructureMapProvider stub") {
   PKB pkb = PKB();
-  FollowsTestStructureProviderStub *provider =
-      new FollowsTestStructureProviderStub();
-  PredicateFactory *factory = new PredicateFactory(provider, nullptr);
-  FollowsQueryHandler queryHandler =
-      FollowsQueryHandler(pkb.followsStore, factory, provider);
-  FollowsWriter writer = FollowsWriter(pkb.followsStore);
+  auto provider = make_unique<FollowsTestStructureProviderStub>();
+  auto factory = make_unique<PredicateFactory>(provider.get(), nullptr);
+  auto queryHandler =
+      FollowsQueryHandler(pkb.followsStore, factory.get(), provider.get());
+  auto writer = FollowsWriter(pkb.followsStore);
 
   writer.addFollows(1, 2);
   writer.addFollows(2, 3);
@@ -55,12 +54,11 @@ TEST_CASE("Follows with StructureMapProvider stub") {
 
 TEST_CASE("FollowsStar with StructureMapProvider stub") {
   PKB pkb = PKB();
-  FollowsTestStructureProviderStub *provider =
-      new FollowsTestStructureProviderStub();
-  PredicateFactory *factory = new PredicateFactory(provider, nullptr);
-  FollowsQueryHandler queryHandler =
-      FollowsQueryHandler(pkb.followsStore, factory, provider);
-  FollowsWriter writer = FollowsWriter(pkb.followsStore);
+  auto provider = make_unique<FollowsTestStructureProviderStub>();
+  auto factory = make_unique<PredicateFactory>(provider.get(), nullptr);
+  auto queryHandler =
+      FollowsQueryHandler(pkb.followsStore, factory.get(), provider.get());
+  auto writer = FollowsWriter(pkb.followsStore);
 
   writer.addFollows(1, 3);
   writer.addFollows(3, 5);
@@ -75,8 +73,9 @@ TEST_CASE("FollowsStar with StructureMapProvider stub") {
 }
 
 TEST_CASE("Follows") {
-  PKB *pkb = new PKB();
-  PkbWriter writer = PkbWriter(pkb);
+  auto pkb = make_unique<PKB>();
+  auto writer = PkbWriter(pkb.get());
+  auto queryHandler = PkbQueryHandler(pkb.get());
 
   writer.addFollows(1, 2);
   writer.addFollows(2, 3);
@@ -88,7 +87,6 @@ TEST_CASE("Follows") {
   writer.addStatement(3, StmtType::Read);
   writer.addStatement(4, StmtType::Print);
 
-  PkbQueryHandler queryHandler = PkbQueryHandler(pkb);
   REQUIRE(queryHandler.queryFollows({StmtType::None, 1}, {StmtType::None, 2})
               .isEmpty == false);
   REQUIRE(queryHandler.queryFollows({StmtType::None, 1}, {StmtType::None, 3})
@@ -116,9 +114,9 @@ TEST_CASE("Follows") {
 }
 
 TEST_CASE("Follows follows(s,stmtType) or follows(s,s)") {
-  PKB *pkb = new PKB();
-  PkbWriter writer = PkbWriter(pkb);
-  PkbQueryHandler queryHandler = PkbQueryHandler(pkb);
+  auto pkb = make_unique<PKB>();
+  auto writer = PkbWriter(pkb.get());
+  auto queryHandler = PkbQueryHandler(pkb.get());
 
   writer.addFollows(1, 2);
   writer.addFollows(2, 3);
@@ -143,8 +141,9 @@ TEST_CASE("Follows follows(s,stmtType) or follows(s,s)") {
 }
 
 TEST_CASE("FollowsStar") {
-  PKB *pkb = new PKB();
-  PkbWriter writer = PkbWriter(pkb);
+  auto pkb = make_unique<PKB>();
+  auto writer = PkbWriter(pkb.get());
+  auto queryHandler = PkbQueryHandler(pkb.get());
 
   writer.addFollows(1, 2);
   writer.addFollows(2, 3);
@@ -158,7 +157,6 @@ TEST_CASE("FollowsStar") {
   writer.addStatement(4, StmtType::Print);
   writer.addStatement(5, StmtType::If);
 
-  PkbQueryHandler queryHandler = PkbQueryHandler(pkb);
   REQUIRE(
       queryHandler.queryFollowsStar({StmtType::None, 1}, {StmtType::None, 4})
           .isEmpty == false);
@@ -184,9 +182,9 @@ TEST_CASE("FollowsStar") {
 }
 
 TEST_CASE("FollowsStar followsStar(s,stmtType) or followsStar(s,s)") {
-  PKB *pkb = new PKB();
-  PkbWriter writer = PkbWriter(pkb);
-  PkbQueryHandler queryHandler = PkbQueryHandler(pkb);
+  auto pkb = make_unique<PKB>();
+  auto writer = PkbWriter(pkb.get());
+  auto queryHandler = PkbQueryHandler(pkb.get());
 
   writer.addFollows(1, 2);
   writer.addFollows(2, 3);

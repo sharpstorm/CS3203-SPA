@@ -1,4 +1,5 @@
 #include <unordered_set>
+#include <memory>
 
 #include "catch.hpp"
 #include "pkb/queryHandlers/ParentQueryHandler.h"
@@ -7,12 +8,12 @@
 #include "pkb/writers/ParentWriter.h"
 
 using std::unordered_set;
+using std::make_unique;
 
 class ParentTestStructureProviderStub : public StructureMappingProvider {
  public:
   ParentTestStructureProviderStub()
-      : StructureMappingProvider(new StatementStorage(),
-                                 new ProcedureStorage()) {};
+      : StructureMappingProvider(nullptr, nullptr) {};
 
   bool isStatementOfType(int s, StmtType stmtType) const override {
     switch (s) {
@@ -31,12 +32,11 @@ class ParentTestStructureProviderStub : public StructureMappingProvider {
 
 TEST_CASE("Parent") {
   PKB pkb = PKB();
-  ParentTestStructureProviderStub *provider =
-      new ParentTestStructureProviderStub();
-  PredicateFactory *factory = new PredicateFactory(provider, nullptr);
-  ParentQueryHandler queryHandler =
-      ParentQueryHandler(pkb.parentStore, factory, provider);
-  ParentWriter writer = ParentWriter(pkb.parentStore);
+  auto provider = make_unique<ParentTestStructureProviderStub>();
+  auto factory = make_unique<PredicateFactory>(provider.get(), nullptr);
+  auto queryHandler =
+      ParentQueryHandler(pkb.parentStore, factory.get(), provider.get());
+  auto writer = ParentWriter(pkb.parentStore);
 
   writer.addParent(1, 2);
   writer.addParent(2, 3);
@@ -53,12 +53,11 @@ TEST_CASE("Parent") {
 
 TEST_CASE("ParentStar") {
   PKB pkb = PKB();
-  ParentTestStructureProviderStub *provider =
-      new ParentTestStructureProviderStub();
-  PredicateFactory *factory = new PredicateFactory(provider, nullptr);
-  ParentQueryHandler queryHandler =
-      ParentQueryHandler(pkb.parentStore, factory, provider);
-  ParentWriter writer = ParentWriter(pkb.parentStore);
+  auto provider = make_unique<ParentTestStructureProviderStub>();
+  auto factory = make_unique<PredicateFactory>(provider.get(), nullptr);
+  auto queryHandler =
+      ParentQueryHandler(pkb.parentStore, factory.get(), provider.get());
+  auto writer = ParentWriter(pkb.parentStore);
 
   writer.addParent(1, 3);
   writer.addParent(3, 5);
