@@ -16,6 +16,11 @@ class ConditionalExpressionContext: public RecursiveParseContext {
 
  private:
   shared_ptr<ConditionalExpressionASTNode>
-      generateConditionalNode(SourceParseState* state,
-                              shared_ptr<ASTNode> leftNode);
+  generateConditionalNode(shared_ptr<ASTNode> leftNode);
+  shared_ptr<ASTNode>
+  processNotCondition(SourceParseState* state);
+  shared_ptr<ASTNode>
+  processBiCondition(SourceParseState* state);
+  shared_ptr<ASTNode>
+  processRelationalExpression(SourceParseState* state);
 };
