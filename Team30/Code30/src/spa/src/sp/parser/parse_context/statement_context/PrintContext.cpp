@@ -12,7 +12,7 @@ shared_ptr<ASTNode> PrintContext::generateSubtree(SourceParseState* state) {
   shared_ptr<ASTNode> var = contextProvider->
       getContext(VARIABLE_CONTEXT)->generateSubtree(state);
 
-  //expect ';'
+  // Expect ';'
   expect(state, SIMPLE_TOKEN_SEMICOLON);
 
   shared_ptr<PrintNode> printNode = shared_ptr<PrintNode>(new PrintNode());
