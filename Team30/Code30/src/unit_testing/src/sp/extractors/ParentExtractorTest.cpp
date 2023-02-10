@@ -20,7 +20,7 @@
 using std::make_shared;
 using std::unordered_set;
 
-class PkbWriterStubParent : public PkbWriter {
+class PkbWriterStubForParent : public PkbWriter {
  public:
   FollowsWriter followsWriterStub;
   ParentWriter parentWriterStub;
@@ -28,7 +28,7 @@ class PkbWriterStubParent : public PkbWriter {
   StatementWriter statementWriterStub;
   ProcedureWriter procedureWriterStub;
 
-  PkbWriterStubParent(PKB* pkb, ParentWriter writer)
+  PkbWriterStubForParent(PKB* pkb, ParentWriter writer)
       : PkbWriter(pkb),
         followsWriterStub(pkb->followsStore),
         parentWriterStub(pkb->parentStore),
@@ -123,7 +123,7 @@ TEST_CASE("ParentExtractor simple If") {
   ParentWriter writerAccessible = ParentWriter(store);
   PKB* pkb = new PKB();
 
-  PkbWriterStubParent writer = PkbWriterStubParent(pkb, writerAccessible);
+  PkbWriterStubForParent writer = PkbWriterStubForParent(pkb, writerAccessible);
 
   ParentExtractor* extractor = new ParentExtractor(&writer);
 
@@ -145,7 +145,7 @@ TEST_CASE("ParentExtractor simple While") {
   ParentWriter writerAccessible = ParentWriter(store);
   PKB* pkb = new PKB();
 
-  PkbWriterStubParent writer = PkbWriterStubParent(pkb, writerAccessible);
+  PkbWriterStubForParent writer = PkbWriterStubForParent(pkb, writerAccessible);
 
   ParentExtractor* extractor = new ParentExtractor(&writer);
 
