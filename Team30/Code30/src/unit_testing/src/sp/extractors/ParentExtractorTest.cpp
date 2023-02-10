@@ -2,9 +2,12 @@
 #include <unordered_set>
 #include <vector>
 
+#include "../../../../spa/src/pkb/storage/PKB.h"
+#include "../../../../spa/src/pkb/storage/StorageTypes.h"
 #include "../../../../spa/src/pkb/writers/ParentWriter.h"
 #include "../../../../spa/src/pkb/writers/PkbWriter.h"
 #include "../../../../spa/src/sp/common/ASTNode/StatementListNode.h"
+#include "../../../../spa/src/sp/common/ASTNode/math/ConditionalExpressionASTNode.h"
 #include "../../../../spa/src/sp/common/ASTNode/statement/AssignNode.h"
 #include "../../../../spa/src/sp/common/ASTNode/statement/IfNode.h"
 #include "../../../../spa/src/sp/common/ASTNode/statement/PrintNode.h"
@@ -58,18 +61,23 @@ shared_ptr<IfNode> simplyIf() {
   shared_ptr<StatementASTNode> fourth =
       shared_ptr<StatementASTNode>(new AssignNode());
 
-  first->lineNumber = 1;
-  second->lineNumber = 2;
-  third->lineNumber = 3;
-  fourth->lineNumber = 4;
+  shared_ptr<ConditionalExpressionASTNode> condition =
+      shared_ptr<ConditionalExpressionASTNode>();
+
+  simpleIf->lineNumber = 1;
+  first->lineNumber = 2;
+  second->lineNumber = 3;
+  third->lineNumber = 4;
+  fourth->lineNumber = 5;
 
   ifLst->addChild(first);
   ifLst->addChild(second);
   elseLst->addChild(third);
   elseLst->addChild(fourth);
 
-  simpleIf->addChild(ifLst);
-  simpleIf->addChild(elseLst);
+  simpleIf->setChild(0, condition);
+  simpleIf->setChild(1, ifLst);
+  simpleIf->setChild(2, elseLst);
 
   return simpleIf;
 }
@@ -87,15 +95,20 @@ shared_ptr<WhileNode> simplyWhile() {
   shared_ptr<StatementASTNode> third =
       shared_ptr<StatementASTNode>(new AssignNode());
 
-  first->lineNumber = 1;
-  second->lineNumber = 2;
-  third->lineNumber = 3;
+  shared_ptr<ConditionalExpressionASTNode> condition =
+      shared_ptr<ConditionalExpressionASTNode>();
+
+  simpleWhile->lineNumber = 1;
+  first->lineNumber = 2;
+  second->lineNumber = 3;
+  third->lineNumber = 4;
 
   stmtLst->addChild(first);
   stmtLst->addChild(second);
   stmtLst->addChild(third);
 
-  simpleWhile->addChild(stmtLst);
+  simpleWhile->setChild(0, condition);
+  simpleWhile->setChild(1, stmtLst);
 
   return simpleWhile;
 }
@@ -105,7 +118,7 @@ shared_ptr<WhileNode> simplyWhile() {
 //
 //  auto table = make_shared<ContiguousTable<int>>();
 //  auto reverseTable = make_shared<ContiguousTable<int>>();
-//  auto store = new FollowsStorage(table, reverseTable);
+//  auto store = new ParentStorage(table, reverseTable);
 //  ParentWriter writerAccessible = ParentWriter(store);
 //  PKB* pkb = new PKB();
 //
@@ -122,5 +135,5 @@ shared_ptr<WhileNode> simplyWhile() {
 //  REQUIRE(table->get(1) == unordered_set<int>({4}));
 //  REQUIRE(reverseTable->get(4) == unordered_set<int>({1}));
 //}
-//
+
 // TEST_CASE("ParentExtractor simple While") {}
