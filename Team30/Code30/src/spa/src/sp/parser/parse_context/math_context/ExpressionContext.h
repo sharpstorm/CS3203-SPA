@@ -1,8 +1,8 @@
 #pragma once
 
 #include <memory>
-#include "RecursiveParseContext.h"
-#include "../IGrammarContextProvider.h"
+#include "sp/parser/parse_context/RecursiveParseContext.h"
+#include "sp/parser/IGrammarContextProvider.h"
 #include "sp/common/ASTNode/math/PlusASTNode.h"
 #include "sp/common/ASTNode/math/MinusASTNode.h"
 

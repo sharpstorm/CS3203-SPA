@@ -1,6 +1,6 @@
 #include <memory>
 #include "TermContext.h"
-#include "../../common/ASTNode/math/PlusASTNode.h"
+#include "sp/common/ASTNode/math/PlusASTNode.h"
 #include "sp/common/ASTNode/math/DivASTNode.h"
 #include "sp/common/ASTNode/math/ModASTNode.h"
 
