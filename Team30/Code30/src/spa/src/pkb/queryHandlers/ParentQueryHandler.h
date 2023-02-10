@@ -12,8 +12,8 @@ class ParentQueryHandler : public IParentQueryHandler {
                      const PredicateFactory *predicateFactory,
                      const IStructureMappingProvider *stuctureProvider);
 
-  QueryResult<int, int> queryParent(StmtRef s1, StmtRef s2) const;
-  QueryResult<int, int> queryParentStar(StmtRef s1, StmtRef s2) const;
+  QueryResult<int, int> queryParent(StmtRef s1, StmtRef s2) const override;
+  QueryResult<int, int> queryParentStar(StmtRef s1, StmtRef s2) const override;
 
  private:
   const ParentStorage *store;

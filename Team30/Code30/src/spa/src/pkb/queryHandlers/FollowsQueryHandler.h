@@ -12,8 +12,8 @@ class FollowsQueryHandler : public IFollowsQueryHandler {
                       const PredicateFactory *predicateFactory,
                       const IStructureMappingProvider *stuctureProvider);
 
-  QueryResult<int, int> queryFollows(StmtRef s1, StmtRef s2) const;
-  QueryResult<int, int> queryFollowsStar(StmtRef s1, StmtRef s2) const;
+  QueryResult<int, int> queryFollows(StmtRef s1, StmtRef s2) const override;
+  QueryResult<int, int> queryFollowsStar(StmtRef s1, StmtRef s2) const override;
 
  private:
   const FollowsStorage *store;

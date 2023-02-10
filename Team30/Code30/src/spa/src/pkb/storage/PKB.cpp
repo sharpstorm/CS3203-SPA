@@ -17,4 +17,5 @@ PKB::PKB()
       structureProvider(
           new StructureMappingProvider(statementStorage, procedureStorage)),
       entityMappingProvider(new EntityMappingProvider(symbolStorage)),
-      predicateFactory(new PredicateFactory(structureProvider, entityMappingProvider)) {}
+      predicateFactory(new PredicateFactory(structureProvider,
+                                            entityMappingProvider)) {}

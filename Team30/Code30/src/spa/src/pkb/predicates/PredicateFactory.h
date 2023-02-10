@@ -1,10 +1,10 @@
 #pragma once
 
+#include "Predicate.h"
+#include <string>
 #include "../../common/Types.h"
 #include "../storage/StructureMappingProvider.h"
 #include "../storage/EntityMappingProvider.h"
-#include "Predicate.h"
-#include <string>
 
 using std::string;
 
