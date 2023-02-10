@@ -19,3 +19,14 @@ PKB::PKB()
       entityMappingProvider(new EntityMappingProvider(symbolStorage)),
       predicateFactory(new PredicateFactory(structureProvider,
                                             entityMappingProvider)) {}
+PKB::~PKB() {
+  delete (followsStore);
+  delete (parentStore);
+  delete (symbolStorage);
+  delete (statementStorage);
+  delete (procedureStorage);
+  delete (structureProvider);
+  delete (entityMappingProvider);
+  delete (predicateFactory);
+}
+

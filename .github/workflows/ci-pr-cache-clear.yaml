@@ -6,16 +6,13 @@ on:
 
 jobs:
   cleanup:
-    runs-on: [self-hosted, Linux]
+    runs-on: [self-hosted, Linux, chore]
     steps:
       - name: Check out code
         uses: actions/checkout@v3
         
       - name: Cleanup Caches
-        run: |
-          sudo apt install gh -y
-          gh extension install actions/gh-actions-cache
-          
+        run: |          
           REPO=${{ github.repository }}
           BRANCH="refs/pull/${{ github.event.pull_request.number }}/merge"
 
