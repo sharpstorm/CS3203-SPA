@@ -9,7 +9,7 @@ env:
 
 jobs:
   build-linux:
-    runs-on: [self-hosted, Linux]
+    runs-on: [self-hosted, Linux, compute]
     timeout-minutes: 30
     strategy:
       fail-fast: true
@@ -58,9 +58,9 @@ jobs:
       - name: Compile SPA
         working-directory: ./Team30/Code30/build
         run: |
-          cmake --build . --target unit_testing --config ${BUILD_TYPE} -j 2
-          cmake --build . --target integration_testing --config ${BUILD_TYPE} -j 2
-          cmake --build . --target autotester --config ${BUILD_TYPE} -j 2
+          cmake --build . --target unit_testing --config ${BUILD_TYPE} -j 4
+          cmake --build . --target integration_testing --config ${BUILD_TYPE} -j 4
+          cmake --build . --target autotester --config ${BUILD_TYPE} -j 4
 
       - name: Show CCache Stats
         run: |

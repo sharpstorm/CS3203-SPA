@@ -11,6 +11,7 @@ class PQLQueryVariable {
   PQLSynonymType type;
   PQL_VAR_NAME name;
   bool isStatementType();
+  bool isEntityType();
   bool isType(PQLSynonymType type);
   bool operator==(const PQLQueryVariable& other) const;
 };
