@@ -7,4 +7,3 @@ QueryLauncher::QueryLauncher(shared_ptr<PkbQueryHandler> pkbQH) {
 PQLQueryResult *QueryLauncher::execute(IEvaluatable *evaluatable) {
   return evaluatable->evaluateOn(pkbQueryHandler);
 }
-
