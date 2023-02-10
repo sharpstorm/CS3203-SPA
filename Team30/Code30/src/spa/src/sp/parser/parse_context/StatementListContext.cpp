@@ -6,10 +6,6 @@
 
 using std::shared_ptr;
 
-bool StatementListContext::validate(SourceParseState *state) {
-  return true;
-}
-
 shared_ptr<ASTNode> StatementListContext::generateSubtree(
     SourceParseState *state) {
   shared_ptr<StatementListNode> node =

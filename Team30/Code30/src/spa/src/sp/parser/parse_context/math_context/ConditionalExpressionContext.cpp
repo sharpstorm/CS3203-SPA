@@ -6,10 +6,6 @@
 
 using std::shared_ptr;
 
-bool ConditionalExpressionContext::validate(SourceParseState *state) {
-  return true;
-}
-
 shared_ptr<ASTNode> ConditionalExpressionContext::generateSubtree(
     SourceParseState *state) {
   shared_ptr<ASTNode> leftNode;

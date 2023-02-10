@@ -6,10 +6,6 @@
 
 using std::shared_ptr;
 
-bool TermContext::validate(SourceParseState *state) {
-  return true;
-}
-
 shared_ptr<ASTNode> TermContext::generateSubtree(SourceParseState *state) {
   if (!state->hasCached()) {
     // Expect term

@@ -13,9 +13,6 @@ class SourceParseContext {
   virtual ~SourceParseContext() = default;
   virtual shared_ptr<ASTNode> generateSubtree(SourceParseState* state) = 0;
 
- private:
-  virtual bool validate(SourceParseState* state) = 0;
-
  protected:
   template<typename... SourceTokenType>
   SourceToken *expect(SourceParseState* parserState,

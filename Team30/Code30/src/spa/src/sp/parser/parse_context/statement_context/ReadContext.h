@@ -10,6 +10,5 @@ class ReadContext : public RecursiveParseContext {
  public:
   explicit ReadContext(IGrammarContextProvider* provider):
       RecursiveParseContext(provider) {}
-  bool validate(SourceParseState* state);
   shared_ptr<ASTNode> generateSubtree(SourceParseState* state);
 };

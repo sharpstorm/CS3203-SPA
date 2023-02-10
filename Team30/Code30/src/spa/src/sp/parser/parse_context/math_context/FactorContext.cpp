@@ -5,10 +5,6 @@
 
 using std::shared_ptr;
 
-bool FactorContext::validate(SourceParseState *state) {
-  return true;
-}
-
 shared_ptr<ASTNode> FactorContext::generateSubtree(SourceParseState *state) {
   shared_ptr<ASTNode> node;
 

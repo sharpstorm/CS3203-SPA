@@ -17,6 +17,3 @@ shared_ptr<ASTNode> ReadContext::generateSubtree(SourceParseState* state) {
   return readNode;
 }
 
-bool ReadContext::validate(SourceParseState* state) {
-  return true;
-}

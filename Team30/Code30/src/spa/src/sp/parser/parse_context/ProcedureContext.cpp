@@ -21,7 +21,3 @@ shared_ptr<ASTNode> ProcedureContext::generateSubtree(SourceParseState* state) {
   state->setCached(procedureNode);
   return procedureNode;
 }
-
-bool ProcedureContext::validate(SourceParseState* state) {
-  return true;
-}

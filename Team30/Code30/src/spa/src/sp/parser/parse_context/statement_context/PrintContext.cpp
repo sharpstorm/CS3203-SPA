@@ -16,7 +16,3 @@ shared_ptr<ASTNode> PrintContext::generateSubtree(SourceParseState* state) {
   printNode->lineNumber = state->getLineNumber();
   return printNode;
 }
-
-bool PrintContext::validate(SourceParseState* state) {
-  return true;
-}

@@ -19,7 +19,3 @@ shared_ptr<ASTNode> AssignContext::generateSubtree(SourceParseState* state) {
   state->setCached(assignNode);
   return assignNode;
 }
-
-bool AssignContext::validate(SourceParseState* state) {
-  return true;
-}

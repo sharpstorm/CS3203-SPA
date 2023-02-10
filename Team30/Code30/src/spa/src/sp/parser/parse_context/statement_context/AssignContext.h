@@ -10,6 +10,5 @@ class AssignContext : public RecursiveParseContext {
  public:
   explicit AssignContext(IGrammarContextProvider* provider):
       RecursiveParseContext(provider) {}
-  bool validate(SourceParseState* state);
   shared_ptr<ASTNode> generateSubtree(SourceParseState* state);
 };

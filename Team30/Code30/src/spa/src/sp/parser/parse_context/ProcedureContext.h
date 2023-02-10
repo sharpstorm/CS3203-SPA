@@ -10,6 +10,5 @@ class ProcedureContext : public RecursiveParseContext {
  public:
   explicit ProcedureContext(IGrammarContextProvider* provider):
       RecursiveParseContext(provider) {}
-  bool validate(SourceParseState* state);
   shared_ptr<ASTNode> generateSubtree(SourceParseState* state);
 };

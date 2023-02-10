@@ -12,7 +12,6 @@ class ExpressionContext: public RecursiveParseContext {
  public:
   explicit ExpressionContext(IGrammarContextProvider* provider):
       RecursiveParseContext(provider) {}
-  bool validate(SourceParseState* state);
   shared_ptr<ASTNode> generateSubtree(SourceParseState* state);
 
  private:

@@ -10,6 +10,5 @@ class PrintContext : public RecursiveParseContext {
  public:
   explicit PrintContext(IGrammarContextProvider* provider):
       RecursiveParseContext(provider) {}
-  bool validate(SourceParseState* state);
   shared_ptr<ASTNode> generateSubtree(SourceParseState* state);
 };

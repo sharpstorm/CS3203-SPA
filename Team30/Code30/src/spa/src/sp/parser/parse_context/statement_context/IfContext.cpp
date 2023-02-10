@@ -32,6 +32,3 @@ shared_ptr<ASTNode> IfContext::generateSubtree(SourceParseState* state) {
   return ifNode;
 }
 
-bool IfContext::validate(SourceParseState* state) {
-  return true;
-}

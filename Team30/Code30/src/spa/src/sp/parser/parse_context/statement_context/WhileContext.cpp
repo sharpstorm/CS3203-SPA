@@ -23,7 +23,3 @@ shared_ptr<ASTNode> WhileContext::generateSubtree(SourceParseState* state) {
   state->setCached(whileNode);
   return whileNode;
 }
-
-bool WhileContext::validate(SourceParseState* state) {
-  return true;
-}

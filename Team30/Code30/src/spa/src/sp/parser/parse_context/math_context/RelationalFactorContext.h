@@ -10,6 +10,5 @@ class RelationalFactorContext: public RecursiveParseContext {
  public:
   explicit RelationalFactorContext(IGrammarContextProvider* provider):
       RecursiveParseContext(provider) {}
-  bool validate(SourceParseState* state);
   shared_ptr<ASTNode> generateSubtree(SourceParseState* state);
 };

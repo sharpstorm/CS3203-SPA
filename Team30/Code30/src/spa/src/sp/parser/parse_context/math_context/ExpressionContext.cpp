@@ -3,10 +3,6 @@
 
 using std::shared_ptr;
 
-bool ExpressionContext::validate(SourceParseState *state) {
-  return true;
-}
-
 shared_ptr<ASTNode> ExpressionContext::generateSubtree(
     SourceParseState *state) {
 

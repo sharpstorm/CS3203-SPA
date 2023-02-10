@@ -4,10 +4,6 @@
 
 using std::shared_ptr;
 
-bool RelationalExpressionContext::validate(SourceParseState *state) {
-  return true;
-}
-
 shared_ptr<ASTNode>
 RelationalExpressionContext::generateSubtree(SourceParseState *state) {
   shared_ptr<ASTNode> leftNode = contextProvider->
