@@ -20,7 +20,7 @@ env:
 jobs:
   valgrind-check:
     name: Run Valgrind
-    runs-on: [self-hosted, Linux]
+    runs-on: [self-hosted, Linux, compute]
 
     steps:
       - name: Checkout Git Repo

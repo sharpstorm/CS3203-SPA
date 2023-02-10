@@ -6,7 +6,7 @@ on:
 
 jobs:
   cleanup:
-    runs-on: [self-hosted, Linux]
+    runs-on: [self-hosted, Linux, chore]
     steps:
       - name: Check out code
         uses: actions/checkout@v3
