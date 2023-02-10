@@ -31,7 +31,7 @@ class PkbWriterStub : public PkbWriter {
     followsWriterStub = writer;
   }
 
-  void addFollows(int arg1, int arg2) {
+  void addFollows(int arg1, int arg2) override {
     followsWriterStub.addFollows(arg1, arg2);
   }
 };
@@ -72,7 +72,8 @@ TEST_CASE("FollowsExtractor simpleStmtLst") {
 
   extractor->visit(*simple);
 
-  /*REQUIRE(table->get(1) == unordered_set<int>({2}));
+  REQUIRE(table->get(1) == unordered_set<int>({2}));
   REQUIRE(reverseTable->get(2) == unordered_set<int>({1}));
-  REQUIRE(table->get(2) == unordered_set<int>({3}));*/
+  REQUIRE(table->get(2) == unordered_set<int>({3}));
+  REQUIRE(reverseTable->get(3) == unordered_set<int>({2}));
 }
