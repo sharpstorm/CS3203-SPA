@@ -20,7 +20,7 @@
 using std::make_shared;
 using std::unordered_set;
 
-class PkbWriterStub : public PkbWriter {
+class PkbWriterStubParent : public PkbWriter {
  public:
   FollowsWriter followsWriterStub;
   ParentWriter parentWriterStub;
@@ -28,7 +28,7 @@ class PkbWriterStub : public PkbWriter {
   StatementWriter statementWriterStub;
   ProcedureWriter procedureWriterStub;
 
-  PkbWriterStub(PKB* pkb, ParentWriter writer)
+  PkbWriterStubParent(PKB* pkb, ParentWriter writer)
       : PkbWriter(pkb),
         followsWriterStub(pkb->followsStore),
         parentWriterStub(pkb->parentStore),
@@ -62,7 +62,8 @@ shared_ptr<IfNode> simplyIf() {
       shared_ptr<StatementASTNode>(new AssignNode());
 
   shared_ptr<ConditionalExpressionASTNode> condition =
-      shared_ptr<ConditionalExpressionASTNode>();
+      shared_ptr<ConditionalExpressionASTNode>(
+          new ConditionalExpressionASTNode());
 
   simpleIf->lineNumber = 1;
   first->lineNumber = 2;
@@ -113,27 +114,45 @@ shared_ptr<WhileNode> simplyWhile() {
   return simpleWhile;
 }
 
-// TEST_CASE("ParentExtractor simple If") {
-//  shared_ptr<IfNode> simple = simplyIf();
-//
-//  auto table = make_shared<ContiguousTable<int>>();
-//  auto reverseTable = make_shared<ContiguousTable<int>>();
-//  auto store = new ParentStorage(table, reverseTable);
-//  ParentWriter writerAccessible = ParentWriter(store);
-//  PKB* pkb = new PKB();
-//
-//  PkbWriterStub writer = PkbWriterStub(pkb, writerAccessible);
-//
-//  ParentExtractor* extractor = new ParentExtractor(&writer);
-//
-//  extractor->visit(*simple);
-//
-//  REQUIRE(table->get(1) == unordered_set<int>({2}));
-//  REQUIRE(reverseTable->get(2) == unordered_set<int>({1}));
-//  REQUIRE(table->get(1) == unordered_set<int>({3}));
-//  REQUIRE(reverseTable->get(3) == unordered_set<int>({1}));
-//  REQUIRE(table->get(1) == unordered_set<int>({4}));
-//  REQUIRE(reverseTable->get(4) == unordered_set<int>({1}));
-//}
+TEST_CASE("ParentExtractor simple If") {
+  shared_ptr<IfNode> simpleIf = simplyIf();
 
-// TEST_CASE("ParentExtractor simple While") {}
+  auto table = make_shared<ContiguousTable<int>>();
+  auto reverseTable = make_shared<ContiguousTable<int>>();
+  auto store = new ParentStorage(table, reverseTable);
+  ParentWriter writerAccessible = ParentWriter(store);
+  PKB* pkb = new PKB();
+
+  PkbWriterStubParent writer = PkbWriterStubParent(pkb, writerAccessible);
+
+  ParentExtractor* extractor = new ParentExtractor(&writer);
+
+  extractor->visit(*simpleIf);
+
+  REQUIRE(table->get(1) == unordered_set<int>({2, 3, 4, 5}));
+  REQUIRE(reverseTable->get(2) == unordered_set<int>({1}));
+  REQUIRE(reverseTable->get(3) == unordered_set<int>({1}));
+  REQUIRE(reverseTable->get(4) == unordered_set<int>({1}));
+  REQUIRE(reverseTable->get(5) == unordered_set<int>({1}));
+}
+
+TEST_CASE("ParentExtractor simple While") {
+  shared_ptr<WhileNode> simpleWhile = simplyWhile();
+
+  auto table = make_shared<ContiguousTable<int>>();
+  auto reverseTable = make_shared<ContiguousTable<int>>();
+  auto store = new ParentStorage(table, reverseTable);
+  ParentWriter writerAccessible = ParentWriter(store);
+  PKB* pkb = new PKB();
+
+  PkbWriterStubParent writer = PkbWriterStubParent(pkb, writerAccessible);
+
+  ParentExtractor* extractor = new ParentExtractor(&writer);
+
+  extractor->visit(*simpleWhile);
+
+  REQUIRE(table->get(1) == unordered_set<int>({2, 3, 4}));
+  REQUIRE(reverseTable->get(2) == unordered_set<int>({1}));
+  REQUIRE(reverseTable->get(3) == unordered_set<int>({1}));
+  REQUIRE(reverseTable->get(4) == unordered_set<int>({1}));
+}
