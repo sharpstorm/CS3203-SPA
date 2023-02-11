@@ -12,7 +12,7 @@ using std::pair;
 
 class IStructureMappingProvider {
  public:
-  virtual ~IStructureMappingProvider() {};
+  virtual ~IStructureMappingProvider() {}
   virtual StmtType getStatementType(int) const = 0;
   virtual bool isStatementOfType(int, StmtType) const = 0;
   virtual unordered_set<int> getStatementsOfType(StmtType) const = 0;

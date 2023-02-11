@@ -9,7 +9,7 @@ using std::unordered_set;
 
 class IDesignEntitiesQueryHandler {
  public:
-  virtual ~IDesignEntitiesQueryHandler() {};
+  virtual ~IDesignEntitiesQueryHandler() {}
   virtual unordered_set<string> getSymbolsOfType(EntityType) const = 0;
   virtual unordered_set<int> getStatementsOfType(StmtType) const = 0;
 };

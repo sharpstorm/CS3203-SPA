@@ -15,5 +15,5 @@ class IPkbQueryHandler
       public IParentQueryHandler,
       public IDesignEntitiesQueryHandler {
  public:
-  virtual ~IPkbQueryHandler() {};
+  virtual ~IPkbQueryHandler() {}
 };

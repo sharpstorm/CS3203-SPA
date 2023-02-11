@@ -17,5 +17,5 @@ class IPkbWriter
       public ISymbolWriter,
       public IProcedureWriter {
  public:
-  virtual ~IPkbWriter() {};
+  virtual ~IPkbWriter() {}
 };
