@@ -6,7 +6,7 @@
 using std::vector;
 
 template<typename V>
-class ContiguousTable {
+class ContiguousTable : public BaseTable<int, V> {
  protected:
   vector<V> table;
   void resizeIfExceed(int key) {
@@ -18,12 +18,12 @@ class ContiguousTable {
  public:
   explicit ContiguousTable(int size = 1) : table(size) {}
 
-  void set(int key, V value) {
+  void set(int key, V value) override {
     resizeIfExceed(key);
     table[key] = value;
   }
 
-  V get(int key) const {
+  V get(int key) const override {
     if (key < table.size()) {
       return table.at(key);
     }

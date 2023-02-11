@@ -11,7 +11,7 @@
 #include "pkb/storage/StructureMappingProvider.h"
 #include "pkb/storage/TransitiveRelationTableManager.h"
 #include "pkb/storage/tables/ContiguousSetTable.h"
-#include "pkb/storage/tables/HashKeyTable.h"
+#include "pkb/storage/tables/HashKeySetTable.h"
 
 using std::make_pair;
 using std::make_shared;

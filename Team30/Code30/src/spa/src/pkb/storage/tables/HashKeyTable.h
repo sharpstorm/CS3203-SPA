@@ -1,25 +1,27 @@
 #pragma once
 
 #include <unordered_map>
-#include <unordered_set>
-
 #include "BaseTable.h"
 
-template <typename K, typename V>
+using std::unordered_map;
+
+template<typename K, typename V>
 class HashKeyTable : public BaseTable<K, V> {
- private:
-  std::unordered_map<K, std::unordered_set<V>> table;
+ protected:
+  unordered_map<K, V> table;
 
  public:
   HashKeyTable() : table() {}
 
-  void set(K key, V value) override { table[key].insert(value); }
+  void set(K key, V value) override {
+    table[key] = value;
+  }
 
-  std::unordered_set<V> get(K key) const override {
+  V get(K key) const override {
     auto iter = table.find(key);
     if (iter != table.end()) {
       return iter->second;
     }
-    return {};
+    return V();
   }
 };

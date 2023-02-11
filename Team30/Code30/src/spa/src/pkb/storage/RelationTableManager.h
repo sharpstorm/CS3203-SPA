@@ -5,7 +5,7 @@
 
 #include "../../common/Types.h"
 #include "../predicates/Predicate.h"
-#include "tables/BaseTable.h"
+#include "tables/BaseSetTable.h"
 
 using std::shared_ptr;
 using std::unordered_set;
@@ -15,15 +15,15 @@ using std::unordered_set;
  * respectively. Stores mapping of K -> Set<V> and V-> Set<K>. Provides insert
  * and query functionalities.
  */
-template <typename K, typename V>
+template<typename K, typename V>
 class RelationTableManager {
  protected:
-  shared_ptr<BaseTable<K, V>> table;         // maps K -> set<V>
-  shared_ptr<BaseTable<V, K>> reverseTable;  // maps V -> set<K>
+  shared_ptr<BaseSetTable<K, V>> table;         // maps K -> set<V>
+  shared_ptr<BaseSetTable<V, K>> reverseTable;  // maps V -> set<K>
 
  public:
-  RelationTableManager(shared_ptr<BaseTable<K, V>> table,
-                       shared_ptr<BaseTable<V, K>> reverseTable)
+  RelationTableManager(shared_ptr<BaseSetTable<K, V>> table,
+                       shared_ptr<BaseSetTable<V, K>> reverseTable)
       : table(table), reverseTable(reverseTable) {}
 
   void insert(K arg1, V arg2) {

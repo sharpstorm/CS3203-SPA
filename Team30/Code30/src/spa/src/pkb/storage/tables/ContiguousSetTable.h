@@ -1,13 +1,13 @@
 #pragma once
 
 #include <unordered_set>
-#include "BaseTable.h"
+#include "BaseSetTable.h"
 #include "ContiguousTable.h"
 
 using std::unordered_set;
 
 template<typename V>
-class ContiguousSetTable : public BaseTable<int, V>,
+class ContiguousSetTable : public BaseSetTable<int, V>,
                            public ContiguousTable<unordered_set<V>> {
  public:
   explicit ContiguousSetTable(int size = 1) : ContiguousTable<unordered_set<V>>(
