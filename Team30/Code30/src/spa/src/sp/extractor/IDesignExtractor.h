@@ -1,6 +1,6 @@
 #pragma once
 
-#include "sp/common/AST.h"
+#include "common/AST.h"
 class ISp {
  public:
   virtual void extractRelations(AST ast) = 0;

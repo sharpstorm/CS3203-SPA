@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "sp/common/AST.h"
+#include "common/AST.h"
 
 using std::string;
 
