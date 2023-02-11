@@ -24,7 +24,7 @@ struct EntityRef {
   EntityType type;
   string name;
   bool isKnown() {
-    return name.empty();
+    return !name.empty();
   }
 };
 
