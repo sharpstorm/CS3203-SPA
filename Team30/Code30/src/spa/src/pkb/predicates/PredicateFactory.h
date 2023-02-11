@@ -1,15 +1,22 @@
 #pragma once
 
+#include "Predicate.h"
+#include <string>
 #include "../../common/Types.h"
 #include "../storage/StructureMappingProvider.h"
-#include "Predicate.h"
+#include "../storage/EntityMappingProvider.h"
+
+using std::string;
 
 class PredicateFactory {
  private:
-  const StructureMappingProvider* provider;
+  const IStructureMappingProvider *structureProvider;
+  const IEntityMappingProvider *entityProvider;
 
  public:
-  explicit PredicateFactory(const StructureMappingProvider* p);
+  explicit PredicateFactory(const IStructureMappingProvider *,
+                            const IEntityMappingProvider *);
 
-  Predicate<int> getPredicate(StmtRef stmtRef) const;
+  Predicate<int> getPredicate(StmtRef) const;
+  Predicate<string> getPredicate(EntityRef) const;
 };

@@ -1,6 +1,6 @@
 #include "PkbWriter.h"
 
-PkbWriter::PkbWriter(PKB* pkb)
+PkbWriter::PkbWriter(PKB *pkb)
     : followsWriter(pkb->followsStore),
       parentWriter(pkb->parentStore),
       symbolWriter(pkb->symbolStorage),
@@ -15,12 +15,12 @@ void PkbWriter::addParent(int arg1, int arg2) {
   parentWriter.addParent(arg1, arg2);
 }
 
-void PkbWriter::addSymbol(const std::string& entityName,
+void PkbWriter::addSymbol(string entityName,
                           EntityType entityType) {
   symbolWriter.addSymbol(entityName, entityType);
 }
 
-void PkbWriter::addProcedure(const std::string& procedureName, int startLineNum,
+void PkbWriter::addProcedure(string procedureName, int startLineNum,
                              int endLineNum) {
   procedureWriter.addProcedure(procedureName, startLineNum, endLineNum);
 }

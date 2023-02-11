@@ -1,14 +1,15 @@
 #pragma once
 
 #include <string>
+#include "common/Types.h"
+#include "pkb/storage/StatementStorage.h"
+#include "pkb/writers/interfaces/IStatementWriter.h"
 
-#include "../../common/Types.h"
-#include "../storage/StatementStorage.h"
-class StatementWriter {
+class StatementWriter : public IStatementWriter {
  public:
-  explicit StatementWriter(StatementStorage* statementStorage);
-  void addStatement(int, StmtType);
+  explicit StatementWriter(StatementStorage *statementStorage);
+  void addStatement(int, StmtType) override;
 
  private:
-  StatementStorage* statementStorage;
+  StatementStorage *statementStorage;
 };

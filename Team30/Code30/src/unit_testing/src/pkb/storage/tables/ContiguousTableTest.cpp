@@ -1,5 +1,6 @@
 #include <string>
 #include <unordered_set>
+#include <memory>
 
 #include "catch.hpp"
 #include "pkb/storage/tables/ContiguousTable.h"
@@ -21,11 +22,4 @@ TEST_CASE("ContinuousTable get unset key") {
   ContiguousTable<string> table;
 
   REQUIRE(table.get(1) == unordered_set<string>{});
-}
-
-TEST_CASE("ContinuousTable ptr") {
-  ContiguousTable<string>* table = new ContiguousTable<string>;
-
-  table->set(3, "a");
-  REQUIRE(table->get(3) == unordered_set<string>{"a"});
 }

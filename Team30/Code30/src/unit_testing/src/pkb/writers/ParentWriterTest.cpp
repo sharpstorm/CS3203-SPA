@@ -6,13 +6,14 @@
 #include "pkb/writers/ParentWriter.h"
 
 using std::make_shared;
+using std::make_unique;
 using std::unordered_set;
 
 TEST_CASE("ParentWriter addParent") {
   auto table = make_shared<ContiguousTable<int>>();
   auto reverseTable = make_shared<ContiguousTable<int>>();
-  auto store = new ParentStorage(table, reverseTable);
-  ParentWriter writer = ParentWriter(store);
+  auto store = make_unique<ParentStorage>(table, reverseTable);
+  auto writer = ParentWriter(store.get());
 
   writer.addParent(1, 3);
   writer.addParent(3, 4);

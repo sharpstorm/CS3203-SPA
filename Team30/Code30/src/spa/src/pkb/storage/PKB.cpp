@@ -17,15 +17,16 @@ PKB::PKB()
       structureProvider(
           new StructureMappingProvider(statementStorage, procedureStorage)),
       entityMappingProvider(new EntityMappingProvider(symbolStorage)),
-      predicateFactory(new PredicateFactory(structureProvider)) {}
-
+      predicateFactory(new PredicateFactory(structureProvider,
+                                            entityMappingProvider)) {}
 PKB::~PKB() {
-  delete(followsStore);
-  delete(parentStore);
-  delete(symbolStorage);
-  delete(statementStorage);
-  delete(procedureStorage);
-  delete(structureProvider);
-  delete(entityMappingProvider);
-  delete(predicateFactory);
+  delete (followsStore);
+  delete (parentStore);
+  delete (symbolStorage);
+  delete (statementStorage);
+  delete (procedureStorage);
+  delete (structureProvider);
+  delete (entityMappingProvider);
+  delete (predicateFactory);
 }
+

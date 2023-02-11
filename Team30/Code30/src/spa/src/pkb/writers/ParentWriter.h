@@ -1,13 +1,14 @@
 #pragma once
 
-#include "../storage/StorageTypes.h"
+#include "pkb/storage/StorageTypes.h"
+#include "pkb/writers/interfaces/IParentWriter.h"
 
-class ParentWriter {
+class ParentWriter : public IParentWriter {
  public:
-  explicit ParentWriter(ParentStorage* parentStore);
+  explicit ParentWriter(ParentStorage *parentStore);
 
-  void addParent(int arg1, int arg2);
+  void addParent(int arg1, int arg2) override;
 
  private:
-  ParentStorage* store;
+  ParentStorage *store;
 };

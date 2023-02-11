@@ -2,13 +2,17 @@
 
 #include <string>
 
-#include "../../common/Types.h"
-#include "../storage/SymbolStorage.h"
-class SymbolWriter {
+#include "common/Types.h"
+#include "pkb/storage/SymbolStorage.h"
+#include "pkb/writers/interfaces/ISymbolWriter.h"
+
+using std::string;
+
+class SymbolWriter : public ISymbolWriter {
  public:
-  explicit SymbolWriter(SymbolStorage* symbolStorage);
-  void addSymbol(const std::string&, EntityType);
+  explicit SymbolWriter(SymbolStorage *symbolStorage);
+  void addSymbol(string, EntityType) override;
 
  private:
-  SymbolStorage* symbolStorage;
+  SymbolStorage *symbolStorage;
 };
