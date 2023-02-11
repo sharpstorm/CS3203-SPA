@@ -26,7 +26,7 @@ StatementResult buildStatementResult() {
 EntityResult buildEntityResult() {
   EntityResult result;
   result.isLeftArg = true;
-  result.enitityPairs = ENTITY_PAIRS;
+  result.entityPairs = ENTITY_PAIRS;
   result.lines = ENTITY_LINES;
   result.entities = ENTITIES;
   return result;

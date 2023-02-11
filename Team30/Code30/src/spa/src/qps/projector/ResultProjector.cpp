@@ -46,8 +46,8 @@ UniqueVectorPtr<string> ResultProjector::projectEntities(ENTITY_MAP entityMap) {
   vector<string>* result = new vector<string>();
   for (auto it= entityMap.begin(); it != entityMap.end(); ++it)  {
     EntityResult entityResult = it->second;
-    if (!entityResult.enitityPairs.empty()) {
-      for (auto &entity : entityResult.enitityPairs) {
+    if (!entityResult.entityPairs.empty()) {
+      for (auto &entity : entityResult.entityPairs) {
         result->push_back(entityResult.isLeftArg ?
                           to_string(entity.first) : entity.second);
       }

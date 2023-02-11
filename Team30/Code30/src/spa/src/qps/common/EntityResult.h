@@ -10,7 +10,7 @@ class EntityResult {
  public:
   unordered_set<int> lines;
   unordered_set<string> entities;
-  pair_set<int, string> enitityPairs;
+  pair_set<int, string> entityPairs;
   bool isLeftArg;
   bool isEmpty();
   bool operator ==(EntityResult er) const;

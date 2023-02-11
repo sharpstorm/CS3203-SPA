@@ -20,5 +20,4 @@ class QueryOrchestrator {
  public:
   explicit QueryOrchestrator(QueryLauncher launcher);
   PQLQueryResult* execute(PQLQuery* query, QueryPlan* plan);
-
 };

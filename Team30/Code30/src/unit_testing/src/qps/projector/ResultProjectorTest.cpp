@@ -30,7 +30,7 @@ StatementResult buildStatementResult(bool leftArg) {
 EntityResult buildEntityResult(bool leftArg) {
   EntityResult result;
   result.isLeftArg = leftArg;
-  result.enitityPairs = pair_set<int, string>({ {1, "x"}, {1, "y"}});
+  result.entityPairs = pair_set<int, string>({{1, "x"}, {1, "y"}});
   result.lines = unordered_set<int>({1, 2});
   result.entities = unordered_set<string>({"x", "y"});
   return result;
