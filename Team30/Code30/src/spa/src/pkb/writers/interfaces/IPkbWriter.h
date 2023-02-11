@@ -16,4 +16,6 @@ class IPkbWriter
       public IStatementWriter,
       public ISymbolWriter,
       public IProcedureWriter {
+ public:
+  virtual ~IPkbWriter() {};
 };

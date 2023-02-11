@@ -5,5 +5,6 @@
 
 class IStatementWriter {
  public:
+  virtual ~IStatementWriter() {};
   virtual void addStatement(int, StmtType) = 0;
 };
