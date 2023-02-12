@@ -45,3 +45,5 @@ void PkbWriter::addStatement(int lineNumber, StmtType stmtType) {
 void PkbWriter::addUses(int stmtNum, string variable) {}
 
 void PkbWriter::addModifies(int stmtNum, string variable) {}
+
+void PkbWriter::addContainerStmt(int start, int end) {}
