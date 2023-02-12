@@ -9,7 +9,7 @@ VariableParseContext::VariableParseContext() = default;
 
 shared_ptr<ASTNode>
 VariableParseContext::generateSubtree(SourceParseState* state) {
-  SourceToken* token = expect(state, SIMPLE_TOKEN_VARIABLE);
+  SourceToken* token = expectVarchar(state);
   string value = token->getValue();
   shared_ptr<ASTNode> newNode =
       shared_ptr<ASTNode>(new VariableASTNode(value));
