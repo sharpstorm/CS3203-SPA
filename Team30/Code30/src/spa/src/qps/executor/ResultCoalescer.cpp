@@ -4,7 +4,9 @@ PQLQueryResult *ResultCoalescer::merge(PQLQueryResult *setA,
                                        PQLQueryResult *setB) {
   if (setA == nullptr) {
     return setB;
-  } else if (setB == nullptr) {
+  }
+
+  if (setB == nullptr) {
     return setA;
   }
 
@@ -27,10 +29,11 @@ bool ResultCoalescer::mergeStaticResult(PQLQueryResult *setA,
 string ResultCoalescer::mergeError(PQLQueryResult *setA,
                                    PQLQueryResult *setB) {
   string error = "";
-  if (setA->getError() != "") {
+  if (!setA->getError().empty()) {
     error += setA->getError() + " ";
   }
-  if (setB->getError() != "") {
+
+  if (!setB->getError().empty()) {
     error += setB->getError() + " ";
   }
 

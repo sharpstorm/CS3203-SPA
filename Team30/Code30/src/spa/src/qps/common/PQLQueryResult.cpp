@@ -1,13 +1,5 @@
 #include "PQLQueryResult.h"
 
-bool StatementResult::isEmpty() {
-  return lines.empty() && linePairs.empty();
-}
-
-bool EntityResult::isEmpty() {
-  return lines.empty() && entities.empty() && enitityPairs.empty();
-}
-
 PQLQueryResult::PQLQueryResult():
     isStaticFalse(false), error("") {}
 
@@ -83,6 +75,7 @@ PQLQueryResult* PQLQueryResult::filterResultTo(PQLQueryVariable queryVar) {
   PQLQueryResult* queryResult = new PQLQueryResult();
 
   if (isStaticFalse) {
+    queryResult->setIsStaticFalse(isStaticFalse);
     return queryResult;
   }
 
@@ -101,4 +94,12 @@ PQLQueryResult* PQLQueryResult::filterResultTo(PQLQueryVariable queryVar) {
   queryResult->setError(getError());
 
   return queryResult;
+}
+bool PQLQueryResult::operator==(PQLQueryResult pqr) const {
+  bool statementMapEqual = statementMap == pqr.getStatementMap();
+  bool entityMapEqual = entityMap == pqr.getEntityMap();
+  bool errorEqual = error == pqr.getError();
+  bool isStaticFalseEqual = isStaticFalse == pqr.getIsStaticFalse();
+  return statementMapEqual && entityMapEqual && errorEqual &&
+      isStaticFalseEqual;
 }
