@@ -1,12 +1,12 @@
 #pragma once
 
 #include <unordered_map>
-#include "BaseTable.h"
+#include "IBaseTable.h"
 
 using std::unordered_map;
 
 template<typename K, typename V>
-class HashKeyTable : public BaseTable<K, V> {
+class HashKeyTable : public IBaseTable<K, V> {
  protected:
   unordered_map<K, V> table;
 

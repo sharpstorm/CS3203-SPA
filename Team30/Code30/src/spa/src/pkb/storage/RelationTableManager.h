@@ -5,7 +5,7 @@
 
 #include "../../common/Types.h"
 #include "../predicates/Predicate.h"
-#include "tables/BaseSetTable.h"
+#include "tables/IBaseSetTable.h"
 
 using std::shared_ptr;
 using std::unordered_set;
@@ -18,12 +18,12 @@ using std::unordered_set;
 template<typename K, typename V>
 class RelationTableManager {
  protected:
-  shared_ptr<BaseSetTable<K, V>> table;         // maps K -> set<V>
-  shared_ptr<BaseSetTable<V, K>> reverseTable;  // maps V -> set<K>
+  shared_ptr<IBaseSetTable<K, V>> table;         // maps K -> set<V>
+  shared_ptr<IBaseSetTable<V, K>> reverseTable;  // maps V -> set<K>
 
  public:
-  RelationTableManager(shared_ptr<BaseSetTable<K, V>> table,
-                       shared_ptr<BaseSetTable<V, K>> reverseTable)
+  RelationTableManager(shared_ptr<IBaseSetTable<K, V>> table,
+                       shared_ptr<IBaseSetTable<V, K>> reverseTable)
       : table(table), reverseTable(reverseTable) {}
 
   void insert(K arg1, V arg2) {

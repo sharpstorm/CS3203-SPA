@@ -1,12 +1,12 @@
 #pragma once
 
 #include <vector>
-#include "BaseTable.h"
+#include "IBaseTable.h"
 
 using std::vector;
 
 template<typename V>
-class ContiguousTable : public BaseTable<int, V> {
+class ContiguousTable : public IBaseTable<int, V> {
  protected:
   vector<V> table;
   void resizeIfExceed(int key) {
