@@ -237,14 +237,14 @@ TEST_CASE("Test PQL Modifies valid synonym types") {
 }
 
 TEST_CASE("Test PQL Modifies invalid left synonym types") {
-  auto validTypes = vector<PQLSynonymType>{
+  auto invalidTypes = vector<PQLSynonymType>{
       PQL_VAR_TYPE_VARIABLE,
       PQL_VAR_TYPE_CONSTANT,
       PQL_VAR_TYPE_STMT,
       PQL_VAR_TYPE_PRINT
   };
 
-  for (PQLSynonymType type : validTypes) {
+  for (PQLSynonymType type : invalidTypes) {
     auto synonymMap = unordered_map<string, PQLSynonymType>{
         {"s1", type},
         {"v", PQL_VAR_TYPE_VARIABLE}
@@ -265,7 +265,7 @@ TEST_CASE("Test PQL Modifies invalid left synonym types") {
 }
 
 TEST_CASE("Test PQL Modifies invalid right synonym types") {
-  auto validTypes = vector<PQLSynonymType>{
+  auto invalidTypes = vector<PQLSynonymType>{
       PQL_VAR_TYPE_CONSTANT,
       PQL_VAR_TYPE_PROCEDURE,
       PQL_VAR_TYPE_STMT,
@@ -277,7 +277,7 @@ TEST_CASE("Test PQL Modifies invalid right synonym types") {
       PQL_VAR_TYPE_ASSIGN
   };
 
-  for (PQLSynonymType type : validTypes) {
+  for (PQLSynonymType type : invalidTypes) {
     auto synonymMap = unordered_map<string, PQLSynonymType>{
         {"v", type}
     };

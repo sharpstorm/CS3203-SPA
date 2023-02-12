@@ -6,6 +6,7 @@
 #include "qps/parser/token_parser/context/pattern_clause/PQLAssignPatternClauseContext.h"
 #include "qps/errors/QPSParserError.h"
 #include "qps/clauses/AssignPatternClause.h"
+#include "qps/parser/builder/QueryBuilderError.h"
 
 using std::make_unique, std::unordered_map;
 
@@ -199,3 +200,71 @@ TEST_CASE("Test PQL Assign Pattern bad syntax") {
   ), QPSParserError);
 }
 
+TEST_CASE("Test PQL Assign Pattern invalid arg0 synonym types") {
+  auto invalidTypes = vector<PQLSynonymType>{
+      PQL_VAR_TYPE_VARIABLE,
+      PQL_VAR_TYPE_CONSTANT,
+      PQL_VAR_TYPE_PROCEDURE,
+      PQL_VAR_TYPE_STMT,
+      PQL_VAR_TYPE_READ,
+      PQL_VAR_TYPE_PRINT,
+      PQL_VAR_TYPE_CALL,
+      PQL_VAR_TYPE_WHILE,
+      PQL_VAR_TYPE_IF
+  };
+
+  for (PQLSynonymType type : invalidTypes) {
+    auto synonymMap = unordered_map<string, PQLSynonymType>{
+        {"a", type}
+    };
+
+    REQUIRE_THROWS_AS(
+        testAssignPatternParsing(
+            make_unique<PQLTestTokenSequenceBuilder>()
+                ->synonym("a")
+                ->openBracket()
+                ->wildcard()
+                ->comma()
+                ->wildcard()
+                ->closeBracket()
+                ->build()
+            , synonymMap),
+        QPSParserError
+    );
+  }
+}
+
+TEST_CASE("Test PQL Assign Pattern invalid arg1 synonym types") {
+  auto invalidTypes = vector<PQLSynonymType>{
+      PQL_VAR_TYPE_ASSIGN,
+      PQL_VAR_TYPE_CONSTANT,
+      PQL_VAR_TYPE_PROCEDURE,
+      PQL_VAR_TYPE_STMT,
+      PQL_VAR_TYPE_READ,
+      PQL_VAR_TYPE_PRINT,
+      PQL_VAR_TYPE_CALL,
+      PQL_VAR_TYPE_WHILE,
+      PQL_VAR_TYPE_IF
+  };
+
+  for (PQLSynonymType type : invalidTypes) {
+    auto synonymMap = unordered_map<string, PQLSynonymType>{
+        {"a", PQL_VAR_TYPE_ASSIGN},
+        {"v", type}
+    };
+
+    REQUIRE_THROWS_AS(
+        testAssignPatternParsing(
+            make_unique<PQLTestTokenSequenceBuilder>()
+                ->synonym("a")
+                ->openBracket()
+                ->synonym("v")
+                ->comma()
+                ->wildcard()
+                ->closeBracket()
+                ->build()
+            , synonymMap),
+        QueryBuilderError
+    );
+  }
+}

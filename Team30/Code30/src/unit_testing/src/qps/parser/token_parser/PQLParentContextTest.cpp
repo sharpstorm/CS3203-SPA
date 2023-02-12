@@ -225,13 +225,13 @@ TEST_CASE("Test PQL Parent valid synonym types") {
 }
 
 TEST_CASE("Test PQL Parent invalid synonym types") {
-  auto validTypes = vector<PQLSynonymType>{
+  auto invalidTypes = vector<PQLSynonymType>{
       PQL_VAR_TYPE_VARIABLE,
       PQL_VAR_TYPE_CONSTANT,
       PQL_VAR_TYPE_PROCEDURE
   };
 
-  for (PQLSynonymType type : validTypes) {
+  for (PQLSynonymType type : invalidTypes) {
     auto synonymMap = unordered_map<string, PQLSynonymType>{
         {"s1", type},
         {"s2", type}
