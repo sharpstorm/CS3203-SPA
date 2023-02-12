@@ -35,7 +35,7 @@ PQLQueryResult* SelectClause::evaluateOn(
 }
 
 bool SelectClause::validateArgTypes(VariableTable *variables) {
-  return target.type != PQL_VAR_TYPE_PROCEDURE;
+  return target.type != PQL_SYN_TYPE_PROCEDURE;
 }
 
 bool SelectClause::usesSynonym(string varName) {

@@ -15,7 +15,7 @@ void PQLAssignPatternClauseContext::parse(QueryTokenParseState *parserState) {
   if (synonymVar == nullptr) {
     throw QPSParserError(QPS_PARSER_ERR_UNKNOWN_TOKEN);
   }
-  if (!synonymVar->isType(PQL_VAR_TYPE_ASSIGN)) {
+  if (!synonymVar->isType(PQL_SYN_TYPE_ASSIGN)) {
     throw QPSParserError(QPS_PARSER_ERR_PATTERN_TYPE);
   }
 

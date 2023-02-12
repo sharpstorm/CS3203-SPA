@@ -4,5 +4,5 @@
 
 class PQLStmtContext: public PQLDeclarationContext {
  public:
-  PQLStmtContext(): PQLDeclarationContext(PQL_VAR_TYPE_STMT) {}
+  PQLStmtContext(): PQLDeclarationContext(PQL_SYN_TYPE_STMT) {}
 };

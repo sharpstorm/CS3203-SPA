@@ -4,5 +4,5 @@
 
 class PQLPrintContext: public PQLDeclarationContext {
  public:
-  PQLPrintContext(): PQLDeclarationContext(PQL_VAR_TYPE_PRINT) {}
+  PQLPrintContext(): PQLDeclarationContext(PQL_SYN_TYPE_PRINT) {}
 };

@@ -23,7 +23,7 @@ bool PQLQueryResult::isStaticResult() {
   return statementMap.empty() && entityMap.empty();
 }
 
-StatementResult* PQLQueryResult::getFromStatementMap(PQL_VAR_NAME var) {
+StatementResult* PQLQueryResult::getFromStatementMap(PQL_SYN_NAME var) {
   if (statementMap.find(var) == statementMap.end()) {
     return nullptr;
   }
@@ -39,16 +39,16 @@ ENTITY_MAP PQLQueryResult::getEntityMap() {
   return entityMap;
 }
 
-void PQLQueryResult::addToStatementMap(PQL_VAR_NAME name,
+void PQLQueryResult::addToStatementMap(PQL_SYN_NAME name,
                                        StatementResult result) {
   statementMap.insert({name, result});
 }
 
-void PQLQueryResult::addToEntityMap(PQL_VAR_NAME name, EntityResult result) {
+void PQLQueryResult::addToEntityMap(PQL_SYN_NAME name, EntityResult result) {
   entityMap.insert({name, result});
 }
 
-EntityResult* PQLQueryResult::getFromEntityMap(PQL_VAR_NAME var) {
+EntityResult* PQLQueryResult::getFromEntityMap(PQL_SYN_NAME var) {
   if (entityMap.find(var) == entityMap.end()) {
     return nullptr;
   }
@@ -79,7 +79,7 @@ PQLQueryResult* PQLQueryResult::filterResultTo(PQLQueryVariable queryVar) {
     return queryResult;
   }
 
-  PQL_VAR_NAME var = queryVar.name;
+  PQL_SYN_NAME var = queryVar.name;
   if (queryVar.isStatementType()) {
     StatementResult* result = getFromStatementMap(var);
     if (result != nullptr) {

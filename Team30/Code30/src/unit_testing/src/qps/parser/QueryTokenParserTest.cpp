@@ -14,16 +14,16 @@
 using std::vector, std::string, std::tuple, std::exception;
 
 tuple<string, PQLTokenType, PQLSynonymType> TEST_TYPE_MAP[] = {
-    { "stmt", PQL_TOKEN_STMT, PQL_VAR_TYPE_STMT },
-    { "read", PQL_TOKEN_READ, PQL_VAR_TYPE_READ },
-    { "print", PQL_TOKEN_PRINT, PQL_VAR_TYPE_PRINT },
-    { "call", PQL_TOKEN_CALL, PQL_VAR_TYPE_CALL },
-    { "while", PQL_TOKEN_WHILE, PQL_VAR_TYPE_WHILE },
-    { "if", PQL_TOKEN_IF, PQL_VAR_TYPE_IF },
-    { "assign", PQL_TOKEN_ASSIGN, PQL_VAR_TYPE_ASSIGN },
-    { "variable", PQL_TOKEN_VARIABLE, PQL_VAR_TYPE_VARIABLE },
-    { "constant", PQL_TOKEN_CONSTANT, PQL_VAR_TYPE_CONSTANT },
-    { "procedure", PQL_TOKEN_PROCEDURE, PQL_VAR_TYPE_PROCEDURE },
+    {"stmt", PQL_TOKEN_STMT, PQL_SYN_TYPE_STMT },
+    {"read", PQL_TOKEN_READ, PQL_SYN_TYPE_READ },
+    {"print", PQL_TOKEN_PRINT, PQL_SYN_TYPE_PRINT },
+    {"call", PQL_TOKEN_CALL, PQL_SYN_TYPE_CALL },
+    {"while", PQL_TOKEN_WHILE, PQL_SYN_TYPE_WHILE },
+    {"if", PQL_TOKEN_IF, PQL_SYN_TYPE_IF },
+    {"assign", PQL_TOKEN_ASSIGN, PQL_SYN_TYPE_ASSIGN },
+    {"variable", PQL_TOKEN_VARIABLE, PQL_SYN_TYPE_VARIABLE },
+    {"constant", PQL_TOKEN_CONSTANT, PQL_SYN_TYPE_CONSTANT },
+    {"procedure", PQL_TOKEN_PROCEDURE, PQL_SYN_TYPE_PROCEDURE },
 };
 
 unique_ptr<PQLQuery> testPQLParsing(vector<PQLToken> testcase, vector<PQLQueryVariable> expectedVariables) {
@@ -130,7 +130,7 @@ TEST_CASE("Test QPS Parser Follows Query") {
       PQLToken{PQL_TOKEN_BRACKET_CLOSE},
 
   }, vector<PQLQueryVariable>{
-      PQLQueryVariable{PQL_VAR_TYPE_STMT, "a"}
+      PQLQueryVariable{PQL_SYN_TYPE_STMT, "a"}
   });
   REQUIRE(query->getEvaluatables().size() == 1);
 
@@ -155,8 +155,8 @@ TEST_CASE("Test QPS Parser Follows Query") {
       PQLToken{PQL_TOKEN_BRACKET_CLOSE},
 
   }, vector<PQLQueryVariable>{
-      PQLQueryVariable{PQL_VAR_TYPE_STMT, "a"},
-      PQLQueryVariable{PQL_VAR_TYPE_STMT, "b"}
+      PQLQueryVariable{PQL_SYN_TYPE_STMT, "a"},
+      PQLQueryVariable{PQL_SYN_TYPE_STMT, "b"}
   });
   REQUIRE(query->getEvaluatables().size() == 1);
 
@@ -181,7 +181,7 @@ TEST_CASE("Test QPS Parser Parent Query") {
       PQLToken{PQL_TOKEN_BRACKET_CLOSE},
 
   }, vector<PQLQueryVariable>{
-      PQLQueryVariable{PQL_VAR_TYPE_STMT, "a"}
+      PQLQueryVariable{PQL_SYN_TYPE_STMT, "a"}
   });
   REQUIRE(query->getEvaluatables().size() == 1);
 
@@ -206,8 +206,8 @@ TEST_CASE("Test QPS Parser Parent Query") {
       PQLToken{PQL_TOKEN_BRACKET_CLOSE},
 
   }, vector<PQLQueryVariable>{
-      PQLQueryVariable{PQL_VAR_TYPE_STMT, "a"},
-      PQLQueryVariable{PQL_VAR_TYPE_STMT, "b"}
+      PQLQueryVariable{PQL_SYN_TYPE_STMT, "a"},
+      PQLQueryVariable{PQL_SYN_TYPE_STMT, "b"}
   });
   REQUIRE(query->getEvaluatables().size() == 1);
 

@@ -18,7 +18,7 @@ PQLQueryVariable PQLQuery::getResultVariable() {
   return resultVariable;
 }
 
-PQLQueryVariable* PQLQuery::getVariable(PQL_VAR_NAME name) {
+PQLQueryVariable* PQLQuery::getVariable(PQL_SYN_NAME name) {
   auto item = variables.find(name);
   if (item == variables.end()) {
     return nullptr;
@@ -27,7 +27,7 @@ PQLQueryVariable* PQLQuery::getVariable(PQL_VAR_NAME name) {
   return &item->second;
 }
 
-PQL_VAR_NAME PQLQuery::getResultName() {
+PQL_SYN_NAME PQLQuery::getResultName() {
   return resultVariable.name;
 }
 

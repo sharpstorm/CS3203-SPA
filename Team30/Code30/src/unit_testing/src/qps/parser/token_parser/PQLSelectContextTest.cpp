@@ -15,12 +15,12 @@ TEST_CASE("Test PQL Select parsing") {
       ->build();
 
   QueryTokenParseState state(&dummyStream);
-  state.getQueryBuilder()->addVariable("s", PQL_VAR_TYPE_STMT);
+  state.getQueryBuilder()->addVariable("s", PQL_SYN_TYPE_STMT);
   context.parse(&state);
 
   auto resultVar = state.getQueryBuilder()->build()->getResultVariable();
   REQUIRE(resultVar.name == "s");
-  REQUIRE(resultVar.type == PQL_VAR_TYPE_STMT);
+  REQUIRE(resultVar.type == PQL_SYN_TYPE_STMT);
 }
 
 TEST_CASE("Test PQL Select unknown synonym") {

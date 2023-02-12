@@ -5,11 +5,11 @@ bool PQLQueryVariable::operator==(const PQLQueryVariable &other) const {
 }
 
 bool PQLQueryVariable::isStatementType() {
-  return (type & PQL_VAR_STMT_MASK) > 0;
+  return (type & PQL_SYN_STMT_MASK) > 0;
 }
 
 bool PQLQueryVariable::isEntityType() {
-  return (type & PQL_VAR_STMT_MASK) == 0;
+  return (type & PQL_SYN_STMT_MASK) == 0;
 }
 
 bool PQLQueryVariable::isType(PQLSynonymType type) {

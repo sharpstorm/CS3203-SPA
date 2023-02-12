@@ -6,7 +6,7 @@ using std::move;
 QueryBuilder::QueryBuilder() {
 }
 
-void QueryBuilder::setResultVariable(PQL_VAR_NAME name) {
+void QueryBuilder::setResultVariable(PQL_SYN_NAME name) {
   resultVariable.name = name;
 }
 
@@ -14,18 +14,18 @@ void QueryBuilder::setResultType(PQLSynonymType type) {
   resultVariable.type = type;
 }
 
-void QueryBuilder::addVariable(PQL_VAR_NAME name, PQLSynonymType type) {
+void QueryBuilder::addVariable(PQL_SYN_NAME name, PQLSynonymType type) {
   if (hasVariable(name)) {
     throw QueryBuilderError("Found duplicate variable");
   }
   variables[name] = (PQLQueryVariable{type, name});
 }
 
-bool QueryBuilder::hasVariable(PQL_VAR_NAME name) {
+bool QueryBuilder::hasVariable(PQL_SYN_NAME name) {
   return variables.find(name) != variables.end();
 }
 
-PQLSynonymType* QueryBuilder::getVariableType(PQL_VAR_NAME name) {
+PQLSynonymType* QueryBuilder::getVariableType(PQL_SYN_NAME name) {
   PQLQueryVariable* var = getVariable(name);
   if (var == nullptr) {
     return nullptr;
@@ -34,7 +34,7 @@ PQLSynonymType* QueryBuilder::getVariableType(PQL_VAR_NAME name) {
   return &(var->type);
 }
 
-PQLQueryVariable* QueryBuilder::getVariable(PQL_VAR_NAME name) {
+PQLQueryVariable* QueryBuilder::getVariable(PQL_SYN_NAME name) {
   if (!hasVariable(name)) {
     return nullptr;
   }
