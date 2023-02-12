@@ -7,6 +7,8 @@
 #include "pkb/writers/interfaces/IStatementWriter.h"
 #include "pkb/writers/interfaces/ISymbolWriter.h"
 #include "pkb/writers/interfaces/IProcedureWriter.h"
+#include "pkb/writers/interfaces/IModifiesWriter.h"
+#include "pkb/writers/interfaces/IUsesWriter.h"
 
 using std::string;
 
@@ -15,7 +17,9 @@ class IPkbWriter
       public IParentWriter,
       public IStatementWriter,
       public ISymbolWriter,
-      public IProcedureWriter {
+      public IProcedureWriter,
+      public IUsesWriter,
+      public IModifiesWriter {
  public:
   virtual ~IPkbWriter() {}
 };
