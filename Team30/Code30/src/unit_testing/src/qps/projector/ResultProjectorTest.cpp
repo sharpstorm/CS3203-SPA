@@ -67,7 +67,7 @@ TEST_CASE("Projecting Statement map") {
   result = new PQLQueryResult();
   result->addToStatementMap("a", buildStatementResult(true));
   expected = UniqueVectorPtr<string>(new vector<string>({"1", "2", "3"}));
-  actual = projector.project(result);
+  actual = projector.project(result, TARGET_RESULT_VAR);
   testResultProjection(expected.get(), actual.get());
 
   // Projecting on Right arg
@@ -75,7 +75,7 @@ TEST_CASE("Projecting Statement map") {
   result = new PQLQueryResult();
   result->addToStatementMap("a", buildStatementResult(false));
   expected = UniqueVectorPtr<string>(new vector<string>({"2", "3", "4"}));
-  actual = projector.project(result);
+  actual = projector.project(result, TARGET_RESULT_VAR);
   testResultProjection(expected.get(), actual.get());
 
   // Projecting when pairs empty
