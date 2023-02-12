@@ -10,7 +10,7 @@ void VariableASTNode::accept(shared_ptr<Extractor> e) {
 }
 
 string VariableASTNode::toString() {
-  return "Var(" + value + ")";
+  return "Var:" + value;
 }
 
 string VariableASTNode::getValue() {

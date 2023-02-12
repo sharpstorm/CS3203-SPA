@@ -8,7 +8,7 @@ ConstantASTNode::ConstantASTNode(string v) {
 }
 
 string ConstantASTNode::toString() {
-  return "const(" + value + ")";
+  return "Const:" + value;
 }
 
 void ConstantASTNode::accept(shared_ptr<Extractor> e) {
