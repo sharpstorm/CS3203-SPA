@@ -23,3 +23,11 @@ void EntityExtractor::visit(IfNode node) {
 void EntityExtractor::visit(ReadNode node) {
   pkbWriter->addStatement(node.lineNumber, StmtType::Read);
 }
+
+void EntityExtractor::visit(VariableASTNode node) {
+  pkbWriter->addSymbol(node.getValue(), EntityType::Variable)
+}
+
+void EntityExtractor::visit(ConstantASTNode node) {
+  pkbWriter->addSymbol(node.getValue(), EntityType::Constant)
+}
