@@ -15,19 +15,21 @@ UniqueVectorPtr<string> ResultProjector::project(PQLQueryResult *queryResult,
 
   // Static result
   if (queryResult->getIsStaticFalse()) {
-    return UniqueVectorPtr<string>();
+    return UniqueVectorPtr<string>(new vector<string>());
   }
 
   PQL_VAR_NAME var = resultVariable.name;
-  if (resultVariable.isStatementType())  {
+  bool existInMap = queryResult->getFromStatementMap(var) != nullptr;
+  if (!queryResult->getStatementMap().empty() && existInMap)  {
     return projectStatements(queryResult->getFromStatementMap(var));
   }
 
-  if (resultVariable.isEntityType()) {
+  existInMap = queryResult->getFromEntityMap(var) != nullptr;
+  if (!queryResult->getEntityMap().empty() && existInMap) {
     return projectEntities(queryResult->getFromEntityMap(var));
   }
 
-  return UniqueVectorPtr<string>();
+  return UniqueVectorPtr<string>(new vector<string>());
 }
 
 // NOT IN USE
@@ -52,7 +54,7 @@ UniqueVectorPtr<string> ResultProjector::project(PQLQueryResult *queryResult,
 UniqueVectorPtr<string> ResultProjector::projectStatements(
     StatementResult* statementResult) {
   if (statementResult == nullptr) {
-    return UniqueVectorPtr<string>();
+    return UniqueVectorPtr<string>(new vector<string>());
   }
 
   vector<string>* result = new vector<string>();
@@ -73,7 +75,7 @@ UniqueVectorPtr<string> ResultProjector::projectStatements(
 
 UniqueVectorPtr<string> ResultProjector::projectEntities(EntityResult* entityResult) {
   if (entityResult == nullptr) {
-    return UniqueVectorPtr<string>();
+    return UniqueVectorPtr<string>(new vector<string>());
   }
 
   vector<string>* result = new vector<string>();
