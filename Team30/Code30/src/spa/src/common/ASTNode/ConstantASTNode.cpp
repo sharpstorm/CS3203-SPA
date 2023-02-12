@@ -12,6 +12,7 @@ string ConstantASTNode::toString() {
 }
 
 void ConstantASTNode::accept(shared_ptr<Extractor> e) {
+  e->visit(*this);
 }
 
 string ConstantASTNode::getValue() {

@@ -25,9 +25,9 @@ void EntityExtractor::visit(ReadNode node) {
 }
 
 void EntityExtractor::visit(VariableASTNode node) {
-  pkbWriter->addSymbol(node.getValue(), EntityType::Variable)
+  pkbWriter->addSymbol(node.getValue(), EntityType::Variable);
 }
 
 void EntityExtractor::visit(ConstantASTNode node) {
-  pkbWriter->addSymbol(node.getValue(), EntityType::Constant)
+  pkbWriter->addSymbol(node.getValue(), EntityType::Constant);
 }
