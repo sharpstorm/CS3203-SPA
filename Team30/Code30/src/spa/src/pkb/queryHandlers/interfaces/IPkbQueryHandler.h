@@ -6,12 +6,13 @@
 #include "IFollowsQueryHandler.h"
 #include "IParentQueryHandler.h"
 #include "IDesignEntitiesQueryHandler.h"
-
-using std::unordered_set;
-using std::string;
+#include "IUsesQueryHandler.h"
+#include "IModifiesQueryHandler.h"
 
 class IPkbQueryHandler
     : public IFollowsQueryHandler,
       public IParentQueryHandler,
-      public IDesignEntitiesQueryHandler {
+      public IDesignEntitiesQueryHandler,
+      public IUsesQueryHandler,
+      public IModifiesQueryHandler {
 };
