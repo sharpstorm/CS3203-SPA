@@ -12,9 +12,6 @@ shared_ptr<ASTNode> FactorContext::generateSubtree(SourceParseState *state) {
     case SIMPLE_TOKEN_INTEGER:
       return contextProvider->
           getContext(CONST_CONTEXT)->generateSubtree(state);
-    case SIMPLE_TOKEN_VARIABLE:
-      return contextProvider->
-          getContext(VARIABLE_CONTEXT)->generateSubtree(state);
     case SIMPLE_TOKEN_BRACKET_ROUND_LEFT:
       expect(state, SIMPLE_TOKEN_BRACKET_ROUND_LEFT);
       state->clearCached();
@@ -24,6 +21,7 @@ shared_ptr<ASTNode> FactorContext::generateSubtree(SourceParseState *state) {
       state->clearCached();
       return node;
     default:
-      throw SPError("Unknown token sequence");
+      return contextProvider->
+          getContext(VARIABLE_CONTEXT)->generateSubtree(state);
   }
 }
