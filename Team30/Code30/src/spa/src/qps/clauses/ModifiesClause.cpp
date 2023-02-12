@@ -20,8 +20,12 @@ bool ModifiesClause::validateArgTypes(VariableTable *variables) {
 
   if (left.isSynonym()) {
     PQLQueryVariable leftVar = variables->at(left.getSynonymName());
-    if (!leftVar.isStatementType()
-        && !leftVar.isType(PQL_VAR_TYPE_PROCEDURE)) {
+    if (!leftVar.isType(PQL_VAR_TYPE_ASSIGN)
+        && !leftVar.isType(PQL_VAR_TYPE_READ)
+        && !leftVar.isType(PQL_VAR_TYPE_IF)
+        && !leftVar.isType(PQL_VAR_TYPE_WHILE)
+        && !leftVar.isType(PQL_VAR_TYPE_PROCEDURE)
+        && !leftVar.isType(PQL_VAR_TYPE_CALL)) {
       return false;
     }
   }

@@ -1,27 +1,39 @@
 #include "catch.hpp"
 
 #include <memory>
+#include <unordered_map>
 
 #include "../../util/PQLTestTokenSequenceBuilder.cpp"
 #include "qps/parser/token_parser/context/such_that_clause/PQLFollowsClauseContext.h"
 #include "qps/errors/QPSParserError.h"
 #include "qps/clauses/FollowsClause.h"
+#include "qps/parser/builder/QueryBuilderError.h"
 
-using std::make_unique;
+using std::make_unique, std::unordered_map;
 
-void testFollowsParsing(vector<PQLToken> inputs) {
+void testFollowsParsing(vector<PQLToken> inputs,
+                        unordered_map<string, PQLSynonymType> synonyms) {
   PQLFollowsClauseContext context;
   QueryTokenParseState state(&inputs);
   state.advanceStage(TOKEN_PARSE_STAGE_COMMAND);
   state.advanceStage(TOKEN_PARSE_STAGE_CONDITION_MARKER);
-  state.getQueryBuilder()->addVariable("s", PQL_VAR_TYPE_STMT);
-  context.parse(&state);
 
+  for (auto it : synonyms) {
+    state.getQueryBuilder()->addVariable(it.first, it.second);
+  }
+
+  context.parse(&state);
   auto clauses = state.getQueryBuilder()->build()->getEvaluatables();
   REQUIRE(clauses.size() == 1);
 
   auto fc = dynamic_cast<FollowsClause*>(clauses.at(0).get());
   REQUIRE(fc != nullptr);
+}
+
+void testFollowsParsing(vector<PQLToken> inputs) {
+  testFollowsParsing(inputs, unordered_map<string, PQLSynonymType>{
+      { "s", PQL_VAR_TYPE_STMT }
+  });
 }
 
 TEST_CASE("Test PQL Follows parsing 2 Constants") {
@@ -170,4 +182,103 @@ TEST_CASE("Test PQL Follows bad syntax") {
                              ->build()
       ), QPSParserError
   );
+}
+
+TEST_CASE("Test PQL Follows valid synonym types") {
+  auto validTypes = vector<PQLSynonymType>{
+      PQL_VAR_TYPE_STMT,
+      PQL_VAR_TYPE_ASSIGN,
+      PQL_VAR_TYPE_PRINT,
+      PQL_VAR_TYPE_IF,
+      PQL_VAR_TYPE_CALL,
+      PQL_VAR_TYPE_WHILE,
+      PQL_VAR_TYPE_READ
+  };
+
+  for (PQLSynonymType type : validTypes) {
+    auto synonymMap = unordered_map<string, PQLSynonymType>{
+        {"s1", type},
+        {"s2", type}
+    };
+    testFollowsParsing(make_unique<PQLTestTokenSequenceBuilder>()
+                           ->openBracket()
+                           ->synonym("s1")
+                           ->comma()
+                           ->integer(2)
+                           ->closeBracket()
+                           ->build(),
+                       synonymMap
+    );
+
+    testFollowsParsing(make_unique<PQLTestTokenSequenceBuilder>()
+                           ->openBracket()
+                           ->integer(2)
+                           ->comma()
+                           ->synonym("s1")
+                           ->closeBracket()
+                           ->build(),
+                       synonymMap
+    );
+
+    testFollowsParsing(make_unique<PQLTestTokenSequenceBuilder>()
+                           ->openBracket()
+                           ->synonym("s1")
+                           ->comma()
+                           ->synonym("s2")
+                           ->closeBracket()
+                           ->build(),
+                       synonymMap
+    );
+  }
+}
+
+TEST_CASE("Test PQL Follows invalid synonym types") {
+  auto validTypes = vector<PQLSynonymType>{
+      PQL_VAR_TYPE_VARIABLE,
+      PQL_VAR_TYPE_CONSTANT,
+      PQL_VAR_TYPE_PROCEDURE
+  };
+
+  for (PQLSynonymType type : validTypes) {
+    auto synonymMap = unordered_map<string, PQLSynonymType>{
+        {"s1", type},
+        {"s2", type}
+    };
+
+    REQUIRE_THROWS_AS(
+        testFollowsParsing(make_unique<PQLTestTokenSequenceBuilder>()
+                               ->openBracket()
+                               ->synonym("s1")
+                               ->comma()
+                               ->integer(2)
+                               ->closeBracket()
+                               ->build(),
+                           synonymMap
+        ), QueryBuilderError
+    );
+
+    REQUIRE_THROWS_AS(
+        testFollowsParsing(make_unique<PQLTestTokenSequenceBuilder>()
+                               ->openBracket()
+                               ->integer(2)
+                               ->comma()
+                               ->synonym("s1")
+                               ->closeBracket()
+                               ->build(),
+                           synonymMap
+        ), QueryBuilderError
+    );
+
+    REQUIRE_THROWS_AS(
+        testFollowsParsing(make_unique<PQLTestTokenSequenceBuilder>()
+                               ->openBracket()
+                               ->synonym("s1")
+                               ->comma()
+                               ->synonym("s2")
+                               ->closeBracket()
+                               ->build(),
+                           synonymMap
+        ), QueryBuilderError
+    );
+  }
 }
