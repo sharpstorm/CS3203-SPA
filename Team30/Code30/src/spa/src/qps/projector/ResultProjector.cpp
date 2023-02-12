@@ -32,10 +32,10 @@ UniqueVectorPtr<string> ResultProjector::projectStatements(
         result->push_back(to_string(statementResult.isLeftArg ?
                                     stmt.first : stmt.second));
       }
-    }
-
-    for (auto stmt : statementResult.lines) {
-      result->push_back(to_string(stmt));
+    } else {
+      for (auto stmt : statementResult.lines) {
+        result->push_back(to_string(stmt));
+      }
     }
   }
 
