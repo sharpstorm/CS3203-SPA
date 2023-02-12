@@ -5,12 +5,13 @@
 
 #include "qps/clauses/FollowsClause.h"
 #include "qps/executor/QueryPlanner.h"
+#include "qps/common/PQLQuerySynonym.h"
 
 using std::make_unique, std::unordered_map, std::unique_ptr;
 
-PQLQueryVariable PQL_RESULT_VAR{PQL_VAR_TYPE_STMT, "a"};
-PQLQueryVariable PQL_RESULT_VAR2{PQL_VAR_TYPE_STMT, "b"};
-unordered_map<string, PQLQueryVariable> PQL_VAR_MAP({{"a", PQL_RESULT_VAR}});
+PQLQuerySynonym PQL_RESULT_VAR{PQL_SYN_TYPE_STMT, "a"};
+PQLQuerySynonym PQL_RESULT_VAR2{PQL_SYN_TYPE_STMT, "b"};
+unordered_map<string, PQLQuerySynonym> PQL_VAR_MAP({{"a", PQL_RESULT_VAR}});
 
 QueryPlanner queryPlanner;
 

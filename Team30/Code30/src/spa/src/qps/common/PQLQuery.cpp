@@ -18,7 +18,7 @@ PQLQuerySynonym PQLQuery::getResultVariable() {
   return resultVariable;
 }
 
-PQLQuerySynonym* PQLQuery::getVariable(PQL_SYN_NAME name) {
+PQLQuerySynonym* PQLQuery::getVariable(PQLSynonymName name) {
   auto item = variables.find(name);
   if (item == variables.end()) {
     return nullptr;
@@ -27,7 +27,7 @@ PQLQuerySynonym* PQLQuery::getVariable(PQL_SYN_NAME name) {
   return &item->second;
 }
 
-PQL_SYN_NAME PQLQuery::getResultName() {
+PQLSynonymName PQLQuery::getResultName() {
   return resultVariable.name;
 }
 

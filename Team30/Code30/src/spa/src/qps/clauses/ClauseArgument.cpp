@@ -19,7 +19,7 @@ PQLSynonymType ClauseArgument::getSynonymType() {
   return this->synonym.type;
 }
 
-PQL_SYN_NAME ClauseArgument::getSynonymName() {
+PQLSynonymName ClauseArgument::getSynonymName() {
   return this->synonym.name;
 }
 

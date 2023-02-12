@@ -9,7 +9,7 @@ using std::unordered_map;
 class PQLQuerySynonym {
  public:
   PQLSynonymType type;
-  PQL_SYN_NAME name;
+  PQLSynonymName name;
   bool isStatementType();
   bool isEntityType();
   bool isType(PQLSynonymType type);

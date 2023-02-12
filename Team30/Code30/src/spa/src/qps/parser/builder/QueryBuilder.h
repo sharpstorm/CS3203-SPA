@@ -21,11 +21,11 @@ class QueryBuilder {
  public:
   QueryBuilder();
   void setResultType(PQLSynonymType type);
-  void setResultVariable(PQL_SYN_NAME name);
-  bool hasVariable(PQL_SYN_NAME name);
-  void addVariable(PQL_SYN_NAME name, PQLSynonymType type);
-  PQLSynonymType* getVariableType(PQL_SYN_NAME name);
-  PQLQuerySynonym* getVariable(PQL_SYN_NAME name);
+  void setResultVariable(PQLSynonymName name);
+  bool hasVariable(PQLSynonymName name);
+  void addVariable(PQLSynonymName name, PQLSynonymType type);
+  PQLSynonymType* getVariableType(PQLSynonymName name);
+  PQLQuerySynonym* getVariable(PQLSynonymName name);
   void addSuchThat(unique_ptr<SuchThatClause> clause);
   void addPattern(unique_ptr<PatternClause> clause);
   unique_ptr<PQLQuery> build();

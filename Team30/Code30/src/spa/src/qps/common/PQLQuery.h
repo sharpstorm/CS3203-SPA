@@ -21,7 +21,7 @@ class PQLQuery {
              vector<shared_ptr<Clause>> c);
     int getVariableCount();
     PQLQuerySynonym getResultVariable();
-    PQLQuerySynonym* getVariable(PQL_SYN_NAME name);
-    PQL_SYN_NAME getResultName();
+    PQLQuerySynonym* getVariable(PQLSynonymName name);
+    PQLSynonymName getResultName();
     vector<shared_ptr<IEvaluatable>> getEvaluatables();
 };

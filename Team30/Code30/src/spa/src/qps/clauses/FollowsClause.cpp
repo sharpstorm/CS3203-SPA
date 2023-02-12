@@ -28,7 +28,7 @@ PQLQueryResult* FollowsClause::evaluateOn(
     return pqlQueryResult;
   }
 
-  PQL_SYN_NAME synonym;
+  PQLSynonymName synonym;
   StatementResult result;
   if (left.isSynonym()) {
     synonym = left.getSynonymName();

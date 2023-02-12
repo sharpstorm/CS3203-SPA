@@ -5,8 +5,8 @@
 
 using std::unordered_set;
 
-PQL_VAR_NAME TEST_VAR_NAME = "a";
-PQL_VAR_NAME TEST_NOT_EXIST_VAR_NAME = "z";
+PQLSynonymName TEST_VAR_NAME = "a";
+PQLSynonymName TEST_NOT_EXIST_VAR_NAME = "z";
 
 pair_set<int, int> LINE_PAIRS = pair_set<int, int>({{1, 2}, {2, 3}, {3, 4}});
 unordered_set<int> STATEMENT_LINES = unordered_set<int>({1, 2, 3, 4});
@@ -94,7 +94,7 @@ TEST_CASE("Retrieve Variable from Static Result") {
   PQLQueryResult result;
   PQLQueryResult expected;
   expected.setIsStaticFalse(true);
-  PQLQueryVariable queryVariable{PQL_VAR_TYPE_ASSIGN, TEST_VAR_NAME};
+  PQLQuerySynonym queryVariable{PQL_SYN_TYPE_ASSIGN, TEST_VAR_NAME};
 
   // Static Result E.g. Follows(1,2)
   result.setIsStaticFalse(true);
@@ -105,7 +105,7 @@ TEST_CASE("Retrieve Variable from Statement Result") {
   PQLQueryResult expected;
   PQLQueryResult actual;
   PQLQueryResult result =  PQLQueryResult();
-  PQLQueryVariable queryVariable = {PQL_VAR_TYPE_ASSIGN, TEST_NOT_EXIST_VAR_NAME};
+  PQLQuerySynonym queryVariable = {PQL_SYN_TYPE_ASSIGN, TEST_NOT_EXIST_VAR_NAME};
 
   // Statement Result with target variable not in map
   // E.g. assign a1, a2; Select a2 such that Follows(a1, 4)
@@ -115,7 +115,7 @@ TEST_CASE("Retrieve Variable from Statement Result") {
 
   // Statement Result with target variable in map
   // E.g. assign a; Select a such that Follows(a, 2)
-  queryVariable = {PQL_VAR_TYPE_ASSIGN, TEST_VAR_NAME};
+  queryVariable = {PQL_SYN_TYPE_ASSIGN, TEST_VAR_NAME};
   expected.addToStatementMap(TEST_VAR_NAME, buildStatementResult());
   actual = *(result.filterResultTo(queryVariable));
   REQUIRE(actual == expected);
@@ -125,7 +125,7 @@ TEST_CASE("Retrieve Variable from Entity Result") {
   PQLQueryResult expected;
   PQLQueryResult actual;
   PQLQueryResult result = PQLQueryResult();
-  PQLQueryVariable query_variable = {PQL_VAR_TYPE_VARIABLE, TEST_NOT_EXIST_VAR_NAME};
+  PQLQuerySynonym query_variable = {PQL_SYN_TYPE_VARIABLE, TEST_NOT_EXIST_VAR_NAME};
 
   // Entity Result with target variable not in map
   // E.g. variable v1, v2; Select v2 such that Uses(3, v1)
@@ -135,7 +135,7 @@ TEST_CASE("Retrieve Variable from Entity Result") {
 
   // Entity Result with target variable in map
   // E.g. variable v; Select v such that Uses(a, v)
-  query_variable = {PQL_VAR_TYPE_VARIABLE, TEST_VAR_NAME};
+  query_variable = {PQL_SYN_TYPE_VARIABLE, TEST_VAR_NAME};
   expected.addToEntityMap(TEST_VAR_NAME, buildEntityResult());
   actual = *(result.filterResultTo(query_variable));
   REQUIRE(actual == expected);
