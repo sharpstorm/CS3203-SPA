@@ -4,7 +4,7 @@
 #include <memory>
 #include "../common/SourceToken.h"
 #include "GrammarContextProvider.h"
-#include "sp/common/AST.h"
+#include "common/AST.h"
 
 using std::shared_ptr;
 

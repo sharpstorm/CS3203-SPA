@@ -2,8 +2,8 @@
 #include "FollowsQueryHandler.h"
 
 FollowsQueryHandler::FollowsQueryHandler(
-    const FollowsStorage* store, const PredicateFactory* predicateFactory,
-    const StructureMappingProvider* stuctureProvider)
+    const FollowsStorage *store, const PredicateFactory *predicateFactory,
+    const IStructureMappingProvider *stuctureProvider)
     : store(store),
       predicateFactory(predicateFactory),
       structureProvider(stuctureProvider) {}

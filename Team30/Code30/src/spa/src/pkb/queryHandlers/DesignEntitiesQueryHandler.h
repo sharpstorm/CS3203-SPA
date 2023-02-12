@@ -8,17 +8,21 @@
 #include "../storage/EntityMappingProvider.h"
 #include "../storage/StorageTypes.h"
 #include "../storage/StructureMappingProvider.h"
+#include "pkb/queryHandlers/interfaces/IDesignEntitiesQueryHandler.h"
 
-class DesignEntitiesQueryHandler {
+using std::string;
+using std::unordered_set;
+
+class DesignEntitiesQueryHandler : public IDesignEntitiesQueryHandler {
  public:
   DesignEntitiesQueryHandler(
-      const EntityMappingProvider* entityMappingProvider,
-      const StructureMappingProvider* structureMappingProvider);
+      const IEntityMappingProvider *entityMappingProvider,
+      const IStructureMappingProvider *structureMappingProvider);
 
-  std::unordered_set<std::string> getSymbolsOfType(EntityType) const;
-  std::unordered_set<int> getStatementsOfType(StmtType) const;
+  unordered_set<string> getSymbolsOfType(EntityType) const override;
+  unordered_set<int> getStatementsOfType(StmtType) const override;
 
  private:
-  const EntityMappingProvider* entityMappingProvider;
-  const StructureMappingProvider* structureMappingProvider;
+  const IEntityMappingProvider *entityMappingProvider;
+  const IStructureMappingProvider *structureMappingProvider;
 };

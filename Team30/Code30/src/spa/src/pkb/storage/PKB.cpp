@@ -2,30 +2,31 @@
 
 #include <memory>
 
-#include "tables/ContiguousTable.h"
+#include "tables/ContiguousSetTable.h"
 
 using std::make_shared;
 
 PKB::PKB()
-    : followsStore(new FollowsStorage(make_shared<ContiguousTable<int>>(),
-                                      make_shared<ContiguousTable<int>>())),
-      parentStore(new ParentStorage(make_shared<ContiguousTable<int>>(),
-                                    make_shared<ContiguousTable<int>>())),
+    : followsStore(new FollowsStorage(make_shared<ContiguousSetTable<int>>(),
+                                      make_shared<ContiguousSetTable<int>>())),
+      parentStore(new ParentStorage(make_shared<ContiguousSetTable<int>>(),
+                                    make_shared<ContiguousSetTable<int>>())),
       symbolStorage(new SymbolStorage()),
       statementStorage(new StatementStorage()),
       procedureStorage(new ProcedureStorage()),
       structureProvider(
           new StructureMappingProvider(statementStorage, procedureStorage)),
       entityMappingProvider(new EntityMappingProvider(symbolStorage)),
-      predicateFactory(new PredicateFactory(structureProvider)) {}
-
+      predicateFactory(new PredicateFactory(structureProvider,
+                                            entityMappingProvider)) {}
 PKB::~PKB() {
-  delete(followsStore);
-  delete(parentStore);
-  delete(symbolStorage);
-  delete(statementStorage);
-  delete(procedureStorage);
-  delete(structureProvider);
-  delete(entityMappingProvider);
-  delete(predicateFactory);
+  delete (followsStore);
+  delete (parentStore);
+  delete (symbolStorage);
+  delete (statementStorage);
+  delete (procedureStorage);
+  delete (structureProvider);
+  delete (entityMappingProvider);
+  delete (predicateFactory);
 }
+

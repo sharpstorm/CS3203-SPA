@@ -1,9 +1,7 @@
 #include "TreeWalker.h"
 
 #include <iostream>
-#include "sp/common/ASTNode/StatementListNode.h"
-#include "sp/extractor/concrete_extractors/FollowsExtractor.h"
-
+#include "common/ASTNode/StatementListNode.h"
 
 using std::cout, std::endl;
 

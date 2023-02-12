@@ -6,7 +6,7 @@
 #include "AbstractExtractor.h"
 #include "TreeWalker.h"
 #include "pkb/writers/PkbWriter.h"
-#include "sp/common/AST.h"
+#include "common/AST.h"
 
 using std::vector;
 

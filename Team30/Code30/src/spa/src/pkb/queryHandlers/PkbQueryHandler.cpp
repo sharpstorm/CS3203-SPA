@@ -1,38 +1,67 @@
 #include "PkbQueryHandler.h"
+#include "FollowsQueryHandler.h"
+#include "ParentQueryHandler.h"
+#include "UsesQueryHandler.h"
+#include "ModifiesQueryHandler.h"
 
 PkbQueryHandler::PkbQueryHandler(PKB *pkb)
-    : followsHandler(pkb->followsStore, pkb->predicateFactory,
-                     pkb->structureProvider),
-      parentHandler(pkb->parentStore, pkb->predicateFactory,
-                    pkb->structureProvider),
-      designEntityHandler(pkb->entityMappingProvider, pkb->structureProvider) {}
+    : followsHandler(new FollowsQueryHandler(pkb->followsStore,
+                                             pkb->predicateFactory,
+                                             pkb->structureProvider)),
+      parentHandler(new ParentQueryHandler(pkb->parentStore,
+                                           pkb->predicateFactory,
+                                           pkb->structureProvider)),
+      usesHandler(new UsesQueryHandler()),
+      modifiesHandler(new ModifiesQueryHandler()),
+      designEntityHandler(new DesignEntitiesQueryHandler(
+          pkb->entityMappingProvider, pkb->structureProvider)) {}
 
 QueryResult<int, int> PkbQueryHandler::queryFollows(StmtRef s1,
                                                     StmtRef s2) const {
-  return followsHandler.queryFollows(s1, s2);
+  return followsHandler->queryFollows(s1, s2);
 }
 
 QueryResult<int, int> PkbQueryHandler::queryFollowsStar(StmtRef s1,
                                                         StmtRef s2) const {
-  return followsHandler.queryFollowsStar(s1, s2);
+  return followsHandler->queryFollowsStar(s1, s2);
 }
 
 QueryResult<int, int> PkbQueryHandler::queryParent(StmtRef s1,
                                                    StmtRef s2) const {
-  return parentHandler.queryParent(s1, s2);
+  return parentHandler->queryParent(s1, s2);
 }
 
 QueryResult<int, int> PkbQueryHandler::queryParentStar(StmtRef s1,
                                                        StmtRef s2) const {
-  return parentHandler.queryParentStar(s1, s2);
+  return parentHandler->queryParentStar(s1, s2);
 }
 
 std::unordered_set<std::string> PkbQueryHandler::getSymbolsOfType(
     EntityType entityType) const {
-  return designEntityHandler.getSymbolsOfType(entityType);
+  return designEntityHandler->getSymbolsOfType(entityType);
 }
 
 std::unordered_set<int> PkbQueryHandler::getStatementsOfType(
     StmtType stmtType) const {
-  return designEntityHandler.getStatementsOfType(stmtType);
+  return designEntityHandler->getStatementsOfType(stmtType);
+}
+
+QueryResult<int, string> PkbQueryHandler::queryUses(StmtRef arg1,
+                                                    EntityRef arg2) const {
+  return QueryResult<int, string>();
+}
+
+QueryResult<string, string> PkbQueryHandler::queryUses(EntityRef arg1,
+                                                       EntityRef arg2) const {
+  return QueryResult<string, string>();
+}
+
+QueryResult<int, string> PkbQueryHandler::queryModifies(
+    StmtRef arg1, EntityRef arg2) const {
+  return QueryResult<int, string>();
+}
+
+QueryResult<string, string> PkbQueryHandler::queryModifies(
+    EntityRef arg1, EntityRef arg2) const {
+  return QueryResult<string, string>();
 }
