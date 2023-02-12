@@ -6,14 +6,14 @@
 
 using std::unordered_map;
 
-class PQLQueryVariable {
+class PQLQuerySynonym {
  public:
   PQLSynonymType type;
   PQL_SYN_NAME name;
   bool isStatementType();
   bool isEntityType();
   bool isType(PQLSynonymType type);
-  bool operator==(const PQLQueryVariable& other) const;
+  bool operator==(const PQLQuerySynonym& other) const;
 };
 
-typedef unordered_map<string, PQLQueryVariable> VariableTable;
+typedef unordered_map<string, PQLQuerySynonym> VariableTable;

@@ -11,7 +11,7 @@
 
 using std::pair, std::unordered_set, std::vector, std::shared_ptr;
 
-SelectClause::SelectClause(PQLQueryVariable target):
+SelectClause::SelectClause(PQLQuerySynonym target):
   target(target) {}
 
 PQLQueryResult* SelectClause::evaluateOn(

@@ -71,7 +71,7 @@ void PQLQueryResult::setIsStaticFalse(bool staticRes) {
   isStaticFalse = staticRes;
 }
 
-PQLQueryResult* PQLQueryResult::filterResultTo(PQLQueryVariable queryVar) {
+PQLQueryResult* PQLQueryResult::filterResultTo(PQLQuerySynonym queryVar) {
   PQLQueryResult* queryResult = new PQLQueryResult();
 
   if (isStaticFalse) {

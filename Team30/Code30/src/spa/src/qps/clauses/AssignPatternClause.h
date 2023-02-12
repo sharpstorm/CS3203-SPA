@@ -9,16 +9,16 @@ using std::string;
 
 class AssignPatternClause: public PatternClause {
  private:
-  PQLQueryVariable assignSynonym;
+  PQLQuerySynonym assignSynonym;
   ClauseArgument leftArgument;
   string patternPhrase;
   bool allowPartial;
 
  public:
-  AssignPatternClause(PQLQueryVariable assignSynonym,
-                 ClauseArgument leftSynonym,
-                 string patternPhrase,
-                 bool allowPartial);
+  AssignPatternClause(PQLQuerySynonym assignSynonym,
+                      ClauseArgument leftSynonym,
+                      string patternPhrase,
+                      bool allowPartial);
   PQLQueryResult* evaluateOn(shared_ptr<PkbQueryHandler> pkbQueryHandler);
   bool validateArgTypes(VariableTable *variables);
   bool usesSynonym(string varName);

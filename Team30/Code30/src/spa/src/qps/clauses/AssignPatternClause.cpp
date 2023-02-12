@@ -1,6 +1,6 @@
 #include "AssignPatternClause.h"
 
-AssignPatternClause::AssignPatternClause(PQLQueryVariable assignSynonym,
+AssignPatternClause::AssignPatternClause(PQLQuerySynonym assignSynonym,
                                          ClauseArgument leftArgument,
                                          string patternPhrase,
                                          bool allowPartial):

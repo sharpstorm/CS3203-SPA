@@ -6,7 +6,7 @@
 #include "qps/parser/token_parser/QueryTokenParser.h"
 #include "qps/parser/PQLToken.h"
 #include "qps/common/PQLQuery.h"
-#include "qps/common/PQLQueryVariable.h"
+#include "qps/common/PQLQuerySynonym.h"
 #include "qps/errors/QPSError.h"
 #include "qps/clauses/FollowsClause.h"
 #include "qps/clauses/ParentClause.h"
@@ -26,7 +26,7 @@ tuple<string, PQLTokenType, PQLSynonymType> TEST_TYPE_MAP[] = {
     {"procedure", PQL_TOKEN_PROCEDURE, PQL_SYN_TYPE_PROCEDURE },
 };
 
-unique_ptr<PQLQuery> testPQLParsing(vector<PQLToken> testcase, vector<PQLQueryVariable> expectedVariables) {
+unique_ptr<PQLQuery> testPQLParsing(vector<PQLToken> testcase, vector<PQLQuerySynonym> expectedVariables) {
   QueryTokenParser parser(testcase);
   unique_ptr<PQLQuery> result;
   try {
@@ -68,8 +68,8 @@ TEST_CASE("Test QPS Parser Variables") {
         PQLToken{PQL_TOKEN_SEMICOLON, ";"},
         PQLToken{PQL_TOKEN_SELECT, ""},
         PQLToken{PQL_TOKEN_STRING, "a"},
-    }, vector<PQLQueryVariable>{
-        PQLQueryVariable{std::get<2>(TEST_TYPE_MAP[i]), "a"}
+    }, vector<PQLQuerySynonym>{
+        PQLQuerySynonym{std::get<2>(TEST_TYPE_MAP[i]), "a"}
     });
 
     testPQLParsing(vector<PQLToken>{
@@ -80,9 +80,9 @@ TEST_CASE("Test QPS Parser Variables") {
         PQLToken{PQL_TOKEN_SEMICOLON, ";"},
         PQLToken{PQL_TOKEN_SELECT, ""},
         PQLToken{PQL_TOKEN_STRING, "a"},
-    }, vector<PQLQueryVariable>{
-        PQLQueryVariable{std::get<2>(TEST_TYPE_MAP[i]), "a"},
-        PQLQueryVariable{std::get<2>(TEST_TYPE_MAP[i]), "b"}
+    }, vector<PQLQuerySynonym>{
+        PQLQuerySynonym{std::get<2>(TEST_TYPE_MAP[i]), "a"},
+        PQLQuerySynonym{std::get<2>(TEST_TYPE_MAP[i]), "b"}
     });
   }
 }
@@ -95,8 +95,8 @@ TEST_CASE("Test QPS Parser Keyword Variable Name") {
         PQLToken{PQL_TOKEN_SEMICOLON, ";"},
         PQLToken{PQL_TOKEN_SELECT, ""},
         PQLToken{PQL_TOKEN_STRING, std::get<0>(TEST_TYPE_MAP[i])},
-    }, vector<PQLQueryVariable>{
-        PQLQueryVariable{std::get<2>(TEST_TYPE_MAP[i]), std::get<0>(TEST_TYPE_MAP[i])}
+    }, vector<PQLQuerySynonym>{
+        PQLQuerySynonym{std::get<2>(TEST_TYPE_MAP[i]), std::get<0>(TEST_TYPE_MAP[i])}
     });
   }
 }
@@ -129,8 +129,8 @@ TEST_CASE("Test QPS Parser Follows Query") {
       PQLToken{PQL_TOKEN_INTEGER, "1"},
       PQLToken{PQL_TOKEN_BRACKET_CLOSE},
 
-  }, vector<PQLQueryVariable>{
-      PQLQueryVariable{PQL_SYN_TYPE_STMT, "a"}
+  }, vector<PQLQuerySynonym>{
+      PQLQuerySynonym{PQL_SYN_TYPE_STMT, "a"}
   });
   REQUIRE(query->getEvaluatables().size() == 1);
 
@@ -154,9 +154,9 @@ TEST_CASE("Test QPS Parser Follows Query") {
       PQLToken{PQL_TOKEN_STRING, "b"},
       PQLToken{PQL_TOKEN_BRACKET_CLOSE},
 
-  }, vector<PQLQueryVariable>{
-      PQLQueryVariable{PQL_SYN_TYPE_STMT, "a"},
-      PQLQueryVariable{PQL_SYN_TYPE_STMT, "b"}
+  }, vector<PQLQuerySynonym>{
+      PQLQuerySynonym{PQL_SYN_TYPE_STMT, "a"},
+      PQLQuerySynonym{PQL_SYN_TYPE_STMT, "b"}
   });
   REQUIRE(query->getEvaluatables().size() == 1);
 
@@ -180,8 +180,8 @@ TEST_CASE("Test QPS Parser Parent Query") {
       PQLToken{PQL_TOKEN_INTEGER, "1"},
       PQLToken{PQL_TOKEN_BRACKET_CLOSE},
 
-  }, vector<PQLQueryVariable>{
-      PQLQueryVariable{PQL_SYN_TYPE_STMT, "a"}
+  }, vector<PQLQuerySynonym>{
+      PQLQuerySynonym{PQL_SYN_TYPE_STMT, "a"}
   });
   REQUIRE(query->getEvaluatables().size() == 1);
 
@@ -205,9 +205,9 @@ TEST_CASE("Test QPS Parser Parent Query") {
       PQLToken{PQL_TOKEN_STRING, "b"},
       PQLToken{PQL_TOKEN_BRACKET_CLOSE},
 
-  }, vector<PQLQueryVariable>{
-      PQLQueryVariable{PQL_SYN_TYPE_STMT, "a"},
-      PQLQueryVariable{PQL_SYN_TYPE_STMT, "b"}
+  }, vector<PQLQuerySynonym>{
+      PQLQuerySynonym{PQL_SYN_TYPE_STMT, "a"},
+      PQLQuerySynonym{PQL_SYN_TYPE_STMT, "b"}
   });
   REQUIRE(query->getEvaluatables().size() == 1);
 

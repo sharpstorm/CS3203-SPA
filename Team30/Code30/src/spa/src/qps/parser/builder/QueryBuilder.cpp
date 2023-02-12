@@ -18,7 +18,7 @@ void QueryBuilder::addVariable(PQL_SYN_NAME name, PQLSynonymType type) {
   if (hasVariable(name)) {
     throw QueryBuilderError("Found duplicate variable");
   }
-  variables[name] = (PQLQueryVariable{type, name});
+  variables[name] = (PQLQuerySynonym{type, name});
 }
 
 bool QueryBuilder::hasVariable(PQL_SYN_NAME name) {
@@ -26,7 +26,7 @@ bool QueryBuilder::hasVariable(PQL_SYN_NAME name) {
 }
 
 PQLSynonymType* QueryBuilder::getVariableType(PQL_SYN_NAME name) {
-  PQLQueryVariable* var = getVariable(name);
+  PQLQuerySynonym* var = getVariable(name);
   if (var == nullptr) {
     return nullptr;
   }
@@ -34,7 +34,7 @@ PQLSynonymType* QueryBuilder::getVariableType(PQL_SYN_NAME name) {
   return &(var->type);
 }
 
-PQLQueryVariable* QueryBuilder::getVariable(PQL_SYN_NAME name) {
+PQLQuerySynonym* QueryBuilder::getVariable(PQL_SYN_NAME name) {
   if (!hasVariable(name)) {
     return nullptr;
   }

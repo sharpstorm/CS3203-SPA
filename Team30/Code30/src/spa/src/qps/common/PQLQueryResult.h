@@ -8,7 +8,7 @@
 
 #include "EntityResult.h"
 #include "PQLTypes.h"
-#include "PQLQueryVariable.h"
+#include "PQLQuerySynonym.h"
 #include "StatementResult.h"
 #include "pkb/queryHandlers/PkbQueryHandler.h"
 
@@ -38,7 +38,7 @@ class PQLQueryResult {
   bool getIsStaticFalse();
   void setIsStaticFalse(bool staticRes);
   bool isStaticResult();
-  PQLQueryResult* filterResultTo(PQLQueryVariable queryVar);
+  PQLQueryResult* filterResultTo(PQLQuerySynonym queryVar);
   bool operator == (PQLQueryResult pqr) const;
   virtual ~PQLQueryResult() = default;
 };
