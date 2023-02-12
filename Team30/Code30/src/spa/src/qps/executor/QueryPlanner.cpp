@@ -1,6 +1,6 @@
-#include "QueryPlanner.h"
-
 #include <vector>
+
+#include "QueryPlanner.h"
 #include "../common/IEvaluatable.h"
 #include "../clauses/SelectClause.h"
 

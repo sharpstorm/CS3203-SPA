@@ -20,4 +20,6 @@ class IPkbWriter
       public IProcedureWriter,
       public IUsesWriter,
       public IModifiesWriter {
+ public:
+  virtual ~IPkbWriter() {}
 };

@@ -2,7 +2,7 @@
 #include <vector>
 #include <memory>
 #include "sp/common/SourceToken.h"
-#include "sp/common/ASTNode/ASTNode.h"
+#include "common/ASTNode/ASTNode.h"
 
 using std::vector, std::shared_ptr;
 

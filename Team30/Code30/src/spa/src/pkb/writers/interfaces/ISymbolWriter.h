@@ -7,5 +7,6 @@ using std::string;
 
 class ISymbolWriter {
  public:
+  virtual ~ISymbolWriter() {}
   virtual void addSymbol(string, EntityType) = 0;
 };

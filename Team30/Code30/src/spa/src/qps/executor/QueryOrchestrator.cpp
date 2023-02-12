@@ -1,5 +1,4 @@
 #include "QueryOrchestrator.h"
-#include <iostream>
 
 QueryOrchestrator::QueryOrchestrator(QueryLauncher launcher) :
     launcher(launcher) {

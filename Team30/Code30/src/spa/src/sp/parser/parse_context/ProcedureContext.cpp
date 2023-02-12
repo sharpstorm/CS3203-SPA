@@ -1,6 +1,6 @@
 #include <memory>
 #include "ProcedureContext.h"
-#include "../../common/ASTNode/ProcedureNode.h"
+#include "common/ASTNode/ProcedureNode.h"
 
 using std::shared_ptr;
 
@@ -20,8 +20,4 @@ shared_ptr<ASTNode> ProcedureContext::generateSubtree(SourceParseState* state) {
   procedureNode->addChild(stmtLst);
   state->setCached(procedureNode);
   return procedureNode;
-}
-
-bool ProcedureContext::validate(SourceParseState* state) {
-  return true;
 }
