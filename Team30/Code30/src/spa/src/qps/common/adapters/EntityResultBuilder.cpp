@@ -16,7 +16,22 @@ EntityResult EntityResultBuilder::buildEntityResult(bool isLeft,
     queryResult.firstArgVals,
     queryResult.secondArgVals,
     queryResult.pairVals,
+    unordered_set<pair<string, string>>(),
     isLeft
+  };
+}
+
+EntityResult EntityResultBuilder::buildEntityResult(bool isLeft,
+    QueryResult<string, string> queryResult) {
+  if (queryResult.isEmpty) {
+    return EntityResult{};
+  }
+  return EntityResult{
+    unordered_set<int>(),
+    queryResult.secondArgVals,
+    pair_set<int, string>(),
+    queryResult.pairVals,
+    isLeft,
   };
 }
 
@@ -26,6 +41,7 @@ EntityResult EntityResultBuilder::buildEntityResult(
     unordered_set<int>{},
     lines,
     pair_set<int, string>{},
+    pair_set<string, string>{},
     false
   };
 }

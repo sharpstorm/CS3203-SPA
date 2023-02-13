@@ -14,5 +14,8 @@ class EntityResultBuilder {
   static EntityResult buildEntityResult(bool isLeft,
                                               QueryResult<int, string>
                                                   queryResult);
+  static EntityResult buildEntityResult(bool isLeft,
+                                        QueryResult<string, string>
+                                        queryResult);
   static EntityResult buildEntityResult(unordered_set<string> items);
 };

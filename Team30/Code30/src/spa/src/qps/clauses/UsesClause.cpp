@@ -1,4 +1,10 @@
+#include <string>
+
 #include "UsesClause.h"
+#include "qps/common/adapters/ClauseArgumentRef.h"
+#include "qps/common/adapters/EntityResultBuilder.h"
+
+using std::string;
 
 UsesClause::UsesClause(ClauseArgument leftArg, ClauseArgument rightArg):
   left(leftArg), right(rightArg) {
@@ -6,7 +12,59 @@ UsesClause::UsesClause(ClauseArgument leftArg, ClauseArgument rightArg):
 
 PQLQueryResult* UsesClause::evaluateOn(
         shared_ptr<PkbQueryHandler> pkbQueryHandler) {
-  return nullptr;
+
+  EntityRef rightEntity = ClauseArgumentRef::toEntityRef(right);
+  PQLQueryResult* pqlQueryResult = new PQLQueryResult();
+
+  if(left.isStmtRef()) {
+    QueryResult<int, string> queryResult = evaluateLeftStatement(pkbQueryHandler);
+    if (!left.isSynonym() && !right.isSynonym()) {
+      pqlQueryResult->setIsStaticFalse(queryResult.isEmpty);
+      return pqlQueryResult;
+    }
+
+    PQL_VAR_NAME synonym;
+    EntityResult result;
+
+    if (left.isSynonym()) {
+      synonym = left.getSynonymName();
+      result = EntityResultBuilder::buildEntityResult(true, queryResult);
+
+      pqlQueryResult->addToEntityMap(synonym, result);
+    }
+
+    if (right.isSynonym()) {
+      synonym = right.getSynonymName();
+      result = EntityResultBuilder::buildEntityResult(false, queryResult);
+      pqlQueryResult->addToEntityMap(synonym, result);
+    }
+
+    return pqlQueryResult;
+  }
+
+  QueryResult<string, string> queryResult = evaluateLeftEntity(pkbQueryHandler);
+  if (!left.isSynonym() && !right.isSynonym()) {
+    pqlQueryResult->setIsStaticFalse(queryResult.isEmpty);
+    return pqlQueryResult;
+  }
+
+  PQL_VAR_NAME synonym;
+  EntityResult result;
+
+  if (left.isSynonym()) {
+    synonym = left.getSynonymName();
+    result = EntityResultBuilder::buildEntityResult(true, queryResult);
+
+    pqlQueryResult->addToEntityMap(synonym, result);
+  }
+
+  if (right.isSynonym()) {
+    synonym = right.getSynonymName();
+    result = EntityResultBuilder::buildEntityResult(false, queryResult);
+    pqlQueryResult->addToEntityMap(synonym, result);
+  }
+
+  return pqlQueryResult;
 }
 
 bool UsesClause::validateArgTypes(VariableTable *variables) {
@@ -38,3 +96,21 @@ bool UsesClause::usesSynonym(string varName) {
   return (left.isSynonym() && left.getSynonymName() == varName)
       || (right.isSynonym() && right.getSynonymName() == varName);
 }
+
+QueryResult<int, string> UsesClause::evaluateLeftStatement(
+    shared_ptr<PkbQueryHandler> pkbQueryHandler) {
+  EntityRef rightEntity = ClauseArgumentRef::toEntityRef(right);
+  StmtRef leftStatement = ClauseArgumentRef::toStmtRef(left);
+  QueryResult<int, string> queryResult = pkbQueryHandler->queryUses(leftStatement, rightEntity);
+
+  return queryResult;
+}
+
+QueryResult<string, string> UsesClause::evaluateLeftEntity(shared_ptr<PkbQueryHandler> pkbQueryHandler) {
+  EntityRef rightEntity = ClauseArgumentRef::toEntityRef(right);
+  EntityRef leftEntity = ClauseArgumentRef::toEntityRef(left);
+  QueryResult<string, string> queryResult = pkbQueryHandler->queryUses(leftEntity, rightEntity);
+
+  return queryResult;
+}
+
