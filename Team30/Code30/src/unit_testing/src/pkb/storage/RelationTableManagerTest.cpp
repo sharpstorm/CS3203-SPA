@@ -10,8 +10,8 @@
 #include "pkb/predicates/PredicateFactory.h"
 #include "pkb/storage/RelationTableManager.h"
 #include "pkb/storage/StructureMappingProvider.h"
-#include "pkb/storage/tables/ContiguousTable.h"
-#include "pkb/storage/tables/HashKeyTable.h"
+#include "pkb/storage/tables/ContiguousSetTable.h"
+#include "pkb/storage/tables/HashKeySetTable.h"
 
 using std::make_shared;
 using std::pair;
@@ -20,8 +20,8 @@ using std::unordered_set;
 
 TEST_CASE("RelationTableManager insert and getByArg1, getByArg2") {
   RelationTableManager<int, string> tableManager(
-      make_shared<ContiguousTable<string>>(),
-      make_shared<HashKeyTable<string, int>>());
+      make_shared<ContiguousSetTable<string>>(),
+      make_shared<HashKeySetTable<string, int>>());
 
   tableManager.insert(1, "a");
   tableManager.insert(2, "b");
@@ -34,8 +34,8 @@ TEST_CASE("RelationTableManager insert and getByArg1, getByArg2") {
 
 TEST_CASE("RelationTableManager query known arg1 values with arg2 predicate") {
   RelationTableManager<int, string> tableManager(
-      make_shared<ContiguousTable<string>>(),
-      make_shared<HashKeyTable<string, int>>());
+      make_shared<ContiguousSetTable<string>>(),
+      make_shared<HashKeySetTable<string, int>>());
 
   tableManager.insert(1, "a");
   tableManager.insert(2, "b");
@@ -57,8 +57,8 @@ TEST_CASE("RelationTableManager query known arg1 values with arg2 predicate") {
 
 TEST_CASE("RelationTableManager query known arg2 values with arg1 predicate") {
   RelationTableManager<int, string> tableManager(
-      make_shared<ContiguousTable<string>>(),
-      make_shared<HashKeyTable<string, int>>());
+      make_shared<ContiguousSetTable<string>>(),
+      make_shared<HashKeySetTable<string, int>>());
 
   tableManager.insert(1, "a");
   tableManager.insert(2, "b");
@@ -80,8 +80,8 @@ TEST_CASE("RelationTableManager query known arg2 values with arg1 predicate") {
 
 TEST_CASE("RelationTableManager query known arg1 with arg2 predicate") {
   RelationTableManager<int, string> tableManager(
-      make_shared<ContiguousTable<string>>(),
-      make_shared<HashKeyTable<string, int>>());
+      make_shared<ContiguousSetTable<string>>(),
+      make_shared<HashKeySetTable<string, int>>());
 
   tableManager.insert(1, "a");
   tableManager.insert(2, "b");
@@ -100,8 +100,8 @@ TEST_CASE("RelationTableManager query known arg1 with arg2 predicate") {
 
 TEST_CASE("RelationTableManager query known arg2 with arg1 predicate") {
   RelationTableManager<int, string> tableManager(
-      make_shared<ContiguousTable<string>>(),
-      make_shared<HashKeyTable<string, int>>());
+      make_shared<ContiguousSetTable<string>>(),
+      make_shared<HashKeySetTable<string, int>>());
 
   tableManager.insert(1, "a");
   tableManager.insert(2, "b");

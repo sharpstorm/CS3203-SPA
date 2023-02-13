@@ -7,7 +7,7 @@
 #include "pkb/predicates/PredicateFactory.h"
 #include "pkb/queryHandlers/FollowsQueryHandler.h"
 #include "pkb/storage/StructureMappingProvider.h"
-#include "pkb/storage/tables/ContiguousTable.h"
+#include "pkb/storage/tables/ContiguousSetTable.h"
 
 using std::make_shared;
 using std::make_unique;
@@ -46,8 +46,8 @@ class FollowsQHStructureProviderStub : public StructureMappingProvider {
 /* Follows */
 
 TEST_CASE("FollowsQueryHandler follows(stmtNum,stmtNum)") {
-  auto table = make_shared<ContiguousTable<int>>();
-  auto reverseTable = make_shared<ContiguousTable<int>>();
+  auto table = make_shared<ContiguousSetTable<int>>();
+  auto reverseTable = make_shared<ContiguousSetTable<int>>();
   auto store = make_unique<FollowsStorage>(table, reverseTable);
   auto provider = make_unique<FollowsQHStructureProviderStub>();
   auto factory = make_unique<PredicateFactory>(provider.get(), nullptr);
@@ -72,8 +72,8 @@ TEST_CASE("FollowsQueryHandler follows(stmtNum,stmtNum)") {
 }
 
 TEST_CASE("FollowsQueryHandler follows(stmtNum,stmtType)") {
-  auto table = make_shared<ContiguousTable<int>>();
-  auto reverseTable = make_shared<ContiguousTable<int>>();
+  auto table = make_shared<ContiguousSetTable<int>>();
+  auto reverseTable = make_shared<ContiguousSetTable<int>>();
   auto store = make_unique<FollowsStorage>(table, reverseTable);
   auto provider = make_unique<FollowsQHStructureProviderStub>();
   auto factory = make_unique<PredicateFactory>(provider.get(), nullptr);
@@ -96,8 +96,8 @@ TEST_CASE("FollowsQueryHandler follows(stmtNum,stmtType)") {
 }
 
 TEST_CASE("FollowsQueryHandler follows(stmtType, stmtNum)") {
-  auto table = make_shared<ContiguousTable<int>>();
-  auto reverseTable = make_shared<ContiguousTable<int>>();
+  auto table = make_shared<ContiguousSetTable<int>>();
+  auto reverseTable = make_shared<ContiguousSetTable<int>>();
   auto store = make_unique<FollowsStorage>(table, reverseTable);
   auto provider = make_unique<FollowsQHStructureProviderStub>();
   auto factory = make_unique<PredicateFactory>(provider.get(), nullptr);
@@ -120,8 +120,8 @@ TEST_CASE("FollowsQueryHandler follows(stmtType, stmtNum)") {
 }
 
 TEST_CASE("FollowsQueryHandler follows(stmtType, stmtType)") {
-  auto table = make_shared<ContiguousTable<int>>();
-  auto reverseTable = make_shared<ContiguousTable<int>>();
+  auto table = make_shared<ContiguousSetTable<int>>();
+  auto reverseTable = make_shared<ContiguousSetTable<int>>();
   auto store = make_unique<FollowsStorage>(table, reverseTable);
   auto provider = make_unique<FollowsQHStructureProviderStub>();
   auto factory = make_unique<PredicateFactory>(provider.get(), nullptr);
@@ -143,8 +143,8 @@ TEST_CASE("FollowsQueryHandler follows(stmtType, stmtType)") {
 
 /* FollowsStar */
 TEST_CASE("FollowsQueryHandler followsStar(stmtNum,stmtNum)") {
-  auto table = make_shared<ContiguousTable<int>>();
-  auto reverseTable = make_shared<ContiguousTable<int>>();
+  auto table = make_shared<ContiguousSetTable<int>>();
+  auto reverseTable = make_shared<ContiguousSetTable<int>>();
   auto store = make_unique<FollowsStorage>(table, reverseTable);
   auto provider = make_unique<FollowsQHStructureProviderStub>();
   auto factory = make_unique<PredicateFactory>(provider.get(), nullptr);
@@ -165,8 +165,8 @@ TEST_CASE("FollowsQueryHandler followsStar(stmtNum,stmtNum)") {
 }
 
 TEST_CASE("FollowsQueryHandler followsStar(stmtNum,stmtType)") {
-  auto table = make_shared<ContiguousTable<int>>();
-  auto reverseTable = make_shared<ContiguousTable<int>>();
+  auto table = make_shared<ContiguousSetTable<int>>();
+  auto reverseTable = make_shared<ContiguousSetTable<int>>();
   auto store = make_unique<FollowsStorage>(table, reverseTable);
   auto provider = make_unique<FollowsQHStructureProviderStub>();
   auto factory = make_unique<PredicateFactory>(provider.get(), nullptr);
@@ -190,8 +190,8 @@ TEST_CASE("FollowsQueryHandler followsStar(stmtNum,stmtType)") {
 }
 
 TEST_CASE("FollowsQueryHandler followsStar(stmtType,stmtNum)") {
-  auto table = make_shared<ContiguousTable<int>>();
-  auto reverseTable = make_shared<ContiguousTable<int>>();
+  auto table = make_shared<ContiguousSetTable<int>>();
+  auto reverseTable = make_shared<ContiguousSetTable<int>>();
   auto store = make_unique<FollowsStorage>(table, reverseTable);
   auto provider = make_unique<FollowsQHStructureProviderStub>();
   auto factory = make_unique<PredicateFactory>(provider.get(), nullptr);
@@ -215,8 +215,8 @@ TEST_CASE("FollowsQueryHandler followsStar(stmtType,stmtNum)") {
 }
 
 TEST_CASE("FollowsQueryHandler followsStar(stmtType,stmtType)") {
-  auto table = make_shared<ContiguousTable<int>>();
-  auto reverseTable = make_shared<ContiguousTable<int>>();
+  auto table = make_shared<ContiguousSetTable<int>>();
+  auto reverseTable = make_shared<ContiguousSetTable<int>>();
   auto store = make_unique<FollowsStorage>(table, reverseTable);
   auto provider = make_unique<FollowsQHStructureProviderStub>();
   auto factory = make_unique<PredicateFactory>(provider.get(), nullptr);
@@ -238,8 +238,8 @@ TEST_CASE("FollowsQueryHandler followsStar(stmtType,stmtType)") {
 }
 
 // TEST_CASE("FollowsQueryHandler followsStar(_,stmtType)") {
-//  auto table = make_shared<ContiguousTable<int>>();
-//  auto reverseTable = make_shared<ContiguousTable<int>>();
+//  auto table = make_shared<ContiguousSetTable<int>>();
+//  auto reverseTable = make_shared<ContiguousSetTable<int>>();
 //  auto store = new FollowsStorage(table, reverseTable);
 //  FollowsQHStructureProviderStub* structureProvider =
 //      new FollowsQHStructureProviderStub();

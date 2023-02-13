@@ -1,19 +1,32 @@
 #pragma once
 
-#include <unordered_set>
+#include <vector>
+#include "IBaseTable.h"
 
-#include "BaseTable.h"
-constexpr int MAX_STMTS = 1000;
+using std::vector;
 
-template <typename V>
-class ContiguousTable : public BaseTable<int, V> {
- private:
-  std::unordered_set<V> table[MAX_STMTS];
+template<typename V>
+class ContiguousTable : public IBaseTable<int, V> {
+ protected:
+  vector<V> table;
+  void resizeIfExceed(int key) {
+    if (key >= table.size()) {
+      table.resize(key * 2);
+    }
+  }
 
  public:
-  ContiguousTable() : table() {}
+  explicit ContiguousTable(int size = 1) : table(size) {}
 
-  void set(int key, V value) override { table[key].insert(value); }
+  void set(int key, V value) override {
+    resizeIfExceed(key);
+    table[key] = value;
+  }
 
-  std::unordered_set<V> get(int key) const override { return table[key]; }
+  V get(int key) const override {
+    if (key < table.size()) {
+      return table.at(key);
+    }
+    return V();
+  }
 };

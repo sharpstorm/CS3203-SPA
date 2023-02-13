@@ -2,7 +2,7 @@
 #include <unordered_set>
 
 #include "catch.hpp"
-#include "pkb/storage/tables/ContiguousTable.h"
+#include "pkb/storage/tables/ContiguousSetTable.h"
 #include "pkb/writers/ParentWriter.h"
 
 using std::make_shared;
@@ -10,8 +10,8 @@ using std::make_unique;
 using std::unordered_set;
 
 TEST_CASE("ParentWriter addParent") {
-  auto table = make_shared<ContiguousTable<int>>();
-  auto reverseTable = make_shared<ContiguousTable<int>>();
+  auto table = make_shared<ContiguousSetTable<int>>();
+  auto reverseTable = make_shared<ContiguousSetTable<int>>();
   auto store = make_unique<ParentStorage>(table, reverseTable);
   auto writer = ParentWriter(store.get());
 

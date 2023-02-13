@@ -6,3 +6,5 @@ StatementWriter::StatementWriter(StatementStorage *statementStorage)
 void StatementWriter::addStatement(int lineNumber, StmtType stmtType) {
   statementStorage->addStatement(lineNumber, stmtType);
 }
+
+void StatementWriter::addContainerStmt(int start, int end) {}
