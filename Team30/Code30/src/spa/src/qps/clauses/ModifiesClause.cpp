@@ -12,13 +12,11 @@ ModifiesClause::ModifiesClause(ClauseArgument leftArg, ClauseArgument rightArg):
 
 PQLQueryResult* ModifiesClause::evaluateOn(
         shared_ptr<PkbQueryHandler> pkbQueryHandler) {
-
-  if(left.isStmtRef()) {
+  if (left.isStmtRef()) {
     return generateQueryResult(evaluateLeftStatement(pkbQueryHandler));
   } else {
     return generateQueryResult(evaluateLeftEntity(pkbQueryHandler));
   }
-
 }
 
 bool ModifiesClause::validateArgTypes(VariableTable *variables) {
@@ -55,22 +53,25 @@ QueryResult<int, string> ModifiesClause::evaluateLeftStatement(
     shared_ptr<PkbQueryHandler> pkbQueryHandler) {
   EntityRef rightEntity = ClauseArgumentRef::toEntityRef(right);
   StmtRef leftStatement = ClauseArgumentRef::toStmtRef(left);
-  QueryResult<int, string> queryResult = pkbQueryHandler->queryModifies(leftStatement, rightEntity);
+  QueryResult<int, string> queryResult =
+      pkbQueryHandler->queryModifies(leftStatement, rightEntity);
 
   return queryResult;
 }
 
-QueryResult<string, string> ModifiesClause::evaluateLeftEntity(shared_ptr<PkbQueryHandler> pkbQueryHandler) {
+QueryResult<string, string> ModifiesClause::evaluateLeftEntity(
+    shared_ptr<PkbQueryHandler> pkbQueryHandler) {
   EntityRef rightEntity = ClauseArgumentRef::toEntityRef(right);
   EntityRef leftEntity = ClauseArgumentRef::toEntityRef(left);
-  QueryResult<string, string> queryResult = pkbQueryHandler->queryModifies(leftEntity, rightEntity);
+  QueryResult<string, string> queryResult =
+      pkbQueryHandler->queryModifies(leftEntity, rightEntity);
 
   return queryResult;
 }
 
 template<typename T>
-PQLQueryResult *ModifiesClause::generateQueryResult(QueryResult<T,
-                                                                string> queryResult) {
+PQLQueryResult *ModifiesClause::generateQueryResult(
+    QueryResult<T, string> queryResult) {
   PQLQueryResult* pqlQueryResult = new PQLQueryResult();
   if (!left.isSynonym() && !right.isSynonym()) {
     pqlQueryResult->setIsStaticFalse(queryResult.isEmpty);

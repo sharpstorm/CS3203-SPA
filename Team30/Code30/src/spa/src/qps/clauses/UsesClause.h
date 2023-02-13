@@ -17,7 +17,7 @@ class UsesClause: public SuchThatClause {
   PQLQueryResult* generateQueryResult(QueryResult<T, string> queryResult);
   QueryResult<int, string> evaluateLeftStatement(
       shared_ptr<PkbQueryHandler> pkbQueryHandler);
-  QueryResult<string,string> evaluateLeftEntity(
+  QueryResult<string, string> evaluateLeftEntity(
       shared_ptr<PkbQueryHandler> pkbQueryHandler);
  public:
   UsesClause(ClauseArgument left, ClauseArgument right);

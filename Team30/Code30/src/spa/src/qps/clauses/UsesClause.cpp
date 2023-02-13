@@ -12,10 +12,9 @@ UsesClause::UsesClause(ClauseArgument leftArg, ClauseArgument rightArg):
 
 PQLQueryResult* UsesClause::evaluateOn(
         shared_ptr<PkbQueryHandler> pkbQueryHandler) {
-
   EntityRef rightEntity = ClauseArgumentRef::toEntityRef(right);
 
-  if(left.isStmtRef()) {
+  if (left.isStmtRef()) {
     return generateQueryResult(evaluateLeftStatement(pkbQueryHandler));
   } else {
     return generateQueryResult(evaluateLeftEntity(pkbQueryHandler));
@@ -56,22 +55,25 @@ QueryResult<int, string> UsesClause::evaluateLeftStatement(
     shared_ptr<PkbQueryHandler> pkbQueryHandler) {
   EntityRef rightEntity = ClauseArgumentRef::toEntityRef(right);
   StmtRef leftStatement = ClauseArgumentRef::toStmtRef(left);
-  QueryResult<int, string> queryResult = pkbQueryHandler->queryUses(leftStatement, rightEntity);
+  QueryResult<int, string> queryResult =
+      pkbQueryHandler->queryUses(leftStatement, rightEntity);
 
   return queryResult;
 }
 
-QueryResult<string, string> UsesClause::evaluateLeftEntity(shared_ptr<PkbQueryHandler> pkbQueryHandler) {
+QueryResult<string, string> UsesClause::evaluateLeftEntity(
+    shared_ptr<PkbQueryHandler> pkbQueryHandler) {
   EntityRef rightEntity = ClauseArgumentRef::toEntityRef(right);
   EntityRef leftEntity = ClauseArgumentRef::toEntityRef(left);
-  QueryResult<string, string> queryResult = pkbQueryHandler->queryUses(leftEntity, rightEntity);
+  QueryResult<string, string> queryResult =
+      pkbQueryHandler->queryUses(leftEntity, rightEntity);
 
   return queryResult;
 }
 
 template<typename T>
-PQLQueryResult *UsesClause::generateQueryResult(QueryResult<T,
-                                                            string> queryResult) {
+PQLQueryResult *UsesClause::generateQueryResult(
+    QueryResult<T, string> queryResult) {
   PQLQueryResult* pqlQueryResult = new PQLQueryResult();
 
   if (!left.isSynonym() && !right.isSynonym()) {
