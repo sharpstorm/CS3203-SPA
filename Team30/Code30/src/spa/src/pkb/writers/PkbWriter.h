@@ -14,8 +14,8 @@ class PkbWriter {
  public:
   explicit PkbWriter(PKB* pkb);
 
-  void addFollows(int arg1, int arg2);
-  void addParent(int arg1, int arg2);
+  virtual void addFollows(int arg1, int arg2);
+  virtual void addParent(int arg1, int arg2);
   void addSymbol(const std::string&, EntityType);
   void addProcedure(const std::string&, int, int);
   void addStatement(int, StmtType);
