@@ -83,7 +83,7 @@ PQLQueryResult *ModifiesClause::generateQueryResult(
     return pqlQueryResult;
   }
 
-  PQL_VAR_NAME synonym;
+  PQLSynonymName synonym;
   EntityResult result;
 
   if (left.isSynonym()) {
