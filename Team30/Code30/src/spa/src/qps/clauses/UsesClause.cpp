@@ -14,57 +14,12 @@ PQLQueryResult* UsesClause::evaluateOn(
         shared_ptr<PkbQueryHandler> pkbQueryHandler) {
 
   EntityRef rightEntity = ClauseArgumentRef::toEntityRef(right);
-  PQLQueryResult* pqlQueryResult = new PQLQueryResult();
 
   if(left.isStmtRef()) {
-    QueryResult<int, string> queryResult = evaluateLeftStatement(pkbQueryHandler);
-    if (!left.isSynonym() && !right.isSynonym()) {
-      pqlQueryResult->setIsStaticFalse(queryResult.isEmpty);
-      return pqlQueryResult;
-    }
-
-    PQL_VAR_NAME synonym;
-    EntityResult result;
-
-    if (left.isSynonym()) {
-      synonym = left.getSynonymName();
-      result = EntityResultBuilder::buildEntityResult(true, queryResult);
-
-      pqlQueryResult->addToEntityMap(synonym, result);
-    }
-
-    if (right.isSynonym()) {
-      synonym = right.getSynonymName();
-      result = EntityResultBuilder::buildEntityResult(false, queryResult);
-      pqlQueryResult->addToEntityMap(synonym, result);
-    }
-
-    return pqlQueryResult;
+    return generateQueryResult(evaluateLeftStatement(pkbQueryHandler));
+  } else {
+    return generateQueryResult(evaluateLeftEntity(pkbQueryHandler));
   }
-
-  QueryResult<string, string> queryResult = evaluateLeftEntity(pkbQueryHandler);
-  if (!left.isSynonym() && !right.isSynonym()) {
-    pqlQueryResult->setIsStaticFalse(queryResult.isEmpty);
-    return pqlQueryResult;
-  }
-
-  PQL_VAR_NAME synonym;
-  EntityResult result;
-
-  if (left.isSynonym()) {
-    synonym = left.getSynonymName();
-    result = EntityResultBuilder::buildEntityResult(true, queryResult);
-
-    pqlQueryResult->addToEntityMap(synonym, result);
-  }
-
-  if (right.isSynonym()) {
-    synonym = right.getSynonymName();
-    result = EntityResultBuilder::buildEntityResult(false, queryResult);
-    pqlQueryResult->addToEntityMap(synonym, result);
-  }
-
-  return pqlQueryResult;
 }
 
 bool UsesClause::validateArgTypes(VariableTable *variables) {
@@ -112,5 +67,34 @@ QueryResult<string, string> UsesClause::evaluateLeftEntity(shared_ptr<PkbQueryHa
   QueryResult<string, string> queryResult = pkbQueryHandler->queryUses(leftEntity, rightEntity);
 
   return queryResult;
+}
+
+template<typename T>
+PQLQueryResult *UsesClause::generateQueryResult(QueryResult<T,
+                                                            string> queryResult) {
+  PQLQueryResult* pqlQueryResult = new PQLQueryResult();
+
+  if (!left.isSynonym() && !right.isSynonym()) {
+    pqlQueryResult->setIsStaticFalse(queryResult.isEmpty);
+    return pqlQueryResult;
+  }
+
+  PQL_VAR_NAME synonym;
+  EntityResult result;
+
+  if (left.isSynonym()) {
+    synonym = left.getSynonymName();
+    result = EntityResultBuilder::buildEntityResult(true, queryResult);
+
+    pqlQueryResult->addToEntityMap(synonym, result);
+  }
+
+  if (right.isSynonym()) {
+    synonym = right.getSynonymName();
+    result = EntityResultBuilder::buildEntityResult(false, queryResult);
+    pqlQueryResult->addToEntityMap(synonym, result);
+  }
+
+  return pqlQueryResult;
 }
 
