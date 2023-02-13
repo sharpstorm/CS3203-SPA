@@ -38,7 +38,6 @@ class PQLQueryResult {
   bool getIsStaticFalse();
   void setIsStaticFalse(bool staticRes);
   bool isStaticResult();
-//  PQLQueryResult* filterResultTo(PQLQueryVariable queryVar);
   bool operator == (PQLQueryResult pqr) const;
   virtual ~PQLQueryResult() = default;
 };
