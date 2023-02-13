@@ -1,4 +1,5 @@
 #include "ClauseArgumentRef.h"
+#include "../../errors/QPSError.h"
 
 StmtRef ClauseArgumentRef::toStmtRef(ClauseArgument clauseArgument) {
   if (clauseArgument.isStmtRef()) {
@@ -7,6 +8,10 @@ StmtRef ClauseArgumentRef::toStmtRef(ClauseArgument clauseArgument) {
 
   if (clauseArgument.isWildcard()) {
     return StmtRef{StmtType::None, 0};
+  }
+
+  if (clauseArgument.isEntRef()) {
+    throw QPSError("Invalid call to toStmtRef");
   }
 
   PQLSynonymType synType = clauseArgument.getSynonymType();
@@ -35,6 +40,10 @@ EntityRef ClauseArgumentRef::toEntityRef(ClauseArgument clauseArgument) {
 
   if (clauseArgument.isWildcard()) {
     return EntityRef{EntityType::None, ""};
+  }
+
+  if (clauseArgument.isStmtRef()) {
+    throw QPSError("Invalid call to toEntRef");
   }
 
   PQLSynonymType synType = clauseArgument.getSynonymType();

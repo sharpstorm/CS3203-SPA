@@ -1,14 +1,9 @@
 #include <memory>
 #include "StatementContext.h"
-#include "../../errors/SPError.h"
-#include "sp/common/ASTNode/StatementListNode.h"
+#include "common/ASTNode/StatementListNode.h"
 #include "StatementListContext.h"
 
 using std::shared_ptr;
-
-bool StatementListContext::validate(SourceParseState *state) {
-  return true;
-}
 
 shared_ptr<ASTNode> StatementListContext::generateSubtree(
     SourceParseState *state) {

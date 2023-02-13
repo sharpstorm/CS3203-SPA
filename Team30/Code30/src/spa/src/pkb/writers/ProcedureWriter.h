@@ -1,14 +1,17 @@
 #pragma once
 
 #include <string>
+#include "common/Types.h"
+#include "pkb/storage/ProcedureStorage.h"
+#include "pkb/writers/interfaces/IProcedureWriter.h"
 
-#include "../../common/Types.h"
-#include "../storage/ProcedureStorage.h"
-class ProcedureWriter {
+using std::string;
+
+class ProcedureWriter : public IProcedureWriter {
  public:
-  explicit ProcedureWriter(ProcedureStorage* procedureStorage);
-  void addProcedure(const std::string&, int, int);
+  explicit ProcedureWriter(ProcedureStorage *procedureStorage);
+  void addProcedure(string, int, int) override;
 
  private:
-  ProcedureStorage* procedureStorage;
+  ProcedureStorage *procedureStorage;
 };

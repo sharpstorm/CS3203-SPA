@@ -1,25 +1,30 @@
+#include <vector>
+
 #include "QueryPlanner.h"
+#include "../common/IEvaluatable.h"
 #include "../clauses/SelectClause.h"
 
-using std::make_shared;
+using std::make_unique, std::make_shared;
 
-shared_ptr<QueryPlan> QueryPlanner::getExecutionPlan(PQLQuery* query) {
-  vector<shared_ptr<IEvaluatable>> queryClauses = query->getEvaluatables();
+unique_ptr<QueryPlan> QueryPlanner::getExecutionPlan(PQLQuery* query) {
+  bool isUsingResult = isResultConditioned(query);
 
-  bool foundUsingResult = false;
-  for (int i = 0; i < query->getEvaluatables().size(); i++) {
-    shared_ptr<IEvaluatable> clause = queryClauses.at(i);
-    if (clause->usesSynonym(query->getResultName())) {
-      foundUsingResult = true;
-      break;
-    }
-  }
-
-  if (!foundUsingResult) {
+  if (!isUsingResult) {
     shared_ptr<IEvaluatable> selectClause = make_shared<SelectClause>(
         query->getResultVariable());
-    return make_shared<QueryPlan>(selectClause, query->getEvaluatables());
+    return make_unique<QueryPlan>(selectClause, query->getEvaluatables());
   }
 
-  return make_shared<QueryPlan>(query->getEvaluatables());
+  return make_unique<QueryPlan>(query->getEvaluatables());
+}
+
+bool QueryPlanner::isResultConditioned(PQLQuery *query) {
+  vector<shared_ptr<IEvaluatable>> queryClauses = query->getEvaluatables();
+  for (int i = 0; i < queryClauses.size(); i++) {
+    shared_ptr<IEvaluatable> clause = queryClauses.at(i);
+    if (clause->usesSynonym(query->getResultName())) {
+      return true;
+    }
+  }
+  return false;
 }

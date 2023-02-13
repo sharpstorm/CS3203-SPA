@@ -10,8 +10,8 @@
 #include "pkb/storage/RelationTableManager.h"
 #include "pkb/storage/StructureMappingProvider.h"
 #include "pkb/storage/TransitiveRelationTableManager.h"
-#include "pkb/storage/tables/ContiguousTable.h"
-#include "pkb/storage/tables/HashKeyTable.h"
+#include "pkb/storage/tables/ContiguousSetTable.h"
+#include "pkb/storage/tables/HashKeySetTable.h"
 
 using std::make_pair;
 using std::make_shared;
@@ -20,7 +20,8 @@ using std::unordered_set;
 
 TEST_CASE("TransitiveRelationTableManager getByFirstArgT") {
   TransitiveRelationTableManager<int> tableManager(
-      make_shared<ContiguousTable<int>>(), make_shared<ContiguousTable<int>>());
+      make_shared<ContiguousSetTable<int>>(),
+      make_shared<ContiguousSetTable<int>>());
 
   tableManager.insert(1, 2);
   tableManager.insert(1, 3);
@@ -31,12 +32,13 @@ TEST_CASE("TransitiveRelationTableManager getByFirstArgT") {
   REQUIRE(tableManager.getByFirstArgT(6) == unordered_set<int>({}));
   REQUIRE(tableManager.getByFirstArgT(5) == unordered_set<int>({6}));
   REQUIRE(tableManager.getByFirstArgT(1) ==
-          unordered_set<int>({2, 3, 4, 5, 6}));
+      unordered_set<int>({2, 3, 4, 5, 6}));
 }
 
 TEST_CASE("TransitiveRelationTableManager getBySecondArgT") {
   TransitiveRelationTableManager<int> tableManager(
-      make_shared<ContiguousTable<int>>(), make_shared<ContiguousTable<int>>());
+      make_shared<ContiguousSetTable<int>>(),
+      make_shared<ContiguousSetTable<int>>());
 
   tableManager.insert(2, 1);
   tableManager.insert(3, 1);
@@ -47,14 +49,15 @@ TEST_CASE("TransitiveRelationTableManager getBySecondArgT") {
   REQUIRE(tableManager.getBySecondArgT(6) == unordered_set<int>({}));
   REQUIRE(tableManager.getBySecondArgT(5) == unordered_set<int>({6}));
   REQUIRE(tableManager.getBySecondArgT(1) ==
-          unordered_set<int>({2, 3, 4, 5, 6}));
+      unordered_set<int>({2, 3, 4, 5, 6}));
 }
 
 TEST_CASE(
     "TransitiveRelationTableManager queryT known arg1 values with arg2 "
     "predicate") {
   TransitiveRelationTableManager<int> tableManager(
-      make_shared<ContiguousTable<int>>(), make_shared<ContiguousTable<int>>());
+      make_shared<ContiguousSetTable<int>>(),
+      make_shared<ContiguousSetTable<int>>());
 
   tableManager.insert(1, 2);
   tableManager.insert(1, 6);
@@ -77,7 +80,8 @@ TEST_CASE(
     "TransitiveRelationTableManager queryT known arg2 values with arg1 "
     "predicate") {
   TransitiveRelationTableManager<int> tableManager(
-      make_shared<ContiguousTable<int>>(), make_shared<ContiguousTable<int>>());
+      make_shared<ContiguousSetTable<int>>(),
+      make_shared<ContiguousSetTable<int>>());
 
   tableManager.insert(2, 1);
   tableManager.insert(6, 1);
@@ -99,7 +103,8 @@ TEST_CASE(
 TEST_CASE(
     "TransitiveRelationTableManager queryT known arg1 with arg2 predicate") {
   TransitiveRelationTableManager<int> tableManager(
-      make_shared<ContiguousTable<int>>(), make_shared<ContiguousTable<int>>());
+      make_shared<ContiguousSetTable<int>>(),
+      make_shared<ContiguousSetTable<int>>());
 
   tableManager.insert(1, 2);
   tableManager.insert(1, 6);
@@ -121,7 +126,8 @@ TEST_CASE(
 TEST_CASE(
     "TransitiveRelationTableManager queryT known arg2 with arg1 predicate") {
   TransitiveRelationTableManager<int> tableManager(
-      make_shared<ContiguousTable<int>>(), make_shared<ContiguousTable<int>>());
+      make_shared<ContiguousSetTable<int>>(),
+      make_shared<ContiguousSetTable<int>>());
 
   tableManager.insert(2, 1);
   tableManager.insert(6, 1);

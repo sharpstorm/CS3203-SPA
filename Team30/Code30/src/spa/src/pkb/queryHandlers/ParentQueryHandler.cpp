@@ -2,11 +2,11 @@
 #include "ParentQueryHandler.h"
 
 ParentQueryHandler::ParentQueryHandler(
-    const ParentStorage* store, const PredicateFactory* predicateFactory,
-    const StructureMappingProvider* stuctureProvider)
+    const ParentStorage *store, const PredicateFactory *predicateFactory,
+    const IStructureMappingProvider *structureProvider)
     : store(store),
       predicateFactory(predicateFactory),
-      structureProvider(stuctureProvider) {}
+      structureProvider(structureProvider) {}
 
 QueryResult<int, int> ParentQueryHandler::queryParent(StmtRef s1,
                                                       StmtRef s2) const {

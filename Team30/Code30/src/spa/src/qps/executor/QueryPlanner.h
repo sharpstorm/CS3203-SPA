@@ -1,14 +1,14 @@
 #pragma once
 
-#include <vector>
 #include <memory>
 #include "../common/PQLQuery.h"
-#include "../common/IEvaluatable.h"
+
 #include "QueryPlan.h"
 
-using std::vector;
+using std::unique_ptr;
 
 class QueryPlanner {
  public:
-  shared_ptr<QueryPlan> getExecutionPlan(PQLQuery* query);
+  unique_ptr<QueryPlan> getExecutionPlan(PQLQuery* query);
+  bool isResultConditioned(PQLQuery* query);
 };

@@ -1,6 +1,6 @@
 #include <string>
 #include <unordered_set>
-
+#include <memory>
 #include "catch.hpp"
 #include "common/Types.h"
 #include "pkb/queryHandlers/PkbQueryHandler.h"
@@ -9,11 +9,12 @@
 
 using std::string;
 using std::unordered_set;
+using std::make_unique;
 
 TEST_CASE("Entities write and read") {
-  PKB *pkb = new PKB();
-  PkbWriter writer = PkbWriter(pkb);
-  PkbQueryHandler queryHandler = PkbQueryHandler(pkb);
+  auto pkb = make_unique<PKB>();
+  PkbWriter writer = PkbWriter(pkb.get());
+  PkbQueryHandler queryHandler = PkbQueryHandler(pkb.get());
 
   writer.addSymbol("a", EntityType::Variable);
   writer.addSymbol("b", EntityType::Variable);
@@ -28,9 +29,9 @@ TEST_CASE("Entities write and read") {
 }
 
 TEST_CASE("Statements write and read") {
-  PKB *pkb = new PKB();
-  PkbWriter writer = PkbWriter(pkb);
-  PkbQueryHandler queryHandler = PkbQueryHandler(pkb);
+  auto pkb = make_unique<PKB>();
+  PkbWriter writer = PkbWriter(pkb.get());
+  PkbQueryHandler queryHandler = PkbQueryHandler(pkb.get());
 
   writer.addStatement(1, StmtType::Assign);
   writer.addStatement(2, StmtType::Assign);

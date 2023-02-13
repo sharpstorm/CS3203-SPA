@@ -10,7 +10,6 @@ class StatementContext: public RecursiveParseContext {
  public:
   explicit StatementContext(IGrammarContextProvider* provider):
       RecursiveParseContext(provider) {}
-  bool validate(SourceParseState* state);
   shared_ptr<ASTNode> generateSubtree(SourceParseState* state);
 
  private:

@@ -1,4 +1,3 @@
-#pragma once
 #include "TNode.h"
 
 #include "catch.hpp"

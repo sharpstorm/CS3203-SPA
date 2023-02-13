@@ -24,6 +24,7 @@ unique_ptr<PQLQuery> testPQLParsing(string testCase) {
   }
 
   FAIL("Failed with unknown exception");
+  return nullptr;
 }
 
 void requireSynonyms(shared_ptr<PQLQuery> result, vector<PQLQueryVariable> expectedVariables) {

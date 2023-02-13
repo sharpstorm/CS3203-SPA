@@ -1,13 +1,5 @@
 #include "PQLQueryResult.h"
 
-bool StatementResult::isEmpty() {
-  return lines.empty() && linePairs.empty();
-}
-
-bool EntityResult::isEmpty() {
-  return lines.empty() && entities.empty() && enitityPairs.empty();
-}
-
 PQLQueryResult::PQLQueryResult():
     isStaticFalse(false), error("") {}
 
@@ -79,35 +71,35 @@ void PQLQueryResult::setIsStaticFalse(bool staticRes) {
   isStaticFalse = staticRes;
 }
 
-PQLQueryResult* PQLQueryResult::resultFromVariable(PQLQueryVariable queryVar) {
+PQLQueryResult* PQLQueryResult::filterResultTo(PQLQueryVariable queryVar) {
   PQLQueryResult* queryResult = new PQLQueryResult();
 
   if (isStaticFalse) {
+    queryResult->setIsStaticFalse(isStaticFalse);
     return queryResult;
   }
 
   PQL_VAR_NAME var = queryVar.name;
-  switch (queryVar.type) {
-    case PQL_VAR_TYPE_STMT:
-    case PQL_VAR_TYPE_READ:
-    case PQL_VAR_TYPE_PRINT:
-    case PQL_VAR_TYPE_CALL:
-    case PQL_VAR_TYPE_WHILE:
-    case PQL_VAR_TYPE_IF:
-    case PQL_VAR_TYPE_ASSIGN:
-      if (getFromStatementMap(var) != nullptr) {
-        queryResult->addToStatementMap(var, *getFromStatementMap(var));
-      }
-      break;
-    case PQL_VAR_TYPE_VARIABLE:
-    case PQL_VAR_TYPE_CONSTANT:
-    case PQL_VAR_TYPE_PROCEDURE:
-      if (getFromEntityMap(var) != nullptr) {
-        queryResult->addToEntityMap(var, *getFromEntityMap(var));
-      }
-      break;
+  if (queryVar.isStatementType()) {
+    StatementResult* result = getFromStatementMap(var);
+    if (result != nullptr) {
+      queryResult->addToStatementMap(var, *result);
+    }
+  } else if (queryVar.isEntityType()) {
+    EntityResult* result = getFromEntityMap(var);
+    if (result != nullptr) {
+      queryResult->addToEntityMap(var, *result);
+    }
   }
   queryResult->setError(getError());
 
   return queryResult;
+}
+bool PQLQueryResult::operator==(PQLQueryResult pqr) const {
+  bool statementMapEqual = statementMap == pqr.getStatementMap();
+  bool entityMapEqual = entityMap == pqr.getEntityMap();
+  bool errorEqual = error == pqr.getError();
+  bool isStaticFalseEqual = isStaticFalse == pqr.getIsStaticFalse();
+  return statementMapEqual && entityMapEqual && errorEqual &&
+      isStaticFalseEqual;
 }
