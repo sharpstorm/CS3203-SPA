@@ -16,7 +16,7 @@ EntityResult EntityResultBuilder::buildEntityResult(bool isLeft,
     queryResult.firstArgVals,
     queryResult.secondArgVals,
     queryResult.pairVals,
-    unordered_set<pair<string, string>>(),
+    pair_set<string, string>(),
     isLeft
   };
 }

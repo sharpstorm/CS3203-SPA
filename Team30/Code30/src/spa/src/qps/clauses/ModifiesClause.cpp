@@ -12,10 +12,10 @@ ModifiesClause::ModifiesClause(ClauseArgument leftArg, ClauseArgument rightArg):
 
 PQLQueryResult* ModifiesClause::evaluateOn(
         shared_ptr<PkbQueryHandler> pkbQueryHandler) {
-  if (left.isStmtRef()) {
-    return generateQueryResult(evaluateLeftStatement(pkbQueryHandler));
-  } else {
+  if (left.isEntRef()) {
     return generateQueryResult(evaluateLeftEntity(pkbQueryHandler));
+  } else {
+    return generateQueryResult(evaluateLeftStatement(pkbQueryHandler));
   }
 }
 

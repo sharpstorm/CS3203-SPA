@@ -51,6 +51,11 @@ UniqueVectorPtr<string> ResultProjector::projectEntities(ENTITY_MAP entityMap) {
         result->push_back(entityResult.isLeftArg ?
                           to_string(entity.first) : entity.second);
       }
+    } else if (!entityResult.procedurePairs.empty()) {
+      for (auto &entity : entityResult.procedurePairs)  {
+        result->push_back(entityResult.isLeftArg ?
+            entity.first : entity.second);
+      }
     } else {
       for (auto entity : entityResult.lines) {
         result->push_back(to_string(entity));

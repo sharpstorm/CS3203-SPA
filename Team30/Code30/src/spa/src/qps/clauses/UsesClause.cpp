@@ -12,12 +12,10 @@ UsesClause::UsesClause(ClauseArgument leftArg, ClauseArgument rightArg):
 
 PQLQueryResult* UsesClause::evaluateOn(
         shared_ptr<PkbQueryHandler> pkbQueryHandler) {
-  EntityRef rightEntity = ClauseArgumentRef::toEntityRef(right);
-
-  if (left.isStmtRef()) {
-    return generateQueryResult(evaluateLeftStatement(pkbQueryHandler));
-  } else {
+  if (left.isEntRef()) {
     return generateQueryResult(evaluateLeftEntity(pkbQueryHandler));
+  } else {
+    return generateQueryResult(evaluateLeftStatement(pkbQueryHandler));
   }
 }
 
