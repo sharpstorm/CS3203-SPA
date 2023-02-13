@@ -24,7 +24,7 @@ class PkbWriterStubForParent : public PkbWriter {
     storage = store;
   }
 
-  void addParent(int arg1, int arg2) override { storage->insert(arg1, arg2); }
+  void addParent(int arg1, int arg2) final { storage->insert(arg1, arg2); }
 };
 
 shared_ptr<IfNode> simplyIf() {

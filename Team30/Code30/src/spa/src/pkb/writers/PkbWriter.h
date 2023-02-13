@@ -20,8 +20,8 @@ class PkbWriter : public IPkbWriter {
  public:
   explicit PkbWriter(PKB *pkb);
 
-  virtual void addFollows(int stmtNum, int stmtNum2) override;
-  virtual void addParent(int stmtNum, int stmtNum2) override;
+  void addFollows(int stmtNum, int stmtNum2) override;
+  void addParent(int stmtNum, int stmtNum2) override;
   void addSymbol(string name, EntityType type) override;
   void addProcedure(string name, int start, int end) override;
   void addStatement(int, StmtType) override;
