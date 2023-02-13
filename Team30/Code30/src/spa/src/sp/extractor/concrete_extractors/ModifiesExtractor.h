@@ -1,12 +1,18 @@
-//
-// Created by meow on 2/13/23.
-//
+#pragma once
 
-#ifndef SPA_SRC_SPA_SRC_SP_EXTRACTOR_CONCRETE_EXTRACTORS_MODIFIESEXTRACTOR_H_
-#define SPA_SRC_SPA_SRC_SP_EXTRACTOR_CONCRETE_EXTRACTORS_MODIFIESEXTRACTOR_H_
+#include <memory>
+#include <vector>
 
-class ModifiesExtractor {
+#include "sp/extractor/AbstractExtractor.h"
 
+class ModifiesExtractor : public AbstractExtractor {
+ public:
+  explicit ModifiesExtractor(PkbWriter *pkbWriter);
+  void visit(AssignNode node);
+  void visit(ReadNode node);
+
+
+ private:
+  void addModifiesRelation(int x, string var);
+  PkbWriter *pkbWriter;
 };
-
-#endif //SPA_SRC_SPA_SRC_SP_EXTRACTOR_CONCRETE_EXTRACTORS_MODIFIESEXTRACTOR_H_

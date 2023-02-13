@@ -1,12 +1,24 @@
-//
-// Created by meow on 2/13/23.
-//
+#pragma once
 
-#ifndef SPA_SRC_SPA_SRC_SP_EXTRACTOR_CONCRETE_EXTRACTORS_USESEXTRACTOR_H_
-#define SPA_SRC_SPA_SRC_SP_EXTRACTOR_CONCRETE_EXTRACTORS_USESEXTRACTOR_H_
+#include <memory>
+#include <vector>
 
-class UsesExtractor {
+#include "sp/extractor/AbstractExtractor.h"
 
+class UsesExtractor : public AbstractExtractor {
+ public:
+  explicit UsesExtractor(PkbWriter *pkbWriter);
+  void visit(AssignNode node);
+  void visit(PrintNode node);
+  void visit(WhileNode node);
+  void visit(IfNode node);
+
+ private:
+  void recurseExpr(vector<string>* v,
+                   shared_ptr<ASTNode> node);
+  bool arrayContains(vector<string> *v, string x);
+  void addUsesRelation(int x, string var);
+  void processNode(int lineNumber,
+                   shared_ptr<ASTNode> expr);
+  PkbWriter *pkbWriter;
 };
-
-#endif //SPA_SRC_SPA_SRC_SP_EXTRACTOR_CONCRETE_EXTRACTORS_USESEXTRACTOR_H_
