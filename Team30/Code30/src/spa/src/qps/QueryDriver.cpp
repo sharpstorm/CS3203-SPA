@@ -4,9 +4,11 @@
 #include "parser/QueryParser.h"
 #include "executor/QueryExecutor.h"
 
-PQLQueryResult *QueryDriver::evaluate(string* query) {
+UniqueVectorPtr<string> QueryDriver::evaluate(string* query) {
   unique_ptr<PQLQuery> pqlQuery = parser->parseQuery(query);
-  PQLQueryResult* result = executor->executeQuery(pqlQuery.get());
+  PQLQueryResult* pqlResult = executor->executeQuery(pqlQuery.get());
+  PQLQueryVariable queryVar = pqlQuery->getResultVariable();
+  UniqueVectorPtr<string> result = projector.project(pqlResult, queryVar);
   return result;
 }
 

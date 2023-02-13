@@ -2,11 +2,11 @@
 
 #include "qps/IQPS.h"
 #include "qps/QPSFacade.h"
-#include "PKBStub.cpp"
+#include "QPSQueryPKBStub.cpp"
 
 TEST_CASE("QPS Execute Query") {
   PKB pkbStore;
-  PkbQueryHandler* pkb = new StubPKB(&pkbStore);
+  PkbQueryHandler* pkb = new QPSQueryPKBStub(&pkbStore);
   auto handler = shared_ptr<PkbQueryHandler>(pkb);
   IQPS* qps = new QPSFacade(handler);
 

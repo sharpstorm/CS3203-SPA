@@ -12,7 +12,6 @@ using std::string;
 class QPSFacade: public IQPS {
  private:
   IQueryDriver* driver;
-  ResultProjector projector;
 
  public:
   explicit QPSFacade(shared_ptr<PkbQueryHandler> pkbQH);
