@@ -4,5 +4,5 @@
 
 class PQLIfContext: public PQLDeclarationContext {
  public:
-  PQLIfContext(): PQLDeclarationContext(PQL_VAR_TYPE_IF) {}
+  PQLIfContext(): PQLDeclarationContext(PQL_SYN_TYPE_IF) {}
 };

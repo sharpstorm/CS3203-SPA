@@ -4,5 +4,5 @@
 
 class PQLAssignContext: public PQLDeclarationContext {
  public:
-  PQLAssignContext(): PQLDeclarationContext(PQL_VAR_TYPE_ASSIGN) {}
+  PQLAssignContext(): PQLDeclarationContext(PQL_SYN_TYPE_ASSIGN) {}
 };

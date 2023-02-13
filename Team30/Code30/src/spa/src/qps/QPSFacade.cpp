@@ -9,8 +9,5 @@ QPSFacade::~QPSFacade() noexcept {
 }
 
 UniqueVectorPtr<string> QPSFacade::evaluate(string query) {
-    PQLQueryResult* queryResult = driver->evaluate(&query);
-    UniqueVectorPtr<string> projectedResult = projector.project(queryResult);
-    delete(queryResult);
-    return projectedResult;
+  return driver->evaluate(&query);
 }

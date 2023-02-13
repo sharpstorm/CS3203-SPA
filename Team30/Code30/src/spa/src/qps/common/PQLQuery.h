@@ -6,22 +6,22 @@
 #include <memory>
 
 #include "PQLTypes.h"
-#include "PQLQueryVariable.h"
+#include "PQLQuerySynonym.h"
 #include "qps/clauses/Clause.h"
 
 using std::string, std::unordered_map, std::vector, std::shared_ptr;
 
 class PQLQuery {
     VariableTable variables;
-    PQLQueryVariable resultVariable;
+    PQLQuerySynonym resultVariable;
     vector<shared_ptr<Clause>> clauses;
  public:
-    PQLQuery(unordered_map<string, PQLQueryVariable> vars,
-             PQLQueryVariable resVar,
+    PQLQuery(unordered_map<string, PQLQuerySynonym> vars,
+             PQLQuerySynonym resVar,
              vector<shared_ptr<Clause>> c);
     int getVariableCount();
-    PQLQueryVariable getResultVariable();
-    PQLQueryVariable* getVariable(PQL_VAR_NAME name);
-    PQL_VAR_NAME getResultName();
+    PQLQuerySynonym getResultVariable();
+    PQLQuerySynonym* getVariable(PQLSynonymName name);
+    PQLSynonymName getResultName();
     vector<shared_ptr<IEvaluatable>> getEvaluatables();
 };

@@ -3,7 +3,7 @@
 ClauseArgument::ClauseArgument(ClauseArgumentType type): argType(type) {
 }
 
-ClauseArgument::ClauseArgument(PQLQueryVariable variable):
+ClauseArgument::ClauseArgument(PQLQuerySynonym variable):
     argType(CLAUSE_ARG_SYNONYM), synonym(variable) {
 }
 
@@ -19,7 +19,7 @@ PQLSynonymType ClauseArgument::getSynonymType() {
   return this->synonym.type;
 }
 
-PQL_VAR_NAME ClauseArgument::getSynonymName() {
+PQLSynonymName ClauseArgument::getSynonymName() {
   return this->synonym.name;
 }
 

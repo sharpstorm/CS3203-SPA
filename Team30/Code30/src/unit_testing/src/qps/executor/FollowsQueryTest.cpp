@@ -19,9 +19,9 @@ TEST_CASE("Test QPS Follows Query") {
   PkbQueryHandler* pkb = new StubPKB(&pkbStore);
   auto builder = QueryBuilder();
   builder.setResultVariable("a");
-  builder.setResultType(PQL_VAR_TYPE_STMT);
-  builder.addVariable("a", PQL_VAR_TYPE_STMT);
-  builder.addVariable("b", PQL_VAR_TYPE_STMT);
+  builder.setResultType(PQL_SYN_TYPE_STMT);
+  builder.addVariable("a", PQL_SYN_TYPE_STMT);
+  builder.addVariable("b", PQL_SYN_TYPE_STMT);
   builder.addSuchThat(make_unique<FollowsClause>(
       ClauseArgument(*builder.getVariable("a")),
       ClauseArgument(*builder.getVariable("b"))

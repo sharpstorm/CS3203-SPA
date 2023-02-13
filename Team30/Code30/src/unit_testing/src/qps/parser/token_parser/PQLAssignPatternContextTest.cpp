@@ -30,10 +30,10 @@ void testAssignPatternParsing(vector<PQLToken> inputs,
 
 void testAssignPatternParsing(vector<PQLToken> inputs) {
   testAssignPatternParsing(inputs, unordered_map<string, PQLSynonymType>{
-      {"a", PQL_VAR_TYPE_ASSIGN},
-      {"v", PQL_VAR_TYPE_VARIABLE},
-      {"s", PQL_VAR_TYPE_STMT},
-      {"b", PQL_VAR_TYPE_CONSTANT}
+      {"a", PQL_SYN_TYPE_ASSIGN},
+      {"v", PQL_SYN_TYPE_VARIABLE},
+      {"s", PQL_SYN_TYPE_STMT},
+      {"b", PQL_SYN_TYPE_CONSTANT}
   });
 }
 
@@ -202,15 +202,15 @@ TEST_CASE("Test PQL Assign Pattern bad syntax") {
 
 TEST_CASE("Test PQL Assign Pattern invalid arg0 synonym types") {
   auto invalidTypes = vector<PQLSynonymType>{
-      PQL_VAR_TYPE_VARIABLE,
-      PQL_VAR_TYPE_CONSTANT,
-      PQL_VAR_TYPE_PROCEDURE,
-      PQL_VAR_TYPE_STMT,
-      PQL_VAR_TYPE_READ,
-      PQL_VAR_TYPE_PRINT,
-      PQL_VAR_TYPE_CALL,
-      PQL_VAR_TYPE_WHILE,
-      PQL_VAR_TYPE_IF
+      PQL_SYN_TYPE_VARIABLE,
+      PQL_SYN_TYPE_CONSTANT,
+      PQL_SYN_TYPE_PROCEDURE,
+      PQL_SYN_TYPE_STMT,
+      PQL_SYN_TYPE_READ,
+      PQL_SYN_TYPE_PRINT,
+      PQL_SYN_TYPE_CALL,
+      PQL_SYN_TYPE_WHILE,
+      PQL_SYN_TYPE_IF
   };
 
   for (PQLSynonymType type : invalidTypes) {
@@ -236,20 +236,20 @@ TEST_CASE("Test PQL Assign Pattern invalid arg0 synonym types") {
 
 TEST_CASE("Test PQL Assign Pattern invalid arg1 synonym types") {
   auto invalidTypes = vector<PQLSynonymType>{
-      PQL_VAR_TYPE_ASSIGN,
-      PQL_VAR_TYPE_CONSTANT,
-      PQL_VAR_TYPE_PROCEDURE,
-      PQL_VAR_TYPE_STMT,
-      PQL_VAR_TYPE_READ,
-      PQL_VAR_TYPE_PRINT,
-      PQL_VAR_TYPE_CALL,
-      PQL_VAR_TYPE_WHILE,
-      PQL_VAR_TYPE_IF
+      PQL_SYN_TYPE_ASSIGN,
+      PQL_SYN_TYPE_CONSTANT,
+      PQL_SYN_TYPE_PROCEDURE,
+      PQL_SYN_TYPE_STMT,
+      PQL_SYN_TYPE_READ,
+      PQL_SYN_TYPE_PRINT,
+      PQL_SYN_TYPE_CALL,
+      PQL_SYN_TYPE_WHILE,
+      PQL_SYN_TYPE_IF
   };
 
   for (PQLSynonymType type : invalidTypes) {
     auto synonymMap = unordered_map<string, PQLSynonymType>{
-        {"a", PQL_VAR_TYPE_ASSIGN},
+        {"a", PQL_SYN_TYPE_ASSIGN},
         {"v", type}
     };
 

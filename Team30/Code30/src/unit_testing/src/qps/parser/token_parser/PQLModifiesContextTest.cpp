@@ -33,9 +33,9 @@ void testModifiesParsing(vector<PQLToken> inputs,
 
 void testModifiesParsing(vector<PQLToken> inputs) {
   testModifiesParsing(inputs, unordered_map<string, PQLSynonymType>{
-      {"a", PQL_VAR_TYPE_ASSIGN},
-      {"p", PQL_VAR_TYPE_PROCEDURE},
-      {"v", PQL_VAR_TYPE_VARIABLE}
+      {"a", PQL_SYN_TYPE_ASSIGN},
+      {"p", PQL_SYN_TYPE_PROCEDURE},
+      {"v", PQL_SYN_TYPE_VARIABLE}
   });
 }
 
@@ -211,18 +211,18 @@ TEST_CASE("Test PQL Modifies bad syntax") {
 
 TEST_CASE("Test PQL Modifies valid synonym types") {
   auto validTypes = vector<PQLSynonymType>{
-      PQL_VAR_TYPE_ASSIGN,
-      PQL_VAR_TYPE_READ,
-      PQL_VAR_TYPE_IF,
-      PQL_VAR_TYPE_WHILE,
-      PQL_VAR_TYPE_CALL,
-      PQL_VAR_TYPE_PROCEDURE,
+      PQL_SYN_TYPE_ASSIGN,
+      PQL_SYN_TYPE_READ,
+      PQL_SYN_TYPE_IF,
+      PQL_SYN_TYPE_WHILE,
+      PQL_SYN_TYPE_CALL,
+      PQL_SYN_TYPE_PROCEDURE,
   };
 
   for (PQLSynonymType type : validTypes) {
     auto synonymMap = unordered_map<string, PQLSynonymType>{
         {"s1", type},
-        {"v", PQL_VAR_TYPE_VARIABLE}
+        {"v", PQL_SYN_TYPE_VARIABLE}
     };
     testModifiesParsing(make_unique<PQLTestTokenSequenceBuilder>()
                             ->openBracket()
@@ -238,16 +238,16 @@ TEST_CASE("Test PQL Modifies valid synonym types") {
 
 TEST_CASE("Test PQL Modifies invalid left synonym types") {
   auto invalidTypes = vector<PQLSynonymType>{
-      PQL_VAR_TYPE_VARIABLE,
-      PQL_VAR_TYPE_CONSTANT,
-      PQL_VAR_TYPE_STMT,
-      PQL_VAR_TYPE_PRINT
+      PQL_SYN_TYPE_VARIABLE,
+      PQL_SYN_TYPE_CONSTANT,
+      PQL_SYN_TYPE_STMT,
+      PQL_SYN_TYPE_PRINT
   };
 
   for (PQLSynonymType type : invalidTypes) {
     auto synonymMap = unordered_map<string, PQLSynonymType>{
         {"s1", type},
-        {"v", PQL_VAR_TYPE_VARIABLE}
+        {"v", PQL_SYN_TYPE_VARIABLE}
     };
 
     REQUIRE_THROWS_AS(
@@ -266,15 +266,15 @@ TEST_CASE("Test PQL Modifies invalid left synonym types") {
 
 TEST_CASE("Test PQL Modifies invalid right synonym types") {
   auto invalidTypes = vector<PQLSynonymType>{
-      PQL_VAR_TYPE_CONSTANT,
-      PQL_VAR_TYPE_PROCEDURE,
-      PQL_VAR_TYPE_STMT,
-      PQL_VAR_TYPE_READ,
-      PQL_VAR_TYPE_PRINT,
-      PQL_VAR_TYPE_CALL,
-      PQL_VAR_TYPE_WHILE,
-      PQL_VAR_TYPE_IF,
-      PQL_VAR_TYPE_ASSIGN
+      PQL_SYN_TYPE_CONSTANT,
+      PQL_SYN_TYPE_PROCEDURE,
+      PQL_SYN_TYPE_STMT,
+      PQL_SYN_TYPE_READ,
+      PQL_SYN_TYPE_PRINT,
+      PQL_SYN_TYPE_CALL,
+      PQL_SYN_TYPE_WHILE,
+      PQL_SYN_TYPE_IF,
+      PQL_SYN_TYPE_ASSIGN
   };
 
   for (PQLSynonymType type : invalidTypes) {
