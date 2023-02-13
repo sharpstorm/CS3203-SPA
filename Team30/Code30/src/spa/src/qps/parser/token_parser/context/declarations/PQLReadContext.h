@@ -4,5 +4,5 @@
 
 class PQLReadContext: public PQLDeclarationContext {
  public:
-  PQLReadContext(): PQLDeclarationContext(PQL_VAR_TYPE_READ) {}
+  PQLReadContext(): PQLDeclarationContext(PQL_SYN_TYPE_READ) {}
 };

@@ -4,5 +4,5 @@
 
 class PQLVariableContext: public PQLDeclarationContext {
  public:
-  PQLVariableContext(): PQLDeclarationContext(PQL_VAR_TYPE_VARIABLE) {}
+  PQLVariableContext(): PQLDeclarationContext(PQL_SYN_TYPE_VARIABLE) {}
 };

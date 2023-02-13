@@ -1,6 +1,6 @@
 #include "AssignPatternClause.h"
 
-AssignPatternClause::AssignPatternClause(PQLQueryVariable assignSynonym,
+AssignPatternClause::AssignPatternClause(PQLQuerySynonym assignSynonym,
                                          ClauseArgument leftArgument,
                                          string patternPhrase,
                                          bool allowPartial):
@@ -21,12 +21,12 @@ bool AssignPatternClause::usesSynonym(string varName) {
 }
 
 bool AssignPatternClause::validateArgTypes(VariableTable *variables) {
-  if (!assignSynonym.isType(PQL_VAR_TYPE_ASSIGN)) {
+  if (!assignSynonym.isType(PQL_SYN_TYPE_ASSIGN)) {
     return false;
   }
 
   if (leftArgument.isSynonym()
-      && leftArgument.getSynonymType() != PQL_VAR_TYPE_VARIABLE) {
+      && leftArgument.getSynonymType() != PQL_SYN_TYPE_VARIABLE) {
     return false;
   }
   return true;

@@ -5,8 +5,8 @@
 
 using std::unordered_set;
 
-PQL_VAR_NAME TEST_VAR_NAME = "a";
-PQL_VAR_NAME TEST_NOT_EXIST_VAR_NAME = "z";
+PQLSynonymName TEST_VAR_NAME = "a";
+PQLSynonymName TEST_NOT_EXIST_VAR_NAME = "z";
 
 pair_set<int, int> LINE_PAIRS = pair_set<int, int>({{1, 2}, {2, 3}, {3, 4}});
 unordered_set<int> STATEMENT_LINES = unordered_set<int>({1, 2, 3, 4});

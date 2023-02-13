@@ -4,5 +4,5 @@
 
 class PQLWhileContext: public PQLDeclarationContext {
  public:
-  PQLWhileContext(): PQLDeclarationContext(PQL_VAR_TYPE_WHILE) {}
+  PQLWhileContext(): PQLDeclarationContext(PQL_SYN_TYPE_WHILE) {}
 };

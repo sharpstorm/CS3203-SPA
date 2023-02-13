@@ -25,7 +25,7 @@ PQLQueryResult* ParentTClause::evaluateOn(
     return pqlQueryResult;
   }
 
-  PQL_VAR_NAME synonym;
+  PQLSynonymName synonym;
   StatementResult result;
   if (left.isSynonym()) {
     synonym = left.getSynonymName();

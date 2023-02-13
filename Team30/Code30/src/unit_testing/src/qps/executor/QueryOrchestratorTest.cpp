@@ -25,7 +25,7 @@ TEST_CASE("Queries with Select only") {
   QueryOrchestrator orchestrator(launcher);
 
   PQLQuery* query;
-  PQLQueryVariable targetVariable;
+  PQLQuerySynonym targetVariable;
   vector<shared_ptr<Clause>> emptyClause;
   PQLQueryResult* expectedResult;
   PQLQueryResult* actualResult;
@@ -34,11 +34,11 @@ TEST_CASE("Queries with Select only") {
   // Statement
   expectedResult = new PQLQueryResult();
   expectedResult->addToStatementMap("s", StatementResultBuilder::buildStatementResult(EXPECTED_STATEMENT_LINES));
-  targetVariable = {PQL_VAR_TYPE_STMT, "s"};
+  targetVariable = {PQL_SYN_TYPE_STMT, "s"};
   auto selectClause = shared_ptr<SelectClause>(new SelectClause(targetVariable));
   QueryPlan* queryPlan = new QueryPlan(selectClause, EMPTY_CONDITIONALS);
   query = new PQLQuery(
-      unordered_map<string, PQLQueryVariable>({{"s", targetVariable}}),
+      unordered_map<string, PQLQuerySynonym>({{"s", targetVariable}}),
       targetVariable,
       emptyClause);
   actualResult = orchestrator.execute(query, queryPlan);
@@ -47,11 +47,11 @@ TEST_CASE("Queries with Select only") {
   // Read
   expectedResult = new PQLQueryResult();
   expectedResult->addToStatementMap("re", StatementResultBuilder::buildStatementResult(EXPECTED_STATEMENT_LINES));
-  targetVariable = {PQL_VAR_TYPE_READ, "re"};
+  targetVariable = {PQL_SYN_TYPE_READ, "re"};
   selectClause = shared_ptr<SelectClause>(new SelectClause(targetVariable));
   queryPlan = new QueryPlan(selectClause, EMPTY_CONDITIONALS);
   query = new PQLQuery(
-      unordered_map<string, PQLQueryVariable>({{"re", targetVariable}}),
+      unordered_map<string, PQLQuerySynonym>({{"re", targetVariable}}),
       targetVariable,
       emptyClause);
   actualResult = orchestrator.execute(query, queryPlan);
@@ -60,11 +60,11 @@ TEST_CASE("Queries with Select only") {
   // Print
   expectedResult = new PQLQueryResult();
   expectedResult->addToStatementMap("pn", StatementResultBuilder::buildStatementResult(EXPECTED_STATEMENT_LINES));
-  targetVariable = {PQL_VAR_TYPE_PRINT, "pn"};
+  targetVariable = {PQL_SYN_TYPE_PRINT, "pn"};
   selectClause = shared_ptr<SelectClause>(new SelectClause(targetVariable));
   queryPlan = new QueryPlan(selectClause, EMPTY_CONDITIONALS);
   query = new PQLQuery(
-      unordered_map<string, PQLQueryVariable>({{"pn", targetVariable}}),
+      unordered_map<string, PQLQuerySynonym>({{"pn", targetVariable}}),
       targetVariable,
       emptyClause);
   actualResult = orchestrator.execute(query, queryPlan);
@@ -76,11 +76,11 @@ TEST_CASE("Queries with Select only") {
   // While
   expectedResult = new PQLQueryResult();
   expectedResult->addToStatementMap("w", StatementResultBuilder::buildStatementResult(EXPECTED_STATEMENT_LINES));
-  targetVariable = {PQL_VAR_TYPE_WHILE, "w"};
+  targetVariable = {PQL_SYN_TYPE_WHILE, "w"};
   selectClause = shared_ptr<SelectClause>(new SelectClause(targetVariable));
   queryPlan = new QueryPlan(selectClause, EMPTY_CONDITIONALS);
   query = new PQLQuery(
-      unordered_map<string, PQLQueryVariable>({{"w", targetVariable}}),
+      unordered_map<string, PQLQuerySynonym>({{"w", targetVariable}}),
       targetVariable,
       emptyClause);
   actualResult = orchestrator.execute(query, queryPlan);
@@ -89,11 +89,11 @@ TEST_CASE("Queries with Select only") {
   // If
   expectedResult = new PQLQueryResult();
   expectedResult->addToStatementMap("ifs", StatementResultBuilder::buildStatementResult(EXPECTED_STATEMENT_LINES));
-  targetVariable = {PQL_VAR_TYPE_IF, "ifs"};
+  targetVariable = {PQL_SYN_TYPE_IF, "ifs"};
   selectClause = shared_ptr<SelectClause>(new SelectClause(targetVariable));
   queryPlan = new QueryPlan(selectClause, EMPTY_CONDITIONALS);
   query = new PQLQuery(
-      unordered_map<string, PQLQueryVariable>({{"ifs", targetVariable}}),
+      unordered_map<string, PQLQuerySynonym>({{"ifs", targetVariable}}),
       targetVariable,
       emptyClause);
   actualResult = orchestrator.execute(query, queryPlan);
@@ -102,11 +102,11 @@ TEST_CASE("Queries with Select only") {
   // Assign
   expectedResult = new PQLQueryResult();
   expectedResult->addToStatementMap("a", StatementResultBuilder::buildStatementResult(EXPECTED_STATEMENT_LINES));
-  targetVariable = {PQL_VAR_TYPE_ASSIGN, "a"};
+  targetVariable = {PQL_SYN_TYPE_ASSIGN, "a"};
   selectClause = shared_ptr<SelectClause>(new SelectClause(targetVariable));
   queryPlan = new QueryPlan(selectClause, EMPTY_CONDITIONALS);
   query = new PQLQuery(
-      unordered_map<string, PQLQueryVariable>({{"a", targetVariable}}),
+      unordered_map<string, PQLQuerySynonym>({{"a", targetVariable}}),
       targetVariable,
       emptyClause);
   actualResult = orchestrator.execute(query, queryPlan);
@@ -116,11 +116,11 @@ TEST_CASE("Queries with Select only") {
   // Constant
   expectedResult = new PQLQueryResult();
   expectedResult->addToEntityMap("c", EntityResultBuilder::buildEntityResult(EXPECTED_ENTITIES));
-  targetVariable = {PQL_VAR_TYPE_CONSTANT, "c"};
+  targetVariable = {PQL_SYN_TYPE_CONSTANT, "c"};
   selectClause = shared_ptr<SelectClause>(new SelectClause(targetVariable));
   queryPlan = new QueryPlan(selectClause, EMPTY_CONDITIONALS);
   query = new PQLQuery(
-      unordered_map<string, PQLQueryVariable>({{"c", targetVariable}}),
+      unordered_map<string, PQLQuerySynonym>({{"c", targetVariable}}),
       targetVariable,
       emptyClause
       );
@@ -133,11 +133,11 @@ TEST_CASE("Queries with Select only") {
   // Variable
   expectedResult = new PQLQueryResult();
   expectedResult->addToEntityMap("v", EntityResultBuilder::buildEntityResult(EXPECTED_ENTITIES));
-  targetVariable = {PQL_VAR_TYPE_VARIABLE, "v"};
+  targetVariable = {PQL_SYN_TYPE_VARIABLE, "v"};
   selectClause = shared_ptr<SelectClause>(new SelectClause(targetVariable));
   queryPlan = new QueryPlan(selectClause, EMPTY_CONDITIONALS);
   query = new PQLQuery(
-      unordered_map<string, PQLQueryVariable>({{"v", targetVariable}}),
+      unordered_map<string, PQLQuerySynonym>({{"v", targetVariable}}),
       targetVariable,
       emptyClause
   );

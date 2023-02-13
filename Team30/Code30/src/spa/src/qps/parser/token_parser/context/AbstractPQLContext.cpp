@@ -55,7 +55,7 @@ ClauseArgument AbstractPQLContext::extractCommonRef(
   }
 
   PQLToken* synonym = expectVarchar(state);
-  PQLQueryVariable* var = state->getQueryBuilder()
+  PQLQuerySynonym* var = state->getQueryBuilder()
       ->getVariable(synonym->tokenData);
   if (var == nullptr) {
     throw QPSParserError(QPS_PARSER_ERR_UNKNOWN_TOKEN);

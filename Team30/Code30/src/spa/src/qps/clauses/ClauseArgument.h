@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "../common/PQLQueryVariable.h"
+#include "../common/PQLQuerySynonym.h"
 
 using std::string;
 
@@ -15,18 +15,18 @@ enum ClauseArgumentType {
 class ClauseArgument {
  private:
   ClauseArgumentType argType;
-  PQLQueryVariable synonym;
+  PQLQuerySynonym synonym;
   int statement;
   string ident;
 
  public:
   explicit ClauseArgument(ClauseArgumentType type);
-  explicit ClauseArgument(PQLQueryVariable variable);
+  explicit ClauseArgument(PQLQuerySynonym variable);
   explicit ClauseArgument(int stmt);
   explicit ClauseArgument(string ident);
 
   PQLSynonymType getSynonymType();
-  PQL_VAR_NAME getSynonymName();
+  PQLSynonymName getSynonymName();
   bool isWildcard();
   bool isSynonym();
   bool isStmtRef();

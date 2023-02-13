@@ -37,8 +37,8 @@ EntityResult buildEntityResult(bool leftArg) {
 }
 
 ResultProjector projector;
-PQLQueryVariable TARGET_RESULT_VAR{PQL_VAR_TYPE_ASSIGN, "a"};
-PQLQueryVariable TARGET_ENTITY_VAR{PQL_VAR_TYPE_VARIABLE, "v"};
+PQLQuerySynonym TARGET_RESULT_VAR{PQL_SYN_TYPE_ASSIGN, "a"};
+PQLQuerySynonym TARGET_ENTITY_VAR{PQL_SYN_TYPE_VARIABLE, "v"};
 
 TEST_CASE("Project error result") {
   PQLQueryResult result;

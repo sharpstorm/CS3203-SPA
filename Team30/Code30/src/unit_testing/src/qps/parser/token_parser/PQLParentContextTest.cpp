@@ -33,7 +33,7 @@ void testParentParsing(vector<PQLToken> inputs,
 
 void testParentParsing(vector<PQLToken> inputs) {
   testParentParsing(inputs, unordered_map<string, PQLSynonymType>{
-      { "s", PQL_VAR_TYPE_STMT }
+      {"s", PQL_SYN_TYPE_STMT }
   });
 }
 
@@ -178,13 +178,13 @@ TEST_CASE("Test PQL Parent bad syntax") {
 
 TEST_CASE("Test PQL Parent valid synonym types") {
   auto validTypes = vector<PQLSynonymType>{
-      PQL_VAR_TYPE_STMT,
-      PQL_VAR_TYPE_ASSIGN,
-      PQL_VAR_TYPE_PRINT,
-      PQL_VAR_TYPE_IF,
-      PQL_VAR_TYPE_CALL,
-      PQL_VAR_TYPE_WHILE,
-      PQL_VAR_TYPE_READ
+      PQL_SYN_TYPE_STMT,
+      PQL_SYN_TYPE_ASSIGN,
+      PQL_SYN_TYPE_PRINT,
+      PQL_SYN_TYPE_IF,
+      PQL_SYN_TYPE_CALL,
+      PQL_SYN_TYPE_WHILE,
+      PQL_SYN_TYPE_READ
   };
 
   for (PQLSynonymType type : validTypes) {
@@ -226,9 +226,9 @@ TEST_CASE("Test PQL Parent valid synonym types") {
 
 TEST_CASE("Test PQL Parent invalid synonym types") {
   auto invalidTypes = vector<PQLSynonymType>{
-      PQL_VAR_TYPE_VARIABLE,
-      PQL_VAR_TYPE_CONSTANT,
-      PQL_VAR_TYPE_PROCEDURE
+      PQL_SYN_TYPE_VARIABLE,
+      PQL_SYN_TYPE_CONSTANT,
+      PQL_SYN_TYPE_PROCEDURE
   };
 
   for (PQLSynonymType type : invalidTypes) {

@@ -5,7 +5,7 @@
 using std::to_string, std::vector, std::make_unique;
 
 UniqueVectorPtr<string> ResultProjector::project(PQLQueryResult *queryResult,
-                                                 PQLQueryVariable resultVariable
+                                                 PQLQuerySynonym resultVariable
                                                  ) {
   // Error result
   if (!queryResult->getError().empty()) {
@@ -19,7 +19,7 @@ UniqueVectorPtr<string> ResultProjector::project(PQLQueryResult *queryResult,
     return UniqueVectorPtr<string>(new vector<string>());
   }
 
-  PQL_VAR_NAME var = resultVariable.name;
+  PQLSynonymName var = resultVariable.name;
   bool existInMap = queryResult->getFromStatementMap(var) != nullptr;
   if (!queryResult->getStatementMap().empty() && existInMap)  {
     return projectStatements(queryResult->getFromStatementMap(var));
