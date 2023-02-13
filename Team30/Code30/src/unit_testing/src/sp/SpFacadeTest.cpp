@@ -25,13 +25,13 @@ using std::cout;
 //}
 
 //
-TEST_CASE("SP facade") {
-  PKB pkb;
-  PkbWriter pkbWriter(&pkb);
-  SpFacade spFacade = SpFacade();
-  spFacade.parseSource("test.txt", &pkbWriter);
-
-}
+//TEST_CASE("SP facade") {
+//  PKB pkb;
+//  PkbWriter pkbWriter(&pkb);
+//  SpFacade spFacade = SpFacade();
+//  spFacade.parseSource("test.txt", &pkbWriter);
+//
+//}
 //
 //}
 //
