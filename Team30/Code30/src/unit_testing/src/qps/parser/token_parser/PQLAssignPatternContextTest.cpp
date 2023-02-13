@@ -1,17 +1,24 @@
 #include "catch.hpp"
+#include <memory>
+#include <unordered_map>
 
+#include "../../util/PQLTestTokenSequenceBuilder.cpp"
 #include "qps/parser/token_parser/context/pattern_clause/PQLAssignPatternClauseContext.h"
 #include "qps/errors/QPSParserError.h"
 #include "qps/clauses/AssignPatternClause.h"
+#include "qps/parser/builder/QueryBuilderError.h"
 
-void testAssignPatternParsing(vector<PQLToken> inputs) {
+using std::make_unique, std::unordered_map;
+
+void testAssignPatternParsing(vector<PQLToken> inputs,
+                              unordered_map<string, PQLSynonymType> synonyms) {
   PQLAssignPatternClauseContext context;
   QueryTokenParseState state(&inputs);
   state.advanceStage(TOKEN_PARSE_STAGE_COMMAND);
-  state.getQueryBuilder()->addVariable("a", PQL_VAR_TYPE_ASSIGN);
-  state.getQueryBuilder()->addVariable("x", PQL_VAR_TYPE_VARIABLE);
-  state.getQueryBuilder()->addVariable("s", PQL_VAR_TYPE_STMT);
-  state.getQueryBuilder()->addVariable("b", PQL_VAR_TYPE_CONSTANT);
+
+  for (auto it : synonyms) {
+    state.getQueryBuilder()->addVariable(it.first, it.second);
+  }
   context.parse(&state);
 
   auto clauses = state.getQueryBuilder()->build()->getEvaluatables();
@@ -21,170 +28,243 @@ void testAssignPatternParsing(vector<PQLToken> inputs) {
   REQUIRE(fc != nullptr);
 }
 
+void testAssignPatternParsing(vector<PQLToken> inputs) {
+  testAssignPatternParsing(inputs, unordered_map<string, PQLSynonymType>{
+      {"a", PQL_VAR_TYPE_ASSIGN},
+      {"v", PQL_VAR_TYPE_VARIABLE},
+      {"s", PQL_VAR_TYPE_STMT},
+      {"b", PQL_VAR_TYPE_CONSTANT}
+  });
+}
+
 TEST_CASE("Test PQL Assign Pattern parsing Full Match") {
-  testAssignPatternParsing(vector<PQLToken>{
-      PQLToken{PQL_TOKEN_VARIABLE, "a"},
-      PQLToken{PQL_TOKEN_BRACKET_OPEN},
-      PQLToken{PQL_TOKEN_VARIABLE, "x"},
-      PQLToken{PQL_TOKEN_COMMA},
-      PQLToken{PQL_TOKEN_QUOTE},
-      PQLToken{PQL_TOKEN_INTEGER, "2"},
-      PQLToken{PQL_TOKEN_QUOTE},
-      PQLToken{PQL_TOKEN_BRACKET_CLOSE},
-  });
+  testAssignPatternParsing(make_unique<PQLTestTokenSequenceBuilder>()
+                               ->synonym("a")
+                               ->openBracket()
+                               ->synonym("v")
+                               ->comma()
+                               ->ident("2")
+                               ->closeBracket()
+                               ->build());
 
-  testAssignPatternParsing(vector<PQLToken>{
-      PQLToken{PQL_TOKEN_VARIABLE, "a"},
-      PQLToken{PQL_TOKEN_BRACKET_OPEN},
-      PQLToken{PQL_TOKEN_QUOTE},
-      PQLToken{PQL_TOKEN_VARIABLE, "x"},
-      PQLToken{PQL_TOKEN_QUOTE},
-      PQLToken{PQL_TOKEN_COMMA},
-      PQLToken{PQL_TOKEN_QUOTE},
-      PQLToken{PQL_TOKEN_VARIABLE, "y"},
-      PQLToken{PQL_TOKEN_QUOTE},
-      PQLToken{PQL_TOKEN_BRACKET_CLOSE},
-  });
+  testAssignPatternParsing(make_unique<PQLTestTokenSequenceBuilder>()
+                               ->synonym("a")
+                               ->openBracket()
+                               ->ident("x")
+                               ->comma()
+                               ->ident("2")
+                               ->closeBracket()
+                               ->build());
 
-  testAssignPatternParsing(vector<PQLToken>{
-      PQLToken{PQL_TOKEN_VARIABLE, "a"},
-      PQLToken{PQL_TOKEN_BRACKET_OPEN},
-      PQLToken{PQL_TOKEN_UNDERSCORE},
-      PQLToken{PQL_TOKEN_COMMA},
-      PQLToken{PQL_TOKEN_QUOTE},
-      PQLToken{PQL_TOKEN_VARIABLE, "y"},
-      PQLToken{PQL_TOKEN_QUOTE},
-      PQLToken{PQL_TOKEN_BRACKET_CLOSE},
-  });
+  testAssignPatternParsing(make_unique<PQLTestTokenSequenceBuilder>()
+                               ->synonym("a")
+                               ->openBracket()
+                               ->ident("x")
+                               ->comma()
+                               ->ident("y")
+                               ->closeBracket()
+                               ->build());
+
+  testAssignPatternParsing(make_unique<PQLTestTokenSequenceBuilder>()
+                               ->synonym("a")
+                               ->openBracket()
+                               ->wildcard()
+                               ->comma()
+                               ->ident("y")
+                               ->closeBracket()
+                               ->build());
 }
 
 TEST_CASE("Test PQL Assign Pattern parsing Partial Match") {
-  testAssignPatternParsing(vector<PQLToken>{
-      PQLToken{PQL_TOKEN_VARIABLE, "a"},
-      PQLToken{PQL_TOKEN_BRACKET_OPEN},
-      PQLToken{PQL_TOKEN_VARIABLE, "x"},
-      PQLToken{PQL_TOKEN_COMMA},
-      PQLToken{PQL_TOKEN_UNDERSCORE},
-      PQLToken{PQL_TOKEN_QUOTE},
-      PQLToken{PQL_TOKEN_INTEGER, "2"},
-      PQLToken{PQL_TOKEN_QUOTE},
-      PQLToken{PQL_TOKEN_UNDERSCORE},
-      PQLToken{PQL_TOKEN_BRACKET_CLOSE},
-  });
+  testAssignPatternParsing(
+      make_unique<PQLTestTokenSequenceBuilder>()
+          ->synonym("a")
+          ->openBracket()
+          ->synonym("v")
+          ->comma()
+          ->wildcard()
+          ->ident("2")
+          ->wildcard()
+          ->closeBracket()
+          ->build()
+  );
 
-  testAssignPatternParsing(vector<PQLToken>{
-      PQLToken{PQL_TOKEN_VARIABLE, "a"},
-      PQLToken{PQL_TOKEN_BRACKET_OPEN},
-      PQLToken{PQL_TOKEN_QUOTE},
-      PQLToken{PQL_TOKEN_VARIABLE, "x"},
-      PQLToken{PQL_TOKEN_QUOTE},
-      PQLToken{PQL_TOKEN_COMMA},
-      PQLToken{PQL_TOKEN_UNDERSCORE},
-      PQLToken{PQL_TOKEN_QUOTE},
-      PQLToken{PQL_TOKEN_VARIABLE, "y"},
-      PQLToken{PQL_TOKEN_QUOTE},
-      PQLToken{PQL_TOKEN_UNDERSCORE},
-      PQLToken{PQL_TOKEN_BRACKET_CLOSE},
-  });
+  testAssignPatternParsing(
+      make_unique<PQLTestTokenSequenceBuilder>()
+          ->synonym("a")
+          ->openBracket()
+          ->ident("x")
+          ->comma()
+          ->wildcard()
+          ->ident("y")
+          ->wildcard()
+          ->closeBracket()
+          ->build()
+  );
 
-  testAssignPatternParsing(vector<PQLToken>{
-      PQLToken{PQL_TOKEN_VARIABLE, "a"},
-      PQLToken{PQL_TOKEN_BRACKET_OPEN},
-      PQLToken{PQL_TOKEN_UNDERSCORE},
-      PQLToken{PQL_TOKEN_COMMA},
-      PQLToken{PQL_TOKEN_UNDERSCORE},
-      PQLToken{PQL_TOKEN_QUOTE},
-      PQLToken{PQL_TOKEN_VARIABLE, "y"},
-      PQLToken{PQL_TOKEN_QUOTE},
-      PQLToken{PQL_TOKEN_UNDERSCORE},
-      PQLToken{PQL_TOKEN_BRACKET_CLOSE},
-  });
+  testAssignPatternParsing(
+      make_unique<PQLTestTokenSequenceBuilder>()
+          ->synonym("a")
+          ->openBracket()
+          ->wildcard()
+          ->comma()
+          ->wildcard()
+          ->ident("y")
+          ->wildcard()
+          ->closeBracket()
+          ->build()
+  );
 }
 
 TEST_CASE("Test PQL Assign Pattern parsing Wildcard") {
-  testAssignPatternParsing(vector<PQLToken>{
-      PQLToken{PQL_TOKEN_VARIABLE, "a"},
-      PQLToken{PQL_TOKEN_BRACKET_OPEN},
-      PQLToken{PQL_TOKEN_VARIABLE, "x"},
-      PQLToken{PQL_TOKEN_COMMA},
-      PQLToken{PQL_TOKEN_UNDERSCORE},
-      PQLToken{PQL_TOKEN_BRACKET_CLOSE},
-  });
+  testAssignPatternParsing(
+      make_unique<PQLTestTokenSequenceBuilder>()
+          ->synonym("a")
+          ->openBracket()
+          ->synonym("v")
+          ->comma()
+          ->wildcard()
+          ->closeBracket()
+          ->build()
+  );
 
-  testAssignPatternParsing(vector<PQLToken>{
-      PQLToken{PQL_TOKEN_VARIABLE, "a"},
-      PQLToken{PQL_TOKEN_BRACKET_OPEN},
-      PQLToken{PQL_TOKEN_QUOTE},
-      PQLToken{PQL_TOKEN_VARIABLE, "x"},
-      PQLToken{PQL_TOKEN_QUOTE},
-      PQLToken{PQL_TOKEN_COMMA},
-      PQLToken{PQL_TOKEN_UNDERSCORE},
-      PQLToken{PQL_TOKEN_BRACKET_CLOSE},
-  });
+  testAssignPatternParsing(
+      make_unique<PQLTestTokenSequenceBuilder>()
+          ->synonym("a")
+          ->openBracket()
+          ->ident("x")
+          ->comma()
+          ->wildcard()
+          ->closeBracket()
+          ->build()
+  );
 
-  testAssignPatternParsing(vector<PQLToken>{
-      PQLToken{PQL_TOKEN_VARIABLE, "a"},
-      PQLToken{PQL_TOKEN_BRACKET_OPEN},
-      PQLToken{PQL_TOKEN_UNDERSCORE},
-      PQLToken{PQL_TOKEN_COMMA},
-      PQLToken{PQL_TOKEN_UNDERSCORE},
-      PQLToken{PQL_TOKEN_BRACKET_CLOSE},
-  });
+  testAssignPatternParsing(
+      make_unique<PQLTestTokenSequenceBuilder>()
+          ->synonym("a")
+          ->openBracket()
+          ->wildcard()
+          ->comma()
+          ->wildcard()
+          ->closeBracket()
+          ->build()
+  );
 }
 
 TEST_CASE("Test PQL Assign Pattern invalid ref") {
-  REQUIRE_THROWS_AS(testAssignPatternParsing(vector<PQLToken>{
-      PQLToken{PQL_TOKEN_VARIABLE, "d"},
-      PQLToken{PQL_TOKEN_BRACKET_OPEN},
-      PQLToken{PQL_TOKEN_VARIABLE, "x"},
-      PQLToken{PQL_TOKEN_COMMA},
-      PQLToken{PQL_TOKEN_QUOTE},
-      PQLToken{PQL_TOKEN_VARIABLE, "y"},
-      PQLToken{PQL_TOKEN_QUOTE},
-      PQLToken{PQL_TOKEN_BRACKET_CLOSE},
-  }), QPSParserError);
+  REQUIRE_THROWS_AS(testAssignPatternParsing(
+      make_unique<PQLTestTokenSequenceBuilder>()
+          ->synonym("b")
+          ->openBracket()
+          ->wildcard()
+          ->comma()
+          ->wildcard()
+          ->closeBracket()
+          ->build()
+  ), QPSParserError);
 
-  REQUIRE_THROWS_AS(testAssignPatternParsing(vector<PQLToken>{
-      PQLToken{PQL_TOKEN_VARIABLE, "a"},
-      PQLToken{PQL_TOKEN_BRACKET_OPEN},
-      PQLToken{PQL_TOKEN_VARIABLE, "z"},
-      PQLToken{PQL_TOKEN_COMMA},
-      PQLToken{PQL_TOKEN_QUOTE},
-      PQLToken{PQL_TOKEN_VARIABLE, "y"},
-      PQLToken{PQL_TOKEN_QUOTE},
-      PQLToken{PQL_TOKEN_BRACKET_CLOSE},
-  }), QPSParserError);
+  REQUIRE_THROWS_AS(testAssignPatternParsing(
+      make_unique<PQLTestTokenSequenceBuilder>()
+          ->synonym("a")
+          ->openBracket()
+          ->synonym("z")
+          ->comma()
+          ->wildcard()
+          ->closeBracket()
+          ->build()
+  ), QPSParserError);
 
-  REQUIRE_THROWS_AS(testAssignPatternParsing(vector<PQLToken>{
-      PQLToken{PQL_TOKEN_VARIABLE, "s"},
-      PQLToken{PQL_TOKEN_BRACKET_OPEN},
-      PQLToken{PQL_TOKEN_VARIABLE, "x"},
-      PQLToken{PQL_TOKEN_COMMA},
-      PQLToken{PQL_TOKEN_QUOTE},
-      PQLToken{PQL_TOKEN_VARIABLE, "y"},
-      PQLToken{PQL_TOKEN_QUOTE},
-      PQLToken{PQL_TOKEN_BRACKET_CLOSE},
-  }), QPSParserError);
-
-  REQUIRE_THROWS_AS(testAssignPatternParsing(vector<PQLToken>{
-      PQLToken{PQL_TOKEN_VARIABLE, "s"},
-      PQLToken{PQL_TOKEN_BRACKET_OPEN},
-      PQLToken{PQL_TOKEN_VARIABLE, "x"},
-      PQLToken{PQL_TOKEN_COMMA},
-      PQLToken{PQL_TOKEN_VARIABLE, "b"},
-      PQLToken{PQL_TOKEN_BRACKET_CLOSE},
-  }), QPSParserError);
+  REQUIRE_THROWS_AS(testAssignPatternParsing(
+      make_unique<PQLTestTokenSequenceBuilder>()
+          ->synonym("a")
+          ->openBracket()
+          ->synonym("v")
+          ->comma()
+          ->synonym("b")
+          ->closeBracket()
+          ->build()
+  ), QPSParserError);
 }
 
 TEST_CASE("Test PQL Assign Pattern bad syntax") {
-  REQUIRE_THROWS_AS(testAssignPatternParsing(vector<PQLToken>{
-      PQLToken{PQL_TOKEN_VARIABLE, "a"},
-      PQLToken{PQL_TOKEN_BRACKET_OPEN},
-      PQLToken{PQL_TOKEN_VARIABLE, "z"},
-      PQLToken{PQL_TOKEN_COMMA},
-      PQLToken{PQL_TOKEN_QUOTE},
-      PQLToken{PQL_TOKEN_VARIABLE, "y"},
-      PQLToken{PQL_TOKEN_BRACKET_CLOSE},
-  }), QPSParserError);
+  REQUIRE_THROWS_AS(testAssignPatternParsing(
+      make_unique<PQLTestTokenSequenceBuilder>()
+          ->synonym("a")
+          ->openBracket()
+          ->synonym("v")
+          ->comma()
+          ->addToken(PQL_TOKEN_QUOTE)
+          ->synonym("y")
+          ->closeBracket()
+          ->build()
+  ), QPSParserError);
 }
 
+TEST_CASE("Test PQL Assign Pattern invalid arg0 synonym types") {
+  auto invalidTypes = vector<PQLSynonymType>{
+      PQL_VAR_TYPE_VARIABLE,
+      PQL_VAR_TYPE_CONSTANT,
+      PQL_VAR_TYPE_PROCEDURE,
+      PQL_VAR_TYPE_STMT,
+      PQL_VAR_TYPE_READ,
+      PQL_VAR_TYPE_PRINT,
+      PQL_VAR_TYPE_CALL,
+      PQL_VAR_TYPE_WHILE,
+      PQL_VAR_TYPE_IF
+  };
+
+  for (PQLSynonymType type : invalidTypes) {
+    auto synonymMap = unordered_map<string, PQLSynonymType>{
+        {"a", type}
+    };
+
+    REQUIRE_THROWS_AS(
+        testAssignPatternParsing(
+            make_unique<PQLTestTokenSequenceBuilder>()
+                ->synonym("a")
+                ->openBracket()
+                ->wildcard()
+                ->comma()
+                ->wildcard()
+                ->closeBracket()
+                ->build()
+            , synonymMap),
+        QPSParserError
+    );
+  }
+}
+
+TEST_CASE("Test PQL Assign Pattern invalid arg1 synonym types") {
+  auto invalidTypes = vector<PQLSynonymType>{
+      PQL_VAR_TYPE_ASSIGN,
+      PQL_VAR_TYPE_CONSTANT,
+      PQL_VAR_TYPE_PROCEDURE,
+      PQL_VAR_TYPE_STMT,
+      PQL_VAR_TYPE_READ,
+      PQL_VAR_TYPE_PRINT,
+      PQL_VAR_TYPE_CALL,
+      PQL_VAR_TYPE_WHILE,
+      PQL_VAR_TYPE_IF
+  };
+
+  for (PQLSynonymType type : invalidTypes) {
+    auto synonymMap = unordered_map<string, PQLSynonymType>{
+        {"a", PQL_VAR_TYPE_ASSIGN},
+        {"v", type}
+    };
+
+    REQUIRE_THROWS_AS(
+        testAssignPatternParsing(
+            make_unique<PQLTestTokenSequenceBuilder>()
+                ->synonym("a")
+                ->openBracket()
+                ->synonym("v")
+                ->comma()
+                ->wildcard()
+                ->closeBracket()
+                ->build()
+            , synonymMap),
+        QueryBuilderError
+    );
+  }
+}
