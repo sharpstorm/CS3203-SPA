@@ -22,11 +22,7 @@ PQLQueryResult *QueryOrchestrator::execute(PQLQuery* query,
     return nullptr;
   }
 
-  PQLQueryResult* filtered = finalResult
-      ->filterResultTo(query->getResultVariable());
-  delete(finalResult);
-
-  return filtered;
+  return finalResult;
 }
 
 bool QueryOrchestrator::shouldExecuteSelect(QueryPlan *plan,
