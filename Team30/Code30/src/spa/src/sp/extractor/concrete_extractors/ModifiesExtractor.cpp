@@ -1,4 +1,7 @@
+#include <string>
 #include "ModifiesExtractor.h"
+
+using std::string;
 
 ModifiesExtractor::ModifiesExtractor(PkbWriter* writer) { pkbWriter = writer; }
 

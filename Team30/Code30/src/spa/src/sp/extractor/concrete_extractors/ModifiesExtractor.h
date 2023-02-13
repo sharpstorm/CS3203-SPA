@@ -1,9 +1,9 @@
 #pragma once
 
-#include <memory>
-#include <vector>
-
+#include <string>
 #include "sp/extractor/AbstractExtractor.h"
+
+using std::string;
 
 class ModifiesExtractor : public AbstractExtractor {
  public:

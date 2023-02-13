@@ -1,4 +1,8 @@
+#include <string>
+#include <vector>
 #include "UsesExtractor.h"
+
+using std::string;
 
 UsesExtractor::UsesExtractor(PkbWriter* writer) { pkbWriter = writer; }
 
@@ -58,7 +62,7 @@ void UsesExtractor::recurseExpr(vector<string>* v,
 }
 
 bool UsesExtractor::arrayContains(vector<string>* v, string x) {
-  if(std::find(v->begin(), v->end(), x) != v->end()) {
+  if (std::find(v->begin(), v->end(), x) != v->end()) {
     return true;
   } else {
     return false;

@@ -10,18 +10,18 @@ TEST_CASE("Test SP Parser - Procedure") {
   SourceLexer lexer;
   SourceTokenParser parser;
 
-//  string ss = "procedure printResults {\n"
-////              "print flag;\n"
-////              "print cenX;\n"
-////              "print cenY;\n"
-////              "print normSq;\n"
-////              "while (!(x != 0)) {\n"
-////              "count = count + 1;\n"
-////              "cenX = cenX + x;\n"
-////              "cenY = cenY + y;\n"
-////              "}"
-////              "}";
   string ss = "procedure printResults {\n"
+              "print flag;\n"
+              "print cenX;\n"
+              "print cenY;\n"
+              "print normSq;\n"
+              "while (!(x != 0)) {\n"
+              "count = count + 1;\n"
+              "cenX = cenX + x;\n"
+              "cenY = cenY + y;\n"
+              "}"
+              "}";
+  string ss2 = "procedure printResults {\n"
               "while (!(x == 0)) {\n"
               "count = count + 1;\n"
               "cenX = cenX + x;\n"

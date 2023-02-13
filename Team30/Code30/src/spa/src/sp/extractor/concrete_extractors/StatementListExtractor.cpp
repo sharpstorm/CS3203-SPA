@@ -1,6 +1,7 @@
 #include "StatementListExtractor.h"
 
-StatementListExtractor::StatementListExtractor(PkbWriter* writer) { pkbWriter = writer; }
+StatementListExtractor::StatementListExtractor
+(PkbWriter* writer) { pkbWriter = writer; }
 
 void StatementListExtractor::visit(StatementListNode node) {
   int start = std::dynamic_pointer_cast<StatementASTNode>
