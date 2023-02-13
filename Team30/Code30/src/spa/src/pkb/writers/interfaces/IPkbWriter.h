@@ -9,7 +9,6 @@
 #include "pkb/writers/interfaces/IProcedureWriter.h"
 #include "pkb/writers/interfaces/IStatementWriter.h"
 #include "pkb/writers/interfaces/ISymbolWriter.h"
-
 using std::string;
 
 class IPkbWriter : public IFollowsWriter,
