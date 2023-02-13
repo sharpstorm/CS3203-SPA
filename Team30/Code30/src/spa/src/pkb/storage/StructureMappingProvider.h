@@ -6,7 +6,7 @@
 
 #include "../../common/Types.h"
 #include "ProcedureStorage.h"
-#include "StatementStorage.h"
+#include "StorageTypes.h"
 #include "interfaces/IStructureMappingProvider.h"
 
 class StructureMappingProvider : public IStructureMappingProvider {

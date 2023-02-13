@@ -4,15 +4,15 @@ EntityMappingProvider::EntityMappingProvider(SymbolStorage *symbolStorage)
     : symbolStorage(symbolStorage) {}
 
 EntityType EntityMappingProvider::getTypeOfSymbol(string entityName) const {
-  return symbolStorage->getSymbol(entityName);
+  return symbolStorage->getByKey(entityName);
 }
 
 unordered_set<string> EntityMappingProvider::getSymbolsOfType(
     EntityType entityType) const {
-  return symbolStorage->getSymbolsOfType(entityType);
+  return symbolStorage->getByValue(entityType);
 }
 
 bool EntityMappingProvider::isSymbolOfType(string entityName,
                                            EntityType entityType) const {
-  return entityType == symbolStorage->getSymbol(entityName);
+  return entityType == symbolStorage->getByKey(entityName);
 }
