@@ -4,7 +4,7 @@
 
 #include "../../../../spa/src/pkb/storage/PKB.h"
 #include "../../../../spa/src/pkb/storage/StorageTypes.h"
-#include "../../../../spa/src/pkb/writers/ParentWriter.h"
+#include "../../../../spa/src/pkb/storage/TransitiveRelationTableManager.h"
 #include "../../../../spa/src/pkb/writers/PkbWriter.h"
 #include "../../../../spa/src/sp/common/ASTNode/StatementListNode.h"
 #include "../../../../spa/src/sp/common/ASTNode/math/ConditionalExpressionASTNode.h"
@@ -22,25 +22,14 @@ using std::unordered_set;
 
 class PkbWriterStubForParent : public PkbWriter {
  public:
-  FollowsWriter followsWriterStub;
-  ParentWriter parentWriterStub;
-  SymbolWriter symbolWriterStub;
-  StatementWriter statementWriterStub;
-  ProcedureWriter procedureWriterStub;
+  TransitiveRelationTableManager<int>* storage;
 
-  PkbWriterStubForParent(PKB* pkb, ParentWriter writer)
-      : PkbWriter(pkb),
-        followsWriterStub(pkb->followsStore),
-        parentWriterStub(pkb->parentStore),
-        symbolWriterStub(pkb->symbolStorage),
-        statementWriterStub(pkb->statementStorage),
-        procedureWriterStub(pkb->procedureStorage) {
-    parentWriterStub = writer;
+  PkbWriterStubForParent(PKB* pkb, TransitiveRelationTableManager<int>* store)
+      : PkbWriter(pkb) {
+    storage = store;
   }
 
-  void addParent(int arg1, int arg2) override {
-    parentWriterStub.addParent(arg1, arg2);
-  }
+  void addParent(int arg1, int arg2) override { storage->insert(arg1, arg2); }
 };
 
 shared_ptr<IfNode> simplyIf() {
@@ -166,11 +155,10 @@ TEST_CASE("ParentExtractor simple If") {
 
   auto table = make_shared<ContiguousTable<int>>();
   auto reverseTable = make_shared<ContiguousTable<int>>();
-  auto store = new ParentStorage(table, reverseTable);
-  ParentWriter writerAccessible = ParentWriter(store);
+  auto store = new TransitiveRelationTableManager<int>(table, reverseTable);
   PKB* pkb = new PKB();
 
-  PkbWriterStubForParent writer = PkbWriterStubForParent(pkb, writerAccessible);
+  PkbWriterStubForParent writer = PkbWriterStubForParent(pkb, store);
 
   ParentExtractor* extractor = new ParentExtractor(&writer);
 
@@ -188,11 +176,10 @@ TEST_CASE("ParentExtractor simple While") {
 
   auto table = make_shared<ContiguousTable<int>>();
   auto reverseTable = make_shared<ContiguousTable<int>>();
-  auto store = new ParentStorage(table, reverseTable);
-  ParentWriter writerAccessible = ParentWriter(store);
+  auto store = new TransitiveRelationTableManager<int>(table, reverseTable);
   PKB* pkb = new PKB();
 
-  PkbWriterStubForParent writer = PkbWriterStubForParent(pkb, writerAccessible);
+  PkbWriterStubForParent writer = PkbWriterStubForParent(pkb, store);
 
   ParentExtractor* extractor = new ParentExtractor(&writer);
 
@@ -209,11 +196,10 @@ TEST_CASE("ParentExtractor if with while stmt") {
 
   auto table = make_shared<ContiguousTable<int>>();
   auto reverseTable = make_shared<ContiguousTable<int>>();
-  auto store = new ParentStorage(table, reverseTable);
-  ParentWriter writerAccessible = ParentWriter(store);
+  auto store = new TransitiveRelationTableManager<int>(table, reverseTable);
   PKB* pkb = new PKB();
 
-  PkbWriterStubForParent writer = PkbWriterStubForParent(pkb, writerAccessible);
+  PkbWriterStubForParent writer = PkbWriterStubForParent(pkb, store);
 
   ParentExtractor* extractor = new ParentExtractor(&writer);
 

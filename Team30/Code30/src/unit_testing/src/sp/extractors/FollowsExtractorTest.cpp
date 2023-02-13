@@ -1,6 +1,7 @@
 #include <memory>
 #include <unordered_set>
 
+#include "../../../../spa/src/pkb/storage/TransitiveRelationTableManager.h"
 #include "../../../../spa/src/pkb/writers/PkbWriter.h"
 #include "../../../../spa/src/sp/common/ASTNode/StatementListNode.h"
 #include "../../../../spa/src/sp/common/ASTNode/math/ConditionalExpressionASTNode.h"
@@ -9,7 +10,6 @@
 #include "../../../../spa/src/sp/common/ASTNode/statement/WhileNode.h"
 #include "catch.hpp"
 #include "pkb/storage/tables/ContiguousTable.h"
-#include "pkb/writers/FollowsWriter.h"
 #include "sp/extractor/concrete_extractors/FollowsExtractor.h"
 
 using std::make_shared;
@@ -17,25 +17,14 @@ using std::unordered_set;
 
 class PkbWriterStubForFollows : public PkbWriter {
  public:
-  FollowsWriter followsWriterStub;
-  ParentWriter parentWriterStub;
-  SymbolWriter symbolWriterStub;
-  StatementWriter statementWriterStub;
-  ProcedureWriter procedureWriterStub;
+  TransitiveRelationTableManager<int>* storage;
 
-  PkbWriterStubForFollows(PKB* pkb, FollowsWriter writer)
-      : PkbWriter(pkb),
-        followsWriterStub(pkb->followsStore),
-        parentWriterStub(pkb->parentStore),
-        symbolWriterStub(pkb->symbolStorage),
-        statementWriterStub(pkb->statementStorage),
-        procedureWriterStub(pkb->procedureStorage) {
-    followsWriterStub = writer;
+  PkbWriterStubForFollows(PKB* pkb, TransitiveRelationTableManager<int>* store)
+      : PkbWriter(pkb) {
+    storage = store;
   }
 
-  void addFollows(int arg1, int arg2) override {
-    followsWriterStub.addFollows(arg1, arg2);
-  }
+  void addFollows(int arg1, int arg2) override { storage->insert(arg1, arg2); }
 };
 
 shared_ptr<StatementListNode> simplyLst() {
@@ -112,12 +101,10 @@ TEST_CASE("FollowsExtractor simpleStmtLst") {
 
   auto table = make_shared<ContiguousTable<int>>();
   auto reverseTable = make_shared<ContiguousTable<int>>();
-  auto store = new FollowsStorage(table, reverseTable);
-  FollowsWriter writerAccessible = FollowsWriter(store);
+  auto store = new TransitiveRelationTableManager<int>(table, reverseTable);
   PKB* pkb = new PKB();
 
-  PkbWriterStubForFollows writer =
-      PkbWriterStubForFollows(pkb, writerAccessible);
+  PkbWriterStubForFollows writer = PkbWriterStubForFollows(pkb, store);
 
   FollowsExtractor* extractor = new FollowsExtractor(&writer);
 
@@ -134,12 +121,10 @@ TEST_CASE("FollowsExtractor Statement with While loop inbetween") {
 
   auto table = make_shared<ContiguousTable<int>>();
   auto reverseTable = make_shared<ContiguousTable<int>>();
-  auto store = new FollowsStorage(table, reverseTable);
-  FollowsWriter writerAccessible = FollowsWriter(store);
+  auto store = new TransitiveRelationTableManager<int>(table, reverseTable);
   PKB* pkb = new PKB();
 
-  PkbWriterStubForFollows writer =
-      PkbWriterStubForFollows(pkb, writerAccessible);
+  PkbWriterStubForFollows writer = PkbWriterStubForFollows(pkb, store);
 
   FollowsExtractor* extractor = new FollowsExtractor(&writer);
 
