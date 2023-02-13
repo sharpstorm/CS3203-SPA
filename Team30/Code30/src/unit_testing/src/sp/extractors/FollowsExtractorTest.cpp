@@ -1,15 +1,12 @@
+#include <common/ASTNode/math/ConditionalExpressionASTNode.h>
+
 #include <memory>
 #include <unordered_set>
 
 #include "../../../../spa/src/pkb/storage/TransitiveRelationTableManager.h"
+#include "../../../../spa/src/pkb/storage/tables/ContiguousSetTable.h"
 #include "../../../../spa/src/pkb/writers/PkbWriter.h"
-#include "../../../../spa/src/sp/common/ASTNode/StatementListNode.h"
-#include "../../../../spa/src/sp/common/ASTNode/math/ConditionalExpressionASTNode.h"
-#include "../../../../spa/src/sp/common/ASTNode/statement/PrintNode.h"
-#include "../../../../spa/src/sp/common/ASTNode/statement/StatementASTNode.h"
-#include "../../../../spa/src/sp/common/ASTNode/statement/WhileNode.h"
 #include "catch.hpp"
-#include "pkb/storage/tables/ContiguousTable.h"
 #include "sp/extractor/concrete_extractors/FollowsExtractor.h"
 
 using std::make_shared;
@@ -99,8 +96,8 @@ shared_ptr<StatementListNode> stmListWithWhile() {
 TEST_CASE("FollowsExtractor simpleStmtLst") {
   shared_ptr<StatementListNode> simple = simplyLst();
 
-  auto table = make_shared<ContiguousTable<int>>();
-  auto reverseTable = make_shared<ContiguousTable<int>>();
+  auto table = make_shared<ContiguousSetTable<int>>();
+  auto reverseTable = make_shared<ContiguousSetTable<int>>();
   auto store = new TransitiveRelationTableManager<int>(table, reverseTable);
   PKB* pkb = new PKB();
 
@@ -119,8 +116,8 @@ TEST_CASE("FollowsExtractor simpleStmtLst") {
 TEST_CASE("FollowsExtractor Statement with While loop inbetween") {
   shared_ptr<StatementListNode> simple = simplyLst();
 
-  auto table = make_shared<ContiguousTable<int>>();
-  auto reverseTable = make_shared<ContiguousTable<int>>();
+  auto table = make_shared<ContiguousSetTable<int>>();
+  auto reverseTable = make_shared<ContiguousSetTable<int>>();
   auto store = new TransitiveRelationTableManager<int>(table, reverseTable);
   PKB* pkb = new PKB();
 

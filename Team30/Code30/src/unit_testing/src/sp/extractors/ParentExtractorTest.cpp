@@ -2,20 +2,15 @@
 #include <unordered_set>
 #include <vector>
 
+#include "../../../../spa/src/common/ASTNode/StatementListNode.h"
+#include "../../../../spa/src/common/ASTNode/math/ConditionalExpressionASTNode.h"
 #include "../../../../spa/src/pkb/storage/PKB.h"
 #include "../../../../spa/src/pkb/storage/StorageTypes.h"
 #include "../../../../spa/src/pkb/storage/TransitiveRelationTableManager.h"
+#include "../../../../spa/src/pkb/storage/tables/ContiguousSetTable.h"
 #include "../../../../spa/src/pkb/writers/PkbWriter.h"
-#include "../../../../spa/src/sp/common/ASTNode/StatementListNode.h"
-#include "../../../../spa/src/sp/common/ASTNode/math/ConditionalExpressionASTNode.h"
-#include "../../../../spa/src/sp/common/ASTNode/statement/AssignNode.h"
-#include "../../../../spa/src/sp/common/ASTNode/statement/IfNode.h"
-#include "../../../../spa/src/sp/common/ASTNode/statement/PrintNode.h"
-#include "../../../../spa/src/sp/common/ASTNode/statement/StatementASTNode.h"
-#include "../../../../spa/src/sp/common/ASTNode/statement/WhileNode.h"
 #include "../../../../spa/src/sp/extractor/concrete_extractors/ParentExtractor.h"
 #include "catch.hpp"
-#include "pkb/storage/tables/ContiguousTable.h"
 
 using std::make_shared;
 using std::unordered_set;
@@ -153,8 +148,8 @@ shared_ptr<IfNode> ifWithWhile() {
 TEST_CASE("ParentExtractor simple If") {
   shared_ptr<IfNode> simpleIf = simplyIf();
 
-  auto table = make_shared<ContiguousTable<int>>();
-  auto reverseTable = make_shared<ContiguousTable<int>>();
+  auto table = make_shared<ContiguousSetTable<int>>();
+  auto reverseTable = make_shared<ContiguousSetTable<int>>();
   auto store = new TransitiveRelationTableManager<int>(table, reverseTable);
   PKB* pkb = new PKB();
 
@@ -174,8 +169,8 @@ TEST_CASE("ParentExtractor simple If") {
 TEST_CASE("ParentExtractor simple While") {
   shared_ptr<WhileNode> simpleWhile = simplyWhile();
 
-  auto table = make_shared<ContiguousTable<int>>();
-  auto reverseTable = make_shared<ContiguousTable<int>>();
+  auto table = make_shared<ContiguousSetTable<int>>();
+  auto reverseTable = make_shared<ContiguousSetTable<int>>();
   auto store = new TransitiveRelationTableManager<int>(table, reverseTable);
   PKB* pkb = new PKB();
 
@@ -194,8 +189,8 @@ TEST_CASE("ParentExtractor simple While") {
 TEST_CASE("ParentExtractor if with while stmt") {
   shared_ptr<IfNode> ifNode = ifWithWhile();
 
-  auto table = make_shared<ContiguousTable<int>>();
-  auto reverseTable = make_shared<ContiguousTable<int>>();
+  auto table = make_shared<ContiguousSetTable<int>>();
+  auto reverseTable = make_shared<ContiguousSetTable<int>>();
   auto store = new TransitiveRelationTableManager<int>(table, reverseTable);
   PKB* pkb = new PKB();
 
