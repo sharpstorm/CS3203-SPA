@@ -5,12 +5,12 @@
 
 #include "sp/extractor/AbstractExtractor.h"
 
-class FollowsExtractor : public AbstractExtractor {
+class StatementListExtractor : public AbstractExtractor {
  public:
-  explicit FollowsExtractor(PkbWriter* pkbWriter);
+  explicit StatementListExtractor(PkbWriter* pkbWriter);
   void visit(StatementListNode node);
 
  private:
-  void addFollowsRelation(int x, int y);
+  void addStatementListRange(int x, int y);
   PkbWriter* pkbWriter;
 };

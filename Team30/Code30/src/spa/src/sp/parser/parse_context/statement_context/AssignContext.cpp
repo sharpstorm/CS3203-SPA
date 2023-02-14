@@ -2,7 +2,7 @@
 #include "common/ASTNode/statement/AssignNode.h"
 
 shared_ptr<ASTNode> AssignContext::generateSubtree(SourceParseState* state) {
-  // Parse assignee TODO - change to varchar
+  // Parse assignee
   shared_ptr<ASTNode> name = contextProvider->
       getContext(VARIABLE_CONTEXT)->generateSubtree(state);
 
