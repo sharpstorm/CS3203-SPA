@@ -211,10 +211,12 @@ TEST_CASE("Test PQL Uses valid synonym types") {
   auto validTypes = vector<PQLSynonymType>{
       PQL_SYN_TYPE_ASSIGN,
       PQL_SYN_TYPE_PRINT,
+      PQL_SYN_TYPE_READ,
       PQL_SYN_TYPE_IF,
       PQL_SYN_TYPE_WHILE,
       PQL_SYN_TYPE_CALL,
       PQL_SYN_TYPE_PROCEDURE,
+      PQL_SYN_TYPE_STMT,
   };
 
   for (PQLSynonymType type : validTypes) {
@@ -238,8 +240,6 @@ TEST_CASE("Test PQL Uses invalid left synonym types") {
   auto invalidTypes = vector<PQLSynonymType>{
       PQL_SYN_TYPE_VARIABLE,
       PQL_SYN_TYPE_CONSTANT,
-      PQL_SYN_TYPE_STMT,
-      PQL_SYN_TYPE_READ
   };
 
   for (PQLSynonymType type : invalidTypes) {
