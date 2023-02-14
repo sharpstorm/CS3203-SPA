@@ -5,7 +5,6 @@
 #include <utility>
 
 #include "../../common/Types.h"
-#include "ProcedureStorage.h"
 #include "StorageTypes.h"
 #include "interfaces/IStructureMappingProvider.h"
 

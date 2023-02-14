@@ -5,5 +5,5 @@ ProcedureWriter::ProcedureWriter(ProcedureStorage *procedureStorage)
 
 void ProcedureWriter::addProcedure(string procedureName,
                                    int startLineNum, int endLineNum) {
-  procedureStorage->addProcedure(procedureName, startLineNum, endLineNum);
+  procedureStorage->insert(procedureName, startLineNum, endLineNum);
 }

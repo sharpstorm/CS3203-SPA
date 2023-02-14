@@ -24,10 +24,10 @@ std::unordered_set<int> StructureMappingProvider::getStatementsOfType(
 
 std::pair<int, int> StructureMappingProvider::getProcedureLines(
     std::string procedureName) const {
-  return procedureStorage->getProcedure(procedureName);
+  return procedureStorage->getByKey(procedureName);
 }
 
 std::string StructureMappingProvider::getProcedureForLine(
     int lineNumber) const {
-  return procedureStorage->getProcedureForStatement(lineNumber);
+  return procedureStorage->getByValue(lineNumber);
 }

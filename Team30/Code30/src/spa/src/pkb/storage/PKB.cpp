@@ -16,12 +16,12 @@ PKB::PKB()
       symbolStorage(new SymbolStorage(
           make_shared<HashKeyTable<std::string, EntityType>>(),
           make_shared<HashKeySetTable<EntityType, std::string>>())),
-
       statementStorage(
           new StatementStorage(make_shared<ContiguousTable<StmtType>>(),
                                make_shared<HashKeySetTable<StmtType, int>>())),
-
-      procedureStorage(new ProcedureStorage()),
+      procedureStorage(new ProcedureStorage(
+          make_shared<HashKeyTable<std::string, std::pair<int, int>>>(),
+          make_shared<ContiguousTable<std::string>>())),
       structureProvider(
           new StructureMappingProvider(statementStorage, procedureStorage)),
       entityMappingProvider(new EntityMappingProvider(symbolStorage)),
