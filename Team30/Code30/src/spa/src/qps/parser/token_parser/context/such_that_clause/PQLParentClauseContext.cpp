@@ -7,15 +7,8 @@ using std::unique_ptr;
 
 void PQLParentClauseContext::parse(QueryTokenParseState *parserState) {
   PQLSuchThatClauseContext::parse(parserState);
-  bool isTransitive = false;
+  bool isTransitive = parseTransitiveQualifier(parserState);
 
-  PQLToken* nextToken = expect(parserState,
-                               PQL_TOKEN_BRACKET_OPEN,
-                               PQL_TOKEN_ASTRIX);
-  if (nextToken->isType(PQL_TOKEN_ASTRIX)) {
-    isTransitive = true;
-    expect(parserState, PQL_TOKEN_BRACKET_OPEN);
-  }
   ClauseArgument left = extractStatementRef(parserState);
   expect(parserState, PQL_TOKEN_COMMA);
   ClauseArgument right = extractStatementRef(parserState);

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "PQLSuchThatClauseContext.h"
+#include "PQLTransitiveClauseContext.h"
 
-class PQLFollowsClauseContext: public PQLSuchThatClauseContext {
+class PQLFollowsClauseContext: public PQLTransitiveClauseContext {
  public:
   void parse(QueryTokenParseState* parserState);
 };
