@@ -2,7 +2,6 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
-#include <iostream>
 
 #include "FollowsClause.h"
 #include "qps/common/adapters/ClauseArgumentRef.h"

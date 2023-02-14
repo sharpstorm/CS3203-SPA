@@ -1,7 +1,5 @@
 #include <string>
 #include "PKBStub.cpp"
-//#include "pkb/queryHandlers/interfaces/IFollowsQueryHandler.h"
-//#include "pkb/queryHandlers/PkbQueryHandler.h"
 
 using std::string;
 
