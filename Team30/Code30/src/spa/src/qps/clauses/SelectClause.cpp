@@ -11,7 +11,7 @@
 
 using std::pair, std::unordered_set, std::vector, std::shared_ptr;
 
-SelectClause::SelectClause(PQLQueryVariable target):
+SelectClause::SelectClause(PQLQuerySynonym target):
   target(target) {}
 
 PQLQueryResult* SelectClause::evaluateOn(
@@ -35,7 +35,7 @@ PQLQueryResult* SelectClause::evaluateOn(
 }
 
 bool SelectClause::validateArgTypes(VariableTable *variables) {
-  return target.type != PQL_VAR_TYPE_PROCEDURE;
+  return target.type != PQL_SYN_TYPE_PROCEDURE;
 }
 
 bool SelectClause::usesSynonym(string varName) {

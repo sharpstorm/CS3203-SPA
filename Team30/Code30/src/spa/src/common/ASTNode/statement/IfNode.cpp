@@ -21,7 +21,7 @@ void IfNode::addChild(shared_ptr<ASTNode> node) {
 }
 
 string IfNode::toString() {
-  string ss = std::to_string(lineNumber) + ": If: ";
+  string ss = "If: ";
   ss += "\n";
   ss += "then: \n";
   ss += children[1] == nullptr ? "none" : children[1]->toString();

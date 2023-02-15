@@ -25,7 +25,7 @@ EntityResult EntityResultBuilder::buildEntityResult(
   return EntityResult{
     unordered_set<int>{},
     lines,
-    unordered_set<pair<int, string>>{},
+    pair_set<int, string>{},
     false
   };
 }

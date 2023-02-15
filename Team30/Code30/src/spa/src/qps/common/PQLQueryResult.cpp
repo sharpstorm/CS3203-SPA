@@ -1,13 +1,5 @@
 #include "PQLQueryResult.h"
 
-bool StatementResult::isEmpty() {
-  return lines.empty() && linePairs.empty();
-}
-
-bool EntityResult::isEmpty() {
-  return lines.empty() && entities.empty() && enitityPairs.empty();
-}
-
 PQLQueryResult::PQLQueryResult():
     isStaticFalse(false), error("") {}
 
@@ -31,7 +23,7 @@ bool PQLQueryResult::isStaticResult() {
   return statementMap.empty() && entityMap.empty();
 }
 
-StatementResult* PQLQueryResult::getFromStatementMap(PQL_VAR_NAME var) {
+StatementResult* PQLQueryResult::getFromStatementMap(PQLSynonymName var) {
   if (statementMap.find(var) == statementMap.end()) {
     return nullptr;
   }
@@ -47,16 +39,16 @@ ENTITY_MAP PQLQueryResult::getEntityMap() {
   return entityMap;
 }
 
-void PQLQueryResult::addToStatementMap(PQL_VAR_NAME name,
+void PQLQueryResult::addToStatementMap(PQLSynonymName name,
                                        StatementResult result) {
   statementMap.insert({name, result});
 }
 
-void PQLQueryResult::addToEntityMap(PQL_VAR_NAME name, EntityResult result) {
+void PQLQueryResult::addToEntityMap(PQLSynonymName name, EntityResult result) {
   entityMap.insert({name, result});
 }
 
-EntityResult* PQLQueryResult::getFromEntityMap(PQL_VAR_NAME var) {
+EntityResult* PQLQueryResult::getFromEntityMap(PQLSynonymName var) {
   if (entityMap.find(var) == entityMap.end()) {
     return nullptr;
   }
@@ -79,26 +71,11 @@ void PQLQueryResult::setIsStaticFalse(bool staticRes) {
   isStaticFalse = staticRes;
 }
 
-PQLQueryResult* PQLQueryResult::filterResultTo(PQLQueryVariable queryVar) {
-  PQLQueryResult* queryResult = new PQLQueryResult();
-
-  if (isStaticFalse) {
-    return queryResult;
-  }
-
-  PQL_VAR_NAME var = queryVar.name;
-  if (queryVar.isStatementType()) {
-    StatementResult* result = getFromStatementMap(var);
-    if (result != nullptr) {
-      queryResult->addToStatementMap(var, *result);
-    }
-  } else if (queryVar.isEntityType()) {
-    EntityResult* result = getFromEntityMap(var);
-    if (result != nullptr) {
-      queryResult->addToEntityMap(var, *result);
-    }
-  }
-  queryResult->setError(getError());
-
-  return queryResult;
+bool PQLQueryResult::operator==(PQLQueryResult pqr) const {
+  bool statementMapEqual = statementMap == pqr.getStatementMap();
+  bool entityMapEqual = entityMap == pqr.getEntityMap();
+  bool errorEqual = error == pqr.getError();
+  bool isStaticFalseEqual = isStaticFalse == pqr.getIsStaticFalse();
+  return statementMapEqual && entityMapEqual && errorEqual &&
+      isStaticFalseEqual;
 }

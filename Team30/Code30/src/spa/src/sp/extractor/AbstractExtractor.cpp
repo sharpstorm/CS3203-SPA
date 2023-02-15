@@ -11,3 +11,7 @@ void AbstractExtractor::visit(AssignNode node) {}
 void AbstractExtractor::visit(PrintNode node) {}
 
 void AbstractExtractor::visit(WhileNode node) {}
+
+void AbstractExtractor::visit(VariableASTNode node) {}
+
+void AbstractExtractor::visit(ConstantASTNode node) {}

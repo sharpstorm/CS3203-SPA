@@ -18,6 +18,6 @@ void ReadNode::addChild(shared_ptr<ASTNode> node) {
 }
 
 string ReadNode::toString() {
-  return to_string(lineNumber) + ": Read: "
+  return "Read: "
   + (children[0] == nullptr ? "none" : children[0]->toString());
 }

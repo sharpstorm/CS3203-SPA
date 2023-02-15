@@ -4,14 +4,16 @@
 #include "common/UtilityTypes.h"
 
 #include "qps/common/PQLQueryResult.h"
+#include "qps/common/PQLQuerySynonym.h"
 
 using std::string, std::vector;
 
 class ResultProjector {
  public:
-  UniqueVectorPtr<string> project(PQLQueryResult* queryResult);
+  UniqueVectorPtr<string> project(PQLQueryResult* queryResult,
+                                  PQLQuerySynonym resultVariable);
 
  private:
-  UniqueVectorPtr<string> projectEntities(ENTITY_MAP entityMap);
-  UniqueVectorPtr<string> projectStatements(STATEMENT_MAP statementMap);
+  UniqueVectorPtr<string> projectEntities(EntityResult* entityResult);
+  UniqueVectorPtr<string> projectStatements(StatementResult* statementResult);
 };
