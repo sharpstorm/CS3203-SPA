@@ -2,6 +2,7 @@
 #include "QueryTokenParser.h"
 #include "../../errors/QPSParserError.h"
 #include "../builder/QueryBuilderError.h"
+#include "PQLParserErrors.h"
 
 QueryTokenParser::QueryTokenParser(vector<PQLToken> tokens) {
   this->tokens = tokens;
@@ -14,7 +15,7 @@ unique_ptr<PQLQuery> QueryTokenParser::build() {
     unique_ptr<IPQLContext> context = contextProvider
         .getContext(state.getCurrentToken());
     if (context == nullptr) {
-      throw QPSParserError("Unexpected token");
+      throw QPSParserError(QPS_PARSER_ERR_UNEXPECTED);
     }
     state.advanceToken();
 

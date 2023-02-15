@@ -5,6 +5,8 @@
 #include "../PQLToken.h"
 #include "../builder/QueryBuilder.h"
 #include "token_stream/QueryTokenStream.h"
+#include "PQLParserErrors.h"
+#include "../../errors/QPSParserError.h"
 
 using std::vector, std::unordered_set;
 
@@ -44,7 +46,47 @@ class QueryTokenParseState {
   explicit QueryTokenParseState(vector<PQLToken>* tokens);
   bool isTokenStreamEnd();
   void advanceToken();
+  PQLToken* getCurrentToken();
+
+  template<typename... T>
+  PQLToken *expect(T... tokenType);
+  template<typename... T>
+  PQLToken *expectCategory(T... tokenCategory);
+  PQLToken *expectVarchar();
+
   void advanceStage(TokenParsingStage newStage);
   QueryBuilder* getQueryBuilder();
-  PQLToken* getCurrentToken();
 };
+
+
+template<typename... PQLTokenType>
+PQLToken* QueryTokenParseState::expect(PQLTokenType... tokenType) {
+  PQLToken* currentToken = getCurrentToken();
+
+  if (currentToken == nullptr) {
+    throw QPSParserError(QPS_PARSER_ERR_EOS);
+  }
+
+  if ((currentToken->isType(tokenType)  || ... || false)) {
+    advanceToken();
+    return currentToken;
+  }
+
+  throw QPSParserError(QPS_PARSER_ERR_UNEXPECTED);
+}
+
+template<typename... PQLTokenCategory>
+PQLToken* QueryTokenParseState::expectCategory(PQLTokenCategory... tokenCategory) {
+  PQLToken* currentToken = getCurrentToken();
+
+  if (currentToken == nullptr) {
+    throw QPSParserError(QPS_PARSER_ERR_EOS);
+  }
+
+  if ((currentToken->isCategory(tokenCategory)  || ... || false)) {
+    advanceToken();
+    return currentToken;
+  }
+
+  throw QPSParserError(QPS_PARSER_ERR_UNEXPECTED);
+}

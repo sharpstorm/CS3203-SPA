@@ -2,21 +2,6 @@
 
 using std::stoi;
 
-PQLToken *AbstractPQLContext::expectVarchar(
-    QueryTokenParseState *parserState) {
-  PQLToken* currentToken = parserState->getCurrentToken();
-  if (currentToken == nullptr) {
-    throw QPSParserError(QPS_PARSER_ERR_EOS);
-  }
-
-  if (!currentToken->isVarchar()) {
-    throw QPSParserError(QPS_PARSER_ERR_UNEXPECTED);
-  }
-
-  parserState->advanceToken();
-  return currentToken;
-}
-
 ClauseArgument AbstractPQLContext::extractStatementRef(
     QueryTokenParseState* state) {
   if (state->getCurrentToken()->isType(PQL_TOKEN_INTEGER)) {
@@ -54,7 +39,7 @@ ClauseArgument AbstractPQLContext::extractCommonRef(
     throw QPSParserError(QPS_PARSER_ERR_UNKNOWN_TOKEN);
   }
 
-  PQLToken* synonym = expectVarchar(state);
+  PQLToken* synonym = state->expectVarchar();
   PQLQuerySynonym* var = state->getQueryBuilder()
       ->getVariable(synonym->tokenData);
   if (var == nullptr) {
@@ -67,8 +52,8 @@ ClauseArgument AbstractPQLContext::extractCommonRef(
 ClauseArgument AbstractPQLContext::extractEntity(
     QueryTokenParseState* state) {
   state->advanceToken();
-  PQLToken* entityRef = expectVarchar(state);
-  expect(state, PQL_TOKEN_QUOTE);
+  PQLToken* entityRef = state->expectVarchar();
+  state->expect(PQL_TOKEN_QUOTE);
   return ClauseArgument(entityRef->tokenData);
 }
 
