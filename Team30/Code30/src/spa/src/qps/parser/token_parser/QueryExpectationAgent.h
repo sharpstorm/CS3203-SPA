@@ -10,7 +10,7 @@ class QueryExpectationAgent {
   void assertNotNull(PQLToken* token);
 
  public:
-  QueryExpectationAgent(QueryTokenStream* stream): stream(stream) {}
+  explicit QueryExpectationAgent(QueryTokenStream* stream): stream(stream) {}
 
   template<typename... T>
   PQLToken *expect(T... tokenType);

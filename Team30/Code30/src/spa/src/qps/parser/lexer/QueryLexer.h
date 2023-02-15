@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include "QueryLexerTokenTable.h"
 #include "../../../common/UtilityTypes.h"
 
@@ -13,10 +14,10 @@ class QueryLexer {
 
  private:
   QueryLexerTokenTable tokenTable;
-  void processChar(char &c, vector<PQLToken>* result,
-                   bool &hasSeenChar, string &buffer);
+  void processChar(char c, vector<PQLToken>* result,
+                   bool* hasSeenChar, string* buffer);
   void flushBuffer(vector<PQLToken>* result,
-                   bool &hasSeenChar, string &buffer);
+                   bool* hasSeenChar, string* buffer);
   PQLToken resolveStringToken(string buffer, bool hasSeenChar);
   PQLToken validateIntegerToken(string* buffer);
   PQLToken validateIdentifier(string* buffer);
