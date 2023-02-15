@@ -77,5 +77,5 @@ PQLToken QueryLexer::validateIdentifier(string *buffer) {
     throw QPSLexerError(QPS_LEXER_ERR_STRING_DIGIT);
   }
 
-  return PQLToken(PQL_TOKEN_STRING,*buffer);
+  return PQLToken(PQL_TOKEN_STRING, *buffer);
 }
