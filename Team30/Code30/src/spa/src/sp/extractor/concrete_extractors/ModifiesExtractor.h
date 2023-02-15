@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include "sp/extractor/AbstractExtractor.h"
 
 using std::string;

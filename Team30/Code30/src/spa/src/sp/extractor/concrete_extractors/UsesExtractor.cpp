@@ -1,7 +1,6 @@
 #include <string>
 #include <vector>
 #include "UsesExtractor.h"
-#include <iostream>
 
 using std::string;
 
@@ -60,8 +59,6 @@ void UsesExtractor::processNode(int lineNumber,
 
 void UsesExtractor::addUsesRelation(int x, string var) {
   pkbWriter->addUses(x, var);
-  std::cout << x << " : " << var << "\n";
-
 }
 
 void UsesExtractor::recurseExpr(vector<string>* v,
