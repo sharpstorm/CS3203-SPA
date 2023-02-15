@@ -12,7 +12,7 @@ void PQLAssignPatternClauseContext::parse(QueryTokenParseState *parserState) {
 
   PQLToken* synonym = parserState->expectVarchar();
   PQLQuerySynonym* synonymVar = parserState->getQueryBuilder()
-      ->getVariable(synonym->tokenData);
+      ->getVariable(synonym->getData());
   if (synonymVar == nullptr) {
     throw QPSParserError(QPS_PARSER_ERR_UNKNOWN_TOKEN);
   }
@@ -39,7 +39,7 @@ void PQLAssignPatternClauseContext::parse(QueryTokenParseState *parserState) {
 
   if (hasExpression) {
     nextToken = parserState->expectVarchar();
-    patternString = nextToken->tokenData;
+    patternString = nextToken->getData();
     parserState->expect(PQL_TOKEN_QUOTE);
     if (isWildcard) {
       parserState->expect(PQL_TOKEN_UNDERSCORE);

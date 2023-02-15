@@ -10,7 +10,7 @@ ClauseArgument PQLRefExtractor::extractCommonRef(QueryTokenParseState* state) {
 
   PQLToken* synonym = state->expectVarchar();
   PQLQuerySynonym* var = state->getQueryBuilder()
-      ->getVariable(synonym->tokenData);
+      ->getVariable(synonym->getData());
   if (var == nullptr) {
     throw QPSParserError(QPS_PARSER_ERR_UNKNOWN_TOKEN);
   }

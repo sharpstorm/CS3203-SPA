@@ -14,5 +14,5 @@ ClauseArgument PQLEntityRefExtractor::extractEntity(
   state->expect(PQL_TOKEN_QUOTE);
   PQLToken* entityRef = state->expectVarchar();
   state->expect(PQL_TOKEN_QUOTE);
-  return ClauseArgument(entityRef->tokenData);
+  return ClauseArgument(entityRef->getData());
 }

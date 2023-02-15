@@ -1,7 +1,7 @@
 #include "PQLGrammarContextProvider.h"
 
 IPQLContext* PQLGrammarContextProvider::getContext(PQLToken *token) {
-  switch (token->type) {
+  switch (token->getType()) {
     case PQL_TOKEN_STMT:
       return &stmtContext;
     case PQL_TOKEN_READ:

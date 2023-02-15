@@ -8,7 +8,7 @@ using std::vector, std::make_unique;
 
 TEST_CASE("Test QueryTokenParseState Stage Valid Flows") {
   auto dummyStream = vector<PQLToken>{
-    PQLToken{PQL_TOKEN_SELECT}
+    PQLToken(PQL_TOKEN_SELECT)
   };
 
   unique_ptr<QueryTokenParseState> state = make_unique<QueryTokenParseState>(&dummyStream);
@@ -55,7 +55,7 @@ TEST_CASE("Test QueryTokenParseState Stage Valid Flows") {
 
 TEST_CASE("Test QueryTokenParseState Stage Invalid Flows") {
   auto dummyStream = vector<PQLToken>{
-      PQLToken{PQL_TOKEN_SELECT}
+      PQLToken(PQL_TOKEN_SELECT)
   };
   QueryTokenParseState state(&dummyStream);
 

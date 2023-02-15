@@ -10,7 +10,7 @@ ClauseArgument PQLStmtRefExtractor::extract(QueryTokenParseState *state) {
 
 ClauseArgument PQLStmtRefExtractor::extractStatement(
     QueryTokenParseState* state) {
-  int value = stoi(state->getCurrentToken()->tokenData);
+  int value = stoi(state->getCurrentToken()->getData());
   state->advanceToken();
   return ClauseArgument(value);
 }

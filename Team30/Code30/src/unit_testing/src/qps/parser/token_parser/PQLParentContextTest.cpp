@@ -16,7 +16,7 @@ void testParentParsing(vector<PQLToken> inputs,
                        unordered_map<string, PQLSynonymType> synonyms) {
   testSuchThatParsing<PQLParentClauseContext, ParentClause>(inputs,
                                                             synonyms);
-  inputs.insert(inputs.begin(), PQLToken{PQL_TOKEN_ASTRIX});
+  inputs.insert(inputs.begin(), PQLToken(PQL_TOKEN_ASTRIX));
   testSuchThatParsing<PQLParentClauseContext, ParentTClause>(inputs,
                                                             synonyms);
 }

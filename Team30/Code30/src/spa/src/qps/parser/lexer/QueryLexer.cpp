@@ -37,9 +37,7 @@ QueryLexerResult QueryLexer::getTokenStream(string* query) {
         }
 
         if (tokenType != PQL_TOKEN_DELIMITER) {
-          resultVector->push_back(PQLToken{
-            tokenType
-          });
+          resultVector->push_back(PQLToken(tokenType));
         }
 
         buffer.clear();
@@ -57,10 +55,7 @@ QueryLexerResult QueryLexer::getTokenStream(string* query) {
 PQLToken QueryLexer::resolveStringToken(string buffer, bool hasSeenChar) {
   try {
     PQLTokenType token = tokenTable.keywordMap.at(buffer);
-    return PQLToken{
-        token,
-        buffer
-    };
+    return PQLToken(token, buffer);
   } catch (out_of_range&) {
     if (!hasSeenChar) {
       return validateIntegerToken(&buffer);
@@ -74,10 +69,7 @@ PQLToken QueryLexer::validateIntegerToken(string* buffer) {
   if (buffer->length() > 1 && tokenTable.isZero(buffer->at(0))) {
     throw QPSLexerError(QPS_LEXER_ERR_INTEGER_ZERO);
   }
-  return PQLToken{
-      PQL_TOKEN_INTEGER,
-      *buffer
-  };
+  return PQLToken(PQL_TOKEN_INTEGER,*buffer);
 }
 
 PQLToken QueryLexer::validateIdentifier(string *buffer) {
@@ -85,8 +77,5 @@ PQLToken QueryLexer::validateIdentifier(string *buffer) {
     throw QPSLexerError(QPS_LEXER_ERR_STRING_DIGIT);
   }
 
-  return PQLToken{
-    PQL_TOKEN_STRING,
-    *buffer
-  };
+  return PQLToken(PQL_TOKEN_STRING,*buffer);
 }

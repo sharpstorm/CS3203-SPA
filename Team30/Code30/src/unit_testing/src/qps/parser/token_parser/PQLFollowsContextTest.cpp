@@ -16,7 +16,7 @@ void testFollowsParsing(vector<PQLToken> inputs,
                         unordered_map<string, PQLSynonymType> synonyms) {
   testSuchThatParsing<PQLFollowsClauseContext, FollowsClause>(inputs,
                                                               synonyms);
-  inputs.insert(inputs.begin(), PQLToken{PQL_TOKEN_ASTRIX});
+  inputs.insert(inputs.begin(), PQLToken(PQL_TOKEN_ASTRIX));
   testSuchThatParsing<PQLFollowsClauseContext, FollowsTClause>(inputs,
                                                               synonyms);
 }
