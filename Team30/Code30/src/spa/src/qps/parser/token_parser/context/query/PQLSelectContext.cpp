@@ -3,7 +3,7 @@
 void PQLSelectContext::parse(QueryTokenParseState *parserState) {
   parserState->advanceStage(TOKEN_PARSE_STAGE_COMMAND);
 
-  PQLToken* currentToken = expectVarchar(parserState);
+  PQLToken* currentToken = parserState->expectVarchar();
   PQLSynonymType* type = parserState->getQueryBuilder()
       ->getVariableType(currentToken->tokenData);
   if (type == nullptr) {
