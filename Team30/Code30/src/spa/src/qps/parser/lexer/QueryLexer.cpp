@@ -69,7 +69,7 @@ PQLToken QueryLexer::validateIntegerToken(string* buffer) {
   if (buffer->length() > 1 && tokenTable.isZero(buffer->at(0))) {
     throw QPSLexerError(QPS_LEXER_ERR_INTEGER_ZERO);
   }
-  return PQLToken(PQL_TOKEN_INTEGER,*buffer);
+  return PQLToken(PQL_TOKEN_INTEGER, *buffer);
 }
 
 PQLToken QueryLexer::validateIdentifier(string *buffer) {

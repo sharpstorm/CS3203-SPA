@@ -1,11 +1,11 @@
 #include "PQLToken.h"
 
 PQLToken::PQLToken(PQLTokenType type):
-    type(type){
+    type(type) {
 }
 
 PQLToken::PQLToken(PQLTokenType type, string data):
-    type(type), tokenData(data){
+    type(type), tokenData(data) {
 }
 
 bool PQLToken::operator==(const PQLToken& other) const {

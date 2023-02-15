@@ -10,5 +10,8 @@ void PQLSelectContext::parse(QueryTokenParseState *parserState) {
     throw QPSParserError("Select clause references unknown synonym");
   }
 
-  parserState->getQueryBuilder()->setResultVariable(synonym->getType(),  synonym->getName());
+  parserState->getQueryBuilder()->setResultVariable(
+      synonym->getType(),
+      synonym->getName()
+  );
 }

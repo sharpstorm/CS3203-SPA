@@ -1,7 +1,7 @@
 #include "PQLQuerySynonym.h"
 
 PQLQuerySynonym::PQLQuerySynonym(PQLSynonymType type, PQLSynonymName name):
-    type(type), name(name){
+    type(type), name(name) {
 }
 
 PQLSynonymType PQLQuerySynonym::getType() {

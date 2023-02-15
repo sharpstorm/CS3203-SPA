@@ -12,19 +12,20 @@
 using std::pair, std::unordered_set, std::vector, std::shared_ptr;
 
 SelectClause::SelectClause(PQLQuerySynonym target):
-  target(target) {}
+    target(target) {}
 
 PQLQueryResult* SelectClause::evaluateOn(
-        shared_ptr<PkbQueryHandler> pkbQueryHandler) {
+    shared_ptr<PkbQueryHandler> pkbQueryHandler) {
   PQLQueryResult* pqlQueryResult = new PQLQueryResult();
   ClauseArgument clauseArg = ClauseArgument(target);
   if (target.isStatementType()) {
-
     StmtRef stmtVar = ClauseArgumentRef::toStmtRef(&clauseArg);
     unordered_set<int> pkbResult = pkbQueryHandler
         ->getStatementsOfType(stmtVar.type);
     pqlQueryResult->addToStatementMap(
-        target.getName(), StatementResultBuilder::buildStatementResult(pkbResult));
+        target.getName(),
+        StatementResultBuilder::buildStatementResult(pkbResult)
+    );
     return pqlQueryResult;
   }
 

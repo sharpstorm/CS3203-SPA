@@ -69,7 +69,7 @@ class PQLToken {
   string tokenData;
 
  public:
-  PQLToken(PQLTokenType type);
+  explicit PQLToken(PQLTokenType type);
   PQLToken(PQLTokenType type, string data);
 
   PQLTokenType getType();
