@@ -1,5 +1,4 @@
 #include "PQLRefExtractor.h"
-#include "../PQLParserErrors.h"
 
 ClauseArgument PQLRefExtractor::extractCommonRef(QueryTokenParseState* state) {
   if (state->getCurrentToken()->isType(PQL_TOKEN_UNDERSCORE)) {

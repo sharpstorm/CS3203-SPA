@@ -6,8 +6,8 @@ using std::out_of_range, std::string;
 
 const int LEXER_BUFFER_SIZE = 2048;
 
-vector<PQLToken> QueryLexer::getTokenStream(string* query) {
-  vector<PQLToken> resultVector = vector<PQLToken>();
+QueryLexerResult QueryLexer::getTokenStream(string* query) {
+  vector<PQLToken>* resultVector = new vector<PQLToken>();
 
   bool hasSeenChar = false;
   string buffer;
@@ -19,7 +19,7 @@ vector<PQLToken> QueryLexer::getTokenStream(string* query) {
 
     switch (tokenType) {
       case PQL_TOKEN_INVALID:
-        throw QPSLexerError("Detected invalid token");
+        throw QPSLexerError(QPS_LEXER_ERR_INVALID_CHAR);
       case PQL_TOKEN_IGNORE:
         continue;
 
@@ -32,11 +32,11 @@ vector<PQLToken> QueryLexer::getTokenStream(string* query) {
 
       default:
         if (buffer.length() > 0) {
-          resultVector.push_back(resolveStringToken(buffer, hasSeenChar));
+          resultVector->push_back(resolveStringToken(buffer, hasSeenChar));
         }
 
         if (tokenType != PQL_TOKEN_DELIMITER) {
-          resultVector.push_back(PQLToken{
+          resultVector->push_back(PQLToken{
             tokenType
           });
         }
@@ -47,10 +47,10 @@ vector<PQLToken> QueryLexer::getTokenStream(string* query) {
   }
 
   if (buffer.length() > 0) {
-    resultVector.push_back(resolveStringToken(buffer, hasSeenChar));
+    resultVector->push_back(resolveStringToken(buffer, hasSeenChar));
   }
 
-  return resultVector;
+  return QueryLexerResult(resultVector);
 }
 
 PQLToken QueryLexer::resolveStringToken(string buffer, bool hasSeenChar) {
@@ -71,7 +71,7 @@ PQLToken QueryLexer::resolveStringToken(string buffer, bool hasSeenChar) {
 
 PQLToken QueryLexer::validateIntegerToken(string* buffer) {
   if (buffer->length() > 1 && tokenTable.isZero(buffer->at(0))) {
-    throw QPSLexerError("Integer token starts with zero");
+    throw QPSLexerError(QPS_LEXER_ERR_INTEGER_ZERO);
   }
   return PQLToken{
       PQL_TOKEN_INTEGER,
@@ -81,7 +81,7 @@ PQLToken QueryLexer::validateIntegerToken(string* buffer) {
 
 PQLToken QueryLexer::validateIdentifier(string *buffer) {
   if (tokenTable.isDigit(buffer->at(0))) {
-    throw QPSLexerError("String token starts with digit");
+    throw QPSLexerError(QPS_LEXER_ERR_STRING_DIGIT);
   }
 
   return PQLToken{

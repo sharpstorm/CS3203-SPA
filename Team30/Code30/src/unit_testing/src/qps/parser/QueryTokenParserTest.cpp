@@ -27,7 +27,7 @@ tuple<string, PQLTokenType, PQLSynonymType> TEST_TYPE_MAP[] = {
 };
 
 unique_ptr<PQLQuery> testPQLParsing(vector<PQLToken> testcase, vector<PQLQuerySynonym> expectedVariables) {
-  QueryTokenParser parser(testcase);
+  QueryTokenParser parser(&testcase);
   unique_ptr<PQLQuery> result;
   try {
     result = parser.build();
@@ -50,7 +50,7 @@ unique_ptr<PQLQuery> testPQLParsing(vector<PQLToken> testcase, vector<PQLQuerySy
 }
 
 void testPQLParsingRejection(vector<PQLToken> testcase) {
-  QueryTokenParser parser(testcase);
+  QueryTokenParser parser(&testcase);
   try {
     auto result = parser.build();
     FAIL("Test did not fail with error");

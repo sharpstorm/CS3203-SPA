@@ -2,14 +2,13 @@
 #include "QueryTokenParser.h"
 #include "../../errors/QPSParserError.h"
 #include "../builder/QueryBuilderError.h"
-#include "PQLParserErrors.h"
 
-QueryTokenParser::QueryTokenParser(vector<PQLToken> tokens) {
+QueryTokenParser::QueryTokenParser(vector<PQLToken>* tokens) {
   this->tokens = tokens;
 }
 
 unique_ptr<PQLQuery> QueryTokenParser::build() {
-  QueryTokenParseState state(&this->tokens);
+  QueryTokenParseState state(this->tokens);
 
   while (!state.isTokenStreamEnd()) {
     IPQLContext* context = contextProvider.getContext(state.getCurrentToken());

@@ -9,21 +9,21 @@ using std::vector, std::string, std::cout;
 
 void testPQLLexing(string testCase, vector<PQLToken> expected) {
   QueryLexer lexer;
-  vector<PQLToken> result = lexer.getTokenStream(&testCase);
-  REQUIRE(result.size() == expected.size());
-  REQUIRE(equal(expected.begin(), expected.end(), result.begin(), result.end()));
+  QueryLexerResult result = lexer.getTokenStream(&testCase);
+  REQUIRE(result->size() == expected.size());
+  REQUIRE(equal(expected.begin(), expected.end(), result->begin(), result->end()));
 }
 
 void testPQLLexSingleToken(string testCase, PQLTokenType expected) {
   QueryLexer lexer;
-  vector<PQLToken> result = lexer.getTokenStream(&testCase);
-  REQUIRE(result.size() == 1);
-  REQUIRE(result.at(0).type == expected);
+  QueryLexerResult result = lexer.getTokenStream(&testCase);
+  REQUIRE(result->size() == 1);
+  REQUIRE(result->at(0).type == expected);
 }
 
 void testPQLDeclaration(string testCase, PQLTokenType expectedToken, PQLToken expectedArg) {
   QueryLexer lexer;
-  vector<PQLToken> result = lexer.getTokenStream(&testCase);
+  QueryLexerResult result = lexer.getTokenStream(&testCase);
   testPQLLexing(testCase, vector<PQLToken>{
     PQLToken{ expectedToken },
     expectedArg,

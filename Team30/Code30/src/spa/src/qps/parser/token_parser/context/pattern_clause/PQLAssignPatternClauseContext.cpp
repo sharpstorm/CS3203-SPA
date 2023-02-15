@@ -3,6 +3,7 @@
 #include <memory>
 #include <string>
 #include "../../../../clauses/AssignPatternClause.h"
+#include "qps/parser/token_parser/ref_extractor/PQLEntityRefExtractor.h"
 
 using std::make_unique, std::string;
 
@@ -20,7 +21,7 @@ void PQLAssignPatternClauseContext::parse(QueryTokenParseState *parserState) {
   }
 
   parserState->expect(PQL_TOKEN_BRACKET_OPEN);
-  ClauseArgument left = extractEntityRef(parserState);
+  ClauseArgument left = PQLEntityRefExtractor::extract(parserState);
   parserState->expect(PQL_TOKEN_COMMA);
 
   bool isWildcard = false;

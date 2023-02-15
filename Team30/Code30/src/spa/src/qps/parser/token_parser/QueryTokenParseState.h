@@ -5,7 +5,6 @@
 #include "../PQLToken.h"
 #include "../builder/QueryBuilder.h"
 #include "token_stream/QueryTokenStream.h"
-#include "PQLParserErrors.h"
 #include "../../errors/QPSParserError.h"
 
 using std::vector, std::unordered_set;
