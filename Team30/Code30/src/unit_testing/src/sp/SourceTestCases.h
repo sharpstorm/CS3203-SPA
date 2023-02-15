@@ -13,7 +13,7 @@ class SourceTestCases {
   string whitespace();
   string testAssign();
   string assignToSelf();
-  string testAverage();
+  string testBasicProcedure();
   string testOperaters();
   string callProcedures();
   string callCaseSensitive();
@@ -26,6 +26,7 @@ class SourceTestCases {
   string chainedIf();
   string multipleIfElse();
   string chainedIfElse();
+  string multi_chainedIfElse();
   string call_In_If();
   string simpleWhile();
   string while_wout_WhiteSpace();
@@ -38,11 +39,15 @@ class SourceTestCases {
   string ifInWhile();
   string whileInIf();
   string whileInIfElse();
+  string multiple_whileInIfElse();
   string whileChainInIf();
   string whileChainInElse();
   string whileChainInIfElse();
   string ifElse_Single_Call_InWhile();
   string multiple_Calls_InWhile();
+  string chainedWhile_withIfBody();
   string multipleIfElse_withWhileChain();
-  string complexProgam();
+  string complexProgamOne();
+  string complexProgamTwo();
+  string complexProgamThree();
 };
