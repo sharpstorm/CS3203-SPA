@@ -16,11 +16,10 @@ void UsesExtractor::visit(AssignNode node) {
 }
 
 void UsesExtractor::visit(PrintNode node) {
-  string value = std::dynamic_pointer_cast<VariableASTNode>
-      (node.getChildren()[0])->getValue();
-  addUsesRelation(node.lineNumber, value);
+  string nodeValue = node.getChildren()[0]->toString();
+  addUsesRelation(node.lineNumber, nodeValue);
   for (int i : statementStartStack) {
-    addUsesRelation(i, value);
+    addUsesRelation(i, nodeValue);
   }
 }
 
@@ -66,12 +65,12 @@ void UsesExtractor::addUsesRelation(int x, string var) {
 }
 
 void UsesExtractor::recurseExpr(vector<string>* v,
-               shared_ptr<ASTNode> node) {
+                                shared_ptr<ASTNode> node) {
   if (std::dynamic_pointer_cast<ConstantASTNode>(node) != nullptr) {
     return;
   }
   if (std::dynamic_pointer_cast<VariableASTNode>(node) != nullptr) {
-    string value = std::dynamic_pointer_cast<VariableASTNode>(node)->getValue();
+    string value = node->toString();
     if (!arrayContains(v, value)) {
       v->push_back(value);
     }

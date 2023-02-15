@@ -6,8 +6,7 @@ using std::string;
 ModifiesExtractor::ModifiesExtractor(PkbWriter* writer) { pkbWriter = writer; }
 
 void ModifiesExtractor::visit(AssignNode node) {
-  string nodeValue = std::dynamic_pointer_cast<VariableASTNode>
-      (node.getChildren()[0])->getValue();
+  string nodeValue = node.getChildren()[0]->toString();
   addModifiesRelation(node.lineNumber, nodeValue);
   for (int i : statementStartStack) {
     addModifiesRelation(i, nodeValue);
@@ -15,8 +14,7 @@ void ModifiesExtractor::visit(AssignNode node) {
 }
 
 void ModifiesExtractor::visit(ReadNode node) {
-  string nodeValue = std::dynamic_pointer_cast<VariableASTNode>
-      (node.getChildren()[0])->getValue();
+  string nodeValue = node.getChildren()[0]->toString();
   addModifiesRelation(node.lineNumber, nodeValue);
   for (int i : statementStartStack) {
     addModifiesRelation(i, nodeValue);
