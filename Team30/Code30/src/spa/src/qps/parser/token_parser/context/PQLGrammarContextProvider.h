@@ -33,7 +33,7 @@ class PQLGrammarContextProvider {
   PQLIfContext ifContext;
   PQLAssignContext assignContext;
   PQLVariableContext variableContext;
-  PQLVariableContext constantContext;
+  PQLConstantContext constantContext;
   PQLProcedureContext procedureContext;
   PQLSelectContext selectContext;
   PQLSuchThatContext suchThatContext;
