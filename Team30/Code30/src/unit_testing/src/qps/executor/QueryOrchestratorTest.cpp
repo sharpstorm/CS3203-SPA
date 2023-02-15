@@ -9,7 +9,7 @@
 #include "qps/common/adapters/StatementResultBuilder.h"
 #include "qps/common/adapters/EntityResultBuilder.h"
 
-using std::shared_ptr, std::unordered_map, std::unordered_set;
+using std::shared_ptr, std::unordered_map, std::unordered_set, std::make_unique;
 // TODO(KwanHW): Include multiple clauses test
 
 vector<shared_ptr<IEvaluatable>> EMPTY_CONDITIONALS;
@@ -24,124 +24,124 @@ TEST_CASE("Queries with Select only") {
   QueryLauncher launcher(handler);
   QueryOrchestrator orchestrator(launcher);
 
-  PQLQuery* query;
+  unique_ptr<PQLQuery> query;
   PQLQuerySynonym targetVariable;
   vector<shared_ptr<Clause>> emptyClause;
-  PQLQueryResult* expectedResult;
-  PQLQueryResult* actualResult;
+  unique_ptr<PQLQueryResult> expectedResult;
+  unique_ptr<PQLQueryResult> actualResult;
 
   // StatementTypes
   // Statement
-  expectedResult = new PQLQueryResult();
+  expectedResult = make_unique<PQLQueryResult>();
   expectedResult->addToStatementMap("s", StatementResultBuilder::buildStatementResult(EXPECTED_STATEMENT_LINES));
   targetVariable = {PQL_SYN_TYPE_STMT, "s"};
   auto selectClause = shared_ptr<SelectClause>(new SelectClause(targetVariable));
-  QueryPlan* queryPlan = new QueryPlan(selectClause, EMPTY_CONDITIONALS);
-  query = new PQLQuery(
+  auto queryPlan = make_unique<QueryPlan>(selectClause, EMPTY_CONDITIONALS);
+  query = make_unique<PQLQuery>(
       unordered_map<string, PQLQuerySynonym>({{"s", targetVariable}}),
       targetVariable,
       emptyClause);
-  actualResult = orchestrator.execute(query, queryPlan);
+  actualResult = unique_ptr<PQLQueryResult>(orchestrator.execute(query.get(), queryPlan.get()));
   REQUIRE(*expectedResult == *actualResult);
 
   // Read
-  expectedResult = new PQLQueryResult();
+  expectedResult = make_unique<PQLQueryResult>();
   expectedResult->addToStatementMap("re", StatementResultBuilder::buildStatementResult(EXPECTED_STATEMENT_LINES));
   targetVariable = {PQL_SYN_TYPE_READ, "re"};
   selectClause = shared_ptr<SelectClause>(new SelectClause(targetVariable));
-  queryPlan = new QueryPlan(selectClause, EMPTY_CONDITIONALS);
-  query = new PQLQuery(
+  queryPlan = make_unique<QueryPlan>(selectClause, EMPTY_CONDITIONALS);
+  query = make_unique<PQLQuery>(
       unordered_map<string, PQLQuerySynonym>({{"re", targetVariable}}),
       targetVariable,
       emptyClause);
-  actualResult = orchestrator.execute(query, queryPlan);
+  actualResult = unique_ptr<PQLQueryResult>(orchestrator.execute(query.get(), queryPlan.get()));
   REQUIRE(*expectedResult == *actualResult);
 
   // Print
-  expectedResult = new PQLQueryResult();
+  expectedResult = make_unique<PQLQueryResult>();
   expectedResult->addToStatementMap("pn", StatementResultBuilder::buildStatementResult(EXPECTED_STATEMENT_LINES));
   targetVariable = {PQL_SYN_TYPE_PRINT, "pn"};
   selectClause = shared_ptr<SelectClause>(new SelectClause(targetVariable));
-  queryPlan = new QueryPlan(selectClause, EMPTY_CONDITIONALS);
-  query = new PQLQuery(
+  queryPlan = make_unique<QueryPlan>(selectClause, EMPTY_CONDITIONALS);
+  query = make_unique<PQLQuery>(
       unordered_map<string, PQLQuerySynonym>({{"pn", targetVariable}}),
       targetVariable,
       emptyClause);
-  actualResult = orchestrator.execute(query, queryPlan);
+  actualResult = unique_ptr<PQLQueryResult>(orchestrator.execute(query.get(), queryPlan.get()));
   REQUIRE(*expectedResult == *actualResult);
 
   // TODO(KwanHW): To implement once calls are supported
   // Call
 
   // While
-  expectedResult = new PQLQueryResult();
+  expectedResult = make_unique<PQLQueryResult>();
   expectedResult->addToStatementMap("w", StatementResultBuilder::buildStatementResult(EXPECTED_STATEMENT_LINES));
   targetVariable = {PQL_SYN_TYPE_WHILE, "w"};
   selectClause = shared_ptr<SelectClause>(new SelectClause(targetVariable));
-  queryPlan = new QueryPlan(selectClause, EMPTY_CONDITIONALS);
-  query = new PQLQuery(
+  queryPlan = make_unique<QueryPlan>(selectClause, EMPTY_CONDITIONALS);
+  query = make_unique<PQLQuery>(
       unordered_map<string, PQLQuerySynonym>({{"w", targetVariable}}),
       targetVariable,
       emptyClause);
-  actualResult = orchestrator.execute(query, queryPlan);
+  actualResult = unique_ptr<PQLQueryResult>(orchestrator.execute(query.get(), queryPlan.get()));
   REQUIRE(*expectedResult == *actualResult);
 
   // If
-  expectedResult = new PQLQueryResult();
+  expectedResult = make_unique<PQLQueryResult>();
   expectedResult->addToStatementMap("ifs", StatementResultBuilder::buildStatementResult(EXPECTED_STATEMENT_LINES));
   targetVariable = {PQL_SYN_TYPE_IF, "ifs"};
   selectClause = shared_ptr<SelectClause>(new SelectClause(targetVariable));
-  queryPlan = new QueryPlan(selectClause, EMPTY_CONDITIONALS);
-  query = new PQLQuery(
+  queryPlan = make_unique<QueryPlan>(selectClause, EMPTY_CONDITIONALS);
+  query = make_unique<PQLQuery>(
       unordered_map<string, PQLQuerySynonym>({{"ifs", targetVariable}}),
       targetVariable,
       emptyClause);
-  actualResult = orchestrator.execute(query, queryPlan);
+  actualResult = unique_ptr<PQLQueryResult>(orchestrator.execute(query.get(), queryPlan.get()));
   REQUIRE(*expectedResult == *actualResult);
 
   // Assign
-  expectedResult = new PQLQueryResult();
+  expectedResult = make_unique<PQLQueryResult>();
   expectedResult->addToStatementMap("a", StatementResultBuilder::buildStatementResult(EXPECTED_STATEMENT_LINES));
   targetVariable = {PQL_SYN_TYPE_ASSIGN, "a"};
   selectClause = shared_ptr<SelectClause>(new SelectClause(targetVariable));
-  queryPlan = new QueryPlan(selectClause, EMPTY_CONDITIONALS);
-  query = new PQLQuery(
+  queryPlan = make_unique<QueryPlan>(selectClause, EMPTY_CONDITIONALS);
+  query = make_unique<PQLQuery>(
       unordered_map<string, PQLQuerySynonym>({{"a", targetVariable}}),
       targetVariable,
       emptyClause);
-  actualResult = orchestrator.execute(query, queryPlan);
+  actualResult = unique_ptr<PQLQueryResult>(orchestrator.execute(query.get(), queryPlan.get()));
   REQUIRE(*expectedResult == *actualResult);
 
   // EntityTypes
   // Constant
-  expectedResult = new PQLQueryResult();
+  expectedResult = make_unique<PQLQueryResult>();
   expectedResult->addToEntityMap("c", EntityResultBuilder::buildEntityResult(EXPECTED_ENTITIES));
   targetVariable = {PQL_SYN_TYPE_CONSTANT, "c"};
   selectClause = shared_ptr<SelectClause>(new SelectClause(targetVariable));
-  queryPlan = new QueryPlan(selectClause, EMPTY_CONDITIONALS);
-  query = new PQLQuery(
+  queryPlan = make_unique<QueryPlan>(selectClause, EMPTY_CONDITIONALS);
+  query = make_unique<PQLQuery>(
       unordered_map<string, PQLQuerySynonym>({{"c", targetVariable}}),
       targetVariable,
       emptyClause
       );
-  actualResult = orchestrator.execute(query, queryPlan);
+  actualResult = unique_ptr<PQLQueryResult>(orchestrator.execute(query.get(), queryPlan.get()));
   REQUIRE(*expectedResult == *actualResult);
 
   // TODO(KwanHW): To implement once procedures are supported
   // Procedure
 
   // Variable
-  expectedResult = new PQLQueryResult();
+  expectedResult = make_unique<PQLQueryResult>();
   expectedResult->addToEntityMap("v", EntityResultBuilder::buildEntityResult(EXPECTED_ENTITIES));
   targetVariable = {PQL_SYN_TYPE_VARIABLE, "v"};
   selectClause = shared_ptr<SelectClause>(new SelectClause(targetVariable));
-  queryPlan = new QueryPlan(selectClause, EMPTY_CONDITIONALS);
-  query = new PQLQuery(
+  queryPlan = make_unique<QueryPlan>(selectClause, EMPTY_CONDITIONALS);
+  query = make_unique<PQLQuery>(
       unordered_map<string, PQLQuerySynonym>({{"v", targetVariable}}),
       targetVariable,
       emptyClause
   );
-  actualResult = orchestrator.execute(query, queryPlan);
+  actualResult = unique_ptr<PQLQueryResult>(orchestrator.execute(query.get(), queryPlan.get()));
   REQUIRE(*expectedResult == *actualResult);
 }
 
