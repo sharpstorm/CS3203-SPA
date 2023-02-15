@@ -12,8 +12,7 @@ unique_ptr<PQLQuery> QueryTokenParser::build() {
   QueryTokenParseState state(&this->tokens);
 
   while (!state.isTokenStreamEnd()) {
-    unique_ptr<IPQLContext> context = contextProvider
-        .getContext(state.getCurrentToken());
+    IPQLContext* context = contextProvider.getContext(state.getCurrentToken());
     if (context == nullptr) {
       throw QPSParserError(QPS_PARSER_ERR_UNEXPECTED);
     }
