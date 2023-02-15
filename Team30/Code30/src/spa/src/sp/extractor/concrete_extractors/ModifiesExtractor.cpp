@@ -1,6 +1,5 @@
 #include <string>
 #include "ModifiesExtractor.h"
-#include <iostream>
 
 using std::string;
 
@@ -42,5 +41,4 @@ void ModifiesExtractor::leave(WhileNode node) {
 
 void ModifiesExtractor::addModifiesRelation(int x, string var) {
   pkbWriter->addModifies(x, var);
-//  std::cout << x << " : " << var << "\n";
 }
