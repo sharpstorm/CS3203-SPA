@@ -1,6 +1,4 @@
-#include <string>
-
-using namespace std;
+#include "SourceTestCases.h"
 
 class SourceTestCases {
  public:
@@ -235,7 +233,29 @@ class SourceTestCases {
     return procedure;
   }
 
-  string chainedifElse() {
+  string multipleIfElse() {  // for follows relations
+    string procedure =
+        "procedure ifElse {\n"
+        "read num;\n"
+        "read num2;\n"
+        "num3 = num + num2;"
+        "if (num==0) then {\n"
+        "  print num;\n"
+        "} else {\n"
+        "  print num2;\n"
+        "} if (num2==0) then {\n"
+        "  print num2;\n"
+        "} else {\n"
+        "  print num3;\n"
+        "} if (num3>5) then {\n"
+        "  print num3;\n"
+        "} else {\n"
+        "  print num2;\n"
+        "}}";
+    return procedure;
+  }
+
+  string chainedIfElse() {
     string procedure =
         "procedure ifElse {\n"
         "read num;\n"
@@ -254,7 +274,7 @@ class SourceTestCases {
     return procedure;
   }
 
-  string callIf() {
+  string call_In_If() {
     string procedure =
         "procedure procOne {\n"
         "read num;\n"
@@ -268,8 +288,9 @@ class SourceTestCases {
         "}\n"
         "procedure procThree{ \n"
         "newNum = num + 1;\n"
-        "print newNum;\n";
-    "}" return procedure;
+        "print newNum;\n"
+        "}";
+    return procedure;
   }
   // Programs testing simple while cases
 
@@ -284,13 +305,30 @@ class SourceTestCases {
     return procedure;
   }
 
-  string whilewoutWhiteSpace() {
+  string while_wout_WhiteSpace() {
     string procedure =
         "procedure main {\n"
         "num = 0;\n"
         "while(num <= 5){\n"
         "print num;\n"
         "num =num+1;\n"
+        "}}";
+    return procedure;
+  }
+
+  string multipleWhile() {
+    string procedure =
+        "procedure main {\n"
+        "num = 0;\n"
+        "while (num <= 5) {\n"
+        "  print num;\n"
+        "  num = num + 1;\n"
+        "} while (num <= 10) {\n"
+        "  print num;\n"
+        "  num = num + 1;\n"
+        "} while (num <= 15) {\n"
+        "  print num;\n"
+        "  num = num + 1;\n"
         "}}";
     return procedure;
   }
@@ -304,7 +342,7 @@ class SourceTestCases {
     return procedure;
   }
 
-  string whileForTestingParent() {
+  string whileForTestingExtractors() {
     string procedure =
         "procedure main {\n"
         "num = 0;\n"
@@ -331,7 +369,7 @@ class SourceTestCases {
     return procedure;
   }
 
-  string chainedWhileTwo() {
+  string multi_chained_While() {
     string procedure =
         "procedure main {\n"
         "num1 = 0;\n"
@@ -342,9 +380,9 @@ class SourceTestCases {
         "    while (num3 > 3) {\n"
         "      num3 = num3 + 1;\n"
         "        print num3;\n"
-        "  } num3 = 0;\n"
-        "  num2 = num2 - 1;\n"
-        "  print num2;\n"
+        "    } num3 = 0;\n"
+        "    num2 = num2 - 1;\n"
+        "    print num2;\n"
         "  } num2 = 5;\n"
         "  num1 = num1 + 1;\n"
         "}}";
@@ -360,10 +398,11 @@ class SourceTestCases {
         "}}\n"
         "procedure proc {\n"
         "print num;\n"
-        "}" return procedure;
+        "}";
+    return procedure;
   }
 
-  // programs with while and if/else
+  // programs with while and if/else chains
 
   string ifInWhile() {
     string procedure =
@@ -416,11 +455,157 @@ class SourceTestCases {
         "if (num > 0) then {\n"
         "  while (num > 0) {\n"
         "    while (numOne >= 0) {\n"
-        "      numOne = numOne - num;\n
+        "      numOne = numOne - num;\n"
         "    } num = num - 1;\n"
         "  }\n"
         "} else {\n"
         "}}";
+    return procedure;
+  }
+
+  string whileChainInElse() {
+    string procedure =
+        "procedure main {\n"
+        "read num;\n"
+        "read numOne;\n"
+        "if (num < 0) then {\n"
+        "} else {\n"
+        "  while (num > 0) {\n"
+        "    while (numOne >= 0) {\n"
+        "      numOne = numOne - num;\n"
+        "    } num = num - 1;\n"
+        "  }\n"
+        "}}";
+    return procedure;
+  }
+
+  string whileChainInIfElse() {
+    string procedure =
+        "procedure main {\n"
+        "read num;\n"
+        "read numOne;\n"
+        "if (num > 0) then {\n"
+        "  while (num > 0) {\n"
+        "    while (numOne >= 0) {\n"
+        "      numOne = numOne - num;\n"
+        "    } num = num - 1;\n"
+        "} else {\n"
+        "  while (num < 0) {\n"
+        "    while (numOne <= 0) {\n"
+        "      numOne = numOne + num;\n"
+        "    } num = num + 1;\n"
+        "  }\n"
+        "}}";
+    return procedure;
+  }
+
+  string ifElse_Single_Call_InWhile() {
+    string procedure =
+        "procedure main {\n"
+        "read num;\n"
+        "while (num >= 0) {\n"
+        "  numCheck = num % 2;\n"
+        "  if (numCheck == 0) then {\n"
+        "    call calls;\n"
+        "  } else {\n"
+        "  } num = num - 1;\n"
+        "}}\n"
+        "procedure calls {\n"
+        "print num;\n"
+        "}";
+    return procedure;
+  }
+
+  string multiple_Calls_InWhile() {
+    string procedure =
+        "procedure main {\n"
+        "read num;\n"
+        "while (num >= 0) {\n"
+        "  call numCheck\n"
+        "  if (numCheck == 0) then {\n"
+        "    call prints;\n"
+        "  } else {\n"
+        "  } call decrements;\n"
+        "}}\n"
+        "procedure numCheck {\n"
+        "numCheck = num % 2;\n"
+        "}\n"
+        "procedure decrements {\n"
+        "num = num - 1;\n"
+        "}\n"
+        "procedure prints {\n"
+        "print num;\n"
+        "}";
+    return procedure;
+  }
+
+  string multipleIfElse_withWhileChain() {  // stress test
+    string procedure =
+        "procedure ifElse {\n"
+        "read num;\n"
+        "read num2;\n"
+        "num3 = num + num2;"
+        "if (num==0) then {\n"
+        "  print num;\n"
+        "} else {\n"
+        "  print num2;\n"
+        "} if (num2==0) then {\n"
+        "  while (num1 <= 5) {\n"
+        "    while (num2 >= 0) {\n"
+        "      while (num3 > 3) {\n"
+        "        num3 = num3 + 1;\n"
+        "          print num3;\n"
+        "      } num3 = 0;\n"
+        "      num2 = num2 - 1;\n"
+        "      print num2;\n"
+        "    } num2 = 5;\n"
+        "    num1 = num1 + 1;\n"
+        "}} else {\n"
+        "  print num3;\n"
+        "} if (num3>5) then {\n"
+        "  print num3;\n"
+        "} else {\n"
+        "  print num2;\n"
+        "}}";
+    return procedure;
+  }
+
+  string complexProgam() {  // from 'code 4: program with multiple features' in
+                            // CS3203 website
+    string procedure =
+        "procedure main {\n"
+        "flag = 0;\n"
+        "call computeCentroid;\n"
+        "call printResults;\n"
+        "}\n"
+        "procedure readPoint {\n"
+        "read x;\n"
+        "read y;\n"
+        "}\n"
+        "procedure printResults {\n"
+        "print flag;\n"
+        "print cenX;\n"
+        "print cenY;\n"
+        "print normSq;\n"
+        "}\n"
+        "procedure computeCentroid {\n"
+        "count = 0;\n"
+        "cenX = 0;\n"
+        "cenY = 0;\n"
+        "call readPoint;\n"
+        "while ((x != 0) && (y != 0)) {\n"
+        "count = count + 1;\n"
+        "cenX = cenX + x;\n"
+        "cenY = cenY + y;\n"
+        "call readPoint;\n"
+        "}\n"
+        "if (count == 0) then { flag = 1; }\n"
+        "else {\n"
+        "cenX = cenX / count;\n"
+        "cenY = cenY / count;\n"
+        "}\n"
+        "normSq = cenX * cenX + cenY * cenY;\n"
+        "}\n";
     return procedure;
   }
 };
