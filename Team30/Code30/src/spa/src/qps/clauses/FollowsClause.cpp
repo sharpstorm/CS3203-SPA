@@ -21,7 +21,7 @@ PQLQueryResult* FollowsClause::evaluateOn(
   QueryResult<int, int> queryResult =
       pkbQueryHandler->queryFollows(leftStatement, rightStatement);
 
-  PQLQueryResult*  pqlQueryResult = new PQLQueryResult();
+  PQLQueryResult* pqlQueryResult = new PQLQueryResult();
 
   if (!left.isSynonym() && !right.isSynonym()) {
     pqlQueryResult->setIsStaticFalse(queryResult.isEmpty);
