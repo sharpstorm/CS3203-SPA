@@ -2,8 +2,9 @@
 
 QueryTokenParseState::QueryTokenParseState(vector<PQLToken> *tokens):
     tokenStream(tokens),
-    currentStage(TOKEN_PARSE_STAGE_INIT),
-    semanticErrorMsg("") {
+    QueryExpectationAgent(&tokenStream),
+    SemanticErrorStore(),
+    currentStage(TOKEN_PARSE_STAGE_INIT) {
 }
 
 bool QueryTokenParseState::isTokenStreamEnd() {
@@ -30,48 +31,4 @@ void QueryTokenParseState::advanceStage(TokenParsingStage newStage) {
   }
 
   currentStage = newStage;
-}
-
-void QueryTokenParseState::setSemanticError(string error) {
-  if (semanticErrorMsg != "") {
-    return;
-  }
-
-  semanticErrorMsg = error;
-}
-
-bool QueryTokenParseState::hasSemanticError() {
-  return semanticErrorMsg != "";
-}
-
-string QueryTokenParseState::getSemanticError() {
-  return semanticErrorMsg;
-}
-
-PQLToken *QueryTokenParseState::expectVarchar() {
-  PQLToken* currentToken = getCurrentToken();
-  if (currentToken == nullptr) {
-    throw QPSParserSyntaxError(QPS_PARSER_ERR_EOS);
-  }
-
-  if (!currentToken->isVarchar()) {
-    throw QPSParserSyntaxError(QPS_PARSER_ERR_UNEXPECTED);
-  }
-
-  advanceToken();
-  return currentToken;
-}
-
-PQLToken *QueryTokenParseState::expectSynName() {
-  PQLToken* currentToken = getCurrentToken();
-  if (currentToken == nullptr) {
-    throw QPSParserSyntaxError(QPS_PARSER_ERR_EOS);
-  }
-
-  if (!currentToken->isSynName()) {
-    throw QPSParserSyntaxError(QPS_PARSER_ERR_UNEXPECTED);
-  }
-
-  advanceToken();
-  return currentToken;
 }

@@ -3,10 +3,11 @@
 #include <vector>
 #include <unordered_set>
 #include <string>
-#include "../PQLToken.h"
 #include "../builder/QueryBuilder.h"
 #include "token_stream/QueryTokenStream.h"
 #include "../../errors/QPSParserSyntaxError.h"
+#include "SemanticErrorStore.h"
+#include "QueryExpectationAgent.h"
 
 using std::vector, std::unordered_set, std::string;
 
@@ -36,12 +37,13 @@ const unordered_set<TokenParsingStage> parsingAllowedTransitions[] = {
     {},
 };
 
-class QueryTokenParseState {
+class QueryTokenParseState:
+    public SemanticErrorStore,
+    public QueryExpectationAgent {
  private:
   QueryTokenStream tokenStream;
   QueryBuilder queryBuilder;
   TokenParsingStage currentStage;
-  string semanticErrorMsg;
 
  public:
   explicit QueryTokenParseState(vector<PQLToken>* tokens);
@@ -49,52 +51,6 @@ class QueryTokenParseState {
   void advanceToken();
   PQLToken* getCurrentToken();
 
-  template<typename... T>
-  PQLToken *expect(T... tokenType);
-  template<typename... T>
-  PQLToken *expectCategory(T... tokenCategory);
-  PQLToken *expectVarchar();
-  PQLToken *expectSynName();
-
   void advanceStage(TokenParsingStage newStage);
-
-  void setSemanticError(string error);
-  bool hasSemanticError();
-  string getSemanticError();
-
   QueryBuilder* getQueryBuilder();
 };
-
-
-template<typename... PQLTokenType>
-PQLToken* QueryTokenParseState::expect(PQLTokenType... tokenType) {
-  PQLToken* currentToken = getCurrentToken();
-
-  if (currentToken == nullptr) {
-    throw QPSParserSyntaxError(QPS_PARSER_ERR_EOS);
-  }
-
-  if ((currentToken->isType(tokenType)  || ... || false)) {
-    advanceToken();
-    return currentToken;
-  }
-
-  throw QPSParserSyntaxError(QPS_PARSER_ERR_UNEXPECTED);
-}
-
-template<typename... PQLTokenCategory>
-PQLToken* QueryTokenParseState::expectCategory(
-    PQLTokenCategory... tokenCategory) {
-  PQLToken* currentToken = getCurrentToken();
-
-  if (currentToken == nullptr) {
-    throw QPSParserSyntaxError(QPS_PARSER_ERR_EOS);
-  }
-
-  if ((currentToken->isCategory(tokenCategory)  || ... || false)) {
-    advanceToken();
-    return currentToken;
-  }
-
-  throw QPSParserSyntaxError(QPS_PARSER_ERR_UNEXPECTED);
-}
