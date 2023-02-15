@@ -35,6 +35,17 @@ class SourceTestCases {
     return procedure;
   }
 
+  string SourceTestCases::caseSensitive() {
+    string procedure =
+        "procedure if {\n"
+        "read num;\n"
+        "read Num;\n"
+        "print num;\n"
+        "print Num;\n"
+        "}";
+    return procedure;
+  }
+
   string SourceTestCases::longNames() {
     string procedure =
         "procedure arbitrarilyLongProcedureName {\n"
@@ -128,10 +139,59 @@ class SourceTestCases {
     string procedure =
         "procedure ifElse {\n"
         "read num;\n"
+        "read num2;\n"
         "if (num==0) then {\n"
         "  print num;\n"
         "} else {\n"
-        "  print 0;\n"
+        "  print num2;\n"
+        "}}";
+    return procedure;
+  }
+
+  string SourceTestCases::longOperator() {
+    string procedure =
+        "procedure if {\n"
+        "read num1;\n"
+        "read num2;\n"
+        "read num3;\n"
+        "read num4;\n"
+        "if ((num1 % num 2 < num3 * num4) && (num1 != num2)) then {\n"
+        "  print num;\n"
+        "}}";
+    return procedure;
+  }
+
+  string SourceTestCases::chainedIf() {
+    string procedure =
+        "procedure chainedIf {\n"
+        "read num;\n"
+        "read num2\n"
+        "if (num>0) then {\n"
+        "  print num;\n"
+        "  if (num>5) then {\n"
+        "    print num2;\n"
+        "    if ((num1+num2)<10) then {\n"
+        "      num3 = num1+num2;\n"
+        "      print num3;\n"
+        "}}}}";
+    return procedure;
+  }
+
+  string SourceTestCases::chainedfElse() {
+    string procedure =
+        "procedure ifElse {\n"
+        "read num;\n"
+        "read num2;\n"
+        "if (num!=0) then {\n"
+        "  print num;\n"
+        "  if (num == 1) then {\n"
+        "    print num;\n"
+        "   }\n"
+        "} else {\n"
+        "    if (num2 == 1) then {\n"
+        "      print num2;\n"
+        "     }\n"
+        "    print num2;\n"
         "}}";
     return procedure;
   }
