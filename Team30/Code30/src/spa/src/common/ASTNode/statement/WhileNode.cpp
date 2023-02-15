@@ -15,6 +15,10 @@ void WhileNode::accept(shared_ptr<Extractor> e) {
   e->visit(*this);
 }
 
+void WhileNode::leave(shared_ptr<Extractor> e) {
+  e->leave(*this);
+}
+
 void WhileNode::addChild(shared_ptr<ASTNode> node) {
   children.push_back(node);
 }
