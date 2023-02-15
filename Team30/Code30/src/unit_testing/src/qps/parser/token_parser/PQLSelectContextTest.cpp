@@ -4,6 +4,7 @@
 #include "../../util/PQLTestTokenSequenceBuilder.cpp"
 #include "qps/parser/token_parser/context/query/PQLSelectContext.h"
 #include "qps/errors/QPSParserSyntaxError.h"
+#include "qps/errors/QPSParserSemanticError.h"
 
 using std::make_unique;
 
@@ -30,7 +31,8 @@ TEST_CASE("Test PQL Select unknown synonym") {
       ->synonym("s")
       ->build();
   QueryTokenParseState state(&dummyStream);
-  REQUIRE_THROWS_AS(context.parse(&state), QPSParserSyntaxError);
+  context.parse(&state);
+  REQUIRE(state.hasSemanticError());
 }
 
 TEST_CASE("Test PQL Select bad symbol") {
