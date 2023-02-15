@@ -24,7 +24,7 @@ void launchQuery2(IQPS* qps, string query, unordered_set<string> answer) {
   try {
     result = qps->evaluate(query);
   } catch (const QPSError& ex) {
-    FAIL("Fail with error: " + ex.message);
+    FAIL(ex.what());
   }
 
   INFO("-----------------------------------------------\n")

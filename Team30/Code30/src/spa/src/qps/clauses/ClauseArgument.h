@@ -6,6 +6,7 @@
 using std::string;
 
 enum ClauseArgumentType {
+  CLAUSE_ARG_INVALID,
   CLAUSE_ARG_WILDCARD,
   CLAUSE_ARG_SYNONYM,
   CLAUSE_ARG_INTEGER,
@@ -31,6 +32,7 @@ class ClauseArgument {
   bool isSynonym();
   bool isStmtRef();
   bool isEntRef();
+  bool isValid();
   int getStatement();
   string getIdent();
 };

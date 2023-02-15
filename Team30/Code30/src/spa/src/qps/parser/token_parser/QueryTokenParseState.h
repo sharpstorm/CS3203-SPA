@@ -5,7 +5,7 @@
 #include "../PQLToken.h"
 #include "../builder/QueryBuilder.h"
 #include "token_stream/QueryTokenStream.h"
-#include "../../errors/QPSParserError.h"
+#include "../../errors/QPSParserSyntaxError.h"
 
 using std::vector, std::unordered_set;
 
@@ -40,6 +40,7 @@ class QueryTokenParseState {
   QueryTokenStream tokenStream;
   QueryBuilder queryBuilder;
   TokenParsingStage currentStage;
+  string semanticErrorMsg;
 
  public:
   explicit QueryTokenParseState(vector<PQLToken>* tokens);
@@ -52,8 +53,14 @@ class QueryTokenParseState {
   template<typename... T>
   PQLToken *expectCategory(T... tokenCategory);
   PQLToken *expectVarchar();
+  PQLToken *expectSynName();
 
   void advanceStage(TokenParsingStage newStage);
+
+  void setSemanticError(string error);
+  bool hasSemanticError();
+  string getSemanticError();
+
   QueryBuilder* getQueryBuilder();
 };
 
@@ -63,7 +70,7 @@ PQLToken* QueryTokenParseState::expect(PQLTokenType... tokenType) {
   PQLToken* currentToken = getCurrentToken();
 
   if (currentToken == nullptr) {
-    throw QPSParserError(QPS_PARSER_ERR_EOS);
+    throw QPSParserSyntaxError(QPS_PARSER_ERR_EOS);
   }
 
   if ((currentToken->isType(tokenType)  || ... || false)) {
@@ -71,7 +78,7 @@ PQLToken* QueryTokenParseState::expect(PQLTokenType... tokenType) {
     return currentToken;
   }
 
-  throw QPSParserError(QPS_PARSER_ERR_UNEXPECTED);
+  throw QPSParserSyntaxError(QPS_PARSER_ERR_UNEXPECTED);
 }
 
 template<typename... PQLTokenCategory>
@@ -80,7 +87,7 @@ PQLToken* QueryTokenParseState::expectCategory(
   PQLToken* currentToken = getCurrentToken();
 
   if (currentToken == nullptr) {
-    throw QPSParserError(QPS_PARSER_ERR_EOS);
+    throw QPSParserSyntaxError(QPS_PARSER_ERR_EOS);
   }
 
   if ((currentToken->isCategory(tokenCategory)  || ... || false)) {
@@ -88,5 +95,5 @@ PQLToken* QueryTokenParseState::expectCategory(
     return currentToken;
   }
 
-  throw QPSParserError(QPS_PARSER_ERR_UNEXPECTED);
+  throw QPSParserSyntaxError(QPS_PARSER_ERR_UNEXPECTED);
 }

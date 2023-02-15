@@ -4,9 +4,10 @@
 
 #include "PQLContextTestUtils.cpp"
 #include "qps/parser/token_parser/context/such_that_clause/PQLUsesClauseContext.h"
-#include "qps/errors/QPSParserError.h"
+#include "qps/errors/QPSParserSyntaxError.h"
 #include "qps/clauses/UsesClause.h"
 #include "qps/parser/builder/QueryBuilderError.h"
+#include "qps/errors/QPSParserSemanticError.h"
 
 using std::make_unique, std::unordered_map;
 
@@ -134,7 +135,7 @@ TEST_CASE("Test PQL Uses unknown ref") {
                           ->synonym("w")
                           ->closeBracket()
                           ->build()
-      ), QPSParserError
+      ), QPSParserSemanticError
   );
 
   REQUIRE_THROWS_AS(
@@ -145,7 +146,7 @@ TEST_CASE("Test PQL Uses unknown ref") {
                           ->synonym("v")
                           ->closeBracket()
                           ->build()
-      ), QPSParserError
+      ), QPSParserSemanticError
   );
 }
 
@@ -158,7 +159,7 @@ TEST_CASE("Test PQL Uses Statement ref not allowed on right") {
                           ->integer(1)
                           ->closeBracket()
                           ->build()
-      ), QPSParserError
+      ), QPSParserSyntaxError
   );
 }
 
@@ -171,7 +172,7 @@ TEST_CASE("Test PQL Uses wildcard not allowed on left") {
                           ->ident("x")
                           ->closeBracket()
                           ->build()
-      ), QueryBuilderError
+      ), QPSParserSemanticError
   );
 }
 
@@ -183,7 +184,7 @@ TEST_CASE("Test PQL Uses bad syntax") {
                           ->ident("x")
                           ->closeBracket()
                           ->build()
-      ), QPSParserError
+      ), QPSParserSyntaxError
   );
 
   REQUIRE_THROWS_AS(
@@ -193,7 +194,7 @@ TEST_CASE("Test PQL Uses bad syntax") {
                           ->comma()
                           ->ident("x")
                           ->build()
-      ), QPSParserError
+      ), QPSParserSyntaxError
   );
 }
 
@@ -247,7 +248,7 @@ TEST_CASE("Test PQL Uses invalid left synonym types") {
                             ->closeBracket()
                             ->build(),
                         synonymMap
-        ), QueryBuilderError
+        ), QPSParserSemanticError
     );
   }
 }
@@ -279,7 +280,7 @@ TEST_CASE("Test PQL Uses invalid right synonym types") {
                             ->closeBracket()
                             ->build(),
                         synonymMap
-        ), QueryBuilderError
+        ), QPSParserSemanticError
     );
   }
 }

@@ -1,5 +1,5 @@
 #include "QueryBuilder.h"
-#include "QueryBuilderError.h"
+#include "qps/errors/QPSParserSemanticError.h"
 
 using std::move, std::make_unique;
 
@@ -12,7 +12,7 @@ void QueryBuilder::setResultVariable(PQLSynonymType type, PQLSynonymName name) {
 
 void QueryBuilder::addVariable(PQLSynonymName name, PQLSynonymType type) {
   if (hasVariable(name)) {
-    throw QueryBuilderError("Found duplicate variable");
+    throw QPSParserSemanticError(QPS_PARSER_ERR_DUPLICATE_SYN);
   }
   variables[name] = PQLQuerySynonym(type, name);
 }
@@ -40,7 +40,7 @@ void QueryBuilder::addPattern(unique_ptr<PatternClause> clause) {
 unique_ptr<PQLQuery> QueryBuilder::build() {
   for (int i = 0; i < clauses.size(); i++) {
     if (!clauses.at(i)->validateArgTypes(&variables)) {
-      throw QueryBuilderError("Semantic Error, Invalid typing");
+      throw QPSParserSemanticError(QPS_PARSER_ERR_SYNONYM_TYPE);
     }
   }
 

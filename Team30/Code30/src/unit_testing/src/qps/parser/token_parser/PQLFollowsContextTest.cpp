@@ -5,10 +5,10 @@
 
 #include "PQLContextTestUtils.cpp"
 #include "qps/parser/token_parser/context/such_that_clause/PQLFollowsClauseContext.h"
-#include "qps/errors/QPSParserError.h"
+#include "qps/errors/QPSParserSyntaxError.h"
 #include "qps/clauses/FollowsClause.h"
 #include "qps/clauses/FollowsTClause.h"
-#include "qps/parser/builder/QueryBuilderError.h"
+#include "qps/errors/QPSParserSemanticError.h"
 
 using std::make_unique, std::unordered_map;
 
@@ -128,7 +128,7 @@ TEST_CASE("Test PQL Follows unknown ref") {
                              ->integer(2)
                              ->closeBracket()
                              ->build()
-      ), QPSParserError
+      ), QPSParserSemanticError
   );
 }
 
@@ -141,7 +141,7 @@ TEST_CASE("Test PQL Follows Entity ref not allowed") {
                              ->integer(2)
                              ->closeBracket()
                              ->build()
-      ), QPSParserError
+      ), QPSParserSyntaxError
   );
 
   REQUIRE_THROWS_AS(
@@ -152,7 +152,7 @@ TEST_CASE("Test PQL Follows Entity ref not allowed") {
                              ->ident("w")
                              ->closeBracket()
                              ->build()
-      ), QPSParserError
+      ), QPSParserSyntaxError
   );
 }
 
@@ -164,7 +164,7 @@ TEST_CASE("Test PQL Follows bad syntax") {
                              ->synonym("w")
                              ->closeBracket()
                              ->build()
-      ), QPSParserError
+      ), QPSParserSyntaxError
   );
 
   REQUIRE_THROWS_AS(
@@ -174,7 +174,7 @@ TEST_CASE("Test PQL Follows bad syntax") {
                              ->comma()
                              ->synonym("w")
                              ->build()
-      ), QPSParserError
+      ), QPSParserSyntaxError
   );
 }
 
@@ -248,7 +248,7 @@ TEST_CASE("Test PQL Follows invalid synonym types") {
                                ->closeBracket()
                                ->build(),
                            synonymMap
-        ), QueryBuilderError
+        ), QPSParserSemanticError
     );
 
     REQUIRE_THROWS_AS(
@@ -260,7 +260,7 @@ TEST_CASE("Test PQL Follows invalid synonym types") {
                                ->closeBracket()
                                ->build(),
                            synonymMap
-        ), QueryBuilderError
+        ), QPSParserSemanticError
     );
 
     REQUIRE_THROWS_AS(
@@ -272,7 +272,7 @@ TEST_CASE("Test PQL Follows invalid synonym types") {
                                ->closeBracket()
                                ->build(),
                            synonymMap
-        ), QueryBuilderError
+        ), QPSParserSemanticError
     );
   }
 }

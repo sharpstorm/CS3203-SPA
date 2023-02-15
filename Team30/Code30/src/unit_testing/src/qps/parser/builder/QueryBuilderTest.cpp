@@ -3,7 +3,7 @@
 #include "qps/clauses/FollowsClause.h"
 #include "qps/clauses/ParentClause.h"
 #include "qps/clauses/ModifiesClause.h"
-#include "qps/parser/builder/QueryBuilderError.h"
+#include "qps/errors/QPSParserSemanticError.h"
 
 using std::make_unique, std::move;
 
@@ -54,7 +54,7 @@ TEST_CASE("Test QueryBuilder Success") {
 TEST_CASE("Test QueryBuilder Duplicate Variable") {
   QueryBuilder qb;
   qb.addVariable("a", PQL_SYN_TYPE_STMT);
-  REQUIRE_THROWS_AS(qb.addVariable("a", PQL_SYN_TYPE_PROCEDURE), QueryBuilderError);
+  REQUIRE_THROWS_AS(qb.addVariable("a", PQL_SYN_TYPE_PROCEDURE), QPSParserSemanticError);
   qb.build();
 }
 
@@ -64,7 +64,7 @@ TEST_CASE("Test QueryBuilder Invalid Clause - Follows") {
   qb.addSuchThat(make_unique<FollowsClause>(
       ClauseArgument(PQLQuerySynonym(PQL_SYN_TYPE_CONSTANT, "a")),
       ClauseArgument(2)));
-  REQUIRE_THROWS_AS(qb.build(), QueryBuilderError);
+  REQUIRE_THROWS_AS(qb.build(), QPSParserSemanticError);
 
   QueryBuilder qb2;
   qb2.addVariable("a", PQL_SYN_TYPE_CONSTANT);
@@ -72,7 +72,7 @@ TEST_CASE("Test QueryBuilder Invalid Clause - Follows") {
       ClauseArgument(2),
       ClauseArgument(PQLQuerySynonym(PQL_SYN_TYPE_CONSTANT, "a"))
   ));
-  REQUIRE_THROWS_AS(qb2.build(), QueryBuilderError);
+  REQUIRE_THROWS_AS(qb2.build(), QPSParserSemanticError);
 }
 
 TEST_CASE("Test QueryBuilder Invalid Clause - Modifies") {
@@ -81,18 +81,18 @@ TEST_CASE("Test QueryBuilder Invalid Clause - Modifies") {
   qb.addSuchThat(make_unique<ModifiesClause>(
       ClauseArgument(PQLQuerySynonym(PQL_SYN_TYPE_CONSTANT, "a")),
       ClauseArgument("a")));
-  REQUIRE_THROWS_AS(qb.build(), QueryBuilderError);
+  REQUIRE_THROWS_AS(qb.build(), QPSParserSemanticError);
 
   QueryBuilder qb2;
   qb2.addSuchThat(make_unique<ModifiesClause>(
       ClauseArgument(CLAUSE_ARG_WILDCARD),
       ClauseArgument("a")));
-  REQUIRE_THROWS_AS(qb2.build(), QueryBuilderError);
+  REQUIRE_THROWS_AS(qb2.build(), QPSParserSemanticError);
 
   QueryBuilder qb3;
   qb3.addVariable("a", PQL_SYN_TYPE_CONSTANT);
   qb3.addSuchThat(make_unique<ModifiesClause>(
       ClauseArgument("a"),
       ClauseArgument(PQLQuerySynonym(PQL_SYN_TYPE_CONSTANT, "a"))));
-  REQUIRE_THROWS_AS(qb3.build(), QueryBuilderError);
+  REQUIRE_THROWS_AS(qb3.build(), QPSParserSemanticError);
 }

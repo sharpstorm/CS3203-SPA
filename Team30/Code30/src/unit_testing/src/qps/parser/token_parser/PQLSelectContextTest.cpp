@@ -3,7 +3,7 @@
 
 #include "../../util/PQLTestTokenSequenceBuilder.cpp"
 #include "qps/parser/token_parser/context/query/PQLSelectContext.h"
-#include "qps/errors/QPSParserError.h"
+#include "qps/errors/QPSParserSyntaxError.h"
 
 using std::make_unique;
 
@@ -30,7 +30,7 @@ TEST_CASE("Test PQL Select unknown synonym") {
       ->synonym("s")
       ->build();
   QueryTokenParseState state(&dummyStream);
-  REQUIRE_THROWS_AS(context.parse(&state), QPSParserError);
+  REQUIRE_THROWS_AS(context.parse(&state), QPSParserSyntaxError);
 }
 
 TEST_CASE("Test PQL Select bad symbol") {
@@ -40,5 +40,5 @@ TEST_CASE("Test PQL Select bad symbol") {
       ->semicolon()
       ->build();
   QueryTokenParseState state(&dummyStream);
-  REQUIRE_THROWS_AS(context.parse(&state), QPSParserError);
+  REQUIRE_THROWS_AS(context.parse(&state), QPSParserSyntaxError);
 }

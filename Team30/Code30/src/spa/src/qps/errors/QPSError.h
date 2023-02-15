@@ -1,11 +1,6 @@
 #pragma once
 
-#include <string>
-
-using std::string;
-
-class QPSError {
- public:
-  explicit QPSError(string message) { this->message = message; }
-  string message;
+class QPSError : public std::exception {
+ protected:
+  explicit QPSError(const char* message): exception(message) {}
 };

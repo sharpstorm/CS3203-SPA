@@ -5,7 +5,7 @@
 
 #include "../../util/PQLTestTokenSequenceBuilder.cpp"
 #include "qps/parser/token_parser/context/declarations/PQLStmtContext.h"
-#include "qps/errors/QPSParserError.h"
+#include "qps/errors/QPSParserSyntaxError.h"
 #include "qps/parser/lexer/QueryLexerTokenTable.h"
 
 using std::make_unique, std::string;
@@ -55,7 +55,7 @@ TEST_CASE("Test PQL Declaration Bad Synonym Name") {
 
     QueryTokenParseState state(&dummyStream);
     context.parse(&state);
-    REQUIRE_THROWS_AS(context.parse(&state), QPSParserError);
+    REQUIRE_THROWS_AS(context.parse(&state), QPSParserSyntaxError);
   }
 }
 
@@ -67,5 +67,5 @@ TEST_CASE("Test PQL Declaration No semicolon") {
       ->build();
 
   QueryTokenParseState state(&dummyStream);
-  REQUIRE_THROWS_AS(context.parse(&state), QPSParserError);
+  REQUIRE_THROWS_AS(context.parse(&state), QPSParserSyntaxError);
 }
