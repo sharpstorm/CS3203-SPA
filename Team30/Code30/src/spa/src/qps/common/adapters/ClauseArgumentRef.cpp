@@ -1,20 +1,20 @@
 #include "ClauseArgumentRef.h"
 #include "../../errors/QPSError.h"
 
-StmtRef ClauseArgumentRef::toStmtRef(ClauseArgument clauseArgument) {
-  if (clauseArgument.isStmtRef()) {
-    return StmtRef{StmtType::None, clauseArgument.getStatement()};
+StmtRef ClauseArgumentRef::toStmtRef(ClauseArgument* clauseArgument) {
+  if (clauseArgument->isStmtRef()) {
+    return StmtRef{StmtType::None, clauseArgument->getStatement()};
   }
 
-  if (clauseArgument.isWildcard()) {
+  if (clauseArgument->isWildcard()) {
     return StmtRef{StmtType::None, 0};
   }
 
-  if (clauseArgument.isEntRef()) {
+  if (clauseArgument->isEntRef()) {
     throw QPSError("Invalid call to toStmtRef");
   }
 
-  PQLSynonymType synType = clauseArgument.getSynonymType();
+  PQLSynonymType synType = clauseArgument->getSynonymType();
   switch (synType) {
     case PQL_SYN_TYPE_ASSIGN:
       return StmtRef{StmtType::Assign, 0};
@@ -33,20 +33,20 @@ StmtRef ClauseArgumentRef::toStmtRef(ClauseArgument clauseArgument) {
   }
 }
 
-EntityRef ClauseArgumentRef::toEntityRef(ClauseArgument clauseArgument) {
-  if (clauseArgument.isEntRef()) {
-    return EntityRef{EntityType::None, clauseArgument.getIdent()};
+EntityRef ClauseArgumentRef::toEntityRef(ClauseArgument* clauseArgument) {
+  if (clauseArgument->isEntRef()) {
+    return EntityRef{EntityType::None, clauseArgument->getIdent()};
   }
 
-  if (clauseArgument.isWildcard()) {
+  if (clauseArgument->isWildcard()) {
     return EntityRef{EntityType::None, ""};
   }
 
-  if (clauseArgument.isStmtRef()) {
+  if (clauseArgument->isStmtRef()) {
     throw QPSError("Invalid call to toEntRef");
   }
 
-  PQLSynonymType synType = clauseArgument.getSynonymType();
+  PQLSynonymType synType = clauseArgument->getSynonymType();
   switch (synType) {
     case PQL_SYN_TYPE_VARIABLE:
       return EntityRef{EntityType::Variable, ""};

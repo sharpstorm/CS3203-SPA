@@ -19,8 +19,8 @@ TEST_CASE("Test PQL Select parsing") {
   context.parse(&state);
 
   auto resultVar = state.getQueryBuilder()->build()->getResultVariable();
-  REQUIRE(resultVar.name == "s");
-  REQUIRE(resultVar.type == PQL_SYN_TYPE_STMT);
+  REQUIRE(resultVar.getName() == "s");
+  REQUIRE(resultVar.getType() == PQL_SYN_TYPE_STMT);
 }
 
 TEST_CASE("Test PQL Select unknown synonym") {

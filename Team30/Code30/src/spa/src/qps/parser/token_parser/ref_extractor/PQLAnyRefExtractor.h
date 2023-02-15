@@ -2,6 +2,7 @@
 
 #include "PQLEntityRefExtractor.h"
 #include "PQLStmtRefExtractor.h"
+#include "../../../clauses/ClauseArgument.h"
 
 class PQLAnyRefExtractor:
     public PQLStmtRefExtractor, PQLEntityRefExtractor {

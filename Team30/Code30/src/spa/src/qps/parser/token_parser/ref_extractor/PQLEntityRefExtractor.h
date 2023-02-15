@@ -1,6 +1,7 @@
 #pragma once
 
 #include "PQLRefExtractor.h"
+#include "../../../clauses/ClauseArgument.h"
 
 class PQLEntityRefExtractor: public PQLRefExtractor {
  public:

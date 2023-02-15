@@ -15,8 +15,8 @@ FollowsTClause::FollowsTClause(ClauseArgument leftArg, ClauseArgument rightArg):
 
 PQLQueryResult* FollowsTClause::evaluateOn(
         shared_ptr<PkbQueryHandler> pkbQueryHandler) {
-  StmtRef leftStatement = ClauseArgumentRef::toStmtRef(left);
-  StmtRef rightStatement = ClauseArgumentRef::toStmtRef(right);
+  StmtRef leftStatement = ClauseArgumentRef::toStmtRef(&left);
+  StmtRef rightStatement = ClauseArgumentRef::toStmtRef(&right);
   QueryResult<int, int> queryResult =
       pkbQueryHandler->queryFollowsStar(leftStatement, rightStatement);
 
