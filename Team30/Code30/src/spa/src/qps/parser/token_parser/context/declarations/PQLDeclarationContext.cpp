@@ -1,8 +1,8 @@
 #include "PQLDeclarationContext.h"
 #include "qps/errors/QPSParserSemanticError.h"
 
-PQLDeclarationContext::PQLDeclarationContext(PQLSynonymType variableType):
-    AbstractPQLContext(), variableType(variableType) {
+PQLDeclarationContext::PQLDeclarationContext(PQLSynonymType synonymType):
+    AbstractPQLContext(), synonymType(synonymType) {
 }
 
 void PQLDeclarationContext::parse(QueryTokenParseState *parserState) {
@@ -24,7 +24,7 @@ void PQLDeclarationContext::addVariableToState(
     QueryTokenParseState *parserState) {
   try {
     parserState->getQueryBuilder()
-        ->addVariable(name, variableType);
+        ->addVariable(name, synonymType);
   } catch (const QPSParserSemanticError &err) {
     parserState->setSemanticError(err.what());
   }
