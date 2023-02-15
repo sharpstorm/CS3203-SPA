@@ -24,8 +24,7 @@ PQLQueryResult* SelectClause::evaluateOn(
         ->getStatementsOfType(stmtVar.type);
     pqlQueryResult->addToStatementMap(
         target.getName(),
-        StatementResultBuilder::buildStatementResult(pkbResult)
-    );
+        StatementResultBuilder::buildStatementResult(pkbResult));
     return pqlQueryResult;
   }
 

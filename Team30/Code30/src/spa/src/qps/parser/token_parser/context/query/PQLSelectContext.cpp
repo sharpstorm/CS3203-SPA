@@ -12,6 +12,5 @@ void PQLSelectContext::parse(QueryTokenParseState *parserState) {
 
   parserState->getQueryBuilder()->setResultVariable(
       synonym->getType(),
-      synonym->getName()
-  );
+      synonym->getName());
 }
