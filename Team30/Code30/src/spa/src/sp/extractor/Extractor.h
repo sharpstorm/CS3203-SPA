@@ -21,6 +21,8 @@ class Extractor {
   virtual void visit(AssignNode node) = 0;
   virtual void visit(VariableASTNode node) = 0;
   virtual void visit(ConstantASTNode node) = 0;
+  virtual void leave(IfNode node) = 0;
+  virtual void leave(WhileNode node) = 0;
  private:
   PkbWriter* writer;
 };

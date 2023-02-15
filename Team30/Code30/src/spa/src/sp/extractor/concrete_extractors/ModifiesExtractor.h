@@ -10,15 +10,13 @@ class ModifiesExtractor : public AbstractExtractor {
   explicit ModifiesExtractor(PkbWriter *pkbWriter);
   void visit(AssignNode node);
   void visit(ReadNode node);
-  void visit(PrintNode node);
   void visit(WhileNode node);
+  void leave(WhileNode node);
   void visit(IfNode node);
-
+  void leave(IfNode node);
 
  private:
   void addModifiesRelation(int x, string var);
-  void checkStack(int lineNumber);
   vector<int> statementStartStack;
-  vector<int> statementEndStack;
   PkbWriter *pkbWriter;
 };

@@ -24,7 +24,7 @@ DesignExtractor::DesignExtractor(PkbWriter* pkbWriter) {
   extractors.push_back(entityExtractor);
   extractors.push_back(usesExtractor);
   extractors.push_back(modifiesExtractor);
-  extractors.push_back(statementListExtractor);
+//  extractors.push_back(statementListExtractor);
 }
 
 void DesignExtractor::extract(AST ast) { treeWalker.walkAST(ast, extractors); }

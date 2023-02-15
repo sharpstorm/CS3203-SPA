@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include "UsesExtractor.h"
+#include <iostream>
 
 using std::string;
 
@@ -9,22 +10,44 @@ UsesExtractor::UsesExtractor(PkbWriter* writer) { pkbWriter = writer; }
 void UsesExtractor::visit(AssignNode node) {
   shared_ptr<ASTNode> expr = node.getChildren()[1];
   processNode(node.lineNumber, expr);
+  for (int i : statementStartStack) {
+    processNode(i, expr);
+  }
 }
 
 void UsesExtractor::visit(PrintNode node) {
-  addUsesRelation(node.lineNumber,
-                      std::dynamic_pointer_cast<VariableASTNode>
-                          (node.getChildren()[0])->getValue());
+  string value = std::dynamic_pointer_cast<VariableASTNode>
+      (node.getChildren()[0])->getValue();
+  addUsesRelation(node.lineNumber, value);
+  for (int i : statementStartStack) {
+    addUsesRelation(i, value);
+  }
 }
 
 void UsesExtractor::visit(WhileNode node) {
   shared_ptr<ASTNode> condExpr = node.getChildren()[0];
   processNode(node.lineNumber, condExpr);
+  for (int i : statementStartStack) {
+    processNode(i, condExpr);
+  }
+  statementStartStack.push_back(node.lineNumber);
 }
 
 void UsesExtractor::visit(IfNode node) {
   shared_ptr<ASTNode> condExpr = node.getChildren()[0];
   processNode(node.lineNumber, condExpr);
+  for (int i : statementStartStack) {
+    processNode(i, condExpr);
+  }
+  statementStartStack.push_back(node.lineNumber);
+}
+
+void UsesExtractor::leave(IfNode node) {
+  statementStartStack.pop_back();
+}
+
+void UsesExtractor::leave(WhileNode node) {
+  statementStartStack.pop_back();
 }
 
 void UsesExtractor::processNode(int lineNumber,
@@ -38,6 +61,8 @@ void UsesExtractor::processNode(int lineNumber,
 
 void UsesExtractor::addUsesRelation(int x, string var) {
   pkbWriter->addUses(x, var);
+  std::cout << x << " : " << var << "\n";
+
 }
 
 void UsesExtractor::recurseExpr(vector<string>* v,
@@ -62,9 +87,5 @@ void UsesExtractor::recurseExpr(vector<string>* v,
 }
 
 bool UsesExtractor::arrayContains(vector<string>* v, string x) {
-  if (std::find(v->begin(), v->end(), x) != v->end()) {
-    return true;
-  } else {
-    return false;
-  }
+  return std::find(v->begin(), v->end(), x) != v->end();
 }
