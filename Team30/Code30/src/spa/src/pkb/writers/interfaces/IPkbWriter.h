@@ -3,7 +3,7 @@
 #include <string>
 
 #include "common/Types.h"
-#include "pkb/writers/interfaces/IAssignWriter.h"
+#include "pkb/writers/interfaces/IAssignsWriter.h"
 #include "pkb/writers/interfaces/IFollowsWriter.h"
 #include "pkb/writers/interfaces/IModifiesWriter.h"
 #include "pkb/writers/interfaces/IParentWriter.h"
@@ -21,7 +21,7 @@ class IPkbWriter : public IFollowsWriter,
                    public IProcedureWriter,
                    public IUsesWriter,
                    public IModifiesWriter,
-                   public IAssignWriter {
+                   public IAssignsWriter {
  public:
   virtual ~IPkbWriter() {}
 };

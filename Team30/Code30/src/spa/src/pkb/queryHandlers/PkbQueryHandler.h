@@ -1,17 +1,16 @@
 #pragma once
 
+#include <memory>
 #include <string>
 #include <unordered_set>
-#include <memory>
-
-#include "pkb/storage/PKB.h"
-#include "pkb/queryHandlers/interfaces/IPkbQueryHandler.h"
 
 #include "DesignEntitiesQueryHandler.h"
+#include "pkb/queryHandlers/interfaces/IPkbQueryHandler.h"
+#include "pkb/storage/PKB.h"
 
-using std::unordered_set;
 using std::string;
-using std::unique_ptr;
+using std::unique_ptr, std::shared_ptr;
+using std::unordered_set;
 
 class PkbQueryHandler : public IPkbQueryHandler {
  public:
@@ -26,6 +25,8 @@ class PkbQueryHandler : public IPkbQueryHandler {
   QueryResult<int, string> queryModifies(StmtRef, EntityRef) const override;
   QueryResult<string, string> queryModifies(EntityRef,
                                             EntityRef) const override;
+  QueryResult<int, shared_ptr<IASTNode>> queryAssigns() const override;
+  QueryResult<int, shared_ptr<IASTNode>> queryAssigns(StmtRef) const override;
 
   unordered_set<string> getSymbolsOfType(EntityType) const override;
   unordered_set<int> getStatementsOfType(StmtType) const override;
@@ -35,5 +36,6 @@ class PkbQueryHandler : public IPkbQueryHandler {
   unique_ptr<IParentQueryHandler> parentHandler;
   unique_ptr<IUsesQueryHandler> usesHandler;
   unique_ptr<IModifiesQueryHandler> modifiesHandler;
+  unique_ptr<IAssignsQueryHandler> assignHandler;
   unique_ptr<IDesignEntitiesQueryHandler> designEntityHandler;
 };

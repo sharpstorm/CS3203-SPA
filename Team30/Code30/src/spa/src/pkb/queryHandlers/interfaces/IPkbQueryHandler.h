@@ -3,7 +3,7 @@
 #include <string>
 #include <unordered_set>
 
-#include "IAssignQueryHandler.h"
+#include "IAssignsQueryHandler.h"
 #include "IDesignEntitiesQueryHandler.h"
 #include "IFollowsQueryHandler.h"
 #include "IModifiesQueryHandler.h"
@@ -15,7 +15,7 @@ class IPkbQueryHandler : public IFollowsQueryHandler,
                          public IDesignEntitiesQueryHandler,
                          public IUsesQueryHandler,
                          public IModifiesQueryHandler,
-                         public IAssignQueryHandler {
+                         public IAssignsQueryHandler {
  public:
   virtual ~IPkbQueryHandler() {}
 };

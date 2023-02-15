@@ -1,16 +1,15 @@
 #include "PkbQueryHandler.h"
+
 #include "FollowsQueryHandler.h"
+#include "ModifiesQueryHandler.h"
 #include "ParentQueryHandler.h"
 #include "UsesQueryHandler.h"
-#include "ModifiesQueryHandler.h"
 
 PkbQueryHandler::PkbQueryHandler(PKB *pkb)
-    : followsHandler(new FollowsQueryHandler(pkb->followsStore,
-                                             pkb->predicateFactory,
-                                             pkb->structureProvider)),
-      parentHandler(new ParentQueryHandler(pkb->parentStore,
-                                           pkb->predicateFactory,
-                                           pkb->structureProvider)),
+    : followsHandler(new FollowsQueryHandler(
+          pkb->followsStore, pkb->predicateFactory, pkb->structureProvider)),
+      parentHandler(new ParentQueryHandler(
+          pkb->parentStore, pkb->predicateFactory, pkb->structureProvider)),
       usesHandler(new UsesQueryHandler()),
       modifiesHandler(new ModifiesQueryHandler()),
       designEntityHandler(new DesignEntitiesQueryHandler(
@@ -56,12 +55,21 @@ QueryResult<string, string> PkbQueryHandler::queryUses(EntityRef arg1,
   return QueryResult<string, string>();
 }
 
-QueryResult<int, string> PkbQueryHandler::queryModifies(
-    StmtRef arg1, EntityRef arg2) const {
+QueryResult<int, string> PkbQueryHandler::queryModifies(StmtRef arg1,
+                                                        EntityRef arg2) const {
   return QueryResult<int, string>();
 }
 
 QueryResult<string, string> PkbQueryHandler::queryModifies(
     EntityRef arg1, EntityRef arg2) const {
   return QueryResult<string, string>();
+}
+
+QueryResult<int, shared_ptr<IASTNode>> PkbQueryHandler::queryAssigns() const {
+  return QueryResult<int, shared_ptr<IASTNode>>();
+}
+
+QueryResult<int, shared_ptr<IASTNode>> PkbQueryHandler::queryAssigns(
+    StmtRef) const {
+  return QueryResult<int, shared_ptr<IASTNode>>();
 }
