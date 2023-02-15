@@ -1,4 +1,7 @@
 #include <string>
+
+using namespace std;
+
 class SourceTestCases {
  public:
   string SourceTestCases::empty() {
@@ -123,6 +126,7 @@ class SourceTestCases {
         "read num;\n"
         "if (num==0) then {\n"
         "  print num;\n"
+        "} else "
         "}}";
     return procedure;
   }
@@ -131,7 +135,7 @@ class SourceTestCases {
     string procedure =
         "procedure longif {\n"
         "read num;\n"
-        "if (num==0) then {  print num;}}";
+        "if (num==0) then {  print num;} else {}}";
     return procedure;
   }
 
@@ -173,6 +177,9 @@ class SourceTestCases {
         "    if ((num1+num2)<10) then {\n"
         "      num3 = num1+num2;\n"
         "      print num3;\n"
+        "    } else {\n"
+        "  } else {\n"
+        "} else {\n"
         "}}}}";
     return procedure;
   }
@@ -186,11 +193,11 @@ class SourceTestCases {
         "  print num;\n"
         "  if (num == 1) then {\n"
         "    print num;\n"
-        "   }\n"
+        "   } else {\n"
         "} else {\n"
         "    if (num2 == 1) then {\n"
         "      print num2;\n"
-        "     }\n"
+        "     } else {}\n"
         "    print num2;\n"
         "}}";
     return procedure;
