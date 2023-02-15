@@ -3,38 +3,31 @@
 #include <memory>
 #include <unordered_map>
 
-#include "../../util/PQLTestTokenSequenceBuilder.cpp"
+#include "PQLContextTestUtils.cpp"
 #include "qps/parser/token_parser/context/such_that_clause/PQLParentClauseContext.h"
 #include "qps/errors/QPSParserError.h"
 #include "qps/clauses/ParentClause.h"
+#include "qps/clauses/ParentTClause.h"
 #include "qps/parser/builder/QueryBuilderError.h"
 
 using std::make_unique, std::unordered_map;
 
 void testParentParsing(vector<PQLToken> inputs,
                        unordered_map<string, PQLSynonymType> synonyms) {
-  PQLParentClauseContext context;
-  QueryTokenParseState state(&inputs);
-  state.advanceStage(TOKEN_PARSE_STAGE_COMMAND);
-  state.advanceStage(TOKEN_PARSE_STAGE_CONDITION_MARKER);
-
-  for (auto it : synonyms) {
-    state.getQueryBuilder()->addVariable(it.first, it.second);
-  }
-
-  context.parse(&state);
-
-  auto clauses = state.getQueryBuilder()->build()->getEvaluatables();
-  REQUIRE(clauses.size() == 1);
-
-  auto fc = dynamic_cast<ParentClause*>(clauses.at(0).get());
-  REQUIRE(fc != nullptr);
+  testSuchThatParsing<PQLParentClauseContext, ParentClause>(inputs,
+                                                            synonyms);
+  inputs.insert(inputs.begin(), PQLToken{PQL_TOKEN_ASTRIX});
+  testSuchThatParsing<PQLParentClauseContext, ParentTClause>(inputs,
+                                                            synonyms);
 }
 
 void testParentParsing(vector<PQLToken> inputs) {
-  testParentParsing(inputs, unordered_map<string, PQLSynonymType>{
-      {"s", PQL_SYN_TYPE_STMT }
-  });
+  testParentParsing(
+      inputs,
+      unordered_map<string, PQLSynonymType>{
+          {"s", PQL_SYN_TYPE_STMT }
+      }
+  );
 }
 
 TEST_CASE("Test PQL Parent parsing 2 Constants") {

@@ -3,37 +3,31 @@
 #include <memory>
 #include <unordered_map>
 
-#include "../../util/PQLTestTokenSequenceBuilder.cpp"
+#include "PQLContextTestUtils.cpp"
 #include "qps/parser/token_parser/context/such_that_clause/PQLFollowsClauseContext.h"
 #include "qps/errors/QPSParserError.h"
 #include "qps/clauses/FollowsClause.h"
+#include "qps/clauses/FollowsTClause.h"
 #include "qps/parser/builder/QueryBuilderError.h"
 
 using std::make_unique, std::unordered_map;
 
 void testFollowsParsing(vector<PQLToken> inputs,
                         unordered_map<string, PQLSynonymType> synonyms) {
-  PQLFollowsClauseContext context;
-  QueryTokenParseState state(&inputs);
-  state.advanceStage(TOKEN_PARSE_STAGE_COMMAND);
-  state.advanceStage(TOKEN_PARSE_STAGE_CONDITION_MARKER);
-
-  for (auto it : synonyms) {
-    state.getQueryBuilder()->addVariable(it.first, it.second);
-  }
-
-  context.parse(&state);
-  auto clauses = state.getQueryBuilder()->build()->getEvaluatables();
-  REQUIRE(clauses.size() == 1);
-
-  auto fc = dynamic_cast<FollowsClause*>(clauses.at(0).get());
-  REQUIRE(fc != nullptr);
+  testSuchThatParsing<PQLFollowsClauseContext, FollowsClause>(inputs,
+                                                              synonyms);
+  inputs.insert(inputs.begin(), PQLToken{PQL_TOKEN_ASTRIX});
+  testSuchThatParsing<PQLFollowsClauseContext, FollowsTClause>(inputs,
+                                                              synonyms);
 }
 
 void testFollowsParsing(vector<PQLToken> inputs) {
-  testFollowsParsing(inputs, unordered_map<string, PQLSynonymType>{
-      {"s", PQL_SYN_TYPE_STMT }
-  });
+  testFollowsParsing(
+      inputs,
+      unordered_map<string, PQLSynonymType>{
+          {"s", PQL_SYN_TYPE_STMT }
+      }
+  );
 }
 
 TEST_CASE("Test PQL Follows parsing 2 Constants") {
