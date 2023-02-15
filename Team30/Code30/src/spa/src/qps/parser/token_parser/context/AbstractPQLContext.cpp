@@ -63,4 +63,3 @@ ClauseArgument AbstractPQLContext::extractStatement(
   state->advanceToken();
   return ClauseArgument(value);
 }
-
