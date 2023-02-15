@@ -4,6 +4,7 @@
 #include <unordered_set>
 #include "../PQLToken.h"
 #include "../builder/QueryBuilder.h"
+#include "token_stream/QueryTokenStream.h"
 
 using std::vector, std::unordered_set;
 
@@ -35,9 +36,7 @@ const unordered_set<TokenParsingStage> parsingAllowedTransitions[] = {
 
 class QueryTokenParseState {
  private:
-  int currentIndex;
-  int totalTokenSize;
-  vector<PQLToken>* tokens;
+  QueryTokenStream tokenStream;
   QueryBuilder queryBuilder;
   TokenParsingStage currentStage;
 

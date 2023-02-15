@@ -1,29 +1,20 @@
 #include "QueryTokenParseState.h"
 #include "../../errors/QPSParserError.h"
 
-QueryTokenParseState::QueryTokenParseState(vector<PQLToken> *tokens) {
-  this->tokens = tokens;
-  currentIndex = 0;
-  totalTokenSize = tokens->size();
-  currentStage = TOKEN_PARSE_STAGE_INIT;
+QueryTokenParseState::QueryTokenParseState(vector<PQLToken> *tokens):
+    tokenStream(tokens), currentStage(TOKEN_PARSE_STAGE_INIT) {
 }
 
 bool QueryTokenParseState::isTokenStreamEnd() {
-  return currentIndex >= totalTokenSize;
+  return tokenStream.isTokenStreamEnd();
 }
 
 void QueryTokenParseState::advanceToken() {
-  if (!isTokenStreamEnd()) {
-    currentIndex++;
-  }
+  tokenStream.advanceToken();
 }
 
 PQLToken* QueryTokenParseState::getCurrentToken() {
-  if (isTokenStreamEnd()) {
-    return nullptr;
-  }
-
-  return &tokens->at(currentIndex);
+  return tokenStream.getCurrentToken();
 }
 
 QueryBuilder* QueryTokenParseState::getQueryBuilder() {
