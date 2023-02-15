@@ -1,6 +1,9 @@
 #pragma once
 
+#include <string>
 #include "PQLPatternClauseContext.h"
+
+using std::string;
 
 class PQLAssignPatternClauseContext : public PQLPatternClauseContext {
  public:

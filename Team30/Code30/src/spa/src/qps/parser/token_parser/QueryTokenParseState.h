@@ -2,12 +2,13 @@
 
 #include <vector>
 #include <unordered_set>
+#include <string>
 #include "../PQLToken.h"
 #include "../builder/QueryBuilder.h"
 #include "token_stream/QueryTokenStream.h"
 #include "../../errors/QPSParserSyntaxError.h"
 
-using std::vector, std::unordered_set;
+using std::vector, std::unordered_set, std::string;
 
 enum TokenParsingStage {
   TOKEN_PARSE_STAGE_INIT,

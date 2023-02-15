@@ -1,7 +1,10 @@
 #pragma once
 
+#include <string>
 #include "../AbstractPQLContext.h"
 #include "../../../PQLToken.h"
+
+using std::string;
 
 class PQLDeclarationContext: public AbstractPQLContext {
   PQLSynonymType variableType;
