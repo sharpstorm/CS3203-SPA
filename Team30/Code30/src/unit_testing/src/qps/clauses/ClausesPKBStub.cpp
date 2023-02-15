@@ -69,18 +69,18 @@ class ClausesPKBStub : public StubPKB {
 
   QueryResult<int, int> queryParentStar(StmtRef s1, StmtRef s2) const override {
     auto result = QueryResult<int, int>();
-    // E.g. Parent(stmtNum, stmtNum)
+    // E.g. Parent*(stmtNum, stmtNum)
     if (s1.isKnown() && s2.isKnown()) {
-      // Failing this case implies something similar to Parent(5,3)
+      // Failing this case implies something similar to Parent*(5,3)
       if (s1.lineNum <= s2.lineNum) {
-        result.add(6, 7);
+        return createParentTResult();
       }
     } else if (s1.isKnown() || s2.isKnown()) {
-      // Parent(1, a) || Parent(a,2)
-      result.add(6, 7);
+      // Parent*(1, a) || Parent*(a,2)
+      return createParentTResult();
     } else {
-      //  Parent(a1,a2)
-      result.add(6,7);
+      //  Parent*(a1, a2)
+      return createParentTResult();
     }
 
     return result;
