@@ -1,8 +1,11 @@
 #pragma once
 
+#include <memory>
 #include "../AbstractPQLContext.h"
 #include "../../../PQLToken.h"
 #include "../../../../clauses/ClauseArgument.h"
+
+using std::unique_ptr;
 
 class PQLSuchThatClauseContext: public AbstractPQLContext {
  protected:

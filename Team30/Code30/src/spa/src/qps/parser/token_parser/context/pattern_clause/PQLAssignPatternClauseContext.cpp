@@ -26,7 +26,8 @@ void PQLAssignPatternClauseContext::parse(QueryTokenParseState *parserState) {
   bool isWildcard = false;
   bool hasExpression = false;
   string patternString = "";
-  PQLToken* nextToken = parserState->expect(PQL_TOKEN_UNDERSCORE, PQL_TOKEN_QUOTE);
+  PQLToken* nextToken = parserState->expect(
+      PQL_TOKEN_UNDERSCORE, PQL_TOKEN_QUOTE);
   if (nextToken->isType(PQL_TOKEN_UNDERSCORE)) {
     isWildcard = true;
     nextToken = parserState->expect(PQL_TOKEN_QUOTE, PQL_TOKEN_BRACKET_CLOSE);

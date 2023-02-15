@@ -76,7 +76,8 @@ PQLToken* QueryTokenParseState::expect(PQLTokenType... tokenType) {
 }
 
 template<typename... PQLTokenCategory>
-PQLToken* QueryTokenParseState::expectCategory(PQLTokenCategory... tokenCategory) {
+PQLToken* QueryTokenParseState::expectCategory(
+    PQLTokenCategory... tokenCategory) {
   PQLToken* currentToken = getCurrentToken();
 
   if (currentToken == nullptr) {
