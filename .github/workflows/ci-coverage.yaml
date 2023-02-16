@@ -1,16 +1,26 @@
 name: Coverage
 
-on: push
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        type: choice
+        description: Coverage mode
+        options: 
+        - summary
+        - html
+        required: true
+  push:
 
 env:
     BUILD_TYPE: Release
     CCACHE_DIR: ${{ github.workspace }}/Team30/Code30/build/build-cache
     CCACHE_BASEDIR: ${{ github.workspace }}/Team30/Code30
-    TARGET_BUILD: ${{github.events.inputs.action}}
+    ACTION_MODE: html
 
 jobs:
-  valgrind-check:
-    name: Run Valgrind
+  coverage-check:
+    name: Run Coverage
     runs-on: [self-hosted, Linux, compute]
 
     steps:
@@ -27,9 +37,18 @@ jobs:
         run: |
           sudo /usr/sbin/update-ccache-symlinks
           export PATH="/usr/lib/ccache:$PATH"
-          ccache --set-config=cache_dir=${CCACHE_DIR}
           CC=clang CXX=clang++ cmake ../ -DCODE_COVERAGE=1
 
-      - name: Compile and Coverage
+      - name: Compile and Coverage Summary
         working-directory: ./Team30/Code30/build
-        run: make cov-report-unit_testing -j 2
+        if: env.ACTION_MODE == 'summary'
+        run: make cov-report-unit_testing -j 4
+
+      - name: Compile and Coverage HTML
+        working-directory: ./Team30/Code30/build
+        if: env.ACTION_MODE == 'html'
+        run: make cov-unit_testing -j 4
+
+      - name: Upload HTML
+        path: /Team30/Code30/build/coverage/unit_testing
+        if: env.ACTION_MODE == 'html'
