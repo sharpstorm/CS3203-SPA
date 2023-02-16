@@ -5,5 +5,5 @@ SymbolWriter::SymbolWriter(SymbolStorage *symbolStorage)
 
 void SymbolWriter::addSymbol(string entityName,
                              EntityType entityType) {
-  symbolStorage->addSymbol(entityName, entityType);
+  symbolStorage->insert(entityName, entityType);
 }

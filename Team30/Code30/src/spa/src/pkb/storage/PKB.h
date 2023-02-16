@@ -1,12 +1,13 @@
 #pragma once
 
+#include <string>
+#include <utility>
+
 #include "../predicates/PredicateFactory.h"
 #include "EntityMappingProvider.h"
-#include "ProcedureStorage.h"
-#include "StatementStorage.h"
 #include "StorageTypes.h"
 #include "StructureMappingProvider.h"
-#include "SymbolStorage.h"
+#include "common/Types.h"
 
 class PKB {
  public:

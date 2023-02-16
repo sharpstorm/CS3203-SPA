@@ -3,7 +3,7 @@
 #include <string>
 
 #include "common/Types.h"
-#include "pkb/storage/SymbolStorage.h"
+#include "pkb/storage/StorageTypes.h"
 #include "pkb/writers/interfaces/ISymbolWriter.h"
 
 using std::string;
