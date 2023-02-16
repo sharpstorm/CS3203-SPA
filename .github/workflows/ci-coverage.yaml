@@ -1,0 +1,35 @@
+name: Coverage
+
+on: push
+
+env:
+    BUILD_TYPE: Release
+    CCACHE_DIR: ${{ github.workspace }}/Team30/Code30/build/build-cache
+    CCACHE_BASEDIR: ${{ github.workspace }}/Team30/Code30
+    TARGET_BUILD: ${{github.events.inputs.action}}
+
+jobs:
+  valgrind-check:
+    name: Run Valgrind
+    runs-on: [self-hosted, Linux, compute]
+
+    steps:
+      - name: Checkout Git Repo
+        uses: actions/checkout@v3
+
+      - name: Setup Build Folder
+        working-directory: ./Team30/Code30
+        run: |
+          cmake -E make_directory ./build
+
+      - name: Generate CMake Project
+        working-directory: ./Team30/Code30/build
+        run: |
+          sudo /usr/sbin/update-ccache-symlinks
+          export PATH="/usr/lib/ccache:$PATH"
+          ccache --set-config=cache_dir=${CCACHE_DIR}
+          CC=clang CXX=clang++ cmake ../ -DCODE_COVERAGE=1
+
+      - name: Compile and Coverage
+        working-directory: ./Team30/Code30/build
+        run: make cov-report-unit_testing -j 2
