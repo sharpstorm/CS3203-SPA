@@ -50,5 +50,8 @@ jobs:
         run: make cov-unit_testing -j 4
 
       - name: Upload HTML
-        path: /Team30/Code30/build/coverage/unit_testing
         if: env.ACTION_MODE == 'html'
+        uses: actions/upload-artifact@v3
+        with:
+          path: /Team30/Code30/build/coverage/unit_testing
+        
