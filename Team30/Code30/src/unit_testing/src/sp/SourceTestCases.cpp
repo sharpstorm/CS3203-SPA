@@ -1,5 +1,8 @@
-// Simple programs for grammar testing
+#include <string>
 
+using namespace std;
+
+// Simple programs for grammar testing
 class SourceTestCases {
  public:
   string empty() {
