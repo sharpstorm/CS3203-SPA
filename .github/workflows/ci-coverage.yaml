@@ -10,7 +10,6 @@ on:
         - summary
         - html
         required: true
-  push:
 
 env:
     BUILD_TYPE: Release
