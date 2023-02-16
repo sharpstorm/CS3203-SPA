@@ -4,7 +4,8 @@ ClauseArgument::ClauseArgument(ClauseArgumentType type): argType(type) {
 }
 
 ClauseArgument::ClauseArgument(PQLQuerySynonym variable):
-    argType(CLAUSE_ARG_SYNONYM), synonym(variable) {
+    argType(CLAUSE_ARG_SYNONYM),
+    synonym(variable) {
 }
 
 ClauseArgument::ClauseArgument(int stmt):
@@ -16,11 +17,11 @@ ClauseArgument::ClauseArgument(string ident):
 }
 
 PQLSynonymType ClauseArgument::getSynonymType() {
-  return this->synonym.type;
+  return this->synonym.getType();
 }
 
 PQLSynonymName ClauseArgument::getSynonymName() {
-  return this->synonym.name;
+  return this->synonym.getName();
 }
 
 bool ClauseArgument::isWildcard() {

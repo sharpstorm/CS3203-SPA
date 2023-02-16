@@ -25,10 +25,10 @@ class StubPKB: public PkbQueryHandler {
     return QueryResult<int, int>();
   };
 
-  unordered_set<string> getSymbolsOfType(EntityType) const {
+  unordered_set<string> getSymbolsOfType(EntityType) const override {
     return unordered_set<string>();
   };
-  unordered_set<int> getStatementsOfType(StmtType) const {
+  unordered_set<int> getStatementsOfType(StmtType) const override {
     return unordered_set<int>();
   };
 };

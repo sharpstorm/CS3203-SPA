@@ -5,7 +5,7 @@
 #include "qps/QPSFacade.h"
 #include "sp/SpFacade.h"
 
-using std::shared_ptr, std::vector;
+using std::shared_ptr, std::vector, std::make_shared;
 
 // implementation code of WrapperFactory - do NOT modify the next 5 lines
 AbstractWrapper* WrapperFactory::wrapper = 0;
@@ -21,17 +21,17 @@ TestWrapper::TestWrapper() {
   // create any objects here as instance variables of this class
   // as well as any initialization required for your spa program
   pkb = new PKB();
-  PkbQueryHandler* pkbQH = new PkbQueryHandler(pkb);
-  shared_ptr<PkbQueryHandler> pkbQH_ptr = shared_ptr<PkbQueryHandler>(pkbQH);
+  pkbWriter = new PkbWriter(pkb);
+  shared_ptr<PkbQueryHandler> pkbQH_ptr = make_shared<PkbQueryHandler>(pkb);
 
   qps = new QPSFacade(pkbQH_ptr);
   sp = new SpFacade();
-  pkbWriter = new PkbWriter(pkb);
 }
 
 TestWrapper::~TestWrapper() {
   delete(qps);
   delete(sp);
+  delete(pkbWriter);
   delete(pkb);
 }
 

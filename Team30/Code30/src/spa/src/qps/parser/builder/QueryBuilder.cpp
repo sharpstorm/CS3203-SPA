@@ -1,37 +1,24 @@
 #include "QueryBuilder.h"
 #include "QueryBuilderError.h"
 
-using std::move;
+using std::move, std::make_unique;
 
 QueryBuilder::QueryBuilder() {
 }
 
-void QueryBuilder::setResultVariable(PQLSynonymName name) {
-  resultVariable.name = name;
-}
-
-void QueryBuilder::setResultType(PQLSynonymType type) {
-  resultVariable.type = type;
+void QueryBuilder::setResultVariable(PQLSynonymType type, PQLSynonymName name) {
+  resultVariable = PQLQuerySynonym(type, name);
 }
 
 void QueryBuilder::addVariable(PQLSynonymName name, PQLSynonymType type) {
   if (hasVariable(name)) {
     throw QueryBuilderError("Found duplicate variable");
   }
-  variables[name] = (PQLQuerySynonym{type, name});
+  variables[name] = PQLQuerySynonym(type, name);
 }
 
 bool QueryBuilder::hasVariable(PQLSynonymName name) {
   return variables.find(name) != variables.end();
-}
-
-PQLSynonymType* QueryBuilder::getVariableType(PQLSynonymName name) {
-  PQLQuerySynonym* var = getVariable(name);
-  if (var == nullptr) {
-    return nullptr;
-  }
-
-  return &(var->type);
 }
 
 PQLQuerySynonym* QueryBuilder::getVariable(PQLSynonymName name) {

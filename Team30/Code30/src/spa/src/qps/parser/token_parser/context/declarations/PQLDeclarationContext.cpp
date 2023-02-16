@@ -8,15 +8,15 @@ PQLDeclarationContext::PQLDeclarationContext(
 void PQLDeclarationContext::parse(QueryTokenParseState *parserState) {
   parserState->advanceStage(TOKEN_PARSE_STAGE_DECLARATION);
 
-  PQLToken* currentToken = expectVarchar(parserState);
+  PQLToken* currentToken = parserState->expectVarchar();
   parserState->getQueryBuilder()
-    ->addVariable(currentToken->tokenData, variableType);
+    ->addVariable(currentToken->getData(), variableType);
 
-  currentToken = expect(parserState, PQL_TOKEN_COMMA, PQL_TOKEN_SEMICOLON);
+  currentToken = parserState->expect(PQL_TOKEN_COMMA, PQL_TOKEN_SEMICOLON);
   while (!currentToken->isType(PQL_TOKEN_SEMICOLON)) {
-    currentToken = expectVarchar(parserState);
+    currentToken = parserState->expectVarchar();
     parserState->getQueryBuilder()
-      ->addVariable(currentToken->tokenData, variableType);
-    currentToken = expect(parserState, PQL_TOKEN_COMMA, PQL_TOKEN_SEMICOLON);
+      ->addVariable(currentToken->getData(), variableType);
+    currentToken = parserState->expect(PQL_TOKEN_COMMA, PQL_TOKEN_SEMICOLON);
   }
 }

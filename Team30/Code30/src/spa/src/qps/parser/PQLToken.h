@@ -64,9 +64,16 @@ enum PQLTokenType {
 };
 
 class PQLToken {
- public:
+ private:
   PQLTokenType type;
   string tokenData;
+
+ public:
+  explicit PQLToken(PQLTokenType type);
+  PQLToken(PQLTokenType type, string data);
+
+  PQLTokenType getType();
+  string getData();
   bool isType(PQLTokenType);
   bool isCategory(PQLTokenCategory);
   bool isVarchar();
