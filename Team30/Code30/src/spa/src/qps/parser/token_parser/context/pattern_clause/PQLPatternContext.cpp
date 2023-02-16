@@ -13,7 +13,8 @@ void PQLPatternContext::parsePatternClause(QueryTokenParseState *parserState) {
   dispatchPatternContext(synonym, parserState);
 }
 
-PQLQuerySynonym* PQLPatternContext::parseSynonym(QueryTokenParseState *parserState) {
+PQLQuerySynonym* PQLPatternContext::parseSynonym(
+    QueryTokenParseState *parserState) {
   PQLSynonymName synName = parserState->expectSynName()->getData();
   PQLQuerySynonym* synonymVar = parserState->getQueryBuilder()
       ->accessSynonym(synName);
@@ -25,8 +26,9 @@ PQLQuerySynonym* PQLPatternContext::parseSynonym(QueryTokenParseState *parserSta
   return synonymVar;
 }
 
-void PQLPatternContext::dispatchPatternContext(PQLQuerySynonym* synonym,
-                                               QueryTokenParseState *parserState) {
+void PQLPatternContext::dispatchPatternContext(
+    PQLQuerySynonym* synonym,
+    QueryTokenParseState *parserState) {
   switch (synonym->getType()) {
     case PQL_SYN_TYPE_ASSIGN:
       PQLAssignPatternClauseContext(synonym).parse(parserState);

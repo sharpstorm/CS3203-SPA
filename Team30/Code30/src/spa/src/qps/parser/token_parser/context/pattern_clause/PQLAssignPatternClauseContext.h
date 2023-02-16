@@ -8,7 +8,7 @@ using std::string;
 
 class PQLAssignPatternClauseContext : public PQLPatternClauseContext {
  public:
-  PQLAssignPatternClauseContext(PQLQuerySynonym* synonym):
+  explicit PQLAssignPatternClauseContext(PQLQuerySynonym* synonym):
       PQLPatternClauseContext(synonym) {}
   void parse(QueryTokenParseState* parserState);
 

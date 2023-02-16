@@ -6,5 +6,6 @@
 class PQLPatternClauseContext: public AbstractPQLContext {
  protected:
   PQLQuerySynonym* synonym;
-  PQLPatternClauseContext(PQLQuerySynonym* synonym): synonym(synonym) {}
+  explicit PQLPatternClauseContext(PQLQuerySynonym* synonym):
+      synonym(synonym) {}
 };
