@@ -15,6 +15,10 @@ void ConstantASTNode::accept(shared_ptr<Extractor> e) {
   e->visit(*this);
 }
 
+void ConstantASTNode::leave(shared_ptr<Extractor> e) {
+  e->visit(*this);
+}
+
 string ConstantASTNode::getValue() {
   return value;
 }

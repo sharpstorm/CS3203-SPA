@@ -13,6 +13,8 @@ void PrintNode::accept(shared_ptr<Extractor> e) {
   e->visit(*this);
 }
 
+void PrintNode::leave(shared_ptr<Extractor> e) {}
+
 string PrintNode::toString() {
   string ss = "Print: "
   + (children[0] == nullptr ? "none" : children[0]->toString());

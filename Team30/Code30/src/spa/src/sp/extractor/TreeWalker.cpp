@@ -23,11 +23,6 @@ void TreeWalker::DFS(shared_ptr<ASTNode> node,
     }
   }
   for (int i = 0; i < extractors.size(); i++) {
-    if (std::dynamic_pointer_cast<IfNode>(node) != nullptr) {
-      std::dynamic_pointer_cast<IfNode>(node)->leave(extractors.at(i));
-    }
-    if (std::dynamic_pointer_cast<WhileNode>(node) != nullptr) {
-      std::dynamic_pointer_cast<WhileNode>(node)->leave(extractors.at(i));
-    }
+    node->leave(extractors.at(i));
   }
 }
