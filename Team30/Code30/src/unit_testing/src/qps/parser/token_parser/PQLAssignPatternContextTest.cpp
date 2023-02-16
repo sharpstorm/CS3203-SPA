@@ -21,9 +21,7 @@ void testAssignPatternParsing(vector<PQLToken> inputs,
   }
   context.parse(&state);
   state.advanceStage(TOKEN_PARSE_STAGE_PARSE_END);
-  if (state.hasSemanticError()) {
-    throw QPSParserSemanticError(state.getSemanticError().c_str());
-  }
+  state.throwIfSemanticError();
 
   auto clauses = state.getQueryBuilder()->build()->getEvaluatables();
   REQUIRE(clauses.size() == 1);

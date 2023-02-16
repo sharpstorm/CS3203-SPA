@@ -6,7 +6,7 @@
 #include "../builder/QueryBuilder.h"
 #include "token_stream/QueryTokenStream.h"
 #include "../../errors/QPSParserSyntaxError.h"
-#include "SemanticErrorStore.h"
+#include "SemanticErrorThrower.h"
 #include "QueryExpectationAgent.h"
 
 using std::vector, std::unordered_set, std::string;
@@ -38,7 +38,7 @@ const unordered_set<TokenParsingStage> parsingAllowedTransitions[] = {
 };
 
 class QueryTokenParseState:
-    public SemanticErrorStore,
+    public SemanticErrorThrower,
     public QueryExpectationAgent {
  private:
   QueryTokenStream tokenStream;

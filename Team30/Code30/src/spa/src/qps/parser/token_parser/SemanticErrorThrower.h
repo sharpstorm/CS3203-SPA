@@ -4,13 +4,13 @@
 
 using std::string;
 
-class SemanticErrorStore {
+class SemanticErrorThrower {
  private:
   string semanticErrorMsg;
 
  public:
-  SemanticErrorStore();
+  SemanticErrorThrower();
   void setSemanticError(string error);
   bool hasSemanticError();
-  string getSemanticError();
+  void throwIfSemanticError();
 };
