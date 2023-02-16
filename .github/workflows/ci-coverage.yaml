@@ -1,0 +1,57 @@
+name: Coverage
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        type: choice
+        description: Coverage mode
+        options: 
+        - summary
+        - html
+        required: true
+
+env:
+    BUILD_TYPE: Release
+    CCACHE_DIR: ${{ github.workspace }}/Team30/Code30/build/build-cache
+    CCACHE_BASEDIR: ${{ github.workspace }}/Team30/Code30
+
+jobs:
+  coverage-check:
+    name: Run Coverage
+    runs-on: [self-hosted, Linux, compute]
+
+    steps:
+      - name: Checkout Git Repo
+        uses: actions/checkout@v3
+
+      - name: Setup Build Folder
+        working-directory: ./Team30/Code30
+        run: |
+          cmake -E make_directory ./build
+
+      - name: Generate CMake Project
+        working-directory: ./Team30/Code30/build
+        run: |
+          sudo /usr/sbin/update-ccache-symlinks
+          export PATH="/usr/lib/ccache:$PATH"
+          CC=clang CXX=clang++ cmake ../ -DCODE_COVERAGE=1
+
+      - name: Compile and Coverage Summary
+        working-directory: ./Team30/Code30/build
+        if: github.event.inputs.mode == 'summary'
+        run: make cov-report-unit_testing -j 4
+
+      - name: Compile and Coverage HTML
+        working-directory: ./Team30/Code30/build
+        if: github.event.inputs.mode == 'html'
+        run: make cov-unit_testing -j 4
+
+      - name: Upload HTML
+        if: github.event.inputs.mode == 'html'
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report-${{github.sha}}
+          path: ./Team30/Code30/build/coverage/unit_testing
+          retention-days: 1
+        
