@@ -1,3 +1,5 @@
+#include <memory>
+
 #include "../../../../../lib/catch.hpp"
 #include "../../../../spa/src/common/ASTNode/StatementListNode.h"
 #include "../../../../spa/src/common/ASTNode/statement/AssignNode.h"
