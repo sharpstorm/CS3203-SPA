@@ -25,3 +25,10 @@ Predicate<string> PredicateFactory::getPredicate(EntityRef entRef) const {
     return entityProvider->isSymbolOfType(s, entRef.type);
   };
 }
+
+Predicate<int> PredicateFactory::getIsStmtOfProcedurePredicate(string name) const {
+  return [this, name](int const s) {
+    return structureProvider->getProcedureForLine(s) == name;
+  };
+}
+

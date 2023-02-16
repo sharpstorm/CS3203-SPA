@@ -16,6 +16,7 @@ class StructureMappingProvider : public IStructureMappingProvider {
   std::unordered_set<int> getStatementsOfType(StmtType) const override;
   unordered_set<int> getProcedureLines(std::string) const override;
   std::string getProcedureForLine(int) const override;
+  function<string(int const &)> getStmtProcedureTransformer() const override;
 
  private:
   StatementStorage *statementStorage;

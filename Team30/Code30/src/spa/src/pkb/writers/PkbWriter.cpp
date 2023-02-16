@@ -14,8 +14,8 @@ using std::make_unique;
 PkbWriter::PkbWriter(PKB *pkb)
     : followsWriter(new FollowsWriter(pkb->followsStore)),
       parentWriter(new ParentWriter(pkb->parentStore)),
-      usesWriter(new UsesWriter()),
-      modifiesWriter(new ModifiesWriter()),
+      usesWriter(new UsesWriter(pkb->usesStorage)),
+      modifiesWriter(new ModifiesWriter(pkb->modifiesStorage)),
       symbolWriter(new SymbolWriter(pkb->symbolStorage)),
       statementWriter(new StatementWriter(pkb->statementStorage)),
       procedureWriter(new ProcedureWriter(pkb->procedureStorage)) {}

@@ -31,3 +31,7 @@ std::string StructureMappingProvider::getProcedureForLine(
     int lineNumber) const {
   return procedureStorage->getByKey(lineNumber);
 }
+
+function<string(int const &)> StructureMappingProvider::getStmtProcedureTransformer() const {
+  return [this](int const stmt) { return getProcedureForLine(stmt); };
+}

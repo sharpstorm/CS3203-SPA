@@ -10,11 +10,11 @@ FollowsQueryHandler::FollowsQueryHandler(
 
 QueryResult<int, int> FollowsQueryHandler::queryFollows(StmtRef s1,
                                                         StmtRef s2) const {
-  if (s1.lineNum != 0) {
+  if (s1.isKnown()) {
     // (stmtNum,stmtType)
     // or (stmtNum, stmtNum)
     return store->query(s1.lineNum, predicateFactory->getPredicate(s2));
-  } else if (s2.lineNum != 0) {
+  } else if (s2.isKnown()) {
     // (stmtType, stmtNum)
     return store->query(predicateFactory->getPredicate(s1), s2.lineNum);
   } else {
@@ -26,11 +26,11 @@ QueryResult<int, int> FollowsQueryHandler::queryFollows(StmtRef s1,
 
 QueryResult<int, int> FollowsQueryHandler::queryFollowsStar(StmtRef s1,
                                                             StmtRef s2) const {
-  if (s1.lineNum != 0) {
+  if (s1.isKnown()) {
     // (stmtNum,stmtType)
     // or (stmtNum, stmtNum)
     return store->queryT(s1.lineNum, predicateFactory->getPredicate(s2));
-  } else if (s2.lineNum != 0) {
+  } else if (s2.isKnown()) {
     // (stmtType, stmtNum)
     return store->queryT(predicateFactory->getPredicate(s1), s2.lineNum);
   } else {

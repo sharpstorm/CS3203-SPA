@@ -19,4 +19,5 @@ class PredicateFactory {
 
   Predicate<int> getPredicate(StmtRef) const;
   Predicate<string> getPredicate(EntityRef) const;
+  Predicate<int> getIsStmtOfProcedurePredicate(string) const;
 };

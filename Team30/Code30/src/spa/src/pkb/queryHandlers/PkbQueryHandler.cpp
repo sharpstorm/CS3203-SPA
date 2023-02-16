@@ -12,7 +12,10 @@ PkbQueryHandler::PkbQueryHandler(PKB *pkb)
                                            pkb->predicateFactory,
                                            pkb->structureProvider)),
       usesHandler(new UsesQueryHandler()),
-      modifiesHandler(new ModifiesQueryHandler()),
+      modifiesHandler(new ModifiesQueryHandler(pkb->modifiesStorage,
+                                               pkb->predicateFactory,
+                                               pkb->structureProvider,
+                                               pkb->entityMappingProvider)),
       designEntityHandler(new DesignEntitiesQueryHandler(
           pkb->entityMappingProvider, pkb->structureProvider)) {}
 
