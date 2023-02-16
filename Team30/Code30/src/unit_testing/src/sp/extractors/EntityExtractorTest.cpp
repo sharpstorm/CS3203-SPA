@@ -1,5 +1,6 @@
 #include <string>
 
+#include "../../../../../lib/catch.hpp"
 #include "../../../../spa/src/common/ASTNode/ConstantASTNode.h"
 #include "../../../../spa/src/common/ASTNode/statement/AssignNode.h"
 #include "../../../../spa/src/common/ASTNode/statement/IfNode.h"
@@ -8,6 +9,7 @@
 #include "../../../../spa/src/common/Types.h"
 #include "../../../../spa/src/pkb/storage/PKB.h"
 #include "../../../../spa/src/pkb/writers/PkbWriter.h"
+#include "../../../../spa/src/sp/extractor/concrete_extractors/EntityExtractor.h"
 class PkbWriterStubforEntity : public PkbWriter {
  public:
   StmtType s_type;
@@ -32,90 +34,95 @@ class PkbWriterStubforEntity : public PkbWriter {
   }
 
   int verifyEntity(string entityName, EntityType entityType) {
-    return (nodeValue == entityName) && (e_type == entityType);
+    return (nodeValue == entityName) && (e_Type == entityType);
   }
 };
 
 TEST_CASE("EntityExtractor PrintNode") {
-  PrintNode node = new PrintNode();
-  node.lineNumber = 1;
+  PrintNode* node = new PrintNode();
+  node->lineNumber = 1;
 
-  PkbWriterStubforEntity writer = new PkbWriterStubforEntity();
-  EntityExtractor* extractor = new EntityExtractor(&writer);
+  PKB* pkb = new PKB();
+  PkbWriterStubforEntity* writer = new PkbWriterStubforEntity(pkb);
+  EntityExtractor* extractor = new EntityExtractor(writer);
 
-  extractor->visit(node);
+  extractor->visit(*node);
 
-  REQUIRE(writer.verifyStatement(node.lineNumber, StmtType::Print);
+  REQUIRE(writer->verifyStatement(node->lineNumber, StmtType::Print));
 }
 
 TEST_CASE("EntityExtractor AssignNode") {
-  AssignNode node = new AssignNode();
-  node.lineNumber = 2;
+  AssignNode* node = new AssignNode();
+  node->lineNumber = 2;
 
-  PkbWriterStubforEntity writer = new PkbWriterStubforEntity();
-  EntityExtractor* extractor = new EntityExtractor(&writer);
+  PKB* pkb = new PKB();
+  PkbWriterStubforEntity* writer = new PkbWriterStubforEntity(pkb);
+  EntityExtractor* extractor = new EntityExtractor(writer);
 
-  extractor->visit(node);
+  extractor->visit(*node);
 
-  REQUIRE(writer.verifyStatement(node.lineNumber, StmtType::Assign);
+  REQUIRE(writer->verifyStatement(node->lineNumber, StmtType::Assign));
 }
 
 TEST_CASE("EntityExtractor WhileNode") {
-  WhileNode node = new WhileNode();
-  node.lineNumber = 3;
+  WhileNode* node = new WhileNode();
+  node->lineNumber = 3;
 
-  PkbWriterStubforEntity writer = new PkbWriterStubforEntity();
-  EntityExtractor* extractor = new EntityExtractor(&writer);
+  PKB* pkb = new PKB();
+  PkbWriterStubforEntity* writer = new PkbWriterStubforEntity(pkb);
+  EntityExtractor* extractor = new EntityExtractor(writer);
 
-  extractor->visit(node);
+  extractor->visit(*node);
 
-  REQUIRE(writer.verifyStatement(node.lineNumber, StmtType::While);
+  REQUIRE(writer->verifyStatement(node->lineNumber, StmtType::While));
 }
 
 TEST_CASE("EntityExtractor IfNode") {
-  IfNode node = new IfNode();
-  node.lineNumber = 4;
+  IfNode* node = new IfNode();
+  node->lineNumber = 4;
 
-  PkbWriterStubforEntity writer = new PkbWriterStubforEntity();
-  EntityExtractor* extractor = new EntityExtractor(&writer);
+  PKB* pkb = new PKB();
+  PkbWriterStubforEntity* writer = new PkbWriterStubforEntity(pkb);
+  EntityExtractor* extractor = new EntityExtractor(writer);
 
-  extractor->visit(node);
+  extractor->visit(*node);
 
-  REQUIRE(writer.verifyStatement(node.lineNumber, StmtType::If);
+  REQUIRE(writer->verifyStatement(node->lineNumber, StmtType::If));
 }
 
 TEST_CASE("EntityExtractor ReadNode") {
-  ReadNode node = new ReadNode();
-  node.lineNumber = 5;
+  ReadNode* node = new ReadNode();
+  node->lineNumber = 5;
 
-  PkbWriterStubforEntity writer = new PkbWriterStubforEntity();
-  EntityExtractor* extractor = new EntityExtractor(&writer);
+  PKB* pkb = new PKB();
+  PkbWriterStubforEntity* writer = new PkbWriterStubforEntity(pkb);
+  EntityExtractor* extractor = new EntityExtractor(writer);
 
-  extractor->visit(node);
+  extractor->visit(*node);
 
-  REQUIRE(writer.verifyStatement(node.lineNumber, StmtType::Read);
+  REQUIRE(writer->verifyStatement(node->lineNumber, StmtType::Read));
 }
 
 TEST_CASE("EntityExtractor VariableNode") {
-  VariableASTNode node = new VariableASTNode();
-  node.lineNumber = 6;
+  VariableASTNode* node = new VariableASTNode("test");
 
-  PkbWriterStubforEntity writer = new PkbWriterStubforEntity();
-  EntityExtractor* extractor = new EntityExtractor(&writer);
+  PKB* pkb = new PKB();
+  PkbWriterStubforEntity* writer = new PkbWriterStubforEntity(pkb);
+  EntityExtractor* extractor = new EntityExtractor(writer);
 
-  extractor->visit(node);
+  extractor->visit(*node);
 
-  REQUIRE(writer.verifyEntity(node.getValue(), EntityType::Variable);
+  REQUIRE(writer->verifyEntity(node->getValue(), EntityType::Variable));
 }
 
 TEST_CASE("EntityExtractor ConstantNode") {
-  ConstantASTNode node = new ConstantASTNode();
-  node.lineNumber = 7;
+  ConstantASTNode* node = new ConstantASTNode("test");
 
-  PkbWriterStubforEntity writer = new PkbWriterStubforEntity();
-  EntityExtractor* extractor = new EntityExtractor(&writer);
+  PKB* pkb = new PKB();
+  PkbWriterStubforEntity* writer = new PkbWriterStubforEntity(pkb);
+  EntityExtractor* extractor = new EntityExtractor(writer);
 
-  extractor->visit(node);
+  extractor->visit(*node);
 
-  REQUIRE(writer.verifyEntity(node.getValue(), EntityType::Constant);
+  REQUIRE(writer->verifyEntity(node->getValue(), EntityType::Constant));
 }
