@@ -2,7 +2,7 @@
 #include <memory>
 #include <unordered_map>
 
-#include "../../util/PQLTestTokenSequenceBuilder.cpp"
+#include "PQLContextTestUtils.cpp"
 #include "qps/parser/token_parser/context/such_that_clause/PQLUsesClauseContext.h"
 #include "qps/errors/QPSParserError.h"
 #include "qps/clauses/UsesClause.h"
@@ -12,149 +12,139 @@ using std::make_unique, std::unordered_map;
 
 void testUsesParsing(vector<PQLToken> inputs,
                      unordered_map<string, PQLSynonymType> synonyms) {
-  PQLUsesClauseContext context;
-  QueryTokenParseState state(&inputs);
-  state.advanceStage(TOKEN_PARSE_STAGE_COMMAND);
-  state.advanceStage(TOKEN_PARSE_STAGE_CONDITION_MARKER);
-
-  for (auto it : synonyms) {
-    state.getQueryBuilder()->addVariable(it.first, it.second);
-  }
-  context.parse(&state);
-
-  auto clauses = state.getQueryBuilder()->build()->getEvaluatables();
-  REQUIRE(clauses.size() == 1);
-
-  auto fc = dynamic_cast<UsesClause*>(clauses.at(0).get());
-  REQUIRE(fc != nullptr);
+  testSuchThatParsing<PQLUsesClauseContext, UsesClause>(inputs,
+                                                        synonyms);
 }
 
 void testUsesParsing(vector<PQLToken> inputs) {
-  testUsesParsing(inputs, unordered_map<string, PQLSynonymType>{
-      {"a", PQL_SYN_TYPE_ASSIGN},
-      {"p", PQL_SYN_TYPE_PROCEDURE},
-      {"v", PQL_SYN_TYPE_VARIABLE}
-  });
+  testUsesParsing(
+      inputs,
+      unordered_map<string, PQLSynonymType>{
+          {"a", PQL_SYN_TYPE_ASSIGN},
+          {"p", PQL_SYN_TYPE_PROCEDURE},
+          {"v", PQL_SYN_TYPE_VARIABLE}
+      }
+  );
 }
 
 TEST_CASE("Test PQL Uses parsing 2 Constants") {
   testUsesParsing(make_unique<PQLTestTokenSequenceBuilder>()
-                          ->openBracket()
-                          ->integer(7)
-                          ->comma()
-                          ->ident("x")
-                          ->closeBracket()
-                          ->build()
+                      ->openBracket()
+                      ->integer(7)
+                      ->comma()
+                      ->ident("x")
+                      ->closeBracket()
+                      ->build()
   );
 
   testUsesParsing(make_unique<PQLTestTokenSequenceBuilder>()
-                          ->openBracket()
-                          ->ident("main")
-                          ->comma()
-                          ->ident("x")
-                          ->closeBracket()
-                          ->build()
+                      ->openBracket()
+                      ->ident("main")
+                      ->comma()
+                      ->ident("x")
+                      ->closeBracket()
+                      ->build()
   );
 }
 
 TEST_CASE("Test PQL Uses 1 Constant Left") {
   testUsesParsing(make_unique<PQLTestTokenSequenceBuilder>()
-                          ->openBracket()
-                          ->integer(1)
-                          ->comma()
-                          ->synonym("v")
-                          ->closeBracket()
-                          ->build()
+                      ->openBracket()
+                      ->integer(1)
+                      ->comma()
+                      ->synonym("v")
+                      ->closeBracket()
+                      ->build()
   );
 
   testUsesParsing(make_unique<PQLTestTokenSequenceBuilder>()
-                          ->openBracket()
-                          ->ident("main")
-                          ->comma()
-                          ->synonym("v")
-                          ->closeBracket()
-                          ->build()
+                      ->openBracket()
+                      ->ident("main")
+                      ->comma()
+                      ->synonym("v")
+                      ->closeBracket()
+                      ->build()
   );
 
   testUsesParsing(make_unique<PQLTestTokenSequenceBuilder>()
-                          ->openBracket()
-                          ->ident("main")
-                          ->comma()
-                          ->wildcard()
-                          ->closeBracket()
-                          ->build()
+                      ->openBracket()
+                      ->ident("main")
+                      ->comma()
+                      ->wildcard()
+                      ->closeBracket()
+                      ->build()
   );
 }
 
 TEST_CASE("Test PQL Uses 1 Constant Right") {
   testUsesParsing(make_unique<PQLTestTokenSequenceBuilder>()
-                          ->openBracket()
-                          ->synonym("a")
-                          ->comma()
-                          ->ident("x")
-                          ->closeBracket()
-                          ->build()
+                      ->openBracket()
+                      ->synonym("a")
+                      ->comma()
+                      ->ident("x")
+                      ->closeBracket()
+                      ->build()
   );
 
   testUsesParsing(make_unique<PQLTestTokenSequenceBuilder>()
-                          ->openBracket()
-                          ->synonym("p")
-                          ->comma()
-                          ->ident("x")
-                          ->closeBracket()
-                          ->build()
+                      ->openBracket()
+                      ->synonym("p")
+                      ->comma()
+                      ->ident("x")
+                      ->closeBracket()
+                      ->build()
   );
 }
 
 TEST_CASE("Test PQL Uses 0 Constant") {
   testUsesParsing(make_unique<PQLTestTokenSequenceBuilder>()
-                          ->openBracket()
-                          ->synonym("a")
-                          ->comma()
-                          ->synonym("v")
-                          ->closeBracket()
-                          ->build()
+                      ->openBracket()
+                      ->synonym("a")
+                      ->comma()
+                      ->synonym("v")
+                      ->closeBracket()
+                      ->build()
   );
 
   testUsesParsing(make_unique<PQLTestTokenSequenceBuilder>()
-                          ->openBracket()
-                          ->synonym("p")
-                          ->comma()
-                          ->synonym("v")
-                          ->closeBracket()
-                          ->build()
+                      ->openBracket()
+                      ->synonym("p")
+                      ->comma()
+                      ->synonym("v")
+                      ->closeBracket()
+                      ->build()
   );
 
   testUsesParsing(make_unique<PQLTestTokenSequenceBuilder>()
-                          ->openBracket()
-                          ->synonym("a")
-                          ->comma()
-                          ->wildcard()
-                          ->closeBracket()
-                          ->build()
+                      ->openBracket()
+                      ->synonym("a")
+                      ->comma()
+                      ->wildcard()
+                      ->closeBracket()
+                      ->build()
   );
 }
 
 TEST_CASE("Test PQL Uses unknown ref") {
   REQUIRE_THROWS_AS(
       testUsesParsing(make_unique<PQLTestTokenSequenceBuilder>()
-                              ->openBracket()
-                              ->synonym("a")
-                              ->comma()
-                              ->synonym("w")
-                              ->closeBracket()
-                              ->build()
+                          ->openBracket()
+                          ->synonym("a")
+                          ->comma()
+                          ->synonym("w")
+                          ->closeBracket()
+                          ->build()
       ), QPSParserError
   );
 
   REQUIRE_THROWS_AS(
       testUsesParsing(make_unique<PQLTestTokenSequenceBuilder>()
-                              ->openBracket()
-                              ->synonym("w")
-                              ->comma()
-                              ->synonym("v")
-                              ->closeBracket()
-                              ->build()
+                          ->openBracket()
+                          ->synonym("w")
+                          ->comma()
+                          ->synonym("v")
+                          ->closeBracket()
+                          ->build()
       ), QPSParserError
   );
 }
@@ -162,12 +152,12 @@ TEST_CASE("Test PQL Uses unknown ref") {
 TEST_CASE("Test PQL Uses Statement ref not allowed on right") {
   REQUIRE_THROWS_AS(
       testUsesParsing(make_unique<PQLTestTokenSequenceBuilder>()
-                              ->openBracket()
-                              ->synonym("a")
-                              ->comma()
-                              ->integer(1)
-                              ->closeBracket()
-                              ->build()
+                          ->openBracket()
+                          ->synonym("a")
+                          ->comma()
+                          ->integer(1)
+                          ->closeBracket()
+                          ->build()
       ), QPSParserError
   );
 }
@@ -175,12 +165,12 @@ TEST_CASE("Test PQL Uses Statement ref not allowed on right") {
 TEST_CASE("Test PQL Uses wildcard not allowed on left") {
   REQUIRE_THROWS_AS(
       testUsesParsing(make_unique<PQLTestTokenSequenceBuilder>()
-                              ->openBracket()
-                              ->wildcard()
-                              ->comma()
-                              ->ident("x")
-                              ->closeBracket()
-                              ->build()
+                          ->openBracket()
+                          ->wildcard()
+                          ->comma()
+                          ->ident("x")
+                          ->closeBracket()
+                          ->build()
       ), QueryBuilderError
   );
 }
@@ -211,10 +201,12 @@ TEST_CASE("Test PQL Uses valid synonym types") {
   auto validTypes = vector<PQLSynonymType>{
       PQL_SYN_TYPE_ASSIGN,
       PQL_SYN_TYPE_PRINT,
+      PQL_SYN_TYPE_READ,
       PQL_SYN_TYPE_IF,
       PQL_SYN_TYPE_WHILE,
       PQL_SYN_TYPE_CALL,
       PQL_SYN_TYPE_PROCEDURE,
+      PQL_SYN_TYPE_STMT,
   };
 
   for (PQLSynonymType type : validTypes) {
@@ -223,13 +215,13 @@ TEST_CASE("Test PQL Uses valid synonym types") {
         {"v", PQL_SYN_TYPE_VARIABLE}
     };
     testUsesParsing(make_unique<PQLTestTokenSequenceBuilder>()
-                            ->openBracket()
-                            ->synonym("s1")
-                            ->comma()
-                            ->synonym("v")
-                            ->closeBracket()
-                            ->build(),
-                        synonymMap
+                        ->openBracket()
+                        ->synonym("s1")
+                        ->comma()
+                        ->synonym("v")
+                        ->closeBracket()
+                        ->build(),
+                    synonymMap
     );
   }
 }
@@ -238,8 +230,6 @@ TEST_CASE("Test PQL Uses invalid left synonym types") {
   auto invalidTypes = vector<PQLSynonymType>{
       PQL_SYN_TYPE_VARIABLE,
       PQL_SYN_TYPE_CONSTANT,
-      PQL_SYN_TYPE_STMT,
-      PQL_SYN_TYPE_READ
   };
 
   for (PQLSynonymType type : invalidTypes) {
@@ -250,13 +240,13 @@ TEST_CASE("Test PQL Uses invalid left synonym types") {
 
     REQUIRE_THROWS_AS(
         testUsesParsing(make_unique<PQLTestTokenSequenceBuilder>()
-                                ->openBracket()
-                                ->synonym("s1")
-                                ->comma()
-                                ->synonym("v")
-                                ->closeBracket()
-                                ->build(),
-                            synonymMap
+                            ->openBracket()
+                            ->synonym("s1")
+                            ->comma()
+                            ->synonym("v")
+                            ->closeBracket()
+                            ->build(),
+                        synonymMap
         ), QueryBuilderError
     );
   }
@@ -282,13 +272,13 @@ TEST_CASE("Test PQL Uses invalid right synonym types") {
 
     REQUIRE_THROWS_AS(
         testUsesParsing(make_unique<PQLTestTokenSequenceBuilder>()
-                                ->openBracket()
-                                ->integer(1)
-                                ->comma()
-                                ->synonym("v")
-                                ->closeBracket()
-                                ->build(),
-                            synonymMap
+                            ->openBracket()
+                            ->integer(1)
+                            ->comma()
+                            ->synonym("v")
+                            ->closeBracket()
+                            ->build(),
+                        synonymMap
         ), QueryBuilderError
     );
   }

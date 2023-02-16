@@ -1,14 +1,15 @@
 #pragma once
 
 #include <string>
-#include <vector>
 #include "QueryLexerTokenTable.h"
+#include "../../../common/UtilityTypes.h"
 
 using std::string, std::vector;
+using QueryLexerResult = UniqueVectorPtr<PQLToken>;
 
 class QueryLexer {
  public:
-  vector<PQLToken> getTokenStream(string *query);
+  QueryLexerResult getTokenStream(string *query);
 
  private:
   QueryLexerTokenTable tokenTable;

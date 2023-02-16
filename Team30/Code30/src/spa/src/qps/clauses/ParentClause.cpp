@@ -14,8 +14,8 @@ ParentClause::ParentClause(ClauseArgument leftArg, ClauseArgument rightArg):
 
 PQLQueryResult* ParentClause::evaluateOn(
         shared_ptr<PkbQueryHandler> pkbQueryHandler) {
-  StmtRef leftStatement = ClauseArgumentRef::toStmtRef(left);
-  StmtRef rightStatement = ClauseArgumentRef::toStmtRef(right);
+  StmtRef leftStatement = ClauseArgumentRef::toStmtRef(&left);
+  StmtRef rightStatement = ClauseArgumentRef::toStmtRef(&right);
   QueryResult<int, int> queryResult =
       pkbQueryHandler->queryParent(leftStatement, rightStatement);
 

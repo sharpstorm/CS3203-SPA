@@ -15,7 +15,7 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
 }
 
 bool AssignPatternClause::usesSynonym(string varName) {
-  return assignSynonym.name == varName
+  return assignSynonym.getName() == varName
       || (leftArgument.isSynonym()
           && leftArgument.getSynonymName() == varName);
 }

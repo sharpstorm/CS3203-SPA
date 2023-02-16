@@ -18,13 +18,13 @@ class QueryBuilder {
   unordered_map<string, PQLQuerySynonym> variables;
   PQLQuerySynonym resultVariable;
   vector<shared_ptr<Clause>> clauses;
+
  public:
   QueryBuilder();
-  void setResultType(PQLSynonymType type);
-  void setResultVariable(PQLSynonymName name);
+  void setResultVariable(PQLSynonymType type, PQLSynonymName name);
   bool hasVariable(PQLSynonymName name);
   void addVariable(PQLSynonymName name, PQLSynonymType type);
-  PQLSynonymType* getVariableType(PQLSynonymName name);
+
   PQLQuerySynonym* getVariable(PQLSynonymName name);
   void addSuchThat(unique_ptr<SuchThatClause> clause);
   void addPattern(unique_ptr<PatternClause> clause);

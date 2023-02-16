@@ -16,12 +16,12 @@ FollowsClause::FollowsClause(ClauseArgument leftArg, ClauseArgument rightArg):
 
 PQLQueryResult* FollowsClause::evaluateOn(
     shared_ptr<PkbQueryHandler> pkbQueryHandler) {
-  StmtRef leftStatement = ClauseArgumentRef::toStmtRef(left);
-  StmtRef rightStatement = ClauseArgumentRef::toStmtRef(right);
+  StmtRef leftStatement = ClauseArgumentRef::toStmtRef(&left);
+  StmtRef rightStatement = ClauseArgumentRef::toStmtRef(&right);
   QueryResult<int, int> queryResult =
       pkbQueryHandler->queryFollows(leftStatement, rightStatement);
 
-  PQLQueryResult*  pqlQueryResult = new PQLQueryResult();
+  PQLQueryResult* pqlQueryResult = new PQLQueryResult();
 
   if (!left.isSynonym() && !right.isSynonym()) {
     pqlQueryResult->setIsStaticFalse(queryResult.isEmpty);

@@ -9,32 +9,32 @@ using std::vector, std::string, std::cout;
 
 void testPQLLexing(string testCase, vector<PQLToken> expected) {
   QueryLexer lexer;
-  vector<PQLToken> result = lexer.getTokenStream(&testCase);
-  REQUIRE(result.size() == expected.size());
-  REQUIRE(equal(expected.begin(), expected.end(), result.begin(), result.end()));
+  QueryLexerResult result = lexer.getTokenStream(&testCase);
+  REQUIRE(result->size() == expected.size());
+  REQUIRE(equal(expected.begin(), expected.end(), result->begin(), result->end()));
 }
 
 void testPQLLexSingleToken(string testCase, PQLTokenType expected) {
   QueryLexer lexer;
-  vector<PQLToken> result = lexer.getTokenStream(&testCase);
-  REQUIRE(result.size() == 1);
-  REQUIRE(result.at(0).type == expected);
+  QueryLexerResult result = lexer.getTokenStream(&testCase);
+  REQUIRE(result->size() == 1);
+  REQUIRE(result->at(0).getType() == expected);
 }
 
 void testPQLDeclaration(string testCase, PQLTokenType expectedToken, PQLToken expectedArg) {
   QueryLexer lexer;
-  vector<PQLToken> result = lexer.getTokenStream(&testCase);
+  QueryLexerResult result = lexer.getTokenStream(&testCase);
   testPQLLexing(testCase, vector<PQLToken>{
-    PQLToken{ expectedToken },
+    PQLToken(expectedToken),
     expectedArg,
   });
 }
 
 TEST_CASE("Test QPS Lexer Ignore spaces") {
   vector<PQLToken> expected = vector<PQLToken>{
-      PQLToken{PQL_TOKEN_STRING, "a"},
-      PQLToken{PQL_TOKEN_STRING, "bbb"},
-      PQLToken{PQL_TOKEN_STRING, "cc"},
+      PQLToken(PQL_TOKEN_STRING, "a"),
+      PQLToken(PQL_TOKEN_STRING, "bbb"),
+      PQLToken(PQL_TOKEN_STRING, "cc"),
   };
 
   testPQLLexing("a  bbb cc", expected);
@@ -45,7 +45,7 @@ TEST_CASE("Test QPS Lexer Ignore spaces") {
 }
 
 TEST_CASE("Test QPS Lexer Declarations") {
-  PQLToken stringToken = PQLToken{PQL_TOKEN_STRING, "a"};
+  PQLToken stringToken = PQLToken(PQL_TOKEN_STRING, "a");
 
   testPQLDeclaration("stmt a", PQL_TOKEN_STMT, stringToken);
   testPQLDeclaration("read a", PQL_TOKEN_READ, stringToken);
@@ -60,26 +60,26 @@ TEST_CASE("Test QPS Lexer Declarations") {
 }
 
 TEST_CASE("Test QPS Lexer Query keywords") {
-  PQLToken stringToken = PQLToken{PQL_TOKEN_STRING, "a"};
+  PQLToken stringToken = PQLToken(PQL_TOKEN_STRING, "a");
 
   testPQLDeclaration("Select a", PQL_TOKEN_SELECT, stringToken);
   testPQLDeclaration("pattern a", PQL_TOKEN_PATTERN, stringToken);
   testPQLLexing("such that", vector<PQLToken>{
-      PQLToken{PQL_TOKEN_SUCH},
-      PQLToken{PQL_TOKEN_THAT}
+      PQLToken(PQL_TOKEN_SUCH),
+      PQLToken(PQL_TOKEN_THAT)
   });
 }
 
 TEST_CASE("Test QPS Lexer Symbols") {
   vector<PQLToken> symbolSet = vector<PQLToken>{
-      PQLToken{PQL_TOKEN_SEMICOLON},
-      PQLToken{PQL_TOKEN_BRACKET_OPEN},
-      PQLToken{PQL_TOKEN_BRACKET_CLOSE},
-      PQLToken{PQL_TOKEN_COMMA},
-      PQLToken{PQL_TOKEN_PERIOD},
-      PQLToken{PQL_TOKEN_UNDERSCORE},
-      PQLToken{PQL_TOKEN_QUOTE},
-      PQLToken{PQL_TOKEN_ASTRIX},
+      PQLToken(PQL_TOKEN_SEMICOLON),
+      PQLToken(PQL_TOKEN_BRACKET_OPEN),
+      PQLToken(PQL_TOKEN_BRACKET_CLOSE),
+      PQLToken(PQL_TOKEN_COMMA),
+      PQLToken(PQL_TOKEN_PERIOD),
+      PQLToken(PQL_TOKEN_UNDERSCORE),
+      PQLToken(PQL_TOKEN_QUOTE),
+      PQLToken(PQL_TOKEN_ASTRIX),
   };
 
   testPQLLexing(";(),._\"*", symbolSet);
@@ -95,42 +95,42 @@ TEST_CASE("Test QPS Lexer Relationships") {
 
 TEST_CASE("Test QPS Lexer full query") {
   testPQLLexing("assign a,b; Select a such that Follows(a, b)", vector<PQLToken>{
-    PQLToken{PQL_TOKEN_ASSIGN},
-    PQLToken{PQL_TOKEN_STRING, "a"},
-    PQLToken{PQL_TOKEN_COMMA},
-    PQLToken{PQL_TOKEN_STRING, "b"},
-    PQLToken{PQL_TOKEN_SEMICOLON},
-    PQLToken{PQL_TOKEN_SELECT},
-    PQLToken{PQL_TOKEN_STRING, "a"},
-    PQLToken{PQL_TOKEN_SUCH},
-    PQLToken{PQL_TOKEN_THAT},
-    PQLToken{PQL_TOKEN_FOLLOWS},
-    PQLToken{PQL_TOKEN_BRACKET_OPEN},
-    PQLToken{PQL_TOKEN_STRING, "a"},
-    PQLToken{PQL_TOKEN_COMMA},
-    PQLToken{PQL_TOKEN_STRING, "b"},
-    PQLToken{PQL_TOKEN_BRACKET_CLOSE},
+    PQLToken(PQL_TOKEN_ASSIGN),
+    PQLToken(PQL_TOKEN_STRING, "a"),
+    PQLToken(PQL_TOKEN_COMMA),
+    PQLToken(PQL_TOKEN_STRING, "b"),
+    PQLToken(PQL_TOKEN_SEMICOLON),
+    PQLToken(PQL_TOKEN_SELECT),
+    PQLToken(PQL_TOKEN_STRING, "a"),
+    PQLToken(PQL_TOKEN_SUCH),
+    PQLToken(PQL_TOKEN_THAT),
+    PQLToken(PQL_TOKEN_FOLLOWS),
+    PQLToken(PQL_TOKEN_BRACKET_OPEN),
+    PQLToken(PQL_TOKEN_STRING, "a"),
+    PQLToken(PQL_TOKEN_COMMA),
+    PQLToken(PQL_TOKEN_STRING, "b"),
+    PQLToken(PQL_TOKEN_BRACKET_CLOSE),
   });
 }
 
 TEST_CASE("Test QPS Lexer Case Sensitivity") {
   testPQLLexing("Stmt Read Print Call While If Assign Variable Constant Procedure", vector<PQLToken>{
-      PQLToken{PQL_TOKEN_STRING, "Stmt"},
-      PQLToken{PQL_TOKEN_STRING, "Read"},
-      PQLToken{PQL_TOKEN_STRING, "Print"},
-      PQLToken{PQL_TOKEN_STRING, "Call"},
-      PQLToken{PQL_TOKEN_STRING, "While"},
-      PQLToken{PQL_TOKEN_STRING, "If"},
-      PQLToken{PQL_TOKEN_STRING, "Assign"},
-      PQLToken{PQL_TOKEN_STRING, "Variable"},
-      PQLToken{PQL_TOKEN_STRING, "Constant"},
-      PQLToken{PQL_TOKEN_STRING, "Procedure"}
+      PQLToken(PQL_TOKEN_STRING, "Stmt"),
+      PQLToken(PQL_TOKEN_STRING, "Read"),
+      PQLToken(PQL_TOKEN_STRING, "Print"),
+      PQLToken(PQL_TOKEN_STRING, "Call"),
+      PQLToken(PQL_TOKEN_STRING, "While"),
+      PQLToken(PQL_TOKEN_STRING, "If"),
+      PQLToken(PQL_TOKEN_STRING, "Assign"),
+      PQLToken(PQL_TOKEN_STRING, "Variable"),
+      PQLToken(PQL_TOKEN_STRING, "Constant"),
+      PQLToken(PQL_TOKEN_STRING, "Procedure")
   });
 
   testPQLLexing("sElect Such That Pattern", vector<PQLToken>{
-      PQLToken{PQL_TOKEN_STRING, "sElect"},
-      PQLToken{PQL_TOKEN_STRING, "Such"},
-      PQLToken{PQL_TOKEN_STRING, "That"},
-      PQLToken{PQL_TOKEN_STRING, "Pattern"}
+      PQLToken(PQL_TOKEN_STRING, "sElect"),
+      PQLToken(PQL_TOKEN_STRING, "Such"),
+      PQLToken(PQL_TOKEN_STRING, "That"),
+      PQLToken(PQL_TOKEN_STRING, "Pattern")
   });
 }

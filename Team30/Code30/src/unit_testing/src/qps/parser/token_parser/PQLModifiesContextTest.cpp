@@ -3,7 +3,7 @@
 #include <memory>
 #include <unordered_map>
 
-#include "../../util/PQLTestTokenSequenceBuilder.cpp"
+#include "PQLContextTestUtils.cpp"
 #include "qps/parser/token_parser/context/such_that_clause/PQLModifiesClauseContext.h"
 #include "qps/errors/QPSParserError.h"
 #include "qps/clauses/ModifiesClause.h"
@@ -13,30 +13,19 @@ using std::make_unique, std::unordered_map;
 
 void testModifiesParsing(vector<PQLToken> inputs,
                          unordered_map<string, PQLSynonymType> synonyms) {
-  PQLModifiesClauseContext context;
-  QueryTokenParseState state(&inputs);
-  state.advanceStage(TOKEN_PARSE_STAGE_COMMAND);
-  state.advanceStage(TOKEN_PARSE_STAGE_CONDITION_MARKER);
-
-  for (auto it : synonyms) {
-    state.getQueryBuilder()->addVariable(it.first, it.second);
-  }
-
-  context.parse(&state);
-
-  auto clauses = state.getQueryBuilder()->build()->getEvaluatables();
-  REQUIRE(clauses.size() == 1);
-
-  auto fc = dynamic_cast<ModifiesClause*>(clauses.at(0).get());
-  REQUIRE(fc != nullptr);
+  testSuchThatParsing<PQLModifiesClauseContext, ModifiesClause>(inputs,
+                                                                synonyms);
 }
 
 void testModifiesParsing(vector<PQLToken> inputs) {
-  testModifiesParsing(inputs, unordered_map<string, PQLSynonymType>{
-      {"a", PQL_SYN_TYPE_ASSIGN},
-      {"p", PQL_SYN_TYPE_PROCEDURE},
-      {"v", PQL_SYN_TYPE_VARIABLE}
-  });
+  testModifiesParsing(
+      inputs,
+      unordered_map<string, PQLSynonymType>{
+          {"a", PQL_SYN_TYPE_ASSIGN},
+          {"p", PQL_SYN_TYPE_PROCEDURE},
+          {"v", PQL_SYN_TYPE_VARIABLE}
+      }
+  );
 }
 
 TEST_CASE("Test PQL Modifies parsing 2 Constants") {
@@ -217,6 +206,8 @@ TEST_CASE("Test PQL Modifies valid synonym types") {
       PQL_SYN_TYPE_WHILE,
       PQL_SYN_TYPE_CALL,
       PQL_SYN_TYPE_PROCEDURE,
+      PQL_SYN_TYPE_STMT,
+      PQL_SYN_TYPE_PRINT
   };
 
   for (PQLSynonymType type : validTypes) {
@@ -239,9 +230,7 @@ TEST_CASE("Test PQL Modifies valid synonym types") {
 TEST_CASE("Test PQL Modifies invalid left synonym types") {
   auto invalidTypes = vector<PQLSynonymType>{
       PQL_SYN_TYPE_VARIABLE,
-      PQL_SYN_TYPE_CONSTANT,
-      PQL_SYN_TYPE_STMT,
-      PQL_SYN_TYPE_PRINT
+      PQL_SYN_TYPE_CONSTANT
   };
 
   for (PQLSynonymType type : invalidTypes) {

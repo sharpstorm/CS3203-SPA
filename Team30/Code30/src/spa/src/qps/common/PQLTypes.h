@@ -5,6 +5,7 @@
 using std::string;
 
 enum PQLSynonymType {
+  PQL_SYN_TYPE_NONE,
   PQL_SYN_TYPE_VARIABLE,
   PQL_SYN_TYPE_CONSTANT,
   PQL_SYN_TYPE_PROCEDURE,
