@@ -15,7 +15,6 @@ env:
     BUILD_TYPE: Release
     CCACHE_DIR: ${{ github.workspace }}/Team30/Code30/build/build-cache
     CCACHE_BASEDIR: ${{ github.workspace }}/Team30/Code30
-    ACTION_MODE: html
 
 jobs:
   coverage-check:
@@ -40,16 +39,16 @@ jobs:
 
       - name: Compile and Coverage Summary
         working-directory: ./Team30/Code30/build
-        if: env.ACTION_MODE == 'summary'
+        if: github.event.inputs.mode == 'summary'
         run: make cov-report-unit_testing -j 4
 
       - name: Compile and Coverage HTML
         working-directory: ./Team30/Code30/build
-        if: env.ACTION_MODE == 'html'
+        if: github.event.inputs.mode == 'html'
         run: make cov-unit_testing -j 4
 
       - name: Upload HTML
-        if: env.ACTION_MODE == 'html'
+        if: github.event.inputs.mode == 'html'
         uses: actions/upload-artifact@v3
         with:
           name: coverage-report-${{github.sha}}
