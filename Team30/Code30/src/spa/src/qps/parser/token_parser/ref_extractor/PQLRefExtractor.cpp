@@ -9,11 +9,9 @@ ClauseArgument PQLRefExtractor::extractCommonRef(QueryTokenParseState* state) {
     throw QPSParserSyntaxError(QPS_PARSER_ERR_UNEXPECTED);
   }
 
-  PQLToken* synonym = state->expectSynName();
-  PQLQuerySynonym* var = state->getQueryBuilder()
-      ->getVariable(synonym->getData());
+  PQLSynonymName synName = state->expectSynName()->getData();
+  PQLQuerySynonym* var = state->getQueryBuilder()->accessSynonym(synName);
   if (var == nullptr) {
-    state->setSemanticError(QPS_PARSER_ERR_UNKNOWN_SYNONYM);
     return ClauseArgument(CLAUSE_ARG_INVALID);
   }
 

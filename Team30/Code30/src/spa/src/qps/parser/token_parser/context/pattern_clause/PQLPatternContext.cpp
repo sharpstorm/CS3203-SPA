@@ -14,9 +14,9 @@ void PQLPatternContext::parsePatternClause(QueryTokenParseState *parserState) {
 }
 
 PQLQuerySynonym* PQLPatternContext::parseSynonym(QueryTokenParseState *parserState) {
-  PQLToken* synonym = parserState->expectSynName();
+  PQLSynonymName synName = parserState->expectSynName()->getData();
   PQLQuerySynonym* synonymVar = parserState->getQueryBuilder()
-      ->getVariable(synonym->getData());
+      ->accessSynonym(synName);
 
   if (synonymVar == nullptr) {
     throw QPSParserSyntaxError(QPS_PARSER_ERR_PATTERN_TYPE);

@@ -24,7 +24,7 @@ TEST_CASE("Test PQL Declaration parsing") {
 
     QueryTokenParseState state(&dummyStream);
     context.parse(&state);
-    REQUIRE(state.getQueryBuilder()->hasVariable(v));
+    REQUIRE(state.getQueryBuilder()->hasSynonym(v));
   }
 }
 
@@ -39,7 +39,7 @@ TEST_CASE("Test PQL Declaration Keyword Name") {
         ->build();
     QueryTokenParseState state(&dummyStream);
     context.parse(&state);
-    REQUIRE(state.getQueryBuilder()->hasVariable(it.first));
+    REQUIRE(state.getQueryBuilder()->hasSynonym(it.first));
   }
 }
 

@@ -20,6 +20,5 @@ unique_ptr<PQLQuery> QueryTokenParser::build() {
   }
 
   state.advanceStage(TOKEN_PARSE_STAGE_PARSE_END);
-  state.throwIfSemanticError();
   return state.getQueryBuilder()->build();
 }

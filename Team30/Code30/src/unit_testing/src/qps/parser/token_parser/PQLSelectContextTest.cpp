@@ -16,7 +16,7 @@ TEST_CASE("Test PQL Select parsing") {
       ->build();
 
   QueryTokenParseState state(&dummyStream);
-  state.getQueryBuilder()->addVariable("s", PQL_SYN_TYPE_STMT);
+  state.getQueryBuilder()->addSynonym("s", PQL_SYN_TYPE_STMT);
   context.parse(&state);
 
   auto resultVar = state.getQueryBuilder()->build()->getResultVariable();
@@ -32,7 +32,7 @@ TEST_CASE("Test PQL Select unknown synonym") {
       ->build();
   QueryTokenParseState state(&dummyStream);
   context.parse(&state);
-  REQUIRE(state.hasSemanticError());
+  REQUIRE_THROWS_AS(state.getQueryBuilder()->build(), QPSParserSemanticError);
 }
 
 TEST_CASE("Test PQL Select bad symbol") {

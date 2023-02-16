@@ -3,7 +3,6 @@
 QueryTokenParseState::QueryTokenParseState(vector<PQLToken> *tokens):
     tokenStream(tokens),
     QueryExpectationAgent(&tokenStream),
-    SemanticErrorThrower(),
     currentStage(TOKEN_PARSE_STAGE_INIT) {
 }
 

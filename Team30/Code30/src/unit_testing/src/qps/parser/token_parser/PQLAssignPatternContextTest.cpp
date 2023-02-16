@@ -17,11 +17,10 @@ void testAssignPatternParsing(vector<PQLToken> inputs,
   state.advanceStage(TOKEN_PARSE_STAGE_COMMAND);
 
   for (auto it : synonyms) {
-    state.getQueryBuilder()->addVariable(it.first, it.second);
+    state.getQueryBuilder()->addSynonym(it.first, it.second);
   }
   context.parse(&state);
   state.advanceStage(TOKEN_PARSE_STAGE_PARSE_END);
-  state.throwIfSemanticError();
 
   auto clauses = state.getQueryBuilder()->build()->getEvaluatables();
   REQUIRE(clauses.size() == 1);

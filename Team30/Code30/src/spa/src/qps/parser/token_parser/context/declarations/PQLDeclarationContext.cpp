@@ -22,10 +22,5 @@ void PQLDeclarationContext::parse(QueryTokenParseState *parserState) {
 void PQLDeclarationContext::addVariableToState(
     string name,
     QueryTokenParseState *parserState) {
-  try {
-    parserState->getQueryBuilder()
-        ->addVariable(name, synonymType);
-  } catch (const QPSParserSemanticError &err) {
-    parserState->setSemanticError(err.what());
-  }
+  parserState->getQueryBuilder()->addSynonym(name, synonymType);
 }
