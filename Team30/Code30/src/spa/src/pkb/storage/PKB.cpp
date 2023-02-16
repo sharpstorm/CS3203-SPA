@@ -20,8 +20,8 @@ PKB::PKB()
           new StatementStorage(make_shared<ContiguousTable<StmtType>>(),
                                make_shared<HashKeySetTable<StmtType, int>>())),
       procedureStorage(new ProcedureStorage(
-          make_shared<HashKeyTable<std::string, std::pair<int, int>>>(),
-          make_shared<ContiguousTable<std::string>>())),
+          make_shared<ContiguousTable<std::string>>(),
+          make_shared<HashKeySetTable<std::string, int>>())),
       structureProvider(
           new StructureMappingProvider(statementStorage, procedureStorage)),
       entityMappingProvider(new EntityMappingProvider(symbolStorage)),

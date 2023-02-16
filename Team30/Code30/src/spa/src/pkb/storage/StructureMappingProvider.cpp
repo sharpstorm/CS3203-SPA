@@ -16,18 +16,18 @@ bool StructureMappingProvider::isStatementOfType(int lineNumber,
 std::unordered_set<int> StructureMappingProvider::getStatementsOfType(
     StmtType stmtType) const {
   if (stmtType == StmtType::None) {
-    return statementStorage->getAllValues();
+    return statementStorage->getAllKeys();
   } else {
     return statementStorage->getByValue(stmtType);
   }
 }
 
-std::pair<int, int> StructureMappingProvider::getProcedureLines(
+unordered_set<int> StructureMappingProvider::getProcedureLines(
     std::string procedureName) const {
-  return procedureStorage->getByKey(procedureName);
+  return procedureStorage->getByValue(procedureName);
 }
 
 std::string StructureMappingProvider::getProcedureForLine(
     int lineNumber) const {
-  return procedureStorage->getByValue(lineNumber);
+  return procedureStorage->getByKey(lineNumber);
 }

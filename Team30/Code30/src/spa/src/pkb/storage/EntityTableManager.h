@@ -12,8 +12,8 @@ using std::shared_ptr;
 using std::unordered_set;
 
 /**
- * Table manager for entity, E(arg1, arg2), where args are type K and V
- * respectively. Stores mapping of K -> V and V-> Set<K>. Provides insert
+ * Table manager for entity.
+ * Stores mapping of K -> V and V-> Set<K>. Provides insert
  * and get by key / value functionalities.
  */
 template <typename K, typename V>
@@ -21,7 +21,8 @@ class EntityTableManager {
  protected:
   shared_ptr<IBaseTable<K, V>> table;            // maps K -> V
   shared_ptr<IBaseSetTable<V, K>> reverseTable;  // maps V -> set<K>
-  unordered_set<K> allValues;
+  unordered_set<K> allKeys;
+  unordered_set<V> allValues;
 
  public:
   EntityTableManager(shared_ptr<IBaseTable<K, V>> table,
@@ -31,18 +32,23 @@ class EntityTableManager {
   void insert(K arg1, V arg2) {
     table->set(arg1, arg2);
     reverseTable->set(arg2, arg1);
-    allValues.insert(arg1);
+    allKeys.insert(arg1);
+    allValues.insert(arg2);
   }
 
-  /**
-   * Get arg2 given arg1 value.
-   */
+  void insertFromTo(K startNum, K endNum, V arg2) {
+    allValues.insert(arg2);
+    for (int i = startNum; i < endNum + 1; ++i) {
+      allKeys.insert(i);
+      table->set(i, arg2);
+      reverseTable->set(arg2, i);
+    }
+  }
+
   V getByKey(K arg1) const { return table->get(arg1); }
 
-  /**
-   * Get set of arg1 where R(arg1, arg2) is true, given arg2 value.
-   */
   unordered_set<K> getByValue(V arg2) const { return reverseTable->get(arg2); }
 
-  unordered_set<K> getAllValues() const { return allValues; }
+  unordered_set<K> getAllKeys() const { return allKeys; }
+  unordered_set<V> getAllValues() const { return allValues; }
 };
