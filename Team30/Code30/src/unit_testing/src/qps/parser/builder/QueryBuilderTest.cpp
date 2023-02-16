@@ -58,6 +58,13 @@ TEST_CASE("Test QueryBuilder Duplicate Variable") {
   REQUIRE_THROWS_AS(qb.build(), QPSParserSemanticError);
 }
 
+TEST_CASE("Test QueryBuilder Access Unknown Variable") {
+  QueryBuilder qb;
+  qb.addSynonym("a", PQL_SYN_TYPE_STMT);
+  qb.accessSynonym("b");
+  REQUIRE_THROWS_AS(qb.build(), QPSParserSemanticError);
+}
+
 TEST_CASE("Test QueryBuilder Invalid Clause - Follows") {
   QueryBuilder qb;
   qb.addSynonym("a", PQL_SYN_TYPE_CONSTANT);
