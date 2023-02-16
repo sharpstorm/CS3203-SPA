@@ -37,11 +37,8 @@ class EntityTableManager {
   }
 
   void insertFromTo(K startNum, K endNum, V arg2) {
-    allValues.insert(arg2);
     for (int i = startNum; i < endNum + 1; ++i) {
-      allKeys.insert(i);
-      table->set(i, arg2);
-      reverseTable->set(arg2, i);
+      insert(i, arg2);
     }
   }
 
