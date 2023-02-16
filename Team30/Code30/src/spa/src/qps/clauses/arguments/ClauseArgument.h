@@ -27,7 +27,7 @@ class ClauseArgument {
     return [type](PQLQuerySynonym syn){
       return syn.isType(type);
     };
-  };
+  }
 };
 
 using ClauseArgumentPtr = unique_ptr<ClauseArgument>;

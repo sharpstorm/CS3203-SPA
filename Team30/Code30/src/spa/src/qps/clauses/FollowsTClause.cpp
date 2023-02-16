@@ -8,7 +8,8 @@
 
 using std::pair, std::vector, std::shared_ptr, std::move;
 
-FollowsTClause::FollowsTClause(ClauseArgumentPtr leftArg, ClauseArgumentPtr rightArg):
+FollowsTClause::FollowsTClause(ClauseArgumentPtr leftArg,
+                               ClauseArgumentPtr rightArg):
   left(move(leftArg)), right(move(rightArg)) {
 }
 
@@ -26,14 +27,14 @@ PQLQueryResult* FollowsTClause::evaluateOn(
   }
 
   left->invokeWithName([queryResult, pqlQueryResult](PQLSynonymName name){
-    StatementResult result = StatementResultBuilder::buildStatementResult(true,
-                                                                          queryResult);
+    StatementResult result =
+        StatementResultBuilder::buildStatementResult(true, queryResult);
     pqlQueryResult->addToStatementMap(name, result);
   });
 
   right->invokeWithName([queryResult, pqlQueryResult](PQLSynonymName name){
-    StatementResult result = StatementResultBuilder::buildStatementResult(false,
-                                                                          queryResult);
+    StatementResult result =
+        StatementResultBuilder::buildStatementResult(false, queryResult);
     pqlQueryResult->addToStatementMap(name, result);
   });
 

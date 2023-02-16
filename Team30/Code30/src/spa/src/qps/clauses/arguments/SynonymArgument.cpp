@@ -1,7 +1,6 @@
 #include "SynonymArgument.h"
 
-SynonymArgument::SynonymArgument(PQLQuerySynonym synonym):
-    synonym(synonym){
+SynonymArgument::SynonymArgument(PQLQuerySynonym synonym): synonym(synonym) {
 }
 
 bool SynonymArgument::synonymSatisfies(SynonymPredicate predicate) {

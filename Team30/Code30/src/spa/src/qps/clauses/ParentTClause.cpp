@@ -26,14 +26,14 @@ PQLQueryResult* ParentTClause::evaluateOn(
   }
 
   left->invokeWithName([queryResult, pqlQueryResult](PQLSynonymName name){
-    StatementResult result = StatementResultBuilder::buildStatementResult(true,
-                                                                          queryResult);
+    StatementResult result =
+        StatementResultBuilder::buildStatementResult(true, queryResult);
     pqlQueryResult->addToStatementMap(name, result);
   });
 
   right->invokeWithName([queryResult, pqlQueryResult](PQLSynonymName name){
-    StatementResult result = StatementResultBuilder::buildStatementResult(false,
-                                                                          queryResult);
+    StatementResult result =
+        StatementResultBuilder::buildStatementResult(false, queryResult);
     pqlQueryResult->addToStatementMap(name, result);
   });
 

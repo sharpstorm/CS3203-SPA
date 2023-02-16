@@ -13,7 +13,6 @@ PQLQueryResult* UsesClause::evaluateOn(
 }
 
 bool UsesClause::validateArgTypes(VariableTable *variables) {
-
   if (left->isWildcard()) {
     return false;
   }

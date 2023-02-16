@@ -10,7 +10,7 @@ class EntityArgument: public ClauseArgument {
   string ident;
 
  public:
-  EntityArgument(string ident);
+  explicit EntityArgument(string ident);
   StmtRef toStmtRef();
   EntityRef toEntityRef();
 };

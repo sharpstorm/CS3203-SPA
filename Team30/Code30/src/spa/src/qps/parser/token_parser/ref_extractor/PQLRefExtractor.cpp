@@ -2,7 +2,8 @@
 #include "qps/errors/QPSParserSemanticError.h"
 #include "qps/clauses/arguments/ClauseArgumentFactory.h"
 
-ClauseArgumentPtr PQLRefExtractor::extractCommonRef(QueryTokenParseState* state) {
+ClauseArgumentPtr PQLRefExtractor::extractCommonRef(
+    QueryTokenParseState* state) {
   if (state->getCurrentToken()->isType(PQL_TOKEN_UNDERSCORE)) {
     state->advanceToken();
     return ClauseArgumentFactory::createWildcard();

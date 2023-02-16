@@ -7,7 +7,7 @@ class StmtArgument: public ClauseArgument {
   int stmtNumber;
 
  public:
-  StmtArgument(int stmtNumber);
+  explicit StmtArgument(int stmtNumber);
   StmtRef toStmtRef();
   EntityRef toEntityRef();
 };

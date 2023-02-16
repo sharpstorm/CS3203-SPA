@@ -9,7 +9,8 @@
 
 using std::pair, std::unordered_set, std::vector, std::move;
 
-FollowsClause::FollowsClause(ClauseArgumentPtr leftArg, ClauseArgumentPtr rightArg):
+FollowsClause::FollowsClause(ClauseArgumentPtr leftArg,
+                             ClauseArgumentPtr rightArg):
     left(move(leftArg)), right(move(rightArg)) {
 }
 
@@ -28,14 +29,14 @@ PQLQueryResult* FollowsClause::evaluateOn(
   }
 
   left->invokeWithName([queryResult, pqlQueryResult](PQLSynonymName name){
-    StatementResult result = StatementResultBuilder::buildStatementResult(true,
-                                                          queryResult);
+    StatementResult result =
+        StatementResultBuilder::buildStatementResult(true, queryResult);
     pqlQueryResult->addToStatementMap(name, result);
   });
 
   right->invokeWithName([queryResult, pqlQueryResult](PQLSynonymName name){
-    StatementResult result = StatementResultBuilder::buildStatementResult(false,
-                                                                          queryResult);
+    StatementResult result =
+        StatementResultBuilder::buildStatementResult(false, queryResult);
     pqlQueryResult->addToStatementMap(name, result);
   });
 

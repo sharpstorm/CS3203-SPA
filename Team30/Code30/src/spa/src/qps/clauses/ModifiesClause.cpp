@@ -5,7 +5,8 @@
 
 using std::shared_ptr, std::move;
 
-ModifiesClause::ModifiesClause(ClauseArgumentPtr leftArg, ClauseArgumentPtr rightArg):
+ModifiesClause::ModifiesClause(ClauseArgumentPtr leftArg,
+                               ClauseArgumentPtr rightArg):
     left(move(leftArg)), right(move(rightArg)) {
 }
 
@@ -15,7 +16,6 @@ PQLQueryResult* ModifiesClause::evaluateOn(
 }
 
 bool ModifiesClause::validateArgTypes(VariableTable *variables) {
-
   if (left->isWildcard()) {
     return false;
   }
