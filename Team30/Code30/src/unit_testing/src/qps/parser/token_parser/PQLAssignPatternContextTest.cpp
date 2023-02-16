@@ -3,16 +3,16 @@
 #include <unordered_map>
 
 #include "../../util/PQLTestTokenSequenceBuilder.cpp"
-#include "qps/parser/token_parser/context/pattern_clause/PQLAssignPatternClauseContext.h"
 #include "qps/errors/QPSParserSyntaxError.h"
 #include "qps/clauses/AssignPatternClause.h"
 #include "qps/errors/QPSParserSemanticError.h"
+#include "qps/parser/token_parser/context/pattern_clause/PQLPatternContext.h"
 
 using std::make_unique, std::unordered_map;
 
 void testAssignPatternParsing(vector<PQLToken> inputs,
                               unordered_map<string, PQLSynonymType> synonyms) {
-  PQLAssignPatternClauseContext context;
+  PQLPatternContext context;
   QueryTokenParseState state(&inputs);
   state.advanceStage(TOKEN_PARSE_STAGE_COMMAND);
 
@@ -233,7 +233,7 @@ TEST_CASE("Test PQL Assign Pattern invalid arg0 synonym types") {
                 ->closeBracket()
                 ->build()
             , synonymMap),
-        QPSParserSemanticError
+        QPSParserSyntaxError
     );
   }
 }

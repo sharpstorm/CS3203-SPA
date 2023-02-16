@@ -2,11 +2,14 @@
 
 #include <string>
 #include "PQLPatternClauseContext.h"
+#include "qps/common/PQLQuerySynonym.h"
 
 using std::string;
 
 class PQLAssignPatternClauseContext : public PQLPatternClauseContext {
  public:
+  PQLAssignPatternClauseContext(PQLQuerySynonym* synonym):
+      PQLPatternClauseContext(synonym) {}
   void parse(QueryTokenParseState* parserState);
 
  private:

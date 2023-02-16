@@ -45,6 +45,7 @@ unique_ptr<PQLQuery> QueryBuilder::build() {
   }
 
   unique_ptr<PQLQuery> created(new PQLQuery(variables,
-                                            resultVariable, clauses));
+                                            resultVariable,
+                                            clauses));
   return created;
 }

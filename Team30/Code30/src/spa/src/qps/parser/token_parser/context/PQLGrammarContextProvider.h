@@ -21,7 +21,7 @@
 #include "such_that_clause/PQLUsesClauseContext.h"
 #include "such_that_clause/PQLModifiesClauseContext.h"
 
-#include "pattern_clause/PQLAssignPatternClauseContext.h"
+#include "pattern_clause/PQLPatternContext.h"
 
 class PQLGrammarContextProvider {
  private:
@@ -41,7 +41,7 @@ class PQLGrammarContextProvider {
   PQLParentClauseContext parentClauseContext;
   PQLUsesClauseContext usesClauseContext;
   PQLModifiesClauseContext modifiesClauseContext;
-  PQLAssignPatternClauseContext assignPatternClauseContext;
+  PQLPatternContext patternClauseContext;
 
  public:
   IPQLContext* getContext(PQLToken* token);
