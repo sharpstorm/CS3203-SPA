@@ -53,5 +53,6 @@ jobs:
         if: env.ACTION_MODE == 'html'
         uses: actions/upload-artifact@v3
         with:
-          path: /Team30/Code30/build/coverage/unit_testing
+          path: ./Team30/Code30/build/coverage/unit_testing
+          retention-days: 1
         
