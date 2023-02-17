@@ -18,3 +18,7 @@ string StatementListNode::toString() {
   }
   return ss;
 }
+
+ASTNodeType StatementListNode::getType() {
+  return ASTNODE_STMTLST;
+}

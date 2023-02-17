@@ -20,9 +20,13 @@ void WhileNode::addChild(shared_ptr<ASTNode> node) {
 }
 
 string WhileNode::toString() {
-  string ss = "While: \n";
+  string ss = ":while";
   ss += children[0] == nullptr ? "none" : children[0]->toString() + "\n";
   ss += "StmtLst\n";
   ss += children[1] == nullptr ? "none" : children[1]->toString() + "\n";
   return ss;
+}
+
+ASTNodeType WhileNode::getType() {
+  return ASTNODE_WHILE;
 }

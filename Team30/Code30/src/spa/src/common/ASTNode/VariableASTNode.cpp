@@ -16,3 +16,7 @@ string VariableASTNode::toString() {
 string VariableASTNode::getValue() {
   return value;
 }
+
+ASTNodeType VariableASTNode::getType() {
+  return ASTNODE_VARIABLE;
+}

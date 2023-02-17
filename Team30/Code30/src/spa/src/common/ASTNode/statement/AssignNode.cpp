@@ -16,8 +16,9 @@ void AssignNode::accept(shared_ptr<Extractor> e) {
 }
 
 string AssignNode::toString() {
-  return "Assign: "
-  + (children[0] == nullptr ? "none" : children[0]->toString())
-  + " = "
-  + (children[1] == nullptr ? "none" : children[1]->toString());
+  return ":assign";
+}
+
+ASTNodeType AssignNode::getType() {
+  return ASTNODE_ASSIGN;
 }

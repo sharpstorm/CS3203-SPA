@@ -21,11 +21,10 @@ void IfNode::addChild(shared_ptr<ASTNode> node) {
 }
 
 string IfNode::toString() {
-  string ss = "If: ";
-  ss += "\n";
-  ss += "then: \n";
-  ss += children[1] == nullptr ? "none" : children[1]->toString();
-  ss += "else: \n";
-  ss += children[2] == nullptr ? "none" : children[2]->toString();
+  string ss = ":if";
   return ss;
+}
+
+ASTNodeType IfNode::getType() {
+  return ASTNODE_IF;
 }

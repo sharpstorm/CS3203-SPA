@@ -14,7 +14,9 @@ void PrintNode::accept(shared_ptr<Extractor> e) {
 }
 
 string PrintNode::toString() {
-  string ss = "Print: "
-  + (children[0] == nullptr ? "none" : children[0]->toString());
-  return ss;
+  return ":print";
+}
+
+ASTNodeType PrintNode::getType() {
+  return ASTNODE_PRINT;
 }

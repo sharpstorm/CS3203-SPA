@@ -18,3 +18,7 @@ string ProcedureNode::toString() {
   ss += "}";
   return ss;
 }
+
+ASTNodeType ProcedureNode::getType() {
+  return ASTNODE_PROCEDURE;
+}

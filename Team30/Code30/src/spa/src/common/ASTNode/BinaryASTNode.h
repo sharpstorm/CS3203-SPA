@@ -7,15 +7,16 @@
 
 using std::string, std::shared_ptr;
 
-class AbstractBinaryASTNode: public ASTNode {
+class BinaryASTNode: public ASTNode {
  public:
-  virtual ~AbstractBinaryASTNode() = default;
-  virtual void accept(shared_ptr<Extractor> e) = 0;
-  virtual string toString() = 0;
+  virtual ~BinaryASTNode() = default;
+  virtual void accept(shared_ptr<Extractor> e);
+  virtual ASTNodeType getType();
+  virtual string toString();
   void setLeftChild(shared_ptr<ASTNode> left);
   void setRightChild(shared_ptr<ASTNode> right);
   shared_ptr<ASTNode> getLeftChild();
   shared_ptr<ASTNode> getRightChild();
  protected:
-  AbstractBinaryASTNode();
+  BinaryASTNode();
 };

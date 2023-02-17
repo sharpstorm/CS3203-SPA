@@ -14,4 +14,5 @@ class StatementListNode : public ASTNode {
   ~StatementListNode() = default;
   string toString();
   void accept(shared_ptr<Extractor> e);
+  ASTNodeType getType();
 };

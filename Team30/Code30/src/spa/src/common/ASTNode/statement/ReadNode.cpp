@@ -18,6 +18,9 @@ void ReadNode::addChild(shared_ptr<ASTNode> node) {
 }
 
 string ReadNode::toString() {
-  return "Read: "
-  + (children[0] == nullptr ? "none" : children[0]->toString());
+  return ":read";
+}
+
+ASTNodeType ReadNode::getType() {
+  return ASTNODE_READ;
 }
