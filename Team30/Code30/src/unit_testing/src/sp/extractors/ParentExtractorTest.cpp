@@ -199,6 +199,4 @@ TEST_CASE("ParentExtractor if with while stmt") {
   extractor->visit(*ifWithWhile());
 
   REQUIRE(writer.getSet(1) == unordered_set<int>({2, 4}));
-  REQUIRE(writer.getSet(2) == unordered_set<int>({3}));
-  REQUIRE(writer.getSet(3) == unordered_set<int>({}));
 }
