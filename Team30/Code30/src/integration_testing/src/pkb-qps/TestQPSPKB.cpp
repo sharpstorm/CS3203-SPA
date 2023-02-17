@@ -82,19 +82,6 @@ TEST_CASE("Test QP Query Basic Follows") {
   pkbWriter->addModifies(4, "x");
   pkbWriter->addModifies(5, "z");
 
-  launchQuery(qps.get(), "assign a; variable v; Select v such that Modifies(1, \"x\")", unordered_set<string>({"x", "y", "z"}));
-  launchQuery(qps.get(), "assign a; variable v; Select a such that Modifies(1, \"x\")", unordered_set<string>({ "1", "2", "3", "4", "5" }));
-  launchQuery(qps.get(), "assign a; variable v; Select v such that Modifies(2, \"x\")", unordered_set<string>());
-  launchQuery(qps.get(), "assign a; variable v; Select a such that Modifies(2, \"x\")", unordered_set<string>());
-
-  launchQuery(qps.get(), "assign a; variable v; Select a such that Modifies(a, \"x\")", unordered_set<string>({"1", "4"}));
-  launchQuery(qps.get(), "assign a; variable v; Select v such that Modifies(5, v)", unordered_set<string>({"z"}));
-
-  launchQuery(qps.get(), "assign a; variable v; Select a such that Modifies(a,v)", unordered_set<string>({"1", "2", "3", "4", "5"}));
-  launchQuery(qps.get(), "assign a; variable v; Select v such that Modifies(a,v)", unordered_set<string>({"x", "y", "z"}));
-
-  launchQuery(qps.get(), "assign a; Select a such that Modifies(a, _)",unordered_set<string>({ "1", "2", "3", "4", "5" }));
-
   launchQuery(qps.get(), "stmt s1, s2; Select s1 such that Follows(s1, s2)",
               unordered_set<string>{ "1", "2", "3", "4" });
   launchQuery(qps.get(), "stmt s2; Select s2 such that Follows(1, s2)",
@@ -144,4 +131,18 @@ TEST_CASE("Test QP Query Basic Follows") {
   launchQuery(qps.get(), "assign a; variable v; Select a such that Uses(a, v)", unordered_set<string>({"4", "5"}));
 
   launchQuery(qps.get(), "assign a; Select a such that Uses(a, _)", unordered_set<string>{"4", "5"});
+
+  launchQuery(qps.get(), "assign a; variable v; Select v such that Modifies(1, \"x\")", unordered_set<string>({"x", "y", "z"}));
+  launchQuery(qps.get(), "assign a; variable v; Select a such that Modifies(1, \"x\")", unordered_set<string>({ "1", "2", "3", "4", "5" }));
+  launchQuery(qps.get(), "assign a; variable v; Select v such that Modifies(2, \"x\")", unordered_set<string>());
+  launchQuery(qps.get(), "assign a; variable v; Select a such that Modifies(2, \"x\")", unordered_set<string>());
+
+  launchQuery(qps.get(), "assign a; variable v; Select a such that Modifies(a, \"x\")", unordered_set<string>({"1", "4"}));
+  launchQuery(qps.get(), "assign a; variable v; Select v such that Modifies(5, v)", unordered_set<string>({"z"}));
+
+  launchQuery(qps.get(), "assign a; variable v; Select a such that Modifies(a,v)", unordered_set<string>({"1", "2", "3", "4", "5"}));
+  launchQuery(qps.get(), "assign a; variable v; Select v such that Modifies(a,v)", unordered_set<string>({"x", "y", "z"}));
+
+  launchQuery(qps.get(), "assign a; Select a such that Modifies(a, _)",unordered_set<string>({ "1", "2", "3", "4", "5" }));
+
 }

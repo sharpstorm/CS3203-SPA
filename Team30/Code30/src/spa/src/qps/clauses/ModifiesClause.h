@@ -13,8 +13,6 @@ class ModifiesClause: public SuchThatClause {
   ClauseArgumentPtr left;
   ClauseArgumentPtr right;
 
-//  template <typename T>
-//  PQLQueryResult* generateQueryResult(QueryResult<T, string> queryResult);
   QueryResult<int, string> evaluateLeftStatement(
       shared_ptr<PkbQueryHandler> pkbQueryHandler);
   QueryResult<string, string> evaluateLeftEntity(

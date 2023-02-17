@@ -69,11 +69,9 @@ TEST_CASE("Test Full End-to-end") {
                           "Select ifs such that Follows(ifs, s)",
               unordered_set<string>{ "6" });
 
-  // TODO(KwanHW): To verify results when PKB implementation is up
   // Tests disabled as it will result in failure for now
   string query;
   unordered_set<string> expectedRes;
-
 
 //  query = "assign a; Select a such that Uses(a, \"x\")";
 //  expectedRes = unordered_set<string>({"5", "7", "8", "9", "12"});

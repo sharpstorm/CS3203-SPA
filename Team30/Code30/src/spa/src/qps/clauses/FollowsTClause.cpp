@@ -22,25 +22,6 @@ PQLQueryResult* FollowsTClause::evaluateOn(
 
   return Clause::stmtQueryToQueryResult(left.get(), right.get(), queryResult);
 
-//  PQLQueryResult* pqlQueryResult = new PQLQueryResult();
-//  if (!left->isNamed() && !right->isNamed()) {
-//    pqlQueryResult->setIsStaticFalse(queryResult.isEmpty);
-//    return pqlQueryResult;
-//  }
-//
-//  left->invokeWithName([&queryResult, &pqlQueryResult](PQLSynonymName name){
-//    StatementResult result =
-//        StatementResultBuilder::buildStatementResult(true, queryResult);
-//    pqlQueryResult->addToStatementMap(name, result);
-//  });
-//
-//  right->invokeWithName([&queryResult, &pqlQueryResult](PQLSynonymName name){
-//    StatementResult result =
-//        StatementResultBuilder::buildStatementResult(false, queryResult);
-//    pqlQueryResult->addToStatementMap(name, result);
-//  });
-//
-//  return pqlQueryResult;
 }
 
 bool FollowsTClause::validateArgTypes(VariableTable *variables) {
