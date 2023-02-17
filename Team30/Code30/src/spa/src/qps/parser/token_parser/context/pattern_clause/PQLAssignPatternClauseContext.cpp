@@ -8,25 +8,23 @@
 using std::make_unique, std::string;
 
 void PQLAssignPatternClauseContext::parse(QueryTokenParseState *parserState) {
-  parserState->advanceStage(TOKEN_PARSE_STAGE_PATTERN_MARKER);
-
-  PQLToken* synonym = parserState->expectVarchar();
-  PQLQuerySynonym* synonymVar = parserState->getQueryBuilder()
-      ->getVariable(synonym->getData());
-  if (synonymVar == nullptr) {
-    throw QPSParserError(QPS_PARSER_ERR_UNKNOWN_TOKEN);
-  }
-  if (!synonymVar->isType(PQL_SYN_TYPE_ASSIGN)) {
-    throw QPSParserError(QPS_PARSER_ERR_PATTERN_TYPE);
-  }
-
   parserState->expect(PQL_TOKEN_BRACKET_OPEN);
   ClauseArgument left = PQLEntityRefExtractor::extract(parserState);
   parserState->expect(PQL_TOKEN_COMMA);
+  PQLAssignPatternClauseContext::PatternData patternData =
+      extractPatternData(parserState);
 
+  parserState->getQueryBuilder()->addPattern(make_unique<AssignPatternClause>(
+      *synonym, left, patternData.pattern, patternData.isPartial));
+}
+
+PQLAssignPatternClauseContext::PatternData
+PQLAssignPatternClauseContext::extractPatternData(
+    QueryTokenParseState *parserState) {
   bool isWildcard = false;
   bool hasExpression = false;
   string patternString = "";
+
   PQLToken* nextToken = parserState->expect(
       PQL_TOKEN_UNDERSCORE, PQL_TOKEN_QUOTE);
   if (nextToken->isType(PQL_TOKEN_UNDERSCORE)) {
@@ -46,7 +44,9 @@ void PQLAssignPatternClauseContext::parse(QueryTokenParseState *parserState) {
     }
     parserState->expect(PQL_TOKEN_BRACKET_CLOSE);
   }
-  parserState->advanceStage(TOKEN_PARSE_STAGE_PATTERN);
-  parserState->getQueryBuilder()->addPattern(make_unique<AssignPatternClause>(
-      *synonymVar, left, patternString, isWildcard));
+
+  return PQLAssignPatternClauseContext::PatternData{
+    isWildcard,
+    patternString
+  };
 }

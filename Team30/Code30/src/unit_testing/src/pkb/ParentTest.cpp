@@ -4,43 +4,22 @@
 #include "catch.hpp"
 #include "pkb/queryHandlers/ParentQueryHandler.h"
 #include "pkb/storage/PKB.h"
-#include "pkb/storage/StructureMappingProvider.h"
 #include "pkb/writers/ParentWriter.h"
+#include "pkb/writers/PkbWriter.h"
+#include "pkb/queryHandlers/PkbQueryHandler.h"
 
 using std::unordered_set;
 using std::make_unique;
 
-class ParentTestStructureProviderStub : public StructureMappingProvider {
- public:
-  ParentTestStructureProviderStub()
-      : StructureMappingProvider(nullptr, nullptr) {};
-
-  bool isStatementOfType(int s, StmtType stmtType) const override {
-    switch (s) {
-      case 5:
-      case 7:return stmtType == StmtType::Assign;
-      default:return false;
-    }
-  }
-  unordered_set<int> getStatementsOfType(StmtType stmtType) const override {
-    switch (stmtType) {
-      case StmtType::Assign:return {5, 7};
-      default:return unordered_set<int>();
-    }
-  }
-};
-
 TEST_CASE("Parent") {
-  PKB pkb = PKB();
-  auto provider = make_unique<ParentTestStructureProviderStub>();
-  auto factory = make_unique<PredicateFactory>(provider.get(), nullptr);
-  auto queryHandler =
-      ParentQueryHandler(pkb.parentStore, factory.get(), provider.get());
-  auto writer = ParentWriter(pkb.parentStore);
+  auto pkb = make_unique<PKB>();
+  auto writer = PkbWriter(pkb.get());
+  auto queryHandler = PkbQueryHandler(pkb.get());
 
   writer.addParent(1, 2);
   writer.addParent(2, 3);
   writer.addParent(3, 5);
+  writer.addStatement(5, StmtType::Assign);
 
   auto result1 =
       queryHandler.queryParent({StmtType::None, 3}, {StmtType::Assign, 0});
@@ -52,18 +31,17 @@ TEST_CASE("Parent") {
 }
 
 TEST_CASE("ParentStar") {
-  PKB pkb = PKB();
-  auto provider = make_unique<ParentTestStructureProviderStub>();
-  auto factory = make_unique<PredicateFactory>(provider.get(), nullptr);
-  auto queryHandler =
-      ParentQueryHandler(pkb.parentStore, factory.get(), provider.get());
-  auto writer = ParentWriter(pkb.parentStore);
+  auto pkb = make_unique<PKB>();
+  auto writer = PkbWriter(pkb.get());
+  auto queryHandler = PkbQueryHandler(pkb.get());
 
   writer.addParent(1, 3);
   writer.addParent(3, 5);
   writer.addParent(5, 6);
   writer.addParent(6, 7);
   writer.addParent(7, 8);
+  writer.addStatement(5, StmtType::Assign);
+  writer.addStatement(7, StmtType::Assign);
 
   auto result1 =
       queryHandler.queryParentStar({StmtType::None, 1}, {StmtType::Assign, 0});

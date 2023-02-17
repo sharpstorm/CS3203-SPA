@@ -1,18 +1,18 @@
 #include "PQLRefExtractor.h"
+#include "qps/errors/QPSParserSemanticError.h"
 
 ClauseArgument PQLRefExtractor::extractCommonRef(QueryTokenParseState* state) {
   if (state->getCurrentToken()->isType(PQL_TOKEN_UNDERSCORE)) {
     state->advanceToken();
     return ClauseArgument(CLAUSE_ARG_WILDCARD);
-  } else if (!state->getCurrentToken()->isVarchar()) {
-    throw QPSParserError(QPS_PARSER_ERR_UNKNOWN_TOKEN);
+  } else if (!state->getCurrentToken()->isSynName()) {
+    throw QPSParserSyntaxError(QPS_PARSER_ERR_UNEXPECTED);
   }
 
-  PQLToken* synonym = state->expectVarchar();
-  PQLQuerySynonym* var = state->getQueryBuilder()
-      ->getVariable(synonym->getData());
+  PQLSynonymName synName = state->expectSynName()->getData();
+  PQLQuerySynonym* var = state->getQueryBuilder()->accessSynonym(synName);
   if (var == nullptr) {
-    throw QPSParserError(QPS_PARSER_ERR_UNKNOWN_TOKEN);
+    return ClauseArgument(CLAUSE_ARG_INVALID);
   }
 
   return ClauseArgument(*var);

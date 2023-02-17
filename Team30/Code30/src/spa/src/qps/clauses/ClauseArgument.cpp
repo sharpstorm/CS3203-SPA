@@ -40,6 +40,10 @@ bool ClauseArgument::isEntRef() {
   return this->argType == CLAUSE_ARG_STRING;
 }
 
+bool ClauseArgument::isValid() {
+  return this->argType != CLAUSE_ARG_INVALID;
+}
+
 int ClauseArgument::getStatement() {
   return statement;
 }

@@ -13,13 +13,16 @@ class PKB {
  public:
   PKB();
   ~PKB();
-  FollowsStorage* followsStore;
-  ParentStorage* parentStore;
-  SymbolStorage* symbolStorage;
-  StatementStorage* statementStorage;
-  ProcedureStorage* procedureStorage;
-  AssignStorage* assignStorage;
-  StructureMappingProvider* structureProvider;
-  EntityMappingProvider* entityMappingProvider;
-  PredicateFactory* predicateFactory;
+
+  FollowsStorage *followsStore;
+  ParentStorage *parentStore;
+  SymbolStorage *symbolStorage;
+  StatementStorage *statementStorage;
+  ProcedureStorage *procedureStorage;
+  UsesStorage *usesStorage;
+  ModifiesStorage *modifiesStorage;
+  AssignStorage *assignStorage;
+  StructureMappingProvider *structureProvider;
+  EntityMappingProvider *entityMappingProvider;
+  PredicateFactory *predicateFactory;
 };

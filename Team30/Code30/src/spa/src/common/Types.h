@@ -8,9 +8,9 @@ using std::pair;
 using std::unordered_set;
 using std::string;
 
-enum class EntityType { Procedure, Variable, Constant, None };
+enum class EntityType { None, Procedure, Variable, Constant };
 
-enum class StmtType { Read, Print, Assign, Call, While, If, None };
+enum class StmtType { None, Read, Print, Assign, Call, While, If };
 
 struct StmtRef {
   StmtType type;

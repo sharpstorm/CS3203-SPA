@@ -18,7 +18,8 @@ unique_ptr<PQLQuery> testPQLParsing(string testCase) {
   try {
     return QueryParser().parseQuery(&testCase);
   } catch (const QPSError& err) {
-    FAIL("FAILED with error: " + err.message);
+    WARN(err.what());
+    FAIL("FAILED with error: ");
   } catch (...) {
     FAIL("Failed with unknown exception");
   }

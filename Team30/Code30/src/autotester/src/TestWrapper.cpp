@@ -4,6 +4,9 @@
 #include "TestWrapper.h"
 #include "qps/QPSFacade.h"
 #include "sp/SpFacade.h"
+#include "qps/errors/QPSLexerError.h"
+#include "qps/errors/QPSParserSyntaxError.h"
+#include "qps/errors/QPSParserSemanticError.h"
 
 using std::shared_ptr, std::vector, std::make_shared;
 
@@ -43,8 +46,24 @@ void TestWrapper::parse(std::string filename) {
 // method to evaluating a query
 void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
 // call your evaluator to evaluate the query here
-  // ...code to evaluate query...
-  UniqueVectorPtr<string> queryResult = qps->evaluate(query);
+  UniqueVectorPtr<string> queryResult;
+  try {
+    queryResult = qps->evaluate(query);
+  } catch (QPSLexerError QPSParserSyntaxError) {
+    results.push_back("SyntaxError");
+    return;
+  } catch (QPSParserSyntaxError) {
+    results.push_back("SyntaxError");
+    return;
+  } catch (QPSParserSemanticError) {
+    results.push_back("SemanticError");
+    return;
+  } catch (std::exception) {
+    return;
+  } catch (...) {
+    return;
+  }
+
   // store the answers to the query in the results list (it is initially empty)
   // each result must be a string.
   for (auto qr : *queryResult) {
