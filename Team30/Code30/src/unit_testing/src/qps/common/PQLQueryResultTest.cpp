@@ -2,6 +2,7 @@
 #include <unordered_set>
 
 #include "qps/common/PQLQueryResult.h"
+#include "../util/QueryResultTestUtil.cpp"
 
 using std::unordered_set;
 

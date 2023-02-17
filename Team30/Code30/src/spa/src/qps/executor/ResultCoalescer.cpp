@@ -68,7 +68,7 @@ void ResultCoalescer::mergeResult(PQLQueryResult *setA,
 
     leftCommons.push_back(it->second);
     rightCommons.push_back(rightCol);
-    rightColsToIgnore.insert(it->second);
+    rightColsToIgnore.insert(rightCol);
   }
 
   for (auto it = synonymsB->begin(); it != synonymsB->end(); it++) {
@@ -85,7 +85,7 @@ void ResultCoalescer::mergeResult(PQLQueryResult *setA,
   }
 
   unordered_set<int> ignoreRows;
-  for (int i = 0; setA->getRowCount(); i++) {
+  for (int i = 0; i < setA->getRowCount(); i++) {
     if (ignoreRows.find(i) != ignoreRows.end()) {
       continue;
     }
@@ -97,10 +97,16 @@ void ResultCoalescer::mergeResult(PQLQueryResult *setA,
       ResultTableCol leftCol = leftCommons.at(j);
       ResultTableCol rightCol = rightCommons.at(j);
       auto referenceValue = row->at(leftCol).get();
-      leftSet = intersectSet(leftSet, setA
-          ->getRowsWithValue(leftCol, referenceValue));
-      rightSet = intersectSet(rightSet, setB
-          ->getRowsWithValue(rightCol, referenceValue));
+      auto x = setA
+          ->getRowsWithValue(leftCol, referenceValue);
+      auto y = setB
+          ->getRowsWithValue(rightCol, referenceValue);
+      leftSet = intersectSet(leftSet, x);
+      rightSet = intersectSet(rightSet, y);
+    }
+
+    if (leftSet == nullptr || rightSet == nullptr) {
+      continue;
     }
 
     for (auto it = leftSet->begin(); it != leftSet->end(); it++) {
@@ -110,7 +116,7 @@ void ResultCoalescer::mergeResult(PQLQueryResult *setA,
 
       for (auto it2 = rightSet->begin(); it2 != rightSet->end(); it2++) {
         int rightRowNumber = *it2;
-        auto rightRow = setA->getTableRowAt(rightRowNumber);
+        auto rightRow = setB->getTableRowAt(rightRowNumber);
         QueryResultTableRow mergedRow{};
         for (int j = 0; j < leftRow->size(); j++) {
           mergedRow.push_back(make_unique<QueryResultItem>(*leftRow->at(j)));

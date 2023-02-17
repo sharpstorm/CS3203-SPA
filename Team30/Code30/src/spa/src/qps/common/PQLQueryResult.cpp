@@ -56,7 +56,13 @@ void PQLQueryResult::putTableRow(vector<QueryResultItemPtr> row) {
   int newRowNum = combinedTable.size();
   for (int i = 0; i < colMap.size(); i++) {
     ColMapItem* map = colMap.at(i).get();
-    map->emplace(*row.at(i), newRowNum);
+    QueryResultItem item = *row.at(i);
+    if (map->find(item) != map->end()) {
+      map->at(item).insert(newRowNum);
+    } else {
+      map->emplace(item, RowSet{newRowNum});
+    }
+
   }
 
   combinedTable.push_back(move(row));
@@ -77,6 +83,7 @@ RowSet *PQLQueryResult::getRowsWithValue(ResultTableCol column,
   if (item->find(*value) == item->end()) {
     return nullptr;
   }
+  auto x = item->at(*value);
   return &item->at(*value);
 }
 
