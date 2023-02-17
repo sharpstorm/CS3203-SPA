@@ -57,7 +57,7 @@ TEST_CASE("Modifies Extractor - Single If statement") {
 
 }
 
-TEST_CASE("Modifies Extractor - While statement") {
+TEST_CASE("Modifies Extractor - Single While statement") {
   string input = "procedure printResults {\n"
                  "while (a < b) {"
                  "a = b;"
