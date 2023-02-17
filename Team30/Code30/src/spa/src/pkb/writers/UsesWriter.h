@@ -8,7 +8,7 @@ using std::string;
 
 class UsesWriter : public IUsesWriter {
  public:
-  UsesWriter(UsesStorage *);
+  explicit UsesWriter(UsesStorage *);
 
   void addUses(int stmtNum, string variable) override;
 
