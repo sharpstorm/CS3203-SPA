@@ -12,5 +12,6 @@ class PatternExtractor : public AbstractExtractor {
   explicit PatternExtractor(PkbWriter* pkbWriter);
   void visit(AssignNode node);
  private:
+  void addPattern(int x, shared_ptr<IASTNode> node);
   PkbWriter* pkbWriter;
 };
