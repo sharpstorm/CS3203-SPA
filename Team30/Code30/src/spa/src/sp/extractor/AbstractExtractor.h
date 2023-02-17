@@ -24,7 +24,6 @@ class AbstractExtractor : public Extractor {
   virtual void visit(WhileNode node);
   virtual void visit(VariableASTNode node);
   virtual void visit(ConstantASTNode node);
-  virtual void visit(BinaryASTNode node);
   virtual void visit(AbstractMathNode node);
   virtual void visit(AbstractConditionalNode node);
  private:
