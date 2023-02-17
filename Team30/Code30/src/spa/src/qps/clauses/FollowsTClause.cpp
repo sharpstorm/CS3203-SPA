@@ -21,7 +21,6 @@ PQLQueryResult* FollowsTClause::evaluateOn(
       pkbQueryHandler->queryFollowsStar(leftStatement, rightStatement);
 
   return Clause::stmtQueryToQueryResult(left.get(), right.get(), queryResult);
-
 }
 
 bool FollowsTClause::validateArgTypes(VariableTable *variables) {
