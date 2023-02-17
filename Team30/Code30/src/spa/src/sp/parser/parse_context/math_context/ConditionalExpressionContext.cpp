@@ -65,7 +65,8 @@ processBiCondition(SourceParseState* state) {
 
   // Expect ')' -> '&&' / '||' -> '('
   expect(state, SIMPLE_TOKEN_BRACKET_ROUND_RIGHT);
-  SourceTokenType type = expect(state, SIMPLE_TOKEN_AND, SIMPLE_TOKEN_OR)->getType();
+  SourceTokenType type = expect(state,
+                                SIMPLE_TOKEN_AND, SIMPLE_TOKEN_OR)->getType();
   expect(state, SIMPLE_TOKEN_BRACKET_ROUND_LEFT);
   state->clearCached();
 

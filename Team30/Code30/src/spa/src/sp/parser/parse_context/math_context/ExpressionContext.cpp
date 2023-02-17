@@ -19,7 +19,8 @@ shared_ptr<ASTNode> ExpressionContext::generateSubtree(
   }
 
   shared_ptr<BinaryASTNode> middleNode;
-  if (curToken->isType(SIMPLE_TOKEN_PLUS) || curToken->isType(SIMPLE_TOKEN_MINUS)) {
+  if (curToken->isType(SIMPLE_TOKEN_PLUS)
+      || curToken->isType(SIMPLE_TOKEN_MINUS)) {
     middleNode = generateOperand(state, state->getCached());
   } else {
     return state->getCached();
