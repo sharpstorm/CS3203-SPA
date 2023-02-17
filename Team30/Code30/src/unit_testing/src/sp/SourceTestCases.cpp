@@ -157,7 +157,7 @@ class SourceTestCases {
       "read num2;"
       "read num3;"
       "read num4;"
-      "if ((num1 <= num4) && (num3 > num4)) then {"
+      "if (num1 <= num4) then {"
       "  print num1;"
       "} else {"
       "}}";
