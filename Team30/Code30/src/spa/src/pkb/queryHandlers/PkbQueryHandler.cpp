@@ -6,14 +6,6 @@
 #include "UsesQueryHandler.h"
 
 PkbQueryHandler::PkbQueryHandler(PKB *pkb)
-<<<<<<< HEAD
-    : followsHandler(new FollowsQueryHandler(
-          pkb->followsStore, pkb->predicateFactory, pkb->structureProvider)),
-      parentHandler(new ParentQueryHandler(
-          pkb->parentStore, pkb->predicateFactory, pkb->structureProvider)),
-      usesHandler(new UsesQueryHandler()),
-      modifiesHandler(new ModifiesQueryHandler()),
-=======
     : followsHandler(new FollowsQueryHandler(pkb->followsStore,
                                              pkb->predicateFactory,
                                              pkb->structureProvider)),
@@ -28,7 +20,6 @@ PkbQueryHandler::PkbQueryHandler(PKB *pkb)
                                                pkb->predicateFactory,
                                                pkb->structureProvider,
                                                pkb->entityMappingProvider)),
->>>>>>> master
       designEntityHandler(new DesignEntitiesQueryHandler(
           pkb->entityMappingProvider, pkb->structureProvider)) {}
 
@@ -72,15 +63,9 @@ QueryResult<string, string> PkbQueryHandler::queryUses(EntityRef arg1,
   return usesHandler->queryUses(arg1, arg2);
 }
 
-<<<<<<< HEAD
-QueryResult<int, string> PkbQueryHandler::queryModifies(StmtRef arg1,
-                                                        EntityRef arg2) const {
-  return QueryResult<int, string>();
-=======
 QueryResult<int, string> PkbQueryHandler::queryModifies(
     StmtRef arg1, EntityRef arg2) const {
   return modifiesHandler->queryModifies(arg1, arg2);
->>>>>>> master
 }
 
 QueryResult<string, string> PkbQueryHandler::queryModifies(
