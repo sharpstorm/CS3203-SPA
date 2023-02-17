@@ -8,10 +8,7 @@ UsesExtractor::UsesExtractor(PkbWriter* writer) { pkbWriter = writer; }
 
 void UsesExtractor::visit(AssignNode node) {
   shared_ptr<ASTNode> expr = node.getChildren()[1];
-  processNode(node.lineNumber, expr);
-  for (int i : statementStartStack) {
-    processNode(i, expr);
-  }
+  updateUses(expr, node.lineNumber);
 }
 
 void UsesExtractor::visit(PrintNode node) {
@@ -24,19 +21,13 @@ void UsesExtractor::visit(PrintNode node) {
 
 void UsesExtractor::visit(WhileNode node) {
   shared_ptr<ASTNode> condExpr = node.getChildren()[0];
-  processNode(node.lineNumber, condExpr);
-  for (int i : statementStartStack) {
-    processNode(i, condExpr);
-  }
+  updateUses(condExpr, node.lineNumber);
   statementStartStack.push_back(node.lineNumber);
 }
 
 void UsesExtractor::visit(IfNode node) {
   shared_ptr<ASTNode> condExpr = node.getChildren()[0];
-  processNode(node.lineNumber, condExpr);
-  for (int i : statementStartStack) {
-    processNode(i, condExpr);
-  }
+  updateUses(condExpr, node.lineNumber);
   statementStartStack.push_back(node.lineNumber);
 }
 
@@ -48,17 +39,20 @@ void UsesExtractor::leave(WhileNode node) {
   statementStartStack.pop_back();
 }
 
-void UsesExtractor::processNode(int lineNumber,
-                                shared_ptr<ASTNode> expr) {
+void UsesExtractor::updateUses(shared_ptr<ASTNode> expr, int lineNumber) {
   vector<string> v;
   recurseExpr(&v, expr);
-  for (string s : v) {
-    addUsesRelation(lineNumber, s);
+  processNode(lineNumber, &v);
+  for (int i : statementStartStack) {
+    processNode(i, &v);
   }
 }
 
-void UsesExtractor::addUsesRelation(int x, string var) {
-  pkbWriter->addUses(x, var);
+void UsesExtractor::processNode(int lineNumber,
+                                vector<string>* v) {
+  for (string s : *v) {
+    addUsesRelation(lineNumber, s);
+  }
 }
 
 void UsesExtractor::recurseExpr(vector<string>* v,
@@ -84,4 +78,8 @@ void UsesExtractor::recurseExpr(vector<string>* v,
 
 bool UsesExtractor::arrayContains(vector<string>* v, string x) {
   return std::find(v->begin(), v->end(), x) != v->end();
+}
+
+void UsesExtractor::addUsesRelation(int x, string var) {
+  pkbWriter->addUses(x, var);
 }

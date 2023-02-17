@@ -16,12 +16,12 @@ class UsesExtractor : public AbstractExtractor {
   void visit(IfNode node);
   void leave(WhileNode node);
   void leave(IfNode node);
-
  private:
   void addUsesRelation(int x, string var);
-  void processNode(int lineNumber, shared_ptr<ASTNode> expr);
+  void processNode(int lineNumber, vector<string>* v);
   void recurseExpr(vector<string>* v, shared_ptr<ASTNode> node);
   bool arrayContains(vector<string> *v, string x);
+  void updateUses(shared_ptr<ASTNode> expr, int lineNumber);
   vector<int> statementStartStack;
   PkbWriter *pkbWriter;
 };
