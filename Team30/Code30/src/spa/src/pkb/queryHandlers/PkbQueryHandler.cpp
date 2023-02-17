@@ -51,20 +51,20 @@ std::unordered_set<int> PkbQueryHandler::getStatementsOfType(
 
 QueryResult<int, string> PkbQueryHandler::queryUses(StmtRef arg1,
                                                     EntityRef arg2) const {
-  return QueryResult<int, string>();
+  return usesHandler->queryUses(arg1, arg2);
 }
 
 QueryResult<string, string> PkbQueryHandler::queryUses(EntityRef arg1,
                                                        EntityRef arg2) const {
-  return QueryResult<string, string>();
+  return usesHandler->queryUses(arg1, arg2);
 }
 
 QueryResult<int, string> PkbQueryHandler::queryModifies(
     StmtRef arg1, EntityRef arg2) const {
-  return QueryResult<int, string>();
+  return modifiesHandler->queryModifies(arg1, arg2);
 }
 
 QueryResult<string, string> PkbQueryHandler::queryModifies(
     EntityRef arg1, EntityRef arg2) const {
-  return QueryResult<string, string>();
+  return modifiesHandler->queryModifies(arg1, arg2);
 }

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Predicate.h"
 #include <string>
-#include "../../common/Types.h"
-#include "../storage/StructureMappingProvider.h"
-#include "../storage/EntityMappingProvider.h"
+#include "pkb/PkbTypes.h"
+#include "common/Types.h"
+#include "pkb/storage/StructureMappingProvider.h"
+#include "pkb/storage/EntityMappingProvider.h"
 
 using std::string;
 
@@ -19,5 +19,4 @@ class PredicateFactory {
 
   Predicate<int> getPredicate(StmtRef) const;
   Predicate<string> getPredicate(EntityRef) const;
-  Predicate<int> getIsStmtOfProcedurePredicate(string) const;
 };

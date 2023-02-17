@@ -2,10 +2,9 @@
 
 #include <memory>
 #include <unordered_set>
-#include <functional>
 
 #include "../../common/Types.h"
-#include "../predicates/Predicate.h"
+#include "pkb/PkbTypes.h"
 #include "tables/IBaseSetTable.h"
 
 using std::shared_ptr;
@@ -26,8 +25,6 @@ class RelationTableManager {
 
 
  public:
-  template<typename R>
-  using KTransformer = std::function<R(K const &)>;
   RelationTableManager(shared_ptr<IBaseSetTable<K, V>> table,
                        shared_ptr<IBaseSetTable<V, K>> reverseTable)
       : table(table), reverseTable(reverseTable) {}
@@ -56,14 +53,14 @@ class RelationTableManager {
   template<typename R = K>
   QueryResult<R, V> query(unordered_set<K> arg1Values,
                           Predicate<V> arg2Predicate,
-                          KTransformer<R> transformer =
+                          Transformer<K, R> keyTransformer =
                           [](K const key) { return key; }) const {
     QueryResult<R, V> result;
     for (auto arg1 : arg1Values) {
       auto arg2Values = table->get(arg1);
       for (auto arg2 : arg2Values) {
         if (arg2Predicate(arg2)) {
-          result.add(transformer(arg1), arg2);
+          result.add(keyTransformer(arg1), arg2);
         }
       }
     }
@@ -77,14 +74,14 @@ class RelationTableManager {
   template<typename R = K>
   QueryResult<R, V> query(Predicate<K> arg1Predicate,
                           unordered_set<V> arg2Values,
-                          KTransformer<R> transformer =
+                          Transformer<K, R> keyTransformer =
                           [](K const key) { return key; }) const {
     QueryResult<R, V> result;
     for (auto arg2 : arg2Values) {
       auto arg1Values = reverseTable->get(arg2);
       for (auto arg1 : arg1Values) {
         if (arg1Predicate(arg1)) {
-          result.add(transformer(arg1), arg2);
+          result.add(keyTransformer(arg1), arg2);
         }
       }
     }
@@ -97,9 +94,9 @@ class RelationTableManager {
   template<typename R = K>
   QueryResult<R, V> query(K arg1,
                           Predicate<V> arg2Predicate,
-                          KTransformer<R> transformer =
+                          Transformer<K, R> keyTransformer =
                           [](K const key) { return key; }) const {
-    return query<R>(unordered_set<K>({arg1}), arg2Predicate, transformer);
+    return query<R>(unordered_set<K>({arg1}), arg2Predicate, keyTransformer);
   }
 
   /**
@@ -108,8 +105,8 @@ class RelationTableManager {
   template<typename R = K>
   QueryResult<R, V> query(Predicate<K> arg1Predicate,
                           V arg2,
-                          KTransformer<R> transformer =
+                          Transformer<K, R> keyTransformer =
                           [](K const key) { return key; }) const {
-    return query<R>(arg1Predicate, unordered_set<V>({arg2}), transformer);
+    return query<R>(arg1Predicate, unordered_set<V>({arg2}), keyTransformer);
   }
 };
