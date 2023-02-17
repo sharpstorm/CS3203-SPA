@@ -6,6 +6,7 @@
 #include "qps/clauses/arguments/EntityArgument.h"
 #include "qps/clauses/arguments/StmtArgument.h"
 #include "qps/clauses/arguments/SynonymArgument.h"
+#include "qps/clauses/arguments/WildcardArgument.h"
 #include "qps/clauses/UsesClause.h"
 #include "ClausesPKBStub.cpp"
 
@@ -30,12 +31,36 @@ TEST_CASE("Uses querying") {
   actual = usesClause.evaluateOn(pkb);
   REQUIRE(*expected == *actual);
 
+  // Wildcard - Static Statement
+  usesClause = UsesClause(
+      ClauseArgumentPtr(new StmtArgument(6)),
+      ClauseArgumentPtr(new WildcardArgument()));
+  expected = new PQLQueryResult();
+  actual = usesClause.evaluateOn(pkb);
+  REQUIRE(*expected == *actual);
+
+  // Wildcard - Synonym Statement
+  usesClause = UsesClause(
+      ClauseArgumentPtr(new SynonymArgument(PQLQuerySynonym{PQL_SYN_TYPE_ASSIGN, "a"})),
+      ClauseArgumentPtr(new WildcardArgument()));
+  expected = new PQLQueryResult();
+  EntityResult expectedEntityResult = EntityResult{
+      unordered_set<int>({6, 7, 8}),
+      unordered_set<string>(),
+      USES_PAIRS,
+      pair_set<string, string>(),
+      true,
+  };
+  expected->addToEntityMap("a", expectedEntityResult);
+  actual = usesClause.evaluateOn(pkb);
+  REQUIRE(*expected == *actual);
+
   // Statement synonym
   usesClause = UsesClause(
       ClauseArgumentPtr(new SynonymArgument(PQLQuerySynonym{PQL_SYN_TYPE_ASSIGN, "a"})),
       ClauseArgumentPtr(new EntityArgument("x")));
   expected = new PQLQueryResult();
-  EntityResult expectedEntityResult = EntityResult{
+  expectedEntityResult = EntityResult{
       unordered_set<int>({6, 7, 8}),
       unordered_set<string>(),
       USES_PAIRS,

@@ -15,17 +15,17 @@ EntityResult EntityResultBuilder::buildEntityResult(bool isLeft,
   unordered_set<int> lines;
   unordered_set<string> entities;
   if (isLeft) {
-   lines = queryResult.firstArgVals;
+    lines = queryResult.firstArgVals;
   } else {
-   entities = queryResult.secondArgVals;
+    entities = queryResult.secondArgVals;
   }
 
   return EntityResult{
-    lines,
-    entities,
-    queryResult.pairVals,
-    pair_set<string, string>(),
-    isLeft
+      lines,
+      entities,
+      queryResult.pairVals,
+      pair_set<string, string>(),
+      isLeft
   };
 }
 

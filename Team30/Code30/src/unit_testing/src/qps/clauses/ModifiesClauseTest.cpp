@@ -8,6 +8,7 @@
 #include "qps/clauses/arguments/SynonymArgument.h"
 #include "qps/clauses/ModifiesClause.h"
 #include "ClausesPKBStub.cpp"
+#include "qps/clauses/arguments/WildcardArgument.h"
 
 using std::shared_ptr;
 
@@ -29,13 +30,37 @@ TEST_CASE("Modifies Querying") {
   actual = modifiesClause.evaluateOn(pkb);
   REQUIRE(*expected == *actual);
 
+  // Wildcard - Static Statement
+  modifiesClause = ModifiesClause(
+      ClauseArgumentPtr(new StmtArgument(1)),
+      ClauseArgumentPtr(new WildcardArgument()));
+  expected = new PQLQueryResult();
+  actual = modifiesClause.evaluateOn(pkb);
+  REQUIRE(*expected == *actual);
+
+  // Wildcard - Statement Synonym
+  modifiesClause = ModifiesClause(
+      ClauseArgumentPtr(new SynonymArgument(PQLQuerySynonym{PQL_SYN_TYPE_ASSIGN, "a"})),
+      ClauseArgumentPtr(new WildcardArgument()));
+  expected = new PQLQueryResult();
+  EntityResult expectedEntityResult = EntityResult{
+      unordered_set<int>({1, 2, 3, 6, 7, 8}),
+      unordered_set<string>(),
+      MODIFIES_PAIRS,
+      pair_set<string, string>(),
+      true
+  };
+  expected->addToEntityMap("a", expectedEntityResult);
+  actual = modifiesClause.evaluateOn(pkb);
+  REQUIRE(*expected == *actual);
+
   // Statement synonym
   modifiesClause = ModifiesClause(
      ClauseArgumentPtr(new SynonymArgument(PQLQuerySynonym{PQL_SYN_TYPE_ASSIGN, "a"})),
      ClauseArgumentPtr(new EntityArgument("count")));
 
   expected = new PQLQueryResult();
-  EntityResult expectedEntityResult = EntityResult{
+  expectedEntityResult = EntityResult{
       unordered_set<int>({1, 6}),
       unordered_set<string>(),
       pair_set<int, string>({{1, "count"}, {6, "count"}}),
