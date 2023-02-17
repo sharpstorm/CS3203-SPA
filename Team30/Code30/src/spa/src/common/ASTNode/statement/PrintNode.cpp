@@ -5,7 +5,7 @@
 
 using std::vector, std::shared_ptr, std::string;
 
-PrintNode::PrintNode() : StatementASTNode(ASTNODE_PRINT, ""){
+PrintNode::PrintNode() : StatementASTNode(ASTNODE_PRINT, "") {
   children = vector<shared_ptr<ASTNode>>{nullptr};
 }
 

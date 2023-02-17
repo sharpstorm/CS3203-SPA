@@ -4,7 +4,8 @@
 
 using std::shared_ptr;
 
-ProcedureNode::ProcedureNode(string name): procName(name), ASTNode(ASTNODE_PROCEDURE, "") {
+ProcedureNode::ProcedureNode(string name): procName(name),
+                                           ASTNode(ASTNODE_PROCEDURE, "") {
 }
 
 void ProcedureNode::accept(shared_ptr<Extractor> e) {

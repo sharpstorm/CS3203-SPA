@@ -3,7 +3,7 @@
 
 using std::shared_ptr;
 
-StatementListNode::StatementListNode() : ASTNode(ASTNODE_STMTLST, "") {
+StatementListNode::StatementListNode() :ASTNode(ASTNODE_STMTLST, "") {
   children = vector<shared_ptr<ASTNode>>{};
 }
 
