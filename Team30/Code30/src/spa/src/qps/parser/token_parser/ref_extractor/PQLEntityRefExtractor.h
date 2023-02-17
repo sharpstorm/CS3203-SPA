@@ -1,12 +1,15 @@
 #pragma once
 
+#include <memory>
 #include "PQLRefExtractor.h"
-#include "../../../clauses/ClauseArgument.h"
+#include "../../../clauses/arguments/ClauseArgument.h"
+
+using std::unique_ptr;
 
 class PQLEntityRefExtractor: public PQLRefExtractor {
  public:
-  static ClauseArgument extract(QueryTokenParseState* state);
+  static ClauseArgumentPtr extract(QueryTokenParseState* state);
 
  protected:
-  static ClauseArgument extractEntity(QueryTokenParseState* state);
+  static ClauseArgumentPtr extractEntity(QueryTokenParseState* state);
 };

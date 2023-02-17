@@ -2,20 +2,21 @@
 
 #include <memory>
 #include <string>
+#include <utility>
 #include "../../../../clauses/AssignPatternClause.h"
 #include "qps/parser/token_parser/ref_extractor/PQLEntityRefExtractor.h"
 
-using std::make_unique, std::string;
+using std::make_unique, std::string, std::unique_ptr, std::move;
 
 void PQLAssignPatternClauseContext::parse(QueryTokenParseState *parserState) {
   parserState->expect(PQL_TOKEN_BRACKET_OPEN);
-  ClauseArgument left = PQLEntityRefExtractor::extract(parserState);
+  ClauseArgumentPtr left = PQLEntityRefExtractor::extract(parserState);
   parserState->expect(PQL_TOKEN_COMMA);
   PQLAssignPatternClauseContext::PatternData patternData =
       extractPatternData(parserState);
 
   parserState->getQueryBuilder()->addPattern(make_unique<AssignPatternClause>(
-      *synonym, left, patternData.pattern, patternData.isPartial));
+      *synonym, move(left), patternData.pattern, patternData.isPartial));
 }
 
 PQLAssignPatternClauseContext::PatternData

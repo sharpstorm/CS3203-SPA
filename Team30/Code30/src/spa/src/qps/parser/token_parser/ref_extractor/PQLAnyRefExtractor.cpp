@@ -1,6 +1,6 @@
 #include "PQLAnyRefExtractor.h"
 
-ClauseArgument PQLAnyRefExtractor::extract(
+ClauseArgumentPtr PQLAnyRefExtractor::extract(
     QueryTokenParseState* state) {
   if (state->getCurrentToken()->isType(PQL_TOKEN_QUOTE)) {
     return extractEntity(state);

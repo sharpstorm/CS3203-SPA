@@ -3,60 +3,50 @@
 #include <vector>
 
 #include "ParentClause.h"
-#include "qps/common/adapters/ClauseArgumentRef.h"
 #include "qps/common/adapters/StatementResultBuilder.h"
 
-using std::pair, std::vector, std::shared_ptr;
+using std::pair, std::vector, std::shared_ptr, std::move;
 
-ParentClause::ParentClause(ClauseArgument leftArg, ClauseArgument rightArg):
-  left(leftArg), right(rightArg) {
+ParentClause::ParentClause(ClauseArgumentPtr leftArg,
+                           ClauseArgumentPtr rightArg):
+  left(move(leftArg)), right(move(rightArg)) {
 }
 
 PQLQueryResult* ParentClause::evaluateOn(
         shared_ptr<PkbQueryHandler> pkbQueryHandler) {
-  StmtRef leftStatement = ClauseArgumentRef::toStmtRef(&left);
-  StmtRef rightStatement = ClauseArgumentRef::toStmtRef(&right);
+  StmtRef leftStatement = left->toStmtRef();
+  StmtRef rightStatement = right->toStmtRef();
   QueryResult<int, int> queryResult =
       pkbQueryHandler->queryParent(leftStatement, rightStatement);
 
   PQLQueryResult* pqlQueryResult = new PQLQueryResult();
-  if (!left.isSynonym() && !right.isSynonym()) {
+  if (!left->isNamed() && !right->isNamed()) {
     pqlQueryResult->setIsStaticFalse(queryResult.isEmpty);
     return pqlQueryResult;
   }
 
-  PQLSynonymName synonym;
-  StatementResult result;
-  if (left.isSynonym()) {
-    synonym = left.getSynonymName();
-    result = StatementResultBuilder::buildStatementResult(true,
-                                                          queryResult);
-    pqlQueryResult->addToStatementMap(synonym, result);
-  }
+  left->invokeWithName([&queryResult, &pqlQueryResult](PQLSynonymName name){
+    StatementResult result =
+        StatementResultBuilder::buildStatementResult(true, queryResult);
+    pqlQueryResult->addToStatementMap(name, result);
+  });
 
-  if (right.isSynonym()) {
-    synonym = right.getSynonymName();
-    result = StatementResultBuilder::buildStatementResult(false,
-                                                          queryResult);
-    pqlQueryResult->addToStatementMap(synonym, result);
-  }
+  right->invokeWithName([&queryResult, &pqlQueryResult](PQLSynonymName name){
+    StatementResult result =
+        StatementResultBuilder::buildStatementResult(false, queryResult);
+    pqlQueryResult->addToStatementMap(name, result);
+  });
 
   return pqlQueryResult;
 }
 
 bool ParentClause::validateArgTypes(VariableTable *variables) {
-  if (left.isSynonym()
-      && !variables->at(left.getSynonymName()).isStatementType()) {
-    return false;
-  }
-  if (right.isSynonym()
-      && !variables->at(right.getSynonymName()).isStatementType()) {
-    return false;
-  }
-  return true;
+  bool isLeftValid = left->synonymSatisfies(ClauseArgument::isStatement);
+  bool isRightValid = right->synonymSatisfies(ClauseArgument::isStatement);
+
+  return isLeftValid && isRightValid;
 }
 
 bool ParentClause::usesSynonym(string varName) {
-  return (left.isSynonym() && left.getSynonymName() == varName)
-      || (right.isSynonym() && right.getSynonymName() == varName);
+  return left->isSynonymCalled(varName) || right->isSynonymCalled(varName);
 }

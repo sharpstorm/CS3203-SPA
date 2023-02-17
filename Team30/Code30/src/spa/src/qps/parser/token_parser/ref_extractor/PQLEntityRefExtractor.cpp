@@ -1,6 +1,7 @@
 #include "PQLEntityRefExtractor.h"
+#include "qps/clauses/arguments/ClauseArgumentFactory.h"
 
-ClauseArgument PQLEntityRefExtractor::extract(
+ClauseArgumentPtr PQLEntityRefExtractor::extract(
     QueryTokenParseState* state) {
   if (state->getCurrentToken()->isType(PQL_TOKEN_QUOTE)) {
     return extractEntity(state);
@@ -9,10 +10,10 @@ ClauseArgument PQLEntityRefExtractor::extract(
   return extractCommonRef(state);
 }
 
-ClauseArgument PQLEntityRefExtractor::extractEntity(
+ClauseArgumentPtr PQLEntityRefExtractor::extractEntity(
     QueryTokenParseState* state) {
   state->expect(PQL_TOKEN_QUOTE);
   PQLToken* entityRef = state->expectVarchar();
   state->expect(PQL_TOKEN_QUOTE);
-  return ClauseArgument(entityRef->getData());
+  return ClauseArgumentFactory::create(entityRef->getData());
 }
