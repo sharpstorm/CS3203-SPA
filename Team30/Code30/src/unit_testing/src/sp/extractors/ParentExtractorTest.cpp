@@ -1,9 +1,6 @@
 #include <vector>
 
-#include "../../../../spa/src/common/ASTNode/StatementListNode.h"
-#include "../../../../spa/src/common/ASTNode/math/ConditionalExpressionASTNode.h"
 #include "../../../../spa/src/pkb/storage/PKB.h"
-#include "../../../../spa/src/pkb/storage/StorageTypes.h"
 #include "../../../../spa/src/pkb/writers/PkbWriter.h"
 #include "../../../../spa/src/sp/SourceParser.h"
 #include "../../../../spa/src/sp/extractor/TreeWalker.h"
