@@ -3,11 +3,7 @@
 #include <memory>
 #include <unordered_map>
 #include <unordered_set>
-#include <utility>
-#include <vector>
 
-#include "../../../../spa/src/pkb/storage/TransitiveRelationTableManager.h"
-#include "../../../../spa/src/pkb/storage/tables/ContiguousSetTable.h"
 #include "../../../../spa/src/pkb/writers/PkbWriter.h"
 #include "catch.hpp"
 #include "sp/extractor/concrete_extractors/FollowsExtractor.h"
