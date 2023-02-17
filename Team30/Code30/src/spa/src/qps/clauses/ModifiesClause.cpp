@@ -2,7 +2,7 @@
 #include <utility>
 
 #include "ModifiesClause.h"
-#include "qps/common/adapters/ClauseArgumentRef.h"
+//#include "qps/common/adapters/ClauseArgumentRef.h"
 #include "qps/common/adapters/EntityResultBuilder.h"
 
 using std::shared_ptr, std::move;
@@ -14,7 +14,7 @@ ModifiesClause::ModifiesClause(ClauseArgumentPtr leftArg,
 
 PQLQueryResult* ModifiesClause::evaluateOn(
         shared_ptr<PkbQueryHandler> pkbQueryHandler) {
-  if (left.isEntRef()) {
+  if (left->synonymSatisfies(ClauseArgument::isStatement)) {
     return generateQueryResult(evaluateLeftEntity(pkbQueryHandler));
   } else {
     return generateQueryResult(evaluateLeftStatement(pkbQueryHandler));
@@ -41,8 +41,8 @@ bool ModifiesClause::usesSynonym(string varName) {
 
 QueryResult<int, string> ModifiesClause::evaluateLeftStatement(
     shared_ptr<PkbQueryHandler> pkbQueryHandler) {
-  EntityRef rightEntity = ClauseArgumentRef::toEntityRef(right);
-  StmtRef leftStatement = ClauseArgumentRef::toStmtRef(left);
+  EntityRef rightEntity = right->toEntityRef();
+  StmtRef leftStatement = left->toStmtRef();
   QueryResult<int, string> queryResult =
       pkbQueryHandler->queryModifies(leftStatement, rightEntity);
 
@@ -51,8 +51,8 @@ QueryResult<int, string> ModifiesClause::evaluateLeftStatement(
 
 QueryResult<string, string> ModifiesClause::evaluateLeftEntity(
     shared_ptr<PkbQueryHandler> pkbQueryHandler) {
-  EntityRef rightEntity = ClauseArgumentRef::toEntityRef(right);
-  EntityRef leftEntity = ClauseArgumentRef::toEntityRef(left);
+  EntityRef rightEntity = right->toEntityRef();
+  EntityRef leftEntity = left->toEntityRef();
   QueryResult<string, string> queryResult =
       pkbQueryHandler->queryModifies(leftEntity, rightEntity);
 
@@ -63,31 +63,20 @@ template<typename T>
 PQLQueryResult *ModifiesClause::generateQueryResult(
     QueryResult<T, string> queryResult) {
   PQLQueryResult* pqlQueryResult = new PQLQueryResult();
-  if (!left.isSynonym() && !right.isSynonym()) {
+  if (!left->isNamed() && !right->isNamed()) {
     pqlQueryResult->setIsStaticFalse(queryResult.isEmpty);
     return pqlQueryResult;
   }
 
-  if (!left.isSynonym() && !right.isSynonym()) {
-    pqlQueryResult->setIsStaticFalse(queryResult.isEmpty);
-    return pqlQueryResult;
-  }
+  left->invokeWithName([&queryResult, &pqlQueryResult](PQLSynonymName name){
+    EntityResult result = EntityResultBuilder::buildEntityResult(true, queryResult);
+    pqlQueryResult->addToEntityMap(name, result);
+  });
 
-  PQLSynonymName synonym;
-  EntityResult result;
-
-  if (left.isSynonym()) {
-    synonym = left.getSynonymName();
-    result = EntityResultBuilder::buildEntityResult(true, queryResult);
-
-    pqlQueryResult->addToEntityMap(synonym, result);
-  }
-
-  if (right.isSynonym()) {
-    synonym = right.getSynonymName();
-    result = EntityResultBuilder::buildEntityResult(false, queryResult);
-    pqlQueryResult->addToEntityMap(synonym, result);
-  }
+  right->invokeWithName([&queryResult, &pqlQueryResult](PQLSynonymName name){
+    EntityResult result = EntityResultBuilder::buildEntityResult(false, queryResult);
+    pqlQueryResult->addToEntityMap(name, result);
+  });
 
   return pqlQueryResult;
 }

@@ -2,13 +2,11 @@
 
 #include <memory>
 
+#include "qps/clauses/arguments/ClauseArgument.h"
+#include "qps/clauses/arguments/StmtArgument.h"
+#include "qps/clauses/arguments/SynonymArgument.h"
 #include "qps/clauses/ParentTClause.h"
 #include "ClausesPKBStub.cpp"
-
-ClauseArgument PARENTT_LEFT_STATIC_ARG{6};
-ClauseArgument PARENTT_RIGHT_STATIC_ARG{9};
-ClauseArgument PARENTT_LEFT_ARG{PQLQuerySynonym{PQLSynonymType::PQL_SYN_TYPE_ASSIGN, "a1"}};
-ClauseArgument PARENTT_RIGHT_ARG{PQLQuerySynonym{PQLSynonymType::PQL_SYN_TYPE_ASSIGN, "a2"}};
 
 unordered_set<int> PARENTT_LEFT_LINES = unordered_set<int>({6});
 unordered_set<int> PARENTT_RIGHT_LINES = unordered_set<int>({7, 8, 9});
@@ -33,34 +31,48 @@ TEST_CASE("ParentTClause Querying") {
 
   // Static results
   // When stmtNumLeft < stmtNumRight E.g. Parent*(1,4)
-  ParentTClause parentTClause = ParentTClause(PARENTT_LEFT_STATIC_ARG, PARENTT_RIGHT_STATIC_ARG);
+  ParentTClause parentTClause = ParentTClause(
+      ClauseArgumentPtr(new StmtArgument(6)),
+      ClauseArgumentPtr(new StmtArgument(9))
+  );
   expected = new PQLQueryResult();
   actual = parentTClause.evaluateOn(pkb);
   REQUIRE(*expected == *actual);
 
   // When stmtNumLeft > stmtNumRight E.g. Parent*(4,1)
-  parentTClause = ParentTClause(PARENTT_RIGHT_STATIC_ARG, PARENTT_LEFT_STATIC_ARG);
+  parentTClause = ParentTClause(
+      ClauseArgumentPtr(new StmtArgument(9)),
+      ClauseArgumentPtr(new StmtArgument(6))
+  );
   expected = new PQLQueryResult();
   expected->setIsStaticFalse(true);
   actual = parentTClause.evaluateOn(pkb);
   REQUIRE(*expected == *actual);
 
   // Left arg is synonym
-  parentTClause = ParentTClause(PARENTT_LEFT_ARG, PARENTT_RIGHT_STATIC_ARG);
+  parentTClause = ParentTClause(
+      ClauseArgumentPtr(new SynonymArgument(PQLQuerySynonym{PQLSynonymType::PQL_SYN_TYPE_ASSIGN, "a1"})),
+      ClauseArgumentPtr(new StmtArgument(9)));
   expected = new PQLQueryResult();
   expected->addToStatementMap("a1", buildParentTClauseStatementResult(true));
   actual = parentTClause.evaluateOn(pkb);
   REQUIRE(*expected == *actual);
 
   // Right arg is synonym
-  parentTClause = ParentTClause(PARENTT_LEFT_STATIC_ARG, PARENTT_RIGHT_ARG);
+  parentTClause = ParentTClause(
+      ClauseArgumentPtr(new StmtArgument(6)),
+      ClauseArgumentPtr(new SynonymArgument(PQLQuerySynonym{PQLSynonymType::PQL_SYN_TYPE_ASSIGN, "a2"}))
+  );
   expected = new PQLQueryResult();
   expected->addToStatementMap("a2", buildParentTClauseStatementResult(false));
   actual = parentTClause.evaluateOn(pkb);
   REQUIRE(*expected == *actual);
 
   // Both sides are synonym
-  parentTClause = ParentTClause(PARENTT_LEFT_ARG, PARENTT_RIGHT_ARG);
+  parentTClause = ParentTClause(
+      ClauseArgumentPtr(new SynonymArgument(PQLQuerySynonym{PQLSynonymType::PQL_SYN_TYPE_ASSIGN, "a1"})),
+      ClauseArgumentPtr(new SynonymArgument(PQLQuerySynonym{PQLSynonymType::PQL_SYN_TYPE_ASSIGN, "a2"}))
+  );
   expected = new PQLQueryResult();
   expected->addToStatementMap("a1", buildParentTClauseStatementResult(true));
   expected->addToStatementMap("a2", buildParentTClauseStatementResult(false));

@@ -2,16 +2,13 @@
 
 #include <memory>
 
-#include "qps/clauses/ClauseArgument.h"
 #include "qps/clauses/FollowsTClause.h"
+#include "qps/clauses/arguments/ClauseArgument.h"
+#include "qps/clauses/arguments/StmtArgument.h"
+#include "qps/clauses/arguments/SynonymArgument.h"
 #include "ClausesPKBStub.cpp"
 
 using std::shared_ptr;
-
-ClauseArgument FOLLOWST_LEFT_STATIC_ARG{1};
-ClauseArgument FOLLOWST_RIGHT_STATIC_ARG{4};
-ClauseArgument FOLLOWST_LEFT_ARG{PQLQuerySynonym{PQLSynonymType::PQL_SYN_TYPE_ASSIGN, "a1"}};
-ClauseArgument FOLLOWST_RIGHT_ARG{PQLQuerySynonym{PQLSynonymType::PQL_SYN_TYPE_ASSIGN, "a2"}};
 
 unordered_set<int> FOLLOWST_LEFT_LINES = unordered_set<int>({1, 2, 3});
 unordered_set<int> FOLLOWST_RIGHT_LINES = unordered_set<int>({2, 3, 4});
@@ -34,34 +31,47 @@ TEST_CASE("FollowsTClause Querying") {
 
   // Static results
   // When stmtNumLeft < stmtNumRight E.g. Follows*(1,4)
-  FollowsTClause followsTClause = FollowsTClause(FOLLOWST_LEFT_STATIC_ARG, FOLLOWST_RIGHT_STATIC_ARG);
+  FollowsTClause followsTClause = FollowsTClause(
+      ClauseArgumentPtr(new StmtArgument(1)),
+      ClauseArgumentPtr(new StmtArgument(4)));
+
   expected = new PQLQueryResult();
   actual = followsTClause.evaluateOn(pkb);
   REQUIRE(*expected == *actual);
 
   // When stmtNumLeft > stmtNumRight E.g. Follows*(4,1)
-  followsTClause = FollowsTClause(FOLLOWST_RIGHT_STATIC_ARG, FOLLOWST_LEFT_STATIC_ARG);
+  followsTClause = FollowsTClause(
+      ClauseArgumentPtr(new StmtArgument(4)),
+      ClauseArgumentPtr(new StmtArgument(1))
+      );
+
   expected = new PQLQueryResult();
   expected->setIsStaticFalse(true);
   actual = followsTClause.evaluateOn(pkb);
   REQUIRE(*expected == *actual);
 
   // Left arg is synonym
-  followsTClause = FollowsTClause(FOLLOWST_LEFT_ARG, FOLLOWST_RIGHT_STATIC_ARG);
+  followsTClause = FollowsTClause(
+      ClauseArgumentPtr (new SynonymArgument(PQLQuerySynonym{PQLSynonymType::PQL_SYN_TYPE_ASSIGN, "a1"})),
+      ClauseArgumentPtr(new StmtArgument(4)));
   expected = new PQLQueryResult();
   expected->addToStatementMap("a1", buildFollowsTClauseStatementResult(true));
   actual = followsTClause.evaluateOn(pkb);
   REQUIRE(*expected == *actual);
 
   // Right arg is synonym
-  followsTClause = FollowsTClause(FOLLOWST_LEFT_STATIC_ARG, FOLLOWST_RIGHT_ARG);
+  followsTClause = FollowsTClause(
+      ClauseArgumentPtr(new StmtArgument(1)),
+      ClauseArgumentPtr(new SynonymArgument(PQLQuerySynonym{PQLSynonymType::PQL_SYN_TYPE_ASSIGN, "a2"})));
   expected = new PQLQueryResult();
   expected->addToStatementMap("a2", buildFollowsTClauseStatementResult(false));
   actual = followsTClause.evaluateOn(pkb);
   REQUIRE(*expected == *actual);
 
   // Both sides are synonym
-  followsTClause = FollowsTClause(FOLLOWST_LEFT_ARG, FOLLOWST_RIGHT_ARG);
+  followsTClause = FollowsTClause(
+      ClauseArgumentPtr(new SynonymArgument(PQLQuerySynonym{PQLSynonymType::PQL_SYN_TYPE_ASSIGN, "a1"})),
+      ClauseArgumentPtr(new SynonymArgument(PQLQuerySynonym{PQLSynonymType::PQL_SYN_TYPE_ASSIGN, "a2"})));
   expected = new PQLQueryResult();
   expected->addToStatementMap("a1", buildFollowsTClauseStatementResult(true));
   expected->addToStatementMap("a2", buildFollowsTClauseStatementResult(false));

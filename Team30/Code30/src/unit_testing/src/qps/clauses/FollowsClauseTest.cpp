@@ -2,16 +2,12 @@
 
 #include <memory>
 
-#include "qps/clauses/ClauseArgument.h"
 #include "qps/clauses/FollowsClause.h"
+#include "qps/clauses/arguments/StmtArgument.h"
+#include "qps/clauses/arguments/SynonymArgument.h"
 #include "ClausesPKBStub.cpp"
 
 using std::shared_ptr;
-
-ClauseArgument FOLLOWS_LEFT_STATIC_ARG{1};
-ClauseArgument FOLLOWS_RIGHT_STATIC_ARG{2};
-ClauseArgument FOLLOWS_LEFT_ARG{PQLQuerySynonym{PQLSynonymType::PQL_SYN_TYPE_ASSIGN, "a1"}};
-ClauseArgument FOLLOWS_RIGHT_ARG{PQLQuerySynonym{PQLSynonymType::PQL_SYN_TYPE_ASSIGN, "a2"}};
 
 StatementResult buildFollowsClauseStatementResult(bool isLeft) {
   return StatementResult{
@@ -30,27 +26,31 @@ TEST_CASE("FollowsClause Querying") {
 
   // Static results
   // When stmtNumLeft < stmtNumRight E.g. Follows(1,2)
-  FollowsClause followsClause = FollowsClause(FOLLOWS_LEFT_STATIC_ARG, FOLLOWS_RIGHT_STATIC_ARG);
+  FollowsClause followsClause = FollowsClause(
+      ClauseArgumentPtr(new StmtArgument(1)),
+      ClauseArgumentPtr(new StmtArgument(4)));
   expected = new PQLQueryResult();
   actual = followsClause.evaluateOn(pkb);
   REQUIRE(*expected == *actual);
 
   // When stmtNumLeft > stmtNumRight E.g. Follows(2,1)
-  followsClause = FollowsClause(FOLLOWS_RIGHT_STATIC_ARG, FOLLOWS_LEFT_STATIC_ARG);
+  followsClause = FollowsClause(
+      ClauseArgumentPtr(new StmtArgument(4)),
+      ClauseArgumentPtr(new StmtArgument(1)) );
   expected = new PQLQueryResult();
   expected->setIsStaticFalse(true);
   actual = followsClause.evaluateOn(pkb);
   REQUIRE(*expected == *actual);
 
   // Left arg is synonym
-  followsClause = FollowsClause(FOLLOWS_LEFT_ARG, FOLLOWS_RIGHT_STATIC_ARG);
+  followsClause = FollowsClause(ClauseArgumentPtr(new SynonymArgument(PQLQuerySynonym{PQLSynonymType::PQL_SYN_TYPE_ASSIGN, "a1"})), ClauseArgumentPtr(new StmtArgument(4)));
   expected = new PQLQueryResult();
   expected->addToStatementMap("a1", buildFollowsClauseStatementResult(true));
   actual = followsClause.evaluateOn(pkb);
   REQUIRE(*expected == *actual);
 
   // Right arg is synonym
-  followsClause = FollowsClause(FOLLOWS_LEFT_STATIC_ARG, FOLLOWS_RIGHT_ARG);
+  followsClause = FollowsClause(ClauseArgumentPtr(new StmtArgument(1)), ClauseArgumentPtr(new SynonymArgument(PQLQuerySynonym{PQLSynonymType::PQL_SYN_TYPE_ASSIGN, "a2"})));
   expected = new PQLQueryResult();
   expected->addToStatementMap("a2", buildFollowsClauseStatementResult(false));
   actual = followsClause.evaluateOn(pkb);
@@ -58,7 +58,7 @@ TEST_CASE("FollowsClause Querying") {
 
 
   // Both are synonyms
-  followsClause = FollowsClause(FOLLOWS_LEFT_ARG, FOLLOWS_RIGHT_ARG);
+  followsClause = FollowsClause(ClauseArgumentPtr(new SynonymArgument(PQLQuerySynonym{PQLSynonymType::PQL_SYN_TYPE_ASSIGN, "a1"})), ClauseArgumentPtr(new SynonymArgument(PQLQuerySynonym{PQLSynonymType::PQL_SYN_TYPE_ASSIGN, "a2"})));
   expected = new PQLQueryResult();
   expected->addToStatementMap("a1", buildFollowsClauseStatementResult(true));
   expected->addToStatementMap("a2", buildFollowsClauseStatementResult(false));
