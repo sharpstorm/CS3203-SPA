@@ -5,8 +5,6 @@
 
 #include "SelectClause.h"
 #include "arguments/ClauseArgument.h"
-#include "qps/common/adapters/StatementResultBuilder.h"
-#include "qps/common/adapters/EntityResultBuilder.h"
 #include "qps/clauses/arguments/ClauseArgumentFactory.h"
 
 using std::pair, std::unordered_set, std::vector, std::shared_ptr;

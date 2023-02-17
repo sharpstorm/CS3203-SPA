@@ -5,8 +5,6 @@
 #include "qps/common/IEvaluatable.h"
 #include "qps/common/PQLQueryResult.h"
 #include "qps/clauses/arguments/ClauseArgument.h"
-#include "qps/common/adapters/StatementResultBuilder.h"
-#include "qps/common/adapters/EntityResultBuilder.h"
 
 using std::unordered_set;
 

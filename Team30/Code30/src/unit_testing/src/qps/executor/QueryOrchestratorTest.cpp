@@ -6,8 +6,6 @@
 #include "qps/clauses/SelectClause.h"
 #include "qps/executor/QueryOrchestrator.h"
 #include "OrchestratorPKBStub.cpp"
-#include "qps/common/adapters/StatementResultBuilder.h"
-#include "qps/common/adapters/EntityResultBuilder.h"
 #include "../util/QueryResultTestUtil.cpp"
 
 using std::shared_ptr, std::unordered_map, std::unordered_set, std::make_unique;

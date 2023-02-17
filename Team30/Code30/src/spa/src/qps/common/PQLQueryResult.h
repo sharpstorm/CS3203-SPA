@@ -7,10 +7,8 @@
 #include <unordered_set>
 #include <vector>
 
-#include "EntityResult.h"
 #include "PQLTypes.h"
 #include "PQLQuerySynonym.h"
-#include "StatementResult.h"
 #include "pkb/queryHandlers/PkbQueryHandler.h"
 #include "QueryResultItem.h"
 

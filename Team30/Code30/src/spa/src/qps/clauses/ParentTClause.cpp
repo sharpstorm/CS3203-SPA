@@ -3,7 +3,6 @@
 #include <vector>
 
 #include "ParentTClause.h"
-#include "qps/common/adapters/StatementResultBuilder.h"
 
 using std::pair, std::vector, std::shared_ptr, std::move;
 

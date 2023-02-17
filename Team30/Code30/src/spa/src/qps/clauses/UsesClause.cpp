@@ -2,7 +2,6 @@
 #include <utility>
 
 #include "UsesClause.h"
-#include "qps/common/adapters/EntityResultBuilder.h"
 
 using std::string;
 

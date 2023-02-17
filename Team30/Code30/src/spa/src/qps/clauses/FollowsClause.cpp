@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "FollowsClause.h"
-#include "qps/common/adapters/StatementResultBuilder.h"
 
 using std::pair, std::unordered_set, std::vector, std::move;
 

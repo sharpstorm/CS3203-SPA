@@ -12,8 +12,4 @@ class ResultProjector {
  public:
   UniqueVectorPtr<string> project(PQLQueryResult* queryResult,
                                   PQLQuerySynonym resultVariable);
-
- private:
-  UniqueVectorPtr<string> projectEntities(EntityResult* entityResult);
-  UniqueVectorPtr<string> projectStatements(StatementResult* statementResult);
 };
