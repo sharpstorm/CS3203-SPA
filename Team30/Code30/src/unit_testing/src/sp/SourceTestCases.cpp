@@ -51,7 +51,7 @@ class SourceTestCases {
       "num2=2;\n"
       "num3 =3;\n"
       "newNum= num1+          num2+num3;\n"
-      "print newNum;"
+      "print \tnewNum;"
       "}";
 
   const std::const std::string SourceTestCases::SourceTestCases::TEST_ASSIGN =
@@ -545,51 +545,52 @@ class SourceTestCases {
       const std::string
           SourceTestCases::COMPLEX_PROGRAM_TWO =  // from sample code 3
                                                   // in CS3203 website
-        "procedure sumDigits {\n"
-        "read number;\n"
-        "sum = 0;\n"
+      "procedure sumDigits {\n"
+      "read number;\n"
+      "sum = 0;\n"
 
-        "while (number > 0) {\n"
-        "digit = number % 10;\n"
-        "sum = sum + digit;\n"
-        "number = number / 10;\n"
-        "}\n"
+      "while (number > 0) {\n"
+      "digit = number % 10;\n"
+      "sum = sum + digit;\n"
+      "number = number / 10;\n"
+      "}\n"
 
-        "print sum;\n";
+      "print sum;\n";
 
-  const std::string SourceTestCases::COMPLEX_PROGRAM_THREE =  // from sample code 4
-                                                              // in CS3203 website
-        "procedure main {\n"
-        "flag = 0;\n"
-        "call computeCentroid;\n"
-        "call printResults;\n"
-        "}\n"
-        "procedure readPoint {\n"
-        "read x;\n"
-        "read y;\n"
-        "}\n"
-        "procedure printResults {\n"
-        "print flag;\n"
-        "print cenX;\n"
-        "print cenY;\n"
-        "print normSq;\n"
-        "}\n"
-        "procedure computeCentroid {\n"
-        "count = 0;\n"
-        "cenX = 0;\n"
-        "cenY = 0;\n"
-        "call readPoint;\n"
-        "while ((x != 0) && (y != 0)) {\n"
-        "count = count + 1;\n"
-        "cenX = cenX + x;\n"
-        "cenY = cenY + y;\n"
-        "call readPoint;\n"
-        "}\n"
-        "if (count == 0) then { flag = 1; }\n"
-        "else {\n"
-        "cenX = cenX / count;\n"
-        "cenY = cenY / count;\n"
-        "}\n"
-        "normSq = cenX * cenX + cenY * cenY;\n"
-        "}\n";
+  const std::string
+      SourceTestCases::COMPLEX_PROGRAM_THREE =  // from sample code 4
+                                                // in CS3203 website
+      "procedure main {\n"
+      "flag = 0;\n"
+      "call computeCentroid;\n"
+      "call printResults;\n"
+      "}\n"
+      "procedure readPoint {\n"
+      "read x;\n"
+      "read y;\n"
+      "}\n"
+      "procedure printResults {\n"
+      "print flag;\n"
+      "print cenX;\n"
+      "print cenY;\n"
+      "print normSq;\n"
+      "}\n"
+      "procedure computeCentroid {\n"
+      "count = 0;\n"
+      "cenX = 0;\n"
+      "cenY = 0;\n"
+      "call readPoint;\n"
+      "while ((x != 0) && (y != 0)) {\n"
+      "count = count + 1;\n"
+      "cenX = cenX + x;\n"
+      "cenY = cenY + y;\n"
+      "call readPoint;\n"
+      "}\n"
+      "if (count == 0) then { flag = 1; }\n"
+      "else {\n"
+      "cenX = cenX / count;\n"
+      "cenY = cenY / count;\n"
+      "}\n"
+      "normSq = cenX * cenX + cenY * cenY;\n"
+      "}\n";
 };
