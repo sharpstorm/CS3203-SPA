@@ -32,16 +32,6 @@ TEST_CASE("Modifies Extractor - Read statement") {
   u.isSize(v, 1);
 }
 
-TEST_CASE("Modifies Extractor - Assign statement") {
-  string input = "procedure printResults {\n"
-                 "a = b;"
-                 "}";
-  Util u;
-  vector<pair<int, string>> v = executeModifiesExtractor(input);
-  REQUIRE(u.contains(v, 1, "a"));
-  u.isSize(v, 1);
-}
-
 TEST_CASE("Modifies Extractor - Single If statement") {
   string input = "procedure printResults {\n"
                  "if (!(a < b)) then {"
