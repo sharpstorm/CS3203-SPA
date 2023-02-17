@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "qps/clauses/FollowsClause.h"
+#include "qps/clauses/arguments/ClauseArgument.h"
 #include "qps/clauses/arguments/StmtArgument.h"
 #include "qps/clauses/arguments/SynonymArgument.h"
 #include "ClausesPKBStub.cpp"

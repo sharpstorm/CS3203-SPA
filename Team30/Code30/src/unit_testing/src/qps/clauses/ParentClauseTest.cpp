@@ -10,11 +10,6 @@
 
 using std::shared_ptr;
 
-//ClauseArgumentPtr(new StmtArgument(6))
-//ClauseArgumentPtr(new StmtArgument(7))
-//ClauseArgumentPtr(new SynonymArgument(PQLQuerySynonym{PQLSynonymType::PQL_SYN_TYPE_ASSIGN, "a1"}))
-//ClauseArgumentPtr(new SynonymArgument(PQLQuerySynonym{PQLSynonymType::PQL_SYN_TYPE_ASSIGN, "a2"}))
-
 StatementResult buildParentClauseStatementResult(bool isLeft) {
   return StatementResult{
       unordered_set<int>({isLeft ? 6 : 7}),
@@ -23,7 +18,6 @@ StatementResult buildParentClauseStatementResult(bool isLeft) {
   };
 }
 
-// TODO(KwanHW): Multiple nesting
 TEST_CASE("ParentClause Querying") {
   PKB pkbStore;
   auto pkb = shared_ptr<PkbQueryHandler>(new ClausesPKBStub(&pkbStore));
