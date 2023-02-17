@@ -54,79 +54,79 @@ TEST_CASE("Simple programs for grammar testing") {
 
   AST ast = executeExtractors(testcase.EMPTY);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.SIMPLE_PROGRAM);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.ONE_LINE);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.SAME_NAMES);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.CASE_SENSITIVE);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.LONG_NAMES);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.WHITESPACE);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.TEST_ASSIGN);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.ASSIGN_TO_SELF);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.TEST_BASIC_PROCEDURE);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.TEST_OPERATORS);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   /*ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.CALL_PROCEDURES);
 
-  REQUIRE(ast.getRoot() != nullptr);*/
+  REQUIRE(ast.getRoot() );*/
 
   /* ast = *new AST(NULL);
 
     ast = executeExtractors(testcase.CALL_CASE_SENSITIVE);
 
-    REQUIRE(ast.getRoot() != nullptr);*/
+    REQUIRE(ast.getRoot() );*/
 }
 
 TEST_CASE("Programs for testing simple if/else cases") {
@@ -134,67 +134,67 @@ TEST_CASE("Programs for testing simple if/else cases") {
 
   AST ast = executeExtractors(testcase.SIMPLE_IF);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.ONE_LINE_IF_STMT);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.SIMPLE_IF_ELSE);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.EMPTY_IF);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.TEST_CONDITIONAL);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.TEST_RELATIONAL);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.CHAINED_IF);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.MULTIPLE_IF_ELSE);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.CHAINED_IF_ELSE);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.MULTI_CHAINED_IF_ELSE);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   /*ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.CALL_IN_IF);
 
-  REQUIRE(ast.getRoot() != nullptr);*/
+  REQUIRE(ast.getRoot() );*/
 }
 
 TEST_CASE("Programs testing simple while cases") {
@@ -202,115 +202,115 @@ TEST_CASE("Programs testing simple while cases") {
 
   AST ast = executeExtractors(testcase.SIMPLE_WHILE);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.WHILE_WOUT_WHITESPACE);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.MULTIPLE_WHILE);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.EMPTY_WHILE);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.WHILE_INBETWEEN_STATEMENTS);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.CHAINED_WHILE);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.MULTI_CHAINED_WHILE);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   /*ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.CALL_IN_WHILE);
 
-  REQUIRE(ast.getRoot() != nullptr);*/
+  REQUIRE(ast.getRoot() );*/
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.IF_IN_WHILE);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.WHILE_IN_IF);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.WHILE_IN_IF_ELSE);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.MULTIPLE_WHILE_IN_IF_ELSE);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.WHILE_CHAIN_IN_IF);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.WHILE_CHAIN_IN_ELSE);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.WHILE_CHAIN_IN_IF_ELSE);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   /*ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.IF_ELSE_SINGLE_CALL_IN_WHILE);
 
-  REQUIRE(ast.getRoot() != nullptr);*/
+  REQUIRE(ast.getRoot() );*/
 
   /*ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.MULTIPLE_CALLS_IN_WHILE);
 
-  REQUIRE(ast.getRoot() != nullptr);*/
+  REQUIRE(ast.getRoot() );*/
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.CHAINED_WHILE_WITH_IF_IN_BODY);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.MULTIPLE_IF_ELSE_WITH_WHILE_CHAIN);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 }
 
 TEST_CASE("Complex Programs") {
@@ -318,17 +318,17 @@ TEST_CASE("Complex Programs") {
 
   AST ast = executeExtractors(testcase.COMPLEX_PROGRAM_ONE);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.COMPLEX_PROGRAM_TWO);
 
-  REQUIRE(ast.getRoot() != nullptr);
+  REQUIRE(ast.getRoot());
 
   /*ast = *new AST(NULL);
 
   ast = executeExtractors(testcase.COMPLEX_PROGRAM_THREE);
 
-  REQUIRE(ast.getRoot() != nullptr);*/
+  REQUIRE(ast.getRoot() );*/
 }
