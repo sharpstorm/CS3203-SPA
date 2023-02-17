@@ -2,7 +2,6 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
-#include <iostream>
 
 #include "FollowsClause.h"
 #include "qps/common/adapters/StatementResultBuilder.h"
@@ -21,26 +20,7 @@ PQLQueryResult* FollowsClause::evaluateOn(
   QueryResult<int, int> queryResult =
       pkbQueryHandler->queryFollows(leftStatement, rightStatement);
 
-  PQLQueryResult* pqlQueryResult = new PQLQueryResult();
-
-  if (!left->isNamed() && !right->isNamed()) {
-    pqlQueryResult->setIsStaticFalse(queryResult.isEmpty);
-    return pqlQueryResult;
-  }
-
-  left->invokeWithName([&queryResult, &pqlQueryResult](PQLSynonymName name){
-    StatementResult result =
-        StatementResultBuilder::buildStatementResult(true, queryResult);
-    pqlQueryResult->addToStatementMap(name, result);
-  });
-
-  right->invokeWithName([&queryResult, &pqlQueryResult](PQLSynonymName name){
-    StatementResult result =
-        StatementResultBuilder::buildStatementResult(false, queryResult);
-    pqlQueryResult->addToStatementMap(name, result);
-  });
-
-  return pqlQueryResult;
+  return Clause::stmtQueryToQueryResult(left.get(), right.get(), queryResult);
 }
 
 bool FollowsClause::validateArgTypes(VariableTable *variables) {

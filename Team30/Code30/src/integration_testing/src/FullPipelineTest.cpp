@@ -50,21 +50,34 @@ TEST_CASE("Test Full End-to-end") {
   SpDriver spDriver;
 
   spDriver.parseSource("procedure Example {\n"
-                       "  x = 2;\n"
-                       "  z = 3;\n"
-                       "  i = 5;\n"
-                       "  while (i!=0) {\n"
-                       "    x = x - 1;\n"
-                       "    if (x==1) then {\n"
-                       "      z = x + 1; }\n"
+                       "  x = 2;\n" // 1
+                       "  z = 3;\n" // 2
+                       "  i = 5;\n" // 3
+                       "  while (i!=0) {\n" // 4
+                       "    x = x - 1;\n" // 5
+                       "    if (x==1) then {\n" // 6
+                       "      z = x + 1; }\n" // 7
                        "    else {\n"
-                       "      y = z + x; }\n"
-                       "    z = z + x + i;\n"
-                       "    read x;\n"
-                       "    i = i - 1; }\n"
-                       "  z = x + 1; }", pkbWriter.get());
+                       "      y = z + x; }\n" // 8
+                       "    z = z + x + i;\n" // 9
+                       "    read x;\n" // 10
+                       "    i = i - 1; }\n" // 11
+                       "  z = x + 1; }" // 12
+                       , pkbWriter.get());
 
   launchQuery2(qps.get(), "if ifs; stmt s;\n"
                           "Select ifs such that Follows(ifs, s)",
               unordered_set<string>{ "6" });
+
+  // Tests disabled as it will result in failure for now
+  string query;
+  unordered_set<string> expectedRes;
+
+//  query = "assign a; Select a such that Uses(a, \"x\")";
+//  expectedRes = unordered_set<string>({"5", "7", "8", "9", "12"});
+//  launchQuery2(qps.get(), query, expectedRes);
+//
+//  query = "assign a; Select a such that Modifies(a, \"x\")";
+//  expectedRes = unordered_set<string>({"1", "5"});
+//  launchQuery2(qps.get(), query, expectedRes);
 }

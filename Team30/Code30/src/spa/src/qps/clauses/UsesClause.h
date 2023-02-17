@@ -13,6 +13,10 @@ class UsesClause: public SuchThatClause {
   ClauseArgumentPtr left;
   ClauseArgumentPtr right;
 
+  QueryResult<int, string> evaluateLeftStatement(
+      shared_ptr<PkbQueryHandler> pkbQueryHandler);
+  QueryResult<string, string> evaluateLeftEntity(
+      shared_ptr<PkbQueryHandler> pkbQueryHandler);
  public:
   UsesClause(ClauseArgumentPtr left, ClauseArgumentPtr right);
   PQLQueryResult* evaluateOn(shared_ptr<PkbQueryHandler> pkbQueryHandler);

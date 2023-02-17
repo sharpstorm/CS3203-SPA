@@ -1,5 +1,10 @@
-#include "UsesClause.h"
+#include <string>
 #include <utility>
+
+#include "UsesClause.h"
+#include "qps/common/adapters/EntityResultBuilder.h"
+
+using std::string;
 
 using std::move;
 
@@ -9,7 +14,16 @@ UsesClause::UsesClause(ClauseArgumentPtr leftArg, ClauseArgumentPtr rightArg):
 
 PQLQueryResult* UsesClause::evaluateOn(
         shared_ptr<PkbQueryHandler> pkbQueryHandler) {
-  return nullptr;
+  // Check left is an entity
+  if (left->synonymSatisfies(ClauseArgument::isStatement)) {
+    return Clause::entityQueryToQueryResult(
+        left.get(), right.get(),
+        evaluateLeftStatement(pkbQueryHandler));
+  } else {
+    return Clause::entityQueryToQueryResult(
+        left.get(), right.get(),
+        evaluateLeftEntity(pkbQueryHandler));
+  }
 }
 
 bool UsesClause::validateArgTypes(VariableTable *variables) {
@@ -28,4 +42,24 @@ bool UsesClause::validateArgTypes(VariableTable *variables) {
 
 bool UsesClause::usesSynonym(string varName) {
   return left->isSynonymCalled(varName) || right->isSynonymCalled(varName);
+}
+
+QueryResult<int, string> UsesClause::evaluateLeftStatement(
+    shared_ptr<PkbQueryHandler> pkbQueryHandler) {
+  EntityRef rightEntity = right->toEntityRef();
+  StmtRef leftStatement = left->toStmtRef();
+  QueryResult<int, string> queryResult =
+      pkbQueryHandler->queryUses(leftStatement, rightEntity);
+
+  return queryResult;
+}
+
+QueryResult<string, string> UsesClause::evaluateLeftEntity(
+    shared_ptr<PkbQueryHandler> pkbQueryHandler) {
+  EntityRef rightEntity = right->toEntityRef();
+  EntityRef leftEntity = left->toEntityRef();
+  QueryResult<string, string> queryResult =
+      pkbQueryHandler->queryUses(leftEntity, rightEntity);
+
+  return queryResult;
 }
