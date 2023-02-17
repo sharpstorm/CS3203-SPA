@@ -1,5 +1,5 @@
-/*Stress Testing to check if parser can parse the following cases successfully
- * without error and/or returning null*/
+// Stress Testing to check if parser can parse the following cases successfully
+// without error and/or returning null
 
 #include <memory>
 #include <vector>
