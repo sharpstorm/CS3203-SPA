@@ -1,4 +1,5 @@
 #include <memory>
+#include <unordered_map>
 #include <unordered_set>
 #include <vector>
 
@@ -6,25 +7,27 @@
 #include "../../../../spa/src/common/ASTNode/math/ConditionalExpressionASTNode.h"
 #include "../../../../spa/src/pkb/storage/PKB.h"
 #include "../../../../spa/src/pkb/storage/StorageTypes.h"
-#include "../../../../spa/src/pkb/storage/TransitiveRelationTableManager.h"
-#include "../../../../spa/src/pkb/storage/tables/ContiguousSetTable.h"
 #include "../../../../spa/src/pkb/writers/PkbWriter.h"
 #include "../../../../spa/src/sp/extractor/concrete_extractors/ParentExtractor.h"
 #include "catch.hpp"
 
 using std::make_shared;
-using std::unordered_set;
 
 class PkbWriterStubForParent : public PkbWriter {
  public:
-  TransitiveRelationTableManager<int>* storage;
+  std::unordered_map<int, std::unordered_set<int>> relations;
 
-  PkbWriterStubForParent(PKB* pkb, TransitiveRelationTableManager<int>* store)
-      : PkbWriter(pkb) {
-    storage = store;
+  PkbWriterStubForParent(PKB* pkb) : PkbWriter(pkb) {}
+
+  void addParent(int arg1, int arg2) final { relations[arg1].insert(arg2); };
+
+  unordered_set<int> getSet(int index) {
+    if (relations.count(index) == 1) {
+      return relations[index];
+    } else {
+      return unordered_set<int>({});
+    }
   }
-
-  void addParent(int arg1, int arg2) final { storage->insert(arg1, arg2); }
 };
 
 shared_ptr<IfNode> simplyIf() {
@@ -148,60 +151,54 @@ shared_ptr<IfNode> ifWithWhile() {
 TEST_CASE("ParentExtractor simple If") {
   shared_ptr<IfNode> simpleIf = simplyIf();
 
-  auto table = make_shared<ContiguousSetTable<int>>();
-  auto reverseTable = make_shared<ContiguousSetTable<int>>();
-  auto store = new TransitiveRelationTableManager<int>(table, reverseTable);
   PKB* pkb = new PKB();
 
-  PkbWriterStubForParent writer = PkbWriterStubForParent(pkb, store);
+  PkbWriterStubForParent writer = PkbWriterStubForParent(pkb);
 
   ParentExtractor* extractor = new ParentExtractor(&writer);
 
   extractor->visit(*simpleIf);
 
-  REQUIRE(table->get(1) == unordered_set<int>({2, 3, 4, 5}));
-  REQUIRE(reverseTable->get(2) == unordered_set<int>({1}));
-  REQUIRE(reverseTable->get(3) == unordered_set<int>({1}));
-  REQUIRE(reverseTable->get(4) == unordered_set<int>({1}));
-  REQUIRE(reverseTable->get(5) == unordered_set<int>({1}));
+  REQUIRE(writer.getSet(1) == unordered_set<int>({2, 3, 4, 5}));
+  REQUIRE(writer.getSet(2) == unordered_set<int>({}));
+  REQUIRE(writer.getSet(3) == unordered_set<int>({}));
+  REQUIRE(writer.getSet(4) == unordered_set<int>({}));
+  REQUIRE(writer.getSet(5) == unordered_set<int>({}));
 }
 
 TEST_CASE("ParentExtractor simple While") {
   shared_ptr<WhileNode> simpleWhile = simplyWhile();
 
-  auto table = make_shared<ContiguousSetTable<int>>();
-  auto reverseTable = make_shared<ContiguousSetTable<int>>();
-  auto store = new TransitiveRelationTableManager<int>(table, reverseTable);
   PKB* pkb = new PKB();
 
-  PkbWriterStubForParent writer = PkbWriterStubForParent(pkb, store);
+  PkbWriterStubForParent writer = PkbWriterStubForParent(pkb);
 
   ParentExtractor* extractor = new ParentExtractor(&writer);
 
   extractor->visit(*simpleWhile);
 
-  REQUIRE(table->get(1) == unordered_set<int>({2, 3, 4}));
-  REQUIRE(reverseTable->get(2) == unordered_set<int>({1}));
-  REQUIRE(reverseTable->get(3) == unordered_set<int>({1}));
-  REQUIRE(reverseTable->get(4) == unordered_set<int>({1}));
+  REQUIRE(writer.getSet(1) == unordered_set<int>({
+                                  2,
+                                  3,
+                                  4,
+                              }));
+  REQUIRE(writer.getSet(2) == unordered_set<int>({}));
+  REQUIRE(writer.getSet(3) == unordered_set<int>({}));
+  REQUIRE(writer.getSet(4) == unordered_set<int>({}));
 }
 
 TEST_CASE("ParentExtractor if with while stmt") {
   shared_ptr<IfNode> ifNode = ifWithWhile();
 
-  auto table = make_shared<ContiguousSetTable<int>>();
-  auto reverseTable = make_shared<ContiguousSetTable<int>>();
-  auto store = new TransitiveRelationTableManager<int>(table, reverseTable);
   PKB* pkb = new PKB();
 
-  PkbWriterStubForParent writer = PkbWriterStubForParent(pkb, store);
+  PkbWriterStubForParent writer = PkbWriterStubForParent(pkb);
 
   ParentExtractor* extractor = new ParentExtractor(&writer);
 
   extractor->visit(*ifWithWhile());
 
-  REQUIRE(table->get(1) == unordered_set<int>({2, 4}));
-  REQUIRE(
-      reverseTable->get(3) !=
-      unordered_set<int>({1}));  // statement 3 should not have 1 as its parent
+  REQUIRE(writer.getSet(1) == unordered_set<int>({2, 4}));
+  REQUIRE(writer.getSet(2) == unordered_set<int>({3}));
+  REQUIRE(writer.getSet(3) == unordered_set<int>({}));
 }
