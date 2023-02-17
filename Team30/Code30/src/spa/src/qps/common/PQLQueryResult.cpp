@@ -81,23 +81,43 @@ RowSet *PQLQueryResult::getRowsWithValue(ResultTableCol column,
 }
 
 bool PQLQueryResult::operator==(const PQLQueryResult &pqr) const {
-  if (pqr.resultIndex != resultIndex) {
+  if (resultIndex.size() != pqr.resultIndex.size()
+      || combinedTable.size() != pqr.combinedTable.size()) {
     return false;
   }
 
-  if (pqr.combinedTable.size() != combinedTable.size()) {
-    return false;
+  for (auto it : pqr.resultIndex) {
+    if (resultIndex.find(it.first) == resultIndex.end()) {
+      return false;
+    }
   }
 
   for (int i = 0; i < pqr.combinedTable.size(); i++) {
-    if (combinedTable[i].size() != pqr.combinedTable[i].size()) {
-      return false;
-    }
-
-    for (int j = 0; j < pqr.combinedTable[i].size(); j++) {
-      if (*combinedTable[i][j].get() != *pqr.combinedTable[i][j].get()) {
+    bool isFound = false;
+    for (int j = 0; j < combinedTable.size(); j++) {
+      if (combinedTable[j].size() != pqr.combinedTable[i].size()) {
         return false;
       }
+
+      bool isMatch = true;
+      for (auto it : pqr.resultIndex) {
+        int otherIndex = it.second;
+        int thisIndex = resultIndex.at(it.first);
+
+        if (*combinedTable[j][thisIndex].get() != *pqr.combinedTable[i][otherIndex].get()) {
+          isMatch = false;
+          break;
+        }
+      }
+
+      if (isMatch) {
+        isFound = true;
+        break;
+      }
+    }
+
+    if (!isFound) {
+      return false;
     }
   }
 
