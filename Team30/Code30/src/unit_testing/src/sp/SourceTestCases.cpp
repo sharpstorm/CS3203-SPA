@@ -3,6 +3,8 @@
 // Simple programs for grammar testing
 class SourceTestCases {
  public:
+  SourceTestCases() {}
+
   const std::string EMPTY =
       "procedure empty {\n"
       "}";
@@ -90,10 +92,10 @@ class SourceTestCases {
       "}\n"
       "procedure progTwo {\n"
       "call progThree;\n"
-      "print num;\n"
       "}\n"
       "procedure progThree {\n"
       "num = 1;\n"
+      "print num;"
       "}";
 
   const std::string CALL_CASE_SENSITIVE =
@@ -144,7 +146,7 @@ class SourceTestCases {
       "read num1;\n"
       "read num2;\n"
       "read num3;\n"
-      "if ((num1 == num2) || ((num2 == num3) && (num1 != num3)) then {\n"
+      "if (((num1 == num2) || (num2 == num3)) && (num1 != num3)) then {\n"
       "  print num1;\n"
       "} else {\n"
       "}}";
@@ -163,18 +165,17 @@ class SourceTestCases {
   const std::string CHAINED_IF =
       "procedure chainedIf {\n"
       "read num;\n"
-      "read num2\n"
+      "read num2;\n"
       "if (num>0) then {\n"
       "  print num;\n"
       "  if (num>5) then {\n"
       "    print num2;\n"
-      "    if ((num1+num2)<10) then {\n"
-      "      num3 = num1+num2;\n"
-      "      print num3;\n"
-      "    } else {\n"
-      "  } else {\n"
-      "} else {\n"
-      "}}}}";
+      "    if (num2<10) then {\n"
+      "      num = num + 1;\n"
+      "    } else {}\n"
+      "  } else {}\n"
+      "} else {}\n"
+      "}";
 
   const std::string MULTIPLE_IF_ELSE =  // for follows relations
       "procedure ifElse {\n"
@@ -203,7 +204,7 @@ class SourceTestCases {
       "  print num;\n"
       "  if (num == 1) then {\n"
       "    print num;\n"
-      "   } else {\n"
+      "   } else {}\n"
       "} else {\n"
       "    if (num2 == 1) then {\n"
       "      print num2;\n"
@@ -219,21 +220,21 @@ class SourceTestCases {
       "  print num;\n"
       "  if (num == 1) then {\n"
       "    print num;\n"
-      "   } else {\n"
-      "     if (num == 2) then {\n"
+      "  } else {\n"
+      "    if (num == 2) then {\n"
       "      print num;\n"
-      "     } else {\n"
-      "} else {\n"
+      "    } else {}\n"
+      "}} else {\n"
       "    if (num2 == 1) then {\n"
       "      print num2;\n"
       "    } else {\n"
       "      if (num2 == 2) then {\n"
       "        print num2;\n"
-      "       } else {\n"
+      "       } else {}\n"
       "    } print num2;\n"
       "}}";
 
-  const std::string CALL_IF_IF =
+  const std::string CALL_IN_IF =
       "procedure procOne {\n"
       "read num;\n"
       "if (num>=0) then {\n"
@@ -427,7 +428,7 @@ class SourceTestCases {
       "  while (num > 0) {\n"
       "    while (numOne >= 0) {\n"
       "      numOne = numOne - num;\n"
-      "    } num = num - 1;\n"
+      "    }} num = num - 1;\n"
       "} else {\n"
       "  while (num < 0) {\n"
       "    while (numOne <= 0) {\n"
@@ -515,6 +516,8 @@ class SourceTestCases {
       "  print num2;\n"
       "}}";
 
+  // Complex programs (derived from samples in CS3203 website)
+
   const std::string COMPLEX_PROGRAM_ONE =  // from sample code 2
                                            // in CS3203 website
       "procedure printAscending {\n"
@@ -533,9 +536,10 @@ class SourceTestCases {
 
       "print num1;\n"
       "print num2;\n"
+      "}";
 
-      const std::string COMPLEX_PROGRAM_TWO =  // from sample code 3
-                                               // in CS3203 website
+  const std::string COMPLEX_PROGRAM_TWO =  // from sample code 3
+                                           // in CS3203 website
       "procedure sumDigits {\n"
       "read number;\n"
       "sum = 0;\n"
@@ -546,7 +550,8 @@ class SourceTestCases {
       "number = number / 10;\n"
       "}\n"
 
-      "print sum;\n";
+      "print sum;\n"
+      "}";
 
   const std::string COMPLEX_PROGRAM_THREE =  // from sample code 4
                                              // in CS3203 website
