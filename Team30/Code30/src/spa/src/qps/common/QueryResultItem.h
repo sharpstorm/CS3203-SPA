@@ -10,13 +10,13 @@ using std::string, std::unique_ptr, std::unordered_set, std::unordered_map;
 class QueryResultItem {
  private:
   static const int NO_STMT_REF = -1;
-  static const string NO_ENT_REF;
+  static const char NO_ENT_REF[];
   int stmtRef;
   string entRef;
 
  public:
-  QueryResultItem(int stmt): stmtRef(stmt), entRef(NO_ENT_REF) {}
-  QueryResultItem(string ent): stmtRef(NO_STMT_REF), entRef(ent) {}
+  explicit QueryResultItem(int stmt): stmtRef(stmt), entRef(NO_ENT_REF) {}
+  explicit QueryResultItem(string ent): stmtRef(NO_STMT_REF), entRef(ent) {}
   string project();
   bool operator==(const QueryResultItem& other) const;
   bool operator!=(const QueryResultItem& other) const;
@@ -33,7 +33,7 @@ class QueryResultItem {
 };
 
 typedef unique_ptr<QueryResultItem> QueryResultItemPtr;
-typedef unordered_set<QueryResultItem, QueryResultItem::hasher> QueryResultItemSet;
 
 template<class T>
-using QueryResultItemMap = unordered_map<QueryResultItem, T, QueryResultItem::hasher>;
+using QueryResultItemMap = unordered_map<QueryResultItem, T,
+                                         QueryResultItem::hasher>;

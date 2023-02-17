@@ -1,9 +1,10 @@
 #pragma once
 
 #include <string>
+#include <unordered_set>
 #include "qps/common/PQLQueryResult.h"
 
-using std::string;
+using std::string, std::unordered_set;
 
 class ResultCoalescer {
  public:

@@ -1,12 +1,14 @@
 #pragma once
 
-#include <string>
+#include <unordered_set>
 
 #include "qps/common/IEvaluatable.h"
 #include "qps/common/PQLQueryResult.h"
 #include "qps/clauses/arguments/ClauseArgument.h"
 #include "qps/common/adapters/StatementResultBuilder.h"
 #include "qps/common/adapters/EntityResultBuilder.h"
+
+using std::unordered_set;
 
 class Clause : public IEvaluatable {
  public:
@@ -23,7 +25,8 @@ class Clause : public IEvaluatable {
       pqlQueryResult->setIsStaticFalse(queryResult.isEmpty);
       return pqlQueryResult;
     } else if (left->isNamed() && right->isNamed()) {
-      pqlQueryResult->add(left->getName(), right->getName(), queryResult.pairVals);
+      pqlQueryResult->add(left->getName(), right->getName(),
+                          queryResult.pairVals);
     } else if (left->isNamed()) {
       pqlQueryResult->add(left->getName(), queryResult.firstArgVals);
     } else if (right->isNamed()) {

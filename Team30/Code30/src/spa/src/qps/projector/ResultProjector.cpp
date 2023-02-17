@@ -1,4 +1,5 @@
 #include <vector>
+#include <memory>
 
 #include "ResultProjector.h"
 
@@ -6,8 +7,9 @@ using std::to_string, std::vector, std::make_unique;
 
 UniqueVectorPtr<string> ResultProjector::project(PQLQueryResult *queryResult,
                                                  PQLQuerySynonym resultVariable
-                                                 ) {
-  UniqueVectorPtr<string> result = make_unique<vector<string>>(vector<string>{});
+) {
+  UniqueVectorPtr<string> result =
+      make_unique<vector<string>>(vector<string>{});
   // Error result
   if (!queryResult->getError().empty()) {
     result->push_back(queryResult->getError());
@@ -42,16 +44,16 @@ UniqueVectorPtr<string> ResultProjector::projectStatements(
 
   vector<string>* result = new vector<string>();
 
-    if (!statementResult->linePairs.empty()) {
-      bool isLeftArg = statementResult->isLeftArg;
-      for (auto stmt : statementResult->linePairs) {
-        result->push_back(to_string(isLeftArg ? stmt.first : stmt.second));
-      }
-    } else {
-      for (auto stmt : statementResult->lines) {
-        result->push_back(to_string(stmt));
-      }
+  if (!statementResult->linePairs.empty()) {
+    bool isLeftArg = statementResult->isLeftArg;
+    for (auto stmt : statementResult->linePairs) {
+      result->push_back(to_string(isLeftArg ? stmt.first : stmt.second));
     }
+  } else {
+    for (auto stmt : statementResult->lines) {
+      result->push_back(to_string(stmt));
+    }
+  }
 
   return UniqueVectorPtr<string>(result);
 }
@@ -70,11 +72,11 @@ UniqueVectorPtr<string> ResultProjector::projectEntities(
       result->push_back(isLeftArg ? to_string(entity.first) : entity.second);
     }
   } else if (!entityResult->procedurePairs.empty()) {
-      for (auto &entity : entityResult->procedurePairs)  {
-        result->push_back(entityResult->isLeftArg ?
-            entity.first : entity.second);
-      }
-    } else {
+    for (auto &entity : entityResult->procedurePairs)  {
+      result->push_back(entityResult->isLeftArg ?
+                        entity.first : entity.second);
+    }
+  } else {
     for (auto line : entityResult->lines) {
       result->push_back(to_string(line));
     }

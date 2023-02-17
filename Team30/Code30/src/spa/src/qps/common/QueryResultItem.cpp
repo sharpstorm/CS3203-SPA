@@ -22,4 +22,4 @@ string QueryResultItem::project() {
   return "";
 }
 
-const string QueryResultItem::NO_ENT_REF = "";
+const char QueryResultItem::NO_ENT_REF[] = "";

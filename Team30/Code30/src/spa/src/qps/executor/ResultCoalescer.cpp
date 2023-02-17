@@ -1,4 +1,8 @@
 #include "ResultCoalescer.h"
+#include <memory>
+#include <utility>
+
+using std::move, std::make_unique;
 
 PQLQueryResult *ResultCoalescer::merge(PQLQueryResult *setA,
                                        PQLQueryResult *setB) {
@@ -40,8 +44,8 @@ string ResultCoalescer::mergeError(PQLQueryResult *setA,
 }
 
 void ResultCoalescer::mergeResult(PQLQueryResult *setA,
-                                        PQLQueryResult *setB,
-                                        PQLQueryResult *output) {
+                                  PQLQueryResult *setB,
+                                  PQLQueryResult *output) {
   // init syn list
   auto synonymsA = setA->getSynonyms();
   vector<ResultTableCol> leftCommons;
@@ -88,9 +92,9 @@ void ResultCoalescer::mergeResult(PQLQueryResult *setA,
       ResultTableCol leftCol = leftCommons.at(j);
       ResultTableCol rightCol = rightCommons.at(j);
       auto referenceValue = row->at(leftCol).get();
-      leftSet = intersectSet(leftSet,setA
+      leftSet = intersectSet(leftSet, setA
           ->getRowsWithValue(leftCol, referenceValue));
-      rightSet = intersectSet(rightSet,setB
+      rightSet = intersectSet(rightSet, setB
           ->getRowsWithValue(rightCol, referenceValue));
     }
 
@@ -109,7 +113,8 @@ void ResultCoalescer::mergeResult(PQLQueryResult *setA,
 
         for (int i = 0; i < rightColsToCopy.size(); i++) {
           int copyCol = rightColsToCopy[i];
-          mergedRow.push_back(make_unique<QueryResultItem>(*rightRow->at(copyCol)));
+          mergedRow.push_back(make_unique<QueryResultItem>(
+              *rightRow->at(copyCol)));
         }
 
         output->putTableRow(move(mergedRow));
@@ -120,7 +125,7 @@ void ResultCoalescer::mergeResult(PQLQueryResult *setA,
 
 template<class T>
 unordered_set<T>* ResultCoalescer::intersectSet(unordered_set<T> *s1,
-                                                           unordered_set<T> *s2) {
+                                                unordered_set<T> *s2) {
   if (s1 == nullptr) {
     return s2;
   } else if (s2 == nullptr) {

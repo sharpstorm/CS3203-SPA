@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <utility>
 #include <string>
 #include <unordered_map>
@@ -14,7 +15,7 @@
 #include "QueryResultItem.h"
 
 using std::pair, std::string, std::unordered_map, std::unordered_set,
-    std::vector, std::move, std::make_unique;
+    std::vector, std::move, std::make_unique, std::unique_ptr;
 
 typedef vector<QueryResultItemPtr> QueryResultTableRow;
 typedef vector<QueryResultTableRow> QueryResultTable;
