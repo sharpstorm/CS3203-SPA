@@ -6,6 +6,7 @@ using std::string;
 
 class IModifiesWriter {
  public:
+  virtual ~IModifiesWriter() {}
   /**
    * Adds relation where statement directly modifies variable.
    */

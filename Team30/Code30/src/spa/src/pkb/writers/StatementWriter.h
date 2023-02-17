@@ -2,7 +2,7 @@
 
 #include <string>
 #include "common/Types.h"
-#include "pkb/storage/StatementStorage.h"
+#include "pkb/storage/StorageTypes.h"
 #include "pkb/writers/interfaces/IStatementWriter.h"
 
 class StatementWriter : public IStatementWriter {
