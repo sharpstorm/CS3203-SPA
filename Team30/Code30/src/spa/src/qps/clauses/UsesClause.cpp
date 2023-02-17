@@ -17,9 +17,13 @@ PQLQueryResult* UsesClause::evaluateOn(
         shared_ptr<PkbQueryHandler> pkbQueryHandler) {
   // Check left is an entity
   if (left->synonymSatisfies(ClauseArgument::isStatement)) {
-    return generateQueryResult(evaluateLeftStatement(pkbQueryHandler));
+    return Clause::entityQueryToQueryResult(
+        left.get(), right.get(),
+        evaluateLeftStatement(pkbQueryHandler));
   } else {
-    return generateQueryResult(evaluateLeftEntity(pkbQueryHandler));
+    return Clause::entityQueryToQueryResult(
+        left.get(), right.get(),
+        evaluateLeftEntity(pkbQueryHandler));
   }
 }
 
@@ -60,27 +64,3 @@ QueryResult<string, string> UsesClause::evaluateLeftEntity(
 
   return queryResult;
 }
-
-//template<typename T>
-//PQLQueryResult *UsesClause::generateQueryResult(
-//    QueryResult<T, string> queryResult) {
-//  PQLQueryResult* pqlQueryResult = new PQLQueryResult();
-//
-//  if (!left->isNamed() && !right->isNamed()) {
-//    pqlQueryResult->setIsStaticFalse(queryResult.isEmpty);
-//    return pqlQueryResult;
-//  }
-//
-//  left->invokeWithName([&queryResult, &pqlQueryResult](PQLSynonymName name){
-//    EntityResult result = EntityResultBuilder::buildEntityResult(true, queryResult);
-//    pqlQueryResult->addToEntityMap(name, result);
-//  });
-//
-//  right->invokeWithName([&queryResult, &pqlQueryResult](PQLSynonymName name){
-//    EntityResult result = EntityResultBuilder::buildEntityResult(false, queryResult);
-//    pqlQueryResult->addToEntityMap(name, result);
-//  });
-//
-//  return pqlQueryResult;
-//}
-
