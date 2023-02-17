@@ -18,7 +18,7 @@ class Util {
   }
 
   bool isSize(vector<pair<int, string>> v, int size) {
-    REQUIRE(v.size() == size);
+    return v.size() == size;
   }
 };
 
