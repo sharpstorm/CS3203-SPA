@@ -2,7 +2,6 @@
 
 #include <memory>
 #include <string>
-#include "ASTNode.h"
 
 using std::shared_ptr, std::vector, std::string;
 
