@@ -10,7 +10,7 @@ using std::shared_ptr;
 
 class AssignsQueryHandler : public IAssignsQueryHandler {
  public:
-  AssignsQueryHandler(const AssignStorage *assignStore);
+  explicit AssignsQueryHandler(const AssignStorage *assignStore);
   QueryResult<int, shared_ptr<IASTNode>> queryAssigns(StmtRef) const override;
 
  private:

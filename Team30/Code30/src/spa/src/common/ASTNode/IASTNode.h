@@ -1,5 +1,3 @@
 #pragma once
 
-class IASTNode{
-
-};
+class IASTNode {};
