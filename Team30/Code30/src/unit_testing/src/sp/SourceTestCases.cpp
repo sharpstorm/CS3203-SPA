@@ -146,10 +146,10 @@ class SourceTestCases {
       "read num1;"
       "read num2;"
       "read num3;"
-      "if (((num1 == num2) && (num2 == num3)) && (num1 != num3)) then {"
+      "if ((num1 == num2) && (num2 != num3)) then {"
       "  print num1;"
-      "} else {"
-      "}}";
+      "} else {}"
+      "}";
 
   const std::string TEST_RELATIONAL =
       "procedure if {"
