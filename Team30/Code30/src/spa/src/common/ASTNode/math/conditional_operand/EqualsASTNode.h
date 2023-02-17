@@ -1,5 +1,5 @@
 #pragma once
-
+#include <string>
 #include "common/ASTNode/BinaryASTNode.h"
 
 class EqualsASTNode: public BinaryASTNode {

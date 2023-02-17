@@ -30,4 +30,4 @@ void BinaryASTNode::accept(shared_ptr<Extractor> e) {
 
 string BinaryASTNode::toString() {
   return ":operand";
-};
+}
