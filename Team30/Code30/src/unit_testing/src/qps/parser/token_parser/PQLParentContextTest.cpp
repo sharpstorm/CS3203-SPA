@@ -5,10 +5,11 @@
 
 #include "PQLContextTestUtils.cpp"
 #include "qps/parser/token_parser/context/such_that_clause/PQLParentClauseContext.h"
-#include "qps/errors/QPSParserError.h"
+#include "qps/errors/QPSParserSyntaxError.h"
 #include "qps/clauses/ParentClause.h"
 #include "qps/clauses/ParentTClause.h"
 #include "qps/parser/builder/QueryBuilderError.h"
+#include "qps/errors/QPSParserSemanticError.h"
 
 using std::make_unique, std::unordered_map;
 
@@ -18,7 +19,7 @@ void testParentParsing(vector<PQLToken> inputs,
                                                             synonyms);
   inputs.insert(inputs.begin(), PQLToken(PQL_TOKEN_ASTRIX));
   testSuchThatParsing<PQLParentClauseContext, ParentTClause>(inputs,
-                                                            synonyms);
+                                                             synonyms);
 }
 
 void testParentParsing(vector<PQLToken> inputs) {
@@ -119,7 +120,8 @@ TEST_CASE("Test PQL Parent unknown ref") {
               ->comma()
               ->integer(2)
               ->closeBracket()
-              ->build()), QPSParserError
+              ->build()
+      ), QPSParserSemanticError
   );
 }
 
@@ -132,7 +134,7 @@ TEST_CASE("Test PQL Parent Entity ref not allowed") {
               ->comma()
               ->integer(2)
               ->closeBracket()
-              ->build()), QPSParserError
+              ->build()), QPSParserSyntaxError
   );
 
   REQUIRE_THROWS_AS(
@@ -143,7 +145,7 @@ TEST_CASE("Test PQL Parent Entity ref not allowed") {
               ->comma()
               ->ident("w")
               ->closeBracket()
-              ->build()), QPSParserError
+              ->build()), QPSParserSyntaxError
   );
 }
 
@@ -155,7 +157,7 @@ TEST_CASE("Test PQL Parent bad syntax") {
               ->integer(2)
               ->synonym("w")
               ->closeBracket()
-              ->build()), QPSParserError
+              ->build()), QPSParserSyntaxError
   );
 
   REQUIRE_THROWS_AS(
@@ -165,7 +167,7 @@ TEST_CASE("Test PQL Parent bad syntax") {
               ->integer(2)
               ->comma()
               ->synonym("w")
-              ->build()), QPSParserError
+              ->build()), QPSParserSyntaxError
   );
 }
 
@@ -239,7 +241,7 @@ TEST_CASE("Test PQL Parent invalid synonym types") {
                               ->closeBracket()
                               ->build(),
                           synonymMap
-        ), QueryBuilderError
+        ), QPSParserSemanticError
     );
 
     REQUIRE_THROWS_AS(
@@ -251,7 +253,7 @@ TEST_CASE("Test PQL Parent invalid synonym types") {
                               ->closeBracket()
                               ->build(),
                           synonymMap
-        ), QueryBuilderError
+        ), QPSParserSemanticError
     );
 
     REQUIRE_THROWS_AS(
@@ -263,7 +265,7 @@ TEST_CASE("Test PQL Parent invalid synonym types") {
                               ->closeBracket()
                               ->build(),
                           synonymMap
-        ), QueryBuilderError
+        ), QPSParserSemanticError
     );
   }
 }

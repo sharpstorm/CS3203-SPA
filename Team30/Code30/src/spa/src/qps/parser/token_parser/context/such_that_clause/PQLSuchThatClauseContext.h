@@ -21,7 +21,9 @@ class PQLSuchThatClauseContext: public AbstractPQLContext {
     ClauseArgument right = RightArgExtractor::extract(parserState);
     parserState->expect(PQL_TOKEN_BRACKET_CLOSE);
 
-    parserState->getQueryBuilder()
-        ->addSuchThat(unique_ptr<SuchThatClause>(new Clause(left, right)));
+    if (left.isValid() && right.isValid()) {
+      parserState->getQueryBuilder()
+          ->addSuchThat(unique_ptr<SuchThatClause>(new Clause(left, right)));
+    }
   }
 };

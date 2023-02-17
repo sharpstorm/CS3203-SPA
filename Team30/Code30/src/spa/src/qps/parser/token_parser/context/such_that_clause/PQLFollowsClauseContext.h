@@ -5,8 +5,8 @@
 #include "../../../../clauses/FollowsTClause.h"
 #include "../../ref_extractor/PQLStmtRefExtractor.h"
 
-class PQLFollowsClauseContext: public PQLTransitiveClauseContext<
-    FollowsClause, FollowsTClause> {
+class PQLFollowsClauseContext:
+    public PQLTransitiveClauseContext<FollowsClause, FollowsTClause> {
  public:
   void parse(QueryTokenParseState* parserState) {
     PQLTransitiveClauseContext::parseTransitive<

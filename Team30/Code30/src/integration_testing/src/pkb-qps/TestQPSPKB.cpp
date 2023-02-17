@@ -31,8 +31,8 @@ void launchQuery(IQPS* qps, string query, unordered_set<string> answer) {
   UniqueVectorPtr<string> result = nullptr;
   try {
     result = qps->evaluate(query);
-  } catch (const QPSError& ex) {
-    FAIL("Fail with error: " + ex.message);
+  } catch (QPSError ex) {
+    FAIL(ex.what());
   }
 
   INFO("-----------------------------------------------\n")

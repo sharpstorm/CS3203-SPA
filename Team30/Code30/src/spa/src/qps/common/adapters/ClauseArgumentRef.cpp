@@ -1,5 +1,5 @@
 #include "ClauseArgumentRef.h"
-#include "../../errors/QPSError.h"
+#include "../../errors/QPSParserSyntaxError.h"
 
 StmtRef ClauseArgumentRef::toStmtRef(ClauseArgument* clauseArgument) {
   if (clauseArgument->isStmtRef()) {
@@ -11,7 +11,7 @@ StmtRef ClauseArgumentRef::toStmtRef(ClauseArgument* clauseArgument) {
   }
 
   if (clauseArgument->isEntRef()) {
-    throw QPSError("Invalid call to toStmtRef");
+    throw QPSParserSyntaxError("Invalid call to toStmtRef");
   }
 
   PQLSynonymType synType = clauseArgument->getSynonymType();
@@ -43,7 +43,7 @@ EntityRef ClauseArgumentRef::toEntityRef(ClauseArgument* clauseArgument) {
   }
 
   if (clauseArgument->isStmtRef()) {
-    throw QPSError("Invalid call to toEntRef");
+    throw QPSParserSyntaxError("Invalid call to toEntRef");
   }
 
   PQLSynonymType synType = clauseArgument->getSynonymType();
