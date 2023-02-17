@@ -13,4 +13,6 @@ class StatementASTNode: public ASTNode {
   virtual string toString() = 0;
   virtual void accept(shared_ptr<Extractor> e) = 0;
   int lineNumber;
+ protected:
+  StatementASTNode(ASTNodeType type, string value);
 };

@@ -4,7 +4,7 @@
 
 using std::vector, std::shared_ptr;
 
-BinaryASTNode::BinaryASTNode() {
+BinaryASTNode::BinaryASTNode(ASTNodeType type, string value) : ASTNode(type, value) {
   children = vector<shared_ptr<ASTNode>>{nullptr, nullptr };
 }
 

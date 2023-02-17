@@ -4,8 +4,7 @@
 
 class DivASTNode: public BinaryASTNode {
  public:
-  DivASTNode() {
-    type = ASTNODE_DIV;
+  DivASTNode() : BinaryASTNode(ASTNODE_DIV, "") {
   }
   string toString() {
     return ":div";

@@ -4,8 +4,7 @@
 
 class MinusASTNode: public BinaryASTNode {
  public:
-  MinusASTNode() {
-    type = ASTNODE_MINUS;
+  MinusASTNode() : BinaryASTNode(ASTNODE_MINUS, "") {
   }
   string toString() {
     return ":minus";

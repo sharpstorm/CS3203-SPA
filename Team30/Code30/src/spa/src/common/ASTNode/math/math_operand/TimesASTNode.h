@@ -4,8 +4,7 @@
 
 class TimesASTNode: public BinaryASTNode {
  public:
-  TimesASTNode() {
-    type = ASTNODE_TIMES;
+  TimesASTNode() : BinaryASTNode(ASTNODE_TIMES, "") {
   }
   string toString() {
     return ":times";

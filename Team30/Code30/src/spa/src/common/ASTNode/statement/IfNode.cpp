@@ -5,12 +5,11 @@
 
 using std::vector, std::shared_ptr, std::string;
 
-IfNode::IfNode() {
+IfNode::IfNode() : StatementASTNode(ASTNODE_IF, "") {
   // index [0] = conditional expression
   // index [1] = Then StmtLst
   // index [2] = Else StmtLst
   children = vector<shared_ptr<ASTNode>>{nullptr, nullptr, nullptr};
-  type = ASTNODE_IF;
 }
 
 void IfNode::accept(shared_ptr<Extractor> e) {

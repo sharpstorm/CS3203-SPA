@@ -3,9 +3,7 @@
 
 using std::string;
 
-ConstantASTNode::ConstantASTNode(string v) {
-  value = v;
-  type = ASTNODE_CONSTANT;
+ConstantASTNode::ConstantASTNode(string v) : ASTNode(ASTNODE_CONSTANT, v) {
 }
 
 string ConstantASTNode::toString() {

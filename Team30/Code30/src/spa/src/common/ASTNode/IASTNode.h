@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
-#include <vector>
 #include <string>
+#include "ASTNode.h"
 
 using std::shared_ptr, std::vector, std::string;
 
@@ -36,13 +36,9 @@ class IASTNode {
  public:
   virtual shared_ptr<IASTNode> getChild(int i) = 0;
   virtual ASTNodeType getType() = 0;
-  bool operator==(const IASTNode& other) const {
-    if (type == ASTNODE_VARIABLE || type == ASTNODE_CONSTANT) {
-      return type == other.type && value == other.value;
-    }
-    return type == other.type;
-  }
+  virtual string getValue() = 0;
+  virtual bool isEquals(IASTNode& other) = 0;
  protected:
-  ASTNodeType type;
   string value;
+  ASTNodeType type;
 };

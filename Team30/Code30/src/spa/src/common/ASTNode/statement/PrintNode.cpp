@@ -5,9 +5,8 @@
 
 using std::vector, std::shared_ptr, std::string;
 
-PrintNode::PrintNode() {
+PrintNode::PrintNode() : StatementASTNode(ASTNODE_PRINT, ""){
   children = vector<shared_ptr<ASTNode>>{nullptr};
-  type = ASTNODE_PRINT;
 }
 
 void PrintNode::accept(shared_ptr<Extractor> e) {

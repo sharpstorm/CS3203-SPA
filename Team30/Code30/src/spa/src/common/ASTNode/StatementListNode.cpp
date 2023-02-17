@@ -3,9 +3,8 @@
 
 using std::shared_ptr;
 
-StatementListNode::StatementListNode() {
+StatementListNode::StatementListNode() : ASTNode(ASTNODE_STMTLST, "") {
   children = vector<shared_ptr<ASTNode>>{};
-  type = ASTNODE_STMTLST;
 }
 
 void StatementListNode::accept(shared_ptr<Extractor> e) {

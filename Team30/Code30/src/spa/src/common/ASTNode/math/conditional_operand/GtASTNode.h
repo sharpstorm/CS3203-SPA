@@ -4,8 +4,7 @@
 
 class GtASTNode: public BinaryASTNode {
  public:
-  GtASTNode() {
-    type = ASTNODE_GT;
+  GtASTNode() : BinaryASTNode(ASTNODE_GT, "") {
   }
   string toString() {
     return ":gt";

@@ -17,5 +17,5 @@ class BinaryASTNode: public ASTNode {
   shared_ptr<ASTNode> getLeftChild();
   shared_ptr<ASTNode> getRightChild();
  protected:
-  BinaryASTNode();
+  BinaryASTNode(ASTNodeType type, string value);
 };

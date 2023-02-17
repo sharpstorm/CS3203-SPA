@@ -1,5 +1,10 @@
 #include "ASTNode.h"
 
+ASTNode::ASTNode(ASTNodeType t, string v) {
+  type = t;
+  value = v;
+}
+
 vector<shared_ptr<ASTNode>> ASTNode::getChildren() {
   return children;
 }
@@ -20,3 +25,13 @@ ASTNodeType ASTNode::getType() {
   return type;
 }
 
+string ASTNode::getValue() {
+  return value;
+}
+
+bool ASTNode::isEquals(IASTNode& other) {
+  if (type == ASTNODE_VARIABLE || type == ASTNODE_CONSTANT) {
+    return type == other.getType() && value == other.getValue();
+  }
+  return type = other.getType();
+}

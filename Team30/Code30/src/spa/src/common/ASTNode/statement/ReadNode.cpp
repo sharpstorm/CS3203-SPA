@@ -5,9 +5,8 @@
 
 using std::vector, std::shared_ptr, std::to_string;
 
-ReadNode::ReadNode() {
+ReadNode::ReadNode() : StatementASTNode(ASTNODE_READ, "") {
   children = vector<shared_ptr<ASTNode>>{nullptr};
-  type = ASTNODE_READ;
 }
 
 void ReadNode::accept(shared_ptr<Extractor> e) {

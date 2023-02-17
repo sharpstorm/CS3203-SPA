@@ -4,8 +4,7 @@
 
 class OrASTNode: public BinaryASTNode {
  public:
-  OrASTNode() {
-    type = ASTNODE_OR;
+  OrASTNode() : BinaryASTNode(ASTNODE_OR, ""){
   }
   string toString() {
     return ":or";

@@ -4,8 +4,7 @@
 
 class ModASTNode: public BinaryASTNode {
  public:
-  ModASTNode() {
-    type = ASTNODE_MOD;
+  ModASTNode() : BinaryASTNode(ASTNODE_MOD, "") {
   }
   string toString() {
     return ":mod";
