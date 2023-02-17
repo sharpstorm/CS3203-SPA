@@ -8,40 +8,34 @@
 #include "pkb/queryHandlers/ParentQueryHandler.h"
 #include "pkb/storage/StructureMappingProvider.h"
 #include "pkb/storage/tables/ContiguousSetTable.h"
+#include "StructureMappingProviderStub.h"
 
 using std::make_shared;
 using std::make_unique;
 using std::pair;
 using std::unordered_set;
 
-class ParentQHStructureProviderStub : public StructureMappingProvider {
- public:
-  ParentQHStructureProviderStub()
-      : StructureMappingProvider(nullptr, nullptr) {};
+static std::unique_ptr<StructureMappingProviderStub> setUpStructureMappingProvider() {
+  auto provider = make_unique<StructureMappingProviderStub>();
+  provider->stmtNumToType.set(2, StmtType::Assign);
+  provider->stmtNumToType.set(3, StmtType::Assign);
+  provider->stmtNumToType.set(4, StmtType::Read);
+  provider->stmtNumToType.set(5, StmtType::Read);
+  provider->stmtNumToType.set(11, StmtType::If);
+  provider->stmtNumToType.set(14, StmtType::If);
+  provider->stmtNumToType.set(12, StmtType::While);
+  provider->stmtNumToType.set(16, StmtType::While);
 
-  bool isStatementOfType(int s, StmtType stmtType) const override {
-    switch (s) {
-      case 2:
-      case 3:return stmtType == StmtType::Assign;
-      case 4:
-      case 5:return stmtType == StmtType::Read;
-      case 11:
-      case 14:return stmtType == StmtType::If;
-      case 12:
-      case 16:return stmtType == StmtType::While;
-      default:return false;
-    }
-  }
-  unordered_set<int> getStatementsOfType(StmtType stmtType) const override {
-    switch (stmtType) {
-      case StmtType::Assign:return {2, 3};
-      case StmtType::Read:return {4, 5};
-      case StmtType::If:return {11, 14};
-      case StmtType::While:return {12, 16};
-      default:return unordered_set<int>();
-    }
-  }
-};
+  provider->stmtTypeToNum.set(StmtType::Assign, 2);
+  provider->stmtTypeToNum.set(StmtType::Assign, 3);
+  provider->stmtTypeToNum.set(StmtType::Read, 4);
+  provider->stmtTypeToNum.set(StmtType::Read, 5);
+  provider->stmtTypeToNum.set(StmtType::If, 11);
+  provider->stmtTypeToNum.set(StmtType::If, 14);
+  provider->stmtTypeToNum.set(StmtType::While, 12);
+  provider->stmtTypeToNum.set(StmtType::While, 16);
+  return provider;
+}
 
 /* Parent */
 
@@ -49,7 +43,7 @@ TEST_CASE("ParentQueryHandler parent(stmtNum,stmtNum)") {
   auto table = make_shared<ContiguousSetTable<int>>();
   auto reverseTable = make_shared<ContiguousSetTable<int>>();
   auto store = make_unique<ParentStorage>(table, reverseTable);
-  auto provider = make_unique<ParentQHStructureProviderStub>();
+  auto provider = setUpStructureMappingProvider();
   auto factory = make_unique<PredicateFactory>(provider.get(), nullptr);
   ParentQueryHandler
       handler = ParentQueryHandler(store.get(), factory.get(), provider.get());
@@ -75,7 +69,7 @@ TEST_CASE("ParentQueryHandler parent(stmtNum,stmtType)") {
   auto table = make_shared<ContiguousSetTable<int>>();
   auto reverseTable = make_shared<ContiguousSetTable<int>>();
   auto store = make_unique<ParentStorage>(table, reverseTable);
-  auto provider = make_unique<ParentQHStructureProviderStub>();
+  auto provider = setUpStructureMappingProvider();
   auto factory = make_unique<PredicateFactory>(provider.get(), nullptr);
   auto handler = ParentQueryHandler(store.get(), factory.get(), provider.get());
 
@@ -98,7 +92,7 @@ TEST_CASE("ParentQueryHandler parent(stmtType, stmtNum)") {
   auto table = make_shared<ContiguousSetTable<int>>();
   auto reverseTable = make_shared<ContiguousSetTable<int>>();
   auto store = make_unique<ParentStorage>(table, reverseTable);
-  auto provider = make_unique<ParentQHStructureProviderStub>();
+  auto provider = setUpStructureMappingProvider();
   auto factory = make_unique<PredicateFactory>(provider.get(), nullptr);
   auto handler = ParentQueryHandler(store.get(), factory.get(), provider.get());
 
@@ -121,7 +115,7 @@ TEST_CASE("ParentQueryHandler parent(stmtType, stmtType)") {
   auto table = make_shared<ContiguousSetTable<int>>();
   auto reverseTable = make_shared<ContiguousSetTable<int>>();
   auto store = make_unique<ParentStorage>(table, reverseTable);
-  auto provider = make_unique<ParentQHStructureProviderStub>();
+  auto provider = setUpStructureMappingProvider();
   auto factory = make_unique<PredicateFactory>(provider.get(), nullptr);
   auto handler = ParentQueryHandler(store.get(), factory.get(), provider.get());
 
@@ -143,7 +137,7 @@ TEST_CASE("ParentQueryHandler parentStar(stmtNum,stmtNum)") {
   auto table = make_shared<ContiguousSetTable<int>>();
   auto reverseTable = make_shared<ContiguousSetTable<int>>();
   auto store = make_unique<ParentStorage>(table, reverseTable);
-  auto provider = make_unique<ParentQHStructureProviderStub>();
+  auto provider = setUpStructureMappingProvider();
   auto factory = make_unique<PredicateFactory>(provider.get(), nullptr);
   auto handler = ParentQueryHandler(store.get(), factory.get(), provider.get());
 
@@ -164,7 +158,7 @@ TEST_CASE("ParentQueryHandler parentStar(stmtNum,stmtType)") {
   auto table = make_shared<ContiguousSetTable<int>>();
   auto reverseTable = make_shared<ContiguousSetTable<int>>();
   auto store = make_unique<ParentStorage>(table, reverseTable);
-  auto provider = make_unique<ParentQHStructureProviderStub>();
+  auto provider = setUpStructureMappingProvider();
   auto factory = make_unique<PredicateFactory>(provider.get(), nullptr);
   auto handler = ParentQueryHandler(store.get(), factory.get(), provider.get());
 
@@ -188,7 +182,7 @@ TEST_CASE("ParentQueryHandler parentStar(stmtType,stmtNum)") {
   auto table = make_shared<ContiguousSetTable<int>>();
   auto reverseTable = make_shared<ContiguousSetTable<int>>();
   auto store = make_unique<ParentStorage>(table, reverseTable);
-  auto provider = make_unique<ParentQHStructureProviderStub>();
+  auto provider = setUpStructureMappingProvider();
   auto factory = make_unique<PredicateFactory>(provider.get(), nullptr);
   auto handler = ParentQueryHandler(store.get(), factory.get(), provider.get());
 
@@ -212,7 +206,7 @@ TEST_CASE("ParentQueryHandler parentStar(stmtType,stmtType)") {
   auto table = make_shared<ContiguousSetTable<int>>();
   auto reverseTable = make_shared<ContiguousSetTable<int>>();
   auto store = make_unique<ParentStorage>(table, reverseTable);
-  auto provider = make_unique<ParentQHStructureProviderStub>();
+  auto provider = setUpStructureMappingProvider();
   auto factory = make_unique<PredicateFactory>(provider.get(), nullptr);
   auto handler = ParentQueryHandler(store.get(), factory.get(), provider.get());
 
