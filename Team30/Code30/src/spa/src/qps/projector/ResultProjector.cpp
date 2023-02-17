@@ -19,7 +19,7 @@ UniqueVectorPtr<string> ResultProjector::project(PQLQueryResult *queryResult,
     return UniqueVectorPtr<string>(new vector<string>());
   }
 
-  PQLSynonymName var = resultVariable.name;
+  PQLSynonymName var = resultVariable.getName();
   bool existInMap = queryResult->getFromStatementMap(var) != nullptr;
   if (!queryResult->getStatementMap().empty() && existInMap)  {
     return projectStatements(queryResult->getFromStatementMap(var));
@@ -68,7 +68,12 @@ UniqueVectorPtr<string> ResultProjector::projectEntities(
     for (auto &entity : entityResult->entityPairs) {
       result->push_back(isLeftArg ? to_string(entity.first) : entity.second);
     }
-  } else {
+  } else if (!entityResult->procedurePairs.empty()) {
+      for (auto &entity : entityResult->procedurePairs)  {
+        result->push_back(entityResult->isLeftArg ?
+            entity.first : entity.second);
+      }
+    } else {
     for (auto line : entityResult->lines) {
       result->push_back(to_string(line));
     }

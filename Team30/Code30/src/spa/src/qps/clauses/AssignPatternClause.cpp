@@ -1,11 +1,14 @@
 #include "AssignPatternClause.h"
+#include <utility>
+
+using std::move;
 
 AssignPatternClause::AssignPatternClause(PQLQuerySynonym assignSynonym,
-                                         ClauseArgument leftArgument,
+                                         ClauseArgumentPtr leftArgument,
                                          string patternPhrase,
                                          bool allowPartial):
     assignSynonym(assignSynonym),
-    leftArgument(leftArgument),
+    leftArgument(move(leftArgument)),
     patternPhrase(patternPhrase),
     allowPartial(allowPartial) {}
 
@@ -15,9 +18,8 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
 }
 
 bool AssignPatternClause::usesSynonym(string varName) {
-  return assignSynonym.name == varName
-      || (leftArgument.isSynonym()
-          && leftArgument.getSynonymName() == varName);
+  return assignSynonym.getName() == varName
+      || leftArgument->isSynonymCalled(varName);
 }
 
 bool AssignPatternClause::validateArgTypes(VariableTable *variables) {
@@ -25,9 +27,6 @@ bool AssignPatternClause::validateArgTypes(VariableTable *variables) {
     return false;
   }
 
-  if (leftArgument.isSynonym()
-      && leftArgument.getSynonymType() != PQL_SYN_TYPE_VARIABLE) {
-    return false;
-  }
-  return true;
+  return leftArgument->synonymSatisfies(
+      ClauseArgument::isType<PQL_SYN_TYPE_VARIABLE>);
 }

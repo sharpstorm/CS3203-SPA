@@ -16,6 +16,10 @@ void IfNode::accept(shared_ptr<Extractor> e) {
   e->visit(*this);
 }
 
+void IfNode::leave(shared_ptr<Extractor> e) {
+  e->leave(*this);
+}
+
 void IfNode::addChild(shared_ptr<ASTNode> node) {
   children.push_back(node);
 }

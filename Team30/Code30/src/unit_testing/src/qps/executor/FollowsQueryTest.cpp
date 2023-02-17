@@ -8,6 +8,7 @@
 #include "qps/executor/QueryExecutor.h"
 #include "qps/parser/builder/QueryBuilder.h"
 #include "qps/clauses/FollowsClause.h"
+#include "qps/clauses/arguments/ClauseArgumentFactory.h"
 #include "../PKBStub.cpp"
 
 #include <memory>
@@ -18,13 +19,12 @@ TEST_CASE("Test QPS Follows Query") {
   PKB pkbStore;
   PkbQueryHandler* pkb = new StubPKB(&pkbStore);
   auto builder = QueryBuilder();
-  builder.setResultVariable("a");
-  builder.setResultType(PQL_SYN_TYPE_STMT);
-  builder.addVariable("a", PQL_SYN_TYPE_STMT);
-  builder.addVariable("b", PQL_SYN_TYPE_STMT);
+  builder.setResultSynonym(PQL_SYN_TYPE_STMT, "a");
+  builder.addSynonym("a", PQL_SYN_TYPE_STMT);
+  builder.addSynonym("b", PQL_SYN_TYPE_STMT);
   builder.addSuchThat(make_unique<FollowsClause>(
-      ClauseArgument(*builder.getVariable("a")),
-      ClauseArgument(*builder.getVariable("b"))
+      ClauseArgumentFactory::create(*builder.accessSynonym("a")),
+      ClauseArgumentFactory::create(*builder.accessSynonym("b"))
   ));
 
   auto query = builder.build();

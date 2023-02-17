@@ -2,10 +2,13 @@
 
 #include <vector>
 #include <unordered_set>
-#include "../PQLToken.h"
+#include <string>
 #include "../builder/QueryBuilder.h"
+#include "token_stream/QueryTokenStream.h"
+#include "../../errors/QPSParserSyntaxError.h"
+#include "QueryExpectationAgent.h"
 
-using std::vector, std::unordered_set;
+using std::vector, std::unordered_set, std::string;
 
 enum TokenParsingStage {
   TOKEN_PARSE_STAGE_INIT,
@@ -23,19 +26,20 @@ const unordered_set<TokenParsingStage> parsingAllowedTransitions[] = {
     { TOKEN_PARSE_STAGE_DECLARATION, TOKEN_PARSE_STAGE_COMMAND },
     { TOKEN_PARSE_STAGE_DECLARATION, TOKEN_PARSE_STAGE_COMMAND },
     { TOKEN_PARSE_STAGE_CONDITION_MARKER,
-          TOKEN_PARSE_STAGE_PATTERN_MARKER, TOKEN_PARSE_STAGE_PARSE_END },
+      TOKEN_PARSE_STAGE_PATTERN_MARKER, TOKEN_PARSE_STAGE_PARSE_END },
     { TOKEN_PARSE_STAGE_CONDITION },
-    { TOKEN_PARSE_STAGE_PATTERN_MARKER, TOKEN_PARSE_STAGE_PARSE_END },
+    { TOKEN_PARSE_STAGE_CONDITION_MARKER,
+      TOKEN_PARSE_STAGE_PATTERN_MARKER, TOKEN_PARSE_STAGE_PARSE_END },
     { TOKEN_PARSE_STAGE_PATTERN },
-    { TOKEN_PARSE_STAGE_PARSE_END },
+    { TOKEN_PARSE_STAGE_CONDITION_MARKER,
+      TOKEN_PARSE_STAGE_PATTERN_MARKER, TOKEN_PARSE_STAGE_PARSE_END },
     {},
 };
 
-class QueryTokenParseState {
+class QueryTokenParseState:
+    public QueryExpectationAgent {
  private:
-  int currentIndex;
-  int totalTokenSize;
-  vector<PQLToken>* tokens;
+  QueryTokenStream tokenStream;
   QueryBuilder queryBuilder;
   TokenParsingStage currentStage;
 
@@ -43,7 +47,8 @@ class QueryTokenParseState {
   explicit QueryTokenParseState(vector<PQLToken>* tokens);
   bool isTokenStreamEnd();
   void advanceToken();
+  PQLToken* getCurrentToken();
+
   void advanceStage(TokenParsingStage newStage);
   QueryBuilder* getQueryBuilder();
-  PQLToken* getCurrentToken();
 };

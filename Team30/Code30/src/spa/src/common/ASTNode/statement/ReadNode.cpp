@@ -13,6 +13,8 @@ void ReadNode::accept(shared_ptr<Extractor> e) {
   e->visit(*this);
 }
 
+void ReadNode::leave(shared_ptr<Extractor> e) {}
+
 void ReadNode::addChild(shared_ptr<ASTNode> node) {
   children.push_back(node);
 }

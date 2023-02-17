@@ -10,6 +10,7 @@ UniqueVectorPtr<string> QueryDriver::evaluate(string* query) {
   PQLQueryResult* pqlResult = executor->executeQuery(pqlQuery.get());
   PQLQuerySynonym queryVar = pqlQuery->getResultVariable();
   UniqueVectorPtr<string> result = projector.project(pqlResult, queryVar);
+  delete(pqlResult);
   return result;
 }
 

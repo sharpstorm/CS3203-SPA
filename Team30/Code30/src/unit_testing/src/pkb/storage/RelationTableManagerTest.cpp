@@ -6,7 +6,7 @@
 
 #include "catch.hpp"
 #include "common/Types.h"
-#include "pkb/predicates/Predicate.h"
+#include "pkb/PkbTypes.h"
 #include "pkb/predicates/PredicateFactory.h"
 #include "pkb/storage/RelationTableManager.h"
 #include "pkb/storage/StructureMappingProvider.h"

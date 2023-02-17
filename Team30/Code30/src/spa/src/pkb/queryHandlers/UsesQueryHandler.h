@@ -1,15 +1,30 @@
 #pragma once
 
 #include <string>
+#include <unordered_set>
 #include "common/Types.h"
 #include "interfaces/IUsesQueryHandler.h"
-
-using std::string;
+#include "pkb/storage/StorageTypes.h"
+#include "pkb/predicates/PredicateFactory.h"
+#include "pkb/storage/interfaces/IStructureMappingProvider.h"
 
 class UsesQueryHandler : public IUsesQueryHandler {
  public:
-  UsesQueryHandler();
+  UsesQueryHandler(const UsesStorage *,
+                   const PredicateFactory *,
+                   const IStructureMappingProvider *,
+                   const IEntityMappingProvider *);
 
   QueryResult<int, string> queryUses(StmtRef, EntityRef) const override;
-  QueryResult<string, string> queryUses(EntityRef, EntityRef) const override;
+  QueryResult<string, string> queryUses(EntityRef,
+                                        EntityRef) const override;
+ private:
+  const UsesStorage *store;
+  const PredicateFactory *predicateFactory;
+  const IStructureMappingProvider *structureProvider;
+  const IEntityMappingProvider *entitiesProvider;
+
+  bool validateArg1(StmtRef) const;
+  bool validateArg1(EntityRef) const;
+  bool validateArg2(EntityRef) const;
 };

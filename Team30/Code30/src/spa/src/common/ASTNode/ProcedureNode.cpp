@@ -7,8 +7,9 @@ using std::shared_ptr;
 ProcedureNode::ProcedureNode(string name): procName(name) {
 }
 
-void ProcedureNode::accept(shared_ptr<Extractor> e) {
-}
+void ProcedureNode::accept(shared_ptr<Extractor> e) {}
+
+void ProcedureNode::leave(shared_ptr<Extractor> e) {}
 
 string ProcedureNode::toString() {
   string ss = "Procedure:" + procName + " {";

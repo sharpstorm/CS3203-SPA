@@ -3,7 +3,6 @@
 #include <string>
 #include <memory>
 #include "Clause.h"
-#include "ClauseArgument.h"
 
 class SelectClause : public Clause {
  private:

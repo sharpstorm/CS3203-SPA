@@ -11,6 +11,7 @@ class AbstractMathASTNode: public AbstractBinaryASTNode {
  public:
   virtual ~AbstractMathASTNode() = default;
   void accept(shared_ptr<Extractor> e);
+  void leave(shared_ptr<Extractor> e);
   string toString();
 
  protected:
