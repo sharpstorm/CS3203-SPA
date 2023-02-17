@@ -1,10 +1,10 @@
 #pragma once
 #include <string>
-#include "common/ASTNode/BinaryASTNode.h"
+#include "AbstractConditionalNode.h"
 
-class EqualsASTNode: public BinaryASTNode {
+class EqualsASTNode: public AbstractConditionalNode {
  public:
-  EqualsASTNode() : BinaryASTNode(ASTNODE_EQUALS, "") {
+  EqualsASTNode() : AbstractConditionalNode(ASTNODE_EQUALS, "") {
   }
   string toString() {
     return ":eq";

@@ -1,10 +1,10 @@
 #pragma once
 #include <string>
-#include "common/ASTNode/BinaryASTNode.h"
+#include "AbstractMathNode.h"
 
-class MinusASTNode: public BinaryASTNode {
+class MinusASTNode: public AbstractMathNode {
  public:
-  MinusASTNode() : BinaryASTNode(ASTNODE_MINUS, "") {
+  MinusASTNode() : AbstractMathNode(ASTNODE_MINUS, "") {
   }
   string toString() {
     return ":minus";

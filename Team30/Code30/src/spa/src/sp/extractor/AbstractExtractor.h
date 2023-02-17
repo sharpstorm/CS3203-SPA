@@ -11,7 +11,8 @@
 #include "common/ASTNode/statement/WhileNode.h"
 #include "common/ASTNode/VariableASTNode.h"
 #include "common/ASTNode/ConstantASTNode.h"
-
+#include "common/ASTNode/math/math_operand/AbstractMathNode.h"
+#include "common/ASTNode/math/conditional_operand/AbstractConditionalNode.h"
 
 class AbstractExtractor : public Extractor {
  public:
@@ -24,7 +25,8 @@ class AbstractExtractor : public Extractor {
   virtual void visit(VariableASTNode node);
   virtual void visit(ConstantASTNode node);
   virtual void visit(BinaryASTNode node);
-
+  virtual void visit(AbstractMathNode node);
+  virtual void visit(AbstractConditionalNode node);
  private:
   PkbWriter* pkbWriter;
 };

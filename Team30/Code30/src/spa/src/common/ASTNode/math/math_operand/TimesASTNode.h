@@ -1,10 +1,10 @@
 #pragma once
 #include <string>
-#include "common/ASTNode/BinaryASTNode.h"
+#include "AbstractMathNode.h"
 
-class TimesASTNode: public BinaryASTNode {
+class TimesASTNode: public AbstractMathNode {
  public:
-  TimesASTNode() : BinaryASTNode(ASTNODE_TIMES, "") {
+  TimesASTNode() : AbstractMathNode(ASTNODE_TIMES, "") {
   }
   string toString() {
     return ":times";

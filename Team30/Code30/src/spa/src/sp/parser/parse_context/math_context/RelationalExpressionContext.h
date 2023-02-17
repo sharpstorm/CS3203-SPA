@@ -3,6 +3,7 @@
 #include <memory>
 #include "sp/parser/parse_context/RecursiveParseContext.h"
 #include "sp/parser/IGrammarContextProvider.h"
+#include "common/ASTNode/BinaryASTNode.h"
 
 using std::shared_ptr;
 

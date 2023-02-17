@@ -1,6 +1,7 @@
 #pragma once
 
 #include "pkb/writers/PkbWriter.h"
+
 class StatementListNode;
 class IfNode;
 class ReadNode;
@@ -9,7 +10,8 @@ class WhileNode;
 class AssignNode;
 class VariableASTNode;
 class ConstantASTNode;
-class BinaryASTNode;
+class AbstractMathNode;
+class AbstractConditionalNode;
 
 class Extractor {
  public:
@@ -22,7 +24,8 @@ class Extractor {
   virtual void visit(AssignNode node) = 0;
   virtual void visit(VariableASTNode node) = 0;
   virtual void visit(ConstantASTNode node) = 0;
-  virtual void visit(BinaryASTNode node) = 0;
+  virtual void visit(AbstractMathNode node) = 0;
+  virtual void visit(AbstractConditionalNode node) = 0;
  private:
   PkbWriter* writer;
 };

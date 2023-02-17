@@ -1,10 +1,10 @@
 #pragma once
 #include <string>
-#include "common/ASTNode/BinaryASTNode.h"
+#include "AbstractConditionalNode.h"
 
-class OrASTNode: public BinaryASTNode {
+class OrASTNode: public AbstractConditionalNode {
  public:
-  OrASTNode() : BinaryASTNode(ASTNODE_OR, "") {
+  OrASTNode() : AbstractConditionalNode(ASTNODE_OR, "") {
   }
   string toString() {
     return ":or";

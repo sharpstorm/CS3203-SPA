@@ -1,10 +1,10 @@
 #pragma once
 #include <string>
-#include "common/ASTNode/BinaryASTNode.h"
+#include "AbstractMathNode.h"
 
-class ModASTNode: public BinaryASTNode {
+class ModASTNode: public AbstractMathNode {
  public:
-  ModASTNode() : BinaryASTNode(ASTNODE_MOD, "") {
+  ModASTNode() : AbstractMathNode(ASTNODE_MOD, "") {
   }
   string toString() {
     return ":mod";

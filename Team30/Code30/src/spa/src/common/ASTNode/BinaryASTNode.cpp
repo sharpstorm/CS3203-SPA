@@ -25,10 +25,6 @@ shared_ptr<ASTNode> BinaryASTNode::getRightChild() {
   return children[1];
 }
 
-void BinaryASTNode::accept(shared_ptr<Extractor> e) {
-  e->visit(*this);
-}
-
 string BinaryASTNode::toString() {
   return ":operand";
 }

@@ -1,10 +1,10 @@
 #pragma once
 #include <string>
-#include "common/ASTNode/BinaryASTNode.h"
+#include "AbstractConditionalNode.h"
 
-class LteASTNode: public BinaryASTNode {
+class LteASTNode: public AbstractConditionalNode {
  public:
-  LteASTNode() : BinaryASTNode(ASTNODE_LTE, "") {
+  LteASTNode() : AbstractConditionalNode(ASTNODE_LTE, "") {
   }
   string toString() {
     return ":lte";

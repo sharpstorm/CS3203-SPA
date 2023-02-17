@@ -1,10 +1,10 @@
 #pragma once
 #include <string>
-#include "common/ASTNode/BinaryASTNode.h"
+#include "AbstractMathNode.h"
 
-class DivASTNode: public BinaryASTNode {
+class DivASTNode: public AbstractMathNode {
  public:
-  DivASTNode() : BinaryASTNode(ASTNODE_DIV, "") {
+  DivASTNode() : AbstractMathNode(ASTNODE_DIV, "") {
   }
   string toString() {
     return ":div";

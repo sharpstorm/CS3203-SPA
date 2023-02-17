@@ -1,10 +1,11 @@
 #pragma once
 #include <string>
 #include "common/ASTNode/BinaryASTNode.h"
+#include "AbstractConditionalNode.h"
 
-class AndASTNode: public BinaryASTNode {
+class AndASTNode: public AbstractConditionalNode {
  public:
-  AndASTNode() : BinaryASTNode(ASTNODE_AND, "") {
+  AndASTNode() : AbstractConditionalNode(ASTNODE_AND, "") {
   }
   string toString() {
     return ":and";

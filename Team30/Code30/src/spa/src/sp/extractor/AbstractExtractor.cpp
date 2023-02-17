@@ -1,5 +1,6 @@
 #include "AbstractExtractor.h"
 
+
 void AbstractExtractor::visit(IfNode node) {}
 
 void AbstractExtractor::visit(ReadNode node) {}
@@ -16,4 +17,6 @@ void AbstractExtractor::visit(VariableASTNode node) {}
 
 void AbstractExtractor::visit(ConstantASTNode node) {}
 
-void AbstractExtractor::visit(BinaryASTNode node) {}
+void AbstractExtractor::visit(AbstractMathNode node) {}
+
+void AbstractExtractor::visit(AbstractConditionalNode node) {}
