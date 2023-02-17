@@ -29,6 +29,7 @@ TEST_CASE("Modifies Extractor - Read statement") {
   Util u;
   vector<pair<int, string>> v = executeModifiesExtractor(input);
   REQUIRE(u.contains(v, 1, "a"));
+  u.isSize(v, 1);
 }
 
 TEST_CASE("Modifies Extractor - Assign statement") {
@@ -38,6 +39,7 @@ TEST_CASE("Modifies Extractor - Assign statement") {
   Util u;
   vector<pair<int, string>> v = executeModifiesExtractor(input);
   REQUIRE(u.contains(v, 1, "a"));
+  u.isSize(v, 1);
 }
 
 TEST_CASE("Modifies Extractor - Single If statement") {
@@ -54,6 +56,7 @@ TEST_CASE("Modifies Extractor - Single If statement") {
   REQUIRE(u.contains(v, 1, "a"));
   REQUIRE(u.contains(v, 3, "b"));
   REQUIRE(u.contains(v, 1, "b"));
+  u.isSize(v, 4);
 
 }
 
@@ -67,6 +70,7 @@ TEST_CASE("Modifies Extractor - Single While statement") {
   vector<pair<int, string>> v = executeModifiesExtractor(input);
   REQUIRE(u.contains(v, 2, "a"));
   REQUIRE(u.contains(v, 1, "a"));
+  u.isSize(v, 2);
 }
 
 TEST_CASE("Modifies Extractor - Nested If in While") {
@@ -87,6 +91,7 @@ TEST_CASE("Modifies Extractor - Nested If in While") {
   REQUIRE(u.contains(v, 4, "d"));
   REQUIRE(u.contains(v, 1, "d"));
   REQUIRE(u.contains(v, 2, "d"));
+  u.isSize(v, 6);
 }
 
 TEST_CASE("Modifies Extractor - Nested While in If: then statementList") {
@@ -102,6 +107,7 @@ TEST_CASE("Modifies Extractor - Nested While in If: then statementList") {
   REQUIRE(u.contains(v, 3, "b"));
   REQUIRE(u.contains(v, 1, "b"));
   REQUIRE(u.contains(v, 2, "b"));
+  u.isSize(v, 3);
 }
 
 TEST_CASE("Modifies Extractor - Nested While in If: else statementList") {
@@ -118,6 +124,7 @@ TEST_CASE("Modifies Extractor - Nested While in If: else statementList") {
   REQUIRE(u.contains(v, 3, "b"));
   REQUIRE(u.contains(v, 1, "b"));
   REQUIRE(u.contains(v, 2, "b"));
+  u.isSize(v, 3);
 }
 
 TEST_CASE("Modifies Extractor - Nested While in While in While") {
@@ -136,6 +143,7 @@ TEST_CASE("Modifies Extractor - Nested While in While in While") {
   REQUIRE(u.contains(v, 1, "a"));
   REQUIRE(u.contains(v, 2, "a"));
   REQUIRE(u.contains(v, 3, "a"));
+  u.isSize(v, 4);
 }
 
 TEST_CASE("Modifies Extractor - Nested If in If in If") {
@@ -154,4 +162,5 @@ TEST_CASE("Modifies Extractor - Nested If in If in If") {
   REQUIRE(u.contains(v, 1, "a"));
   REQUIRE(u.contains(v, 2, "a"));
   REQUIRE(u.contains(v, 3, "a"));
+  u.isSize(v, 4);
 }

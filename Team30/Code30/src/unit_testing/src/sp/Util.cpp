@@ -1,3 +1,4 @@
+#include "catch.hpp"
 #include <string>
 #include <utility>
 #include <vector>
@@ -17,7 +18,7 @@ class Util {
   }
 
   bool isSize(vector<pair<int, string>> v, int size) {
-    return v.size() == size;
+    REQUIRE(v.size() == size);
   }
 };
 
