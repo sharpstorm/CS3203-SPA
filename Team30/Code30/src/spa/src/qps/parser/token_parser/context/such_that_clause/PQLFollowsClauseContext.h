@@ -1,8 +1,16 @@
 #pragma once
 
-#include "PQLSuchThatClauseContext.h"
+#include "PQLTransitiveClauseContext.h"
+#include "../../../../clauses/FollowsClause.h"
+#include "../../../../clauses/FollowsTClause.h"
+#include "../../ref_extractor/PQLStmtRefExtractor.h"
 
-class PQLFollowsClauseContext: public PQLSuchThatClauseContext {
+class PQLFollowsClauseContext:
+    public PQLTransitiveClauseContext<FollowsClause, FollowsTClause> {
  public:
-  void parse(QueryTokenParseState* parserState);
+  void parse(QueryTokenParseState* parserState) {
+    PQLTransitiveClauseContext::parseTransitive<
+        PQLStmtRefExtractor,
+        PQLStmtRefExtractor>(parserState);
+  }
 };

@@ -1,14 +1,20 @@
 #include "catch.hpp"
 
+#include <memory>
+
+#include "../../util/PQLTestTokenSequenceBuilder.cpp"
 #include "qps/parser/token_parser/context/query/PQLSuchThatContext.h"
-#include "qps/errors/QPSParserError.h"
+#include "qps/errors/QPSParserSyntaxError.h"
+
+using std::make_unique;
 
 TEST_CASE("Test PQL Such That parsing") {
   PQLSuchThatContext context;
 
-  auto dummyStream = vector<PQLToken>{
-      PQLToken{PQL_TOKEN_THAT, "that"},
-  };
+  auto dummyStream = make_unique<PQLTestTokenSequenceBuilder>()
+      ->addToken(PQL_TOKEN_THAT)
+      ->build();
+
   QueryTokenParseState state(&dummyStream);
   state.advanceStage(TOKEN_PARSE_STAGE_COMMAND);
   context.parse(&state);
@@ -17,10 +23,10 @@ TEST_CASE("Test PQL Such That parsing") {
 TEST_CASE("Test PQL Such That bad symbol") {
   PQLSuchThatContext context;
 
-  auto dummyStream = vector<PQLToken>{
-      PQLToken{PQL_TOKEN_STRING, "those"},
-  };
+  auto dummyStream = make_unique<PQLTestTokenSequenceBuilder>()
+      ->addToken(PQL_TOKEN_STRING, "those")
+      ->build();
   QueryTokenParseState state(&dummyStream);
   state.advanceStage(TOKEN_PARSE_STAGE_COMMAND);
-  REQUIRE_THROWS_AS(context.parse(&state), QPSParserError);
+  REQUIRE_THROWS_AS(context.parse(&state), QPSParserSyntaxError);
 }

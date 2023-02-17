@@ -13,9 +13,10 @@ void PrintNode::accept(shared_ptr<Extractor> e) {
   e->visit(*this);
 }
 
+void PrintNode::leave(shared_ptr<Extractor> e) {}
+
 string PrintNode::toString() {
-  string ss;
-  ss += std::to_string(lineNumber) + ": Print: "
+  string ss = "Print: "
   + (children[0] == nullptr ? "none" : children[0]->toString());
   return ss;
 }

@@ -15,8 +15,10 @@ void AssignNode::accept(shared_ptr<Extractor> e) {
   e->visit(*this);
 }
 
+void AssignNode::leave(shared_ptr<Extractor> e) {}
+
 string AssignNode::toString() {
-  return std::to_string(lineNumber) + ": Assign:   "
+  return "Assign: "
   + (children[0] == nullptr ? "none" : children[0]->toString())
   + " = "
   + (children[1] == nullptr ? "none" : children[1]->toString());

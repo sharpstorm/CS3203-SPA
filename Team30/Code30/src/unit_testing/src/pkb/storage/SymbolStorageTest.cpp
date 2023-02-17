@@ -3,20 +3,24 @@
 
 #include "catch.hpp"
 #include "common/Types.h"
-#include "pkb/storage/SymbolStorage.h"
+#include "pkb/storage/StorageTypes.h"
+#include "pkb/storage/tables/ContiguousSetTable.h"
+#include "pkb/storage/tables/HashKeySetTable.h"
 
 using std::string;
 using std::unordered_set;
 
 TEST_CASE("SymbolStorage addSymbol") {
-  SymbolStorage store = SymbolStorage();
-  store.addSymbol("x", EntityType::Variable);
-  store.addSymbol("y", EntityType::Variable);
-  store.addSymbol("0", EntityType::Constant);
-  store.addSymbol("1", EntityType::Constant);
+  SymbolStorage store = SymbolStorage(
+      std::make_shared<HashKeyTable<std::string, EntityType>>(),
+      std::make_shared<HashKeySetTable<EntityType, std::string>>());
+  store.insert("x", EntityType::Variable);
+  store.insert("y", EntityType::Variable);
+  store.insert("0", EntityType::Constant);
+  store.insert("1", EntityType::Constant);
 
-  REQUIRE(store.getSymbolsOfType(EntityType::Variable) ==
+  REQUIRE(store.getByValue(EntityType::Variable) ==
           unordered_set<string>({"x", "y"}));
-  REQUIRE(store.getSymbolsOfType(EntityType::Constant) ==
+  REQUIRE(store.getByValue(EntityType::Constant) ==
           unordered_set<string>({"1", "0"}));
 }

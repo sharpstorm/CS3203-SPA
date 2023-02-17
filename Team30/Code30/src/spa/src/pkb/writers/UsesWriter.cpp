@@ -3,6 +3,8 @@
 
 using std::string;
 
-UsesWriter::UsesWriter() {}
+UsesWriter::UsesWriter(UsesStorage *store) : store(store) {}
 
-void UsesWriter::addUses(int stmtNum, string variable) {}
+void UsesWriter::addUses(int stmtNum, string variable) {
+  store->insert(stmtNum, variable);
+}

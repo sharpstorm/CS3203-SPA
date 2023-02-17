@@ -11,10 +11,10 @@ using std::string, std::vector;
 
 class QueryTokenParser {
  private:
-  vector<PQLToken> tokens;
+  vector<PQLToken>* tokens;
   PQLGrammarContextProvider contextProvider;
 
  public:
-  explicit QueryTokenParser(vector<PQLToken> tokens);
+  explicit QueryTokenParser(vector<PQLToken>* tokens);
   unique_ptr<PQLQuery> build();
 };

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <unordered_set>
+#include <cassert>
 #include "IBaseSetTable.h"
 #include "ContiguousTable.h"
 
@@ -14,11 +15,16 @@ class ContiguousSetTable : public IBaseSetTable<int, V>,
       size) {}
 
   void set(int key, V value) override {
+    assert(key != 0);
+    assert(value != V());
+
     this->resizeIfExceed(key);
     this->table[key].insert(value);
   }
 
   unordered_set<V> get(int key) const override {
+    assert(key != 0);
+
     return ContiguousTable<unordered_set<V>>::get(key);
   }
 };

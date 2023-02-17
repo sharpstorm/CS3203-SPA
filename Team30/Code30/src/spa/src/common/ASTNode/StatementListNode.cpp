@@ -11,8 +11,11 @@ void StatementListNode::accept(shared_ptr<Extractor> e) {
   e->visit(*this);
 }
 
+void StatementListNode::leave(shared_ptr<Extractor> e) {
+}
+
 string StatementListNode::toString() {
-  string ss = "StmtLst:\n";
+  string ss = "StmtLst: \n";
   for (shared_ptr<ASTNode> node : children) {
     ss += node->toString() + "\n";
   }

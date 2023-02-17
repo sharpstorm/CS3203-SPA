@@ -7,6 +7,8 @@ class ReadNode;
 class PrintNode;
 class WhileNode;
 class AssignNode;
+class VariableASTNode;
+class ConstantASTNode;
 
 class Extractor {
  public:
@@ -17,6 +19,10 @@ class Extractor {
   virtual void visit(PrintNode node) = 0;
   virtual void visit(WhileNode node) = 0;
   virtual void visit(AssignNode node) = 0;
+  virtual void visit(VariableASTNode node) = 0;
+  virtual void visit(ConstantASTNode node) = 0;
+  virtual void leave(IfNode node) = 0;
+  virtual void leave(WhileNode node) = 0;
  private:
   PkbWriter* writer;
 };

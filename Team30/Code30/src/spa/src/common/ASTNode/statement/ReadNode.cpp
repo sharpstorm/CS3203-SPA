@@ -13,11 +13,13 @@ void ReadNode::accept(shared_ptr<Extractor> e) {
   e->visit(*this);
 }
 
+void ReadNode::leave(shared_ptr<Extractor> e) {}
+
 void ReadNode::addChild(shared_ptr<ASTNode> node) {
   children.push_back(node);
 }
 
 string ReadNode::toString() {
-  return to_string(lineNumber) + ": Read: "
+  return "Read: "
   + (children[0] == nullptr ? "none" : children[0]->toString());
 }

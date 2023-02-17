@@ -9,10 +9,9 @@
 #include "common/ASTNode/statement/PrintNode.h"
 #include "common/ASTNode/statement/ReadNode.h"
 #include "common/ASTNode/statement/WhileNode.h"
+#include "common/ASTNode/VariableASTNode.h"
+#include "common/ASTNode/ConstantASTNode.h"
 
-class StatementListNode;
-class IfNode;
-class ReadNode;
 
 class AbstractExtractor : public Extractor {
  public:
@@ -22,6 +21,10 @@ class AbstractExtractor : public Extractor {
   virtual void visit(AssignNode node);
   virtual void visit(PrintNode node);
   virtual void visit(WhileNode node);
+  virtual void visit(VariableASTNode node);
+  virtual void visit(ConstantASTNode node);
+  virtual void leave(WhileNode node);
+  virtual void leave(IfNode node);
 
  private:
   PkbWriter* pkbWriter;

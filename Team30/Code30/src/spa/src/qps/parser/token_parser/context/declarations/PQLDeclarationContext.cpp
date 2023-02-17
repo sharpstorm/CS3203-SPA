@@ -1,22 +1,26 @@
 #include "PQLDeclarationContext.h"
+#include "qps/errors/QPSParserSemanticError.h"
 
-PQLDeclarationContext::PQLDeclarationContext(
-    PQLSynonymType variableType):AbstractPQLContext() {
-  this->variableType = variableType;
+PQLDeclarationContext::PQLDeclarationContext(PQLSynonymType synonymType):
+    AbstractPQLContext(), synonymType(synonymType) {
 }
 
 void PQLDeclarationContext::parse(QueryTokenParseState *parserState) {
   parserState->advanceStage(TOKEN_PARSE_STAGE_DECLARATION);
 
-  PQLToken* currentToken = expectVarchar(parserState);
-  parserState->getQueryBuilder()
-    ->addVariable(currentToken->tokenData, variableType);
+  PQLToken* currentToken = parserState->expectSynName();
+  addVariableToState(currentToken->getData(), parserState);
 
-  currentToken = expect(parserState, PQL_TOKEN_COMMA, PQL_TOKEN_SEMICOLON);
+  currentToken = parserState->expect(PQL_TOKEN_COMMA, PQL_TOKEN_SEMICOLON);
   while (!currentToken->isType(PQL_TOKEN_SEMICOLON)) {
-    currentToken = expectVarchar(parserState);
-    parserState->getQueryBuilder()
-      ->addVariable(currentToken->tokenData, variableType);
-    currentToken = expect(parserState, PQL_TOKEN_COMMA, PQL_TOKEN_SEMICOLON);
+    currentToken = parserState->expectSynName();
+    addVariableToState(currentToken->getData(), parserState);
+    currentToken = parserState->expect(PQL_TOKEN_COMMA, PQL_TOKEN_SEMICOLON);
   }
+}
+
+void PQLDeclarationContext::addVariableToState(
+    string name,
+    QueryTokenParseState *parserState) {
+  parserState->getQueryBuilder()->addSynonym(name, synonymType);
 }

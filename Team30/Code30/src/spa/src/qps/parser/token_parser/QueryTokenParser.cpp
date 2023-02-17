@@ -1,28 +1,22 @@
 #include <memory>
 #include "QueryTokenParser.h"
-#include "../../errors/QPSParserError.h"
-#include "../builder/QueryBuilderError.h"
+#include "../../errors/QPSParserSyntaxError.h"
+#include "qps/errors/QPSParserSemanticError.h"
 
-QueryTokenParser::QueryTokenParser(vector<PQLToken> tokens) {
+QueryTokenParser::QueryTokenParser(vector<PQLToken>* tokens) {
   this->tokens = tokens;
 }
 
 unique_ptr<PQLQuery> QueryTokenParser::build() {
-  QueryTokenParseState state(&this->tokens);
+  QueryTokenParseState state(this->tokens);
 
   while (!state.isTokenStreamEnd()) {
-    unique_ptr<IPQLContext> context = contextProvider
-        .getContext(state.getCurrentToken());
+    IPQLContext* context = contextProvider.getContext(state.getCurrentToken());
     if (context == nullptr) {
-      throw QPSParserError("Unexpected token");
+      throw QPSParserSyntaxError(QPS_PARSER_ERR_UNEXPECTED);
     }
     state.advanceToken();
-
-    try {
-      context->parse(&state);
-    } catch (const QueryBuilderError& err) {
-      throw QPSParserError(err.message);
-    }
+    context->parse(&state);
   }
 
   state.advanceStage(TOKEN_PARSE_STAGE_PARSE_END);

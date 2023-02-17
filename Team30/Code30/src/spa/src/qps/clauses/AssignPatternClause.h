@@ -3,22 +3,22 @@
 #include <string>
 #include <memory>
 #include "PatternClause.h"
-#include "ClauseArgument.h"
+#include "arguments/ClauseArgument.h"
 
-using std::string;
+using std::string, std::shared_ptr;
 
 class AssignPatternClause: public PatternClause {
  private:
-  PQLQueryVariable assignSynonym;
-  ClauseArgument leftArgument;
+  PQLQuerySynonym assignSynonym;
+  ClauseArgumentPtr leftArgument;
   string patternPhrase;
   bool allowPartial;
 
  public:
-  AssignPatternClause(PQLQueryVariable assignSynonym,
-                 ClauseArgument leftSynonym,
-                 string patternPhrase,
-                 bool allowPartial);
+  AssignPatternClause(PQLQuerySynonym assignSynonym,
+                      ClauseArgumentPtr leftSynonym,
+                      string patternPhrase,
+                      bool allowPartial);
   PQLQueryResult* evaluateOn(shared_ptr<PkbQueryHandler> pkbQueryHandler);
   bool validateArgTypes(VariableTable *variables);
   bool usesSynonym(string varName);

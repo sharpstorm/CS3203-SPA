@@ -7,6 +7,12 @@ shared_ptr<ASTNode> StatementContext::generateSubtree(
     SourceParseState *state) {;
   state->advanceLine();
   state->clearCached();
+
+  if (state->nextTokenIsOfType(SIMPLE_TOKEN_ASSIGN)) {
+    return contextProvider
+    ->getContext(ASSIGN_CONTEXT)->generateSubtree(state);
+  }
+
   switch (state->getCurrToken()->getType()) {
     case SIMPLE_TOKEN_KEYWORD_PRINT:
       return contextProvider->
@@ -20,9 +26,6 @@ shared_ptr<ASTNode> StatementContext::generateSubtree(
     case SIMPLE_TOKEN_KEYWORD_READ:
       return contextProvider->
           getContext(READ_CONTEXT)->generateSubtree(state);
-    case SIMPLE_TOKEN_VARIABLE:
-      return contextProvider->
-          getContext(ASSIGN_CONTEXT)->generateSubtree(state);
     case SIMPLE_TOKEN_KEYWORD_CALL:
       throw SPError("Not implemented");
     default:

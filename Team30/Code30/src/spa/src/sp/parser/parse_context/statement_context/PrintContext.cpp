@@ -8,7 +8,7 @@ shared_ptr<ASTNode> PrintContext::generateSubtree(SourceParseState* state) {
   // Expect 'print'
   expect(state, SIMPLE_TOKEN_KEYWORD_PRINT);
 
-  // Parse varchar TODO - change to varchar
+  // Parse varchar
   shared_ptr<ASTNode> var = contextProvider->
       getContext(VARIABLE_CONTEXT)->generateSubtree(state);
 
