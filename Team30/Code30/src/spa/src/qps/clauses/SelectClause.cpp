@@ -4,40 +4,42 @@
 #include <vector>
 
 #include "SelectClause.h"
-#include "ClauseArgument.h"
-#include "qps/common/adapters/ClauseArgumentRef.h"
+#include "arguments/ClauseArgument.h"
 #include "qps/common/adapters/StatementResultBuilder.h"
 #include "qps/common/adapters/EntityResultBuilder.h"
+#include "qps/clauses/arguments/ClauseArgumentFactory.h"
 
 using std::pair, std::unordered_set, std::vector, std::shared_ptr;
 
 SelectClause::SelectClause(PQLQuerySynonym target):
-  target(target) {}
+    target(target) {}
 
 PQLQueryResult* SelectClause::evaluateOn(
-        shared_ptr<PkbQueryHandler> pkbQueryHandler) {
+    shared_ptr<PkbQueryHandler> pkbQueryHandler) {
   PQLQueryResult* pqlQueryResult = new PQLQueryResult();
+  ClauseArgumentPtr clauseArg = ClauseArgumentFactory::create(target);
   if (target.isStatementType()) {
-    StmtRef stmtVar = ClauseArgumentRef::toStmtRef(ClauseArgument(target));
+    StmtRef stmtVar = clauseArg->toStmtRef();
     unordered_set<int> pkbResult = pkbQueryHandler
         ->getStatementsOfType(stmtVar.type);
     pqlQueryResult->addToStatementMap(
-        target.name, StatementResultBuilder::buildStatementResult(pkbResult));
+        target.getName(),
+        StatementResultBuilder::buildStatementResult(pkbResult));
     return pqlQueryResult;
   }
 
-  EntityRef entityVar = ClauseArgumentRef::toEntityRef(ClauseArgument(target));
+  EntityRef entityVar = clauseArg->toEntityRef();
   unordered_set<string> pkbResult = pkbQueryHandler
       ->getSymbolsOfType(entityVar.type);
   pqlQueryResult->addToEntityMap(
-      target.name, EntityResultBuilder::buildEntityResult(pkbResult));
+      target.getName(), EntityResultBuilder::buildEntityResult(pkbResult));
   return pqlQueryResult;
 }
 
 bool SelectClause::validateArgTypes(VariableTable *variables) {
-  return target.type != PQL_SYN_TYPE_PROCEDURE;
+  return !target.isType(PQL_SYN_TYPE_PROCEDURE);
 }
 
 bool SelectClause::usesSynonym(string varName) {
-  return target.name == varName;
+  return target.getName() == varName;
 }

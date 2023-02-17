@@ -7,9 +7,17 @@
 using std::unordered_map;
 
 class PQLQuerySynonym {
- public:
+ private:
   PQLSynonymType type;
   PQLSynonymName name;
+
+ public:
+  PQLQuerySynonym() = default;
+  PQLQuerySynonym(PQLSynonymType type, PQLSynonymName name);
+  PQLQuerySynonym(const PQLQuerySynonym &copy) = default;
+
+  PQLSynonymType getType();
+  PQLSynonymName getName();
   bool isStatementType();
   bool isEntityType();
   bool isType(PQLSynonymType type);

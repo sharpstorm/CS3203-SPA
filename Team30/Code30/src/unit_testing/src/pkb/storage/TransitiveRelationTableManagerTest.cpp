@@ -5,7 +5,7 @@
 #include <utility>
 
 #include "catch.hpp"
-#include "pkb/predicates/Predicate.h"
+#include "pkb/PkbTypes.h"
 #include "pkb/predicates/PredicateFactory.h"
 #include "pkb/storage/RelationTableManager.h"
 #include "pkb/storage/StructureMappingProvider.h"
@@ -139,7 +139,7 @@ TEST_CASE(
   Predicate<int> isValid = [validValues](int const &s) {
     return validValues.find(s) != validValues.end();
   };
-  auto res = tableManager.queryT(isValid, {1});
+  auto res = tableManager.queryT(isValid, 1);
 
   REQUIRE(res.firstArgVals == unordered_set<int>({2, 7}));
   REQUIRE(res.secondArgVals == unordered_set<int>({1}));

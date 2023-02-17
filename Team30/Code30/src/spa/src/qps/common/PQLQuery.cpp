@@ -4,10 +4,8 @@ using std::pair;
 
 PQLQuery::PQLQuery(unordered_map<string, PQLQuerySynonym> vars,
                    PQLQuerySynonym resVar,
-                   vector<shared_ptr<Clause>> c) {
-  variables = vars;
-  resultVariable = resVar;
-  clauses = c;
+                   vector<shared_ptr<Clause>> c):
+                   variables(vars), resultVariable(resVar), clauses(c) {
 }
 
 int PQLQuery::getVariableCount() {
@@ -28,7 +26,7 @@ PQLQuerySynonym* PQLQuery::getVariable(PQLSynonymName name) {
 }
 
 PQLSynonymName PQLQuery::getResultName() {
-  return resultVariable.name;
+  return resultVariable.getName();
 }
 
 vector<shared_ptr<IEvaluatable>> PQLQuery::getEvaluatables() {

@@ -8,8 +8,8 @@
 class ParentExtractor : public AbstractExtractor {
  public:
   explicit ParentExtractor(PkbWriter* pkbWriter);
-  virtual void visit(IfNode node);
-  virtual void visit(WhileNode node);
+  void visit(IfNode node);
+  void visit(WhileNode node);
 
  private:
   void addParentRelation(int x, int y);

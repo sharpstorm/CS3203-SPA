@@ -11,7 +11,7 @@ Predicate<int> PredicateFactory::getPredicate(StmtRef stmtRef) const {
     return [](int const s) { return true; };
   }
   return [this, stmtRef](int const s) {
-    return structureProvider->isStatementOfType(s, stmtRef.type);
+    return structureProvider->getStatementType(s) == stmtRef.type;
   };
 }
 
@@ -22,6 +22,6 @@ Predicate<string> PredicateFactory::getPredicate(EntityRef entRef) const {
     return [](string const s) { return true; };
   }
   return [this, entRef](string const s) {
-    return entityProvider->isSymbolOfType(s, entRef.type);
+    return entityProvider->getTypeOfSymbol(s) == entRef.type;
   };
 }

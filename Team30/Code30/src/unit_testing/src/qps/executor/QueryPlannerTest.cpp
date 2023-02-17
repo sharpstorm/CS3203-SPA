@@ -6,6 +6,7 @@
 #include "qps/clauses/FollowsClause.h"
 #include "qps/executor/QueryPlanner.h"
 #include "qps/common/PQLQuerySynonym.h"
+#include "qps/clauses/arguments/ClauseArgumentFactory.h"
 
 using std::make_unique, std::unordered_map, std::unique_ptr;
 
@@ -17,31 +18,35 @@ QueryPlanner queryPlanner;
 
 // Will not have select clause
 TEST_CASE("Plan where a clause is using target declaration variable") {
-  unique_ptr<FollowsClause> c(new FollowsClause(ClauseArgument(PQL_RESULT_VAR), ClauseArgument(5)));
+  auto c = make_unique<FollowsClause>(
+      ClauseArgumentFactory::create(PQL_RESULT_VAR),
+      ClauseArgumentFactory::create(5));
   vector<shared_ptr<Clause>> clauses;
   clauses.push_back(move(c));
 
-  PQLQuery* query = new PQLQuery(PQL_VAR_MAP, PQL_RESULT_VAR, clauses);
-  shared_ptr<QueryPlan> queryPlan = queryPlanner.getExecutionPlan(query);
+  auto query = make_unique<PQLQuery>(PQL_VAR_MAP, PQL_RESULT_VAR, clauses);
+  shared_ptr<QueryPlan> queryPlan = queryPlanner.getExecutionPlan(query.get());
   REQUIRE(queryPlan->hasSelectClause() == false);
   REQUIRE(queryPlan->getConditionalClauses().size() == clauses.size());
 }
 
 // Will have select clause
 TEST_CASE("Plan where a clause is not using target declaration variable") {
-  unique_ptr<FollowsClause> c(new FollowsClause(ClauseArgument(PQL_RESULT_VAR2), ClauseArgument(5)));
+  auto c = make_unique<FollowsClause>(
+      ClauseArgumentFactory::create(PQL_RESULT_VAR2),
+      ClauseArgumentFactory::create(5));
   vector<shared_ptr<Clause>> clauses;
   clauses.push_back(move(c));
 
-  PQLQuery* query = new PQLQuery(PQL_VAR_MAP, PQL_RESULT_VAR, clauses);
-  shared_ptr<QueryPlan> queryPlan = queryPlanner.getExecutionPlan(query);
+  auto query = make_unique<PQLQuery>(PQL_VAR_MAP, PQL_RESULT_VAR, clauses);
+  shared_ptr<QueryPlan> queryPlan = queryPlanner.getExecutionPlan(query.get());
   REQUIRE(queryPlan->hasSelectClause());
   REQUIRE(queryPlan->getConditionalClauses().size() == clauses.size());
 }
 
 TEST_CASE("Plan where query is only Select") {
-  PQLQuery* query = new PQLQuery(PQL_VAR_MAP, PQL_RESULT_VAR, vector<shared_ptr<Clause>>());
-  shared_ptr<QueryPlan> queryPlan = queryPlanner.getExecutionPlan(query);
+  auto query = make_unique<PQLQuery>(PQL_VAR_MAP, PQL_RESULT_VAR, vector<shared_ptr<Clause>>());
+  shared_ptr<QueryPlan> queryPlan = queryPlanner.getExecutionPlan(query.get());
 
   REQUIRE(queryPlan->hasSelectClause());
   REQUIRE(queryPlan->getConditionalClauses().size() == 0);

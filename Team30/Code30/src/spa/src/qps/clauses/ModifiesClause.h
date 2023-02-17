@@ -4,14 +4,14 @@
 #include <string>
 
 #include "SuchThatClause.h"
-#include "ClauseArgument.h"
+#include "arguments/ClauseArgument.h"
 
 using std::shared_ptr;
 
 class ModifiesClause: public SuchThatClause {
  private:
-  ClauseArgument left;
-  ClauseArgument right;
+  ClauseArgumentPtr left;
+  ClauseArgumentPtr right;
 
   template <typename T>
   PQLQueryResult* generateQueryResult(QueryResult<T, string> queryResult);
@@ -20,7 +20,7 @@ class ModifiesClause: public SuchThatClause {
   QueryResult<string, string> evaluateLeftEntity(
       shared_ptr<PkbQueryHandler> pkbQueryHandler);
  public:
-  ModifiesClause(ClauseArgument left, ClauseArgument right);
+  ModifiesClause(ClauseArgumentPtr left, ClauseArgumentPtr right);
   PQLQueryResult* evaluateOn(shared_ptr<PkbQueryHandler> pkbQueryHandler);
   bool validateArgTypes(VariableTable *variables);
   bool usesSynonym(string varName);

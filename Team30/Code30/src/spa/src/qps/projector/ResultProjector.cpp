@@ -19,7 +19,7 @@ UniqueVectorPtr<string> ResultProjector::project(PQLQueryResult *queryResult,
     return UniqueVectorPtr<string>(new vector<string>());
   }
 
-  PQLSynonymName var = resultVariable.name;
+  PQLSynonymName var = resultVariable.getName();
   bool existInMap = queryResult->getFromStatementMap(var) != nullptr;
   if (!queryResult->getStatementMap().empty() && existInMap)  {
     return projectStatements(queryResult->getFromStatementMap(var));

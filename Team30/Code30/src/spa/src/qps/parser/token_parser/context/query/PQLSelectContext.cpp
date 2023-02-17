@@ -1,15 +1,18 @@
 #include "PQLSelectContext.h"
+#include "qps/errors/QPSParserSemanticError.h"
 
 void PQLSelectContext::parse(QueryTokenParseState *parserState) {
   parserState->advanceStage(TOKEN_PARSE_STAGE_COMMAND);
 
-  PQLToken* currentToken = expectVarchar(parserState);
-  PQLSynonymType* type = parserState->getQueryBuilder()
-      ->getVariableType(currentToken->tokenData);
-  if (type == nullptr) {
-    throw QPSParserError("Select clause references unknown synonym");
+  PQLSynonymName synName = parserState->expectSynName()->getData();
+  PQLQuerySynonym* synonym = parserState->getQueryBuilder()
+      ->accessSynonym(synName);
+
+  if (synonym == nullptr) {
+    return;
   }
 
-  parserState->getQueryBuilder()->setResultType(*type);
-  parserState->getQueryBuilder()->setResultVariable(currentToken->tokenData);
+  parserState->getQueryBuilder()->setResultSynonym(
+      synonym->getType(),
+      synonym->getName());
 }
