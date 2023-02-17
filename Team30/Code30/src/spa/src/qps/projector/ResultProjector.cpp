@@ -7,30 +7,31 @@ using std::to_string, std::vector, std::make_unique;
 UniqueVectorPtr<string> ResultProjector::project(PQLQueryResult *queryResult,
                                                  PQLQuerySynonym resultVariable
                                                  ) {
+  UniqueVectorPtr<string> result = make_unique<vector<string>>(vector<string>{});
   // Error result
   if (!queryResult->getError().empty()) {
-    vector<string>* result = new vector<string>();
     result->push_back(queryResult->getError());
-    return UniqueVectorPtr<string>(result);
+    return result;
   }
 
   // Static result
-  if (queryResult->getIsStaticFalse()) {
-    return UniqueVectorPtr<string>(new vector<string>());
+  if (queryResult->isStatic()) {
+    return result;
   }
 
   PQLSynonymName var = resultVariable.getName();
-  bool existInMap = queryResult->getFromStatementMap(var) != nullptr;
-  if (!queryResult->getStatementMap().empty() && existInMap)  {
-    return projectStatements(queryResult->getFromStatementMap(var));
+  ResultTableCol col = queryResult->getSynonymCol(var);
+  if (col != PQLQueryResult::NO_COL) {
+    for (int i = 0; i < queryResult->getRowCount(); i++) {
+      result->push_back(
+          queryResult
+              ->getTableRowAt(i)
+              ->at(col)
+              ->project());
+    }
   }
 
-  existInMap = queryResult->getFromEntityMap(var) != nullptr;
-  if (!queryResult->getEntityMap().empty() && existInMap) {
-    return projectEntities(queryResult->getFromEntityMap(var));
-  }
-
-  return UniqueVectorPtr<string>(new vector<string>());
+  return result;
 }
 
 UniqueVectorPtr<string> ResultProjector::projectStatements(

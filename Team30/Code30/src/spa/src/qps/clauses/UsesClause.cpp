@@ -16,11 +16,11 @@ PQLQueryResult* UsesClause::evaluateOn(
         shared_ptr<PkbQueryHandler> pkbQueryHandler) {
   // Check left is an entity
   if (left->synonymSatisfies(ClauseArgument::isStatement)) {
-    return Clause::entityQueryToQueryResult(
+    return Clause::toQueryResult(
         left.get(), right.get(),
         evaluateLeftStatement(pkbQueryHandler));
   } else {
-    return Clause::entityQueryToQueryResult(
+    return Clause::toQueryResult(
         left.get(), right.get(),
         evaluateLeftEntity(pkbQueryHandler));
   }

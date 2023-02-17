@@ -15,7 +15,7 @@ class SynonymArgument: public ClauseArgument {
   bool synonymSatisfies(SynonymPredicate predicate) override;
   bool isSynonymCalled(PQLSynonymName name) override;
   bool isNamed() override;
-  void invokeWithName(function<void(PQLSynonymName)> consumer);
+  PQLSynonymName getName();
   StmtRef toStmtRef();
   EntityRef toEntityRef();
 };

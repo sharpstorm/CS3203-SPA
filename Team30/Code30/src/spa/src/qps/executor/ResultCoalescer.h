@@ -14,10 +14,10 @@ class ResultCoalescer {
   bool mergeStaticResult(PQLQueryResult *setA,
                          PQLQueryResult *setB);
   string mergeError(PQLQueryResult *setA, PQLQueryResult *setB);
-  void mergeEntityResult(PQLQueryResult *setA,
+  void mergeResult(PQLQueryResult *setA,
                          PQLQueryResult *setB,
                          PQLQueryResult* output);
-  void mergeStatementResult(PQLQueryResult *setA,
-                            PQLQueryResult *setB,
-                         PQLQueryResult* output);
+
+  template<class T>
+  unordered_set<T>* intersectSet(unordered_set<T>* s1, unordered_set<T>* s2);
 };

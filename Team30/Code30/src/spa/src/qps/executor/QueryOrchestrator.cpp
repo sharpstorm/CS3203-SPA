@@ -31,9 +31,9 @@ bool QueryOrchestrator::shouldExecuteSelect(QueryPlan *plan,
     return true;
   }
 
-  if (state->isStaticResult()) {
-    return !state->getIsStaticFalse();
+  if (state->isStatic()) {
+    return !state->isFalse();
   }
 
-  return !state->isEntityMapEmpty() || !state->isStatementMapEmpty();
+  return !state->isEmpty();
 }

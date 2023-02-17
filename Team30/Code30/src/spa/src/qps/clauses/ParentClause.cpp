@@ -19,7 +19,7 @@ PQLQueryResult* ParentClause::evaluateOn(
   QueryResult<int, int> queryResult =
       pkbQueryHandler->queryParent(leftStatement, rightStatement);
 
-  return Clause::stmtQueryToQueryResult(left.get(), right.get(), queryResult);
+  return Clause::toQueryResult(left.get(), right.get(), queryResult);
 }
 
 bool ParentClause::validateArgTypes(VariableTable *variables) {

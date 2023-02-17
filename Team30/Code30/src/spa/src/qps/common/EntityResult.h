@@ -2,9 +2,10 @@
 
 #include <string>
 #include <unordered_set>
+#include <utility>
 #include "common/Types.h"
 
-using std::string, std::unordered_set;
+using std::string, std::unordered_set, std::hash;
 
 class EntityResult {
  public:

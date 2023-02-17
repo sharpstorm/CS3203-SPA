@@ -20,7 +20,7 @@ PQLQueryResult* FollowsClause::evaluateOn(
   QueryResult<int, int> queryResult =
       pkbQueryHandler->queryFollows(leftStatement, rightStatement);
 
-  return Clause::stmtQueryToQueryResult(left.get(), right.get(), queryResult);
+  return Clause::toQueryResult(left.get(), right.get(), queryResult);
 }
 
 bool FollowsClause::validateArgTypes(VariableTable *variables) {
