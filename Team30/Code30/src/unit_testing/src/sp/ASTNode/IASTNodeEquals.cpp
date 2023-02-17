@@ -21,8 +21,7 @@
 #include "common/ASTNode/math/conditional_operand/NotASTNode.h"
 #include "common/ASTNode/math/conditional_operand/NotEqualsASTNode.h"
 #include "common/ASTNode/math/conditional_operand/OrASTNode.h"
-#include <iostream>
-#include <vector>
+
 
 using std::vector;
 
