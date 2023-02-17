@@ -1,6 +1,8 @@
 #include "PQLStmtRefExtractor.h"
+#include "qps/clauses/arguments/ClauseArgumentFactory.h"
 
-ClauseArgument PQLStmtRefExtractor::extract(QueryTokenParseState *state) {
+ClauseArgumentPtr PQLStmtRefExtractor::extract(
+    QueryTokenParseState *state) {
   if (state->getCurrentToken()->isType(PQL_TOKEN_INTEGER)) {
     return extractStatement(state);
   }
@@ -8,9 +10,9 @@ ClauseArgument PQLStmtRefExtractor::extract(QueryTokenParseState *state) {
   return extractCommonRef(state);
 }
 
-ClauseArgument PQLStmtRefExtractor::extractStatement(
+ClauseArgumentPtr PQLStmtRefExtractor::extractStatement(
     QueryTokenParseState* state) {
   int value = stoi(state->getCurrentToken()->getData());
   state->advanceToken();
-  return ClauseArgument(value);
+  return ClauseArgumentFactory::create(value);
 }

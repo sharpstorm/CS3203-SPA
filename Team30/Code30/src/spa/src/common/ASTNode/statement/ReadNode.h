@@ -14,5 +14,6 @@ class ReadNode : public StatementASTNode {
   ~ReadNode() = default;
   string toString();
   void accept(shared_ptr<Extractor> e);
+  void leave(shared_ptr<Extractor> e);
   void addChild(shared_ptr<ASTNode> node);
 };

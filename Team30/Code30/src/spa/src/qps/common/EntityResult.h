@@ -11,6 +11,7 @@ class EntityResult {
   unordered_set<int> lines;
   unordered_set<string> entities;
   pair_set<int, string> entityPairs;
+  pair_set<string, string> procedurePairs;
   bool isLeftArg;
   bool isEmpty();
   bool operator ==(EntityResult er) const;

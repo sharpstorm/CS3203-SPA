@@ -13,4 +13,5 @@ class PrintNode : public StatementASTNode {
   ~PrintNode() = default;
   string toString();
   void accept(shared_ptr<Extractor> e);
+  void leave(shared_ptr<Extractor> e);
 };

@@ -4,10 +4,10 @@
 #include <vector>
 
 #include "SelectClause.h"
-#include "ClauseArgument.h"
-#include "qps/common/adapters/ClauseArgumentRef.h"
+#include "arguments/ClauseArgument.h"
 #include "qps/common/adapters/StatementResultBuilder.h"
 #include "qps/common/adapters/EntityResultBuilder.h"
+#include "qps/clauses/arguments/ClauseArgumentFactory.h"
 
 using std::pair, std::unordered_set, std::vector, std::shared_ptr;
 
@@ -17,9 +17,9 @@ SelectClause::SelectClause(PQLQuerySynonym target):
 PQLQueryResult* SelectClause::evaluateOn(
     shared_ptr<PkbQueryHandler> pkbQueryHandler) {
   PQLQueryResult* pqlQueryResult = new PQLQueryResult();
-  ClauseArgument clauseArg = ClauseArgument(target);
+  ClauseArgumentPtr clauseArg = ClauseArgumentFactory::create(target);
   if (target.isStatementType()) {
-    StmtRef stmtVar = ClauseArgumentRef::toStmtRef(&clauseArg);
+    StmtRef stmtVar = clauseArg->toStmtRef();
     unordered_set<int> pkbResult = pkbQueryHandler
         ->getStatementsOfType(stmtVar.type);
     pqlQueryResult->addToStatementMap(
@@ -28,7 +28,7 @@ PQLQueryResult* SelectClause::evaluateOn(
     return pqlQueryResult;
   }
 
-  EntityRef entityVar = ClauseArgumentRef::toEntityRef(&clauseArg);
+  EntityRef entityVar = clauseArg->toEntityRef();
   unordered_set<string> pkbResult = pkbQueryHandler
       ->getSymbolsOfType(entityVar.type);
   pqlQueryResult->addToEntityMap(
