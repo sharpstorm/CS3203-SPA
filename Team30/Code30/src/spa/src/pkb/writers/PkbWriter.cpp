@@ -1,13 +1,15 @@
+#include "PkbWriter.h"
+
 #include <memory>
 
-#include "PkbWriter.h"
+#include "AssignsWriter.h"
 #include "FollowsWriter.h"
-#include "ParentWriter.h"
-#include "SymbolWriter.h"
-#include "StatementWriter.h"
-#include "ProcedureWriter.h"
-#include "UsesWriter.h"
 #include "ModifiesWriter.h"
+#include "ParentWriter.h"
+#include "ProcedureWriter.h"
+#include "StatementWriter.h"
+#include "SymbolWriter.h"
+#include "UsesWriter.h"
 
 using std::make_unique;
 
@@ -18,7 +20,8 @@ PkbWriter::PkbWriter(PKB *pkb)
       modifiesWriter(new ModifiesWriter(pkb->modifiesStorage)),
       symbolWriter(new SymbolWriter(pkb->symbolStorage)),
       statementWriter(new StatementWriter(pkb->statementStorage)),
-      procedureWriter(new ProcedureWriter(pkb->procedureStorage)) {}
+      procedureWriter(new ProcedureWriter(pkb->procedureStorage)),
+      assignsWriter(new AssignsWriter(pkb->assignStorage)) {}
 
 void PkbWriter::addFollows(int arg1, int arg2) {
   followsWriter->addFollows(arg1, arg2);
@@ -28,8 +31,7 @@ void PkbWriter::addParent(int arg1, int arg2) {
   parentWriter->addParent(arg1, arg2);
 }
 
-void PkbWriter::addSymbol(string entityName,
-                          EntityType entityType) {
+void PkbWriter::addSymbol(string entityName, EntityType entityType) {
   symbolWriter->addSymbol(entityName, entityType);
 }
 
@@ -51,3 +53,5 @@ void PkbWriter::addModifies(int stmtNum, string variable) {
 }
 
 void PkbWriter::addContainerStmt(int start, int end) {}
+
+void PkbWriter::addAssigns(int stmtNum, shared_ptr<IASTNode> ast) {}
