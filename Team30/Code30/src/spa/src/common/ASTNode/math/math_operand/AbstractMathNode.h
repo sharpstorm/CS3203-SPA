@@ -13,6 +13,8 @@ class AbstractMathNode: public BinaryASTNode {
   void accept(shared_ptr<Extractor> e) {
     e->visit(*this);
   }
+  void leave(shared_ptr<Extractor> e) {
+  }
  protected:
   AbstractMathNode(ASTNodeType type, string value) :
       BinaryASTNode(type, value) {}

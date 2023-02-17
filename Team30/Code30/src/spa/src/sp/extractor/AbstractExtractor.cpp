@@ -20,3 +20,23 @@ void AbstractExtractor::visit(ConstantASTNode node) {}
 void AbstractExtractor::visit(AbstractMathNode node) {}
 
 void AbstractExtractor::visit(AbstractConditionalNode node) {}
+
+void AbstractExtractor::leave(IfNode node) {}
+
+void AbstractExtractor::leave(ReadNode node) {}
+
+void AbstractExtractor::leave(StatementListNode node) {}
+
+void AbstractExtractor::leave(AssignNode node) {}
+
+void AbstractExtractor::leave(PrintNode node) {}
+
+void AbstractExtractor::leave(WhileNode node) {}
+
+void AbstractExtractor::leave(VariableASTNode node) {}
+
+void AbstractExtractor::leave(ConstantASTNode node) {}
+
+void AbstractExtractor::leave(AbstractMathNode node) {}
+
+void AbstractExtractor::leave(AbstractConditionalNode node) {}

@@ -13,6 +13,7 @@ class AbstractConditionalNode: public BinaryASTNode {
   void accept(shared_ptr<Extractor> e) {
     e->visit(*this);
   }
+  void leave(shared_ptr<Extractor> e) {}
  protected:
   AbstractConditionalNode(ASTNodeType type, string value) :
       BinaryASTNode(type, value) {}
