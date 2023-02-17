@@ -1,28 +1,25 @@
 #include <string>
 
-using namespace std;
-
 // Simple programs for grammar testing
 class SourceTestCases {
  public:
-  const std::const std::string SourceTestCases::SourceTestCases::EMPTY =
+  const std::string EMPTY =
       "procedure empty {\n"
       "}";
 
-  const std::const std::string
-      SourceTestCases::SourceTestCases::SIMPLE_PROGRAM =
-          "procedure simple {\n"
-          "read num1;\n"
-          "num1 = num1 + 1;\n"
-          "print num1;\n"
-          "}";
+  const std::string SIMPLE_PROGRAM =
+      "procedure simple {\n"
+      "read num1;\n"
+      "num1 = num1 + 1;\n"
+      "print num1;\n"
+      "}";
 
-  const std::const std::string SourceTestCases::SourceTestCases::ONE_LINE =
+  const std::string ONE_LINE =
       "procedure jammed {\n"
       "read num1;read num2;num3 = num1 + num2;print num3;\n"
       "}";
 
-  const std::const std::string SourceTestCases::SourceTestCases::SAME_NAMES =
+  const std::string SAME_NAMES =
       "procedure procedure {\n"
       "read read;\n"
       "read print;\n"
@@ -30,22 +27,21 @@ class SourceTestCases {
       "print print;\n"
       "}";
 
-  const std::const std::string
-      SourceTestCases::SourceTestCases::CASE_SENSITIVE =
-          "procedure if {\n"
-          "read num;\n"
-          "read Num;\n"
-          "print num;\n"
-          "print Num;\n"
-          "}";
+  const std::string CASE_SENSITIVE =
+      "procedure if {\n"
+      "read num;\n"
+      "read Num;\n"
+      "print num;\n"
+      "print Num;\n"
+      "}";
 
-  const std::const std::string SourceTestCases::SourceTestCases::LONG_NAMES =
+  const std::string LONG_NAMES =
       "procedure arbitrarilylongprocedurename {\n"
       "read someVeryArbitrarilyLongVariableName;\n"
       "print someVeryArbitrarilyLongVariableName;\n"
       "}";
 
-  const std::const std::string SourceTestCases::SourceTestCases::WHITESPACE =
+  const std::string WHITESPACE =
       "procedure white{\n"
       "num1 =          1;\n"
       "num2=2;\n"
@@ -54,7 +50,7 @@ class SourceTestCases {
       "print \tnewNum;"
       "}";
 
-  const std::const std::string SourceTestCases::SourceTestCases::TEST_ASSIGN =
+  const std::string TEST_ASSIGN =
       "procedure assign {\n"
       "num1 = 0;\n"
       "num2 = num1;\n"
@@ -62,16 +58,15 @@ class SourceTestCases {
       "print num1;\n"
       "}";
 
-  const std::string SourceTestCases::ASSIGN_TO_SELF =
+  const std::string ASSIGN_TO_SELF =
       "procedure if {\n"
       "read num;\n"
       "num = num / 2;\n"
       "print num;\n"
       "}";
 
-  const std::string
-      SourceTestCases::TEST_BASIC_PROCEDURE =  // from sample code 1 in CS3203
-                                               // website
+  const std::string TEST_BASIC_PROCEDURE =  // from sample code 1 in CS3203
+                                            // website
       "procedure average {\n"
       "read num1;\n"
       "read num2;\n"
@@ -81,7 +76,7 @@ class SourceTestCases {
       "print ave;\n"
       "}";
 
-  const std::string SourceTestCases::TEST_OPERATORS =
+  const std::string TEST_OPERATORS =
       "procedure operators {\n"
       "num1 = 1 + 2 + 3 * 4 / 5;\n"
       "num2 = 5 * 5 - 5 / (4*3);\n"
@@ -89,7 +84,7 @@ class SourceTestCases {
       "print num3;\n"
       "}";
 
-  const std::string SourceTestCases::CALL_PROCEDURES =
+  const std::string CALL_PROCEDURES =
       "procedure progOne {\n"
       "call progTwo;\n"
       "}\n"
@@ -101,7 +96,7 @@ class SourceTestCases {
       "num = 1;\n"
       "}";
 
-  const std::string SourceTestCases::CALL_CASE_SENSITIVE =
+  const std::string CALL_CASE_SENSITIVE =
       "procedure main {\n"
       "call mAin;\n"
       "}\n"
@@ -114,7 +109,7 @@ class SourceTestCases {
       "}";
 
   // Programs for testing simple if/else cases
-  const std::string SourceTestCases::SIMPLE_IF =
+  const std::string SIMPLE_IF =
       "procedure if {\n"
       "read num;\n"
       "if (num==0) then {\n"
@@ -122,12 +117,12 @@ class SourceTestCases {
       "} else {\n"
       "}}";
 
-  const std::string SourceTestCases::ONE_LINE_IF_STMT =
+  const std::string ONE_LINE_IF_STMT =
       "procedure longif {\n"
       "read num;\n"
       "if (num==0) then {  print num;} else {}}";
 
-  const std::string SourceTestCases::SIMPLE_IF_ELSE =
+  const std::string SIMPLE_IF_ELSE =
       "procedure ifElse {\n"
       "read num;\n"
       "read num2;\n"
@@ -137,14 +132,14 @@ class SourceTestCases {
       "  print num2;\n"
       "}}";
 
-  const std::string SourceTestCases::EMPTY_IF =
+  const std::string EMPTY_IF =
       "procedure if {\n"
       "num = 0;\n"
       "if (num==0) then {\n"
       "} else {\n"
       "}}";
 
-  const std::string SourceTestCases::TEST_CONDITIONAL =
+  const std::string TEST_CONDITIONAL =
       "procedure if {\n"
       "read num1;\n"
       "read num2;\n"
@@ -154,7 +149,7 @@ class SourceTestCases {
       "} else {\n"
       "}}";
 
-  const std::string SourceTestCases::TEST_RELATIONAL =
+  const std::string TEST_RELATIONAL =
       "procedure if {\n"
       "read num1;\n"
       "read num2;\n"
@@ -165,7 +160,7 @@ class SourceTestCases {
       "} else {\n"
       "}}";
 
-  const std::string SourceTestCases::CHAINED_IF =
+  const std::string CHAINED_IF =
       "procedure chainedIf {\n"
       "read num;\n"
       "read num2\n"
@@ -181,8 +176,7 @@ class SourceTestCases {
       "} else {\n"
       "}}}}";
 
-  const std::string
-      SourceTestCases::MULTIPLE_IF_ELSE =  // for follows relations
+  const std::string MULTIPLE_IF_ELSE =  // for follows relations
       "procedure ifElse {\n"
       "read num;\n"
       "read num2;\n"
@@ -201,7 +195,7 @@ class SourceTestCases {
       "  print num2;\n"
       "}}";
 
-  const std::string SourceTestCases::CHAINED_IF_ELSE =
+  const std::string CHAINED_IF_ELSE =
       "procedure ifElse {\n"
       "read num;\n"
       "read num2;\n"
@@ -217,7 +211,7 @@ class SourceTestCases {
       "    print num2;\n"
       "}}";
 
-  const std::string SourceTestCases::MULTI_CHAINED_IF_ELSE =
+  const std::string MULTI_CHAINED_IF_ELSE =
       "procedure ifElse {\n"
       "read num;\n"
       "read num2;\n"
@@ -239,7 +233,7 @@ class SourceTestCases {
       "    } print num2;\n"
       "}}";
 
-  const std::string SourceTestCases::CALL_IF_IF =
+  const std::string CALL_IF_IF =
       "procedure procOne {\n"
       "read num;\n"
       "if (num>=0) then {\n"
@@ -257,7 +251,7 @@ class SourceTestCases {
 
   // Programs testing simple while cases
 
-  const std::string SourceTestCases::SIMPLE_WHILE =
+  const std::string SIMPLE_WHILE =
       "procedure main {\n"
       "num = 0;\n"
       "while (num <= 5) {\n"
@@ -265,7 +259,7 @@ class SourceTestCases {
       "  num = num + 1;\n"
       "}}";
 
-  const std::string SourceTestCases::WHILE_WOUT_WHITESPACE =
+  const std::string WHILE_WOUT_WHITESPACE =
       "procedure main {\n"
       "num = 0;\n"
       "while(num <= 5){\n"
@@ -273,7 +267,7 @@ class SourceTestCases {
       "num =num+1;\n"
       "}}";
 
-  const std::string SourceTestCases::MULTIPLE_WHILE =
+  const std::string MULTIPLE_WHILE =
       "procedure main {\n"
       "num = 0;\n"
       "while (num <= 5) {\n"
@@ -287,13 +281,13 @@ class SourceTestCases {
       "  num = num + 1;\n"
       "}}";
 
-  const std::string SourceTestCases::EMPTY_WHILE =
+  const std::string EMPTY_WHILE =
       "procedure main {\n"
       "num = 0;\n"
       "while (num != 0) {\n"
       "}}";
 
-  const std::string SourceTestCases::WHILE_INBETWEEN_STATEMENTS =
+  const std::string WHILE_INBETWEEN_STATEMENTS =
       "procedure main {\n"
       "num = 0;\n"
       "while (num <= 5) {\n"
@@ -302,7 +296,7 @@ class SourceTestCases {
       "print num;\n"
       "}";
 
-  const std::string SourceTestCases::CHAINED_WHILE =
+  const std::string CHAINED_WHILE =
       "procedure main {\n"
       "num1 = 0;\n"
       "num2 = 5;\n"
@@ -314,7 +308,7 @@ class SourceTestCases {
       "  num1 = num1 + 1;\n"
       "}}";
 
-  const std::string SourceTestCases::MULTI_CHAINED_WHILE =
+  const std::string MULTI_CHAINED_WHILE =
       "procedure main {\n"
       "num1 = 0;\n"
       "num2 = 5;\n"
@@ -331,7 +325,7 @@ class SourceTestCases {
       "  num1 = num1 + 1;\n"
       "}}";
 
-  const std::string SourceTestCases::CALL_IN_WHILE =
+  const std::string CALL_IN_WHILE =
       "procedure main {\n"
       "num = 0;\n"
       "while (num != 5) {\n"
@@ -343,7 +337,7 @@ class SourceTestCases {
 
   // programs with while and if/else chains
 
-  const std::string SourceTestCases::IF_IN_WHILE =
+  const std::string IF_IN_WHILE =
       "procedure main {\n"
       "read num;\n"
       "while (num >= 0) {\n"
@@ -354,7 +348,7 @@ class SourceTestCases {
       "  } num = num - 1;\n"
       "}}";
 
-  const std::string SourceTestCases::WHILE_IN_IF =
+  const std::string WHILE_IN_IF =
       "procedure main {\n"
       "read num;\n"
       "if (num > 0) then {\n"
@@ -364,7 +358,7 @@ class SourceTestCases {
       "} else {\n"
       "}}";
 
-  const std::string SourceTestCases::WHILE_IN_IF_ELSE =
+  const std::string WHILE_IN_IF_ELSE =
       "procedure main {\n"
       "read num;\n"
       "if (num > 0) then {\n"
@@ -377,7 +371,7 @@ class SourceTestCases {
       "  }\n"
       "}}";
 
-  const std::string SourceTestCases::MULTIPLE_WHILE_IN_IF_ELSE =
+  const std::string MULTIPLE_WHILE_IN_IF_ELSE =
       "procedure main {\n"
       "read num;\n"
       "if (num > 0) then {\n"
@@ -399,7 +393,7 @@ class SourceTestCases {
       "  }\n"
       "}}";
 
-  const std::string SourceTestCases::WHILE_CHAIN_IN_IF =
+  const std::string WHILE_CHAIN_IN_IF =
       "procedure main {\n"
       "read num;\n"
       "read numOne;\n"
@@ -412,7 +406,7 @@ class SourceTestCases {
       "} else {\n"
       "}}";
 
-  const std::string SourceTestCases::WHILE_CHAIN_IN_ELSE =
+  const std::string WHILE_CHAIN_IN_ELSE =
       "procedure main {\n"
       "read num;\n"
       "read numOne;\n"
@@ -425,7 +419,7 @@ class SourceTestCases {
       "  }\n"
       "}}";
 
-  const std::string SourceTestCases::WHILE_CHAIN_IN_IF_ELSE =
+  const std::string WHILE_CHAIN_IN_IF_ELSE =
       "procedure main {\n"
       "read num;\n"
       "read numOne;\n"
@@ -442,7 +436,7 @@ class SourceTestCases {
       "  }\n"
       "}}";
 
-  const std::string SourceTestCases::IF_ELSE_SINGLE_CALL_IN_WHILE =
+  const std::string IF_ELSE_SINGLE_CALL_IN_WHILE =
       "procedure main {\n"
       "read num;\n"
       "while (num >= 0) {\n"
@@ -456,7 +450,7 @@ class SourceTestCases {
       "print num;\n"
       "}";
 
-  const std::string SourceTestCases::MULTIPLE_CALLS_IN_WHILE =
+  const std::string MULTIPLE_CALLS_IN_WHILE =
       "procedure main {\n"
       "read num;\n"
       "while (num >= 0) {\n"
@@ -476,7 +470,7 @@ class SourceTestCases {
       "print num;\n"
       "}";
 
-  const std::string SourceTestCases::CHAINED_WHILE_WITH_IF_IN_BODY =
+  const std::string CHAINED_WHILE_WITH_IF_IN_BODY =
       "procedure main {\n"
       "num1 = 0;\n"
       "num2 = 5;\n"
@@ -491,9 +485,8 @@ class SourceTestCases {
       "  num1 = num1 + 1;\n"
       "}}";
 
-  const std::string
-      SourceTestCases::MULTIPLE_IF_ELSE_WITH_WHILE_CHAIN =  // multi-layer
-                                                            // stress test
+  const std::string MULTIPLE_IF_ELSE_WITH_WHILE_CHAIN =  // multi-layer
+                                                         // stress test
       "procedure ifElse {\n"
       "read num1;\n"
       "read num2;\n"
@@ -522,9 +515,8 @@ class SourceTestCases {
       "  print num2;\n"
       "}}";
 
-  const std::string
-      SourceTestCases::COMPLEX_PROGRAM_ONE =  // from sample code 2
-                                              // in CS3203 website
+  const std::string COMPLEX_PROGRAM_ONE =  // from sample code 2
+                                           // in CS3203 website
       "procedure printAscending {\n"
       "read num1;\n"
       "read num2;\n"
@@ -542,9 +534,8 @@ class SourceTestCases {
       "print num1;\n"
       "print num2;\n"
 
-      const std::string
-          SourceTestCases::COMPLEX_PROGRAM_TWO =  // from sample code 3
-                                                  // in CS3203 website
+      const std::string COMPLEX_PROGRAM_TWO =  // from sample code 3
+                                               // in CS3203 website
       "procedure sumDigits {\n"
       "read number;\n"
       "sum = 0;\n"
@@ -557,9 +548,8 @@ class SourceTestCases {
 
       "print sum;\n";
 
-  const std::string
-      SourceTestCases::COMPLEX_PROGRAM_THREE =  // from sample code 4
-                                                // in CS3203 website
+  const std::string COMPLEX_PROGRAM_THREE =  // from sample code 4
+                                             // in CS3203 website
       "procedure main {\n"
       "flag = 0;\n"
       "call computeCentroid;\n"
