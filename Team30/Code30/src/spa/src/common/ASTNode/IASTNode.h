@@ -38,7 +38,4 @@ class IASTNode {
   virtual ASTNodeType getType() = 0;
   virtual string getValue() = 0;
   virtual bool isEquals(IASTNode& other) = 0;
- protected:
-  string value;
-  ASTNodeType type;
 };

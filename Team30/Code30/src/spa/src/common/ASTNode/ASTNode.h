@@ -23,5 +23,7 @@ class ASTNode : public IASTNode {
   string getValue();
   bool isEquals(IASTNode& other);
  protected:
+  string value;
+  ASTNodeType type;
   vector<shared_ptr<ASTNode>> children;
 };

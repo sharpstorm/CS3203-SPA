@@ -1,8 +1,6 @@
 #include "ASTNode.h"
 
-ASTNode::ASTNode(ASTNodeType t, string v) {
-  type = t;
-  value = v;
+ASTNode::ASTNode(ASTNodeType t, string v) : type(t), value(v) {
 }
 
 vector<shared_ptr<ASTNode>> ASTNode::getChildren() {
