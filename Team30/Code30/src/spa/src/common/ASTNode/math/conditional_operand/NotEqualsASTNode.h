@@ -4,8 +4,8 @@
 
 class NotEqualsASTNode: public BinaryASTNode {
  public:
-  ASTNodeType getType() {
-    return ASTNODE_NOT_EQUALS;
+  NotEqualsASTNode() {
+    type = ASTNODE_NOT_EQUALS;
   }
   string toString() {
     return ":neq";

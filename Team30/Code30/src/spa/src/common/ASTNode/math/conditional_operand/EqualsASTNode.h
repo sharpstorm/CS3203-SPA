@@ -4,8 +4,8 @@
 
 class EqualsASTNode: public BinaryASTNode {
  public:
-  ASTNodeType getType() {
-    return ASTNODE_EQUALS;
+  EqualsASTNode() {
+    type = ASTNODE_EQUALS;
   }
   string toString() {
     return ":eq";

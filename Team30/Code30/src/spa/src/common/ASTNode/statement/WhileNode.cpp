@@ -9,6 +9,7 @@ WhileNode::WhileNode() {
   // index [0] = conditional expression
   // index [1] = statement list
   children = vector<shared_ptr<ASTNode>>{nullptr, nullptr};
+  type = ASTNODE_WHILE;
 }
 
 void WhileNode::accept(shared_ptr<Extractor> e) {
@@ -27,6 +28,3 @@ string WhileNode::toString() {
   return ss;
 }
 
-ASTNodeType WhileNode::getType() {
-  return ASTNODE_WHILE;
-}

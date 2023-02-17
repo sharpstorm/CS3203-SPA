@@ -15,5 +15,4 @@ class IfNode : public StatementASTNode {
   string toString();
   void accept(shared_ptr<Extractor> e);
   void addChild(shared_ptr<ASTNode> node);
-  ASTNodeType getType();
 };

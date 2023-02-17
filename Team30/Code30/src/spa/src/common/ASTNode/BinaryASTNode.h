@@ -11,7 +11,6 @@ class BinaryASTNode: public ASTNode {
  public:
   virtual ~BinaryASTNode() = default;
   virtual void accept(shared_ptr<Extractor> e);
-  virtual ASTNodeType getType();
   virtual string toString();
   void setLeftChild(shared_ptr<ASTNode> left);
   void setRightChild(shared_ptr<ASTNode> right);

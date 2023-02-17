@@ -4,8 +4,8 @@
 
 class PlusASTNode: public BinaryASTNode {
  public:
-  ASTNodeType getType() {
-    return ASTNODE_PLUS;
+  PlusASTNode() {
+    type = ASTNODE_PLUS;
   }
   string toString() {
     return ":plus";

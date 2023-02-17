@@ -36,4 +36,13 @@ class IASTNode {
  public:
   virtual shared_ptr<IASTNode> getChild(int i) = 0;
   virtual ASTNodeType getType() = 0;
+  bool operator==(const IASTNode& other) const {
+    if (type == ASTNODE_VARIABLE || type == ASTNODE_CONSTANT) {
+      return type == other.type && value == other.value;
+    }
+    return type == other.type;
+  }
+ protected:
+  ASTNodeType type;
+  string value;
 };

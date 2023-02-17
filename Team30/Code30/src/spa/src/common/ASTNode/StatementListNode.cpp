@@ -5,6 +5,7 @@ using std::shared_ptr;
 
 StatementListNode::StatementListNode() {
   children = vector<shared_ptr<ASTNode>>{};
+  type = ASTNODE_STMTLST;
 }
 
 void StatementListNode::accept(shared_ptr<Extractor> e) {
@@ -17,8 +18,4 @@ string StatementListNode::toString() {
     ss += node->toString() + "\n";
   }
   return ss;
-}
-
-ASTNodeType StatementListNode::getType() {
-  return ASTNODE_STMTLST;
 }

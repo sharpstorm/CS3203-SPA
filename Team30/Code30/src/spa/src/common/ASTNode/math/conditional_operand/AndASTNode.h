@@ -4,8 +4,8 @@
 
 class AndASTNode: public BinaryASTNode {
  public:
-  ASTNodeType getType() {
-    return ASTNODE_AND;
+  AndASTNode() {
+    type = ASTNODE_AND;
   }
   string toString() {
     return ":and";

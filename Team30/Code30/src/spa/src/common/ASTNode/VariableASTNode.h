@@ -12,9 +12,6 @@ class VariableASTNode : public ASTNode {
   explicit VariableASTNode(string value);
   ~VariableASTNode() = default;
   void accept(shared_ptr<Extractor> e);
-  ASTNodeType getType();
   string toString();
   string getValue();
- private:
-  string value;
 };

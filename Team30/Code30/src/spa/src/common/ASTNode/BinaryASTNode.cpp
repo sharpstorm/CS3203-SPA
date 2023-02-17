@@ -28,9 +28,6 @@ void BinaryASTNode::accept(shared_ptr<Extractor> e) {
   e->visit(*this);
 }
 
-ASTNodeType BinaryASTNode::getType() {
-  return ASTNODE_OPERAND;
-}
 string BinaryASTNode::toString() {
   return ":operand";
 };

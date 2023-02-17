@@ -4,8 +4,8 @@
 
 class LteASTNode: public BinaryASTNode {
  public:
-  ASTNodeType getType() {
-    return ASTNODE_LTE;
+  LteASTNode() {
+    type = ASTNODE_LTE;
   }
   string toString() {
     return ":lte";

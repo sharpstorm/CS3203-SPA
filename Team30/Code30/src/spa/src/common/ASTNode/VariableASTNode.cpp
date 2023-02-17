@@ -2,7 +2,8 @@
 #include "sp/extractor/Extractor.h"
 
 VariableASTNode::VariableASTNode(string v) {
-    value = v;
+  value = v;
+  type = ASTNODE_VARIABLE;
 }
 
 void VariableASTNode::accept(shared_ptr<Extractor> e) {
@@ -15,8 +16,4 @@ string VariableASTNode::toString() {
 
 string VariableASTNode::getValue() {
   return value;
-}
-
-ASTNodeType VariableASTNode::getType() {
-  return ASTNODE_VARIABLE;
 }

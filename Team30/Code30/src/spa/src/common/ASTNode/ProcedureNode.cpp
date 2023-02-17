@@ -5,6 +5,7 @@
 using std::shared_ptr;
 
 ProcedureNode::ProcedureNode(string name): procName(name) {
+  type = ASTNODE_PROCEDURE;
 }
 
 void ProcedureNode::accept(shared_ptr<Extractor> e) {
@@ -17,8 +18,4 @@ string ProcedureNode::toString() {
   }
   ss += "}";
   return ss;
-}
-
-ASTNodeType ProcedureNode::getType() {
-  return ASTNODE_PROCEDURE;
 }

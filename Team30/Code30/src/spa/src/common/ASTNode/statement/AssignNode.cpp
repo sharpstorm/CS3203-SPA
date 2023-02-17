@@ -9,6 +9,7 @@ AssignNode::AssignNode() {
   // index [0] = assignee
   // index [1] = expression
   children = vector<shared_ptr<ASTNode>>{nullptr, nullptr};
+  type = ASTNODE_ASSIGN;
 }
 
 void AssignNode::accept(shared_ptr<Extractor> e) {
@@ -17,8 +18,4 @@ void AssignNode::accept(shared_ptr<Extractor> e) {
 
 string AssignNode::toString() {
   return ":assign";
-}
-
-ASTNodeType AssignNode::getType() {
-  return ASTNODE_ASSIGN;
 }

@@ -16,3 +16,7 @@ shared_ptr<IASTNode> ASTNode::getChild(int index){
   return children[index];
 }
 
+ASTNodeType ASTNode::getType() {
+  return type;
+}
+

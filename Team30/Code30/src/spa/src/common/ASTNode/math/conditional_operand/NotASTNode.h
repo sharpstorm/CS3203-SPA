@@ -4,8 +4,8 @@
 
 class NotASTNode: public BinaryASTNode {
  public:
-  ASTNodeType getType() {
-    return ASTNODE_NOT;
+  NotASTNode() {
+    type = ASTNODE_NOT;
   }
   string toString() {
     return ":not";

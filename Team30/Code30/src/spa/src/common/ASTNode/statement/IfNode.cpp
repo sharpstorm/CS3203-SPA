@@ -10,6 +10,7 @@ IfNode::IfNode() {
   // index [1] = Then StmtLst
   // index [2] = Else StmtLst
   children = vector<shared_ptr<ASTNode>>{nullptr, nullptr, nullptr};
+  type = ASTNODE_IF;
 }
 
 void IfNode::accept(shared_ptr<Extractor> e) {
@@ -23,8 +24,4 @@ void IfNode::addChild(shared_ptr<ASTNode> node) {
 string IfNode::toString() {
   string ss = ":if";
   return ss;
-}
-
-ASTNodeType IfNode::getType() {
-  return ASTNODE_IF;
 }
