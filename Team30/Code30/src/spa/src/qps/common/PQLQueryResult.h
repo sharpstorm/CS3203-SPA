@@ -64,7 +64,6 @@ class PQLQueryResult {
   void putTableRow(vector<QueryResultItemPtr> row);
   int getRowCount();
   RowSet* getRowsWithValue(ResultTableCol column, QueryResultItem* value);
-  RowSet* getRowsWithValue(PQLSynonymName name, QueryResultItem* value);
 
   bool operator ==(const PQLQueryResult &pqr) const;
 

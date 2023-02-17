@@ -62,7 +62,6 @@ void PQLQueryResult::putTableRow(vector<QueryResultItemPtr> row) {
     } else {
       map->emplace(item, RowSet{newRowNum});
     }
-
   }
 
   combinedTable.push_back(move(row));
@@ -70,11 +69,6 @@ void PQLQueryResult::putTableRow(vector<QueryResultItemPtr> row) {
 
 int PQLQueryResult::getRowCount() {
   return combinedTable.size();
-}
-
-RowSet *PQLQueryResult::getRowsWithValue(PQLSynonymName name,
-                                         QueryResultItem* value) {
-  return getRowsWithValue(getSynonymCol(name), value);
 }
 
 RowSet *PQLQueryResult::getRowsWithValue(ResultTableCol column,
@@ -111,7 +105,8 @@ bool PQLQueryResult::operator==(const PQLQueryResult &pqr) const {
         int otherIndex = it.second;
         int thisIndex = resultIndex.at(it.first);
 
-        if (*combinedTable[j][thisIndex].get() != *pqr.combinedTable[i][otherIndex].get()) {
+        if (*combinedTable[j][thisIndex].get() !=
+            *pqr.combinedTable[i][otherIndex].get()) {
           isMatch = false;
           break;
         }
