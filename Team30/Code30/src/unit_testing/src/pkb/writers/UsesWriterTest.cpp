@@ -4,22 +4,22 @@
 
 #include "catch.hpp"
 #include "pkb/storage/tables/HashKeySetTable.h"
-#include "pkb/writers/ModifiesWriter.h"
+#include "pkb/writers/UsesWriter.h"
 
 using std::make_shared;
 using std::make_unique;
 using std::unordered_set;
 using std::string;
 
-TEST_CASE("ModifiesWriter addModifies") {
+TEST_CASE("UsesWriter addUses") {
   auto table = make_shared<HashKeySetTable<int, string>>();
   auto reverseTable = make_shared<HashKeySetTable<string, int>>();
-  auto store = make_unique<ModifiesStorage>(table, reverseTable);
-  auto writer = ModifiesWriter(store.get());
+  auto store = make_unique<UsesStorage>(table, reverseTable);
+  auto writer = UsesWriter(store.get());
 
-  writer.addModifies(1, "x");
-  writer.addModifies(1, "y");
-  writer.addModifies(3, "y");
+  writer.addUses(1, "x");
+  writer.addUses(1, "y");
+  writer.addUses(3, "y");
 
   REQUIRE(table->get(1) == unordered_set<string>({"x", "y"}));
   REQUIRE(table->get(3) == unordered_set<string>({"y"}));

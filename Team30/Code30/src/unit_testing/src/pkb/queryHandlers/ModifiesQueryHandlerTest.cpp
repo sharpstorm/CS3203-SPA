@@ -1,6 +1,7 @@
 #include <memory>
 #include <unordered_set>
 #include <utility>
+#include <string>
 
 #include "catch.hpp"
 #include "common/Types.h"
@@ -15,6 +16,7 @@ using std::make_unique;
 using std::unique_ptr;
 using std::shared_ptr;
 using std::unordered_set;
+using std::string;
 
 static unique_ptr<StructureMappingProviderStub> setUpStructureMappingProvider() {
   auto provider = make_unique<StructureMappingProviderStub>();

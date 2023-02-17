@@ -1,5 +1,6 @@
 #include <unordered_set>
 #include <memory>
+#include <string>
 
 #include "catch.hpp"
 #include "pkb/queryHandlers/PkbQueryHandler.h"
@@ -7,6 +8,7 @@
 
 using std::unordered_set;
 using std::make_unique;
+using std::string;
 
 TEST_CASE("Modifies (StmtRef, EntityRef)") {
   auto pkb = make_unique<PKB>();
