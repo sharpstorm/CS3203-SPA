@@ -3,7 +3,7 @@
 #include <memory>
 #include "sp/parser/parse_context/RecursiveParseContext.h"
 #include "sp/parser/IGrammarContextProvider.h"
-#include "common/ASTNode/math/TimesASTNode.h"
+#include "common/ASTNode/math/math_operand/TimesASTNode.h"
 
 using std::shared_ptr;
 
@@ -13,10 +13,6 @@ class TermContext: public RecursiveParseContext {
       RecursiveParseContext(provider) {}
   shared_ptr<ASTNode> generateSubtree(SourceParseState* state);
  private:
-  shared_ptr<AbstractMathASTNode>
-  generateTimes(shared_ptr<ASTNode> leftNode);
-  shared_ptr<AbstractMathASTNode>
-  generateDiv(shared_ptr<ASTNode> leftNode);
-  shared_ptr<AbstractMathASTNode>
-  generateMod(shared_ptr<ASTNode> leftNode);
+  shared_ptr<BinaryASTNode>
+  generateOperand(SourceParseState* state, shared_ptr<ASTNode> leftNode);
 };

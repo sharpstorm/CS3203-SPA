@@ -1,8 +1,8 @@
 #include <memory>
 #include "TermContext.h"
-#include "common/ASTNode/math/TimesASTNode.h"
-#include "common/ASTNode/math/DivASTNode.h"
-#include "common/ASTNode/math/ModASTNode.h"
+#include "common/ASTNode/math/math_operand/TimesASTNode.h"
+#include "common/ASTNode/math/math_operand/DivASTNode.h"
+#include "common/ASTNode/math/math_operand/ModASTNode.h"
 
 using std::shared_ptr;
 
@@ -19,13 +19,11 @@ shared_ptr<ASTNode> TermContext::generateSubtree(SourceParseState *state) {
     return state->getCached();
   }
 
-  shared_ptr<AbstractMathASTNode> middleNode;
-  if (curToken->isType(SIMPLE_TOKEN_TIMES)) {
-    middleNode = generateTimes(state->getCached());
-  } else if (curToken->isType(SIMPLE_TOKEN_DIV)) {
-    middleNode = generateDiv(state->getCached());
-  } else if (curToken->isType(SIMPLE_TOKEN_MOD)) {
-    middleNode = generateMod(state->getCached());
+  shared_ptr<BinaryASTNode> middleNode;
+  if (curToken->isType(SIMPLE_TOKEN_TIMES) ||
+      curToken->isType(SIMPLE_TOKEN_DIV) ||
+      curToken->isType(SIMPLE_TOKEN_MOD)) {
+    middleNode = generateOperand(state, state->getCached());
   } else {
     return state->getCached();
   }
@@ -47,26 +45,20 @@ shared_ptr<ASTNode> TermContext::generateSubtree(SourceParseState *state) {
   return middleNode;
 }
 
-shared_ptr<AbstractMathASTNode>
-TermContext::generateTimes(shared_ptr<ASTNode> leftNode) {
-  TimesASTNode* node = new TimesASTNode();
+shared_ptr<BinaryASTNode> TermContext::generateOperand(
+    SourceParseState* state, shared_ptr<ASTNode> leftNode) {
+  shared_ptr<BinaryASTNode> node;
+  switch (state->getCurrToken()->getType()) {
+    case SIMPLE_TOKEN_TIMES:
+      node = shared_ptr<BinaryASTNode>(new TimesASTNode());
+      break;
+    case SIMPLE_TOKEN_DIV:
+      node = shared_ptr<BinaryASTNode>(new DivASTNode());
+      break;
+    case SIMPLE_TOKEN_MOD:
+      node = shared_ptr<BinaryASTNode>(new ModASTNode());
+      break;
+  }
   node->setLeftChild(leftNode);
-  shared_ptr<TimesASTNode> newNode = shared_ptr<TimesASTNode>(node);
-  return newNode;
-}
-
-shared_ptr<AbstractMathASTNode>
-TermContext::generateDiv(shared_ptr<ASTNode> leftNode) {
-  DivASTNode* node = new DivASTNode();
-  node->setLeftChild(leftNode);
-  shared_ptr<DivASTNode> newNode = shared_ptr<DivASTNode>(node);
-  return newNode;
-}
-
-shared_ptr<AbstractMathASTNode>
-TermContext::generateMod(shared_ptr<ASTNode> leftNode) {
-  ModASTNode* node = new ModASTNode();
-  node->setLeftChild(leftNode);
-  shared_ptr<ModASTNode> newNode = shared_ptr<ModASTNode>(node);
-  return newNode;
+  return node;
 }

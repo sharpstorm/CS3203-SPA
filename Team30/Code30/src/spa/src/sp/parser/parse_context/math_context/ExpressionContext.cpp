@@ -18,11 +18,9 @@ shared_ptr<ASTNode> ExpressionContext::generateSubtree(
     return state->getCached();
   }
 
-  shared_ptr<AbstractMathASTNode> middleNode;
-  if (curToken->isType(SIMPLE_TOKEN_PLUS)) {
-    middleNode = generatePlus(state->getCached());
-  } else if (curToken->isType(SIMPLE_TOKEN_MINUS)) {
-    middleNode = generateMinus(state->getCached());
+  shared_ptr<BinaryASTNode> middleNode;
+  if (curToken->isType(SIMPLE_TOKEN_PLUS) || curToken->isType(SIMPLE_TOKEN_MINUS)) {
+    middleNode = generateOperand(state, state->getCached());
   } else {
     return state->getCached();
   }
@@ -38,24 +36,23 @@ shared_ptr<ASTNode> ExpressionContext::generateSubtree(
   if (state->getCurrToken() == nullptr) {
     return middleNode;
   } else if (state->getCurrToken()->isType(SIMPLE_TOKEN_PLUS)
-    || state->getCurrToken()->isType(SIMPLE_TOKEN_MINUS)) {
+      || state->getCurrToken()->isType(SIMPLE_TOKEN_MINUS)) {
     return contextProvider->getContext(EXPR_CONTEXT)->generateSubtree(state);
   }
   return middleNode;
 }
 
-shared_ptr<PlusASTNode> ExpressionContext::generatePlus(
-    shared_ptr<ASTNode> leftNode) {
-  PlusASTNode* node = new PlusASTNode();
+shared_ptr<BinaryASTNode> ExpressionContext::generateOperand(
+    SourceParseState* state, shared_ptr<ASTNode> leftNode) {
+  shared_ptr<BinaryASTNode> node;
+  switch (state->getCurrToken()->getType()) {
+    case SIMPLE_TOKEN_PLUS:
+      node = shared_ptr<BinaryASTNode>(new PlusASTNode());
+      break;
+    case SIMPLE_TOKEN_MINUS:
+      node = shared_ptr<BinaryASTNode>(new MinusASTNode());
+      break;
+  }
   node->setLeftChild(leftNode);
-  shared_ptr<PlusASTNode> newNode = shared_ptr<PlusASTNode>(node);
-  return newNode;
-}
-
-shared_ptr<MinusASTNode> ExpressionContext::generateMinus(
-    shared_ptr<ASTNode> leftNode) {
-  MinusASTNode* node = new MinusASTNode();
-  node->setLeftChild(leftNode);
-  shared_ptr<MinusASTNode> newNode = shared_ptr<MinusASTNode>(node);
-  return newNode;
+  return node;
 }
