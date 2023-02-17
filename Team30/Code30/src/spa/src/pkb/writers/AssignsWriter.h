@@ -1,7 +1,9 @@
 #pragma once
 
-#include <string>
 #include <memory>
+#include <string>
+
+#include "common/Types.h"
 #include "pkb/storage/StorageTypes.h"
 #include "pkb/writers/interfaces/IAssignsWriter.h"
 
@@ -9,7 +11,9 @@ using std::string;
 
 class AssignsWriter : public IAssignsWriter {
  public:
-  AssignsWriter();
+  explicit AssignsWriter(AssignStorage *assignStorage);
+  void addAssigns(int arg1, shared_ptr<IASTNode> arg2) override;
 
-  void addAssigns(int, shared_ptr<IASTNode>) override;
+ private:
+  AssignStorage *assignStorage;
 };

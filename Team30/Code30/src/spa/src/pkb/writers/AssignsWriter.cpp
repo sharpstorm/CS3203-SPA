@@ -1,8 +1,8 @@
-#include <string>
 #include "AssignsWriter.h"
 
-using std::string;
+AssignsWriter::AssignsWriter(AssignStorage *assignStorage)
+    : assignStorage(assignStorage) {}
 
-AssignsWriter::AssignsWriter() {}
-
-void AssignsWriter::addAssigns(int, shared_ptr<IASTNode>) {}
+void AssignsWriter::addAssigns(int stmtNum, shared_ptr<IASTNode> astNode) {
+  assignStorage->set(stmtNum, astNode);
+}

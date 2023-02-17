@@ -18,6 +18,7 @@ class PKB {
   SymbolStorage* symbolStorage;
   StatementStorage* statementStorage;
   ProcedureStorage* procedureStorage;
+  AssignStorage* assignStorage;
   StructureMappingProvider* structureProvider;
   EntityMappingProvider* entityMappingProvider;
   PredicateFactory* predicateFactory;

@@ -21,7 +21,7 @@ PkbWriter::PkbWriter(PKB *pkb)
       symbolWriter(new SymbolWriter(pkb->symbolStorage)),
       statementWriter(new StatementWriter(pkb->statementStorage)),
       procedureWriter(new ProcedureWriter(pkb->procedureStorage)),
-      assignsWriter(new AssignsWriter()) {}
+      assignsWriter(new AssignsWriter(pkb->assignStorage)) {}
 
 void PkbWriter::addFollows(int arg1, int arg2) {
   followsWriter->addFollows(arg1, arg2);

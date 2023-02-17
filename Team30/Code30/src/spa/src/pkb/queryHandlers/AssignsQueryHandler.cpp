@@ -4,14 +4,12 @@
 
 using std::string;
 
-AssignsQueryHandler::AssignsQueryHandler() {}
-
-QueryResult<int, shared_ptr<IASTNode>> AssignsQueryHandler::queryAssigns()
-    const {
-  return QueryResult<int, shared_ptr<IASTNode>>();
-}
+AssignsQueryHandler::AssignsQueryHandler(const AssignStorage *assignStore)
+    : assignStore(assignStore) {}
 
 QueryResult<int, shared_ptr<IASTNode>> AssignsQueryHandler::queryAssigns(
-    StmtRef) const {
-  return QueryResult<int, shared_ptr<IASTNode>>();
+    StmtRef stmt) const {
+  QueryResult<int, shared_ptr<IASTNode>> result;
+  result.add(stmt.lineNum, assignStore->get(stmt.lineNum));
+  return result;
 }

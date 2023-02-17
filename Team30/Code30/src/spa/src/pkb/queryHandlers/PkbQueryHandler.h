@@ -25,7 +25,6 @@ class PkbQueryHandler : public IPkbQueryHandler {
   QueryResult<int, string> queryModifies(StmtRef, EntityRef) const override;
   QueryResult<string, string> queryModifies(EntityRef,
                                             EntityRef) const override;
-  QueryResult<int, shared_ptr<IASTNode>> queryAssigns() const override;
   QueryResult<int, shared_ptr<IASTNode>> queryAssigns(StmtRef) const override;
 
   unordered_set<string> getSymbolsOfType(EntityType) const override;

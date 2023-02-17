@@ -65,11 +65,7 @@ QueryResult<string, string> PkbQueryHandler::queryModifies(
   return QueryResult<string, string>();
 }
 
-QueryResult<int, shared_ptr<IASTNode>> PkbQueryHandler::queryAssigns() const {
-  return QueryResult<int, shared_ptr<IASTNode>>();
-}
-
 QueryResult<int, shared_ptr<IASTNode>> PkbQueryHandler::queryAssigns(
-    StmtRef) const {
-  return QueryResult<int, shared_ptr<IASTNode>>();
+    StmtRef arg1) const {
+  return assignHandler->queryAssigns(arg1);
 }
