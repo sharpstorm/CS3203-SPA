@@ -23,11 +23,11 @@ class ClauseArgument {
   virtual EntityRef toEntityRef() = 0;
 
   static SynonymPredicate isStatement;
-  static SynonymPredicate isType(PQLSynonymType type) {
-    return [type](PQLQuerySynonym syn){
-      return syn.isType(type);
-    };
-  }
+
+  template<PQLSynonymType type>
+  constexpr static bool(*isType)(PQLQuerySynonym) = [](PQLQuerySynonym syn) {
+    return syn.isType(type);
+  };
 };
 
 using ClauseArgumentPtr = unique_ptr<ClauseArgument>;

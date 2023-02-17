@@ -18,10 +18,10 @@ bool UsesClause::validateArgTypes(VariableTable *variables) {
   }
 
   bool isLeftValid = left->synonymSatisfies(ClauseArgument::isStatement)
-      || left->synonymSatisfies(ClauseArgument::isType(
-          PQL_SYN_TYPE_PROCEDURE));
+      || left->synonymSatisfies(
+          ClauseArgument::isType<PQL_SYN_TYPE_PROCEDURE>);
   bool isRightValid = right->synonymSatisfies(
-      ClauseArgument::isType(PQL_SYN_TYPE_VARIABLE));
+      ClauseArgument::isType<PQL_SYN_TYPE_VARIABLE>);
 
   return isLeftValid && isRightValid;
 }

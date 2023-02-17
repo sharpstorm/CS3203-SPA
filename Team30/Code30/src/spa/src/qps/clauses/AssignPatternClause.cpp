@@ -28,5 +28,5 @@ bool AssignPatternClause::validateArgTypes(VariableTable *variables) {
   }
 
   return leftArgument->synonymSatisfies(
-      ClauseArgument::isType(PQL_SYN_TYPE_VARIABLE));
+      ClauseArgument::isType<PQL_SYN_TYPE_VARIABLE>);
 }
