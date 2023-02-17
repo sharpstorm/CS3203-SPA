@@ -1,6 +1,3 @@
-#include <memory>
-#include <unordered_map>
-#include <unordered_set>
 #include <vector>
 
 #include "../../../../spa/src/common/ASTNode/StatementListNode.h"
@@ -8,195 +5,210 @@
 #include "../../../../spa/src/pkb/storage/PKB.h"
 #include "../../../../spa/src/pkb/storage/StorageTypes.h"
 #include "../../../../spa/src/pkb/writers/PkbWriter.h"
+#include "../../../../spa/src/sp/SourceParser.h"
+#include "../../../../spa/src/sp/extractor/TreeWalker.h"
 #include "../../../../spa/src/sp/extractor/concrete_extractors/ParentExtractor.h"
+#include "../StubWriter.cpp"
+#include "../Util.cpp"
 #include "catch.hpp"
 
 using std::make_shared;
 
-class PkbWriterStubForParent : public PkbWriter {
- public:
-  std::unordered_map<int, std::unordered_set<int>> relations;
-
-  PkbWriterStubForParent(PKB* pkb) : PkbWriter(pkb) {}
-
-  void addParent(int arg1, int arg2) final { relations[arg1].insert(arg2); };
-
-  unordered_set<int> getSet(int index) {
-    if (relations.count(index) == 1) {
-      return relations[index];
-    } else {
-      return unordered_set<int>({});
-    }
-  }
-};
-
-shared_ptr<IfNode> simplyIf() {
-  shared_ptr<IfNode> simpleIf = shared_ptr<IfNode>(new IfNode());
-
-  shared_ptr<StatementListNode> ifLst =
-      shared_ptr<StatementListNode>(new StatementListNode());
-
-  shared_ptr<StatementListNode> elseLst =
-      shared_ptr<StatementListNode>(new StatementListNode());
-
-  shared_ptr<StatementASTNode> first =
-      shared_ptr<StatementASTNode>(new PrintNode());
-  shared_ptr<StatementASTNode> second =
-      shared_ptr<StatementASTNode>(new PrintNode());
-  shared_ptr<StatementASTNode> third =
-      shared_ptr<StatementASTNode>(new AssignNode());
-  shared_ptr<StatementASTNode> fourth =
-      shared_ptr<StatementASTNode>(new AssignNode());
-
-  shared_ptr<ConditionalExpressionASTNode> condition =
-      shared_ptr<ConditionalExpressionASTNode>(
-          new ConditionalExpressionASTNode());
-
-  simpleIf->lineNumber = 1;
-  first->lineNumber = 2;
-  second->lineNumber = 3;
-  third->lineNumber = 4;
-  fourth->lineNumber = 5;
-
-  ifLst->addChild(first);
-  ifLst->addChild(second);
-  elseLst->addChild(third);
-  elseLst->addChild(fourth);
-
-  simpleIf->setChild(0, condition);
-  simpleIf->setChild(1, ifLst);
-  simpleIf->setChild(2, elseLst);
-
-  return simpleIf;
+vector<pair<int, int>> executeParentExtractor(string input) {
+  TreeWalker treeWalker;
+  PKB pkb;
+  StubPkb stubby(&pkb);
+  SourceParser parser;
+  vector<shared_ptr<Extractor>> extractors;
+  extractors.push_back(
+      shared_ptr<AbstractExtractor>(new ParentExtractor(&stubby)));
+  AST ast = parser.parseSource(input);
+  treeWalker.walkAST(ast, extractors);
+  return stubby.parentStore;
 }
 
-shared_ptr<WhileNode> simplyWhile() {
-  shared_ptr<WhileNode> simpleWhile = shared_ptr<WhileNode>(new WhileNode());
+TEST_CASE("ParentExtractor Simple Statement List") {
+  string input =
+      "procedure simple {"
+      "read num1;"
+      "read num2;"
+      "read num3;"
+      "}";
 
-  shared_ptr<StatementListNode> stmtLst =
-      shared_ptr<StatementListNode>(new StatementListNode());
-
-  shared_ptr<StatementASTNode> first =
-      shared_ptr<StatementASTNode>(new PrintNode());
-  shared_ptr<StatementASTNode> second =
-      shared_ptr<StatementASTNode>(new PrintNode());
-  shared_ptr<StatementASTNode> third =
-      shared_ptr<StatementASTNode>(new AssignNode());
-
-  shared_ptr<ConditionalExpressionASTNode> condition =
-      shared_ptr<ConditionalExpressionASTNode>();
-
-  simpleWhile->lineNumber = 1;
-  first->lineNumber = 2;
-  second->lineNumber = 3;
-  third->lineNumber = 4;
-
-  stmtLst->addChild(first);
-  stmtLst->addChild(second);
-  stmtLst->addChild(third);
-
-  simpleWhile->setChild(0, condition);
-  simpleWhile->setChild(1, stmtLst);
-
-  return simpleWhile;
+  Util u;
+  vector<pair<int, int>> v = executeParentExtractor(input);
+  REQUIRE(u.isSize(v, 0));
 }
 
-shared_ptr<IfNode> ifWithWhile() {
-  shared_ptr<IfNode> ifNode = shared_ptr<IfNode>(new IfNode());
+TEST_CASE("ParentExtractor Statement with If") {
+  string input =
+      "procedure simple {"
+      "read num1;"
+      "read num2;"
+      "if (num1 < num2) then {"
+      "num1 = num1 + 1;"
+      "print num1;"
+      "} else {"
+      "print num2;"
+      "}"
+      "}";
 
-  shared_ptr<StatementListNode> ifLst =
-      shared_ptr<StatementListNode>(new StatementListNode());
-
-  shared_ptr<StatementListNode> elseLst =
-      shared_ptr<StatementListNode>(new StatementListNode());
-
-  shared_ptr<StatementASTNode> stmtIf =
-      shared_ptr<StatementASTNode>(new PrintNode());
-
-  shared_ptr<ConditionalExpressionASTNode> condition =
-      shared_ptr<ConditionalExpressionASTNode>(
-          new ConditionalExpressionASTNode());
-
-  shared_ptr<WhileNode> whileNode = shared_ptr<WhileNode>(new WhileNode());
-
-  shared_ptr<StatementListNode> stmtLstWhile =
-      shared_ptr<StatementListNode>(new StatementListNode());
-
-  shared_ptr<StatementASTNode> firstWhileStmt =
-      shared_ptr<StatementASTNode>(new PrintNode());
-
-  shared_ptr<ConditionalExpressionASTNode> conditionWhile =
-      shared_ptr<ConditionalExpressionASTNode>();
-
-  ifNode->lineNumber = 1;
-  whileNode->lineNumber = 2;
-  firstWhileStmt->lineNumber = 3;
-  stmtIf->lineNumber = 4;
-
-  stmtLstWhile->addChild(firstWhileStmt);
-
-  whileNode->setChild(0, conditionWhile);
-  whileNode->setChild(1, stmtLstWhile);
-
-  ifLst->addChild(whileNode);
-  elseLst->addChild(stmtIf);
-
-  ifNode->setChild(0, condition);
-  ifNode->setChild(1, ifLst);
-  ifNode->setChild(2, elseLst);
-
-  return ifNode;
+  Util u;
+  vector<pair<int, int>> v = executeParentExtractor(input);
+  REQUIRE(u.contains(v, 3, 4));
+  REQUIRE(u.contains(v, 3, 5));
+  REQUIRE(u.contains(v, 3, 6));
+  REQUIRE(u.isSize(v, 3));
 }
 
-TEST_CASE("ParentExtractor simple If") {
-  shared_ptr<IfNode> simpleIf = simplyIf();
+TEST_CASE("ParentExtractor Simple with While") {
+  string input =
+      "procedure simple {"
+      "read num1;"
+      "read num2;"
+      "while (num1 < num2) {"
+      "num1 = num1 + 1;"
+      "print num1;"
+      "}"
+      "print num2;"
+      "}";
 
-  PKB* pkb = new PKB();
-
-  PkbWriterStubForParent writer = PkbWriterStubForParent(pkb);
-
-  ParentExtractor* extractor = new ParentExtractor(&writer);
-
-  extractor->visit(*simpleIf);
-
-  REQUIRE(writer.getSet(1) == unordered_set<int>({2, 3, 4, 5}));
-  REQUIRE(writer.getSet(2) == unordered_set<int>({}));
-  REQUIRE(writer.getSet(3) == unordered_set<int>({}));
-  REQUIRE(writer.getSet(4) == unordered_set<int>({}));
-  REQUIRE(writer.getSet(5) == unordered_set<int>({}));
+  Util u;
+  vector<pair<int, int>> v = executeParentExtractor(input);
+  REQUIRE(u.contains(v, 3, 4));
+  REQUIRE(u.contains(v, 3, 5));
+  REQUIRE(u.isSize(v, 2));
 }
 
-TEST_CASE("ParentExtractor simple While") {
-  shared_ptr<WhileNode> simpleWhile = simplyWhile();
+TEST_CASE("ParentExtractor If in While loop") {
+  string input =
+      "procedure simple {"
+      "read num1;"
+      "read num2;"
+      "while (num1 < num2) {"
+      "if (num1 == num2) then {"
+      "num2 = num2 + 1;"
+      "} else {}"
+      "num1 = num1 + 1;"
+      "print num1;"
+      "}"
+      "print num2;"
+      "}";
 
-  PKB* pkb = new PKB();
-
-  PkbWriterStubForParent writer = PkbWriterStubForParent(pkb);
-
-  ParentExtractor* extractor = new ParentExtractor(&writer);
-
-  extractor->visit(*simpleWhile);
-
-  REQUIRE(writer.getSet(1) == unordered_set<int>({
-                                  2,
-                                  3,
-                                  4,
-                              }));
-  REQUIRE(writer.getSet(2) == unordered_set<int>({}));
-  REQUIRE(writer.getSet(3) == unordered_set<int>({}));
-  REQUIRE(writer.getSet(4) == unordered_set<int>({}));
+  Util u;
+  vector<pair<int, int>> v = executeParentExtractor(input);
+  REQUIRE(u.contains(v, 3, 4));
+  REQUIRE(u.contains(v, 4, 5));
+  REQUIRE(u.contains(v, 3, 6));
+  REQUIRE(u.contains(v, 3, 7));
+  REQUIRE(u.isSize(v, 4));
 }
 
-TEST_CASE("ParentExtractor if with while stmt") {
-  shared_ptr<IfNode> ifNode = ifWithWhile();
+TEST_CASE("ParentExtractor While in If") {
+  string input =
+      "procedure simple {"
+      "read num1;"
+      "read num2;"
+      "if (num1 < num2) then {"
+      "while (num1 < num2) {"
+      "num1 = num1 + 1;"
+      "print num1;"
+      "}} else {"
+      "num2 = num2 + 1;"
+      "}"
+      "print num2;"
+      "}";
 
-  PKB* pkb = new PKB();
+  Util u;
+  vector<pair<int, int>> v = executeParentExtractor(input);
+  REQUIRE(u.contains(v, 3, 4));
+  REQUIRE(u.contains(v, 4, 5));
+  REQUIRE(u.contains(v, 4, 6));
+  REQUIRE(u.contains(v, 3, 7));
+  REQUIRE(u.isSize(v, 4));
+}
 
-  PkbWriterStubForParent writer = PkbWriterStubForParent(pkb);
+TEST_CASE("ParentExtractor While in Else") {
+  string input =
+      "procedure simple {"
+      "read num1;"
+      "read num2;"
+      "if (num1 < num2) then {"
+      "num2 = num2 + 1;"
+      "} else {"
+      "while (num1 < num2) {"
+      "num1 = num1 + 1;"
+      "print num1;"
+      "}}"
+      "print num2;"
+      "}";
 
-  ParentExtractor* extractor = new ParentExtractor(&writer);
+  Util u;
+  vector<pair<int, int>> v = executeParentExtractor(input);
+  REQUIRE(u.contains(v, 3, 4));
+  REQUIRE(u.contains(v, 3, 5));
+  REQUIRE(u.contains(v, 5, 6));
+  REQUIRE(u.contains(v, 5, 7));
+  REQUIRE(u.isSize(v, 4));
+}
 
-  extractor->visit(*ifWithWhile());
+TEST_CASE("ParentExtractor Triple-While Chain") {
+  string input =
+      "procedure simple {"
+      "read num1;"
+      "read num2;"
+      "while (num1 < num2) {"
+      "while (num1 > 0) {"
+      "while (num2 > 0){"
+      "num2 = num2 + 1;"
+      "}"
+      "num1 = num1 + 1;"
+      "}"
+      "print num1;"
+      "}"
+      "print num2;"
+      "}";
 
-  REQUIRE(writer.getSet(1) == unordered_set<int>({2, 4}));
+  Util u;
+  vector<pair<int, int>> v = executeParentExtractor(input);
+  REQUIRE(u.contains(v, 3, 4));
+  REQUIRE(u.contains(v, 3, 8));
+  REQUIRE(u.contains(v, 4, 5));
+  REQUIRE(u.contains(v, 4, 7));
+  REQUIRE(u.contains(v, 5, 6));
+  REQUIRE(u.isSize(v, 5));
+}
+
+TEST_CASE("ParentExtractor Triple-If Chain") {
+  string input =
+      "procedure simple {"
+      "read num1;"
+      "read num2;"
+      "if (num1 < num2) then {"
+      "  if (num1 > 0) then {"
+      "    if (num2 > 0) then {"
+      "      num2 = num2 + 1;"
+      "    } else {"
+      "      print num1;"
+      "  } num1 = num1 + 1;"
+      "  } else {"
+      "    print num2;"
+      "} print num1;"
+      "} else {"
+      "print num1;"
+      "}"
+      "print num2;"
+      "}";
+
+  Util u;
+  vector<pair<int, int>> v = executeParentExtractor(input);
+  REQUIRE(u.contains(v, 3, 4));
+  REQUIRE(u.contains(v, 4, 5));
+  REQUIRE(u.contains(v, 5, 6));
+  REQUIRE(u.contains(v, 5, 7));
+  REQUIRE(u.contains(v, 4, 8));
+  REQUIRE(u.contains(v, 4, 9));
+  REQUIRE(u.contains(v, 3, 10));
+  REQUIRE(u.contains(v, 3, 11));
+  REQUIRE(u.isSize(v, 8));
 }
