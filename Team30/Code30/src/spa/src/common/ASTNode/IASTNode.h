@@ -37,5 +37,5 @@ class IASTNode {
   virtual shared_ptr<IASTNode> getChild(int i) = 0;
   virtual ASTNodeType getType() = 0;
   virtual string getValue() = 0;
-  virtual bool isEquals(const IASTNode& other) const = 0;
+  virtual bool isEquals(IASTNode* other) = 0;
 };

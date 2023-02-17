@@ -21,7 +21,7 @@ class ASTNode : public IASTNode {
   shared_ptr<IASTNode> getChild(int index);
   ASTNodeType getType();
   string getValue();
-  bool isEquals(const IASTNode& other) const;
+  bool isEquals(IASTNode* other);
  protected:
   string value;
   ASTNodeType type;
