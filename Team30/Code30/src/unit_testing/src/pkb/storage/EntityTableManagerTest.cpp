@@ -25,7 +25,7 @@ TEST_CASE("EntityTableManager insert and getByKey, getByValue") {
 
   REQUIRE(tableManager.getByKey("test1") == EntityType::Variable);
   REQUIRE(tableManager.getByValue(EntityType::Variable) ==
-          unordered_set<string>({"test1", "test2"}));
+      unordered_set<string>({"test1", "test2"}));
 
   EntityTableManager<int, StmtType> tableManager2(
       make_shared<ContiguousTable<StmtType>>(),
@@ -35,7 +35,7 @@ TEST_CASE("EntityTableManager insert and getByKey, getByValue") {
 
   REQUIRE(tableManager2.getByKey(1) == StmtType::Assign);
   REQUIRE(tableManager2.getByValue(StmtType::Assign) ==
-          unordered_set<int>({1, 2}));
+      unordered_set<int>({1, 2}));
 }
 
 TEST_CASE("EntityTableManager insert and getAllKeys, getAllValues") {
@@ -43,11 +43,11 @@ TEST_CASE("EntityTableManager insert and getAllKeys, getAllValues") {
       make_shared<ContiguousTable<StmtType>>(),
       make_shared<HashKeySetTable<StmtType, int>>());
   tableManager.insert(1, StmtType::Assign);
-  tableManager.insert(2, StmtType::None);
+  tableManager.insert(2, StmtType::Print);
   tableManager.insert(3, StmtType::Assign);
   REQUIRE(tableManager.getAllKeys() == unordered_set<int>({1, 2, 3}));
   REQUIRE(tableManager.getAllValues() ==
-          unordered_set<StmtType>({StmtType::Assign, StmtType::None}));
+      unordered_set<StmtType>({StmtType::Assign, StmtType::Print}));
 }
 
 TEST_CASE("EntityTableManager insertFromTo and getByKey, getByValue") {
@@ -65,9 +65,9 @@ TEST_CASE("EntityTableManager insertFromTo and getByKey, getByValue") {
   REQUIRE(tableManager.getByKey(7) == "procedureB");
   REQUIRE(tableManager.getByKey(8) == "procedureB");
   REQUIRE(tableManager.getByValue("procedureA") ==
-          unordered_set<int>({1, 2, 3, 4}));
+      unordered_set<int>({1, 2, 3, 4}));
   REQUIRE(tableManager.getByValue("procedureB") ==
-          unordered_set<int>({5, 6, 7, 8}));
+      unordered_set<int>({5, 6, 7, 8}));
 }
 
 TEST_CASE("EntityTableManager insertFromTo and getAllKeys, getAllValues") {

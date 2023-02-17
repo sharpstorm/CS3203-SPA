@@ -4,6 +4,7 @@
 
 #include "../../util/PQLTestTokenSequenceBuilder.cpp"
 #include "qps/parser/token_parser/context/such_that_clause/PQLFollowsClauseContext.h"
+#include "qps/errors/QPSParserSemanticError.h"
 
 using std::unordered_map;
 
@@ -16,10 +17,12 @@ void testSuchThatParsing(vector<PQLToken> inputs,
   state.advanceStage(TOKEN_PARSE_STAGE_CONDITION_MARKER);
 
   for (auto it : synonyms) {
-    state.getQueryBuilder()->addVariable(it.first, it.second);
+    state.getQueryBuilder()->addSynonym(it.first, it.second);
   }
 
   context.parse(&state);
+  state.advanceStage(TOKEN_PARSE_STAGE_PARSE_END);
+
   auto clauses = state.getQueryBuilder()->build()->getEvaluatables();
   REQUIRE(clauses.size() == 1);
 

@@ -17,6 +17,8 @@ enum PQLTokenCategory {
 const int PQL_TOKEN_CATEGORY_MASK = 0xFFFFFF00;
 const int PQL_TOKEN_VARCHAR_MASK = PQL_DECLARATION_TOKEN | PQL_QUERY_TOKEN |
     PQL_RELATIONSHIP_TOKEN | PQL_STRING_TOKEN | PQL_INTEGER_TOKEN;
+const int PQL_TOKEN_SYN_MASK = PQL_DECLARATION_TOKEN | PQL_QUERY_TOKEN |
+    PQL_RELATIONSHIP_TOKEN | PQL_STRING_TOKEN;
 
 enum PQLTokenType {
   // Processing markers
@@ -77,5 +79,6 @@ class PQLToken {
   bool isType(PQLTokenType);
   bool isCategory(PQLTokenCategory);
   bool isVarchar();
+  bool isSynName();
   bool operator==(const PQLToken& other) const;
 };

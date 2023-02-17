@@ -15,6 +15,8 @@ void AssignNode::accept(shared_ptr<Extractor> e) {
   e->visit(*this);
 }
 
+void AssignNode::leave(shared_ptr<Extractor> e) {}
+
 string AssignNode::toString() {
   return ":assign";
 }

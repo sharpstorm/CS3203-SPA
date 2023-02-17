@@ -13,6 +13,8 @@ void PrintNode::accept(shared_ptr<Extractor> e) {
   e->visit(*this);
 }
 
+void PrintNode::leave(shared_ptr<Extractor> e) {}
+
 string PrintNode::toString() {
   return ":print";
 }

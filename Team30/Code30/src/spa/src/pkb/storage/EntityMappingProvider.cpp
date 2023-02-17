@@ -9,10 +9,8 @@ EntityType EntityMappingProvider::getTypeOfSymbol(string entityName) const {
 
 unordered_set<string> EntityMappingProvider::getSymbolsOfType(
     EntityType entityType) const {
+  if (entityType == EntityType::None) {
+    return symbolStorage->getAllKeys();
+  }
   return symbolStorage->getByValue(entityType);
-}
-
-bool EntityMappingProvider::isSymbolOfType(string entityName,
-                                           EntityType entityType) const {
-  return entityType == symbolStorage->getByKey(entityName);
 }

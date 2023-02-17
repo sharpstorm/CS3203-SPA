@@ -32,7 +32,8 @@ unique_ptr<PQLQuery> testPQLParsing(vector<PQLToken> testcase, vector<PQLQuerySy
   try {
     result = parser.build();
   } catch (const QPSError& err) {
-    FAIL("FAILED with error: " + err.message);
+    WARN(err.what());
+    FAIL("FAILED with error");
   } catch (...) {
     FAIL("Failed with unknown exception");
   }

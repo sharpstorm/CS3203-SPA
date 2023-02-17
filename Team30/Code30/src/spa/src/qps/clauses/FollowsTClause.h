@@ -4,17 +4,17 @@
 #include <string>
 
 #include "SuchThatClause.h"
-#include "ClauseArgument.h"
+#include "arguments/ClauseArgument.h"
 
 using std::shared_ptr;
 
 class FollowsTClause: public SuchThatClause {
  private:
-  ClauseArgument left;
-  ClauseArgument right;
+  ClauseArgumentPtr left;
+  ClauseArgumentPtr right;
 
  public:
-  FollowsTClause(ClauseArgument left, ClauseArgument right);
+  FollowsTClause(ClauseArgumentPtr left, ClauseArgumentPtr right);
   PQLQueryResult* evaluateOn(shared_ptr<PkbQueryHandler> pkbQueryHandler);
   bool validateArgTypes(VariableTable *variables);
   bool usesSynonym(string varName);

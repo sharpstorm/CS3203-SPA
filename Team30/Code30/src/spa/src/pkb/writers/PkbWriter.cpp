@@ -14,8 +14,8 @@ using std::make_unique;
 PkbWriter::PkbWriter(PKB *pkb)
     : followsWriter(new FollowsWriter(pkb->followsStore)),
       parentWriter(new ParentWriter(pkb->parentStore)),
-      usesWriter(new UsesWriter()),
-      modifiesWriter(new ModifiesWriter()),
+      usesWriter(new UsesWriter(pkb->usesStorage)),
+      modifiesWriter(new ModifiesWriter(pkb->modifiesStorage)),
       symbolWriter(new SymbolWriter(pkb->symbolStorage)),
       statementWriter(new StatementWriter(pkb->statementStorage)),
       procedureWriter(new ProcedureWriter(pkb->procedureStorage)) {}
@@ -42,8 +42,12 @@ void PkbWriter::addStatement(int lineNumber, StmtType stmtType) {
   statementWriter->addStatement(lineNumber, stmtType);
 }
 
-void PkbWriter::addUses(int stmtNum, string variable) {}
+void PkbWriter::addUses(int stmtNum, string variable) {
+  usesWriter->addUses(stmtNum, variable);
+}
 
-void PkbWriter::addModifies(int stmtNum, string variable) {}
+void PkbWriter::addModifies(int stmtNum, string variable) {
+  modifiesWriter->addModifies(stmtNum, variable);
+}
 
 void PkbWriter::addContainerStmt(int start, int end) {}

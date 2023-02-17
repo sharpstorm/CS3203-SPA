@@ -35,3 +35,8 @@ bool PQLToken::isVarchar() {
   return ((type & PQL_TOKEN_CATEGORY_MASK)
     & PQL_TOKEN_VARCHAR_MASK) > 0;
 }
+
+bool PQLToken::isSynName() {
+  return ((type & PQL_TOKEN_CATEGORY_MASK)
+      & PQL_TOKEN_SYN_MASK) > 0;
+}

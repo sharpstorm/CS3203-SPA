@@ -2,7 +2,7 @@
 
 #include "../QueryTokenParseState.h"
 #include "IPQLContext.h"
-#include "../../../errors/QPSParserError.h"
+#include "../../../errors/QPSParserSyntaxError.h"
 
 class AbstractPQLContext: public IPQLContext {
  public:

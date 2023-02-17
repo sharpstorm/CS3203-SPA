@@ -8,11 +8,6 @@ StmtType StructureMappingProvider::getStatementType(int lineNumber) const {
   return statementStorage->getByKey(lineNumber);
 }
 
-bool StructureMappingProvider::isStatementOfType(int lineNumber,
-                                                 StmtType stmtType) const {
-  return stmtType == statementStorage->getByKey(lineNumber);
-}
-
 std::unordered_set<int> StructureMappingProvider::getStatementsOfType(
     StmtType stmtType) const {
   if (stmtType == StmtType::None) {
@@ -30,4 +25,9 @@ unordered_set<int> StructureMappingProvider::getProcedureLines(
 std::string StructureMappingProvider::getProcedureForLine(
     int lineNumber) const {
   return procedureStorage->getByKey(lineNumber);
+}
+
+Transformer<int, string>
+StructureMappingProvider::getStmtProcedureTransformer() const {
+  return [this](int const stmt) { return getProcedureForLine(stmt); };
 }

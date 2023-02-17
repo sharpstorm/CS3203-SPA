@@ -5,6 +5,9 @@ FollowsExtractor::FollowsExtractor(PkbWriter* writer) {
 }
 
 void FollowsExtractor::visit(StatementListNode node) {
+  if (node.getChildren().empty()) {
+    return;
+  }
   vector<shared_ptr<ASTNode>> children = node.getChildren();
   for (int i = 0; i < children.size() - 1; i++) {
     addFollowsRelation(
