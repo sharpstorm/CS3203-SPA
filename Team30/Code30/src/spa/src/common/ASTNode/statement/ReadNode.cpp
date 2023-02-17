@@ -5,7 +5,7 @@
 
 using std::vector, std::shared_ptr, std::to_string;
 
-ReadNode::ReadNode() {
+ReadNode::ReadNode() : StatementASTNode(ASTNODE_READ, "") {
   children = vector<shared_ptr<ASTNode>>{nullptr};
 }
 
@@ -20,6 +20,5 @@ void ReadNode::addChild(shared_ptr<ASTNode> node) {
 }
 
 string ReadNode::toString() {
-  return "Read: "
-  + (children[0] == nullptr ? "none" : children[0]->toString());
+  return ":read";
 }
