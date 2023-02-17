@@ -12,7 +12,6 @@ void StatementListNode::accept(shared_ptr<Extractor> e) {
 }
 
 void StatementListNode::leave(shared_ptr<Extractor> e) {
-  e->visit(*this);
 }
 
 string StatementListNode::toString() {
