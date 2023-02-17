@@ -2,6 +2,7 @@
 
 #include <unordered_map>
 #include <unordered_set>
+#include <cassert>
 #include "IBaseSetTable.h"
 #include "HashKeyTable.h"
 
@@ -14,10 +15,15 @@ class HashKeySetTable : public IBaseSetTable<K, V>,
   HashKeySetTable() : HashKeyTable<K, unordered_set<V>>() {}
 
   void set(K key, V value) override {
+    assert(key != K());
+    assert(value != V());
+
     this->table[key].insert(value);
   }
 
   unordered_set<V> get(K key) const override {
+    assert(key != K());
+
     return HashKeyTable<K, unordered_set<V>>::get(key);
   }
 };
