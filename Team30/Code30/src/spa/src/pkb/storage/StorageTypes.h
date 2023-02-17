@@ -10,3 +10,5 @@ using ParentStorage = TransitiveRelationTableManager<int>;
 using SymbolStorage = EntityTableManager<std::string, EntityType>;
 using StatementStorage = EntityTableManager<int, StmtType>;
 using ProcedureStorage = EntityTableManager<int, std::string>;
+using UsesStorage = RelationTableManager<int, std::string>;
+using ModifiesStorage = RelationTableManager<int, std::string>;

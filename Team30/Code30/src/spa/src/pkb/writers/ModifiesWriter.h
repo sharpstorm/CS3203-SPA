@@ -8,7 +8,10 @@ using std::string;
 
 class ModifiesWriter : public IModifiesWriter {
  public:
-  ModifiesWriter();
+  explicit ModifiesWriter(ModifiesStorage *);
 
   void addModifies(int stmtNum, string variable) override;
+
+ private:
+  ModifiesStorage *store;
 };

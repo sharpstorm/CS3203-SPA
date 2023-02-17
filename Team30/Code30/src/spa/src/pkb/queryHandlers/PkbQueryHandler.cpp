@@ -11,8 +11,14 @@ PkbQueryHandler::PkbQueryHandler(PKB *pkb)
       parentHandler(new ParentQueryHandler(pkb->parentStore,
                                            pkb->predicateFactory,
                                            pkb->structureProvider)),
-      usesHandler(new UsesQueryHandler()),
-      modifiesHandler(new ModifiesQueryHandler()),
+      usesHandler(new UsesQueryHandler(pkb->usesStorage,
+                                       pkb->predicateFactory,
+                                       pkb->structureProvider,
+                                       pkb->entityMappingProvider)),
+      modifiesHandler(new ModifiesQueryHandler(pkb->modifiesStorage,
+                                               pkb->predicateFactory,
+                                               pkb->structureProvider,
+                                               pkb->entityMappingProvider)),
       designEntityHandler(new DesignEntitiesQueryHandler(
           pkb->entityMappingProvider, pkb->structureProvider)) {}
 
@@ -48,20 +54,20 @@ std::unordered_set<int> PkbQueryHandler::getStatementsOfType(
 
 QueryResult<int, string> PkbQueryHandler::queryUses(StmtRef arg1,
                                                     EntityRef arg2) const {
-  return QueryResult<int, string>();
+  return usesHandler->queryUses(arg1, arg2);
 }
 
 QueryResult<string, string> PkbQueryHandler::queryUses(EntityRef arg1,
                                                        EntityRef arg2) const {
-  return QueryResult<string, string>();
+  return usesHandler->queryUses(arg1, arg2);
 }
 
 QueryResult<int, string> PkbQueryHandler::queryModifies(
     StmtRef arg1, EntityRef arg2) const {
-  return QueryResult<int, string>();
+  return modifiesHandler->queryModifies(arg1, arg2);
 }
 
 QueryResult<string, string> PkbQueryHandler::queryModifies(
     EntityRef arg1, EntityRef arg2) const {
-  return QueryResult<string, string>();
+  return modifiesHandler->queryModifies(arg1, arg2);
 }

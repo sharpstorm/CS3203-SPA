@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cassert>
 #include <unordered_map>
 #include "IBaseTable.h"
 
@@ -14,10 +15,15 @@ class HashKeyTable : public IBaseTable<K, V> {
   HashKeyTable() : table() {}
 
   void set(K key, V value) override {
+    assert(key != K());
+    assert(value != V());
+
     table[key] = value;
   }
 
   V get(K key) const override {
+    assert(key != K());
+
     auto iter = table.find(key);
     if (iter != table.end()) {
       return iter->second;

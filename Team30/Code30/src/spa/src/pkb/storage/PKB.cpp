@@ -13,6 +13,12 @@ PKB::PKB()
                                       make_shared<ContiguousSetTable<int>>())),
       parentStore(new ParentStorage(make_shared<ContiguousSetTable<int>>(),
                                     make_shared<ContiguousSetTable<int>>())),
+      modifiesStorage(new ModifiesStorage(
+          make_shared<HashKeySetTable<int, string>>(),
+          make_shared<HashKeySetTable<string, int>>())),
+      usesStorage(new UsesStorage(
+          make_shared<HashKeySetTable<int, string>>(),
+          make_shared<HashKeySetTable<string, int>>())),
       symbolStorage(new SymbolStorage(
           make_shared<HashKeyTable<std::string, EntityType>>(),
           make_shared<HashKeySetTable<EntityType, std::string>>())),
@@ -30,6 +36,8 @@ PKB::PKB()
 PKB::~PKB() {
   delete (followsStore);
   delete (parentStore);
+  delete (modifiesStorage);
+  delete (usesStorage);
   delete (symbolStorage);
   delete (statementStorage);
   delete (procedureStorage);
