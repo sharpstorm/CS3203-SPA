@@ -21,7 +21,7 @@ void PQLQueryResult::setIsStaticFalse(bool staticRes) {
 }
 
 bool PQLQueryResult::isFalse() {
-  return isStaticFalse;
+  return isStaticResult && isStaticFalse;
 }
 
 string PQLQueryResult::getError() {

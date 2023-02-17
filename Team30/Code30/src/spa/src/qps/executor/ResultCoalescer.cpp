@@ -18,7 +18,10 @@ PQLQueryResult *ResultCoalescer::merge(PQLQueryResult *setA,
   PQLQueryResult* result = new PQLQueryResult();
   result->setIsStaticFalse(mergeStaticResult(setA, setB));
   result->setError(mergeError(setA, setB));
-  mergeResult(setA, setB, result);
+
+  if (!result->isFalse()) {
+    mergeResult(setA, setB, result);
+  }
 
   delete(setA);
   delete(setB);
@@ -49,6 +52,7 @@ void ResultCoalescer::mergeResult(PQLQueryResult *setA,
                                   PQLQueryResult *output) {
   // init syn list
   auto synonymsA = setA->getSynonyms();
+  auto synonymsB = setB->getSynonyms();
   vector<ResultTableCol> leftCommons;
   vector<ResultTableCol> rightCommons;
   vector<PQLSynonymName> synList;
@@ -67,7 +71,7 @@ void ResultCoalescer::mergeResult(PQLQueryResult *setA,
     rightColsToIgnore.insert(it->second);
   }
 
-  for (auto it = synonymsA->begin(); it != synonymsA->end(); it++) {
+  for (auto it = synonymsB->begin(); it != synonymsB->end(); it++) {
     if (rightColsToIgnore.find(it->second) != rightColsToIgnore.end()) {
       continue;
     }
@@ -89,7 +93,7 @@ void ResultCoalescer::mergeResult(PQLQueryResult *setA,
     auto row = setA->getTableRowAt(i);
     unordered_set<int>* leftSet = nullptr;
     unordered_set<int>* rightSet = nullptr;
-    for (int j = 0; i < leftCommons.size(); j++) {
+    for (int j = 0; j < leftCommons.size(); j++) {
       ResultTableCol leftCol = leftCommons.at(j);
       ResultTableCol rightCol = rightCommons.at(j);
       auto referenceValue = row->at(leftCol).get();
@@ -108,12 +112,12 @@ void ResultCoalescer::mergeResult(PQLQueryResult *setA,
         int rightRowNumber = *it2;
         auto rightRow = setA->getTableRowAt(rightRowNumber);
         QueryResultTableRow mergedRow{};
-        for (int i = 0; i < leftRow->size(); i++) {
-          mergedRow.push_back(make_unique<QueryResultItem>(*leftRow->at(i)));
+        for (int j = 0; j < leftRow->size(); j++) {
+          mergedRow.push_back(make_unique<QueryResultItem>(*leftRow->at(j)));
         }
 
-        for (int i = 0; i < rightColsToCopy.size(); i++) {
-          int copyCol = rightColsToCopy[i];
+        for (int j = 0; j < rightColsToCopy.size(); j++) {
+          int copyCol = rightColsToCopy[j];
           mergedRow.push_back(make_unique<QueryResultItem>(
               *rightRow->at(copyCol)));
         }

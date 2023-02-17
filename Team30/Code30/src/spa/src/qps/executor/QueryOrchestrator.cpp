@@ -15,7 +15,8 @@ PQLQueryResult *QueryOrchestrator::execute(PQLQuery* query,
 
   if (plan->hasSelectClause() && shouldExecuteSelect(plan, finalResult)) {
     currentResult = launcher.execute(plan->getSelectClause().get());
-    finalResult = coalescer.merge(finalResult, currentResult);
+    delete(finalResult);
+    finalResult = currentResult;
   }
 
   if (finalResult == nullptr) {
