@@ -15,9 +15,9 @@ ModifiesClause::ModifiesClause(ClauseArgumentPtr leftArg,
 PQLQueryResult* ModifiesClause::evaluateOn(
         shared_ptr<PkbQueryHandler> pkbQueryHandler) {
   if (left->synonymSatisfies(ClauseArgument::isStatement)) {
-    return generateQueryResult(evaluateLeftEntity(pkbQueryHandler));
-  } else {
     return generateQueryResult(evaluateLeftStatement(pkbQueryHandler));
+  } else {
+    return generateQueryResult(evaluateLeftEntity(pkbQueryHandler));
   }
 }
 
