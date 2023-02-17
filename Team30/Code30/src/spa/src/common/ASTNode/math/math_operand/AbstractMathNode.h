@@ -12,7 +12,8 @@ class AbstractMathNode: public BinaryASTNode {
   virtual ~AbstractMathNode() = default;
   void accept(shared_ptr<Extractor> e) {
     e->visit(*this);
-  };
+  }
  protected:
-  AbstractMathNode(ASTNodeType type, string value) : BinaryASTNode(type, value) {};
+  AbstractMathNode(ASTNodeType type, string value) :
+      BinaryASTNode(type, value) {}
 };

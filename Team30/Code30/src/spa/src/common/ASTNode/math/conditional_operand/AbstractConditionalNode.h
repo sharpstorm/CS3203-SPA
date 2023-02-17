@@ -12,7 +12,8 @@ class AbstractConditionalNode: public BinaryASTNode {
   virtual ~AbstractConditionalNode() = default;
   void accept(shared_ptr<Extractor> e) {
     e->visit(*this);
-  };
+  }
  protected:
-  AbstractConditionalNode(ASTNodeType type, string value) : BinaryASTNode(type, value) {};
+  AbstractConditionalNode(ASTNodeType type, string value) :
+      BinaryASTNode(type, value) {}
 };
