@@ -1,8 +1,9 @@
 #include "PkbQueryHandler.h"
+
 #include "FollowsQueryHandler.h"
+#include "ModifiesQueryHandler.h"
 #include "ParentQueryHandler.h"
 #include "UsesQueryHandler.h"
-#include "ModifiesQueryHandler.h"
 
 PkbQueryHandler::PkbQueryHandler(PKB *pkb)
     : followsHandler(new FollowsQueryHandler(pkb->followsStore,
@@ -70,4 +71,9 @@ QueryResult<int, string> PkbQueryHandler::queryModifies(
 QueryResult<string, string> PkbQueryHandler::queryModifies(
     EntityRef arg1, EntityRef arg2) const {
   return modifiesHandler->queryModifies(arg1, arg2);
+}
+
+QueryResult<int, shared_ptr<IASTNode>> PkbQueryHandler::queryAssigns(
+    StmtRef arg1) const {
+  return assignHandler->queryAssigns(arg1);
 }
