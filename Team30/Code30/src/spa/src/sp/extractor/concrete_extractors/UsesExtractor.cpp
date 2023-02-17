@@ -8,45 +8,60 @@ UsesExtractor::UsesExtractor(PkbWriter* writer) { pkbWriter = writer; }
 
 void UsesExtractor::visit(AssignNode node) {
   shared_ptr<ASTNode> expr = node.getChildren()[1];
-  processNode(node.lineNumber, expr);
+  updateUses(expr, node.lineNumber);
 }
 
 void UsesExtractor::visit(PrintNode node) {
-  addUsesRelation(node.lineNumber,
-                      std::dynamic_pointer_cast<VariableASTNode>
-                          (node.getChildren()[0])->getValue());
+  string nodeValue = node.getChildren()[0]->toString();
+  addUsesRelation(node.lineNumber, nodeValue);
+  for (int i : statementStartStack) {
+    addUsesRelation(i, nodeValue);
+  }
 }
 
 void UsesExtractor::visit(WhileNode node) {
   shared_ptr<ASTNode> condExpr = node.getChildren()[0];
-  processNode(node.lineNumber, condExpr);
+  updateUses(condExpr, node.lineNumber);
+  statementStartStack.push_back(node.lineNumber);
 }
 
 void UsesExtractor::visit(IfNode node) {
   shared_ptr<ASTNode> condExpr = node.getChildren()[0];
-  processNode(node.lineNumber, condExpr);
+  updateUses(condExpr, node.lineNumber);
+  statementStartStack.push_back(node.lineNumber);
+}
+
+void UsesExtractor::leave(IfNode node) {
+  statementStartStack.pop_back();
+}
+
+void UsesExtractor::leave(WhileNode node) {
+  statementStartStack.pop_back();
+}
+
+void UsesExtractor::updateUses(shared_ptr<ASTNode> expr, int lineNumber) {
+  vector<string> v;
+  recurseExpr(&v, expr);
+  processNode(lineNumber, &v);
+  for (int i : statementStartStack) {
+    processNode(i, &v);
+  }
 }
 
 void UsesExtractor::processNode(int lineNumber,
-                                shared_ptr<ASTNode> expr) {
-  vector<string> v;
-  recurseExpr(&v, expr);
-  for (string s : v) {
+                                vector<string>* v) {
+  for (string s : *v) {
     addUsesRelation(lineNumber, s);
   }
 }
 
-void UsesExtractor::addUsesRelation(int x, string var) {
-  pkbWriter->addUses(x, var);
-}
-
 void UsesExtractor::recurseExpr(vector<string>* v,
-               shared_ptr<ASTNode> node) {
+                                shared_ptr<ASTNode> node) {
   if (std::dynamic_pointer_cast<ConstantASTNode>(node) != nullptr) {
     return;
   }
   if (std::dynamic_pointer_cast<VariableASTNode>(node) != nullptr) {
-    string value = std::dynamic_pointer_cast<VariableASTNode>(node)->getValue();
+    string value = node->toString();
     if (!arrayContains(v, value)) {
       v->push_back(value);
     }
@@ -62,9 +77,9 @@ void UsesExtractor::recurseExpr(vector<string>* v,
 }
 
 bool UsesExtractor::arrayContains(vector<string>* v, string x) {
-  if (std::find(v->begin(), v->end(), x) != v->end()) {
-    return true;
-  } else {
-    return false;
-  }
+  return std::find(v->begin(), v->end(), x) != v->end();
+}
+
+void UsesExtractor::addUsesRelation(int x, string var) {
+  pkbWriter->addUses(x, var);
 }

@@ -13,6 +13,7 @@ class ProcedureNode : public ASTNode {
   ~ProcedureNode() = default;
   string toString();
   void accept(shared_ptr<Extractor> e);
+  void leave(shared_ptr<Extractor> e);
 
  private:
   string procName;

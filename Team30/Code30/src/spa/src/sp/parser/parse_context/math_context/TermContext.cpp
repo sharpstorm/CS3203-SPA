@@ -42,7 +42,7 @@ shared_ptr<ASTNode> TermContext::generateSubtree(SourceParseState *state) {
   } else if (state->getCurrToken()->isType(SIMPLE_TOKEN_TIMES)
       || state->getCurrToken()->isType(SIMPLE_TOKEN_DIV)
       || state->getCurrToken()->isType(SIMPLE_TOKEN_MOD)) {
-    return contextProvider->getContext(FACTOR_CONTEXT)->generateSubtree(state);
+    return contextProvider->getContext(TERM_CONTEXT)->generateSubtree(state);
   }
   return middleNode;
 }

@@ -11,6 +11,7 @@ class AbstractBinaryASTNode: public ASTNode {
  public:
   virtual ~AbstractBinaryASTNode() = default;
   virtual void accept(shared_ptr<Extractor> e) = 0;
+  virtual void leave(shared_ptr<Extractor> e) = 0;
   virtual string toString() = 0;
   void setLeftChild(shared_ptr<ASTNode> left);
   void setRightChild(shared_ptr<ASTNode> right);
