@@ -23,6 +23,7 @@ class AbstractExtractor : public Extractor {
   virtual void visit(WhileNode node);
   virtual void visit(VariableASTNode node);
   virtual void visit(ConstantASTNode node);
+  virtual void visit(BinaryASTNode node);
 
  private:
   PkbWriter* pkbWriter;
