@@ -1,7 +1,6 @@
 #include "EntityExtractor.h"
 
-EntityExtractor::EntityExtractor(PkbWriter* writer) {
-  pkbWriter = writer;
+EntityExtractor::EntityExtractor(PkbWriter* writer) : pkbWriter(writer) {
 }
 
 void EntityExtractor::visit(PrintNode node) {

@@ -3,7 +3,8 @@
 
 using std::string;
 
-ModifiesExtractor::ModifiesExtractor(PkbWriter* writer) { pkbWriter = writer; }
+ModifiesExtractor::ModifiesExtractor(PkbWriter* writer) : pkbWriter(writer) {
+}
 
 void ModifiesExtractor::visit(AssignNode node) {
   string nodeValue = node.getChildren()[0]->toString();
