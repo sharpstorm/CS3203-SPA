@@ -10,6 +10,9 @@ AssignsQueryHandler::AssignsQueryHandler(const AssignStorage *assignStore)
 QueryResult<int, shared_ptr<IASTNode>> AssignsQueryHandler::queryAssigns(
     StmtRef stmt) const {
   QueryResult<int, shared_ptr<IASTNode>> result;
+  if (!stmt.isKnown()) {
+    return result;
+  }
   result.add(stmt.lineNum, assignStore->get(stmt.lineNum));
   return result;
 }
