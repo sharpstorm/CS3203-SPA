@@ -1,4 +1,5 @@
 #include "FollowsExtractor.h"
+#include "StatementNumberExtractor.h"
 
 FollowsExtractor::FollowsExtractor(PkbWriter* writer) : pkbWriter(writer) {
 }
@@ -8,11 +9,14 @@ void FollowsExtractor::visit(StatementListNode* node) {
     return;
   }
   vector<shared_ptr<ASTNode>> children = node->getChildren();
+  StatementNumberExtractor statementNoExtractor;
+
   for (int i = 0; i < children.size() - 1; i++) {
-    addFollowsRelation(
-        std::dynamic_pointer_cast<StatementASTNode>(children[i])->getLineNumber(),
-        std::dynamic_pointer_cast<StatementASTNode>(children[i + 1])
-            ->getLineNumber());
+    children[i]->accept(&statementNoExtractor);
+    int lineNoLeft = statementNoExtractor.getStatementNumber();
+    children[i + 1]->accept(&statementNoExtractor);
+    int lineNoRight = statementNoExtractor.getStatementNumber();
+    addFollowsRelation(lineNoLeft, lineNoRight);
   }
 }
 

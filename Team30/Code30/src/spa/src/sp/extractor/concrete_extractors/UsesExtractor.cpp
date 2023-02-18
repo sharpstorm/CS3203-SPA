@@ -58,22 +58,23 @@ void UsesExtractor::processNode(int lineNumber,
 
 void UsesExtractor::recurseExpr(vector<string>* v,
                                 shared_ptr<ASTNode> node) {
-  if (std::dynamic_pointer_cast<ConstantASTNode>(node) != nullptr) {
+  if (node->getType() == ASTNodeType::ASTNODE_CONSTANT) {
     return;
   }
-  if (std::dynamic_pointer_cast<VariableASTNode>(node) != nullptr) {
+
+  if (node->getType() == ASTNodeType::ASTNODE_VARIABLE) {
     string value = node->toString();
     if (!arrayContains(v, value)) {
       v->push_back(value);
     }
     return;
-  } else {
-    if (node->getChildren()[0] != nullptr) {
-      recurseExpr(v, node->getChildren()[0]);
-    }
-    if (node->getChildren()[1] != nullptr) {
-      recurseExpr(v, node->getChildren()[1]);
-    }
+  }
+
+  if (node->getChildren()[0] != nullptr) {
+    recurseExpr(v, node->getChildren()[0]);
+  }
+  if (node->getChildren()[1] != nullptr) {
+    recurseExpr(v, node->getChildren()[1]);
   }
 }
 
