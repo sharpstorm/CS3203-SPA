@@ -16,5 +16,5 @@ void CallNode::accept(shared_ptr<Extractor> e) {
 void CallNode::leave(shared_ptr<Extractor> e) {}
 
 string CallNode::toString() {
-  return ":print";
+  return ":call";
 }
