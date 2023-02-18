@@ -38,7 +38,7 @@ class Extractor {
   virtual void leave(ConstantASTNode node) = 0;
   virtual void leave(AbstractMathNode node) = 0;
   virtual void leave(AbstractConditionalNode node) = 0;
-  
+
  private:
   PkbWriter* writer;
 };
