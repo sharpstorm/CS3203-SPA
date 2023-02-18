@@ -8,7 +8,6 @@
 #include "qps/errors/QPSParserSyntaxError.h"
 #include "qps/clauses/ParentClause.h"
 #include "qps/clauses/ParentTClause.h"
-#include "qps/parser/builder/QueryBuilderError.h"
 #include "qps/errors/QPSParserSemanticError.h"
 
 using std::make_unique, std::unordered_map;

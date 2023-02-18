@@ -4,7 +4,7 @@
 using std::shared_ptr;
 
 shared_ptr<ASTNode> StatementContext::generateSubtree(
-    SourceParseState *state) {;
+    SourceParseState *state) {
   state->advanceLine();
   state->clearCached();
 

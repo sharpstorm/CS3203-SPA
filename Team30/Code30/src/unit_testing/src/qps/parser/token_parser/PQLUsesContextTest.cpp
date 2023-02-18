@@ -6,7 +6,6 @@
 #include "qps/parser/token_parser/context/such_that_clause/PQLUsesClauseContext.h"
 #include "qps/errors/QPSParserSyntaxError.h"
 #include "qps/clauses/UsesClause.h"
-#include "qps/parser/builder/QueryBuilderError.h"
 #include "qps/errors/QPSParserSemanticError.h"
 
 using std::make_unique, std::unordered_map;
