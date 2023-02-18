@@ -18,9 +18,9 @@ class UsesExtractor : public AbstractExtractor {
   void leave(IfNode* node);
  private:
   void addUsesRelation(int x, string var);
-  void processNode(int lineNumber, vector<string>* v);
-  void recurseExpr(vector<string>* v, shared_ptr<ASTNode> node);
-  bool arrayContains(vector<string> *v, string x);
+  void processNode(int lineNumber, unordered_set<string>* v);
+  void recurseExpr(unordered_set<string>* v, shared_ptr<ASTNode> node);
+  bool setContains(unordered_set<string> *v, const string &x);
   void updateUses(shared_ptr<ASTNode> expr, int lineNumber);
   vector<int> statementStartStack;
   PkbWriter *pkbWriter;

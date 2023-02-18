@@ -1,11 +1,12 @@
 #pragma once
 
 #include <memory>
-#include <vector>
 
 #include "sp/extractor/AbstractExtractor.h"
 #include "common/ASTNode/entity/VariableASTNode.h"
 #include "common/ASTNode/entity/ConstantASTNode.h"
+
+using std::shared_ptr;
 
 class PatternExtractor : public AbstractExtractor {
  public:

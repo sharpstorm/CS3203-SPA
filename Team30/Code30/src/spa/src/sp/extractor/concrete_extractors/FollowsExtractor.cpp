@@ -1,5 +1,9 @@
 #include "FollowsExtractor.h"
+
+#include <vector>
 #include "StatementNumberExtractor.h"
+
+using std::vector;
 
 FollowsExtractor::FollowsExtractor(PkbWriter* writer) : pkbWriter(writer) {
 }
@@ -8,7 +12,7 @@ void FollowsExtractor::visit(StatementListNode* node) {
   if (node->getChildren().empty()) {
     return;
   }
-  vector<shared_ptr<ASTNode>> children = node->getChildren();
+  vector<ASTNodePtr> children = node->getChildren();
   StatementNumberExtractor statementNoExtractor;
 
   for (int i = 0; i < children.size() - 1; i++) {

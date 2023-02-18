@@ -1,9 +1,9 @@
 #pragma once
 
-#include <memory>
 #include <vector>
-
 #include "sp/extractor/AbstractExtractor.h"
+
+using std::vector;
 
 class ParentExtractor : public AbstractExtractor {
  public:
@@ -12,6 +12,7 @@ class ParentExtractor : public AbstractExtractor {
   void visit(WhileNode* node);
 
  private:
+  void addParentOnList(int parentLine, vector<ASTNodePtr>* childList);
   void addParentRelation(int x, int y);
   PkbWriter* pkbWriter;
 };

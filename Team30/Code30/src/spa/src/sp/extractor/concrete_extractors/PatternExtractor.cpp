@@ -1,5 +1,4 @@
 #include "PatternExtractor.h"
-#include <memory>
 
 PatternExtractor::PatternExtractor(PkbWriter* writer) : pkbWriter(writer) {
 }

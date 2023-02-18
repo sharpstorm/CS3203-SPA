@@ -8,7 +8,9 @@ BinaryASTNode::BinaryASTNode(ASTNodeType type, string value)
   children = vector<ASTNodePtr>{ nullptr, nullptr };
 }
 
-BinaryASTNode::BinaryASTNode(ASTNodeType type): ASTNode(type) {}
+BinaryASTNode::BinaryASTNode(ASTNodeType type): ASTNode(type) {
+  children = vector<ASTNodePtr>{ nullptr, nullptr };
+}
 
 void BinaryASTNode::setLeftChild(ASTNodePtr left) {
   children[0] = left;

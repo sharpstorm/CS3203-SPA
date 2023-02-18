@@ -1,8 +1,9 @@
 #include <string>
 #include <vector>
+#include <unordered_set>
 #include "UsesExtractor.h"
 
-using std::string;
+using std::string, std::vector;
 
 UsesExtractor::UsesExtractor(PkbWriter* writer) : pkbWriter(writer) {
 }
@@ -41,7 +42,7 @@ void UsesExtractor::leave(WhileNode* node) {
 }
 
 void UsesExtractor::updateUses(shared_ptr<ASTNode> expr, int lineNumber) {
-  vector<string> v;
+  unordered_set<string> v;
   recurseExpr(&v, expr);
   processNode(lineNumber, &v);
   for (int i : statementStartStack) {
@@ -50,13 +51,13 @@ void UsesExtractor::updateUses(shared_ptr<ASTNode> expr, int lineNumber) {
 }
 
 void UsesExtractor::processNode(int lineNumber,
-                                vector<string>* v) {
+                                unordered_set<string>* v) {
   for (string s : *v) {
     addUsesRelation(lineNumber, s);
   }
 }
 
-void UsesExtractor::recurseExpr(vector<string>* v,
+void UsesExtractor::recurseExpr(unordered_set<string>* v,
                                 shared_ptr<ASTNode> node) {
   if (node->getType() == ASTNodeType::ASTNODE_CONSTANT) {
     return;
@@ -64,8 +65,8 @@ void UsesExtractor::recurseExpr(vector<string>* v,
 
   if (node->getType() == ASTNodeType::ASTNODE_VARIABLE) {
     string value = node->toString();
-    if (!arrayContains(v, value)) {
-      v->push_back(value);
+    if (!setContains(v, value)) {
+      v->insert(value);
     }
     return;
   }
@@ -78,8 +79,8 @@ void UsesExtractor::recurseExpr(vector<string>* v,
   }
 }
 
-bool UsesExtractor::arrayContains(vector<string>* v, string x) {
-  return std::find(v->begin(), v->end(), x) != v->end();
+bool UsesExtractor::setContains(unordered_set<string>* v, const string &x) {
+  return v->find(x) != v->end();
 }
 
 void UsesExtractor::addUsesRelation(int x, string var) {

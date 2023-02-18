@@ -1,8 +1,5 @@
 #pragma once
 
-#include <memory>
-#include <vector>
-
 #include "sp/extractor/AbstractExtractor.h"
 
 class FollowsExtractor : public AbstractExtractor {

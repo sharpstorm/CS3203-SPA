@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include <vector>
 #include "sp/extractor/AbstractExtractor.h"
 
 using std::string;
@@ -17,6 +16,7 @@ class ModifiesExtractor : public AbstractExtractor {
   void leave(IfNode* node);
 
  private:
+  void addNodeModifies(StatementASTNode* node, const string &var);
   void addModifiesRelation(int x, string var);
   vector<int> statementStartStack;
   PkbWriter *pkbWriter;

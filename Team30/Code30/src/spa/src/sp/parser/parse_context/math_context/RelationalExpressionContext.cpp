@@ -5,6 +5,7 @@
 #include "common/ASTNode/math/conditional_operand/LteASTNode.h"
 #include "common/ASTNode/math/conditional_operand/EqualsASTNode.h"
 #include "common/ASTNode/math/conditional_operand/NotEqualsASTNode.h"
+#include "common/ASTNode/math/conditional_operand/LtASTNode.h"
 
 using std::shared_ptr;
 
@@ -41,7 +42,7 @@ RelationalExpressionContext::generateRelationalNode
       node = shared_ptr<BinaryASTNode>(new GteASTNode());
       break;
     case SIMPLE_TOKEN_LT:
-      node = shared_ptr<BinaryASTNode>(new GtASTNode());
+      node = shared_ptr<BinaryASTNode>(new LtASTNode());
       break;
     case SIMPLE_TOKEN_LTE:
       node = shared_ptr<BinaryASTNode>(new LteASTNode());

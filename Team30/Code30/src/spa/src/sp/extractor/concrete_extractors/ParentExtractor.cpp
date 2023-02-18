@@ -5,35 +5,28 @@ ParentExtractor::ParentExtractor(PkbWriter* writer) : pkbWriter(writer) {
 }
 
 void ParentExtractor::visit(IfNode* node) {
-  vector<shared_ptr<ASTNode>> children = node->getChildren();
-  vector<shared_ptr<ASTNode>> ifLst = children[1]->getChildren();
-  vector<shared_ptr<ASTNode>> elseLst = children[2]->getChildren();
+  vector<ASTNodePtr> children = node->getChildren();
+  vector<ASTNodePtr> ifLst = children[1]->getChildren();
+  vector<ASTNodePtr> elseLst = children[2]->getChildren();
 
-  StatementNumberExtractor statementNoExtractor;
-  for (int i = 0; i < ifLst.size(); i++) {
-    ifLst[i]->accept(&statementNoExtractor);
-    ParentExtractor::addParentRelation(
-        node->getLineNumber(),
-        statementNoExtractor.getStatementNumber());
-  }
-
-  for (int i = 0; i < elseLst.size(); i++) {
-    elseLst[i]->accept(&statementNoExtractor);
-    ParentExtractor::addParentRelation(
-        node->getLineNumber(),
-        statementNoExtractor.getStatementNumber());
-  }
+  addParentOnList(node->getLineNumber(), &ifLst);
+  addParentOnList(node->getLineNumber(), &elseLst);
 }
 
 void ParentExtractor::visit(WhileNode* node) {
   vector<shared_ptr<ASTNode>> children = node->getChildren();
   vector<shared_ptr<ASTNode>> stmtList = children[1]->getChildren();
 
+  addParentOnList(node->getLineNumber(), &stmtList);
+}
+
+void ParentExtractor::addParentOnList(int parentLine,
+                                      vector<ASTNodePtr> *childList) {
   StatementNumberExtractor statementNoExtractor;
-  for (int i = 0; i < stmtList.size(); i++) {
-    stmtList[i]->accept(&statementNoExtractor);
+  for (int i = 0; i < childList->size(); i++) {
+    childList->at(i)->accept(&statementNoExtractor);
     ParentExtractor::addParentRelation(
-        node->getLineNumber(),
+        parentLine,
         statementNoExtractor.getStatementNumber());
   }
 }
