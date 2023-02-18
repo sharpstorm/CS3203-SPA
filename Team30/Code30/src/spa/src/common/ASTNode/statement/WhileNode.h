@@ -10,10 +10,10 @@ using std::string, std::shared_ptr;
 
 class WhileNode : public StatementASTNode {
  public:
-  WhileNode();
+  WhileNode(int lineNumber);
   ~WhileNode() = default;
   string toString();
-  void accept(shared_ptr<Extractor> e);
-  void leave(shared_ptr<Extractor> e);
+  void accept(Extractor* e);
+  void leave(Extractor* e);
   void addChild(shared_ptr<ASTNode> node);
 };

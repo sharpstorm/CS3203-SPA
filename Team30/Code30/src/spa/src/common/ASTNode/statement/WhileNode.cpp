@@ -5,18 +5,19 @@
 
 using std::vector, std::shared_ptr, std::string;
 
-WhileNode::WhileNode() : StatementASTNode(ASTNODE_WHILE, "") {
+WhileNode::WhileNode(int lineNumber) :
+    StatementASTNode(ASTNODE_WHILE, "", lineNumber) {
   // index [0] = conditional expression
   // index [1] = statement list
   children = vector<shared_ptr<ASTNode>>{nullptr, nullptr};
 }
 
-void WhileNode::accept(shared_ptr<Extractor> e) {
-  e->visit(*this);
+void WhileNode::accept(Extractor* e) {
+  e->visit(this);
 }
 
-void WhileNode::leave(shared_ptr<Extractor> e) {
-  e->leave(*this);
+void WhileNode::leave(Extractor* e) {
+  e->leave(this);
 }
 
 void WhileNode::addChild(shared_ptr<ASTNode> node) {

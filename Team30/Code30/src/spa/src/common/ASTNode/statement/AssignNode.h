@@ -10,9 +10,8 @@ using std::string;
 
 class AssignNode : public StatementASTNode {
  public:
-  AssignNode();
+  AssignNode(int lineNumber);
   ~AssignNode() = default;
   string toString();
-  void accept(shared_ptr<Extractor> e);
-  void leave(shared_ptr<Extractor> e);
+  void accept(Extractor* e);
 };

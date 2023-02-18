@@ -10,11 +10,10 @@ using std::string, std::shared_ptr;
 
 class CallNode : public StatementASTNode {
  public:
-  explicit CallNode(string procName);
+  explicit CallNode(int lineNumber, string procName);
   ~CallNode() = default;
   string toString();
-  void accept(shared_ptr<Extractor> e);
-  void leave(shared_ptr<Extractor> e);
+  void accept(Extractor* e);
  private:
   string procName;
 };

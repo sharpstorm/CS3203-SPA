@@ -10,12 +10,12 @@ using std::string;
 class UsesExtractor : public AbstractExtractor {
  public:
   explicit UsesExtractor(PkbWriter *pkbWriter);
-  void visit(AssignNode node);
-  void visit(PrintNode node);
-  void visit(WhileNode node);
-  void visit(IfNode node);
-  void leave(WhileNode node);
-  void leave(IfNode node);
+  void visit(AssignNode* node);
+  void visit(PrintNode* node);
+  void visit(WhileNode* node);
+  void visit(IfNode* node);
+  void leave(WhileNode* node);
+  void leave(IfNode* node);
  private:
   void addUsesRelation(int x, string var);
   void processNode(int lineNumber, vector<string>* v);

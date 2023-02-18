@@ -1,11 +1,13 @@
 #include "WhileContext.h"
 #include "common/ASTNode/statement/WhileNode.h"
 
+using std::make_shared;
+
 shared_ptr<ASTNode> WhileContext::generateSubtree(SourceParseState* state) {
-  shared_ptr<WhileNode> whileNode = shared_ptr<WhileNode>(new WhileNode());
   // While Node
   expect(state, SIMPLE_TOKEN_KEYWORD_WHILE);
-  whileNode->lineNumber = state->getLineNumber();
+  shared_ptr<WhileNode> whileNode = make_shared<WhileNode>(
+      state->getLineNumber());
 
   // Conditional Expression
   expect(state, SIMPLE_TOKEN_BRACKET_ROUND_LEFT);
@@ -18,6 +20,7 @@ shared_ptr<ASTNode> WhileContext::generateSubtree(SourceParseState* state) {
       getContext(STMT_LIST_CONTEXT)->generateSubtree(state);
 
   // Assign to children to While Node
+
   whileNode->setChild(0, cond);
   whileNode->setChild(1, stmtLst);
   state->setCached(whileNode);

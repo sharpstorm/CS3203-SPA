@@ -3,8 +3,7 @@
 
 using std::string;
 
-StatementASTNode::StatementASTNode(ASTNodeType type, string value) :
-    ASTNode(type, value) {
+StatementASTNode::StatementASTNode(ASTNodeType type, string value,
+                                   int lineNumber) :
+    ASTNode(type, value), lineNumber(lineNumber) {
 }
-
-void StatementASTNode::accept(shared_ptr<Extractor> e) {}

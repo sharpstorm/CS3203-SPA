@@ -6,14 +6,14 @@
 using std::cout, std::endl;
 
 void TreeWalker::walkAST(AST ast,
-                         vector<shared_ptr<Extractor>> extractors) {
+                         VectorPtr<Extractor*> extractors) {
   DFS(ast.getRoot(), extractors);
 }
 
 void TreeWalker::DFS(shared_ptr<ASTNode> node,
-                     vector<shared_ptr<Extractor>> extractors) {
-  for (int i = 0; i < extractors.size(); i++) {
-    node->accept(extractors.at(i));
+                     VectorPtr<Extractor*> extractors) {
+  for (int i = 0; i < extractors->size(); i++) {
+    node->accept(extractors->at(i));
   }
   if (node->getChildren().size() > 0) {
     for (shared_ptr<ASTNode> child : node->getChildren()) {
@@ -22,7 +22,7 @@ void TreeWalker::DFS(shared_ptr<ASTNode> node,
       }
     }
   }
-  for (int i = 0; i < extractors.size(); i++) {
-    node->leave(extractors.at(i));
+  for (int i = 0; i < extractors->size(); i++) {
+    node->leave(extractors->at(i));
   }
 }

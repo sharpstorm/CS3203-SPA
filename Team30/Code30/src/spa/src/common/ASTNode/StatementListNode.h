@@ -13,6 +13,5 @@ class StatementListNode : public ASTNode {
   StatementListNode();
   ~StatementListNode() = default;
   string toString();
-  void accept(shared_ptr<Extractor> e);
-  void leave(shared_ptr<Extractor> e);
+  void accept(Extractor* e);
 };

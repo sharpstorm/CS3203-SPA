@@ -26,27 +26,22 @@ void executeExtractors(string input) {
   PKB pkb;
   PkbWriter pkbWriter(&pkb);
   SourceParser parser;
-  vector<shared_ptr<Extractor>> extractors;
+  vector<Extractor*> extractors;
 
-  shared_ptr<AbstractExtractor> followsExtractor =
-      shared_ptr<AbstractExtractor>(new FollowsExtractor(&pkbWriter));
-  shared_ptr<AbstractExtractor> parentExtractor =
-      shared_ptr<AbstractExtractor>(new ParentExtractor(&pkbWriter));
-  shared_ptr<AbstractExtractor> entityExtractor =
-      shared_ptr<AbstractExtractor>(new EntityExtractor(&pkbWriter));
-  shared_ptr<AbstractExtractor> usesExtractor =
-      shared_ptr<AbstractExtractor>(new UsesExtractor(&pkbWriter));
-  shared_ptr<AbstractExtractor> modifiesExtractor =
-      shared_ptr<AbstractExtractor>(new ModifiesExtractor(&pkbWriter));
+  auto followsExtractor = make_unique<FollowsExtractor>(&pkbWriter);
+  auto parentExtractor = make_unique<ParentExtractor>(&pkbWriter);
+  auto entityExtractor = make_unique<EntityExtractor>(&pkbWriter);
+  auto usesExtractor = make_unique<UsesExtractor>(&pkbWriter);
+  auto modifiesExtractor = make_unique<ModifiesExtractor>(&pkbWriter);
 
-  extractors.push_back(followsExtractor);
-  extractors.push_back(parentExtractor);
-  extractors.push_back(entityExtractor);
-  extractors.push_back(usesExtractor);
-  extractors.push_back(modifiesExtractor);
+  extractors.push_back(followsExtractor.get());
+  extractors.push_back(parentExtractor.get());
+  extractors.push_back(entityExtractor.get());
+  extractors.push_back(usesExtractor.get());
+  extractors.push_back(modifiesExtractor.get());
 
   AST ast = parser.parseSource(input);
-  treeWalker.walkAST(ast, extractors);
+  treeWalker.walkAST(ast, &extractors);
 }
 
 TEST_CASE("Simple programs for grammar testing") {

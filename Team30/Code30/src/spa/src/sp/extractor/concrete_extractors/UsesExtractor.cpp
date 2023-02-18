@@ -7,36 +7,36 @@ using std::string;
 UsesExtractor::UsesExtractor(PkbWriter* writer) : pkbWriter(writer) {
 }
 
-void UsesExtractor::visit(AssignNode node) {
-  shared_ptr<ASTNode> expr = node.getChildren()[1];
-  updateUses(expr, node.lineNumber);
+void UsesExtractor::visit(AssignNode* node) {
+  shared_ptr<ASTNode> expr = node->getChildren()[1];
+  updateUses(expr, node->getLineNumber());
 }
 
-void UsesExtractor::visit(PrintNode node) {
-  string nodeValue = node.getChildren()[0]->toString();
-  addUsesRelation(node.lineNumber, nodeValue);
+void UsesExtractor::visit(PrintNode* node) {
+  string nodeValue = node->getChildren()[0]->toString();
+  addUsesRelation(node->getLineNumber(), nodeValue);
   for (int i : statementStartStack) {
     addUsesRelation(i, nodeValue);
   }
 }
 
-void UsesExtractor::visit(WhileNode node) {
-  shared_ptr<ASTNode> condExpr = node.getChildren()[0];
-  updateUses(condExpr, node.lineNumber);
-  statementStartStack.push_back(node.lineNumber);
+void UsesExtractor::visit(WhileNode* node) {
+  shared_ptr<ASTNode> condExpr = node->getChildren()[0];
+  updateUses(condExpr, node->getLineNumber());
+  statementStartStack.push_back(node->getLineNumber());
 }
 
-void UsesExtractor::visit(IfNode node) {
-  shared_ptr<ASTNode> condExpr = node.getChildren()[0];
-  updateUses(condExpr, node.lineNumber);
-  statementStartStack.push_back(node.lineNumber);
+void UsesExtractor::visit(IfNode* node) {
+  shared_ptr<ASTNode> condExpr = node->getChildren()[0];
+  updateUses(condExpr, node->getLineNumber());
+  statementStartStack.push_back(node->getLineNumber());
 }
 
-void UsesExtractor::leave(IfNode node) {
+void UsesExtractor::leave(IfNode* node) {
   statementStartStack.pop_back();
 }
 
-void UsesExtractor::leave(WhileNode node) {
+void UsesExtractor::leave(WhileNode* node) {
   statementStartStack.pop_back();
 }
 

@@ -2,7 +2,7 @@
 #include "PrintContext.h"
 #include "common/ASTNode/statement/PrintNode.h"
 
-using std::shared_ptr;
+using std::shared_ptr, std::make_shared;
 
 shared_ptr<ASTNode> PrintContext::generateSubtree(SourceParseState* state) {
   // Expect 'print'
@@ -15,9 +15,9 @@ shared_ptr<ASTNode> PrintContext::generateSubtree(SourceParseState* state) {
   // Expect ';'
   expect(state, SIMPLE_TOKEN_SEMICOLON);
 
-  shared_ptr<PrintNode> printNode = shared_ptr<PrintNode>(new PrintNode());
+  shared_ptr<PrintNode> printNode = make_shared<PrintNode>(
+      state->getLineNumber());
   printNode->setChild(0, var);
   state->setCached(printNode);
-  printNode->lineNumber = state->getLineNumber();
   return printNode;
 }

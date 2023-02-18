@@ -10,11 +10,8 @@ string ConstantASTNode::toString() {
   return value;
 }
 
-void ConstantASTNode::accept(shared_ptr<Extractor> e) {
-  e->visit(*this);
-}
-
-void ConstantASTNode::leave(shared_ptr<Extractor> e) {
+void ConstantASTNode::accept(Extractor* e) {
+  e->visit(this);
 }
 
 string ConstantASTNode::getValue() {

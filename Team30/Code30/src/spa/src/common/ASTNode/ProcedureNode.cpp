@@ -8,10 +8,6 @@ ProcedureNode::ProcedureNode(string name): procName(name),
                                            ASTNode(ASTNODE_PROCEDURE, "") {
 }
 
-void ProcedureNode::accept(shared_ptr<Extractor> e) {}
-
-void ProcedureNode::leave(shared_ptr<Extractor> e) {}
-
 string ProcedureNode::toString() {
   string ss = "Procedure:" + procName + " {";
   for (shared_ptr<ASTNode> node : children) {

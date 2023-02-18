@@ -2,7 +2,7 @@
 #include "ReadContext.h"
 #include "common/ASTNode/statement/ReadNode.h"
 
-using std::shared_ptr;
+using std::shared_ptr, std::make_shared;
 
 shared_ptr<ASTNode> ReadContext::generateSubtree(SourceParseState* state) {
   // Expect 'read'
@@ -15,10 +15,10 @@ shared_ptr<ASTNode> ReadContext::generateSubtree(SourceParseState* state) {
   // Expect ';'
   expect(state, SIMPLE_TOKEN_SEMICOLON);
 
-  shared_ptr<ReadNode> readNode = shared_ptr<ReadNode>(new ReadNode());
+  shared_ptr<ReadNode> readNode = make_shared<ReadNode>(
+      state->getLineNumber());
   readNode->setChild(0, var);
   state->setCached(readNode);
-  readNode->lineNumber = state->getLineNumber();
   return readNode;
 }
 

@@ -3,7 +3,7 @@
 #include "common/ASTNode/statement/CallNode.h"
 #include "CallContext.h"
 
-using std::shared_ptr;
+using std::shared_ptr, std::make_shared;
 
 shared_ptr<ASTNode> CallContext::generateSubtree(SourceParseState* state) {
   // Call Node
@@ -11,12 +11,13 @@ shared_ptr<ASTNode> CallContext::generateSubtree(SourceParseState* state) {
 
   // Name
   SourceToken* nameToken = expectVarchar(state);
-  shared_ptr<CallNode> callNode =
-      shared_ptr<CallNode>(new CallNode(nameToken->getValue()));
+  string procName = nameToken->getValue();
 
   // Expect ';'
   expect(state, SIMPLE_TOKEN_SEMICOLON);
+
+  shared_ptr<CallNode> callNode =
+      make_shared<CallNode>(state->getLineNumber(), procName);
   state->setCached(callNode);
-  callNode->lineNumber = state->getLineNumber();
   return callNode;
 }

@@ -10,10 +10,9 @@ using std::string, std::shared_ptr;
 
 class ReadNode : public StatementASTNode {
  public:
-  ReadNode();
+  ReadNode(int lineNumber);
   ~ReadNode() = default;
   string toString();
-  void accept(shared_ptr<Extractor> e);
-  void leave(shared_ptr<Extractor> e);
+  void accept(Extractor* e);
   void addChild(shared_ptr<ASTNode> node);
 };

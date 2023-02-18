@@ -2,18 +2,19 @@
 #include "common/ASTNode/statement/IfNode.h"
 #include "common/ASTNode/StatementListNode.h"
 
+using std::make_shared;
+
 shared_ptr<ASTNode> IfContext::generateSubtree(SourceParseState* state) {
   // If Node
   expect(state, SIMPLE_TOKEN_KEYWORD_IF);
-  shared_ptr<IfNode> ifNode = shared_ptr<IfNode>(new IfNode());
-  ifNode->lineNumber = state->getLineNumber();
+  shared_ptr<IfNode> ifNode = make_shared<IfNode>(
+      state->getLineNumber());
 
   // Conditional Expression
   expect(state, SIMPLE_TOKEN_BRACKET_ROUND_LEFT);
   shared_ptr<ASTNode> cond = contextProvider->
       getContext(COND_CONTEXT)->generateSubtree(state);
   expect(state, SIMPLE_TOKEN_BRACKET_ROUND_RIGHT);
-
 
   // Then StmtLst
   expect(state, SIMPLE_TOKEN_KEYWORD_THEN);
@@ -31,4 +32,3 @@ shared_ptr<ASTNode> IfContext::generateSubtree(SourceParseState* state) {
   state->setCached(ifNode);
   return ifNode;
 }
-

@@ -13,8 +13,8 @@ class Extractor;
 class ASTNode : public IASTNode {
  public:
   ASTNode(ASTNodeType type, string value);
-  virtual void accept(shared_ptr<Extractor> e) = 0;
-  virtual void leave(shared_ptr<Extractor> e) = 0;
+  virtual void accept(Extractor* e) {};
+  virtual void leave(Extractor* e) {};
   virtual string toString() = 0;
   virtual vector<shared_ptr<ASTNode>> getChildren();
   virtual void setChild(int index, shared_ptr<ASTNode> node);

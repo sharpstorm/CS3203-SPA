@@ -31,5 +31,5 @@ bool ASTNode::isEquals(IASTNode* other) {
   if (type == ASTNODE_VARIABLE || type == ASTNODE_CONSTANT) {
     return type == other->getType() && value == other->getValue();
   }
-  return type = other->getType();
+  return type == other->getType();
 }

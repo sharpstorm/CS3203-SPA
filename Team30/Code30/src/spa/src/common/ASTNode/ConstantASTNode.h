@@ -11,8 +11,7 @@ class ConstantASTNode : public ASTNode {
  public:
   explicit ConstantASTNode(string value);
   ~ConstantASTNode() = default;
-  void accept(shared_ptr<Extractor> e);
-  void leave(shared_ptr<Extractor> e);
+  void accept(Extractor* e);
   string toString();
   string getValue();
 };

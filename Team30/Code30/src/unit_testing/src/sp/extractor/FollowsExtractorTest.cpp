@@ -7,18 +7,18 @@
 #include "catch.hpp"
 #include "sp/extractor/concrete_extractors/FollowsExtractor.h"
 
-using std::vector, std::string, std::pair;
+using std::vector, std::string, std::pair, std::make_unique;
 
 vector<pair<int, int>> executeFollowsExtractor(string input) {
   TreeWalker treeWalker;
   PKB pkb;
   StubPkb stubby(&pkb);
   SourceParser parser;
-  vector<shared_ptr<Extractor>> extractors;
-  extractors.push_back(
-      shared_ptr<AbstractExtractor>(new FollowsExtractor(&stubby)));
+  vector<Extractor*> extractors;
+  auto followsExtractor = make_unique<FollowsExtractor>(&stubby);
+  extractors.push_back(followsExtractor.get());
   AST ast = parser.parseSource(input);
-  treeWalker.walkAST(ast, extractors);
+  treeWalker.walkAST(ast, &extractors);
   return stubby.followsStore;
 }
 

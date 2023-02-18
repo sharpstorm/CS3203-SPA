@@ -8,12 +8,14 @@
 using std::string, std::shared_ptr;
 
 class StatementASTNode: public ASTNode {
+ private:
+  int lineNumber;
+
  public:
   virtual ~StatementASTNode() = default;
   virtual string toString() = 0;
-  virtual void accept(shared_ptr<Extractor> e) = 0;
-  virtual void leave(shared_ptr<Extractor> e) = 0;
-  int lineNumber;
+  int getLineNumber() { return lineNumber; }
+
  protected:
-  StatementASTNode(ASTNodeType type, string value);
+  StatementASTNode(ASTNodeType type, string value, int lineNumber);
 };
