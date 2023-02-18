@@ -3,7 +3,7 @@ name: Valgrind CI Check
 on:
   workflow_dispatch:
     inputs:
-      action:
+      mode:
         type: choice
         description: Binary to perform valgrind checks on
         options: 
@@ -11,12 +11,17 @@ on:
         - integration_testing
         - autotester
         required: true
+      executeflags:
+        type: string
+        description: Flags to pass to executable
+      valgrindflags:
+        type: string
+        description: Flags to pass to executable
 
 env:
     BUILD_TYPE: Release
     CCACHE_DIR: ${{ github.workspace }}/Team30/Code30/build/build-cache
     CCACHE_BASEDIR: ${{ github.workspace }}/Team30/Code30
-    TARGET_BUILD: ${{github.events.inputs.action}}
 
 jobs:
   valgrind-check:
@@ -55,14 +60,8 @@ jobs:
 
       - name: Compile SPA
         working-directory: ./Team30/Code30/build
-        run: cmake --build . --target ${TARGET_BUILD} --config ${BUILD_TYPE} -j 4
-
-      - name: Save Build Cache
-        uses: actions/cache/save@v3
-        with:
-          key: build-cache-${{ github.head_ref || github.ref_name }}-${{github.sha}}
-          path: ./Team30/Code30/build/build-cache
+        run: cmake --build . --target ${{ github.event.inputs.mode }} --config ${BUILD_TYPE} -j 4
 
       - name: Run Valgrind
         working-directory: ./Team30/Code30/build
-        run: valgrind ./src/${TARGET_BUILD}/${TARGET_BUILD}
+        run: valgrind ${{ github.event.inputs.valgrindflags }} ./src/${{ github.event.inputs.mode }}/${{ github.event.inputs.mode }} ${{ github.event.inputs.executeflags }}
