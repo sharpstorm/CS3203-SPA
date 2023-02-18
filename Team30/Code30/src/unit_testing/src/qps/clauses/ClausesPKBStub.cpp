@@ -151,7 +151,7 @@ class ClausesPKBStub : public StubPKB {
   };
 
   // Utility functions
-  QueryResult<int, int> createFollowsTResult() const {
+  static QueryResult<int, int> createFollowsTResult() {
     auto result = QueryResult<int, int>();
     result.add(1, 2);
     result.add(1, 3);
@@ -162,7 +162,7 @@ class ClausesPKBStub : public StubPKB {
     return result;
   }
 
-  QueryResult<int, int> createParentTResult() const {
+  static QueryResult<int, int> createParentTResult() {
     auto result = QueryResult<int, int>();
     result.add(6, 7);
     result.add(6, 8);

@@ -5,6 +5,6 @@ class WildcardArgument: public ClauseArgument {
  public:
   WildcardArgument() {}
   bool isWildcard() override;
-  StmtRef toStmtRef();
-  EntityRef toEntityRef();
+  StmtRef toStmtRef() override;
+  EntityRef toEntityRef() override;
 };

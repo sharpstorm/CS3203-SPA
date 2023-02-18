@@ -1,8 +1,0 @@
-{
-    "timeout": "5000",
-    "queryString": "[0] a;\nSelect a such that Follows(1,2)",
-    "commentString": "Select all [0]",
-    "varying": [
-        ["assign", "read", "print", "if", "while", "stmt"]
-    ]
-}

@@ -1,27 +1,25 @@
 #include "PkbQueryHandler.h"
 
+#include "AssignsQueryHandler.h"
 #include "FollowsQueryHandler.h"
 #include "ModifiesQueryHandler.h"
 #include "ParentQueryHandler.h"
 #include "UsesQueryHandler.h"
 
 PkbQueryHandler::PkbQueryHandler(PKB *pkb)
-    : followsHandler(new FollowsQueryHandler(pkb->followsStore,
-                                             pkb->predicateFactory,
-                                             pkb->structureProvider)),
-      parentHandler(new ParentQueryHandler(pkb->parentStore,
-                                           pkb->predicateFactory,
-                                           pkb->structureProvider)),
-      usesHandler(new UsesQueryHandler(pkb->usesStorage,
-                                       pkb->predicateFactory,
+    : followsHandler(new FollowsQueryHandler(
+          pkb->followsStore, pkb->predicateFactory, pkb->structureProvider)),
+      parentHandler(new ParentQueryHandler(
+          pkb->parentStore, pkb->predicateFactory, pkb->structureProvider)),
+      usesHandler(new UsesQueryHandler(pkb->usesStorage, pkb->predicateFactory,
                                        pkb->structureProvider,
                                        pkb->entityMappingProvider)),
-      modifiesHandler(new ModifiesQueryHandler(pkb->modifiesStorage,
-                                               pkb->predicateFactory,
-                                               pkb->structureProvider,
-                                               pkb->entityMappingProvider)),
+      modifiesHandler(new ModifiesQueryHandler(
+          pkb->modifiesStorage, pkb->predicateFactory, pkb->structureProvider,
+          pkb->entityMappingProvider)),
       designEntityHandler(new DesignEntitiesQueryHandler(
-          pkb->entityMappingProvider, pkb->structureProvider)) {}
+          pkb->entityMappingProvider, pkb->structureProvider)),
+      assignHandler(new AssignsQueryHandler(pkb->assignStorage)) {}
 
 QueryResult<int, int> PkbQueryHandler::queryFollows(StmtRef s1,
                                                     StmtRef s2) const {
@@ -63,8 +61,8 @@ QueryResult<string, string> PkbQueryHandler::queryUses(EntityRef arg1,
   return usesHandler->queryUses(arg1, arg2);
 }
 
-QueryResult<int, string> PkbQueryHandler::queryModifies(
-    StmtRef arg1, EntityRef arg2) const {
+QueryResult<int, string> PkbQueryHandler::queryModifies(StmtRef arg1,
+                                                        EntityRef arg2) const {
   return modifiesHandler->queryModifies(arg1, arg2);
 }
 

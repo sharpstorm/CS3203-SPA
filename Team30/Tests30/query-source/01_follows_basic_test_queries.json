@@ -1,0 +1,643 @@
+{
+  "timeout": 5000,
+  "cases": [
+
+    { "comment": "----------------Constant Follows Clause-----------------" },
+
+    {
+      "name": "Select Constant True (Follows) (Stmt)",
+      "defn": "stmt s;",
+      "query": "Select s such that Follows(1, 2)",
+      "ans": "1,2,3,4,5,6,7,8,9,10,11,12"
+    },
+    {
+      "name": "Select Constant False (Follows) (Stmt)",
+      "defn": "stmt s;",
+      "query": "Select s such that Follows(1, 3)",
+      "ans": ""
+    },
+    {
+      "name": "Select Constant True (Follows) (Assign)",
+      "defn": "assign a;",
+      "query": "Select a such that Follows(1, 2)",
+      "ans": "2,3,5,6,7,8,12"
+    },
+    {
+      "name": "Select Constant False (Follows) (Assign)",
+      "defn": "assign a;",
+      "query": "Select a such that Follows(1, 3)",
+      "ans": ""
+    },
+    {
+      "name": "Select Constant True (Follows) (Read)",
+      "defn": "read re;",
+      "query": "Select re such that Follows(1, 2)",
+      "ans": "1,9,11"
+    },
+    {
+      "name": "Select Constant False (Follows) (Read)",
+      "defn": "read re;",
+      "query": "Select re such that Follows(1, 3)",
+      "ans": ""
+    },
+    {
+      "name": "Select Constant True (Follows) (Print)",
+      "defn": "print pr;",
+      "query": "Select pr such that Follows(1, 2)",
+      "ans": ""
+    },
+    {
+      "name": "Select Constant False (Follows) (Print)",
+      "defn": "print pr;",
+      "query": "Select pr such that Follows(1, 3)",
+      "ans": ""
+    },
+    {
+      "name": "Select Constant True (Follows) (If)",
+      "defn": "if ifs;",
+      "query": "Select ifs such that Follows(1, 2)",
+      "ans": "4"
+    },
+    {
+      "name": "Select Constant False (Follows) (If)",
+      "defn": "if ifs;",
+      "query": "Select ifs such that Follows(1, 3)",
+      "ans": ""
+    },
+    {
+      "name": "Select Constant True (Follows) (While)",
+      "defn": "while w;",
+      "query": "Select w such that Follows(1, 2)",
+      "ans": "10"
+    },
+    {
+      "name": "Select Constant False (Follows) (While)",
+      "defn": "while w;",
+      "query": "Select w such that Follows(1, 3)",
+      "ans": ""
+    },
+
+
+    { "comment": "---------------Single Synonym Clause----------------" },
+
+    {
+      "name": "Select Follows(Syn, Const) (Follows) (Stmt)",
+      "defn": "stmt s;",
+      "query": "Select s such that Follows(s, 3)",
+      "ans": "2"
+    },
+    {
+      "name": "Select Follows(Const, Syn) (Follows) (Stmt)",
+      "defn": "stmt s;",
+      "query": "Select s such that Follows(2, s)",
+      "ans": "3"
+    },
+    {
+      "name": "Select None Follows(Syn, Const) (Follows) (Stmt)",
+      "defn": "stmt s;",
+      "query": "Select s such that Follows(s, 1)",
+      "ans": ""
+    },
+    {
+      "name": "Select None Follows(Const, Syn) (Follows) (Stmt)",
+      "defn": "stmt s;",
+      "query": "Select s such that Follows(12, s)",
+      "ans": ""
+    },
+    {
+      "name": "Select Independent True Follows(Syn, Const) (Follows) (Stmt)",
+      "defn": "stmt s1,s2;",
+      "query": "Select s1 such that Follows(s2, 3)",
+      "ans": "1,2,3,4,5,6,7,8,9,10,11,12"
+    },
+    {
+      "name": "Select Independent True Follows Follows(Const, Syn) (Follows) (Stmt)",
+      "defn": "stmt s1,s2;",
+      "query": "Select s1 such that Follows(2, s2)",
+      "ans": "1,2,3,4,5,6,7,8,9,10,11,12"
+    },
+    {
+      "name": "Select Independent False Follows(Syn, Const) (Follows) (Stmt)",
+      "defn": "stmt s1,s2;",
+      "query": "Select s1 such that Follows(s2, 1)",
+      "ans": ""
+    },
+    {
+      "name": "Select Independent False Follows Follows(Const, Syn) (Follows) (Stmt)",
+      "defn": "stmt s1,s2;",
+      "query": "Select s1 such that Follows(12, s2)",
+      "ans": ""
+    },
+
+    {
+      "name": "Select Follows(Syn, Const) (Follows) (Assign)",
+      "defn": "assign a;",
+      "query": "Select a such that Follows(a, 3)",
+      "ans": "2"
+    },
+    {
+      "name": "Select Follows(Const, Syn) (Follows) (Assign)",
+      "defn": "assign a;",
+      "query": "Select a such that Follows(2, a)",
+      "ans": "3"
+    },
+    {
+      "name": "Select None Follows(Syn, Const) (Follows) (Assign)",
+      "defn": "assign a;",
+      "query": "Select a such that Follows(a, 2)",
+      "ans": ""
+    },
+    {
+      "name": "Select None Follows(Const, Syn) (Follows) (Assign)",
+      "defn": "assign a;",
+      "query": "Select a such that Follows(3, a)",
+      "ans": ""
+    },
+    {
+      "name": "Select Independent True Follows(Syn, Const) (Follows) (Assign)",
+      "defn": "assign a1,a2;",
+      "query": "Select a1 such that Follows(a2, 3)",
+      "ans": "2,3,5,6,7,8,12"
+    },
+    {
+      "name": "Select Independent True Follows Follows(Const, Syn) (Follows) (Assign)",
+      "defn": "assign a1,a2;",
+      "query": "Select a1 such that Follows(2, a2)",
+      "ans": "2,3,5,6,7,8,12"
+    },
+    {
+      "name": "Select Independent False Follows(Syn, Const) (Follows) (Assign)",
+      "defn": "assign a1,a2;",
+      "query": "Select a1 such that Follows(a2, 2)",
+      "ans": ""
+    },
+    {
+      "name": "Select Independent False Follows Follows(Const, Syn) (Follows) (Assign)",
+      "defn": "assign a1,a2;",
+      "query": "Select a1 such that Follows(3, a2)",
+      "ans": ""
+    },
+
+    {
+      "name":  "Select Follows(Syn, Const) (Follows) (Read)",
+      "defn":  "read re;",
+      "query": "Select re such that Follows(re, 2)",
+      "ans":   "1"
+    },
+    {
+      "name":  "Select Follows(Const, Syn) (Follows) (Read)",
+      "defn":  "read re;",
+      "query": "Select re such that Follows(8, re)",
+      "ans":   "9"
+    },
+    {
+      "name":  "Select None Follows(Syn, Const) (Follows) (Read)",
+      "defn":  "read re;",
+      "query": "Select re such that Follows(re, 3)",
+      "ans":   ""
+    },
+    {
+      "name":  "Select None Follows(Const, Syn) (Follows) (Read)",
+      "defn":  "read re;",
+      "query": "Select re such that Follows(3, re)",
+      "ans":   ""
+    },
+    {
+      "name":  "Select Independent True Follows(Syn, Const) (Follows) (Read)",
+      "defn":  "read re1,re2;",
+      "query": "Select re1 such that Follows(re2, 2)",
+      "ans":   "1,9,11"
+    },
+    {
+      "name":  "Select Independent True Follows Follows(Const, Syn) (Follows) (Read)",
+      "defn":  "read re1,re2;",
+      "query": "Select re1 such that Follows(8, re2)",
+      "ans":   "1,9,11"
+    },
+    {
+      "name":  "Select Independent False Follows(Syn, Const) (Follows) (Read)",
+      "defn":  "read re1,re2;",
+      "query": "Select re1 such that Follows(re2, 3)",
+      "ans":   ""
+    },
+    {
+      "name":  "Select Independent False Follows Follows(Const, Syn) (Follows) (Read)",
+      "defn":  "read re1,re2;",
+      "query": "Select re1 such that Follows(3, re2)",
+      "ans":   ""
+    },
+
+    {
+      "name":  "Select None Follows(Syn, Const) (Follows) (Print)",
+      "defn":  "if ifs; print pr;",
+      "query": "Select ifs such that Follows(pr, 3)",
+      "ans":   ""
+    },
+    {
+      "name":  "Select None Follows(Const, Syn) (Follows) (Print)",
+      "defn":  "if ifs; print pr;",
+      "query": "Select ifs such that Follows(3, pr)",
+      "ans":   ""
+    },
+    {
+      "name":  "Select Independent False Follows(Syn, Const) (Follows) (Print)",
+      "defn":  "if ifs; print pr2;",
+      "query": "Select ifs such that Follows(pr2, 3)",
+      "ans":   ""
+    },
+    {
+      "name":  "Select Independent False Follows Follows(Const, Syn) (Follows) (Print)",
+      "defn":  "if ifs; print pr2;",
+      "query": "Select ifs such that Follows(3, pr2)",
+      "ans":   ""
+    },
+
+    {
+      "name":  "Select Follows(Syn, Const) (Follows) (If)",
+      "defn":  "if ifs;",
+      "query": "Select ifs such that Follows(ifs, 10)",
+      "ans":   "4"
+    },
+    {
+      "name":  "Select Follows(Const, Syn) (Follows) (If)",
+      "defn":  "if ifs;",
+      "query": "Select ifs such that Follows(3, ifs)",
+      "ans":   "4"
+    },
+    {
+      "name":  "Select None Follows(Syn, Const) (Follows) (If)",
+      "defn":  "if ifs;",
+      "query": "Select ifs such that Follows(ifs, 2)",
+      "ans":   ""
+    },
+    {
+      "name":  "Select None Follows(Const, Syn) (Follows) (If)",
+      "defn":  "if ifs;",
+      "query": "Select ifs such that Follows(4, ifs)",
+      "ans":   ""
+    },
+    {
+      "name":  "Select Independent True Follows(Syn, Const) (Follows) (If)",
+      "defn":  "if ifs1,ifs2;",
+      "query": "Select ifs1 such that Follows(ifs2, 10)",
+      "ans":   "4"
+    },
+    {
+      "name":  "Select Independent True Follows Follows(Const, Syn) (Follows) (If)",
+      "defn":  "if ifs1,ifs2;",
+      "query": "Select ifs1 such that Follows(3, ifs2)",
+      "ans":   "4"
+    },
+    {
+      "name":  "Select Independent False Follows(Syn, Const) (Follows) (If)",
+      "defn":  "if ifs1,ifs2;",
+      "query": "Select ifs1 such that Follows(ifs2, 6)",
+      "ans":   ""
+    },
+    {
+      "name":  "Select Independent False Follows Follows(Const, Syn) (Follows) (If)",
+      "defn":  "if ifs1,ifs2;",
+      "query": "Select ifs1 such that Follows(6, ifs2)",
+      "ans":   ""
+    },
+
+    {
+      "name":  "Select Follows(Const, Syn) (Follows) (While)",
+      "defn":  "while w;",
+      "query": "Select w such that Follows(4, w)",
+      "ans":   "10"
+    },
+    {
+      "name":  "Select None Follows(Syn, Const) (Follows) (While)",
+      "defn":  "while w;",
+      "query": "Select w such that Follows(w, 11)",
+      "ans":   ""
+    },
+    {
+      "name":  "Select None Follows(Const, Syn) (Follows) (While)",
+      "defn":  "while w;",
+      "query": "Select w such that Follows(3, w)",
+      "ans":   ""
+    },
+    {
+      "name":  "Select Independent True Follows Follows(Const, Syn) (Follows) (While)",
+      "defn":  "while w1,w2;",
+      "query": "Select w1 such that Follows(4, w2)",
+      "ans":   "10"
+    },
+    {
+      "name":  "Select Independent False Follows(Syn, Const) (Follows) (While)",
+      "defn":  "while w1,w2;",
+      "query": "Select w1 such that Follows(w2, 6)",
+      "ans":   ""
+    },
+    {
+      "name":  "Select Independent False Follows Follows(Const, Syn) (Follows) (While)",
+      "defn":  "while w1,w2;",
+      "query": "Select w1 such that Follows(6, w2)",
+      "ans":   ""
+    },
+
+    { "comment": "---------------Single Wildcard Clause----------------" },
+
+    {
+      "name": "Select True Follows(WC, Const) (Follows) (Wildcard)",
+      "defn": "assign a1;",
+      "query": "Select a1 such that Follows(_, 3)",
+      "ans": "2,3,5,6,7,8,12"
+    },
+    {
+      "name": "Select True Follows Follows(Const, WC) (Follows) (Wildcard)",
+      "defn": "assign a1;",
+      "query": "Select a1 such that Follows(2, _)",
+      "ans": "2,3,5,6,7,8,12"
+    },
+    {
+      "name": "Select False Follows(WC, Const) (Follows) (Wildcard)",
+      "defn": "assign a1;",
+      "query": "Select a1 such that Follows(_, 1)",
+      "ans": ""
+    },
+    {
+      "name": "Select False Follows Follows(Const, WC) (Follows) (Wildcard)",
+      "defn": "assign a1;",
+      "query": "Select a1 such that Follows(12, _)",
+      "ans": ""
+    },
+
+    { "comment": "---------------Double Synonym Clause----------------" },
+
+    {
+      "name": "Select Left Follows(Stmt, Stmt) (Follows) (Stmt)",
+      "defn": "stmt s1, s2;",
+      "query": "Select s1 such that Follows(s1, s2)",
+      "ans": "1,2,3,4,5,6,8,11"
+    },
+    {
+      "name": "Select Right Follows(Stmt, Stmt) (Follows) (Stmt)",
+      "defn": "stmt s1, s2;",
+      "query": "Select s2 such that Follows(s1, s2)",
+      "ans": "2,3,4,6,7,9,10,12"
+    },
+
+    {
+      "name": "Select Left Follows(Assign, Assign) (Follows) (Assign)",
+      "defn": "assign a1, a2;",
+      "query": "Select a1 such that Follows(a1, a2)",
+      "ans": "2,5,6"
+    },
+    {
+      "name": "Select Right Follows(Assign, Assign) (Follows) (Assign)",
+      "defn": "assign a1, a2;",
+      "query": "Select a2 such that Follows(a1, a2)",
+      "ans": "3,6,7"
+    },
+
+    {
+      "name": "Select Left Follows(Read, Read) (Follows) (Read)",
+      "defn": "read re1, re2;",
+      "query": "Select re1 such that Follows(re1, re2)",
+      "ans": ""
+    },
+    {
+      "name": "Select Right Follows(Read, Read) (Follows) (Read)",
+      "defn": "read re1, re2;",
+      "query": "Select re2 such that Follows(re1, re2)",
+      "ans": ""
+    },
+
+    {
+      "name": "Select Left Follows(Print, Print) (Follows) (Print)",
+      "defn": "print pr1, pr2;",
+      "query": "Select pr1 such that Follows(pr1, pr2)",
+      "ans": ""
+    },
+    {
+      "name": "Select Right Follows(Print, Print) (Follows) (Print)",
+      "defn": "read pr1, pr2;",
+      "query": "Select pr2 such that Follows(pr1, pr2)",
+      "ans": ""
+    },
+
+    {
+      "name": "Select Left Follows(If, If) (Follows) (If)",
+      "defn": "if ifs1, ifs2;",
+      "query": "Select ifs1 such that Follows(ifs1, ifs2)",
+      "ans": ""
+    },
+    {
+      "name": "Select Right Follows(If, If) (Follows) (If)",
+      "defn": "if ifs1, ifs2;",
+      "query": "Select ifs2 such that Follows(ifs1, ifs2)",
+      "ans": ""
+    },
+
+    {
+      "name": "Select Left Follows(While, While) (Follows) (While)",
+      "defn": "while w1, w2;",
+      "query": "Select w1 such that Follows(w1, w2)",
+      "ans": ""
+    },
+    {
+      "name": "Select Right Follows(While, While) (Follows) (While)",
+      "defn": "while w1, w2;",
+      "query": "Select w2 such that Follows(w1, w2)",
+      "ans": ""
+    },
+
+    {
+      "name": "Select Left Follows(Assign, Read) (Follows) (Read) (Assign)",
+      "defn": "assign a; read re;",
+      "query": "Select a such that Follows(a, re)",
+      "ans": "8"
+    },
+    {
+      "name": "Select Right Follows(Assign, Read) (Follows) (Read) (Assign)",
+      "defn": "assign a; read re;",
+      "query": "Select re such that Follows(a, re)",
+      "ans": "9"
+    },
+    {
+      "name": "Select Left Follows(Read, Assign) (Follows) (Read) (Assign)",
+      "defn": "assign a; read re;",
+      "query": "Select re such that Follows(re, a)",
+      "ans": "1,11"
+    },
+    {
+      "name": "Select Right Follows(Read, Assign) (Follows) (Read) (Assign)",
+      "defn": "assign a; read re;",
+      "query": "Select a such that Follows(re, a)",
+      "ans": "2,12"
+    },
+
+    {
+      "name": "Select Left Follows(Assign, If) (Follows) (If) (Assign)",
+      "defn": "assign a; if ifs;",
+      "query": "Select a such that Follows(a, ifs)",
+      "ans": "3"
+    },
+    {
+      "name": "Select Right Follows(Assign, If) (Follows) (If) (Assign)",
+      "defn": "assign a; if ifs;",
+      "query": "Select ifs such that Follows(a, ifs)",
+      "ans": "4"
+    },
+    {
+      "name": "Select Left Follows(If, While) (Follows) (If) (While)",
+      "defn": "if ifs; while w;",
+      "query": "Select ifs such that Follows(ifs, w)",
+      "ans": "4"
+    },
+    {
+      "name": "Select Left Follows(If, While) (Follows) (If) (While)",
+      "defn": "if ifs; while w;",
+      "query": "Select w such that Follows(ifs, w)",
+      "ans": "10"
+    },
+
+    { "comment": "---------------Synonym-Wildcard Clause----------------" },
+
+    {
+      "name": "Select Left Follows(Stmt, WC) (Follows) (Stmt)",
+      "defn": "stmt s1;",
+      "query": "Select s1 such that Follows(s1, _)",
+      "ans": "1,2,3,4,5,6,8,11"
+    },
+    {
+      "name": "Select Right Follows(WC, Stmt) (Follows) (Stmt)",
+      "defn": "stmt s1;",
+      "query": "Select s1 such that Follows(_, s1)",
+      "ans": "2,3,4,6,7,9,10,12"
+    },
+  
+    {
+      "name": "Select Left Follows(Assign, WC) (Follows) (Assign) (Wildcard)",
+      "defn": "assign a;",
+      "query": "Select a such that Follows(a, _)",
+      "ans": "2,3,5,6,8"
+    },
+    {
+      "name": "Select Right Follows(WC, Assign) (Follows) (Assign) (Wildcard)",
+      "defn": "assign a;",
+      "query": "Select a such that Follows(_, a)",
+      "ans": "2,3,6,7,12"
+    },
+    {
+      "name": "Select Left Follows(Read, WC) (Follows) (Read) (Wildcard)",
+      "defn": "read re;",
+      "query": "Select re such that Follows(re, _)",
+      "ans": "1,11"
+    },
+    {
+      "name": "Select Right Follows(WC, Read) (Follows) (Read) (Wildcard)",
+      "defn": "read re;",
+      "query": "Select re such that Follows(_, re)",
+      "ans": "9"
+    },
+    {
+      "name": "Select Left Follows(Print, WC) (Follows) (Print) (Wildcard)",
+      "defn": "print pr;",
+      "query": "Select pr such that Follows(pr, _)",
+      "ans": ""
+    },
+    {
+      "name": "Select Right Follows(WC, Print) (Follows) (Print) (Wildcard)",
+      "defn": "print pr;",
+      "query": "Select pr such that Follows(_, pr)",
+      "ans": ""
+    },
+    {
+      "name": "Select Left Follows(If, WC) (Follows) (If) (Wildcard)",
+      "defn": "if ifs;",
+      "query": "Select ifs such that Follows(ifs, _)",
+      "ans": "4"
+    },
+    {
+      "name": "Select Right Follows(WC, If) (Follows) (If) (Wildcard)",
+      "defn": "if ifs;",
+      "query": "Select ifs such that Follows(_, ifs)",
+      "ans": "4"
+    },
+    {
+      "name": "Select Left Follows(While, WC) (Follows) (While) (Wildcard)",
+      "defn": "while w;",
+      "query": "Select w such that Follows(w, _)",
+      "ans": ""
+    },
+    {
+      "name": "Select Right Follows(WC, While) (Follows) (While) (Wildcard)",
+      "defn": "while w;",
+      "query": "Select w such that Follows(_, w)",
+      "ans": "10"
+    },
+    
+
+    { "comment": "---------------Double Wildcard Clause----------------" },
+
+    {
+      "name": "Select Follows(WC, WC) (Follows) (Stmt)",
+      "defn": "stmt s;",
+      "query": "Select s such that Follows(_, _)",
+      "ans": "1,2,3,4,5,6,7,8,9,10,11,12"
+    },
+    {
+      "name": "Select Follows(WC, WC) (Follows) (Assign)",
+      "defn": "assign a;",
+      "query": "Select a such that Follows(_, _)",
+      "ans": "2,3,5,6,7,8,12"
+    },
+    {
+      "name": "Select Follows(WC, WC) (Follows) (Read)",
+      "defn": "read re;",
+      "query": "Select re such that Follows(_, _)",
+      "ans": "1,9,11"
+    },
+    {
+      "name": "Select Follows(WC, WC) (Follows) (Print)",
+      "defn": "print pr;",
+      "query": "Select pr such that Follows(_, _)",
+      "ans": ""
+    },
+    {
+      "name": "Select Follows(WC, WC) (Follows) (If)",
+      "defn": "if ifs;",
+      "query": "Select ifs such that Follows(_, _)",
+      "ans": "4"
+    },
+    {
+      "name": "Select Follows(WC, WC) (Follows) (While)",
+      "defn": "while w;",
+      "query": "Select w such that Follows(_, _)",
+      "ans": "10"
+    },
+    
+
+    { "comment": "---------------Negative Clause----------------" },
+
+    {
+      "name": "Select Negative Follows If Nesting (Follows) (If)",
+      "defn": "read r1;",
+      "query": "Select r1 such that Follows(4, 5)",
+      "ans": ""
+    },
+    {
+      "name": "Select Negative Follows If Nesting (Follows) (If)",
+      "defn": "read r1;",
+      "query": "Select r1 such that Follows(7, 8)",
+      "ans": ""
+    },
+    {
+      "name": "Select Negative Follows If Nesting (Follows) (If)",
+      "defn": "read r1;",
+      "query": "Select r1 such that Follows(9, 10)",
+      "ans": ""
+    },
+
+    {
+      "name": "Select Negative Follows While Nesting (Follows) (While)",
+      "defn": "read r1;",
+      "query": "Select r1 such that Follows(10, 11)",
+      "ans": ""
+    }
+  ]
+}

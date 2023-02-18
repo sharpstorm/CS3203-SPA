@@ -1,0 +1,31 @@
+procedure ANYA {
+  print a;
+  read b;
+  x = 1;
+  y = 2;
+  if (x == 1) then {
+    a1 = 3;
+    print a2;
+    read a3;
+    while (x == 2) {
+      b1 = 2;
+      b2 = 3;
+      read b4;
+      print b3;
+      if (x == 3) then {
+        read c1;
+      } else {
+        read c2;
+      }
+    }
+  } else {
+    b = 4;
+    if (x > 5) then {
+      print d1;
+      while (x != 6) {
+        print d2;
+      }
+      print d3;
+    }
+  }
+}

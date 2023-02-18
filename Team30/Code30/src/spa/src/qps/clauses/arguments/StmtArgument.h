@@ -8,6 +8,6 @@ class StmtArgument: public ClauseArgument {
 
  public:
   explicit StmtArgument(int stmtNumber);
-  StmtRef toStmtRef();
-  EntityRef toEntityRef();
+  StmtRef toStmtRef() override;
+  EntityRef toEntityRef() override;
 };
