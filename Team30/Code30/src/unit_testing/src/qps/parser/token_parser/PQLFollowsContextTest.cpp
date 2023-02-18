@@ -156,6 +156,30 @@ TEST_CASE("Test PQL Follows Entity ref not allowed") {
   );
 }
 
+TEST_CASE("Test PQL Follows Zero Stmt not Allowed") {
+  REQUIRE_THROWS_AS(
+      testFollowsParsing(make_unique<PQLTestTokenSequenceBuilder>()
+                             ->openBracket()
+                             ->integer(0)
+                             ->comma()
+                             ->integer(2)
+                             ->closeBracket()
+                             ->build()
+      ), QPSParserSemanticError
+  );
+
+  REQUIRE_THROWS_AS(
+      testFollowsParsing(make_unique<PQLTestTokenSequenceBuilder>()
+                             ->openBracket()
+                             ->integer(2)
+                             ->comma()
+                             ->integer(0)
+                             ->closeBracket()
+                             ->build()
+      ), QPSParserSemanticError
+  );
+}
+
 TEST_CASE("Test PQL Follows bad syntax") {
   REQUIRE_THROWS_AS(
       testFollowsParsing(make_unique<PQLTestTokenSequenceBuilder>()

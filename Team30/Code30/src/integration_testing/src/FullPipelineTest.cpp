@@ -65,11 +65,10 @@ TEST_CASE("Test Full End-to-end") {
                        "  z = x + 1; }" // 12
                        , pkbWriter.get());
 
-  launchQuery2(qps.get(), "if ifs; stmt s;\n"
-                          "Select ifs such that Follows(ifs, s)",
-              unordered_set<string>{ "6" });
+  launchQuery2(qps.get(), "stmt s;\n"
+                          "Select s such that Follows(s, s)",
+              unordered_set<string>{ });
 
-  // Tests disabled as it will result in failure for now
   string query;
   unordered_set<string> expectedRes;
 
