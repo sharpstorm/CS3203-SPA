@@ -52,6 +52,8 @@ RelationalExpressionContext::generateRelationalNode
     case SIMPLE_TOKEN_NOT_EQUALS:
       node = shared_ptr<BinaryASTNode>(new NotEqualsASTNode());
       break;
+    default:
+      throw SPError("Unknown token");
   }
   node->setLeftChild(leftNode);
   return node;
