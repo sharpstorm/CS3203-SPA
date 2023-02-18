@@ -58,9 +58,11 @@ void ResultCoalescer::mergeResult(PQLQueryResult *setA,
   vector<PQLSynonymName> synList;
   unordered_set<ResultTableCol> rightColsToIgnore;
   vector<ResultTableCol> rightColsToCopy;
+  vector<ResultTableCol> leftColsToCopy;
 
   for (auto it = synonymsA->begin(); it != synonymsA->end(); it++) {
     synList.push_back(it->first);
+    leftColsToCopy.push_back(it->second);
     ResultTableCol rightCol = setB->getSynonymCol(it->first);
     if (rightCol == PQLQueryResult::NO_COL) {
       continue;
@@ -69,6 +71,10 @@ void ResultCoalescer::mergeResult(PQLQueryResult *setA,
     leftCommons.push_back(it->second);
     rightCommons.push_back(rightCol);
     rightColsToIgnore.insert(rightCol);
+  }
+
+  if (leftCommons.size() == 0) {
+    return;
   }
 
   for (auto it = synonymsB->begin(); it != synonymsB->end(); it++) {
@@ -101,8 +107,13 @@ void ResultCoalescer::mergeResult(PQLQueryResult *setA,
           ->getRowsWithValue(leftCol, referenceValue);
       auto y = setB
           ->getRowsWithValue(rightCol, referenceValue);
-      leftSet = intersectSet(leftSet, x);
-      rightSet = intersectSet(rightSet, y);
+      if (j == 0) {
+        leftSet = x;
+        rightSet = y;
+      } else {
+        leftSet = intersectSet(leftSet, x);
+        rightSet = intersectSet(rightSet, y);
+      }
     }
 
     if (leftSet == nullptr || rightSet == nullptr) {
@@ -118,12 +129,14 @@ void ResultCoalescer::mergeResult(PQLQueryResult *setA,
         int rightRowNumber = *it2;
         auto rightRow = setB->getTableRowAt(rightRowNumber);
         QueryResultTableRow mergedRow{};
-        for (int j = 0; j < leftRow->size(); j++) {
-          mergedRow.push_back(make_unique<QueryResultItem>(*leftRow->at(j)));
+        for (int j = 0; j < leftColsToCopy.size(); j++) {
+          ResultTableCol copyCol = leftColsToCopy.at(j);
+          mergedRow.push_back(make_unique<QueryResultItem>(
+              *leftRow->at(copyCol)));
         }
 
         for (int j = 0; j < rightColsToCopy.size(); j++) {
-          int copyCol = rightColsToCopy[j];
+          ResultTableCol copyCol = rightColsToCopy[j];
           mergedRow.push_back(make_unique<QueryResultItem>(
               *rightRow->at(copyCol)));
         }
@@ -138,14 +151,14 @@ template<class T>
 unordered_set<T>* ResultCoalescer::intersectSet(unordered_set<T> *s1,
                                                 unordered_set<T> *s2) {
   if (s1 == nullptr) {
-    return s2;
+    return nullptr;
   } else if (s2 == nullptr) {
-    return s1;
+    return nullptr;
   }
 
   auto result = new unordered_set<T>();
   for (auto it = s1->begin(); it != s1->end(); it++) {
-    if (s2->find(*it) != s1->end()) {
+    if (s2->find(*it) != s2->end()) {
       result->insert(*it);
     }
   }
