@@ -5,6 +5,7 @@
 #include "AbstractExtractor.h"
 #include "common/AST.h"
 #include "common/UtilityTypes.h"
+#include "common/ASTNode/ASTNode.h"
 
 class TreeWalker {
  public:
@@ -12,5 +13,5 @@ class TreeWalker {
   void walkAST(AST ast, VectorPtr<Extractor*> extractors);
 
  private:
-  void DFS(shared_ptr<ASTNode> ast, VectorPtr<Extractor*> extractors);
+  void DFS(ASTNodePtr ast, VectorPtr<Extractor*> extractors);
 };

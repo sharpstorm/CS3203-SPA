@@ -1,22 +1,19 @@
 #include "TreeWalker.h"
 
-#include <iostream>
 #include "common/ASTNode/StatementListNode.h"
-
-using std::cout, std::endl;
 
 void TreeWalker::walkAST(AST ast,
                          VectorPtr<Extractor*> extractors) {
   DFS(ast.getRoot(), extractors);
 }
 
-void TreeWalker::DFS(shared_ptr<ASTNode> node,
+void TreeWalker::DFS(ASTNodePtr node,
                      VectorPtr<Extractor*> extractors) {
   for (int i = 0; i < extractors->size(); i++) {
     node->accept(extractors->at(i));
   }
   if (node->getChildren().size() > 0) {
-    for (shared_ptr<ASTNode> child : node->getChildren()) {
+    for (ASTNodePtr child : node->getChildren()) {
       if (child != nullptr) {
         DFS(child, extractors);
       }

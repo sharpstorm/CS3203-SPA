@@ -50,7 +50,8 @@ SourceTokenStreamPtr SourceLexer::tokenize(string* programLines) {
     flushBuffer(resultVector.get(), buffer, hasSeenChar);
     if (deferredPush != SIMPLE_TOKEN_NULL) {
       resultVector->push_back(SourceToken(deferredPush, ""));
-    } else if (!SourceToken::isCategory(tokenType, SIMPLE_TOKEN_CATEGORY_PROCESSING)) {
+    } else if (!SourceToken::isCategory(tokenType,
+                                        SIMPLE_TOKEN_CATEGORY_PROCESSING)) {
       resultVector->push_back(SourceToken(tokenType, ""));
     }
 
@@ -69,9 +70,10 @@ void SourceLexer::flushBuffer(SourceTokenStream *result, string buffer,
   }
 }
 
-SourceTokenType SourceLexer::parsePartialSymbol(const SourceTokenType &tokenType,
-                                                string* buffer,
-                                                int *posPtr) {
+SourceTokenType SourceLexer::parsePartialSymbol(
+    const SourceTokenType &tokenType,
+    string* buffer,
+    int *posPtr) {
   switch (tokenType){
     case SIMPLE_TOKEN_OR_PARTIAL:
       // || only
@@ -105,7 +107,6 @@ SourceTokenType SourceLexer::parsePartialSymbol(const SourceTokenType &tokenType
     default:
       return SIMPLE_TOKEN_NULL;
   }
-
 }
 
 template<SourceTokenType twoCharType, SourceTokenType singleCharType>

@@ -18,10 +18,10 @@ void BinaryASTNode::setRightChild(ASTNodePtr right) {
   children[1] = right;
 }
 
-shared_ptr<ASTNode> BinaryASTNode::getLeftChild() {
+ASTNodePtr BinaryASTNode::getLeftChild() {
   return children[0];
 }
 
-shared_ptr<ASTNode> BinaryASTNode::getRightChild() {
+ASTNodePtr BinaryASTNode::getRightChild() {
   return children[1];
 }

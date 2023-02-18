@@ -14,7 +14,7 @@ typedef shared_ptr<ASTNode> ASTNodePtr;
 
 class ASTNode : public IASTNode {
  public:
-  ASTNode(ASTNodeType type);
+  explicit ASTNode(ASTNodeType type);
   ASTNode(ASTNodeType type, string value);
   virtual string toString() = 0;
 
@@ -23,8 +23,8 @@ class ASTNode : public IASTNode {
   virtual void addChild(ASTNodePtr node);
   shared_ptr<IASTNode> getChild(int index);
 
-  virtual void accept(Extractor* e) {};
-  virtual void leave(Extractor* e) {};
+  virtual void accept(Extractor* e) {}
+  virtual void leave(Extractor* e) {}
 
   ASTNodeType getType();
   string getValue();

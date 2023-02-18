@@ -9,7 +9,7 @@ using std::string;
 
 class WhileNode : public StatementASTNode {
  public:
-  WhileNode(int lineNumber);
+  explicit WhileNode(int lineNumber);
   ~WhileNode() = default;
 
   string toString();

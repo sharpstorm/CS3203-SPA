@@ -1,13 +1,10 @@
-#include <string>
-#include <vector>
-#include <memory>
 #include "WhileNode.h"
 
 #include <vector>
 
 #include "../ASTNode.h"
 
-using std::vector, std::shared_ptr, std::string;
+using std::vector;
 
 WhileNode::WhileNode(int lineNumber) :
     StatementASTNode(ASTNODE_WHILE, "", lineNumber) {

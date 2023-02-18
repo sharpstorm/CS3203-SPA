@@ -4,7 +4,7 @@
 
 class StatementNumberExtractor : public AbstractExtractor {
  public:
-  StatementNumberExtractor(): statementNumber(0) {};
+  StatementNumberExtractor(): statementNumber(0) {}
   void visit(PrintNode* node);
   void visit(AssignNode* node);
   void visit(WhileNode* node);

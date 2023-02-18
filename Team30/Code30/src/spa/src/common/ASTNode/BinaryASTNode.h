@@ -15,6 +15,6 @@ class BinaryASTNode: public ASTNode {
   ASTNodePtr getRightChild();
 
  protected:
-  BinaryASTNode(ASTNodeType type);
+  explicit BinaryASTNode(ASTNodeType type);
   BinaryASTNode(ASTNodeType type, string value);
 };

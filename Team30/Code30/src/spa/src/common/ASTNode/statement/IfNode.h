@@ -8,7 +8,7 @@ using std::string;
 
 class IfNode : public StatementASTNode {
  public:
-  IfNode(int lineNumber);
+  explicit IfNode(int lineNumber);
   ~IfNode() = default;
 
   string toString();
