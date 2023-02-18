@@ -72,17 +72,9 @@ TEST_CASE("Simple programs for grammar testing") {
 
   REQUIRE_NOTHROW(executeExtractors(testcase.TEST_OPERATORS));
 
-  /*
+  REQUIRE_NOTHROW(executeExtractors(testcase.CALL_PROCEDURES));
 
-   REQUIRE_NOTHROW(executeExtractors(testcase.CALL_PROCEDURES));
-
-  REQUIRE(ast.getRoot() ));*/
-
-  /*
-
-     REQUIRE_NOTHROW(executeExtractors(testcase.CALL_CASE_SENSITIVE));
-
-    REQUIRE(ast.getRoot() ));*/
+  REQUIRE_NOTHROW(executeExtractors(testcase.CALL_CASE_SENSITIVE));
 }
 
 TEST_CASE("Programs for testing simple if/else cases") {
@@ -108,11 +100,7 @@ TEST_CASE("Programs for testing simple if/else cases") {
 
   REQUIRE_NOTHROW(executeExtractors(testcase.MULTI_CHAINED_IF_ELSE));
 
-  /*
-
-   REQUIRE_NOTHROW(executeExtractors(testcase.CALL_IN_IF));
-
-  REQUIRE(ast.getRoot() ));*/
+  REQUIRE_NOTHROW(executeExtractors(testcase.CALL_IN_IF));
 }
 
 TEST_CASE("Programs testing simple while cases") {
@@ -132,11 +120,7 @@ TEST_CASE("Programs testing simple while cases") {
 
   REQUIRE_NOTHROW(executeExtractors(testcase.MULTI_CHAINED_WHILE));
 
-  /*
-
-   REQUIRE_NOTHROW(executeExtractors(testcase.CALL_IN_WHILE));
-
-  REQUIRE(ast.getRoot() ));*/
+  REQUIRE_NOTHROW(executeExtractors(testcase.CALL_IN_WHILE));
 
   REQUIRE_NOTHROW(executeExtractors(testcase.IF_IN_WHILE));
 
@@ -152,17 +136,9 @@ TEST_CASE("Programs testing simple while cases") {
 
   REQUIRE_NOTHROW(executeExtractors(testcase.WHILE_CHAIN_IN_IF_ELSE));
 
-  /*
+  REQUIRE_NOTHROW(executeExtractors(testcase.IF_ELSE_SINGLE_CALL_IN_WHILE));
 
-   REQUIRE_NOTHROW(executeExtractors(testcase.IF_ELSE_SINGLE_CALL_IN_WHILE));
-
-  REQUIRE(ast.getRoot() ));*/
-
-  /*
-
-   REQUIRE_NOTHROW(executeExtractors(testcase.MULTIPLE_CALLS_IN_WHILE));
-
-  REQUIRE(ast.getRoot() ));*/
+  REQUIRE_NOTHROW(executeExtractors(testcase.MULTIPLE_CALLS_IN_WHILE));
 
   REQUIRE_NOTHROW(executeExtractors(testcase.CHAINED_WHILE_WITH_IF_IN_BODY));
 
@@ -177,9 +153,5 @@ TEST_CASE("Complex Programs") {
 
   REQUIRE_NOTHROW(executeExtractors(testcase.COMPLEX_PROGRAM_TWO));
 
-  /*
-
-   REQUIRE_NOTHROW(executeExtractors(testcase.COMPLEX_PROGRAM_THREE));
-
-  REQUIRE(ast.getRoot() ));*/
+  REQUIRE_NOTHROW(executeExtractors(testcase.COMPLEX_PROGRAM_THREE));
 }
