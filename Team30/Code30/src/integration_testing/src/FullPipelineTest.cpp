@@ -73,11 +73,11 @@ TEST_CASE("Test Full End-to-end") {
   string query;
   unordered_set<string> expectedRes;
 
-//  query = "assign a; Select a such that Uses(a, \"x\")";
-//  expectedRes = unordered_set<string>({"5", "7", "8", "9", "12"});
-//  launchQuery2(qps.get(), query, expectedRes);
-//
-//  query = "assign a; Select a such that Modifies(a, \"x\")";
-//  expectedRes = unordered_set<string>({"1", "5"});
-//  launchQuery2(qps.get(), query, expectedRes);
+  query = "assign a; Select a such that Uses(a, \"x\")";
+  expectedRes = unordered_set<string>({"5", "7", "8", "9", "12"});
+  launchQuery2(qps.get(), query, expectedRes);
+
+  query = "assign a; Select a such that Modifies(a, \"x\")";
+  expectedRes = unordered_set<string>({"1", "5"});
+  launchQuery2(qps.get(), query, expectedRes);
 }

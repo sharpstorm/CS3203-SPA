@@ -15,8 +15,8 @@ bool SynonymArgument::isNamed() {
   return true;
 }
 
-void SynonymArgument::invokeWithName(function<void(PQLSynonymName)> consumer) {
-  consumer(synonym.getName());
+PQLSynonymName SynonymArgument::getName() {
+  return synonym.getName();
 }
 
 StmtRef SynonymArgument::toStmtRef() {

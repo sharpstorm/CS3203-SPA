@@ -3,8 +3,8 @@
 #include <memory>
 #include "sp/parser/parse_context/RecursiveParseContext.h"
 #include "sp/parser/IGrammarContextProvider.h"
-#include "common/ASTNode/math/PlusASTNode.h"
-#include "common/ASTNode/math/MinusASTNode.h"
+#include "common/ASTNode/math/math_operand/PlusASTNode.h"
+#include "common/ASTNode/math/math_operand/MinusASTNode.h"
 
 using std::shared_ptr;
 
@@ -15,9 +15,6 @@ class ExpressionContext: public RecursiveParseContext {
   shared_ptr<ASTNode> generateSubtree(SourceParseState* state);
 
  private:
-  shared_ptr<PlusASTNode>
-  generatePlus(shared_ptr<ASTNode> leftNode);
-
-  shared_ptr<MinusASTNode>
-  generateMinus(shared_ptr<ASTNode> leftNode);
+  shared_ptr<BinaryASTNode>
+  generateOperand(SourceParseState* state, shared_ptr<ASTNode> leftNode);
 };

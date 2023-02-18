@@ -4,7 +4,6 @@
 #include <memory>
 
 #include "FollowsTClause.h"
-#include "qps/common/adapters/StatementResultBuilder.h"
 
 using std::pair, std::vector, std::shared_ptr, std::move;
 
@@ -20,7 +19,7 @@ PQLQueryResult* FollowsTClause::evaluateOn(
   QueryResult<int, int> queryResult =
       pkbQueryHandler->queryFollowsStar(leftStatement, rightStatement);
 
-  return Clause::stmtQueryToQueryResult(left.get(), right.get(), queryResult);
+  return Clause::toQueryResult(left.get(), right.get(), queryResult);
 }
 
 bool FollowsTClause::validateArgTypes(VariableTable *variables) {

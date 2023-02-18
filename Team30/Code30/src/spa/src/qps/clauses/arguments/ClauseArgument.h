@@ -18,7 +18,7 @@ class ClauseArgument {
   virtual bool isNamed();
   virtual bool isWildcard();
 
-  virtual void invokeWithName(function<void(PQLSynonymName)> consumer);
+  virtual PQLSynonymName getName();
   virtual StmtRef toStmtRef() = 0;
   virtual EntityRef toEntityRef() = 0;
 

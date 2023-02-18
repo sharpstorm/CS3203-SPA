@@ -3,7 +3,6 @@
 #include <vector>
 
 #include "ParentClause.h"
-#include "qps/common/adapters/StatementResultBuilder.h"
 
 using std::pair, std::vector, std::shared_ptr, std::move;
 
@@ -19,7 +18,7 @@ PQLQueryResult* ParentClause::evaluateOn(
   QueryResult<int, int> queryResult =
       pkbQueryHandler->queryParent(leftStatement, rightStatement);
 
-  return Clause::stmtQueryToQueryResult(left.get(), right.get(), queryResult);
+  return Clause::toQueryResult(left.get(), right.get(), queryResult);
 }
 
 bool ParentClause::validateArgTypes(VariableTable *variables) {

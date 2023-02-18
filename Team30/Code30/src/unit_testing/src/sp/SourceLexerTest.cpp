@@ -1,5 +1,4 @@
 #include "catch.hpp"
-
 #include <vector>
 #include "sp/lexer/SourceLexer.h"
 #include "sp/common/SourceToken.h"
@@ -35,5 +34,6 @@ TEST_CASE("Test Source Lexer") {
     SourceToken(SIMPLE_TOKEN_BRACKET_CURLY_RIGHT, ""),
   };
 
-  REQUIRE(equal(expected.begin(), expected.end(), result.begin(), result.end()));
+  REQUIRE(equal(expected.begin(), expected.end(),
+                result.begin(), result.end()));
 }
