@@ -5,7 +5,7 @@
 using std::shared_ptr;
 
 ProcedureNode::ProcedureNode(string name): procName(name),
-                                           ASTNode(ASTNODE_PROCEDURE, "") {
+                                           ASTNode(ASTNODE_PROCEDURE) {
 }
 
 string ProcedureNode::toString() {

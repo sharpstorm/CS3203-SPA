@@ -2,7 +2,7 @@
 #include <unordered_set>
 
 #include "catch.hpp"
-#include "common/ASTNode/VariableASTNode.h"
+#include "common/ASTNode/entity/VariableASTNode.h"
 #include "pkb/writers/AssignsWriter.h"
 
 using std::make_shared;

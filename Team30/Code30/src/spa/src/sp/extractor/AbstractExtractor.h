@@ -10,8 +10,8 @@
 #include "common/ASTNode/statement/ReadNode.h"
 #include "common/ASTNode/statement/WhileNode.h"
 #include "common/ASTNode/statement/CallNode.h"
-#include "common/ASTNode/VariableASTNode.h"
-#include "common/ASTNode/ConstantASTNode.h"
+#include "common/ASTNode/entity/VariableASTNode.h"
+#include "common/ASTNode/entity/ConstantASTNode.h"
 #include "common/ASTNode/math/math_operand/AbstractMathNode.h"
 #include "common/ASTNode/math/conditional_operand/AbstractConditionalNode.h"
 

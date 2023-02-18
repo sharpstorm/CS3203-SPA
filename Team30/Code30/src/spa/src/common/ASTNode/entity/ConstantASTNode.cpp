@@ -13,7 +13,3 @@ string ConstantASTNode::toString() {
 void ConstantASTNode::accept(Extractor* e) {
   e->visit(this);
 }
-
-string ConstantASTNode::getValue() {
-  return value;
-}

@@ -4,8 +4,8 @@
 #include <vector>
 
 #include "sp/extractor/AbstractExtractor.h"
-#include "common/ASTNode/VariableASTNode.h"
-#include "common/ASTNode/ConstantASTNode.h"
+#include "common/ASTNode/entity/VariableASTNode.h"
+#include "common/ASTNode/entity/ConstantASTNode.h"
 
 class PatternExtractor : public AbstractExtractor {
  public:

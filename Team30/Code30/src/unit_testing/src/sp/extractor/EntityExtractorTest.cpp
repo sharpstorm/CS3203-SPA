@@ -1,7 +1,7 @@
 #include <string>
 
 #include "../../../../../lib/catch.hpp"
-#include "../../../../spa/src/common/ASTNode/ConstantASTNode.h"
+#include "common/ASTNode/entity/ConstantASTNode.h"
 #include "../../../../spa/src/common/ASTNode/statement/AssignNode.h"
 #include "../../../../spa/src/common/ASTNode/statement/IfNode.h"
 #include "../../../../spa/src/common/ASTNode/statement/PrintNode.h"
