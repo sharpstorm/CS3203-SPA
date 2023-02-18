@@ -18,5 +18,6 @@ string FileReader::readFromFile(string fileName) {
   while (getline(file, line)) {
     programLines += line + "\n";
   }
+  file.close();
   return programLines;
 }
