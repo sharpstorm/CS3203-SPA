@@ -5,17 +5,13 @@
 
 #include "SuchThatClause.h"
 #include "arguments/ClauseArgument.h"
+#include "AbstractTwoArgClause.h"
 
 using std::shared_ptr;
 
-class ParentClause: public SuchThatClause {
- private:
-  ClauseArgumentPtr left;
-  ClauseArgumentPtr right;
-
+class ParentClause: public AbstractTwoArgClause {
  public:
   ParentClause(ClauseArgumentPtr left, ClauseArgumentPtr right);
   PQLQueryResult* evaluateOn(shared_ptr<PkbQueryHandler> pkbQueryHandler);
   bool validateArgTypes(VariableTable *variables);
-  bool usesSynonym(string varName);
 };
