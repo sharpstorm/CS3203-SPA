@@ -7,6 +7,7 @@
 #include "qps/errors/QPSLexerError.h"
 #include "qps/errors/QPSParserSyntaxError.h"
 #include "qps/errors/QPSParserSemanticError.h"
+#include "sp/errors/SPError.h"
 
 using std::shared_ptr, std::vector, std::make_shared;
 
@@ -40,7 +41,13 @@ TestWrapper::~TestWrapper() {
 
 // method for parsing the SIMPLE source
 void TestWrapper::parse(std::string filename) {
-  sp->parseSource(filename, pkbWriter);
+  try {
+    sp->parseSource(filename, pkbWriter);
+  } catch (SPError error) {
+    return;
+  } catch (...) {
+    return;
+  }
 }
 
 // method to evaluating a query

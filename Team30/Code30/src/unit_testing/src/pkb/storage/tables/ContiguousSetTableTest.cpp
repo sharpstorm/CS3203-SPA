@@ -1,6 +1,5 @@
 #include <string>
 #include <unordered_set>
-#include <memory>
 
 #include "catch.hpp"
 #include "pkb/storage/tables/ContiguousSetTable.h"

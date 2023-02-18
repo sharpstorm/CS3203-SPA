@@ -29,7 +29,6 @@ class PkbWriter : public IPkbWriter {
   void addStatement(int, StmtType) override;
   void addUses(int stmtNum, string variable) override;
   void addModifies(int stmtNum, string variable) override;
-  void addContainerStmt(int start, int end) override;
 
  private:
   unique_ptr<IFollowsWriter> followsWriter;
