@@ -1,9 +1,7 @@
 #include "ResultCoalescer.h"
-#include <memory>
 #include <utility>
-#include <vector>
 
-using std::move, std::make_unique, std::vector;
+using std::move, std::make_unique;
 
 PQLQueryResult *ResultCoalescer::merge(PQLQueryResult *setA,
                                        PQLQueryResult *setB) {
@@ -16,11 +14,17 @@ PQLQueryResult *ResultCoalescer::merge(PQLQueryResult *setA,
   }
 
   PQLQueryResult* result = new PQLQueryResult();
-  result->setIsStaticFalse(mergeStaticResult(setA, setB));
-  result->setError(mergeError(setA, setB));
+  InternalMergeState internalState{
+      setA,
+      setB,
+      result
+  };
+
+  mergeStaticResult(&internalState);
+  mergeError(&internalState);
 
   if (!result->isFalse()) {
-    mergeResult(setA, setB, result);
+    mergeResult(&internalState);
   }
 
   delete(setA);
@@ -28,52 +32,65 @@ PQLQueryResult *ResultCoalescer::merge(PQLQueryResult *setA,
   return result;
 }
 
-bool ResultCoalescer::mergeStaticResult(PQLQueryResult *setA,
-                                        PQLQueryResult *setB) {
-  return setA->isFalse() || setB->isFalse();
+void ResultCoalescer::mergeStaticResult(InternalMergeState *state) {
+  bool mergedIsFalse = state->setA->isFalse() || state->setB->isFalse();
+  state->output->setIsStaticFalse(mergedIsFalse);
 }
 
-string ResultCoalescer::mergeError(PQLQueryResult *setA,
-                                   PQLQueryResult *setB) {
+void ResultCoalescer::mergeError(InternalMergeState *state) {
   string error = "";
-  if (!setA->getError().empty()) {
-    error += setA->getError() + " ";
+  if (!state->setA->getError().empty()) {
+    error += state->setA->getError() + " ";
   }
 
-  if (!setB->getError().empty()) {
-    error += setB->getError() + " ";
+  if (!state->setB->getError().empty()) {
+    error += state->setB->getError() + " ";
   }
 
-  return error;
+  state->output->setError(error);
 }
 
-void ResultCoalescer::mergeResult(PQLQueryResult *setA,
-                                  PQLQueryResult *setB,
-                                  PQLQueryResult *output) {
+void ResultCoalescer::mergeResult(InternalMergeState* mergeState) {
+  IntersectState intersectState;
   // init syn list
-  auto synonymsA = setA->getSynonyms();
-  auto synonymsB = setB->getSynonyms();
-  vector<ResultTableCol> leftCommons;
-  vector<ResultTableCol> rightCommons;
-  vector<PQLSynonymName> synList;
+  mergeSynonymList(mergeState, &intersectState);
+
+  unordered_set<int> ignoreRows;
+  for (int i = 0; i < mergeState->setA->getRowCount(); i++) {
+    if (ignoreRows.find(i) != ignoreRows.end()) {
+      continue;
+    }
+
+    auto row = mergeState->setA->getTableRowAt(i);
+    IntersectResult intersect = findIntersect(mergeState, row,
+                                              &intersectState);
+    if (intersect.leftSet == nullptr || intersect.rightSet == nullptr) {
+      continue;
+    }
+    crossProduct(mergeState, &ignoreRows, &intersectState, &intersect);
+  }
+}
+
+void ResultCoalescer::mergeSynonymList(InternalMergeState *mergeState,
+                                       IntersectState *intersectState) {
+  auto synonymsA = mergeState->setA->getSynonyms();
+  auto synonymsB = mergeState->setB->getSynonyms();
   unordered_set<ResultTableCol> rightColsToIgnore;
-  vector<ResultTableCol> rightColsToCopy;
-  vector<ResultTableCol> leftColsToCopy;
 
   for (auto it = synonymsA->begin(); it != synonymsA->end(); it++) {
-    synList.push_back(it->first);
-    leftColsToCopy.push_back(it->second);
-    ResultTableCol rightCol = setB->getSynonymCol(it->first);
+    mergeState->output->putSynonym(it->first);
+    intersectState->leftColsToCopy.push_back(it->second);
+    ResultTableCol rightCol = mergeState->setB->getSynonymCol(it->first);
     if (rightCol == PQLQueryResult::NO_COL) {
       continue;
     }
 
-    leftCommons.push_back(it->second);
-    rightCommons.push_back(rightCol);
+    intersectState->leftCommons.push_back(it->second);
+    intersectState->rightCommons.push_back(rightCol);
     rightColsToIgnore.insert(rightCol);
   }
 
-  if (leftCommons.size() == 0) {
+  if (intersectState->leftCommons.size() == 0) {
     return;
   }
 
@@ -82,81 +99,86 @@ void ResultCoalescer::mergeResult(PQLQueryResult *setA,
       continue;
     }
 
-    rightColsToCopy.push_back(it->second);
-    synList.push_back(it->first);
+    intersectState->rightColsToCopy.push_back(it->second);
+    mergeState->output->putSynonym(it->first);
   }
+}
 
-  for (string syn : synList) {
-    output->putSynonym(syn);
-  }
-
-  unordered_set<int> ignoreRows;
-  for (int i = 0; i < setA->getRowCount(); i++) {
-    if (ignoreRows.find(i) != ignoreRows.end()) {
+ResultCoalescer::IntersectResult ResultCoalescer::findIntersect(
+    InternalMergeState* mergeState,
+    QueryResultTableRow* currentRow,
+    IntersectState* state) {
+  IntersectSetPtr<int> leftSet = nullptr;
+  IntersectSetPtr<int> rightSet = nullptr;
+  for (int j = 0; j < state->leftCommons.size(); j++) {
+    ResultTableCol leftCol = state->leftCommons.at(j);
+    ResultTableCol rightCol = state->rightCommons.at(j);
+    auto referenceValue = currentRow->at(leftCol).get();
+    auto leftSearch = IntersectSetPtr<int>(mergeState->setA
+        ->getRowsWithValue(leftCol, referenceValue));
+    auto rightSearch = IntersectSetPtr<int>(mergeState->setB
+        ->getRowsWithValue(rightCol, referenceValue));
+    if (j == 0) {
+      leftSet = move(leftSearch);
+      rightSet = move(rightSearch);
       continue;
     }
 
-    auto row = setA->getTableRowAt(i);
-    unordered_set<int>* leftSet = nullptr;
-    unordered_set<int>* rightSet = nullptr;
-    for (int j = 0; j < leftCommons.size(); j++) {
-      ResultTableCol leftCol = leftCommons.at(j);
-      ResultTableCol rightCol = rightCommons.at(j);
-      auto referenceValue = row->at(leftCol).get();
-      auto x = setA
-          ->getRowsWithValue(leftCol, referenceValue);
-      auto y = setB
-          ->getRowsWithValue(rightCol, referenceValue);
-      if (j == 0) {
-        leftSet = x;
-        rightSet = y;
-      } else {
-        leftSet = intersectSet(leftSet, x);
-        rightSet = intersectSet(rightSet, y);
-      }
-    }
+    leftSet = intersectSet(leftSet.get(), leftSearch.get());
+    rightSet = intersectSet(rightSet.get(), rightSearch.get());
+  }
 
-    if (leftSet == nullptr || rightSet == nullptr) {
-      continue;
-    }
+  return {move(leftSet), move(rightSet)};
+}
 
-    for (auto it = leftSet->begin(); it != leftSet->end(); it++) {
-      int leftRowNumber = *it;
-      ignoreRows.insert(leftRowNumber);
-      auto leftRow = setA->getTableRowAt(leftRowNumber);
+void ResultCoalescer::crossProduct(InternalMergeState* mergeState,
+                                   unordered_set<int>* ignoreSet,
+                                   IntersectState* intersectState,
+                                   IntersectResult* intersection) {
+  for (auto it = intersection->leftSet->begin();
+       it != intersection->leftSet->end(); it++) {
+    int leftRowNumber = *it;
+    ignoreSet->insert(leftRowNumber);
+    auto leftRow = mergeState->setA->getTableRowAt(leftRowNumber);
 
-      for (auto it2 = rightSet->begin(); it2 != rightSet->end(); it2++) {
-        int rightRowNumber = *it2;
-        auto rightRow = setB->getTableRowAt(rightRowNumber);
-        QueryResultTableRow mergedRow{};
-        for (int j = 0; j < leftColsToCopy.size(); j++) {
-          ResultTableCol copyCol = leftColsToCopy.at(j);
-          mergedRow.push_back(make_unique<QueryResultItem>(
-              *leftRow->at(copyCol)));
-        }
-
-        for (int j = 0; j < rightColsToCopy.size(); j++) {
-          ResultTableCol copyCol = rightColsToCopy[j];
-          mergedRow.push_back(make_unique<QueryResultItem>(
-              *rightRow->at(copyCol)));
-        }
-
-        output->putTableRow(move(mergedRow));
-      }
+    for (auto it2 = intersection->rightSet->begin();
+         it2 != intersection->rightSet->end(); it2++) {
+      int rightRowNumber = *it2;
+      auto rightRow = mergeState->setB->getTableRowAt(rightRowNumber);
+      QueryResultTableRow mergedRow{};
+      mergeRow(leftRow, rightRow, &mergedRow, intersectState);
+      mergeState->output->putTableRow(move(mergedRow));
     }
   }
 }
 
+void ResultCoalescer::mergeRow(QueryResultTableRow *rowA,
+                                              QueryResultTableRow *rowB,
+                                              QueryResultTableRow *outputRow,
+                                              IntersectState *state) {
+  for (int j = 0; j < state->leftColsToCopy.size(); j++) {
+    ResultTableCol copyCol = state->leftColsToCopy.at(j);
+    outputRow->push_back(make_unique<QueryResultItem>(
+        *rowA->at(copyCol)));
+  }
+
+  for (int j = 0; j < state->rightColsToCopy.size(); j++) {
+    ResultTableCol copyCol = state->rightColsToCopy[j];
+    outputRow->push_back(make_unique<QueryResultItem>(
+        *rowB->at(copyCol)));
+  }
+}
+
 template<class T>
-unordered_set<T>* ResultCoalescer::intersectSet(unordered_set<T> *s1,
-                                                unordered_set<T> *s2) {
+IntersectSetPtr<T> ResultCoalescer::intersectSet(IntersectSet<T>* s1,
+                                                 IntersectSet<T>* s2) {
   if (s1 == nullptr) {
     return nullptr;
   } else if (s2 == nullptr) {
     return nullptr;
   }
 
-  auto result = new unordered_set<T>();
+  auto result = make_unique<IntersectSet<T>>();
   for (auto it = s1->begin(); it != s1->end(); it++) {
     if (s2->find(*it) != s2->end()) {
       result->insert(*it);
