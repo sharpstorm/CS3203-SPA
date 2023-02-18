@@ -1,5 +1,5 @@
 #pragma once
-#include <string>
+
 #include "AbstractMathNode.h"
 
 class TimesASTNode: public AbstractMathNode {

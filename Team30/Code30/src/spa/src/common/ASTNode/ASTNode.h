@@ -9,22 +9,28 @@
 using std::vector, std::string, std::shared_ptr;
 
 class Extractor;
+class ASTNode;
+typedef shared_ptr<ASTNode> ASTNodePtr;
 
 class ASTNode : public IASTNode {
  public:
+  ASTNode(ASTNodeType type);
   ASTNode(ASTNodeType type, string value);
+  virtual string toString() = 0;
+
+  virtual vector<ASTNodePtr> getChildren();
+  virtual void setChild(int index, ASTNodePtr node);
+  virtual void addChild(ASTNodePtr node);
+  shared_ptr<IASTNode> getChild(int index);
+
   virtual void accept(Extractor* e) {};
   virtual void leave(Extractor* e) {};
-  virtual string toString() = 0;
-  virtual vector<shared_ptr<ASTNode>> getChildren();
-  virtual void setChild(int index, shared_ptr<ASTNode> node);
-  virtual void addChild(shared_ptr<ASTNode> node);
-  shared_ptr<IASTNode> getChild(int index);
+
   ASTNodeType getType();
   string getValue();
   bool isEquals(IASTNode* other);
  protected:
   string value;
   ASTNodeType type;
-  vector<shared_ptr<ASTNode>> children;
+  vector<ASTNodePtr> children;
 };

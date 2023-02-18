@@ -1,17 +1,20 @@
 #include "ASTNode.h"
 
+ASTNode::ASTNode(ASTNodeType t) : type(t), value("") {
+}
+
 ASTNode::ASTNode(ASTNodeType t, string v) : type(t), value(v) {
 }
 
-vector<shared_ptr<ASTNode>> ASTNode::getChildren() {
+vector<ASTNodePtr> ASTNode::getChildren() {
   return children;
 }
 
-void ASTNode::setChild(int index, shared_ptr<ASTNode> node) {
+void ASTNode::setChild(int index, ASTNodePtr node) {
   children[index] = node;
 }
 
-void ASTNode::addChild(shared_ptr<ASTNode> node) {
+void ASTNode::addChild(ASTNodePtr node) {
   children.push_back(node);
 }
 

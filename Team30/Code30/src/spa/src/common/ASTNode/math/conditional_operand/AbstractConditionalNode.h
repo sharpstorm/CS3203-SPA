@@ -1,11 +1,10 @@
 #pragma once
 
 #include <string>
-#include <memory>
 #include "sp/extractor/Extractor.h"
 #include "common/ASTNode/BinaryASTNode.h"
 
-using std::string, std::shared_ptr;
+using std::string;
 
 class AbstractConditionalNode: public BinaryASTNode {
  public:

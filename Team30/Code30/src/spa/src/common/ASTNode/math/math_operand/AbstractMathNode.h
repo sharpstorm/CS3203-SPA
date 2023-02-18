@@ -4,12 +4,12 @@
 #include "sp/extractor/Extractor.h"
 #include "common/ASTNode/BinaryASTNode.h"
 
-using std::string, std::shared_ptr;
+using std::string;
 
 class AbstractMathNode: public BinaryASTNode {
  public:
   virtual ~AbstractMathNode() = default;
-  void accept(shared_ptr<Extractor> e);
+  void accept(Extractor* e);
   string toString();
 
  protected:

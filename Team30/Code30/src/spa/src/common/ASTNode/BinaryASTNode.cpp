@@ -1,19 +1,20 @@
 #include <vector>
-#include <memory>
 #include "BinaryASTNode.h"
 
-using std::vector, std::shared_ptr;
+using std::vector;
 
 BinaryASTNode::BinaryASTNode(ASTNodeType type, string value)
     : ASTNode(type, value) {
-  children = vector<shared_ptr<ASTNode>>{nullptr, nullptr };
+  children = vector<ASTNodePtr>{ nullptr, nullptr };
 }
 
-void BinaryASTNode::setLeftChild(shared_ptr<ASTNode> left) {
+BinaryASTNode::BinaryASTNode(ASTNodeType type): ASTNode(type) {}
+
+void BinaryASTNode::setLeftChild(ASTNodePtr left) {
   children[0] = left;
 }
 
-void BinaryASTNode::setRightChild(shared_ptr<ASTNode> right) {
+void BinaryASTNode::setRightChild(ASTNodePtr right) {
   children[1] = right;
 }
 
@@ -23,8 +24,4 @@ shared_ptr<ASTNode> BinaryASTNode::getLeftChild() {
 
 shared_ptr<ASTNode> BinaryASTNode::getRightChild() {
   return children[1];
-}
-
-string BinaryASTNode::toString() {
-  return ":operand";
 }

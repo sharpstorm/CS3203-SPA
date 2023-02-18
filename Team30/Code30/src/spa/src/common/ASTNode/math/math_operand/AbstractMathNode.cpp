@@ -1,6 +1,6 @@
 #include "AbstractMathNode.h"
 
-void AbstractMathNode::accept(shared_ptr<Extractor> e) {
+void AbstractMathNode::accept(Extractor* e) {
   e->visit(this);
 }
 
