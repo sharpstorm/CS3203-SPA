@@ -2,7 +2,7 @@
 
 #include <string>
 #include <memory>
-#include "common/ASTNode/AbstractBinaryASTNode.h"
+#include "common/ASTNode/BinaryASTNode.h"
 #include "sp/extractor/Extractor.h"
 
 using std::string, std::shared_ptr;
@@ -12,5 +12,8 @@ class StatementASTNode: public ASTNode {
   virtual ~StatementASTNode() = default;
   virtual string toString() = 0;
   virtual void accept(shared_ptr<Extractor> e) = 0;
+  virtual void leave(shared_ptr<Extractor> e) = 0;
   int lineNumber;
+ protected:
+  StatementASTNode(ASTNodeType type, string value);
 };

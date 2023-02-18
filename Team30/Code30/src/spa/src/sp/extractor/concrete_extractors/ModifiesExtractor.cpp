@@ -6,15 +6,35 @@ using std::string;
 ModifiesExtractor::ModifiesExtractor(PkbWriter* writer) { pkbWriter = writer; }
 
 void ModifiesExtractor::visit(AssignNode node) {
-  addModifiesRelation(node.lineNumber,
-                      std::dynamic_pointer_cast<VariableASTNode>
-                          (node.getChildren()[0])->getValue());
+  string nodeValue = node.getChildren()[0]->toString();
+  addModifiesRelation(node.lineNumber, nodeValue);
+  for (int i : statementStartStack) {
+    addModifiesRelation(i, nodeValue);
+  }
 }
 
 void ModifiesExtractor::visit(ReadNode node) {
-  addModifiesRelation(node.lineNumber,
-                      std::dynamic_pointer_cast<VariableASTNode>
-                          (node.getChildren()[0])->getValue());
+  string nodeValue = node.getChildren()[0]->toString();
+  addModifiesRelation(node.lineNumber, nodeValue);
+  for (int i : statementStartStack) {
+    addModifiesRelation(i, nodeValue);
+  }
+}
+
+void ModifiesExtractor::visit(WhileNode node) {
+  statementStartStack.push_back(node.lineNumber);
+}
+
+void ModifiesExtractor::visit(IfNode node) {
+  statementStartStack.push_back(node.lineNumber);
+}
+
+void ModifiesExtractor::leave(IfNode node) {
+  statementStartStack.pop_back();
+}
+
+void ModifiesExtractor::leave(WhileNode node) {
+  statementStartStack.pop_back();
 }
 
 void ModifiesExtractor::addModifiesRelation(int x, string var) {

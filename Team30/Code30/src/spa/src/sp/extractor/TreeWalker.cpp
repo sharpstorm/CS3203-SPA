@@ -16,9 +16,13 @@ void TreeWalker::DFS(shared_ptr<ASTNode> node,
     node->accept(extractors.at(i));
   }
   if (node->getChildren().size() > 0) {
-    // Iterate through node's children
     for (shared_ptr<ASTNode> child : node->getChildren()) {
+      if (child != nullptr) {
         DFS(child, extractors);
+      }
     }
+  }
+  for (int i = 0; i < extractors.size(); i++) {
+    node->leave(extractors.at(i));
   }
 }
