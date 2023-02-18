@@ -1,9 +1,9 @@
 #include <utility>
-#include <iostream>
+#include <unordered_set>
 
 #include "AssignPatternClause.h"
 
-using std::move;
+using std::move, std::unordered_set;
 
 AssignPatternClause::AssignPatternClause(PQLQuerySynonym assignSynonym,
                                          ClauseArgumentPtr leftArgument,
@@ -22,19 +22,23 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
       pkbQueryHandler->queryModifies(leftStatement, rightVariable);
 
   unordered_set<int> assignResult;
-  // Go through all the line numbers
-  for (auto& it: modifiesResult.pairVals) {
-    // Call assigns to retrieve the node
-    StmtRef assignRef = StmtRef{StmtType::Assign, it.first};
-    QueryResult<int, shared_ptr<IASTNode>> nodes =
-        pkbQueryHandler->queryAssigns(assignRef);
+  if (patternPhrase.empty()) {
+    assignResult.insert(modifiesResult.firstArgVals.begin(),
+                        modifiesResult.firstArgVals.end());
+  } else {
+    // Go through all the line numbers
+    for (int i : modifiesResult.firstArgVals) {
+      // Call assigns to retrieve the node
+      StmtRef assignRef = StmtRef{StmtType::Assign, i};
+      QueryResult<int, shared_ptr<IASTNode>> nodes =
+          pkbQueryHandler->queryAssigns(assignRef);
 
-    shared_ptr<IASTNode> lineRoot = *nodes.secondArgVals.begin();
-    // DFS to match
-    // If successful, add to query result table
-    shared_ptr<string> substring(new string());
-    if (findExpression(substring, lineRoot)) {
-      assignResult.insert(it.first);
+      shared_ptr<IASTNode> lineRoot = *nodes.secondArgVals.begin();
+      // DFS to match
+      // If successful, add to query result table
+      if (findExpression(lineRoot)) {
+        assignResult.insert(i);
+      }
     }
   }
 
@@ -57,46 +61,13 @@ bool AssignPatternClause::validateArgTypes(VariableTable *variables) {
       ClauseArgument::isType<PQL_SYN_TYPE_VARIABLE>);
 }
 
-string AssignPatternClause::getNodeString(shared_ptr<IASTNode> node) {
-  switch (node->getType())  {
-    case ASTNODE_PLUS:
-      return "+";
-    case ASTNODE_MINUS:
-      return "-";
-    case ASTNODE_TIMES:
-      return "*";
-    case ASTNODE_DIV:
-      return "/";
-    case ASTNODE_MOD:
-      return "%";
-    default:
-      return node->getValue();
-  }
-}
-
-bool AssignPatternClause::findExpression(shared_ptr<string> currentSubstring,
-                                         shared_ptr<IASTNode> rootNode) {
-  if (rootNode.get() == nullptr) {
-    return false;
+bool AssignPatternClause::findExpression(shared_ptr<IASTNode> rootNode) {
+  if (rootNode->getType() == ASTNODE_VARIABLE ||
+      rootNode->getType() == ASTNODE_CONSTANT) {
+    return rootNode->getValue() == patternPhrase;
   }
 
-  bool hasMatch = findExpression(currentSubstring, rootNode->getChild(0));
-  currentSubstring->append(getNodeString(rootNode));
-
-  int matchIdx = currentSubstring->find(patternPhrase);
-  hasMatch |= matchIdx != string::npos;
-
-  // Even if there is a match, it must start from 0
-  if (!allowPartial && (!hasMatch || matchIdx != 0)) {
-    return false;
-  }
-
-  // If partial expression already found in leftsubtree + root, early terminate
-  if (allowPartial && hasMatch) {
-    return true;
-  }
-
-  hasMatch |= findExpression(currentSubstring, rootNode->getChild(1));
-  return hasMatch;
+  return findExpression(rootNode->getChild(0))
+      || findExpression(rootNode->getChild(1));
 }
 
