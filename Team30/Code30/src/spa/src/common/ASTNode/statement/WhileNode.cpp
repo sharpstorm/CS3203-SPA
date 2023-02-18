@@ -3,13 +3,17 @@
 #include <memory>
 #include "WhileNode.h"
 
+#include <vector>
+
+#include "../ASTNode.h"
+
 using std::vector, std::shared_ptr, std::string;
 
 WhileNode::WhileNode(int lineNumber) :
     StatementASTNode(ASTNODE_WHILE, "", lineNumber) {
   // index [0] = conditional expression
   // index [1] = statement list
-  children = vector<shared_ptr<ASTNode>>{nullptr, nullptr};
+  children = vector<ASTNodePtr>{nullptr, nullptr};
 }
 
 void WhileNode::accept(Extractor* e) {
@@ -20,10 +24,6 @@ void WhileNode::leave(Extractor* e) {
   e->leave(this);
 }
 
-void WhileNode::addChild(shared_ptr<ASTNode> node) {
-  children.push_back(node);
-}
-
 string WhileNode::toString() {
   string ss = ":while";
   ss += children[0] == nullptr ? "none" : children[0]->toString() + "\n";
@@ -31,4 +31,3 @@ string WhileNode::toString() {
   ss += children[1] == nullptr ? "none" : children[1]->toString() + "\n";
   return ss;
 }
-

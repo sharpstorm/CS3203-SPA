@@ -1,13 +1,13 @@
-#include <string>
-#include <vector>
-#include <memory>
 #include "PrintNode.h"
 
-using std::vector, std::shared_ptr, std::string;
+#include <vector>
+#include "../ASTNode.h"
+
+using std::vector, std::shared_ptr;
 
 PrintNode::PrintNode(int lineNumber) :
     StatementASTNode(ASTNODE_PRINT, "", lineNumber) {
-  children = vector<shared_ptr<ASTNode>>{nullptr};
+  children = vector<ASTNodePtr>{nullptr};
 }
 
 void PrintNode::accept(Extractor* e) {

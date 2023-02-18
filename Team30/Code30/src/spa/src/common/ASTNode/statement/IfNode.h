@@ -1,19 +1,17 @@
 #pragma once
 
 #include <string>
-#include <memory>
-#include "common/ASTNode/ASTNode.h"
 #include "StatementASTNode.h"
 #include "sp/extractor/Extractor.h"
 
-using std::string, std::shared_ptr;
+using std::string;
 
 class IfNode : public StatementASTNode {
  public:
   IfNode(int lineNumber);
   ~IfNode() = default;
+
   string toString();
   void accept(Extractor* e);
   void leave(Extractor* e);
-  void addChild(shared_ptr<ASTNode> node);
 };

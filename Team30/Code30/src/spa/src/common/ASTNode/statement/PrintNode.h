@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include <memory>
 #include "StatementASTNode.h"
 #include "sp/extractor/Extractor.h"
 
@@ -11,6 +10,7 @@ class PrintNode : public StatementASTNode {
  public:
   PrintNode(int lineNumber);
   ~PrintNode() = default;
+
   string toString();
   void accept(Extractor* e);
 };
