@@ -45,10 +45,12 @@ static unique_ptr<EntityMappingProviderStub> setUpEntityMappingProvider() {
   provider->entityTypeToValue.set(EntityType::Variable, "x");
   provider->entityTypeToValue.set(EntityType::Variable, "y");
   provider->entityTypeToValue.set(EntityType::Variable, "z");
+  provider->entityTypeToValue.set(EntityType::Variable, "w");
   provider->valueToEntityType.set("x", EntityType::Variable);
   provider->valueToEntityType.set("y", EntityType::Variable);
   provider->valueToEntityType.set("z", EntityType::Variable);
-  provider->allSymbols = {"x", "y", "z"};
+  provider->valueToEntityType.set("w", EntityType::Variable);
+  provider->allSymbols = {"x", "y", "z", "w"};
   return provider;
 }
 
@@ -267,3 +269,130 @@ TEST_CASE("ModifiesQueryHandler Modifies(statement, _)") {
 }
 
 /** Modifies(EntityRef, EntityRef) */
+// Both args known
+TEST_CASE("ModifiesQueryHandler Modifies(procedureName, variableName)") {
+  auto test = modiifiesTestInit();
+  test.table->set(1, "x");
+  test.table->set(2, "y");
+  test.table->set(3, "z");
+
+  test.structureProvider->procedureToStmtNum.set("main", 1);
+  test.structureProvider->procedureToStmtNum.set("main", 2);
+  test.structureProvider->procedureToStmtNum.set("foo", 3);
+  test.structureProvider->stmtNumToProcedure.set(1, "main");
+  test.structureProvider->stmtNumToProcedure.set(2, "main");
+  test.structureProvider->stmtNumToProcedure.set(3, "foo");
+
+  auto result1 = test.handler.queryModifies({EntityType::Procedure, "main"},
+                                            {EntityType::None, "x"});
+  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.firstArgVals == unordered_set<string>({"main"}));
+  REQUIRE(result1.secondArgVals == unordered_set<string>({"x"}));
+  REQUIRE(result1.pairVals == pair_set<string, string>({{"main", "x"}}));
+
+  auto result2 = test.handler.queryModifies({EntityType::Procedure, "foo"},
+                                            {EntityType::None, "x"});
+  REQUIRE(result2.isEmpty == true);
+
+  // invalid type
+  auto result3 = test.handler.queryModifies({EntityType::None, "main"},
+                                            {EntityType::None, "x"});
+  REQUIRE(result3.isEmpty == true);
+}
+
+// Only arg1 known
+TEST_CASE("ModifiesQueryHandler Modifies(procedureName, type)") {
+  auto test = modiifiesTestInit();
+  test.table->set(1, "x");
+  test.table->set(2, "y");
+  test.table->set(2, "w");
+  test.table->set(3, "z");
+
+  test.structureProvider->procedureToStmtNum.set("main", 1);
+  test.structureProvider->procedureToStmtNum.set("main", 2);
+  test.structureProvider->procedureToStmtNum.set("foo", 3);
+  test.structureProvider->stmtNumToProcedure.set(1, "main");
+  test.structureProvider->stmtNumToProcedure.set(2, "main");
+  test.structureProvider->stmtNumToProcedure.set(3, "foo");
+
+  auto result1 = test.handler.queryModifies({EntityType::Procedure, "main"},
+                                            {EntityType::Variable, ""});
+  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.firstArgVals == unordered_set<string>({"main"}));
+  REQUIRE(result1.secondArgVals == unordered_set<string>({"x", "y", "w"}));
+  REQUIRE(result1.pairVals
+              == pair_set<string, string>({{"main", "x"}, {"main", "y"},
+                                           {"main", "w"}}));
+
+  auto result2 = test.handler.queryModifies({EntityType::Procedure, "goo"},
+                                            {EntityType::Variable, ""});
+  REQUIRE(result2.isEmpty == true);
+
+  // invalid arg1
+  auto result3 = test.handler.queryModifies({EntityType::None, "main"},
+                                            {EntityType::None, ""});
+  REQUIRE(result3.isEmpty == true);
+}
+
+// Only arg2 known
+TEST_CASE("ModifiesQueryHandler Modifies(type, variable)") {
+  auto test = modiifiesTestInit();
+  test.reverseTable->set("x", 1);
+  test.reverseTable->set("x", 3);
+  test.reverseTable->set("y", 2);
+  test.reverseTable->set("y", 4);
+
+  test.structureProvider->procedureToStmtNum.set("main", 1);
+  test.structureProvider->procedureToStmtNum.set("main", 2);
+  test.structureProvider->procedureToStmtNum.set("foo", 3);
+  test.structureProvider->procedureToStmtNum.set("goo", 4);
+  test.structureProvider->stmtNumToProcedure.set(1, "main");
+  test.structureProvider->stmtNumToProcedure.set(2, "main");
+  test.structureProvider->stmtNumToProcedure.set(3, "foo");
+  test.structureProvider->stmtNumToProcedure.set(4, "goo");
+
+  auto result1 = test.handler.queryModifies({EntityType::Procedure, ""},
+                                            {EntityType::Variable, "x"});
+  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.firstArgVals == unordered_set<string>({"main", "foo"}));
+  REQUIRE(result1.secondArgVals == unordered_set<string>({"x"}));
+  REQUIRE(result1.pairVals
+              == pair_set<string, string>({{"main", "x"}, {"foo", "x"}}));
+
+  // invalid arg1
+  auto result2 = test.handler.queryModifies({EntityType::None, ""},
+                                            {EntityType::None, "y"});
+  REQUIRE(result2.isEmpty == true);
+}
+
+// Both args unknown
+TEST_CASE("ModifiesQueryHandler Modifies(type, type)") {
+  auto test = modiifiesTestInit();
+  test.reverseTable->set("x", 1);
+  test.reverseTable->set("z", 3);
+  test.reverseTable->set("y", 2);
+  test.reverseTable->set("y", 3);
+
+  test.structureProvider->procedureToStmtNum.set("main", 1);
+  test.structureProvider->procedureToStmtNum.set("main", 2);
+  test.structureProvider->procedureToStmtNum.set("foo", 3);
+  test.structureProvider->procedureToStmtNum.set("goo", 4);
+  test.structureProvider->stmtNumToProcedure.set(1, "main");
+  test.structureProvider->stmtNumToProcedure.set(2, "main");
+  test.structureProvider->stmtNumToProcedure.set(3, "foo");
+  test.structureProvider->stmtNumToProcedure.set(4, "goo");
+
+  auto result1 = test.handler.queryModifies({EntityType::Procedure, ""},
+                                            {EntityType::None, ""});
+  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.firstArgVals == unordered_set<string>({"main", "foo"}));
+  REQUIRE(result1.secondArgVals == unordered_set<string>({"x", "y", "z"}));
+  REQUIRE(result1.pairVals
+              == pair_set<string, string>({{"main", "x"}, {"main", "y"},
+                                           {"foo", "z"}, {"foo", "y"}}));
+
+  // invalid arg1
+  auto result2 = test.handler.queryModifies({EntityType::None, ""},
+                                            {EntityType::Variable, ""});
+  REQUIRE(result2.isEmpty == true);
+}
