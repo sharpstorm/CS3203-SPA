@@ -86,15 +86,15 @@ class ClausesPKBStub : public StubPKB {
     return result;
   };
 
-  unordered_set<string> getSymbolsOfType(EntityType) const {
+  unordered_set<string> getSymbolsOfType(EntityType) const override {
     return unordered_set<string>();
   };
-  unordered_set<int> getStatementsOfType(StmtType) const {
+  unordered_set<int> getStatementsOfType(StmtType) const override {
     return unordered_set<int>();
   };
 
   // Utility functions
-  QueryResult<int, int> createFollowsTResult() const {
+  static QueryResult<int, int> createFollowsTResult() {
     auto result = QueryResult<int, int>();
     result.add(1, 2);
     result.add(1, 3);
@@ -105,7 +105,7 @@ class ClausesPKBStub : public StubPKB {
     return result;
   }
 
-  QueryResult<int, int> createParentTResult() const {
+  static QueryResult<int, int> createParentTResult() {
     auto result = QueryResult<int, int>();
     result.add(6, 7);
     result.add(6, 8);
