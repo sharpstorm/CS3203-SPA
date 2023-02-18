@@ -11,8 +11,6 @@ class SourceTokenParserStub : public SourceTokenParser {
 
   SourceParseState parseAndGetState(vector<SourceToken>* tokens) {
     SourceParseState state(tokens);
-    GrammarContextProvider gcp;
-    gcp.getContext(PROCEDURE_CONTEXT)->generateSubtree(&state);
     return state;
   }
 };
