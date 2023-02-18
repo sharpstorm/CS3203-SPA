@@ -86,6 +86,63 @@ class ClausesPKBStub : public StubPKB {
     return result;
   };
 
+  QueryResult<int, string> queryUses(StmtRef sRef, EntityRef eRef) const override {
+    if (sRef.isKnown() && eRef.isKnown()) {
+     return QueryResult<int, string>();
+    }
+
+    auto result = QueryResult<int, string>();
+    if (!sRef.isKnown() && eRef.isKnown()) {
+      result.add(6, "count");
+      result.add(7, "cenX");
+      result.add(7, "x");
+      result.add(8, "cenY");
+      result.add(8, "y");
+    } else if (sRef.isKnown() && !eRef.isKnown()) {
+      result.add(6, "count");
+    } else {
+      result.add(6, "count");
+      result.add(7, "cenX");
+      result.add(7, "x");
+      result.add(8, "cenY");
+      result.add(8, "y");
+    }
+
+    return result;
+  };
+
+  QueryResult<string, string> queryUses(EntityRef, EntityRef) const override {
+    return QueryResult<string, string>();
+  };
+
+  QueryResult<int, string> queryModifies(StmtRef sRef, EntityRef eRef) const override {
+    if (sRef.isKnown() && eRef.isKnown()) {
+      return QueryResult<int, string>();
+    }
+
+    auto result = QueryResult<int, string>();
+    if (!sRef.isKnown() && eRef.isKnown()) {
+      result.add(1, "count");
+      result.add(6, "count");
+    } else if (sRef.isKnown() && !eRef.isKnown()) {
+      result.add(8, "cenY");
+    } else {
+      result.add(1, "count");
+      result.add(2, "cenX");
+      result.add(3, "cenY");
+      result.add(6, "count");
+      result.add(7, "cenX");
+      result.add(8, "cenY");
+    }
+
+    return result;
+  }
+
+  QueryResult<string, string> queryModifies(EntityRef,
+                                            EntityRef) const override {
+    return QueryResult<string, string>();
+  };
+
   unordered_set<string> getSymbolsOfType(EntityType) const override {
     return unordered_set<string>();
   };
