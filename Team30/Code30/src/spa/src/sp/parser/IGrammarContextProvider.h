@@ -5,6 +5,7 @@
 
 enum SourceGrammarContextType {
   PROCEDURE_CONTEXT,
+  CALL_CONTEXT,
   STMT_LIST_CONTEXT,
   STMT_CONTEXT,
   READ_CONTEXT,
