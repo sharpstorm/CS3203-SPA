@@ -25,5 +25,6 @@ enum SourceGrammarContextType {
 
 class IGrammarContextProvider {
  public:
+  virtual ~IGrammarContextProvider();
   virtual SourceParseContext* getContext(SourceGrammarContextType type) = 0;
 };

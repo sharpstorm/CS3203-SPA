@@ -5,6 +5,9 @@ const char SPERR_INTEGER_STARTS_WITH_ZERO[] = "Integer token starts with zero";
 const char SPERR_UNKNOWN_TOKEN[] = "Unknown token";
 const char SPERR_INVALID_SOURCE_CHAR[] = "Invalid Source Character Detected";
 
+const char SPERR_END_OF_STREAM[] = "End of token stream";
+const char SPERR_UNEXPECTED_TOKEN[] = "Unexpected Token";
+
 class SPError : public std::exception {
  private:
   const char* errMsg;

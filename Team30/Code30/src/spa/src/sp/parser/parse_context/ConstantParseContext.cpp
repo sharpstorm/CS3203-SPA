@@ -1,19 +1,20 @@
 #include <string>
+#include <memory>
+
 #include "ConstantParseContext.h"
 #include "common/ASTNode/entity/ConstantASTNode.h"
 
-using std::string;
+using std::string, std::make_shared;
 
 ConstantParseContext::ConstantParseContext() = default;
 
-shared_ptr<ASTNode>ConstantParseContext::
-generateSubtree(SourceParseState* state) {
+ASTNodePtr ConstantParseContext::generateSubtree(SourceParseState* state) {
   SourceToken* token = expect(state, SIMPLE_TOKEN_INTEGER);
   string value = token->getValue();
-  shared_ptr<ASTNode> newNode = shared_ptr<ASTNode>(
-      new ConstantASTNode(value));
+  ASTNodePtr newNode = make_shared<ConstantASTNode>(value);
   if (!state->hasCached()) {
     state->setCached(newNode);
   }
+
   return newNode;
 }

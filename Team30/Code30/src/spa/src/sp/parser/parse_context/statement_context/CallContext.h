@@ -1,6 +1,5 @@
 #pragma once
 
-#include <memory>
 #include "sp/parser/parse_context/RecursiveParseContext.h"
 #include "common/ASTNode/ASTNode.h"
 

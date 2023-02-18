@@ -1,12 +1,11 @@
 #include "SourceParseState.h"
-#include <stack>
 
-SourceParseState::SourceParseState(vector<SourceToken>* t) {
-  curIndex = 0;
-  lineNumber = 0;
-  tokenLength = t->size();
-  tokens = t;
-  curCache = nullptr;
+SourceParseState::SourceParseState(vector<SourceToken>* t):
+    curIndex(0),
+    lineNumber(0),
+    tokenLength(t->size()),
+    tokens(t),
+    curCache(nullptr) {
 }
 
 void SourceParseState::advanceToken() {
@@ -53,7 +52,7 @@ bool SourceParseState::hasCached() {
   return curCache != nullptr;
 }
 
-shared_ptr<ASTNode> SourceParseState::getCached() {
+ASTNodePtr SourceParseState::getCached() {
   return curCache;
 }
 
