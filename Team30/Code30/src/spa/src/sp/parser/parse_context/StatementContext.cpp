@@ -10,7 +10,7 @@ shared_ptr<ASTNode> StatementContext::generateSubtree(
 
   if (state->nextTokenIsOfType(SIMPLE_TOKEN_ASSIGN)) {
     return contextProvider
-    ->getContext(ASSIGN_CONTEXT)->generateSubtree(state);
+        ->getContext(ASSIGN_CONTEXT)->generateSubtree(state);
   }
 
   switch (state->getCurrToken()->getType()) {
@@ -27,7 +27,8 @@ shared_ptr<ASTNode> StatementContext::generateSubtree(
       return contextProvider->
           getContext(READ_CONTEXT)->generateSubtree(state);
     case SIMPLE_TOKEN_KEYWORD_CALL:
-      throw SPError("Not implemented");
+      return contextProvider->
+          getContext(CALL_CONTEXT)->generateSubtree(state);
     default:
       throw SPError("Unknown token sequence");
   }
