@@ -20,15 +20,14 @@
 #include "sp/parser/parse_context/statement_context/ReadContext.h"
 #include "sp/parser/parse_context/ProcedureContext.h"
 #include "sp/parser/parse_context/StatementListContext.h"
+#include "sp/parser/parse_context/statement_context/CallContext.h"
 
 class GrammarContextProvider: public IGrammarContextProvider {
  public:
   GrammarContextProvider();
   SourceParseContext* getContext(SourceGrammarContextType type);
-  int currLineCounter();
-  void advanceLineCounter();
+
  private:
-  int lineCounter = 1;
   VariableParseContext variableParseContext;
   ConstantParseContext constantParseContext;
   FactorContext factorContext;
@@ -45,4 +44,5 @@ class GrammarContextProvider: public IGrammarContextProvider {
   ReadContext readContext;
   ProcedureContext procedureContext;
   StatementListContext statementListContext;
+  CallContext callContext;
 };

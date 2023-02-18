@@ -53,6 +53,8 @@ shared_ptr<BinaryASTNode> ExpressionContext::generateOperand(
     case SIMPLE_TOKEN_MINUS:
       node = shared_ptr<BinaryASTNode>(new MinusASTNode());
       break;
+    default:
+      throw SPError("Unknown token");
   }
   node->setLeftChild(leftNode);
   return node;

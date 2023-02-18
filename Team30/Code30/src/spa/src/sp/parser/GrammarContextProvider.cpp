@@ -11,13 +11,16 @@ GrammarContextProvider::GrammarContextProvider() :
     ifContext(this),
     readContext(this),
     procedureContext(this),
-    statementListContext(this) {}
+    statementListContext(this),
+    callContext(this) {}
 
 SourceParseContext* GrammarContextProvider::getContext(
     SourceGrammarContextType type) {
   switch (type) {
     case PROCEDURE_CONTEXT:
       return &procedureContext;
+    case CALL_CONTEXT:
+      return &callContext;
     case STMT_LIST_CONTEXT:
       return &statementListContext;
     case STMT_CONTEXT:

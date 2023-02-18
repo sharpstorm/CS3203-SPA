@@ -77,8 +77,7 @@ RowSet *PQLQueryResult::getRowsWithValue(ResultTableCol column,
   if (item->find(*value) == item->end()) {
     return nullptr;
   }
-  auto x = item->at(*value);
-  return &item->at(*value);
+  return new RowSet(item->at(*value));
 }
 
 bool PQLQueryResult::operator==(const PQLQueryResult &pqr) const {

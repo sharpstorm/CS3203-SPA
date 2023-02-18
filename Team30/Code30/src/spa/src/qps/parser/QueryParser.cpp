@@ -1,7 +1,5 @@
 #include "QueryParser.h"
 #include <vector>
-#include "PQLToken.h"
-#include "../../common/UtilityTypes.h"
 
 using std::vector, std::unique_ptr;
 

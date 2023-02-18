@@ -216,10 +216,10 @@ def execTests(args, jobs):
 def runTests(args):
     testDir = args.test_folder
     jobs = []
-    queryFiles = glob.glob(f'{testDir}/**/*-queries.txt', recursive=True)
+    queryFiles = glob.glob(f'{testDir}/**/*_queries.txt', recursive=True)
     print(testDir)
     for x in queryFiles:
-        expectedSource = f'{x[:-12]}-source.txt'
+        expectedSource = f'{x[:-12]}_source.txt'
         print(expectedSource)
         if exists(expectedSource):
             jobs.append((x, expectedSource))
