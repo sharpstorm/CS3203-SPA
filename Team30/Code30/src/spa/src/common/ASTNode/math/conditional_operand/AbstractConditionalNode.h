@@ -10,11 +10,13 @@ using std::string, std::shared_ptr;
 class AbstractConditionalNode: public BinaryASTNode {
  public:
   virtual ~AbstractConditionalNode() = default;
-  void accept(Extractor* e) {
-    e->visit(this);
-  }
-  void leave(shared_ptr<Extractor> e) {}
+  void accept(Extractor* e);
+  string toString();
+
  protected:
-  AbstractConditionalNode(ASTNodeType type, string value) :
-      BinaryASTNode(type, value) {}
+  AbstractConditionalNode(ASTNodeType type, string identifier) :
+      BinaryASTNode(type), identifier(identifier) {}
+
+ private:
+  string identifier;
 };
