@@ -1,5 +1,4 @@
 #include "PQLDeclarationContext.h"
-#include "qps/errors/QPSParserSemanticError.h"
 
 PQLDeclarationContext::PQLDeclarationContext(PQLSynonymType synonymType):
     AbstractPQLContext(), synonymType(synonymType) {

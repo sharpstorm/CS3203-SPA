@@ -52,8 +52,6 @@ void PkbWriter::addModifies(int stmtNum, string variable) {
   modifiesWriter->addModifies(stmtNum, variable);
 }
 
-void PkbWriter::addContainerStmt(int start, int end) {}
-
 void PkbWriter::addAssigns(int stmtNum, shared_ptr<IASTNode> ast) {
   assignsWriter->addAssigns(stmtNum, ast);
 }

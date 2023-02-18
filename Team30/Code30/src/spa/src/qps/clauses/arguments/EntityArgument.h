@@ -11,6 +11,6 @@ class EntityArgument: public ClauseArgument {
 
  public:
   explicit EntityArgument(string ident);
-  StmtRef toStmtRef();
-  EntityRef toEntityRef();
+  StmtRef toStmtRef() override;
+  EntityRef toEntityRef() override;
 };

@@ -1,5 +1,4 @@
 #include "PQLSelectContext.h"
-#include "qps/errors/QPSParserSemanticError.h"
 
 void PQLSelectContext::parse(QueryTokenParseState *parserState) {
   parserState->advanceStage(TOKEN_PARSE_STAGE_COMMAND);

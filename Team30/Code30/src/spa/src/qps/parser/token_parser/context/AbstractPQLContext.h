@@ -6,5 +6,5 @@
 
 class AbstractPQLContext: public IPQLContext {
  public:
-  virtual void parse(QueryTokenParseState* parserState) = 0;
+  void parse(QueryTokenParseState* parserState) override = 0;
 };

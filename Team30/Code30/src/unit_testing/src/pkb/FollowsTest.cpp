@@ -5,7 +5,6 @@
 #include "pkb/queryHandlers/PkbQueryHandler.h"
 #include "pkb/storage/PKB.h"
 #include "pkb/storage/StructureMappingProvider.h"
-#include "pkb/writers/FollowsWriter.h"
 #include "pkb/writers/PkbWriter.h"
 
 using std::unordered_set;

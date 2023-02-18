@@ -1,7 +1,6 @@
 #include <memory>
 #include "QueryTokenParser.h"
 #include "../../errors/QPSParserSyntaxError.h"
-#include "qps/errors/QPSParserSemanticError.h"
 
 QueryTokenParser::QueryTokenParser(vector<PQLToken>* tokens) {
   this->tokens = tokens;

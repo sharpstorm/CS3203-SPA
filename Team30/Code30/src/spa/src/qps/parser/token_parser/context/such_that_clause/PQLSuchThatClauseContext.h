@@ -25,7 +25,7 @@ class PQLSuchThatClauseContext: public AbstractPQLContext {
     if (left != nullptr && right != nullptr) {
       parserState->getQueryBuilder()
           ->addSuchThat(unique_ptr<SuchThatClause>(
-              new Clause(move(left), move(right))));
+              new Clause(std::move(left), std::move(right))));
     }
   }
 };
