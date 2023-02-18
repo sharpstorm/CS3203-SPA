@@ -1,0 +1,18 @@
+procedure ANYA {
+  read b;
+  x = 1;
+  y = 2;
+  if (x == 1) then {
+    a1 = 2;
+    a2 = 3;
+    a3 = 4;
+  } else {
+    b1 = 2;
+    read b2;
+  }
+
+  while (x != 2) {
+    read c1;
+    c2 = 5;
+  }
+}

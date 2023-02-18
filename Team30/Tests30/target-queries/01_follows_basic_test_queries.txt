@@ -1,0 +1,500 @@
+1 - Select Constant True (Follows) (Stmt)
+stmt s;
+Select s such that Follows(1, 2)
+1,2,3,4,5,6,7,8,9,10,11,12
+5000
+2 - Select Constant False (Follows) (Stmt)
+stmt s;
+Select s such that Follows(1, 3)
+
+5000
+3 - Select Constant True (Follows) (Assign)
+assign a;
+Select a such that Follows(1, 2)
+2,3,5,6,7,8,12
+5000
+4 - Select Constant False (Follows) (Assign)
+assign a;
+Select a such that Follows(1, 3)
+
+5000
+5 - Select Constant True (Follows) (Read)
+read re;
+Select re such that Follows(1, 2)
+1,9,11
+5000
+6 - Select Constant False (Follows) (Read)
+read re;
+Select re such that Follows(1, 3)
+
+5000
+7 - Select Constant True (Follows) (Print)
+print pr;
+Select pr such that Follows(1, 2)
+
+5000
+8 - Select Constant False (Follows) (Print)
+print pr;
+Select pr such that Follows(1, 3)
+
+5000
+9 - Select Constant True (Follows) (If)
+if ifs;
+Select ifs such that Follows(1, 2)
+4
+5000
+10 - Select Constant False (Follows) (If)
+if ifs;
+Select ifs such that Follows(1, 3)
+
+5000
+11 - Select Constant True (Follows) (While)
+while w;
+Select w such that Follows(1, 2)
+10
+5000
+12 - Select Constant False (Follows) (While)
+while w;
+Select w such that Follows(1, 3)
+
+5000
+13 - Select Follows(Syn, Const) (Follows) (Stmt)
+stmt s;
+Select s such that Follows(s, 3)
+2
+5000
+14 - Select Follows(Const, Syn) (Follows) (Stmt)
+stmt s;
+Select s such that Follows(2, s)
+3
+5000
+15 - Select None Follows(Syn, Const) (Follows) (Stmt)
+stmt s;
+Select s such that Follows(s, 1)
+
+5000
+16 - Select None Follows(Const, Syn) (Follows) (Stmt)
+stmt s;
+Select s such that Follows(12, s)
+
+5000
+17 - Select Independent True Follows(Syn, Const) (Follows) (Stmt)
+stmt s1,s2;
+Select s1 such that Follows(s2, 3)
+1,2,3,4,5,6,7,8,9,10,11,12
+5000
+18 - Select Independent True Follows Follows(Const, Syn) (Follows) (Stmt)
+stmt s1,s2;
+Select s1 such that Follows(2, s2)
+1,2,3,4,5,6,7,8,9,10,11,12
+5000
+19 - Select Independent False Follows(Syn, Const) (Follows) (Stmt)
+stmt s1,s2;
+Select s1 such that Follows(s2, 1)
+
+5000
+20 - Select Independent False Follows Follows(Const, Syn) (Follows) (Stmt)
+stmt s1,s2;
+Select s1 such that Follows(12, s2)
+
+5000
+21 - Select Follows(Syn, Const) (Follows) (Assign)
+assign a;
+Select a such that Follows(a, 3)
+2
+5000
+22 - Select Follows(Const, Syn) (Follows) (Assign)
+assign a;
+Select a such that Follows(2, a)
+3
+5000
+23 - Select None Follows(Syn, Const) (Follows) (Assign)
+assign a;
+Select a such that Follows(a, 2)
+
+5000
+24 - Select None Follows(Const, Syn) (Follows) (Assign)
+assign a;
+Select a such that Follows(3, a)
+
+5000
+25 - Select Independent True Follows(Syn, Const) (Follows) (Assign)
+assign a1,a2;
+Select a1 such that Follows(a2, 3)
+2,3,5,6,7,8,12
+5000
+26 - Select Independent True Follows Follows(Const, Syn) (Follows) (Assign)
+assign a1,a2;
+Select a1 such that Follows(2, a2)
+2,3,5,6,7,8,12
+5000
+27 - Select Independent False Follows(Syn, Const) (Follows) (Assign)
+assign a1,a2;
+Select a1 such that Follows(a2, 2)
+
+5000
+28 - Select Independent False Follows Follows(Const, Syn) (Follows) (Assign)
+assign a1,a2;
+Select a1 such that Follows(3, a2)
+
+5000
+29 - Select Follows(Syn, Const) (Follows) (Read)
+read re;
+Select re such that Follows(re, 2)
+1
+5000
+30 - Select Follows(Const, Syn) (Follows) (Read)
+read re;
+Select re such that Follows(8, re)
+9
+5000
+31 - Select None Follows(Syn, Const) (Follows) (Read)
+read re;
+Select re such that Follows(re, 3)
+
+5000
+32 - Select None Follows(Const, Syn) (Follows) (Read)
+read re;
+Select re such that Follows(3, re)
+
+5000
+33 - Select Independent True Follows(Syn, Const) (Follows) (Read)
+read re1,re2;
+Select re1 such that Follows(re2, 2)
+1,9,11
+5000
+34 - Select Independent True Follows Follows(Const, Syn) (Follows) (Read)
+read re1,re2;
+Select re1 such that Follows(8, re2)
+1,9,11
+5000
+35 - Select Independent False Follows(Syn, Const) (Follows) (Read)
+read re1,re2;
+Select re1 such that Follows(re2, 3)
+
+5000
+36 - Select Independent False Follows Follows(Const, Syn) (Follows) (Read)
+read re1,re2;
+Select re1 such that Follows(3, re2)
+
+5000
+37 - Select None Follows(Syn, Const) (Follows) (Print)
+if ifs; print pr;
+Select ifs such that Follows(pr, 3)
+
+5000
+38 - Select None Follows(Const, Syn) (Follows) (Print)
+if ifs; print pr;
+Select ifs such that Follows(3, pr)
+
+5000
+39 - Select Independent False Follows(Syn, Const) (Follows) (Print)
+if ifs; print pr2;
+Select ifs such that Follows(pr2, 3)
+
+5000
+40 - Select Independent False Follows Follows(Const, Syn) (Follows) (Print)
+if ifs; print pr2;
+Select ifs such that Follows(3, pr2)
+
+5000
+41 - Select Follows(Syn, Const) (Follows) (If)
+if ifs;
+Select ifs such that Follows(ifs, 10)
+4
+5000
+42 - Select Follows(Const, Syn) (Follows) (If)
+if ifs;
+Select ifs such that Follows(3, ifs)
+4
+5000
+43 - Select None Follows(Syn, Const) (Follows) (If)
+if ifs;
+Select ifs such that Follows(ifs, 2)
+
+5000
+44 - Select None Follows(Const, Syn) (Follows) (If)
+if ifs;
+Select ifs such that Follows(4, ifs)
+
+5000
+45 - Select Independent True Follows(Syn, Const) (Follows) (If)
+if ifs1,ifs2;
+Select ifs1 such that Follows(ifs2, 10)
+4
+5000
+46 - Select Independent True Follows Follows(Const, Syn) (Follows) (If)
+if ifs1,ifs2;
+Select ifs1 such that Follows(3, ifs2)
+4
+5000
+47 - Select Independent False Follows(Syn, Const) (Follows) (If)
+if ifs1,ifs2;
+Select ifs1 such that Follows(ifs2, 6)
+
+5000
+48 - Select Independent False Follows Follows(Const, Syn) (Follows) (If)
+if ifs1,ifs2;
+Select ifs1 such that Follows(6, ifs2)
+
+5000
+49 - Select Follows(Const, Syn) (Follows) (While)
+while w;
+Select w such that Follows(4, w)
+10
+5000
+50 - Select None Follows(Syn, Const) (Follows) (While)
+while w;
+Select w such that Follows(w, 11)
+
+5000
+51 - Select None Follows(Const, Syn) (Follows) (While)
+while w;
+Select w such that Follows(3, w)
+
+5000
+52 - Select Independent True Follows Follows(Const, Syn) (Follows) (While)
+while w1,w2;
+Select w1 such that Follows(4, w2)
+10
+5000
+53 - Select Independent False Follows(Syn, Const) (Follows) (While)
+while w1,w2;
+Select w1 such that Follows(w2, 6)
+
+5000
+54 - Select Independent False Follows Follows(Const, Syn) (Follows) (While)
+while w1,w2;
+Select w1 such that Follows(6, w2)
+
+5000
+55 - Select True Follows(WC, Const) (Follows) (Wildcard)
+assign a1;
+Select a1 such that Follows(_, 3)
+2,3,5,6,7,8,12
+5000
+56 - Select True Follows Follows(Const, WC) (Follows) (Wildcard)
+assign a1;
+Select a1 such that Follows(2, _)
+2,3,5,6,7,8,12
+5000
+57 - Select False Follows(WC, Const) (Follows) (Wildcard)
+assign a1;
+Select a1 such that Follows(_, 1)
+
+5000
+58 - Select False Follows Follows(Const, WC) (Follows) (Wildcard)
+assign a1;
+Select a1 such that Follows(12, _)
+
+5000
+59 - Select Left Follows(Stmt, Stmt) (Follows) (Stmt)
+stmt s1, s2;
+Select s1 such that Follows(s1, s2)
+1,2,3,4,5,6,8,11
+5000
+60 - Select Right Follows(Stmt, Stmt) (Follows) (Stmt)
+stmt s1, s2;
+Select s2 such that Follows(s1, s2)
+2,3,4,6,7,9,10,12
+5000
+61 - Select Left Follows(Assign, Assign) (Follows) (Assign)
+assign a1, a2;
+Select a1 such that Follows(a1, a2)
+2,5,6
+5000
+62 - Select Right Follows(Assign, Assign) (Follows) (Assign)
+assign a1, a2;
+Select a2 such that Follows(a1, a2)
+3,6,7
+5000
+63 - Select Left Follows(Read, Read) (Follows) (Read)
+read re1, re2;
+Select re1 such that Follows(re1, re2)
+
+5000
+64 - Select Right Follows(Read, Read) (Follows) (Read)
+read re1, re2;
+Select re2 such that Follows(re1, re2)
+
+5000
+65 - Select Left Follows(Print, Print) (Follows) (Print)
+print pr1, pr2;
+Select pr1 such that Follows(pr1, pr2)
+
+5000
+66 - Select Right Follows(Print, Print) (Follows) (Print)
+read pr1, pr2;
+Select pr2 such that Follows(pr1, pr2)
+
+5000
+67 - Select Left Follows(If, If) (Follows) (If)
+if ifs1, ifs2;
+Select ifs1 such that Follows(ifs1, ifs2)
+
+5000
+68 - Select Right Follows(If, If) (Follows) (If)
+if ifs1, ifs2;
+Select ifs2 such that Follows(ifs1, ifs2)
+
+5000
+69 - Select Left Follows(While, While) (Follows) (While)
+while w1, w2;
+Select w1 such that Follows(w1, w2)
+
+5000
+70 - Select Right Follows(While, While) (Follows) (While)
+while w1, w2;
+Select w2 such that Follows(w1, w2)
+
+5000
+71 - Select Left Follows(Assign, Read) (Follows) (Read) (Assign)
+assign a; read re;
+Select a such that Follows(a, re)
+8
+5000
+72 - Select Right Follows(Assign, Read) (Follows) (Read) (Assign)
+assign a; read re;
+Select re such that Follows(a, re)
+9
+5000
+73 - Select Left Follows(Read, Assign) (Follows) (Read) (Assign)
+assign a; read re;
+Select re such that Follows(re, a)
+1,11
+5000
+74 - Select Right Follows(Read, Assign) (Follows) (Read) (Assign)
+assign a; read re;
+Select a such that Follows(re, a)
+2,12
+5000
+75 - Select Left Follows(Assign, If) (Follows) (If) (Assign)
+assign a; if ifs;
+Select a such that Follows(a, ifs)
+3
+5000
+76 - Select Right Follows(Assign, If) (Follows) (If) (Assign)
+assign a; if ifs;
+Select ifs such that Follows(a, ifs)
+4
+5000
+77 - Select Left Follows(If, While) (Follows) (If) (While)
+if ifs; while w;
+Select ifs such that Follows(ifs, w)
+4
+5000
+78 - Select Left Follows(If, While) (Follows) (If) (While)
+if ifs; while w;
+Select w such that Follows(ifs, w)
+10
+5000
+79 - Select Left Follows(Stmt, WC) (Follows) (Stmt)
+stmt s1;
+Select s1 such that Follows(s1, _)
+1,2,3,4,5,6,8,11
+5000
+80 - Select Right Follows(WC, Stmt) (Follows) (Stmt)
+stmt s1;
+Select s1 such that Follows(_, s1)
+2,3,4,6,7,9,10,12
+5000
+81 - Select Left Follows(Assign, WC) (Follows) (Assign) (Wildcard)
+assign a;
+Select a such that Follows(a, _)
+2,3,5,6,8
+5000
+82 - Select Right Follows(WC, Assign) (Follows) (Assign) (Wildcard)
+assign a;
+Select a such that Follows(_, a)
+2,3,6,7,12
+5000
+83 - Select Left Follows(Read, WC) (Follows) (Read) (Wildcard)
+read re;
+Select re such that Follows(re, _)
+1,11
+5000
+84 - Select Right Follows(WC, Read) (Follows) (Read) (Wildcard)
+read re;
+Select re such that Follows(_, re)
+9
+5000
+85 - Select Left Follows(Print, WC) (Follows) (Print) (Wildcard)
+print pr;
+Select pr such that Follows(pr, _)
+
+5000
+86 - Select Right Follows(WC, Print) (Follows) (Print) (Wildcard)
+print pr;
+Select pr such that Follows(_, pr)
+
+5000
+87 - Select Left Follows(If, WC) (Follows) (If) (Wildcard)
+if ifs;
+Select ifs such that Follows(ifs, _)
+4
+5000
+88 - Select Right Follows(WC, If) (Follows) (If) (Wildcard)
+if ifs;
+Select ifs such that Follows(_, ifs)
+4
+5000
+89 - Select Left Follows(While, WC) (Follows) (While) (Wildcard)
+while w;
+Select w such that Follows(w, _)
+
+5000
+90 - Select Right Follows(WC, While) (Follows) (While) (Wildcard)
+while w;
+Select w such that Follows(_, w)
+10
+5000
+91 - Select Follows(WC, WC) (Follows) (Stmt)
+stmt s;
+Select s such that Follows(_, _)
+1,2,3,4,5,6,7,8,9,10,11,12
+5000
+92 - Select Follows(WC, WC) (Follows) (Assign)
+assign a;
+Select a such that Follows(_, _)
+2,3,5,6,7,8,12
+5000
+93 - Select Follows(WC, WC) (Follows) (Read)
+read re;
+Select re such that Follows(_, _)
+1,9,11
+5000
+94 - Select Follows(WC, WC) (Follows) (Print)
+print pr;
+Select pr such that Follows(_, _)
+
+5000
+95 - Select Follows(WC, WC) (Follows) (If)
+if ifs;
+Select ifs such that Follows(_, _)
+4
+5000
+96 - Select Follows(WC, WC) (Follows) (While)
+while w;
+Select w such that Follows(_, _)
+10
+5000
+97 - Select Negative Follows If Nesting (Follows) (If)
+read r1;
+Select r1 such that Follows(4, 5)
+
+5000
+98 - Select Negative Follows If Nesting (Follows) (If)
+read r1;
+Select r1 such that Follows(7, 8)
+
+5000
+99 - Select Negative Follows If Nesting (Follows) (If)
+read r1;
+Select r1 such that Follows(9, 10)
+
+5000
+100 - Select Negative Follows While Nesting (Follows) (While)
+read r1;
+Select r1 such that Follows(10, 11)
+
+5000

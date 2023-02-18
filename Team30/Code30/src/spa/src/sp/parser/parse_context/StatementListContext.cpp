@@ -1,5 +1,4 @@
 #include <memory>
-#include "StatementContext.h"
 #include "common/ASTNode/StatementListNode.h"
 #include "StatementListContext.h"
 

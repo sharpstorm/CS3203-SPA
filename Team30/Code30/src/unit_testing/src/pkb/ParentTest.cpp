@@ -4,7 +4,6 @@
 #include "catch.hpp"
 #include "pkb/queryHandlers/ParentQueryHandler.h"
 #include "pkb/storage/PKB.h"
-#include "pkb/writers/ParentWriter.h"
 #include "pkb/writers/PkbWriter.h"
 #include "pkb/queryHandlers/PkbQueryHandler.h"
 

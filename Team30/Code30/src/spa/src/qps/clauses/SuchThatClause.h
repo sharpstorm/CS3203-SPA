@@ -6,5 +6,5 @@
 
 class SuchThatClause: public Clause {
  public:
-  virtual ~SuchThatClause() = default;
+  ~SuchThatClause() override = default;
 };

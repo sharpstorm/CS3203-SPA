@@ -58,6 +58,8 @@ shared_ptr<BinaryASTNode> TermContext::generateOperand(
     case SIMPLE_TOKEN_MOD:
       node = shared_ptr<BinaryASTNode>(new ModASTNode());
       break;
+    default:
+      throw SPError("Unknown token");
   }
   node->setLeftChild(leftNode);
   return node;

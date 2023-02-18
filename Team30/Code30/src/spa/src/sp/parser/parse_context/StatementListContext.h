@@ -12,7 +12,4 @@ class StatementListContext: public RecursiveParseContext {
   explicit StatementListContext(IGrammarContextProvider* provider):
       RecursiveParseContext(provider) {}
   shared_ptr<ASTNode> generateSubtree(SourceParseState* state);
-
- private:
-  shared_ptr<ASTNode> generateAssign(SourceParseState* state);
 };
