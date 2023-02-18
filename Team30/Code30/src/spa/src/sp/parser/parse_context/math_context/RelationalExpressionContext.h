@@ -3,7 +3,7 @@
 #include <memory>
 #include "sp/parser/parse_context/RecursiveParseContext.h"
 #include "sp/parser/IGrammarContextProvider.h"
-#include "common/ASTNode/math/RelationalExpressionASTNode.h"
+#include "common/ASTNode/BinaryASTNode.h"
 
 using std::shared_ptr;
 
@@ -14,6 +14,6 @@ class RelationalExpressionContext: public RecursiveParseContext {
   shared_ptr<ASTNode> generateSubtree(SourceParseState* state);
 
  private:
-  shared_ptr<RelationalExpressionASTNode>
-  generateRelationalNode(SourceParseState* state, shared_ptr<ASTNode> leftNode);
+  shared_ptr<BinaryASTNode>
+  generateRelationalNode(SourceTokenType type, shared_ptr<ASTNode> leftNode);
 };

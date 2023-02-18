@@ -3,8 +3,7 @@
 
 using std::string;
 
-ConstantASTNode::ConstantASTNode(string v) {
-  value = v;
+ConstantASTNode::ConstantASTNode(string v) : ASTNode(ASTNODE_CONSTANT, v) {
 }
 
 string ConstantASTNode::toString() {

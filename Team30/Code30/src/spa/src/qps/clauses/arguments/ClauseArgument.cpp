@@ -16,7 +16,8 @@ bool ClauseArgument::isWildcard() {
   return false;
 }
 
-void ClauseArgument::invokeWithName(function<void(PQLSynonymName)> consumer) {
+PQLSynonymName ClauseArgument::getName() {
+  return "";
 }
 
 SynonymPredicate ClauseArgument::isStatement = [](PQLQuerySynonym syn) {

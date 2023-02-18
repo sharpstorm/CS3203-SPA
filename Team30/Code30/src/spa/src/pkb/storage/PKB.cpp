@@ -25,6 +25,7 @@ PKB::PKB()
       statementStorage(
           new StatementStorage(make_shared<ContiguousTable<StmtType>>(),
                                make_shared<HashKeySetTable<StmtType, int>>())),
+      assignStorage(new AssignStorage()),
       procedureStorage(new ProcedureStorage(
           make_shared<ContiguousTable<std::string>>(),
           make_shared<HashKeySetTable<std::string, int>>())),
@@ -41,6 +42,7 @@ PKB::~PKB() {
   delete (symbolStorage);
   delete (statementStorage);
   delete (procedureStorage);
+  delete (assignStorage);
   delete (structureProvider);
   delete (entityMappingProvider);
   delete (predicateFactory);

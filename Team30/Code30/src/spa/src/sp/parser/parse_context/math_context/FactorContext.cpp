@@ -1,12 +1,16 @@
 #include <memory>
 #include "FactorContext.h"
-#include "common/ASTNode/math/PlusASTNode.h"
-#include "common/ASTNode/math/FactorASTNode.h"
+#include "common/ASTNode/math/math_operand/PlusASTNode.h"
 
 using std::shared_ptr;
 
 shared_ptr<ASTNode> FactorContext::generateSubtree(SourceParseState *state) {
   shared_ptr<ASTNode> node;
+
+  if (state->getCurrToken()->isVarchar()) {
+    return contextProvider->
+        getContext(VARIABLE_CONTEXT)->generateSubtree(state);
+  }
 
   switch (state->getCurrToken()->getType()) {
     case SIMPLE_TOKEN_INTEGER:
@@ -20,9 +24,6 @@ shared_ptr<ASTNode> FactorContext::generateSubtree(SourceParseState *state) {
       expect(state, SIMPLE_TOKEN_BRACKET_ROUND_RIGHT);
       state->clearCached();
       return node;
-    case SIMPLE_TOKEN_VARIABLE:
-      return contextProvider->
-          getContext(VARIABLE_CONTEXT)->generateSubtree(state);
     default:
       throw SPError("Unknown token sequence");
   }

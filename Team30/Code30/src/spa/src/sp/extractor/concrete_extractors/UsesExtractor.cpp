@@ -4,7 +4,8 @@
 
 using std::string;
 
-UsesExtractor::UsesExtractor(PkbWriter* writer) { pkbWriter = writer; }
+UsesExtractor::UsesExtractor(PkbWriter* writer) : pkbWriter(writer) {
+}
 
 void UsesExtractor::visit(AssignNode node) {
   shared_ptr<ASTNode> expr = node.getChildren()[1];
