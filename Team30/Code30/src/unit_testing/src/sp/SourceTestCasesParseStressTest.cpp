@@ -19,23 +19,25 @@
 #include "../../../spa/src/sp/extractor/concrete_extractors/UsesExtractor.h"
 #include "SourceTestCases.cpp"
 
+using std::make_unique;
+
 void executeExtractors(string input) {
   TreeWalker treeWalker;
-  PKB* pkb = new PKB();
-  PkbWriter* pkbWriter = new PkbWriter(pkb);
+  PKB pkb;
+  PkbWriter pkbWriter(&pkb);
   SourceParser parser;
   vector<shared_ptr<Extractor>> extractors;
 
   shared_ptr<AbstractExtractor> followsExtractor =
-      shared_ptr<AbstractExtractor>(new FollowsExtractor(pkbWriter));
+      shared_ptr<AbstractExtractor>(new FollowsExtractor(&pkbWriter));
   shared_ptr<AbstractExtractor> parentExtractor =
-      shared_ptr<AbstractExtractor>(new ParentExtractor(pkbWriter));
+      shared_ptr<AbstractExtractor>(new ParentExtractor(&pkbWriter));
   shared_ptr<AbstractExtractor> entityExtractor =
-      shared_ptr<AbstractExtractor>(new EntityExtractor(pkbWriter));
+      shared_ptr<AbstractExtractor>(new EntityExtractor(&pkbWriter));
   shared_ptr<AbstractExtractor> usesExtractor =
-      shared_ptr<AbstractExtractor>(new UsesExtractor(pkbWriter));
+      shared_ptr<AbstractExtractor>(new UsesExtractor(&pkbWriter));
   shared_ptr<AbstractExtractor> modifiesExtractor =
-      shared_ptr<AbstractExtractor>(new ModifiesExtractor(pkbWriter));
+      shared_ptr<AbstractExtractor>(new ModifiesExtractor(&pkbWriter));
 
   extractors.push_back(followsExtractor);
   extractors.push_back(parentExtractor);
