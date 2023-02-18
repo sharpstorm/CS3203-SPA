@@ -39,6 +39,7 @@ class AbstractExtractor : public Extractor {
   virtual void leave(ConstantASTNode node);
   virtual void leave(AbstractMathNode node);
   virtual void leave(AbstractConditionalNode node);
+
  private:
   PkbWriter* pkbWriter;
 };
