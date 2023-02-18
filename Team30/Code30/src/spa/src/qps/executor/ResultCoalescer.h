@@ -2,9 +2,17 @@
 
 #include <string>
 #include <unordered_set>
+#include <memory>
+#include <vector>
 #include "qps/common/PQLQueryResult.h"
 
-using std::string, std::unordered_set;
+using std::string, std::unordered_set, std::unique_ptr, std::vector;
+
+template<class T>
+using IntersectSet = unordered_set<T>;
+
+template<class T>
+using IntersectSetPtr = unique_ptr<IntersectSet<T>>;
 
 class ResultCoalescer {
  public:
@@ -12,13 +20,47 @@ class ResultCoalescer {
                         PQLQueryResult* setB);
 
  private:
-  bool mergeStaticResult(PQLQueryResult *setA,
-                         PQLQueryResult *setB);
-  string mergeError(PQLQueryResult *setA, PQLQueryResult *setB);
-  void mergeResult(PQLQueryResult *setA,
-                         PQLQueryResult *setB,
-                         PQLQueryResult* output);
+  struct IntersectState {
+    vector<ResultTableCol> leftCommons;
+    vector<ResultTableCol> rightCommons;
+    vector<ResultTableCol> rightColsToCopy;
+    vector<ResultTableCol> leftColsToCopy;
+  };
+
+  struct IntersectResult {
+    IntersectSetPtr<int> leftSet;
+    IntersectSetPtr<int> rightSet;
+  };
+
+  struct InternalMergeState {
+    PQLQueryResult *setA;
+    PQLQueryResult *setB;
+    PQLQueryResult* output;
+  };
+
+  void mergeResult(InternalMergeState* state);
+  void mergeStaticResult(InternalMergeState* state);
+  void mergeError(InternalMergeState* state);
+
+
+  void mergeSynonymList(InternalMergeState* mergeState,
+                        IntersectState *intersectState);
+
+  IntersectResult findIntersect(InternalMergeState* mergeState,
+                                QueryResultTableRow* currentRow,
+                                IntersectState* state);
+
+  void crossProduct(InternalMergeState* mergeState,
+                    unordered_set<int>* ignoreSet,
+                    IntersectState* intersectState,
+                    IntersectResult* intersection);
+
+  void mergeRow(QueryResultTableRow* rowA,
+                QueryResultTableRow* rowB,
+                QueryResultTableRow* outputRow,
+                IntersectState* state);
 
   template<class T>
-  unordered_set<T>* intersectSet(unordered_set<T>* s1, unordered_set<T>* s2);
+  IntersectSetPtr<T> intersectSet(IntersectSet<T>* s1,
+                                  IntersectSet<T>* s2);
 };
