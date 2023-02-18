@@ -1,8 +1,7 @@
 #include "PatternExtractor.h"
 #include <memory>
 
-PatternExtractor::PatternExtractor(PkbWriter* writer) {
-  pkbWriter = writer;
+PatternExtractor::PatternExtractor(PkbWriter* writer) : pkbWriter(writer) {
 }
 
 void PatternExtractor::visit(AssignNode node) {
