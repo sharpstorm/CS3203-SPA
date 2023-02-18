@@ -9,107 +9,75 @@
 #include "qps/clauses/arguments/WildcardArgument.h"
 #include "qps/clauses/UsesClause.h"
 #include "ClausesPKBStub.cpp"
+#include "../util/QueryResultTestUtil.cpp"
 
-using std::shared_ptr;
-
-pair_set<int, string> USES_PAIRS({{6, "count"}, {7, "cenX"}, {7, "x"}, {8, "cenY"}, {8, "y"}});
+using std::shared_ptr, std::make_unique, std::unique_ptr;
 
 TEST_CASE("Uses querying") {
   PKB pkbStore;
   auto pkb = shared_ptr<PkbQueryHandler>(new ClausesPKBStub(&pkbStore));
 
-  PQLQueryResult* expected;
-  PQLQueryResult* actual;
+  PQLQueryResultPtr expected;
+  PQLQueryResultPtr actual;
 
   // Static Results
   UsesClause usesClause = UsesClause(
       ClauseArgumentPtr(new StmtArgument(1)),
       ClauseArgumentPtr(new EntityArgument("x")));
-
-  expected = new PQLQueryResult();
+  expected = make_unique<PQLQueryResult>();
   expected->setIsStaticFalse(true);
-  actual = usesClause.evaluateOn(pkb);
+  actual = PQLQueryResultPtr(usesClause.evaluateOn(pkb));
   REQUIRE(*expected == *actual);
 
   // Wildcard - Static Statement
   usesClause = UsesClause(
       ClauseArgumentPtr(new StmtArgument(6)),
       ClauseArgumentPtr(new WildcardArgument()));
-  expected = new PQLQueryResult();
-  actual = usesClause.evaluateOn(pkb);
+  expected = make_unique<PQLQueryResult>();
+  actual = PQLQueryResultPtr(usesClause.evaluateOn(pkb));
   REQUIRE(*expected == *actual);
 
   // Wildcard - Synonym Statement
   usesClause = UsesClause(
       ClauseArgumentPtr(new SynonymArgument(PQLQuerySynonym{PQL_SYN_TYPE_ASSIGN, "a"})),
       ClauseArgumentPtr(new WildcardArgument()));
-  expected = new PQLQueryResult();
-  EntityResult expectedEntityResult = EntityResult{
-      unordered_set<int>({6, 7, 8}),
-      unordered_set<string>(),
-      USES_PAIRS,
-      pair_set<string, string>(),
-      true,
-  };
-  expected->addToEntityMap("a", expectedEntityResult);
-  actual = usesClause.evaluateOn(pkb);
+  expected = TestQueryResultBuilder::buildExpected(ExpectedParams{
+      {"a", QueryResultItemVector{QueryResultItem(6), QueryResultItem(7), QueryResultItem(8)}},
+  });
+  actual = PQLQueryResultPtr(usesClause.evaluateOn(pkb));
   REQUIRE(*expected == *actual);
 
   // Statement synonym
   usesClause = UsesClause(
       ClauseArgumentPtr(new SynonymArgument(PQLQuerySynonym{PQL_SYN_TYPE_ASSIGN, "a"})),
       ClauseArgumentPtr(new EntityArgument("x")));
-  expected = new PQLQueryResult();
-  expectedEntityResult = EntityResult{
-      unordered_set<int>({6, 7, 8}),
-      unordered_set<string>(),
-      USES_PAIRS,
-      pair_set<string, string>(),
-      true
-  };
-  expected->addToEntityMap("a", expectedEntityResult);
-  actual = usesClause.evaluateOn(pkb);
+  expected = TestQueryResultBuilder::buildExpected(ExpectedParams{
+      {"a", QueryResultItemVector{QueryResultItem(6), QueryResultItem(7), QueryResultItem(8)}},
+  });
+  actual = PQLQueryResultPtr(usesClause.evaluateOn(pkb));
   REQUIRE(*expected == *actual);
-
 
   // Entity synonym
   usesClause = UsesClause(
       ClauseArgumentPtr(new StmtArgument(6)),
       ClauseArgumentPtr(new SynonymArgument(PQLQuerySynonym{PQL_SYN_TYPE_VARIABLE, "v"})));
-  expectedEntityResult = EntityResult{
-      unordered_set<int>(),
-      unordered_set<string>({"count"}),
-      pair_set<int, string>({{6, "count"}}),
-      pair_set<string, string>(),
-      false
-  };
-  expected = new PQLQueryResult();
-  expected->addToEntityMap("v", expectedEntityResult);
-  actual = usesClause.evaluateOn(pkb);
+  expected = TestQueryResultBuilder::buildExpected((ExpectedParams{
+      {"v", QueryResultItemVector {QueryResultItem("count")}}
+  }));
+  actual = PQLQueryResultPtr(usesClause.evaluateOn(pkb));
   REQUIRE(*expected == *actual);
 
   // Both synonyms
   usesClause = UsesClause(
       ClauseArgumentPtr(new SynonymArgument(PQLQuerySynonym{PQL_SYN_TYPE_ASSIGN, "a"})),
       ClauseArgumentPtr(new SynonymArgument(PQLQuerySynonym{PQL_SYN_TYPE_VARIABLE, "v"})));
-
-  expected = new PQLQueryResult();
-  EntityResult entityResult_a = EntityResult{
-      unordered_set<int>({6, 7, 8}),
-      unordered_set<string>(),
-      USES_PAIRS,
-      pair_set<string, string>(),
-      true,
-  };
-  EntityResult entityResult_v = EntityResult{
-      unordered_set<int>(),
-      unordered_set<string>({"count", "cenX", "cenY", "x", "y"}),
-      USES_PAIRS,
-      pair_set<string, string>(),
-      false,
-  };
-  expected->addToEntityMap("a", entityResult_a);
-  expected->addToEntityMap("v", entityResult_v);
-  actual = usesClause.evaluateOn(pkb);
+//  expected = TestQueryResultBuilder::buildExpected(ExpectedParams{
+//      {"a", QueryResultItemVector{QueryResultItem(6), QueryResultItem(7), QueryResultItem(8)}},
+//      {"v", QueryResultItemVector{ QueryResultItem("count"), QueryResultItem("cenX"), QueryResultItem("cenY"), QueryResultItem("x"), QueryResultItem("y")}}});
+  expected = TestQueryResultBuilder::buildExpected(ExpectedParams{
+      {"a", QueryResultItemVector{QueryResultItem(6), QueryResultItem(7), QueryResultItem(8), QueryResultItem(7), QueryResultItem(8)}},
+      {"v", QueryResultItemVector {QueryResultItem("count"), QueryResultItem("cenX"), QueryResultItem("cenY"), QueryResultItem("x"), QueryResultItem("y")}}
+  });
+  actual = PQLQueryResultPtr(usesClause.evaluateOn(pkb));
   REQUIRE(*expected == *actual);
 }
