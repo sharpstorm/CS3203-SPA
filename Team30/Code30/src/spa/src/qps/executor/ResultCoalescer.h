@@ -2,9 +2,11 @@
 
 #include <string>
 #include <unordered_set>
+#include <memory>
+#include <vector>
 #include "qps/common/PQLQueryResult.h"
 
-using std::string, std::unordered_set;
+using std::string, std::unordered_set, std::unique_ptr, std::vector;
 
 template<class T>
 using IntersectSet = unordered_set<T>;

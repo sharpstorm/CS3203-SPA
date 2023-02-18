@@ -1,9 +1,7 @@
 #include "ResultCoalescer.h"
-#include <memory>
 #include <utility>
-#include <vector>
 
-using std::move, std::make_unique, std::vector;
+using std::move, std::make_unique;
 
 PQLQueryResult *ResultCoalescer::merge(PQLQueryResult *setA,
                                        PQLQueryResult *setB) {
