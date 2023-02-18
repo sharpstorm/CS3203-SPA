@@ -1,6 +1,5 @@
 #include <string>
 #include <vector>
-#include <unordered_set>
 #include "UsesExtractor.h"
 
 using std::string, std::vector;

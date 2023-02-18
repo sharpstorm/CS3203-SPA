@@ -3,9 +3,10 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include <unordered_set>
 #include "sp/extractor/AbstractExtractor.h"
 
-using std::string;
+using std::string, std::unordered_set, std::vector;
 
 class UsesExtractor : public AbstractExtractor {
  public:

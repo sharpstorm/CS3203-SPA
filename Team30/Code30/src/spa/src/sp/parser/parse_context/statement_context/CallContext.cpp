@@ -1,10 +1,10 @@
 #include "CallContext.h"
 
 #include <memory>
+#include <string>
 #include "common/ASTNode/statement/CallNode.h"
 
-
-using std::make_shared;
+using std::make_shared, std::string;
 
 ASTNodePtr CallContext::generateSubtree(SourceParseState* state) {
   // Call Node

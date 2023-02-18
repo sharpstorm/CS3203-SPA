@@ -14,8 +14,8 @@ void ParentExtractor::visit(IfNode* node) {
 }
 
 void ParentExtractor::visit(WhileNode* node) {
-  vector<shared_ptr<ASTNode>> children = node->getChildren();
-  vector<shared_ptr<ASTNode>> stmtList = children[1]->getChildren();
+  vector<ASTNodePtr> children = node->getChildren();
+  vector<ASTNodePtr> stmtList = children[1]->getChildren();
 
   addParentOnList(node->getLineNumber(), &stmtList);
 }

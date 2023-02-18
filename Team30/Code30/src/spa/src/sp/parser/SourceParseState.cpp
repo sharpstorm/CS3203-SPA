@@ -40,7 +40,7 @@ bool SourceParseState::nextTokenIsOfType(SourceTokenType type) {
   return peekNextToken()->isType(type);
 }
 
-void SourceParseState::setCached(shared_ptr<ASTNode> node) {
+void SourceParseState::setCached(ASTNodePtr node) {
   curCache = node;
 }
 

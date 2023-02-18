@@ -74,7 +74,7 @@ SourceTokenType SourceLexer::parsePartialSymbol(
     const SourceTokenType &tokenType,
     string* buffer,
     int *posPtr) {
-  switch (tokenType){
+  switch (tokenType) {
     case SIMPLE_TOKEN_OR_PARTIAL:
       // || only
       return twoSymbolAssert<SIMPLE_TOKEN_OR>(

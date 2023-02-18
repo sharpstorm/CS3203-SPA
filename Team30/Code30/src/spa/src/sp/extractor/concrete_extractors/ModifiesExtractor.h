@@ -1,9 +1,10 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include "sp/extractor/AbstractExtractor.h"
 
-using std::string;
+using std::string, std::vector;
 
 class ModifiesExtractor : public AbstractExtractor {
  public:

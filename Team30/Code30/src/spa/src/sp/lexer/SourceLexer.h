@@ -14,6 +14,7 @@ class SourceLexer {
  public:
   SourceLexer();
   SourceTokenStreamPtr tokenize(string* programLines);
+
  private:
   SourceLexerTokenTable tokenTable;
 
