@@ -54,7 +54,7 @@ static unique_ptr<EntityMappingProviderStub> setUpEntityMappingProvider() {
   return provider;
 }
 
-struct modiifiesTestInit {
+struct modifiesTestInit {
   shared_ptr<HashKeySetTable<int, string>> table;
   shared_ptr<HashKeySetTable<string, int>> reverseTable;
   unique_ptr<ModifiesStorage> store;
@@ -63,7 +63,7 @@ struct modiifiesTestInit {
   unique_ptr<PredicateFactory> factory;
   ModifiesQueryHandler handler;
 
-  modiifiesTestInit() :
+  modifiesTestInit() :
       table(make_shared<HashKeySetTable<int, string>>()),
       reverseTable(make_shared<HashKeySetTable<string, int>>()),
       store(make_unique<ModifiesStorage>(table, reverseTable)),
@@ -81,7 +81,7 @@ struct modiifiesTestInit {
 
 // Both args known
 TEST_CASE("ModifiesQueryHandler Modifies(stmtNum, variableName)") {
-  auto test = modiifiesTestInit();
+  auto test = modifiesTestInit();
   test.table->set(1, "x");
   test.table->set(2, "x");
   test.table->set(3, "z");
@@ -97,7 +97,7 @@ TEST_CASE("ModifiesQueryHandler Modifies(stmtNum, variableName)") {
 // Only arg1 known
 
 TEST_CASE("ModifiesQueryHandler Modifies(stmtNum, variableType)") {
-  auto test = modiifiesTestInit();
+  auto test = modifiesTestInit();
 
   test.table->set(1, "x");
   test.table->set(2, "x");
@@ -112,7 +112,7 @@ TEST_CASE("ModifiesQueryHandler Modifies(stmtNum, variableType)") {
 }
 
 TEST_CASE("ModifiesQueryHandler Modifies(stmtNum, _)") {
-  auto test = modiifiesTestInit();
+  auto test = modifiesTestInit();
 
   test.table->set(1, "x");
   test.table->set(2, "x");
@@ -127,7 +127,7 @@ TEST_CASE("ModifiesQueryHandler Modifies(stmtNum, _)") {
 }
 
 TEST_CASE("ModifiesQueryHandler Modifies(stmtNum, constant)") {
-  auto test = modiifiesTestInit();
+  auto test = modifiesTestInit();
 
   test.table->set(1, "x");
 
@@ -139,7 +139,7 @@ TEST_CASE("ModifiesQueryHandler Modifies(stmtNum, constant)") {
 // Only arg2 known
 
 TEST_CASE("ModifiesQueryHandler Modifies(type, variableName), assign, read") {
-  auto test = modiifiesTestInit();
+  auto test = modifiesTestInit();
 
   test.reverseTable->set("x", 1);
   test.reverseTable->set("x", 2);
@@ -165,7 +165,7 @@ TEST_CASE("ModifiesQueryHandler Modifies(type, variableName), assign, read") {
 }
 
 TEST_CASE("ModifiesQueryHandler Modifies(type, variableName), if, while") {
-  auto test = modiifiesTestInit();
+  auto test = modifiesTestInit();
 
   test.reverseTable->set("x", 6);
   test.reverseTable->set("y", 6);
@@ -189,7 +189,7 @@ TEST_CASE("ModifiesQueryHandler Modifies(type, variableName), if, while") {
 }
 
 TEST_CASE("ModifiesQueryHandler Modifies(type, variableName), print") {
-  auto test = modiifiesTestInit();
+  auto test = modifiesTestInit();
 
   test.reverseTable->set("x", 5); // should not happen
 
@@ -200,7 +200,7 @@ TEST_CASE("ModifiesQueryHandler Modifies(type, variableName), print") {
 }
 
 TEST_CASE("ModifiesQueryHandler Modifies(type, variableName), stmt") {
-  auto test = modiifiesTestInit();
+  auto test = modifiesTestInit();
 
   test.reverseTable->set("x", 1);
   test.reverseTable->set("y", 2);
@@ -220,7 +220,7 @@ TEST_CASE("ModifiesQueryHandler Modifies(type, variableName), stmt") {
 // Both args unknown
 
 TEST_CASE("ModifiesQueryHandler Modifies(stmtType, varType)") {
-  auto test = modiifiesTestInit();
+  auto test = modifiesTestInit();
 
   test.table->set(1, "x");
   test.table->set(1, "z");
@@ -245,7 +245,7 @@ TEST_CASE("ModifiesQueryHandler Modifies(stmtType, varType)") {
 }
 
 TEST_CASE("ModifiesQueryHandler Modifies(statement, _)") {
-  auto test = modiifiesTestInit();
+  auto test = modifiesTestInit();
 
   test.table->set(1, "x");
   test.table->set(1, "z");
@@ -271,7 +271,7 @@ TEST_CASE("ModifiesQueryHandler Modifies(statement, _)") {
 /** Modifies(EntityRef, EntityRef) */
 // Both args known
 TEST_CASE("ModifiesQueryHandler Modifies(procedureName, variableName)") {
-  auto test = modiifiesTestInit();
+  auto test = modifiesTestInit();
   test.table->set(1, "x");
   test.table->set(2, "y");
   test.table->set(3, "z");
@@ -302,7 +302,7 @@ TEST_CASE("ModifiesQueryHandler Modifies(procedureName, variableName)") {
 
 // Only arg1 known
 TEST_CASE("ModifiesQueryHandler Modifies(procedureName, type)") {
-  auto test = modiifiesTestInit();
+  auto test = modifiesTestInit();
   test.table->set(1, "x");
   test.table->set(2, "y");
   test.table->set(2, "w");
@@ -336,7 +336,7 @@ TEST_CASE("ModifiesQueryHandler Modifies(procedureName, type)") {
 
 // Only arg2 known
 TEST_CASE("ModifiesQueryHandler Modifies(type, variable)") {
-  auto test = modiifiesTestInit();
+  auto test = modifiesTestInit();
   test.reverseTable->set("x", 1);
   test.reverseTable->set("x", 3);
   test.reverseTable->set("y", 2);
@@ -367,7 +367,7 @@ TEST_CASE("ModifiesQueryHandler Modifies(type, variable)") {
 
 // Both args unknown
 TEST_CASE("ModifiesQueryHandler Modifies(type, type)") {
-  auto test = modiifiesTestInit();
+  auto test = modifiesTestInit();
   test.reverseTable->set("x", 1);
   test.reverseTable->set("z", 3);
   test.reverseTable->set("y", 2);
