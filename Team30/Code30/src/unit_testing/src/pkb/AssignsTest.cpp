@@ -20,5 +20,9 @@ TEST_CASE("Assign write and read") {
 
   writer.addAssigns(1, node1);
   auto result = queryHandler.queryAssigns({StmtType::Assign, 1});
+
+  REQUIRE(result.isEmpty == false);
+  REQUIRE(result.firstArgVals == unordered_set<int>({1}));
+  REQUIRE(*result.secondArgVals.begin() == node1);
   REQUIRE(result.pairVals == pair_set<int, shared_ptr<IASTNode>>({{1, node1}}));
 }
