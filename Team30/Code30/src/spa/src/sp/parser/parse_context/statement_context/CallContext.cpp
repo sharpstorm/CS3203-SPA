@@ -16,6 +16,7 @@ shared_ptr<ASTNode> CallContext::generateSubtree(SourceParseState* state) {
 
   // Expect ';'
   expect(state, SIMPLE_TOKEN_SEMICOLON);
-
+  state->setCached(callNode);
+  callNode->lineNumber = state->getLineNumber();
   return callNode;
 }
