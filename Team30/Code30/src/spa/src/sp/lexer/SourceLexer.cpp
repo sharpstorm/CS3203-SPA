@@ -16,7 +16,7 @@ vector<SourceToken> SourceLexer::tokenize(string* programLines) {
   bool hasSeenChar = false;
   string buffer;
   buffer.reserve(SOURCE_LEXER_BUFFER_SIZE);
-  
+
   for (size_t pos = 0; pos < programLines->length(); pos++) {
     SourceTokenType deferredPush = SIMPLE_TOKEN_NULL;
 
