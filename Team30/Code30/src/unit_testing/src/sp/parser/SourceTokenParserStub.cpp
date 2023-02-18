@@ -1,11 +1,12 @@
 #include <vector>
 
-#include "SourceTokenParser.h"
+#include "../../../../spa/src/sp/parser/SourceTokenParser.h"
 #include "common/AST.h"
 
 using std::vector;
 
 class SourceTokenParserStub : public SourceTokenParser {
+ public:
   SourceTokenParserStub() {}
 
   SourceParseState parseAndGetState(vector<SourceToken>* tokens) {

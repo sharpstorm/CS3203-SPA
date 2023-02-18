@@ -2,6 +2,11 @@
 
 #include "../../../../../../spa/src/sp/parser/SourceParseState.h"
 SourceParseState executeParse(string input) {
-  SourceParserStub stubby;
-  return stubby.parseSource_AndGetState(string);
+  SourceParserStub parser;
+  return parser.parseSource_AndGetState(input);
+}
+
+TEST_CASE("GenerateSubTree: ProcessNotCondition") {
+  string input = "!(num1 < num2)";
+  executeParse(input);
 }
