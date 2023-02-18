@@ -13,7 +13,7 @@ string FileReader::readFromFile(string fileName) {
   ifstream file;
   file.open(fileName);
   if (!file) {
-    throw SPError(fileName + " not found");
+    throw SPError((fileName + " not found").c_str());
   }
   while (getline(file, line)) {
     programLines += line + "\n";
