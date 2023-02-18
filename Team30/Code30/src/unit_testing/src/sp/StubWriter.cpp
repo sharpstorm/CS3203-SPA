@@ -17,6 +17,10 @@ class StubPkb : public PkbWriter {
   void addUses(int i, string var) {
     usesStore.push_back(make_pair(i, var));
   }
+  void addAssigns(int i, shared_ptr<IASTNode> node) {
+    patternStore.push_back(make_pair(i, node));
+  }
   vector<pair<int,string>> modifiesStore;
   vector<pair<int,string>> usesStore;
+  vector<pair<int, shared_ptr<IASTNode>>> patternStore;
 };

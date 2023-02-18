@@ -1,7 +1,6 @@
 #include "FollowsExtractor.h"
 
-FollowsExtractor::FollowsExtractor(PkbWriter* writer) {
-  pkbWriter = writer;
+FollowsExtractor::FollowsExtractor(PkbWriter* writer) : pkbWriter(writer) {
 }
 
 void FollowsExtractor::visit(StatementListNode node) {

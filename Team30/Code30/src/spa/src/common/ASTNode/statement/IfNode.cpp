@@ -5,7 +5,7 @@
 
 using std::vector, std::shared_ptr, std::string;
 
-IfNode::IfNode() {
+IfNode::IfNode() : StatementASTNode(ASTNODE_IF, "") {
   // index [0] = conditional expression
   // index [1] = Then StmtLst
   // index [2] = Else StmtLst
@@ -25,11 +25,6 @@ void IfNode::addChild(shared_ptr<ASTNode> node) {
 }
 
 string IfNode::toString() {
-  string ss = "If: ";
-  ss += "\n";
-  ss += "then: \n";
-  ss += children[1] == nullptr ? "none" : children[1]->toString();
-  ss += "else: \n";
-  ss += children[2] == nullptr ? "none" : children[2]->toString();
+  string ss = ":if";
   return ss;
 }

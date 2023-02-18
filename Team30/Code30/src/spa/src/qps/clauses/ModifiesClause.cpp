@@ -13,11 +13,11 @@ ModifiesClause::ModifiesClause(ClauseArgumentPtr leftArg,
 PQLQueryResult* ModifiesClause::evaluateOn(
         shared_ptr<PkbQueryHandler> pkbQueryHandler) {
   if (left->synonymSatisfies(ClauseArgument::isStatement)) {
-    return Clause::entityQueryToQueryResult(
+    return Clause::toQueryResult(
         left.get(), right.get(),
         evaluateLeftStatement(pkbQueryHandler));
   } else {
-    return Clause::entityQueryToQueryResult(
+    return Clause::toQueryResult(
         left.get(), right.get(),
         evaluateLeftEntity(pkbQueryHandler));
   }

@@ -1,6 +1,7 @@
 #include "ParentExtractor.h"
 
-ParentExtractor::ParentExtractor(PkbWriter* writer) { pkbWriter = writer; }
+ParentExtractor::ParentExtractor(PkbWriter* writer) : pkbWriter(writer) {
+}
 
 void ParentExtractor::visit(IfNode node) {
   vector<shared_ptr<ASTNode>> children = node.getChildren();

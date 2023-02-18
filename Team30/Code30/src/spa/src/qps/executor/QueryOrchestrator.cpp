@@ -15,7 +15,8 @@ PQLQueryResult *QueryOrchestrator::execute(PQLQuery* query,
 
   if (plan->hasSelectClause() && shouldExecuteSelect(plan, finalResult)) {
     currentResult = launcher.execute(plan->getSelectClause().get());
-    finalResult = coalescer.merge(finalResult, currentResult);
+    delete(finalResult);
+    finalResult = currentResult;
   }
 
   if (finalResult == nullptr) {
@@ -31,9 +32,9 @@ bool QueryOrchestrator::shouldExecuteSelect(QueryPlan *plan,
     return true;
   }
 
-  if (state->isStaticResult()) {
-    return !state->getIsStaticFalse();
+  if (state->isStatic()) {
+    return !state->isFalse();
   }
 
-  return !state->isEntityMapEmpty() || !state->isStatementMapEmpty();
+  return !state->isEmpty();
 }

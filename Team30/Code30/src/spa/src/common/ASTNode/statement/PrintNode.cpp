@@ -5,7 +5,7 @@
 
 using std::vector, std::shared_ptr, std::string;
 
-PrintNode::PrintNode() {
+PrintNode::PrintNode() : StatementASTNode(ASTNODE_PRINT, "") {
   children = vector<shared_ptr<ASTNode>>{nullptr};
 }
 
@@ -16,7 +16,5 @@ void PrintNode::accept(shared_ptr<Extractor> e) {
 void PrintNode::leave(shared_ptr<Extractor> e) {}
 
 string PrintNode::toString() {
-  string ss = "Print: "
-  + (children[0] == nullptr ? "none" : children[0]->toString());
-  return ss;
+  return ":print";
 }

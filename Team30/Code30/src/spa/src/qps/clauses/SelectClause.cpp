@@ -5,8 +5,6 @@
 
 #include "SelectClause.h"
 #include "arguments/ClauseArgument.h"
-#include "qps/common/adapters/StatementResultBuilder.h"
-#include "qps/common/adapters/EntityResultBuilder.h"
 #include "qps/clauses/arguments/ClauseArgumentFactory.h"
 
 using std::pair, std::unordered_set, std::vector, std::shared_ptr;
@@ -16,24 +14,19 @@ SelectClause::SelectClause(PQLQuerySynonym target):
 
 PQLQueryResult* SelectClause::evaluateOn(
     shared_ptr<PkbQueryHandler> pkbQueryHandler) {
-  PQLQueryResult* pqlQueryResult = new PQLQueryResult();
   ClauseArgumentPtr clauseArg = ClauseArgumentFactory::create(target);
+
   if (target.isStatementType()) {
     StmtRef stmtVar = clauseArg->toStmtRef();
     unordered_set<int> pkbResult = pkbQueryHandler
         ->getStatementsOfType(stmtVar.type);
-    pqlQueryResult->addToStatementMap(
-        target.getName(),
-        StatementResultBuilder::buildStatementResult(pkbResult));
-    return pqlQueryResult;
+    return Clause::toQueryResult(target.getName(), pkbResult);
   }
 
   EntityRef entityVar = clauseArg->toEntityRef();
   unordered_set<string> pkbResult = pkbQueryHandler
       ->getSymbolsOfType(entityVar.type);
-  pqlQueryResult->addToEntityMap(
-      target.getName(), EntityResultBuilder::buildEntityResult(pkbResult));
-  return pqlQueryResult;
+  return Clause::toQueryResult(target.getName(), pkbResult);
 }
 
 bool SelectClause::validateArgTypes(VariableTable *variables) {

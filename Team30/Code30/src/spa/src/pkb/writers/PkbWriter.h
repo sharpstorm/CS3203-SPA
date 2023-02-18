@@ -1,18 +1,19 @@
 #pragma once
 
-#include <string>
 #include <memory>
+#include <string>
 
 #include "common/Types.h"
 #include "pkb/storage/PKB.h"
+#include "pkb/writers/interfaces/IAssignsWriter.h"
 #include "pkb/writers/interfaces/IFollowsWriter.h"
-#include "pkb/writers/interfaces/IParentWriter.h"
-#include "pkb/writers/interfaces/IUsesWriter.h"
 #include "pkb/writers/interfaces/IModifiesWriter.h"
+#include "pkb/writers/interfaces/IParentWriter.h"
+#include "pkb/writers/interfaces/IPkbWriter.h"
 #include "pkb/writers/interfaces/IProcedureWriter.h"
 #include "pkb/writers/interfaces/IStatementWriter.h"
 #include "pkb/writers/interfaces/ISymbolWriter.h"
-#include "pkb/writers/interfaces/IPkbWriter.h"
+#include "pkb/writers/interfaces/IUsesWriter.h"
 
 using std::unique_ptr;
 
@@ -20,6 +21,7 @@ class PkbWriter : public IPkbWriter {
  public:
   explicit PkbWriter(PKB *pkb);
 
+  void addAssigns(int stmtNum, shared_ptr<IASTNode> ast) override;
   void addFollows(int stmtNum, int stmtNum2) override;
   void addParent(int stmtNum, int stmtNum2) override;
   void addSymbol(string name, EntityType type) override;
@@ -37,4 +39,5 @@ class PkbWriter : public IPkbWriter {
   unique_ptr<ISymbolWriter> symbolWriter;
   unique_ptr<IStatementWriter> statementWriter;
   unique_ptr<IProcedureWriter> procedureWriter;
+  unique_ptr<IAssignsWriter> assignsWriter;
 };
