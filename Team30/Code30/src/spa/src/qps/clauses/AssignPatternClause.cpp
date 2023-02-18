@@ -2,6 +2,7 @@
 #include <unordered_set>
 
 #include "AssignPatternClause.h"
+#include "qps/clauses/arguments/SynonymArgument.h"
 
 using std::move, std::unordered_set;
 
@@ -21,15 +22,16 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
   QueryResult<int, string> modifiesResult =
       pkbQueryHandler->queryModifies(leftStatement, rightVariable);
 
-  unordered_set<int> assignResult;
+  ClauseArgumentPtr synArg = make_unique<SynonymArgument>(assignSynonym);
+  QueryResult<int, string> assignResult;
   if (patternPhrase.empty()) {
-    assignResult.insert(modifiesResult.firstArgVals.begin(),
-                        modifiesResult.firstArgVals.end());
+    return Clause::toQueryResult(synArg.get(), leftArgument.get(),
+                                 modifiesResult);
   } else {
     // Go through all the line numbers
-    for (int i : modifiesResult.firstArgVals) {
+    for (auto& it : modifiesResult.pairVals) {
       // Call assigns to retrieve the node
-      StmtRef assignRef = StmtRef{StmtType::Assign, i};
+      StmtRef assignRef = StmtRef{StmtType::Assign, it.first};
       QueryResult<int, shared_ptr<IASTNode>> nodes =
           pkbQueryHandler->queryAssigns(assignRef);
 
@@ -37,14 +39,13 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
       // DFS to match
       // If successful, add to query result table
       if (findExpression(lineRoot)) {
-        assignResult.insert(i);
+        assignResult.add(it.first, it.second);
       }
     }
   }
 
   // Convert to PQLQueryResult
-  return Clause::toQueryResult(assignSynonym.getName(),
-                               assignResult);
+  return Clause::toQueryResult(synArg.get(), leftArgument.get(), assignResult);
 }
 
 bool AssignPatternClause::usesSynonym(string varName) {
