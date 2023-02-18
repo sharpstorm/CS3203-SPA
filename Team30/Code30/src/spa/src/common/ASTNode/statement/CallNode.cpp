@@ -5,7 +5,7 @@
 
 using std::vector, std::shared_ptr, std::string;
 
-CallNode::CallNode() : StatementASTNode(ASTNODE_PRINT, "") {
+CallNode::CallNode(string pName) : StatementASTNode(ASTNODE_CALL, ""), procName(pName) {
   children = vector<shared_ptr<ASTNode>>{nullptr};
 }
 

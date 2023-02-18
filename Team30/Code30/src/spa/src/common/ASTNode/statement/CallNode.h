@@ -10,10 +10,12 @@ using std::string, std::shared_ptr;
 
 class CallNode : public StatementASTNode {
  public:
-  CallNode();
+  CallNode(string procName);
   ~CallNode() = default;
   string toString();
   void accept(shared_ptr<Extractor> e);
   void leave(shared_ptr<Extractor> e);
   void addChild(shared_ptr<ASTNode> node);
+ private:
+  string procName;
 };

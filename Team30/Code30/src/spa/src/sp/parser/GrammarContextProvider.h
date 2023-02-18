@@ -20,6 +20,7 @@
 #include "sp/parser/parse_context/statement_context/ReadContext.h"
 #include "sp/parser/parse_context/ProcedureContext.h"
 #include "sp/parser/parse_context/StatementListContext.h"
+#include "sp/parser/parse_context/statement_context/CallContext.h"
 
 class GrammarContextProvider: public IGrammarContextProvider {
  public:
@@ -45,4 +46,5 @@ class GrammarContextProvider: public IGrammarContextProvider {
   ReadContext readContext;
   ProcedureContext procedureContext;
   StatementListContext statementListContext;
+  CallContext callContext;
 };
