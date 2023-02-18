@@ -63,6 +63,11 @@ processBiCondition(SourceParseState* state) {
   // Expect '('
   expect(state, SIMPLE_TOKEN_BRACKET_ROUND_LEFT);
 
+  // Parse first condition
+  shared_ptr<ASTNode> leftCondition = contextProvider->
+      getContext(COND_CONTEXT)->
+      generateSubtree(state);
+
   // Expect ')' -> '&&' / '||' -> '('
   expect(state, SIMPLE_TOKEN_BRACKET_ROUND_RIGHT);
   SourceTokenType type = expect(state,
@@ -70,11 +75,9 @@ processBiCondition(SourceParseState* state) {
   expect(state, SIMPLE_TOKEN_BRACKET_ROUND_LEFT);
   state->clearCached();
 
-  // Generate Condition node and parse first condition
+  // Generate Condition node
   shared_ptr<BinaryASTNode> newNode =
-      generateConditionalNode(contextProvider->
-          getContext(COND_CONTEXT)->
-          generateSubtree(state), type);
+      generateConditionalNode(leftCondition, type);
 
   // Parse second condition
   newNode->setRightChild(contextProvider->
