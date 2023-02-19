@@ -38,7 +38,8 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
       shared_ptr<IASTNode> lineRoot = *nodes.secondArgVals.begin();
       // DFS to match
       // If successful, add to query result table
-      if (findExpression(lineRoot)) {
+      if ((!allowPartial && matchExact(lineRoot))
+          || allowPartial && matchPartial(lineRoot)) {
         assignResult.add(it.first, it.second);
       }
     }
@@ -49,7 +50,7 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
 }
 
 SynonymList AssignPatternClause::getUsedSynonyms() {
-  SynonymList result{assignSynonym.getName()};
+  SynonymList result{ assignSynonym.getName() };
   if (leftArgument->isNamed()) {
     result.push_back(leftArgument->getName());
   }
@@ -65,12 +66,25 @@ bool AssignPatternClause::validateArgTypes(VariableTable *variables) {
       ClauseArgument::isType<PQL_SYN_TYPE_VARIABLE>);
 }
 
-bool AssignPatternClause::findExpression(shared_ptr<IASTNode> rootNode) {
-  if (rootNode->getType() == ASTNODE_VARIABLE ||
-      rootNode->getType() == ASTNODE_CONSTANT) {
-    return rootNode->getValue() == patternPhrase;
+bool AssignPatternClause::matchPartial(shared_ptr<IASTNode> node) {
+  if (node == nullptr) {
+    return false;
   }
 
-  return findExpression(rootNode->getChild(0))
-      || findExpression(rootNode->getChild(1));
+  if (node->getType() == ASTNODE_VARIABLE ||
+      node->getType() == ASTNODE_CONSTANT) {
+    return node->getValue() == patternPhrase;
+  }
+
+  return matchPartial(node->getChild(0))
+      || matchPartial(node->getChild(1));
 }
+
+bool AssignPatternClause::matchExact(shared_ptr<IASTNode> rootNode) {
+  if (rootNode->getType() != ASTNODE_VARIABLE &&
+      rootNode->getType() != ASTNODE_CONSTANT) {
+    return false;
+  }
+  return rootNode->getValue() == patternPhrase;
+}
+
