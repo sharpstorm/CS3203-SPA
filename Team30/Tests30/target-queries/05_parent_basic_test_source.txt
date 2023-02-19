@@ -1,0 +1,94 @@
+procedure ParentTest {
+  a = 1;
+  read x;
+  if (x==1) then {
+    x = y;
+    print z;
+    while (x == 1) {
+      print z;
+      read x;
+      if (z == z) then {
+        if (z == 1) then {
+          x = q;
+        } else {
+          print x;
+        }
+      } else {
+        read x;
+        while (r == x) {
+          x = 1;
+        }
+      }
+      x = z;
+    }
+    read x;
+  } else {
+    x = 1;
+    while (a == b) {
+      print z;
+      if (a == 1) then {
+        while (0 == 2) {
+          read z;
+        }
+      } else {
+        if (a == n) then {
+          read r;
+        } else {
+           x = 1;
+        }
+        x = 1;
+      }
+    }
+    read x;
+    print x;
+  }
+
+  if (a == 1) then {
+    while (b == 2) {
+      while (x == 1) {
+        if (a == b) then {
+          print z;
+        } else {
+          read s;
+        }
+        read s;
+      }
+    }
+  } else {
+    if (x == x) then {
+      if (x == 1) then {
+        read s;
+      } else {
+        x = 2;
+      }
+    } else {
+      print y;
+    }
+  }
+
+  if (x == y) then {
+    read a;
+    if (a == 2) then {
+      a = 1;
+      if (b == 2) then {
+        while (b == r) {
+          print z;
+        }
+        z = z;
+      } else {
+        while (r == 2) {
+          print z;
+        }
+      }
+    } else {
+      read z;
+    }
+  } else {
+    while (a == b) {
+      a = 2;
+      while (b == q) {
+        z = z;
+      }
+    }
+  }
+}
