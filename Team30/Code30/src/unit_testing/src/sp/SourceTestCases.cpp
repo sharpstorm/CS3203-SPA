@@ -117,12 +117,13 @@ class SourceTestCases {
       "if (num==0) then {"
       "  print num;"
       "} else {"
+      "  print num2;"
       "}}";
 
   const std::string ONE_LINE_IF_STMT =
       "procedure longif {"
       "read num;"
-      "if (num==0) then {  print num;} else {}}";
+      "if (num==0) then {  print num;} else { read x; }}";
 
   const std::string SIMPLE_IF_ELSE =
       "procedure ifElse {"
@@ -148,7 +149,9 @@ class SourceTestCases {
       "read num3;"
       "if ((num1 == num2) && (num2 != num3)) then {"
       "  print num1;"
-      "} else {}"
+      "} else {"
+      "  print num2;"
+      "}"
       "}";
 
   const std::string TEST_RELATIONAL =
@@ -159,7 +162,7 @@ class SourceTestCases {
       "read num4;"
       "if (num1 <= num4) then {"
       "  print num1;"
-      "} else {"
+      "} else { print x;"
       "}}";
 
   const std::string CHAINED_IF =
@@ -172,9 +175,9 @@ class SourceTestCases {
       "    print num2;"
       "    if (num2<10) then {"
       "      num = num + 1;"
-      "    } else {}"
-      "  } else {}"
-      "} else {}"
+      "    } else { x = 2; }"
+      "  } else { read x; }"
+      "} else { print x; }"
       "}";
 
   const std::string MULTIPLE_IF_ELSE =  // for follows relations
@@ -204,11 +207,11 @@ class SourceTestCases {
       "  print num;"
       "  if (num == 1) then {"
       "    print num;"
-      "   } else {}"
+      "   } else { y = 10; }"
       "} else {"
       "    if (num2 == 1) then {"
       "      print num2;"
-      "     } else {}"
+      "     } else { x = 20; }"
       "    print num2;"
       "}}";
 
@@ -223,14 +226,14 @@ class SourceTestCases {
       "  } else {"
       "    if (num == 2) then {"
       "      print num;"
-      "    } else {}"
+      "    } else { v = 20 ;}"
       "}} else {"
       "    if (num2 == 1) then {"
       "      print num2;"
       "    } else {"
       "      if (num2 == 2) then {"
       "        print num2;"
-      "       } else {}"
+      "       } else { z = 10; }"
       "    } print num2;"
       "}}";
 
@@ -346,6 +349,7 @@ class SourceTestCases {
       "  if (numCheck == 0) then {"
       "    print num;"
       "  } else {"
+      "    print num2;"
       "  } num = num - 1;"
       "}}";
 
@@ -356,7 +360,7 @@ class SourceTestCases {
       "  while (num > 0) {"
       "    num = num - 1;"
       "  }"
-      "} else {"
+      "} else { read x;"
       "}}";
 
   const std::string WHILE_IN_IF_ELSE =
@@ -404,7 +408,7 @@ class SourceTestCases {
       "      numOne = numOne - num;"
       "    } num = num - 1;"
       "  }"
-      "} else {"
+      "} else { x = 2;"
       "}}";
 
   const std::string WHILE_CHAIN_IN_ELSE =
@@ -412,6 +416,7 @@ class SourceTestCases {
       "read num;"
       "read numOne;"
       "if (num < 0) then {"
+      "  x = 2;"
       "} else {"
       "  while (num > 0) {"
       "    while (numOne >= 0) {"
@@ -444,7 +449,7 @@ class SourceTestCases {
       "  numCheck = num % 2;"
       "  if (numCheck == 0) then {"
       "    call calls;"
-      "  } else {"
+      "  } else { x = 2;"
       "  } num = num - 1;"
       "}}"
       "procedure calls {"
@@ -459,6 +464,7 @@ class SourceTestCases {
       "  if (numChecks == 0) then {"
       "    call prints;"
       "  } else {"
+      "    x = 2;"
       "  } call decrements;"
       "}}"
       "procedure numCheck {"
