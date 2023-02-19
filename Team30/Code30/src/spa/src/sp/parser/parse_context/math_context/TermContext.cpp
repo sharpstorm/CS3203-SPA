@@ -43,7 +43,7 @@ shared_ptr<ASTNode> TermContext::generateSubtree(SourceParseState *state) {
 
 shared_ptr<BinaryASTNode> TermContext::generateOperand(
     SourceToken* curToken) {
-  switch(curToken->getType()) {
+  switch (curToken->getType()) {
     case SIMPLE_TOKEN_TIMES:
       return make_shared<TimesASTNode>();
     case SIMPLE_TOKEN_DIV:

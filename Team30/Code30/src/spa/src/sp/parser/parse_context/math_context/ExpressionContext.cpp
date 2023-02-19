@@ -43,7 +43,7 @@ shared_ptr<ASTNode> ExpressionContext::generateSubtree(
 
 shared_ptr<BinaryASTNode> ExpressionContext::generateOperand(
     SourceToken* curToken) {
-  switch(curToken->getType()) {
+  switch (curToken->getType()) {
     case SIMPLE_TOKEN_PLUS:
       return make_shared<PlusASTNode>();
     case SIMPLE_TOKEN_MINUS:
