@@ -158,4 +158,12 @@ TEST_CASE("Test Full End-to-end") {
   query = "assign a; variable v; Select a pattern a (v, _\"z\"_)";
   expectedRes = unordered_set<string>({"8", "9"});
   launchQuery2(qps.get(), query, expectedRes);
+
+  query = "constant c; Select c";
+  expectedRes = unordered_set<string>({"0", "1", "2", "3", "5"});
+  launchQuery2(qps.get(), query, expectedRes);
+
+  query = "procedure p; Select p";
+  expectedRes = unordered_set<string>({"Example"});
+  launchQuery2(qps.get(), query, expectedRes);
 }
