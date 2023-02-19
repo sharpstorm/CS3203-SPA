@@ -5,8 +5,9 @@
 #include "common/UtilityTypes.h"
 #include "qps/QPSFacade.h"
 #include "pkb/writers/PkbWriter.h"
-#include "qps/errors/QPSError.h"
+#include "qps/errors/QPSParserSyntaxError.h"
 #include "sp/SpDriver.h"
+#include "qps/errors/QPSParserSemanticError.h"
 
 using std::make_unique, std::make_shared, std::unordered_set, std::to_string;
 
@@ -23,8 +24,10 @@ void launchQuery2(IQPS* qps, string query, unordered_set<string> answer) {
   UniqueVectorPtr<string> result = nullptr;
   try {
     result = qps->evaluate(query);
-  } catch (const QPSError& ex) {
-    FAIL(ex.what());
+  } catch (const QPSParserSemanticError& ex) {
+    FAIL("SEMANTIC ERROR");
+  } catch (const QPSParserSyntaxError& ex) {
+    FAIL("SYNTAX ERROR");
   }
 
   INFO("-----------------------------------------------\n")
@@ -65,12 +68,36 @@ TEST_CASE("Test Full End-to-end") {
                        "  z = x + 1; }" // 12
                        , pkbWriter.get());
 
-  launchQuery2(qps.get(), "stmt s;\n"
-                          "Select s such that Follows(s, s)",
-              unordered_set<string>{ });
-
   string query;
   unordered_set<string> expectedRes;
+
+  query = "stmt s; Select s such that Follows(s, s)";
+  expectedRes = unordered_set<string>{ };
+  launchQuery2(qps.get(), query, expectedRes);
+
+  query = "assign a1, a2; Select a1 such that Follows(1, 2) pattern a2(_,_)";
+  expectedRes = unordered_set<string>({"1", "2", "3", "5", "7", "8", "9", "11", "12"});
+  launchQuery2(qps.get(), query, expectedRes);
+
+  query = "assign a; Select a such that Follows(1, 2) pattern a(\"x\",_)";
+  expectedRes = unordered_set<string>({"1", "5"});
+  launchQuery2(qps.get(), query, expectedRes);
+
+  query = "assign a; Select a such that Follows(a, 2) pattern a(\"x\",_)";
+  expectedRes = unordered_set<string>({"1"});
+  launchQuery2(qps.get(), query, expectedRes);
+
+  query = "assign a; Select a such that Follows*(a, 4) pattern a(\"x\",_)";
+  expectedRes = unordered_set<string>({"1"});
+  launchQuery2(qps.get(), query, expectedRes);
+
+  query = "assign a; Select a such that Follows*(a, 4) pattern a(\"i\",_)";
+  expectedRes = unordered_set<string>({"3"});
+  launchQuery2(qps.get(), query, expectedRes);
+
+  query = "assign a; variable v; Select a such that Uses(a, v) pattern a(v,_)";
+  expectedRes = unordered_set<string>({"5", "9", "11"});
+  launchQuery2(qps.get(), query, expectedRes);
 
   query = "assign a; Select a such that Uses(a, \"x\")";
   expectedRes = unordered_set<string>({"5", "7", "8", "9", "12"});
