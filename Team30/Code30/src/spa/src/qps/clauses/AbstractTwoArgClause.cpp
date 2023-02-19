@@ -20,6 +20,6 @@ SynonymList AbstractTwoArgClause::getUsedSynonyms() {
 }
 
 bool AbstractTwoArgClause::isSameSynonym() {
-   return left->isNamed() && right->isNamed()
+  return left->isNamed() && right->isNamed()
       && left->getName() == right->getName();
 }
