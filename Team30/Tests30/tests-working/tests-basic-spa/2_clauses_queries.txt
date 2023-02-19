@@ -1,0 +1,230 @@
+1 - Follows - Pattern 
+assign a;
+Select a such that Follows(1, a) pattern a(_, _"doraemon"_)
+2
+5000
+2 - Follows - Pattern - no result
+assign a;
+Select a such that Follows(2, a) pattern a(_, _"doraemon"_)
+
+5000
+3 - Follows* - Pattern
+assign a;
+Select a such that Follows*(1, a) pattern a(_, _"doraemon"_)
+2
+5000
+4 - Follows* - Pattern - no result
+assign a;
+Select a such that Follows*(2, a) pattern a(_, _"doraemon"_)
+
+5000
+5 - Parent - Pattern
+assign a;
+Select a such that Parent(4, a) pattern a(_, _"stubby"_)
+6, 7
+5000
+6 - Parent - Pattern - no result
+assign a;
+Select a such that Parent(4, a) pattern a(_, _"pupu"_)
+
+5000
+7 - Uses - Pattern 
+assign a;
+Select a such that Uses(a, "pepe") pattern a("poppy", _)
+6, 7
+5000
+8 - Uses - Pattern - no result
+assign a;
+Select a such that Uses(a, "xx") pattern a("poppy", _)
+
+5000
+9 - Modifies - Pattern
+assign a;
+Select a such that Modifies(a, "a") pattern a("a", _"1"_)
+3
+5000
+10 - Modifies - Pattern - no result
+assign a;
+Select a such that Modifies(a, "a") pattern a("a", "1")
+
+5000
+11 - No common - Modifies pattern false
+assign a1, a2; variable v;
+Select v such that Modifies(a1, v) pattern a2("a", "huehuehue")
+
+5000
+12 - No common - Modifies - pattern true
+assign a1, a2; variable v;
+Select v such that Modifies(a1, v) pattern a2("a", _"a"_)
+a, poppy, anya, cs1231, x
+5000
+13 - No common - Uses pattern false
+assign a1, a2; variable v;
+Select v such that Uses(a1, v) pattern a2("a", "huehuehue")
+
+5000
+14 - No common - Modifies - pattern true
+assign a1, a2; variable v;
+Select v such that Uses(a1, v) pattern a2("a", _"a"_)
+doraemon, a, b, stubby, pepe, popo, ff, what, is, grammar, y, z
+5000
+15 - Invalid pattern
+assign a1, a2; variable v;
+Select a1 such that Uses(a1, v) pattern a2(a1, a1)
+SyntaxError
+5000
+16 - Invalid pattern - print in pattern
+assign a1, a2; print pn;
+Select a1 such that Uses(a1, v) pattern a1(pn, pn)
+SyntaxError
+5000
+17 - Long expr
+assign a1;
+Select a1 such that Uses(a1, "b") pattern a1("a", "b")
+
+5000    
+18 - 2 common - Uses
+assign a; variable v;
+Select a such that Uses(a, v) pattern a(v, _)
+3
+5000
+19 - 2 common - Modifies
+assign a; variable v;
+Select a such that Modifies(a, v) pattern a(v, _)
+2, 3, 6, 7, 10, 11, 12
+5000
+20 - 2 common - Uses not wildcard in second parameter
+assign a; variable v;
+Select a such that Uses(a, v) pattern a(v, _"b"_)
+3
+5000
+21 - 2 common - Uses not wildcard in second parameter
+assign a; variable v;
+Select a such that Modifies(a, v) pattern a(v, _"ff"_)
+7
+5000
+22 - 2 common - SyntaxError error
+assign a; variable v;
+Select a such that Modifies(a, v) pattern a(v, v)
+SyntaxError
+5000
+23 - 2 common - Semantic error
+assign a; variable v;
+Select a such that Modifies(v, v) pattern a("v", "v")
+SemanticError
+5000
+24 - 2 common - Semantic error
+assign a; variable v;
+Select a such that Modifies(a, v) pattern a(a, a)
+SyntaxError
+5000
+25 - wild card wild card for pattern
+assign a; variable v;
+Select a such that Modifies(a, v) pattern a(_, _)
+2, 3, 6, 7, 10, 11, 12
+5000
+26 -  Pattern - Follows
+assign a;
+Select a pattern a(_, _"doraemon"_) such that Follows(1, a) 
+2
+5000
+27 -  Pattern - Follows - no result
+assign a;
+Select a pattern a(_, _"doraemon"_) such that Follows(2, a) 
+
+5000
+28 - Pattern - Follows*
+assign a;
+Select a pattern a(_, _"doraemon"_) such that Follows*(1, a) 
+2
+5000
+29 -  Pattern -Follows* - no result
+assign a;
+Select a pattern a(_, _"doraemon"_) such that Follows*(2, a) 
+
+5000
+30 - Pattern - Parent
+assign a;
+Select a pattern a(_, _"stubby"_) such that Parent(4, a) 
+6, 7
+5000
+31 - Pattern - Parent - no result
+assign a;
+Select a pattern a(_, _"pupu"_) such that Parent(4, a) 
+
+5000
+32 - Pattern - Uses 
+assign a;
+Select a pattern a("poppy", _) such that Uses(a, "pepe") 
+6, 7
+5000
+33 Pattern - Uses - no result
+assign a;
+Select a pattern a("poppy", _) such that Uses(a, "xx") 
+
+5000
+34 - Pattern - Modifies
+assign a;
+Select a pattern a("a", _"1"_) such that Modifies(a, "a") 
+3
+5000
+35 - Modifies - Pattern - no result
+assign a;
+Select a pattern a("a", "1") such that Modifies(a, "a") 
+
+5000
+36 - No common - Modifies pattern false
+assign a1, a2; variable v;
+Select v pattern a2("a", "huehuehue") such that Modifies(a1, v) 
+
+5000
+37 - No common - pattern - Modifies true
+assign a1, a2; variable v;
+Select v pattern a2("a", _"a"_) such that Modifies(a1, v) 
+a, poppy, anya, cs1231, x
+5000
+38 - No common - Uses pattern false
+assign a1, a2; variable v;
+Select v pattern a2("a", "huehuehue") such that Uses(a1, v) 
+
+5000
+39 - No common - Modifies - pattern true
+assign a1, a2; variable v;
+Select v pattern a2("a", _"a"_) such that Uses(a1, v) 
+doraemon, a, b, stubby, pepe, popo, ff, what, is, grammar, y, z
+5000
+40 - Invalid pattern
+assign a1, a2; variable v;
+Select a1 pattern a2(a1, a1) such that Uses(a1, v) 
+SyntaxError
+5000
+41 - Invalid pattern - print in pattern
+assign a1, a2; print pn;
+Select a1 pattern a1(pn, pn) such that Uses(a1, v) 
+SyntaxError
+5000
+42- Long expr
+assign a1;
+Select a1 pattern a1("a", "b") such that Uses(a1, "b") 
+
+5000    
+43 - 2 common - Uses
+assign a; variable v;
+Select a pattern a(v, _) such that Uses(a, v) 
+3
+5000
+44 - 2 common - Modifies
+assign a; variable v;
+Select a pattern a(v, _) such that Modifies(a, v) 
+2, 3, 6, 7, 10, 11, 12
+5000
+45 - 2 common - Uses not wildcard in second parameter
+assign a; variable v;
+Select a pattern a(v, _"b"_) such that Uses(a, v) 
+3
+5000
+46 - 2 common - Uses not wildcard in second parameter
+assign a; variable v;
+Select a pattern a(v, _"ff"_) such that Modifies(a, v) 
+7
+5000

@@ -1,0 +1,25 @@
+1 - Get var chars
+variable v;
+Select v
+print, read, while, if
+5000
+2 - Modifies
+variable v;
+Select v such that Modifies(3, v)
+read
+5000
+3 - Uses
+variable v;
+Select v such that Uses(3, v)
+while, if, print
+5000
+4 - Uses cond
+variable v;
+Select v such that Uses(6, v)
+while
+5000
+5 - Uses cond
+variable v;
+Select v such that Uses(7, v)
+if
+5000
