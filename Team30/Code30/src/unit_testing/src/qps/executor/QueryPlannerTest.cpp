@@ -26,7 +26,6 @@ TEST_CASE("Plan where a clause is using target declaration variable") {
 
   auto query = make_unique<PQLQuery>(PQL_VAR_MAP, PQL_RESULT_VAR, clauses);
   shared_ptr<QueryPlan> queryPlan = queryPlanner.getExecutionPlan(query.get());
-  REQUIRE(queryPlan->hasSelectClause() == false);
   REQUIRE(queryPlan->getConditionalClauses().size() == clauses.size());
 }
 
@@ -40,14 +39,12 @@ TEST_CASE("Plan where a clause is not using target declaration variable") {
 
   auto query = make_unique<PQLQuery>(PQL_VAR_MAP, PQL_RESULT_VAR, clauses);
   shared_ptr<QueryPlan> queryPlan = queryPlanner.getExecutionPlan(query.get());
-  REQUIRE(queryPlan->hasSelectClause());
-  REQUIRE(queryPlan->getConditionalClauses().size() == clauses.size());
+  REQUIRE(queryPlan->getConditionalClauses().size() == clauses.size() + 1);
 }
 
 TEST_CASE("Plan where query is only Select") {
   auto query = make_unique<PQLQuery>(PQL_VAR_MAP, PQL_RESULT_VAR, vector<shared_ptr<Clause>>());
   shared_ptr<QueryPlan> queryPlan = queryPlanner.getExecutionPlan(query.get());
 
-  REQUIRE(queryPlan->hasSelectClause());
-  REQUIRE(queryPlan->getConditionalClauses().size() == 0);
+  REQUIRE(queryPlan->getConditionalClauses().size() == 1);
 }

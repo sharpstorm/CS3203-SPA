@@ -49,8 +49,9 @@ TEST_CASE("Queries with Select only") {
         }}
     });
     targetVariable = {stmtType, "s"};
-    auto selectClause = shared_ptr<SelectClause>(new SelectClause(targetVariable));
-    auto queryPlan = make_unique<QueryPlan>(selectClause, EMPTY_CONDITIONALS);
+    auto selectClause = shared_ptr<IEvaluatable>(new SelectClause(targetVariable));
+    auto queryPlan = make_unique<QueryPlan>(vector<shared_ptr<IEvaluatable>>{selectClause},
+                                            vector<QueryPlan::MergeStrategy>{});
     query = make_unique<PQLQuery>(
         unordered_map<string, PQLQuerySynonym>({{"s", targetVariable}}),
         targetVariable,
@@ -75,7 +76,8 @@ TEST_CASE("Queries with Select only") {
     });
     targetVariable = {entType, "ent"};
     auto selectClause = shared_ptr<SelectClause>(new SelectClause(targetVariable));
-    auto queryPlan = make_unique<QueryPlan>(selectClause, EMPTY_CONDITIONALS);
+    auto queryPlan = make_unique<QueryPlan>(vector<shared_ptr<IEvaluatable>>{selectClause},
+                                            vector<QueryPlan::MergeStrategy>{});
     query = make_unique<PQLQuery>(
         unordered_map<string, PQLQuerySynonym>({{"ent", targetVariable}}),
         targetVariable,
