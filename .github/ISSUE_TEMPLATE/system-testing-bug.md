@@ -1,7 +1,7 @@
 ---
 name: System Testing Bug
 about: Use this template to report system-testing bugs
-title: ''
+title: "[BUG] "
 labels: Bug/Under-Investigation, Type/Testing
 assignees: ''
 
