@@ -180,11 +180,18 @@ def execTests(args, jobs):
         exitCode = subprocess.run([autotesterBinary, source, query, tempFileName],
             stdout=subprocess.DEVNULL,
             stderr=subprocess.STDOUT).returncode
-        if exitCode != 0:
-            print(f'{style.RED} !!!!!! Non-Zero Exit Code: {exitCode} !!!!!!! {style.RED}')
+
+        if "fail_sperror" in query:
+            if exitCode == 1:
+                print(f'{style.GREEN} Expected SP Error, Failed Successfully {style.RESET}')
+            else:
+                print(f'{style.RED} !!!!!! Should Fail With 1, But Exit Code: {exitCode} !!!!!!! {style.RESET}')
+                isFailure = True
+        elif exitCode != 0:
+            print(f'{style.RED} !!!!!! Non-Zero Exit Code: {exitCode} !!!!!!! {style.RESET}')
             isFailure = True
 
-        if exists(tempFileName):
+        if exists(tempFileName) and "fail_sperror" not in query:
             result = parseXML(tempFileName)
             printResult(result, args)
             passCount += result['passCount']
