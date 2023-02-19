@@ -4,7 +4,7 @@ EntityExtractor::EntityExtractor(PkbWriter* writer) : pkbWriter(writer) {
 }
 
 void EntityExtractor::visit(ProcedureNode *node) {
-  pkbWriter->addProcedure(node->getName(), 1, 2);
+  pkbWriter->addSymbol(node->getName(), EntityType::Procedure);
 }
 
 void EntityExtractor::visit(PrintNode* node) {
