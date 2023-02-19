@@ -1,0 +1,34 @@
+1 - Select while
+while w;
+Select w such that Parent*(42, w)
+47, 48, 49, 50
+5000
+2 - Select ifs
+if ifs;
+Select ifs
+4, 20, 21, 28, 34
+5000
+3 - Variable
+variable v;
+Select v such that Uses(7, v)
+what, is, this, idk, print, if, a, b, c, d, e, f, g
+5000
+4 - Modifies
+variable v; read r;
+Select v such that Modifies(r, v)
+p, read, google, a, b, c, d, while
+5000
+5 - V
+variable v; 
+Select v
+B, CS3203, a, abc, abcd, b, c, d, e, f, follows, g, google, idk, if, is, p, print, qwerty, read, s, select, such, that, this, what, while, ytrewq
+5000
+6 - Select print
+print pn;
+Select pn such that Parent(42, pn)
+43, 45
+5000
+7 - Select const
+constant c;
+Select c
+1234, 4321, 123, 321, 1, 0, 2, 3

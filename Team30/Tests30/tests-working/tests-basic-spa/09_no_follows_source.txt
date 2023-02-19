@@ -1,0 +1,17 @@
+procedure procedure{
+    if (a == 3) then {
+
+    } else {
+        if (a == 2 ) then {
+            if (a == 1) then {
+
+            } else {
+                while (a == 0) {
+                    
+                }
+            }
+        } else {
+
+        }
+    }
+}

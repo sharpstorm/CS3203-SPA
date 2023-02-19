@@ -1,0 +1,11 @@
+procedure test {
+  while (a < b) {
+    if (b < c) then {
+      x = 1;
+    } else {
+      while (c < d) {
+        y = y + 1;
+      }
+    }
+  }
+}
