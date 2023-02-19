@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include <memory>
 #include "StatementASTNode.h"
 #include "sp/extractor/Extractor.h"
 
@@ -9,9 +8,9 @@ using std::string;
 
 class PrintNode : public StatementASTNode {
  public:
-  PrintNode();
+  explicit PrintNode(int lineNumber);
   ~PrintNode() = default;
+
   string toString();
-  void accept(shared_ptr<Extractor> e);
-  void leave(shared_ptr<Extractor> e);
+  void accept(Extractor* e);
 };

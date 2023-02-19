@@ -1,20 +1,19 @@
 #include <memory>
 #include "ProcedureContext.h"
-#include "common/ASTNode/ProcedureNode.h"
+#include "common/ASTNode/entity/ProcedureNode.h"
 
-using std::shared_ptr;
+using std::make_shared;
 
-shared_ptr<ASTNode> ProcedureContext::generateSubtree(SourceParseState* state) {
+ASTNodePtr ProcedureContext::generateSubtree(SourceParseState* state) {
   // Procedure Node
   expect(state, SIMPLE_TOKEN_KEYWORD_PROCEDURE);
 
   // Name
   SourceToken* nameToken = expectVarchar(state);
-  shared_ptr<ProcedureNode> procedureNode =
-      shared_ptr<ProcedureNode>(new ProcedureNode(nameToken->getValue()));
+  ASTNodePtr procedureNode = make_shared<ProcedureNode>(nameToken->getValue());
 
   // Statement List
-  shared_ptr<ASTNode> stmtLst = contextProvider->
+  ASTNodePtr stmtLst = contextProvider->
       getContext(STMT_LIST_CONTEXT)->generateSubtree(state);
 
   procedureNode->addChild(stmtLst);

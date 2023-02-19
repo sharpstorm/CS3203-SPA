@@ -1,17 +1,15 @@
 #include <string>
 #include <memory>
 #include "VariableParseContext.h"
-#include "common/ASTNode/VariableASTNode.h"
+#include "common/ASTNode/entity/VariableASTNode.h"
 
-using std::string, std::shared_ptr;
+using std::string, std::make_shared;
 
 VariableParseContext::VariableParseContext() = default;
 
-shared_ptr<ASTNode>
-VariableParseContext::generateSubtree(SourceParseState* state) {
+ASTNodePtr VariableParseContext::generateSubtree(SourceParseState* state) {
   SourceToken* token = expectVarchar(state);
   string value = token->getValue();
-  shared_ptr<ASTNode> newNode =
-      shared_ptr<ASTNode>(new VariableASTNode(value));
+  shared_ptr<ASTNode> newNode = make_shared<VariableASTNode>(value);
   return newNode;
 }

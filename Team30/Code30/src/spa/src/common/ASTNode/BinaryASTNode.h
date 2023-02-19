@@ -1,20 +1,20 @@
 #pragma once
 
 #include <string>
-#include <memory>
 #include "ASTNode.h"
 #include "sp/extractor/Extractor.h"
 
-using std::string, std::shared_ptr;
+using std::string;
 
 class BinaryASTNode: public ASTNode {
  public:
   virtual ~BinaryASTNode() = default;
-  virtual string toString();
-  void setLeftChild(shared_ptr<ASTNode> left);
-  void setRightChild(shared_ptr<ASTNode> right);
-  shared_ptr<ASTNode> getLeftChild();
-  shared_ptr<ASTNode> getRightChild();
+  void setLeftChild(ASTNodePtr left);
+  void setRightChild(ASTNodePtr right);
+  ASTNodePtr getLeftChild();
+  ASTNodePtr getRightChild();
+
  protected:
+  explicit BinaryASTNode(ASTNodeType type);
   BinaryASTNode(ASTNodeType type, string value);
 };

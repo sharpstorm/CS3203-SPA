@@ -4,8 +4,8 @@
 #include "common/ASTNode/statement/ReadNode.h"
 #include "common/ASTNode/statement/WhileNode.h"
 #include "common/ASTNode/statement/IfNode.h"
-#include "common/ASTNode/VariableASTNode.h"
-#include "common/ASTNode/ConstantASTNode.h"
+#include "common/ASTNode/entity/VariableASTNode.h"
+#include "common/ASTNode/entity/ConstantASTNode.h"
 #include "common/ASTNode/math/math_operand/PlusASTNode.h"
 #include "common/ASTNode/math/math_operand/MinusASTNode.h"
 #include "common/ASTNode/math/math_operand/TimesASTNode.h"
@@ -21,165 +21,160 @@
 #include "common/ASTNode/math/conditional_operand/NotEqualsASTNode.h"
 #include "common/ASTNode/math/conditional_operand/OrASTNode.h"
 
-
-using std::vector;
+using std::vector, std::make_shared;
 
 TEST_CASE("Test IASTNode equals - Print node") {
-  PrintNode p;
-  PrintNode p2;
-  shared_ptr<IASTNode> node = shared_ptr<IASTNode>(new PrintNode());
-  shared_ptr<IASTNode> node2 = shared_ptr<IASTNode>(new PrintNode());
+  shared_ptr<IASTNode> node = make_shared<PrintNode>(1);
+  shared_ptr<IASTNode> node2 = make_shared<PrintNode>(1);
   REQUIRE(node->isEquals(node2.get()));
 }
 
 TEST_CASE("Test IASTNode equals - Assign node") {
-  shared_ptr<IASTNode> node = shared_ptr<IASTNode>(new AssignNode());
-  shared_ptr<IASTNode> node2 = shared_ptr<IASTNode>(new AssignNode());
+  shared_ptr<IASTNode> node = make_shared<AssignNode>(1);
+  shared_ptr<IASTNode> node2 = make_shared<AssignNode>(1);
   REQUIRE(node->isEquals(node2.get()));
 }
 
 TEST_CASE("Test IASTNode equals - Read node") {
-  shared_ptr<IASTNode> node = shared_ptr<IASTNode>(new ReadNode());
-  shared_ptr<IASTNode> node2 = shared_ptr<IASTNode>(new ReadNode());
+  shared_ptr<IASTNode> node = make_shared<ReadNode>(1);
+  shared_ptr<IASTNode> node2 = make_shared<ReadNode>(1);
   REQUIRE(node->isEquals(node2.get()));
 }
 
 TEST_CASE("Test IASTNode equals - While node") {
-  shared_ptr<IASTNode> node = shared_ptr<IASTNode>(new WhileNode());
-  shared_ptr<IASTNode> node2 = shared_ptr<IASTNode>(new WhileNode());
+  shared_ptr<IASTNode> node = make_shared<WhileNode>(1);
+  shared_ptr<IASTNode> node2 = make_shared<WhileNode>(1);
   REQUIRE(node->isEquals(node2.get()));
 }
 
 TEST_CASE("Test IASTNode equals - If node") {
-  shared_ptr<IASTNode> node = shared_ptr<IASTNode>(new IfNode());
-  shared_ptr<IASTNode> node2 = shared_ptr<IASTNode>(new IfNode());
+  shared_ptr<IASTNode> node = make_shared<IfNode>(1);
+  shared_ptr<IASTNode> node2 = make_shared<IfNode>(1);
   REQUIRE(node->isEquals(node2.get()));
 }
 
 TEST_CASE("Test IASTNode not equals") {
-  PrintNode n1;
-  PrintNode n2;
-  shared_ptr<IASTNode> node1 = shared_ptr<IASTNode>(new ReadNode());
-  shared_ptr<IASTNode> node2 = shared_ptr<IASTNode>(new PrintNode());
-  shared_ptr<IASTNode> node3 = shared_ptr<IASTNode>(new WhileNode());
-  shared_ptr<IASTNode> node4 = shared_ptr<IASTNode>(new IfNode());
-  shared_ptr<IASTNode> node5 = shared_ptr<IASTNode>(new AssignNode());
-  REQUIRE(node1->isEquals(node2.get()));
-  REQUIRE(node2->isEquals(node3.get()));
-  REQUIRE(node3->isEquals(node4.get()));
-  REQUIRE(node4->isEquals(node5.get()));
-  REQUIRE(node5->isEquals(node1.get()));
+  shared_ptr<IASTNode> node1 = make_shared<ReadNode>(1);
+  shared_ptr<IASTNode> node2 = make_shared<PrintNode>(1);
+  shared_ptr<IASTNode> node3 = make_shared<WhileNode>(1);
+  shared_ptr<IASTNode> node4 = make_shared<IfNode>(1);
+  shared_ptr<IASTNode> node5 = make_shared<AssignNode>(1);
+  REQUIRE(!node1->isEquals(node2.get()));
+  REQUIRE(!node2->isEquals(node3.get()));
+  REQUIRE(!node3->isEquals(node4.get()));
+  REQUIRE(!node4->isEquals(node5.get()));
+  REQUIRE(!node5->isEquals(node1.get()));
 }
 
 TEST_CASE("Test IASTNode Equals Variable ") {
-  shared_ptr<IASTNode> node1 = shared_ptr<IASTNode>(new VariableASTNode("a"));
-  shared_ptr<IASTNode> node2 = shared_ptr<IASTNode>(new VariableASTNode("a"));
-  shared_ptr<IASTNode> node3 = shared_ptr<IASTNode>(new VariableASTNode("b"));
+  shared_ptr<IASTNode> node1 = make_shared<VariableASTNode>("a");
+  shared_ptr<IASTNode> node2 = make_shared<VariableASTNode>("a");
+  shared_ptr<IASTNode> node3 = make_shared<VariableASTNode>("b");
   REQUIRE(node1->isEquals(node2.get()));
   REQUIRE(!node1->isEquals(node3.get()));
 }
 
 TEST_CASE("Test IASTNode Equals Constant ") {
-  shared_ptr<IASTNode> node1 = shared_ptr<IASTNode>(new ConstantASTNode("1"));
-  shared_ptr<IASTNode> node2 = shared_ptr<IASTNode>(new ConstantASTNode("1"));
-  shared_ptr<IASTNode> node3 = shared_ptr<IASTNode>(new ConstantASTNode("2"));
+  shared_ptr<IASTNode> node1 = make_shared<ConstantASTNode>("1");
+  shared_ptr<IASTNode> node2 = make_shared<ConstantASTNode>("1");
+  shared_ptr<IASTNode> node3 = make_shared<ConstantASTNode>("2");
   REQUIRE(node1->isEquals(node2.get()));
   REQUIRE(!node1->isEquals(node3.get()));
 }
 
 TEST_CASE("Test IASTNode equals - Plus node") {
-  shared_ptr<IASTNode> node = shared_ptr<IASTNode>(new PlusASTNode());
-  shared_ptr<IASTNode> node2 = shared_ptr<IASTNode>(new PlusASTNode());
+  shared_ptr<IASTNode> node = make_shared<PlusASTNode>();
+  shared_ptr<IASTNode> node2 = make_shared<PlusASTNode>();
   REQUIRE(node->isEquals(node2.get()));
 }
 
 TEST_CASE("Test IASTNode equals - Minus node") {
-  shared_ptr<IASTNode> node = shared_ptr<IASTNode>(new MinusASTNode());
-  shared_ptr<IASTNode> node2 = shared_ptr<IASTNode>(new MinusASTNode());
+  shared_ptr<IASTNode> node = make_shared<MinusASTNode>();
+  shared_ptr<IASTNode> node2 = make_shared<MinusASTNode>();
   REQUIRE(node->isEquals(node2.get()));
 }
 
 TEST_CASE("Test IASTNode equals - Mod node") {
-  shared_ptr<IASTNode> node = shared_ptr<IASTNode>(new ModASTNode());
-  shared_ptr<IASTNode> node2 = shared_ptr<IASTNode>(new ModASTNode());
+  shared_ptr<IASTNode> node = make_shared<ModASTNode>();
+  shared_ptr<IASTNode> node2 = make_shared<ModASTNode>();
   REQUIRE(node->isEquals(node2.get()));
 }
 
 TEST_CASE("Test IASTNode equals - Times node") {
-  shared_ptr<IASTNode> node = shared_ptr<IASTNode>(new TimesASTNode());
-  shared_ptr<IASTNode> node2 = shared_ptr<IASTNode>(new TimesASTNode());
+  shared_ptr<IASTNode> node = make_shared<TimesASTNode>();
+  shared_ptr<IASTNode> node2 = make_shared<TimesASTNode>();
   REQUIRE(node->isEquals(node2.get()));
 }
 
 TEST_CASE("Test IASTNode equals - Div node") {
-  shared_ptr<IASTNode> node = shared_ptr<IASTNode>(new DivASTNode());
-  shared_ptr<IASTNode> node2 = shared_ptr<IASTNode>(new DivASTNode());
+  shared_ptr<IASTNode> node = make_shared<DivASTNode>();
+  shared_ptr<IASTNode> node2 = make_shared<DivASTNode>();
   REQUIRE(node->isEquals(node2.get()));
 }
 
 TEST_CASE("Test IASTNode operand not equals") {
-  shared_ptr<IASTNode> node1 = shared_ptr<IASTNode>(new PlusASTNode());
-  shared_ptr<IASTNode> node2 = shared_ptr<IASTNode>(new MinusASTNode());
-  shared_ptr<IASTNode> node3 = shared_ptr<IASTNode>(new TimesASTNode());
-  shared_ptr<IASTNode> node4 = shared_ptr<IASTNode>(new DivASTNode());
-  shared_ptr<IASTNode> node5 = shared_ptr<IASTNode>(new ModASTNode());
-  REQUIRE(node1->isEquals(node2.get()));
-  REQUIRE(node2->isEquals(node3.get()));
-  REQUIRE(node3->isEquals(node4.get()));
-  REQUIRE(node4->isEquals(node5.get()));
-  REQUIRE(node5->isEquals(node1.get()));
+  shared_ptr<IASTNode> node1 = make_shared<PlusASTNode>();
+  shared_ptr<IASTNode> node2 = make_shared<MinusASTNode>();
+  shared_ptr<IASTNode> node3 = make_shared<TimesASTNode>();
+  shared_ptr<IASTNode> node4 = make_shared<DivASTNode>();
+  shared_ptr<IASTNode> node5 = make_shared<ModASTNode>();
+  REQUIRE(!node1->isEquals(node2.get()));
+  REQUIRE(!node2->isEquals(node3.get()));
+  REQUIRE(!node3->isEquals(node4.get()));
+  REQUIRE(!node4->isEquals(node5.get()));
+  REQUIRE(!node5->isEquals(node1.get()));
 }
 
 TEST_CASE("Test IASTNode equals - And node") {
-  shared_ptr<IASTNode> node = shared_ptr<IASTNode>(new AndASTNode());
-  shared_ptr<IASTNode> node2 = shared_ptr<IASTNode>(new AndASTNode());
+  shared_ptr<IASTNode> node = make_shared<AndASTNode>();
+  shared_ptr<IASTNode> node2 = make_shared<AndASTNode>();
   REQUIRE(node->isEquals(node2.get()));
 }
 
 TEST_CASE("Test IASTNode equals - Equals node") {
-  shared_ptr<IASTNode> node = shared_ptr<IASTNode>(new EqualsASTNode());
-  shared_ptr<IASTNode> node2 = shared_ptr<IASTNode>(new EqualsASTNode());
+  shared_ptr<IASTNode> node = make_shared<EqualsASTNode>();
+  shared_ptr<IASTNode> node2 = make_shared<EqualsASTNode>();
   REQUIRE(node->isEquals(node2.get()));
 }
 
 TEST_CASE("Test IASTNode equals - Gt node") {
-  shared_ptr<IASTNode> node = shared_ptr<IASTNode>(new GtASTNode());
-  shared_ptr<IASTNode> node2 = shared_ptr<IASTNode>(new GtASTNode());
+  shared_ptr<IASTNode> node = make_shared<GtASTNode>();
+  shared_ptr<IASTNode> node2 = make_shared<GtASTNode>();
   REQUIRE(node->isEquals(node2.get()));
 }
 
 TEST_CASE("Test IASTNode equals - Gte node") {
-  shared_ptr<IASTNode> node = shared_ptr<IASTNode>(new GteASTNode());
-  shared_ptr<IASTNode> node2 = shared_ptr<IASTNode>(new GteASTNode());
+  shared_ptr<IASTNode> node = make_shared<GteASTNode>();
+  shared_ptr<IASTNode> node2 = make_shared<GteASTNode>();
   REQUIRE(node->isEquals(node2.get()));
 }
 
 TEST_CASE("Test IASTNode equals - Lt node") {
-  shared_ptr<IASTNode> node = shared_ptr<IASTNode>(new LtASTNode());
-  shared_ptr<IASTNode> node2 = shared_ptr<IASTNode>(new LtASTNode());
+  shared_ptr<IASTNode> node = make_shared<LtASTNode>();
+  shared_ptr<IASTNode> node2 = make_shared<LtASTNode>();
   REQUIRE(node->isEquals(node2.get()));
 }
 
 TEST_CASE("Test IASTNode equals - Lte node") {
-  shared_ptr<IASTNode> node = shared_ptr<IASTNode>(new LteASTNode());
-  shared_ptr<IASTNode> node2 = shared_ptr<IASTNode>(new LteASTNode());
+  shared_ptr<IASTNode> node = make_shared<LteASTNode>();
+  shared_ptr<IASTNode> node2 = make_shared<LteASTNode>();
   REQUIRE(node->isEquals(node2.get()));
 }
 
 TEST_CASE("Test IASTNode equals - Not node") {
-  shared_ptr<IASTNode> node = shared_ptr<IASTNode>(new NotASTNode());
-  shared_ptr<IASTNode> node2 = shared_ptr<IASTNode>(new NotASTNode());
+  shared_ptr<IASTNode> node = make_shared<NotASTNode>();
+  shared_ptr<IASTNode> node2 = make_shared<NotASTNode>();
   REQUIRE(node->isEquals(node2.get()));
 }
 
 TEST_CASE("Test IASTNode equals - Not Equals node") {
-  shared_ptr<IASTNode> node = shared_ptr<IASTNode>(new NotEqualsASTNode());
-  shared_ptr<IASTNode> node2 = shared_ptr<IASTNode>(new NotEqualsASTNode());
+  shared_ptr<IASTNode> node = make_shared<NotEqualsASTNode>();
+  shared_ptr<IASTNode> node2 = make_shared<NotEqualsASTNode>();
   REQUIRE(node->isEquals(node2.get()));
 }
 
 TEST_CASE("Test IASTNode equals - Or node") {
-  shared_ptr<IASTNode> node = shared_ptr<IASTNode>(new OrASTNode());
-  shared_ptr<IASTNode> node2 = shared_ptr<IASTNode>(new OrASTNode());
+  shared_ptr<IASTNode> node = make_shared<OrASTNode>();
+  shared_ptr<IASTNode> node2 = make_shared<OrASTNode>();
   REQUIRE(node->isEquals(node2.get()));
 }

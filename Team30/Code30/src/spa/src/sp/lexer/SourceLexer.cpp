@@ -1,88 +1,39 @@
-#include <vector>
 #include <stdexcept>
 #include "SourceLexer.h"
 
 #include "../errors/SPError.h"
 
-using std::out_of_range;
+using std::out_of_range, std::make_unique;
 
 const int SOURCE_LEXER_BUFFER_SIZE = 1024;
 
 SourceLexer::SourceLexer() = default;
 
-vector<SourceToken> SourceLexer::tokenize(string* programLines) {
-  vector<SourceToken> resultVector = vector<SourceToken>();
+SourceTokenStreamPtr SourceLexer::tokenize(string* programLines) {
+  SourceTokenStreamPtr resultVector = make_unique<SourceTokenStream>();
 
   bool hasSeenChar = false;
   string buffer;
   buffer.reserve(SOURCE_LEXER_BUFFER_SIZE);
 
-  for (size_t pos = 0; pos < programLines->length(); pos++) {
+  for (int pos = 0; pos < programLines->length(); pos++) {
     SourceTokenType deferredPush = SIMPLE_TOKEN_NULL;
-
     char c = programLines->at(pos);
     SourceTokenType tokenType = tokenTable.tokens[c];
 
     switch (tokenType) {
       case SIMPLE_TOKEN_INVALID:
-        throw SPError("Invalid Source Character Detected");
+        throw SPError(SPERR_INVALID_SOURCE_CHAR);
       case SIMPLE_TOKEN_IGNORE:
         continue;
 
-      case SIMPLE_TOKEN_NOT_PARTIAL:
-        // != or !
-        if (isNextOfType(programLines, pos, SIMPLE_TOKEN_EQUAL_PARTIAL)) {
-          deferredPush = SIMPLE_TOKEN_NOT_EQUALS;
-          pos++;
-        } else {
-          deferredPush = SIMPLE_TOKEN_NOT;
-        }
-        break;
-
       case SIMPLE_TOKEN_OR_PARTIAL:
-        // || only
-        if (!isNextOfType(programLines, pos, SIMPLE_TOKEN_OR_PARTIAL)) {
-          throw SPError("Unknown token |");
-        }
-        deferredPush = SIMPLE_TOKEN_OR;
-        pos++;
-        break;
-
       case SIMPLE_TOKEN_AND_PARTIAL:
-        // && only
-        if (!isNextOfType(programLines, pos, SIMPLE_TOKEN_AND_PARTIAL)) {
-          throw SPError("Unknown token &");
-        }
-        deferredPush = SIMPLE_TOKEN_AND;
-        pos++;
-        break;
-
+      case SIMPLE_TOKEN_NOT_PARTIAL:
       case SIMPLE_TOKEN_EQUAL_PARTIAL:
-        // =, or ==
-        if (isNextOfType(programLines, pos, SIMPLE_TOKEN_EQUAL_PARTIAL)) {
-          deferredPush = SIMPLE_TOKEN_EQUALS;
-          pos++;
-        } else {
-          deferredPush = SIMPLE_TOKEN_ASSIGN;
-        }
-        break;
-
       case SIMPLE_TOKEN_LT_PARTIAL:
-        if (isNextOfType(programLines, pos, SIMPLE_TOKEN_EQUAL_PARTIAL)) {
-          deferredPush = SIMPLE_TOKEN_LTE;
-          pos++;
-        } else {
-          deferredPush = SIMPLE_TOKEN_LT;
-        }
-        break;
-
       case SIMPLE_TOKEN_GT_PARTIAL:
-        if (isNextOfType(programLines, pos, SIMPLE_TOKEN_EQUAL_PARTIAL)) {
-          deferredPush = SIMPLE_TOKEN_GTE;
-          pos++;
-        } else {
-          deferredPush = SIMPLE_TOKEN_GT;
-        }
+        deferredPush = parsePartialSymbol(tokenType, programLines, &pos);
         break;
 
       case SIMPLE_TOKEN_CHARACTER:
@@ -96,27 +47,87 @@ vector<SourceToken> SourceLexer::tokenize(string* programLines) {
         break;
     }
 
-    if (buffer.length() > 0) {
-      resultVector.push_back(resolveStringToken(buffer, hasSeenChar));
-    }
-
+    flushBuffer(resultVector.get(), buffer, hasSeenChar);
     if (deferredPush != SIMPLE_TOKEN_NULL) {
-      resultVector.push_back(SourceToken(deferredPush, ""));
-    }
-
-    if (!SourceToken::isCategory(tokenType, SIMPLE_TOKEN_CATEGORY_PROCESSING)) {
-      resultVector.push_back(SourceToken(tokenType, ""));
+      resultVector->push_back(SourceToken(deferredPush, ""));
+    } else if (!SourceToken::isCategory(tokenType,
+                                        SIMPLE_TOKEN_CATEGORY_PROCESSING)) {
+      resultVector->push_back(SourceToken(tokenType, ""));
     }
 
     buffer.clear();
     hasSeenChar = false;
   }
 
-  if (buffer.length() > 0) {
-    resultVector.push_back(resolveStringToken(buffer, hasSeenChar));
-  }
-
+  flushBuffer(resultVector.get(), buffer, hasSeenChar);
   return resultVector;
+}
+
+void SourceLexer::flushBuffer(SourceTokenStream *result, string buffer,
+                              const bool &hasSeenChar) {
+  if (buffer.length() > 0) {
+    result->push_back(resolveStringToken(buffer, hasSeenChar));
+  }
+}
+
+SourceTokenType SourceLexer::parsePartialSymbol(
+    const SourceTokenType &tokenType,
+    string* buffer,
+    int *posPtr) {
+  switch (tokenType) {
+    case SIMPLE_TOKEN_OR_PARTIAL:
+      // || only
+      return twoSymbolAssert<SIMPLE_TOKEN_OR>(
+          buffer, posPtr, SIMPLE_TOKEN_OR_PARTIAL);
+
+    case SIMPLE_TOKEN_AND_PARTIAL:
+      // && only
+      return twoSymbolAssert<SIMPLE_TOKEN_AND>(
+          buffer, posPtr, SIMPLE_TOKEN_AND_PARTIAL);
+
+    case SIMPLE_TOKEN_NOT_PARTIAL:
+      // != or !
+      return tryGreedySymbolRead<SIMPLE_TOKEN_NOT_EQUALS, SIMPLE_TOKEN_NOT>(
+          buffer, posPtr, SIMPLE_TOKEN_EQUAL_PARTIAL);
+
+    case SIMPLE_TOKEN_EQUAL_PARTIAL:
+      // == or =
+      return tryGreedySymbolRead<SIMPLE_TOKEN_EQUALS, SIMPLE_TOKEN_ASSIGN>(
+          buffer, posPtr, SIMPLE_TOKEN_EQUAL_PARTIAL);
+
+    case SIMPLE_TOKEN_LT_PARTIAL:
+      // <= or <
+      return tryGreedySymbolRead<SIMPLE_TOKEN_LTE, SIMPLE_TOKEN_LT>(
+          buffer, posPtr, SIMPLE_TOKEN_EQUAL_PARTIAL);
+
+    case SIMPLE_TOKEN_GT_PARTIAL:
+      // >= or >
+      return tryGreedySymbolRead<SIMPLE_TOKEN_GTE, SIMPLE_TOKEN_GT>(
+          buffer, posPtr, SIMPLE_TOKEN_EQUAL_PARTIAL);
+    default:
+      return SIMPLE_TOKEN_NULL;
+  }
+}
+
+template<SourceTokenType twoCharType, SourceTokenType singleCharType>
+SourceTokenType SourceLexer::tryGreedySymbolRead(string *buffer,
+    int* posPtr, SourceTokenType expectedType) {
+  if (isNextOfType(buffer, *posPtr, expectedType)) {
+    (*posPtr)++;
+    return twoCharType;
+  } else {
+    return singleCharType;
+  }
+}
+
+template<SourceTokenType twoCharType>
+SourceTokenType SourceLexer::twoSymbolAssert(string *buffer,
+    int *posPtr, SourceTokenType expectedType) {
+  if (!isNextOfType(buffer, *posPtr, expectedType)) {
+    throw SPError(SPERR_UNKNOWN_TOKEN);
+  }
+  (*posPtr)++;
+  return twoCharType;
 }
 
 bool SourceLexer::isNextOfType(string* buffer, int curPos,
@@ -132,7 +143,8 @@ int SourceLexer::peekNextChar(string* buffer, int curPos) {
   return -1;
 }
 
-SourceToken SourceLexer::resolveStringToken(string buffer, bool hasSeenChar) {
+SourceToken SourceLexer::resolveStringToken(string buffer,
+                                            const bool &hasSeenChar) {
   try {
     SourceTokenType token = tokenTable.keywordMap.at(buffer);
     return SourceToken(token, buffer);
@@ -147,14 +159,14 @@ SourceToken SourceLexer::resolveStringToken(string buffer, bool hasSeenChar) {
 
 SourceToken SourceLexer::validateIntegerToken(string* buffer) {
   if (buffer->length() > 1 && tokenTable.isZero(buffer->at(0))) {
-    throw SPError("Integer token starts with zero");
+    throw SPError(SPERR_INTEGER_STARTS_WITH_ZERO);
   }
   return SourceToken(SIMPLE_TOKEN_INTEGER, *buffer);
 }
 
 SourceToken SourceLexer::validateIdentifier(string *buffer) {
   if (tokenTable.isDigit(buffer->at(0))) {
-    throw SPError("String token starts with digit");
+    throw SPError(SPERR_TOKEN_STARTS_WITH_DIGIT);
   }
 
   return SourceToken(SIMPLE_TOKEN_VARIABLE, *buffer);

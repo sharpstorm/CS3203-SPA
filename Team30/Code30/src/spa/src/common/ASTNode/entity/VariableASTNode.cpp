@@ -3,17 +3,10 @@
 
 VariableASTNode::VariableASTNode(string v): ASTNode(ASTNODE_VARIABLE, v) {}
 
-void VariableASTNode::accept(shared_ptr<Extractor> e) {
-  e->visit(*this);
-}
-
-void VariableASTNode::leave(shared_ptr<Extractor> e) {
+void VariableASTNode::accept(Extractor* e) {
+  e->visit(this);
 }
 
 string VariableASTNode::toString() {
-  return value;
-}
-
-string VariableASTNode::getValue() {
   return value;
 }

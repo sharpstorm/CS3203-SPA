@@ -10,18 +10,18 @@
 #include "common/ASTNode/math/math_operand/MinusASTNode.h"
 #include "common/ASTNode/math/math_operand/TimesASTNode.h"
 
-using std::vector, std::string, std::pair;
+using std::vector, std::string, std::pair, std::make_unique;
 
 vector<pair<int, shared_ptr<IASTNode>>> executePatternExtractor(string input) {
   TreeWalker treeWalker;
   PKB pkb;
   StubPkb stubby(&pkb);
   SourceParser parser;
-  vector<shared_ptr<Extractor>> extractors;
-  extractors.push_back(shared_ptr<AbstractExtractor>
-                           (new PatternExtractor(&stubby)));
+  vector<Extractor*> extractors;
+  auto patternExtractor = make_unique<PatternExtractor>(&stubby);
+  extractors.push_back(patternExtractor.get());
   AST ast = parser.parseSource(input);
-  treeWalker.walkAST(ast, extractors);
+  treeWalker.walkAST(ast, &extractors);
   return stubby.patternStore;
 }
 
