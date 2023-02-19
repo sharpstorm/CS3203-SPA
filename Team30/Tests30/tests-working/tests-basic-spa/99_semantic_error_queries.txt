@@ -1,0 +1,15 @@
+1 - simple parent
+while w;
+Select w such that Parent(w, 2)
+1
+5000
+2 - simple parent
+if ifs;
+Select ifs such that Parent(ifs, 3)
+2
+5000
+3 - nested parent
+stmt s;
+Select s such that Parent*(s, 5)
+1, 2, 4
+5000

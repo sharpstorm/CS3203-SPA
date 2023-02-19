@@ -1,0 +1,74 @@
+{
+  "timeout": 5000,
+  "cases": [
+
+    { "comment": "------------ Left Arg Ambiguous -----------" },
+
+    {
+      "name": "Modifies Wildcard Left",
+      "defn": "stmt s;",
+      "query": "Select s such that Modifies(_, \"x\")",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Uses Wildcard Left",
+      "defn": "stmt s;",
+      "query": "Select s such that Uses(_, \"x\")",
+      "ans": "SemanticError"
+    },
+
+    { "comment": "---------- Undeclared Synonym ------------" },
+
+    {
+      "name": "Undeclared in select",
+      "defn": "stmt s1, s2; assign a1, a2;",
+      "query": "Select s3",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Undeclared in such that clause",
+      "defn": "stmt s1, s2; assign a1, a2;",
+      "query": "Select s1 such that Follows(s2, s3)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Undeclared in pattern",
+      "defn": "stmt s1, s2; assign a1, a2; variable v1;",
+      "query": "Select s1 pattern a1(v2, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Undeclared in 2-clause such that",
+      "defn": "stmt s1, s2; assign a1, a2; variable v1;",
+      "query": "Select s1 such that Follows(s1, s3) pattern a1(v1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Undeclared in 2-clause pattern",
+      "defn": "stmt s1, s2; assign a1, a2; variable v1;",
+      "query": "Select s1 such that Follows(s1, s2) pattern a1(v2, _)",
+      "ans": "SemanticError"
+    },
+
+    { "comment": "---------- Syntax Overrides Semantic ------------" },
+
+    {
+      "name": "Syntax error after undeclared arg",
+      "defn": "stmt s1, s2; assign a1, a2;",
+      "query": "Select s3 suc that Follows(s1, s2)",
+      "ans": "SyntaxError"
+    },
+    {
+      "name": "Syntax error before undeclared arg",
+      "defn": "stmt s1, s2; assign a1, a2;",
+      "query": "Selet s3",
+      "ans": "SyntaxError"
+    },
+    {
+      "name": "Syntax error at end of line",
+      "defn": "stmt s1, s2; assign a1, a2;",
+      "query": "Select s2 such that Uses(_, 2",
+      "ans": "SyntaxError"
+    }
+  ]
+}

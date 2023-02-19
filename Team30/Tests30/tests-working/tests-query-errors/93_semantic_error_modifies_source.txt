@@ -1,0 +1,13 @@
+procedure test {
+  a = 1;
+  print b;
+  read c;
+  if (x == 2) then {
+    a = 2;
+  } else {
+    c = 3;
+  }
+  while (x == 2) {
+    d = 4;
+  }
+}

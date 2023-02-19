@@ -1,0 +1,50 @@
+1 - Modifies Wildcard Left
+stmt s;
+Select s such that Modifies(_, "x")
+SemanticError
+5000
+2 - Uses Wildcard Left
+stmt s;
+Select s such that Uses(_, "x")
+SemanticError
+5000
+3 - Undeclared in select
+stmt s1, s2; assign a1, a2;
+Select s3
+SemanticError
+5000
+4 - Undeclared in such that clause
+stmt s1, s2; assign a1, a2;
+Select s1 such that Follows(s2, s3)
+SemanticError
+5000
+5 - Undeclared in pattern
+stmt s1, s2; assign a1, a2; variable v1;
+Select s1 pattern a1(v2, _)
+SemanticError
+5000
+6 - Undeclared in 2-clause such that
+stmt s1, s2; assign a1, a2; variable v1;
+Select s1 such that Follows(s1, s3) pattern a1(v1, _)
+SemanticError
+5000
+7 - Undeclared in 2-clause pattern
+stmt s1, s2; assign a1, a2; variable v1;
+Select s1 such that Follows(s1, s2) pattern a1(v2, _)
+SemanticError
+5000
+8 - Syntax error after undeclared arg
+stmt s1, s2; assign a1, a2;
+Select s3 suc that Follows(s1, s2)
+SyntaxError
+5000
+9 - Syntax error before undeclared arg
+stmt s1, s2; assign a1, a2;
+Selet s3
+SyntaxError
+5000
+10 - Syntax error at end of line
+stmt s1, s2; assign a1, a2;
+Select s2 such that Uses(_, 2
+SyntaxError
+5000
