@@ -1,0 +1,32 @@
+procedure WitchDoctor {
+    read x;
+    read y;
+    read z;
+    a = z * 5 / x + y;
+    i = 0;
+    while (i<100) {
+        a = 4 + z;
+        z = z / 3;
+        y = 5 * z + i + 1;
+        x = y * 7 + x;
+        if (x%7==3) then {
+            y = y - 4;
+            z = z % 5;
+        } else {
+            z = z % 10;
+        }
+        j = i;
+        while (j<10) {
+            z = 9 + j;
+            x = j * 2;
+            y = 4 + 3;
+            print x;
+            print y;
+            print z;
+            a = i + j;
+        }
+        i = i + 1;
+    }
+    print a;
+    print i;
+}
