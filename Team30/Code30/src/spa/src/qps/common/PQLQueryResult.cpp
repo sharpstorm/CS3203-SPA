@@ -1,18 +1,13 @@
 #include "PQLQueryResult.h"
 
-using std::move, std::make_unique;
+using std::make_unique;
 
 PQLQueryResult::PQLQueryResult():
     isStaticFalse(false),
-    isStaticResult(false),
-    error("") {}
+    isStaticResult(false) {}
 
 bool PQLQueryResult::isEmpty() {
   return combinedTable.size() == 0;
-}
-
-bool PQLQueryResult::isStatic() {
-  return isStaticResult;
 }
 
 void PQLQueryResult::setIsStaticFalse(bool staticRes) {
@@ -21,15 +16,8 @@ void PQLQueryResult::setIsStaticFalse(bool staticRes) {
 }
 
 bool PQLQueryResult::isFalse() {
-  return isStaticResult && isStaticFalse;
-}
-
-string PQLQueryResult::getError() {
-  return error;
-}
-
-void PQLQueryResult::setError(string errorMessage) {
-  error = errorMessage;
+  return (isStaticResult && isStaticFalse)
+      || (!isStaticResult && isEmpty());
 }
 
 unordered_map<PQLSynonymName, ResultTableCol> *PQLQueryResult::getSynonyms() {
@@ -64,7 +52,7 @@ void PQLQueryResult::putTableRow(vector<QueryResultItemPtr> row) {
     }
   }
 
-  combinedTable.push_back(move(row));
+  combinedTable.push_back(std::move(row));
 }
 
 int PQLQueryResult::getRowCount() {
@@ -99,28 +87,30 @@ bool PQLQueryResult::operator==(const PQLQueryResult &pqr) const {
         return false;
       }
 
-      bool isMatch = true;
-      for (auto it : pqr.resultIndex) {
-        int otherIndex = it.second;
-        int thisIndex = resultIndex.at(it.first);
-
-        if (*combinedTable[j][thisIndex].get() !=
-            *pqr.combinedTable[i][otherIndex].get()) {
-          isMatch = false;
-          break;
-        }
-      }
-
-      if (isMatch) {
+      if (matchRow(pqr, j, i)) {
         isFound = true;
         break;
       }
     }
-
     if (!isFound) {
       return false;
     }
   }
 
+  return true;
+}
+
+bool PQLQueryResult::matchRow(const PQLQueryResult &other,
+                              const int &myRowIndex,
+                              const int &otherRowIndex) const {
+  for (auto it : other.resultIndex) {
+    int otherIndex = it.second;
+    int thisIndex = resultIndex.at(it.first);
+
+    if (*combinedTable[myRowIndex][thisIndex].get() !=
+        *other.combinedTable[otherRowIndex][otherIndex].get()) {
+      return false;
+    }
+  }
   return true;
 }

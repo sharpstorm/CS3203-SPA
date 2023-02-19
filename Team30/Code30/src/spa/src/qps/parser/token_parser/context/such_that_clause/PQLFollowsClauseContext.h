@@ -1,8 +1,8 @@
 #pragma once
 
 #include "PQLTransitiveClauseContext.h"
-#include "../../../../clauses/FollowsClause.h"
-#include "../../../../clauses/FollowsTClause.h"
+#include "qps/clauses/such_that/FollowsClause.h"
+#include "qps/clauses/such_that/FollowsTClause.h"
 #include "../../ref_extractor/PQLStmtRefExtractor.h"
 
 class PQLFollowsClauseContext:

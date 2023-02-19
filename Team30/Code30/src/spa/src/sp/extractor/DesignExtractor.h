@@ -7,8 +7,9 @@
 #include "TreeWalker.h"
 #include "pkb/writers/PkbWriter.h"
 #include "common/AST.h"
+#include "sp/extractor/concrete_extractors/FollowsExtractor.h"
 
-using std::vector;
+using std::vector, std::unique_ptr;
 
 class DesignExtractor {
  public:
@@ -17,5 +18,6 @@ class DesignExtractor {
 
  private:
   TreeWalker treeWalker;
-  vector<shared_ptr<Extractor>> extractors;
+  vector<unique_ptr<Extractor>> ownedExtractors;
+  vector<Extractor*> extractorRefs;
 };

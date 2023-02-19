@@ -5,7 +5,7 @@
 #include "qps/clauses/arguments/ClauseArgument.h"
 #include "qps/clauses/arguments/StmtArgument.h"
 #include "qps/clauses/arguments/SynonymArgument.h"
-#include "qps/clauses/ParentTClause.h"
+#include "qps/clauses/such_that/ParentTClause.h"
 #include "ClausesPKBStub.cpp"
 #include "../util/QueryResultTestUtil.cpp"
 
@@ -34,8 +34,6 @@ const ExpectedParams PARENTT_PAIRS{
         QueryResultItem(9)
     }}
 };
-
-//TODO(KwanHW): Multiple nesting level tests
 
 TEST_CASE("ParentTClause Querying") {
   PKB pkbStore;

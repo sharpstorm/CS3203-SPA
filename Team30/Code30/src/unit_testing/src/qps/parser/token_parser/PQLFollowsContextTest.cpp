@@ -6,8 +6,8 @@
 #include "PQLContextTestUtils.cpp"
 #include "qps/parser/token_parser/context/such_that_clause/PQLFollowsClauseContext.h"
 #include "qps/errors/QPSParserSyntaxError.h"
-#include "qps/clauses/FollowsClause.h"
-#include "qps/clauses/FollowsTClause.h"
+#include "qps/clauses/such_that/FollowsClause.h"
+#include "qps/clauses/such_that/FollowsTClause.h"
 #include "qps/errors/QPSParserSemanticError.h"
 
 using std::make_unique, std::unordered_map;
@@ -153,6 +153,30 @@ TEST_CASE("Test PQL Follows Entity ref not allowed") {
                              ->closeBracket()
                              ->build()
       ), QPSParserSyntaxError
+  );
+}
+
+TEST_CASE("Test PQL Follows Zero Stmt not Allowed") {
+  REQUIRE_THROWS_AS(
+      testFollowsParsing(make_unique<PQLTestTokenSequenceBuilder>()
+                             ->openBracket()
+                             ->integer(0)
+                             ->comma()
+                             ->integer(2)
+                             ->closeBracket()
+                             ->build()
+      ), QPSParserSemanticError
+  );
+
+  REQUIRE_THROWS_AS(
+      testFollowsParsing(make_unique<PQLTestTokenSequenceBuilder>()
+                             ->openBracket()
+                             ->integer(2)
+                             ->comma()
+                             ->integer(0)
+                             ->closeBracket()
+                             ->build()
+      ), QPSParserSemanticError
   );
 }
 

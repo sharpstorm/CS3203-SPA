@@ -6,8 +6,8 @@
 #include "PQLContextTestUtils.cpp"
 #include "qps/parser/token_parser/context/such_that_clause/PQLParentClauseContext.h"
 #include "qps/errors/QPSParserSyntaxError.h"
-#include "qps/clauses/ParentClause.h"
-#include "qps/clauses/ParentTClause.h"
+#include "qps/clauses/such_that/ParentClause.h"
+#include "qps/clauses/such_that/ParentTClause.h"
 #include "qps/errors/QPSParserSemanticError.h"
 
 using std::make_unique, std::unordered_map;
@@ -145,6 +145,30 @@ TEST_CASE("Test PQL Parent Entity ref not allowed") {
               ->ident("w")
               ->closeBracket()
               ->build()), QPSParserSyntaxError
+  );
+}
+
+TEST_CASE("Test PQL Parent Zero Stmt not Allowed") {
+  REQUIRE_THROWS_AS(
+      testParentParsing(make_unique<PQLTestTokenSequenceBuilder>()
+                             ->openBracket()
+                             ->integer(0)
+                             ->comma()
+                             ->integer(2)
+                             ->closeBracket()
+                             ->build()
+      ), QPSParserSemanticError
+  );
+
+  REQUIRE_THROWS_AS(
+      testParentParsing(make_unique<PQLTestTokenSequenceBuilder>()
+                             ->openBracket()
+                             ->integer(2)
+                             ->comma()
+                             ->integer(0)
+                             ->closeBracket()
+                             ->build()
+      ), QPSParserSemanticError
   );
 }
 

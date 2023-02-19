@@ -9,6 +9,6 @@ using std::string, std::vector;
 AST SourceParser::parseSource(string input) {
   SourceLexer sourceLexer;
   SourceTokenParser sourceTokenParser;
-  vector<SourceToken> tokens = sourceLexer.tokenize(&input);
-  return sourceTokenParser.parse(&tokens);
+  SourceTokenStreamPtr tokens = sourceLexer.tokenize(&input);
+  return sourceTokenParser.parse(tokens.get());
 }

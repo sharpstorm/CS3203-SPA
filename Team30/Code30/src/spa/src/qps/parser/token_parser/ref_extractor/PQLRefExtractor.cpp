@@ -1,5 +1,4 @@
 #include "PQLRefExtractor.h"
-#include "qps/errors/QPSParserSemanticError.h"
 #include "qps/clauses/arguments/ClauseArgumentFactory.h"
 
 ClauseArgumentPtr PQLRefExtractor::extractCommonRef(

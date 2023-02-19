@@ -12,16 +12,19 @@
 using std::string, std::unordered_map, std::vector, std::shared_ptr;
 
 class PQLQuery {
-    VariableTable variables;
-    PQLQuerySynonym resultVariable;
-    vector<shared_ptr<Clause>> clauses;
+ private:
+  VariableTable variables;
+  PQLQuerySynonym resultVariable;
+  vector<ClauseSPtr> clauses;
+
  public:
-    PQLQuery(unordered_map<string, PQLQuerySynonym> vars,
-             PQLQuerySynonym resVar,
-             vector<shared_ptr<Clause>> c);
-    int getVariableCount();
-    PQLQuerySynonym getResultVariable();
-    PQLQuerySynonym* getVariable(PQLSynonymName name);
-    PQLSynonymName getResultName();
-    vector<shared_ptr<IEvaluatable>> getEvaluatables();
+  PQLQuery(unordered_map<string, PQLQuerySynonym> vars,
+           PQLQuerySynonym resVar,
+           vector<ClauseSPtr> c);
+  int getVariableCount();
+  PQLQuerySynonym getResultVariable();
+  PQLQuerySynonym* getVariable(PQLSynonymName name);
+  PQLSynonymName getResultName();
+  vector<IEvaluatableSPtr> getEvaluatables();
+  int getClauseCount();
 };

@@ -68,4 +68,4 @@ jobs:
   
       - name: Run Auto Autotester
         working-directory: ./Team30
-        run: python3 Tests30/auto-autotester.py ./Code30/build/src/autotester/autotester ./Tests30/target-queries
+        run: python3 Tests30/auto-autotester.py ./Code30/build/src/autotester/autotester ./Tests30/tests-working/

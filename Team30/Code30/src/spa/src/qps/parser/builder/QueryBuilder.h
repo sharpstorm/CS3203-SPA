@@ -18,8 +18,7 @@ class QueryBuilder {
   string errorMsg;
   unordered_map<string, PQLQuerySynonym> variables;
   PQLQuerySynonym resultVariable;
-  vector<shared_ptr<Clause>> clauses;
-  void setError(string msg);
+  vector<ClauseSPtr> clauses;
 
  public:
   QueryBuilder();
@@ -30,5 +29,7 @@ class QueryBuilder {
   PQLQuerySynonym* accessSynonym(PQLSynonymName name);
   void addSuchThat(unique_ptr<SuchThatClause> clause);
   void addPattern(unique_ptr<PatternClause> clause);
+
+  void setError(string msg);
   unique_ptr<PQLQuery> build();
 };

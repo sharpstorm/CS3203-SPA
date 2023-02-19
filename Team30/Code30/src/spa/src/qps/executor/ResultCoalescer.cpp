@@ -1,7 +1,7 @@
 #include "ResultCoalescer.h"
 #include <utility>
 
-using std::move, std::make_unique;
+using std::make_unique;
 
 PQLQueryResult *ResultCoalescer::merge(PQLQueryResult *setA,
                                        PQLQueryResult *setB) {
@@ -20,34 +20,13 @@ PQLQueryResult *ResultCoalescer::merge(PQLQueryResult *setA,
       result
   };
 
-  mergeStaticResult(&internalState);
-  mergeError(&internalState);
-
-  if (!result->isFalse()) {
+  if (!setA->isFalse() && !setB->isFalse()) {
     mergeResult(&internalState);
   }
 
-  delete(setA);
-  delete(setB);
+  delete setA;
+  delete setB;
   return result;
-}
-
-void ResultCoalescer::mergeStaticResult(InternalMergeState *state) {
-  bool mergedIsFalse = state->setA->isFalse() || state->setB->isFalse();
-  state->output->setIsStaticFalse(mergedIsFalse);
-}
-
-void ResultCoalescer::mergeError(InternalMergeState *state) {
-  string error = "";
-  if (!state->setA->getError().empty()) {
-    error += state->setA->getError() + " ";
-  }
-
-  if (!state->setB->getError().empty()) {
-    error += state->setB->getError() + " ";
-  }
-
-  state->output->setError(error);
 }
 
 void ResultCoalescer::mergeResult(InternalMergeState* mergeState) {
@@ -119,8 +98,8 @@ ResultCoalescer::IntersectResult ResultCoalescer::findIntersect(
     auto rightSearch = IntersectSetPtr<int>(mergeState->setB
         ->getRowsWithValue(rightCol, referenceValue));
     if (j == 0) {
-      leftSet = move(leftSearch);
-      rightSet = move(rightSearch);
+      leftSet = std::move(leftSearch);
+      rightSet = std::move(rightSearch);
       continue;
     }
 
@@ -128,7 +107,7 @@ ResultCoalescer::IntersectResult ResultCoalescer::findIntersect(
     rightSet = intersectSet(rightSet.get(), rightSearch.get());
   }
 
-  return {move(leftSet), move(rightSet)};
+  return {std::move(leftSet), std::move(rightSet)};
 }
 
 void ResultCoalescer::crossProduct(InternalMergeState* mergeState,
@@ -147,7 +126,7 @@ void ResultCoalescer::crossProduct(InternalMergeState* mergeState,
       auto rightRow = mergeState->setB->getTableRowAt(rightRowNumber);
       QueryResultTableRow mergedRow{};
       mergeRow(leftRow, rightRow, &mergedRow, intersectState);
-      mergeState->output->putTableRow(move(mergedRow));
+      mergeState->output->putTableRow(std::move(mergedRow));
     }
   }
 }

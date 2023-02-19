@@ -2,46 +2,46 @@
 #include <vector>
 #include "UsesExtractor.h"
 
-using std::string;
+using std::string, std::vector;
 
 UsesExtractor::UsesExtractor(PkbWriter* writer) : pkbWriter(writer) {
 }
 
-void UsesExtractor::visit(AssignNode node) {
-  shared_ptr<ASTNode> expr = node.getChildren()[1];
-  updateUses(expr, node.lineNumber);
+void UsesExtractor::visit(AssignNode* node) {
+  shared_ptr<ASTNode> expr = node->getChildren()[1];
+  updateUses(expr, node->getLineNumber());
 }
 
-void UsesExtractor::visit(PrintNode node) {
-  string nodeValue = node.getChildren()[0]->toString();
-  addUsesRelation(node.lineNumber, nodeValue);
+void UsesExtractor::visit(PrintNode* node) {
+  string nodeValue = node->getChildren()[0]->toString();
+  addUsesRelation(node->getLineNumber(), nodeValue);
   for (int i : statementStartStack) {
     addUsesRelation(i, nodeValue);
   }
 }
 
-void UsesExtractor::visit(WhileNode node) {
-  shared_ptr<ASTNode> condExpr = node.getChildren()[0];
-  updateUses(condExpr, node.lineNumber);
-  statementStartStack.push_back(node.lineNumber);
+void UsesExtractor::visit(WhileNode* node) {
+  shared_ptr<ASTNode> condExpr = node->getChildren()[0];
+  updateUses(condExpr, node->getLineNumber());
+  statementStartStack.push_back(node->getLineNumber());
 }
 
-void UsesExtractor::visit(IfNode node) {
-  shared_ptr<ASTNode> condExpr = node.getChildren()[0];
-  updateUses(condExpr, node.lineNumber);
-  statementStartStack.push_back(node.lineNumber);
+void UsesExtractor::visit(IfNode* node) {
+  shared_ptr<ASTNode> condExpr = node->getChildren()[0];
+  updateUses(condExpr, node->getLineNumber());
+  statementStartStack.push_back(node->getLineNumber());
 }
 
-void UsesExtractor::leave(IfNode node) {
+void UsesExtractor::leave(IfNode* node) {
   statementStartStack.pop_back();
 }
 
-void UsesExtractor::leave(WhileNode node) {
+void UsesExtractor::leave(WhileNode* node) {
   statementStartStack.pop_back();
 }
 
 void UsesExtractor::updateUses(shared_ptr<ASTNode> expr, int lineNumber) {
-  vector<string> v;
+  unordered_set<string> v;
   recurseExpr(&v, expr);
   processNode(lineNumber, &v);
   for (int i : statementStartStack) {
@@ -50,35 +50,36 @@ void UsesExtractor::updateUses(shared_ptr<ASTNode> expr, int lineNumber) {
 }
 
 void UsesExtractor::processNode(int lineNumber,
-                                vector<string>* v) {
+                                unordered_set<string>* v) {
   for (string s : *v) {
     addUsesRelation(lineNumber, s);
   }
 }
 
-void UsesExtractor::recurseExpr(vector<string>* v,
+void UsesExtractor::recurseExpr(unordered_set<string>* v,
                                 shared_ptr<ASTNode> node) {
-  if (std::dynamic_pointer_cast<ConstantASTNode>(node) != nullptr) {
+  if (node->getType() == ASTNodeType::ASTNODE_CONSTANT) {
     return;
   }
-  if (std::dynamic_pointer_cast<VariableASTNode>(node) != nullptr) {
+
+  if (node->getType() == ASTNodeType::ASTNODE_VARIABLE) {
     string value = node->toString();
-    if (!arrayContains(v, value)) {
-      v->push_back(value);
+    if (!setContains(v, value)) {
+      v->insert(value);
     }
     return;
-  } else {
-    if (node->getChildren()[0] != nullptr) {
-      recurseExpr(v, node->getChildren()[0]);
-    }
-    if (node->getChildren()[1] != nullptr) {
-      recurseExpr(v, node->getChildren()[1]);
-    }
+  }
+
+  if (node->getChildren()[0] != nullptr) {
+    recurseExpr(v, node->getChildren()[0]);
+  }
+  if (node->getChildren()[1] != nullptr) {
+    recurseExpr(v, node->getChildren()[1]);
   }
 }
 
-bool UsesExtractor::arrayContains(vector<string>* v, string x) {
-  return std::find(v->begin(), v->end(), x) != v->end();
+bool UsesExtractor::setContains(unordered_set<string>* v, const string &x) {
+  return v->find(x) != v->end();
 }
 
 void UsesExtractor::addUsesRelation(int x, string var) {

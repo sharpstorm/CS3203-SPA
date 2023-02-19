@@ -5,7 +5,7 @@
 #include "qps/clauses/arguments/ClauseArgument.h"
 #include "qps/clauses/arguments/StmtArgument.h"
 #include "qps/clauses/arguments/SynonymArgument.h"
-#include "qps/clauses/ParentClause.h"
+#include "qps/clauses/such_that/ParentClause.h"
 #include "ClausesPKBStub.cpp"
 #include "../util/QueryResultTestUtil.cpp"
 

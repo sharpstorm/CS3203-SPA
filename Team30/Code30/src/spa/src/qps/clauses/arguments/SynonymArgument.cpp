@@ -7,10 +7,6 @@ bool SynonymArgument::synonymSatisfies(SynonymPredicate predicate) {
   return predicate(synonym);
 }
 
-bool SynonymArgument::isSynonymCalled(PQLSynonymName name) {
-  return synonym.getName() == name;
-}
-
 bool SynonymArgument::isNamed() {
   return true;
 }

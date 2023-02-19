@@ -5,12 +5,12 @@ SourceToken *SourceParseContext::expectVarchar(
   SourceToken* currentToken = parserState->getCurrToken();
 
   if (currentToken == nullptr) {
-    throw SPError("End of token stream");
+    throw SPError(SPERR_END_OF_STREAM);
   }
 
   if (currentToken->isVarchar()) {
     parserState->advanceToken();
     return currentToken;
   }
-  throw SPError("Unexpected Token");
+  throw SPError(SPERR_UNEXPECTED_TOKEN);
 }

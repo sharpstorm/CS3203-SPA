@@ -1,0 +1,100 @@
+1 - Select syn a , LHS: wildcard , RHS: Partial Constant, True
+assign a;
+Select a pattern a(_, _"1"_)
+1,5,10,12
+5000
+2 - Select syn a, LHS: wildcard, RHS: Partial Constant, False, No Partial Match result
+assign a;
+Select a pattern a (_, _"777"_)
+
+5000
+3 - Select syn a , LHS: wildcard , RHS: Partial Variable, True
+assign a;
+Select a pattern a(_, _"x"_)
+5,10,12
+5000
+4 - Select syn a, LHS: wildcard, RHS: Partial Variable, False, No Partial Match result
+assign a;
+Select a pattern a (_, _"nothing"_)
+
+5000
+5 - Select syn a , LHS: wildcard , RHS: wildcard, True
+assign a;
+Select a pattern a(_, _)
+1,5,10,12,13,17,19
+5000
+6 - Select syn a , LHS: syn v , RHS: Partial Constant, True
+assign a; variable v;
+Select a pattern a(v, _"1"_)
+1,5,10,12
+5000
+7 - Select syn a , LHS: syn v , RHS: Partial Variable, True
+assign a; variable v;
+Select a pattern a(v, _"x"_)
+5,10,12
+5000
+8 - Select syn a , LHS: syn v , RHS: wildcard, True
+assign a; variable v;
+Select a pattern a(v, _)
+1,5,10,12,13,17,19
+5000
+9 - Select syn a , LHS: IDENT , RHS: Partial Constant, True
+assign a;
+Select a pattern a("x", _"1"_)
+1,5
+5000
+10 - Select syn a , LHS: IDENT , RHS: Partial Variable, True
+assign a;
+Select a pattern a("x", _"x"_)
+5
+5000
+11 - Select syn a , LHS: IDENT , RHS: wildcard, True
+assign a;
+Select a pattern a("x", _)
+1,5,19
+5000
+12 - Select syn v, LHS: wildcard, True
+assign a; variable v;
+Select v pattern a(_, _"1"_)
+x,a,y,yy,z,w,zz,ww
+5000
+13 - Select syn v, LHS: syn v, RHS: Partial Constant, True
+assign a; variable v;
+Select v pattern a(v, _"1"_)
+x,y,z
+5000
+14 - Select syn v, LHS: syn v, RHS: Partial Variable, True
+assign a; variable v;
+Select v pattern a(v, _"y"_)
+y,z
+5000
+15 - Select syn v, LHS: syn v, RHS: wildcard, True
+assign a; variable v;
+Select v pattern a(v, _)
+x,y,z,yy
+5000
+16 - Select syn a, LHS: wildcard, RHS: *, SyntaxError, No Quotations on RHS
+assign a;
+Select a pattern a (_, x)
+SyntaxError
+5000
+17 - Select syn a, LHS: wildcard, RHS: *, SyntaxError, Missed wildcard on RHS
+assign a;
+Select a pattern a(_,"x"_)
+SyntaxError
+5000
+18 - Select syn a, LHS: wildcard, RHS: *, SyntaxError, Extra wildcard on RHS
+assign a;
+Select a pattern a(_,__"x"_)
+SyntaxError
+5000
+19 - Select syn a, LHS: wildcard, RHS: *, SyntaxError, Extra comma
+assign a;
+Select a pattern a(_,,_)
+SyntaxError
+5000
+20 - Select syn a, LHS: syn s, RHS: *, SemanticError, LHS syn s is not allowed
+assign a; stmt s;
+Select a pattern a(s, _)
+SemanticError
+5000
