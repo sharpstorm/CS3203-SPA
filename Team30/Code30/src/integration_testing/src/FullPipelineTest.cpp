@@ -99,6 +99,10 @@ TEST_CASE("Test Full End-to-end") {
   expectedRes = unordered_set<string>({"5", "9", "11"});
   launchQuery2(qps.get(), query, expectedRes);
 
+  query = "while w; assign a; variable v; Select w such that Uses(a, v) pattern a(v,\"a\")";
+  expectedRes = unordered_set<string>({});
+  launchQuery2(qps.get(), query, expectedRes);
+
   query = "assign a; Select a such that Uses(a, \"x\")";
   expectedRes = unordered_set<string>({"5", "7", "8", "9", "12"});
   launchQuery2(qps.get(), query, expectedRes);
