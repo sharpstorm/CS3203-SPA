@@ -1,0 +1,357 @@
+procedure SuperStressTestHereWeGo {
+  read read;
+  read print;
+  read while;
+  read if;
+  read assign;
+  read procedure;
+  read call;
+
+  print read;
+  print print;
+  print while;
+  print if;
+  print assign;
+  print procedure;
+  print call;
+
+  call = call + procedure + assign - if + 20000 - read + call - read - if * print / while * 1000 + while + call + procedure + assign + if - while / 299385 - asdfasdf123123;
+  if ((x == 1) || (x == 2)) then {
+    call = call + procedure + assign - if + 20000 - read + call - read - if * print / while * 1000 + while + call + procedure + assign + if - while / 299385 - asdfasdf123123;
+    print = print + procedure + assign - if + 20000 - read + print - read - if * print / procedure * 1000 + procedure + print + procedure + assign + if - procedure / 299385 - asdfasdf123123;
+    call = call + procedure + assign - if + 20000 - read + call - read - if * print / while * 1000 + while + call + procedure + assign + if - while / 299385 - asdfasdf123123;
+    call = call + procedure + assign - if + 20000 - read + call - read - if * print / while * 1000 + while + call + procedure + assign + if - while / 299385 - asdfasdf123123;
+    print = print + procedure + assign - if + 20000 - read + print - read - if * print / procedure * 1000 + procedure + print + procedure + assign + if - procedure / 299385 - asdfasdf123123;
+    call = call + procedure + assign - if + 20000 - read + call - read - if * print / while * 1000 + while + call + procedure + assign + if - while / 299385 - asdfasdf123123;
+    print = print + procedure + assign - if + 20000 - read + print - read - if * print / procedure * 1000 + procedure + print + procedure + assign + if - procedure / 299385 - asdfasdf123123;
+    call = call + procedure + assign - if + 20000 - read + call - read - if * print / while * 1000 + while + call + procedure + assign + if - while / 299385 - asdfasdf123123;
+    call = call + procedure + assign - if + 20000 - read + call - read - if * print / while * 1000 + while + call + procedure + assign + if - while / 299385 - asdfasdf123123;
+    print = print + procedure + assign - if + 20000 - read + print - read - if * print / procedure * 1000 + procedure + print + procedure + assign + if - procedure / 299385 - asdfasdf123123;
+    call = call + procedure + assign - if + 20000 - read + call - read - if * print / while * 1000 + while + call + procedure + assign + if - while / 299385 - asdfasdf123123;
+    call = call + procedure + assign - if + 20000 - read + call - read - if * print / while * 1000 + while + call + procedure + assign + if - while / 299385 - asdfasdf123123;
+    call = call + procedure + assign - if + 20000 - read + call - read - if * print / while * 1000 + while + call + procedure + assign + if - while / 299385 - asdfasdf123123;
+    print = print + procedure + assign - if + 20000 - read + print - read - if * print / procedure * 1000 + procedure + print + procedure + assign + if - procedure / 299385 - asdfasdf123123;
+    call = call + procedure + assign - if + 20000 - read + call - read - if * print / while * 1000 + while + call + procedure + assign + if - while / 299385 - asdfasdf123123;
+    call = call + procedure + assign - if + 20000 - read + call - read - if * print / while * 1000 + while + call + procedure + assign + if - while / 299385 - asdfasdf123123 +
+    call + procedure + assign - if + 20000 - read + call - read - if * print / while * 1000 + while + call + procedure + assign + if - while / 299385 - asdfasdf123123 +
+    call + procedure + assign - if + 20000 - read + call - read - if * print / while * 1000 + while + call + procedure + assign + if - while / 299385 - asdfasdf123123 +
+    call + procedure + assign - if + 20000 - read + call - read - if * print / while * 1000 + while + call + procedure + assign + if - while / 299385 - asdfasdf123123
+    + call + procedure + assign - if + 20000 - read + call - read - if * print / while * 1000 + while + call + procedure + assign + if - while / 299385 - asdfasdf123123
+    * call + procedure + assign - if + 20000 - read + call - read - if * print / while * 1000 + while + call + procedure + assign + if - while / 299385 - asdfasdf123123;
+    call = call + procedure + assign - if + 20000 - read + call - read - if * print / while * 1000 + while + call + procedure + assign + if - while / 299385 - asdfasdf123123 + call + procedure + assign - if + 20000 - read + call - read - if * print / while * 1000 + while + call + procedure + assign + if - while / 299385 - asdfasdf123123 + call + procedure + assign - if + 20000 - read + call - read - if * print / while * 1000 + while + call + procedure + assign + if - while / 299385 - asdfasdf123123 * call + procedure + assign - if + 20000 - read + call - read - if * print / while * 1000 + while + call + procedure + assign + if - while / 299385 - asdfasdf123123 * call + procedure + assign - if + 20000 - read + call - read - if * print / while * 1000 + while + call + procedure + assign + if - while / 299385 - asdfasdf123123 + call + procedure + assign - if + 20000 - read + call - read - if * print / while * 1000 + while + call + procedure + assign + if - while / 299385 - asdfasdf123123 * call + procedure + assign - if + 20000 - read + call - read - if * print / while * 1000 + while + call + procedure + assign + if - while / 299385 - asdfasdf123123;
+
+    while (x == 1) {
+      while (x == 2) {
+        while (x == 3) {
+          while (x == 4) {
+            while (x == 5) {
+              while (x == 6) {
+                while (x == 7) {
+                  while (x == 8) {
+                    while (x == 9) {
+                      while (x == 1) {
+                        while (x == 2) {
+                          while (x == 3) {
+                            while (x == 4) {
+                              while (x == 5) {
+                                while (x == 6) {
+                                  while (x == 7) {
+                                    while (x == 8) {
+                                      while (x == 9) {
+                                        while (x == 1) {
+                                          while (x == 2) {
+                                            while (x == 3) {
+                                              while (x == 4) {
+                                                while (x == 5) {
+                                                  while (x == 6) {
+                                                    while (x == 7) {
+                                                      while (x == 8) {
+                                                        while (x == 9) {
+                                                          while (x == 1) {
+                                                            while (x == 2) {
+                                                              while (x == 3) {
+                                                                while (x == 4) {
+                                                                  while (x == 5) {
+                                                                    while (x == 6) {
+                                                                      while (x == 7) {
+                                                                        while (x == 8) {
+                                                                          while (x == 9) {
+                                                                            while (x == 1) {
+                                                                              while (x == 2) {
+                                                                                while (x == 3) {
+                                                                                  while (x == 4) {
+                                                                                    while (x == 5) {
+                                                                                      while (x == 6) {
+                                                                                        while (x == 7) {
+                                                                                          while (x == 8) {
+                                                                                            while (x == 9) {
+                                                                                              call = call + procedure + assign - if + 20000 - read + call - read - if * print / while * 1000 + while + call + procedure + assign + if - while / 299385 - asdfasdf123123;
+                                                                                            }
+                                                                                          }
+                                                                                        }
+                                                                                      }
+                                                                                    }
+                                                                                  }
+                                                                                }
+                                                                              }
+                                                                            }
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                }
+                                                              }
+                                                            }
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  } else {
+    if (x == 1) then {
+      a1 = 2;
+      if (x == 1) then {
+        a1 = 2;
+        if (x == 1) then {
+          a1 = 2;
+        } else {
+          b1 = 2;
+          read b2;
+        }
+      } else {
+        if (x == 1) then {
+      a1 = 2;
+      if (x == 1) then {
+        a1 = 2;
+        if (x == 1) then {
+          a1 = 2;
+        } else {
+          if (x == 1) then {
+      a1 = 2;
+      if (x == 1) then {
+        a1 = 2;
+        if (x == 1) then {
+          a1 = 2;
+        } else {
+          if (x == 1) then {
+      a1 = 2;
+      if (x == 1) then {
+        a1 = 2;
+        if (x == 1) then {
+          a1 = 2;
+        } else {
+          if (x == 1) then {
+      a1 = 2;
+      if (x == 1) then {
+        a1 = 2;
+        if (x == 1) then {
+          a1 = 2;
+        } else {
+          if (x == 1) then {
+      a1 = 2;
+      if (x == 1) then {
+        a1 = 2;
+        if (x == 1) then {
+          a1 = 2;
+        } else {
+          if (x == 1) then {
+      a1 = 2;
+      if (x == 1) then {
+        a1 = 2;
+        if (x == 1) then {
+          a1 = 2;
+        } else {
+          b1 = 2;
+          read b2;
+        }
+      } else {
+        b1 = 2;
+        read b2;
+      }
+    } else {
+      b1 = 2;
+      read b2;
+    }
+        }
+      } else {
+        b1 = 2;
+        read b2;
+      }
+    } else {
+      b1 = 2;
+      read b2;
+    }
+        }
+      } else {
+        b1 = 2;
+        read b2;
+      }
+    } else {
+      b1 = 2;
+      read b2;
+    }
+        }
+      } else {
+        b1 = 2;
+        read b2;
+      }
+    } else {
+      b1 = 2;
+      read b2;
+    }
+        }
+      } else {
+        b1 = 2;
+        read b2;
+      }
+    } else {
+      b1 = 2;
+      read b2;
+    }
+        }
+      } else {
+        b1 = 2;
+        read b2;
+      }
+    } else {
+      b1 = 2;
+      read b2;
+    }
+      }
+    } else {
+      b1 = 2;
+      read b2;
+    }
+  }
+  
+  while ((x != 2) || ((x != 2) && ((x != 2) && (x != 2)))) {
+    read c1;
+    c2 = 5;
+    read c1;
+    read c1;
+    read c1;
+    read c1;
+    read c1;
+    read c1;
+    read c1;
+    read c1;
+    read c1;
+  }
+
+  while (x == 1) {
+    while (x == 2) {
+      while (x == 3) {
+        while (x == 4) {
+          while (x == 5) {
+            while (x == 6) {
+              while (x == 7) {
+                while (x == 8) {
+                  while (x == 9) {
+                    while (x == 1) {
+                      while (x == 2) {
+                        while (x == 3) {
+                          while (x == 4) {
+                            while (x == 5) {
+                              while (x == 6) {
+                                while (x == 7) {
+                                  while (x == 8) {
+                                    while (x == 9) {
+                                      while (x == 1) {
+                                        while (x == 2) {
+                                          while (x == 3) {
+                                            while (x == 4) {
+                                              while (x == 5) {
+                                                while (x == 6) {
+                                                  while (x == 7) {
+                                                    while (x == 8) {
+                                                      while (x == 9) {
+                                                        while (x == 1) {
+                                                          while (x == 2) {
+                                                            while (x == 3) {
+                                                              while (x == 4) {
+                                                                while (x == 5) {
+                                                                  while (x == 6) {
+                                                                    while (x == 7) {
+                                                                      while (x == 8) {
+                                                                        while (x == 9) {
+                                                                          while (x == 1) {
+                                                                            while (x == 2) {
+                                                                              while (x == 3) {
+                                                                                while (x == 4) {
+                                                                                  while (x == 5) {
+                                                                                    while (x == 6) {
+                                                                                      while (x == 7) {
+                                                                                        while (x == 8) {
+                                                                                          while (x == 9) {
+                                                                                            call = call + procedure + assign - if + 20000 - read + call - read - if * print / while * 1000 + while + call + procedure + assign + if - while / 299385 - asdfasdf123123;
+                                                                                          }
+                                                                                        }
+                                                                                      }
+                                                                                    }
+                                                                                  }
+                                                                                }
+                                                                              }
+                                                                            }
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                }
+                                                              }
+                                                            }
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  endoflife = endoflife;
+}
