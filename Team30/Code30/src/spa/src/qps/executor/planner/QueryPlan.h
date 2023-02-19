@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <memory>
-#include "../common/IEvaluatable.h"
+#include "qps/common/IEvaluatable.h"
 
 using std::vector, std::shared_ptr;
 

@@ -37,3 +37,7 @@ vector<IEvaluatableSPtr> PQLQuery::getEvaluatables() {
 
   return evals;
 }
+
+int PQLQuery::getClauseCount() {
+  return clauses.size();
+}

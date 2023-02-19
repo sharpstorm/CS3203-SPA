@@ -10,7 +10,7 @@ PQLQueryResult *QueryOrchestrator::execute(PQLQuery* query,
     return new PQLQueryResult();
   }
 
-  auto executables = plan->getConditionalClauses();
+  vector<IEvaluatableSPtr> executables = plan->getConditionalClauses();
   PQLQueryResult* currentResult;
   PQLQueryResult* finalResult = nullptr;
 

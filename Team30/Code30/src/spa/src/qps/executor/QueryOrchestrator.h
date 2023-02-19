@@ -7,7 +7,7 @@
 #include "../common/IEvaluatable.h"
 #include "ResultCoalescer.h"
 #include "QueryLauncher.h"
-#include "QueryPlan.h"
+#include "qps/executor/planner/QueryPlan.h"
 
 using std::vector;
 

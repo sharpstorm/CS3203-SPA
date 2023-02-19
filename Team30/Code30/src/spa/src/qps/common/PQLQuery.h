@@ -16,6 +16,7 @@ class PQLQuery {
   VariableTable variables;
   PQLQuerySynonym resultVariable;
   vector<ClauseSPtr> clauses;
+
  public:
   PQLQuery(unordered_map<string, PQLQuerySynonym> vars,
            PQLQuerySynonym resVar,
@@ -25,4 +26,5 @@ class PQLQuery {
   PQLQuerySynonym* getVariable(PQLSynonymName name);
   PQLSynonymName getResultName();
   vector<IEvaluatableSPtr> getEvaluatables();
+  int getClauseCount();
 };

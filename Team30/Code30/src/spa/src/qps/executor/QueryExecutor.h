@@ -3,11 +3,12 @@
 #include <memory>
 #include "IQueryExecutor.h"
 #include "QueryOrchestrator.h"
-#include "QueryPlanner.h"
+#include "qps/executor/planner/QueryPlanner.h"
 
 class QueryExecutor: public IQueryExecutor {
-  QueryPlanner planner;
+ private:
   QueryOrchestrator orchestrator;
+
  public:
   explicit QueryExecutor(shared_ptr<PkbQueryHandler> pkbQH);
   PQLQueryResult* executeQuery(PQLQuery* query);
