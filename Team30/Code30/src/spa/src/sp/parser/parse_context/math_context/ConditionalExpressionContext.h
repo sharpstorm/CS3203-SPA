@@ -14,8 +14,9 @@ class ConditionalExpressionContext: public RecursiveParseContext {
   shared_ptr<ASTNode> generateSubtree(SourceParseState* state);
 
  private:
+  template<class T>
   static shared_ptr<BinaryASTNode>
-  generateConditionalNode(shared_ptr<ASTNode> leftNode, SourceTokenType type);
+  generateConditionalNode(shared_ptr<ASTNode> leftNode);
   shared_ptr<ASTNode>
   processNotCondition(SourceParseState* state);
   shared_ptr<ASTNode>

@@ -25,6 +25,6 @@ shared_ptr<ASTNode> FactorContext::generateSubtree(SourceParseState *state) {
       state->clearCached();
       return node;
     default:
-      throw SPError("Unknown token sequence");
+      throw SPError(SPERR_UNEXPECTED_TOKEN);
   }
 }
