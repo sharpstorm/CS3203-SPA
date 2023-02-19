@@ -1,7 +1,7 @@
 #include <memory>
 #include "ExpressionContext.h"
 
-using std::shared_ptr;
+using std::shared_ptr, std::make_shared;
 
 shared_ptr<ASTNode> ExpressionContext::generateSubtree(
     SourceParseState *state) {
@@ -18,13 +18,11 @@ shared_ptr<ASTNode> ExpressionContext::generateSubtree(
     return state->getCached();
   }
 
-  shared_ptr<BinaryASTNode> middleNode;
-  if (curToken->isType(SIMPLE_TOKEN_PLUS)
-      || curToken->isType(SIMPLE_TOKEN_MINUS)) {
-    middleNode = generateOperand(state, state->getCached());
-  } else {
+  shared_ptr<BinaryASTNode> middleNode = generateOperand(curToken);
+  if (middleNode == nullptr) {
     return state->getCached();
   }
+  middleNode->setLeftChild(state->getCached());
 
   state->advanceToken();
   state->clearCached();
@@ -36,26 +34,21 @@ shared_ptr<ASTNode> ExpressionContext::generateSubtree(
 
   if (state->getCurrToken() == nullptr) {
     return middleNode;
-  } else if (state->getCurrToken()->isType(SIMPLE_TOKEN_PLUS)
-      || state->getCurrToken()->isType(SIMPLE_TOKEN_MINUS)) {
+  } else if (state->getCurrToken()
+      ->isType(SIMPLE_TOKEN_PLUS, SIMPLE_TOKEN_MINUS)) {
     return contextProvider->getContext(EXPR_CONTEXT)->generateSubtree(state);
   }
   return middleNode;
 }
 
 shared_ptr<BinaryASTNode> ExpressionContext::generateOperand(
-    SourceParseState* state, shared_ptr<ASTNode> leftNode) {
-  shared_ptr<BinaryASTNode> node;
-  switch (state->getCurrToken()->getType()) {
+    SourceToken* curToken) {
+  switch (curToken->getType()) {
     case SIMPLE_TOKEN_PLUS:
-      node = shared_ptr<BinaryASTNode>(new PlusASTNode());
-      break;
+      return make_shared<PlusASTNode>();
     case SIMPLE_TOKEN_MINUS:
-      node = shared_ptr<BinaryASTNode>(new MinusASTNode());
-      break;
+      return make_shared<MinusASTNode>();
     default:
-      throw SPError("Unknown token");
+      return nullptr;
   }
-  node->setLeftChild(leftNode);
-  return node;
 }

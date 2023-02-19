@@ -4,7 +4,7 @@
 #include "common/ASTNode/math/math_operand/DivASTNode.h"
 #include "common/ASTNode/math/math_operand/ModASTNode.h"
 
-using std::shared_ptr;
+using std::shared_ptr, std::make_shared;
 
 shared_ptr<ASTNode> TermContext::generateSubtree(SourceParseState *state) {
   if (!state->hasCached()) {
@@ -19,14 +19,11 @@ shared_ptr<ASTNode> TermContext::generateSubtree(SourceParseState *state) {
     return state->getCached();
   }
 
-  shared_ptr<BinaryASTNode> middleNode;
-  if (curToken->isType(SIMPLE_TOKEN_TIMES) ||
-      curToken->isType(SIMPLE_TOKEN_DIV) ||
-      curToken->isType(SIMPLE_TOKEN_MOD)) {
-    middleNode = generateOperand(state, state->getCached());
-  } else {
+  shared_ptr<BinaryASTNode> middleNode = generateOperand(curToken);
+  if (middleNode == nullptr) {
     return state->getCached();
   }
+  middleNode->setLeftChild(state->getCached());
 
   state->advanceToken();
   state->clearCached();
@@ -37,30 +34,23 @@ shared_ptr<ASTNode> TermContext::generateSubtree(SourceParseState *state) {
 
   if (state->getCurrToken() == nullptr) {
     return middleNode;
-  } else if (state->getCurrToken()->isType(SIMPLE_TOKEN_TIMES)
-      || state->getCurrToken()->isType(SIMPLE_TOKEN_DIV)
-      || state->getCurrToken()->isType(SIMPLE_TOKEN_MOD)) {
+  } else if (state->getCurrToken()
+      ->isType(SIMPLE_TOKEN_TIMES, SIMPLE_TOKEN_DIV, SIMPLE_TOKEN_MOD)) {
     return contextProvider->getContext(TERM_CONTEXT)->generateSubtree(state);
   }
   return middleNode;
 }
 
 shared_ptr<BinaryASTNode> TermContext::generateOperand(
-    SourceParseState* state, shared_ptr<ASTNode> leftNode) {
-  shared_ptr<BinaryASTNode> node;
-  switch (state->getCurrToken()->getType()) {
+    SourceToken* curToken) {
+  switch (curToken->getType()) {
     case SIMPLE_TOKEN_TIMES:
-      node = shared_ptr<BinaryASTNode>(new TimesASTNode());
-      break;
+      return make_shared<TimesASTNode>();
     case SIMPLE_TOKEN_DIV:
-      node = shared_ptr<BinaryASTNode>(new DivASTNode());
-      break;
+      return make_shared<DivASTNode>();
     case SIMPLE_TOKEN_MOD:
-      node = shared_ptr<BinaryASTNode>(new ModASTNode());
-      break;
+      return make_shared<ModASTNode>();
     default:
-      throw SPError("Unknown token");
+      return nullptr;
   }
-  node->setLeftChild(leftNode);
-  return node;
 }

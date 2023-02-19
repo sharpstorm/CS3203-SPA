@@ -29,6 +29,6 @@ shared_ptr<ASTNode> FactorContext::generateSubtree(SourceParseState *state) {
       state->clearCached();
       return node;
     default:
-      throw SPError(SPERR_END_OF_STREAM);
+      throw SPError(SPERR_UNEXPECTED_TOKEN);
   }
 }

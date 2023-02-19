@@ -1,0 +1,67 @@
+procedure p {
+    read p;
+    print p;
+    c = ((((s)))) + ((3 - 2)) / 0 * 3;
+    if (((while == 3) && (if == 2)) || (abc != 321)) then {
+        a = b;
+        b = a;
+    } else {
+        while (what + is + this == idk) {
+            print print;
+            read read;
+            print if;
+            read while;
+            while (a != b) {}
+            while (b != c) {}
+            while (d != e) {}
+            while (f != g) {}
+        }
+    }
+    while (CS3203 == B) {
+        read google;
+        print idk;
+    }
+    a = 1234 - 4321 / 123 * 321 % 1 % 1 % 1;
+    if (a > b) then {
+
+    } else {
+        if (a > b) then {
+            a = (1 + 2 + 3) / 2;
+            select = c + such + that + follows * (1 + c);
+        } else {
+            print p;
+            print a;
+            print b;
+            print s;
+        } if (a > b) then {
+            read d;
+            while (abcd == abcd) {
+                read a;
+                read b;
+                read c;
+            }
+        } else {
+            if (a == 3) then {
+                a = abc;
+            } else {
+                qwerty = ytrewq;
+            }
+        }
+    }
+    while (!(a == b)) {
+        a = a;
+        b = b;
+        c = c;
+        d = d;
+    }
+     while (what + is + this == idk) {
+            print print;
+            read read;
+            print if;
+            read while;
+            while (a != b) {}
+            while (b != c) {}
+            while (d != e) {}
+            while (f != g) {}
+    }
+}
