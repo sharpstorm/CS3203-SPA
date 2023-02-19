@@ -52,11 +52,7 @@ TEST_CASE("Queries with Select only") {
     auto selectClause = shared_ptr<IEvaluatable>(new SelectClause(targetVariable));
     auto queryPlan = make_unique<QueryPlan>(vector<shared_ptr<IEvaluatable>>{selectClause},
                                             vector<QueryPlan::MergeStrategy>{});
-    query = make_unique<PQLQuery>(
-        unordered_map<string, PQLQuerySynonym>({{"s", targetVariable}}),
-        targetVariable,
-        emptyClause);
-    actualResult = unique_ptr<PQLQueryResult>(orchestrator.execute(query.get(), queryPlan.get()));
+    actualResult = unique_ptr<PQLQueryResult>(orchestrator.execute(queryPlan.get()));
     REQUIRE(*expectedResult == *actualResult);
   }
 
@@ -78,11 +74,7 @@ TEST_CASE("Queries with Select only") {
     auto selectClause = shared_ptr<SelectClause>(new SelectClause(targetVariable));
     auto queryPlan = make_unique<QueryPlan>(vector<shared_ptr<IEvaluatable>>{selectClause},
                                             vector<QueryPlan::MergeStrategy>{});
-    query = make_unique<PQLQuery>(
-        unordered_map<string, PQLQuerySynonym>({{"ent", targetVariable}}),
-        targetVariable,
-        emptyClause);
-    actualResult = unique_ptr<PQLQueryResult>(orchestrator.execute(query.get(), queryPlan.get()));
+    actualResult = unique_ptr<PQLQueryResult>(orchestrator.execute(queryPlan.get()));
     REQUIRE(*expectedResult == *actualResult);
   }
 }

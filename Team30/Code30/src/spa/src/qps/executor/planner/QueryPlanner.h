@@ -25,12 +25,12 @@ class QueryPlanner {
 
   QueryPlannerIndex planIndex;
   int currentPosition;
+  bool isPlanBuilt;
 
   void buildPlan();
   void initState();
   void buildDependencyTree(PlanNodes* startingNodes);
   void flushIndependentClauses();
-  bool isBuilt();
 
   void insertIntoQueue(queue<PlanNode>* target, PlanNodes* values);
 };

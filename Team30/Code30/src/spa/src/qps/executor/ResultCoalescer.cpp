@@ -22,9 +22,6 @@ PQLQueryResult *ResultCoalescer::merge(PQLQueryResult *setA,
 
   if (!setA->isFalse() && !setB->isFalse()) {
     mergeResult(&internalState);
-    if (result->isFalse()) {
-      result->setIsStaticFalse(false);
-    }
   }
 
   delete setA;

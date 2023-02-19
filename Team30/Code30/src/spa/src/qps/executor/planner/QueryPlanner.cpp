@@ -13,18 +13,16 @@ QueryPlanner::QueryPlanner(PQLQuery *targetQuery):
         targetQuery->getClauseCount())),
     isEvaluatableLinked(vector<bool>(
         targetQuery->getClauseCount())),
-    currentPosition(targetQuery->getClauseCount() - 1) {}
+    currentPosition(targetQuery->getClauseCount() - 1),
+    isPlanBuilt(false) {}
 
 unique_ptr<QueryPlan> QueryPlanner::getExecutionPlan() {
-  if (!isBuilt()) {
+  if (!isPlanBuilt) {
     buildPlan();
+    isPlanBuilt = true;
   }
 
   return make_unique<QueryPlan>(finalPlan, mergeStrategy);
-}
-
-bool QueryPlanner::isBuilt() {
-  return currentPosition < 0;
 }
 
 void QueryPlanner::buildPlan() {
