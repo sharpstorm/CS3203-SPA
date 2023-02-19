@@ -12,5 +12,5 @@ class SelectClause : public Clause {
   explicit SelectClause(PQLQuerySynonym target);
   PQLQueryResult* evaluateOn(shared_ptr<PkbQueryHandler> pkbQueryHandler);
   bool validateArgTypes(VariableTable *variables);
-  bool usesSynonym(string varName);
+  SynonymList getUsedSynonyms();
 };

@@ -33,6 +33,6 @@ bool SelectClause::validateArgTypes(VariableTable *variables) {
   return !target.isType(PQL_SYN_TYPE_PROCEDURE);
 }
 
-bool SelectClause::usesSynonym(string varName) {
-  return target.getName() == varName;
+SynonymList SelectClause::getUsedSynonyms() {
+  return SynonymList{target.getName()};
 }
