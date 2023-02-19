@@ -14,13 +14,14 @@ SourceParseState executeParse(vector<SourceToken> tokens) {
   return parser.parseTokens_AndGetState(tokens);
 }
 
-vector<SourceToken> notConditionInput() {  //!(x && 1)
-  vector<SourceToken> tokens{SourceToken(SIMPLE_TOKEN_NOT, ""),
-                             SourceToken(SIMPLE_TOKEN_BRACKET_ROUND_LEFT, ""),
-                             SourceToken(SIMPLE_TOKEN_VARIABLE, "x"),
-                             SourceToken(SIMPLE_TOKEN_AND, ""),
-                             SourceToken(SIMPLE_TOKEN_VARIABLE, "y"),
-                             SourceToken(SIMPLE_TOKEN_BRACKET_ROUND_RIGHT, "")};
+vector<SourceToken> notConditionInput() {  //!(x && y)
+  vector<SourceToken> tokens =
+      vector<SourceToken>{SourceToken(SIMPLE_TOKEN_NOT, ""),
+                          SourceToken(SIMPLE_TOKEN_BRACKET_ROUND_LEFT, ""),
+                          SourceToken(SIMPLE_TOKEN_VARIABLE, "x"),
+                          SourceToken(SIMPLE_TOKEN_AND, ""),
+                          SourceToken(SIMPLE_TOKEN_VARIABLE, "y"),
+                          SourceToken(SIMPLE_TOKEN_BRACKET_ROUND_RIGHT, "")};
 
   return tokens;
 }
