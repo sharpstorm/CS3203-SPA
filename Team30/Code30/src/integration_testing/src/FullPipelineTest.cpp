@@ -79,4 +79,56 @@ TEST_CASE("Test Full End-to-end") {
   query = "assign a; Select a such that Modifies(a, \"x\")";
   expectedRes = unordered_set<string>({"1", "5"});
   launchQuery2(qps.get(), query, expectedRes);
+
+  query = "assign a; Select a pattern a (\"x\", _\"1\"_)";
+  expectedRes = unordered_set<string>({"5"});
+  launchQuery2(qps.get(), query, expectedRes);
+
+  query = "assign a; Select a pattern a (\"y\", _\"x\"_)";
+  expectedRes = unordered_set<string>({"8",});
+  launchQuery2(qps.get(), query, expectedRes);
+
+  query = "assign a; Select a pattern a (\"x\", _\"9\"_)";
+  expectedRes = unordered_set<string>({});
+  launchQuery2(qps.get(), query, expectedRes);
+
+  query = "assign a; Select a pattern a (\"g\", _)";
+  expectedRes = unordered_set<string>({});
+  launchQuery2(qps.get(), query, expectedRes);
+
+  query = "assign a; Select a pattern a (\"g\", _)";
+  expectedRes = unordered_set<string>({});
+  launchQuery2(qps.get(), query, expectedRes);
+
+  query = "assign a; Select a pattern a (_, _\"1\"_)";
+  expectedRes = unordered_set<string>({"5", "7", "11", "12"});
+  launchQuery2(qps.get(), query, expectedRes);
+
+  query = "assign a; Select a pattern a (_, _\"x\"_)";
+  expectedRes = unordered_set<string>({"5", "7", "8", "9", "12"});
+  launchQuery2(qps.get(), query, expectedRes);
+
+  query = "assign a; Select a pattern a (_, _)";
+  expectedRes = unordered_set<string>({"1", "2", "3", "5", "7", "8", "9", "11", "12"});
+  launchQuery2(qps.get(), query, expectedRes);
+
+  query = "assign a; variable v; Select a pattern a (v, _)";
+  expectedRes = unordered_set<string>({"1", "2", "3", "5", "7", "8", "9", "11", "12"});
+  launchQuery2(qps.get(), query, expectedRes);
+
+  query = "assign a; variable v; Select v pattern a (v, _)";
+  expectedRes = unordered_set<string>({"x", "z", "i", "y"});
+  launchQuery2(qps.get(), query, expectedRes);
+
+  query = "assign a; variable v; Select a pattern a (v, _\"1\"_)";
+  expectedRes = unordered_set<string>({"5", "7", "11", "12"});
+  launchQuery2(qps.get(), query, expectedRes);
+
+  query = "assign a; variable v; Select v pattern a (v, _\"1\"_)";
+  expectedRes = unordered_set<string>({"z", "x", "i"});
+  launchQuery2(qps.get(), query, expectedRes);
+
+  query = "assign a; variable v; Select a pattern a (v, _\"z\"_)";
+  expectedRes = unordered_set<string>({"8", "9"});
+  launchQuery2(qps.get(), query, expectedRes);
 }

@@ -22,4 +22,5 @@ class AssignPatternClause: public PatternClause {
   PQLQueryResult* evaluateOn(shared_ptr<PkbQueryHandler> pkbQueryHandler);
   bool validateArgTypes(VariableTable *variables);
   bool usesSynonym(string varName);
+  bool findExpression(shared_ptr<IASTNode> rootNode);
 };
