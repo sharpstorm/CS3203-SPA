@@ -1,0 +1,115 @@
+1 - Select mispelt
+stmt s;
+Selct s such that Follows(1,2)
+SyntaxError
+5000
+2 - such mispelt
+stmt s;
+Select s sch that Follows(1,2)
+SyntaxError
+5000
+3 - that mispelt
+stmt s;
+Select s such tht Follows(1,2)
+SyntaxError
+5000
+4 - that mispelt
+stmt s;
+Select s patttern a(_, _)
+SyntaxError
+5000
+5 - Case sensitive select
+stmt s;
+select s
+SyntaxError
+5000
+6 - Case sensitive such
+stmt s;
+Select s Such that Follows(1,2)
+SyntaxError
+5000
+7 - Case sensitive that
+stmt s;
+Select s such That Follows(1,2)
+SyntaxError
+5000
+8 - Case sensitive pattern
+stmt s;
+Select s Pattern a(_,_)
+SyntaxError
+5000
+9 - Case sensitive Follows
+stmt s;
+Select s such that follows(1,2)
+SyntaxError
+5000
+10 - Case sensitive Parent
+stmt s;
+Select s such that parent(1,2)
+SyntaxError
+5000
+11 - Case sensitive Follows*
+stmt s;
+Select s such that follows*(1,2)
+SyntaxError
+5000
+12 - Case sensitive Parent*
+stmt s;
+Select s such that parent*(1,2)
+SyntaxError
+5000
+13 - Case sensitive Uses
+stmt s;
+Select s such that uses(1,"x")
+SyntaxError
+5000
+14 - Case sensitive Modifies
+stmt s;
+Select s such that modifies(1,"x")
+SyntaxError
+5000
+15 - Case sensitive Synonym
+stmt s;
+Select S such that Modifies(1,"x")
+SemanticError
+5000
+16 - Bad Clause Sequence
+stmt s;
+S such that Follows(1, 2)
+SyntaxError
+5000
+17 - Bad Clause Sequence
+stmt s;
+Select such that Follows(1, 2)
+SyntaxError
+5000
+18 - Bad Clause Sequence
+stmt s;
+Select s such Follows(1,2)
+SyntaxError
+5000
+19 - Bad Clause Sequence
+stmt s;
+Select s that Follows(1,2)
+SyntaxError
+5000
+20 - Bad Clause Sequence
+stmt s;
+Select s Follows(1,2)
+SyntaxError
+5000
+21 - Bad Clause Sequence
+stmt s;
+Select s such that
+SyntaxError
+5000
+22 - Bad Clause Sequence
+stmt s;
+Select s such that pattern
+SyntaxError
+5000
+23 - Bad Clause Sequence
+stmt s;
+Select s such that Pattern(1, 2)
+SyntaxError
+5000
