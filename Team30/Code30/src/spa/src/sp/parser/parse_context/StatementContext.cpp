@@ -10,7 +10,6 @@ ASTNodePtr StatementContext::generateSubtree(
         ->getContext(ASSIGN_CONTEXT)->generateSubtree(state);
   }
 
-  SourceGrammarContextType context;
   SourceToken* currentToken = state->getCurrToken();
   if (currentToken == nullptr) {
     throw SPError("Unknown token sequence");
