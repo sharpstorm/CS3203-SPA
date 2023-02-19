@@ -463,124 +463,153 @@ while a1; assign a2; variable v;
 Select v such that Parent(a1, a2) pattern a2 (v, _"j"_)
 z, x, a
 5000
-
-14 - Uses and pattern (_,_)
+94 - [SEMANTICERROR] Uses(_, v) and pattern(_,_)
+assign a; variable v;
+Select a such that Uses(_, v) pattern a (_,_)
+SemanticError
+5000
+95 - Uses(syn, static) and pattern (_,_)
+assign a;
+Select a such that Uses(a, "z") pattern a (_,_)
+4,7,8,9,13,14
+5000
+96 - Uses(syn,wildcard) and pattern (_,_)
+assign a;
+Select a such that Uses(a, _) pattern a (_,_)
+4, 7, 8, 9, 10, 12, 13, 14, 15, 17, 18, 23, 24
+5000
+97 - Uses(syn,syn) and pattern (_,_)
 assign a; variable v;
 Select a such that Uses(a,v) pattern a (_, _)
 4, 7, 8, 9, 10, 12, 13, 14, 15, 17, 18, 23, 24
 5000
-15 - Uses and pattern (_,_)
+98 - [SYNTAXERROR] Uses(syn,syn) and pattern (_,_)
+read a; variable v;
+Select a such that Uses(a,v) pattern a (_, _)
+SyntaxError
+5000
+99 - [SYNTAXERROR] Uses(syn,syn) and pattern (_,_)
+print a; variable v;
+Select a such that Uses(a,v) pattern a (_, _)
+SyntaxError
+5000
+100 - Uses(syn, static) and pattern (_,_) - variable 
+assign a; variable v;
+Select v such that Uses(a, "z") pattern a (_,_)
+a, z, x, y, i, j
+5000
+101 - Uses(syn,wildcard) and pattern (_,_) - variable
+assign a; variable v;
+Select v such that Uses(a, _) pattern a (_,_)
+a, z, x, y, i, j
+5000
+102 - Uses(syn, syn) and pattern (_,_) - variable
 assign a; variable v;
 Select v such that Uses(a,v) pattern a (_,_)
 z, x, y, i, j
 5000
-16 - Uses and pattern (v,_)
+103 - Uses(syn, static) and pattern (v,_)
 assign a; variable v;
-Select a such that Uses(a,v) pattern a (v,_)
+Select a such that Uses(a, "z") pattern a (v,_)
+4,7,8,9,13,14
+5000
+104 - Uses(syn,wildcard) and pattern (v,_)
+assign a; variable v;
+Select a such that Uses(a, _) pattern a (v,_)
+4, 7, 8, 9, 10, 12, 13, 14, 15, 17, 18, 23, 24
+5000
+105 - Uses(syn,syn) and pattern (v,_)
+assign a; variable v;
+Select a such that Uses(a,v) pattern a (v, _)
 8, 10, 12, 13, 14, 24
 5000
-17 - Uses and pattern (v,_)
+106 - Uses(syn, static) and pattern (v,_) - variable 
+assign a; variable v;
+Select v such that Uses(a, "z") pattern a (v,_)
+a, z, y
+5000
+107 - Uses(syn,wildcard) and pattern (v,_) - variable
+assign a; variable v;
+Select v such that Uses(a, _) pattern a (v,_)
+a, z, x, y, i, j
+5000
+108 - Uses(syn, syn) and pattern (v,_) - variable
 assign a; variable v;
 Select v such that Uses(a,v) pattern a (v,_)
-z, y, x, i
+z, x, y, i
 5000
-18 - Uses and pattern(_ , variable)
+109 - [SEMANTICERROR] Modifies(_, v) and pattern(_,_)
 assign a; variable v;
-Select a such that Uses(a,v) pattern a (_, _"x"_)
-4, 10
+Select a such that Modifies(_, v) pattern a (_,_)
+SemanticError
 5000
-19 - Uses and pattern (_, variable)
-assign a; variable v; 
-Select v such that Uses(a,v) pattern a (_, _"x"_)
-x, y, z
+110 - Modifies(syn, static) and pattern (_,_)
+assign a;
+Select a such that Modifies(a, "z") pattern a (_,_)
+8, 13, 14, 17
 5000
-20 - Uses and pattern (v, variable)
-assign a; variable v;
-Select a such that Uses(a,v) pattern a (v, _"x"_)
-10
-5000
-21 - Uses and pattern (v, variable)
-assign a; variable v;
-Select v such that Uses(a,v) pattern a (v, _"x"_)
-x
-5000
-22 - Uses and pattern(_ , constant)
-assign a; variable v;
-Select a such that Uses(a,v) pattern a (_, _"4"_)
-7, 12
-5000
-23 - Uses and pattern (_, constant)
-assign a; variable v; 
-Select v such that Uses(a,v) pattern a (_, _"4"_)
-z, y
-5000
-24 - Uses and pattern (v, constant)
-assign a; variable v;
-Select a such that Uses(a,v) pattern a (v, _"4"_)
-12
-5000
-25 Uses and pattern (v, constant)
-assign a; variable v;
-Select v such that Uses(a,v) pattern a (v, _"4"_)
-y
-5000
-26 Modifies and pattern(_,_)
-assign a; variable v;
-Select a such that Modifies(a,v) pattern a (_,_)
+111 - Modifies(syn,wildcard) and pattern (_,_)
+assign a;
+Select a such that Modifies(a, _) pattern a (_,_)
 4, 5, 7, 8, 9, 10, 12, 13, 14, 15, 17, 18, 19, 23, 24
 5000
-27 - Modifies and pattern(_,_)
+112 - Modifies(syn,syn) and pattern (_,_)
+assign a; variable v;
+Select a such that Modifies(a,v) pattern a (_, _)
+4, 5, 7, 8, 9, 10, 12, 13, 14, 15, 17, 18, 19, 23, 24
+5000
+113 - [SYNTAXERROR] Modifies(syn,syn) and pattern (_,_)
+read a; variable v;
+Select a such that Modifies(a,v) pattern a (_, _)
+SyntaxError
+5000
+114 - [SYNTAXERROR] Modifies(syn,syn) and pattern (_,_)
+print a; variable v;
+Select a such that Modifies(a,v) pattern a (_, _)
+SyntaxError
+5000
+115 - Modifies(syn, static) and pattern (_,_) - variable 
+assign a; variable v;
+Select v such that Modifies(a, "z") pattern a (_,_)
+a,z,x,y,i,j
+5000
+116 - Modifies(syn,wildcard) and pattern (_,_) - variable
+assign a; variable v;
+Select v such that Modifies(a, _) pattern a (_,_)
+a, z, x, y, i, j
+5000
+117 - Modifies(syn, syn) and pattern (_,_) - variable
 assign a; variable v;
 Select v such that Modifies(a,v) pattern a (_,_)
-a, i, z, y, x, j
+a, z, x, y, i, j
 5000
-28 - Modifies and pattern(_,_)
+118 - Modifies(syn, static) and pattern (v,_)
 assign a; variable v;
-Select a such that Modifies(a,v) pattern a (v,_)
+Select a such that Modifies(a, "z") pattern a (v,_)
+8, 13, 14, 17
+5000
+119 - Modifies(syn,wildcard) and pattern (v,_)
+assign a; variable v;
+Select a such that Modifies(a, _) pattern a (v,_)
 4, 5, 7, 8, 9, 10, 12, 13, 14, 15, 17, 18, 19, 23, 24
 5000
-29 - Modifies and pattern(_,_)
+120 - Modifies(syn,syn) and pattern (v,_)
+assign a; variable v;
+Select a such that Modifies(a,v) pattern a (v, _)
+4, 5, 7, 8, 9, 10, 12, 13, 14, 15, 17, 18, 19, 23, 24
+5000
+121 - Modifies(syn, static) and pattern (v,_) - variable 
+assign a; variable v;
+Select v such that Modifies(a, "z") pattern a (v,_)
+z
+5000
+122 - Modifies(syn,wildcard) and pattern (v,_) - variable
+assign a; variable v;
+Select v such that Modifies(a, _) pattern a (v,_)
+a, z, x, y, i, j
+5000
+123 - Modifies(syn, syn) and pattern (v,_) - variable
 assign a; variable v;
 Select v such that Modifies(a,v) pattern a (v,_)
-a, i, z, y, x, j
-5000
-30 - Modifies and pattern(_ , variable)
-assign a; variable v;
-Select a such that Modifies(a,v) pattern a (_, _"i"_)
-9, 15, 23, 24
-5000
-31 - Modifies and pattern (_, variable)
-assign a; variable v; 
-Select v such that Modifies(a,v) pattern a (_, _"i"_)
-y, a, i, j
-5000
-32 - Modifies and pattern (v, variable)
-assign a; variable v;
-Select a such that Modifies(a,v) pattern a (v, _"i"_)
-9, 15, 23, 24
-5000
-33 - Modifies and pattern (v, variable)
-assign a; variable v;
-Select v such that Modifies(a,v) pattern a (v, _"i"_)
-y, a, i, j
-5000
-34 - Modifies and pattern(_ , constant)
-assign a; variable v;
-Select a such that Modifies(a,v) pattern a (_, _"4"_)
-7, 12, 19
-5000
-35 - Modifies and pattern (_, constant)
-assign a; variable v; 
-Select v such that Modifies(a,v) pattern a (_, _"4"_)
-a, y
-5000
-36 - Modifies and pattern (v, constant)
-assign a; variable v;
-Select a such that Modifies(a,v) pattern a (v, _"4"_)
-7, 12, 19
-5000
-37 - Modifies and pattern (v, constant)
-assign a; variable v;
-Select v such that Modifies(a,v) pattern a (v, _"4"_)
-a, y
+a, z, x, y, i, j
 5000
