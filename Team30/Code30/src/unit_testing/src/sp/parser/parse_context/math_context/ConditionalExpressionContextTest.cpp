@@ -7,12 +7,6 @@
 #include "../../../../../../spa/src/sp/parser/GrammarContextProvider.h"
 #include "../../../../../../spa/src/sp/parser/SourceParseState.h"
 #include "../../../../../../spa/src/sp/parser/parse_context/math_context/ConditionalExpressionContext.h"
-#include "../../SourceParserStub.cpp"
-
-SourceParseState executeConditionalParse(vector<SourceToken>* tokens) {
-  SourceParserStub parser;
-  return parser.parseTokens_AndGetState(tokens);
-}
 
 vector<SourceToken> notConditionInput() {  //(!(x == y) && !(x == z))
   vector<SourceToken> tokens = vector<SourceToken>{
@@ -90,7 +84,7 @@ vector<SourceToken> RelationalExpressionInput() {  //((x >= y) || (x < z))
 
 TEST_CASE("GenerateSubTree: Process Not_Condition") {
   vector<SourceToken> tokens = notConditionInput();
-  SourceParseState state = executeConditionalParse(&tokens);
+  SourceParseState state(&tokens);
   GrammarContextProvider gcp;
   ConditionalExpressionContext context(&gcp);
   shared_ptr<ASTNode> node = context.generateSubtree(&state);
@@ -100,7 +94,7 @@ TEST_CASE("GenerateSubTree: Process Not_Condition") {
 
 TEST_CASE("GenerateSubTree: Process And_Condition") {
   vector<SourceToken> tokens = AndConditionInput();
-  SourceParseState state = executeConditionalParse(&tokens);
+  SourceParseState state(&tokens);
   GrammarContextProvider gcp;
   ConditionalExpressionContext context(&gcp);
   shared_ptr<ASTNode> node = context.generateSubtree(&state);
@@ -110,7 +104,7 @@ TEST_CASE("GenerateSubTree: Process And_Condition") {
 
 TEST_CASE("GenerateSubTree: Process Or_Condition") {
   vector<SourceToken> tokens = OrConditionInput();
-  SourceParseState state = executeConditionalParse(&tokens);
+  SourceParseState state(&tokens);
   GrammarContextProvider gcp;
   ConditionalExpressionContext context(&gcp);
   shared_ptr<ASTNode> node = context.generateSubtree(&state);
@@ -120,7 +114,7 @@ TEST_CASE("GenerateSubTree: Process Or_Condition") {
 
 TEST_CASE("GenerateSubTree: Process Relational_Expression") {
   vector<SourceToken> tokens = RelationalExpressionInput();
-  SourceParseState state = executeConditionalParse(&tokens);
+  SourceParseState state(&tokens);
   GrammarContextProvider gcp;
   ConditionalExpressionContext context(&gcp);
   shared_ptr<ASTNode> node = context.generateSubtree(&state);
