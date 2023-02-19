@@ -9,7 +9,7 @@ using std::pair, std::vector, std::shared_ptr, std::move;
 
 ParentTClause::ParentTClause(ClauseArgumentPtr leftArg,
                              ClauseArgumentPtr rightArg):
-  AbstractTwoArgClause(move(leftArg), move(rightArg)) {
+  AbstractTwoArgClause(std::move(leftArg), std::move(rightArg)) {
 }
 
 PQLQueryResult* ParentTClause::evaluateOn(

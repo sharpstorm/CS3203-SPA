@@ -6,7 +6,7 @@
 #include "qps/clauses/pattern/AssignPatternClause.h"
 #include "qps/parser/token_parser/ref_extractor/PQLEntityRefExtractor.h"
 
-using std::make_unique, std::string, std::unique_ptr, std::move;
+using std::make_unique, std::string, std::unique_ptr;
 
 void PQLAssignPatternClauseContext::parse(QueryTokenParseState *parserState) {
   parserState->expect(PQL_TOKEN_BRACKET_OPEN);
@@ -16,7 +16,7 @@ void PQLAssignPatternClauseContext::parse(QueryTokenParseState *parserState) {
       extractPatternData(parserState);
 
   parserState->getQueryBuilder()->addPattern(make_unique<AssignPatternClause>(
-      *synonym, move(left), patternData.pattern, patternData.isPartial));
+      *synonym, std::move(left), patternData.pattern, patternData.isPartial));
 }
 
 PQLAssignPatternClauseContext::PatternData

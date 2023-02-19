@@ -15,9 +15,8 @@ class QueryOrchestrator {
  private:
   QueryLauncher launcher;
   ResultCoalescer coalescer;
-  bool shouldExecuteSelect(QueryPlan* plan, PQLQueryResult* state);
 
  public:
   explicit QueryOrchestrator(QueryLauncher launcher);
-  PQLQueryResult* execute(PQLQuery* query, QueryPlan* plan);
+  PQLQueryResult* execute(QueryPlan* plan);
 };

@@ -4,8 +4,7 @@ QueryOrchestrator::QueryOrchestrator(QueryLauncher launcher) :
     launcher(launcher) {
 }
 
-PQLQueryResult *QueryOrchestrator::execute(PQLQuery* query,
-                                           QueryPlan* plan) {
+PQLQueryResult *QueryOrchestrator::execute(QueryPlan* plan) {
   if (plan->isEmpty()) {
     return new PQLQueryResult();
   }

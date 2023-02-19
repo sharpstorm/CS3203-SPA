@@ -5,11 +5,11 @@
 
 #include "FollowsTClause.h"
 
-using std::pair, std::vector, std::shared_ptr, std::move;
+using std::pair, std::vector, std::shared_ptr;
 
 FollowsTClause::FollowsTClause(ClauseArgumentPtr leftArg,
                                ClauseArgumentPtr rightArg):
-    AbstractTwoArgClause(move(leftArg), move(rightArg)) {
+    AbstractTwoArgClause(std::move(leftArg), std::move(rightArg)) {
 }
 
 PQLQueryResult* FollowsTClause::evaluateOn(

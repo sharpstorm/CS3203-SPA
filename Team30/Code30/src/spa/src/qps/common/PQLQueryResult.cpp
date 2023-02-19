@@ -1,6 +1,6 @@
 #include "PQLQueryResult.h"
 
-using std::move, std::make_unique;
+using std::make_unique;
 
 PQLQueryResult::PQLQueryResult():
     isStaticFalse(false),
@@ -52,7 +52,7 @@ void PQLQueryResult::putTableRow(vector<QueryResultItemPtr> row) {
     }
   }
 
-  combinedTable.push_back(move(row));
+  combinedTable.push_back(std::move(row));
 }
 
 int PQLQueryResult::getRowCount() {

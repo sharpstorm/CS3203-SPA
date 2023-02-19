@@ -16,7 +16,6 @@ class QueryDriver: public IQueryDriver {
   ResultProjector projector;
  public:
   explicit QueryDriver(shared_ptr<PkbQueryHandler> pkbQH);
-  QueryDriver(IQueryParser* parser, IQueryExecutor* executor);
   ~QueryDriver();
   UniqueVectorPtr<string> evaluate(string* query);
 };

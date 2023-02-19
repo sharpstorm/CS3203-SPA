@@ -5,11 +5,11 @@
 
 #include "ParentClause.h"
 
-using std::pair, std::vector, std::shared_ptr, std::move;
+using std::pair, std::vector, std::shared_ptr;
 
 ParentClause::ParentClause(ClauseArgumentPtr leftArg,
                            ClauseArgumentPtr rightArg):
-    AbstractTwoArgClause(move(leftArg), move(rightArg)) {
+    AbstractTwoArgClause(std::move(leftArg), std::move(rightArg)) {
 }
 
 PQLQueryResult* ParentClause::evaluateOn(
