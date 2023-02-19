@@ -7,18 +7,18 @@
 #include "../StubWriter.cpp"
 #include "../Util.cpp"
 
-using std::vector, std::string, std::pair;
+using std::vector, std::string, std::pair, std::make_unique;
 
 vector<pair<int, string>> executeModifiesExtractor(string input) {
   TreeWalker treeWalker;
   PKB pkb;
   StubPkb stubby(&pkb);
   SourceParser parser;
-  vector<shared_ptr<Extractor>> extractors;
-  extractors.push_back(shared_ptr<AbstractExtractor>
-                           (new ModifiesExtractor(&stubby)));
+  vector<Extractor*> extractors;
+  auto modifiesExtractor = make_unique<ModifiesExtractor>(&stubby);
+  extractors.push_back(modifiesExtractor.get());
   AST ast = parser.parseSource(input);
-  treeWalker.walkAST(ast, extractors);
+  treeWalker.walkAST(ast, &extractors);
   return stubby.modifiesStore;
 }
 

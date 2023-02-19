@@ -1,10 +1,9 @@
 #pragma once
 #include <vector>
-#include <memory>
 #include "sp/common/SourceToken.h"
 #include "common/ASTNode/ASTNode.h"
 
-using std::vector, std::shared_ptr;
+using std::vector;
 
 class SourceParseState {
  public:
@@ -16,10 +15,10 @@ class SourceParseState {
   bool isEnd();
   bool isAtLast();
 
-  void setCached(shared_ptr<ASTNode> node);
+  void setCached(ASTNodePtr node);
   void clearCached();
   bool hasCached();
-  shared_ptr<ASTNode> getCached();
+  ASTNodePtr getCached();
 
   int getLineNumber();
   void advanceLine();
@@ -29,5 +28,5 @@ class SourceParseState {
   int tokenLength;
   int lineNumber;
   vector<SourceToken>* tokens;
-  shared_ptr<ASTNode> curCache;
+  ASTNodePtr curCache;
 };

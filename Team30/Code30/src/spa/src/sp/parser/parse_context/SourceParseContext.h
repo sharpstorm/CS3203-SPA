@@ -1,17 +1,14 @@
 #pragma once
 
-#include <memory>
 #include "sp/common/SourceToken.h"
 #include "sp/parser/SourceParseState.h"
 #include "common/ASTNode/ASTNode.h"
 #include "sp/errors/SPError.h"
 
-using std::shared_ptr;
-
 class SourceParseContext {
  public:
   virtual ~SourceParseContext() = default;
-  virtual shared_ptr<ASTNode> generateSubtree(SourceParseState* state) = 0;
+  virtual ASTNodePtr generateSubtree(SourceParseState* state) = 0;
 
  protected:
   template<typename... SourceTokenType>
@@ -27,12 +24,12 @@ SourceToken* SourceParseContext::expect(SourceParseState* parserState,
   SourceToken* currentToken = parserState->getCurrToken();
 
   if (currentToken == nullptr) {
-    throw SPError("End of token stream");
+    throw SPError(SPERR_END_OF_STREAM);
   }
 
   if ((currentToken->isType(tokenType)  || ... || false)) {
     parserState->advanceToken();
     return currentToken;
   }
-  throw SPError("Unexpected Token");
+  throw SPError(SPERR_UNEXPECTED_TOKEN);
 }

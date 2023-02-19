@@ -1,30 +1,25 @@
-#include <vector>
-#include <memory>
-#include <string>
 #include "IfNode.h"
 
-using std::vector, std::shared_ptr, std::string;
+#include <vector>
+#include "../ASTNode.h"
 
-IfNode::IfNode() : StatementASTNode(ASTNODE_IF, "") {
+using std::vector;
+
+IfNode::IfNode(int lineNumber) : StatementASTNode(ASTNODE_IF, "", lineNumber) {
   // index [0] = conditional expression
   // index [1] = Then StmtLst
   // index [2] = Else StmtLst
-  children = vector<shared_ptr<ASTNode>>{nullptr, nullptr, nullptr};
+  children = vector<ASTNodePtr>{nullptr, nullptr, nullptr};
 }
 
-void IfNode::accept(shared_ptr<Extractor> e) {
-  e->visit(*this);
+void IfNode::accept(Extractor* e) {
+  e->visit(this);
 }
 
-void IfNode::leave(shared_ptr<Extractor> e) {
-  e->leave(*this);
-}
-
-void IfNode::addChild(shared_ptr<ASTNode> node) {
-  children.push_back(node);
+void IfNode::leave(Extractor* e) {
+  e->leave(this);
 }
 
 string IfNode::toString() {
-  string ss = ":if";
-  return ss;
+  return ":if";
 }
