@@ -39,9 +39,6 @@ class ResultCoalescer {
   };
 
   void mergeResult(InternalMergeState* state);
-  void mergeStaticResult(InternalMergeState* state);
-  void mergeError(InternalMergeState* state);
-
 
   void mergeSynonymList(InternalMergeState* mergeState,
                         IntersectState *intersectState);

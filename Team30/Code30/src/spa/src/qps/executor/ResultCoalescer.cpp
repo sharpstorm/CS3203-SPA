@@ -19,7 +19,6 @@ PQLQueryResult *ResultCoalescer::merge(PQLQueryResult *setA,
       setB,
       result
   };
-  mergeError(&internalState);
 
   if (!setA->isFalse() && !setB->isFalse()) {
     mergeResult(&internalState);
@@ -31,19 +30,6 @@ PQLQueryResult *ResultCoalescer::merge(PQLQueryResult *setA,
   delete setA;
   delete setB;
   return result;
-}
-
-void ResultCoalescer::mergeError(InternalMergeState *state) {
-  string error = "";
-  if (!state->setA->getError().empty()) {
-    error += state->setA->getError() + " ";
-  }
-
-  if (!state->setB->getError().empty()) {
-    error += state->setB->getError() + " ";
-  }
-
-  state->output->setError(error);
 }
 
 void ResultCoalescer::mergeResult(InternalMergeState* mergeState) {
