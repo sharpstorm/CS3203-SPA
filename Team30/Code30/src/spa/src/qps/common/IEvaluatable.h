@@ -18,3 +18,5 @@ class IEvaluatable {
           shared_ptr<PkbQueryHandler> pkbQueryHandler) = 0;
   virtual SynonymList getUsedSynonyms() = 0;
 };
+
+typedef shared_ptr<IEvaluatable> IEvaluatableSPtr;

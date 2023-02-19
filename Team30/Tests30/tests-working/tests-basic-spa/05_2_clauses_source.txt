@@ -1,0 +1,17 @@
+procedure pepe {
+  print abc;
+  cs1231 = doraemon;
+  a = a + 1 - 2 + b;
+  if (a < b) then{
+    read rr;
+    poppy = stubby - pepe + popo;
+    poppy = ff / stubby - pepe + popo;
+  } else {
+    while (anya != smart) {
+      print pp;
+      anya = what + is + grammar;
+      x = y + z;
+    }
+  }
+  a = b + b + b + b + b + b + b + b + b + b + b + b + b + b + b + b + b + b + b;
+}

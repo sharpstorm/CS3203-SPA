@@ -1,0 +1,145 @@
+1 - Select stmt s1, LHS: stmt s, RHS: var, valid
+stmt s, s1; variable v;
+Select s1 such that Modifies (s, v)
+1,2,3,4,5,6,7,8,9,10,11,12,13
+5000
+2 - Select stmt s, LHS: stmt s, RHS: var, valid
+stmt s; variable v;
+Select s such that Modifies (s, v)
+1,2,3,4,8,9,10,11,12,13
+5000
+3 - Select stmt s, LHS: stmt s, RHS: IDENT, valid
+stmt s;
+Select s such that Modifies (s, "zz")
+2,3
+5000
+4 - Select stmt s, LHS: stmt s, RHS: wildcard, valid
+stmt s;
+Select s such that Modifies (s, _)
+1,2,3,4,8,9,10,11,12,13
+5000
+5 - Select stmt s, LHS: int, RHS: IDENT, valid but no ans
+stmt s;
+Select s such that Modifies (1, "nothing")
+
+5000
+6 - Select stmt s, LHS: int, RHS: wildcard, Valid
+stmt s;
+Select s such that Modifies (1, _)
+1,2,3,4,5,6,7,8,9,10,11,12,13
+5000
+7 - Select a, LHS: assign, RHS: var, valid
+assign a; variable v;
+Select a such that Modifies (a, v)
+1,3,4,8,12
+5000
+8 - Select r, LHS: read, RHS: var, valid
+read r; variable v;
+Select r such that Modifies (r, v)
+9,10,13
+5000
+9 - Select p, LHS: print, RHS: var, valid but no ans
+print p; variable v;
+Select p such that Modifies (p, v)
+
+5000
+10 - Select w, LHS: while, RHS: var, valid
+while w; variable v;
+Select w such that Modifies (w, v)
+11
+5000
+11 - Select i, LHS: if, RHS: var, valid
+if i; variable v;
+Select i such that Modifies (i, v)
+2
+5000
+12 - Select v, LHS: int, RHS: var, valid
+variable v;
+Select v such that Modifies (12, v)
+qq
+5000
+13 - Select v, LHS: int, RHS: var, valid but no ans
+variable v;
+Select v such that Modifies (6, v)
+
+5000
+14 - Select v, LHS: int, RHS: IDENT, valid but no ans
+variable v;
+Select v such that Modifies (8, "x")
+
+5000
+15 - Select v, LHS: int, RHS: wildcard, Valid
+variable v;
+Select v such that Modifies (8, _)
+x,y,z,yy,zz,ww,rr,q,qq,Sylphiette
+5000
+16 - Invalid RHS: int
+procedure p;
+Select p such that Modifies (p, 1)
+SyntaxError
+5000
+17 - Invalid RHS: no quotation
+stmt s;
+Select s such that Modifies (8, nothing)
+SemanticError
+5000
+18 - Invalid RHS: empty IDENT
+stmt s;
+Select s such that Modifies (_, "")
+SyntaxError
+5000
+19 - Invalid RHS: stmt -> semantic wrong
+stmt s1, s2;
+Select s1 such that Modifies (s1, s2)
+SemanticError
+5000
+20 - Invalid RHS: read -> semantic wrong
+stmt s; read r;
+Select s such that Modifies (s, r)
+SemanticError
+5000
+21 - Invalid RHS: print -> semantic wrong
+stmt s; print p;
+Select s such that Modifies (s, p)
+SemanticError
+5000
+22 - Invalid RHS: while -> semantic wrong
+stmt s; while w;
+Select s such that Modifies (s, w)
+SemanticError
+5000
+23 - Invalid RHS: if -> semantic wrong
+stmt s; if i;
+Select s such that Modifies (s, i)
+SemanticError
+5000
+24 - Invalid RHS: assign -> semantic wrong
+stmt s; assign a;
+Select s such that Modifies (s, a)
+SemanticError
+5000
+25 - Invalid RHS: const -> semantic wrong
+stmt s; constant c;
+Select s such that Modifies (s, c)
+SemanticError
+5000
+28 - Invalid RHS: procedure -> semantic wrong
+stmt s; procedure p;
+Select s such that Modifies (s, p)
+SemanticError
+5000
+29 - Invalid LHS: const -> semantic wrong
+constant c; variable v;
+Select s such that Modifies (c, v)
+SemanticError
+5000
+30 - Invalid LHS + RHS: var + var -> semantic wrong
+variable v1, v2;
+Select v1 such that Modifies (v1, v2)
+SemanticError
+5000
+31 - Invalid LHS: wildcard -> semantic wrong
+variable v;
+Select v such that Modifies (_, v)
+SemanticError
+5000

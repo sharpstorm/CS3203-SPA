@@ -18,15 +18,19 @@ bool SourceParseState::isEnd() {
   return curIndex >= tokenLength;
 }
 
-bool SourceParseState::isAtLast() {
-  return curIndex == tokenLength - 1;
-}
-
 SourceToken *SourceParseState::getCurrToken() {
   if (curIndex >= tokenLength) {
     return nullptr;
   }
   return &tokens->at(curIndex);
+}
+
+bool SourceParseState::currTokenIsOfType(SourceTokenType type) {
+  SourceToken* token = getCurrToken();
+  if (token == nullptr) {
+    return false;
+  }
+  return token->isType(type);
 }
 
 SourceToken *SourceParseState::peekNextToken() {
@@ -37,7 +41,11 @@ SourceToken *SourceParseState::peekNextToken() {
 }
 
 bool SourceParseState::nextTokenIsOfType(SourceTokenType type) {
-  return peekNextToken()->isType(type);
+  SourceToken* token = peekNextToken();
+  if (token == nullptr) {
+    return false;
+  }
+  return token->isType(type);
 }
 
 void SourceParseState::setCached(ASTNodePtr node) {

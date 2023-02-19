@@ -1,12 +1,10 @@
 #include "AbstractTwoArgClause.h"
 #include <utility>
 
-using std::move;
-
 AbstractTwoArgClause::AbstractTwoArgClause(
     ClauseArgumentPtr left,
     ClauseArgumentPtr right):
-    left(move(left)), right(move(right)) {}
+    left(std::move(left)), right(std::move(right)) {}
 
 SynonymList AbstractTwoArgClause::getUsedSynonyms() {
   SynonymList result;

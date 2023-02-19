@@ -54,7 +54,7 @@ RelationalExpressionContext::generateRelationalNode
       node = shared_ptr<BinaryASTNode>(new NotEqualsASTNode());
       break;
     default:
-      throw SPError("Unknown token");
+      throw SPError(SPERR_UNEXPECTED_TOKEN);
   }
   node->setLeftChild(leftNode);
   return node;

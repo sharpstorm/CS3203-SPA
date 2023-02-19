@@ -1,0 +1,16 @@
+procedure procedure{
+    print print;
+    read read;
+    read = while + if  - print;
+    while = 3 + 2;
+    if = while;
+    if (while + 3 == 2) then {
+        print = read;
+    } else {
+        read = while;
+    }
+
+    while (if + 3 == 2) {
+        print = if + print + while + read;
+    }
+}

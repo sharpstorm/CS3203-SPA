@@ -127,7 +127,7 @@ TEST_CASE("Uses Extractor - Nested While in If: then statementList") {
                  "    while (b < 2) {"
                  "      c = d;"
                  "    }"
-                 "  } else {}"
+                 "  } else { print x; }"
                  "}";
   Util u;
   vector<pair<int, string>> v = executeUsesExtractor(input);
@@ -137,12 +137,14 @@ TEST_CASE("Uses Extractor - Nested While in If: then statementList") {
   REQUIRE(u.contains(v, 2, "b"));
   REQUIRE(u.contains(v, 2, "d"));
   REQUIRE(u.contains(v, 3, "d"));
-  REQUIRE(u.isSize(v, 6));
+  REQUIRE(u.contains(v, 4, "x"));
+  REQUIRE(u.contains(v, 1, "x"));
+  REQUIRE(u.isSize(v, 8));
 }
 
 TEST_CASE("Uses Extractor - Nested While in If: else statementList") {
   string input = "procedure printResults {\n"
-                 "  if (a < 1) then {}"
+                 "  if (a < 1) then { print x; }"
                  "  else {"
                  "    while (b < 3) {"
                  "      c = d;"
@@ -154,10 +156,12 @@ TEST_CASE("Uses Extractor - Nested While in If: else statementList") {
   REQUIRE(u.contains(v, 1, "a"));
   REQUIRE(u.contains(v, 1, "b"));
   REQUIRE(u.contains(v, 1, "d"));
-  REQUIRE(u.contains(v, 2, "b"));
-  REQUIRE(u.contains(v, 2, "d"));
+  REQUIRE(u.contains(v, 3, "b"));
   REQUIRE(u.contains(v, 3, "d"));
-  REQUIRE(u.isSize(v, 6));
+  REQUIRE(u.contains(v, 4, "d"));
+  REQUIRE(u.contains(v, 1, "x"));
+  REQUIRE(u.contains(v, 2, "x"));
+  REQUIRE(u.isSize(v, 8));
 }
 
 TEST_CASE("Uses Extractor - Nested While in While in While") {

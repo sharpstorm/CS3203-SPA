@@ -6,7 +6,7 @@
 #include "PQLContextTestUtils.cpp"
 #include "qps/parser/token_parser/context/such_that_clause/PQLModifiesClauseContext.h"
 #include "qps/errors/QPSParserSyntaxError.h"
-#include "qps/clauses/ModifiesClause.h"
+#include "qps/clauses/such_that/ModifiesClause.h"
 #include "qps/errors/QPSParserSemanticError.h"
 
 using std::make_unique, std::unordered_map;

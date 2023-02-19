@@ -24,6 +24,6 @@ bool PQLQuerySynonym::isEntityType() {
   return (type & PQL_SYN_STMT_MASK) == 0;
 }
 
-bool PQLQuerySynonym::isType(PQLSynonymType type) {
-  return this->type == type;
+bool PQLQuerySynonym::isType(PQLSynonymType targetType) {
+  return this->type == targetType;
 }

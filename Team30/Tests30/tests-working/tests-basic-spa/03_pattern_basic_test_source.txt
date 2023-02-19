@@ -1,0 +1,27 @@
+procedure Erisu {
+  x = 1;
+  print a;
+  read y;
+  if (x == 1) then {
+    x = x * yy - 1;
+    read x;
+    print y;
+    while (x == 0) {
+      print z;
+      y = x * z * y + 1;
+      read w;
+    }
+  } else {
+    z = z / x + z + 1 + y;
+    y = 100;
+    read w;
+    while (x == 0) {
+      print zz;
+      yy = 4;
+      read ww;
+    }
+    x = 2;
+    read x;
+    print y;
+  }
+}

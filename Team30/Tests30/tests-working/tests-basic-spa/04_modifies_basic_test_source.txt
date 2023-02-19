@@ -1,0 +1,19 @@
+procedure Sylphiette {
+  x = 100 * 2 + x * y;
+  if (x == yy) then {
+    zz = ww;
+    rr = x + y + 1;
+    while(x != q) {
+      print x;
+      print zz;
+    }
+    z = x * y + zz * Sylphiette / 5;
+  } else {
+    read q;
+    read qq;
+	while (qq != 0) {
+	    qq = qq + x * rr + z;
+		read ww;
+	}
+  }
+}

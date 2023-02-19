@@ -1,8 +1,8 @@
 #pragma once
 
 #include "PQLTransitiveClauseContext.h"
-#include "../../../../clauses/ParentClause.h"
-#include "../../../../clauses/ParentTClause.h"
+#include "qps/clauses/such_that/ParentClause.h"
+#include "qps/clauses/such_that/ParentTClause.h"
 #include "../../ref_extractor/PQLStmtRefExtractor.h"
 
 class PQLParentClauseContext:

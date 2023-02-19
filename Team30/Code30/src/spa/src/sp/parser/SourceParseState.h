@@ -10,10 +10,10 @@ class SourceParseState {
   explicit SourceParseState(vector<SourceToken>* tokens);
   void advanceToken();
   SourceToken* getCurrToken();
+  bool currTokenIsOfType(SourceTokenType type);
   SourceToken* peekNextToken();
   bool nextTokenIsOfType(SourceTokenType type);
   bool isEnd();
-  bool isAtLast();
 
   void setCached(ASTNodePtr node);
   void clearCached();
