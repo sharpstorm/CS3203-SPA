@@ -11,25 +11,28 @@ ASTNodePtr StatementContext::generateSubtree(
   }
 
   SourceGrammarContextType context;
-  switch (state->getCurrToken()->getType()) {
+  SourceToken* currentToken = state->getCurrToken();
+  if (currentToken == nullptr) {
+    throw SPError("Unknown token sequence");
+  }
+
+  switch (currentToken->getType()) {
     case SIMPLE_TOKEN_KEYWORD_PRINT:
-      context = PRINT_CONTEXT;
-      break;
+      return contextProvider
+      ->getContext(PRINT_CONTEXT)->generateSubtree(state);
     case SIMPLE_TOKEN_KEYWORD_IF:
-      context = IF_CONTEXT;
-      break;
+      return contextProvider
+      ->getContext(IF_CONTEXT)->generateSubtree(state);
     case SIMPLE_TOKEN_KEYWORD_WHILE:
-      context = WHILE_CONTEXT;
-      break;
+      return contextProvider
+          ->getContext(WHILE_CONTEXT)->generateSubtree(state);
     case SIMPLE_TOKEN_KEYWORD_READ:
-      context = READ_CONTEXT;
-      break;
+      return contextProvider
+          ->getContext(READ_CONTEXT)->generateSubtree(state);
     case SIMPLE_TOKEN_KEYWORD_CALL:
-      context = CALL_CONTEXT;
-      break;
+      return contextProvider
+          ->getContext(CALL_CONTEXT)->generateSubtree(state);
     default:
       throw SPError("Unknown token sequence");
   }
-
-  return contextProvider->getContext(context)->generateSubtree(state);
 }
