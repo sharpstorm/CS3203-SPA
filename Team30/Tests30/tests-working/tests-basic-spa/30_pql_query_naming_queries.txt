@@ -1,0 +1,70 @@
+1 - Select PQL Keyword Handling
+stmt stmt, assign, print, read, call, if, while, Follows, Parent, Modifies, Uses, pattern;
+Select stmt such that Follows(1, 2)
+1,2,3,4,5,6
+5000
+2 - Select PQL Keyword Handling
+stmt stmt, assign, print, read, call, if, while, Follows, Parent, Modifies, Uses, pattern;
+Select assign such that Follows(1, 2)
+1,2,3,4,5,6
+5000
+3 - Select PQL Keyword Handling
+stmt stmt, assign, print, read, call, if, while, Follows, Parent, Modifies, Uses, pattern;
+Select print such that Follows(1, 2)
+1,2,3,4,5,6
+5000
+4 - Select PQL Keyword Handling
+stmt stmt, assign, print, read, call, if, while, Follows, Parent, Modifies, Uses, pattern;
+Select read such that Follows(1, 2)
+1,2,3,4,5,6
+5000
+5 - Select PQL Keyword Handling
+stmt stmt, assign, print, read, call, if, while, Follows, Parent, Modifies, Uses, pattern;
+Select call such that Follows(1, 2)
+1,2,3,4,5,6
+5000
+6 - Select PQL Keyword Handling
+stmt stmt, assign, print, read, call, if, while, Follows, Parent, Modifies, Uses, pattern;
+Select if such that Follows(1, 2)
+1,2,3,4,5,6
+5000
+7 - Select PQL Keyword Handling
+stmt stmt, assign, print, read, call, if, while, Follows, Parent, Modifies, Uses, pattern;
+Select while such that Follows(1, 2)
+1,2,3,4,5,6
+5000
+8 - Select PQL Keyword Handling
+stmt stmt, assign, print, read, call, if, while, Follows, Parent, Modifies, Uses, pattern;
+Select Follows such that Follows(1, 2)
+1,2,3,4,5,6
+5000
+9 - Select PQL Keyword Handling
+stmt stmt, assign, print, read, call, if, while, Follows, Parent, Modifies, Uses, pattern;
+Select Parent such that Follows(1, 2)
+1,2,3,4,5,6
+5000
+10 - Select PQL Keyword Handling
+stmt stmt, assign, print, read, call, if, while, Follows, Parent, Modifies, Uses, pattern;
+Select Modifies such that Follows(1, 2)
+1,2,3,4,5,6
+5000
+11 - Select PQL Keyword Handling
+stmt stmt, assign, print, read, call, if, while, Follows, Parent, Modifies, Uses, pattern;
+Select Uses such that Follows(1, 2)
+1,2,3,4,5,6
+5000
+12 - Select PQL Keyword Handling
+stmt stmt, assign, print, read, call, if, while, Follows, Parent, Modifies, Uses, pattern;
+Select pattern such that Follows(1, 2)
+1,2,3,4,5,6
+5000
+13 - Select PQL Keyword Handling
+stmt Select, Follows;
+Select Select such that Follows(Follows, Select)
+2,3,4
+5000
+14 - Select PQL Keyword Handling
+stmt Select, Follows;assign pattern;
+Select Select such that Follows(pattern, Select) pattern pattern(_,_)
+2,3,4
+5000
