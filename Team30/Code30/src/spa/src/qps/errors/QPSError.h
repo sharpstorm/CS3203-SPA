@@ -1,14 +1,18 @@
 #pragma once
 
+#include <string>
+
+using std::string;
+
 class QPSError : public std::exception {
  private:
-  const char* errMsg;
+  const string errMsg;
 
  protected:
-  explicit QPSError(const char* message): errMsg(message) {}
+  explicit QPSError(string message): errMsg(message) {}
 
  public:
   const char* what() const noexcept override {
-    return errMsg;
+    return errMsg.c_str();
   }
 };
