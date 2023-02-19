@@ -8,15 +8,19 @@ using std::vector, std::shared_ptr;
 
 class QueryPlan {
  public:
-  QueryPlan(
-      shared_ptr<IEvaluatable> selectClause,
-      vector<shared_ptr<IEvaluatable>> conditionalClauses);
-  explicit QueryPlan(vector<shared_ptr<IEvaluatable>> conditionalClauses);
-  shared_ptr<IEvaluatable> getSelectClause();
+  enum MergeStrategy {
+    DISCARDING_MERGE,
+    INNER_JOIN,
+    SKIP,
+  };
+
+  QueryPlan(vector<shared_ptr<IEvaluatable>> conditionalClauses,
+            vector<MergeStrategy> mergeStrategy);
   vector<shared_ptr<IEvaluatable>> getConditionalClauses();
-  bool hasSelectClause();
+  bool isEmpty();
+  MergeStrategy strategyFor(int rightClausePosition);
 
  private:
-  shared_ptr<IEvaluatable> selectClause;
   vector<shared_ptr<IEvaluatable>> conditionalClauses;
+  vector<MergeStrategy> mergeStrategy;
 };

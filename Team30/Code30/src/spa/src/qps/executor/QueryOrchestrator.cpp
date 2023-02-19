@@ -6,35 +6,33 @@ QueryOrchestrator::QueryOrchestrator(QueryLauncher launcher) :
 
 PQLQueryResult *QueryOrchestrator::execute(PQLQuery* query,
                                            QueryPlan* plan) {
-  PQLQueryResult* finalResult = nullptr;
+  if (plan->isEmpty()) {
+    return new PQLQueryResult();
+  }
+
+  auto executables = plan->getConditionalClauses();
   PQLQueryResult* currentResult;
-  for (shared_ptr<IEvaluatable> ie : plan->getConditionalClauses()) {
-    currentResult = launcher.execute(ie.get());
-    finalResult = coalescer.merge(finalResult, currentResult);
-  }
+  PQLQueryResult* finalResult = nullptr;
 
-  if (plan->hasSelectClause() && shouldExecuteSelect(plan, finalResult)) {
-    currentResult = launcher.execute(plan->getSelectClause().get());
-    delete(finalResult);
-    finalResult = currentResult;
-  }
+  for (int i = 0; i < executables.size(); i++) {
+    currentResult = launcher.execute(executables[i].get());
+    if (currentResult->isFalse()) {
+      delete currentResult;
+      delete finalResult;
+      return new PQLQueryResult();
+    }
 
-  if (finalResult == nullptr) {
-    return nullptr;
+    auto strategy = plan->strategyFor(i);
+    if (strategy == QueryPlan::INNER_JOIN) {
+      finalResult = coalescer.merge(currentResult, finalResult);
+    } else {
+      // Discarding and skip, we do take right
+      // isEmpty guarantee that for discards, left is not empty / false
+      delete finalResult;
+      finalResult = currentResult;
+    }
+    currentResult = nullptr;
   }
 
   return finalResult;
-}
-
-bool QueryOrchestrator::shouldExecuteSelect(QueryPlan *plan,
-                                            PQLQueryResult* state) {
-  if (state == nullptr) {
-    return true;
-  }
-
-  if (state->isStatic()) {
-    return !state->isFalse();
-  }
-
-  return !state->isEmpty();
 }

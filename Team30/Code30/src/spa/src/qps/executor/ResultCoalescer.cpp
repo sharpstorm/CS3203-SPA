@@ -19,22 +19,18 @@ PQLQueryResult *ResultCoalescer::merge(PQLQueryResult *setA,
       setB,
       result
   };
-
-  mergeStaticResult(&internalState);
   mergeError(&internalState);
 
-  if (!result->isFalse()) {
+  if (!setA->isFalse() && !setB->isFalse()) {
     mergeResult(&internalState);
+    if (result->isFalse()) {
+      result->setIsStaticFalse(false);
+    }
   }
 
-  delete(setA);
-  delete(setB);
+  delete setA;
+  delete setB;
   return result;
-}
-
-void ResultCoalescer::mergeStaticResult(InternalMergeState *state) {
-  bool mergedIsFalse = state->setA->isFalse() || state->setB->isFalse();
-  state->output->setIsStaticFalse(mergedIsFalse);
 }
 
 void ResultCoalescer::mergeError(InternalMergeState *state) {
