@@ -16,7 +16,7 @@ on:
         description: Flags to pass to executable
       valgrindflags:
         type: string
-        description: Flags to pass to executable
+        description: Flags to pass to valgrind
 
 env:
     BUILD_TYPE: Release
