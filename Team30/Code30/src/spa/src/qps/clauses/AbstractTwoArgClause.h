@@ -16,5 +16,5 @@ class AbstractTwoArgClause: public SuchThatClause {
 
  public:
   AbstractTwoArgClause(ClauseArgumentPtr left, ClauseArgumentPtr right);
-  bool usesSynonym(string varName);
+  SynonymList getUsedSynonyms() override;
 };

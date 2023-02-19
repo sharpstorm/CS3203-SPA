@@ -8,8 +8,15 @@ AbstractTwoArgClause::AbstractTwoArgClause(
     ClauseArgumentPtr right):
     left(move(left)), right(move(right)) {}
 
-bool AbstractTwoArgClause::usesSynonym(string varName) {
-  return left->isSynonymCalled(varName) || right->isSynonymCalled(varName);
+SynonymList AbstractTwoArgClause::getUsedSynonyms() {
+  SynonymList result;
+  if (left->isNamed()) {
+    result.push_back(left->getName());
+  }
+  if (right->isNamed()) {
+    result.push_back(right->getName());
+  }
+  return result;
 }
 
 bool AbstractTwoArgClause::isSameSynonym() {

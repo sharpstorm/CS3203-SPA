@@ -32,6 +32,7 @@ class PQLQueryResult {
   string error;
   bool isStaticResult;
   bool isStaticFalse;
+  bool isEmpty();
 
  public:
   PQLQueryResult();
@@ -46,7 +47,6 @@ class PQLQueryResult {
   void add(const PQLSynonymName &name,
            const unordered_set<T> &data);
 
-  bool isEmpty();
   bool isFalse();
   void setIsStaticFalse(bool staticRes);
   bool isStatic();

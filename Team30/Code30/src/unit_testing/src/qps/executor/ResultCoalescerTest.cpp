@@ -35,7 +35,7 @@ TEST_CASE("Test QueryResult Coalesce - 0 same synonym") {
   resultA.release();
   resultB.release();
 
-  REQUIRE(result->isEmpty());
+  REQUIRE(!result->isFalse());
 }
 
 TEST_CASE("Test QueryResult Coalesce - 1 same synonym") {

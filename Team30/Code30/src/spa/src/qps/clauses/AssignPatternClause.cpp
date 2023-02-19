@@ -48,9 +48,12 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
   return Clause::toQueryResult(synArg.get(), leftArgument.get(), assignResult);
 }
 
-bool AssignPatternClause::usesSynonym(string varName) {
-  return assignSynonym.getName() == varName
-      || leftArgument->isSynonymCalled(varName);
+SynonymList AssignPatternClause::getUsedSynonyms() {
+  SynonymList result{assignSynonym.getName()};
+  if (leftArgument->isNamed()) {
+    result.push_back(leftArgument->getName());
+  }
+  return result;
 }
 
 bool AssignPatternClause::validateArgTypes(VariableTable *variables) {
@@ -71,4 +74,3 @@ bool AssignPatternClause::findExpression(shared_ptr<IASTNode> rootNode) {
   return findExpression(rootNode->getChild(0))
       || findExpression(rootNode->getChild(1));
 }
-

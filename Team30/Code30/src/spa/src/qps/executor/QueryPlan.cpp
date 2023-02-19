@@ -1,19 +1,20 @@
 #include "QueryPlan.h"
 
 QueryPlan::QueryPlan(
-    shared_ptr<IEvaluatable> selectClause,
-    vector<shared_ptr<IEvaluatable>> conditionalClauses):
-    selectClause(selectClause), conditionalClauses(conditionalClauses) {}
+    vector<shared_ptr<IEvaluatable>> conditionalClauses,
+    vector<MergeStrategy> mergeStrategy):
+    conditionalClauses(conditionalClauses), mergeStrategy(mergeStrategy) {}
 
-QueryPlan::QueryPlan(vector<shared_ptr<IEvaluatable>> conditionalClauses):
-    selectClause(nullptr), conditionalClauses(conditionalClauses) {}
-
-bool QueryPlan::hasSelectClause() {
-  return selectClause != nullptr;
+bool QueryPlan::isEmpty() {
+  return conditionalClauses.size() == 0;
 }
 
-shared_ptr<IEvaluatable> QueryPlan::getSelectClause() {
-  return selectClause;
+QueryPlan::MergeStrategy QueryPlan::strategyFor(int rightClausePosition) {
+  if (rightClausePosition < 1
+      || rightClausePosition > conditionalClauses.size() - 1) {
+    return SKIP;
+  }
+  return mergeStrategy[rightClausePosition - 1];
 }
 
 vector<shared_ptr<IEvaluatable>> QueryPlan::getConditionalClauses() {

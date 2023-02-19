@@ -17,7 +17,7 @@ UniqueVectorPtr<string> ResultProjector::project(PQLQueryResult *queryResult,
   }
 
   // Static result
-  if (queryResult->isStatic()) {
+  if (queryResult->isFalse()) {
     return result;
   }
 
