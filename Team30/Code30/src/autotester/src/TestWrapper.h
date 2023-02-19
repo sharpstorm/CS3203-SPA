@@ -11,13 +11,16 @@
 
 // include your other headers here
 #include "AbstractWrapper.h"
+#include <memory>
+
+using std::unique_ptr;
 
 class TestWrapper : public AbstractWrapper {
  private:
-  IQPS* qps;
-  PKB* pkb;
-  ISp* sp;
-  PkbWriter* pkbWriter;
+  unique_ptr<IQPS> qps;
+  unique_ptr<PKB> pkb;
+  unique_ptr<ISp> sp;
+  unique_ptr<PkbWriter> pkbWriter;
 
  public:
   // default constructor
