@@ -118,47 +118,52 @@ constant c;
 Select c such that Parent* (_, _)
 0,1,2
 5000
-25 - Select syn s, LHS: int, RHS: int [valid, independent]
+25 - Select p, LHS: wildcard, RHS: wildcard [valid, independent]
+procedure p;
+Select p such that Parent* (_, _)
+ParentTest
+5000
+26 - Select syn s, LHS: int, RHS: int [valid, independent]
 stmt s;
 Select s such that Parent* (6, 7)
 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56
 5000
-26 - Select syn s, LHS: int, RHS: int [invalid, independent]
+27 - Select syn s, LHS: int, RHS: int [invalid, independent]
 stmt s;
 Select s such that Parent* (4, 13)
 none
 5000
-27 - Select syn s, LHS: int, RHS: wildcard []
+28 - Select syn s, LHS: int, RHS: wildcard []
 stmt s;
 Select s such that Parent* (25, _)
 none
 5000
-28 - Select syn s, LHS: int, RHS: wildcard []
+29 - Select syn s, LHS: int, RHS: wildcard []
 stmt s;
 Select s such that Parent* (5, _)
 none
 5000
-29 - Invalid LHS: IDENT, [syntax wrong]
+30 - Invalid LHS: IDENT, [syntax wrong]
 stmt s;
 Select s such that Parent* ("nothing", _)
 SyntaxError
 5000
-30 - Invalid RHS: IDENT, [syntax wrong]
+31 - Invalid RHS: IDENT, [syntax wrong]
 stmt s;
 Select s such that Parent* (_, "nothing")
 SyntaxError
 5000
-31 - Invalid LHS: var, [semantic wrong]
+32 - Invalid LHS: var, [semantic wrong]
 stmt s; variable v;
 Select s such that Parent* (v, _)
 SemanticError
 5000
-32 - Invalid LHS: const, [semantic wrong]
+33 - Invalid LHS: const, [semantic wrong]
 stmt s; constant c;
 Select s such that Parent* (c, _)
 SemanticError
 5000
-33 -  Invalid LHS: p, [semantic wrong]
+34 -  Invalid LHS: p, [semantic wrong]
 stmt s; procedure p;
 Select s such that Parent* (p, _)
 SemanticError
