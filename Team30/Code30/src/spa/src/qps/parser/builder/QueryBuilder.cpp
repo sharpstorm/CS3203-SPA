@@ -1,7 +1,7 @@
 #include "QueryBuilder.h"
 #include "qps/errors/QPSParserSemanticError.h"
 
-using std::move, std::make_unique;
+using std::make_unique;
 
 QueryBuilder::QueryBuilder(): errorMsg("") {
 }
@@ -39,11 +39,11 @@ PQLQuerySynonym* QueryBuilder::accessSynonym(PQLSynonymName name) {
 }
 
 void QueryBuilder::addSuchThat(unique_ptr<SuchThatClause> clause) {
-  clauses.push_back(move(clause));
+  clauses.push_back(std::move(clause));
 }
 
 void QueryBuilder::addPattern(unique_ptr<PatternClause> clause) {
-  clauses.push_back(move(clause));
+  clauses.push_back(std::move(clause));
 }
 
 unique_ptr<PQLQuery> QueryBuilder::build() {

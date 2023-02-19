@@ -1,15 +1,20 @@
 #include "AbstractTwoArgClause.h"
 #include <utility>
 
-using std::move;
-
 AbstractTwoArgClause::AbstractTwoArgClause(
     ClauseArgumentPtr left,
     ClauseArgumentPtr right):
-    left(move(left)), right(move(right)) {}
+    left(std::move(left)), right(std::move(right)) {}
 
-bool AbstractTwoArgClause::usesSynonym(string varName) {
-  return left->isSynonymCalled(varName) || right->isSynonymCalled(varName);
+SynonymList AbstractTwoArgClause::getUsedSynonyms() {
+  SynonymList result;
+  if (left->isNamed()) {
+    result.push_back(left->getName());
+  }
+  if (right->isNamed()) {
+    result.push_back(right->getName());
+  }
+  return result;
 }
 
 bool AbstractTwoArgClause::isSameSynonym() {

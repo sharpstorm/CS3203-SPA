@@ -13,7 +13,6 @@ class ClauseArgument {
  public:
   virtual ~ClauseArgument() = default;
   virtual bool synonymSatisfies(SynonymPredicate predicate);
-  virtual bool isSynonymCalled(PQLSynonymName name);
 
   virtual bool isNamed();
   virtual bool isWildcard();

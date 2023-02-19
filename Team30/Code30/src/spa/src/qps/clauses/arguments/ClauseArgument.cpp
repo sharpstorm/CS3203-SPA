@@ -1,9 +1,5 @@
 #include "ClauseArgument.h"
 
-bool ClauseArgument::isSynonymCalled(PQLSynonymName name) {
-  return false;
-}
-
 bool ClauseArgument::synonymSatisfies(SynonymPredicate predicate) {
   return true;
 }

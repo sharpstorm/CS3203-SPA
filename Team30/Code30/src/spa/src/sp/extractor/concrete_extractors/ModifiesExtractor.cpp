@@ -1,41 +1,40 @@
-#include <string>
 #include "ModifiesExtractor.h"
-
-using std::string;
 
 ModifiesExtractor::ModifiesExtractor(PkbWriter* writer) : pkbWriter(writer) {
 }
 
-void ModifiesExtractor::visit(AssignNode node) {
-  string nodeValue = node.getChildren()[0]->toString();
-  addModifiesRelation(node.lineNumber, nodeValue);
-  for (int i : statementStartStack) {
-    addModifiesRelation(i, nodeValue);
-  }
+void ModifiesExtractor::visit(AssignNode* node) {
+  string leftVar = node->getChildren()[0]->toString();
+  addNodeModifies(node, leftVar);
 }
 
-void ModifiesExtractor::visit(ReadNode node) {
-  string nodeValue = node.getChildren()[0]->toString();
-  addModifiesRelation(node.lineNumber, nodeValue);
-  for (int i : statementStartStack) {
-    addModifiesRelation(i, nodeValue);
-  }
+void ModifiesExtractor::visit(ReadNode* node) {
+  string var = node->getChildren()[0]->toString();
+  addNodeModifies(node, var);
 }
 
-void ModifiesExtractor::visit(WhileNode node) {
-  statementStartStack.push_back(node.lineNumber);
+void ModifiesExtractor::visit(WhileNode* node) {
+  statementStartStack.push_back(node->getLineNumber());
 }
 
-void ModifiesExtractor::visit(IfNode node) {
-  statementStartStack.push_back(node.lineNumber);
+void ModifiesExtractor::visit(IfNode* node) {
+  statementStartStack.push_back(node->getLineNumber());
 }
 
-void ModifiesExtractor::leave(IfNode node) {
+void ModifiesExtractor::leave(IfNode* node) {
   statementStartStack.pop_back();
 }
 
-void ModifiesExtractor::leave(WhileNode node) {
+void ModifiesExtractor::leave(WhileNode* node) {
   statementStartStack.pop_back();
+}
+
+void ModifiesExtractor::addNodeModifies(StatementASTNode *node,
+                                        const string &var) {
+  addModifiesRelation(node->getLineNumber(), var);
+  for (int i : statementStartStack) {
+    addModifiesRelation(i, var);
+  }
 }
 
 void ModifiesExtractor::addModifiesRelation(int x, string var) {

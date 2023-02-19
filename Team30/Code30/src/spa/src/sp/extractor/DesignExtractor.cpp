@@ -6,25 +6,21 @@
 #include "sp/extractor/concrete_extractors/ModifiesExtractor.h"
 #include "sp/extractor/concrete_extractors/PatternExtractor.h"
 
+using std::make_unique;
+
 DesignExtractor::DesignExtractor(PkbWriter* pkbWriter) {
-  shared_ptr<AbstractExtractor> followsExtractor =
-      shared_ptr<AbstractExtractor>(new FollowsExtractor(pkbWriter));
-  shared_ptr<AbstractExtractor> parentExtractor =
-      shared_ptr<AbstractExtractor>(new ParentExtractor(pkbWriter));
-  shared_ptr<AbstractExtractor> entityExtractor =
-      shared_ptr<AbstractExtractor>(new EntityExtractor(pkbWriter));
-  shared_ptr<AbstractExtractor> usesExtractor =
-      shared_ptr<AbstractExtractor>(new UsesExtractor(pkbWriter));
-  shared_ptr<AbstractExtractor> modifiesExtractor =
-      shared_ptr<AbstractExtractor>(new ModifiesExtractor(pkbWriter));
-  shared_ptr<AbstractExtractor> patternExtractor =
-      shared_ptr<AbstractExtractor>(new PatternExtractor(pkbWriter));
-  extractors.push_back(followsExtractor);
-  extractors.push_back(parentExtractor);
-  extractors.push_back(entityExtractor);
-  extractors.push_back(usesExtractor);
-  extractors.push_back(modifiesExtractor);
-  extractors.push_back(patternExtractor);
+  ownedExtractors.push_back(make_unique<FollowsExtractor>(pkbWriter));
+  ownedExtractors.push_back(make_unique<ParentExtractor>(pkbWriter));
+  ownedExtractors.push_back(make_unique<EntityExtractor>(pkbWriter));
+  ownedExtractors.push_back(make_unique<UsesExtractor>(pkbWriter));
+  ownedExtractors.push_back(make_unique<ModifiesExtractor>(pkbWriter));
+  ownedExtractors.push_back(make_unique<PatternExtractor>(pkbWriter));
+
+  for (int i = 0; i < ownedExtractors.size(); i++) {
+    extractorRefs.push_back(ownedExtractors.at(i).get());
+  }
 }
 
-void DesignExtractor::extract(AST ast) { treeWalker.walkAST(ast, extractors); }
+void DesignExtractor::extract(AST ast) {
+  treeWalker.walkAST(ast, &extractorRefs);
+}

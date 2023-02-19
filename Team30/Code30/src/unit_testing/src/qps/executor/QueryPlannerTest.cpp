@@ -3,8 +3,8 @@
 #include <memory>
 #include <unordered_map>
 
-#include "qps/clauses/FollowsClause.h"
-#include "qps/executor/QueryPlanner.h"
+#include "qps/clauses/such_that/FollowsClause.h"
+#include "qps/executor/planner/QueryPlanner.h"
 #include "qps/common/PQLQuerySynonym.h"
 #include "qps/clauses/arguments/ClauseArgumentFactory.h"
 
@@ -13,8 +13,6 @@ using std::make_unique, std::unordered_map, std::unique_ptr;
 PQLQuerySynonym PQL_RESULT_VAR{PQL_SYN_TYPE_STMT, "a"};
 PQLQuerySynonym PQL_RESULT_VAR2{PQL_SYN_TYPE_STMT, "b"};
 unordered_map<string, PQLQuerySynonym> PQL_VAR_MAP({{"a", PQL_RESULT_VAR}});
-
-QueryPlanner queryPlanner;
 
 // Will not have select clause
 TEST_CASE("Plan where a clause is using target declaration variable") {
@@ -25,8 +23,7 @@ TEST_CASE("Plan where a clause is using target declaration variable") {
   clauses.push_back(move(c));
 
   auto query = make_unique<PQLQuery>(PQL_VAR_MAP, PQL_RESULT_VAR, clauses);
-  shared_ptr<QueryPlan> queryPlan = queryPlanner.getExecutionPlan(query.get());
-  REQUIRE(queryPlan->hasSelectClause() == false);
+  shared_ptr<QueryPlan> queryPlan = QueryPlanner(query.get()).getExecutionPlan();
   REQUIRE(queryPlan->getConditionalClauses().size() == clauses.size());
 }
 
@@ -39,15 +36,13 @@ TEST_CASE("Plan where a clause is not using target declaration variable") {
   clauses.push_back(move(c));
 
   auto query = make_unique<PQLQuery>(PQL_VAR_MAP, PQL_RESULT_VAR, clauses);
-  shared_ptr<QueryPlan> queryPlan = queryPlanner.getExecutionPlan(query.get());
-  REQUIRE(queryPlan->hasSelectClause());
-  REQUIRE(queryPlan->getConditionalClauses().size() == clauses.size());
+  shared_ptr<QueryPlan> queryPlan = QueryPlanner(query.get()).getExecutionPlan();
+  REQUIRE(queryPlan->getConditionalClauses().size() == clauses.size() + 1);
 }
 
 TEST_CASE("Plan where query is only Select") {
   auto query = make_unique<PQLQuery>(PQL_VAR_MAP, PQL_RESULT_VAR, vector<shared_ptr<Clause>>());
-  shared_ptr<QueryPlan> queryPlan = queryPlanner.getExecutionPlan(query.get());
+  shared_ptr<QueryPlan> queryPlan = QueryPlanner(query.get()).getExecutionPlan();
 
-  REQUIRE(queryPlan->hasSelectClause());
-  REQUIRE(queryPlan->getConditionalClauses().size() == 0);
+  REQUIRE(queryPlan->getConditionalClauses().size() == 1);
 }

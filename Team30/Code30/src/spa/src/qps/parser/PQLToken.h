@@ -77,7 +77,6 @@ class PQLToken {
   PQLTokenType getType();
   string getData();
   bool isType(PQLTokenType);
-  bool isCategory(PQLTokenCategory);
   bool isVarchar();
   bool isSynName();
   bool operator==(const PQLToken& other) const;

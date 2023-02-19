@@ -1,32 +1,33 @@
 #include "ParentExtractor.h"
+#include "StatementNumberExtractor.h"
 
 ParentExtractor::ParentExtractor(PkbWriter* writer) : pkbWriter(writer) {
 }
 
-void ParentExtractor::visit(IfNode node) {
-  vector<shared_ptr<ASTNode>> children = node.getChildren();
-  vector<shared_ptr<ASTNode>> ifLst = children[1]->getChildren();
-  vector<shared_ptr<ASTNode>> elseLst = children[2]->getChildren();
-  for (int i = 0; i < ifLst.size(); i++) {
-    ParentExtractor::addParentRelation(
-        node.lineNumber,
-        std::dynamic_pointer_cast<StatementASTNode>(ifLst[i])->lineNumber);
-  }
+void ParentExtractor::visit(IfNode* node) {
+  vector<ASTNodePtr> children = node->getChildren();
+  vector<ASTNodePtr> ifLst = children[1]->getChildren();
+  vector<ASTNodePtr> elseLst = children[2]->getChildren();
 
-  for (int i = 0; i < elseLst.size(); i++) {
-    ParentExtractor::addParentRelation(
-        node.lineNumber,
-        std::dynamic_pointer_cast<StatementASTNode>(elseLst[i])->lineNumber);
-  }
+  addParentOnList(node->getLineNumber(), &ifLst);
+  addParentOnList(node->getLineNumber(), &elseLst);
 }
 
-void ParentExtractor::visit(WhileNode node) {
-  vector<shared_ptr<ASTNode>> children = node.getChildren();
-  vector<shared_ptr<ASTNode>> stmtList = children[1]->getChildren();
-  for (int i = 0; i < stmtList.size(); i++) {
+void ParentExtractor::visit(WhileNode* node) {
+  vector<ASTNodePtr> children = node->getChildren();
+  vector<ASTNodePtr> stmtList = children[1]->getChildren();
+
+  addParentOnList(node->getLineNumber(), &stmtList);
+}
+
+void ParentExtractor::addParentOnList(int parentLine,
+                                      vector<ASTNodePtr> *childList) {
+  StatementNumberExtractor statementNoExtractor;
+  for (int i = 0; i < childList->size(); i++) {
+    childList->at(i)->accept(&statementNoExtractor);
     ParentExtractor::addParentRelation(
-        node.lineNumber,
-        std::dynamic_pointer_cast<StatementASTNode>(stmtList[i])->lineNumber);
+        parentLine,
+        statementNoExtractor.getStatementNumber());
   }
 }
 

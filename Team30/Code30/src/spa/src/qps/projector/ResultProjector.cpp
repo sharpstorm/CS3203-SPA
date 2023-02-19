@@ -10,14 +10,8 @@ UniqueVectorPtr<string> ResultProjector::project(PQLQueryResult *queryResult,
 ) {
   UniqueVectorPtr<string> result =
       make_unique<vector<string>>(vector<string>{});
-  // Error result
-  if (!queryResult->getError().empty()) {
-    result->push_back(queryResult->getError());
-    return result;
-  }
-
   // Static result
-  if (queryResult->isStatic()) {
+  if (queryResult->isFalse()) {
     return result;
   }
 

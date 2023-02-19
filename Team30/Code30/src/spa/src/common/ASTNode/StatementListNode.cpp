@@ -1,22 +1,20 @@
-#include <memory>
 #include "StatementListNode.h"
 
-using std::shared_ptr;
+#include <vector>
 
-StatementListNode::StatementListNode() :ASTNode(ASTNODE_STMTLST, "") {
-  children = vector<shared_ptr<ASTNode>>{};
+using std::vector;
+
+StatementListNode::StatementListNode() :ASTNode(ASTNODE_STMTLST) {
+  children = vector<ASTNodePtr>{};
 }
 
-void StatementListNode::accept(shared_ptr<Extractor> e) {
-  e->visit(*this);
-}
-
-void StatementListNode::leave(shared_ptr<Extractor> e) {
+void StatementListNode::accept(Extractor* e) {
+  e->visit(this);
 }
 
 string StatementListNode::toString() {
   string ss = "StmtLst: \n";
-  for (shared_ptr<ASTNode> node : children) {
+  for (ASTNodePtr node : children) {
     ss += node->toString() + "\n";
   }
   return ss;

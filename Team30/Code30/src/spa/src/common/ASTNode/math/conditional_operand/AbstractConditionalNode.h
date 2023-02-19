@@ -1,20 +1,21 @@
 #pragma once
 
 #include <string>
-#include <memory>
 #include "sp/extractor/Extractor.h"
 #include "common/ASTNode/BinaryASTNode.h"
 
-using std::string, std::shared_ptr;
+using std::string;
 
 class AbstractConditionalNode: public BinaryASTNode {
  public:
   virtual ~AbstractConditionalNode() = default;
-  void accept(shared_ptr<Extractor> e) {
-    e->visit(*this);
-  }
-  void leave(shared_ptr<Extractor> e) {}
+  void accept(Extractor* e);
+  string toString();
+
  protected:
-  AbstractConditionalNode(ASTNodeType type, string value) :
-      BinaryASTNode(type, value) {}
+  AbstractConditionalNode(ASTNodeType type, string identifier) :
+      BinaryASTNode(type), identifier(identifier) {}
+
+ private:
+  string identifier;
 };

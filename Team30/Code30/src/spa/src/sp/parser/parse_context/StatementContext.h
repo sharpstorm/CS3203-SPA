@@ -1,14 +1,12 @@
 #pragma once
 
-#include <memory>
 #include "RecursiveParseContext.h"
 #include "../IGrammarContextProvider.h"
-
-using std::shared_ptr;
+#include "common/ASTNode/ASTNode.h"
 
 class StatementContext: public RecursiveParseContext {
  public:
   explicit StatementContext(IGrammarContextProvider* provider):
       RecursiveParseContext(provider) {}
-  shared_ptr<ASTNode> generateSubtree(SourceParseState* state);
+  ASTNodePtr generateSubtree(SourceParseState* state);
 };

@@ -9,18 +9,18 @@
 #include "../Util.cpp"
 #include "catch.hpp"
 
-using std::make_shared;
+using std::make_shared, std::make_unique;
 
 vector<pair<int, int>> executeParentExtractor(string input) {
   TreeWalker treeWalker;
   PKB pkb;
   StubPkb stubby(&pkb);
   SourceParser parser;
-  vector<shared_ptr<Extractor>> extractors;
-  extractors.push_back(
-      shared_ptr<AbstractExtractor>(new ParentExtractor(&stubby)));
+  vector<Extractor*> extractors;
+  auto parentExtractor = make_unique<ParentExtractor>(&stubby);
+  extractors.push_back(parentExtractor.get());
   AST ast = parser.parseSource(input);
-  treeWalker.walkAST(ast, extractors);
+  treeWalker.walkAST(ast, &extractors);
   return stubby.parentStore;
 }
 

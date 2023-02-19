@@ -10,19 +10,18 @@
 #include "sp/errors/SPError.h"
 #include <iostream>
 
-using std::vector, std::string, std::pair;
-
+using std::vector, std::string, std::pair, std::make_unique;
 
 vector<pair<int, string>> executeUsesExtractor(string input) {
   TreeWalker treeWalker;
   PKB pkb;
   StubPkb stubby(&pkb);
   SourceParser parser;
-  vector<shared_ptr<Extractor>> extractors;
-  extractors.push_back(shared_ptr<AbstractExtractor>
-                           (new UsesExtractor(&stubby)));
+  vector<Extractor*> extractors;
+  auto usesExtractor = make_unique<UsesExtractor>(&stubby);
+  extractors.push_back(usesExtractor.get());
   AST ast = parser.parseSource(input);
-  treeWalker.walkAST(ast, extractors);
+  treeWalker.walkAST(ast, &extractors);
   return stubby.usesStore;
 }
 

@@ -7,7 +7,7 @@
 #include "qps/clauses/arguments/StmtArgument.h"
 #include "qps/clauses/arguments/SynonymArgument.h"
 #include "qps/clauses/arguments/WildcardArgument.h"
-#include "qps/clauses/UsesClause.h"
+#include "qps/clauses/such_that/UsesClause.h"
 #include "ClausesPKBStub.cpp"
 #include "../util/QueryResultTestUtil.cpp"
 

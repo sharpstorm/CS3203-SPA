@@ -18,10 +18,6 @@ QueryDriver::QueryDriver(shared_ptr<PkbQueryHandler> pkbQH):
   parser(new QueryParser()), executor(new QueryExecutor(pkbQH)) {
 }
 
-QueryDriver::QueryDriver(IQueryParser* parser, IQueryExecutor* executor) :
-  parser(parser), executor(executor) {
-}
-
 QueryDriver::~QueryDriver() {
   delete(parser);
   delete(executor);
