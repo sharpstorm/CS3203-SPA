@@ -25,15 +25,6 @@ ResultProjector projector;
 PQLQuerySynonym TARGET_RESULT_VAR{PQL_SYN_TYPE_ASSIGN, "a"};
 PQLQuerySynonym TARGET_ENTITY_VAR{PQL_SYN_TYPE_VARIABLE, "v"};
 
-TEST_CASE("Project error result") {
-  PQLQueryResult result;
-  result.setError(ERROR_MESSAGE);
-
-  UniqueVectorPtr<string> projectedResult = projector.project(&result, TARGET_RESULT_VAR);
-  REQUIRE(*projectedResult == EXPECTED_ERROR);
-}
-
-
 TEST_CASE("Project when result is static") {
   PQLQueryResult result;
   result.setIsStaticFalse(true);

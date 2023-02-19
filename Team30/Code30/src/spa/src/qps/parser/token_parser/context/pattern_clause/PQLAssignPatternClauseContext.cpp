@@ -3,7 +3,7 @@
 #include <memory>
 #include <string>
 #include <utility>
-#include "../../../../clauses/AssignPatternClause.h"
+#include "qps/clauses/pattern/AssignPatternClause.h"
 #include "qps/parser/token_parser/ref_extractor/PQLEntityRefExtractor.h"
 
 using std::make_unique, std::string, std::unique_ptr, std::move;

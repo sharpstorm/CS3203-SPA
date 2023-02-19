@@ -3,7 +3,7 @@
 #include <memory>
 #include <unordered_map>
 
-#include "qps/clauses/FollowsClause.h"
+#include "qps/clauses/such_that/FollowsClause.h"
 #include "qps/executor/QueryPlanner.h"
 #include "qps/common/PQLQuerySynonym.h"
 #include "qps/clauses/arguments/ClauseArgumentFactory.h"

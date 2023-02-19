@@ -6,8 +6,8 @@
 #include "PQLContextTestUtils.cpp"
 #include "qps/parser/token_parser/context/such_that_clause/PQLFollowsClauseContext.h"
 #include "qps/errors/QPSParserSyntaxError.h"
-#include "qps/clauses/FollowsClause.h"
-#include "qps/clauses/FollowsTClause.h"
+#include "qps/clauses/such_that/FollowsClause.h"
+#include "qps/clauses/such_that/FollowsTClause.h"
 #include "qps/errors/QPSParserSemanticError.h"
 
 using std::make_unique, std::unordered_map;

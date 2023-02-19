@@ -8,9 +8,9 @@
 #include "qps/common/PQLQuery.h"
 #include "qps/errors/QPSError.h"
 #include "qps/parser/token_parser/QueryTokenParser.h"
-#include "qps/clauses/FollowsClause.h"
+#include "qps/clauses/such_that/FollowsClause.h"
 #include "qps/parser/QueryParser.h"
-#include "qps/clauses/AssignPatternClause.h"
+#include "qps/clauses/pattern/AssignPatternClause.h"
 
 using std::vector, std::string, std::cout, std::unique_ptr, std::shared_ptr;
 

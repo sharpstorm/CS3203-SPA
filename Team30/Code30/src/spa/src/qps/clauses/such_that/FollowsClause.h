@@ -3,10 +3,10 @@
 #include <memory>
 #include <string>
 
-#include "arguments/ClauseArgument.h"
-#include "SuchThatClause.h"
+#include "qps/clauses/arguments/ClauseArgument.h"
+#include "qps/clauses/SuchThatClause.h"
 #include "common/Types.h"
-#include "AbstractTwoArgClause.h"
+#include "qps/clauses/AbstractTwoArgClause.h"
 
 using std::shared_ptr;
 
