@@ -24,6 +24,11 @@ PQLQueryResult *QueryOrchestrator::execute(QueryPlan* plan) {
     auto strategy = plan->strategyFor(i);
     if (strategy == QueryPlan::INNER_JOIN) {
       finalResult = coalescer.merge(currentResult, finalResult);
+      if (finalResult->isFalse()) {
+        delete finalResult;
+        return new PQLQueryResult();
+      }
+
     } else {
       // Discarding and skip, we do take right
       // isEmpty guarantee that for discards, left is not empty / false
