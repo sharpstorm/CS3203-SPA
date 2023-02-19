@@ -5,7 +5,7 @@
 #include "common/ASTNode/math/conditional_operand/AndASTNode.h"
 #include "common/ASTNode/math/conditional_operand/OrASTNode.h"
 
-using std::shared_ptr;
+using std::shared_ptr, std::make_shared;
 
 shared_ptr<ASTNode> ConditionalExpressionContext::generateSubtree(
     SourceParseState *state) {
@@ -25,17 +25,11 @@ shared_ptr<ASTNode> ConditionalExpressionContext::generateSubtree(
   return newNode;
 }
 
+template<class T>
 shared_ptr<BinaryASTNode>
 ConditionalExpressionContext::
-generateConditionalNode(shared_ptr<ASTNode> leftNode, SourceTokenType type) {
-  shared_ptr<BinaryASTNode> node;
-  if (type == SIMPLE_TOKEN_AND) {
-    node = shared_ptr<BinaryASTNode>(new AndASTNode());
-  } else if (type == SIMPLE_TOKEN_OR) {
-    node = shared_ptr<BinaryASTNode>(new OrASTNode());
-  } else {
-    node = shared_ptr<BinaryASTNode>(new NotASTNode());
-  }
+generateConditionalNode(shared_ptr<ASTNode> leftNode) {
+  shared_ptr<BinaryASTNode> node = make_shared<T>();
   node->setLeftChild(leftNode);
   return node;
 }
@@ -49,10 +43,9 @@ processNotCondition(SourceParseState* state) {
   state->clearCached();
 
   // Create Condition Expression node and parse condition
-  shared_ptr<ASTNode> newNode =
-      generateConditionalNode(contextProvider->
-          getContext(COND_CONTEXT)->
-          generateSubtree(state), SIMPLE_TOKEN_NOT);
+  shared_ptr<ASTNode> leftNode = contextProvider->getContext(COND_CONTEXT)
+      ->generateSubtree(state);
+  shared_ptr<ASTNode> newNode = generateConditionalNode<NotASTNode>(leftNode);
   expect(state, SIMPLE_TOKEN_BRACKET_ROUND_RIGHT);
   return newNode;
 }
@@ -64,9 +57,8 @@ processBiCondition(SourceParseState* state) {
   expect(state, SIMPLE_TOKEN_BRACKET_ROUND_LEFT);
 
   // Parse first condition
-  shared_ptr<ASTNode> leftCondition = contextProvider->
-      getContext(COND_CONTEXT)->
-      generateSubtree(state);
+  shared_ptr<ASTNode> leftCondition = contextProvider
+      ->getContext(COND_CONTEXT)->generateSubtree(state);
 
   // Expect ')' -> '&&' / '||' -> '('
   expect(state, SIMPLE_TOKEN_BRACKET_ROUND_RIGHT);
@@ -76,13 +68,16 @@ processBiCondition(SourceParseState* state) {
   state->clearCached();
 
   // Generate Condition node
-  shared_ptr<BinaryASTNode> newNode =
-      generateConditionalNode(leftCondition, type);
+  shared_ptr<BinaryASTNode> newNode;
+  if (type == SIMPLE_TOKEN_AND) {
+    newNode = generateConditionalNode<AndASTNode>(leftCondition);
+  } else {
+    newNode = generateConditionalNode<OrASTNode>(leftCondition);
+  }
 
   // Parse second condition
-  newNode->setRightChild(contextProvider->
-      getContext(COND_CONTEXT)->
-      generateSubtree(state));
+  newNode->setRightChild(contextProvider->getContext(COND_CONTEXT)
+                             ->generateSubtree(state));
   expect(state, SIMPLE_TOKEN_BRACKET_ROUND_RIGHT);
   return newNode;
 }
@@ -90,8 +85,5 @@ processBiCondition(SourceParseState* state) {
 shared_ptr<ASTNode>
 ConditionalExpressionContext::
 processRelationalExpression(SourceParseState* state) {
-  shared_ptr<ASTNode> newNode = contextProvider->
-      getContext(REL_CONTEXT)->
-      generateSubtree(state);
-  return newNode;
+  return contextProvider->getContext(REL_CONTEXT)->generateSubtree(state);
 }
