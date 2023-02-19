@@ -4,7 +4,7 @@
 
 #include "../../util/PQLTestTokenSequenceBuilder.cpp"
 #include "qps/errors/QPSParserSyntaxError.h"
-#include "qps/clauses/AssignPatternClause.h"
+#include "qps/clauses/pattern/AssignPatternClause.h"
 #include "qps/errors/QPSParserSemanticError.h"
 #include "qps/parser/token_parser/context/pattern_clause/PQLPatternContext.h"
 

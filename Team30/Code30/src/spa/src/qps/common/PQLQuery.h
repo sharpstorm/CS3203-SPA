@@ -15,14 +15,16 @@ class PQLQuery {
  private:
   VariableTable variables;
   PQLQuerySynonym resultVariable;
-  vector<shared_ptr<Clause>> clauses;
+  vector<ClauseSPtr> clauses;
+
  public:
   PQLQuery(unordered_map<string, PQLQuerySynonym> vars,
            PQLQuerySynonym resVar,
-           vector<shared_ptr<Clause>> c);
+           vector<ClauseSPtr> c);
   int getVariableCount();
   PQLQuerySynonym getResultVariable();
   PQLQuerySynonym* getVariable(PQLSynonymName name);
   PQLSynonymName getResultName();
-  vector<shared_ptr<IEvaluatable>> getEvaluatables();
+  vector<IEvaluatableSPtr> getEvaluatables();
+  int getClauseCount();
 };

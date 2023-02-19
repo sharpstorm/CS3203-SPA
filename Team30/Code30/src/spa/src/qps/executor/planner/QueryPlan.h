@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <memory>
-#include "../common/IEvaluatable.h"
+#include "qps/common/IEvaluatable.h"
 
 using std::vector, std::shared_ptr;
 
@@ -14,13 +14,13 @@ class QueryPlan {
     SKIP,
   };
 
-  QueryPlan(vector<shared_ptr<IEvaluatable>> conditionalClauses,
+  QueryPlan(vector<IEvaluatableSPtr> conditionalClauses,
             vector<MergeStrategy> mergeStrategy);
-  vector<shared_ptr<IEvaluatable>> getConditionalClauses();
+  vector<IEvaluatableSPtr> getConditionalClauses();
   bool isEmpty();
   MergeStrategy strategyFor(int rightClausePosition);
 
  private:
-  vector<shared_ptr<IEvaluatable>> conditionalClauses;
+  vector<IEvaluatableSPtr> conditionalClauses;
   vector<MergeStrategy> mergeStrategy;
 };

@@ -3,16 +3,16 @@
 #include <vector>
 #include <unordered_set>
 
-#include "ParentTClause.h"
+#include "ParentClause.h"
 
-using std::pair, std::vector, std::shared_ptr, std::move;
+using std::pair, std::vector, std::shared_ptr;
 
-ParentTClause::ParentTClause(ClauseArgumentPtr leftArg,
-                             ClauseArgumentPtr rightArg):
-  AbstractTwoArgClause(move(leftArg), move(rightArg)) {
+ParentClause::ParentClause(ClauseArgumentPtr leftArg,
+                           ClauseArgumentPtr rightArg):
+    AbstractTwoArgClause(std::move(leftArg), std::move(rightArg)) {
 }
 
-PQLQueryResult* ParentTClause::evaluateOn(
+PQLQueryResult* ParentClause::evaluateOn(
         shared_ptr<PkbQueryHandler> pkbQueryHandler) {
   if (isSameSynonym()) {
     return Clause::toQueryResult(left->getName(), unordered_set<int>{});
@@ -21,11 +21,11 @@ PQLQueryResult* ParentTClause::evaluateOn(
   StmtRef leftStatement = left->toStmtRef();
   StmtRef rightStatement = right->toStmtRef();
   QueryResult<int, int> queryResult =
-      pkbQueryHandler->queryParentStar(leftStatement, rightStatement);
+      pkbQueryHandler->queryParent(leftStatement, rightStatement);
   return Clause::toQueryResult(left.get(), right.get(), queryResult);
 }
 
-bool ParentTClause::validateArgTypes(VariableTable *variables) {
+bool ParentClause::validateArgTypes(VariableTable *variables) {
   bool isLeftValid = left->synonymSatisfies(ClauseArgument::isStatement);
   bool isRightValid = right->synonymSatisfies(ClauseArgument::isStatement);
 

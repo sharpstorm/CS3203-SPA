@@ -1,6 +1,5 @@
 #include "ClauseArgumentFactory.h"
 
-#include <utility>
 #include "StmtArgument.h"
 #include "EntityArgument.h"
 #include "SynonymArgument.h"

@@ -10,7 +10,8 @@ QueryExecutor::QueryExecutor(shared_ptr<PkbQueryHandler> pkbQH):
 }
 
 PQLQueryResult *QueryExecutor::executeQuery(PQLQuery* query) {
-  unique_ptr<QueryPlan> plan = planner.getExecutionPlan(query);
-  PQLQueryResult* result = orchestrator.execute(query, plan.get());
+  QueryPlanner planner(query);
+  unique_ptr<QueryPlan> plan = planner.getExecutionPlan();
+  PQLQueryResult* result = orchestrator.execute(plan.get());
   return result;
 }

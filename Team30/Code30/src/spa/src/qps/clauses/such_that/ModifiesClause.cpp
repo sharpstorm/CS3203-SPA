@@ -3,11 +3,11 @@
 
 #include "ModifiesClause.h"
 
-using std::shared_ptr, std::move;
+using std::shared_ptr;
 
 ModifiesClause::ModifiesClause(ClauseArgumentPtr leftArg,
                                ClauseArgumentPtr rightArg):
-    AbstractTwoArgClause(move(leftArg), move(rightArg)) {
+    AbstractTwoArgClause(std::move(leftArg), std::move(rightArg)) {
 }
 
 PQLQueryResult* ModifiesClause::evaluateOn(

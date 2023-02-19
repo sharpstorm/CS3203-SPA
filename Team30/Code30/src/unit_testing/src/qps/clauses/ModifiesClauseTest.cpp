@@ -6,7 +6,7 @@
 #include "qps/clauses/arguments/EntityArgument.h"
 #include "qps/clauses/arguments/StmtArgument.h"
 #include "qps/clauses/arguments/SynonymArgument.h"
-#include "qps/clauses/ModifiesClause.h"
+#include "qps/clauses/such_that/ModifiesClause.h"
 #include "ClausesPKBStub.cpp"
 #include "qps/clauses/arguments/WildcardArgument.h"
 #include "../util/QueryResultTestUtil.cpp"

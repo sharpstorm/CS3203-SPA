@@ -4,14 +4,14 @@
 #include "AssignPatternClause.h"
 #include "qps/clauses/arguments/SynonymArgument.h"
 
-using std::move, std::unordered_set;
+using std::unordered_set;
 
 AssignPatternClause::AssignPatternClause(PQLQuerySynonym assignSynonym,
                                          ClauseArgumentPtr leftArgument,
                                          string patternPhrase,
                                          bool allowPartial):
     assignSynonym(assignSynonym),
-    leftArgument(move(leftArgument)),
+    leftArgument(std::move(leftArgument)),
     patternPhrase(patternPhrase),
     allowPartial(allowPartial) {}
 

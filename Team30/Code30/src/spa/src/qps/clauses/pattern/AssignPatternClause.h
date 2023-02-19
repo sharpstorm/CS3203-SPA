@@ -2,8 +2,8 @@
 
 #include <string>
 #include <memory>
-#include "PatternClause.h"
-#include "arguments/ClauseArgument.h"
+#include "qps/clauses/PatternClause.h"
+#include "qps/clauses/arguments/ClauseArgument.h"
 
 using std::string, std::shared_ptr;
 

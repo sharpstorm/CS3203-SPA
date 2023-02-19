@@ -3,9 +3,9 @@
 #include <memory>
 #include <string>
 
-#include "SuchThatClause.h"
-#include "arguments/ClauseArgument.h"
-#include "AbstractTwoArgClause.h"
+#include "qps/clauses/SuchThatClause.h"
+#include "qps/clauses/arguments/ClauseArgument.h"
+#include "qps/clauses/AbstractTwoArgClause.h"
 
 using std::shared_ptr;
 

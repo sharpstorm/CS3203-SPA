@@ -29,10 +29,12 @@ class PQLQueryResult {
   QueryResultTable combinedTable;
   vector<ColMapItemPtr> colMap;
 
-  string error;
   bool isStaticResult;
   bool isStaticFalse;
   bool isEmpty();
+  bool matchRow(const PQLQueryResult &other,
+                const int &myRowIndex,
+                const int &otherRowIndex) const;
 
  public:
   PQLQueryResult();
@@ -49,10 +51,6 @@ class PQLQueryResult {
 
   bool isFalse();
   void setIsStaticFalse(bool staticRes);
-  bool isStatic();
-
-  string getError();
-  void setError(string errorMessage);
 
   unordered_map<PQLSynonymName, ResultTableCol>* getSynonyms();
   ResultTableCol getSynonymCol(const PQLSynonymName &name);
