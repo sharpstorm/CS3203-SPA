@@ -18,7 +18,7 @@ class QueryBuilder {
   string errorMsg;
   unordered_map<string, PQLQuerySynonym> variables;
   PQLQuerySynonym resultVariable;
-  vector<shared_ptr<Clause>> clauses;
+  vector<ClauseSPtr> clauses;
 
  public:
   QueryBuilder();

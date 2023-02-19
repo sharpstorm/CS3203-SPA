@@ -13,8 +13,8 @@ unique_ptr<QueryPlan> QueryPlanner::getExecutionPlan(PQLQuery* query) {
   PlanNodeMap planIndex;
   vector<PlanNode> nodes;
 
-  vector<shared_ptr<IEvaluatable>> evals = query->getEvaluatables();
-  vector<shared_ptr<IEvaluatable>> finalPlan(evals.size());
+  vector<IEvaluatableSPtr> evals = query->getEvaluatables();
+  vector<IEvaluatableSPtr> finalPlan(evals.size());
   vector<QueryPlan::MergeStrategy> mergeStrategy(evals.size());
   vector<bool> isLinked(evals.size());
 
@@ -64,7 +64,7 @@ unique_ptr<QueryPlan> QueryPlanner::getExecutionPlan(PQLQuery* query) {
   }
 
   if (isSelectIndependent) {
-    shared_ptr<IEvaluatable> selectClause = make_shared<SelectClause>(
+    IEvaluatableSPtr selectClause = make_shared<SelectClause>(
         query->getResultVariable());
     finalPlan.push_back(selectClause);
     if (evals.size() > 0) {

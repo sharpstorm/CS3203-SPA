@@ -1,12 +1,13 @@
 #pragma once
 
 #include <unordered_set>
+#include <memory>
 
 #include "qps/common/IEvaluatable.h"
 #include "qps/common/PQLQueryResult.h"
 #include "qps/clauses/arguments/ClauseArgument.h"
 
-using std::unordered_set;
+using std::unordered_set, std::shared_ptr;
 
 class Clause : public IEvaluatable {
  public:
@@ -42,3 +43,5 @@ class Clause : public IEvaluatable {
     return pqlQueryResult;
   }
 };
+
+typedef shared_ptr<Clause> ClauseSPtr;

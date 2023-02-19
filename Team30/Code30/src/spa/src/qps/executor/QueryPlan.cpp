@@ -1,7 +1,7 @@
 #include "QueryPlan.h"
 
 QueryPlan::QueryPlan(
-    vector<shared_ptr<IEvaluatable>> conditionalClauses,
+    vector<IEvaluatableSPtr> conditionalClauses,
     vector<MergeStrategy> mergeStrategy):
     conditionalClauses(conditionalClauses), mergeStrategy(mergeStrategy) {}
 
@@ -17,6 +17,6 @@ QueryPlan::MergeStrategy QueryPlan::strategyFor(int rightClausePosition) {
   return mergeStrategy[rightClausePosition - 1];
 }
 
-vector<shared_ptr<IEvaluatable>> QueryPlan::getConditionalClauses() {
+vector<IEvaluatableSPtr> QueryPlan::getConditionalClauses() {
   return conditionalClauses;
 }
