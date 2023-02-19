@@ -17,6 +17,7 @@
 
 class AbstractExtractor : public Extractor {
  public:
+  virtual void visit(ProcedureNode* node) {}
   virtual void visit(StatementListNode* node) {}
   virtual void visit(IfNode* node) {}
   virtual void visit(ReadNode* node) {}
@@ -28,6 +29,7 @@ class AbstractExtractor : public Extractor {
   virtual void visit(ConstantASTNode* node) {}
   virtual void visit(AbstractMathNode* node) {}
   virtual void visit(AbstractConditionalNode* node) {}
+  virtual void leave(ProcedureNode* node) {}
   virtual void leave(StatementListNode* node) {}
   virtual void leave(IfNode* node) {}
   virtual void leave(ReadNode* node) {}
