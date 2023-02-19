@@ -1,18 +1,18 @@
-#include <vector>
-#include <queue>
-
 #include "QueryPlanner.h"
 #include "qps/common/IEvaluatable.h"
 #include "qps/clauses/SelectClause.h"
 
-using std::make_unique, std::make_shared, std::queue;
+using std::make_unique, std::make_shared;
 
 QueryPlanner::QueryPlanner(PQLQuery *targetQuery):
     query(targetQuery),
     evaluatables(targetQuery->getEvaluatables()),
-    finalPlan(vector<IEvaluatableSPtr>(targetQuery->getClauseCount())),
-    mergeStrategy(vector<QueryPlan::MergeStrategy>(targetQuery->getClauseCount())),
-    isEvaluatableLinked(vector<bool>(targetQuery->getClauseCount())),
+    finalPlan(vector<IEvaluatableSPtr>(
+        targetQuery->getClauseCount())),
+    mergeStrategy(vector<QueryPlan::MergeStrategy>(
+        targetQuery->getClauseCount())),
+    isEvaluatableLinked(vector<bool>(
+        targetQuery->getClauseCount())),
     currentPosition(targetQuery->getClauseCount() - 1) {}
 
 unique_ptr<QueryPlan> QueryPlanner::getExecutionPlan() {

@@ -2,12 +2,13 @@
 
 #include <memory>
 #include <queue>
+#include <vector>
 #include "qps/common/PQLQuery.h"
 
 #include "QueryPlan.h"
 #include "QueryPlannerIndex.h"
 
-using std::unique_ptr, std::queue;
+using std::unique_ptr, std::queue, std::vector;
 
 class QueryPlanner {
  public:
