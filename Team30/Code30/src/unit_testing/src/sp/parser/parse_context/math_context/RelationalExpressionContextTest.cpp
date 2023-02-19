@@ -9,18 +9,16 @@
 #include "../../../../../../spa/src/sp/parser/parse_context/math_context/RelationalExpressionContext.h"
 #include "../../SourceParserStub.cpp"
 
-SourceParseState executeRelationalParse(vector<SourceToken> tokens) {
+SourceParseState executeRelationalParse(vector<SourceToken>* tokens) {
   SourceParserStub parser;
   return parser.parseTokens_AndGetState(tokens);
 }
 
 vector<SourceToken> GTE_Input() {  //(x >= y)
   vector<SourceToken> tokens = vector<SourceToken>{
-      SourceToken(SIMPLE_TOKEN_BRACKET_ROUND_LEFT, ""),
       SourceToken(SIMPLE_TOKEN_VARIABLE, "x"),
       SourceToken(SIMPLE_TOKEN_GTE, ""),
       SourceToken(SIMPLE_TOKEN_VARIABLE, "y"),
-      SourceToken(SIMPLE_TOKEN_BRACKET_ROUND_RIGHT, ""),
   };
 
   return tokens;
@@ -28,11 +26,9 @@ vector<SourceToken> GTE_Input() {  //(x >= y)
 
 vector<SourceToken> GT_Input() {  //(x > y)
   vector<SourceToken> tokens = vector<SourceToken>{
-      SourceToken(SIMPLE_TOKEN_BRACKET_ROUND_LEFT, ""),
       SourceToken(SIMPLE_TOKEN_VARIABLE, "x"),
       SourceToken(SIMPLE_TOKEN_GT, ""),
       SourceToken(SIMPLE_TOKEN_VARIABLE, "y"),
-      SourceToken(SIMPLE_TOKEN_BRACKET_ROUND_RIGHT, ""),
   };
 
   return tokens;
@@ -40,11 +36,9 @@ vector<SourceToken> GT_Input() {  //(x > y)
 
 vector<SourceToken> LTE_Input() {  //(x <= y)
   vector<SourceToken> tokens = vector<SourceToken>{
-      SourceToken(SIMPLE_TOKEN_BRACKET_ROUND_LEFT, ""),
       SourceToken(SIMPLE_TOKEN_VARIABLE, "x"),
       SourceToken(SIMPLE_TOKEN_LTE, ""),
       SourceToken(SIMPLE_TOKEN_VARIABLE, "y"),
-      SourceToken(SIMPLE_TOKEN_BRACKET_ROUND_RIGHT, ""),
   };
 
   return tokens;
@@ -52,11 +46,9 @@ vector<SourceToken> LTE_Input() {  //(x <= y)
 
 vector<SourceToken> LT_Input() {  //(x < y)
   vector<SourceToken> tokens = vector<SourceToken>{
-      SourceToken(SIMPLE_TOKEN_BRACKET_ROUND_LEFT, ""),
       SourceToken(SIMPLE_TOKEN_VARIABLE, "x"),
       SourceToken(SIMPLE_TOKEN_LT, ""),
       SourceToken(SIMPLE_TOKEN_VARIABLE, "y"),
-      SourceToken(SIMPLE_TOKEN_BRACKET_ROUND_RIGHT, ""),
   };
 
   return tokens;
@@ -64,11 +56,9 @@ vector<SourceToken> LT_Input() {  //(x < y)
 
 vector<SourceToken> EQ_Input() {  //(x == y)
   vector<SourceToken> tokens = vector<SourceToken>{
-      SourceToken(SIMPLE_TOKEN_BRACKET_ROUND_LEFT, ""),
       SourceToken(SIMPLE_TOKEN_VARIABLE, "x"),
       SourceToken(SIMPLE_TOKEN_EQUALS, ""),
       SourceToken(SIMPLE_TOKEN_VARIABLE, "y"),
-      SourceToken(SIMPLE_TOKEN_BRACKET_ROUND_RIGHT, ""),
   };
 
   return tokens;
@@ -76,11 +66,9 @@ vector<SourceToken> EQ_Input() {  //(x == y)
 
 vector<SourceToken> NotEQ_Input() {  //(x != y)
   vector<SourceToken> tokens = vector<SourceToken>{
-      SourceToken(SIMPLE_TOKEN_BRACKET_ROUND_LEFT, ""),
       SourceToken(SIMPLE_TOKEN_VARIABLE, "x"),
       SourceToken(SIMPLE_TOKEN_NOT_EQUALS, ""),
       SourceToken(SIMPLE_TOKEN_VARIABLE, "y"),
-      SourceToken(SIMPLE_TOKEN_BRACKET_ROUND_RIGHT, ""),
   };
 
   return tokens;
@@ -88,7 +76,7 @@ vector<SourceToken> NotEQ_Input() {  //(x != y)
 
 TEST_CASE("GenerateSubTree: Process GTE_Condition") {
   vector<SourceToken> tokens = GTE_Input();
-  SourceParseState state = executeRelationalParse(tokens);
+  SourceParseState state = executeRelationalParse(&tokens);
   GrammarContextProvider gcp;
   RelationalExpressionContext context(&gcp);
   shared_ptr<ASTNode> node = context.generateSubtree(&state);
@@ -98,7 +86,7 @@ TEST_CASE("GenerateSubTree: Process GTE_Condition") {
 
 TEST_CASE("GenerateSubTree: Process GT_Condition") {
   vector<SourceToken> tokens = GT_Input();
-  SourceParseState state = executeRelationalParse(tokens);
+  SourceParseState state = executeRelationalParse(&tokens);
   GrammarContextProvider gcp;
   RelationalExpressionContext context(&gcp);
   shared_ptr<ASTNode> node = context.generateSubtree(&state);
@@ -108,7 +96,7 @@ TEST_CASE("GenerateSubTree: Process GT_Condition") {
 
 TEST_CASE("GenerateSubTree: Process LTE_Condition") {
   vector<SourceToken> tokens = LTE_Input();
-  SourceParseState state = executeRelationalParse(tokens);
+  SourceParseState state = executeRelationalParse(&tokens);
   GrammarContextProvider gcp;
   RelationalExpressionContext context(&gcp);
   shared_ptr<ASTNode> node = context.generateSubtree(&state);
@@ -118,7 +106,7 @@ TEST_CASE("GenerateSubTree: Process LTE_Condition") {
 
 TEST_CASE("GenerateSubTree: Process LT_Condition") {
   vector<SourceToken> tokens = LT_Input();
-  SourceParseState state = executeRelationalParse(tokens);
+  SourceParseState state = executeRelationalParse(&tokens);
   GrammarContextProvider gcp;
   RelationalExpressionContext context(&gcp);
   shared_ptr<ASTNode> node = context.generateSubtree(&state);
@@ -128,7 +116,7 @@ TEST_CASE("GenerateSubTree: Process LT_Condition") {
 
 TEST_CASE("GenerateSubTree: Process Equal_Condition") {
   vector<SourceToken> tokens = EQ_Input();
-  SourceParseState state = executeRelationalParse(tokens);
+  SourceParseState state = executeRelationalParse(&tokens);
   GrammarContextProvider gcp;
   RelationalExpressionContext context(&gcp);
   shared_ptr<ASTNode> node = context.generateSubtree(&state);
@@ -138,7 +126,7 @@ TEST_CASE("GenerateSubTree: Process Equal_Condition") {
 
 TEST_CASE("GenerateSubTree: Process Not_Equal_Condition") {
   vector<SourceToken> tokens = NotEQ_Input();
-  SourceParseState state = executeRelationalParse(tokens);
+  SourceParseState state = executeRelationalParse(&tokens);
   GrammarContextProvider gcp;
   RelationalExpressionContext context(&gcp);
   shared_ptr<ASTNode> node = context.generateSubtree(&state);

@@ -7,8 +7,8 @@
 
 class SourceParserStub : public SourceParser {
  public:
-  SourceParseState parseTokens_AndGetState(vector<SourceToken> tokens) {
-    SourceParseState state(&tokens);
+  SourceParseState parseTokens_AndGetState(vector<SourceToken>* tokens) {
+    SourceParseState state(tokens);
     return state;
   }
 };

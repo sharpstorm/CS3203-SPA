@@ -9,14 +9,13 @@
 #include "../../../../../../spa/src/sp/parser/parse_context/math_context/ConditionalExpressionContext.h"
 #include "../../SourceParserStub.cpp"
 
-SourceParseState executeConditionalParse(vector<SourceToken> tokens) {
+SourceParseState executeConditionalParse(vector<SourceToken>* tokens) {
   SourceParserStub parser;
   return parser.parseTokens_AndGetState(tokens);
 }
 
 vector<SourceToken> notConditionInput() {  //(!(x == y) && !(x == z))
   vector<SourceToken> tokens = vector<SourceToken>{
-      SourceToken(SIMPLE_TOKEN_BRACKET_ROUND_LEFT, ""),
       SourceToken(SIMPLE_TOKEN_NOT, ""),
       SourceToken(SIMPLE_TOKEN_BRACKET_ROUND_LEFT, ""),
       SourceToken(SIMPLE_TOKEN_VARIABLE, "x"),
@@ -29,7 +28,6 @@ vector<SourceToken> notConditionInput() {  //(!(x == y) && !(x == z))
       SourceToken(SIMPLE_TOKEN_VARIABLE, "x"),
       SourceToken(SIMPLE_TOKEN_EQUALS, ""),
       SourceToken(SIMPLE_TOKEN_VARIABLE, "z"),
-      SourceToken(SIMPLE_TOKEN_BRACKET_ROUND_RIGHT, ""),
       SourceToken(SIMPLE_TOKEN_BRACKET_ROUND_RIGHT, ""),
   };
 
@@ -39,7 +37,6 @@ vector<SourceToken> notConditionInput() {  //(!(x == y) && !(x == z))
 vector<SourceToken> AndConditionInput() {  //((x != y) && (x != z))
   vector<SourceToken> tokens = vector<SourceToken>{
       SourceToken(SIMPLE_TOKEN_BRACKET_ROUND_LEFT, ""),
-      SourceToken(SIMPLE_TOKEN_BRACKET_ROUND_LEFT, ""),
       SourceToken(SIMPLE_TOKEN_VARIABLE, "x"),
       SourceToken(SIMPLE_TOKEN_NOT_EQUALS, ""),
       SourceToken(SIMPLE_TOKEN_VARIABLE, "y"),
@@ -50,7 +47,6 @@ vector<SourceToken> AndConditionInput() {  //((x != y) && (x != z))
       SourceToken(SIMPLE_TOKEN_NOT_EQUALS, ""),
       SourceToken(SIMPLE_TOKEN_VARIABLE, "z"),
       SourceToken(SIMPLE_TOKEN_BRACKET_ROUND_RIGHT, ""),
-      SourceToken(SIMPLE_TOKEN_BRACKET_ROUND_RIGHT, ""),
   };
 
   return tokens;
@@ -58,7 +54,6 @@ vector<SourceToken> AndConditionInput() {  //((x != y) && (x != z))
 
 vector<SourceToken> OrConditionInput() {  //((x == y) || (x != z))
   vector<SourceToken> tokens = vector<SourceToken>{
-      SourceToken(SIMPLE_TOKEN_BRACKET_ROUND_LEFT, ""),
       SourceToken(SIMPLE_TOKEN_BRACKET_ROUND_LEFT, ""),
       SourceToken(SIMPLE_TOKEN_VARIABLE, "x"),
       SourceToken(SIMPLE_TOKEN_EQUALS, ""),
@@ -70,7 +65,6 @@ vector<SourceToken> OrConditionInput() {  //((x == y) || (x != z))
       SourceToken(SIMPLE_TOKEN_NOT_EQUALS, ""),
       SourceToken(SIMPLE_TOKEN_VARIABLE, "z"),
       SourceToken(SIMPLE_TOKEN_BRACKET_ROUND_RIGHT, ""),
-      SourceToken(SIMPLE_TOKEN_BRACKET_ROUND_RIGHT, ""),
   };
 
   return tokens;
@@ -78,7 +72,6 @@ vector<SourceToken> OrConditionInput() {  //((x == y) || (x != z))
 
 vector<SourceToken> RelationalExpressionInput() {  //((x >= y) || (x < z))
   vector<SourceToken> tokens = vector<SourceToken>{
-      SourceToken(SIMPLE_TOKEN_BRACKET_ROUND_LEFT, ""),
       SourceToken(SIMPLE_TOKEN_BRACKET_ROUND_LEFT, ""),
       SourceToken(SIMPLE_TOKEN_VARIABLE, "x"),
       SourceToken(SIMPLE_TOKEN_GT, ""),
@@ -90,7 +83,6 @@ vector<SourceToken> RelationalExpressionInput() {  //((x >= y) || (x < z))
       SourceToken(SIMPLE_TOKEN_LT, ""),
       SourceToken(SIMPLE_TOKEN_VARIABLE, "z"),
       SourceToken(SIMPLE_TOKEN_BRACKET_ROUND_RIGHT, ""),
-      SourceToken(SIMPLE_TOKEN_BRACKET_ROUND_RIGHT, ""),
   };
 
   return tokens;
@@ -98,7 +90,7 @@ vector<SourceToken> RelationalExpressionInput() {  //((x >= y) || (x < z))
 
 TEST_CASE("GenerateSubTree: Process Not_Condition") {
   vector<SourceToken> tokens = notConditionInput();
-  SourceParseState state = executeConditionalParse(tokens);
+  SourceParseState state = executeConditionalParse(&tokens);
   GrammarContextProvider gcp;
   ConditionalExpressionContext context(&gcp);
   shared_ptr<ASTNode> node = context.generateSubtree(&state);
@@ -108,7 +100,7 @@ TEST_CASE("GenerateSubTree: Process Not_Condition") {
 
 TEST_CASE("GenerateSubTree: Process And_Condition") {
   vector<SourceToken> tokens = AndConditionInput();
-  SourceParseState state = executeConditionalParse(tokens);
+  SourceParseState state = executeConditionalParse(&tokens);
   GrammarContextProvider gcp;
   ConditionalExpressionContext context(&gcp);
   shared_ptr<ASTNode> node = context.generateSubtree(&state);
@@ -118,7 +110,7 @@ TEST_CASE("GenerateSubTree: Process And_Condition") {
 
 TEST_CASE("GenerateSubTree: Process Or_Condition") {
   vector<SourceToken> tokens = OrConditionInput();
-  SourceParseState state = executeConditionalParse(tokens);
+  SourceParseState state = executeConditionalParse(&tokens);
   GrammarContextProvider gcp;
   ConditionalExpressionContext context(&gcp);
   shared_ptr<ASTNode> node = context.generateSubtree(&state);
@@ -128,7 +120,7 @@ TEST_CASE("GenerateSubTree: Process Or_Condition") {
 
 TEST_CASE("GenerateSubTree: Process Relational_Expression") {
   vector<SourceToken> tokens = RelationalExpressionInput();
-  SourceParseState state = executeConditionalParse(tokens);
+  SourceParseState state = executeConditionalParse(&tokens);
   GrammarContextProvider gcp;
   ConditionalExpressionContext context(&gcp);
   shared_ptr<ASTNode> node = context.generateSubtree(&state);
