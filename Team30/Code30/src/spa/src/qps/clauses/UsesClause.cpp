@@ -8,7 +8,7 @@ using std::string;
 using std::move;
 
 UsesClause::UsesClause(ClauseArgumentPtr leftArg, ClauseArgumentPtr rightArg):
-  left(move(leftArg)), right(move(rightArg)) {
+    AbstractTwoArgClause(move(leftArg), move(rightArg)) {
 }
 
 PQLQueryResult* UsesClause::evaluateOn(
@@ -37,10 +37,6 @@ bool UsesClause::validateArgTypes(VariableTable *variables) {
       ClauseArgument::isType<PQL_SYN_TYPE_VARIABLE>);
 
   return isLeftValid && isRightValid;
-}
-
-bool UsesClause::usesSynonym(string varName) {
-  return left->isSynonymCalled(varName) || right->isSynonymCalled(varName);
 }
 
 QueryResult<int, string> UsesClause::evaluateLeftStatement(

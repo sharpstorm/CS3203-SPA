@@ -5,21 +5,19 @@
 
 #include "SuchThatClause.h"
 #include "arguments/ClauseArgument.h"
+#include "AbstractTwoArgClause.h"
 
 using std::shared_ptr;
 
-class ModifiesClause: public SuchThatClause {
+class ModifiesClause: public AbstractTwoArgClause {
  private:
-  ClauseArgumentPtr left;
-  ClauseArgumentPtr right;
-
   QueryResult<int, string> evaluateLeftStatement(
       shared_ptr<PkbQueryHandler> pkbQueryHandler);
   QueryResult<string, string> evaluateLeftEntity(
       shared_ptr<PkbQueryHandler> pkbQueryHandler);
+
  public:
   ModifiesClause(ClauseArgumentPtr left, ClauseArgumentPtr right);
   PQLQueryResult* evaluateOn(shared_ptr<PkbQueryHandler> pkbQueryHandler);
   bool validateArgTypes(VariableTable *variables);
-  bool usesSynonym(string varName);
 };

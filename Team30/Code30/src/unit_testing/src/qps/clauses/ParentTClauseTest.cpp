@@ -35,8 +35,6 @@ const ExpectedParams PARENTT_PAIRS{
     }}
 };
 
-//TODO(KwanHW): Multiple nesting level tests
-
 TEST_CASE("ParentTClause Querying") {
   PKB pkbStore;
   auto pkb = shared_ptr<PkbQueryHandler>(new ClausesPKBStub(&pkbStore));

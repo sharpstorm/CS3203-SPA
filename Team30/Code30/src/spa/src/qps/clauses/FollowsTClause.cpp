@@ -1,7 +1,7 @@
 #include <utility>
 #include <vector>
-
 #include <memory>
+#include <unordered_set>
 
 #include "FollowsTClause.h"
 
@@ -9,11 +9,15 @@ using std::pair, std::vector, std::shared_ptr, std::move;
 
 FollowsTClause::FollowsTClause(ClauseArgumentPtr leftArg,
                                ClauseArgumentPtr rightArg):
-  left(move(leftArg)), right(move(rightArg)) {
+    AbstractTwoArgClause(move(leftArg), move(rightArg)) {
 }
 
 PQLQueryResult* FollowsTClause::evaluateOn(
         shared_ptr<PkbQueryHandler> pkbQueryHandler) {
+  if (isSameSynonym()) {
+    return Clause::toQueryResult(left->getName(), unordered_set<int>{});
+  }
+
   StmtRef leftStatement = left->toStmtRef();
   StmtRef rightStatement = right->toStmtRef();
   QueryResult<int, int> queryResult =
@@ -27,8 +31,4 @@ bool FollowsTClause::validateArgTypes(VariableTable *variables) {
   bool isRightValid = right->synonymSatisfies(ClauseArgument::isStatement);
 
   return isLeftValid && isRightValid;
-}
-
-bool FollowsTClause::usesSynonym(string varName) {
-  return left->isSynonymCalled(varName) || right->isSynonymCalled(varName);
 }
