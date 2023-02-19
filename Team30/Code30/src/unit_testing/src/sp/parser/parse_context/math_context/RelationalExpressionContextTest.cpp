@@ -2,7 +2,6 @@
 #include <string>
 
 #include "../../../../../../../lib/catch.hpp"
-#include "../../../../../../spa/src/common/ASTNode/BinaryASTNode.h"
 #include "../../../../../../spa/src/common/ASTNode/IASTNode.h"
 #include "../../../../../../spa/src/sp/common/SourceToken.h"
 #include "../../../../../../spa/src/sp/parser/GrammarContextProvider.h"
