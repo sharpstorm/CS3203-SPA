@@ -1,5 +1,6 @@
 #include <memory>
 #include <vector>
+#include <stdlib.h>
 
 #include "TestWrapper.h"
 #include "qps/QPSFacade.h"
@@ -41,9 +42,9 @@ void TestWrapper::parse(std::string filename) {
   try {
     sp->parseSource(filename, pkbWriter.get());
   } catch (SPError error) {
-    return;
+    exit(1);
   } catch (...) {
-    return;
+    exit(2);
   }
 }
 

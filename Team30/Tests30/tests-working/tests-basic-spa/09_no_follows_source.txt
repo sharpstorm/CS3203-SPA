@@ -1,17 +1,17 @@
 procedure procedure{
     if (a == 3) then {
-
+        b = 3;
     } else {
         if (a == 2 ) then {
             if (a == 1) then {
-
+                x = 1;
             } else {
                 while (a == 0) {
-                    
+                    y = 2;
                 }
             }
         } else {
-
+            z = 3;
         }
     }
 }

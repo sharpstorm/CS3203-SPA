@@ -94,3 +94,14 @@ TEST_CASE("Test Writer Pattern") {
   REQUIRE(node->getChild(0)->getChild(0)->isEquals(&v1));
   REQUIRE(node->getChild(0)->getChild(1)->isEquals(&v2));
 }
+
+TEST_CASE("Test Bad Program") {
+  SpDriver spDriver;
+  PKB pkb;
+  PkbWriter pkbWriter(&pkb);
+  PkbQueryHandler queryHandler(&pkb);
+  REQUIRE_THROWS_AS(spDriver.parseSource("", &pkbWriter), SPError);
+  REQUIRE_THROWS_AS(spDriver.parseSource("procedure xxx{}", &pkbWriter), SPError);
+  REQUIRE_THROWS_AS(spDriver.parseSource("procedure xxx{if(x==1)then{x=1;}else{}}", &pkbWriter), SPError);
+  REQUIRE_THROWS_AS(spDriver.parseSource("procedure xxx{while(x==1){}}", &pkbWriter), SPError);
+}

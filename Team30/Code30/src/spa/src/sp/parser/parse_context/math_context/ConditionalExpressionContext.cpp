@@ -10,7 +10,12 @@ using std::shared_ptr, std::make_shared;
 shared_ptr<ASTNode> ConditionalExpressionContext::generateSubtree(
     SourceParseState *state) {
   shared_ptr<ASTNode> newNode;
-  switch (state->getCurrToken()->getType()) {
+  SourceToken* token = state->getCurrToken();
+  if (token == nullptr) {
+    throw SPError(SPERR_END_OF_STREAM);
+  }
+
+  switch (token->getType()) {
     case SIMPLE_TOKEN_NOT:
       newNode = processNotCondition(state);
       break;

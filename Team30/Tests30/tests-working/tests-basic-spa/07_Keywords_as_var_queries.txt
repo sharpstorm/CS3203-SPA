@@ -16,10 +16,10 @@ while, if, print
 4 - Uses cond
 variable v;
 Select v such that Uses(6, v)
-while
+while,read
 5000
 5 - Uses cond
 variable v;
-Select v such that Uses(7, v)
-if
+Select v such that Uses(9, v)
+if,print,while,read
 5000
