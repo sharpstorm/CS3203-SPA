@@ -1,5 +1,6 @@
 #include <memory>
 #include <vector>
+#include <stdlib.h>
 
 #include "TestWrapper.h"
 #include "qps/QPSFacade.h"
@@ -9,7 +10,7 @@
 #include "qps/errors/QPSParserSemanticError.h"
 #include "sp/errors/SPError.h"
 
-using std::shared_ptr, std::vector, std::make_shared;
+using std::shared_ptr, std::vector, std::make_shared, std::make_unique;
 
 // implementation code of WrapperFactory - do NOT modify the next 5 lines
 AbstractWrapper* WrapperFactory::wrapper = 0;
@@ -24,29 +25,26 @@ volatile bool AbstractWrapper::GlobalStop = false;
 TestWrapper::TestWrapper() {
   // create any objects here as instance variables of this class
   // as well as any initialization required for your spa program
-  pkb = new PKB();
-  pkbWriter = new PkbWriter(pkb);
-  shared_ptr<PkbQueryHandler> pkbQH_ptr = make_shared<PkbQueryHandler>(pkb);
+  pkb = make_unique<PKB>();
+  pkbWriter = make_unique<PkbWriter>(pkb.get());
+  shared_ptr<PkbQueryHandler> pkbQH_ptr =
+      make_shared<PkbQueryHandler>(pkb.get());
 
-  qps = new QPSFacade(pkbQH_ptr);
-  sp = new SpFacade();
+  qps = make_unique<QPSFacade>(pkbQH_ptr);
+  sp = make_unique<SpFacade>();
 }
 
 TestWrapper::~TestWrapper() {
-  delete(qps);
-  delete(sp);
-  delete(pkbWriter);
-  delete(pkb);
 }
 
 // method for parsing the SIMPLE source
 void TestWrapper::parse(std::string filename) {
   try {
-    sp->parseSource(filename, pkbWriter);
+    sp->parseSource(filename, pkbWriter.get());
   } catch (SPError error) {
-    return;
+    exit(1);
   } catch (...) {
-    return;
+    exit(2);
   }
 }
 

@@ -1,0 +1,55 @@
+{
+  "timeout": 5000,
+  "cases": [
+
+    { "comment": "Structural assertions" },
+
+    {
+      "name": "Select Last Line",
+      "defn": "stmt s;",
+      "query": "Select s such that Follows(57, s)",
+      "ans": "58"
+    },
+    {
+      "name": "Select While Nesting",
+      "defn": "stmt s;",
+      "query": "Select s such that Parent*(34, s)",
+      "ans": "35,36,37,38,39,40,41,42,43"
+    },
+    {
+      "name": "Select If Nesting",
+      "defn": "stmt s;",
+      "query": "Select s such that Parent*(s, 51)",
+      "ans": "16,44,46,48"
+    },
+
+    { "comment": "Check Assignment Parsing to Last Symbol" },
+
+    {
+      "name": "Assert Assignment Uses",
+      "defn": "variable v;",
+      "query": "Select v such that Uses(15, v)",
+      "ans": "call,procedure,assign,if,read,print,while,asdfasdf123123"
+    },
+    {
+      "name": "Assert Assignment Modifies",
+      "defn": "variable v;",
+      "query": "Select v such that Modifies(15, v)",
+      "ans": "call"
+    },
+
+    {
+      "name": "Assert Global Modifies",
+      "defn": "variable v; stmt s;",
+      "query": "Select v such that Modifies(s, v)",
+      "ans": "read,print,while,if,assign,procedure,call,a1,b1,b2,c1,c2,procedureasdlkfjsadlghfdskhgdskghdskghdskfjghdskjghkdsfjghdskfjghdskfghdsfkjghdkfjg"
+    },
+
+    {
+      "name": "Assert Global Pattern",
+      "defn": "variable while; assign read;",
+      "query": "Select read such that Uses(read, while) pattern read(while, _\"if\"_)",
+      "ans": "15,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,43"
+    }
+  ]
+}

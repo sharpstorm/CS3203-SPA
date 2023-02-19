@@ -9,13 +9,14 @@ ASTNodePtr StatementListContext::generateSubtree(
   ASTNodePtr node = make_shared<StatementListNode>();
 
   expect(state, SIMPLE_TOKEN_BRACKET_CURLY_LEFT);
-  while (!state->getCurrToken()->isType(SIMPLE_TOKEN_BRACKET_CURLY_RIGHT)) {
-    ASTNodePtr newNode = contextProvider->
+  ASTNodePtr newNode = contextProvider->
+      getContext(STMT_CONTEXT)->generateSubtree(state);
+  node->addChild(newNode);
+
+  while (!state->currTokenIsOfType(SIMPLE_TOKEN_BRACKET_CURLY_RIGHT)) {
+    newNode = contextProvider->
         getContext(STMT_CONTEXT)->generateSubtree(state);
     node->addChild(newNode);
-    if (state->isAtLast() || state->isEnd()) {
-      break;
-    }
   }
 
   expect(state, SIMPLE_TOKEN_BRACKET_CURLY_RIGHT);

@@ -1,6 +1,9 @@
 #pragma once
 
 #include "QPSError.h"
+#include <string>
+
+using std::string;
 
 const char QPS_PARSER_ERR_EOS[] = "Unexpected end of token stream";
 const char QPS_PARSER_ERR_UNEXPECTED[] =
@@ -10,5 +13,5 @@ const char QPS_PARSER_ERR_PATTERN_TYPE[] = "Invalid synonym type in pattern";
 
 class QPSParserSyntaxError: public QPSError {
  public:
-  explicit QPSParserSyntaxError(const char* message) : QPSError(message) {}
+  explicit QPSParserSyntaxError(string message) : QPSError(message) {}
 };
