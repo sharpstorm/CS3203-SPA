@@ -69,7 +69,7 @@ vector<SourceToken> NotEQ_Input() {  // (x != y)
   return tokens;
 }
 
-TEST_CASE("GenerateSubTree: Process GTE_Condition") {
+TEST_CASE("RationalExpressionContext: Process GTE_Condition") {
   vector<SourceToken> tokens = GTE_Input();
   SourceParseState state(&tokens);
   GrammarContextProvider gcp;
@@ -83,7 +83,7 @@ TEST_CASE("GenerateSubTree: Process GTE_Condition") {
   node.reset();
 }
 
-TEST_CASE("GenerateSubTree: Process GT_Condition") {
+TEST_CASE("RationalExpressionContext: Process GT_Condition") {
   vector<SourceToken> tokens = GT_Input();
   SourceParseState state(&tokens);
   GrammarContextProvider gcp;
@@ -97,7 +97,7 @@ TEST_CASE("GenerateSubTree: Process GT_Condition") {
   node.reset();
 }
 
-TEST_CASE("GenerateSubTree: Process LTE_Condition") {
+TEST_CASE("RationalExpressionContext: Process LTE_Condition") {
   vector<SourceToken> tokens = LTE_Input();
   SourceParseState state(&tokens);
   GrammarContextProvider gcp;
@@ -111,7 +111,7 @@ TEST_CASE("GenerateSubTree: Process LTE_Condition") {
   node.reset();
 }
 
-TEST_CASE("GenerateSubTree: Process LT_Condition") {
+TEST_CASE("RationalExpressionContext: Process LT_Condition") {
   vector<SourceToken> tokens = LT_Input();
   SourceParseState state(&tokens);
   GrammarContextProvider gcp;
@@ -125,7 +125,7 @@ TEST_CASE("GenerateSubTree: Process LT_Condition") {
   node.reset();
 }
 
-TEST_CASE("GenerateSubTree: Process Equal_Condition") {
+TEST_CASE("RationalExpressionContext: Process Equal_Condition") {
   vector<SourceToken> tokens = EQ_Input();
   SourceParseState state(&tokens);
   GrammarContextProvider gcp;
@@ -139,7 +139,7 @@ TEST_CASE("GenerateSubTree: Process Equal_Condition") {
   node.reset();
 }
 
-TEST_CASE("GenerateSubTree: Process Not_Equal_Condition") {
+TEST_CASE("RationalExpressionContext: Process Not_Equal_Condition") {
   vector<SourceToken> tokens = NotEQ_Input();
   SourceParseState state(&tokens);
   GrammarContextProvider gcp;

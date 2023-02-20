@@ -68,7 +68,7 @@ vector<SourceToken> mod_Integer_Input() {  // (15 % 5)
   return tokens;
 }
 
-TEST_CASE("GenerateSubTree: Process Multiply_Variables Condition") {
+TEST_CASE("TermContext: Process Multiply_Variables Condition") {
   vector<SourceToken> tokens = times_Variable_Input();
   SourceParseState state(&tokens);
   GrammarContextProvider gcp;
@@ -82,7 +82,7 @@ TEST_CASE("GenerateSubTree: Process Multiply_Variables Condition") {
   node.reset();
 }
 
-TEST_CASE("GenerateSubTree: Process Divide_Variables Condition") {
+TEST_CASE("TermContext: Process Divide_Variables Condition") {
   vector<SourceToken> tokens = div_Variable_Input();
   SourceParseState state(&tokens);
   GrammarContextProvider gcp;
@@ -96,7 +96,7 @@ TEST_CASE("GenerateSubTree: Process Divide_Variables Condition") {
   node.reset();
 }
 
-TEST_CASE("GenerateSubTree: Process Modulo_Variables Condition") {
+TEST_CASE("TermContext: Process Modulo_Variables Condition") {
   vector<SourceToken> tokens = mod_Variable_Input();
   SourceParseState state(&tokens);
   GrammarContextProvider gcp;
@@ -110,7 +110,7 @@ TEST_CASE("GenerateSubTree: Process Modulo_Variables Condition") {
   node.reset();
 }
 
-TEST_CASE("GenerateSubTree: Process Multiply_Integers Condition") {
+TEST_CASE("TermContext: Process Multiply_Integers Condition") {
   vector<SourceToken> tokens = times_Integer_Input();
   SourceParseState state(&tokens);
   GrammarContextProvider gcp;
@@ -124,7 +124,7 @@ TEST_CASE("GenerateSubTree: Process Multiply_Integers Condition") {
   node.reset();
 }
 
-TEST_CASE("GenerateSubTree: Process Divide_Integers Condition") {
+TEST_CASE("TermContext: Process Divide_Integers Condition") {
   vector<SourceToken> tokens = div_Integer_Input();
   SourceParseState state(&tokens);
   GrammarContextProvider gcp;
@@ -138,7 +138,7 @@ TEST_CASE("GenerateSubTree: Process Divide_Integers Condition") {
   node.reset();
 }
 
-TEST_CASE("GenerateSubTree: Process Modulo_Integers Condition") {
+TEST_CASE("TermContext: Process Modulo_Integers Condition") {
   vector<SourceToken> tokens = mod_Integer_Input();
   SourceParseState state(&tokens);
   GrammarContextProvider gcp;

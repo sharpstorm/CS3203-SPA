@@ -48,7 +48,7 @@ vector<SourceToken> minus_Integers_Input() {  // (9 - 5)
   return tokens;
 }
 
-TEST_CASE("GenerateSubTree: Process Add_Variables Condition") {
+TEST_CASE("FactorContext: Process Add_Variables Condition") {
   vector<SourceToken> tokens = plus_Variable_Input();
   SourceParseState state(&tokens);
   GrammarContextProvider gcp;
@@ -60,7 +60,7 @@ TEST_CASE("GenerateSubTree: Process Add_Variables Condition") {
   node.reset();
 }
 
-TEST_CASE("GenerateSubTree: Process Subtract_Variables Condition") {
+TEST_CASE("FactorContext: Process Subtract_Variables Condition") {
   vector<SourceToken> tokens = minus_Variable_Input();
   SourceParseState state(&tokens);
   GrammarContextProvider gcp;
@@ -72,7 +72,7 @@ TEST_CASE("GenerateSubTree: Process Subtract_Variables Condition") {
   node.reset();
 }
 
-TEST_CASE("GenerateSubTree: Process Add_Integers Condition") {
+TEST_CASE("FactorContext: Process Add_Integers Condition") {
   vector<SourceToken> tokens = plus_Integers_Input();
   SourceParseState state(&tokens);
   GrammarContextProvider gcp;
@@ -84,7 +84,7 @@ TEST_CASE("GenerateSubTree: Process Add_Integers Condition") {
   node.reset();
 }
 
-TEST_CASE("GenerateSubTree: Process Subtract_Integers Condition") {
+TEST_CASE("FactorContext: Process Subtract_Integers Condition") {
   vector<SourceToken> tokens = minus_Integers_Input();
   SourceParseState state(&tokens);
   GrammarContextProvider gcp;

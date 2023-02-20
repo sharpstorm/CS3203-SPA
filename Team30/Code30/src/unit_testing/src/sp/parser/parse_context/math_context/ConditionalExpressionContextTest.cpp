@@ -74,7 +74,7 @@ vector<SourceToken> RelationalExpressionInput() {  // ((x >= y) || (x < z))
   return tokens;
 }
 
-TEST_CASE("GenerateSubTree: Process Not_Condition") {
+TEST_CASE("ConditionalExpressionContext: Process Not_Condition") {
   vector<SourceToken> tokens = notConditionInput();
   SourceParseState state(&tokens);
   GrammarContextProvider gcp;
@@ -89,7 +89,7 @@ TEST_CASE("GenerateSubTree: Process Not_Condition") {
   node.reset();
 }
 
-TEST_CASE("GenerateSubTree: Process And_Condition") {
+TEST_CASE("ConditionalExpressionContext: Process And_Condition") {
   vector<SourceToken> tokens = AndConditionInput();
   SourceParseState state(&tokens);
   GrammarContextProvider gcp;
@@ -107,7 +107,7 @@ TEST_CASE("GenerateSubTree: Process And_Condition") {
   node.reset();
 }
 
-TEST_CASE("GenerateSubTree: Process Or_Condition") {
+TEST_CASE("ConditionalExpressionContext: Process Or_Condition") {
   vector<SourceToken> tokens = OrConditionInput();
   SourceParseState state(&tokens);
   GrammarContextProvider gcp;
@@ -125,7 +125,7 @@ TEST_CASE("GenerateSubTree: Process Or_Condition") {
   node.reset();
 }
 
-TEST_CASE("GenerateSubTree: Process Relational_Expression") {
+TEST_CASE("ConditionalExpressionContext: Process Relational_Expression") {
   vector<SourceToken> tokens = RelationalExpressionInput();
   SourceParseState state(&tokens);
   GrammarContextProvider gcp;
