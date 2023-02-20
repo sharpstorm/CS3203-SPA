@@ -1,0 +1,615 @@
+1 - Follow and pattern (_,_)
+assign a;
+Select a such that Follows(a, 2) pattern a (_,_)
+none
+5000
+2 - Follow and pattern (_,_)
+assign a;
+Select a such that Follows(2, a) pattern a (_,_)
+none
+5000
+3 - Follow and pattern (_,_)
+assign a1, a2;
+Select a1 such that Follows(a1, a2) pattern a1 (_,_)
+4, 7, 8, 9, 12, 17, 18
+5000
+4 - Follow and pattern (v,_)
+assign a; variable v;
+Select a such that Follows(a, 2) pattern a (v,_)
+none
+5000
+5 - Follow and pattern (v,_)
+assign a; variable v;
+Select a such that Follows(2, a) pattern a (v,_)
+none
+5000
+6 - Follow and pattern (v,_) - variable
+assign a; variable v;
+Select v such that Follows(a, 2) pattern a (v,_)
+none
+5000
+7 - Follow and pattern (v,_) - variable
+assign a; variable v;
+Select v such that Follows(2, a) pattern a (v,_)
+none
+5000
+8 - Follow and pattern (v,_) - variable
+assign a1, a2; variable v;
+Select a1 such that Follows(a1,a2) pattern a1 (v, _)
+4, 7, 8, 9, 12, 17, 18
+5000
+9 - Follow and pattern (v,_) - variable
+assign a1, a2; variable v;
+Select v such that Follows(a1,a2) pattern a1 (v, _)
+a, z, y, x
+5000
+10 - Follow and pattern (v, constant)
+assign a1, a2; variable v;
+Select a1 such that Follows(a1, a2) pattern a1 (v, _"5"_)
+4, 9
+5000
+11 - Follow and pattern (v, constant) - variable
+assign a1, a2; variable v;
+Select v such that Follows(a1, a2) pattern a1 (v, _"5"_)
+a, y
+5000
+12 - Follow and pattern (v, variable)
+assign a1, a2; variable v;
+Select a1 such that Follows(a1, a2) pattern a1 (v, _"j"_)
+17, 18
+5000
+13 - Follow and pattern (v, variable) - variable
+assign a1, a2; variable v;
+Select v such that Follows(a1, a2) pattern a1 (v, _"j"_)
+z, x
+5000
+14 - Parent and pattern (_,_)
+assign a;
+Select a such that Parent(6, a) pattern a (_,_)
+7, 8, 9, 10, 15, 24
+5000
+15 - Parent and pattern (_,_)
+assign a;
+Select a such that Parent(a, 10) pattern a (_,_)
+none
+5000
+16 - Parent and pattern (_,_)
+while a;
+Select a such that Parent(a, 10) pattern a (_,_)
+SyntaxError
+5000
+17 - Parent and pattern (_,_)
+if a;
+Select a such that Parent(a, 10) pattern a (_,_)
+SyntaxError
+5000
+18 - Parent and pattern (_,_)
+assign a1, a2;
+Select a1 such that Parent(a1,a2) pattern a1 (_,_)
+none
+5000
+19 - Parent and pattern (_,_)
+if a1; assign a2;
+Select a1 such that Parent(a1,a2) pattern a1 (_,_)
+SyntaxError
+5000
+20 - Parent and pattern (_,_)
+while a1; assign a2;
+Select a1 such that Parent(a1,a2) pattern a1 (_,_)
+SyntaxError
+5000
+21 - Parent and pattern (_,_)
+assign a1, a2;
+Select a2 such that Parent(a1,a2) pattern a2 (_,_)
+none
+5000
+22 - Parent and pattern (_,_) - variable
+assign a; variable v;
+Select v such that Parent(6, a) pattern a (_,_)
+a, i, x, y, z, j
+5000
+23 - Parent and pattern (_,_) - variable
+assign a; variable v;
+Select v such that Parent(a, 10) pattern a (_,_)
+none
+5000
+24 - Parent and pattern a (_,_) - variable
+while a; variable v;
+Select v such that Parent(a, 10) pattern a (_,_)
+SyntaxError
+5000
+25 - Parent and pattern a (_,_) - variable
+if a; variable v;
+Select v such that Parent(a, 10) pattern a (_,_)
+SyntaxError
+5000
+26 - Parent and pattern (_,_)
+if a1; assign a2; variable v;
+Select a2 such that Parent(a1,a2) pattern a2 (_,_)
+12, 13, 14
+5000
+27 - Parent and pattern (_,_)
+while a1; assign a2; variable v;
+Select a2 such that Parent(a1,a2) pattern a2 (_,_)
+7,8,9,10,15,17,18,19,23,24
+5000
+28 - Parent and pattern (_,_) - variable 
+assign a1, a2; variable v;
+Select v such that Parent(a1,a2) pattern a1 (_,_)
+none
+5000
+29 - Parent and pattern (_,_) - variable
+if a1; assign a2; variable v;
+Select v such that Parent(a1,a2) pattern a1 (_,_)
+SyntaxError
+5000
+30 - Parent and pattern (_,_) - variable
+if a1; assign a2; variable v;
+Select v such that Parent(a1,a2) pattern a2 (_,_)
+a, z, x, y, j, i
+5000
+31 - Parent and pattern (_,_) - variable
+while a1; assign a2; variable v;
+Select v such that Parent(a1,a2) pattern a1 (_,_)
+SyntaxError
+5000
+32 - Parent and pattern (_,_) - variable
+while a1; assign a2; variable v;
+Select v such that Parent(a1,a2) pattern a2 (_,_)
+a, z, x, y, j, i
+5000
+33 - Parent and pattern (v, _)
+assign a; variable v;
+Select a such that Parent(6, a) pattern a (v, _)
+7, 8, 9, 10, 15, 24
+5000
+34 - Parent and pattern (v, _)
+assign a; variable v;
+Select a such that Parent(a, 10) pattern a (v, _)
+none
+5000
+35 - Parent and pattern (v, _)
+while a; variable v;
+Select a such that Parent(a, 10) pattern a (v, _)
+SyntaxError
+5000
+36 - Parent and pattern (v, _)
+if a; variable v;
+Select a such that Parent(a, 10) pattern a (v, _)
+SyntaxError
+5000
+37 - Parent and pattern (v, _) - variable
+assign a; variable v;
+Select v such that Parent(6, a) pattern a (v, _)
+a, z, x, y, i, j
+5000
+38 - Parent and pattern (v, _) - variable
+assign a; variable v;
+Select v such that Parent(a, 10) pattern a (v, _)
+none
+5000
+39 - Parent and pattern (v, _) - variable
+while a; variable v;
+Select v such that Parent(a, 10) pattern a (v, _)
+SyntaxError
+5000
+40 - Parent and pattern (v, _) - variable
+if a; variable v;
+Select v such that Parent(a, 10) pattern a (v, _)
+SyntaxError
+5000
+41 - Parent and pattern (v, _)
+assign a1, a2; variable v;
+Select a1 such that Parent(a1, a2) pattern a1 (v, _)
+none
+5000
+42 - Parent and pattern (v, _)
+if a1; assign a2; variable v;
+Select a1 such that Parent(a1, a2) pattern a1 (v, _)
+SyntaxError
+5000
+43 - Parent and pattern (v, _)
+while a1; assign a2; variable v;
+Select a1 such that Parent(a1, a2) pattern a1 (v, _)
+SyntaxError
+5000
+44 - Parent and pattern (v, _)
+assign a1, a2; variable v;
+Select a2 such that Parent(a1, a2) pattern a2 (v, _)
+none
+5000
+45 - Parent and pattern (v, _)
+if a1; assign a2; variable v;
+Select a2 such that Parent(a1, a2) pattern a2 (v, _)
+12, 13, 14
+5000
+46 - Parent and pattern (v, _)
+while a1; assign a2; variable v;
+Select a2 such that Parent(a1, a2) pattern a2 (v, _)
+7,8,9,10,15,17,18,19,23,24
+5000
+47 - Parent and pattern (v, _) - variable
+assign a1, a2; variable v;
+Select v such that Parent(a1, a2) pattern a1 (v, _)
+none
+5000
+48 - Parent and pattern (v, _) - variable
+if a1; assign a2; variable v;
+Select v such that Parent(a1, a2) pattern a1 (v, _)
+SyntaxError
+5000
+49 - Parent and pattern (v, _) - variable
+while a1; assign a2; variable v;
+Select v such that Parent(a1, a2) pattern a1 (v, _)
+SyntaxError
+5000
+50 - Parent and pattern (v, _) - variable
+assign a1, a2; variable v;
+Select v such that Parent(a1, a2) pattern a2 (v, _)
+none
+5000
+51 - Parent and pattern (v, _) - variable
+if a1; assign a2; variable v;
+Select v such that Parent(a1, a2) pattern a2 (v, _)
+y, z
+5000
+52 - Parent and pattern (v, _) - variable
+while a1; assign a2; variable v;
+Select v such that Parent(a1, a2) pattern a2 (v, _)
+a, z, x, y, i, j
+5000
+53 - Parent and pattern (v, constant)
+assign a; variable v;
+Select a such that Parent(6,a) pattern a (v, _"3"_)
+8
+5000
+54 - Parent and pattern (v, constant)
+assign a; variable v;
+Select a such that Parent(a,10) pattern a (v, _"3"_)
+none
+5000
+55 - Parent and pattern (v, constant)
+if a; variable v;
+Select a such that Parent(a,10) pattern a (v, _"3"_)
+SyntaxError
+5000
+56 - Parent and pattern (v, constant)
+while a; variable v;
+Select a such that Parent(a,10) pattern a (v, _"3"_)
+SyntaxError
+5000
+57 - Parent and pattern (v, constant) - variable
+assign a; variable v;
+Select v such that Parent(6,a) pattern a (v, _"3"_)
+z
+5000
+58 - Parent and pattern (v, constant) - variable
+assign a; variable v;
+Select v such that Parent(a,10) pattern a (v, _"3"_)
+none
+5000
+59 - Parent and pattern (v, constant) - variable
+if a; variable v;
+Select v such that Parent(a,10) pattern a (v, _"3"_)
+SyntaxError
+5000
+60 - Parent and pattern (v, constant) - variable
+while a; variable v;
+Select v such that Parent(a,10) pattern a (v, _"3"_)
+SyntaxError
+5000
+61 - Parent and pattern (v, constant)
+assign a1, a2; variable v;
+Select a1 such that Parent(a1, a2) pattern a1 (v, _"3"_)
+none
+5000
+62 - Parent and pattern (v, constant)
+if a1; assign a2; variable v;
+Select a1 such that Parent(a1, a2) pattern a1 (v, _"3"_)
+SyntaxError
+5000
+63 - Parent and pattern (v, constant)
+while a1; assign a2; variable v;
+Select a1 such that Parent(a1, a2) pattern a1 (v, _"3"_)
+SyntaxError
+5000
+64 - Parent and pattern (v, constant)
+assign a1, a2; variable v;
+Select a2 such that Parent(a1, a2) pattern a2 (v, _"3"_)
+none
+5000
+65 - Parent and pattern (v, constant)
+if a1; assign a2; variable v;
+Select a2 such that Parent(a1, a2) pattern a2 (v, _"3"_)
+none
+5000
+66 - Parent and pattern (v, constant)
+while a1; assign a2; variable v;
+Select a2 such that Parent(a1, a2) pattern a2 (v, _"3"_)
+8, 19
+5000
+67 - Parent and pattern (v, constant) - variable
+assign a1, a2; variable v;
+Select v such that Parent(a1, a2) pattern a1 (v, _"3"_)
+none
+5000
+68 - Parent and pattern (v, constant) - variable
+if a1; assign a2; variable v;
+Select v such that Parent(a1, a2) pattern a1 (v, _"3"_)
+SyntaxError
+5000
+69 - Parent and pattern (v, constant) - variable
+while a1; assign a2; variable v;
+Select v such that Parent(a1, a2) pattern a1 (v, _"3"_)
+SyntaxError
+5000
+70 - Parent and pattern (v, constant) - variable
+assign a1, a2; variable v;
+Select v such that Parent(a1, a2) pattern a2 (v, _"3"_)
+none
+5000
+71 - Parent and pattern (v, constant) - variable
+if a1; assign a2; variable v;
+Select v such that Parent(a1, a2) pattern a2 (v, _"3"_)
+none
+5000
+72 - Parent and pattern (v, constant) - variable
+while a1; assign a2; variable v;
+Select v such that Parent(a1, a2) pattern a2 (v, _"3"_)
+z, y
+5000
+73 - Parent and pattern (v, variable)
+assign a; variable v;
+Select a such that Parent(6,a) pattern a (v, _"j"_)
+none
+5000
+74 - Parent and pattern (v, variable)
+assign a; variable v;
+Select a such that Parent(16,a) pattern a (v, _"j"_)
+17, 18, 23
+5000
+75 - Parent and pattern (v, variable)
+assign a; variable v;
+Select a such that Parent(a,10) pattern a (v, _"j"_)
+none
+5000
+76 - Parent and pattern (v, variable)
+if a; variable v;
+Select a such that Parent(a,10) pattern a (v, _"j"_)
+SyntaxError
+5000
+77 - Parent and pattern (v, variable)
+while a; variable v;
+Select a such that Parent(a,10) pattern a (v, _"j"_)
+SyntaxError
+5000
+78 - Parent and pattern (v, variable) - variable
+assign a; variable v;
+Select v such that Parent(6,a) pattern a (v, _"j"_)
+none
+5000
+79 - Parent and pattern (v, variable) - variable
+assign a; variable v;
+Select v such that Parent(a,10) pattern a (v, _"j"_)
+none
+5000
+80 - Parent and pattern (v, variable) - variable
+if a; variable v;
+Select v such that Parent(a,10) pattern a (v, _"j"_)
+SyntaxError
+5000
+81 - Parent and pattern (v, variable) - variable
+while a; variable v;
+Select v such that Parent(a,10) pattern a (v, _"j"_)
+SyntaxError
+5000
+82 - Parent and pattern (v, variable)
+assign a1, a2; variable v;
+Select a1 such that Parent(a1, a2) pattern a1 (v, _"j"_)
+none
+5000
+83 - Parent and pattern (v, variable)
+if a1; assign a2; variable v;
+Select a1 such that Parent(a1, a2) pattern a1 (v, _"j"_)
+SyntaxError
+5000
+84 - Parent and pattern (v, variable)
+while a1; assign a2; variable v;
+Select a1 such that Parent(a1, a2) pattern a1 (v, _"j"_)
+SyntaxError
+5000
+85 - Parent and pattern (v, variable)
+assign a1, a2; variable v;
+Select a2 such that Parent(a1, a2) pattern a2 (v, _"j"_)
+none
+5000
+86 - Parent and pattern (v, variable)
+if a1; assign a2; variable v;
+Select a2 such that Parent(a1, a2) pattern a2 (v, _"j"_)
+none
+5000
+87 - Parent and pattern (v, variable)
+while a1; assign a2; variable v;
+Select a2 such that Parent(a1, a2) pattern a2 (v, _"j"_)
+17, 18, 23
+5000
+88 - Parent and pattern (v, variable) - variable
+assign a1, a2; variable v;
+Select v such that Parent(a1, a2) pattern a1 (v, _"j"_)
+none
+5000
+89 - Parent and pattern (v, variable) - variable
+if a1; assign a2; variable v;
+Select v such that Parent(a1, a2) pattern a1 (v, _"j"_)
+SyntaxError
+5000
+90 - Parent and pattern (v, variable) - variable
+while a1; assign a2; variable v;
+Select v such that Parent(a1, a2) pattern a1 (v, _"j"_)
+SyntaxError
+5000
+91 - Parent and pattern (v, variable) - variable
+assign a1, a2; variable v;
+Select v such that Parent(a1, a2) pattern a2 (v, _"j"_)
+none
+5000
+92 - Parent and pattern (v, variable) - variable
+if a1; assign a2; variable v;
+Select v such that Parent(a1, a2) pattern a2 (v, _"j"_)
+none
+5000
+93 - Parent and pattern (v, variable) - variable
+while a1; assign a2; variable v;
+Select v such that Parent(a1, a2) pattern a2 (v, _"j"_)
+z, x, a
+5000
+94 - [SEMANTICERROR] Uses(_, v) and pattern(_,_)
+assign a; variable v;
+Select a such that Uses(_, v) pattern a (_,_)
+SemanticError
+5000
+95 - Uses(syn, static) and pattern (_,_)
+assign a;
+Select a such that Uses(a, "z") pattern a (_,_)
+4,7,8,9,13,14
+5000
+96 - Uses(syn,wildcard) and pattern (_,_)
+assign a;
+Select a such that Uses(a, _) pattern a (_,_)
+4, 7, 8, 9, 10, 12, 13, 14, 15, 17, 18, 23, 24
+5000
+97 - Uses(syn,syn) and pattern (_,_)
+assign a; variable v;
+Select a such that Uses(a,v) pattern a (_, _)
+4, 7, 8, 9, 10, 12, 13, 14, 15, 17, 18, 23, 24
+5000
+98 - [SYNTAXERROR] Uses(syn,syn) and pattern (_,_)
+read a; variable v;
+Select a such that Uses(a,v) pattern a (_, _)
+SyntaxError
+5000
+99 - [SYNTAXERROR] Uses(syn,syn) and pattern (_,_)
+print a; variable v;
+Select a such that Uses(a,v) pattern a (_, _)
+SyntaxError
+5000
+100 - Uses(syn, static) and pattern (_,_) - variable 
+assign a; variable v;
+Select v such that Uses(a, "z") pattern a (_,_)
+a, z, x, y, i, j
+5000
+101 - Uses(syn,wildcard) and pattern (_,_) - variable
+assign a; variable v;
+Select v such that Uses(a, _) pattern a (_,_)
+a, z, x, y, i, j
+5000
+102 - Uses(syn, syn) and pattern (_,_) - variable
+assign a; variable v;
+Select v such that Uses(a,v) pattern a (_,_)
+z, x, y, i, j
+5000
+103 - Uses(syn, static) and pattern (v,_)
+assign a; variable v;
+Select a such that Uses(a, "z") pattern a (v,_)
+4,7,8,9,13,14
+5000
+104 - Uses(syn,wildcard) and pattern (v,_)
+assign a; variable v;
+Select a such that Uses(a, _) pattern a (v,_)
+4, 7, 8, 9, 10, 12, 13, 14, 15, 17, 18, 23, 24
+5000
+105 - Uses(syn,syn) and pattern (v,_)
+assign a; variable v;
+Select a such that Uses(a,v) pattern a (v, _)
+8, 10, 12, 13, 14, 24
+5000
+106 - Uses(syn, static) and pattern (v,_) - variable 
+assign a; variable v;
+Select v such that Uses(a, "z") pattern a (v,_)
+a, z, y
+5000
+107 - Uses(syn,wildcard) and pattern (v,_) - variable
+assign a; variable v;
+Select v such that Uses(a, _) pattern a (v,_)
+a, z, x, y, i, j
+5000
+108 - Uses(syn, syn) and pattern (v,_) - variable
+assign a; variable v;
+Select v such that Uses(a,v) pattern a (v,_)
+z, x, y, i
+5000
+109 - [SEMANTICERROR] Modifies(_, v) and pattern(_,_)
+assign a; variable v;
+Select a such that Modifies(_, v) pattern a (_,_)
+SemanticError
+5000
+110 - Modifies(syn, static) and pattern (_,_)
+assign a;
+Select a such that Modifies(a, "z") pattern a (_,_)
+8, 13, 14, 17
+5000
+111 - Modifies(syn,wildcard) and pattern (_,_)
+assign a;
+Select a such that Modifies(a, _) pattern a (_,_)
+4, 5, 7, 8, 9, 10, 12, 13, 14, 15, 17, 18, 19, 23, 24
+5000
+112 - Modifies(syn,syn) and pattern (_,_)
+assign a; variable v;
+Select a such that Modifies(a,v) pattern a (_, _)
+4, 5, 7, 8, 9, 10, 12, 13, 14, 15, 17, 18, 19, 23, 24
+5000
+113 - [SYNTAXERROR] Modifies(syn,syn) and pattern (_,_)
+read a; variable v;
+Select a such that Modifies(a,v) pattern a (_, _)
+SyntaxError
+5000
+114 - [SYNTAXERROR] Modifies(syn,syn) and pattern (_,_)
+print a; variable v;
+Select a such that Modifies(a,v) pattern a (_, _)
+SyntaxError
+5000
+115 - Modifies(syn, static) and pattern (_,_) - variable 
+assign a; variable v;
+Select v such that Modifies(a, "z") pattern a (_,_)
+a,z,x,y,i,j
+5000
+116 - Modifies(syn,wildcard) and pattern (_,_) - variable
+assign a; variable v;
+Select v such that Modifies(a, _) pattern a (_,_)
+a, z, x, y, i, j
+5000
+117 - Modifies(syn, syn) and pattern (_,_) - variable
+assign a; variable v;
+Select v such that Modifies(a,v) pattern a (_,_)
+a, z, x, y, i, j
+5000
+118 - Modifies(syn, static) and pattern (v,_)
+assign a; variable v;
+Select a such that Modifies(a, "z") pattern a (v,_)
+8, 13, 14, 17
+5000
+119 - Modifies(syn,wildcard) and pattern (v,_)
+assign a; variable v;
+Select a such that Modifies(a, _) pattern a (v,_)
+4, 5, 7, 8, 9, 10, 12, 13, 14, 15, 17, 18, 19, 23, 24
+5000
+120 - Modifies(syn,syn) and pattern (v,_)
+assign a; variable v;
+Select a such that Modifies(a,v) pattern a (v, _)
+4, 5, 7, 8, 9, 10, 12, 13, 14, 15, 17, 18, 19, 23, 24
+5000
+121 - Modifies(syn, static) and pattern (v,_) - variable 
+assign a; variable v;
+Select v such that Modifies(a, "z") pattern a (v,_)
+z
+5000
+122 - Modifies(syn,wildcard) and pattern (v,_) - variable
+assign a; variable v;
+Select v such that Modifies(a, _) pattern a (v,_)
+a, z, x, y, i, j
+5000
+123 - Modifies(syn, syn) and pattern (v,_) - variable
+assign a; variable v;
+Select v such that Modifies(a,v) pattern a (v,_)
+a, z, x, y, i, j
+5000
