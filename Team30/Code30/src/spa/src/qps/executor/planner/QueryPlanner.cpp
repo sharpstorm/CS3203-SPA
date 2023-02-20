@@ -87,7 +87,14 @@ void QueryPlanner::flushIndependentClauses() {
 
     finalPlan[currentPosition] = evaluatables.at(i);
     mergeStrategy[currentPosition] = QueryPlan::DISCARDING_MERGE;
+    isEvaluatableLinked[i] = true;
     currentPosition--;
+
+    SynonymList syns = evaluatables.at(i)->getUsedSynonyms();
+    for (PQLSynonymName name : syns) {
+      PlanNodes* nodes = planIndex.getUsages(name);
+      buildDependencyTree(nodes);
+    }
   }
 }
 
