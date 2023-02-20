@@ -1,0 +1,540 @@
+1- [SEMANTICERROR] Uses(_, static)
+assign a;
+Select a such that Uses(_, "x")
+SemanticError
+5000
+2- Uses (static, static) - false result
+assign a;
+Select a such that Uses(3, "x")
+none
+5000
+3- Uses (static, static) - true result
+assign a;
+Select a such that Uses(7, "x")
+1,2,3,4,7,8,9,10,11,12
+5000
+4- Uses (static, static) - false result
+stmt a;
+Select a such that Uses(3, "x")
+none
+5000
+5- Uses (static, static) - true result
+stmt a;
+Select a such that Uses(7, "x")
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18
+5000
+6- Uses (static, static) - false result
+if a;
+Select a such that Uses(3, "x")
+none
+5000
+7- Uses (static, static) - true result
+if a;
+Select a such that Uses(7, "x")
+6
+5000
+8- uses (static, static) - false result
+while a;
+Select a such that Uses(3, "x")
+none
+5000
+9- uses (static, static) - true result
+while a;
+Select a such that Uses(7, "x")
+5
+5000
+10 - Uses (static, static) - false result
+read a;
+Select a such that Uses(3, "x")
+none
+5000
+11 -  Uses (static, static) - true result
+read a;
+Select a such that Uses(7, "x")
+14,16
+5000
+12- Uses (static, static)
+print a;
+Select a such that Uses(3, "x")
+none
+5000
+13 - Uses (static, static)
+print a;
+Select a such that Uses(7, "x")
+13,15,17,18
+5000
+14 - Uses (static, static) - false result
+assign a; variable v; 
+Select v such that Uses(3, "x")
+none
+5000
+15 -  Uses (static, static) - true result
+assign a; variable v;
+Select v such that Uses(7, "x")
+x,a,b,c,temp,k
+5000
+16 - Uses (static, static) - false result
+stmt a; variable v;
+Select v such that Uses(3, "x")
+none
+5000
+17 - Uses (static, static) - true result
+stmt a; variable v;
+Select v such that Uses(7, "x")
+x,a,b,c,temp,k
+5000
+18 - Uses (static, static) - false result
+if a; variable v;
+Select v such that Uses(3, "x")
+none
+5000
+19 - Uses (static, static) - true result
+if a; variable v;
+Select v such that Uses(7, "x")
+x,a,b,c,temp,k
+5000
+20 - uses (static, static) - false result
+while a; variable v;
+Select v such that Uses(3, "x")
+none
+5000
+21 - uses (static, static) - true result
+while a; variable v;
+Select v such that Uses(7, "x")
+x,a,b,c,temp,k
+5000
+22 - Uses (static, static) - false result
+read a; variable v;
+Select v such that Uses(3, "x")
+none
+5000
+23 -  Uses (static, static) - true result
+read a; variable v;
+Select v such that Uses(7, "x")
+x,a,b,c,temp,k
+5000
+24 - Uses (static, static) - false result
+print a; variable v;
+Select v such that Uses(3, "x")
+none
+5000
+25 - Uses (static, static) - true result
+print a; variable v;
+Select v such that Uses(7, "x")
+x,a,b,c,temp,k
+5000
+26 - Uses (static, syn) - false result
+assign a; variable v;
+Select a such that Uses(3, v)
+none
+5000
+27 - Uses (static, syn) - true result
+assign a; variable v;
+Select a such that Uses(7, v)
+1,2,3,4,7,8,9,10,11,12
+5000
+28 - Uses (static, syn) - false result
+stmt a; variable v;
+Select a such that Uses(3, v)
+none
+5000
+29 - Uses (static, syn) - true result
+stmt a; variable v;
+Select a such that Uses(7, v)
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18
+5000
+30 - Uses (static, syn) - false result
+if a; variable v;
+Select a such that Uses(3, v)
+none
+5000
+31 - Uses (static, syn) - true result
+if a; variable v;
+Select a such that Uses(7, v)
+6
+5000
+32 - uses (static, syn) - false result
+while a; variable v;
+Select a such that Uses(3, v)
+none
+5000
+33 - uses (static, syn) - true result
+while a; variable v;
+Select a such that Uses(7, v)
+5
+5000
+34 - Uses (static, syn) - false result
+read a; variable v;
+Select a such that Uses(3, v)
+none
+5000
+35 -  Uses (static, syn) - true result
+read a; variable v;
+Select a such that Uses(7, v)
+14,16
+5000
+36 - Uses (static, syn)
+print a; variable v;
+Select a such that Uses(3, v)
+none
+5000
+37 - Uses (static, syn)
+print a; variable v;
+Select a such that Uses(7, v)
+13,15,17,18
+5000
+38 - Uses (static, syn) - false result
+assign a; variable v; 
+Select v such that Uses(3, v)
+none
+5000
+39 -  Uses (static, syn) - true result
+assign a; variable v;
+Select v such that Uses(7, v)
+x
+5000
+40 - Uses (static, syn) - false result
+stmt a; variable v;
+Select v such that Uses(3, v)
+none
+5000
+41 - Uses (static, syn) - true result
+stmt a; variable v;
+Select v such that Uses(7, v)
+x
+5000
+42 - Uses (static, syn) - false result
+if a; variable v;
+Select v such that Uses(3, v)
+none
+5000
+43 - Uses (static, syn) - true result
+if a; variable v;
+Select v such that Uses(7, v)
+x
+5000
+44 - Uses (static, syn) - false result
+while a; variable v;
+Select v such that Uses(3, v)
+none
+5000
+45 - Uses (static, syn) - true result
+while a; variable v;
+Select v such that Uses(7, v)
+x
+5000
+46 - Uses (static, syn) - false result
+read a; variable v;
+Select v such that Uses(3, v)
+none
+5000
+47 -  Uses (static, syn) - true result
+read a; variable v;
+Select v such that Uses(7, v)
+x
+5000
+48 - Uses (static, syn) - false result
+print a; variable v;
+Select v such that Uses(3, v)
+none
+5000
+49 - Uses (static, syn) - true result
+print a; variable v;
+Select v such that Uses(7, v)
+x
+5000
+50 - Uses (static, wildcard) - false result
+assign a; variable v;
+Select a such that Uses(3, _)
+none
+5000
+51 - Uses (static, wildcard) - true result
+assign a; variable v;
+Select a such that Uses(7, _)
+1,2,3,4,7,8,9,10,11,12
+5000
+52 - Uses (static, wildcard) - false result
+stmt a; variable v;
+Select a such that Uses(3, _)
+none
+5000
+53 - Uses (static, wildcard) - true result
+stmt a; variable v;
+Select a such that Uses(7, _)
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18
+5000
+54 - Uses (static, wildcard) - false result
+if a; variable v;
+Select a such that Uses(3, _)
+none
+5000
+55 - Uses (static, wildcard) - true result
+if a; variable v;
+Select a such that Uses(7, _)
+6
+5000
+56 - uses (static, wildcard) - false result
+while a; variable v;
+Select a such that Uses(3, _)
+none
+5000
+57 - uses (static, wildcard) - true result
+while a; variable v;
+Select a such that Uses(7, _)
+5
+5000
+58 - Uses (static, wildcard) - false result
+read a; variable v;
+Select a such that Uses(3, _)
+none
+5000
+59 -  Uses (static, wildcard) - true result
+read a; variable v;
+Select a such that Uses(7, _)
+14,16
+5000
+60 - Uses (static, wildcard)
+print a; variable v;
+Select a such that Uses(3, _)
+none
+5000
+61 - Uses (static, wildcard)
+print a; variable v;
+Select a such that Uses(7, _)
+13,15,17,18
+5000
+62 - Uses (static, wildcard) - false result
+assign a; variable v; 
+Select v such that Uses(3, _)
+none
+5000
+63 -  Uses (static, wildcard) - true result
+assign a; variable v;
+Select v such that Uses(7, _)
+x,a,b,c,temp,k
+5000
+64 - Uses (static, wildcard) - false result
+stmt a; variable v;
+Select v such that Uses(3, _)
+none
+5000
+65 - Uses (static, wildcard) - true result
+stmt a; variable v;
+Select v such that Uses(7, _)
+x,a,b,c,temp,k
+5000
+66 - Uses (static, wildcard) - false result
+if a; variable v;
+Select v such that Uses(3, _)
+none
+5000
+67 - Uses (static, wildcard) - true result
+if a; variable v;
+Select v such that Uses(7, _)
+x,a,b,c,temp,k
+5000
+68 - Uses (static, wildcard) - false result
+while a; variable v;
+Select v such that Uses(3, _)
+none
+5000
+69 - Uses (static, wildcard) - true result
+while a; variable v;
+Select v such that Uses(7, _)
+x,a,b,c,temp,k
+5000
+70 - Uses (static, wildcard) - false result
+read a; variable v;
+Select v such that Uses(3, _)
+none
+5000
+71 -  Uses (static, wildcard) - true result
+read a; variable v;
+Select v such that Uses(7, _)
+x,a,b,c,temp,k
+5000
+72 - Uses (static, wildcard) - false result
+print a; variable v;
+Select v such that Uses(3, _)
+none
+5000
+73 - Uses (static, wildcard) - true result
+print a; variable v;
+Select v such that Uses(7, _)
+x,a,b,c,temp,k
+5000
+74 - Uses (syn, static)
+assign a;
+Select a such that Uses(a, "x")
+7,8,12
+5000
+75 - Uses (syn, static)
+stmt a;
+Select a such that Uses(a, "x")
+5,6,7,8,12,13,18
+5000
+76 - Uses (syn, static)
+if a;
+Select a such that Uses(a, "x")
+6
+5000
+77 - uses (syn, static)
+while a;
+Select a such that Uses(a, "x")
+5
+5000
+78 -  Uses (syn, static)
+read a;
+Select a such that Uses(a, "x")
+none
+5000
+79 - Uses (syn, static)
+print a;
+Select a such that Uses(a, "x")
+13,18
+5000
+80 -  Uses (syn, static)
+assign a; variable v;
+Select v such that Uses(a, "x")
+x,a,b,c,temp,k
+5000
+81 - Uses (syn, static)
+if a; variable v;
+Select v such that Uses(a, "x")
+x,a,b,c,temp,k
+5000
+82 - uses (syn, static)
+while a; variable v;
+Select v such that Uses(a, "x")
+x,a,b,c,temp,k
+5000
+83 -  Uses (syn, static)
+read a; variable v;
+Select v such that Uses(a, "x")
+none
+5000
+84 - Uses (syn, static)
+print a; variable v;
+Select v such that Uses(a, "x")
+x,a,b,c,temp,k
+5000
+85 - Uses (syn, syn)
+assign a; variable v;
+Select a such that Uses(a, v)
+7,8,9,10,11,12
+5000
+86 - Uses (syn, syn)
+stmt a; variable v;
+Select a such that Uses(a, v)
+5,6,7,8,9,10,11,12,13,15,17,18
+5000
+87 - Uses (syn, syn)
+if a; variable v;
+Select a such that Uses(a, v)
+6
+5000
+88 - uses (syn, syn)
+while a; variable v;
+Select a such that Uses(a, v)
+5
+5000
+89 -  Uses (syn, syn)
+read a; variable v;
+Select a such that Uses(a, v)
+none
+5000
+90 - Uses (syn, syn)
+print a; variable v;
+Select a such that Uses(a, v)
+13,15,17,18
+5000
+91 -  Uses (syn, syn) - true result
+assign a; variable v;
+Select v such that Uses(a, v)
+x,a,b,temp
+5000
+92 - Uses (syn, syn) - true result
+stmt a; variable v;
+Select v such that Uses(a, v)
+x,a,b,temp,k
+5000
+93 - Uses (syn, syn) - true result
+if a; variable v;
+Select v such that Uses(a, v)
+x
+5000
+94 - Uses (syn, syn) - true result
+while a; variable v;
+Select v such that Uses(a, v)
+x,a,b,temp
+5000
+95 -  Uses (syn, syn) - true result
+read a; variable v;
+Select v such that Uses(a, v)
+none
+5000
+96 - Uses (syn, syn) - true result
+print a; variable v;
+Select v such that Uses(a, v)
+x,k,a
+5000
+97 - Uses (syn, wildcard) - true result
+assign a; variable v;
+Select a such that Uses(a, _)
+7,8,9,10,11,12
+5000
+98 - Uses (syn, wildcard) - true result
+stmt a; variable v;
+Select a such that Uses(a, _)
+5,6,7,8,9,10,11,12,13,15,17,18
+5000
+99 - Uses (syn, wildcard) - true result
+if a; variable v;
+Select a such that Uses(a, _)
+6
+5000
+100 - uses (syn, wildcard) - true result
+while a; variable v;
+Select a such that Uses(a, _)
+5
+5000
+101 -  Uses (syn, wildcard) - true result
+read a; variable v;
+Select a such that Uses(a, _)
+none
+5000
+102 - Uses (syn, wildcard)
+print a; variable v;
+Select a such that Uses(a, _)
+13,15,17,18
+5000
+103 -  Uses (syn, wildcard) - true result
+assign a; variable v;
+Select v such that Uses(a, _)
+x,a,b,c,temp,k
+5000
+104 - Uses (syn, wildcard) - true result
+stmt a; variable v;
+Select v such that Uses(a, _)
+x,a,b,c,temp,k
+5000
+105 - Uses (syn, wildcard) - true result
+if a; variable v;
+Select v such that Uses(a, _)
+x,a,b,c,temp,k
+5000
+106 - Uses (syn, wildcard) - true result
+while a; variable v;
+Select v such that Uses(a, _)
+x,a,b,c,temp,k
+5000
+107 -  Uses (syn, wildcard) - true result
+read a; variable v;
+Select v such that Uses(a, _)
+none
+5000
+108 - Uses (syn, wildcard) - true result
+print a; variable v;
+Select v such that Uses(a, _)
+x,a,b,c,temp,k
+5000

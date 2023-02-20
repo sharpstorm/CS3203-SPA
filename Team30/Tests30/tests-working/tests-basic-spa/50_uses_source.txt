@@ -15,4 +15,9 @@ procedure Collatz {
         c = a + b + x - temp;
     }
     print x;
+    read k;
+    print k;
+    read a;
+    print a;
+    print x;
 }
