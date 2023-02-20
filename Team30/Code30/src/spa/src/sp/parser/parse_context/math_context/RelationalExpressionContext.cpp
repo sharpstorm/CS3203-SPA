@@ -11,8 +11,9 @@ using std::shared_ptr;
 
 shared_ptr<ASTNode>
 RelationalExpressionContext::generateSubtree(SourceParseState *state) {
+  state->clearCached();
   shared_ptr<ASTNode> leftNode = contextProvider->
-      getContext(EXPR_CONTEXT)->generateSubtree(state);
+      getContext(REL_FACTOR_CONTEXT)->generateSubtree(state);
 
   SourceToken* token = expect(state,
                               SIMPLE_TOKEN_GT,

@@ -18,6 +18,14 @@ bool SourceParseState::isEnd() {
   return curIndex >= tokenLength;
 }
 
+int SourceParseState::getCurrPosition() {
+  return curIndex;
+}
+
+void SourceParseState::restorePosition(int pos) {
+  curIndex = pos;
+}
+
 SourceToken *SourceParseState::getCurrToken() {
   if (curIndex >= tokenLength) {
     return nullptr;
