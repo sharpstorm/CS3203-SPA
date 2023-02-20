@@ -1,0 +1,10 @@
+1 - Select Last Line
+stmt s;
+Select s such that Follows(s, 210)
+164
+5000
+2 - Select last uses
+stmt s;
+Select s such that Uses(s, "endoflife")
+210
+5000

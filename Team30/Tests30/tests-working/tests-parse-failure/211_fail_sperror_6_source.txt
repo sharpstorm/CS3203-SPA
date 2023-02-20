@@ -1,0 +1,9 @@
+procedure asdf {
+    x = 1;
+    b = 2;
+    if (x == 2) then {
+        x = 3;
+    else {
+        x = 4;
+    }
+}

@@ -1,0 +1,6 @@
+procedure xxx {
+    if (x == 1) then {
+    } else {
+        x = 1;
+    }
+}

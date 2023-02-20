@@ -1,0 +1,7 @@
+procedure asdf {
+    x = 1;
+    b = 2;
+    while (x = 4) {
+        x = 3;
+    }
+}
