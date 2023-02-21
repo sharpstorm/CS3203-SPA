@@ -1,0 +1,114 @@
+{
+  "timeout": 5000,
+  "cases": [
+    {
+      "name": "Uses Semantic Error(c1,c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Uses(c1, c1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Uses Semantic Error(v1,c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Uses(v1, c1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Uses Semantic Error(c1,pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Uses(c1, pr1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Uses Semantic Error(v1,pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Uses(v1, pr1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Uses Semantic Error(c1,a1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Uses(c1, a1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Uses Semantic Error(v1,a1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Uses(v1, a1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Uses Semantic Error(c1,r1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Uses(c1, r1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Uses Semantic Error(v1,r1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Uses(v1, r1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Uses Semantic Error(c1,p1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Uses(c1, p1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Uses Semantic Error(v1,p1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Uses(v1, p1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Uses Semantic Error(c1,i1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Uses(c1, i1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Uses Semantic Error(v1,i1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Uses(v1, i1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Uses Semantic Error(c1,w1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Uses(c1, w1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Uses Semantic Error(v1,w1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Uses(v1, w1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Uses Semantic Error(c1,s1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Uses(c1, s1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Uses Semantic Error(v1,s1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Uses(v1, s1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Uses Semantic Error(c1,cl1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Uses(c1, cl1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Uses Semantic Error(v1,cl1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Uses(v1, cl1)",
+      "ans": "SemanticError"
+    }
+    
+  ]
+}

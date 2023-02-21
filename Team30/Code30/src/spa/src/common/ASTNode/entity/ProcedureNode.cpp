@@ -16,3 +16,15 @@ string ProcedureNode::toString() {
   ss += "}";
   return ss;
 }
+
+string ProcedureNode::getName() {
+  return procName;
+}
+
+void ProcedureNode::accept(Extractor* e) {
+  e->visit(this);
+}
+
+void ProcedureNode::leave(Extractor* e) {
+  e->leave(this);
+}

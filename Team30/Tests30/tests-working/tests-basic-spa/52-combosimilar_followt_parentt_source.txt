@@ -1,0 +1,36 @@
+procedure DarkSeer {
+	read x;
+	print x;
+	read y;
+	z = y + x;
+	i = 0;
+	while (i < 5) {
+		read k;
+		if (y == 2) then {
+			z = 4;
+			x = z * 8;
+		} else {
+			y = y + 2;
+			i = i - 1;
+		}
+		k = 9 + z * 2;	
+		i = i + 1;
+		k = k - 1;
+	}
+	while (k > 0) {
+		j = i;
+		print y;
+		while (i < 100) {
+			g = 9;
+			y = 2;
+			j = 9 + 2;
+		}
+	}
+
+	if (i % 2 == 0) then {
+		z = y * 6;
+		g = 2 + y;
+	} else {
+		z = 6;
+	}
+}

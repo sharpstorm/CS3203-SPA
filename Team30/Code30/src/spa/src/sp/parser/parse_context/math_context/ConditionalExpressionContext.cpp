@@ -15,6 +15,15 @@ shared_ptr<ASTNode> ConditionalExpressionContext::generateSubtree(
     throw SPError(SPERR_END_OF_STREAM);
   }
 
+  int curState = state->getCurrPosition();
+  try {
+    newNode = processRelationalExpression(state);
+    state->setCached(newNode);
+    return newNode;
+  } catch(const SPError& error) {
+    state->restorePosition(curState);
+  }
+
   switch (token->getType()) {
     case SIMPLE_TOKEN_NOT:
       newNode = processNotCondition(state);
@@ -23,8 +32,7 @@ shared_ptr<ASTNode> ConditionalExpressionContext::generateSubtree(
       newNode = processBiCondition(state);
       break;
     default:
-      newNode = processRelationalExpression(state);
-      break;
+      throw SPError(SPERR_UNEXPECTED_TOKEN);
   }
   state->setCached(newNode);
   return newNode;

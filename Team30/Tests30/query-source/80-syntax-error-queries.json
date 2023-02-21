@@ -1,0 +1,153 @@
+{
+  "timeout": 5000,
+  "cases": [
+
+    { "comment": "------------ Keyword Spellings -----------" },
+
+    {
+      "name": "Select mispelt",
+      "defn": "stmt s;",
+      "query": "Selct s such that Follows(1,2)",
+      "ans": "SyntaxError"
+    },
+    {
+      "name": "such mispelt",
+      "defn": "stmt s;",
+      "query": "Select s sch that Follows(1,2)",
+      "ans": "SyntaxError"
+    },
+    {
+      "name": "that mispelt",
+      "defn": "stmt s;",
+      "query": "Select s such tht Follows(1,2)",
+      "ans": "SyntaxError"
+    },
+
+    {
+      "name": "that mispelt",
+      "defn": "stmt s;",
+      "query": "Select s patttern a(_, _)",
+      "ans": "SyntaxError"
+    },
+
+    { "comment": "------------ Case sensitivity -----------" },
+
+    {
+      "name": "Case sensitive select",
+      "defn": "stmt s;",
+      "query": "select s",
+      "ans": "SyntaxError"
+    },
+    {
+      "name": "Case sensitive such",
+      "defn": "stmt s;",
+      "query": "Select s Such that Follows(1,2)",
+      "ans": "SyntaxError"
+    },
+    {
+      "name": "Case sensitive that",
+      "defn": "stmt s;",
+      "query": "Select s such That Follows(1,2)",
+      "ans": "SyntaxError"
+    },
+    {
+      "name": "Case sensitive pattern",
+      "defn": "stmt s;",
+      "query": "Select s Pattern a(_,_)",
+      "ans": "SyntaxError"
+    },
+    {
+      "name": "Case sensitive Follows",
+      "defn": "stmt s;",
+      "query": "Select s such that follows(1,2)",
+      "ans": "SyntaxError"
+    },
+    {
+      "name": "Case sensitive Parent",
+      "defn": "stmt s;",
+      "query": "Select s such that parent(1,2)",
+      "ans": "SyntaxError"
+    },
+    {
+      "name": "Case sensitive Follows*",
+      "defn": "stmt s;",
+      "query": "Select s such that follows*(1,2)",
+      "ans": "SyntaxError"
+    },
+    {
+      "name": "Case sensitive Parent*",
+      "defn": "stmt s;",
+      "query": "Select s such that parent*(1,2)",
+      "ans": "SyntaxError"
+    },
+    {
+      "name": "Case sensitive Uses",
+      "defn": "stmt s;",
+      "query": "Select s such that uses(1,\"x\")",
+      "ans": "SyntaxError"
+    },
+    {
+      "name": "Case sensitive Modifies",
+      "defn": "stmt s;",
+      "query": "Select s such that modifies(1,\"x\")",
+      "ans": "SyntaxError"
+    },
+    {
+      "name": "Case sensitive Synonym",
+      "defn": "stmt s;",
+      "query": "Select S such that Modifies(1,\"x\")",
+      "ans": "SemanticError"
+    },
+
+    { "comment": "------------ Invalid Clause Sequences -----------" },
+
+    {
+      "name": "Bad Clause Sequence",
+      "defn": "stmt s;",
+      "query": "S such that Follows(1, 2)",
+      "ans": "SyntaxError"
+    },
+    {
+      "name": "Bad Clause Sequence",
+      "defn": "stmt s;",
+      "query": "Select such that Follows(1, 2)",
+      "ans": "SyntaxError"
+    },
+    {
+      "name": "Bad Clause Sequence",
+      "defn": "stmt s;",
+      "query": "Select s such Follows(1,2)",
+      "ans": "SyntaxError"
+    },
+    {
+      "name": "Bad Clause Sequence",
+      "defn": "stmt s;",
+      "query": "Select s that Follows(1,2)",
+      "ans": "SyntaxError"
+    },
+    {
+      "name": "Bad Clause Sequence",
+      "defn": "stmt s;",
+      "query": "Select s Follows(1,2)",
+      "ans": "SyntaxError"
+    },
+    {
+      "name": "Bad Clause Sequence",
+      "defn": "stmt s;",
+      "query": "Select s such that",
+      "ans": "SyntaxError"
+    },
+    {
+      "name": "Bad Clause Sequence",
+      "defn": "stmt s;",
+      "query": "Select s such that pattern",
+      "ans": "SyntaxError"
+    },
+    {
+      "name": "Bad Clause Sequence",
+      "defn": "stmt s;",
+      "query": "Select s such that Pattern(1, 2)",
+      "ans": "SyntaxError"
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "timeout": 5000,
+  "cases": [
+
+    { "comment": "---------------- Keyword Synonyms -----------------" },
+
+    {
+      "name": "Select PQL Keyword Handling",
+      "defn": "stmt stmt, assign, print, read, call, if, while, Follows, Parent, Modifies, Uses, pattern;",
+      "query": "Select stmt such that Follows(1, 2)",
+      "ans": "1,2,3,4,5,6"
+    },
+    {
+      "name": "Select PQL Keyword Handling",
+      "defn": "stmt stmt, assign, print, read, call, if, while, Follows, Parent, Modifies, Uses, pattern;",
+      "query": "Select assign such that Follows(1, 2)",
+      "ans": "1,2,3,4,5,6"
+    },
+    {
+      "name": "Select PQL Keyword Handling",
+      "defn": "stmt stmt, assign, print, read, call, if, while, Follows, Parent, Modifies, Uses, pattern;",
+      "query": "Select print such that Follows(1, 2)",
+      "ans": "1,2,3,4,5,6"
+    },
+    {
+      "name": "Select PQL Keyword Handling",
+      "defn": "stmt stmt, assign, print, read, call, if, while, Follows, Parent, Modifies, Uses, pattern;",
+      "query": "Select read such that Follows(1, 2)",
+      "ans": "1,2,3,4,5,6"
+    },
+    {
+      "name": "Select PQL Keyword Handling",
+      "defn": "stmt stmt, assign, print, read, call, if, while, Follows, Parent, Modifies, Uses, pattern;",
+      "query": "Select call such that Follows(1, 2)",
+      "ans": "1,2,3,4,5,6"
+    },
+
+    {
+      "name": "Select PQL Keyword Handling",
+      "defn": "stmt stmt, assign, print, read, call, if, while, Follows, Parent, Modifies, Uses, pattern;",
+      "query": "Select if such that Follows(1, 2)",
+      "ans": "1,2,3,4,5,6"
+    },
+    {
+      "name": "Select PQL Keyword Handling",
+      "defn": "stmt stmt, assign, print, read, call, if, while, Follows, Parent, Modifies, Uses, pattern;",
+      "query": "Select while such that Follows(1, 2)",
+      "ans": "1,2,3,4,5,6"
+    },
+    {
+      "name": "Select PQL Keyword Handling",
+      "defn": "stmt stmt, assign, print, read, call, if, while, Follows, Parent, Modifies, Uses, pattern;",
+      "query": "Select Follows such that Follows(1, 2)",
+      "ans": "1,2,3,4,5,6"
+    },
+    {
+      "name": "Select PQL Keyword Handling",
+      "defn": "stmt stmt, assign, print, read, call, if, while, Follows, Parent, Modifies, Uses, pattern;",
+      "query": "Select Parent such that Follows(1, 2)",
+      "ans": "1,2,3,4,5,6"
+    },
+    {
+      "name": "Select PQL Keyword Handling",
+      "defn": "stmt stmt, assign, print, read, call, if, while, Follows, Parent, Modifies, Uses, pattern;",
+      "query": "Select Modifies such that Follows(1, 2)",
+      "ans": "1,2,3,4,5,6"
+    },
+    {
+      "name": "Select PQL Keyword Handling",
+      "defn": "stmt stmt, assign, print, read, call, if, while, Follows, Parent, Modifies, Uses, pattern;",
+      "query": "Select Uses such that Follows(1, 2)",
+      "ans": "1,2,3,4,5,6"
+    },
+    {
+      "name": "Select PQL Keyword Handling",
+      "defn": "stmt stmt, assign, print, read, call, if, while, Follows, Parent, Modifies, Uses, pattern;",
+      "query": "Select pattern such that Follows(1, 2)",
+      "ans": "1,2,3,4,5,6"
+    },
+    {
+      "name": "Select PQL Keyword Handling",
+      "defn": "stmt Select, Follows;",
+      "query": "Select Select such that Follows(Follows, Select)",
+      "ans": "2,3,4"
+    },
+    {
+      "name": "Select PQL Keyword Handling",
+      "defn": "stmt Select, Follows;assign pattern;",
+      "query": "Select Select such that Follows(pattern, Select) pattern pattern(_,_)",
+      "ans": "2,3,4"
+    }
+  ]
+}

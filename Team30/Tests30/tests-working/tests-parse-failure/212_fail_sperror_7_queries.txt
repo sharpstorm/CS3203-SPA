@@ -1,0 +1,5 @@
+1 - Dummy Placeholder
+stmt s;
+Select s such that Follows(1, 2)
+
+5000

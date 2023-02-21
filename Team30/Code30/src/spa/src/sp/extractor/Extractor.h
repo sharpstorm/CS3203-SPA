@@ -13,10 +13,12 @@ class VariableASTNode;
 class ConstantASTNode;
 class AbstractMathNode;
 class AbstractConditionalNode;
+class ProcedureNode;
 
 class Extractor {
  public:
   virtual ~Extractor() = default;
+  virtual void visit(ProcedureNode* node) = 0;
   virtual void visit(StatementListNode* node) = 0;
   virtual void visit(IfNode* node) = 0;
   virtual void visit(ReadNode* node) = 0;
@@ -28,6 +30,8 @@ class Extractor {
   virtual void visit(ConstantASTNode* node) = 0;
   virtual void visit(AbstractMathNode* node) = 0;
   virtual void visit(AbstractConditionalNode* node) = 0;
+
+  virtual void leave(ProcedureNode* node) = 0;
   virtual void leave(IfNode* node) = 0;
   virtual void leave(ReadNode* node) = 0;
   virtual void leave(PrintNode* node) = 0;

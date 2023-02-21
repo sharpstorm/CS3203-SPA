@@ -1,0 +1,18 @@
+{
+    "timeout": "5000",
+    "templates": [
+        {
+            "template": "{\r\n  \"name\": \"Assign Pattern Semantic Error a1([1])\",\r\n  \"defn\": \"stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;\",\r\n  \"query\": \"Select s1 pattern a1([1], _)\",\r\n  \"ans\": \"SemanticError\"\r\n},"
+        },
+        {
+            "template": "{\r\n  \"name\": \"Assign Pattern Syntax Error [0](v1)\",\r\n  \"defn\": \"stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;\",\r\n  \"query\": \"Select s1 pattern [0](v1, _)\",\r\n  \"ans\": \"SyntaxError\"\r\n},"
+        },
+        {
+            "template": "{\r\n  \"name\": \"Assign Pattern Syntax Error [0]([1])\",\r\n  \"defn\": \"stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;\",\r\n  \"query\": \"Select s1 pattern [0]([1], _)\",\r\n  \"ans\": \"SyntaxError\"\r\n},"
+        }
+    ],
+    "varying": [
+        ["c1", "pr1", "v1", "r1", "p1", "i1", "w1", "s1", "cl1"],
+        ["c1", "pr1", "a1", "r1", "p1", "i1", "w1", "s1", "cl1"]
+    ]
+}

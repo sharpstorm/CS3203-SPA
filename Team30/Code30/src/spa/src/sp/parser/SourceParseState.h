@@ -14,6 +14,8 @@ class SourceParseState {
   SourceToken* peekNextToken();
   bool nextTokenIsOfType(SourceTokenType type);
   bool isEnd();
+  int getCurrPosition();
+  void restorePosition(int pos);
 
   void setCached(ASTNodePtr node);
   void clearCached();
