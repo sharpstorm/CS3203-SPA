@@ -5,6 +5,6 @@ void SpFacade::parseSource(string fileName, PkbWriter* pkbWriter) {
   spDriver.parseSource(fileReader.readFromFile(fileName), pkbWriter);
 }
 
-void SpFacade::parseExpression(string expression) {
-  spDriver.parseExpression(expression);
+AST SpFacade::parseExpression(string expression) {
+  return spDriver.parseExpression(expression);
 }

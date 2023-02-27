@@ -1,11 +1,12 @@
 #pragma once
 
 #include <string>
+#include "common/ast/AST.h"
 
 using std::string;
 
 class ISpExpressionParser {
  public:
   virtual ~ISpExpressionParser() = default;
-  virtual void parseSource(string expression) = 0;
+  virtual AST parseExpression(string expression) = 0;
 };

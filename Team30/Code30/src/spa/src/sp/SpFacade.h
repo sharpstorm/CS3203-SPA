@@ -12,7 +12,7 @@ using std::string;
 class SpFacade : public ISp, public ISpExpressionParser {
  public:
   void parseSource(string input, PkbWriter* pkbWriter);
-  void parseExpression(string expression);
+  AST parseExpression(string expression);
 
  private:
   FileReader fileReader;
