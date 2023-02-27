@@ -1,38 +1,5 @@
 #include "SourceLexerTokenTable.h"
-
-const int ASCII_TAB = 9;
-const int ASCII_NEW_LINE = 10;
-const int ASCII_CARRIAGE_RETURN = 13;
-const int ASCII_WHITESPACE = 32;
-
-const int ASCII_SEMICOLON = 59;
-const int ASCII_ROUND_BRACKET_LEFT = 40;
-const int ASCII_ROUND_BRACKET_RIGHT = 41;
-const int ASCII_CURLY_BRACKET_LEFT = 123;
-const int ASCII_CURLY_BRACKET_RIGHT = 125;
-
-const int ASCII_EXCLAIMATION = 33;
-const int ASCII_PERCENT = 37;
-const int ASCII_TIMES = 42;
-const int ASCII_PLUS = 43;
-const int ASCII_MINUS = 45;
-const int ASCII_SLASH = 47;
-
-const int ASCII_ANGLE_BRACKET_LEFT = 60;
-const int ASCII_EQUAL = 61;
-const int ASCII_ANGLE_BRACKET_RIGHT = 62;
-
-const int ASCII_AMPERSAND = 38;
-const int ASCII_PIPE = 124;
-
-const int ASCII_0 = 48;
-const int ASCII_9 = 57;
-
-const int ASCII_UPPER_A = 65;
-const int ASCII_UPPER_Z = 90;
-
-const int ASCII_LOWER_A = 97;
-const int ASCII_LOWER_Z = 122;
+#include "common/lexer/AsciiCharacters.h"
 
 SourceLexerTokenTable::SourceLexerTokenTable() {
   for (int i = 0; i < 256; i++) {
@@ -42,7 +9,6 @@ SourceLexerTokenTable::SourceLexerTokenTable() {
   tokens[ASCII_TAB] = SIMPLE_TOKEN_DELIMITER;
   tokens[ASCII_WHITESPACE] = SIMPLE_TOKEN_DELIMITER;
   tokens[ASCII_NEW_LINE] = SIMPLE_TOKEN_DELIMITER;
-
   tokens[ASCII_CARRIAGE_RETURN] = SIMPLE_TOKEN_IGNORE;
 
   tokens[ASCII_SEMICOLON] = SIMPLE_TOKEN_SEMICOLON;
@@ -75,11 +41,6 @@ SourceLexerTokenTable::SourceLexerTokenTable() {
   for (int i = ASCII_LOWER_A; i <= ASCII_LOWER_Z; i++) {
     tokens[i] = SIMPLE_TOKEN_CHARACTER;
   }
-}
-
-bool SourceLexerTokenTable::isLetter(char c) {
-  return (c >= ASCII_LOWER_A && c <= ASCII_LOWER_Z) ||
-      (c >= ASCII_UPPER_Z && c <= ASCII_UPPER_Z);
 }
 
 bool SourceLexerTokenTable::isDigit(char c) {
