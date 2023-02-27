@@ -10,7 +10,7 @@ const int LEXER_BUFFER_SIZE = 2048;
 QueryLexerResult QueryLexer::getTokenStream(string* query) {
   vector<PQLToken>* resultVector = new vector<PQLToken>();
 
-  LexerInternalState lexState{"", false};
+  LexerInternalState lexState{"", false, false};
   lexState.buffer.reserve(LEXER_BUFFER_SIZE);
 
   for (size_t pos = 0; pos < query->length(); pos++) {
@@ -18,6 +18,9 @@ QueryLexerResult QueryLexer::getTokenStream(string* query) {
     processChar(c, resultVector, &lexState);
   }
 
+  if (lexState.isProcessingLiteral) {
+    throw QPSLexerError(QPS_LEXER_ERR_UNMATCHED_QUOTE);
+  }
   flushBuffer(resultVector, &lexState);
   return QueryLexerResult(resultVector);
 }
@@ -26,6 +29,14 @@ void QueryLexer::processChar(char c,
                              vector<PQLToken> *result,
                              LexerInternalState* state) {
   PQLTokenType tokenType = tokenTable.tokens[c];
+  if (tokenType == PQL_TOKEN_QUOTE) {
+    if (state->isProcessingLiteral) {
+      flushLiteral(result, state);
+    }
+    state->isProcessingLiteral = !state->isProcessingLiteral;
+    return;
+  }
+
   switch (tokenType) {
     case PQL_TOKEN_INVALID:
       throw QPSLexerError(QPS_LEXER_ERR_INVALID_CHAR);
@@ -37,16 +48,15 @@ void QueryLexer::processChar(char c,
       // Fallthrough
     case PQL_TOKEN_INTEGER:
       state->buffer.push_back(c);
-      break;
+      return;
 
     default:
-      flushBuffer(result, state);
-      if (tokenType != PQL_TOKEN_DELIMITER) {
-        result->push_back(PQLToken(tokenType));
-      }
+      break;
+  }
 
-      state->buffer.clear();
-      state->hasSeenChar = false;
+  flushBuffer(result, state);
+  if (tokenType != PQL_TOKEN_DELIMITER) {
+    result->push_back(PQLToken(tokenType));
   }
 }
 
@@ -54,6 +64,17 @@ void QueryLexer::flushBuffer(vector<PQLToken> *result,
                              LexerInternalState* state) {
   if (state->buffer.length() > 0) {
     result->push_back(resolveStringToken(state->buffer, state->hasSeenChar));
+    clearState(state);
+  }
+}
+
+void QueryLexer::flushLiteral(vector<PQLToken> *result,
+                              LexerInternalState* state) {
+  if (state->buffer.length() > 0) {
+    result->push_back(PQLToken(PQL_TOKEN_LITERAL, state->buffer));
+    clearState(state);
+  } else {
+    throw QPSLexerError(QPS_LEXER_ERR_EMPTY_QUOTE);
   }
 }
 
@@ -68,6 +89,11 @@ PQLToken QueryLexer::resolveStringToken(string buffer, bool hasSeenChar) {
 
     return validateIdentifier(&buffer);
   }
+}
+
+void QueryLexer::clearState(LexerInternalState *state) {
+  state->buffer.clear();
+  state->hasSeenChar = false;
 }
 
 PQLToken QueryLexer::validateIntegerToken(string* buffer) {

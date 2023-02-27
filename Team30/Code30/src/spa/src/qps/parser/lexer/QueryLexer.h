@@ -16,6 +16,7 @@ class QueryLexer {
   struct LexerInternalState {
     string buffer;
     bool hasSeenChar;
+    bool isProcessingLiteral;
   };
 
   QueryLexerTokenTable tokenTable;
@@ -23,6 +24,9 @@ class QueryLexer {
                    LexerInternalState* state);
   void flushBuffer(vector<PQLToken>* result,
                    LexerInternalState* state);
+  void flushLiteral(vector<PQLToken>* result,
+                    LexerInternalState* state);
+  void clearState(LexerInternalState* state);
   PQLToken resolveStringToken(string buffer, bool hasSeenChar);
   PQLToken validateIntegerToken(string* buffer);
   PQLToken validateIdentifier(string* buffer);
