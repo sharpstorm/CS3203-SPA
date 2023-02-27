@@ -3,7 +3,7 @@
 #include <vector>
 #include "../common/SourceToken.h"
 #include "GrammarContextProvider.h"
-#include "common/AST.h"
+#include "common/ast/AST.h"
 
 class SourceTokenParser {
  public:

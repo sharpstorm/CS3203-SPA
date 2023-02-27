@@ -1,7 +1,7 @@
 #include "ReadContext.h"
 
 #include <memory>
-#include "common/ASTNode/statement/ReadNode.h"
+#include "common/ast/statement/ReadNode.h"
 
 using std::make_shared;
 

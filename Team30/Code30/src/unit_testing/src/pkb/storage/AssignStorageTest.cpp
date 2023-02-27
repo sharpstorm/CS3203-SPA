@@ -1,8 +1,8 @@
 #include <unordered_set>
 
 #include "catch.hpp"
-#include "common/ASTNode/entity/VariableASTNode.h"
-#include "common/ASTNode/math/math_operand/PlusASTNode.h"
+#include "common/ast/entity/VariableASTNode.h"
+#include "common/ast/math/math_operand/PlusASTNode.h"
 #include "common/Types.h"
 #include "pkb/storage/StorageTypes.h"
 

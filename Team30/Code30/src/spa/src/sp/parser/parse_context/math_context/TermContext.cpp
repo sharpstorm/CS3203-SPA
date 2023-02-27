@@ -1,8 +1,8 @@
 #include <memory>
 #include "TermContext.h"
-#include "common/ASTNode/math/math_operand/TimesASTNode.h"
-#include "common/ASTNode/math/math_operand/DivASTNode.h"
-#include "common/ASTNode/math/math_operand/ModASTNode.h"
+#include "common/ast/math/math_operand/TimesASTNode.h"
+#include "common/ast/math/math_operand/DivASTNode.h"
+#include "common/ast/math/math_operand/ModASTNode.h"
 
 using std::shared_ptr, std::make_shared;
 

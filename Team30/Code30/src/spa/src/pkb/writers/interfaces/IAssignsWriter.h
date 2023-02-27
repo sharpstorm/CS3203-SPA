@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "common/ASTNode/IASTNode.h"
+#include "common/ast/IASTNode.h"
 
 class IAssignsWriter {
  public:

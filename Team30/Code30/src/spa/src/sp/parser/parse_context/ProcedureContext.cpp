@@ -1,6 +1,6 @@
 #include <memory>
 #include "ProcedureContext.h"
-#include "common/ASTNode/entity/ProcedureNode.h"
+#include "common/ast/entity/ProcedureNode.h"
 
 using std::make_shared;
 

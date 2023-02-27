@@ -1,9 +1,9 @@
 #pragma once
 
 #include "sp/extractor/AbstractExtractor.h"
-#include "common/ASTNode/entity/VariableASTNode.h"
-#include "common/ASTNode/entity/ConstantASTNode.h"
-#include "common/ASTNode/entity/ProcedureNode.h"
+#include "common/ast/entity/VariableASTNode.h"
+#include "common/ast/entity/ConstantASTNode.h"
+#include "common/ast/entity/ProcedureNode.h"
 
 class EntityExtractor : public AbstractExtractor {
  public:

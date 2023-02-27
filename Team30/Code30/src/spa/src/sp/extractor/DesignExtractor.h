@@ -6,7 +6,7 @@
 #include "AbstractExtractor.h"
 #include "TreeWalker.h"
 #include "pkb/writers/PkbWriter.h"
-#include "common/AST.h"
+#include "common/ast/AST.h"
 #include "sp/extractor/concrete_extractors/FollowsExtractor.h"
 
 using std::vector, std::unique_ptr;

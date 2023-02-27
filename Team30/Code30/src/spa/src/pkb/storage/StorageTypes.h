@@ -5,7 +5,7 @@
 
 #include "EntityTableManager.h"
 #include "TransitiveRelationTableManager.h"
-#include "common/ASTNode/IASTNode.h"
+#include "common/ast/IASTNode.h"
 #include "tables/HashKeyTable.h"
 
 using FollowsStorage = TransitiveRelationTableManager<int>;

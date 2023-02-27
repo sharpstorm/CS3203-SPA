@@ -1,7 +1,7 @@
 #include "PrintContext.h"
 
 #include <memory>
-#include "common/ASTNode/statement/PrintNode.h"
+#include "common/ast/statement/PrintNode.h"
 
 using std::make_shared;
 

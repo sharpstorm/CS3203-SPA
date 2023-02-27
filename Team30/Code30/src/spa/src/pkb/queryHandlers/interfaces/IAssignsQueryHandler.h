@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include "../../../common/ASTNode/IASTNode.h"
+#include "../../../common/ast/IASTNode.h"
 
 class IAssignsQueryHandler {
  public:

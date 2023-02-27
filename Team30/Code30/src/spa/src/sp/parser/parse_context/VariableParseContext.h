@@ -1,7 +1,7 @@
 #pragma once
 
 #include "SourceParseContext.h"
-#include "common/ASTNode/ASTNode.h"
+#include "common/ast/ASTNode.h"
 
 class VariableParseContext : public SourceParseContext {
  public:

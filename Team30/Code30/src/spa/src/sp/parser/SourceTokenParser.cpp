@@ -1,6 +1,6 @@
 #include <vector>
 #include "SourceTokenParser.h"
-#include "common/AST.h"
+#include "common/ast/AST.h"
 
 using std::vector;
 
