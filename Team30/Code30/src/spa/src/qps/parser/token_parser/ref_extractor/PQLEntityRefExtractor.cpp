@@ -3,7 +3,7 @@
 
 ClauseArgumentPtr PQLEntityRefExtractor::extract(
     QueryTokenParseState* state) {
-  if (state->getCurrentToken()->isType(PQL_TOKEN_QUOTE)) {
+  if (state->getCurrentToken()->isType(PQL_TOKEN_STRING_LITERAL)) {
     return extractEntity(state);
   }
 
@@ -12,8 +12,6 @@ ClauseArgumentPtr PQLEntityRefExtractor::extract(
 
 ClauseArgumentPtr PQLEntityRefExtractor::extractEntity(
     QueryTokenParseState* state) {
-  state->expect(PQL_TOKEN_QUOTE);
-  PQLToken* entityRef = state->expectVarchar();
-  state->expect(PQL_TOKEN_QUOTE);
+  PQLToken* entityRef = state->expect(PQL_TOKEN_STRING_LITERAL);
   return ClauseArgumentFactory::create(entityRef->getData());
 }

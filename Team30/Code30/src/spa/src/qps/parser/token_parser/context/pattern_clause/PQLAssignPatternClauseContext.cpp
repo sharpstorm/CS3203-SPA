@@ -27,19 +27,19 @@ PQLAssignPatternClauseContext::extractPatternData(
   string patternString = "";
 
   PQLToken* nextToken = parserState->expect(
-      PQL_TOKEN_UNDERSCORE, PQL_TOKEN_QUOTE);
+      PQL_TOKEN_UNDERSCORE, PQL_TOKEN_LITERAL, PQL_TOKEN_STRING_LITERAL);
   if (nextToken->isType(PQL_TOKEN_UNDERSCORE)) {
     isWildcard = true;
-    nextToken = parserState->expect(PQL_TOKEN_QUOTE, PQL_TOKEN_BRACKET_CLOSE);
-    hasExpression = nextToken->isType(PQL_TOKEN_QUOTE);
+    nextToken = parserState->expect(PQL_TOKEN_LITERAL, PQL_TOKEN_STRING_LITERAL,
+                                    PQL_TOKEN_BRACKET_CLOSE);
+    hasExpression = nextToken->isType(PQL_TOKEN_LITERAL)
+        || nextToken->isType(PQL_TOKEN_STRING_LITERAL);
   } else {
     hasExpression = true;
   }
 
   if (hasExpression) {
-    nextToken = parserState->expectVarchar();
     patternString = nextToken->getData();
-    parserState->expect(PQL_TOKEN_QUOTE);
     if (isWildcard) {
       parserState->expect(PQL_TOKEN_UNDERSCORE);
     }

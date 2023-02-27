@@ -9,7 +9,8 @@ PQLToken::PQLToken(PQLTokenType type, string data):
 }
 
 bool PQLToken::operator==(const PQLToken& other) const {
-  if (type == PQL_TOKEN_STRING || type == PQL_TOKEN_INTEGER) {
+  if (type == PQL_TOKEN_STRING || type == PQL_TOKEN_INTEGER
+      || type == PQL_TOKEN_LITERAL || type == PQL_TOKEN_STRING_LITERAL) {
     return type == other.type && tokenData == other.tokenData;
   }
   return type == other.type;
