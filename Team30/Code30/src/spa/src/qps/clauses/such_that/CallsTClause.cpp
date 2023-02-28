@@ -7,11 +7,13 @@ using std::move;
 
 CallsTClause::CallsTClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
     : AbstractTwoArgClause(move(left), move(right)) {
-
 }
-PQLQueryResult *CallsTClause::evaluateOn(shared_ptr<PkbQueryHandler> pkbQueryHandler) {
+
+PQLQueryResult *CallsTClause::evaluateOn
+    (shared_ptr<PkbQueryHandler> pkbQueryHandler) {
   return new PQLQueryResult();
 }
+
 bool CallsTClause::validateArgTypes(VariableTable *variables) {
   bool isLeftValid = left->synonymSatisfies(
       ClauseArgument::isType<PQL_SYN_TYPE_PROCEDURE>);
