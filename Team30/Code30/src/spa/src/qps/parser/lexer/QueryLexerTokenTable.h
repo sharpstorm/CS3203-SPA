@@ -27,6 +27,7 @@ const char PQL_KEYWORD_PARENT[] = "Parent";
 const char PQL_KEYWORD_USES[] = "Uses";
 const char PQL_KEYWORD_MODIFIES[] = "Modifies";
 const char PQL_KEYWORD_PATTERN[] = "pattern";
+const char PQL_KEYWORD_CALLS[] = "Calls";
 
 class QueryLexerTokenTable {
  public:
@@ -49,6 +50,7 @@ class QueryLexerTokenTable {
       {PQL_KEYWORD_PATTERN, PQL_TOKEN_PATTERN},
       {PQL_KEYWORD_SUCH, PQL_TOKEN_SUCH},
       {PQL_KEYWORD_THAT, PQL_TOKEN_THAT},
+      {PQL_KEYWORD_CALLS, PQL_TOKEN_CALLS}
   };
   PQLTokenType tokens[256];
   QueryLexerTokenTable();
