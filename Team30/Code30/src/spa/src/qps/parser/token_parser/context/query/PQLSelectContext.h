@@ -1,8 +1,8 @@
 #pragma once
 
+#include <string>
 #include "../AbstractPQLContext.h"
 #include "../../../PQLToken.h"
-#include <string>
 
 using std::string;
 
