@@ -18,13 +18,11 @@ class QueryBuilder {
   string errorMsg;
   unordered_map<string, PQLQuerySynonym> variables;
   vector<PQLQuerySynonym> resultVariables;
-  bool isBooleanResult;
   vector<ClauseSPtr> clauses;
 
  public:
   QueryBuilder();
   void addResultSynonym(PQLQuerySynonym synonym);
-  void setBooleanResult();
   bool hasSynonym(PQLSynonymName name);
   void addSynonym(PQLSynonymName name, PQLSynonymType type);
 

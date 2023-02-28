@@ -19,9 +19,11 @@ TEST_CASE("Test PQL Select parsing") {
   state.getQueryBuilder()->addSynonym("s", PQL_SYN_TYPE_STMT);
   context.parse(&state);
 
-  auto resultVar = state.getQueryBuilder()->build()->getResultVariable();
-  REQUIRE(resultVar.getName() == "s");
-  REQUIRE(resultVar.getType() == PQL_SYN_TYPE_STMT);
+  auto query = state.getQueryBuilder()->build();
+  auto resultVar = query->getResultVariables();
+  REQUIRE(resultVar->size() == 1);
+  REQUIRE(resultVar->at(0).getName() == "s");
+  REQUIRE(resultVar->at(0).getType() == PQL_SYN_TYPE_STMT);
 }
 
 TEST_CASE("Test PQL Select unknown synonym") {

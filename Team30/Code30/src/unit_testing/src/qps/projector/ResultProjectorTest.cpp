@@ -24,12 +24,14 @@ void testResultProjection(vector<string>* expected, vector<string>* actual) {
 ResultProjector projector;
 PQLQuerySynonym TARGET_RESULT_VAR{PQL_SYN_TYPE_ASSIGN, "a"};
 PQLQuerySynonym TARGET_ENTITY_VAR{PQL_SYN_TYPE_VARIABLE, "v"};
+PQLQuerySynonymList TARGET_RESULT_VARS{TARGET_RESULT_VAR};
+PQLQuerySynonymList TARGET_ENTITY_VARS{TARGET_ENTITY_VAR};
 
 TEST_CASE("Project when result is static") {
   PQLQueryResult result;
   result.setIsStaticFalse(true);
 
-  UniqueVectorPtr<string> projectedResult = projector.project(&result, TARGET_RESULT_VAR);
+  UniqueVectorPtr<string> projectedResult = projector.project(&result, &TARGET_RESULT_VARS);
   REQUIRE(projectedResult->empty());
 }
 
@@ -46,7 +48,7 @@ TEST_CASE("Projecting Statements") {
       }}
   });
   expected = UniqueVectorPtr<string>(new vector<string>({"1", "2", "3"}));
-  actual = projector.project(result.get(), TARGET_RESULT_VAR);
+  actual = projector.project(result.get(), &TARGET_RESULT_VARS);
   testResultProjection(expected.get(), actual.get());
 }
 
@@ -62,6 +64,6 @@ TEST_CASE("Projecting Entities") {
       }}
   });
   expected = UniqueVectorPtr<string>(new vector<string>({"x", "y"}));
-  actual = projector.project(result.get(), TARGET_ENTITY_VAR);
+  actual = projector.project(result.get(), &TARGET_ENTITY_VARS);
   testResultProjection(expected.get(), actual.get());
 }

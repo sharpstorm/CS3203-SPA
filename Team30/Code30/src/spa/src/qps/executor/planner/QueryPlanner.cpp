@@ -25,9 +25,11 @@ unique_ptr<QueryPlan> QueryPlanner::getExecutionPlan() {
   return make_unique<QueryPlan>(finalPlan, mergeStrategy);
 }
 
+// TODO(sharpstorm): Fix Query Planner Tuple
 void QueryPlanner::buildPlan() {
   initState();
-  PQLSynonymName selectingName = query->getResultName();
+  PQLSynonymName selectingName = query->getResultVariables()
+      ->at(0).getName();
   PlanNodes* nodes = planIndex.getUsages(selectingName);
 
   buildDependencyTree(nodes);
@@ -36,7 +38,7 @@ void QueryPlanner::buildPlan() {
   bool isSelectIndependent = nodes == nullptr || nodes->empty();
   if (isSelectIndependent) {
     IEvaluatableSPtr selectClause = make_shared<SelectClause>(
-        query->getResultVariable());
+        query->getResultVariables()->at(0));
     finalPlan.push_back(selectClause);
     if (!evaluatables.empty()) {
       mergeStrategy[evaluatables.size() - 1] = QueryPlan::DISCARDING_MERGE;

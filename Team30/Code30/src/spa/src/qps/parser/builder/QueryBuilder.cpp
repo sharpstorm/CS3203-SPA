@@ -4,8 +4,7 @@
 
 using std::make_unique;
 
-QueryBuilder::QueryBuilder(): errorMsg(""),
-                              isBooleanResult(false) {
+QueryBuilder::QueryBuilder(): errorMsg("") {
 }
 
 void QueryBuilder::setError(string msg) {
@@ -17,10 +16,6 @@ void QueryBuilder::setError(string msg) {
 
 void QueryBuilder::addResultSynonym(PQLQuerySynonym synonym) {
   resultVariables.push_back(synonym);
-}
-
-void QueryBuilder::setBooleanResult() {
-  isBooleanResult = true;
 }
 
 void QueryBuilder::addSynonym(PQLSynonymName name, PQLSynonymType type) {
@@ -64,10 +59,6 @@ unique_ptr<PQLQuery> QueryBuilder::build() {
   }
 
   unique_ptr<PQLQuery> created(
-      new PQLQuery(variables,
-                   resultVariables.empty() ?
-                   PQLQuerySynonym(PQL_SYN_TYPE_STMT, "dummy")
-                                           : resultVariables.at(0),
-                   clauses));
+      new PQLQuery(variables, resultVariables, clauses));
   return created;
 }
