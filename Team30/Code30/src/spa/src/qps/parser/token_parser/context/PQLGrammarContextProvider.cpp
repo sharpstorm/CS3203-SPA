@@ -36,6 +36,8 @@ IPQLContext* PQLGrammarContextProvider::getContext(PQLToken *token) {
       return &modifiesClauseContext;
     case PQL_TOKEN_PATTERN:
       return &patternClauseContext;
+    case PQL_TOKEN_CALLS:
+      return &callsClauseContext;
     default:
       return nullptr;
   }
