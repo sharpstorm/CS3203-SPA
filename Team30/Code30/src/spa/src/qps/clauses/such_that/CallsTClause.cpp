@@ -10,8 +10,12 @@ CallsTClause::CallsTClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
 
 }
 PQLQueryResult *CallsTClause::evaluateOn(shared_ptr<PkbQueryHandler> pkbQueryHandler) {
-  return nullptr;
+  return new PQLQueryResult();
 }
 bool CallsTClause::validateArgTypes(VariableTable *variables) {
-  return false;
+  bool isLeftValid = left->synonymSatisfies(
+      ClauseArgument::isType<PQL_SYN_TYPE_PROCEDURE>);
+  bool isRightValid = right->synonymSatisfies(
+      ClauseArgument::isType<PQL_SYN_TYPE_PROCEDURE>);
+  return isLeftValid && isRightValid;
 }
