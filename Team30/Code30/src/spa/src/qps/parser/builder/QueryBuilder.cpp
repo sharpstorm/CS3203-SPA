@@ -1,9 +1,11 @@
 #include "QueryBuilder.h"
 #include "qps/errors/QPSParserSemanticError.h"
+#include "qps/errors/QPSParserSyntaxError.h"
 
 using std::make_unique;
 
-QueryBuilder::QueryBuilder(): errorMsg("") {
+QueryBuilder::QueryBuilder(): errorMsg(""),
+                              isBooleanResult(false) {
 }
 
 void QueryBuilder::setError(string msg) {
@@ -13,8 +15,12 @@ void QueryBuilder::setError(string msg) {
   errorMsg = msg;
 }
 
-void QueryBuilder::setResultSynonym(PQLSynonymType type, PQLSynonymName name) {
-  resultVariable = PQLQuerySynonym(type, name);
+void QueryBuilder::addResultSynonym(PQLQuerySynonym synonym) {
+  resultVariables.push_back(synonym);
+}
+
+void QueryBuilder::setBooleanResult() {
+  isBooleanResult = true;
 }
 
 void QueryBuilder::addSynonym(PQLSynonymName name, PQLSynonymType type) {
@@ -57,8 +63,11 @@ unique_ptr<PQLQuery> QueryBuilder::build() {
     }
   }
 
-  unique_ptr<PQLQuery> created(new PQLQuery(variables,
-                                            resultVariable,
-                                            clauses));
+  unique_ptr<PQLQuery> created(
+      new PQLQuery(variables,
+                   resultVariables.empty() ?
+                   PQLQuerySynonym(PQL_SYN_TYPE_STMT, "dummy")
+                                           : resultVariables.at(0),
+                   clauses));
   return created;
 }
