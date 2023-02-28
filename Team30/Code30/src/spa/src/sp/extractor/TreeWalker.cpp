@@ -1,6 +1,6 @@
 #include "TreeWalker.h"
 
-#include "common/ASTNode/StatementListNode.h"
+#include "common/ast/StatementListNode.h"
 
 void TreeWalker::walkAST(AST ast,
                          VectorPtr<Extractor*> extractors) {

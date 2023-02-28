@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include "sp/common/SourceToken.h"
-#include "common/ASTNode/ASTNode.h"
+#include "common/ast/ASTNode.h"
 
 using std::vector;
 

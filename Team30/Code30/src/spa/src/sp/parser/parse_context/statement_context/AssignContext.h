@@ -1,7 +1,7 @@
 #pragma once
 
 #include "sp/parser/parse_context/RecursiveParseContext.h"
-#include "common/ASTNode/ASTNode.h"
+#include "common/ast/ASTNode.h"
 
 class AssignContext : public RecursiveParseContext {
  public:

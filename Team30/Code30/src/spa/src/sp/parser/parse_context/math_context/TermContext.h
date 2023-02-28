@@ -3,7 +3,7 @@
 #include <memory>
 #include "sp/parser/parse_context/RecursiveParseContext.h"
 #include "sp/parser/IGrammarContextProvider.h"
-#include "common/ASTNode/math/math_operand/TimesASTNode.h"
+#include "common/ast/math/math_operand/TimesASTNode.h"
 
 using std::shared_ptr;
 

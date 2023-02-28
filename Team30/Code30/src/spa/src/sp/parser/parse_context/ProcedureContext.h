@@ -1,7 +1,7 @@
 #pragma once
 
 #include "RecursiveParseContext.h"
-#include "common/ASTNode/ASTNode.h"
+#include "common/ast/ASTNode.h"
 
 class ProcedureContext : public RecursiveParseContext {
  public:

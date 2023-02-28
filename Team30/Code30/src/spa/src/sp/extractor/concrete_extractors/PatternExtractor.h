@@ -3,8 +3,8 @@
 #include <memory>
 
 #include "sp/extractor/AbstractExtractor.h"
-#include "common/ASTNode/entity/VariableASTNode.h"
-#include "common/ASTNode/entity/ConstantASTNode.h"
+#include "common/ast/entity/VariableASTNode.h"
+#include "common/ast/entity/ConstantASTNode.h"
 
 using std::shared_ptr;
 

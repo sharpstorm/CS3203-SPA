@@ -1,9 +1,9 @@
 #include <memory>
 #include "RelationalExpressionContext.h"
 #include "ConditionalExpressionContext.h"
-#include "common/ASTNode/math/conditional_operand/NotASTNode.h"
-#include "common/ASTNode/math/conditional_operand/AndASTNode.h"
-#include "common/ASTNode/math/conditional_operand/OrASTNode.h"
+#include "common/ast/math/conditional_operand/NotASTNode.h"
+#include "common/ast/math/conditional_operand/AndASTNode.h"
+#include "common/ast/math/conditional_operand/OrASTNode.h"
 
 using std::shared_ptr, std::make_shared;
 

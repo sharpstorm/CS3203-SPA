@@ -6,9 +6,9 @@
 #include "sp/SourceParser.h"
 #include "../StubWriter.cpp"
 #include "../Util.cpp"
-#include "common/ASTNode/math/math_operand/PlusASTNode.h"
-#include "common/ASTNode/math/math_operand/MinusASTNode.h"
-#include "common/ASTNode/math/math_operand/TimesASTNode.h"
+#include "common/ast/math/math_operand/PlusASTNode.h"
+#include "common/ast/math/math_operand/MinusASTNode.h"
+#include "common/ast/math/math_operand/TimesASTNode.h"
 
 using std::vector, std::string, std::pair, std::make_unique;
 

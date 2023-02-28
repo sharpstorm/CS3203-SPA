@@ -3,8 +3,8 @@
 #include <memory>
 #include "sp/parser/parse_context/RecursiveParseContext.h"
 #include "sp/parser/IGrammarContextProvider.h"
-#include "common/ASTNode/math/math_operand/PlusASTNode.h"
-#include "common/ASTNode/math/math_operand/MinusASTNode.h"
+#include "common/ast/math/math_operand/PlusASTNode.h"
+#include "common/ast/math/math_operand/MinusASTNode.h"
 
 using std::shared_ptr;
 

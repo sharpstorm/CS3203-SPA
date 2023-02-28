@@ -2,7 +2,7 @@
 
 #include "RecursiveParseContext.h"
 #include "../IGrammarContextProvider.h"
-#include "common/ASTNode/ASTNode.h"
+#include "common/ast/ASTNode.h"
 
 class StatementContext: public RecursiveParseContext {
  public:

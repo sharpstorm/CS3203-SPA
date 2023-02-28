@@ -152,8 +152,21 @@ TEST_CASE("Test PQL Assign Pattern parsing Wildcard") {
   );
 }
 
+TEST_CASE("Test PQL Assign Pattern parsing Complex Pattern") {
+  testAssignPatternParsing(
+      make_unique<PQLTestTokenSequenceBuilder>()
+          ->synonym("a")
+          ->openBracket()
+          ->synonym("v")
+          ->comma()
+          ->literal("1 + 2 + x - y")
+          ->closeBracket()
+          ->build()
+  );
+}
+
 TEST_CASE("Test PQL Assign Pattern invalid ref") {
-  /* REQUIRE_THROWS_AS(testAssignPatternParsing(
+  REQUIRE_THROWS_AS(testAssignPatternParsing(
       make_unique<PQLTestTokenSequenceBuilder>()
           ->synonym("b")
           ->openBracket()
@@ -162,7 +175,7 @@ TEST_CASE("Test PQL Assign Pattern invalid ref") {
           ->wildcard()
           ->closeBracket()
           ->build()
-  ), QPSParserSemanticError); */
+  ), QPSParserSyntaxError);
 
   REQUIRE_THROWS_AS(testAssignPatternParsing(
       make_unique<PQLTestTokenSequenceBuilder>()
@@ -175,7 +188,6 @@ TEST_CASE("Test PQL Assign Pattern invalid ref") {
           ->build()
   ), QPSParserSemanticError);
 
-  /*
   REQUIRE_THROWS_AS(testAssignPatternParsing(
       make_unique<PQLTestTokenSequenceBuilder>()
           ->synonym("a")
@@ -186,7 +198,6 @@ TEST_CASE("Test PQL Assign Pattern invalid ref") {
           ->closeBracket()
           ->build()
   ), QPSParserSyntaxError);
-   */
 }
 
 TEST_CASE("Test PQL Assign Pattern bad syntax") {
@@ -196,7 +207,6 @@ TEST_CASE("Test PQL Assign Pattern bad syntax") {
           ->openBracket()
           ->synonym("v")
           ->comma()
-          ->addToken(PQL_TOKEN_QUOTE)
           ->synonym("y")
           ->closeBracket()
           ->build()

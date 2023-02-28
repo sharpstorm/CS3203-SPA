@@ -1,8 +1,8 @@
 #include "IfContext.h"
 
 #include <memory>
-#include "common/ASTNode/statement/IfNode.h"
-#include "common/ASTNode/StatementListNode.h"
+#include "common/ast/statement/IfNode.h"
+#include "common/ast/StatementListNode.h"
 
 using std::make_shared;
 
