@@ -11,7 +11,11 @@ CallsTClause::CallsTClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
 
 PQLQueryResult *CallsTClause::evaluateOn
     (shared_ptr<PkbQueryHandler> pkbQueryHandler) {
-  return new PQLQueryResult();
+  EntityRef leftEntity = left->toEntityRef();
+  EntityRef rightEntity = right->toEntityRef();
+  // TODO PKB Query
+  QueryResult<string, string> queryResult;
+  return Clause::toQueryResult(left.get(), right.get(), queryResult);
 }
 
 bool CallsTClause::validateArgTypes(VariableTable *variables) {
