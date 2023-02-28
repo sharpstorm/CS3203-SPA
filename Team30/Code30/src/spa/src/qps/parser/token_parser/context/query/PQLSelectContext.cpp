@@ -28,6 +28,8 @@ void PQLSelectContext::parseTuple(QueryTokenParseState *parserState) {
   while (!nextToken->isType(PQL_TOKEN_TUPLE_CLOSE)) {
     synName = parserState->expectSynName()->getData();
     addResultSynonym(parserState, synName);
+    nextToken = parserState->expect(PQL_TOKEN_TUPLE_CLOSE,
+                                    PQL_TOKEN_COMMA);
   }
 }
 
