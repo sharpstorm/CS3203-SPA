@@ -85,7 +85,7 @@ TEST_CASE("ParentExtractor If in While loop") {
       "while (num1 < num2) {"
       "if (num1 == num2) then {"
       "num2 = num2 + 1;"
-      "} else {}"
+      "} else { read x; }"
       "num1 = num1 + 1;"
       "print num1;"
       "}"
@@ -96,9 +96,10 @@ TEST_CASE("ParentExtractor If in While loop") {
   vector<pair<int, int>> v = executeParentExtractor(input);
   REQUIRE(u.contains(v, 3, 4));
   REQUIRE(u.contains(v, 4, 5));
-  REQUIRE(u.contains(v, 3, 6));
+  REQUIRE(u.contains(v, 4, 6));
   REQUIRE(u.contains(v, 3, 7));
-  REQUIRE(u.isSize(v, 4));
+  REQUIRE(u.contains(v, 3, 8));
+  REQUIRE(u.isSize(v, 5));
 }
 
 TEST_CASE("ParentExtractor While in If") {

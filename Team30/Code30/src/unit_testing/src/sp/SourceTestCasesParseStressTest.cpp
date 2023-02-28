@@ -18,6 +18,7 @@
 #include "../../../spa/src/sp/extractor/concrete_extractors/ParentExtractor.h"
 #include "../../../spa/src/sp/extractor/concrete_extractors/UsesExtractor.h"
 #include "SourceTestCases.cpp"
+#include "sp/errors/SPError.h"
 
 using std::make_unique;
 
@@ -47,7 +48,7 @@ void executeExtractors(string input) {
 TEST_CASE("Simple programs for grammar testing") {
   SourceTestCases testcase = SourceTestCases();
 
-  REQUIRE_NOTHROW(executeExtractors(testcase.EMPTY));
+  REQUIRE_THROWS_AS(executeExtractors(testcase.EMPTY), SPError);
 
   REQUIRE_NOTHROW(executeExtractors(testcase.SIMPLE_PROGRAM));
 
@@ -83,7 +84,7 @@ TEST_CASE("Programs for testing simple if/else cases") {
 
   REQUIRE_NOTHROW(executeExtractors(testcase.SIMPLE_IF_ELSE));
 
-  REQUIRE_NOTHROW(executeExtractors(testcase.EMPTY_IF));
+  REQUIRE_THROWS_AS(executeExtractors(testcase.EMPTY_IF), SPError);
 
   REQUIRE_NOTHROW(executeExtractors(testcase.TEST_CONDITIONAL));
 
@@ -109,7 +110,7 @@ TEST_CASE("Programs testing simple while cases") {
 
   REQUIRE_NOTHROW(executeExtractors(testcase.MULTIPLE_WHILE));
 
-  REQUIRE_NOTHROW(executeExtractors(testcase.EMPTY_WHILE));
+  REQUIRE_THROWS_AS(executeExtractors(testcase.EMPTY_WHILE), SPError);
 
   REQUIRE_NOTHROW(executeExtractors(testcase.WHILE_INBETWEEN_STATEMENTS));
 

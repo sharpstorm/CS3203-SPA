@@ -14,5 +14,5 @@ class TermContext: public RecursiveParseContext {
   shared_ptr<ASTNode> generateSubtree(SourceParseState* state);
  private:
   shared_ptr<BinaryASTNode>
-  generateOperand(SourceParseState* state, shared_ptr<ASTNode> leftNode);
+  generateOperand(SourceToken* curToken);
 };

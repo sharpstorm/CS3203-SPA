@@ -1,0 +1,90 @@
+1 - Uses Semantic Error(c1,c1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 such that Uses(c1, c1)
+SemanticError
+5000
+2 - Uses Semantic Error(v1,c1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 such that Uses(v1, c1)
+SemanticError
+5000
+3 - Uses Semantic Error(c1,pr1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 such that Uses(c1, pr1)
+SemanticError
+5000
+4 - Uses Semantic Error(v1,pr1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 such that Uses(v1, pr1)
+SemanticError
+5000
+5 - Uses Semantic Error(c1,a1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 such that Uses(c1, a1)
+SemanticError
+5000
+6 - Uses Semantic Error(v1,a1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 such that Uses(v1, a1)
+SemanticError
+5000
+7 - Uses Semantic Error(c1,r1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 such that Uses(c1, r1)
+SemanticError
+5000
+8 - Uses Semantic Error(v1,r1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 such that Uses(v1, r1)
+SemanticError
+5000
+9 - Uses Semantic Error(c1,p1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 such that Uses(c1, p1)
+SemanticError
+5000
+10 - Uses Semantic Error(v1,p1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 such that Uses(v1, p1)
+SemanticError
+5000
+11 - Uses Semantic Error(c1,i1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 such that Uses(c1, i1)
+SemanticError
+5000
+12 - Uses Semantic Error(v1,i1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 such that Uses(v1, i1)
+SemanticError
+5000
+13 - Uses Semantic Error(c1,w1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 such that Uses(c1, w1)
+SemanticError
+5000
+14 - Uses Semantic Error(v1,w1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 such that Uses(v1, w1)
+SemanticError
+5000
+15 - Uses Semantic Error(c1,s1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 such that Uses(c1, s1)
+SemanticError
+5000
+16 - Uses Semantic Error(v1,s1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 such that Uses(v1, s1)
+SemanticError
+5000
+17 - Uses Semantic Error(c1,cl1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 such that Uses(c1, cl1)
+SemanticError
+5000
+18 - Uses Semantic Error(v1,cl1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 such that Uses(v1, cl1)
+SemanticError
+5000

@@ -1,0 +1,548 @@
+{
+  "timeout": 5000,
+  "cases": [
+
+    { "comment": "------------ Follows and Follows* -----------" },
+
+    {
+      "name": "Follows Semantic Error(a1,c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(a1, c1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(c1,a1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(c1, a1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(c1,c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(c1, c1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(a1,c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(a1, c1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(c1,a1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(c1, a1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(c1,c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(c1, c1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(r1,c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(r1, c1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(c1,r1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(c1, r1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(r1,c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(r1, c1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(c1,r1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(c1, r1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(p1,c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(p1, c1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(c1,p1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(c1, p1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(p1,c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(p1, c1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(c1,p1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(c1, p1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(i1,c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(i1, c1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(c1,i1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(c1, i1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(i1,c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(i1, c1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(c1,i1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(c1, i1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(w1,c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(w1, c1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(c1,w1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(c1, w1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(w1,c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(w1, c1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(c1,w1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(c1, w1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(s1,c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(s1, c1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(c1,s1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(c1, s1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(s1,c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(s1, c1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(c1,s1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(c1, s1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(cl1,c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(cl1, c1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(c1,cl1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(c1, cl1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(cl1,c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(cl1, c1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(c1,cl1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(c1, cl1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(a1,v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(a1, v1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(v1,a1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(v1, a1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(v1,v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(v1, v1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(a1,v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(a1, v1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(v1,a1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(v1, a1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(v1,v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(v1, v1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(r1,v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(r1, v1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(v1,r1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(v1, r1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(r1,v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(r1, v1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(v1,r1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(v1, r1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(p1,v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(p1, v1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(v1,p1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(v1, p1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(p1,v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(p1, v1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(v1,p1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(v1, p1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(i1,v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(i1, v1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(v1,i1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(v1, i1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(i1,v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(i1, v1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(v1,i1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(v1, i1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(w1,v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(w1, v1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(v1,w1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(v1, w1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(w1,v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(w1, v1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(v1,w1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(v1, w1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(s1,v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(s1, v1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(v1,s1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(v1, s1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(s1,v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(s1, v1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(v1,s1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(v1, s1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(cl1,v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(cl1, v1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(v1,cl1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(v1, cl1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(cl1,v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(cl1, v1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(v1,cl1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(v1, cl1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(a1,pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(a1, pr1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(pr1,a1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(pr1, a1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(pr1,pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(pr1, pr1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(a1,pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(a1, pr1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(pr1,a1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(pr1, a1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(pr1,pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(pr1, pr1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(r1,pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(r1, pr1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(pr1,r1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(pr1, r1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(r1,pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(r1, pr1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(pr1,r1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(pr1, r1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(p1,pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(p1, pr1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(pr1,p1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(pr1, p1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(p1,pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(p1, pr1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(pr1,p1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(pr1, p1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(i1,pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(i1, pr1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(pr1,i1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(pr1, i1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(i1,pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(i1, pr1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(pr1,i1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(pr1, i1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(w1,pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(w1, pr1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(pr1,w1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(pr1, w1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(w1,pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(w1, pr1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(pr1,w1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(pr1, w1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(s1,pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(s1, pr1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(pr1,s1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(pr1, s1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(s1,pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(s1, pr1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(pr1,s1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(pr1, s1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(cl1,pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(cl1, pr1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows Semantic Error(pr1,cl1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows(pr1, cl1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(cl1,pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(cl1, pr1)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Follows* Semantic Error(pr1,cl1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 such that Follows*(pr1, cl1)",
+      "ans": "SemanticError"
+    }    
+  ]
+}

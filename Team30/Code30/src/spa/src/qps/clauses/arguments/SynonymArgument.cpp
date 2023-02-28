@@ -40,6 +40,8 @@ EntityRef SynonymArgument::toEntityRef() {
       return EntityRef{EntityType::Variable, ""};
     case PQL_SYN_TYPE_CONSTANT:
       return EntityRef{EntityType::Constant, ""};
+    case PQL_SYN_TYPE_PROCEDURE:
+      return EntityRef{EntityType::Procedure, ""};
     default:
       return EntityRef{EntityType::None};
   }

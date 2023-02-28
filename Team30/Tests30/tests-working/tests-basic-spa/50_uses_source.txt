@@ -1,0 +1,23 @@
+procedure Collatz {
+    x = 20;
+    a = 0;
+    b = 1;
+    c = 0;
+    while (x > 1) {
+        if (x % 2 == 1) then {
+            x = x * 3 + 1;
+        } else {
+            x = x / 2;
+        }
+        temp = a + b;
+        a = b;
+        b = temp;
+        c = a + b + x - temp;
+    }
+    print x;
+    read k;
+    print k;
+    read a;
+    print a;
+    print x;
+}

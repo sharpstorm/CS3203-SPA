@@ -12,9 +12,7 @@ on:
         required: true
 
 env:
-    BUILD_TYPE: Release
-    CCACHE_DIR: ${{ github.workspace }}/Team30/Code30/build/build-cache
-    CCACHE_BASEDIR: ${{ github.workspace }}/Team30/Code30
+    BUILD_TYPE: Debug
 
 jobs:
   coverage-check:
@@ -32,10 +30,7 @@ jobs:
 
       - name: Generate CMake Project
         working-directory: ./Team30/Code30/build
-        run: |
-          sudo /usr/sbin/update-ccache-symlinks
-          export PATH="/usr/lib/ccache:$PATH"
-          CC=clang CXX=clang++ cmake ../ -DCODE_COVERAGE=1
+        run: CC=clang CXX=clang++ cmake ../ -DCODE_COVERAGE=1
 
       - name: Compile and Coverage Summary
         working-directory: ./Team30/Code30/build

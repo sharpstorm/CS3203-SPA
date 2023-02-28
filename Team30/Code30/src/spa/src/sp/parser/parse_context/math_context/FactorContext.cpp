@@ -6,8 +6,12 @@ using std::shared_ptr;
 
 shared_ptr<ASTNode> FactorContext::generateSubtree(SourceParseState *state) {
   shared_ptr<ASTNode> node;
+  SourceToken* currToken = state->getCurrToken();
+  if (currToken == nullptr) {
+    throw SPError(SPERR_END_OF_STREAM);
+  }
 
-  if (state->getCurrToken()->isVarchar()) {
+  if (currToken->isVarchar()) {
     return contextProvider->
         getContext(VARIABLE_CONTEXT)->generateSubtree(state);
   }
@@ -25,6 +29,6 @@ shared_ptr<ASTNode> FactorContext::generateSubtree(SourceParseState *state) {
       state->clearCached();
       return node;
     default:
-      throw SPError("Unknown token sequence");
+      throw SPError(SPERR_UNEXPECTED_TOKEN);
   }
 }

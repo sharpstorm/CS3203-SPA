@@ -99,19 +99,21 @@ TEST_CASE("Modifies Extractor - Nested While in If: then statementList") {
                  "    while (a < 2) {"
                  "      b = 2;"
                  "    }"
-                 "  } else {}"
+                 "  } else { read x; }"
                  "}";
   Util u;
   vector<pair<int, string>> v = executeModifiesExtractor(input);
   REQUIRE(u.contains(v, 3, "b"));
   REQUIRE(u.contains(v, 1, "b"));
   REQUIRE(u.contains(v, 2, "b"));
-  REQUIRE(u.isSize(v, 3));
+  REQUIRE(u.contains(v, 4, "x"));
+  REQUIRE(u.contains(v, 1, "x"));
+  REQUIRE(u.isSize(v, 5));
 }
 
 TEST_CASE("Modifies Extractor - Nested While in If: else statementList") {
   string input = "procedure printResults {\n"
-                 "  if (a < 1) then {}"
+                 "  if (a < 1) then { read x; }"
                  "  else {"
                  "    while (a < 3) {"
                  "      b = 1;"
@@ -120,10 +122,12 @@ TEST_CASE("Modifies Extractor - Nested While in If: else statementList") {
                  "}";
   Util u;
   vector<pair<int, string>> v = executeModifiesExtractor(input);
-  REQUIRE(u.contains(v, 3, "b"));
+  REQUIRE(u.contains(v, 2, "x"));
   REQUIRE(u.contains(v, 1, "b"));
-  REQUIRE(u.contains(v, 2, "b"));
-  REQUIRE(u.isSize(v, 3));
+  REQUIRE(u.contains(v, 1, "x"));
+  REQUIRE(u.contains(v, 3, "b"));
+  REQUIRE(u.contains(v, 4, "b"));
+  REQUIRE(u.isSize(v, 5));
 }
 
 TEST_CASE("Modifies Extractor - Nested While in While in While") {
@@ -151,15 +155,19 @@ TEST_CASE("Modifies Extractor - Nested If in If in If") {
                  "    if (a < 2) then {"
                  "      if (a < 1) then {"
                  "        a = 1;"
-                 "      } else {}"
-                 "    } else {}"
-                 "  } else {}"
+                 "      } else { x = 1; }"
+                 "    } else { print y; }"
+                 "  } else { print y; }"
                  "}";
   Util u;
   vector<pair<int, string>> v = executeModifiesExtractor(input);
   REQUIRE(u.contains(v, 4, "a"));
+  REQUIRE(u.contains(v, 5, "x"));
   REQUIRE(u.contains(v, 1, "a"));
   REQUIRE(u.contains(v, 2, "a"));
   REQUIRE(u.contains(v, 3, "a"));
-  REQUIRE(u.isSize(v, 4));
+  REQUIRE(u.contains(v, 3, "x"));
+  REQUIRE(u.contains(v, 2, "x"));
+  REQUIRE(u.contains(v, 1, "x"));
+  REQUIRE(u.isSize(v, 8));
 }

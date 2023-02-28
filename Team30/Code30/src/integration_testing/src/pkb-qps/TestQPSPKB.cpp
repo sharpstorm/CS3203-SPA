@@ -5,7 +5,7 @@
 #include "qps/QPSFacade.h"
 #include "pkb/writers/PkbWriter.h"
 #include "qps/errors/QPSError.h"
-#include "common/UtilityTypes.h"
+#include "../TestUtils.h"
 
 using std::make_unique, std::make_shared, std::unordered_set, std::to_string;
 
@@ -16,16 +16,17 @@ using std::make_unique, std::make_shared, std::unordered_set, std::to_string;
  *   z = 3;
  *   x = x + 1;
  *   z = y + 2;
+ *
+ *   while(x == 1) {
+ *     while (x == 2) {
+ *       while (x == 3) {
+ *         read f;
+ *       }
+ *     }
+ *   }
  * }
  *
  */
-
-void assertSetEquality(unordered_set<string> a, unordered_set<string> b) {
-  REQUIRE(a.size() == b.size());
-  for (const auto& elem: a) {
-    REQUIRE(b.find(elem) != b.end());
-  }
-}
 
 unique_ptr<PKB> initPkb() {
   auto pkb = make_unique<PKB>();
@@ -37,6 +38,10 @@ unique_ptr<PKB> initPkb() {
   pkbWriter->addStatement(3, StmtType::Assign);
   pkbWriter->addStatement(4, StmtType::Assign);
   pkbWriter->addStatement(5, StmtType::Assign);
+  pkbWriter->addStatement(6, StmtType::While);
+  pkbWriter->addStatement(7, StmtType::While);
+  pkbWriter->addStatement(8, StmtType::While);
+  pkbWriter->addStatement(9, StmtType::Read);
 
   pkbWriter->addSymbol("x", EntityType::Variable);
   pkbWriter->addSymbol("y", EntityType::Variable);
@@ -46,6 +51,10 @@ unique_ptr<PKB> initPkb() {
   pkbWriter->addFollows(2, 3);
   pkbWriter->addFollows(3, 4);
   pkbWriter->addFollows(4, 5);
+
+  pkbWriter->addParent(6, 7);
+  pkbWriter->addParent(7, 8);
+  pkbWriter->addParent(8, 9);
 
   pkbWriter->addUses(4, "x");
   pkbWriter->addUses(5, "y");
@@ -58,102 +67,141 @@ unique_ptr<PKB> initPkb() {
   return pkb;
 }
 
-void launchQuery(string query, unordered_set<string> answer) {
+TEST_CASE("Test QP Query Basic Follows") {
   auto pkb = initPkb();
   shared_ptr<PkbQueryHandler> pkbQH_ptr = make_shared<PkbQueryHandler>(pkb.get());
   unique_ptr<IQPS> qps = make_unique<QPSFacade>(pkbQH_ptr);
 
-  INFO("-----------------------------------------------\n");
-  INFO("Query: " << query << "\n");
-  UniqueVectorPtr<string> result = nullptr;
-  try {
-    result = qps->evaluate(query);
-  } catch (QPSError ex) {
-    FAIL(ex.what());
-  }
-
-  INFO("-----------------------------------------------\n")
-  INFO("Result Size: " + to_string(result->size()) + "\n")
-  string projectedResult = "";
-  unordered_set<string> resultSet = unordered_set<string>();
-  for (int i = 0; i < result->size(); i++) {
-    projectedResult += result->at(i) + (i == result->size() - 1 ? "" : "  |  ");
-    resultSet.insert(result->at(i));
-  }
-
-  INFO(projectedResult + "\n");
-  INFO("-----------------------------------------------\n\n");
-  assertSetEquality(answer, resultSet);
-}
-
-TEST_CASE("Test QP Query Basic Follows") {
-  launchQuery("stmt s1, s2; Select s1 such that Follows(s1, s2)",
+  launchQuery(qps.get(), "stmt s1, s2; Select s1 such that Follows(s1, s2)",
               unordered_set<string>{ "1", "2", "3", "4" });
-  launchQuery("stmt s2; Select s2 such that Follows(1, s2)",
+  launchQuery(qps.get(), "stmt s2; Select s2 such that Follows(1, s2)",
               unordered_set<string>{ "2" });
-  launchQuery("stmt s2; Select s2 such that Follows(s2, 4)",
+  launchQuery(qps.get(), "stmt s2; Select s2 such that Follows(s2, 4)",
               unordered_set<string>{ "3" });
-  launchQuery("assign s; Select s such that Follows(1, 2)",
+  launchQuery(qps.get(), "assign s; Select s such that Follows(1, 2)",
               unordered_set<string>{ "1", "2", "3", "4", "5" });
-  launchQuery("stmt s; Select s such that Follows(1, 3)",
+  launchQuery(qps.get(), "stmt s; Select s such that Follows(1, 3)",
               unordered_set<string>{ });
 
-  launchQuery("assign a; stmt s1; Select s1 such that Follows(a, s1)",
+  launchQuery(qps.get(), "assign a; stmt s1; Select s1 such that Follows(a, s1)",
               unordered_set<string>{ "2", "3", "4", "5" });
-  launchQuery("assign a; read r; Select r such that Follows(a, r)",
+  launchQuery(qps.get(), "assign a; read r; Select r such that Follows(a, r)",
               unordered_set<string>{ });
 
-  launchQuery("assign s1, s2; Select s2 such that Follows*(1, s2)",
+  launchQuery(qps.get(), "assign s1, s2; Select s2 such that Follows*(1, s2)",
               unordered_set<string>{ "2", "3", "4", "5" });
-  launchQuery("assign s1, s2; Select s2 such that Follows*(2, s2)",
+  launchQuery(qps.get(), "assign s1, s2; Select s2 such that Follows*(2, s2)",
               unordered_set<string>{ "3", "4", "5" });
 
-  launchQuery("assign s1, s2; Select s2 such that Follows*(s2, 4)",
+  launchQuery(qps.get(), "assign s1, s2; Select s2 such that Follows*(s2, 4)",
               unordered_set<string>{ "1", "2", "3" });
-  launchQuery("assign s1, s2; Select s1 such that Follows*(s2, 4)",
+  launchQuery(qps.get(), "assign s1, s2; Select s1 such that Follows*(s2, 4)",
               unordered_set<string>{ "1", "2", "3", "4", "5" });
 
-  launchQuery("assign s1, s2; Select s1 such that Follows(1, s2)",
+  launchQuery(qps.get(), "assign s1, s2; Select s1 such that Follows(1, s2)",
               unordered_set<string>{ "1", "2", "3", "4", "5" });
-  launchQuery("assign s1, s2; Select s1 such that Follows(5, s2)",
+  launchQuery(qps.get(), "assign s1, s2; Select s1 such that Follows(5, s2)",
               unordered_set<string>{ });
 
-  launchQuery("stmt s; Select s such that Follows(s, s)",unordered_set<string>({ }));
-  launchQuery("assign a; Select a such that Follows(a, a)",unordered_set<string>({ }));
+  launchQuery(qps.get(), "stmt s; Select s such that Follows(s, s)",unordered_set<string>({ }));
+  launchQuery(qps.get(), "assign a; Select a such that Follows(a, a)",unordered_set<string>({ }));
 
-  launchQuery("assign s1, s2; Select s1",
+  launchQuery(qps.get(), "assign s1, s2; Select s1",
               unordered_set<string>{ "1", "2", "3", "4", "5" });
 
-  launchQuery("variable v; Select v",
+  launchQuery(qps.get(), "variable v; Select v",
               unordered_set<string>{ "x", "y", "z" });
 }
 
+TEST_CASE("Test QP Query Basic Follows*") {
+  auto pkb = initPkb();
+  shared_ptr<PkbQueryHandler> pkbQH_ptr = make_shared<PkbQueryHandler>(pkb.get());
+  unique_ptr<IQPS> qps = make_unique<QPSFacade>(pkbQH_ptr);
+
+  launchQuery(qps.get(), "stmt s1, s2; Select s2 such that Follows*(1, s2)",
+              unordered_set<string>{ "2", "3", "4", "5" });
+  launchQuery(qps.get(), "stmt s1, s2; Select s1 such that Follows*(s1, 3)",
+              unordered_set<string>{ "1", "2" });
+}
+
+TEST_CASE("Test QP Query Basic Parent") {
+  auto pkb = initPkb();
+  shared_ptr<PkbQueryHandler> pkbQH_ptr = make_shared<PkbQueryHandler>(pkb.get());
+  unique_ptr<IQPS> qps = make_unique<QPSFacade>(pkbQH_ptr);
+
+  launchQuery(qps.get(), "stmt s1, s2; Select s2 such that Parent(s1, s2)",
+              unordered_set<string>{ "7", "8", "9" });
+  launchQuery(qps.get(), "stmt s1, s2; Select s1 such that Parent(s1, s2)",
+              unordered_set<string>{ "6", "7", "8" });
+  launchQuery(qps.get(), "stmt s1, s2; Select s2 such that Parent(6, s2)",
+              unordered_set<string>{ "7" });
+  launchQuery(qps.get(), "stmt s1, s2; Select s1 such that Parent(s1, 8)",
+              unordered_set<string>{ "7" });
+}
+
+TEST_CASE("Test QP Query Basic Parent*") {
+  auto pkb = initPkb();
+  shared_ptr<PkbQueryHandler> pkbQH_ptr = make_shared<PkbQueryHandler>(pkb.get());
+  unique_ptr<IQPS> qps = make_unique<QPSFacade>(pkbQH_ptr);
+
+  launchQuery(qps.get(), "stmt s1, s2; Select s2 such that Parent*(6, s2)",
+              unordered_set<string>{ "7", "8", "9" });
+  launchQuery(qps.get(), "stmt s1, s2; Select s1 such that Parent*(s1, 9)",
+              unordered_set<string>{ "6", "7", "8" });
+}
+
 TEST_CASE("Test QP Query Basic Uses") {
-  launchQuery("variable v; Select v such that Uses(4, \"x\")", unordered_set<string>({"x", "y", "z"}));
-  launchQuery("assign a; Select a such that Uses(4, \"x\")", unordered_set<string>({ "1", "2", "3", "4", "5" }));
-  launchQuery("assign a; Select a such that Uses(1, \"x\")", unordered_set<string>());
-  launchQuery("variable v; Select v such that Uses(1, \"x\")", unordered_set<string>());
+  auto pkb = initPkb();
+  shared_ptr<PkbQueryHandler> pkbQH_ptr = make_shared<PkbQueryHandler>(pkb.get());
+  unique_ptr<IQPS> qps = make_unique<QPSFacade>(pkbQH_ptr);
 
-  launchQuery("variable v; Select v such that Uses(4, v)", unordered_set<string>({"x"}));
-  launchQuery("assign a; Select a such that Uses(a, \"x\")", unordered_set<string>({"4"}));
+  launchQuery(qps.get(), "variable v; Select v such that Uses(4, \"x\")",
+              unordered_set<string>({"x", "y", "z"}));
+  launchQuery(qps.get(), "assign a; Select a such that Uses(4, \"x\")",
+              unordered_set<string>({ "1", "2", "3", "4", "5" }));
+  launchQuery(qps.get(), "assign a; Select a such that Uses(1, \"x\")",
+              unordered_set<string>());
+  launchQuery(qps.get(), "variable v; Select v such that Uses(1, \"x\")",
+              unordered_set<string>());
 
-  launchQuery("variable v; assign a; Select v such that Uses(a, v)", unordered_set<string>({"x", "y"}));
-  launchQuery("assign a; variable v; Select a such that Uses(a, v)", unordered_set<string>({"4", "5"}));
+  launchQuery(qps.get(), "variable v; Select v such that Uses(4, v)",
+              unordered_set<string>({"x"}));
+  launchQuery(qps.get(), "assign a; Select a such that Uses(a, \"x\")",
+              unordered_set<string>({"4"}));
 
-  launchQuery("assign a; Select a such that Uses(a, _)", unordered_set<string>{"4", "5"});
+  launchQuery(qps.get(), "variable v; assign a; Select v such that Uses(a, v)",
+              unordered_set<string>({"x", "y"}));
+  launchQuery(qps.get(), "assign a; variable v; Select a such that Uses(a, v)",
+              unordered_set<string>({"4", "5"}));
+
+  launchQuery(qps.get(), "assign a; Select a such that Uses(a, _)",
+              unordered_set<string>{"4", "5"});
 }
 
 TEST_CASE("Test QP Query Basic Modifies") {
-  launchQuery("assign a; variable v; Select v such that Modifies(1, \"x\")", unordered_set<string>({"x", "y", "z"}));
-  launchQuery("assign a; variable v; Select a such that Modifies(1, \"x\")", unordered_set<string>({ "1", "2", "3", "4", "5" }));
-  launchQuery("assign a; variable v; Select v such that Modifies(2, \"x\")", unordered_set<string>());
-  launchQuery("assign a; variable v; Select a such that Modifies(2, \"x\")", unordered_set<string>());
+  auto pkb = initPkb();
+  shared_ptr<PkbQueryHandler> pkbQH_ptr = make_shared<PkbQueryHandler>(pkb.get());
+  unique_ptr<IQPS> qps = make_unique<QPSFacade>(pkbQH_ptr);
 
-  launchQuery("assign a; variable v; Select a such that Modifies(a, \"x\")", unordered_set<string>({"1", "4"}));
-  launchQuery("assign a; variable v; Select v such that Modifies(5, v)", unordered_set<string>({"z"}));
+  launchQuery(qps.get(), "assign a; variable v; Select v such that Modifies(1, \"x\")",
+              unordered_set<string>({"x", "y", "z"}));
+  launchQuery(qps.get(), "assign a; variable v; Select a such that Modifies(1, \"x\")",
+              unordered_set<string>({ "1", "2", "3", "4", "5" }));
+  launchQuery(qps.get(), "assign a; variable v; Select v such that Modifies(2, \"x\")",
+              unordered_set<string>());
+  launchQuery(qps.get(), "assign a; variable v; Select a such that Modifies(2, \"x\")",
+              unordered_set<string>());
 
-  launchQuery("assign a; variable v; Select a such that Modifies(a,v)", unordered_set<string>({"1", "2", "3", "4", "5"}));
-  launchQuery("assign a; variable v; Select v such that Modifies(a,v)", unordered_set<string>({"x", "y", "z"}));
+  launchQuery(qps.get(), "assign a; variable v; Select a such that Modifies(a, \"x\")",
+              unordered_set<string>({"1", "4"}));
+  launchQuery(qps.get(), "assign a; variable v; Select v such that Modifies(5, v)",
+              unordered_set<string>({"z"}));
 
-  launchQuery("assign a; Select a such that Modifies(a, _)",unordered_set<string>({ "1", "2", "3", "4", "5" }));
+  launchQuery(qps.get(), "assign a; variable v; Select a such that Modifies(a,v)",
+              unordered_set<string>({"1", "2", "3", "4", "5"}));
+  launchQuery(qps.get(), "assign a; variable v; Select v such that Modifies(a,v)",
+              unordered_set<string>({"x", "y", "z"}));
+
+  launchQuery(qps.get(), "assign a; Select a such that Modifies(a, _)",
+              unordered_set<string>({ "1", "2", "3", "4", "5" }));
 }

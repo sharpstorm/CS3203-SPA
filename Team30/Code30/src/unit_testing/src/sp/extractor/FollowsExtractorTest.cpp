@@ -92,7 +92,9 @@ TEST_CASE("FollowsExtractor If in While loop") {
       "while (num1 < num2) {"
       "if (num1 == num2) then {"
       "num2 = num2 + 1;"
-      "} else {}"
+      "} else {"
+      "num2 = 2;"
+      "}"
       "num1 = num1 + 1;"
       "print num1;"
       "}"
@@ -106,7 +108,7 @@ TEST_CASE("FollowsExtractor If in While loop") {
   REQUIRE(!u.contains(v, 3, 4));
   REQUIRE(!u.contains(v, 4, 5));
   REQUIRE(!u.contains(v, 5, 6));
-  REQUIRE(u.contains(v, 3, 8));
+  REQUIRE(u.contains(v, 3, 9));
   REQUIRE(u.isSize(v, 5));
 }
 
