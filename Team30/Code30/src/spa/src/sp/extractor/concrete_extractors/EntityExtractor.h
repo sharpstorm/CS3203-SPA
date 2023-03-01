@@ -14,6 +14,7 @@ class EntityExtractor : public AbstractExtractor {
   void visit(WhileNode* node);
   void visit(IfNode* node);
   void visit(ReadNode* node);
+  void visit(CallNode* node);
   void visit(VariableASTNode* node);
   void visit(ConstantASTNode* node);
  private:
