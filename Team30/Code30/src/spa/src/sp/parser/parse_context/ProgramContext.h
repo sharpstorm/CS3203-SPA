@@ -8,4 +8,6 @@ class ProgramContext : public RecursiveParseContext {
   explicit ProgramContext(IGrammarContextProvider* provider):
       RecursiveParseContext(provider) {}
   ASTNodePtr generateSubtree(SourceParseState* state);
+ private:
+  void addProcedure(ASTNodePtr node, SourceParseState* state);
 };
