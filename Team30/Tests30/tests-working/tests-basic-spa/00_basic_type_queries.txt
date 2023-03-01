@@ -420,7 +420,7 @@ Select b
 5000
 85 - Select single [relation not exists]
 call cl;
-Select c
+Select cl
 none
 5000
 86 - Select single [invalid entity]
