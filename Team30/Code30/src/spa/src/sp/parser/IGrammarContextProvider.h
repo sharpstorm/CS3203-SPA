@@ -4,6 +4,7 @@
 #include "parse_context/SourceParseContext.h"
 
 enum SourceGrammarContextType {
+  PROGRAM_CONTEXT,
   PROCEDURE_CONTEXT,
   CALL_CONTEXT,
   STMT_LIST_CONTEXT,

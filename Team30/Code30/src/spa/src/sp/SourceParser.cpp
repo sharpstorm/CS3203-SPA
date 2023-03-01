@@ -8,7 +8,7 @@ using std::string, std::vector;
 
 AST SourceParser::parseSource(string input) {
   SourceTokenStreamPtr tokens = sourceLexer.tokenize(&input);
-  return sourceTokenParser.parse<PROCEDURE_CONTEXT>(tokens.get());
+  return sourceTokenParser.parse<PROGRAM_CONTEXT>(tokens.get());
 }
 
 AST SourceParser::parseExpression(string expression) {
