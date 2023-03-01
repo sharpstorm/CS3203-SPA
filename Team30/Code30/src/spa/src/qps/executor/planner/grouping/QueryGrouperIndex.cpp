@@ -14,3 +14,20 @@ PlanNodes *QueryGrouperIndex::getUsages(const string &key) {
   }
   return &synonymMap.at(key);
 }
+
+void QueryGrouperIndex::insertSelection(const PQLSynonymName &name) {
+  selectSynonyms.insert(name);
+}
+
+bool QueryGrouperIndex::selectSynonym(const PQLSynonymName &name) {
+  if (selectSynonyms.find(name) == selectSynonyms.end()) {
+    return false;
+  }
+
+  selectSynonyms.erase(name);
+  return true;
+}
+
+unordered_set<PQLSynonymName>* QueryGrouperIndex::getSelectSynonyms() {
+  return &selectSynonyms;
+}

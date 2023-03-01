@@ -1,6 +1,13 @@
-#include "QueryGrouper.h"
+#include <memory>
+#include <utility>
 
+#include "QueryGrouper.h"
+#include "qps/clauses/SelectClause.h"
+
+const int UNPROCESSED = -2;
 const int NO_GROUP = -1;
+
+using std::make_shared, std::move;
 
 QueryGrouper::QueryGrouper(PQLQuery *query) :
     query(query),
@@ -11,22 +18,28 @@ vector<QueryGroupPtr> QueryGrouper::groupClauses() {
   vector<QueryGroupPtr> groups;
   initIndex();
   findGroups(&groups);
+  findIndependentSelects(&groups);
 
   return groups;
 }
 
 void QueryGrouper::initIndex() {
   for (int i = 0; i < evaluatables.size(); i++) {
-    groupClauseIdTable[i] = NO_GROUP;
+    groupClauseIdTable[i] = UNPROCESSED;
     for (PQLSynonymName name : evaluatables[i]->getUsedSynonyms()) {
       groupIndex.insertUsage(name, i);
     }
+  }
+
+  PQLQuerySynonymList* selections = query->getResultVariables();
+  for (auto it = selections->begin(); it != selections->end(); it++) {
+    groupIndex.insertSelection(it->getName());
   }
 }
 
 void QueryGrouper::findGroups(vector<QueryGroupPtr>* result) {
   for (int i = 0; i < groupClauseIdTable.size(); i++) {
-    if (groupClauseIdTable[i] != NO_GROUP) {
+    if (groupClauseIdTable[i] != UNPROCESSED) {
       continue;
     }
 
@@ -49,11 +62,22 @@ QueryGroup *QueryGrouper::BFSFindDependents(int start) {
 
     SynonymList synonyms = evaluatables[node]->getUsedSynonyms();
     for (PQLSynonymName name : synonyms) {
-      queueClauses(&pendingNodes, groupIndex.getUsages(name));
+      registerSeenSynonym(name, result);
+      queueClauses(&pendingNodes, groupIndex.getUsages(name),
+                   result, clauseId);
     }
   }
 
   return result;
+}
+
+void QueryGrouper::registerSeenSynonym(PQLSynonymName name, QueryGroup *result) {
+  if (seenSynonyms.find(name) == seenSynonyms.end()) {
+    seenSynonyms.insert(name);
+    if (groupIndex.selectSynonym(name)) {
+      result->addSelectable(name);
+    }
+  }
 }
 
 void QueryGrouper::queueClauses(queue<PlanNode> *target,
@@ -67,10 +91,24 @@ void QueryGrouper::queueClauses(queue<PlanNode> *target,
   for (auto it = values->begin(); it != values->end(); it++) {
     int nodeId = *it;
     int clauseId = groupClauseIdTable[nodeId];
-    if (clauseId == NO_GROUP) {
+    if (clauseId == UNPROCESSED) {
+      groupClauseIdTable[nodeId] = NO_GROUP;
       target->push(nodeId);
-    } else {
+    } else if (clauseId > NO_GROUP) {
       result->linkEvaluatables(parentClauseId, clauseId);
     }
+  }
+}
+
+void QueryGrouper::findIndependentSelects(vector<QueryGroupPtr> *result) {
+  unordered_set<PQLSynonymName>* unselected = groupIndex.getSelectSynonyms();
+  for (auto it = unselected->begin(); it != unselected->end(); it++) {
+    PQLQuerySynonym* synonym = query->getVariable(*it);
+    IEvaluatableSPtr selectClause = make_shared<SelectClause>(*synonym);
+
+    QueryGroupPtr selectGroup = make_unique<QueryGroup>();
+    selectGroup->addEvaluatable(selectClause);
+    selectGroup->addSelectable(synonym->getName());
+    result->push_back(move(selectGroup));
   }
 }

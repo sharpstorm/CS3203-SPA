@@ -136,4 +136,8 @@ TEST_CASE("Test Full End-to-end") {
   query = "procedure p; Select p";
   expectedRes = unordered_set<string>({"Example"});
   launchQuery(qps.get(), query, expectedRes);
+
+  query = "assign a1, a2; variable v; Select v such that Modifies(a1, v) pattern a2(\"a\", \"huehuehue\")";
+  expectedRes = unordered_set<string>({});
+  launchQuery(qps.get(), query, expectedRes);
 }

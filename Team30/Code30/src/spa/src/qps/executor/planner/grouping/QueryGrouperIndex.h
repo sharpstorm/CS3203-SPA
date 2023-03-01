@@ -2,18 +2,22 @@
 
 #include <unordered_map>
 #include <unordered_set>
-#include <string>
+#include "qps/common/PQLTypes.h"
 
-using std::string, std::unordered_set, std::unordered_map;
+using std::unordered_set, std::unordered_map;
 
 typedef int PlanNode;
 typedef unordered_set<PlanNode> PlanNodes;
 
 class QueryGrouperIndex {
  private:
-  unordered_map<string, PlanNodes> synonymMap;
+  unordered_map<PQLSynonymName, PlanNodes> synonymMap;
+  unordered_set<PQLSynonymName> selectSynonyms;
 
  public:
-  PlanNodes* getUsages(const string &key);
-  void insertUsage(const string &name, PlanNode value);
+  PlanNodes* getUsages(const PQLSynonymName &key);
+  void insertUsage(const PQLSynonymName &name, PlanNode value);
+  void insertSelection(const PQLSynonymName &name);
+  bool selectSynonym(const PQLSynonymName &name);
+  unordered_set<PQLSynonymName>* getSelectSynonyms();
 };
