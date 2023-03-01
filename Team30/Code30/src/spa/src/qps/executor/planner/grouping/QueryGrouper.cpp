@@ -71,7 +71,8 @@ QueryGroup *QueryGrouper::BFSFindDependents(int start) {
   return result;
 }
 
-void QueryGrouper::registerSeenSynonym(PQLSynonymName name, QueryGroup *result) {
+void QueryGrouper::registerSeenSynonym(PQLSynonymName name,
+                                       QueryGroup *result) {
   if (seenSynonyms.find(name) == seenSynonyms.end()) {
     seenSynonyms.insert(name);
     if (groupIndex.selectSynonym(name)) {

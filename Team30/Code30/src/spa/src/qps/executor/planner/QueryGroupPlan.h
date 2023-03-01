@@ -1,10 +1,11 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 
 #include "qps/common/IEvaluatable.h"
 
-using std::unique_ptr;
+using std::unique_ptr, std::vector;
 
 class QueryGroupPlan {
  public:

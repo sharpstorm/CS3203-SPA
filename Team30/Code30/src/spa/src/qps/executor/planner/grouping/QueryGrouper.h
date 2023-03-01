@@ -13,7 +13,7 @@ using std::vector, std::queue, std::unordered_set;
 
 class QueryGrouper {
  public:
-  QueryGrouper(PQLQuery* query);
+  explicit QueryGrouper(PQLQuery* query);
   vector<QueryGroupPtr> groupClauses();
 
  private:

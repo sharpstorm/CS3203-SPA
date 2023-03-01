@@ -1,6 +1,6 @@
 #include "QueryGrouperIndex.h"
 
-void QueryGrouperIndex::insertUsage(const string &name, int value) {
+void QueryGrouperIndex::insertUsage(const PQLSynonymName &name, int value) {
   if (synonymMap.find(name) != synonymMap.end()) {
     synonymMap[name].insert(value);
   } else {
@@ -8,7 +8,7 @@ void QueryGrouperIndex::insertUsage(const string &name, int value) {
   }
 }
 
-PlanNodes *QueryGrouperIndex::getUsages(const string &key) {
+PlanNodes *QueryGrouperIndex::getUsages(const PQLSynonymName &key) {
   if (synonymMap.find(key) == synonymMap.end()) {
     return nullptr;
   }

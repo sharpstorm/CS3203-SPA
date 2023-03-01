@@ -1,5 +1,9 @@
 #include "QueryClauseOrderer.h"
 
+#include <memory>
+
+using std::make_unique;
+
 QueryGroupPlanPtr QueryClauseOrderer::orderClauses(QueryGroup *group) {
   vector<IEvaluatableSPtr> groupOrdering(group->getEvaluatableCount());
   vector<bool> clauseDone(group->getEvaluatableCount());
