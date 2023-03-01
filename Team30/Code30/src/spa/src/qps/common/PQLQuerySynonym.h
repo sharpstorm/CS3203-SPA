@@ -3,8 +3,9 @@
 #include "PQLTypes.h"
 #include <string>
 #include <unordered_map>
+#include <vector>
 
-using std::unordered_map;
+using std::unordered_map, std::vector;
 
 class PQLQuerySynonym {
  private:
@@ -25,3 +26,4 @@ class PQLQuerySynonym {
 };
 
 typedef unordered_map<string, PQLQuerySynonym> VariableTable;
+typedef vector<PQLQuerySynonym> PQLQuerySynonymList;
