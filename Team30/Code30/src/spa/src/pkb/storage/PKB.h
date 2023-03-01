@@ -22,6 +22,8 @@ class PKB {
   UsesStorage *usesStorage;
   ModifiesStorage *modifiesStorage;
   AssignStorage *assignStorage;
+  CallsStorage *callsStorage;
+  CallStmtStorage *callStmtStorage;
   StructureMappingProvider *structureProvider;
   EntityMappingProvider *entityMappingProvider;
   PredicateFactory *predicateFactory;

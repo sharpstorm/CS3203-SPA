@@ -1,6 +1,7 @@
 #include "PkbQueryHandler.h"
 
 #include "AssignsQueryHandler.h"
+#include "CallsQueryHandler.h"
 #include "FollowsQueryHandler.h"
 #include "ModifiesQueryHandler.h"
 #include "ParentQueryHandler.h"
@@ -17,6 +18,9 @@ PkbQueryHandler::PkbQueryHandler(PKB *pkb)
       modifiesHandler(new ModifiesQueryHandler(
           pkb->modifiesStorage, pkb->predicateFactory, pkb->structureProvider,
           pkb->entityMappingProvider)),
+      callsHandler(new CallsQueryHandler(pkb->callsStorage,
+                                         pkb->predicateFactory,
+                                         pkb->entityMappingProvider)),
       designEntityHandler(new DesignEntitiesQueryHandler(
           pkb->entityMappingProvider, pkb->structureProvider)),
       assignHandler(new AssignsQueryHandler(pkb->assignStorage)) {}
@@ -74,4 +78,14 @@ QueryResult<string, string> PkbQueryHandler::queryModifies(
 QueryResult<int, shared_ptr<IASTNode>> PkbQueryHandler::queryAssigns(
     StmtRef arg1) const {
   return assignHandler->queryAssigns(arg1);
+}
+
+QueryResult<string, string> PkbQueryHandler::queryCalls(EntityRef arg1,
+                                                        EntityRef arg2) const {
+  return callsHandler->queryCalls(arg1, arg2);
+}
+
+QueryResult<string, string> PkbQueryHandler::queryCallsStar(
+    EntityRef arg1, EntityRef arg2) const {
+  return callsHandler->queryCallsStar(arg1, arg2);
 }

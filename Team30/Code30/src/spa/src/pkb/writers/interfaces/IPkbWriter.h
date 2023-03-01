@@ -4,6 +4,7 @@
 
 #include "common/Types.h"
 #include "pkb/writers/interfaces/IAssignsWriter.h"
+#include "pkb/writers/interfaces/ICallsWriter.h"
 #include "pkb/writers/interfaces/IFollowsWriter.h"
 #include "pkb/writers/interfaces/IModifiesWriter.h"
 #include "pkb/writers/interfaces/IParentWriter.h"
@@ -21,7 +22,8 @@ class IPkbWriter : public IFollowsWriter,
                    public IProcedureWriter,
                    public IUsesWriter,
                    public IModifiesWriter,
-                   public IAssignsWriter {
+                   public IAssignsWriter,
+                   public ICallsWriter {
  public:
   virtual ~IPkbWriter() {}
 };
