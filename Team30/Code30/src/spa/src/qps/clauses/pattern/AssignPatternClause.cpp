@@ -9,21 +9,20 @@ using std::unordered_set;
 AssignPatternClause::AssignPatternClause(PQLQuerySynonym assignSynonym,
                                          ClauseArgumentPtr leftArg,
                                          ExpressionArgumentPtr rightArg):
-    assignSynonym(assignSynonym),
-    leftArgument(std::move(leftArg)),
+    PatternClause(assignSynonym, std::move(leftArg), PQL_SYN_TYPE_ASSIGN),
     rightArgument(std::move(rightArg)) {}
 
 PQLQueryResult *AssignPatternClause::evaluateOn(
     shared_ptr<PkbQueryHandler> pkbQueryHandler) {
   StmtRef leftStatement = StmtRef{StmtType::Assign, 0};
-  EntityRef rightVariable = leftArgument->toEntityRef();
+  EntityRef rightVariable = leftArg->toEntityRef();
   QueryResult<int, string> modifiesResult =
       pkbQueryHandler->queryModifies(leftStatement, rightVariable);
 
-  ClauseArgumentPtr synArg = make_unique<SynonymArgument>(assignSynonym);
+  ClauseArgumentPtr synArg = make_unique<SynonymArgument>(synonym);
   QueryResult<int, string> assignResult;
   if (rightArgument->isWildcard()) {
-    return Clause::toQueryResult(synArg.get(), leftArgument.get(),
+    return Clause::toQueryResult(synArg.get(), leftArg.get(),
                                  modifiesResult);
   } else {
     // Go through all the line numbers
@@ -44,24 +43,7 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
   }
 
   // Convert to PQLQueryResult
-  return Clause::toQueryResult(synArg.get(), leftArgument.get(), assignResult);
-}
-
-SynonymList AssignPatternClause::getUsedSynonyms() {
-  SynonymList result{ assignSynonym.getName() };
-  if (leftArgument->isNamed()) {
-    result.push_back(leftArgument->getName());
-  }
-  return result;
-}
-
-bool AssignPatternClause::validateArgTypes(VariableTable *variables) {
-  if (!assignSynonym.isType(PQL_SYN_TYPE_ASSIGN)) {
-    return false;
-  }
-
-  return leftArgument->synonymSatisfies(
-      ClauseArgument::isType<PQL_SYN_TYPE_VARIABLE>);
+  return Clause::toQueryResult(synArg.get(), leftArg.get(), assignResult);
 }
 
 bool AssignPatternClause::matchPartial(shared_ptr<IASTNode> node) {

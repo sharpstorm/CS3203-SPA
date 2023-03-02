@@ -15,10 +15,11 @@ class PQLPatternContext: public AbstractPQLContext {
                             ClauseArgumentPtr firstArg);
   PQLQuerySynonym* parseSynonym(QueryTokenParseState* parserState);
   PatternClausePtr dispatchTwoArg(PQLQuerySynonym* synonym,
-                      ClauseArgumentPtr firstArg,
-                      ExpressionArgumentPtr secondArg);
+                                  ClauseArgumentPtr firstArg,
+                                  ExpressionArgumentPtr secondArg);
   PatternClausePtr dispatchThreeArg(PQLQuerySynonym* synonym,
-                        ExpressionArgumentPtr secondArg);
+                                    ClauseArgumentPtr firstArg,
+                                    ExpressionArgumentPtr secondArg);
 
   ExpressionArgumentPtr extractExpression(QueryTokenParseState* parserState);
 };

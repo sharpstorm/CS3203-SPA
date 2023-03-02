@@ -9,10 +9,9 @@
 
 class WhilePatternClause: public PatternClause {
  public:
-  explicit WhilePatternClause(PQLQuerySynonym whileSynonym);
+  explicit WhilePatternClause(PQLQuerySynonym whileSynonym,
+                              ClauseArgumentPtr leftArg);
   PQLQueryResult* evaluateOn(shared_ptr<PkbQueryHandler> pkbQueryHandler);
-  bool validateArgTypes(VariableTable *variables);
-  SynonymList getUsedSynonyms();
 
  private:
   PQLQuerySynonym whileSynonym;

@@ -9,10 +9,9 @@
 
 class IfPatternClause: public PatternClause {
  public:
-  explicit IfPatternClause(PQLQuerySynonym ifSynonym);
+  explicit IfPatternClause(PQLQuerySynonym ifSynonym,
+                           ClauseArgumentPtr leftArg);
   PQLQueryResult* evaluateOn(shared_ptr<PkbQueryHandler> pkbQueryHandler);
-  bool validateArgTypes(VariableTable *variables);
-  SynonymList getUsedSynonyms();
 
  private:
   PQLQuerySynonym ifSynonym;

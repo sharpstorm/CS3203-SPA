@@ -36,11 +36,11 @@ void PQLPatternContext::extractRemainingArgs(QueryTokenParseState *parserState,
   PatternClausePtr clause;
   if (nextToken->isType(PQL_TOKEN_BRACKET_CLOSE)) {
     clause = dispatchTwoArg(synonym, std::move(firstArg),
-                                          std::move(exprArg));
+                            std::move(exprArg));
   } else {
     parserState->expect(PQL_TOKEN_UNDERSCORE);
     parserState->expect(PQL_TOKEN_BRACKET_CLOSE);
-    clause = dispatchThreeArg(synonym, std::move(exprArg));
+    clause = dispatchThreeArg(synonym, std::move(firstArg), std::move(exprArg));
   }
 
   if (clause == nullptr) {
@@ -48,7 +48,7 @@ void PQLPatternContext::extractRemainingArgs(QueryTokenParseState *parserState,
     return;
   }
 
-  parserState->getQueryBuilder()->addPattern(move(clause));
+  parserState->getQueryBuilder()->addPattern(std::move(clause));
 }
 
 PQLQuerySynonym* PQLPatternContext::parseSynonym(
@@ -66,12 +66,12 @@ PatternClausePtr PQLPatternContext::dispatchTwoArg(
   }
 
   if (synonym->isType(PQL_SYN_TYPE_IF) && secondArg->isWildcard()) {
-    return make_unique<IfPatternClause>(*synonym);
+    return make_unique<IfPatternClause>(*synonym, std::move(firstArg));
   }
 
   if (synonym->isType(PQL_SYN_TYPE_ASSIGN)) {
     return make_unique<AssignPatternClause>(
-        *synonym, move(firstArg), move(secondArg));
+        *synonym, std::move(firstArg), std::move(secondArg));
   }
 
   return nullptr;
@@ -79,6 +79,7 @@ PatternClausePtr PQLPatternContext::dispatchTwoArg(
 
 PatternClausePtr PQLPatternContext::dispatchThreeArg(
     PQLQuerySynonym* synonym,
+    ClauseArgumentPtr firstArg,
     ExpressionArgumentPtr secondArg) {
   if (!secondArg->isWildcard()) {
     throw QPSParserSyntaxError(QPS_PARSER_ERR_UNEXPECTED);
@@ -88,7 +89,7 @@ PatternClausePtr PQLPatternContext::dispatchThreeArg(
     return nullptr;
   }
 
-  return make_unique<WhilePatternClause>(*synonym);
+  return make_unique<WhilePatternClause>(*synonym, std::move(firstArg));
 }
 
 ExpressionArgumentPtr PQLPatternContext::extractExpression(
