@@ -15,6 +15,7 @@ class QueryOrchestrator {
  public:
   explicit QueryOrchestrator(QueryLauncher launcher);
   PQLQueryResult* execute(QueryPlan* plan);
+  PQLQueryResult* execute(QueryPlan* plan, PQLQuerySynonymList* targetSyns);
 
  private:
   QueryLauncher launcher;

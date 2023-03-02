@@ -1,10 +1,12 @@
 #include "QueryOrchestrator.h"
+#include "SynonymResultTable.h"
 
 QueryOrchestrator::QueryOrchestrator(QueryLauncher launcher) :
     launcher(launcher) {
 }
 
 // TODO(KwanHW): Fix execution to handle multiple groups
+// Executes every group in the QueryPlan (OLD IMPLEMENTATION)
 PQLQueryResult *QueryOrchestrator::execute(QueryPlan* plan) {
   if (plan->isEmpty()) {
     return new PQLQueryResult();
@@ -14,6 +16,7 @@ PQLQueryResult *QueryOrchestrator::execute(QueryPlan* plan) {
   for (int i = 0; i < plan->getGroupCount(); i++) {
     QueryGroupPlan* targetGroup = plan->getGroup(i);
     PQLQueryResult* result = executeGroup(targetGroup);
+
     if (result->isFalse()) {
       return new PQLQueryResult();
     }
@@ -28,6 +31,43 @@ PQLQueryResult *QueryOrchestrator::execute(QueryPlan* plan) {
   return finalResult;
 }
 
+// Executes every group in the QueryPlan (NEW IMPLEMENTATION)
+PQLQueryResult *QueryOrchestrator::execute(QueryPlan *plan,
+                                           PQLQuerySynonymList* targetSyns) {
+  if (plan->isEmpty()) {
+    return new PQLQueryResult();
+  }
+
+  SynonymResultTable resultTable(targetSyns);
+  PQLQueryResult* finalResult;
+  for (int i = 0; i < plan->getGroupCount(); i++) {
+    QueryGroupPlan* targetGroup = plan->getGroup(i);
+    PQLQueryResult* result = executeGroup(targetGroup);
+
+    // If any of the result is empty, return FALSE / EmptyResultTable
+    if (result->isFalse()) {
+//      if (targetGroup->isBooleanResult()) {
+//        return new SynonymResultTable(false);
+//      } else {
+//       return new SynonymResultTable(targetSyns);
+//      }
+      return new PQLQueryResult();
+    }
+
+    // ! Tbh idk what to do with this
+    if (targetGroup->isBooleanResult()) {
+      delete result;
+      continue;
+    }
+
+    resultTable.extractSynonyms(result);
+    finalResult = result;
+  }
+
+  return finalResult;
+}
+
+// Executes each clause in the QueryGroupPlan
 PQLQueryResult *QueryOrchestrator::executeGroup(QueryGroupPlan *plan) {
   vector<IEvaluatableSPtr> executables = plan->getConditionalClauses();
   PQLQueryResult* currentResult;
@@ -59,3 +99,4 @@ PQLQueryResult *QueryOrchestrator::executeGroup(QueryGroupPlan *plan) {
 
   return finalResult;
 }
+
