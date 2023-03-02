@@ -1,5 +1,7 @@
 #include "PatternClause.h"
 
+#include <utility>
+
 PatternClause::PatternClause(
     PQLQuerySynonym synonym,
     ClauseArgumentPtr leftArg,

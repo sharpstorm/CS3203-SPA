@@ -1,5 +1,7 @@
 #include "IfPatternClause.h"
 
+#include <utility>
+
 IfPatternClause::IfPatternClause(PQLQuerySynonym ifSynonym,
                                  ClauseArgumentPtr leftArg):
     PatternClause(ifSynonym, std::move(leftArg), PQL_SYN_TYPE_IF) {}
