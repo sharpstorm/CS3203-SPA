@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "AssignsWriter.h"
+#include "CallsWriter.h"
 #include "FollowsWriter.h"
 #include "ModifiesWriter.h"
 #include "ParentWriter.h"
@@ -21,7 +22,8 @@ PkbWriter::PkbWriter(PKB *pkb)
       symbolWriter(new SymbolWriter(pkb->symbolStorage)),
       statementWriter(new StatementWriter(pkb->statementStorage)),
       procedureWriter(new ProcedureWriter(pkb->procedureStorage)),
-      assignsWriter(new AssignsWriter(pkb->assignStorage)) {}
+      assignsWriter(new AssignsWriter(pkb->assignStorage)),
+      callsWriter(new CallsWriter(pkb->callsStorage, pkb->callStmtStorage)) {}
 
 void PkbWriter::addFollows(int arg1, int arg2) {
   followsWriter->addFollows(arg1, arg2);
@@ -54,4 +56,9 @@ void PkbWriter::addModifies(int stmtNum, string variable) {
 
 void PkbWriter::addAssigns(int stmtNum, shared_ptr<IASTNode> ast) {
   assignsWriter->addAssigns(stmtNum, ast);
+}
+
+void PkbWriter::addCalls(int stmtNum, string currProcedure,
+                         string calledProcedure) {
+  callsWriter->addCalls(stmtNum, currProcedure, calledProcedure);
 }
