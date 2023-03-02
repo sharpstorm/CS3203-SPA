@@ -1,5 +1,4 @@
 #include "QueryOrchestrator.h"
-#include "SynonymResultTable.h"
 
 QueryOrchestrator::QueryOrchestrator(QueryLauncher launcher) :
     launcher(launcher) {
@@ -32,13 +31,13 @@ PQLQueryResult *QueryOrchestrator::execute(QueryPlan* plan) {
 }
 
 // Executes every group in the QueryPlan (NEW IMPLEMENTATION)
-PQLQueryResult *QueryOrchestrator::execute(QueryPlan *plan,
+SynonymResultTable *QueryOrchestrator::execute(QueryPlan *plan,
                                            PQLQuerySynonymList* targetSyns) {
   if (plan->isEmpty()) {
-    return new PQLQueryResult();
+    return new SynonymResultTable(targetSyns, false);
   }
 
-  SynonymResultTable resultTable(targetSyns);
+  SynonymResultTable* resultTable = new SynonymResultTable(targetSyns, true);
   PQLQueryResult* finalResult;
   for (int i = 0; i < plan->getGroupCount(); i++) {
     QueryGroupPlan* targetGroup = plan->getGroup(i);
@@ -46,25 +45,20 @@ PQLQueryResult *QueryOrchestrator::execute(QueryPlan *plan,
 
     // If any of the result is empty, return FALSE / EmptyResultTable
     if (result->isFalse()) {
-//      if (targetGroup->isBooleanResult()) {
-//        return new SynonymResultTable(false);
-//      } else {
-//       return new SynonymResultTable(targetSyns);
-//      }
-      return new PQLQueryResult();
+      return new SynonymResultTable(targetSyns, false);
     }
 
-    // ! Tbh idk what to do with this
+    // Result doesnt matter for BOOLEAN type results
     if (targetGroup->isBooleanResult()) {
       delete result;
       continue;
     }
 
-    resultTable.extractSynonyms(result);
+    resultTable->extractSynonyms(result);
     finalResult = result;
   }
 
-  return finalResult;
+  return resultTable;
 }
 
 // Executes each clause in the QueryGroupPlan

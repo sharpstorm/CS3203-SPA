@@ -1,10 +1,12 @@
 #include <vector>
 #include <memory>
+#include <iostream>
 
 #include "ResultProjector.h"
 
 using std::to_string, std::vector, std::make_unique;
 
+// ! OLD IMPLEMENTATION
 UniqueVectorPtr<string> ResultProjector::project(
     PQLQueryResult *queryResult,
     PQLQuerySynonymList* resultVariables
@@ -33,5 +35,17 @@ UniqueVectorPtr<string> ResultProjector::project(
     }
   }
 
+  return result;
+}
+
+UniqueVectorPtr<string> ResultProjector::project(SynonymResultTable *queryResult,
+                                                 PQLQuerySynonymList *resultVariables) {
+  UniqueVectorPtr<string> result =
+      make_unique<vector<string>>(vector<string>{});
+  // Check if a tuple type result
+  if (!queryResult->hasTargetSynonyms()) {
+    string boolResult = queryResult->getBooleanResult() ? "TRUE" : "FALSE";
+    return make_unique<vector<string>>(vector<string>({boolResult}));
+  }
   return result;
 }

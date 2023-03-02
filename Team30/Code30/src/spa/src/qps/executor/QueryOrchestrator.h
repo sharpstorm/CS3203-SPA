@@ -7,6 +7,7 @@
 #include "../common/IEvaluatable.h"
 #include "ResultCoalescer.h"
 #include "QueryLauncher.h"
+#include "SynonymResultTable.h"
 #include "qps/executor/planner/QueryPlan.h"
 
 using std::vector;
@@ -15,7 +16,7 @@ class QueryOrchestrator {
  public:
   explicit QueryOrchestrator(QueryLauncher launcher);
   PQLQueryResult* execute(QueryPlan* plan);
-  PQLQueryResult* execute(QueryPlan* plan, PQLQuerySynonymList* targetSyns);
+  SynonymResultTable* execute(QueryPlan* plan, PQLQuerySynonymList* targetSyns);
 
  private:
   QueryLauncher launcher;

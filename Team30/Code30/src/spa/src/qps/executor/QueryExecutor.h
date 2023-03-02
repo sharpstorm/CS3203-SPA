@@ -12,5 +12,5 @@ class QueryExecutor: public IQueryExecutor {
 
  public:
   explicit QueryExecutor(shared_ptr<PkbQueryHandler> pkbQH);
-  PQLQueryResult* executeQuery(PQLQuery* query);
+  SynonymResultTable* executeQuery(PQLQuery* query);
 };

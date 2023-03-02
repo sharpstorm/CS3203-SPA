@@ -13,8 +13,10 @@ class SynonymResultTable {
   bool booleanResult;
 
  public:
+  SynonymResultTable(PQLQuerySynonymList* mapping, bool booleanResult);
   explicit SynonymResultTable(PQLQuerySynonymList* mapping);
   explicit SynonymResultTable(bool booleanResult);
   void extractSynonyms(PQLQueryResult* result);
   bool getBooleanResult();
+  bool hasTargetSynonyms();
 };
