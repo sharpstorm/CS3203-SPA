@@ -2,6 +2,7 @@
 
 #include "../AbstractPQLContext.h"
 #include "qps/common/PQLQuerySynonym.h"
+#include "qps/clauses/arguments/ExpressionArgument.h"
 
 class PQLPatternContext: public AbstractPQLContext {
  public:
@@ -9,7 +10,15 @@ class PQLPatternContext: public AbstractPQLContext {
 
  private:
   void parsePatternClause(QueryTokenParseState* parserState);
+  void extractRemainingArgs(QueryTokenParseState *parserState,
+                            PQLQuerySynonym* synonym,
+                            ClauseArgumentPtr firstArg);
   PQLQuerySynonym* parseSynonym(QueryTokenParseState* parserState);
-  void dispatchPatternContext(PQLQuerySynonym* synonym,
-                              QueryTokenParseState* parserState);
+  PatternClausePtr dispatchTwoArg(PQLQuerySynonym* synonym,
+                      ClauseArgumentPtr firstArg,
+                      ExpressionArgumentPtr secondArg);
+  PatternClausePtr dispatchThreeArg(PQLQuerySynonym* synonym,
+                        ExpressionArgumentPtr secondArg);
+
+  ExpressionArgumentPtr extractExpression(QueryTokenParseState* parserState);
 };

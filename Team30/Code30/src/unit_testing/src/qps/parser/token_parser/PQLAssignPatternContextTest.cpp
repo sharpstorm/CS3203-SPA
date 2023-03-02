@@ -175,7 +175,7 @@ TEST_CASE("Test PQL Assign Pattern invalid ref") {
           ->wildcard()
           ->closeBracket()
           ->build()
-  ), QPSParserSyntaxError);
+  ), QPSParserSemanticError);
 
   REQUIRE_THROWS_AS(testAssignPatternParsing(
       make_unique<PQLTestTokenSequenceBuilder>()
@@ -238,11 +238,11 @@ TEST_CASE("Test PQL Assign Pattern invalid arg0 synonym types") {
                 ->openBracket()
                 ->wildcard()
                 ->comma()
-                ->wildcard()
+                ->literal("x + 1")
                 ->closeBracket()
                 ->build()
             , synonymMap),
-        QPSParserSyntaxError
+        QPSParserSemanticError
     );
   }
 }

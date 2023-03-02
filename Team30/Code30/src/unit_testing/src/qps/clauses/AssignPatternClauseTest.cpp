@@ -103,7 +103,7 @@ TEST_CASE("Assign Pattern Constant-Exact") {
   AssignPatternClause patternClause(
       assignSyn,
       ClauseArgumentPtr(new EntityArgument("b")),
-      "x", false);
+      make_unique<ExpressionArgument>("x", false));
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{ 2 });
@@ -114,7 +114,7 @@ TEST_CASE("Assign Pattern Constant-Exact") {
   patternClause = AssignPatternClause(
       assignSyn,
       ClauseArgumentPtr(new EntityArgument("a")),
-      "1", false);
+      make_unique<ExpressionArgument>("1", false));
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{ 1 });
@@ -134,7 +134,7 @@ TEST_CASE("Assign Pattern Constant-Wildcard") {
   AssignPatternClause patternClause(
       assignSyn,
       ClauseArgumentPtr(new EntityArgument("b")),
-      "", true);
+      make_unique<ExpressionArgument>("", true));
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{2, 4});
@@ -145,7 +145,7 @@ TEST_CASE("Assign Pattern Constant-Wildcard") {
   patternClause = AssignPatternClause(
       assignSyn,
       ClauseArgumentPtr(new EntityArgument("b")),
-      "x", true);
+      make_unique<ExpressionArgument>("x", true));
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{2, 4});
@@ -156,7 +156,7 @@ TEST_CASE("Assign Pattern Constant-Wildcard") {
   patternClause = AssignPatternClause(
       assignSyn,
       ClauseArgumentPtr(new EntityArgument("a")),
-      "1", true);
+      make_unique<ExpressionArgument>("1", true));
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{1, 3});
@@ -177,7 +177,7 @@ TEST_CASE("Assign Pattern Variable-Exact") {
   AssignPatternClause patternClause(
       assignSyn,
       ClauseArgumentPtr(new SynonymArgument(varSyn)),
-      "1", false);
+      make_unique<ExpressionArgument>("1", false));
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", "v", pair_set<int, string>{{ 1, "a" }});
@@ -188,7 +188,7 @@ TEST_CASE("Assign Pattern Variable-Exact") {
   patternClause = AssignPatternClause(
       assignSyn,
       ClauseArgumentPtr(new SynonymArgument(varSyn)),
-      "x", false);
+      make_unique<ExpressionArgument>("x", false));
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", "v", pair_set<int, string>{{ 2, "b" }});
@@ -199,7 +199,7 @@ TEST_CASE("Assign Pattern Variable-Exact") {
   patternClause = AssignPatternClause(
       assignSyn,
       ClauseArgumentPtr(new WildcardArgument()),
-      "1", false);
+      make_unique<ExpressionArgument>("1", false));
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{ 1 });
@@ -210,7 +210,7 @@ TEST_CASE("Assign Pattern Variable-Exact") {
   patternClause = AssignPatternClause(
       assignSyn,
       ClauseArgumentPtr(new WildcardArgument()),
-      "x", false);
+      make_unique<ExpressionArgument>("x", false));
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{ 2 });
@@ -231,7 +231,7 @@ TEST_CASE("Assign Pattern Variable-Partial") {
   AssignPatternClause patternClause(
       assignSyn,
       ClauseArgumentPtr(new SynonymArgument(varSyn)),
-      "1", true);
+      make_unique<ExpressionArgument>("1", true));
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", "v", pair_set<int, string>{
@@ -245,7 +245,7 @@ TEST_CASE("Assign Pattern Variable-Partial") {
   patternClause = AssignPatternClause(
       assignSyn,
       ClauseArgumentPtr(new SynonymArgument(varSyn)),
-      "x", true);
+      make_unique<ExpressionArgument>("x", true));
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", "v", pair_set<int, string>{
@@ -259,7 +259,7 @@ TEST_CASE("Assign Pattern Variable-Partial") {
   patternClause = AssignPatternClause(
       assignSyn,
       ClauseArgumentPtr(new WildcardArgument()),
-      "2", true);
+      make_unique<ExpressionArgument>("2", true));
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{ 3, 5 });
@@ -270,7 +270,7 @@ TEST_CASE("Assign Pattern Variable-Partial") {
   patternClause = AssignPatternClause(
       assignSyn,
       ClauseArgumentPtr(new WildcardArgument()),
-      "y", true);
+      make_unique<ExpressionArgument>("y", true));
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{ 4, 5 });
