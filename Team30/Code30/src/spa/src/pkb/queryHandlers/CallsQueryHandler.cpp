@@ -8,7 +8,7 @@ CallsQueryHandler::CallsQueryHandler(
       entityProvider(entityProvider) {}
 
 bool CallsQueryHandler::validateArg1(EntityRef arg) const {
-  return arg.type == EntityType::Procedure;
+  return arg.type == EntityType::None || arg.type == EntityType::Procedure;
 }
 
 bool CallsQueryHandler::validateArg2(EntityRef arg) const {
