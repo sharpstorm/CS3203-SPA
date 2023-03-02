@@ -7,13 +7,11 @@
 using std::unordered_set;
 
 AssignPatternClause::AssignPatternClause(PQLQuerySynonym assignSynonym,
-                                         ClauseArgumentPtr leftArgument,
-                                         string patternPhrase,
-                                         bool allowPartial):
+                                         ClauseArgumentPtr leftArg,
+                                         ExpressionArgumentPtr rightArg):
     assignSynonym(assignSynonym),
-    leftArgument(std::move(leftArgument)),
-    patternPhrase(patternPhrase),
-    allowPartial(allowPartial) {}
+    leftArgument(std::move(leftArg)),
+    rightArgument(std::move(rightArg)) {}
 
 PQLQueryResult *AssignPatternClause::evaluateOn(
     shared_ptr<PkbQueryHandler> pkbQueryHandler) {
@@ -24,7 +22,7 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
 
   ClauseArgumentPtr synArg = make_unique<SynonymArgument>(assignSynonym);
   QueryResult<int, string> assignResult;
-  if (patternPhrase.empty()) {
+  if (rightArgument->isWildcard()) {
     return Clause::toQueryResult(synArg.get(), leftArgument.get(),
                                  modifiesResult);
   } else {
@@ -38,8 +36,8 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
       shared_ptr<IASTNode> lineRoot = *nodes.secondArgVals.begin();
       // DFS to match
       // If successful, add to query result table
-      if ((!allowPartial && matchExact(lineRoot))
-          || allowPartial && matchPartial(lineRoot)) {
+      if ((!rightArgument->allowsPartial() && matchExact(lineRoot))
+          || rightArgument->allowsPartial() && matchPartial(lineRoot)) {
         assignResult.add(it.first, it.second);
       }
     }
@@ -73,7 +71,7 @@ bool AssignPatternClause::matchPartial(shared_ptr<IASTNode> node) {
 
   if (node->getType() == ASTNODE_VARIABLE ||
       node->getType() == ASTNODE_CONSTANT) {
-    return node->getValue() == patternPhrase;
+    return node->getValue() == rightArgument->getPattern();
   }
 
   return matchPartial(node->getChild(0))
@@ -85,6 +83,6 @@ bool AssignPatternClause::matchExact(shared_ptr<IASTNode> rootNode) {
       rootNode->getType() != ASTNODE_CONSTANT) {
     return false;
   }
-  return rootNode->getValue() == patternPhrase;
+  return rootNode->getValue() == rightArgument->getPattern();
 }
 
