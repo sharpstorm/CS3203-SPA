@@ -80,12 +80,12 @@ PatternClausePtr PQLPatternContext::dispatchTwoArg(
 PatternClausePtr PQLPatternContext::dispatchThreeArg(
     PQLQuerySynonym* synonym,
     ExpressionArgumentPtr secondArg) {
-  if (synonym == nullptr || !synonym->isType(PQL_SYN_TYPE_WHILE)) {
-    return nullptr;
-  }
-
   if (!secondArg->isWildcard()) {
     throw QPSParserSyntaxError(QPS_PARSER_ERR_UNEXPECTED);
+  }
+
+  if (synonym == nullptr || !synonym->isType(PQL_SYN_TYPE_WHILE)) {
+    return nullptr;
   }
 
   return make_unique<WhilePatternClause>(*synonym);

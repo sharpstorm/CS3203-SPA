@@ -292,6 +292,19 @@ TEST_CASE("Test PQL Pattern Invalid Syntax") {
           ->closeBracket()
           ->build()
   ), QPSParserSyntaxError);
+
+  REQUIRE_THROWS_AS(testAssignPatternParsing(
+      make_unique<PQLTestTokenSequenceBuilder>()
+          ->synonym("a")
+          ->openBracket()
+          ->wildcard()
+          ->comma()
+          ->ident("abc")
+          ->comma()
+          ->wildcard()
+          ->closeBracket()
+          ->build()
+  ), QPSParserSyntaxError);
 }
 
 TEST_CASE("Test PQL Pattern invalid (_, literal) synonym types") {
