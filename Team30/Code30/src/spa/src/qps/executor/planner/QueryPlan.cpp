@@ -1,22 +1,18 @@
 #include "QueryPlan.h"
 
-QueryPlan::QueryPlan(
-    vector<IEvaluatableSPtr> conditionalClauses,
-    vector<MergeStrategy> mergeStrategy):
-    conditionalClauses(conditionalClauses), mergeStrategy(mergeStrategy) {}
+#include <utility>
+
+QueryPlan::QueryPlan(vector<QueryGroupPlanPtr> groups):
+    clauseGroups(std::move(groups)) {}
+
+int QueryPlan::getGroupCount() {
+  return clauseGroups.size();
+}
+
+QueryGroupPlan *QueryPlan::getGroup(int groupId) {
+  return clauseGroups.at(groupId).get();
+}
 
 bool QueryPlan::isEmpty() {
-  return conditionalClauses.size() == 0;
-}
-
-QueryPlan::MergeStrategy QueryPlan::strategyFor(int rightClausePosition) {
-  if (rightClausePosition < 1
-      || rightClausePosition > conditionalClauses.size() - 1) {
-    return SKIP;
-  }
-  return mergeStrategy[rightClausePosition - 1];
-}
-
-vector<IEvaluatableSPtr> QueryPlan::getConditionalClauses() {
-  return conditionalClauses;
+  return clauseGroups.empty();
 }
