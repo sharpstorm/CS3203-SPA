@@ -76,12 +76,12 @@ none
 16 - Parent and pattern (_,_)
 while a;
 Select a such that Parent(a, 10) pattern a (_,_)
-SyntaxError
+SemanticError
 5000
 17 - Parent and pattern (_,_)
 if a;
 Select a such that Parent(a, 10) pattern a (_,_)
-SyntaxError
+
 5000
 18 - Parent and pattern (_,_)
 assign a1, a2;
@@ -91,12 +91,12 @@ none
 19 - Parent and pattern (_,_)
 if a1; assign a2;
 Select a1 such that Parent(a1,a2) pattern a1 (_,_)
-SyntaxError
+
 5000
 20 - Parent and pattern (_,_)
 while a1; assign a2;
 Select a1 such that Parent(a1,a2) pattern a1 (_,_)
-SyntaxError
+SemanticError
 5000
 21 - Parent and pattern (_,_)
 assign a1, a2;
@@ -116,12 +116,12 @@ none
 24 - Parent and pattern a (_,_) - variable
 while a; variable v;
 Select v such that Parent(a, 10) pattern a (_,_)
-SyntaxError
+SemanticError
 5000
 25 - Parent and pattern a (_,_) - variable
 if a; variable v;
 Select v such that Parent(a, 10) pattern a (_,_)
-SyntaxError
+
 5000
 26 - Parent and pattern (_,_)
 if a1; assign a2; variable v;
@@ -141,7 +141,7 @@ none
 29 - Parent and pattern (_,_) - variable
 if a1; assign a2; variable v;
 Select v such that Parent(a1,a2) pattern a1 (_,_)
-SyntaxError
+
 5000
 30 - Parent and pattern (_,_) - variable
 if a1; assign a2; variable v;
@@ -151,7 +151,7 @@ a, z, x, y, j, i
 31 - Parent and pattern (_,_) - variable
 while a1; assign a2; variable v;
 Select v such that Parent(a1,a2) pattern a1 (_,_)
-SyntaxError
+SemanticError
 5000
 32 - Parent and pattern (_,_) - variable
 while a1; assign a2; variable v;
@@ -171,12 +171,12 @@ none
 35 - Parent and pattern (v, _)
 while a; variable v;
 Select a such that Parent(a, 10) pattern a (v, _)
-SyntaxError
+SemanticError
 5000
 36 - Parent and pattern (v, _)
 if a; variable v;
 Select a such that Parent(a, 10) pattern a (v, _)
-SyntaxError
+
 5000
 37 - Parent and pattern (v, _) - variable
 assign a; variable v;
@@ -191,12 +191,12 @@ none
 39 - Parent and pattern (v, _) - variable
 while a; variable v;
 Select v such that Parent(a, 10) pattern a (v, _)
-SyntaxError
+SemanticError
 5000
 40 - Parent and pattern (v, _) - variable
 if a; variable v;
 Select v such that Parent(a, 10) pattern a (v, _)
-SyntaxError
+
 5000
 41 - Parent and pattern (v, _)
 assign a1, a2; variable v;
@@ -206,12 +206,12 @@ none
 42 - Parent and pattern (v, _)
 if a1; assign a2; variable v;
 Select a1 such that Parent(a1, a2) pattern a1 (v, _)
-SyntaxError
+
 5000
 43 - Parent and pattern (v, _)
 while a1; assign a2; variable v;
 Select a1 such that Parent(a1, a2) pattern a1 (v, _)
-SyntaxError
+SemanticError
 5000
 44 - Parent and pattern (v, _)
 assign a1, a2; variable v;
@@ -236,12 +236,12 @@ none
 48 - Parent and pattern (v, _) - variable
 if a1; assign a2; variable v;
 Select v such that Parent(a1, a2) pattern a1 (v, _)
-SyntaxError
+
 5000
 49 - Parent and pattern (v, _) - variable
 while a1; assign a2; variable v;
 Select v such that Parent(a1, a2) pattern a1 (v, _)
-SyntaxError
+SemanticError
 5000
 50 - Parent and pattern (v, _) - variable
 assign a1, a2; variable v;
@@ -271,12 +271,12 @@ none
 55 - Parent and pattern (v, constant)
 if a; variable v;
 Select a such that Parent(a,10) pattern a (v, _"3"_)
-SyntaxError
+SemanticError
 5000
 56 - Parent and pattern (v, constant)
 while a; variable v;
 Select a such that Parent(a,10) pattern a (v, _"3"_)
-SyntaxError
+SemanticError
 5000
 57 - Parent and pattern (v, constant) - variable
 assign a; variable v;
@@ -291,12 +291,12 @@ none
 59 - Parent and pattern (v, constant) - variable
 if a; variable v;
 Select v such that Parent(a,10) pattern a (v, _"3"_)
-SyntaxError
+SemanticError
 5000
 60 - Parent and pattern (v, constant) - variable
 while a; variable v;
 Select v such that Parent(a,10) pattern a (v, _"3"_)
-SyntaxError
+SemanticError
 5000
 61 - Parent and pattern (v, constant)
 assign a1, a2; variable v;
@@ -306,12 +306,12 @@ none
 62 - Parent and pattern (v, constant)
 if a1; assign a2; variable v;
 Select a1 such that Parent(a1, a2) pattern a1 (v, _"3"_)
-SyntaxError
+SemanticError
 5000
 63 - Parent and pattern (v, constant)
 while a1; assign a2; variable v;
 Select a1 such that Parent(a1, a2) pattern a1 (v, _"3"_)
-SyntaxError
+SemanticError
 5000
 64 - Parent and pattern (v, constant)
 assign a1, a2; variable v;
@@ -336,12 +336,12 @@ none
 68 - Parent and pattern (v, constant) - variable
 if a1; assign a2; variable v;
 Select v such that Parent(a1, a2) pattern a1 (v, _"3"_)
-SyntaxError
+SemanticError
 5000
 69 - Parent and pattern (v, constant) - variable
 while a1; assign a2; variable v;
 Select v such that Parent(a1, a2) pattern a1 (v, _"3"_)
-SyntaxError
+SemanticError
 5000
 70 - Parent and pattern (v, constant) - variable
 assign a1, a2; variable v;
@@ -376,12 +376,12 @@ none
 76 - Parent and pattern (v, variable)
 if a; variable v;
 Select a such that Parent(a,10) pattern a (v, _"j"_)
-SyntaxError
+SemanticError
 5000
 77 - Parent and pattern (v, variable)
 while a; variable v;
 Select a such that Parent(a,10) pattern a (v, _"j"_)
-SyntaxError
+SemanticError
 5000
 78 - Parent and pattern (v, variable) - variable
 assign a; variable v;
@@ -396,12 +396,12 @@ none
 80 - Parent and pattern (v, variable) - variable
 if a; variable v;
 Select v such that Parent(a,10) pattern a (v, _"j"_)
-SyntaxError
+SemanticError
 5000
 81 - Parent and pattern (v, variable) - variable
 while a; variable v;
 Select v such that Parent(a,10) pattern a (v, _"j"_)
-SyntaxError
+SemanticError
 5000
 82 - Parent and pattern (v, variable)
 assign a1, a2; variable v;
@@ -411,12 +411,12 @@ none
 83 - Parent and pattern (v, variable)
 if a1; assign a2; variable v;
 Select a1 such that Parent(a1, a2) pattern a1 (v, _"j"_)
-SyntaxError
+SemanticError
 5000
 84 - Parent and pattern (v, variable)
 while a1; assign a2; variable v;
 Select a1 such that Parent(a1, a2) pattern a1 (v, _"j"_)
-SyntaxError
+SemanticError
 5000
 85 - Parent and pattern (v, variable)
 assign a1, a2; variable v;
@@ -441,12 +441,12 @@ none
 89 - Parent and pattern (v, variable) - variable
 if a1; assign a2; variable v;
 Select v such that Parent(a1, a2) pattern a1 (v, _"j"_)
-SyntaxError
+SemanticError
 5000
 90 - Parent and pattern (v, variable) - variable
 while a1; assign a2; variable v;
 Select v such that Parent(a1, a2) pattern a1 (v, _"j"_)
-SyntaxError
+SemanticError
 5000
 91 - Parent and pattern (v, variable) - variable
 assign a1, a2; variable v;
@@ -483,15 +483,15 @@ assign a; variable v;
 Select a such that Uses(a,v) pattern a (_, _)
 4, 7, 8, 9, 10, 12, 13, 14, 15, 17, 18, 23, 24
 5000
-98 - [SYNTAXERROR] Uses(syn,syn) and pattern (_,_)
+98 - [SEMANTICERROR] Uses(syn,syn) and pattern (_,_)
 read a; variable v;
 Select a such that Uses(a,v) pattern a (_, _)
-SyntaxError
+SemanticError
 5000
-99 - [SYNTAXERROR] Uses(syn,syn) and pattern (_,_)
+99 - [SEMANTICERROR] Uses(syn,syn) and pattern (_,_)
 print a; variable v;
 Select a such that Uses(a,v) pattern a (_, _)
-SyntaxError
+SemanticError
 5000
 100 - Uses(syn, static) and pattern (_,_) - variable 
 assign a; variable v;
@@ -558,15 +558,15 @@ assign a; variable v;
 Select a such that Modifies(a,v) pattern a (_, _)
 4, 5, 7, 8, 9, 10, 12, 13, 14, 15, 17, 18, 19, 23, 24
 5000
-113 - [SYNTAXERROR] Modifies(syn,syn) and pattern (_,_)
+113 - [SEMANTICERROR] Modifies(syn,syn) and pattern (_,_)
 read a; variable v;
 Select a such that Modifies(a,v) pattern a (_, _)
-SyntaxError
+SemanticError
 5000
-114 - [SYNTAXERROR] Modifies(syn,syn) and pattern (_,_)
+114 - [SEMANTICERROR] Modifies(syn,syn) and pattern (_,_)
 print a; variable v;
 Select a such that Modifies(a,v) pattern a (_, _)
-SyntaxError
+SemanticError
 5000
 115 - Modifies(syn, static) and pattern (_,_) - variable 
 assign a; variable v;
