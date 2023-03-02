@@ -17,8 +17,9 @@ using std::make_unique;
 PkbWriter::PkbWriter(PKB *pkb)
     : followsWriter(new FollowsWriter(pkb->followsStore)),
       parentWriter(new ParentWriter(pkb->parentStore)),
-      usesWriter(new UsesWriter(pkb->usesStorage)),
-      modifiesWriter(new ModifiesWriter(pkb->modifiesStorage)),
+      usesWriter(new UsesWriter(pkb->usesStorage, pkb->usesPStorage)),
+      modifiesWriter(new ModifiesWriter(pkb->modifiesStorage,
+                                        pkb->modifiesPStorage)),
       symbolWriter(new SymbolWriter(pkb->symbolStorage)),
       statementWriter(new StatementWriter(pkb->statementStorage)),
       procedureWriter(new ProcedureWriter(pkb->procedureStorage)),
@@ -46,12 +47,12 @@ void PkbWriter::addStatement(int lineNumber, StmtType stmtType) {
   statementWriter->addStatement(lineNumber, stmtType);
 }
 
-void PkbWriter::addUses(int stmtNum, string variable) {
-  usesWriter->addUses(stmtNum, variable);
+void PkbWriter::addUses(int stmtNum, string variable, string procedure) {
+  usesWriter->addUses(stmtNum, variable, procedure);
 }
 
-void PkbWriter::addModifies(int stmtNum, string variable) {
-  modifiesWriter->addModifies(stmtNum, variable);
+void PkbWriter::addModifies(int stmtNum, string variable, string procedure) {
+  modifiesWriter->addModifies(stmtNum, variable, procedure);
 }
 
 void PkbWriter::addAssigns(int stmtNum, shared_ptr<IASTNode> ast) {

@@ -15,13 +15,13 @@ TEST_CASE("Modifies (StmtRef, EntityRef)") {
   auto writer = PkbWriter(pkb.get());
   auto handler = PkbQueryHandler(pkb.get());
 
-  writer.addModifies(3, "x");
-  writer.addModifies(4, "x");
-  writer.addModifies(4, "y");
-  writer.addModifies(1, "x");
-  writer.addModifies(1, "y");
-  writer.addModifies(2, "x");
-  writer.addModifies(2, "y");
+  writer.addModifies(3, "x", "main");
+  writer.addModifies(4, "x", "main");
+  writer.addModifies(4, "y", "main");
+  writer.addModifies(1, "x", "main");
+  writer.addModifies(1, "y", "main");
+  writer.addModifies(2, "x", "main");
+  writer.addModifies(2, "y", "main");
   writer.addStatement(1, StmtType::While);
   writer.addStatement(2, StmtType::If);
   writer.addStatement(3, StmtType::Read);
@@ -54,11 +54,11 @@ TEST_CASE("Modifies (EntityRef, EntityRef)") {
   auto writer = PkbWriter(pkb.get());
   auto handler = PkbQueryHandler(pkb.get());
 
-  writer.addModifies(2, "x");
-  writer.addModifies(3, "z");
-  writer.addModifies(4, "z");
-  writer.addModifies(1, "x");
-  writer.addModifies(1, "y");
+  writer.addModifies(2, "x", "main");
+  writer.addModifies(3, "z", "main");
+  writer.addModifies(4, "z", "main");
+  writer.addModifies(1, "x", "main");
+  writer.addModifies(1, "y", "main");
   writer.addStatement(1, StmtType::While);
   writer.addStatement(2, StmtType::Read);
   writer.addStatement(3, StmtType::Assign);

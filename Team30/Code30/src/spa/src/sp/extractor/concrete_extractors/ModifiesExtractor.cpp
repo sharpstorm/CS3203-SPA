@@ -38,5 +38,5 @@ void ModifiesExtractor::addNodeModifies(StatementASTNode *node,
 }
 
 void ModifiesExtractor::addModifiesRelation(int x, string var) {
-  pkbWriter->addModifies(x, var);
+  pkbWriter->addModifies(x, var, "example"); // todo
 }
