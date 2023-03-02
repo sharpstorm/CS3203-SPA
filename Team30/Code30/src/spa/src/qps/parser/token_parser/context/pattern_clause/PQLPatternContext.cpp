@@ -1,6 +1,7 @@
 #include "PQLPatternContext.h"
 
 #include <memory>
+#include <utility>
 
 #include "qps/errors/QPSParserSyntaxError.h"
 #include "qps/parser/token_parser/ref_extractor/PQLEntityRefExtractor.h"
@@ -8,7 +9,7 @@
 #include "qps/clauses/pattern/IfPatternClause.h"
 #include "qps/clauses/pattern/AssignPatternClause.h"
 
-using std::make_unique;
+using std::make_unique, std::move;
 
 void PQLPatternContext::parse(QueryTokenParseState *parserState) {
   parserState->advanceStage(TOKEN_PARSE_STAGE_PATTERN_MARKER);
@@ -100,7 +101,8 @@ ExpressionArgumentPtr PQLPatternContext::extractExpression(
   }
 
   if (parserState->getCurrentToken()->isCategory(PQL_LITERAL_TOKEN)) {
-    nextToken = parserState->expect(PQL_TOKEN_LITERAL, PQL_TOKEN_STRING_LITERAL);
+    nextToken = parserState->expect(PQL_TOKEN_LITERAL,
+                                    PQL_TOKEN_STRING_LITERAL);
     parserState->expect(PQL_TOKEN_UNDERSCORE);
     return make_unique<ExpressionArgument>(nextToken->getData(), true);
   }

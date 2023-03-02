@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "qps/common/PQLQuerySynonym.h"
 #include "qps/common/PQLQueryResult.h"
 #include "qps/common/IEvaluatable.h"
