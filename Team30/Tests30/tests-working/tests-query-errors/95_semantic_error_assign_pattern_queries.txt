@@ -1,495 +1,1365 @@
-1 - Assign Pattern Semantic Error a1(c1)
+1 - Pattern Left Arg OK a1(v1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select p1 pattern a1(v1, "b")
+2
+5000
+2 - Pattern LeftArg Semantic Error a1(c1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
 Select s1 pattern a1(c1, _)
 SemanticError
 5000
-2 - Assign Pattern Syntax Error c1(v1)
+3 - Pattern (v1, Literal) Semantic Error c1(v1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern c1(v1, "1")
+SemanticError
+5000
+4 - Pattern (c1, Literal) Semantic Error c1(c1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern c1(c1, "1")
+SemanticError
+5000
+5 - Pattern (v1, _) OK a1(v1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select p1 pattern a1(v1, _)
+2
+5000
+6 - Pattern (v1, _) Semantic Error c1(v1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
 Select s1 pattern c1(v1, _)
-SyntaxError
+SemanticError
 5000
-3 - Assign Pattern Syntax Error c1(c1)
+7 - Pattern (c1, _) Semantic Error c1(c1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
 Select s1 pattern c1(c1, _)
-SyntaxError
+SemanticError
 5000
-4 - Assign Pattern Syntax Error pr1(v1)
+8 - Pattern Left Arg OK w1(v1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern pr1(v1, _)
-SyntaxError
+Select p1 pattern w1(v1, _, _)
+2
 5000
-5 - Assign Pattern Syntax Error pr1(c1)
+9 - Pattern (v1, _, _) Semantic Error c1(v1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern pr1(c1, _)
-SyntaxError
+Select s1 pattern c1(v1, _, _)
+SemanticError
 5000
-6 - Assign Pattern Syntax Error v1(v1)
+10 - Assign (c1, _, _) Pattern Semantic Error c1(c1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern v1(v1, _)
-SyntaxError
+Select s1 pattern c1(c1, _, _)
+SemanticError
 5000
-7 - Assign Pattern Syntax Error v1(c1)
+11 - Pattern (v1, Literal) Semantic Error pr1(v1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern v1(c1, _)
-SyntaxError
+Select s1 pattern pr1(v1, "1")
+SemanticError
 5000
-8 - Assign Pattern Syntax Error r1(v1)
+12 - Pattern (c1, Literal) Semantic Error pr1(c1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern r1(v1, _)
-SyntaxError
+Select s1 pattern pr1(c1, "1")
+SemanticError
 5000
-9 - Assign Pattern Syntax Error r1(c1)
+13 - Pattern (v1, Literal) Semantic Error v1(v1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern r1(c1, _)
-SyntaxError
+Select s1 pattern v1(v1, "1")
+SemanticError
 5000
-10 - Assign Pattern Syntax Error p1(v1)
+14 - Pattern (c1, Literal) Semantic Error v1(c1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern p1(v1, _)
-SyntaxError
+Select s1 pattern v1(c1, "1")
+SemanticError
 5000
-11 - Assign Pattern Syntax Error p1(c1)
+15 - Pattern (v1, Literal) Semantic Error r1(v1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern p1(c1, _)
-SyntaxError
+Select s1 pattern r1(v1, "1")
+SemanticError
 5000
-12 - Assign Pattern Syntax Error i1(v1)
+16 - Pattern (c1, Literal) Semantic Error r1(c1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern i1(v1, _)
-SyntaxError
+Select s1 pattern r1(c1, "1")
+SemanticError
 5000
-13 - Assign Pattern Syntax Error i1(c1)
+17 - Pattern (v1, Literal) Semantic Error p1(v1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern i1(c1, _)
-SyntaxError
+Select s1 pattern p1(v1, "1")
+SemanticError
 5000
-14 - Assign Pattern Syntax Error w1(v1)
+18 - Pattern (c1, Literal) Semantic Error p1(c1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern w1(v1, _)
-SyntaxError
+Select s1 pattern p1(c1, "1")
+SemanticError
 5000
-15 - Assign Pattern Syntax Error w1(c1)
+19 - Pattern (v1, Literal) Semantic Error i1(v1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern w1(c1, _)
-SyntaxError
+Select s1 pattern i1(v1, "1")
+SemanticError
 5000
-16 - Assign Pattern Syntax Error s1(v1)
+20 - Pattern (c1, Literal) Semantic Error i1(c1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern s1(v1, _)
-SyntaxError
+Select s1 pattern i1(c1, "1")
+SemanticError
 5000
-17 - Assign Pattern Syntax Error s1(c1)
+21 - Pattern (v1, Literal) Semantic Error w1(v1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern s1(c1, _)
-SyntaxError
+Select s1 pattern w1(v1, "1")
+SemanticError
 5000
-18 - Assign Pattern Syntax Error cl1(v1)
+22 - Pattern (c1, Literal) Semantic Error w1(c1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern cl1(v1, _)
-SyntaxError
+Select s1 pattern w1(c1, "1")
+SemanticError
 5000
-19 - Assign Pattern Syntax Error cl1(c1)
+23 - Pattern (v1, Literal) Semantic Error s1(v1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern cl1(c1, _)
-SyntaxError
+Select s1 pattern s1(v1, "1")
+SemanticError
 5000
-20 - Assign Pattern Semantic Error a1(pr1)
+24 - Pattern (c1, Literal) Semantic Error s1(c1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern s1(c1, "1")
+SemanticError
+5000
+25 - Pattern (v1, Literal) Semantic Error cl1(v1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern cl1(v1, "1")
+SemanticError
+5000
+26 - Pattern (c1, Literal) Semantic Error cl1(c1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern cl1(c1, "1")
+SemanticError
+5000
+27 - Pattern LeftArg Semantic Error a1(pr1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
 Select s1 pattern a1(pr1, _)
 SemanticError
 5000
-21 - Assign Pattern Syntax Error c1(pr1)
+28 - Pattern (pr1, Literal) Semantic Error c1(pr1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern c1(pr1, "1")
+SemanticError
+5000
+29 - Pattern (pr1, _) Semantic Error c1(pr1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
 Select s1 pattern c1(pr1, _)
-SyntaxError
+SemanticError
 5000
-22 - Assign Pattern Syntax Error pr1(pr1)
+30 - Assign (pr1, _, _) Pattern Semantic Error c1(pr1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern pr1(pr1, _)
-SyntaxError
+Select s1 pattern c1(pr1, _, _)
+SemanticError
 5000
-23 - Assign Pattern Syntax Error v1(pr1)
+31 - Pattern (pr1, Literal) Semantic Error pr1(pr1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern v1(pr1, _)
-SyntaxError
+Select s1 pattern pr1(pr1, "1")
+SemanticError
 5000
-24 - Assign Pattern Syntax Error r1(pr1)
+32 - Pattern (pr1, Literal) Semantic Error v1(pr1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern r1(pr1, _)
-SyntaxError
+Select s1 pattern v1(pr1, "1")
+SemanticError
 5000
-25 - Assign Pattern Syntax Error p1(pr1)
+33 - Pattern (pr1, Literal) Semantic Error r1(pr1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern p1(pr1, _)
-SyntaxError
+Select s1 pattern r1(pr1, "1")
+SemanticError
 5000
-26 - Assign Pattern Syntax Error i1(pr1)
+34 - Pattern (pr1, Literal) Semantic Error p1(pr1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern i1(pr1, _)
-SyntaxError
+Select s1 pattern p1(pr1, "1")
+SemanticError
 5000
-27 - Assign Pattern Syntax Error w1(pr1)
+35 - Pattern (pr1, Literal) Semantic Error i1(pr1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern w1(pr1, _)
-SyntaxError
+Select s1 pattern i1(pr1, "1")
+SemanticError
 5000
-28 - Assign Pattern Syntax Error s1(pr1)
+36 - Pattern (pr1, Literal) Semantic Error w1(pr1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern s1(pr1, _)
-SyntaxError
+Select s1 pattern w1(pr1, "1")
+SemanticError
 5000
-29 - Assign Pattern Syntax Error cl1(pr1)
+37 - Pattern (pr1, Literal) Semantic Error s1(pr1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern cl1(pr1, _)
-SyntaxError
+Select s1 pattern s1(pr1, "1")
+SemanticError
 5000
-30 - Assign Pattern Semantic Error a1(a1)
+38 - Pattern (pr1, Literal) Semantic Error cl1(pr1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern cl1(pr1, "1")
+SemanticError
+5000
+39 - Pattern LeftArg Semantic Error a1(a1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
 Select s1 pattern a1(a1, _)
 SemanticError
 5000
-31 - Assign Pattern Syntax Error c1(a1)
+40 - Pattern (a1, Literal) Semantic Error c1(a1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern c1(a1, "1")
+SemanticError
+5000
+41 - Pattern (a1, _) Semantic Error c1(a1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
 Select s1 pattern c1(a1, _)
-SyntaxError
+SemanticError
 5000
-32 - Assign Pattern Syntax Error pr1(a1)
+42 - Assign (a1, _, _) Pattern Semantic Error c1(a1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern pr1(a1, _)
-SyntaxError
+Select s1 pattern c1(a1, _, _)
+SemanticError
 5000
-33 - Assign Pattern Syntax Error v1(a1)
+43 - Pattern (a1, Literal) Semantic Error pr1(a1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern v1(a1, _)
-SyntaxError
+Select s1 pattern pr1(a1, "1")
+SemanticError
 5000
-34 - Assign Pattern Syntax Error r1(a1)
+44 - Pattern (a1, Literal) Semantic Error v1(a1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern r1(a1, _)
-SyntaxError
+Select s1 pattern v1(a1, "1")
+SemanticError
 5000
-35 - Assign Pattern Syntax Error p1(a1)
+45 - Pattern (a1, Literal) Semantic Error r1(a1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern p1(a1, _)
-SyntaxError
+Select s1 pattern r1(a1, "1")
+SemanticError
 5000
-36 - Assign Pattern Syntax Error i1(a1)
+46 - Pattern (a1, Literal) Semantic Error p1(a1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern i1(a1, _)
-SyntaxError
+Select s1 pattern p1(a1, "1")
+SemanticError
 5000
-37 - Assign Pattern Syntax Error w1(a1)
+47 - Pattern (a1, Literal) Semantic Error i1(a1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern w1(a1, _)
-SyntaxError
+Select s1 pattern i1(a1, "1")
+SemanticError
 5000
-38 - Assign Pattern Syntax Error s1(a1)
+48 - Pattern (a1, Literal) Semantic Error w1(a1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern s1(a1, _)
-SyntaxError
+Select s1 pattern w1(a1, "1")
+SemanticError
 5000
-39 - Assign Pattern Syntax Error cl1(a1)
+49 - Pattern (a1, Literal) Semantic Error s1(a1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern cl1(a1, _)
-SyntaxError
+Select s1 pattern s1(a1, "1")
+SemanticError
 5000
-40 - Assign Pattern Semantic Error a1(r1)
+50 - Pattern (a1, Literal) Semantic Error cl1(a1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern cl1(a1, "1")
+SemanticError
+5000
+51 - Pattern LeftArg Semantic Error a1(r1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
 Select s1 pattern a1(r1, _)
 SemanticError
 5000
-41 - Assign Pattern Syntax Error c1(r1)
+52 - Pattern (r1, Literal) Semantic Error c1(r1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern c1(r1, "1")
+SemanticError
+5000
+53 - Pattern (r1, _) Semantic Error c1(r1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
 Select s1 pattern c1(r1, _)
-SyntaxError
+SemanticError
 5000
-42 - Assign Pattern Syntax Error pr1(r1)
+54 - Assign (r1, _, _) Pattern Semantic Error c1(r1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern pr1(r1, _)
-SyntaxError
+Select s1 pattern c1(r1, _, _)
+SemanticError
 5000
-43 - Assign Pattern Syntax Error v1(r1)
+55 - Pattern (r1, Literal) Semantic Error pr1(r1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern v1(r1, _)
-SyntaxError
+Select s1 pattern pr1(r1, "1")
+SemanticError
 5000
-44 - Assign Pattern Syntax Error r1(r1)
+56 - Pattern (r1, Literal) Semantic Error v1(r1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern r1(r1, _)
-SyntaxError
+Select s1 pattern v1(r1, "1")
+SemanticError
 5000
-45 - Assign Pattern Syntax Error p1(r1)
+57 - Pattern (r1, Literal) Semantic Error r1(r1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern p1(r1, _)
-SyntaxError
+Select s1 pattern r1(r1, "1")
+SemanticError
 5000
-46 - Assign Pattern Syntax Error i1(r1)
+58 - Pattern (r1, Literal) Semantic Error p1(r1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern i1(r1, _)
-SyntaxError
+Select s1 pattern p1(r1, "1")
+SemanticError
 5000
-47 - Assign Pattern Syntax Error w1(r1)
+59 - Pattern (r1, Literal) Semantic Error i1(r1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern w1(r1, _)
-SyntaxError
+Select s1 pattern i1(r1, "1")
+SemanticError
 5000
-48 - Assign Pattern Syntax Error s1(r1)
+60 - Pattern (r1, Literal) Semantic Error w1(r1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern s1(r1, _)
-SyntaxError
+Select s1 pattern w1(r1, "1")
+SemanticError
 5000
-49 - Assign Pattern Syntax Error cl1(r1)
+61 - Pattern (r1, Literal) Semantic Error s1(r1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern cl1(r1, _)
-SyntaxError
+Select s1 pattern s1(r1, "1")
+SemanticError
 5000
-50 - Assign Pattern Semantic Error a1(p1)
+62 - Pattern (r1, Literal) Semantic Error cl1(r1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern cl1(r1, "1")
+SemanticError
+5000
+63 - Pattern LeftArg Semantic Error a1(p1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
 Select s1 pattern a1(p1, _)
 SemanticError
 5000
-51 - Assign Pattern Syntax Error c1(p1)
+64 - Pattern (p1, Literal) Semantic Error c1(p1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern c1(p1, "1")
+SemanticError
+5000
+65 - Pattern (p1, _) Semantic Error c1(p1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
 Select s1 pattern c1(p1, _)
-SyntaxError
+SemanticError
 5000
-52 - Assign Pattern Syntax Error pr1(p1)
+66 - Assign (p1, _, _) Pattern Semantic Error c1(p1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern pr1(p1, _)
-SyntaxError
+Select s1 pattern c1(p1, _, _)
+SemanticError
 5000
-53 - Assign Pattern Syntax Error v1(p1)
+67 - Pattern (p1, Literal) Semantic Error pr1(p1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern v1(p1, _)
-SyntaxError
+Select s1 pattern pr1(p1, "1")
+SemanticError
 5000
-54 - Assign Pattern Syntax Error r1(p1)
+68 - Pattern (p1, Literal) Semantic Error v1(p1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern r1(p1, _)
-SyntaxError
+Select s1 pattern v1(p1, "1")
+SemanticError
 5000
-55 - Assign Pattern Syntax Error p1(p1)
+69 - Pattern (p1, Literal) Semantic Error r1(p1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern p1(p1, _)
-SyntaxError
+Select s1 pattern r1(p1, "1")
+SemanticError
 5000
-56 - Assign Pattern Syntax Error i1(p1)
+70 - Pattern (p1, Literal) Semantic Error p1(p1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern i1(p1, _)
-SyntaxError
+Select s1 pattern p1(p1, "1")
+SemanticError
 5000
-57 - Assign Pattern Syntax Error w1(p1)
+71 - Pattern (p1, Literal) Semantic Error i1(p1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern w1(p1, _)
-SyntaxError
+Select s1 pattern i1(p1, "1")
+SemanticError
 5000
-58 - Assign Pattern Syntax Error s1(p1)
+72 - Pattern (p1, Literal) Semantic Error w1(p1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern s1(p1, _)
-SyntaxError
+Select s1 pattern w1(p1, "1")
+SemanticError
 5000
-59 - Assign Pattern Syntax Error cl1(p1)
+73 - Pattern (p1, Literal) Semantic Error s1(p1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern cl1(p1, _)
-SyntaxError
+Select s1 pattern s1(p1, "1")
+SemanticError
 5000
-60 - Assign Pattern Semantic Error a1(i1)
+74 - Pattern (p1, Literal) Semantic Error cl1(p1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern cl1(p1, "1")
+SemanticError
+5000
+75 - Pattern LeftArg Semantic Error a1(i1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
 Select s1 pattern a1(i1, _)
 SemanticError
 5000
-61 - Assign Pattern Syntax Error c1(i1)
+76 - Pattern (i1, Literal) Semantic Error c1(i1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern c1(i1, "1")
+SemanticError
+5000
+77 - Pattern (i1, _) Semantic Error c1(i1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
 Select s1 pattern c1(i1, _)
-SyntaxError
+SemanticError
 5000
-62 - Assign Pattern Syntax Error pr1(i1)
+78 - Assign (i1, _, _) Pattern Semantic Error c1(i1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern pr1(i1, _)
-SyntaxError
+Select s1 pattern c1(i1, _, _)
+SemanticError
 5000
-63 - Assign Pattern Syntax Error v1(i1)
+79 - Pattern (i1, Literal) Semantic Error pr1(i1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern v1(i1, _)
-SyntaxError
+Select s1 pattern pr1(i1, "1")
+SemanticError
 5000
-64 - Assign Pattern Syntax Error r1(i1)
+80 - Pattern (i1, Literal) Semantic Error v1(i1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern r1(i1, _)
-SyntaxError
+Select s1 pattern v1(i1, "1")
+SemanticError
 5000
-65 - Assign Pattern Syntax Error p1(i1)
+81 - Pattern (i1, Literal) Semantic Error r1(i1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern p1(i1, _)
-SyntaxError
+Select s1 pattern r1(i1, "1")
+SemanticError
 5000
-66 - Assign Pattern Syntax Error i1(i1)
+82 - Pattern (i1, Literal) Semantic Error p1(i1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern i1(i1, _)
-SyntaxError
+Select s1 pattern p1(i1, "1")
+SemanticError
 5000
-67 - Assign Pattern Syntax Error w1(i1)
+83 - Pattern (i1, Literal) Semantic Error i1(i1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern w1(i1, _)
-SyntaxError
+Select s1 pattern i1(i1, "1")
+SemanticError
 5000
-68 - Assign Pattern Syntax Error s1(i1)
+84 - Pattern (i1, Literal) Semantic Error w1(i1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern s1(i1, _)
-SyntaxError
+Select s1 pattern w1(i1, "1")
+SemanticError
 5000
-69 - Assign Pattern Syntax Error cl1(i1)
+85 - Pattern (i1, Literal) Semantic Error s1(i1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern cl1(i1, _)
-SyntaxError
+Select s1 pattern s1(i1, "1")
+SemanticError
 5000
-70 - Assign Pattern Semantic Error a1(w1)
+86 - Pattern (i1, Literal) Semantic Error cl1(i1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern cl1(i1, "1")
+SemanticError
+5000
+87 - Pattern LeftArg Semantic Error a1(w1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
 Select s1 pattern a1(w1, _)
 SemanticError
 5000
-71 - Assign Pattern Syntax Error c1(w1)
+88 - Pattern (w1, Literal) Semantic Error c1(w1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern c1(w1, "1")
+SemanticError
+5000
+89 - Pattern (w1, _) Semantic Error c1(w1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
 Select s1 pattern c1(w1, _)
-SyntaxError
+SemanticError
 5000
-72 - Assign Pattern Syntax Error pr1(w1)
+90 - Assign (w1, _, _) Pattern Semantic Error c1(w1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern pr1(w1, _)
-SyntaxError
+Select s1 pattern c1(w1, _, _)
+SemanticError
 5000
-73 - Assign Pattern Syntax Error v1(w1)
+91 - Pattern (w1, Literal) Semantic Error pr1(w1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern v1(w1, _)
-SyntaxError
+Select s1 pattern pr1(w1, "1")
+SemanticError
 5000
-74 - Assign Pattern Syntax Error r1(w1)
+92 - Pattern (w1, Literal) Semantic Error v1(w1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern r1(w1, _)
-SyntaxError
+Select s1 pattern v1(w1, "1")
+SemanticError
 5000
-75 - Assign Pattern Syntax Error p1(w1)
+93 - Pattern (w1, Literal) Semantic Error r1(w1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern p1(w1, _)
-SyntaxError
+Select s1 pattern r1(w1, "1")
+SemanticError
 5000
-76 - Assign Pattern Syntax Error i1(w1)
+94 - Pattern (w1, Literal) Semantic Error p1(w1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern i1(w1, _)
-SyntaxError
+Select s1 pattern p1(w1, "1")
+SemanticError
 5000
-77 - Assign Pattern Syntax Error w1(w1)
+95 - Pattern (w1, Literal) Semantic Error i1(w1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern w1(w1, _)
-SyntaxError
+Select s1 pattern i1(w1, "1")
+SemanticError
 5000
-78 - Assign Pattern Syntax Error s1(w1)
+96 - Pattern (w1, Literal) Semantic Error w1(w1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern s1(w1, _)
-SyntaxError
+Select s1 pattern w1(w1, "1")
+SemanticError
 5000
-79 - Assign Pattern Syntax Error cl1(w1)
+97 - Pattern (w1, Literal) Semantic Error s1(w1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern cl1(w1, _)
-SyntaxError
+Select s1 pattern s1(w1, "1")
+SemanticError
 5000
-80 - Assign Pattern Semantic Error a1(s1)
+98 - Pattern (w1, Literal) Semantic Error cl1(w1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern cl1(w1, "1")
+SemanticError
+5000
+99 - Pattern LeftArg Semantic Error a1(s1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
 Select s1 pattern a1(s1, _)
 SemanticError
 5000
-81 - Assign Pattern Syntax Error c1(s1)
+100 - Pattern (s1, Literal) Semantic Error c1(s1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern c1(s1, "1")
+SemanticError
+5000
+101 - Pattern (s1, _) Semantic Error c1(s1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
 Select s1 pattern c1(s1, _)
-SyntaxError
+SemanticError
 5000
-82 - Assign Pattern Syntax Error pr1(s1)
+102 - Assign (s1, _, _) Pattern Semantic Error c1(s1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern pr1(s1, _)
-SyntaxError
+Select s1 pattern c1(s1, _, _)
+SemanticError
 5000
-83 - Assign Pattern Syntax Error v1(s1)
+103 - Pattern (s1, Literal) Semantic Error pr1(s1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern v1(s1, _)
-SyntaxError
+Select s1 pattern pr1(s1, "1")
+SemanticError
 5000
-84 - Assign Pattern Syntax Error r1(s1)
+104 - Pattern (s1, Literal) Semantic Error v1(s1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern r1(s1, _)
-SyntaxError
+Select s1 pattern v1(s1, "1")
+SemanticError
 5000
-85 - Assign Pattern Syntax Error p1(s1)
+105 - Pattern (s1, Literal) Semantic Error r1(s1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern p1(s1, _)
-SyntaxError
+Select s1 pattern r1(s1, "1")
+SemanticError
 5000
-86 - Assign Pattern Syntax Error i1(s1)
+106 - Pattern (s1, Literal) Semantic Error p1(s1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern i1(s1, _)
-SyntaxError
+Select s1 pattern p1(s1, "1")
+SemanticError
 5000
-87 - Assign Pattern Syntax Error w1(s1)
+107 - Pattern (s1, Literal) Semantic Error i1(s1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern w1(s1, _)
-SyntaxError
+Select s1 pattern i1(s1, "1")
+SemanticError
 5000
-88 - Assign Pattern Syntax Error s1(s1)
+108 - Pattern (s1, Literal) Semantic Error w1(s1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern s1(s1, _)
-SyntaxError
+Select s1 pattern w1(s1, "1")
+SemanticError
 5000
-89 - Assign Pattern Syntax Error cl1(s1)
+109 - Pattern (s1, Literal) Semantic Error s1(s1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern cl1(s1, _)
-SyntaxError
+Select s1 pattern s1(s1, "1")
+SemanticError
 5000
-90 - Assign Pattern Semantic Error a1(cl1)
+110 - Pattern (s1, Literal) Semantic Error cl1(s1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern cl1(s1, "1")
+SemanticError
+5000
+111 - Pattern LeftArg Semantic Error a1(cl1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
 Select s1 pattern a1(cl1, _)
 SemanticError
 5000
-91 - Assign Pattern Syntax Error c1(cl1)
+112 - Pattern (cl1, Literal) Semantic Error c1(cl1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern c1(cl1, "1")
+SemanticError
+5000
+113 - Pattern (cl1, _) Semantic Error c1(cl1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
 Select s1 pattern c1(cl1, _)
-SyntaxError
+SemanticError
 5000
-92 - Assign Pattern Syntax Error pr1(cl1)
+114 - Assign (cl1, _, _) Pattern Semantic Error c1(cl1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern c1(cl1, _, _)
+SemanticError
+5000
+115 - Pattern (cl1, Literal) Semantic Error pr1(cl1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern pr1(cl1, "1")
+SemanticError
+5000
+116 - Pattern (cl1, Literal) Semantic Error v1(cl1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern v1(cl1, "1")
+SemanticError
+5000
+117 - Pattern (cl1, Literal) Semantic Error r1(cl1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern r1(cl1, "1")
+SemanticError
+5000
+118 - Pattern (cl1, Literal) Semantic Error p1(cl1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern p1(cl1, "1")
+SemanticError
+5000
+119 - Pattern (cl1, Literal) Semantic Error i1(cl1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern i1(cl1, "1")
+SemanticError
+5000
+120 - Pattern (cl1, Literal) Semantic Error w1(cl1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern w1(cl1, "1")
+SemanticError
+5000
+121 - Pattern (cl1, Literal) Semantic Error s1(cl1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern s1(cl1, "1")
+SemanticError
+5000
+122 - Pattern (cl1, Literal) Semantic Error cl1(cl1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern cl1(cl1, "1")
+SemanticError
+5000
+123 - Pattern (v1, _) Semantic Error pr1(v1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern pr1(v1, _)
+SemanticError
+5000
+124 - Pattern (c1, _) Semantic Error pr1(c1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern pr1(c1, _)
+SemanticError
+5000
+125 - Pattern (pr1, _) Semantic Error pr1(pr1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern pr1(pr1, _)
+SemanticError
+5000
+126 - Pattern (a1, _) Semantic Error pr1(a1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern pr1(a1, _)
+SemanticError
+5000
+127 - Pattern (r1, _) Semantic Error pr1(r1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern pr1(r1, _)
+SemanticError
+5000
+128 - Pattern (p1, _) Semantic Error pr1(p1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern pr1(p1, _)
+SemanticError
+5000
+129 - Pattern (i1, _) Semantic Error pr1(i1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern pr1(i1, _)
+SemanticError
+5000
+130 - Pattern (w1, _) Semantic Error pr1(w1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern pr1(w1, _)
+SemanticError
+5000
+131 - Pattern (s1, _) Semantic Error pr1(s1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern pr1(s1, _)
+SemanticError
+5000
+132 - Pattern (cl1, _) Semantic Error pr1(cl1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
 Select s1 pattern pr1(cl1, _)
-SyntaxError
+SemanticError
 5000
-93 - Assign Pattern Syntax Error v1(cl1)
+133 - Pattern (v1, _) Semantic Error r1(v1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
-Select s1 pattern v1(cl1, _)
-SyntaxError
+Select s1 pattern r1(v1, _)
+SemanticError
 5000
-94 - Assign Pattern Syntax Error r1(cl1)
+134 - Pattern (c1, _) Semantic Error r1(c1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern r1(c1, _)
+SemanticError
+5000
+135 - Pattern (pr1, _) Semantic Error r1(pr1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern r1(pr1, _)
+SemanticError
+5000
+136 - Pattern (a1, _) Semantic Error r1(a1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern r1(a1, _)
+SemanticError
+5000
+137 - Pattern (r1, _) Semantic Error r1(r1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern r1(r1, _)
+SemanticError
+5000
+138 - Pattern (p1, _) Semantic Error r1(p1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern r1(p1, _)
+SemanticError
+5000
+139 - Pattern (i1, _) Semantic Error r1(i1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern r1(i1, _)
+SemanticError
+5000
+140 - Pattern (w1, _) Semantic Error r1(w1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern r1(w1, _)
+SemanticError
+5000
+141 - Pattern (s1, _) Semantic Error r1(s1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern r1(s1, _)
+SemanticError
+5000
+142 - Pattern (cl1, _) Semantic Error r1(cl1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
 Select s1 pattern r1(cl1, _)
-SyntaxError
+SemanticError
 5000
-95 - Assign Pattern Syntax Error p1(cl1)
+143 - Pattern (v1, _) Semantic Error p1(v1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern p1(v1, _)
+SemanticError
+5000
+144 - Pattern (c1, _) Semantic Error p1(c1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern p1(c1, _)
+SemanticError
+5000
+145 - Pattern (pr1, _) Semantic Error p1(pr1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern p1(pr1, _)
+SemanticError
+5000
+146 - Pattern (a1, _) Semantic Error p1(a1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern p1(a1, _)
+SemanticError
+5000
+147 - Pattern (r1, _) Semantic Error p1(r1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern p1(r1, _)
+SemanticError
+5000
+148 - Pattern (p1, _) Semantic Error p1(p1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern p1(p1, _)
+SemanticError
+5000
+149 - Pattern (i1, _) Semantic Error p1(i1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern p1(i1, _)
+SemanticError
+5000
+150 - Pattern (w1, _) Semantic Error p1(w1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern p1(w1, _)
+SemanticError
+5000
+151 - Pattern (s1, _) Semantic Error p1(s1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern p1(s1, _)
+SemanticError
+5000
+152 - Pattern (cl1, _) Semantic Error p1(cl1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
 Select s1 pattern p1(cl1, _)
-SyntaxError
+SemanticError
 5000
-96 - Assign Pattern Syntax Error i1(cl1)
+153 - Pattern (v1, _) Semantic Error i1(v1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern i1(v1, _)
+SemanticError
+5000
+154 - Pattern (c1, _) Semantic Error i1(c1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern i1(c1, _)
+SemanticError
+5000
+155 - Pattern (pr1, _) Semantic Error i1(pr1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern i1(pr1, _)
+SemanticError
+5000
+156 - Pattern (a1, _) Semantic Error i1(a1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern i1(a1, _)
+SemanticError
+5000
+157 - Pattern (r1, _) Semantic Error i1(r1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern i1(r1, _)
+SemanticError
+5000
+158 - Pattern (p1, _) Semantic Error i1(p1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern i1(p1, _)
+SemanticError
+5000
+159 - Pattern (i1, _) Semantic Error i1(i1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern i1(i1, _)
+SemanticError
+5000
+160 - Pattern (w1, _) Semantic Error i1(w1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern i1(w1, _)
+SemanticError
+5000
+161 - Pattern (s1, _) Semantic Error i1(s1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern i1(s1, _)
+SemanticError
+5000
+162 - Pattern (cl1, _) Semantic Error i1(cl1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
 Select s1 pattern i1(cl1, _)
-SyntaxError
+SemanticError
 5000
-97 - Assign Pattern Syntax Error w1(cl1)
+163 - Pattern (v1, _) Semantic Error w1(v1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern w1(v1, _)
+SemanticError
+5000
+164 - Pattern (c1, _) Semantic Error w1(c1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern w1(c1, _)
+SemanticError
+5000
+165 - Pattern (pr1, _) Semantic Error w1(pr1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern w1(pr1, _)
+SemanticError
+5000
+166 - Pattern (a1, _) Semantic Error w1(a1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern w1(a1, _)
+SemanticError
+5000
+167 - Pattern (r1, _) Semantic Error w1(r1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern w1(r1, _)
+SemanticError
+5000
+168 - Pattern (p1, _) Semantic Error w1(p1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern w1(p1, _)
+SemanticError
+5000
+169 - Pattern (i1, _) Semantic Error w1(i1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern w1(i1, _)
+SemanticError
+5000
+170 - Pattern (w1, _) Semantic Error w1(w1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern w1(w1, _)
+SemanticError
+5000
+171 - Pattern (s1, _) Semantic Error w1(s1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern w1(s1, _)
+SemanticError
+5000
+172 - Pattern (cl1, _) Semantic Error w1(cl1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
 Select s1 pattern w1(cl1, _)
-SyntaxError
+SemanticError
 5000
-98 - Assign Pattern Syntax Error s1(cl1)
+173 - Pattern (v1, _) Semantic Error s1(v1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern s1(v1, _)
+SemanticError
+5000
+174 - Pattern (c1, _) Semantic Error s1(c1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern s1(c1, _)
+SemanticError
+5000
+175 - Pattern (pr1, _) Semantic Error s1(pr1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern s1(pr1, _)
+SemanticError
+5000
+176 - Pattern (a1, _) Semantic Error s1(a1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern s1(a1, _)
+SemanticError
+5000
+177 - Pattern (r1, _) Semantic Error s1(r1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern s1(r1, _)
+SemanticError
+5000
+178 - Pattern (p1, _) Semantic Error s1(p1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern s1(p1, _)
+SemanticError
+5000
+179 - Pattern (i1, _) Semantic Error s1(i1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern s1(i1, _)
+SemanticError
+5000
+180 - Pattern (w1, _) Semantic Error s1(w1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern s1(w1, _)
+SemanticError
+5000
+181 - Pattern (s1, _) Semantic Error s1(s1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern s1(s1, _)
+SemanticError
+5000
+182 - Pattern (cl1, _) Semantic Error s1(cl1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
 Select s1 pattern s1(cl1, _)
-SyntaxError
+SemanticError
 5000
-99 - Assign Pattern Syntax Error cl1(cl1)
+183 - Pattern (v1, _) Semantic Error cl1(v1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern cl1(v1, _)
+SemanticError
+5000
+184 - Pattern (c1, _) Semantic Error cl1(c1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern cl1(c1, _)
+SemanticError
+5000
+185 - Pattern (pr1, _) Semantic Error cl1(pr1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern cl1(pr1, _)
+SemanticError
+5000
+186 - Pattern (a1, _) Semantic Error cl1(a1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern cl1(a1, _)
+SemanticError
+5000
+187 - Pattern (r1, _) Semantic Error cl1(r1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern cl1(r1, _)
+SemanticError
+5000
+188 - Pattern (p1, _) Semantic Error cl1(p1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern cl1(p1, _)
+SemanticError
+5000
+189 - Pattern (i1, _) Semantic Error cl1(i1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern cl1(i1, _)
+SemanticError
+5000
+190 - Pattern (w1, _) Semantic Error cl1(w1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern cl1(w1, _)
+SemanticError
+5000
+191 - Pattern (s1, _) Semantic Error cl1(s1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern cl1(s1, _)
+SemanticError
+5000
+192 - Pattern (cl1, _) Semantic Error cl1(cl1)
 stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
 Select s1 pattern cl1(cl1, _)
-SyntaxError
+SemanticError
+5000
+193 - Pattern (v1, _) OK i1(v1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select p1 pattern i1(v1, _)
+2
+5000
+194 - Pattern (v1, _, _) Semantic Error pr1(v1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern pr1(v1, _, _)
+SemanticError
+5000
+195 - Assign (c1, _, _) Pattern Semantic Error pr1(c1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern pr1(c1, _, _)
+SemanticError
+5000
+196 - Assign (pr1, _, _) Pattern Semantic Error pr1(pr1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern pr1(pr1, _, _)
+SemanticError
+5000
+197 - Assign (a1, _, _) Pattern Semantic Error pr1(a1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern pr1(a1, _, _)
+SemanticError
+5000
+198 - Assign (r1, _, _) Pattern Semantic Error pr1(r1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern pr1(r1, _, _)
+SemanticError
+5000
+199 - Assign (p1, _, _) Pattern Semantic Error pr1(p1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern pr1(p1, _, _)
+SemanticError
+5000
+200 - Assign (i1, _, _) Pattern Semantic Error pr1(i1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern pr1(i1, _, _)
+SemanticError
+5000
+201 - Assign (w1, _, _) Pattern Semantic Error pr1(w1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern pr1(w1, _, _)
+SemanticError
+5000
+202 - Assign (s1, _, _) Pattern Semantic Error pr1(s1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern pr1(s1, _, _)
+SemanticError
+5000
+203 - Assign (cl1, _, _) Pattern Semantic Error pr1(cl1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern pr1(cl1, _, _)
+SemanticError
+5000
+204 - Pattern (v1, _, _) Semantic Error r1(v1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern r1(v1, _, _)
+SemanticError
+5000
+205 - Assign (c1, _, _) Pattern Semantic Error r1(c1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern r1(c1, _, _)
+SemanticError
+5000
+206 - Assign (pr1, _, _) Pattern Semantic Error r1(pr1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern r1(pr1, _, _)
+SemanticError
+5000
+207 - Assign (a1, _, _) Pattern Semantic Error r1(a1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern r1(a1, _, _)
+SemanticError
+5000
+208 - Assign (r1, _, _) Pattern Semantic Error r1(r1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern r1(r1, _, _)
+SemanticError
+5000
+209 - Assign (p1, _, _) Pattern Semantic Error r1(p1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern r1(p1, _, _)
+SemanticError
+5000
+210 - Assign (i1, _, _) Pattern Semantic Error r1(i1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern r1(i1, _, _)
+SemanticError
+5000
+211 - Assign (w1, _, _) Pattern Semantic Error r1(w1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern r1(w1, _, _)
+SemanticError
+5000
+212 - Assign (s1, _, _) Pattern Semantic Error r1(s1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern r1(s1, _, _)
+SemanticError
+5000
+213 - Assign (cl1, _, _) Pattern Semantic Error r1(cl1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern r1(cl1, _, _)
+SemanticError
+5000
+214 - Pattern (v1, _, _) Semantic Error p1(v1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern p1(v1, _, _)
+SemanticError
+5000
+215 - Assign (c1, _, _) Pattern Semantic Error p1(c1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern p1(c1, _, _)
+SemanticError
+5000
+216 - Assign (pr1, _, _) Pattern Semantic Error p1(pr1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern p1(pr1, _, _)
+SemanticError
+5000
+217 - Assign (a1, _, _) Pattern Semantic Error p1(a1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern p1(a1, _, _)
+SemanticError
+5000
+218 - Assign (r1, _, _) Pattern Semantic Error p1(r1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern p1(r1, _, _)
+SemanticError
+5000
+219 - Assign (p1, _, _) Pattern Semantic Error p1(p1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern p1(p1, _, _)
+SemanticError
+5000
+220 - Assign (i1, _, _) Pattern Semantic Error p1(i1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern p1(i1, _, _)
+SemanticError
+5000
+221 - Assign (w1, _, _) Pattern Semantic Error p1(w1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern p1(w1, _, _)
+SemanticError
+5000
+222 - Assign (s1, _, _) Pattern Semantic Error p1(s1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern p1(s1, _, _)
+SemanticError
+5000
+223 - Assign (cl1, _, _) Pattern Semantic Error p1(cl1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern p1(cl1, _, _)
+SemanticError
+5000
+224 - Pattern (v1, _, _) Semantic Error i1(v1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern i1(v1, _, _)
+SemanticError
+5000
+225 - Assign (c1, _, _) Pattern Semantic Error i1(c1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern i1(c1, _, _)
+SemanticError
+5000
+226 - Assign (pr1, _, _) Pattern Semantic Error i1(pr1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern i1(pr1, _, _)
+SemanticError
+5000
+227 - Assign (a1, _, _) Pattern Semantic Error i1(a1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern i1(a1, _, _)
+SemanticError
+5000
+228 - Assign (r1, _, _) Pattern Semantic Error i1(r1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern i1(r1, _, _)
+SemanticError
+5000
+229 - Assign (p1, _, _) Pattern Semantic Error i1(p1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern i1(p1, _, _)
+SemanticError
+5000
+230 - Assign (i1, _, _) Pattern Semantic Error i1(i1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern i1(i1, _, _)
+SemanticError
+5000
+231 - Assign (w1, _, _) Pattern Semantic Error i1(w1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern i1(w1, _, _)
+SemanticError
+5000
+232 - Assign (s1, _, _) Pattern Semantic Error i1(s1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern i1(s1, _, _)
+SemanticError
+5000
+233 - Assign (cl1, _, _) Pattern Semantic Error i1(cl1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern i1(cl1, _, _)
+SemanticError
+5000
+234 - Pattern (v1, _, _) Semantic Error w1(v1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern w1(v1, _, _)
+SemanticError
+5000
+235 - Assign (c1, _, _) Pattern Semantic Error w1(c1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern w1(c1, _, _)
+SemanticError
+5000
+236 - Assign (pr1, _, _) Pattern Semantic Error w1(pr1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern w1(pr1, _, _)
+SemanticError
+5000
+237 - Assign (a1, _, _) Pattern Semantic Error w1(a1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern w1(a1, _, _)
+SemanticError
+5000
+238 - Assign (r1, _, _) Pattern Semantic Error w1(r1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern w1(r1, _, _)
+SemanticError
+5000
+239 - Assign (p1, _, _) Pattern Semantic Error w1(p1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern w1(p1, _, _)
+SemanticError
+5000
+240 - Assign (i1, _, _) Pattern Semantic Error w1(i1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern w1(i1, _, _)
+SemanticError
+5000
+241 - Assign (w1, _, _) Pattern Semantic Error w1(w1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern w1(w1, _, _)
+SemanticError
+5000
+242 - Assign (s1, _, _) Pattern Semantic Error w1(s1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern w1(s1, _, _)
+SemanticError
+5000
+243 - Assign (cl1, _, _) Pattern Semantic Error w1(cl1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern w1(cl1, _, _)
+SemanticError
+5000
+244 - Pattern (v1, _, _) Semantic Error s1(v1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern s1(v1, _, _)
+SemanticError
+5000
+245 - Assign (c1, _, _) Pattern Semantic Error s1(c1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern s1(c1, _, _)
+SemanticError
+5000
+246 - Assign (pr1, _, _) Pattern Semantic Error s1(pr1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern s1(pr1, _, _)
+SemanticError
+5000
+247 - Assign (a1, _, _) Pattern Semantic Error s1(a1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern s1(a1, _, _)
+SemanticError
+5000
+248 - Assign (r1, _, _) Pattern Semantic Error s1(r1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern s1(r1, _, _)
+SemanticError
+5000
+249 - Assign (p1, _, _) Pattern Semantic Error s1(p1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern s1(p1, _, _)
+SemanticError
+5000
+250 - Assign (i1, _, _) Pattern Semantic Error s1(i1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern s1(i1, _, _)
+SemanticError
+5000
+251 - Assign (w1, _, _) Pattern Semantic Error s1(w1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern s1(w1, _, _)
+SemanticError
+5000
+252 - Assign (s1, _, _) Pattern Semantic Error s1(s1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern s1(s1, _, _)
+SemanticError
+5000
+253 - Assign (cl1, _, _) Pattern Semantic Error s1(cl1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern s1(cl1, _, _)
+SemanticError
+5000
+254 - Pattern (v1, _, _) Semantic Error cl1(v1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern cl1(v1, _, _)
+SemanticError
+5000
+255 - Assign (c1, _, _) Pattern Semantic Error cl1(c1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern cl1(c1, _, _)
+SemanticError
+5000
+256 - Assign (pr1, _, _) Pattern Semantic Error cl1(pr1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern cl1(pr1, _, _)
+SemanticError
+5000
+257 - Assign (a1, _, _) Pattern Semantic Error cl1(a1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern cl1(a1, _, _)
+SemanticError
+5000
+258 - Assign (r1, _, _) Pattern Semantic Error cl1(r1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern cl1(r1, _, _)
+SemanticError
+5000
+259 - Assign (p1, _, _) Pattern Semantic Error cl1(p1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern cl1(p1, _, _)
+SemanticError
+5000
+260 - Assign (i1, _, _) Pattern Semantic Error cl1(i1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern cl1(i1, _, _)
+SemanticError
+5000
+261 - Assign (w1, _, _) Pattern Semantic Error cl1(w1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern cl1(w1, _, _)
+SemanticError
+5000
+262 - Assign (s1, _, _) Pattern Semantic Error cl1(s1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern cl1(s1, _, _)
+SemanticError
+5000
+263 - Assign (cl1, _, _) Pattern Semantic Error cl1(cl1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern cl1(cl1, _, _)
+SemanticError
+5000
+264 - Pattern (v1, _, _) Semantic Error a1(v1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern a1(v1, _, _)
+SemanticError
+5000
+265 - Assign (c1, _, _) Pattern Semantic Error a1(c1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern a1(c1, _, _)
+SemanticError
+5000
+266 - Assign (pr1, _, _) Pattern Semantic Error a1(pr1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern a1(pr1, _, _)
+SemanticError
+5000
+267 - Assign (a1, _, _) Pattern Semantic Error a1(a1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern a1(a1, _, _)
+SemanticError
+5000
+268 - Assign (r1, _, _) Pattern Semantic Error a1(r1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern a1(r1, _, _)
+SemanticError
+5000
+269 - Assign (p1, _, _) Pattern Semantic Error a1(p1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern a1(p1, _, _)
+SemanticError
+5000
+270 - Assign (i1, _, _) Pattern Semantic Error a1(i1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern a1(i1, _, _)
+SemanticError
+5000
+271 - Assign (w1, _, _) Pattern Semantic Error a1(w1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern a1(w1, _, _)
+SemanticError
+5000
+272 - Assign (s1, _, _) Pattern Semantic Error a1(s1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern a1(s1, _, _)
+SemanticError
+5000
+273 - Assign (cl1, _, _) Pattern Semantic Error a1(cl1)
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s1 pattern a1(cl1, _, _)
+SemanticError
 5000
