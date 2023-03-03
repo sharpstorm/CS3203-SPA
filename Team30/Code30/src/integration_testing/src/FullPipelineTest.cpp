@@ -37,8 +37,28 @@ TEST_CASE("Test Full End-to-end") {
   string query;
   unordered_set<string> expectedRes;
 
-  query = "stmt s; Select s such that Follows(s, s)";
-  expectedRes = unordered_set<string>{ };
+  query = "assign a1, a2; variable v; Select <a1,v,a2> such that Uses(a1, v) pattern a1(v,_) such that Follows(1,a2)";
+  expectedRes = unordered_set<string>({"5 x 2", "9 z 2", "11 i 2"});
+  launchQuery(qps.get(), query, expectedRes);
+
+  query = "assign a1, a2; variable v; Select <v,a1,a2> such that Uses(a1, v) pattern a1(v,_) such that Follows(1,a2)";
+  expectedRes = unordered_set<string>({"x 5 2", "z 9 2", "i 11 2"});
+  launchQuery(qps.get(), query, expectedRes);
+
+  query = "assign a1, a2; variable v; Select <v,a1,a2> such that Uses(a1, v) pattern a1(v,_) such that Follows(a2,a2)";
+  expectedRes = unordered_set<string>({});
+  launchQuery(qps.get(), query, expectedRes);
+
+  query = "assign a; variable v; Select BOOLEAN such that Uses(a, v) pattern a(v,_)";
+  expectedRes = unordered_set<string>({"TRUE"});
+  launchQuery(qps.get(), query, expectedRes);
+
+  query = "stmt s; assign a; Select BOOLEAN such that Follows(s, s)";
+  expectedRes = unordered_set<string>{ "FALSE" };
+  launchQuery(qps.get(), query, expectedRes);
+
+  query = "stmt s; assign a; Select <s,a> such that Follows(s, s)";
+  expectedRes = unordered_set<string>{};
   launchQuery(qps.get(), query, expectedRes);
 
   query = "assign a1, a2; Select a1 such that Follows(1, 2) pattern a2(_,_)";
