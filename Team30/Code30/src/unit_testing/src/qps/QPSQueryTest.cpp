@@ -6,10 +6,8 @@
 
 TEST_CASE("QPS Execute Query") {
   PKB pkbStore;
-  PkbQueryHandler* pkb = new QPSQueryPKBStub(&pkbStore);
-  auto handler = shared_ptr<PkbQueryHandler>(pkb);
-  IQPS* qps = new QPSFacade(handler);
+  auto pkb = make_unique<QPSQueryPKBStub>(&pkbStore);
+  auto qps = make_unique<QPSFacade>(pkb.get());
 
   qps->evaluate("stmt s1, s2; Select s1 such that Follows(s1, s2)");
-  delete(qps);
 }

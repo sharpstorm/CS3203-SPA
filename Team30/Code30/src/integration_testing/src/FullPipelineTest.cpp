@@ -13,9 +13,9 @@ using std::make_unique, std::make_shared, std::unordered_set, std::to_string;
 TEST_CASE("Test Full End-to-end") {
   auto pkb = make_unique<PKB>();
   auto pkbWriter = make_unique<PkbWriter>(pkb.get());
-  shared_ptr<PkbQueryHandler> pkbQH_ptr = make_shared<PkbQueryHandler>(pkb.get());
+  auto pkbQH = make_unique<PkbQueryHandler>(pkb.get());
 
-  unique_ptr<IQPS> qps = make_unique<QPSFacade>(pkbQH_ptr);
+  unique_ptr<IQPS> qps = make_unique<QPSFacade>(pkbQH.get());
   SpDriver spDriver;
 
   spDriver.parseSource("procedure Example {\n"

@@ -14,7 +14,7 @@ class QPSFacade: public IQPS {
   IQueryDriver* driver;
 
  public:
-  explicit QPSFacade(shared_ptr<PkbQueryHandler> pkbQH);
+  explicit QPSFacade(PkbQueryHandler* pkbQH);
   ~QPSFacade() noexcept;
   UniqueVectorPtr<string> evaluate(string query);
 };

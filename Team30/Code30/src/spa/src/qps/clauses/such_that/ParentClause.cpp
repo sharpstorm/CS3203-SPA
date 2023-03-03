@@ -12,8 +12,7 @@ ParentClause::ParentClause(ClauseArgumentPtr leftArg,
     AbstractTwoArgClause(std::move(leftArg), std::move(rightArg)) {
 }
 
-PQLQueryResult* ParentClause::evaluateOn(
-        shared_ptr<PkbQueryHandler> pkbQueryHandler) {
+PQLQueryResult* ParentClause::evaluateOn(PkbQueryHandler* pkbQueryHandler) {
   if (isSameSynonym()) {
     return Clause::toQueryResult(left->getName(), unordered_set<int>{});
   }

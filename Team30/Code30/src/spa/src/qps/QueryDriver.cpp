@@ -14,7 +14,7 @@ UniqueVectorPtr<string> QueryDriver::evaluate(string* query) {
   return result;
 }
 
-QueryDriver::QueryDriver(shared_ptr<PkbQueryHandler> pkbQH):
+QueryDriver::QueryDriver(PkbQueryHandler* pkbQH):
   parser(new QueryParser()), executor(new QueryExecutor(pkbQH)) {
 }
 

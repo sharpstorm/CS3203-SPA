@@ -10,8 +10,7 @@ ModifiesClause::ModifiesClause(ClauseArgumentPtr leftArg,
     AbstractTwoArgClause(std::move(leftArg), std::move(rightArg)) {
 }
 
-PQLQueryResult* ModifiesClause::evaluateOn(
-        shared_ptr<PkbQueryHandler> pkbQueryHandler) {
+PQLQueryResult* ModifiesClause::evaluateOn(PkbQueryHandler* pkbQueryHandler) {
   if (left->synonymSatisfies(ClauseArgument::isStatement)) {
     return Clause::toQueryResult(
         left.get(), right.get(),
@@ -38,7 +37,7 @@ bool ModifiesClause::validateArgTypes(VariableTable *variables) {
 }
 
 QueryResult<int, string> ModifiesClause::evaluateLeftStatement(
-    shared_ptr<PkbQueryHandler> pkbQueryHandler) {
+    PkbQueryHandler* pkbQueryHandler) {
   EntityRef rightEntity = right->toEntityRef();
   StmtRef leftStatement = left->toStmtRef();
   QueryResult<int, string> queryResult =
@@ -48,7 +47,7 @@ QueryResult<int, string> ModifiesClause::evaluateLeftStatement(
 }
 
 QueryResult<string, string> ModifiesClause::evaluateLeftEntity(
-    shared_ptr<PkbQueryHandler> pkbQueryHandler) {
+    PkbQueryHandler* pkbQueryHandler) {
   EntityRef rightEntity = right->toEntityRef();
   EntityRef leftEntity = left->toEntityRef();
   QueryResult<string, string> queryResult =

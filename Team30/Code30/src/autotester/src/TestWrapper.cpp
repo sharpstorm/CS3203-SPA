@@ -27,10 +27,9 @@ TestWrapper::TestWrapper() {
   // as well as any initialization required for your spa program
   pkb = make_unique<PKB>();
   pkbWriter = make_unique<PkbWriter>(pkb.get());
-  shared_ptr<PkbQueryHandler> pkbQH_ptr =
-      make_shared<PkbQueryHandler>(pkb.get());
+  pkbQueryHandler = make_unique<PkbQueryHandler>(pkb.get());
 
-  qps = make_unique<QPSFacade>(pkbQH_ptr);
+  qps = make_unique<QPSFacade>(pkbQueryHandler.get());
   sp = make_unique<SpFacade>();
 }
 

@@ -12,8 +12,7 @@ using std::pair, std::unordered_set, std::vector, std::shared_ptr;
 SelectClause::SelectClause(PQLQuerySynonym target):
     target(target) {}
 
-PQLQueryResult* SelectClause::evaluateOn(
-    shared_ptr<PkbQueryHandler> pkbQueryHandler) {
+PQLQueryResult* SelectClause::evaluateOn(PkbQueryHandler* pkbQueryHandler) {
   ClauseArgumentPtr clauseArg = ClauseArgumentFactory::create(target);
 
   if (target.isStatementType()) {

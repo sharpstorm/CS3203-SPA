@@ -3,14 +3,14 @@
 #include "QueryExecutor.h"
 #include "qps/common/IEvaluatable.h"
 
-using std::unique_ptr, std::shared_ptr, std::vector;
+using std::vector;
 
-QueryExecutor::QueryExecutor(shared_ptr<PkbQueryHandler> pkbQH):
+QueryExecutor::QueryExecutor(PkbQueryHandler* pkbQH):
     orchestrator(QueryOrchestrator(QueryLauncher(pkbQH))) {
 }
 
 PQLQueryResult *QueryExecutor::executeQuery(PQLQuery* query) {
-  unique_ptr<QueryPlan> plan = planner.getExecutionPlan(query);
+  QueryPlanPtr plan = planner.getExecutionPlan(query);
   PQLQueryResult* result = orchestrator.execute(plan.get());
   return result;
 }
