@@ -7,12 +7,13 @@
 #include "TransitiveRelationTableManager.h"
 #include "common/ast/IASTNode.h"
 #include "tables/HashKeyTable.h"
+#include "tables/HashKeySetTable.h"
 
 using std::string;
 
 using FollowsStorage = TransitiveRelationTableManager<int>;
 using ParentStorage = TransitiveRelationTableManager<int>;
-using SymbolStorage = EntityTableManager<string, EntityType>;
+using SymbolStorage = HashKeySetTable<EntityType, string>;
 using StatementStorage = EntityTableManager<int, StmtType>;
 using ProcedureStorage = EntityTableManager<int, string>;
 using UsesStorage = RelationTableManager<int, string>;

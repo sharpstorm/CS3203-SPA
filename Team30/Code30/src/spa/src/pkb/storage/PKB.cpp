@@ -25,9 +25,7 @@ PKB::PKB()
                                                                 string>>(),
                                     make_shared<HashKeySetTable<string,
                                                                 string>>())),
-      symbolStorage(new SymbolStorage(
-          make_shared<HashKeyTable<string, EntityType>>(),
-          make_shared<HashKeySetTable<EntityType, string>>())),
+      symbolStorage(new SymbolStorage()),
       statementStorage(
           new StatementStorage(make_shared<ContiguousTable<StmtType>>(),
                                make_shared<HashKeySetTable<StmtType, int>>())),
