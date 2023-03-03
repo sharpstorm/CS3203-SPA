@@ -1,6 +1,7 @@
 #include "PQLAssignPatternContext.h"
 
 #include <memory>
+#include <utility>
 #include "qps/clauses/pattern/AssignPatternClause.h"
 
 using std::make_unique;

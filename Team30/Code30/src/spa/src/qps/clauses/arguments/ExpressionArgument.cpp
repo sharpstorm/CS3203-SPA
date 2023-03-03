@@ -1,5 +1,7 @@
 #include "ExpressionArgument.h"
 
+#include <utility>
+
 ExpressionArgument::ExpressionArgument():
     isPartial(true), expressionSequence(nullptr) {}
 

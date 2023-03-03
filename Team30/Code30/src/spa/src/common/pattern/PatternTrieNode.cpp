@@ -1,5 +1,7 @@
 #include "PatternTrieNode.h"
 
+#include <utility>
+
 PatternTrieNode::PatternTrieNode() {
 }
 

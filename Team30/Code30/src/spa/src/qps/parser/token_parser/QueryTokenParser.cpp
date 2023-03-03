@@ -4,7 +4,7 @@
 
 QueryTokenParser::QueryTokenParser(ISourceExpressionParser* exprParser,
                                    vector<PQLToken>* tokens):
-                                   tokens(tokens), contextProvider(exprParser){
+                                   tokens(tokens), contextProvider(exprParser) {
 }
 
 unique_ptr<PQLQuery> QueryTokenParser::build() {
