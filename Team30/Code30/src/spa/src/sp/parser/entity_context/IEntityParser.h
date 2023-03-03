@@ -1,9 +1,9 @@
 #pragma once
 
+#include <memory>
+
 #include "common/ast/ASTNode.h"
 #include "sp/parser/SourceParseState.h"
-
-#include <memory>
 
 using std::unique_ptr;
 

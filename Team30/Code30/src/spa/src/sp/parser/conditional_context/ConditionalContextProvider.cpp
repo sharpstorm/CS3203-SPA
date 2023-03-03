@@ -3,7 +3,7 @@
 ConditionalContextProvider::ConditionalContextProvider(
     IExpressionParser *exprParser): condContext(this),
                                     relContext(this),
-                                    relFactorContext(exprParser){
+                                    relFactorContext(exprParser) {
 }
 
 SourceParseContext

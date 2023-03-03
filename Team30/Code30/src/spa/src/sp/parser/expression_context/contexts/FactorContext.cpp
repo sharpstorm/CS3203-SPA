@@ -2,7 +2,7 @@
 #include "common/ast/math/math_operand/PlusASTNode.h"
 
 ASTNodePtr FactorContext::generateSubtree(SourceParseState *state) {
-  shared_ptr<ASTNode> node;
+  ASTNodePtr node;
   SourceToken* currToken = state->getCurrToken();
   if (currToken == nullptr) {
     throw SPError(SPERR_END_OF_STREAM);

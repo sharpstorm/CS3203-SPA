@@ -10,7 +10,7 @@ using std::make_shared;
 class CallContext:
     public AbstractSingleArgContext<SIMPLE_TOKEN_KEYWORD_CALL> {
  public:
-  CallContext(IProcedureContextProvider* provider):
+  explicit CallContext(IProcedureContextProvider* provider):
       AbstractSingleArgContext(provider) {}
  protected:
   ASTNodePtr makeNode(const int &lineNumber, ASTNodePtr variableNode) {

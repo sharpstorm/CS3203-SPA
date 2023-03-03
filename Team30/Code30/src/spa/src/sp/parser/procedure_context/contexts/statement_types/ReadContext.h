@@ -10,7 +10,7 @@ using std::make_shared;
 class ReadContext:
     public AbstractSingleArgContext<SIMPLE_TOKEN_KEYWORD_READ> {
  public:
-  ReadContext(IProcedureContextProvider* provider):
+  explicit ReadContext(IProcedureContextProvider* provider):
       AbstractSingleArgContext(provider) {}
  protected:
   ASTNodePtr makeNode(const int &lineNumber, ASTNodePtr variableNode) {

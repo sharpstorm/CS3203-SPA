@@ -10,7 +10,7 @@ using std::make_shared;
 class PrintContext:
     public AbstractSingleArgContext<SIMPLE_TOKEN_KEYWORD_PRINT> {
  public:
-  PrintContext(IProcedureContextProvider* provider):
+  explicit PrintContext(IProcedureContextProvider* provider):
       AbstractSingleArgContext(provider) {}
  protected:
   ASTNodePtr makeNode(const int &lineNumber, ASTNodePtr variableNode) {

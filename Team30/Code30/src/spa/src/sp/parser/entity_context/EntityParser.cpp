@@ -1,11 +1,12 @@
 #include "EntityParser.h"
 
 #include <memory>
+#include <string>
 
 #include "common/ast/entity/ConstantASTNode.h"
 #include "common/ast/entity/VariableASTNode.h"
 
-using std::make_shared;
+using std::make_shared, std::string;
 
 ASTNodePtr EntityParser::parseConstant(SourceParseState *state) {
   SourceToken* token = state->expect(SIMPLE_TOKEN_INTEGER);

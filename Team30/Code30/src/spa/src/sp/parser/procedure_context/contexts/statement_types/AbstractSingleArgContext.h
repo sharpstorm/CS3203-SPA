@@ -7,7 +7,7 @@
 template <SourceTokenType KEYWORD>
 class AbstractSingleArgContext: public RecursiveProcedureParseContext {
  public:
-  AbstractSingleArgContext(IProcedureContextProvider* provider):
+  explicit AbstractSingleArgContext(IProcedureContextProvider* provider):
       RecursiveProcedureParseContext(provider) {}
   ASTNodePtr generateSubtree(SourceParseState* state);
 
@@ -19,7 +19,6 @@ class AbstractSingleArgContext: public RecursiveProcedureParseContext {
 template <SourceTokenType KEYWORD>
 ASTNodePtr AbstractSingleArgContext<KEYWORD>::
 generateSubtree(SourceParseState* state) {
-
   // Keyword Entity;
   state->expect(KEYWORD);
   ASTNodePtr varNode = contextProvider
