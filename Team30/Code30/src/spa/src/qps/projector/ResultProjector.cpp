@@ -12,7 +12,7 @@ UniqueVectorPtr<string> ResultProjector::project(
       make_unique<vector<string>>(vector<string>{});
 
   // Check if a BOOLEAN type result
-  if (!queryResult->hasTargetSynonyms()) {
+  if (queryResult->getIsBooleanResult()) {
     string boolResult = queryResult->getBooleanResult() ? "TRUE" : "FALSE";
     return make_unique<vector<string>>(vector<string>({boolResult}));
   }
@@ -26,7 +26,7 @@ UniqueVectorPtr<string> ResultProjector::project(
   // Cross product
   ResultGroup* finalGroup = queryResult->getResultGroup(0);
   for (int i=1; i < queryResult->getResultGroupCount(); i++) {
-    // TODO(KwanHW): Probably will have a mem leak here
+    // TODO(KwanHW): So far no mem leaks, look here if there is
     finalGroup = finalGroup->crossProduct(queryResult->getResultGroup(i));
   }
 

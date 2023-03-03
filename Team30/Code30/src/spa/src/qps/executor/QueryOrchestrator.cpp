@@ -7,11 +7,12 @@ QueryOrchestrator::QueryOrchestrator(QueryLauncher launcher) :
 // Executes every group in the QueryPlan (NEW IMPLEMENTATION)
 SynonymResultTable *QueryOrchestrator::execute(QueryPlan *plan,
                                            PQLQuerySynonymList* targetSyns) {
+  bool isBool = targetSyns->empty();
   if (plan->isEmpty()) {
-    return new SynonymResultTable(targetSyns, false);
+    return new SynonymResultTable(isBool, false);
   }
 
-  SynonymResultTable* resultTable = new SynonymResultTable(targetSyns, true);
+  SynonymResultTable* resultTable = new SynonymResultTable(isBool, true);
   for (int i = 0; i < plan->getGroupCount(); i++) {
     QueryGroupPlan* targetGroup = plan->getGroup(i);
     PQLQueryResult* result = executeGroup(targetGroup);
@@ -20,7 +21,7 @@ SynonymResultTable *QueryOrchestrator::execute(QueryPlan *plan,
     if (result->isFalse()) {
       delete resultTable;
       delete result;
-      return new SynonymResultTable(targetSyns, false);
+      return new SynonymResultTable(isBool, false);
     }
 
     if (targetGroup->isBooleanResult()) {

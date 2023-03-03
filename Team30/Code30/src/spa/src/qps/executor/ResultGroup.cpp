@@ -28,7 +28,7 @@ int ResultGroup::getTableRows() {
   return groupTable.size();
 }
 
-QueryResultTableRow* ResultGroup::getQueryItemAt(int idx) {
+QueryResultTableRow* ResultGroup::getRowAt(int idx) {
   return &groupTable.at(idx);
 }
 
@@ -38,9 +38,9 @@ ResultGroup* ResultGroup::crossProduct(ResultGroup* other) {
   output->addColMap(other->getColIndexes());
 
   for (int i=0; i < getTableRows(); i++) {
-    QueryResultTableRow* leftRow = getQueryItemAt(i);
+    QueryResultTableRow* leftRow = getRowAt(i);
     for (int j=0; j < other->getTableRows(); j++) {
-      QueryResultTableRow* rightRow = other->getQueryItemAt(j);
+      QueryResultTableRow* rightRow = other->getRowAt(j);
 
       QueryResultTableRow rowToAdd{};
       for (const auto & k : *leftRow) {
@@ -62,7 +62,7 @@ void ResultGroup::project(PQLQuerySynonymList *synList,
                             vector<string>* result) {
   // Iterate through each row
   for (int i=0; i < getTableRows(); i++) {
-    QueryResultTableRow* row = getQueryItemAt(i);
+    QueryResultTableRow* row = getRowAt(i);
     string rowString;
     for (int j=0; j < synList->size(); j++) {
       // Get the column index from the result group

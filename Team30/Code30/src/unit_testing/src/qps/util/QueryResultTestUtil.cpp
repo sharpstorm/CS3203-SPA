@@ -35,7 +35,7 @@ class TestQueryResultBuilder {
   }
 
   static unique_ptr<SynonymResultTable> buildExpectedTable(const ExpectedParams &expectedParams, PQLQuerySynonymList* syns) {
-    auto result = make_unique<SynonymResultTable>(syns, true);
+    auto result = make_unique<SynonymResultTable>(syns->empty(), true);
     vector<PQLSynonymName> names;
     for (auto it : *syns) {
       names.push_back(it.getName());

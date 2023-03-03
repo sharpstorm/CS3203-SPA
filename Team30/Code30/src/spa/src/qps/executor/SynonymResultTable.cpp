@@ -6,9 +6,9 @@
 
 using std::make_unique;
 
-SynonymResultTable::SynonymResultTable(PQLQuerySynonymList *mapping,
+SynonymResultTable::SynonymResultTable(bool isBooleanResult,
                                        bool booleanResult) :
-    synonymMapping(mapping), booleanResult(booleanResult) { }
+    isBooleanResult(isBooleanResult), booleanResult(booleanResult) { }
 
 void SynonymResultTable::extractResults(PQLQueryResult *result,
                                         vector<PQLSynonymName> syns) {
@@ -33,11 +33,12 @@ void SynonymResultTable::extractResults(PQLQueryResult *result,
   groupResults.push_back(unique_ptr<ResultGroup>(resultGroup));
 }
 
+bool SynonymResultTable::getIsBooleanResult() {
+  return isBooleanResult;
+}
+
 bool SynonymResultTable::getBooleanResult() {
   return booleanResult;
-}
-bool SynonymResultTable::hasTargetSynonyms() {
-  return !synonymMapping->empty();
 }
 
 int SynonymResultTable::getResultGroupCount() {
@@ -48,7 +49,6 @@ ResultGroup* SynonymResultTable::getResultGroup(int idx) {
 }
 bool SynonymResultTable::operator==(const SynonymResultTable &srt) const {
   if (booleanResult != srt.booleanResult ||
-      *synonymMapping != *srt.synonymMapping ||
       groupResults.size() != srt.groupResults.size()) {
     return false;
   }

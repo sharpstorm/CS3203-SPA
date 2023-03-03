@@ -13,16 +13,17 @@ using std::unordered_map, std::unordered_set, std::unique_ptr;
 
 class SynonymResultTable {
   vector<unique_ptr<ResultGroup>> groupResults;
-  PQLQuerySynonymList* synonymMapping;
+  bool isBooleanResult;
   bool booleanResult;
   IntersectSet<int> getUniqueRows(PQLQueryResult* result,
                                   vector<PQLSynonymName>* syns);
 
  public:
-  SynonymResultTable(PQLQuerySynonymList* mapping, bool booleanResult);
+  SynonymResultTable(bool isBooleanResult, bool booleanResult);
+  ~SynonymResultTable() = default;
   void extractResults(PQLQueryResult* result, vector<PQLSynonymName> syns);
+  bool getIsBooleanResult();
   bool getBooleanResult();
-  bool hasTargetSynonyms();
   int getResultGroupCount();
   ResultGroup* getResultGroup(int idx);
   bool operator ==(const SynonymResultTable &srt) const;

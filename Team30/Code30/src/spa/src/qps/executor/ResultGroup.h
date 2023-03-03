@@ -20,7 +20,7 @@ class ResultGroup {
   void addSynonym(PQLSynonymName name);
   void addColMap(vector<PQLSynonymName> map);
   int getTableRows();
-  QueryResultTableRow* getQueryItemAt(int idx);
+  QueryResultTableRow* getRowAt(int idx);
   vector<PQLSynonymName> getColIndexes();
   ResultGroup* crossProduct(ResultGroup* other);
   void project(PQLQuerySynonymList* synList, vector<string>* result);
