@@ -54,7 +54,8 @@ QueryResult<string, string> UsesQueryHandler::queryUses(EntityRef arg1,
   } else if (arg2.isKnown()) {
     return usesPStorage->query(predicateFactory->getPredicate(arg1), arg2.name);
   } else {
-    return usesPStorage->query(entitiesProvider->getSymbolsOfType(EntityType::Procedure),
-                               predicateFactory->getPredicate(arg2));
+    return usesPStorage->query(
+        entitiesProvider->getSymbolsOfType(EntityType::Procedure),
+        predicateFactory->getPredicate(arg2));
   }
 }

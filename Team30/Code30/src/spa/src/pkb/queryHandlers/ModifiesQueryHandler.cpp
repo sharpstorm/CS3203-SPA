@@ -39,8 +39,9 @@ QueryResult<int, string> ModifiesQueryHandler::queryModifies(
     return modifiesStorage->query(predicateFactory->getPredicate(arg1),
                                   arg2.name);
   } else {
-    return modifiesStorage->query(structureProvider->getStatementsOfType(arg1.type),
-                                  predicateFactory->getPredicate(arg2));
+    return modifiesStorage->query(
+        structureProvider->getStatementsOfType(arg1.type),
+        predicateFactory->getPredicate(arg2));
   }
 }
 
@@ -56,7 +57,8 @@ QueryResult<string, string> ModifiesQueryHandler::queryModifies(
     return modifiesPStorage->query(predicateFactory->getPredicate(arg1),
                                    arg2.name);
   } else {
-    return modifiesPStorage->query(entitiesProvider->getSymbolsOfType(EntityType::Procedure),
-                                   predicateFactory->getPredicate(arg2));
+    return modifiesPStorage->query(
+        entitiesProvider->getSymbolsOfType(EntityType::Procedure),
+        predicateFactory->getPredicate(arg2));
   }
 }

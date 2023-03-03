@@ -83,5 +83,5 @@ bool UsesExtractor::setContains(unordered_set<string>* v, const string &x) {
 }
 
 void UsesExtractor::addUsesRelation(int x, string var) {
-  pkbWriter->addUses(x, var, "example"); // todo
+  pkbWriter->addUses(x, var, "example");  // todo
 }
