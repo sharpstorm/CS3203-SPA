@@ -25,11 +25,6 @@ string StructureMappingProviderStub::getProcedureForLine(int stmt) const {
   return stmtNumToProcedure.get(stmt);
 }
 
-Transformer<int, string>
-StructureMappingProviderStub::getStmtProcedureTransformer() const {
-  return [this](int const stmt) { return getProcedureForLine(stmt); };
-}
-
 string StructureMappingProviderStub::getCalledProcedure(int stmt) const {
   return stmtNumToCalledProcedure.get(stmt);
 }
