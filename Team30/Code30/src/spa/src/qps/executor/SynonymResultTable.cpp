@@ -1,7 +1,6 @@
 #include <memory>
 #include <utility>
 
-#include "common/SetUtils.h"
 #include "SynonymResultTable.h"
 #include "ResultCoalescer.h"
 

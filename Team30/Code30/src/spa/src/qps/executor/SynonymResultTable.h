@@ -4,8 +4,10 @@
 #include <memory>
 #include <unordered_map>
 #include <unordered_set>
-#include "qps/common/PQLQueryResult.h"
 #include "ResultGroup.h"
+#include "common/SetUtils.h"
+#include "qps/common/PQLQueryResult.h"
+
 
 using std::unordered_map, std::unordered_set, std::unique_ptr;
 

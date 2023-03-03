@@ -28,11 +28,11 @@ PQLQuerySynonymList TARGET_RESULT_VARS{TARGET_RESULT_VAR};
 PQLQuerySynonymList TARGET_ENTITY_VARS{TARGET_ENTITY_VAR};
 
 TEST_CASE("Project when result is static") {
-//  PQLQueryResult result;
-//  result.setIsStaticFalse(true);
-  SynonymResultTable result(new PQLQuerySynonymList({TARGET_RESULT_VAR}), true);
+  PQLQuerySynonymList* synList =new PQLQuerySynonymList({TARGET_RESULT_VAR});
+  SynonymResultTable result(synList, true);
   UniqueVectorPtr<string> projectedResult = projector.project(&result, &TARGET_RESULT_VARS);
   REQUIRE(projectedResult->empty());
+  delete synList;
 }
 
 TEST_CASE("Projecting Statements") {

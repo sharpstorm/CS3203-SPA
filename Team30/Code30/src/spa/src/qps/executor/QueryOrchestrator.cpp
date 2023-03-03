@@ -18,15 +18,19 @@ SynonymResultTable *QueryOrchestrator::execute(QueryPlan *plan,
 
     // If any of the result is empty, return FALSE / EmptyResultTable
     if (result->isFalse()) {
+      delete resultTable;
+      delete result;
       return new SynonymResultTable(targetSyns, false);
     }
 
     if (targetGroup->isBooleanResult()) {
+      delete resultTable;
       delete result;
       continue;
     }
 
     resultTable->extractResults(result, targetGroup->getSelectables());
+    delete result;
   }
 
   return resultTable;
