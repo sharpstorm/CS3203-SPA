@@ -2,7 +2,7 @@
 
 #include <memory>
 #include <string>
-//#include <unordered_map>
+#include <unordered_map>
 #include <vector>
 #include "qps/common/PQLQueryResult.h"
 
@@ -21,8 +21,8 @@ class ResultGroup {
   void addColMap(vector<PQLSynonymName> map);
   int getTableRows();
   QueryResultTableRow* getQueryItemAt(int idx);
-//  unordered_map<PQLSynonymName, ResultTableCol> getColIndexes();
   vector<PQLSynonymName> getColIndexes();
   ResultGroup* crossProduct(ResultGroup* other);
   void project(PQLQuerySynonymList* synList, vector<string>* result);
+  bool operator ==(const ResultGroup &rg) const;
 };

@@ -37,6 +37,11 @@ TEST_CASE("Test Full End-to-end") {
   string query;
   unordered_set<string> expectedRes;
 
+
+  query = "assign a1; Select a1 such that Follows(1,2)";
+  expectedRes = unordered_set<string>({"1", "2", "3", "5", "7", "8", "9", "11", "12"});
+  launchQuery(qps.get(), query, expectedRes);
+
   // All synonyms are valid
   query = "assign a1, a2; variable v; Select <a1,v,a2> such that Uses(a1, v) pattern a1(v,_) such that Follows(1,a2)";
   expectedRes = unordered_set<string>({"5 x 2", "9 z 2", "11 i 2"});

@@ -1,3 +1,4 @@
+#include <utility>
 #include <memory>
 #include "ResultGroup.h"
 
@@ -14,7 +15,7 @@ void ResultGroup::addSynonym(PQLSynonymName name) {
 }
 
 void ResultGroup::addColMap(vector<PQLSynonymName> map) {
-  for (const PQLSynonymName& syn: map) {
+  for (const PQLSynonymName& syn : map) {
     addSynonym(syn);
   }
 }
@@ -64,17 +65,59 @@ void ResultGroup::project(PQLQuerySynonymList *synList,
                             vector<string>* result) {
   // Iterate through each row
   for (int i=0; i < getTableRows(); i++) {
-   QueryResultTableRow* row = getQueryItemAt(i);
-   string rowString;
-   for (int j=0; j < synList->size(); j++) {
-     // Get the column index from the result group
-     PQLQuerySynonym syn = synList->at(j);
-     ResultTableCol col = colMap.at(syn.getName());
-     rowString += row->at(col)->project();
-     if (j < synList->size() - 1) {
-       rowString += " ";
-     }
-   }
-  result->push_back(rowString);
+    QueryResultTableRow* row = getQueryItemAt(i);
+    string rowString;
+    for (int j=0; j < synList->size(); j++) {
+      // Get the column index from the result group
+      PQLQuerySynonym syn = synList->at(j);
+      ResultTableCol col = colMap.at(syn.getName());
+      rowString += row->at(col)->project();
+      if (j < synList->size() - 1) {
+        rowString += " ";
+      }
+    }
+    result->push_back(rowString);
   }
+}
+bool ResultGroup::operator==(const ResultGroup &rg) const {
+  if (colMap.size() != rg.colMap.size() ||
+      groupTable.size() != groupTable.size()) {
+    return false;
+  }
+
+  for (const auto& it: colMap) {
+    if (rg.colMap.find(it.first) == rg.colMap.end()) {
+      return false;
+    }
+  }
+
+  for (int i= 0; i < groupTable.size(); i++) {
+    bool isFound = false;
+    for (int j = 0; j < rg.groupTable.size(); j++) {
+      // Differing column lengths
+      if (groupTable[i].size() != rg.groupTable[j].size()) {
+        return false;
+      }
+
+      // Go through all the synonyms
+      for (auto it: rg.colMap) {
+        int otherIdx = it.second;
+        int thisIdx = colMap.at(it.first);
+
+        if (*groupTable[i][thisIdx].get() == *rg.groupTable[j][otherIdx].get()) {
+          isFound = true;
+          break;
+        }
+      }
+      if (isFound) {
+        break;
+      }
+    }
+
+    if (!isFound) {
+      return false;
+    }
+  }
+
+  return true;
 }

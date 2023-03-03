@@ -3,6 +3,7 @@
 #include <utility>
 
 #include "qps/common/PQLQueryResult.h"
+#include "qps/executor/SynonymResultTable.h"
 
 using std::vector, std::move, std::make_unique, std::unique_ptr;
 
@@ -11,6 +12,7 @@ typedef unordered_map<string, QueryResultItemVector> ExpectedParams;
 
 class TestQueryResultBuilder {
  public:
+  // OLD IMPLEMENTATION
   static unique_ptr<PQLQueryResult> buildExpected(const ExpectedParams &expectedParams) {
     auto result = make_unique<PQLQueryResult>();
 
@@ -29,6 +31,17 @@ class TestQueryResultBuilder {
     for (int i = 0; i < toInsert.size(); i++) {
       result->putTableRow(move(toInsert.at(i)));
     }
+
+    return result;
+  }
+
+  static unique_ptr<SynonymResultTable> buildExpectedTable(const ExpectedParams &expectedParams, PQLQuerySynonymList* syns) {
+    auto result = make_unique<SynonymResultTable>(syns, true);
+    vector<PQLSynonymName> names;
+    for (auto it : *syns) {
+      names.push_back(it.getName());
+    }
+    result->extractResults(buildExpected(expectedParams).get(), names);
 
     return result;
   }

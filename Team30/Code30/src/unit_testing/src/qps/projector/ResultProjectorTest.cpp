@@ -28,41 +28,41 @@ PQLQuerySynonymList TARGET_RESULT_VARS{TARGET_RESULT_VAR};
 PQLQuerySynonymList TARGET_ENTITY_VARS{TARGET_ENTITY_VAR};
 
 TEST_CASE("Project when result is static") {
-  PQLQueryResult result;
-  result.setIsStaticFalse(true);
-
+//  PQLQueryResult result;
+//  result.setIsStaticFalse(true);
+  SynonymResultTable result(new PQLQuerySynonymList({TARGET_RESULT_VAR}), true);
   UniqueVectorPtr<string> projectedResult = projector.project(&result, &TARGET_RESULT_VARS);
   REQUIRE(projectedResult->empty());
 }
 
 TEST_CASE("Projecting Statements") {
-  unique_ptr<PQLQueryResult> result;
+  unique_ptr<SynonymResultTable> result;
   UniqueVectorPtr<string> actual;
   UniqueVectorPtr<string> expected;
 
-  result = TestQueryResultBuilder::buildExpected(ExpectedParams{
+  result = TestQueryResultBuilder::buildExpectedTable(ExpectedParams{
       {"a", QueryResultItemVector{
         QueryResultItem(1),
         QueryResultItem(2),
         QueryResultItem(3),
       }}
-  });
+  }, &TARGET_RESULT_VARS);
   expected = UniqueVectorPtr<string>(new vector<string>({"1", "2", "3"}));
   actual = projector.project(result.get(), &TARGET_RESULT_VARS);
   testResultProjection(expected.get(), actual.get());
 }
 
 TEST_CASE("Projecting Entities") {
-  unique_ptr<PQLQueryResult> result;
+  unique_ptr<SynonymResultTable> result;
   UniqueVectorPtr<string> actual;
   UniqueVectorPtr<string> expected;
 
-  result = TestQueryResultBuilder::buildExpected(ExpectedParams{
+  result = TestQueryResultBuilder::buildExpectedTable(ExpectedParams{
       {"v", QueryResultItemVector{
           QueryResultItem("x"),
           QueryResultItem("y")
       }}
-  });
+  }, &TARGET_ENTITY_VARS);
   expected = UniqueVectorPtr<string>(new vector<string>({"x", "y"}));
   actual = projector.project(result.get(), &TARGET_ENTITY_VARS);
   testResultProjection(expected.get(), actual.get());

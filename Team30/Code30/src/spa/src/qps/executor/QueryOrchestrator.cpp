@@ -6,29 +6,29 @@ QueryOrchestrator::QueryOrchestrator(QueryLauncher launcher) :
 
 // TODO(KwanHW): Fix execution to handle multiple groups
 // Executes every group in the QueryPlan (OLD IMPLEMENTATION)
-PQLQueryResult *QueryOrchestrator::execute(QueryPlan* plan) {
-  if (plan->isEmpty()) {
-    return new PQLQueryResult();
-  }
-
-  PQLQueryResult* finalResult;
-  for (int i = 0; i < plan->getGroupCount(); i++) {
-    QueryGroupPlan* targetGroup = plan->getGroup(i);
-    PQLQueryResult* result = executeGroup(targetGroup);
-
-    if (result->isFalse()) {
-      return new PQLQueryResult();
-    }
-
-    if (targetGroup->isBooleanResult()) {
-      delete result;
-      continue;
-    }
-
-    finalResult = result;
-  }
-  return finalResult;
-}
+//PQLQueryResult *QueryOrchestrator::execute(QueryPlan* plan) {
+//  if (plan->isEmpty()) {
+//    return new PQLQueryResult();
+//  }
+//
+//  PQLQueryResult* finalResult;
+//  for (int i = 0; i < plan->getGroupCount(); i++) {
+//    QueryGroupPlan* targetGroup = plan->getGroup(i);
+//    PQLQueryResult* result = executeGroup(targetGroup);
+//
+//    if (result->isFalse()) {
+//      return new PQLQueryResult();
+//    }
+//
+//    if (targetGroup->isBooleanResult()) {
+//      delete result;
+//      continue;
+//    }
+//
+//    finalResult = result;
+//  }
+//  return finalResult;
+//}
 
 // Executes every group in the QueryPlan (NEW IMPLEMENTATION)
 SynonymResultTable *QueryOrchestrator::execute(QueryPlan *plan,

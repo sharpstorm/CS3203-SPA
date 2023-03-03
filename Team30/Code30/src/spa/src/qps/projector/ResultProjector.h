@@ -11,8 +11,6 @@ using std::string, std::vector;
 
 class ResultProjector {
  public:
-  UniqueVectorPtr<string> project(PQLQueryResult* queryResult,
-                                  PQLQuerySynonymList* resultVariables);
   UniqueVectorPtr<string> project(SynonymResultTable* queryResult,
                                   PQLQuerySynonymList* resultVariables);
 };

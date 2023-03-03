@@ -1,5 +1,6 @@
 #pragma once
 
+#include <vector>
 #include <memory>
 #include <unordered_map>
 #include <unordered_set>
@@ -15,11 +16,10 @@ class SynonymResultTable {
 
  public:
   SynonymResultTable(PQLQuerySynonymList* mapping, bool booleanResult);
-  explicit SynonymResultTable(PQLQuerySynonymList* mapping);
-  explicit SynonymResultTable(bool booleanResult);
   void extractResults(PQLQueryResult* result, vector<PQLSynonymName> syns);
   bool getBooleanResult();
   bool hasTargetSynonyms();
   int getResultGroupCount();
   ResultGroup* getResultGroup(int idx);
+  bool operator ==(const SynonymResultTable &srt) const;
 };

@@ -1,22 +1,14 @@
-#include <memory>
-#include <iostream>
+#include <utility>
 #include "common/SetUtils.h"
 #include "SynonymResultTable.h"
 #include "ResultCoalescer.h"
-
-using std::make_unique, std::unique_ptr;
 
 SynonymResultTable::SynonymResultTable(PQLQuerySynonymList *mapping,
                                        bool booleanResult) :
     synonymMapping(mapping), booleanResult(booleanResult) { }
 
-SynonymResultTable::SynonymResultTable(PQLQuerySynonymList *mapping) :
-    synonymMapping(mapping), booleanResult(false) {}
-
-SynonymResultTable::SynonymResultTable(bool booleanResult) :
-    booleanResult(booleanResult), synonymMapping(new PQLQuerySynonymList()) {}
-
-void SynonymResultTable::extractResults(PQLQueryResult *result, vector<PQLSynonymName> syns) {
+void SynonymResultTable::extractResults(PQLQueryResult *result,
+                                        vector<PQLSynonymName> syns) {
   // Add synonyms to the new ResultGroup
   ResultGroup* resultGroup = new ResultGroup();
   IntersectSetPtr<int> rowsToExtract;
@@ -36,11 +28,12 @@ void SynonymResultTable::extractResults(PQLQueryResult *result, vector<PQLSynony
 
       rowsToTake->insert(j);
       QueryResultTableRow* currRow = result->getTableRowAt(j);
-      RowSet* rows = result->getRowsWithValue(colIdx, currRow->at(colIdx).get());
+      RowSet* rows = result->getRowsWithValue(colIdx,
+                                              currRow->at(colIdx).get());
       ignoreRows.insert(rows->begin(), rows->end());
     }
 
-    if (i==0) {
+    if (i == 0) {
       rowsToExtract = IntersectSetPtr<int>(rowsToTake);
     } else {
       rowsToExtract = SetUtils::intersectSet(rowsToExtract.get(), rowsToTake);
@@ -67,14 +60,26 @@ bool SynonymResultTable::hasTargetSynonyms() {
   return !synonymMapping->empty();
 }
 
-//ResultGroup SynonymResultTable::getResultGroup(int idx) {
-//  return groupResults[idx];
-//}
-
 int SynonymResultTable::getResultGroupCount() {
   return groupResults.size();
 }
 ResultGroup* SynonymResultTable::getResultGroup(int idx) {
-//  unique_ptr<ResultGroup> rGroup = unique_ptr<ResultGroup>(groupResults.at(idx).get());
   return groupResults.at(idx).get();
+}
+bool SynonymResultTable::operator==(const SynonymResultTable &srt) const {
+  if (booleanResult != srt.booleanResult ||
+      *synonymMapping != *srt.synonymMapping ||
+      groupResults.size() != srt.groupResults.size()) {
+    return false;
+  }
+
+  for (int i=0; i < groupResults.size(); i++) {
+    if (*groupResults[i].get() == *srt.groupResults[i].get())  {
+      continue;
+    } else {
+      return false;
+    }
+  }
+
+  return true;
 }

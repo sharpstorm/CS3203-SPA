@@ -4,7 +4,7 @@
 #include "pkb/queryHandlers/PkbQueryHandler.h"
 #include "qps/common/PQLQueryResult.h"
 #include "qps/executor/IQueryExecutor.h"
-#include "qps/QueryDriver.h"
+#include "qps/executor/SynonymResultTable.h"
 #include "qps/executor/QueryExecutor.h"
 #include "qps/parser/builder/QueryBuilder.h"
 #include "qps/clauses/such_that/FollowsClause.h"
@@ -32,6 +32,6 @@ TEST_CASE("Test QPS Follows Query") {
   auto handler = shared_ptr<PkbQueryHandler>(pkb);
   auto executor = unique_ptr<IQueryExecutor>(
       new QueryExecutor(handler));
-  PQLQueryResult* result = executor->executeQuery(query.get());
+  SynonymResultTable* result = executor->executeQuery(query.get());
   delete(result);
 }
