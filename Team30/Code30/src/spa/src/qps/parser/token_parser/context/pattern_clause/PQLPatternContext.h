@@ -2,8 +2,9 @@
 
 #include "../AbstractPQLContext.h"
 #include "qps/common/PQLQuerySynonym.h"
-#include "qps/clauses/arguments/ExpressionArgument.h"
 #include "common/parser/ISourceExpressionParser.h"
+#include "PQLAssignPatternContext.h"
+#include "IntermediateExpressionArgument.h"
 
 class PQLPatternContext: public AbstractPQLContext {
  public:
@@ -11,18 +12,22 @@ class PQLPatternContext: public AbstractPQLContext {
   void parse(QueryTokenParseState* parserState);
 
  private:
-  ISourceExpressionParser* exprParser;
+  PQLAssignPatternContext assignContextParser;
+
   void parsePatternClause(QueryTokenParseState* parserState);
   void extractRemainingArgs(QueryTokenParseState *parserState,
                             PQLQuerySynonym* synonym,
                             ClauseArgumentPtr firstArg);
   PQLQuerySynonym* parseSynonym(QueryTokenParseState* parserState);
-  PatternClausePtr dispatchTwoArg(PQLQuerySynonym* synonym,
-                                  ClauseArgumentPtr firstArg,
-                                  ExpressionArgumentPtr secondArg);
-  PatternClausePtr dispatchThreeArg(PQLQuerySynonym* synonym,
-                                    ClauseArgumentPtr firstArg,
-                                    ExpressionArgumentPtr secondArg);
 
-  ExpressionArgumentPtr extractExpression(QueryTokenParseState* parserState);
+  PatternClausePtr
+  dispatchTwoArg(PQLQuerySynonym* synonym,
+                 ClauseArgumentPtr firstArg,
+                 IntermediateExpressionArgumentPtr secondArg);
+  PatternClausePtr
+  dispatchThreeArg(PQLQuerySynonym* synonym,
+                   ClauseArgumentPtr firstArg,
+                   IntermediateExpressionArgumentPtr secondArg);
+  IntermediateExpressionArgumentPtr
+  extractExpression(QueryTokenParseState* parserState);
 };

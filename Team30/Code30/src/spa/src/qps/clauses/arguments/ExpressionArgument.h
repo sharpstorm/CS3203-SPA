@@ -2,18 +2,25 @@
 
 #include <string>
 #include <memory>
+#include <vector>
 
-using std::string, std::unique_ptr;
+#include "common/pattern/PatternTrieNode.h"
+
+using std::string, std::unique_ptr, std::vector;
+
+typedef vector<string> ExpressionSequence;
+typedef unique_ptr<ExpressionSequence> ExpressionSequencePtr;
 
 class ExpressionArgument {
  public:
-  ExpressionArgument(string literalPattern, bool isPartial);
+  ExpressionArgument();
+  ExpressionArgument(ExpressionSequencePtr expression, bool isPartial);
   bool isWildcard();
   bool allowsPartial();
-  string getPattern();
+  ExpressionSequence* getSequence();
 
  private:
-  string literalPattern;
+  ExpressionSequencePtr expressionSequence;
   bool isPartial;
 };
 

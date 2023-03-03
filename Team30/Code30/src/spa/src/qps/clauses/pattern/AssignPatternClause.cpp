@@ -54,7 +54,7 @@ bool AssignPatternClause::matchPartial(IASTNodePtr node) {
 
   if (node->getType() == ASTNODE_VARIABLE ||
       node->getType() == ASTNODE_CONSTANT) {
-    return node->getValue() == rightArgument->getPattern();
+    return rightArgument->getSequence()->at(0) == node->getValue();
   }
 
   return matchPartial(node->getChild(0))
@@ -66,6 +66,7 @@ bool AssignPatternClause::matchExact(IASTNodePtr rootNode) {
       rootNode->getType() != ASTNODE_CONSTANT) {
     return false;
   }
-  return rootNode->getValue() == rightArgument->getPattern();
+
+  return rightArgument->getSequence()->at(0) == rootNode->getValue();
 }
 

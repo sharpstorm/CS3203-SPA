@@ -1,16 +1,20 @@
 #include "ExpressionArgument.h"
 
-ExpressionArgument::ExpressionArgument(string literalPattern, bool isPartial):
-    literalPattern(literalPattern), isPartial(isPartial) {}
+ExpressionArgument::ExpressionArgument():
+    isPartial(true), expressionSequence(nullptr) {}
+
+ExpressionArgument::ExpressionArgument(ExpressionSequencePtr expression,
+                                       bool isPartial):
+    expressionSequence(std::move(expression)), isPartial(isPartial) {}
 
 bool ExpressionArgument::isWildcard() {
-  return literalPattern.empty() && isPartial;
+  return expressionSequence == nullptr && isPartial;
 }
 
 bool ExpressionArgument::allowsPartial() {
   return isPartial;
 }
 
-string ExpressionArgument::getPattern() {
-  return literalPattern;
+ExpressionSequence* ExpressionArgument::getSequence() {
+  return expressionSequence.get();
 }

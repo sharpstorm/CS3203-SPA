@@ -7,12 +7,12 @@
 #include "qps/parser/token_parser/ref_extractor/PQLEntityRefExtractor.h"
 #include "qps/clauses/pattern/WhilePatternClause.h"
 #include "qps/clauses/pattern/IfPatternClause.h"
-#include "qps/clauses/pattern/AssignPatternClause.h"
+#include "IntermediateExpressionArgument.h"
 
 using std::make_unique, std::move;
 
 PQLPatternContext::PQLPatternContext(ISourceExpressionParser *exprParser):
-    exprParser(exprParser) {}
+    assignContextParser(exprParser) {}
 
 void PQLPatternContext::parse(QueryTokenParseState *parserState) {
   parserState->advanceStage(TOKEN_PARSE_STAGE_PATTERN_MARKER);
@@ -32,7 +32,7 @@ void PQLPatternContext::parsePatternClause(QueryTokenParseState *parserState) {
 void PQLPatternContext::extractRemainingArgs(QueryTokenParseState *parserState,
                                              PQLQuerySynonym* synonym,
                                              ClauseArgumentPtr firstArg) {
-  ExpressionArgumentPtr exprArg = extractExpression(parserState);
+  IntermediateExpressionArgumentPtr exprArg = extractExpression(parserState);
   PQLToken* nextToken = parserState->expect(PQL_TOKEN_COMMA,
                                             PQL_TOKEN_BRACKET_CLOSE);
 
@@ -43,7 +43,8 @@ void PQLPatternContext::extractRemainingArgs(QueryTokenParseState *parserState,
   } else {
     parserState->expect(PQL_TOKEN_UNDERSCORE);
     parserState->expect(PQL_TOKEN_BRACKET_CLOSE);
-    clause = dispatchThreeArg(synonym, std::move(firstArg), std::move(exprArg));
+    clause = dispatchThreeArg(synonym, std::move(firstArg),
+                              std::move(exprArg));
   }
 
   if (clause == nullptr) {
@@ -63,7 +64,7 @@ PQLQuerySynonym* PQLPatternContext::parseSynonym(
 PatternClausePtr PQLPatternContext::dispatchTwoArg(
     PQLQuerySynonym* synonym,
     ClauseArgumentPtr firstArg,
-    ExpressionArgumentPtr secondArg) {
+    IntermediateExpressionArgumentPtr secondArg) {
   if (synonym == nullptr) {
     return nullptr;
   }
@@ -73,8 +74,8 @@ PatternClausePtr PQLPatternContext::dispatchTwoArg(
   }
 
   if (synonym->isType(PQL_SYN_TYPE_ASSIGN)) {
-    return make_unique<AssignPatternClause>(
-        *synonym, std::move(firstArg), std::move(secondArg));
+    return assignContextParser.parse(synonym, std::move(firstArg),
+                                     std::move(secondArg));
   }
 
   return nullptr;
@@ -83,7 +84,7 @@ PatternClausePtr PQLPatternContext::dispatchTwoArg(
 PatternClausePtr PQLPatternContext::dispatchThreeArg(
     PQLQuerySynonym* synonym,
     ClauseArgumentPtr firstArg,
-    ExpressionArgumentPtr secondArg) {
+    IntermediateExpressionArgumentPtr secondArg) {
   if (!secondArg->isWildcard()) {
     throw QPSParserSyntaxError(QPS_PARSER_ERR_UNEXPECTED);
   }
@@ -95,21 +96,24 @@ PatternClausePtr PQLPatternContext::dispatchThreeArg(
   return make_unique<WhilePatternClause>(*synonym, std::move(firstArg));
 }
 
-ExpressionArgumentPtr PQLPatternContext::extractExpression(
+IntermediateExpressionArgumentPtr PQLPatternContext::extractExpression(
     QueryTokenParseState *parserState) {
   PQLToken* nextToken = parserState->expect(PQL_TOKEN_UNDERSCORE,
                                             PQL_TOKEN_LITERAL,
                                             PQL_TOKEN_STRING_LITERAL);
   if (nextToken->isCategory(PQL_LITERAL_TOKEN)) {
-    return make_unique<ExpressionArgument>(nextToken->getData(), false);
+    return make_unique<IntermediateExpressionArgument>(
+        nextToken->getData(), false);
   }
 
   if (parserState->getCurrentToken()->isCategory(PQL_LITERAL_TOKEN)) {
     nextToken = parserState->expect(PQL_TOKEN_LITERAL,
                                     PQL_TOKEN_STRING_LITERAL);
     parserState->expect(PQL_TOKEN_UNDERSCORE);
-    return make_unique<ExpressionArgument>(nextToken->getData(), true);
+    return make_unique<IntermediateExpressionArgument>(
+        nextToken->getData(), true);
   }
 
-  return make_unique<ExpressionArgument>("", true);
+  return make_unique<IntermediateExpressionArgument>(
+      "", true);
 }

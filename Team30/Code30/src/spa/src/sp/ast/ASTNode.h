@@ -24,6 +24,7 @@ class ASTNode : public IASTNode {
   virtual void setChild(int index, ASTNodePtr node);
   virtual void addChild(ASTNodePtr node);
   shared_ptr<IASTNode> getChild(int index);
+  int getChildCount();
 
   virtual void accept(Extractor* e) {}
   virtual void leave(Extractor* e) {}
