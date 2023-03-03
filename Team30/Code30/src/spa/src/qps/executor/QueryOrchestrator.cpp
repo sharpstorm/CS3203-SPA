@@ -24,7 +24,6 @@ SynonymResultTable *QueryOrchestrator::execute(QueryPlan *plan,
     }
 
     if (targetGroup->isBooleanResult()) {
-      delete resultTable;
       delete result;
       continue;
     }
