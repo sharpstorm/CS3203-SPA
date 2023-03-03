@@ -7,9 +7,9 @@
 #include "contexts/RelationalExpressionContext.h"
 #include "contexts/RelationalFactorContext.h"
 
-class ConditionalContextProvider :
-    public IContextProvider<ConditionalContextType> {
+class ConditionalContextProvider : public IConditionalContextProvider {
  public:
+  explicit ConditionalContextProvider(IExpressionParser* exprParser);
   SourceParseContext* getContext(ConditionalContextType type);
 
  private:

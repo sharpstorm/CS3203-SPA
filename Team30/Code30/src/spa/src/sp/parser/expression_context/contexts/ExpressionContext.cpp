@@ -6,6 +6,9 @@
 
 using std::make_shared;
 
+ExpressionContext::ExpressionContext(IExpressionContextProvider *provider):
+    RecursiveParseContext(provider) {}
+
 ASTNodePtr ExpressionContext::generateSubtree(
     SourceParseState *state) {
 

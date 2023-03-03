@@ -5,10 +5,12 @@
 
 class FactorContext: public RecursiveExpressionParseContext {
  public:
-  explicit FactorContext(IExpressionContextProvider* provider):
-      RecursiveParseContext(provider) {}
+  explicit FactorContext(IExpressionContextProvider* provider,
+                IEntityParser* entityParser):
+      RecursiveParseContext(provider),
+      entityParser(entityParser) {}
   ASTNodePtr generateSubtree(SourceParseState* state);
 
  private:
-  IEntityParserPtr entityParser;
+  IEntityParser* entityParser;
 };

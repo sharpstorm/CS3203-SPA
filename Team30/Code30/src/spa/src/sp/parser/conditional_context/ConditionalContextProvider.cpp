@@ -1,5 +1,11 @@
 #include "ConditionalContextProvider.h"
 
+ConditionalContextProvider::ConditionalContextProvider(
+    IExpressionParser *exprParser): condContext(this),
+                                    relContext(this),
+                                    relFactorContext(exprParser){
+}
+
 SourceParseContext
 *ConditionalContextProvider::getContext(ConditionalContextType type) {
   switch (type) {

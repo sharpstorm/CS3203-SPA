@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../SourceParseContext.h"
-#include "../IGrammarContextProvider.h"
 #include "../IContextProvider.h"
 #include "ExpressionContextType.h"
 
@@ -9,8 +8,9 @@
 #include "contexts/ExpressionContext.h"
 #include "contexts/TermContext.h"
 
-class ExpressionContextProvider : IExpressionContextProvider {
+class ExpressionContextProvider : public IExpressionContextProvider {
  public:
+  explicit ExpressionContextProvider(IEntityParser* entityParser);
   SourceParseContext* getContext(ExpressionContextType type);
 
  private:

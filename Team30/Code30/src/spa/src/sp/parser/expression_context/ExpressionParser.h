@@ -1,17 +1,23 @@
 #pragma once
 
+#include <memory>
+
 #include "common/ast/ASTNode.h"
 
 #include "../SourceParseState.h"
 #include "../SubContextParser.h"
 #include "ExpressionContextType.h"
 
-class ExpressionParser: public SubContextParser<
-    ExpressionContextType, ExpressionContextType::EXPR_CONTEXT> {
- public:
-  virtual ~ExpressionParser() = default;
-};
+using std::unique_ptr, std::make_unique;
 
 typedef SubContextParser<ExpressionContextType,
                          ExpressionContextType::EXPR_CONTEXT>
     IExpressionParser;
+
+class ExpressionParser: public IExpressionParser {
+ public:
+  ExpressionParser(IEntityParser* entityParser):
+      SubContextParser(make_unique<ExpressionContextProvider>(entityParser)) {}
+};
+
+typedef unique_ptr<IExpressionParser> IExpressionParserPtr;
