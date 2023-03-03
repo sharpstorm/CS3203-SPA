@@ -13,8 +13,8 @@ PQLQueryResult *CallsClause::evaluateOn
     (shared_ptr<PkbQueryHandler> pkbQueryHandler) {
   EntityRef leftEntity = left->toEntityRef();
   EntityRef rightEntity = right->toEntityRef();
-  // TODO PKB Query
-  QueryResult<string, string> queryResult;
+  QueryResult<string, string> queryResult =
+      pkbQueryHandler->queryCalls(leftEntity, rightEntity);
   return Clause::toQueryResult(left.get(), right.get(), queryResult);
 }
 
