@@ -1,7 +1,7 @@
 #pragma once
 
-#include "RecursiveParseContext.h"
-#include "../IGrammarContextProvider.h"
+#include "sp/parser/RecursiveParseContext.h"
+#include "sp/parser/IGrammarContextProvider.h"
 #include "common/ast/ASTNode.h"
 
 class StatementListContext: public RecursiveParseContext {
