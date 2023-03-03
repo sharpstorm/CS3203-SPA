@@ -1,6 +1,9 @@
 #pragma once
 
+#include <memory>
 #include "UtilityTypes.h"
+
+using std::make_unique;
 
 class SetUtils {
  public:
@@ -22,5 +25,4 @@ class SetUtils {
 
     return result;
   }
-
 };

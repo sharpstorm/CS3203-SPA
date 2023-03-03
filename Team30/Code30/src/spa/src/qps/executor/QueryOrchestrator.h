@@ -15,7 +15,6 @@ using std::vector;
 class QueryOrchestrator {
  public:
   explicit QueryOrchestrator(QueryLauncher launcher);
-//  PQLQueryResult* execute(QueryPlan* plan);
   SynonymResultTable* execute(QueryPlan* plan, PQLQuerySynonymList* targetSyns);
 
  private:

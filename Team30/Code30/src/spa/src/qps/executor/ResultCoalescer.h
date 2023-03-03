@@ -57,7 +57,7 @@ class ResultCoalescer {
                 QueryResultTableRow* outputRow,
                 IntersectState* state);
 
-  template<class T>
-  IntersectSetPtr<T> intersectSet(IntersectSet<T>* s1,
-                                  IntersectSet<T>* s2);
+//  template<class T>
+//  IntersectSetPtr<T> intersectSet(IntersectSet<T>* s1,
+//                                  IntersectSet<T>* s2);
 };

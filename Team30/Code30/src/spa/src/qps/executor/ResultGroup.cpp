@@ -85,7 +85,7 @@ bool ResultGroup::operator==(const ResultGroup &rg) const {
     return false;
   }
 
-  for (const auto& it: colMap) {
+  for (const auto& it : colMap) {
     if (rg.colMap.find(it.first) == rg.colMap.end()) {
       return false;
     }
@@ -100,11 +100,12 @@ bool ResultGroup::operator==(const ResultGroup &rg) const {
       }
 
       // Go through all the synonyms
-      for (auto it: rg.colMap) {
+      for (auto it : rg.colMap) {
         int otherIdx = it.second;
         int thisIdx = colMap.at(it.first);
 
-        if (*groupTable[i][thisIdx].get() == *rg.groupTable[j][otherIdx].get()) {
+        if (*groupTable[i][thisIdx].get() ==
+            *rg.groupTable[j][otherIdx].get()) {
           isFound = true;
           break;
         }
