@@ -56,13 +56,13 @@ unique_ptr<PKB> initPkb() {
   pkbWriter->addParent(7, 8);
   pkbWriter->addParent(8, 9);
 
-  pkbWriter->addUses(4, "x");
-  pkbWriter->addUses(5, "y");
-  pkbWriter->addModifies(1, "x");
-  pkbWriter->addModifies(2, "y");
-  pkbWriter->addModifies(3, "z");
-  pkbWriter->addModifies(4, "x");
-  pkbWriter->addModifies(5, "z");
+  pkbWriter->addUses(4, "x", "example");
+  pkbWriter->addUses(5, "y", "example");
+  pkbWriter->addModifies(1, "x", "example");
+  pkbWriter->addModifies(2, "y", "example");
+  pkbWriter->addModifies(3, "z", "example");
+  pkbWriter->addModifies(4, "x", "example");
+  pkbWriter->addModifies(5, "z", "example");
 
   return pkb;
 }

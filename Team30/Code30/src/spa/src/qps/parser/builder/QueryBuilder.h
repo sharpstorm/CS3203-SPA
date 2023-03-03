@@ -17,12 +17,12 @@ class QueryBuilder {
  private:
   string errorMsg;
   unordered_map<string, PQLQuerySynonym> variables;
-  PQLQuerySynonym resultVariable;
+  vector<PQLQuerySynonym> resultVariables;
   vector<ClauseSPtr> clauses;
 
  public:
   QueryBuilder();
-  void setResultSynonym(PQLSynonymType type, PQLSynonymName name);
+  void addResultSynonym(PQLQuerySynonym synonym);
   bool hasSynonym(PQLSynonymName name);
   void addSynonym(PQLSynonymName name, PQLSynonymType type);
 

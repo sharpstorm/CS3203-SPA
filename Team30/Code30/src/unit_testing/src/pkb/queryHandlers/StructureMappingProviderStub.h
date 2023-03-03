@@ -1,16 +1,17 @@
 #pragma once
 
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
-#include <string>
+
+#include "pkb/PkbTypes.h"
 #include "pkb/storage/interfaces/IStructureMappingProvider.h"
 #include "pkb/storage/tables/HashKeySetTable.h"
 #include "pkb/storage/tables/HashKeyTable.h"
-#include "pkb/PkbTypes.h"
 
+using std::string;
 using std::unordered_map;
 using std::unordered_set;
-using std::string;
 
 class StructureMappingProviderStub : public IStructureMappingProvider {
  public:
@@ -20,6 +21,9 @@ class StructureMappingProviderStub : public IStructureMappingProvider {
 
   HashKeySetTable<string, int> procedureToStmtNum;
   HashKeyTable<int, string> stmtNumToProcedure;
+
+  HashKeyTable<int, string> stmtNumToCalledProcedure;
+  HashKeySetTable<string, int> CalledProcedureToStmtNum;
 
   StructureMappingProviderStub();
 
@@ -31,5 +35,7 @@ class StructureMappingProviderStub : public IStructureMappingProvider {
 
   string getProcedureForLine(int stmt) const override;
 
-  Transformer<int, string> getStmtProcedureTransformer() const override;
+  unordered_set<int> getCallStmtsOfProcedure(string) const override;
+
+  string getCalledProcedure(int) const override;
 };

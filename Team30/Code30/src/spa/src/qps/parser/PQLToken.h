@@ -33,6 +33,8 @@ enum PQLTokenType {
   PQL_TOKEN_SEMICOLON = PQL_SYMBOL_TOKEN,
   PQL_TOKEN_BRACKET_OPEN,
   PQL_TOKEN_BRACKET_CLOSE,
+  PQL_TOKEN_TUPLE_OPEN,
+  PQL_TOKEN_TUPLE_CLOSE,
   PQL_TOKEN_COMMA,
   PQL_TOKEN_PERIOD,
   PQL_TOKEN_UNDERSCORE,
@@ -81,6 +83,7 @@ class PQLToken {
   PQLTokenType getType();
   string getData();
   bool isType(PQLTokenType);
+  bool isCategory(PQLTokenCategory);
   bool isVarchar();
   bool isSynName();
   bool operator==(const PQLToken& other) const;

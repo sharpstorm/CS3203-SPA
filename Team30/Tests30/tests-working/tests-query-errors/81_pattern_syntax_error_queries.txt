@@ -1,0 +1,40 @@
+1 - Pattern 1 arg
+stmt s;
+Select s pattern s(_)
+SyntaxError
+5000
+2 - Pattern 4 arg
+stmt s;
+Select s pattern s(_, _, _, _)
+SyntaxError
+5000
+3 - Pattern 3 arg with literal
+stmt s;
+Select s pattern s(_, "abc", _)
+SyntaxError
+5000
+4 - Pattern 3 arg with literal
+stmt s;
+Select s pattern s(_, _, "abc")
+SyntaxError
+5000
+5 - Pattern Integer
+stmt s;
+Select s pattern s(1, _)
+SyntaxError
+5000
+6 - Pattern Integer
+stmt s;
+Select s pattern s(_, 1)
+SyntaxError
+5000
+7 - Pattern Integer
+stmt s;
+Select s pattern s(_, s)
+SyntaxError
+5000
+8 - Pattern Unclosed Literal
+stmt s;
+Select s pattern s(_, "abc)
+SyntaxError
+5000

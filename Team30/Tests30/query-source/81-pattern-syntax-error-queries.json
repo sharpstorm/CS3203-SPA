@@ -1,0 +1,66 @@
+{
+  "timeout": 5000,
+  "cases": [
+
+    { "comment": "------------ Pattern Arg Count -----------" },
+
+    {
+      "name": "Pattern 1 arg",
+      "defn": "stmt s;",
+      "query": "Select s pattern s(_)",
+      "ans": "SyntaxError"
+    },
+    {
+      "name": "Pattern 4 arg",
+      "defn": "stmt s;",
+      "query": "Select s pattern s(_, _, _, _)",
+      "ans": "SyntaxError"
+    },
+
+    { "comment": "------------ Pattern 3 Arg Type -----------" },
+
+    {
+      "name": "Pattern 3 arg with literal",
+      "defn": "stmt s;",
+      "query": "Select s pattern s(_, \"abc\", _)",
+      "ans": "SyntaxError"
+    },
+    {
+      "name": "Pattern 3 arg with literal",
+      "defn": "stmt s;",
+      "query": "Select s pattern s(_, _, \"abc\")",
+      "ans": "SyntaxError"
+    },
+
+    { "comment": "------------ Pattern 2 Arg Type -----------" },
+
+    {
+      "name": "Pattern Integer",
+      "defn": "stmt s;",
+      "query": "Select s pattern s(1, _)",
+      "ans": "SyntaxError"
+    },
+    {
+      "name": "Pattern Integer",
+      "defn": "stmt s;",
+      "query": "Select s pattern s(_, 1)",
+      "ans": "SyntaxError"
+    },
+
+    {
+      "name": "Pattern Integer",
+      "defn": "stmt s;",
+      "query": "Select s pattern s(_, s)",
+      "ans": "SyntaxError"
+    },
+
+    { "comment": "------------ Pattern Bad Arg -----------" },
+
+    {
+      "name": "Pattern Unclosed Literal",
+      "defn": "stmt s;",
+      "query": "Select s pattern s(_, \"abc)",
+      "ans": "SyntaxError"
+    }
+  ]
+}
