@@ -1,10 +1,11 @@
 #pragma once
 
 #include <string>
+#include <memory>
 #include "ASTNode.h"
 #include "sp/extractor/Extractor.h"
 
-using std::string;
+using std::string, std::shared_ptr;
 
 class BinaryASTNode: public ASTNode {
  public:
@@ -18,3 +19,5 @@ class BinaryASTNode: public ASTNode {
   explicit BinaryASTNode(ASTNodeType type);
   BinaryASTNode(ASTNodeType type, string value);
 };
+
+typedef shared_ptr<BinaryASTNode> BinaryASTNodePtr;
