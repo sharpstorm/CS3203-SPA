@@ -20,7 +20,9 @@ class PKB {
   StatementStorage *statementStorage;
   ProcedureStorage *procedureStorage;
   UsesStorage *usesStorage;
+  UsesPStorage *usesPStorage;
   ModifiesStorage *modifiesStorage;
+  ModifiesPStorage *modifiesPStorage;
   AssignStorage *assignStorage;
   CallsStorage *callsStorage;
   CallStmtStorage *callStmtStorage;

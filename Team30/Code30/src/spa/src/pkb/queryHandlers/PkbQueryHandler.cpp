@@ -9,15 +9,18 @@
 
 PkbQueryHandler::PkbQueryHandler(PKB *pkb)
     : followsHandler(new FollowsQueryHandler(
-          pkb->followsStore, pkb->predicateFactory, pkb->structureProvider)),
+    pkb->followsStore, pkb->predicateFactory, pkb->structureProvider)),
       parentHandler(new ParentQueryHandler(
           pkb->parentStore, pkb->predicateFactory, pkb->structureProvider)),
-      usesHandler(new UsesQueryHandler(pkb->usesStorage, pkb->predicateFactory,
+      usesHandler(new UsesQueryHandler(pkb->usesStorage, pkb->usesPStorage,
+                                       pkb->predicateFactory,
                                        pkb->structureProvider,
                                        pkb->entityMappingProvider)),
-      modifiesHandler(new ModifiesQueryHandler(
-          pkb->modifiesStorage, pkb->predicateFactory, pkb->structureProvider,
-          pkb->entityMappingProvider)),
+      modifiesHandler(new ModifiesQueryHandler(pkb->modifiesStorage,
+                                               pkb->modifiesPStorage,
+                                               pkb->predicateFactory,
+                                               pkb->structureProvider,
+                                               pkb->entityMappingProvider)),
       callsHandler(new CallsQueryHandler(pkb->callsStorage,
                                          pkb->predicateFactory,
                                          pkb->entityMappingProvider)),

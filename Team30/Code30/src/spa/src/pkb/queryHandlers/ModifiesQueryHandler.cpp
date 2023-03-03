@@ -4,11 +4,13 @@
 using std::string;
 
 ModifiesQueryHandler::ModifiesQueryHandler(
-    const ModifiesStorage *store,
+    const ModifiesStorage *modifiesStorage,
+    const ModifiesPStorage *modifiesPStorage,
     const PredicateFactory *predicateFactory,
     const IStructureMappingProvider *structureProvider,
     const IEntityMappingProvider *entitiesProvider)
-    : store(store),
+    : modifiesStorage(modifiesStorage),
+      modifiesPStorage(modifiesPStorage),
       predicateFactory(predicateFactory),
       structureProvider(structureProvider),
       entitiesProvider(entitiesProvider) {}
@@ -31,13 +33,15 @@ QueryResult<int, string> ModifiesQueryHandler::queryModifies(
     return QueryResult<int, string>();
   }
   if (arg1.isKnown()) {
-    return store->query(arg1.lineNum,
-                        predicateFactory->getPredicate(arg2));
+    return modifiesStorage->query(arg1.lineNum,
+                                  predicateFactory->getPredicate(arg2));
   } else if (arg2.isKnown()) {
-    return store->query(predicateFactory->getPredicate(arg1), arg2.name);
+    return modifiesStorage->query(predicateFactory->getPredicate(arg1),
+                                  arg2.name);
   } else {
-    return store->query(structureProvider->getStatementsOfType(arg1.type),
-                        predicateFactory->getPredicate(arg2));
+    return modifiesStorage->query(
+        structureProvider->getStatementsOfType(arg1.type),
+        predicateFactory->getPredicate(arg2));
   }
 }
 
@@ -47,22 +51,14 @@ QueryResult<string, string> ModifiesQueryHandler::queryModifies(
     return QueryResult<string, string>();
   }
   if (arg1.isKnown()) {
-    return store->query<string>(
-        structureProvider->getProcedureLines(arg1.name),
-        predicateFactory->getPredicate(arg2),
-        structureProvider->getStmtProcedureTransformer());
+    return modifiesPStorage->query(arg1.name,
+                                   predicateFactory->getPredicate(arg2));
   } else if (arg2.isKnown()) {
-    return store->query<string>(
-        predicateFactory->getPredicate({StmtType::None, 0}),
-        arg2.name,
-        structureProvider->getStmtProcedureTransformer());
+    return modifiesPStorage->query(predicateFactory->getPredicate(arg1),
+                                   arg2.name);
   } else {
-    unordered_set<string> variables =
-        entitiesProvider->getSymbolsOfType(EntityType::Variable);
-    return store->query<string>(
-        predicateFactory->getPredicate(
-            {StmtType::None, 0}),
-        variables,
-        structureProvider->getStmtProcedureTransformer());
+    return modifiesPStorage->query(
+        entitiesProvider->getSymbolsOfType(EntityType::Procedure),
+        predicateFactory->getPredicate(arg2));
   }
 }

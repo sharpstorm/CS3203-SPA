@@ -1,8 +1,12 @@
 #include "StructureMappingProvider.h"
 
 StructureMappingProvider::StructureMappingProvider(
-    StatementStorage *statementStorage, ProcedureStorage *procedureStorage)
-    : statementStorage(statementStorage), procedureStorage(procedureStorage) {}
+    StatementStorage *statementStorage,
+    ProcedureStorage *procedureStorage,
+    CallStmtStorage *callStmtStorage)
+    : statementStorage(statementStorage),
+      procedureStorage(procedureStorage),
+      callStmtStorage(callStmtStorage) {}
 
 StmtType StructureMappingProvider::getStatementType(int lineNumber) const {
   return statementStorage->getByKey(lineNumber);
@@ -25,11 +29,6 @@ unordered_set<int> StructureMappingProvider::getProcedureLines(
 std::string StructureMappingProvider::getProcedureForLine(
     int lineNumber) const {
   return procedureStorage->getByKey(lineNumber);
-}
-
-Transformer<int, std::string>
-StructureMappingProvider::getStmtProcedureTransformer() const {
-  return [this](int const stmt) { return getProcedureForLine(stmt); };
 }
 
 std::unordered_set<int> StructureMappingProvider::getCallStmtsOfProcedure(
