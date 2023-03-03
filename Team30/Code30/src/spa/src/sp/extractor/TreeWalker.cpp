@@ -4,7 +4,7 @@
 
 void TreeWalker::walkAST(AST ast,
                          VectorPtr<Extractor*> extractors) {
-  DFS(ast.getRoot(), extractors);
+  DFS(ast.getMutableRoot(), extractors);
 }
 
 void TreeWalker::DFS(ASTNodePtr node,

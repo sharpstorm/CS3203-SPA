@@ -1,11 +1,13 @@
 #pragma once
 
 #include "sp/ast/ASTNode.h"
+#include "common/ast/IAST.h"
 
-class AST {
+class AST: public IAST {
  public:
   explicit AST(ASTNodePtr node);
-  ASTNodePtr getRoot();
+  ASTNodePtr getMutableRoot();
+  IASTNodePtr getRoot();
  private:
   ASTNodePtr root;
 };

@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "../common/SourceToken.h"
-#include "common/ast/AST.h"
+#include "sp/ast/AST.h"
 #include "sp/parser/entity_context/EntityParser.h"
 #include "sp/parser/expression_context/ExpressionParser.h"
 #include "sp/parser/conditional_context/ConditionalParser.h"

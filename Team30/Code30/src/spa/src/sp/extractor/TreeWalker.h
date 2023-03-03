@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "AbstractExtractor.h"
-#include "common/ast/AST.h"
+#include "sp/ast/AST.h"
 #include "common/UtilityTypes.h"
 #include "sp/ast/ASTNode.h"
 
