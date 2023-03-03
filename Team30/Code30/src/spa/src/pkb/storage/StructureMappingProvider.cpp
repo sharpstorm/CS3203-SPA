@@ -1,8 +1,12 @@
 #include "StructureMappingProvider.h"
 
 StructureMappingProvider::StructureMappingProvider(
-    StatementStorage *statementStorage, ProcedureStorage *procedureStorage)
-    : statementStorage(statementStorage), procedureStorage(procedureStorage) {}
+    StatementStorage *statementStorage,
+    ProcedureStorage *procedureStorage,
+    CallStmtStorage *callStmtStorage)
+    : statementStorage(statementStorage),
+      procedureStorage(procedureStorage),
+      callStmtStorage(callStmtStorage) {}
 
 StmtType StructureMappingProvider::getStatementType(int lineNumber) const {
   return statementStorage->getByKey(lineNumber);

@@ -40,7 +40,9 @@ PKB::PKB()
           make_shared<ContiguousTable<string>>(),
           make_shared<HashKeySetTable<string, int>>())),
       structureProvider(
-          new StructureMappingProvider(statementStorage, procedureStorage)),
+          new StructureMappingProvider(statementStorage,
+                                       procedureStorage,
+                                       callStmtStorage)),
       entityMappingProvider(new EntityMappingProvider(symbolStorage)),
       predicateFactory(
           new PredicateFactory(structureProvider, entityMappingProvider)) {}

@@ -12,7 +12,6 @@ class ModifiesUsesPostProcessor : public IPostProcessor {
   void process() override;
 
  private:
-  IPkbWriter *pkbWriter;
   PKB *pkb;
 
   void populateProcedureAndVars();

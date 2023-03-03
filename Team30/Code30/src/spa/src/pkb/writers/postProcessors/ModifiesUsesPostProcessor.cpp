@@ -4,8 +4,7 @@
 
 using std::unordered_set, std::string;
 
-ModifiesUsesPostProcessor::ModifiesUsesPostProcessor(PKB *pkb) :
-    pkbWriter(pkbWriter), pkb(pkb) {}
+ModifiesUsesPostProcessor::ModifiesUsesPostProcessor(PKB *pkb) : pkb(pkb) {}
 
 void ModifiesUsesPostProcessor::process() {
   populateProcedureAndVars();

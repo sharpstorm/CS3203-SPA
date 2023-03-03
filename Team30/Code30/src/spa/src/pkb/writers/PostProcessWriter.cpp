@@ -2,14 +2,10 @@
 #include "PostProcessWriter.h"
 #include "postProcessors/ModifiesUsesPostProcessor.h"
 
-using std::make_unique;
+using std::make_unique, std::unique_ptr, std::move;
 PostProcessWriter::PostProcessWriter(PKB *pkb) {
-  addProcessor(make_unique<ModifiesUsesPostProcessor>(pkb).get());
+  processors.push_back(make_unique<ModifiesUsesPostProcessor>(pkb));
 }
-
-void PostProcessWriter::addProcessor(IPostProcessor *p) {
-  processors.push_back(p);
-};
 
 void PostProcessWriter::runPostProcessor() {
   for (auto itr = processors.begin(); itr != processors.end(); itr++) {
