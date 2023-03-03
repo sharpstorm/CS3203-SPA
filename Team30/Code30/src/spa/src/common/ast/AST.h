@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include "common/ast/ASTNode.h"
+#include "sp/ast/ASTNode.h"
 
 using std::shared_ptr;
 

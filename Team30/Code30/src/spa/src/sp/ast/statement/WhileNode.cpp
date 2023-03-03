@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "common/ast/ASTNode.h"
+#include "sp/ast/ASTNode.h"
 
 using std::vector;
 

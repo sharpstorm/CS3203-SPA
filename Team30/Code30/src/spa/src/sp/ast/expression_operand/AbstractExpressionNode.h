@@ -2,7 +2,7 @@
 
 #include <string>
 #include "sp/extractor/Extractor.h"
-#include "common/ast/BinaryASTNode.h"
+#include "sp/ast/BinaryASTNode.h"
 
 using std::string;
 

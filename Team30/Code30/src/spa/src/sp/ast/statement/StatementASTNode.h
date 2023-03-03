@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "common/ast/ASTNode.h"
+#include "sp/ast/ASTNode.h"
 #include "sp/extractor/Extractor.h"
 
 using std::string;

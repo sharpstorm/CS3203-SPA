@@ -3,8 +3,9 @@
 #include <vector>
 #include <string>
 #include <memory>
+
 #include "sp/extractor/Extractor.h"
-#include "IASTNode.h"
+#include "common/ast/IASTNode.h"
 
 using std::vector, std::string, std::shared_ptr;
 
