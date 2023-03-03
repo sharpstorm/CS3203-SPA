@@ -4,7 +4,6 @@
 #include "pkb/storage/PKB.h"
 #include "pkb/writers/PkbWriter.h"
 
-#include "sp/ast/StatementListNode.h"
 #include "sp/ast/statement/AssignNode.h"
 #include "sp/ast/statement/IfNode.h"
 #include "sp/ast/statement/PrintNode.h"
