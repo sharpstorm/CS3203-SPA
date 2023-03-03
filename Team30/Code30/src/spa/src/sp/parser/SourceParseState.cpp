@@ -79,3 +79,17 @@ int SourceParseState::getLineNumber() {
 void SourceParseState::advanceLine() {
   lineNumber += 1;
 }
+
+SourceToken *SourceParseState::expectVarchar() {
+  SourceToken* currentToken = getCurrToken();
+
+  if (currentToken == nullptr) {
+    throw SPError(SPERR_END_OF_STREAM);
+  }
+
+  if (currentToken->isVarchar()) {
+    advanceToken();
+    return currentToken;
+  }
+  throw SPError(SPERR_UNEXPECTED_TOKEN);
+}
