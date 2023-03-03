@@ -1,5 +1,6 @@
 #include <memory>
 #include "RelationalExpressionContext.h"
+
 #include "common/ast/math/conditional_operand/GtASTNode.h"
 #include "common/ast/math/conditional_operand/GteASTNode.h"
 #include "common/ast/math/conditional_operand/LteASTNode.h"
@@ -7,23 +8,23 @@
 #include "common/ast/math/conditional_operand/NotEqualsASTNode.h"
 #include "common/ast/math/conditional_operand/LtASTNode.h"
 
-using std::shared_ptr;
+using std::make_shared;
 
-shared_ptr<ASTNode>
+ASTNodePtr
 RelationalExpressionContext::generateSubtree(SourceParseState *state) {
   state->clearCached();
-  shared_ptr<ASTNode> leftNode = contextProvider->
-      getContext(REL_FACTOR_CONTEXT)->generateSubtree(state);
+  ASTNodePtr leftNode = contextProvider
+      ->getContext(REL_FACTOR_CONTEXT)
+      ->generateSubtree(state);
 
-  SourceToken* token = expect(state,
-                              SIMPLE_TOKEN_GT,
-                              SIMPLE_TOKEN_GTE,
-                              SIMPLE_TOKEN_LT,
-                              SIMPLE_TOKEN_LTE,
-                              SIMPLE_TOKEN_EQUALS,
-                              SIMPLE_TOKEN_NOT_EQUALS);
+  SourceToken* token = state->expect(SIMPLE_TOKEN_GT,
+                                     SIMPLE_TOKEN_GTE,
+                                     SIMPLE_TOKEN_LT,
+                                     SIMPLE_TOKEN_LTE,
+                                     SIMPLE_TOKEN_EQUALS,
+                                     SIMPLE_TOKEN_NOT_EQUALS);
   state->clearCached();
-  shared_ptr<BinaryASTNode> newNode =
+  BinaryASTNodePtr newNode =
       generateRelationalNode(token->getType(), leftNode);
   newNode->setRightChild(contextProvider->
       getContext(REL_FACTOR_CONTEXT)->generateSubtree(state));
@@ -31,28 +32,27 @@ RelationalExpressionContext::generateSubtree(SourceParseState *state) {
   return newNode;
 }
 
-shared_ptr<BinaryASTNode>
-RelationalExpressionContext::generateRelationalNode
-    (SourceTokenType type, shared_ptr<ASTNode> leftNode) {
-  shared_ptr<BinaryASTNode> node;
+BinaryASTNodePtr RelationalExpressionContext::generateRelationalNode(
+    SourceTokenType type, shared_ptr<ASTNode> leftNode) {
+  BinaryASTNodePtr node;
   switch (type) {
     case SIMPLE_TOKEN_GT:
-      node = shared_ptr<BinaryASTNode>(new GtASTNode());
+      node = make_shared<GtASTNode>();
       break;
     case SIMPLE_TOKEN_GTE:
-      node = shared_ptr<BinaryASTNode>(new GteASTNode());
+      node = make_shared<GteASTNode>();
       break;
     case SIMPLE_TOKEN_LT:
-      node = shared_ptr<BinaryASTNode>(new LtASTNode());
+      node = make_shared<LtASTNode>();
       break;
     case SIMPLE_TOKEN_LTE:
-      node = shared_ptr<BinaryASTNode>(new LteASTNode());
+      node = make_shared<LteASTNode>();
       break;
     case SIMPLE_TOKEN_EQUALS:
-      node = shared_ptr<BinaryASTNode>(new EqualsASTNode());
+      node = make_shared<EqualsASTNode>();
       break;
     case SIMPLE_TOKEN_NOT_EQUALS:
-      node = shared_ptr<BinaryASTNode>(new NotEqualsASTNode());
+      node = make_shared<NotEqualsASTNode>();
       break;
     default:
       throw SPError(SPERR_UNEXPECTED_TOKEN);
