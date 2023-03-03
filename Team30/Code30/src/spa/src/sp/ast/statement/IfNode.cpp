@@ -1,7 +1,7 @@
 #include "IfNode.h"
 
 #include <vector>
-#include "../ASTNode.h"
+#include "common/ast/ASTNode.h"
 
 using std::vector;
 

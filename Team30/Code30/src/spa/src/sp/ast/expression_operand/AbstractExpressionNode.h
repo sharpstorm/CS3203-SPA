@@ -6,14 +6,14 @@
 
 using std::string;
 
-class AbstractMathNode: public BinaryASTNode {
+class AbstractExpressionNode: public BinaryASTNode {
  public:
-  virtual ~AbstractMathNode() = default;
+  virtual ~AbstractExpressionNode() = default;
   void accept(Extractor* e);
   string toString();
 
  protected:
-  AbstractMathNode(ASTNodeType type, string identifier) :
+  AbstractExpressionNode(ASTNodeType type, string identifier) :
       BinaryASTNode(type), identifier() {}
 
  private:

@@ -1,7 +1,7 @@
 #include <vector>
 
 #include "ReadNode.h"
-#include "../ASTNode.h"
+#include "common/ast/ASTNode.h"
 
 using std::vector;
 
