@@ -7,19 +7,19 @@ using std::make_shared;
 
 ASTNodePtr WhileContext::generateSubtree(SourceParseState* state) {
   // While Node
-  expect(state, SIMPLE_TOKEN_KEYWORD_WHILE);
+  state->expect(SIMPLE_TOKEN_KEYWORD_WHILE);
   ASTNodePtr whileNode = make_shared<WhileNode>(
       state->getLineNumber());
 
   // Conditional Expression
-  expect(state, SIMPLE_TOKEN_BRACKET_ROUND_LEFT);
-  ASTNodePtr cond = contextProvider->
-      getContext(COND_CONTEXT)->generateSubtree(state);
-  expect(state, SIMPLE_TOKEN_BRACKET_ROUND_RIGHT);
+  state->expect(SIMPLE_TOKEN_BRACKET_ROUND_LEFT);
+  ASTNodePtr cond = contextProvider->getConditionalParser()->parse(state);
+  state->expect(SIMPLE_TOKEN_BRACKET_ROUND_RIGHT);
 
   // Statement List
-  ASTNodePtr stmtLst = contextProvider->
-      getContext(STMT_LIST_CONTEXT)->generateSubtree(state);
+  ASTNodePtr stmtLst = contextProvider
+      ->getContext(ProcedureContextType::STMT_LIST_CONTEXT)
+      ->generateSubtree(state);
 
   // Assign to children to While Node
   whileNode->setChild(0, cond);
