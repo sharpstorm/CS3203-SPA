@@ -1,16 +1,18 @@
 #include <memory>
 #include "TermContext.h"
+
 #include "common/ast/math/math_operand/TimesASTNode.h"
 #include "common/ast/math/math_operand/DivASTNode.h"
 #include "common/ast/math/math_operand/ModASTNode.h"
 
-using std::shared_ptr, std::make_shared;
+using std::make_shared;
 
-shared_ptr<ASTNode> TermContext::generateSubtree(SourceParseState *state) {
+ASTNodePtr TermContext::generateSubtree(SourceParseState *state) {
   if (!state->hasCached()) {
     // Expect term
-    shared_ptr<ASTNode> firstExpr = contextProvider
-        ->getContext(FACTOR_CONTEXT)->generateSubtree(state);
+    ASTNodePtr firstExpr = contextProvider
+        ->getContext(ExpressionContextType::FACTOR_CONTEXT)
+        ->generateSubtree(state);
     state->setCached(firstExpr);
   }
 
@@ -19,7 +21,7 @@ shared_ptr<ASTNode> TermContext::generateSubtree(SourceParseState *state) {
     return state->getCached();
   }
 
-  shared_ptr<BinaryASTNode> middleNode = generateOperand(curToken);
+  BinaryASTNodePtr middleNode = generateOperand(curToken);
   if (middleNode == nullptr) {
     return state->getCached();
   }
@@ -28,7 +30,9 @@ shared_ptr<ASTNode> TermContext::generateSubtree(SourceParseState *state) {
   state->advanceToken();
   state->clearCached();
   shared_ptr<ASTNode> rightTerm = contextProvider
-      ->getContext(FACTOR_CONTEXT)->generateSubtree(state);
+      ->getContext(ExpressionContextType::FACTOR_CONTEXT)
+      ->generateSubtree(state);
+
   middleNode->setRightChild(rightTerm);
   state->setCached(middleNode);
 
@@ -36,12 +40,14 @@ shared_ptr<ASTNode> TermContext::generateSubtree(SourceParseState *state) {
     return middleNode;
   } else if (state->getCurrToken()
       ->isType(SIMPLE_TOKEN_TIMES, SIMPLE_TOKEN_DIV, SIMPLE_TOKEN_MOD)) {
-    return contextProvider->getContext(TERM_CONTEXT)->generateSubtree(state);
+    return contextProvider
+        ->getContext(ExpressionContextType::TERM_CONTEXT)
+        ->generateSubtree(state);
   }
   return middleNode;
 }
 
-shared_ptr<BinaryASTNode> TermContext::generateOperand(
+BinaryASTNodePtr TermContext::generateOperand(
     SourceToken* curToken) {
   switch (curToken->getType()) {
     case SIMPLE_TOKEN_TIMES:
