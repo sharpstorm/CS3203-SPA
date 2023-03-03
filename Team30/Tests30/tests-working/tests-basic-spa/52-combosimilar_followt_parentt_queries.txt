@@ -46,12 +46,12 @@ Select a such that Parent*(6, a) pattern a (_, _)
 10 - Parent* and pattern(_, _)
 while a; 
 Select a such that Parent*(a, 21) pattern a (_, _)
-SyntaxError
+SemanticError
 5000
 11 - Parent* and pattern(_, _)
 if a; 
 Select a such that Parent*(a, 21) pattern a (_, _)
-SyntaxError
+
 5000
 12 - Parent* pattern(_, _)
 assign a;
@@ -66,12 +66,12 @@ z, x, y, i, k
 14 - Parent* and pattern(v, _)
 while a; variable v;
 Select v such that Parent*(a, 21) pattern a (v, _)
-SyntaxError
+SemanticError
 5000
 15 - Parent* and pattern(v, _)
 if a; variable v;
 Select v such that Parent*(a, 21) pattern a (v, _)
-SyntaxError
+
 5000
 16 - Parent* and pattern(v, _)
 assign a; variable v;
@@ -126,12 +126,12 @@ Select a such that Parent*(6, a) pattern a (v, _"i"_)
 26 - Parent* and pattern (v, variable)
 if a; variable v;
 Select a such that Parent*(a, 21) pattern a (v, _"i"_)
-SyntaxError
+SemanticError
 5000
 27 - Parent* and pattern (v, variable)
 while a; variable v;
 Select a such that Parent*(a, 21) pattern a (v, _"i"_)
-SyntaxError
+SemanticError
 5000
 28 - Parent* and pattern (v, variable)
 assign a; variable v;
@@ -146,12 +146,12 @@ i
 30 - Parent* and pattern (v, variable) - variable
 if a; variable v;
 Select v such that Parent*(a, 21) pattern a (v, _"i"_)
-SyntaxError
+SemanticError
 5000
 31 - Parent* and pattern (v, variable) - variable
 while a; variable v;
 Select v such that Parent*(a, 21) pattern a (v, _"i"_)
-SyntaxError
+SemanticError
 5000
 32 - Parent* and pattern (v, variable)
 assign a; variable v;
@@ -246,12 +246,12 @@ Select a such that Parent*(6, a) pattern a (v, _"9"_)
 50 - Parent* and pattern (v, constant)
 while a; variable v;
 Select a such that Parent*(a, 21) pattern a (v, _"9"_)
-SyntaxError
+SemanticError
 5000
 51 - Parent* and pattern (v, constant)
 if a; variable v;
 Select a such that Parent*(a, 21) pattern a (v, _"9"_)
-SyntaxError
+SemanticError
 5000
 52 - Parent* and pattern (v, constant)
 assign a; variable v;
@@ -266,12 +266,12 @@ k
 54 - Parent* and pattern (v, constant) - variable
 while a; variable v;
 Select v such that Parent*(a, 21) pattern a (v, _"9"_)
-SyntaxError
+SemanticError
 5000
 55 - Parent* and pattern (v, constant) - variable
 if a; variable v;
 Select v such that Parent*(a, 21) pattern a (v, _"9"_)
-SyntaxError
+SemanticError
 5000
 56 - Parent* and pattern (v, constant) - variable
 assign a; variable v;
