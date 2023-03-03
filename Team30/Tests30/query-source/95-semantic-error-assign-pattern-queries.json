@@ -1,600 +1,1643 @@
 {
   "timeout": 5000,
   "cases": [
-
     {
-      "name": "Assign Pattern Semantic Error a1(c1)",
+      "name": "Pattern Left Arg OK a1(v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select cl1 pattern a1(v1, \"b\")",
+      "ans": ""
+    },
+    {
+      "name": "Pattern LeftArg Semantic Error a1(c1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
       "query": "Select s1 pattern a1(c1, _)",
       "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error c1(v1)",
+      "name": "Pattern (v1, Literal) Semantic Error c1(v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern c1(v1, \"1\")",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (c1, Literal) Semantic Error c1(c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern c1(c1, \"1\")",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (v1, _) OK a1(v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select cl1 pattern a1(v1, _)",
+      "ans": ""
+    },
+    {
+      "name": "Pattern (v1, _) Semantic Error c1(v1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
       "query": "Select s1 pattern c1(v1, _)",
-      "ans": "SyntaxError"
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error c1(c1)",
+      "name": "Pattern (c1, _) Semantic Error c1(c1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
       "query": "Select s1 pattern c1(c1, _)",
-      "ans": "SyntaxError"
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error pr1(v1)",
+      "name": "Pattern Left Arg OK w1(v1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern pr1(v1, _)",
-      "ans": "SyntaxError"
+      "query": "Select cl1 pattern w1(v1, _, _)",
+      "ans": ""
     },
     {
-      "name": "Assign Pattern Syntax Error pr1(c1)",
+      "name": "Pattern (v1, _, _) Semantic Error c1(v1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern pr1(c1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern c1(v1, _, _)",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error v1(v1)",
+      "name": "Assign (c1, _, _) Pattern Semantic Error c1(c1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern v1(v1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern c1(c1, _, _)",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error v1(c1)",
+      "name": "Pattern (v1, Literal) Semantic Error pr1(v1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern v1(c1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern pr1(v1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error r1(v1)",
+      "name": "Pattern (c1, Literal) Semantic Error pr1(c1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern r1(v1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern pr1(c1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error r1(c1)",
+      "name": "Pattern (v1, Literal) Semantic Error v1(v1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern r1(c1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern v1(v1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error p1(v1)",
+      "name": "Pattern (c1, Literal) Semantic Error v1(c1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern p1(v1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern v1(c1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error p1(c1)",
+      "name": "Pattern (v1, Literal) Semantic Error r1(v1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern p1(c1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern r1(v1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error i1(v1)",
+      "name": "Pattern (c1, Literal) Semantic Error r1(c1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern i1(v1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern r1(c1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error i1(c1)",
+      "name": "Pattern (v1, Literal) Semantic Error p1(v1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern i1(c1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern p1(v1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error w1(v1)",
+      "name": "Pattern (c1, Literal) Semantic Error p1(c1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern w1(v1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern p1(c1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error w1(c1)",
+      "name": "Pattern (v1, Literal) Semantic Error i1(v1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern w1(c1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern i1(v1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error s1(v1)",
+      "name": "Pattern (c1, Literal) Semantic Error i1(c1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern s1(v1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern i1(c1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error s1(c1)",
+      "name": "Pattern (v1, Literal) Semantic Error w1(v1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern s1(c1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern w1(v1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error cl1(v1)",
+      "name": "Pattern (c1, Literal) Semantic Error w1(c1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern cl1(v1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern w1(c1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error cl1(c1)",
+      "name": "Pattern (v1, Literal) Semantic Error s1(v1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern cl1(c1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern s1(v1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Semantic Error a1(pr1)",
+      "name": "Pattern (c1, Literal) Semantic Error s1(c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern s1(c1, \"1\")",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (v1, Literal) Semantic Error cl1(v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern cl1(v1, \"1\")",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (c1, Literal) Semantic Error cl1(c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern cl1(c1, \"1\")",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern LeftArg Semantic Error a1(pr1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
       "query": "Select s1 pattern a1(pr1, _)",
       "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error c1(pr1)",
+      "name": "Pattern (pr1, Literal) Semantic Error c1(pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern c1(pr1, \"1\")",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (pr1, _) Semantic Error c1(pr1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
       "query": "Select s1 pattern c1(pr1, _)",
-      "ans": "SyntaxError"
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error pr1(pr1)",
+      "name": "Assign (pr1, _, _) Pattern Semantic Error c1(pr1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern pr1(pr1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern c1(pr1, _, _)",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error v1(pr1)",
+      "name": "Pattern (pr1, Literal) Semantic Error pr1(pr1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern v1(pr1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern pr1(pr1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error r1(pr1)",
+      "name": "Pattern (pr1, Literal) Semantic Error v1(pr1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern r1(pr1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern v1(pr1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error p1(pr1)",
+      "name": "Pattern (pr1, Literal) Semantic Error r1(pr1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern p1(pr1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern r1(pr1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error i1(pr1)",
+      "name": "Pattern (pr1, Literal) Semantic Error p1(pr1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern i1(pr1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern p1(pr1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error w1(pr1)",
+      "name": "Pattern (pr1, Literal) Semantic Error i1(pr1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern w1(pr1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern i1(pr1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error s1(pr1)",
+      "name": "Pattern (pr1, Literal) Semantic Error w1(pr1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern s1(pr1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern w1(pr1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error cl1(pr1)",
+      "name": "Pattern (pr1, Literal) Semantic Error s1(pr1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern cl1(pr1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern s1(pr1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Semantic Error a1(a1)",
+      "name": "Pattern (pr1, Literal) Semantic Error cl1(pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern cl1(pr1, \"1\")",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern LeftArg Semantic Error a1(a1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
       "query": "Select s1 pattern a1(a1, _)",
       "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error c1(a1)",
+      "name": "Pattern (a1, Literal) Semantic Error c1(a1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern c1(a1, \"1\")",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (a1, _) Semantic Error c1(a1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
       "query": "Select s1 pattern c1(a1, _)",
-      "ans": "SyntaxError"
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error pr1(a1)",
+      "name": "Assign (a1, _, _) Pattern Semantic Error c1(a1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern pr1(a1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern c1(a1, _, _)",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error v1(a1)",
+      "name": "Pattern (a1, Literal) Semantic Error pr1(a1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern v1(a1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern pr1(a1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error r1(a1)",
+      "name": "Pattern (a1, Literal) Semantic Error v1(a1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern r1(a1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern v1(a1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error p1(a1)",
+      "name": "Pattern (a1, Literal) Semantic Error r1(a1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern p1(a1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern r1(a1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error i1(a1)",
+      "name": "Pattern (a1, Literal) Semantic Error p1(a1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern i1(a1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern p1(a1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error w1(a1)",
+      "name": "Pattern (a1, Literal) Semantic Error i1(a1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern w1(a1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern i1(a1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error s1(a1)",
+      "name": "Pattern (a1, Literal) Semantic Error w1(a1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern s1(a1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern w1(a1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error cl1(a1)",
+      "name": "Pattern (a1, Literal) Semantic Error s1(a1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern cl1(a1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern s1(a1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Semantic Error a1(r1)",
+      "name": "Pattern (a1, Literal) Semantic Error cl1(a1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern cl1(a1, \"1\")",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern LeftArg Semantic Error a1(r1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
       "query": "Select s1 pattern a1(r1, _)",
       "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error c1(r1)",
+      "name": "Pattern (r1, Literal) Semantic Error c1(r1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern c1(r1, \"1\")",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (r1, _) Semantic Error c1(r1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
       "query": "Select s1 pattern c1(r1, _)",
-      "ans": "SyntaxError"
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error pr1(r1)",
+      "name": "Assign (r1, _, _) Pattern Semantic Error c1(r1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern pr1(r1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern c1(r1, _, _)",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error v1(r1)",
+      "name": "Pattern (r1, Literal) Semantic Error pr1(r1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern v1(r1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern pr1(r1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error r1(r1)",
+      "name": "Pattern (r1, Literal) Semantic Error v1(r1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern r1(r1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern v1(r1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error p1(r1)",
+      "name": "Pattern (r1, Literal) Semantic Error r1(r1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern p1(r1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern r1(r1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error i1(r1)",
+      "name": "Pattern (r1, Literal) Semantic Error p1(r1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern i1(r1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern p1(r1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error w1(r1)",
+      "name": "Pattern (r1, Literal) Semantic Error i1(r1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern w1(r1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern i1(r1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error s1(r1)",
+      "name": "Pattern (r1, Literal) Semantic Error w1(r1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern s1(r1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern w1(r1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error cl1(r1)",
+      "name": "Pattern (r1, Literal) Semantic Error s1(r1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern cl1(r1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern s1(r1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Semantic Error a1(p1)",
+      "name": "Pattern (r1, Literal) Semantic Error cl1(r1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern cl1(r1, \"1\")",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern LeftArg Semantic Error a1(p1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
       "query": "Select s1 pattern a1(p1, _)",
       "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error c1(p1)",
+      "name": "Pattern (p1, Literal) Semantic Error c1(p1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern c1(p1, \"1\")",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (p1, _) Semantic Error c1(p1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
       "query": "Select s1 pattern c1(p1, _)",
-      "ans": "SyntaxError"
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error pr1(p1)",
+      "name": "Assign (p1, _, _) Pattern Semantic Error c1(p1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern pr1(p1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern c1(p1, _, _)",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error v1(p1)",
+      "name": "Pattern (p1, Literal) Semantic Error pr1(p1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern v1(p1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern pr1(p1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error r1(p1)",
+      "name": "Pattern (p1, Literal) Semantic Error v1(p1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern r1(p1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern v1(p1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error p1(p1)",
+      "name": "Pattern (p1, Literal) Semantic Error r1(p1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern p1(p1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern r1(p1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error i1(p1)",
+      "name": "Pattern (p1, Literal) Semantic Error p1(p1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern i1(p1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern p1(p1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error w1(p1)",
+      "name": "Pattern (p1, Literal) Semantic Error i1(p1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern w1(p1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern i1(p1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error s1(p1)",
+      "name": "Pattern (p1, Literal) Semantic Error w1(p1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern s1(p1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern w1(p1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error cl1(p1)",
+      "name": "Pattern (p1, Literal) Semantic Error s1(p1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern cl1(p1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern s1(p1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Semantic Error a1(i1)",
+      "name": "Pattern (p1, Literal) Semantic Error cl1(p1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern cl1(p1, \"1\")",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern LeftArg Semantic Error a1(i1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
       "query": "Select s1 pattern a1(i1, _)",
       "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error c1(i1)",
+      "name": "Pattern (i1, Literal) Semantic Error c1(i1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern c1(i1, \"1\")",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (i1, _) Semantic Error c1(i1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
       "query": "Select s1 pattern c1(i1, _)",
-      "ans": "SyntaxError"
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error pr1(i1)",
+      "name": "Assign (i1, _, _) Pattern Semantic Error c1(i1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern pr1(i1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern c1(i1, _, _)",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error v1(i1)",
+      "name": "Pattern (i1, Literal) Semantic Error pr1(i1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern v1(i1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern pr1(i1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error r1(i1)",
+      "name": "Pattern (i1, Literal) Semantic Error v1(i1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern r1(i1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern v1(i1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error p1(i1)",
+      "name": "Pattern (i1, Literal) Semantic Error r1(i1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern p1(i1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern r1(i1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error i1(i1)",
+      "name": "Pattern (i1, Literal) Semantic Error p1(i1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern i1(i1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern p1(i1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error w1(i1)",
+      "name": "Pattern (i1, Literal) Semantic Error i1(i1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern w1(i1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern i1(i1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error s1(i1)",
+      "name": "Pattern (i1, Literal) Semantic Error w1(i1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern s1(i1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern w1(i1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error cl1(i1)",
+      "name": "Pattern (i1, Literal) Semantic Error s1(i1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern cl1(i1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern s1(i1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Semantic Error a1(w1)",
+      "name": "Pattern (i1, Literal) Semantic Error cl1(i1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern cl1(i1, \"1\")",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern LeftArg Semantic Error a1(w1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
       "query": "Select s1 pattern a1(w1, _)",
       "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error c1(w1)",
+      "name": "Pattern (w1, Literal) Semantic Error c1(w1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern c1(w1, \"1\")",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (w1, _) Semantic Error c1(w1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
       "query": "Select s1 pattern c1(w1, _)",
-      "ans": "SyntaxError"
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error pr1(w1)",
+      "name": "Assign (w1, _, _) Pattern Semantic Error c1(w1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern pr1(w1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern c1(w1, _, _)",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error v1(w1)",
+      "name": "Pattern (w1, Literal) Semantic Error pr1(w1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern v1(w1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern pr1(w1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error r1(w1)",
+      "name": "Pattern (w1, Literal) Semantic Error v1(w1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern r1(w1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern v1(w1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error p1(w1)",
+      "name": "Pattern (w1, Literal) Semantic Error r1(w1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern p1(w1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern r1(w1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error i1(w1)",
+      "name": "Pattern (w1, Literal) Semantic Error p1(w1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern i1(w1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern p1(w1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error w1(w1)",
+      "name": "Pattern (w1, Literal) Semantic Error i1(w1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern w1(w1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern i1(w1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error s1(w1)",
+      "name": "Pattern (w1, Literal) Semantic Error w1(w1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern s1(w1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern w1(w1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error cl1(w1)",
+      "name": "Pattern (w1, Literal) Semantic Error s1(w1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern cl1(w1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern s1(w1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Semantic Error a1(s1)",
+      "name": "Pattern (w1, Literal) Semantic Error cl1(w1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern cl1(w1, \"1\")",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern LeftArg Semantic Error a1(s1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
       "query": "Select s1 pattern a1(s1, _)",
       "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error c1(s1)",
+      "name": "Pattern (s1, Literal) Semantic Error c1(s1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern c1(s1, \"1\")",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (s1, _) Semantic Error c1(s1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
       "query": "Select s1 pattern c1(s1, _)",
-      "ans": "SyntaxError"
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error pr1(s1)",
+      "name": "Assign (s1, _, _) Pattern Semantic Error c1(s1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern pr1(s1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern c1(s1, _, _)",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error v1(s1)",
+      "name": "Pattern (s1, Literal) Semantic Error pr1(s1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern v1(s1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern pr1(s1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error r1(s1)",
+      "name": "Pattern (s1, Literal) Semantic Error v1(s1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern r1(s1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern v1(s1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error p1(s1)",
+      "name": "Pattern (s1, Literal) Semantic Error r1(s1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern p1(s1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern r1(s1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error i1(s1)",
+      "name": "Pattern (s1, Literal) Semantic Error p1(s1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern i1(s1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern p1(s1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error w1(s1)",
+      "name": "Pattern (s1, Literal) Semantic Error i1(s1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern w1(s1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern i1(s1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error s1(s1)",
+      "name": "Pattern (s1, Literal) Semantic Error w1(s1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern s1(s1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern w1(s1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error cl1(s1)",
+      "name": "Pattern (s1, Literal) Semantic Error s1(s1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern cl1(s1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern s1(s1, \"1\")",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Semantic Error a1(cl1)",
+      "name": "Pattern (s1, Literal) Semantic Error cl1(s1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern cl1(s1, \"1\")",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern LeftArg Semantic Error a1(cl1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
       "query": "Select s1 pattern a1(cl1, _)",
       "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error c1(cl1)",
+      "name": "Pattern (cl1, Literal) Semantic Error c1(cl1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern c1(cl1, \"1\")",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (cl1, _) Semantic Error c1(cl1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
       "query": "Select s1 pattern c1(cl1, _)",
-      "ans": "SyntaxError"
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error pr1(cl1)",
+      "name": "Assign (cl1, _, _) Pattern Semantic Error c1(cl1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern c1(cl1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (cl1, Literal) Semantic Error pr1(cl1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern pr1(cl1, \"1\")",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (cl1, Literal) Semantic Error v1(cl1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern v1(cl1, \"1\")",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (cl1, Literal) Semantic Error r1(cl1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern r1(cl1, \"1\")",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (cl1, Literal) Semantic Error p1(cl1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern p1(cl1, \"1\")",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (cl1, Literal) Semantic Error i1(cl1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern i1(cl1, \"1\")",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (cl1, Literal) Semantic Error w1(cl1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern w1(cl1, \"1\")",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (cl1, Literal) Semantic Error s1(cl1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern s1(cl1, \"1\")",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (cl1, Literal) Semantic Error cl1(cl1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern cl1(cl1, \"1\")",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (v1, _) Semantic Error pr1(v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern pr1(v1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (c1, _) Semantic Error pr1(c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern pr1(c1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (pr1, _) Semantic Error pr1(pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern pr1(pr1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (a1, _) Semantic Error pr1(a1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern pr1(a1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (r1, _) Semantic Error pr1(r1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern pr1(r1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (p1, _) Semantic Error pr1(p1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern pr1(p1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (i1, _) Semantic Error pr1(i1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern pr1(i1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (w1, _) Semantic Error pr1(w1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern pr1(w1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (s1, _) Semantic Error pr1(s1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern pr1(s1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (cl1, _) Semantic Error pr1(cl1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
       "query": "Select s1 pattern pr1(cl1, _)",
-      "ans": "SyntaxError"
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error v1(cl1)",
+      "name": "Pattern (v1, _) Semantic Error r1(v1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern v1(cl1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern r1(v1, _)",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error r1(cl1)",
+      "name": "Pattern (c1, _) Semantic Error r1(c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern r1(c1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (pr1, _) Semantic Error r1(pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern r1(pr1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (a1, _) Semantic Error r1(a1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern r1(a1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (r1, _) Semantic Error r1(r1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern r1(r1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (p1, _) Semantic Error r1(p1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern r1(p1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (i1, _) Semantic Error r1(i1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern r1(i1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (w1, _) Semantic Error r1(w1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern r1(w1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (s1, _) Semantic Error r1(s1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern r1(s1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (cl1, _) Semantic Error r1(cl1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
       "query": "Select s1 pattern r1(cl1, _)",
-      "ans": "SyntaxError"
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error p1(cl1)",
+      "name": "Pattern (v1, _) Semantic Error p1(v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern p1(v1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (c1, _) Semantic Error p1(c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern p1(c1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (pr1, _) Semantic Error p1(pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern p1(pr1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (a1, _) Semantic Error p1(a1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern p1(a1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (r1, _) Semantic Error p1(r1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern p1(r1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (p1, _) Semantic Error p1(p1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern p1(p1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (i1, _) Semantic Error p1(i1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern p1(i1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (w1, _) Semantic Error p1(w1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern p1(w1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (s1, _) Semantic Error p1(s1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern p1(s1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (cl1, _) Semantic Error p1(cl1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
       "query": "Select s1 pattern p1(cl1, _)",
-      "ans": "SyntaxError"
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error i1(cl1)",
+      "name": "Pattern (v1, _) Semantic Error v1(v1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
-      "query": "Select s1 pattern i1(cl1, _)",
-      "ans": "SyntaxError"
+      "query": "Select s1 pattern v1(v1, _)",
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error w1(cl1)",
+      "name": "Pattern (c1, _) Semantic Error v1(c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern v1(c1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (pr1, _) Semantic Error v1(pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern v1(pr1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (a1, _) Semantic Error v1(a1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern v1(a1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (r1, _) Semantic Error v1(r1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern v1(r1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (p1, _) Semantic Error v1(p1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern v1(p1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (i1, _) Semantic Error v1(i1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern v1(i1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (w1, _) Semantic Error v1(w1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern v1(w1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (s1, _) Semantic Error v1(s1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern v1(s1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (cl1, _) Semantic Error v1(cl1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern v1(cl1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (v1, _) Semantic Error w1(v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern w1(v1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (c1, _) Semantic Error w1(c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern w1(c1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (pr1, _) Semantic Error w1(pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern w1(pr1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (a1, _) Semantic Error w1(a1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern w1(a1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (r1, _) Semantic Error w1(r1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern w1(r1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (p1, _) Semantic Error w1(p1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern w1(p1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (i1, _) Semantic Error w1(i1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern w1(i1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (w1, _) Semantic Error w1(w1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern w1(w1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (s1, _) Semantic Error w1(s1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern w1(s1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (cl1, _) Semantic Error w1(cl1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
       "query": "Select s1 pattern w1(cl1, _)",
-      "ans": "SyntaxError"
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error s1(cl1)",
+      "name": "Pattern (v1, _) Semantic Error s1(v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern s1(v1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (c1, _) Semantic Error s1(c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern s1(c1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (pr1, _) Semantic Error s1(pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern s1(pr1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (a1, _) Semantic Error s1(a1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern s1(a1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (r1, _) Semantic Error s1(r1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern s1(r1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (p1, _) Semantic Error s1(p1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern s1(p1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (i1, _) Semantic Error s1(i1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern s1(i1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (w1, _) Semantic Error s1(w1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern s1(w1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (s1, _) Semantic Error s1(s1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern s1(s1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (cl1, _) Semantic Error s1(cl1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
       "query": "Select s1 pattern s1(cl1, _)",
-      "ans": "SyntaxError"
+      "ans": "SemanticError"
     },
     {
-      "name": "Assign Pattern Syntax Error cl1(cl1)",
+      "name": "Pattern (v1, _) Semantic Error cl1(v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern cl1(v1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (c1, _) Semantic Error cl1(c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern cl1(c1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (pr1, _) Semantic Error cl1(pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern cl1(pr1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (a1, _) Semantic Error cl1(a1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern cl1(a1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (r1, _) Semantic Error cl1(r1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern cl1(r1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (p1, _) Semantic Error cl1(p1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern cl1(p1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (i1, _) Semantic Error cl1(i1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern cl1(i1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (w1, _) Semantic Error cl1(w1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern cl1(w1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (s1, _) Semantic Error cl1(s1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern cl1(s1, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (cl1, _) Semantic Error cl1(cl1)",
       "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
       "query": "Select s1 pattern cl1(cl1, _)",
-      "ans": "SyntaxError"
-    }    
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (v1, _) OK i1(v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select cl1 pattern i1(v1, _)",
+      "ans": ""
+    },
+    {
+      "name": "Pattern (v1, _, _) Semantic Error pr1(v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern pr1(v1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (c1, _, _) Pattern Semantic Error pr1(c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern pr1(c1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (pr1, _, _) Pattern Semantic Error pr1(pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern pr1(pr1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (a1, _, _) Pattern Semantic Error pr1(a1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern pr1(a1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (r1, _, _) Pattern Semantic Error pr1(r1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern pr1(r1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (p1, _, _) Pattern Semantic Error pr1(p1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern pr1(p1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (i1, _, _) Pattern Semantic Error pr1(i1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern pr1(i1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (w1, _, _) Pattern Semantic Error pr1(w1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern pr1(w1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (s1, _, _) Pattern Semantic Error pr1(s1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern pr1(s1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (cl1, _, _) Pattern Semantic Error pr1(cl1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern pr1(cl1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (v1, _, _) Semantic Error r1(v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern r1(v1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (c1, _, _) Pattern Semantic Error r1(c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern r1(c1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (pr1, _, _) Pattern Semantic Error r1(pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern r1(pr1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (a1, _, _) Pattern Semantic Error r1(a1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern r1(a1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (r1, _, _) Pattern Semantic Error r1(r1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern r1(r1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (p1, _, _) Pattern Semantic Error r1(p1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern r1(p1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (i1, _, _) Pattern Semantic Error r1(i1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern r1(i1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (w1, _, _) Pattern Semantic Error r1(w1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern r1(w1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (s1, _, _) Pattern Semantic Error r1(s1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern r1(s1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (cl1, _, _) Pattern Semantic Error r1(cl1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern r1(cl1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (v1, _, _) Semantic Error p1(v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern p1(v1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (c1, _, _) Pattern Semantic Error p1(c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern p1(c1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (pr1, _, _) Pattern Semantic Error p1(pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern p1(pr1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (a1, _, _) Pattern Semantic Error p1(a1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern p1(a1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (r1, _, _) Pattern Semantic Error p1(r1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern p1(r1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (p1, _, _) Pattern Semantic Error p1(p1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern p1(p1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (i1, _, _) Pattern Semantic Error p1(i1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern p1(i1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (w1, _, _) Pattern Semantic Error p1(w1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern p1(w1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (s1, _, _) Pattern Semantic Error p1(s1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern p1(s1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (cl1, _, _) Pattern Semantic Error p1(cl1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern p1(cl1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (v1, _, _) Semantic Error i1(v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern i1(v1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (c1, _, _) Pattern Semantic Error i1(c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern i1(c1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (pr1, _, _) Pattern Semantic Error i1(pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern i1(pr1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (a1, _, _) Pattern Semantic Error i1(a1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern i1(a1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (r1, _, _) Pattern Semantic Error i1(r1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern i1(r1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (p1, _, _) Pattern Semantic Error i1(p1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern i1(p1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (i1, _, _) Pattern Semantic Error i1(i1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern i1(i1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (w1, _, _) Pattern Semantic Error i1(w1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern i1(w1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (s1, _, _) Pattern Semantic Error i1(s1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern i1(s1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (cl1, _, _) Pattern Semantic Error i1(cl1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern i1(cl1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (v1, _, _) Semantic Error s1(v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern s1(v1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (c1, _, _) Pattern Semantic Error s1(c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern s1(c1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (pr1, _, _) Pattern Semantic Error s1(pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern s1(pr1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (a1, _, _) Pattern Semantic Error s1(a1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern s1(a1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (r1, _, _) Pattern Semantic Error s1(r1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern s1(r1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (p1, _, _) Pattern Semantic Error s1(p1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern s1(p1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (i1, _, _) Pattern Semantic Error s1(i1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern s1(i1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (w1, _, _) Pattern Semantic Error s1(w1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern s1(w1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (s1, _, _) Pattern Semantic Error s1(s1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern s1(s1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (cl1, _, _) Pattern Semantic Error s1(cl1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern s1(cl1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (v1, _, _) Semantic Error cl1(v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern cl1(v1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (c1, _, _) Pattern Semantic Error cl1(c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern cl1(c1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (pr1, _, _) Pattern Semantic Error cl1(pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern cl1(pr1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (a1, _, _) Pattern Semantic Error cl1(a1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern cl1(a1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (r1, _, _) Pattern Semantic Error cl1(r1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern cl1(r1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (p1, _, _) Pattern Semantic Error cl1(p1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern cl1(p1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (i1, _, _) Pattern Semantic Error cl1(i1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern cl1(i1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (w1, _, _) Pattern Semantic Error cl1(w1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern cl1(w1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (s1, _, _) Pattern Semantic Error cl1(s1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern cl1(s1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (cl1, _, _) Pattern Semantic Error cl1(cl1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern cl1(cl1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (v1, _, _) Semantic Error a1(v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern a1(v1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (c1, _, _) Pattern Semantic Error a1(c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern a1(c1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (pr1, _, _) Pattern Semantic Error a1(pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern a1(pr1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (a1, _, _) Pattern Semantic Error a1(a1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern a1(a1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (r1, _, _) Pattern Semantic Error a1(r1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern a1(r1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (p1, _, _) Pattern Semantic Error a1(p1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern a1(p1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (i1, _, _) Pattern Semantic Error a1(i1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern a1(i1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (w1, _, _) Pattern Semantic Error a1(w1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern a1(w1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (s1, _, _) Pattern Semantic Error a1(s1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern a1(s1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (cl1, _, _) Pattern Semantic Error a1(cl1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern a1(cl1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Pattern (v1, _, _) Semantic Error v1(v1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern v1(v1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (c1, _, _) Pattern Semantic Error v1(c1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern v1(c1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (pr1, _, _) Pattern Semantic Error v1(pr1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern v1(pr1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (a1, _, _) Pattern Semantic Error v1(a1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern v1(a1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (r1, _, _) Pattern Semantic Error v1(r1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern v1(r1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (p1, _, _) Pattern Semantic Error v1(p1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern v1(p1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (i1, _, _) Pattern Semantic Error v1(i1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern v1(i1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (w1, _, _) Pattern Semantic Error v1(w1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern v1(w1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (s1, _, _) Pattern Semantic Error v1(s1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern v1(s1, _, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Assign (cl1, _, _) Pattern Semantic Error v1(cl1)",
+      "defn": "stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;",
+      "query": "Select s1 pattern v1(cl1, _, _)",
+      "ans": "SemanticError"
+    }
   ]
 }

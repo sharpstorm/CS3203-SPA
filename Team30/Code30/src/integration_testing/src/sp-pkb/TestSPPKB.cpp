@@ -8,8 +8,8 @@
 #include "sp/errors/SPError.h"
 #include "sp/SourceParser.h"
 #include "sp/SpDriver.h"
-#include "common/ASTNode/math/math_operand/PlusASTNode.h"
-#include "common/ASTNode/entity/VariableASTNode.h"
+#include "sp/ast/expression_operand/PlusASTNode.h"
+#include "sp/ast/entity/VariableASTNode.h"
 
 using std::make_unique, std::make_shared, std::unordered_set, std::to_string;
 

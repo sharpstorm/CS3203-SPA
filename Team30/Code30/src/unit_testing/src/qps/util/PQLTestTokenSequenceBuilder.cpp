@@ -38,9 +38,12 @@ class PQLTestTokenSequenceBuilder {
   }
 
   PQLTestTokenSequenceBuilder* ident(string value) {
-    tokenSequence.push_back(PQLToken(PQL_TOKEN_QUOTE));
-    tokenSequence.push_back(PQLToken(PQL_TOKEN_INTEGER, value));
-    tokenSequence.push_back(PQLToken(PQL_TOKEN_QUOTE));
+    tokenSequence.push_back(PQLToken(PQL_TOKEN_STRING_LITERAL, value));
+    return this;
+  }
+
+  PQLTestTokenSequenceBuilder* literal(string value) {
+    tokenSequence.push_back(PQLToken(PQL_TOKEN_LITERAL, value));
     return this;
   }
 

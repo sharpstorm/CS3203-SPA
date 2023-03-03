@@ -1,0 +1,776 @@
+{
+  "timeout": 5000,
+  "cases": [
+    {
+      "comment": "----------------Constant Parent Clause-----------------"
+    },
+    {
+      "name": "Select Constant True (Parent) (Stmt)",
+      "defn": "stmt s;",
+      "query": "Select s such that Parent(3, 4)",
+      "ans": "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56"
+    },
+    {
+      "name": "Select Constant False (Parent) (Stmt)",
+      "defn": "stmt s;",
+      "query": "Select s such that Parent(2, 3)",
+      "ans": ""
+    },
+    {
+      "name": "Select Constant True (Parent) (Assign)",
+      "defn": "assign a;",
+      "query": "Select a such that Parent(3, 5)",
+      "ans": "1, 4, 11, 15, 16, 18, 26, 27, 40, 45, 49, 54, 56"
+    },
+    {
+      "name": "Select Constant False (Parent) (Assign)",
+      "defn": "assign a;",
+      "query": "Select a such that Parent(1, 3)",
+      "ans": ""
+    },
+    {
+      "name": "Select Constant True (Parent) (Read)",
+      "defn": "read re;",
+      "query": "Select re such that Parent(3, 6)",
+      "ans": "2,8,13,17,23,25,28,35,36,39,43,52"
+    },
+    {
+      "name": "Select Constant False (Parent) (Read)",
+      "defn": "read re;",
+      "query": "Select re such that Parent(4, 5)",
+      "ans": ""
+    },
+    {
+      "name": "Select Constant True (Parent) (Print)",
+      "defn": "print pr;",
+      "query": "Select pr such that Parent(3, 4)",
+      "ans": "5,7,12,20,29,34,41,48,51"
+    },
+    {
+      "name": "Select Constant False (Parent) (Print)",
+      "defn": "print pr;",
+      "query": "Select pr such that Parent(8, 9)",
+      "ans": ""
+    },
+    {
+      "name": "Select Constant True (Parent) (If)",
+      "defn": "if ifs;",
+      "query": "Select ifs such that Parent(3, 5)",
+      "ans": "3,9,10,21,24,30,33,37,38,42,44,46"
+    },
+    {
+      "name": "Select Constant False (Parent) (If)",
+      "defn": "if ifs;",
+      "query": "Select ifs such that Parent(1, 3)",
+      "ans": ""
+    },
+    {
+      "name": "Select Constant True (Parent) (While)",
+      "defn": "while w;",
+      "query": "Select w such that Parent(3, 6)",
+      "ans": "6,14,19,22,31,32,47,50,53,55"
+    },
+    {
+      "name": "Select Constant False (Parent) (While)",
+      "defn": "while w;",
+      "query": "Select w such that Parent(1, 1)",
+      "ans": ""
+    },
+    {
+      "comment": "---------------Single Synonym Clause----------------"
+    },
+    {
+      "name": "Select Parent(Syn, Const) (Parent) (Stmt)",
+      "defn": "stmt s;",
+      "query": "Select s such that Parent(s, 12)",
+      "ans": "10"
+    },
+    {
+      "name": "Select Parent(Const, Syn) (Parent) (Stmt)",
+      "defn": "stmt s;",
+      "query": "Select s such that Parent(3, s)",
+      "ans": "4,5,6,17,18,19,28,29"
+    },
+    {
+      "name": "Select None Parent(Syn, Const) (Parent) (Stmt)",
+      "defn": "stmt s;",
+      "query": "Select s such that Parent(s, 3)",
+      "ans": ""
+    },
+    {
+      "name": "Select None Parent(Const, Syn) (Parent) (Stmt)",
+      "defn": "stmt s;",
+      "query": "Select s such that Parent(5, s)",
+      "ans": ""
+    },
+    {
+      "name": "Select Independent True Parent(Syn, Const) (Parent) (Stmt)",
+      "defn": "stmt s1,s2;",
+      "query": "Select s1 such that Parent(s2, 4)",
+      "ans": "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56"
+    },
+    {
+      "name": "Select Independent True Parent Parent(Const, Syn) (Parent) (Stmt)",
+      "defn": "stmt s1,s2;",
+      "query": "Select s1 such that Parent(14, s2)",
+      "ans": "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56"
+    },
+    {
+      "name": "Select Independent False Parent(Syn, Const) (Parent) (Stmt)",
+      "defn": "stmt s1,s2;",
+      "query": "Select s1 such that Parent(s2, 1)",
+      "ans": ""
+    },
+    {
+      "name": "Select Independent False Parent Parent(Const, Syn) (Parent) (Stmt)",
+      "defn": "stmt s1,s2;",
+      "query": "Select s1 such that Parent(5, s2)",
+      "ans": ""
+    },
+    {
+      "name": "Select None Parent(Syn, Const) (Parent) (Assign)",
+      "defn": "assign a;",
+      "query": "Select a such that Parent(a, 4)",
+      "ans": ""
+    },
+    {
+      "name": "Select None Parent(Const, Syn) (Parent) (Assign)",
+      "defn": "assign a;",
+      "query": "Select a such that Parent(4, a)",
+      "ans": ""
+    },
+    {
+      "name": "Select Independent False Parent(Syn, Const) (Parent) (Assign)",
+      "defn": "assign a1,a2;",
+      "query": "Select a1 such that Parent(a2, 4)",
+      "ans": ""
+    },
+    {
+      "name": "Select Independent False Parent Parent(Const, Syn) (Parent) (Assign)",
+      "defn": "assign a1,a2;",
+      "query": "Select a1 such that Parent(4, a2)",
+      "ans": ""
+    },
+    {
+      "name": "Select None Parent(Syn, Const) (Parent) (Read)",
+      "defn": "read re;",
+      "query": "Select re such that Parent(re, 2)",
+      "ans": ""
+    },
+    {
+      "name": "Select None Parent(Const, Syn) (Parent) (Read)",
+      "defn": "read re;",
+      "query": "Select re such that Parent(2, re)",
+      "ans": ""
+    },
+    {
+      "name": "Select Independent False Parent(Syn, Const) (Parent) (Read)",
+      "defn": "read re1,re2;",
+      "query": "Select re1 such that Parent(re2, 8)",
+      "ans": ""
+    },
+    {
+      "name": "Select Independent False Parent Parent(Const, Syn) (Parent) (Read)",
+      "defn": "read re1,re2;",
+      "query": "Select re1 such that Parent(8, re2)",
+      "ans": ""
+    },
+    {
+      "name": "Select None Parent(Syn, Const) (Parent) (Print)",
+      "defn": "print pr;",
+      "query": "Select pr such that Parent(pr, 5)",
+      "ans": ""
+    },
+    {
+      "name": "Select None Parent(Const, Syn) (Parent) (Print)",
+      "defn": "print pr;",
+      "query": "Select pr such that Parent(5, pr)",
+      "ans": ""
+    },
+    {
+      "name": "Select Independent False Parent(Syn, Const) (Parent) (Print)",
+      "defn": "if ifs; print pr2;",
+      "query": "Select ifs such that Parent(pr2, 5)",
+      "ans": ""
+    },
+    {
+      "name": "Select Independent False Parent Parent(Const, Syn) (Parent) (Print)",
+      "defn": "if ifs; print pr2;",
+      "query": "Select ifs such that Parent(5, pr2)",
+      "ans": ""
+    },
+    {
+      "name": "Select Parent(Syn, Const) (Parent) (If)",
+      "defn": "if ifs;",
+      "query": "Select ifs such that Parent(ifs, 11)",
+      "ans": "10"
+    },
+    {
+      "name": "Select Parent(Const, Syn) (Parent) (If)",
+      "defn": "if ifs;",
+      "query": "Select ifs such that Parent(19, ifs)",
+      "ans": "21"
+    },
+    {
+      "name": "Select None Parent(Syn, Const) (Parent) (If)",
+      "defn": "if ifs;",
+      "query": "Select ifs such that Parent(ifs, 7)",
+      "ans": ""
+    },
+    {
+      "name": "Select None Parent(Const, Syn) (Parent) (If)",
+      "defn": "if ifs;",
+      "query": "Select ifs such that Parent(14, ifs)",
+      "ans": ""
+    },
+    {
+      "name": "Select Independent True Parent(Syn, Const) (Parent) (If)",
+      "defn": "if ifs1,ifs2;",
+      "query": "Select ifs1 such that Parent(ifs2, 11)",
+      "ans": "3,9,10,21,24,30,33,37,38,42,44,46"
+    },
+    {
+      "name": "Select Independent True Parent Parent(Const, Syn) (Parent) (If)",
+      "defn": "if ifs1,ifs2;",
+      "query": "Select ifs1 such that Parent(9, ifs2)",
+      "ans": "3,9,10,21,24,30,33,37,38,42,44,46"
+    },
+    {
+      "name": "Select Independent False Parent(Syn, Const) (Parent) (If)",
+      "defn": "if ifs1,ifs2;",
+      "query": "Select ifs1 such that Parent(ifs2, 2)",
+      "ans": ""
+    },
+    {
+      "name": "Select Independent False Parent Parent(Const, Syn) (Parent) (If)",
+      "defn": "if ifs1,ifs2;",
+      "query": "Select ifs1 such that Parent(2, ifs2)",
+      "ans": ""
+    },
+    {
+      "name": "Select Parent(Const, Syn) (Parent) (While)",
+      "defn": "while w;",
+      "query": "Select w such that Parent(9, w)",
+      "ans": "14"
+    },
+    {
+      "name": "Select Parent(Syn, Const) (Parent) (While)",
+      "defn": "while w;",
+      "query": "Select w such that Parent(w, 16)",
+      "ans": "6"
+    },
+    {
+      "name": "Select None Parent(Const, Syn) (Parent) (While)",
+      "defn": "while w;",
+      "query": "Select w such that Parent(5, w)",
+      "ans": ""
+    },
+    {
+      "name": "Select None Parent(Syn, Const) (Parent) (While)",
+      "defn": "while w;",
+      "query": "Select w such that Parent(w, 3)",
+      "ans": ""
+    },
+    {
+      "name": "Select Independent True Parent Parent(Const, Syn) (Parent) (While)",
+      "defn": "while w1,w2;",
+      "query": "Select w1 such that Parent(9, w2)",
+      "ans": "6,14,19,22,31,32,47,50,53,55"
+    },
+    {
+      "name": "Select Independent True Parent Parent(Syn, Const) (Parent) (While)",
+      "defn": "while w1,w2;",
+      "query": "Select w1 such that Parent(w2, 16)",
+      "ans": "6,14,19,22,31,32,47,50,53,55"
+    },
+    {
+      "name": "Select Independent False Parent(Syn, Const) (Parent) (While)",
+      "defn": "while w1,w2;",
+      "query": "Select w1 such that Parent(w2, 5)",
+      "ans": ""
+    },
+    {
+      "name": "Select Independent False Parent Parent(Const, Syn) (Parent) (While)",
+      "defn": "while w1,w2;",
+      "query": "Select w1 such that Parent(5, w2)",
+      "ans": ""
+    },
+    {
+      "comment": "---------------Single Wildcard Clause----------------"
+    },
+    {
+      "name": "Select True Parent(WC, Const) (Parent) (Wildcard)",
+      "defn": "assign a1;",
+      "query": "Select a1 such that Parent(_, 19)",
+      "ans": "1,4,11,15,16,18,26,27,40,45,49,54,56"
+    },
+    {
+      "name": "Select True Parent Parent(Const, WC) (Parent) (Wildcard)",
+      "defn": "assign a1;",
+      "query": "Select a1 such that Parent(19, _)",
+      "ans": "1,4,11,15,16,18,26,27,40,45,49,54,56"
+    },
+    {
+      "name": "Select False Parent(WC, Const) (Parent) (Wildcard)",
+      "defn": "assign a1;",
+      "query": "Select a1 such that Parent(_, 1)",
+      "ans": ""
+    },
+    {
+      "name": "Select False Parent Parent(Const, WC) (Parent) (Wildcard)",
+      "defn": "assign a1;",
+      "query": "Select a1 such that Parent(18, _)",
+      "ans": ""
+    },
+    {
+      "comment": "---------------Double Synonym Clause----------------"
+    },
+    {
+      "name": "Select Negative Parent(Assign, Stmt) (Parent) (Assign)",
+      "defn": "assign a; stmt s;",
+      "query": "Select s such that Parent(a, s)",
+      "ans": ""
+    },
+    {
+      "name": "Select Negative Parent(Read, Stmt) (Parent) (Read)",
+      "defn": "read r; stmt s;",
+      "query": "Select s such that Parent(r, s)",
+      "ans": ""
+    },
+    {
+      "name": "Select Negative Parent(Print, Stmt) (Parent) (Print)",
+      "defn": "print pn; stmt s;",
+      "query": "Select s such that Parent(pn, s)",
+      "ans": ""
+    },
+    {
+      "name": "Select Left Parent(If, If) (Parent) (If)",
+      "defn": "if ifs1, ifs2;",
+      "query": "Select ifs1 such that Parent(ifs1, ifs2)",
+      "ans": "9,21,30,37,42,44"
+    },
+    {
+      "name": "Select Right Parent(If, If) (Parent) (If)",
+      "defn": "if ifs1, ifs2;",
+      "query": "Select ifs2 such that Parent(ifs1, ifs2)",
+      "ans": "10,24,37,38,44,46"
+    },
+    {
+      "name": "Select Left Parent(If, While) (Parent) (If) (While)",
+      "defn": "if ifs; while w;",
+      "query": "Select ifs such that Parent(ifs, w)",
+      "ans": "3,9,21,30,42,46"
+    },
+    {
+      "name": "Select Right Parent(If, While) (Parent) (If) (While)",
+      "defn": "if ifs; while w;",
+      "query": "Select w such that Parent(ifs, w)",
+      "ans": "6,14,19,22,31,47,50,53"
+    },
+    {
+      "name": "Select Left Parent(If, Assign) (Parent) (If)",
+      "defn": "if ifs; assign a;",
+      "query": "Select ifs such that Parent(ifs, a)",
+      "ans": "3,10,21,24,38,44,46"
+    },
+    {
+      "name": "Select Right Parent(If, Assign) (Parent) (If)",
+      "defn": "if ifs; assign a;",
+      "query": "Select a such that Parent(ifs, a)",
+      "ans": "4,11,18,27,26,40,45,49"
+    },
+    {
+      "name": "Select Left Parent(If, Read) (Parent) (If)",
+      "defn": "if ifs; read r;",
+      "query": "Select ifs such that Parent(ifs, r)",
+      "ans": "3,9,24,33,38,42,44"
+    },
+    {
+      "name": "Select Right Parent(If, Read) (Parent) (If)",
+      "defn": "if ifs; read r;",
+      "query": "Select r such that Parent(ifs, r)",
+      "ans": "17,13,25,28,35,39,43,52"
+    },
+    {
+      "name": "Select Left Parent(If, Print) (Parent) (If)",
+      "defn": "if ifs; print pn;",
+      "query": "Select ifs such that Parent(ifs, pn)",
+      "ans": "3,10,33,37"
+    },
+    {
+      "name": "Select Right Parent(If, Print) (Parent) (If)",
+      "defn": "if ifs; print pn;",
+      "query": "Select pn such that Parent(ifs, pn)",
+      "ans": "5,12,29,34,41"
+    },
+    {
+      "name": "Select Left Parent(If, Stmt) (Parent) (If)",
+      "defn": "stmt s; if ifs;",
+      "query": "Select ifs such that Parent(ifs, s)",
+      "ans": "3,9,10,21,24,30,33,37,38,42,44,46"
+    },
+    {
+      "name": "Select Right Parent(If, Stmt) (Parent) (If)",
+      "defn": "stmt s; if ifs;",
+      "query": "Select s such that Parent(ifs, s)",
+      "ans": "4,5,6,10,11,12,13,14,17,18,19,22,24,25,26,27,28,29,31,34,35,37,38,39,40,41,43,44,45,46,47,49,50,52,53"
+    },
+    {
+      "name": "Select Left Parent(While, While) (Parent) (While)",
+      "defn": "while w1, w2;",
+      "query": "Select w1 such that Parent(w1, w2)",
+      "ans": "31,53"
+    },
+    {
+      "name": "Select Right Parent(While, While) (Parent) (While)",
+      "defn": "while w1, w2;",
+      "query": "Select w2 such that Parent(w1, w2)",
+      "ans": "32,55"
+    },
+    {
+      "name": "Select Left Parent(While, If) (Parent) (If) (While)",
+      "defn": "if ifs; while w;",
+      "query": "Select w such that Parent(w, ifs)",
+      "ans": "6,19,32"
+    },
+    {
+      "name": "Select Right Parent(While, If) (Parent) (If) (While)",
+      "defn": "if ifs; while w;",
+      "query": "Select ifs such that Parent(w, ifs)",
+      "ans": "9,21,33"
+    },
+    {
+      "name": "Select Left Parent(While, Assign) (Parent) (While)",
+      "defn": "while w; assign a;",
+      "query": "Select w such that Parent(w, a)",
+      "ans": "6,14,53,55"
+    },
+    {
+      "name": "Select Right Parent(While, Assign) (Parent) (While)",
+      "defn": "while w; assign a;",
+      "query": "Select a such that Parent(w, a)",
+      "ans": "16,15,54,56"
+    },
+    {
+      "name": "Select Left Parent(While, Read) (Parent) (While)",
+      "defn": "while w; read r;",
+      "query": "Select w such that Parent(w, r)",
+      "ans": "6,22,32"
+    },
+    {
+      "name": "Select Right Parent(While, Read) (Parent) (While)",
+      "defn": "while w; read r;",
+      "query": "Select r such that Parent(w, r)",
+      "ans": "8,23,36"
+    },
+    {
+      "name": "Select Left Parent(While, Print) (Parent) (While)",
+      "defn": "while w; print pn;",
+      "query": "Select w such that Parent(w, pn)",
+      "ans": "6,19,47,50"
+    },
+    {
+      "name": "Select Right Parent(While, Print) (Parent) (While)",
+      "defn": "while w; print pn;",
+      "query": "Select pn such that Parent(w, pn)",
+      "ans": "7,20,48,51"
+    },
+    {
+      "name": "Select Left Parent(While, Stmt) (Parent) (While)",
+      "defn": "stmt s; while w;",
+      "query": "Select w such that Parent(w, s)",
+      "ans": "6,14,19,22,31,32,47,50,53,55"
+    },
+    {
+      "name": "Select Right Parent(While, Stmt) (Parent) (While)",
+      "defn": "stmt s; while w;",
+      "query": "Select s such that Parent(w, s)",
+      "ans": "7,8,9,15,16,20,21,23,32,33,36,48,51,54,55,56"
+    },
+    {
+      "comment": "note: do (If) and (While) first, then combine results for (Stmt)"
+    },
+    {
+      "name": "Select Left Parent(Stmt, Stmt) (Parent) (Stmt)",
+      "defn": "stmt s1, s2;",
+      "query": "Select s1 such that Parent(s1, s2)",
+      "ans": "3,6,9,10,14,19,21,22,24,30,31,32,33,37,38,42,44,46,47,50,53,55"
+    },
+    {
+      "name": "Select Right Parent(Stmt, Stmt) (Parent) (Stmt)",
+      "defn": "stmt s1, s2;",
+      "query": "Select s2 such that Parent(s1, s2)",
+      "ans": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,31,32,33,34,35,36,37,38,39,40,41,43,44,45,46,47,48,49,50,51,52,53,54,55,56"
+    },
+    {
+      "name": "Select Left Parent(Stmt, Assign) (Parent) (Stmt)",
+      "defn": "stmt s1; assign a;",
+      "query": "Select s1 such that Parent(s1, a)",
+      "ans": "3,10,21,24,38,44,46, 6,14,53,55"
+    },
+    {
+      "name": "Select Right Parent(Stmt, Assign) (Parent) (Stmt)",
+      "defn": "stmt s1; assign a;",
+      "query": "Select a such that Parent(s1, a)",
+      "ans": "4,11,18,27,26,40,45,49, 16,15,54,56"
+    },
+    {
+      "name": "Select Left Parent(Stmt, Read) (Parent) (Stmt)",
+      "defn": "stmt s1; read r;",
+      "query": "Select s1 such that Parent(s1, r)",
+      "ans": "3,9,24,33,38,42,44, 6,22,32"
+    },
+    {
+      "name": "Select Right Parent(Stmt, Read) (Parent) (Stmt)",
+      "defn": "stmt s1; read r;",
+      "query": "Select r such that Parent(s1, r)",
+      "ans": "17,13,25,28,35,39,43,52, 8,23,36"
+    },
+    {
+      "name": "Select Left Parent(Stmt, Print) (Parent) (Stmt)",
+      "defn": "stmt s1; print pn;",
+      "query": "Select s1 such that Parent(s1, pn)",
+      "ans": "3,10,33,37, 6,19,47,50"
+    },
+    {
+      "name": "Select Right Parent(Stmt, Print) (Parent) (Stmt)",
+      "defn": "stmt s1; print pn;",
+      "query": "Select pn such that Parent(s1, pn)",
+      "ans": "5,12,29,34,41, 7,20,48,51"
+    },
+    {
+      "name": "Select Left Parent(Stmt, If) (Parent) (Stmt)",
+      "defn": "stmt s1; if ifs;",
+      "query": "Select s1 such that Parent(s1, ifs)",
+      "ans": "9,21,30,37,42,44, 6,19,32"
+    },
+    {
+      "name": "Select Right Parent(Stmt, If) (Parent) (Stmt)",
+      "defn": "stmt s1; if ifs;",
+      "query": "Select ifs such that Parent(s1, ifs)",
+      "ans": "10,24,37,38,44,46, 9,21,33"
+    },
+    {
+      "name": "Select Left Parent(Stmt, While) (Parent) (Stmt)",
+      "defn": "stmt s1; while w;",
+      "query": "Select s1 such that Parent(s1, w)",
+      "ans": "31,53, 3,9,21,30,42,46"
+    },
+    {
+      "name": "Select Right Parent(Stmt, While) (Parent) (Stmt)",
+      "defn": "stmt s1; while w;",
+      "query": "Select w such that Parent(s1, w)",
+      "ans": "32,55, 6,14,19,22,31,47,50,53"
+    },
+    {
+      "comment": "---------------Synonym-Wildcard Clause----------------"
+    },
+    {
+      "name": "Select Left Parent(Stmt, WC) (Parent) (Stmt)",
+      "defn": "stmt s1;",
+      "query": "Select s1 such that Parent(s1, _)",
+      "ans": "3,9,10,21,24,30,33,37,38,42,44,46, 6,14,19,22,31,32,47,50,53,55"
+    },
+    {
+      "name": "Select Right Parent(WC, Stmt) (Parent) (Stmt)",
+      "defn": "stmt s1;",
+      "query": "Select s1 such that Parent(_, s1)",
+      "ans": "4,5,6,10,11,12,13,14,17,18,19,22,24,25,26,27,28,29,31,34,35,37,38,39,40,41,43,44,45,46,47,49,50,52,53, 7,8,9,15,16,20,21,23,32,33,36,48,51,54,55,56"
+    },
+    {
+      "name": "Select Negative Parent(Assign, WC) (Parent) (Assign) (Wildcard)",
+      "defn": "assign a;",
+      "query": "Select a such that Parent(a, _)",
+      "ans": ""
+    },
+    {
+      "name": "Select Right Parent(WC, Assign) (Parent) (Assign) (Wildcard)",
+      "defn": "assign a;",
+      "query": "Select a such that Parent(_, a)",
+      "ans": "4,11,18,27,26,40,45,49, 16,15,54,56"
+    },
+    {
+      "name": "Select Negative Parent(Read, WC) (Parent) (Read) (Wildcard)",
+      "defn": "read re;",
+      "query": "Select re such that Parent(re, _)",
+      "ans": ""
+    },
+    {
+      "name": "Select Right Parent(WC, Read) (Parent) (Read) (Wildcard)",
+      "defn": "read re;",
+      "query": "Select re such that Parent(_, re)",
+      "ans": "17,13,25,28,35,39,43,52, 8,23,36"
+    },
+    {
+      "name": "Select Negative Parent(Print, WC) (Parent) (Print) (Wildcard)",
+      "defn": "print pr;",
+      "query": "Select pr such that Parent(pr, _)",
+      "ans": ""
+    },
+    {
+      "name": "Select Right Parent(WC, Print) (Parent) (Print) (Wildcard)",
+      "defn": "print pr;",
+      "query": "Select pr such that Parent(_, pr)",
+      "ans": "5,12,29,34,41, 7,20,48,51"
+    },
+    {
+      "name": "Select Left Parent(If, WC) (Parent) (If) (Wildcard)",
+      "defn": "if ifs;",
+      "query": "Select ifs such that Parent(ifs, _)",
+      "ans": "3,9,10,21,24,30,33,37,38,42,44,46"
+    },
+    {
+      "name": "Select Right Parent(WC, If) (Parent) (If) (Wildcard)",
+      "defn": "if ifs;",
+      "query": "Select ifs such that Parent(_, ifs)",
+      "ans": "10,24,37,38,44,46, 9,21,33"
+    },
+    {
+      "name": "Select Left Parent(While, WC) (Parent) (While) (Wildcard)",
+      "defn": "while w;",
+      "query": "Select w such that Parent(w, _)",
+      "ans": "6,14,19,22,31,32,47,50,53,55"
+    },
+    {
+      "name": "Select Right Parent(WC, While) (Parent) (While) (Wildcard)",
+      "defn": "while w;",
+      "query": "Select w such that Parent(_, w)",
+      "ans": "32,55, 6,14,19,22,31,47,50,53"
+    },
+    {
+      "comment": "---------------Double Wildcard Clause----------------"
+    },
+    {
+      "name": "Select Parent(WC, WC) (Parent) (Stmt)",
+      "defn": "stmt s;",
+      "query": "Select s such that Parent(_, _)",
+      "ans": "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56"
+    },
+    {
+      "name": "Select Parent(WC, WC) (Parent) (Assign)",
+      "defn": "assign a;",
+      "query": "Select a such that Parent(_, _)",
+      "ans": "1, 4, 11, 15, 16, 18, 26, 27, 40, 45, 49, 54, 56"
+    },
+    {
+      "name": "Select Parent(WC, WC) (Parent) (Read)",
+      "defn": "read re;",
+      "query": "Select re such that Parent(_, _)",
+      "ans": "2,8,13,17,23,25,28,35,36,39,43,52"
+    },
+    {
+      "name": "Select Parent(WC, WC) (Parent) (Print)",
+      "defn": "print pr;",
+      "query": "Select pr such that Parent(_, _)",
+      "ans": "5,7,12,20,29,34,41,48,51"
+    },
+    {
+      "name": "Select Parent(WC, WC) (Parent) (If)",
+      "defn": "if ifs;",
+      "query": "Select ifs such that Parent(_, _)",
+      "ans": "3,9,10,21,24,30,33,37,38,42,44,46"
+    },
+    {
+      "name": "Select Parent(WC, WC) (Parent) (While)",
+      "defn": "while w;",
+      "query": "Select w such that Parent(_, _)",
+      "ans": "6,14,19,22,31,32,47,50,53,55"
+    },
+    {
+      "comment": "---------------Shared Synonym Clause----------------"
+    },
+    {
+      "name": "Select Negative Parent(Syn, Syn) (Parent) (Stmt)",
+      "defn": "stmt s;",
+      "query": "Select s such that Parent(s, s)",
+      "ans": ""
+    },
+    {
+      "name": "Select Negative Parent(Syn, Syn) (Parent) (Assign)",
+      "defn": "assign a;",
+      "query": "Select a such that Parent(a, a)",
+      "ans": ""
+    },
+    {
+      "name": "Select Negative Parent(Syn, Syn) (Parent) (Read)",
+      "defn": "read re;",
+      "query": "Select re such that Parent(re, re)",
+      "ans": ""
+    },
+    {
+      "name": "Select Negative Parent(Syn, Syn) (Parent) (Print)",
+      "defn": "print pn;",
+      "query": "Select pn such that Parent(pn, pn)",
+      "ans": ""
+    },
+    {
+      "name": "Select Negative Parent(Syn, Syn) (Parent) (If)",
+      "defn": "if ifs;",
+      "query": "Select ifs such that Parent(ifs, ifs)",
+      "ans": ""
+    },
+    {
+      "name": "Select Negative Parent(Syn, Syn) (Parent) (While)",
+      "defn": "while w;",
+      "query": "Select w such that Parent(w, w)",
+      "ans": ""
+    },
+    {
+      "comment": "---------------Negative Clause----------------"
+    },
+    {
+      "name": "Select Negative Parent large stmt# (Parent)",
+      "defn": "read r1;",
+      "query": "Select r1 such that Parent(_, 100)",
+      "ans": ""
+    },
+    {
+      "name": "Select Negative Parent(_, 0) (Parent)",
+      "defn": "read r1;",
+      "query": "Select r1 such that Parent(_, 0)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Select Negative Parent(0, _) (Parent)",
+      "defn": "read r1;",
+      "query": "Select r1 such that Parent(0, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Select Negative Parent(variable, _) (Parent)",
+      "defn": "variable v;",
+      "query": "Select a such that Parent(_, v)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Select Negative Parent(variable, _) (Parent)",
+      "defn": "variable c;",
+      "query": "Select v such that Parent(v, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Select Negative Parent(constant, _) (Parent)",
+      "defn": "constant c;",
+      "query": "Select c such that Parent(_, c)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Select Negative Parent(constant, _) (Parent)",
+      "defn": "variable v;",
+      "query": "Select a such that Parent(v, _)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Select Negative Parent(procedure, _) (Parent)",
+      "defn": "procedure p;",
+      "query": "Select p such that Parent(_, p)",
+      "ans": "SemanticError"
+    },
+    {
+      "name": "Select Negative Parent(procedure, _) (Parent)",
+      "defn": "procedure p;",
+      "query": "Select p such that Parent(p, _)",
+      "ans": "SemanticError"
+    }
+  ]
+}

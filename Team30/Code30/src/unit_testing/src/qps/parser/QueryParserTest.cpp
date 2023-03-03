@@ -45,8 +45,10 @@ TEST_CASE("Test Unconditional Select") {
   requireSynonyms(resultShared, vector<PQLQuerySynonym>{
       PQLQuerySynonym(PQL_SYN_TYPE_STMT, "s")
   });
-  REQUIRE(resultShared->getResultVariable().getName() == "s");
-  REQUIRE(resultShared->getResultVariable().getType() == PQL_SYN_TYPE_STMT);
+  REQUIRE(resultShared->getResultVariables()->size() == 1);
+  auto resultVar = resultShared->getResultVariables()->at(0);
+  REQUIRE(resultVar.getName() == "s");
+  REQUIRE(resultVar.getType() == PQL_SYN_TYPE_STMT);
   REQUIRE(resultShared->getEvaluatables().size() == 0);
 }
 
@@ -57,8 +59,10 @@ TEST_CASE("Test Conditional Select - 2 Constants") {
   requireSynonyms(resultShared, vector<PQLQuerySynonym>{
       PQLQuerySynonym(PQL_SYN_TYPE_STMT, "s")
   });
-  REQUIRE(resultShared->getResultVariable().getName() == "s");
-  REQUIRE(resultShared->getResultVariable().getType() == PQL_SYN_TYPE_STMT);
+  REQUIRE(resultShared->getResultVariables()->size() == 1);
+  auto resultVar = resultShared->getResultVariables()->at(0);
+  REQUIRE(resultVar.getName() == "s");
+  REQUIRE(resultVar.getType() == PQL_SYN_TYPE_STMT);
 
   REQUIRE(resultShared->getEvaluatables().size() == 1);
   FollowsClause* fc = dynamic_cast<FollowsClause*>(resultShared->getEvaluatables().at(0).get());
@@ -72,8 +76,10 @@ TEST_CASE("Test Conditional Select - 1 Constant") {
   requireSynonyms(resultShared, vector<PQLQuerySynonym>{
       PQLQuerySynonym(PQL_SYN_TYPE_STMT, "s")
   });
-  REQUIRE(resultShared->getResultVariable().getName() == "s");
-  REQUIRE(resultShared->getResultVariable().getType() == PQL_SYN_TYPE_STMT);
+  REQUIRE(resultShared->getResultVariables()->size() == 1);
+  auto resultVar = resultShared->getResultVariables()->at(0);
+  REQUIRE(resultVar.getName() == "s");
+  REQUIRE(resultVar.getType() == PQL_SYN_TYPE_STMT);
 
   REQUIRE(resultShared->getEvaluatables().size() == 1);
   FollowsClause* fc = dynamic_cast<FollowsClause*>(resultShared->getEvaluatables().at(0).get());
@@ -85,8 +91,10 @@ TEST_CASE("Test Conditional Select - 1 Constant") {
   requireSynonyms(resultShared, vector<PQLQuerySynonym>{
       PQLQuerySynonym(PQL_SYN_TYPE_STMT, "s")
   });
-  REQUIRE(resultShared->getResultVariable().getName() == "s");
-  REQUIRE(resultShared->getResultVariable().getType() == PQL_SYN_TYPE_STMT);
+  REQUIRE(resultShared->getResultVariables()->size() == 1);
+  resultVar = resultShared->getResultVariables()->at(0);
+  REQUIRE(resultVar.getName() == "s");
+  REQUIRE(resultVar.getType() == PQL_SYN_TYPE_STMT);
 
   REQUIRE(resultShared->getEvaluatables().size() == 1);
   fc = dynamic_cast<FollowsClause*>(resultShared->getEvaluatables().at(0).get());
@@ -101,8 +109,11 @@ TEST_CASE("Test Conditional Select - 0 Constants") {
       PQLQuerySynonym(PQL_SYN_TYPE_STMT, "s1"),
       PQLQuerySynonym(PQL_SYN_TYPE_STMT, "s2")
   });
-  REQUIRE(resultShared->getResultVariable().getName() == "s1");
-  REQUIRE(resultShared->getResultVariable().getType() == PQL_SYN_TYPE_STMT);
+
+  REQUIRE(resultShared->getResultVariables()->size() == 1);
+  auto resultVar = resultShared->getResultVariables()->at(0);
+  REQUIRE(resultVar.getName() == "s1");
+  REQUIRE(resultVar.getType() == PQL_SYN_TYPE_STMT);
 
   REQUIRE(resultShared->getEvaluatables().size() == 1);
   FollowsClause* fc = dynamic_cast<FollowsClause*>(resultShared->getEvaluatables().at(0).get());
@@ -116,8 +127,10 @@ TEST_CASE("Test Pattern Select - Constant LHS") {
   requireSynonyms(resultShared, vector<PQLQuerySynonym>{
       PQLQuerySynonym(PQL_SYN_TYPE_ASSIGN, "a")
   });
-  REQUIRE(resultShared->getResultVariable().getName() == "a");
-  REQUIRE(resultShared->getResultVariable().getType() == PQL_SYN_TYPE_ASSIGN);
+  REQUIRE(resultShared->getResultVariables()->size() == 1);
+  auto resultVar = resultShared->getResultVariables()->at(0);
+  REQUIRE(resultVar.getName() == "a");
+  REQUIRE(resultVar.getType() == PQL_SYN_TYPE_ASSIGN);
 
   REQUIRE(resultShared->getEvaluatables().size() == 1);
   AssignPatternClause* pc = dynamic_cast<AssignPatternClause*>(resultShared->getEvaluatables().at(0).get());
@@ -131,8 +144,10 @@ TEST_CASE("Test Pattern Select - Wildcard LHS, Partial Match") {
   requireSynonyms(resultShared, vector<PQLQuerySynonym>{
       PQLQuerySynonym(PQL_SYN_TYPE_ASSIGN, "a")
   });
-  REQUIRE(resultShared->getResultVariable().getName() == "a");
-  REQUIRE(resultShared->getResultVariable().getType() == PQL_SYN_TYPE_ASSIGN);
+  REQUIRE(resultShared->getResultVariables()->size() == 1);
+  auto resultVar = resultShared->getResultVariables()->at(0);
+  REQUIRE(resultVar.getName() == "a");
+  REQUIRE(resultVar.getType() == PQL_SYN_TYPE_ASSIGN);
 
   REQUIRE(resultShared->getEvaluatables().size() == 1);
   AssignPatternClause* pc = dynamic_cast<AssignPatternClause*>(resultShared->getEvaluatables().at(0).get());
@@ -147,8 +162,10 @@ TEST_CASE("Test Pattern Select - Variable, Wildcard") {
       PQLQuerySynonym(PQL_SYN_TYPE_ASSIGN, "a"),
       PQLQuerySynonym(PQL_SYN_TYPE_VARIABLE, "v"),
   });
-  REQUIRE(resultShared->getResultVariable().getName() == "v");
-  REQUIRE(resultShared->getResultVariable().getType() == PQL_SYN_TYPE_VARIABLE);
+  REQUIRE(resultShared->getResultVariables()->size() == 1);
+  auto resultVar = resultShared->getResultVariables()->at(0);
+  REQUIRE(resultVar.getName() == "v");
+  REQUIRE(resultVar.getType() == PQL_SYN_TYPE_VARIABLE);
 
   REQUIRE(resultShared->getEvaluatables().size() == 1);
   AssignPatternClause* pc = dynamic_cast<AssignPatternClause*>(resultShared->getEvaluatables().at(0).get());

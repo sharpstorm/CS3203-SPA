@@ -5,7 +5,7 @@ PredicateFactory::PredicateFactory(const IStructureMappingProvider *sp,
     : structureProvider(sp), entityProvider(ep) {}
 
 Predicate<int> PredicateFactory::getPredicate(StmtRef stmtRef) const {
-  if (stmtRef.lineNum != 0) {
+  if (stmtRef.isKnown()) {
     return [stmtRef](int const s) { return s == stmtRef.lineNum; };
   } else if (stmtRef.type == StmtType::None) {
     return [](int const s) { return true; };
@@ -18,10 +18,8 @@ Predicate<int> PredicateFactory::getPredicate(StmtRef stmtRef) const {
 Predicate<string> PredicateFactory::getPredicate(EntityRef entRef) const {
   if (entRef.isKnown()) {
     return [entRef](string const s) { return s == entRef.name; };
-  } else if (entRef.type == EntityType::None) {
+  } else {
+    // a table column cannot store different entity types
     return [](string const s) { return true; };
   }
-  return [this, entRef](string const s) {
-    return entityProvider->getTypeOfSymbol(s) == entRef.type;
-  };
 }

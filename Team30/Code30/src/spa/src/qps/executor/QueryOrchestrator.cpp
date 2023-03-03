@@ -4,11 +4,31 @@ QueryOrchestrator::QueryOrchestrator(QueryLauncher launcher) :
     launcher(launcher) {
 }
 
+// TODO(KwanHW): Fix execution to handle multiple groups
 PQLQueryResult *QueryOrchestrator::execute(QueryPlan* plan) {
   if (plan->isEmpty()) {
     return new PQLQueryResult();
   }
 
+  PQLQueryResult* finalResult;
+  for (int i = 0; i < plan->getGroupCount(); i++) {
+    QueryGroupPlan* targetGroup = plan->getGroup(i);
+    PQLQueryResult* result = executeGroup(targetGroup);
+    if (result->isFalse()) {
+      return new PQLQueryResult();
+    }
+
+    if (targetGroup->isBooleanResult()) {
+      delete result;
+      continue;
+    }
+
+    finalResult = result;
+  }
+  return finalResult;
+}
+
+PQLQueryResult *QueryOrchestrator::executeGroup(QueryGroupPlan *plan) {
   vector<IEvaluatableSPtr> executables = plan->getConditionalClauses();
   PQLQueryResult* currentResult;
   PQLQueryResult* finalResult = nullptr;
@@ -21,20 +41,19 @@ PQLQueryResult *QueryOrchestrator::execute(QueryPlan* plan) {
       return new PQLQueryResult();
     }
 
-    auto strategy = plan->strategyFor(i);
-    if (strategy == QueryPlan::INNER_JOIN) {
-      finalResult = coalescer.merge(currentResult, finalResult);
-      if (finalResult->isFalse()) {
-        delete finalResult;
-        return new PQLQueryResult();
-      }
-
-    } else {
-      // Discarding and skip, we do take right
-      // isEmpty guarantee that for discards, left is not empty / false
+    if (i == 0) {
       delete finalResult;
       finalResult = currentResult;
+      currentResult = nullptr;
+      continue;
     }
+
+    finalResult = coalescer.merge(currentResult, finalResult);
+    if (finalResult->isFalse()) {
+      delete finalResult;
+      return new PQLQueryResult();
+    }
+
     currentResult = nullptr;
   }
 

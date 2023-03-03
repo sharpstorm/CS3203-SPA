@@ -2,6 +2,7 @@
 
 #include "pkb/writers/PkbWriter.h"
 
+class ProcedureNode;
 class StatementListNode;
 class IfNode;
 class ReadNode;
@@ -11,9 +12,8 @@ class AssignNode;
 class CallNode;
 class VariableASTNode;
 class ConstantASTNode;
-class AbstractMathNode;
+class AbstractExpressionNode;
 class AbstractConditionalNode;
-class ProcedureNode;
 
 class Extractor {
  public:
@@ -28,7 +28,7 @@ class Extractor {
   virtual void visit(CallNode* node) = 0;
   virtual void visit(VariableASTNode* node) = 0;
   virtual void visit(ConstantASTNode* node) = 0;
-  virtual void visit(AbstractMathNode* node) = 0;
+  virtual void visit(AbstractExpressionNode* node) = 0;
   virtual void visit(AbstractConditionalNode* node) = 0;
 
   virtual void leave(ProcedureNode* node) = 0;
@@ -40,7 +40,7 @@ class Extractor {
   virtual void leave(CallNode* node) = 0;
   virtual void leave(VariableASTNode* node) = 0;
   virtual void leave(ConstantASTNode* node) = 0;
-  virtual void leave(AbstractMathNode* node) = 0;
+  virtual void leave(AbstractExpressionNode* node) = 0;
   virtual void leave(AbstractConditionalNode* node) = 0;
 
  private:

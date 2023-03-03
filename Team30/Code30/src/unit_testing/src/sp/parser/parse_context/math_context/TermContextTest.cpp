@@ -2,11 +2,12 @@
 #include <string>
 
 #include "../../../../../../../lib/catch.hpp"
-#include "../../../../../../spa/src/common/ASTNode/IASTNode.h"
+#include "../../../../../../spa/src/common/ast/IASTNode.h"
 #include "../../../../../../spa/src/sp/common/SourceToken.h"
-#include "../../../../../../spa/src/sp/parser/GrammarContextProvider.h"
 #include "../../../../../../spa/src/sp/parser/SourceParseState.h"
-#include "../../../../../../spa/src/sp/parser/parse_context/math_context/TermContext.h"
+#include "sp/parser/expression_context/contexts/TermContext.h"
+#include "sp/parser/entity_context/EntityParser.h"
+#include "sp/parser/expression_context/ExpressionContextProvider.h"
 
 vector<SourceToken> times_Variable_Input() {  // (x * y)
   vector<SourceToken> tokens = vector<SourceToken>{
@@ -68,12 +69,17 @@ vector<SourceToken> mod_Integer_Input() {  // (15 % 5)
   return tokens;
 }
 
+ASTNodePtr testTermParsing(vector<SourceToken>* tokens) {
+  SourceParseState state(tokens);
+  EntityParser entParser;
+  ExpressionContextProvider ecp(&entParser);
+  TermContext context(&ecp);
+  return context.generateSubtree(&state);
+}
+
 TEST_CASE("TermContext: Process Multiply_Variables Condition") {
   vector<SourceToken> tokens = times_Variable_Input();
-  SourceParseState state(&tokens);
-  GrammarContextProvider gcp;
-  TermContext context(&gcp);
-  shared_ptr<ASTNode> node = context.generateSubtree(&state);
+  auto node = testTermParsing(&tokens);
 
   REQUIRE(node->getType() == ASTNODE_TIMES);
   REQUIRE(node->getChild(0)->getType() == ASTNODE_VARIABLE);
@@ -84,10 +90,7 @@ TEST_CASE("TermContext: Process Multiply_Variables Condition") {
 
 TEST_CASE("TermContext: Process Divide_Variables Condition") {
   vector<SourceToken> tokens = div_Variable_Input();
-  SourceParseState state(&tokens);
-  GrammarContextProvider gcp;
-  TermContext context(&gcp);
-  shared_ptr<ASTNode> node = context.generateSubtree(&state);
+  auto node = testTermParsing(&tokens);
 
   REQUIRE(node->getType() == ASTNODE_DIV);
   REQUIRE(node->getChild(0)->getType() == ASTNODE_VARIABLE);
@@ -98,10 +101,7 @@ TEST_CASE("TermContext: Process Divide_Variables Condition") {
 
 TEST_CASE("TermContext: Process Modulo_Variables Condition") {
   vector<SourceToken> tokens = mod_Variable_Input();
-  SourceParseState state(&tokens);
-  GrammarContextProvider gcp;
-  TermContext context(&gcp);
-  shared_ptr<ASTNode> node = context.generateSubtree(&state);
+  auto node = testTermParsing(&tokens);
 
   REQUIRE(node->getType() == ASTNODE_MOD);
   REQUIRE(node->getChild(0)->getType() == ASTNODE_VARIABLE);
@@ -112,10 +112,7 @@ TEST_CASE("TermContext: Process Modulo_Variables Condition") {
 
 TEST_CASE("TermContext: Process Multiply_Integers Condition") {
   vector<SourceToken> tokens = times_Integer_Input();
-  SourceParseState state(&tokens);
-  GrammarContextProvider gcp;
-  TermContext context(&gcp);
-  shared_ptr<ASTNode> node = context.generateSubtree(&state);
+  auto node = testTermParsing(&tokens);
 
   REQUIRE(node->getType() == ASTNODE_TIMES);
   REQUIRE(node->getChild(0)->getType() == ASTNODE_CONSTANT);
@@ -126,10 +123,7 @@ TEST_CASE("TermContext: Process Multiply_Integers Condition") {
 
 TEST_CASE("TermContext: Process Divide_Integers Condition") {
   vector<SourceToken> tokens = div_Integer_Input();
-  SourceParseState state(&tokens);
-  GrammarContextProvider gcp;
-  TermContext context(&gcp);
-  shared_ptr<ASTNode> node = context.generateSubtree(&state);
+  auto node = testTermParsing(&tokens);
 
   REQUIRE(node->getType() == ASTNODE_DIV);
   REQUIRE(node->getChild(0)->getType() == ASTNODE_CONSTANT);
@@ -140,10 +134,7 @@ TEST_CASE("TermContext: Process Divide_Integers Condition") {
 
 TEST_CASE("TermContext: Process Modulo_Integers Condition") {
   vector<SourceToken> tokens = mod_Integer_Input();
-  SourceParseState state(&tokens);
-  GrammarContextProvider gcp;
-  TermContext context(&gcp);
-  shared_ptr<ASTNode> node = context.generateSubtree(&state);
+  auto node = testTermParsing(&tokens);
 
   REQUIRE(node->getType() == ASTNODE_MOD);
   REQUIRE(node->getChild(0)->getType() == ASTNODE_CONSTANT);

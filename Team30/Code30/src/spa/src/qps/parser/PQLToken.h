@@ -12,6 +12,7 @@ enum PQLTokenCategory {
   PQL_RELATIONSHIP_TOKEN = 0x1000,
   PQL_STRING_TOKEN = 0x2000,
   PQL_INTEGER_TOKEN = 0x4000,
+  PQL_LITERAL_TOKEN = 0x8000,
 };
 
 const int PQL_TOKEN_CATEGORY_MASK = 0xFFFFFF00;
@@ -26,15 +27,17 @@ enum PQLTokenType {
   PQL_TOKEN_IGNORE,
   PQL_TOKEN_DELIMITER,
   PQL_TOKEN_CHAR,
+  PQL_TOKEN_QUOTE,
 
   // Symbols
   PQL_TOKEN_SEMICOLON = PQL_SYMBOL_TOKEN,
   PQL_TOKEN_BRACKET_OPEN,
   PQL_TOKEN_BRACKET_CLOSE,
+  PQL_TOKEN_TUPLE_OPEN,
+  PQL_TOKEN_TUPLE_CLOSE,
   PQL_TOKEN_COMMA,
   PQL_TOKEN_PERIOD,
   PQL_TOKEN_UNDERSCORE,
-  PQL_TOKEN_QUOTE,
   PQL_TOKEN_ASTRIX,
 
   // Declarations
@@ -64,6 +67,8 @@ enum PQLTokenType {
 
   PQL_TOKEN_STRING = PQL_STRING_TOKEN,
   PQL_TOKEN_INTEGER = PQL_INTEGER_TOKEN,
+  PQL_TOKEN_LITERAL = PQL_LITERAL_TOKEN,
+  PQL_TOKEN_STRING_LITERAL,
 };
 
 class PQLToken {
@@ -78,6 +83,7 @@ class PQLToken {
   PQLTokenType getType();
   string getData();
   bool isType(PQLTokenType);
+  bool isCategory(PQLTokenCategory);
   bool isVarchar();
   bool isSynName();
   bool operator==(const PQLToken& other) const;

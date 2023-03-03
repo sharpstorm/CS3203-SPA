@@ -12,10 +12,7 @@ using std::string;
 class EntityMappingProviderStub : public IEntityMappingProvider {
  public:
   HashKeySetTable<EntityType, string> entityTypeToValue;
-  HashKeyTable<string, EntityType> valueToEntityType;
-  unordered_set<string> allSymbols;
 
   EntityMappingProviderStub();
-  EntityType getTypeOfSymbol(string) const override;
   unordered_set<string> getSymbolsOfType(EntityType) const override;
 };

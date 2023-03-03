@@ -54,7 +54,6 @@ class QueryLexerTokenTable {
   };
   PQLTokenType tokens[256];
   QueryLexerTokenTable();
-  static bool isLetter(char c);
   static bool isDigit(char c);
   static bool isZero(char c);
 };

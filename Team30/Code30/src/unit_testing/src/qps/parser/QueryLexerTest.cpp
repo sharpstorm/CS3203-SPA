@@ -21,6 +21,14 @@ void testPQLLexSingleToken(string testCase, PQLTokenType expected) {
   REQUIRE(result->at(0).getType() == expected);
 }
 
+void testPQLLexSingleToken(string testCase, PQLToken expected) {
+  QueryLexer lexer;
+  QueryLexerResult result = lexer.getTokenStream(&testCase);
+  REQUIRE(result->size() == 1);
+  INFO(result->at(0).getType());
+  REQUIRE(result->at(0) == expected);
+}
+
 void testPQLDeclaration(string testCase, PQLTokenType expectedToken, PQLToken expectedArg) {
   QueryLexer lexer;
   QueryLexerResult result = lexer.getTokenStream(&testCase);
@@ -78,12 +86,12 @@ TEST_CASE("Test QPS Lexer Symbols") {
       PQLToken(PQL_TOKEN_COMMA),
       PQLToken(PQL_TOKEN_PERIOD),
       PQLToken(PQL_TOKEN_UNDERSCORE),
-      PQLToken(PQL_TOKEN_QUOTE),
+      PQLToken(PQL_TOKEN_LITERAL, "+"),
       PQLToken(PQL_TOKEN_ASTRIX),
   };
 
-  testPQLLexing(";(),._\"*", symbolSet);
-  testPQLLexing("; ( ) , . _ \" * ", symbolSet);
+  testPQLLexing(";(),._\"+\"*", symbolSet);
+  testPQLLexing("; ( ) , . _ \"+\" * ", symbolSet);
 }
 
 TEST_CASE("Test QPS Lexer Relationships") {
@@ -91,6 +99,16 @@ TEST_CASE("Test QPS Lexer Relationships") {
   testPQLLexSingleToken("Parent", PQL_TOKEN_PARENT);
   testPQLLexSingleToken("Uses", PQL_TOKEN_USES);
   testPQLLexSingleToken("Modifies", PQL_TOKEN_MODIFIES);
+}
+
+TEST_CASE("Test QPS Lexer Literals") {
+  testPQLLexSingleToken("\"abc\"", PQLToken(PQL_TOKEN_STRING_LITERAL, "abc"));
+  testPQLLexSingleToken("\"abc123\"", PQLToken(PQL_TOKEN_STRING_LITERAL, "abc123"));
+  testPQLLexSingleToken("\"a1bc\"", PQLToken(PQL_TOKEN_STRING_LITERAL, "a1bc"));
+  testPQLLexSingleToken("\"123\"", PQLToken(PQL_TOKEN_LITERAL, "123"));
+  testPQLLexSingleToken("\"abc abc\"", PQLToken(PQL_TOKEN_LITERAL, "abc abc"));
+  testPQLLexSingleToken("\"a+b\"", PQLToken(PQL_TOKEN_LITERAL, "a+b"));
+  testPQLLexSingleToken("\"a + b    + c\"", PQLToken(PQL_TOKEN_LITERAL, "a + b    + c"));
 }
 
 TEST_CASE("Test QPS Lexer full query") {

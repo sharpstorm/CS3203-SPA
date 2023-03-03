@@ -2,11 +2,12 @@
 #include <string>
 
 #include "../../../../../../../lib/catch.hpp"
-#include "../../../../../../spa/src/common/ASTNode/IASTNode.h"
+#include "../../../../../../spa/src/common/ast/IASTNode.h"
 #include "../../../../../../spa/src/sp/common/SourceToken.h"
-#include "../../../../../../spa/src/sp/parser/GrammarContextProvider.h"
 #include "../../../../../../spa/src/sp/parser/SourceParseState.h"
-#include "../../../../../../spa/src/sp/parser/parse_context/math_context/FactorContext.h"
+#include "sp/parser/expression_context/contexts/FactorContext.h"
+#include "sp/parser/entity_context/EntityParser.h"
+#include "sp/parser/expression_context/ExpressionContextProvider.h"
 
 vector<SourceToken> plus_Variable_Input() {  // (x + y)
   vector<SourceToken> tokens = vector<SourceToken>{
@@ -48,12 +49,18 @@ vector<SourceToken> minus_Integers_Input() {  // (9 - 5)
   return tokens;
 }
 
+ASTNodePtr testFactorParsing(vector<SourceToken>* tokens) {
+  SourceParseState state(tokens);
+  EntityParser entParser;
+  ExpressionContextProvider ecp(&entParser);
+  FactorContext context(&ecp, &entParser);
+  return context.generateSubtree(&state);
+}
+
+
 TEST_CASE("FactorContext: Process Add_Variables Condition") {
   vector<SourceToken> tokens = plus_Variable_Input();
-  SourceParseState state(&tokens);
-  GrammarContextProvider gcp;
-  TermContext context(&gcp);
-  shared_ptr<ASTNode> node = context.generateSubtree(&state);
+  auto node = testFactorParsing(&tokens);
 
   REQUIRE(node->getType() == ASTNODE_VARIABLE);
 
@@ -62,10 +69,7 @@ TEST_CASE("FactorContext: Process Add_Variables Condition") {
 
 TEST_CASE("FactorContext: Process Subtract_Variables Condition") {
   vector<SourceToken> tokens = minus_Variable_Input();
-  SourceParseState state(&tokens);
-  GrammarContextProvider gcp;
-  TermContext context(&gcp);
-  shared_ptr<ASTNode> node = context.generateSubtree(&state);
+  auto node = testFactorParsing(&tokens);
 
   REQUIRE(node->getType() == ASTNODE_VARIABLE);
 
@@ -74,10 +78,7 @@ TEST_CASE("FactorContext: Process Subtract_Variables Condition") {
 
 TEST_CASE("FactorContext: Process Add_Integers Condition") {
   vector<SourceToken> tokens = plus_Integers_Input();
-  SourceParseState state(&tokens);
-  GrammarContextProvider gcp;
-  TermContext context(&gcp);
-  shared_ptr<ASTNode> node = context.generateSubtree(&state);
+  auto node = testFactorParsing(&tokens);
 
   REQUIRE(node->getType() == ASTNODE_CONSTANT);
 
@@ -86,10 +87,7 @@ TEST_CASE("FactorContext: Process Add_Integers Condition") {
 
 TEST_CASE("FactorContext: Process Subtract_Integers Condition") {
   vector<SourceToken> tokens = minus_Integers_Input();
-  SourceParseState state(&tokens);
-  GrammarContextProvider gcp;
-  TermContext context(&gcp);
-  shared_ptr<ASTNode> node = context.generateSubtree(&state);
+  auto node = testFactorParsing(&tokens);
 
   REQUIRE(node->getType() == ASTNODE_CONSTANT);
 

@@ -2,18 +2,18 @@
 
 using std::pair;
 
-PQLQuery::PQLQuery(unordered_map<string, PQLQuerySynonym> vars,
-                   PQLQuerySynonym resVar,
+PQLQuery::PQLQuery(VariableTable vars,
+                   PQLQuerySynonymList resVar,
                    vector<ClauseSPtr> c):
-                   variables(vars), resultVariable(resVar), clauses(c) {
+                   variables(vars), resultVariables(resVar), clauses(c) {
 }
 
 int PQLQuery::getVariableCount() {
   return variables.size();
 }
 
-PQLQuerySynonym PQLQuery::getResultVariable() {
-  return resultVariable;
+PQLQuerySynonymList* PQLQuery::getResultVariables() {
+  return &resultVariables;
 }
 
 PQLQuerySynonym* PQLQuery::getVariable(PQLSynonymName name) {
@@ -23,10 +23,6 @@ PQLQuerySynonym* PQLQuery::getVariable(PQLSynonymName name) {
   }
 
   return &item->second;
-}
-
-PQLSynonymName PQLQuery::getResultName() {
-  return resultVariable.getName();
 }
 
 vector<IEvaluatableSPtr> PQLQuery::getEvaluatables() {

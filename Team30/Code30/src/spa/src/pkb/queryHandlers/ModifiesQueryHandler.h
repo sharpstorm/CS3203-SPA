@@ -14,6 +14,7 @@ using std::unordered_set;
 class ModifiesQueryHandler : public IModifiesQueryHandler {
  public:
   ModifiesQueryHandler(const ModifiesStorage *,
+                       const ModifiesPStorage *,
                        const PredicateFactory *,
                        const IStructureMappingProvider *,
                        const IEntityMappingProvider *);
@@ -22,7 +23,8 @@ class ModifiesQueryHandler : public IModifiesQueryHandler {
   QueryResult<string, string> queryModifies(EntityRef,
                                             EntityRef) const override;
  private:
-  const ModifiesStorage *store;
+  const ModifiesStorage *modifiesStorage;
+  const ModifiesPStorage *modifiesPStorage;
   const PredicateFactory *predicateFactory;
   const IStructureMappingProvider *structureProvider;
   const IEntityMappingProvider *entitiesProvider;

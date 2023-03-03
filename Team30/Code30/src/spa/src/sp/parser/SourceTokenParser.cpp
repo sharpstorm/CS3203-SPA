@@ -1,13 +1,24 @@
-#include <vector>
 #include "SourceTokenParser.h"
-#include "common/AST.h"
 
-using std::vector;
+#include <memory>
 
-SourceTokenParser::SourceTokenParser() {}
+using std::make_unique;
 
-AST SourceTokenParser::parse(vector<SourceToken>* tokens) {
+SourceTokenParser::SourceTokenParser():
+    entityParser(make_unique<EntityParser>()),
+    exprParser(make_unique<ExpressionParser>(entityParser.get())),
+    condParser(make_unique<ConditionalParser>(exprParser.get())),
+    procedureParser(make_unique<ProcedureParser>(entityParser.get(),
+                                                 exprParser.get(),
+                                                 condParser.get())) {
+}
+
+AST SourceTokenParser::parseProcedure(vector<SourceToken> *tokens) {
   SourceParseState state(tokens);
-  gcp.getContext(PROCEDURE_CONTEXT)->generateSubtree(&state);
-  return AST(state.getCached());
+  return AST(procedureParser->parse(&state));
+}
+
+AST SourceTokenParser::parseExpression(vector<SourceToken> *tokens) {
+  SourceParseState state(tokens);
+  return AST(exprParser->parse(&state));
 }

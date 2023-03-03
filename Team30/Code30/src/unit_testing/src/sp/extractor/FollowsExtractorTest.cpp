@@ -1,4 +1,4 @@
-#include "../../../../spa/src/common/AST.h"
+#include "sp/ast/AST.h"
 #include "../../../../spa/src/pkb/writers/PkbWriter.h"
 #include "../../../../spa/src/sp/SourceParser.h"
 #include "../../../../spa/src/sp/extractor/TreeWalker.h"

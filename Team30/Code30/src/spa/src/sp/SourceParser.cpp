@@ -7,8 +7,11 @@
 using std::string, std::vector;
 
 AST SourceParser::parseSource(string input) {
-  SourceLexer sourceLexer;
-  SourceTokenParser sourceTokenParser;
   SourceTokenStreamPtr tokens = sourceLexer.tokenize(&input);
-  return sourceTokenParser.parse(tokens.get());
+  return sourceTokenParser.parseProcedure(tokens.get());
+}
+
+AST SourceParser::parseExpression(string expression) {
+  SourceTokenStreamPtr tokens = sourceLexer.tokenize(&expression);
+  return sourceTokenParser.parseExpression(tokens.get());
 }

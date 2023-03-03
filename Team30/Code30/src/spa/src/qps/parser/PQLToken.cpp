@@ -9,7 +9,8 @@ PQLToken::PQLToken(PQLTokenType type, string data):
 }
 
 bool PQLToken::operator==(const PQLToken& other) const {
-  if (type == PQL_TOKEN_STRING || type == PQL_TOKEN_INTEGER) {
+  if (type == PQL_TOKEN_STRING || type == PQL_TOKEN_INTEGER
+      || type == PQL_TOKEN_LITERAL || type == PQL_TOKEN_STRING_LITERAL) {
     return type == other.type && tokenData == other.tokenData;
   }
   return type == other.type;
@@ -35,4 +36,8 @@ bool PQLToken::isVarchar() {
 bool PQLToken::isSynName() {
   return ((type & PQL_TOKEN_CATEGORY_MASK)
       & PQL_TOKEN_SYN_MASK) > 0;
+}
+
+bool PQLToken::isCategory(PQLTokenCategory category) {
+  return (type & PQL_TOKEN_CATEGORY_MASK) == category;
 }

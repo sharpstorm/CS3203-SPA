@@ -10,6 +10,7 @@ const char QPS_PARSER_ERR_UNEXPECTED[] =
     "Unexpected token encountered during parsing";
 const char QPS_PARSER_ERR_TOKEN_SEQUENCE[] = "Unexpected sequence of clauses";
 const char QPS_PARSER_ERR_PATTERN_TYPE[] = "Invalid synonym type in pattern";
+const char QPS_PARSER_ERR_NO_SELECT[] = "No select clause";
 
 class QPSParserSyntaxError: public QPSError {
  public:
