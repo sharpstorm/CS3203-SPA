@@ -14,7 +14,6 @@ using std::unordered_set;
 class EntityMappingProvider : public IEntityMappingProvider {
  public:
   explicit EntityMappingProvider(SymbolStorage *);
-  EntityType getTypeOfSymbol(string) const override;
   unordered_set<string> getSymbolsOfType(EntityType) const override;
 
  private:

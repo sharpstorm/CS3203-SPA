@@ -10,5 +10,5 @@ class IUsesWriter {
   /**
    * Adds relation where statement directly uses variable.
    */
-  virtual void addUses(int stmtNum, string variable) = 0;
+  virtual void addUses(int stmtNum, string variable, string procedure) = 0;
 };

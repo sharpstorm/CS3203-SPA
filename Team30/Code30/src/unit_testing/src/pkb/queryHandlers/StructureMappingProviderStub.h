@@ -35,8 +35,6 @@ class StructureMappingProviderStub : public IStructureMappingProvider {
 
   string getProcedureForLine(int stmt) const override;
 
-  Transformer<int, string> getStmtProcedureTransformer() const override;
-
   unordered_set<int> getCallStmtsOfProcedure(string) const override;
 
   string getCalledProcedure(int) const override;

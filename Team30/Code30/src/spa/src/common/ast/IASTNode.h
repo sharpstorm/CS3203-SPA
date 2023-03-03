@@ -3,7 +3,7 @@
 #include <memory>
 #include <string>
 
-using std::shared_ptr, std::vector, std::string;
+using std::shared_ptr, std::string;
 
 enum ASTNodeType {
   ASTNODE_PROCEDURE,
@@ -38,7 +38,7 @@ class IASTNode {
   virtual shared_ptr<IASTNode> getChild(int i) = 0;
   virtual ASTNodeType getType() = 0;
   virtual string getValue() = 0;
-  virtual bool isEquals(IASTNode* other) = 0;
+  virtual bool isEquals(IASTNode *other) = 0;
 };
 
 typedef shared_ptr<IASTNode> IASTNodePtr;

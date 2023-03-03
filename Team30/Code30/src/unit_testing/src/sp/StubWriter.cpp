@@ -13,10 +13,14 @@ class StubPkb : public PkbWriter {
 
   void addFollows(int x, int y) { followsStore.push_back(make_pair(x, y)); }
   void addParent(int x, int y) { parentStore.push_back(make_pair(x, y)); }
-  void addModifies(int i, string var) {
+  void addModifies(int i, string var, string procedure) {
     modifiesStore.push_back(make_pair(i, var));
+    usesPStore.push_back(make_pair(procedure, var));
   }
-  void addUses(int i, string var) { usesStore.push_back(make_pair(i, var)); }
+  void addUses(int i, string var, string procedure) {
+    usesStore.push_back(make_pair(i, var));
+    usesPStore.push_back(make_pair(procedure, var));
+  }
   void addAssigns(int i, shared_ptr<IASTNode> node) {
     patternStore.push_back(make_pair(i, node));
   }
@@ -24,6 +28,8 @@ class StubPkb : public PkbWriter {
   vector<pair<int, int>> followsStore;
   vector<pair<int, int>> parentStore;
   vector<pair<int, string>> modifiesStore;
+  vector<pair<string, string>> modifiesPStore;
   vector<pair<int, string>> usesStore;
+  vector<pair<string, string>> usesPStore;
   vector<pair<int, shared_ptr<IASTNode>>> patternStore;
 };

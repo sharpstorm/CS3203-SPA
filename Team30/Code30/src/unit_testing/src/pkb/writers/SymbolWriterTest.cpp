@@ -12,20 +12,20 @@ using std::string;
 using std::unordered_set;
 
 TEST_CASE("SymbolWriter addSymbol") {
-  auto table = make_shared<HashKeyTable<string, EntityType>>();
-  auto reverseTable = make_shared<HashKeySetTable<EntityType, string>>();
-  auto store = make_unique<SymbolStorage>(table, reverseTable);
+  auto store = make_unique<SymbolStorage>();
   auto writer = SymbolWriter(store.get());
 
   writer.addSymbol("x", EntityType::Variable);
   writer.addSymbol("y", EntityType::Variable);
   writer.addSymbol("0", EntityType::Constant);
   writer.addSymbol("1", EntityType::Constant);
+  writer.addSymbol("main", EntityType::Procedure);
+  writer.addSymbol("x", EntityType::Procedure);
 
-  REQUIRE(table->get("x") == EntityType::Variable);
-  REQUIRE(table->get("0") == EntityType::Constant);
-  REQUIRE(reverseTable->get(EntityType::Variable) ==
-          unordered_set<string>({"x", "y"}));
-  REQUIRE(reverseTable->get(EntityType::Constant) ==
-          unordered_set<string>({"0", "1"}));
+  REQUIRE(store->get(EntityType::Variable) ==
+      unordered_set<string>({"x", "y"}));
+  REQUIRE(store->get(EntityType::Constant) ==
+      unordered_set<string>({"0", "1"}));
+  REQUIRE(store->get(EntityType::Procedure) ==
+      unordered_set<string>({"x", "main"}));
 }

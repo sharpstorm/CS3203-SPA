@@ -25,6 +25,7 @@ static unique_ptr<StructureMappingProviderStub> setUpStructureMappingProvider() 
   provider->stmtNumToType.set(5, StmtType::Read);
   provider->stmtNumToType.set(6, StmtType::If);
   provider->stmtNumToType.set(7, StmtType::While);
+  provider->stmtNumToType.set(8, StmtType::Call);
 
   provider->stmtTypeToNum.set(StmtType::Assign, 1);
   provider->stmtTypeToNum.set(StmtType::Assign, 2);
@@ -33,8 +34,9 @@ static unique_ptr<StructureMappingProviderStub> setUpStructureMappingProvider() 
   provider->stmtTypeToNum.set(StmtType::Read, 5);
   provider->stmtTypeToNum.set(StmtType::If, 6);
   provider->stmtTypeToNum.set(StmtType::While, 7);
+  provider->stmtTypeToNum.set(StmtType::Call, 8);
 
-  provider->allStmts = {1, 2, 3, 4, 5, 6, 7};
+  provider->allStmts = {1, 2, 3, 4, 5, 6, 7, 8};
   return provider;
 }
 
@@ -44,11 +46,10 @@ static unique_ptr<EntityMappingProviderStub> setUpEntityMappingProvider() {
   provider->entityTypeToValue.set(EntityType::Variable, "y");
   provider->entityTypeToValue.set(EntityType::Variable, "z");
   provider->entityTypeToValue.set(EntityType::Variable, "w");
-  provider->valueToEntityType.set("x", EntityType::Variable);
-  provider->valueToEntityType.set("y", EntityType::Variable);
-  provider->valueToEntityType.set("z", EntityType::Variable);
-  provider->valueToEntityType.set("w", EntityType::Variable);
-  provider->allSymbols = {"x", "y", "z", "w"};
+  provider->entityTypeToValue.set(EntityType::Procedure, "main");
+  provider->entityTypeToValue.set(EntityType::Procedure, "foo");
+  provider->entityTypeToValue.set(EntityType::Procedure, "goo");
+
   return provider;
 }
 
@@ -56,6 +57,9 @@ struct usesTestInit {
   shared_ptr<HashKeySetTable<int, string>> table;
   shared_ptr<HashKeySetTable<string, int>> reverseTable;
   unique_ptr<UsesStorage> store;
+  shared_ptr<HashKeySetTable<string, string>> pTable;
+  shared_ptr<HashKeySetTable<string, string>> reversePTable;
+  unique_ptr<UsesPStorage> pStore;
   unique_ptr<StructureMappingProviderStub> structureProvider;
   unique_ptr<EntityMappingProviderStub> entityProvider;
   unique_ptr<PredicateFactory> factory;
@@ -65,11 +69,15 @@ struct usesTestInit {
       table(make_shared<HashKeySetTable<int, string>>()),
       reverseTable(make_shared<HashKeySetTable<string, int>>()),
       store(make_unique<UsesStorage>(table, reverseTable)),
+      pTable(make_shared<HashKeySetTable<string, string>>()),
+      reversePTable(make_shared<HashKeySetTable<string, string>>()),
+      pStore(make_unique<UsesPStorage>(pTable, reversePTable)),
       structureProvider(setUpStructureMappingProvider()),
       entityProvider(setUpEntityMappingProvider()),
       factory(make_unique<PredicateFactory>(structureProvider.get(),
                                             entityProvider.get())),
       handler(UsesQueryHandler(store.get(),
+                               pStore.get(),
                                factory.get(),
                                structureProvider.get(),
                                entityProvider.get())) {};
@@ -136,7 +144,7 @@ TEST_CASE("UsesQueryHandler Uses(stmtNum, constant)") {
 
 // Only arg2 known
 
-TEST_CASE("UsesQueryHandler Uses(type, variableName), assign, read") {
+TEST_CASE("UsesQueryHandler Uses(type, variableName), assign, print") {
   auto test = usesTestInit();
 
   test.reverseTable->set("x", 1);
@@ -186,7 +194,7 @@ TEST_CASE("UsesQueryHandler Uses(type, variableName), if, while") {
   REQUIRE(result2.pairVals == pair_set<int, string>({{7, "y"}}));
 }
 
-TEST_CASE("UsesQueryHandler Uses(type, variableName), print") {
+TEST_CASE("UsesQueryHandler Uses(type, variableName), read") {
   auto test = usesTestInit();
 
   test.reverseTable->set("x", 5); // should not happen
@@ -266,20 +274,41 @@ TEST_CASE("UsesQueryHandler Uses(statement, _)") {
                                         {6, "y"}}));
 }
 
+TEST_CASE("UsesQueryHandler call statement") {
+  auto test = usesTestInit();
+
+  test.table->set(8, "x");
+  test.table->set(8, "y");
+  test.table->set(1, "z");
+  test.reverseTable->set("x", 8);
+  test.reverseTable->set("y", 8);
+  test.reverseTable->set("z", 1);
+
+  // arg1 known
+  auto result1 = test.handler.queryUses({StmtType::None, 8},
+                                        {EntityType::None, ""});
+  REQUIRE(result1.pairVals
+              == pair_set<int, string>({{8, "x"}, {8, "y"}}));
+  // arg2 known
+  auto result2 = test.handler.queryUses({StmtType::Call, 0},
+                                        {EntityType::Variable, ""});
+
+  REQUIRE(result2.pairVals == pair_set<int, string>({{8, "x"}, {8, "y"}}));
+  // Both args unknown
+  auto result3 = test.handler.queryUses({StmtType::None, 0},
+                                        {EntityType::None, ""});
+  REQUIRE(result3.pairVals
+              == pair_set<int, string>({{8, "x"}, {8, "y"}, {1, "z"}}));
+}
+
 /** Uses(EntityRef, EntityRef) */
 // Both args known
 TEST_CASE("UsesQueryHandler Uses(procedureName, variableName)") {
   auto test = usesTestInit();
-  test.table->set(1, "x");
-  test.table->set(2, "y");
-  test.table->set(3, "z");
 
-  test.structureProvider->procedureToStmtNum.set("main", 1);
-  test.structureProvider->procedureToStmtNum.set("main", 2);
-  test.structureProvider->procedureToStmtNum.set("foo", 3);
-  test.structureProvider->stmtNumToProcedure.set(1, "main");
-  test.structureProvider->stmtNumToProcedure.set(2, "main");
-  test.structureProvider->stmtNumToProcedure.set(3, "foo");
+  test.pTable->set("main", "x");
+  test.pTable->set("main", "y");
+  test.pTable->set("foo", "z");
 
   auto result1 = test.handler.queryUses({EntityType::Procedure, "main"},
                                         {EntityType::None, "x"});
@@ -288,39 +317,35 @@ TEST_CASE("UsesQueryHandler Uses(procedureName, variableName)") {
   REQUIRE(result1.secondArgVals == unordered_set<string>({"x"}));
   REQUIRE(result1.pairVals == pair_set<string, string>({{"main", "x"}}));
 
-  auto result2 = test.handler.queryUses({EntityType::Procedure, "foo"},
-                                        {EntityType::None, "x"});
+  auto result2 = test.handler.queryUses({EntityType::Procedure, "main"},
+                                        {EntityType::None, "z"});
   REQUIRE(result2.isEmpty == true);
 
+  auto result3 = test.handler.queryUses({EntityType::Procedure, "foo"},
+                                        {EntityType::None, "z"});
+  REQUIRE(result3.pairVals == pair_set<string, string>({{"foo", "z"}}));
+
   // invalid type
-  auto result3 = test.handler.queryUses({EntityType::None, "main"},
+  auto result4 = test.handler.queryUses({EntityType::None, "main"},
                                         {EntityType::None, "x"});
-  REQUIRE(result3.isEmpty == true);
+  REQUIRE(result4.isEmpty == true);
 }
 
 // Only arg1 known
 TEST_CASE("UsesQueryHandler Uses(procedureName, type)") {
   auto test = usesTestInit();
-  test.table->set(1, "x");
-  test.table->set(2, "y");
-  test.table->set(2, "w");
-  test.table->set(3, "z");
 
-  test.structureProvider->procedureToStmtNum.set("main", 1);
-  test.structureProvider->procedureToStmtNum.set("main", 2);
-  test.structureProvider->procedureToStmtNum.set("foo", 3);
-  test.structureProvider->stmtNumToProcedure.set(1, "main");
-  test.structureProvider->stmtNumToProcedure.set(2, "main");
-  test.structureProvider->stmtNumToProcedure.set(3, "foo");
+  test.pTable->set("main", "x");
+  test.pTable->set("main", "y");
+  test.pTable->set("foo", "z");
 
   auto result1 = test.handler.queryUses({EntityType::Procedure, "main"},
                                         {EntityType::Variable, ""});
   REQUIRE(result1.isEmpty == false);
   REQUIRE(result1.firstArgVals == unordered_set<string>({"main"}));
-  REQUIRE(result1.secondArgVals == unordered_set<string>({"x", "y", "w"}));
+  REQUIRE(result1.secondArgVals == unordered_set<string>({"x", "y"}));
   REQUIRE(result1.pairVals
-              == pair_set<string, string>({{"main", "x"}, {"main", "y"},
-                                           {"main", "w"}}));
+              == pair_set<string, string>({{"main", "x"}, {"main", "y"}}));
 
   auto result2 = test.handler.queryUses({EntityType::Procedure, "goo"},
                                         {EntityType::Variable, ""});
@@ -335,19 +360,11 @@ TEST_CASE("UsesQueryHandler Uses(procedureName, type)") {
 // Only arg2 known
 TEST_CASE("UsesQueryHandler Uses(type, variable)") {
   auto test = usesTestInit();
-  test.reverseTable->set("x", 1);
-  test.reverseTable->set("x", 3);
-  test.reverseTable->set("y", 2);
-  test.reverseTable->set("y", 4);
 
-  test.structureProvider->procedureToStmtNum.set("main", 1);
-  test.structureProvider->procedureToStmtNum.set("main", 2);
-  test.structureProvider->procedureToStmtNum.set("foo", 3);
-  test.structureProvider->procedureToStmtNum.set("goo", 4);
-  test.structureProvider->stmtNumToProcedure.set(1, "main");
-  test.structureProvider->stmtNumToProcedure.set(2, "main");
-  test.structureProvider->stmtNumToProcedure.set(3, "foo");
-  test.structureProvider->stmtNumToProcedure.set(4, "goo");
+  test.reversePTable->set("x", "main");
+  test.reversePTable->set("x", "foo");
+  test.reversePTable->set("y", "main");
+  test.reversePTable->set("y", "goo");
 
   auto result1 = test.handler.queryUses({EntityType::Procedure, ""},
                                         {EntityType::Variable, "x"});
@@ -366,19 +383,11 @@ TEST_CASE("UsesQueryHandler Uses(type, variable)") {
 // Both args unknown
 TEST_CASE("UsesQueryHandler Uses(type, type)") {
   auto test = usesTestInit();
-  test.reverseTable->set("x", 1);
-  test.reverseTable->set("z", 3);
-  test.reverseTable->set("y", 2);
-  test.reverseTable->set("y", 3);
 
-  test.structureProvider->procedureToStmtNum.set("main", 1);
-  test.structureProvider->procedureToStmtNum.set("main", 2);
-  test.structureProvider->procedureToStmtNum.set("foo", 3);
-  test.structureProvider->procedureToStmtNum.set("goo", 4);
-  test.structureProvider->stmtNumToProcedure.set(1, "main");
-  test.structureProvider->stmtNumToProcedure.set(2, "main");
-  test.structureProvider->stmtNumToProcedure.set(3, "foo");
-  test.structureProvider->stmtNumToProcedure.set(4, "goo");
+  test.pTable->set("main", "x");
+  test.pTable->set("main", "y");
+  test.pTable->set("foo", "y");
+  test.pTable->set("foo", "z");
 
   auto result1 = test.handler.queryUses({EntityType::Procedure, ""},
                                         {EntityType::None, ""});
