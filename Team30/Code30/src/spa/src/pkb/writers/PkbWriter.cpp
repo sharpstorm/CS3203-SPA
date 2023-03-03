@@ -11,6 +11,7 @@
 #include "StatementWriter.h"
 #include "SymbolWriter.h"
 #include "UsesWriter.h"
+#include "PostProcessWriter.h"
 
 using std::make_unique;
 
@@ -24,7 +25,8 @@ PkbWriter::PkbWriter(PKB *pkb)
       statementWriter(new StatementWriter(pkb->statementStorage)),
       procedureWriter(new ProcedureWriter(pkb->procedureStorage)),
       assignsWriter(new AssignsWriter(pkb->assignStorage)),
-      callsWriter(new CallsWriter(pkb->callsStorage, pkb->callStmtStorage)) {}
+      callsWriter(new CallsWriter(pkb->callsStorage, pkb->callStmtStorage)),
+      postProcessWriter(new PostProcessWriter(pkb)) {}
 
 void PkbWriter::addFollows(int arg1, int arg2) {
   followsWriter->addFollows(arg1, arg2);
@@ -41,6 +43,8 @@ void PkbWriter::addSymbol(string entityName, EntityType entityType) {
 void PkbWriter::addProcedure(string procedureName, int startLineNum,
                              int endLineNum) {
   procedureWriter->addProcedure(procedureName, startLineNum, endLineNum);
+  // add in both first, will optimise later
+  symbolWriter->addSymbol(procedureName, EntityType::Procedure);
 }
 
 void PkbWriter::addStatement(int lineNumber, StmtType stmtType) {
@@ -62,4 +66,8 @@ void PkbWriter::addAssigns(int stmtNum, shared_ptr<IASTNode> ast) {
 void PkbWriter::addCalls(int stmtNum, string currProcedure,
                          string calledProcedure) {
   callsWriter->addCalls(stmtNum, currProcedure, calledProcedure);
+}
+
+void PkbWriter::runPostProcessor() {
+  postProcessWriter->runPostProcessor();
 }

@@ -7,10 +7,7 @@
 
 #include "../../../common/Types.h"
 
-using std::string;
-using std::unordered_set;
-using std::pair;
-using std::function;
+using std::string, std::unordered_set, std::pair, std::function;
 
 class IStructureMappingProvider {
  public:

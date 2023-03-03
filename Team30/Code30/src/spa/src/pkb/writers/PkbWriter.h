@@ -14,6 +14,7 @@
 #include "pkb/writers/interfaces/IStatementWriter.h"
 #include "pkb/writers/interfaces/ISymbolWriter.h"
 #include "pkb/writers/interfaces/IUsesWriter.h"
+#include "pkb/writers/interfaces/IPostProcessWriter.h"
 
 using std::unique_ptr;
 
@@ -32,6 +33,8 @@ class PkbWriter : public IPkbWriter {
   void addCalls(int stmtNum, string currProcedure,
                 string calledProcedure) override;
 
+  void runPostProcessor() override;
+
  private:
   unique_ptr<IFollowsWriter> followsWriter;
   unique_ptr<IParentWriter> parentWriter;
@@ -42,4 +45,5 @@ class PkbWriter : public IPkbWriter {
   unique_ptr<IProcedureWriter> procedureWriter;
   unique_ptr<IAssignsWriter> assignsWriter;
   unique_ptr<ICallsWriter> callsWriter;
+  unique_ptr<IPostProcessWriter> postProcessWriter;
 };

@@ -11,6 +11,7 @@
 class UsesQueryHandler : public IUsesQueryHandler {
  public:
   UsesQueryHandler(const UsesStorage *,
+                   const UsesPStorage *,
                    const PredicateFactory *,
                    const IStructureMappingProvider *,
                    const IEntityMappingProvider *);
@@ -19,7 +20,8 @@ class UsesQueryHandler : public IUsesQueryHandler {
   QueryResult<string, string> queryUses(EntityRef,
                                         EntityRef) const override;
  private:
-  const UsesStorage *store;
+  const UsesStorage *usesStorage;
+  const UsesPStorage *usesPStorage;
   const PredicateFactory *predicateFactory;
   const IStructureMappingProvider *structureProvider;
   const IEntityMappingProvider *entitiesProvider;

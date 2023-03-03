@@ -54,46 +54,46 @@ TEST_CASE("Modifies (EntityRef, EntityRef)") {
   auto writer = PkbWriter(pkb.get());
   auto handler = PkbQueryHandler(pkb.get());
 
-  writer.addModifies(2, "x", "main");
-  writer.addModifies(3, "z", "main");
-  writer.addModifies(4, "z", "main");
   writer.addModifies(1, "x", "main");
   writer.addModifies(1, "y", "main");
-  writer.addStatement(1, StmtType::While);
-  writer.addStatement(2, StmtType::Read);
-  writer.addStatement(3, StmtType::Assign);
-  writer.addStatement(4, StmtType::Assign);
-  writer.addStatement(5, StmtType::Assign);
+  writer.addModifies(3, "z", "main");
+  writer.addModifies(4, "w", "foo");
+  writer.addModifies(5, "z", "goo");
   writer.addSymbol("x", EntityType::Variable);
   writer.addSymbol("y", EntityType::Variable);
   writer.addSymbol("z", EntityType::Variable);
   writer.addSymbol("w", EntityType::Variable);
+  writer.addSymbol("a", EntityType::Variable);
   writer.addProcedure("main", 1, 3);
   writer.addProcedure("foo", 4, 4);
+  writer.addProcedure("goo", 5, 5);
+  writer.addProcedure("hoo", 6, 6);
 
   auto result1 =
       handler.queryModifies({EntityType::Procedure, "foo"},
-                            {EntityType::None, "z"});
-  REQUIRE(result1.pairVals == pair_set<string, string>({{"foo", "z"}}));
+                            {EntityType::None, "w"});
+  REQUIRE(result1.pairVals == pair_set<string, string>({{"foo", "w"}}));
 
   auto result2 =
       handler.queryModifies({EntityType::Procedure, "main"},
                             {EntityType::Variable, ""});
   REQUIRE(result2.pairVals
-              == pair_set<string, string>({{"main", "x"}, {"main", "y"},
+              == pair_set<string, string>({{"main", "x"},
+                                           {"main", "y"},
                                            {"main", "z"}}));
 
   auto result3 =
       handler.queryModifies({EntityType::Procedure, ""},
                             {EntityType::None, "z"});
   REQUIRE(result3.pairVals
-              == pair_set<string, string>({{"main", "z"}, {"foo", "z"}}));
+              == pair_set<string, string>({{"main", "z"}, {"goo", "z"}}));
 
   auto result4 =
       handler.queryModifies({EntityType::Procedure, ""},
                             {EntityType::Variable, ""});
   REQUIRE(result4.pairVals
               == pair_set<string, string>({{"main", "x"}, {"main", "y"},
-                                           {"main", "z"}, {"foo", "z"}}));
+                                           {"main", "z"}, {"foo", "w"},
+                                           {"goo", "z"}}));
 }
 
