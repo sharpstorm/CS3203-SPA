@@ -15,6 +15,7 @@ PQLQueryResult *QueryOrchestrator::execute(QueryPlan* plan) {
     QueryGroupPlan* targetGroup = plan->getGroup(i);
     PQLQueryResult* result = executeGroup(targetGroup);
     if (result->isFalse()) {
+      delete result;
       return new PQLQueryResult();
     }
 
