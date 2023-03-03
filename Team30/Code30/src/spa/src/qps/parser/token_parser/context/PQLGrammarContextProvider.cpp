@@ -1,5 +1,9 @@
 #include "PQLGrammarContextProvider.h"
 
+PQLGrammarContextProvider::PQLGrammarContextProvider(
+    ISourceExpressionParser *exprParser): patternClauseContext(exprParser) {
+}
+
 IPQLContext* PQLGrammarContextProvider::getContext(PQLToken *token) {
   switch (token->getType()) {
     case PQL_TOKEN_STMT:

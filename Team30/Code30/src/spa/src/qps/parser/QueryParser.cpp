@@ -3,8 +3,11 @@
 
 using std::vector, std::unique_ptr;
 
-unique_ptr<PQLQuery> QueryParser::parseQuery(string* query) {
+QueryParser::QueryParser(ISourceExpressionParser *exprParser):
+    exprParser(exprParser) {}
+
+PQLQueryPtr QueryParser::parseQuery(string* query) {
   QueryLexerResult tokens = lexer.getTokenStream(query);
-  QueryTokenParser tokenParser(tokens.get());
+  QueryTokenParser tokenParser(exprParser, tokens.get());
   return tokenParser.build();
 }

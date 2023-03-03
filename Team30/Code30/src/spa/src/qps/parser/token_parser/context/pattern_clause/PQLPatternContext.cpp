@@ -11,6 +11,9 @@
 
 using std::make_unique, std::move;
 
+PQLPatternContext::PQLPatternContext(ISourceExpressionParser *exprParser):
+    exprParser(exprParser) {}
+
 void PQLPatternContext::parse(QueryTokenParseState *parserState) {
   parserState->advanceStage(TOKEN_PARSE_STAGE_PATTERN_MARKER);
   parsePatternClause(parserState);

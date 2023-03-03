@@ -9,13 +9,15 @@
 #include "qps/parser/token_parser/context/pattern_clause/PQLPatternContext.h"
 #include "qps/clauses/pattern/IfPatternClause.h"
 #include "qps/clauses/pattern/WhilePatternClause.h"
+#include "sp/SpFacade.h"
 
 using std::make_unique, std::unordered_map;
 
 template <class T>
 void testPatternParsing(vector<PQLToken> inputs,
                               unordered_map<string, PQLSynonymType> synonyms) {
-  PQLPatternContext context;
+  SpFacade exprParser;
+  PQLPatternContext context(&exprParser);
   QueryTokenParseState state(&inputs);
   state.advanceStage(TOKEN_PARSE_STAGE_COMMAND);
 
