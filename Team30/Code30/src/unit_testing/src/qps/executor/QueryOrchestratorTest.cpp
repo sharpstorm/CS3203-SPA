@@ -50,8 +50,11 @@ TEST_CASE("Queries with Select only") {
     });
     targetVariable = {stmtType, "s"};
     auto selectClause = shared_ptr<IEvaluatable>(new SelectClause(targetVariable));
-    auto queryPlan = make_unique<QueryPlan>(vector<shared_ptr<IEvaluatable>>{selectClause},
-                                            vector<QueryPlan::MergeStrategy>{});
+    auto group = make_unique<QueryGroupPlan>(vector<IEvaluatableSPtr>{selectClause},
+                                             vector<PQLSynonymName>{"s"});
+    vector<QueryGroupPlanPtr> groups;
+    groups.push_back(std::move(group));
+    auto queryPlan = make_unique<QueryPlan>(std::move(groups));
     actualResult = unique_ptr<PQLQueryResult>(orchestrator.execute(queryPlan.get()));
     REQUIRE(*expectedResult == *actualResult);
   }
@@ -72,8 +75,11 @@ TEST_CASE("Queries with Select only") {
     });
     targetVariable = {entType, "ent"};
     auto selectClause = shared_ptr<SelectClause>(new SelectClause(targetVariable));
-    auto queryPlan = make_unique<QueryPlan>(vector<shared_ptr<IEvaluatable>>{selectClause},
-                                            vector<QueryPlan::MergeStrategy>{});
+    auto group = make_unique<QueryGroupPlan>(vector<IEvaluatableSPtr>{selectClause},
+                                             vector<PQLSynonymName>{"ent"});
+    vector<QueryGroupPlanPtr> groups;
+    groups.push_back(std::move(group));
+    auto queryPlan = make_unique<QueryPlan>(std::move(groups));
     actualResult = unique_ptr<PQLQueryResult>(orchestrator.execute(queryPlan.get()));
     REQUIRE(*expectedResult == *actualResult);
   }

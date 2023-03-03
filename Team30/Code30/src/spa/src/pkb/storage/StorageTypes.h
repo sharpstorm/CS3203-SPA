@@ -16,3 +16,5 @@ using ProcedureStorage = EntityTableManager<int, std::string>;
 using UsesStorage = RelationTableManager<int, std::string>;
 using ModifiesStorage = RelationTableManager<int, std::string>;
 using AssignStorage = HashKeyTable<int, shared_ptr<IASTNode>>;
+using CallsStorage = TransitiveRelationTableManager<std::string>;
+using CallStmtStorage = EntityTableManager<int, std::string>;

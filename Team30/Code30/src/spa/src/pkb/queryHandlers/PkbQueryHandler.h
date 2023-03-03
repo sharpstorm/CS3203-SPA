@@ -26,7 +26,9 @@ class PkbQueryHandler : public IPkbQueryHandler {
   QueryResult<string, string> queryModifies(EntityRef,
                                             EntityRef) const override;
   QueryResult<int, shared_ptr<IASTNode>> queryAssigns(StmtRef) const override;
-
+  QueryResult<string, string> queryCalls(EntityRef, EntityRef) const override;
+  QueryResult<string, string> queryCallsStar(EntityRef,
+                                             EntityRef) const override;
   unordered_set<string> getSymbolsOfType(EntityType) const override;
   unordered_set<int> getStatementsOfType(StmtType) const override;
 
@@ -37,4 +39,5 @@ class PkbQueryHandler : public IPkbQueryHandler {
   unique_ptr<IModifiesQueryHandler> modifiesHandler;
   unique_ptr<IAssignsQueryHandler> assignHandler;
   unique_ptr<IDesignEntitiesQueryHandler> designEntityHandler;
+  unique_ptr<ICallsQueryHandler> callsHandler;
 };

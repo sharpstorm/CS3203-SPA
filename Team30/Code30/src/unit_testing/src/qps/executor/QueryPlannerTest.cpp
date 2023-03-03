@@ -24,8 +24,9 @@ TEST_CASE("Plan where a clause is using target declaration variable") {
   clauses.push_back(move(c));
 
   auto query = make_unique<PQLQuery>(PQL_VAR_MAP, PQL_RESULT_VARS, clauses);
-  shared_ptr<QueryPlan> queryPlan = QueryPlanner(query.get()).getExecutionPlan();
-  REQUIRE(queryPlan->getConditionalClauses().size() == clauses.size());
+  shared_ptr<QueryPlan> queryPlan = QueryPlanner().getExecutionPlan(query.get());
+  REQUIRE(queryPlan->getGroupCount() == 1);
+  REQUIRE(queryPlan.get()->getGroup(0)->getConditionalClauses().size() == clauses.size());
 }
 
 // Will have select clause
@@ -37,13 +38,16 @@ TEST_CASE("Plan where a clause is not using target declaration variable") {
   clauses.push_back(move(c));
 
   auto query = make_unique<PQLQuery>(PQL_VAR_MAP, PQL_RESULT_VARS, clauses);
-  shared_ptr<QueryPlan> queryPlan = QueryPlanner(query.get()).getExecutionPlan();
-  REQUIRE(queryPlan->getConditionalClauses().size() == clauses.size() + 1);
+  shared_ptr<QueryPlan> queryPlan = QueryPlanner().getExecutionPlan(query.get());
+  REQUIRE(queryPlan->getGroupCount() == 2);
+  REQUIRE(queryPlan.get()->getGroup(0)->getConditionalClauses().size() == clauses.size());
+  REQUIRE(queryPlan.get()->getGroup(1)->getConditionalClauses().size() == 1);
 }
 
 TEST_CASE("Plan where query is only Select") {
   auto query = make_unique<PQLQuery>(PQL_VAR_MAP, PQL_RESULT_VARS, vector<shared_ptr<Clause>>());
-  shared_ptr<QueryPlan> queryPlan = QueryPlanner(query.get()).getExecutionPlan();
+  shared_ptr<QueryPlan> queryPlan = QueryPlanner().getExecutionPlan(query.get());
 
-  REQUIRE(queryPlan->getConditionalClauses().size() == 1);
+  REQUIRE(queryPlan->getGroupCount() == 1);
+  REQUIRE(queryPlan.get()->getGroup(0)->getConditionalClauses().size() == 1);
 }

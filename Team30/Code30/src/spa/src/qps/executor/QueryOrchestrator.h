@@ -12,11 +12,13 @@
 using std::vector;
 
 class QueryOrchestrator {
+ public:
+  explicit QueryOrchestrator(QueryLauncher launcher);
+  PQLQueryResult* execute(QueryPlan* plan);
+
  private:
   QueryLauncher launcher;
   ResultCoalescer coalescer;
 
- public:
-  explicit QueryOrchestrator(QueryLauncher launcher);
-  PQLQueryResult* execute(QueryPlan* plan);
+  PQLQueryResult* executeGroup(QueryGroupPlan* plan);
 };

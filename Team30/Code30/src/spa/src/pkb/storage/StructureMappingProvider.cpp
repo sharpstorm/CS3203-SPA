@@ -27,7 +27,16 @@ std::string StructureMappingProvider::getProcedureForLine(
   return procedureStorage->getByKey(lineNumber);
 }
 
-Transformer<int, string>
+Transformer<int, std::string>
 StructureMappingProvider::getStmtProcedureTransformer() const {
   return [this](int const stmt) { return getProcedureForLine(stmt); };
+}
+
+std::unordered_set<int> StructureMappingProvider::getCallStmtsOfProcedure(
+    std::string procedureName) const {
+  return callStmtStorage->getByValue(procedureName);
+}
+
+std::string StructureMappingProvider::getCalledProcedure(int lineNumber) const {
+  return callStmtStorage->getByKey(lineNumber);
 }

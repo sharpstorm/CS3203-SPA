@@ -29,6 +29,8 @@ class PkbWriter : public IPkbWriter {
   void addStatement(int, StmtType) override;
   void addUses(int stmtNum, string variable) override;
   void addModifies(int stmtNum, string variable) override;
+  void addCalls(int stmtNum, string currProcedure,
+                string calledProcedure) override;
 
  private:
   unique_ptr<IFollowsWriter> followsWriter;
@@ -39,4 +41,5 @@ class PkbWriter : public IPkbWriter {
   unique_ptr<IStatementWriter> statementWriter;
   unique_ptr<IProcedureWriter> procedureWriter;
   unique_ptr<IAssignsWriter> assignsWriter;
+  unique_ptr<ICallsWriter> callsWriter;
 };
