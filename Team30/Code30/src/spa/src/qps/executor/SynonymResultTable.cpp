@@ -19,32 +19,7 @@ void SynonymResultTable::extractResults(PQLQueryResult *result,
     resultGroup->addSynonym(name);
   }
 
-  IntersectSetPtr<int> rowsToExtract;
-  IntersectSet<int> rowsToTake;
-  unordered_set<int> ignoreRows;
-  int rowCounts = result->getRowCount();
-  for (int i = 0; i < rowCounts; i++) {
-    if (ignoreRows.find(i) != ignoreRows.end()) {
-      continue;
-    }
-    IntersectSetPtr<int> currentIgnoreRows = make_unique<IntersectSet<int>>();
-
-    rowsToTake.insert(i);
-    for (PQLSynonymName syn : syns) {
-       ResultTableCol colIdx = result->getSynonymCol(syn);
-       QueryResultTableRow* currRow = result->getTableRowAt(i);
-       RowSet* rows = result->getRowsWithValue(colIdx,
-                                               currRow->at(colIdx).get());
-       if (currentIgnoreRows->empty()) {
-         currentIgnoreRows->insert(rows->begin(), rows->end());
-       } else {
-         currentIgnoreRows = SetUtils::intersectSet(currentIgnoreRows.get(),
-                                                    rows);
-       }
-    }
-
-    ignoreRows.insert(currentIgnoreRows->begin(), currentIgnoreRows->end());
-  }
+  IntersectSet<int> rowsToTake = getUniqueRows(result, &syns);
 
   for (int rowIdx : rowsToTake) {
     QueryResultTableRow* tableRow = result->getTableRowAt(rowIdx);
@@ -88,4 +63,34 @@ bool SynonymResultTable::operator==(const SynonymResultTable &srt) const {
   }
 
   return true;
+}
+IntersectSet<int> SynonymResultTable::getUniqueRows(PQLQueryResult* result,
+                                                    vector<PQLSynonymName>* syns) {
+  IntersectSet<int> rowsToTake;
+  IntersectSet<int> ignoreRows;
+  int rowCounts = result->getRowCount();
+  for (int i = 0; i < rowCounts; i++) {
+    if (ignoreRows.find(i) != ignoreRows.end()) {
+      continue;
+    }
+    IntersectSetPtr<int> currentIgnoreRows = make_unique<IntersectSet<int>>();
+
+    rowsToTake.insert(i);
+    for (const PQLSynonymName& syn : *syns) {
+      ResultTableCol colIdx = result->getSynonymCol(syn);
+      QueryResultTableRow* currRow = result->getTableRowAt(i);
+      RowSet* rows = result->getRowsWithValue(colIdx,
+                                              currRow->at(colIdx).get());
+      if (currentIgnoreRows->empty()) {
+        currentIgnoreRows->insert(rows->begin(), rows->end());
+      } else {
+        currentIgnoreRows = SetUtils::intersectSet(currentIgnoreRows.get(),
+                                                   rows);
+      }
+    }
+
+    ignoreRows.insert(currentIgnoreRows->begin(), currentIgnoreRows->end());
+  }
+
+  return rowsToTake;
 }

@@ -26,8 +26,6 @@ TEST_CASE("Queries with Select only") {
   unique_ptr<PQLQuery> query;
   PQLQuerySynonym targetVariable;
   vector<shared_ptr<Clause>> emptyClause;
-//  PQLQueryResultPtr expectedResult;
-//  PQLQueryResultPtr actualResult;
   unique_ptr<SynonymResultTable> expectedResult;
   unique_ptr<SynonymResultTable> actualResult;
 

@@ -17,7 +17,3 @@ using IntersectSet = unordered_set<T>;
 
 template<class T>
 using IntersectSetPtr = unique_ptr<IntersectSet<T>>;
-
-template<class T>
-IntersectSetPtr<T> intersectSet(IntersectSet<T>* s1,
-                                IntersectSet<T>* s2);

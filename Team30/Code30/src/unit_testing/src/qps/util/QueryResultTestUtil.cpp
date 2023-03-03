@@ -12,7 +12,6 @@ typedef unordered_map<string, QueryResultItemVector> ExpectedParams;
 
 class TestQueryResultBuilder {
  public:
-  // OLD IMPLEMENTATION
   static unique_ptr<PQLQueryResult> buildExpected(const ExpectedParams &expectedParams) {
     auto result = make_unique<PQLQueryResult>();
 

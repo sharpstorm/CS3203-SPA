@@ -55,7 +55,6 @@ class PQLQueryResult {
   unordered_map<PQLSynonymName, ResultTableCol>* getSynonyms();
   ResultTableCol getSynonymCol(const PQLSynonymName &name);
   void putSynonym(const PQLSynonymName &name);
-//  ColMapItemPtr getRowsFromColumn(ResultTableCol col);
 
   QueryResultTableRow* getTableRowAt(int rowIndex);
   void putTableRow(vector<QueryResultItemPtr> row);

@@ -34,12 +34,9 @@ QueryResultTableRow* ResultGroup::getQueryItemAt(int idx) {
 
 ResultGroup* ResultGroup::crossProduct(ResultGroup* other) {
   ResultGroup* output = new ResultGroup();
-  // !! Column ordering is messed up here !!
   output->addColMap(colIdx);
   output->addColMap(other->getColIndexes());
 
-  // For each left Row
-  // For each right Row
   for (int i=0; i < getTableRows(); i++) {
     QueryResultTableRow* leftRow = getQueryItemAt(i);
     for (int j=0; j < other->getTableRows(); j++) {
@@ -79,6 +76,7 @@ void ResultGroup::project(PQLQuerySynonymList *synList,
     result->push_back(rowString);
   }
 }
+
 bool ResultGroup::operator==(const ResultGroup &rg) const {
   if (colMap.size() != rg.colMap.size() ||
       groupTable.size() != groupTable.size()) {

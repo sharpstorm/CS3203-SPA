@@ -13,6 +13,8 @@ class SynonymResultTable {
   vector<unique_ptr<ResultGroup>> groupResults;
   PQLQuerySynonymList* synonymMapping;
   bool booleanResult;
+  IntersectSet<int> getUniqueRows(PQLQueryResult* result,
+                                  vector<PQLSynonymName>* syns);
 
  public:
   SynonymResultTable(PQLQuerySynonymList* mapping, bool booleanResult);
