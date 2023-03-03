@@ -1,9 +1,6 @@
-#include <memory>
 #include <utility>
 
 #include "ModifiesClause.h"
-
-using std::shared_ptr;
 
 ModifiesClause::ModifiesClause(ClauseArgumentPtr leftArg,
                                ClauseArgumentPtr rightArg):

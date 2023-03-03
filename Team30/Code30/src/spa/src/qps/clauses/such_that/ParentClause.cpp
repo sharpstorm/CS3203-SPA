@@ -1,11 +1,10 @@
-#include <memory>
 #include <utility>
 #include <vector>
 #include <unordered_set>
 
 #include "ParentClause.h"
 
-using std::pair, std::vector, std::shared_ptr;
+using std::pair, std::vector;
 
 ParentClause::ParentClause(ClauseArgumentPtr leftArg,
                            ClauseArgumentPtr rightArg):

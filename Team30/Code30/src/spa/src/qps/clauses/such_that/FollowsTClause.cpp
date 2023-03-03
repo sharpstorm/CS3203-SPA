@@ -1,11 +1,10 @@
 #include <utility>
 #include <vector>
-#include <memory>
 #include <unordered_set>
 
 #include "FollowsTClause.h"
 
-using std::pair, std::vector, std::shared_ptr;
+using std::pair, std::vector;
 
 FollowsTClause::FollowsTClause(ClauseArgumentPtr leftArg,
                                ClauseArgumentPtr rightArg):

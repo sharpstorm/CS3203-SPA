@@ -3,13 +3,12 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <memory>
 
 #include "PQLTypes.h"
 #include "PQLQuerySynonym.h"
 #include "qps/clauses/Clause.h"
 
-using std::string, std::unordered_map, std::vector, std::shared_ptr;
+using std::string, std::unordered_map, std::vector;
 
 class PQLQuery {
  private:

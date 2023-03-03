@@ -29,10 +29,10 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
     for (auto& it : modifiesResult.pairVals) {
       // Call assigns to retrieve the node
       StmtRef assignRef = StmtRef{StmtType::Assign, it.first};
-      QueryResult<int, shared_ptr<IASTNode>> nodes =
+      QueryResult<int, IASTNodePtr> nodes =
           pkbQueryHandler->queryAssigns(assignRef);
 
-      shared_ptr<IASTNode> lineRoot = *nodes.secondArgVals.begin();
+      IASTNodePtr lineRoot = *nodes.secondArgVals.begin();
       // DFS to match
       // If successful, add to query result table
       if ((!rightArgument->allowsPartial() && matchExact(lineRoot))
@@ -46,7 +46,7 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
   return Clause::toQueryResult(synArg.get(), leftArg.get(), assignResult);
 }
 
-bool AssignPatternClause::matchPartial(shared_ptr<IASTNode> node) {
+bool AssignPatternClause::matchPartial(IASTNodePtr node) {
   if (node == nullptr) {
     return false;
   }
@@ -60,7 +60,7 @@ bool AssignPatternClause::matchPartial(shared_ptr<IASTNode> node) {
       || matchPartial(node->getChild(1));
 }
 
-bool AssignPatternClause::matchExact(shared_ptr<IASTNode> rootNode) {
+bool AssignPatternClause::matchExact(IASTNodePtr rootNode) {
   if (rootNode->getType() != ASTNODE_VARIABLE &&
       rootNode->getType() != ASTNODE_CONSTANT) {
     return false;
