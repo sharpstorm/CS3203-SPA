@@ -1,7 +1,6 @@
 #pragma once
 
 #include "SourceParseContext.h"
-#include "IGrammarContextProvider.h"
 
 template <class IContextProvider>
 class RecursiveParseContext: public SourceParseContext {
@@ -9,5 +8,4 @@ class RecursiveParseContext: public SourceParseContext {
   IContextProvider* contextProvider;
   explicit RecursiveParseContext(IContextProvider* contextProvider):
       contextProvider(contextProvider) {}
-  }
 };

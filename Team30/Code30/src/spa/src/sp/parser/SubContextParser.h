@@ -1,5 +1,7 @@
 #pragma once
 
+#include <utility>
+
 #include "common/ast/ASTNode.h"
 #include "sp/parser/SourceParseState.h"
 #include "sp/parser/expression_context/ExpressionContextProvider.h"
@@ -7,7 +9,8 @@
 template <class ContextType, ContextType ENTRY_ENUM>
 class SubContextParser {
  public:
-  SubContextParser();
+  explicit SubContextParser(IContextProviderPtr<ContextType> contextProvider):
+      contextProvider(std::move(contextProvider)) {}
   ASTNodePtr parse(SourceParseState* state);
 
  private:
