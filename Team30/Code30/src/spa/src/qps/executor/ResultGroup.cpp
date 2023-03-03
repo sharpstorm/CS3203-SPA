@@ -37,20 +37,24 @@ ResultGroup* ResultGroup::crossProduct(ResultGroup* other) {
   output->addColMap(colIdx);
   output->addColMap(other->getColIndexes());
 
+  // For each left Row
+  // For each right Row
   for (int i=0; i < getTableRows(); i++) {
-    QueryResultTableRow newRow{};
-    for (const auto &j : groupTable[i]) {
-      newRow.push_back(make_unique<QueryResultItem>(*j));
-    }
-
+    QueryResultTableRow* leftRow = getQueryItemAt(i);
     for (int j=0; j < other->getTableRows(); j++) {
-      QueryResultTableRow* otherRow = other->getQueryItemAt(j);
-      for (const auto & k : *otherRow) {
-       newRow.push_back(make_unique<QueryResultItem>(*k));
-      }
-    }
+      QueryResultTableRow* rightRow = other->getQueryItemAt(j);
 
-    output->addRow(std::move(newRow));
+      QueryResultTableRow rowToAdd{};
+      for (const auto & k : *leftRow) {
+        rowToAdd.push_back(make_unique<QueryResultItem>(*k));
+      }
+
+      for (const auto & k : *rightRow) {
+        rowToAdd.push_back(make_unique<QueryResultItem>(*k));
+      }
+
+      output->addRow(std::move(rowToAdd));
+    }
   }
 
   return output;

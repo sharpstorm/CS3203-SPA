@@ -37,22 +37,52 @@ TEST_CASE("Test Full End-to-end") {
   string query;
   unordered_set<string> expectedRes;
 
+  // All synonyms are valid
   query = "assign a1, a2; variable v; Select <a1,v,a2> such that Uses(a1, v) pattern a1(v,_) such that Follows(1,a2)";
   expectedRes = unordered_set<string>({"5 x 2", "9 z 2", "11 i 2"});
   launchQuery(qps.get(), query, expectedRes);
 
+  // Ordering preserved for the same query
   query = "assign a1, a2; variable v; Select <v,a1,a2> such that Uses(a1, v) pattern a1(v,_) such that Follows(1,a2)";
   expectedRes = unordered_set<string>({"x 5 2", "z 9 2", "i 11 2"});
   launchQuery(qps.get(), query, expectedRes);
 
+  // One synonym has empty result
   query = "assign a1, a2; variable v; Select <v,a1,a2> such that Uses(a1, v) pattern a1(v,_) such that Follows(a2,a2)";
   expectedRes = unordered_set<string>({});
   launchQuery(qps.get(), query, expectedRes);
 
+  // One synonym is a pure select
+  query = "assign a1; variable v, v2; Select <v,a1,v2> such that Uses(a1, v) pattern a1(v,_)";
+  expectedRes = unordered_set<string>({"x 5 z", "x 5 x", "x 5 i", "x 5 y",
+                                       "z 9 z", "z 9 x", "z 9 i", "z 9 y",
+                                       "i 11 z", "i 11 x", "i 11 i", "i 11 y"});
+  launchQuery(qps.get(), query, expectedRes);
+
+  // Pure select tupling
+  query = "assign a1,a2; variable v1, v2; Select <a2, v2> such that Uses(a1, v1)";
+  expectedRes = unordered_set<string>({"1 z", "1 x", "1 i", "1 y",
+                                       "2 z", "2 x", "2 i", "2 y",
+                                       "3 z", "3 x", "3 i", "3 y",
+                                       "5 z", "5 x", "5 i", "5 y",
+                                       "7 z", "7 x", "7 i", "7 y",
+                                       "8 z", "8 x", "8 i", "8 y",
+                                       "9 z", "9 x", "9 i", "9 y",
+                                       "11 z", "11 x", "11 i", "11 y",
+                                       "12 z", "12 x", "12 i", "12 y"});
+  launchQuery(qps.get(), query, expectedRes);
+
+  // Pure select tupling but other clause fails
+  query = "assign a1,a2; variable v2; Select <a2, v2> pattern a1 (_,_\"9\"_)";
+  expectedRes = unordered_set<string>({});
+  launchQuery(qps.get(), query, expectedRes);
+
+  // True result
   query = "assign a; variable v; Select BOOLEAN such that Uses(a, v) pattern a(v,_)";
   expectedRes = unordered_set<string>({"TRUE"});
   launchQuery(qps.get(), query, expectedRes);
 
+  // False result
   query = "stmt s; assign a; Select BOOLEAN such that Follows(s, s)";
   expectedRes = unordered_set<string>{ "FALSE" };
   launchQuery(qps.get(), query, expectedRes);
