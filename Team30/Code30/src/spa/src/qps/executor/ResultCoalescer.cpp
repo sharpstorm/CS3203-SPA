@@ -105,8 +105,8 @@ ResultCoalescer::IntersectResult ResultCoalescer::findIntersect(
       continue;
     }
 
-    leftSet = intersectSet(leftSet.get(), leftSearch.get());
-    rightSet = intersectSet(rightSet.get(), rightSearch.get());
+    leftSet = SetUtils::intersectSet(leftSet.get(), leftSearch.get());
+    rightSet = SetUtils::intersectSet(rightSet.get(), rightSearch.get());
   }
 
   return {std::move(leftSet), std::move(rightSet)};
