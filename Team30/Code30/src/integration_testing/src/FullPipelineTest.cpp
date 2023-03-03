@@ -15,8 +15,8 @@ TEST_CASE("Test Full End-to-end") {
   auto pkbWriter = make_unique<PkbWriter>(pkb.get());
   auto pkbQH = make_unique<PkbQueryHandler>(pkb.get());
 
-  unique_ptr<IQPS> qps = make_unique<QPSFacade>(pkbQH.get());
   SpDriver spDriver;
+  unique_ptr<IQPS> qps = make_unique<QPSFacade>(pkbQH.get(), &spDriver);
 
   spDriver.parseSource("procedure Example {\n"
                        "  x = 2;\n" // 1

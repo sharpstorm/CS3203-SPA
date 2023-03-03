@@ -10,7 +10,7 @@
 #include "qps/errors/QPSParserSemanticError.h"
 #include "sp/errors/SPError.h"
 
-using std::shared_ptr, std::vector, std::make_shared, std::make_unique;
+using std::unique_ptr, std::vector, std::make_shared, std::make_unique;
 
 // implementation code of WrapperFactory - do NOT modify the next 5 lines
 AbstractWrapper* WrapperFactory::wrapper = 0;
@@ -29,8 +29,9 @@ TestWrapper::TestWrapper() {
   pkbWriter = make_unique<PkbWriter>(pkb.get());
   pkbQueryHandler = make_unique<PkbQueryHandler>(pkb.get());
 
-  qps = make_unique<QPSFacade>(pkbQueryHandler.get());
-  sp = make_unique<SpFacade>();
+  unique_ptr<SpFacade> spFacade = make_unique<SpFacade>();
+  qps = make_unique<QPSFacade>(pkbQueryHandler.get(), spFacade.get());
+  sp = std::move(spFacade);
 }
 
 TestWrapper::~TestWrapper() {
