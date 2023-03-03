@@ -42,10 +42,27 @@ UniqueVectorPtr<string> ResultProjector::project(SynonymResultTable *queryResult
                                                  PQLQuerySynonymList *resultVariables) {
   UniqueVectorPtr<string> result =
       make_unique<vector<string>>(vector<string>{});
-  // Check if a tuple type result
+
+  // Check if a BOOLEAN type result
   if (!queryResult->hasTargetSynonyms()) {
     string boolResult = queryResult->getBooleanResult() ? "TRUE" : "FALSE";
     return make_unique<vector<string>>(vector<string>({boolResult}));
   }
+
+  int groupCount = queryResult->getResultGroupCount();
+  // Empty table
+  if (groupCount == 0) {
+    return result;
+  }
+
+  // Cross product
+  ResultGroup* finalGroup = queryResult->getResultGroup(0);
+  for (int i=1; i < queryResult->getResultGroupCount(); i++) {
+    // TODO Probably will have a mem leak here
+    finalGroup = finalGroup->crossProduct(queryResult->getResultGroup(i));
+  }
+
+  // Map and project to tuple
+  finalGroup->project(resultVariables, result.get());
   return result;
 }

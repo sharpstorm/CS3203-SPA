@@ -1,4 +1,10 @@
+#include <memory>
+#include <iostream>
+#include "common/SetUtils.h"
 #include "SynonymResultTable.h"
+#include "ResultCoalescer.h"
+
+using std::make_unique, std::unique_ptr;
 
 SynonymResultTable::SynonymResultTable(PQLQuerySynonymList *mapping,
                                        bool booleanResult) :
@@ -10,28 +16,48 @@ SynonymResultTable::SynonymResultTable(PQLQuerySynonymList *mapping) :
 SynonymResultTable::SynonymResultTable(bool booleanResult) :
     booleanResult(booleanResult), synonymMapping(new PQLQuerySynonymList()) {}
 
-void SynonymResultTable::extractSynonyms(PQLQueryResult *result) {
-  // Go through all the columns in targetSyn
-  unordered_map<PQLSynonymName, QueryResultItemSet> groupMap;
-  for (auto it = synonymMapping->begin(); it != synonymMapping->end(); ++it) {
-    ResultTableCol col = result->getSynonymCol(it->getName());
+void SynonymResultTable::extractResults(PQLQueryResult *result, vector<PQLSynonymName> syns) {
+  // Add synonyms to the new ResultGroup
+  ResultGroup* resultGroup = new ResultGroup();
+  IntersectSetPtr<int> rowsToExtract;
+  IntersectSet<int>* rowsToTake = new unordered_set<int>();
 
-    if (col == PQLQueryResult::NO_COL) {
-      continue;
+  int rowCounts = result->getRowCount();
+  for (int i=0; i < syns.size(); i++) {
+    PQLSynonymName syn = syns[i];
+    resultGroup->addSynonym(syn);
+
+    unordered_set<int> ignoreRows;
+    ResultTableCol colIdx = result->getSynonymCol(syn);
+    for (int j=0; j < rowCounts; j++) {
+      if (ignoreRows.find(j) != ignoreRows.end()) {
+        continue;
+      }
+
+      rowsToTake->insert(j);
+      QueryResultTableRow* currRow = result->getTableRowAt(j);
+      RowSet* rows = result->getRowsWithValue(colIdx, currRow->at(colIdx).get());
+      ignoreRows.insert(rows->begin(), rows->end());
     }
 
-    // If the targetSyn is in result, extract the column values
-    QueryResultItemSet valueSet;
-    for (int i=0; i < result->getRowCount(); i++) {
-      QueryResultTableRow* row = result->getTableRowAt(i);
-      QueryResultItem resultItem = *row->at(col);
-      valueSet.insert(resultItem);
+    if (i==0) {
+      rowsToExtract = IntersectSetPtr<int>(rowsToTake);
+    } else {
+      rowsToExtract = SetUtils::intersectSet(rowsToExtract.get(), rowsToTake);
     }
-
-    synonyms.push_back(*it);
-    groupMap.insert({it->getName(), valueSet});
   }
-  groupResults.push_back(groupMap);
+
+  for (int rowIdx : *rowsToExtract) {
+    QueryResultTableRow* tableRow = result->getTableRowAt(rowIdx);
+    QueryResultTableRow newRow{};
+    for (const PQLSynonymName& syn : syns) {
+      ResultTableCol tableCol = result->getSynonymCol(syn);
+      newRow.push_back(std::move(tableRow->at(tableCol)));
+    }
+
+    resultGroup->addRow(std::move(newRow));
+  }
+  groupResults.push_back(unique_ptr<ResultGroup>(resultGroup));
 }
 
 bool SynonymResultTable::getBooleanResult() {
@@ -41,3 +67,14 @@ bool SynonymResultTable::hasTargetSynonyms() {
   return !synonymMapping->empty();
 }
 
+//ResultGroup SynonymResultTable::getResultGroup(int idx) {
+//  return groupResults[idx];
+//}
+
+int SynonymResultTable::getResultGroupCount() {
+  return groupResults.size();
+}
+ResultGroup* SynonymResultTable::getResultGroup(int idx) {
+//  unique_ptr<ResultGroup> rGroup = unique_ptr<ResultGroup>(groupResults.at(idx).get());
+  return groupResults.at(idx).get();
+}

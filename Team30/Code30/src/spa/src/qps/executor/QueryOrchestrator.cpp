@@ -38,7 +38,6 @@ SynonymResultTable *QueryOrchestrator::execute(QueryPlan *plan,
   }
 
   SynonymResultTable* resultTable = new SynonymResultTable(targetSyns, true);
-  PQLQueryResult* finalResult;
   for (int i = 0; i < plan->getGroupCount(); i++) {
     QueryGroupPlan* targetGroup = plan->getGroup(i);
     PQLQueryResult* result = executeGroup(targetGroup);
@@ -48,14 +47,12 @@ SynonymResultTable *QueryOrchestrator::execute(QueryPlan *plan,
       return new SynonymResultTable(targetSyns, false);
     }
 
-    // Result doesnt matter for BOOLEAN type results
     if (targetGroup->isBooleanResult()) {
       delete result;
       continue;
     }
 
-    resultTable->extractSynonyms(result);
-    finalResult = result;
+    resultTable->extractResults(result, targetGroup->getSelectables());
   }
 
   return resultTable;
