@@ -63,8 +63,8 @@ bool SynonymResultTable::operator==(const SynonymResultTable &srt) const {
 
   return true;
 }
-IntersectSet<int> SynonymResultTable::getUniqueRows(PQLQueryResult* result,
-                                                    vector<PQLSynonymName>* syns) {
+IntersectSet<int> SynonymResultTable::getUniqueRows(
+    PQLQueryResult* result, vector<PQLSynonymName>* syns) {
   IntersectSet<int> rowsToTake;
   IntersectSet<int> ignoreRows;
   int rowCounts = result->getRowCount();

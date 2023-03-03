@@ -56,5 +56,4 @@ class ResultCoalescer {
                 QueryResultTableRow* rowB,
                 QueryResultTableRow* outputRow,
                 IntersectState* state);
-
 };
