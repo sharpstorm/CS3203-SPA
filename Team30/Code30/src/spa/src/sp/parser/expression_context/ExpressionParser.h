@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "common/ast/ASTNode.h"
+#include "sp/ast/ASTNode.h"
 
 #include "../SourceParseState.h"
 #include "../SubContextParser.h"

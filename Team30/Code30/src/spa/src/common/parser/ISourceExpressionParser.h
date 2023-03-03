@@ -5,8 +5,8 @@
 
 using std::string;
 
-class ISpExpressionParser {
+class ISourceExpressionParser {
  public:
-  virtual ~ISpExpressionParser() = default;
+  virtual ~ISourceExpressionParser() = default;
   virtual AST parseExpression(string expression) = 0;
 };

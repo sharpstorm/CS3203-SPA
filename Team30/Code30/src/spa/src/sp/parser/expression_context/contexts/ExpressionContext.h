@@ -3,7 +3,7 @@
 #include <memory>
 
 #include "../ExpressionContextType.h"
-#include "common/ast/BinaryASTNode.h"
+#include "sp/ast/BinaryASTNode.h"
 
 using std::shared_ptr;
 

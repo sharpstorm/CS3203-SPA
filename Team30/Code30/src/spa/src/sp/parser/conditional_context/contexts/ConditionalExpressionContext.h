@@ -1,6 +1,6 @@
 #pragma once
 
-#include "common/ast/BinaryASTNode.h"
+#include "sp/ast/BinaryASTNode.h"
 
 class ConditionalExpressionContext: public RecursiveConditionalParseContext {
  public:

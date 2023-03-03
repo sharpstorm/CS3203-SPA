@@ -1,9 +1,9 @@
 #include <memory>
 #include "TermContext.h"
 
-#include "common/ast/math/math_operand/TimesASTNode.h"
-#include "common/ast/math/math_operand/DivASTNode.h"
-#include "common/ast/math/math_operand/ModASTNode.h"
+#include "sp/ast/expression_operand/TimesASTNode.h"
+#include "sp/ast/expression_operand/DivASTNode.h"
+#include "sp/ast/expression_operand/ModASTNode.h"
 
 using std::make_shared;
 

@@ -3,8 +3,8 @@
 #include <memory>
 #include <string>
 
-#include "common/ast/entity/ConstantASTNode.h"
-#include "common/ast/entity/VariableASTNode.h"
+#include "sp/ast/entity/ConstantASTNode.h"
+#include "sp/ast/entity/VariableASTNode.h"
 
 using std::make_shared, std::string;
 

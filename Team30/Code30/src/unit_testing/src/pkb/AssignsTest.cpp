@@ -3,7 +3,7 @@
 #include <unordered_set>
 
 #include "catch.hpp"
-#include "common/ast/entity/VariableASTNode.h"
+#include "sp/ast/entity/VariableASTNode.h"
 #include "common/Types.h"
 #include "pkb/queryHandlers/PkbQueryHandler.h"
 #include "pkb/storage/PKB.h"

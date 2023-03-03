@@ -1,7 +1,7 @@
 #include "WhileContext.h"
 
 #include <memory>
-#include "common/ast/statement/WhileNode.h"
+#include "sp/ast/statement/WhileNode.h"
 
 using std::make_shared;
 

@@ -2,7 +2,7 @@
 
 #include "sp/common/SourceToken.h"
 #include "sp/parser/SourceParseState.h"
-#include "common/ast/ASTNode.h"
+#include "sp/ast/ASTNode.h"
 #include "sp/errors/SPError.h"
 
 class SourceParseContext {

@@ -1,12 +1,12 @@
 #include <memory>
 #include "RelationalExpressionContext.h"
 
-#include "common/ast/math/conditional_operand/GtASTNode.h"
-#include "common/ast/math/conditional_operand/GteASTNode.h"
-#include "common/ast/math/conditional_operand/LteASTNode.h"
-#include "common/ast/math/conditional_operand/EqualsASTNode.h"
-#include "common/ast/math/conditional_operand/NotEqualsASTNode.h"
-#include "common/ast/math/conditional_operand/LtASTNode.h"
+#include "sp/ast/conditional_operand/GtASTNode.h"
+#include "sp/ast/conditional_operand/GteASTNode.h"
+#include "sp/ast/conditional_operand/LteASTNode.h"
+#include "sp/ast/conditional_operand/EqualsASTNode.h"
+#include "sp/ast/conditional_operand/NotEqualsASTNode.h"
+#include "sp/ast/conditional_operand/LtASTNode.h"
 
 using std::make_shared;
 

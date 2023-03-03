@@ -3,17 +3,22 @@
 #include "Extractor.h"
 #include "pkb/storage/PKB.h"
 #include "pkb/writers/PkbWriter.h"
-#include "common/ast/StatementListNode.h"
-#include "common/ast/statement/AssignNode.h"
-#include "common/ast/statement/IfNode.h"
-#include "common/ast/statement/PrintNode.h"
-#include "common/ast/statement/ReadNode.h"
-#include "common/ast/statement/WhileNode.h"
-#include "common/ast/statement/CallNode.h"
-#include "common/ast/entity/VariableASTNode.h"
-#include "common/ast/entity/ConstantASTNode.h"
-#include "common/ast/math/math_operand/AbstractMathNode.h"
-#include "common/ast/math/conditional_operand/AbstractConditionalNode.h"
+
+#include "sp/ast/StatementListNode.h"
+#include "sp/ast/statement/AssignNode.h"
+#include "sp/ast/statement/IfNode.h"
+#include "sp/ast/statement/PrintNode.h"
+#include "sp/ast/statement/ReadNode.h"
+#include "sp/ast/statement/WhileNode.h"
+#include "sp/ast/statement/CallNode.h"
+
+#include "sp/ast/entity/VariableASTNode.h"
+#include "sp/ast/entity/ConstantASTNode.h"
+#include "sp/ast/entity/ProcedureNode.h"
+#include "sp/ast/StatementListNode.h"
+
+#include "sp/ast/expression_operand/AbstractExpressionNode.h"
+#include "sp/ast/conditional_operand/AbstractConditionalNode.h"
 
 class AbstractExtractor : public Extractor {
  public:
@@ -27,8 +32,9 @@ class AbstractExtractor : public Extractor {
   virtual void visit(CallNode* node) {}
   virtual void visit(VariableASTNode* node) {}
   virtual void visit(ConstantASTNode* node) {}
-  virtual void visit(AbstractMathNode* node) {}
+  virtual void visit(AbstractExpressionNode* node) {}
   virtual void visit(AbstractConditionalNode* node) {}
+
   virtual void leave(ProcedureNode* node) {}
   virtual void leave(StatementListNode* node) {}
   virtual void leave(IfNode* node) {}
@@ -39,7 +45,7 @@ class AbstractExtractor : public Extractor {
   virtual void leave(CallNode* node) {}
   virtual void leave(VariableASTNode* node) {}
   virtual void leave(ConstantASTNode* node) {}
-  virtual void leave(AbstractMathNode* node) {}
+  virtual void leave(AbstractExpressionNode* node) {}
   virtual void leave(AbstractConditionalNode* node) {}
 
  private:

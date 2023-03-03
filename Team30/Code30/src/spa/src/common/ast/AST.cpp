@@ -1,12 +1,9 @@
 #include "AST.h"
-#include <memory>
 
-using std::shared_ptr;
-
-AST::AST(shared_ptr<ASTNode> node) {
+AST::AST(ASTNodePtr node) {
   root = node;
 }
 
-shared_ptr<ASTNode> AST::getRoot() {
+ASTNodePtr AST::getRoot() {
   return root;
 }

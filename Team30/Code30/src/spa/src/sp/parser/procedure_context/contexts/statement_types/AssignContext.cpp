@@ -1,7 +1,7 @@
 #include "AssignContext.h"
 
 #include <memory>
-#include "common/ast/statement/AssignNode.h"
+#include "sp/ast/statement/AssignNode.h"
 
 using std::make_shared;
 

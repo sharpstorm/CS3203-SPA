@@ -1,7 +1,7 @@
 #pragma once
 
-#include "common/ast/math/math_operand/TimesASTNode.h"
 #include "../ExpressionContextType.h"
+#include "sp/ast/BinaryASTNode.h"
 
 using std::shared_ptr;
 

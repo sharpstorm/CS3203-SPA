@@ -1,14 +1,11 @@
 #pragma once
 
-#include <memory>
 #include "sp/ast/ASTNode.h"
-
-using std::shared_ptr;
 
 class AST {
  public:
-  explicit AST(shared_ptr<ASTNode> node);
-  shared_ptr<ASTNode> getRoot();
+  explicit AST(ASTNodePtr node);
+  ASTNodePtr getRoot();
  private:
-  shared_ptr<ASTNode> root;
+  ASTNodePtr root;
 };

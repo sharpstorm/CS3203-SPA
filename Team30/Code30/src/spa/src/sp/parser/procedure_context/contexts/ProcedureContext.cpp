@@ -1,7 +1,7 @@
 #include <memory>
 
 #include "ProcedureContext.h"
-#include "common/ast/entity/ProcedureNode.h"
+#include "sp/ast/entity/ProcedureNode.h"
 
 using std::make_shared;
 

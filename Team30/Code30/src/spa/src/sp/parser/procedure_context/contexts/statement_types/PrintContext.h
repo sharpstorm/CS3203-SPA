@@ -1,9 +1,9 @@
 #pragma once
 
 #include <memory>
-#include "common/ast/ASTNode.h"
+#include "sp/ast/ASTNode.h"
 #include "AbstractSingleArgContext.h"
-#include "common/ast/statement/PrintNode.h"
+#include "sp/ast/statement/PrintNode.h"
 
 using std::make_shared;
 

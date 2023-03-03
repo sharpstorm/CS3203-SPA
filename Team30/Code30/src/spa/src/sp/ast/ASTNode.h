@@ -11,6 +11,7 @@ using std::vector, std::string, std::shared_ptr;
 
 class Extractor;
 class ASTNode;
+
 typedef shared_ptr<ASTNode> ASTNodePtr;
 
 class ASTNode : public IASTNode {

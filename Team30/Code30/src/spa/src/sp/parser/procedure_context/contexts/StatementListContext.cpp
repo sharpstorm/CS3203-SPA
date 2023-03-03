@@ -1,6 +1,6 @@
 #include <memory>
 
-#include "common/ast/StatementListNode.h"
+#include "sp/ast/StatementListNode.h"
 #include "StatementListContext.h"
 
 using std::make_shared;

@@ -2,7 +2,7 @@
 
 #include <utility>
 
-#include "common/ast/ASTNode.h"
+#include "sp/ast/ASTNode.h"
 #include "sp/parser/SourceParseState.h"
 #include "sp/parser/expression_context/ExpressionContextProvider.h"
 

@@ -1,8 +1,8 @@
 #include <memory>
 #include "ExpressionContext.h"
 
-#include "common/ast/math/math_operand/PlusASTNode.h"
-#include "common/ast/math/math_operand/MinusASTNode.h"
+#include "sp/ast/expression_operand/PlusASTNode.h"
+#include "sp/ast/expression_operand/MinusASTNode.h"
 
 using std::make_shared;
 

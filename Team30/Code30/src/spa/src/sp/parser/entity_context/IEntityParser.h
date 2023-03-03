@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "common/ast/ASTNode.h"
+#include "sp/ast/ASTNode.h"
 #include "sp/parser/SourceParseState.h"
 
 using std::unique_ptr;

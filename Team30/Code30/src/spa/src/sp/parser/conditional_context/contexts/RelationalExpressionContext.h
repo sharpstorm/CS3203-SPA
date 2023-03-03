@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "common/ast/BinaryASTNode.h"
+#include "sp/ast/BinaryASTNode.h"
 #include "../ConditionalContextType.h"
 
 class RelationalExpressionContext: public RecursiveConditionalParseContext {
