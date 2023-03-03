@@ -1,7 +1,8 @@
 #pragma once
 #include <vector>
 #include "sp/common/SourceToken.h"
-#include "common/ast/ASTNode.h"
+#include "sp/ast/ASTNode.h"
+#include "sp/errors/SPError.h"
 
 using std::vector;
 
@@ -25,6 +26,10 @@ class SourceParseState {
   int getLineNumber();
   void advanceLine();
 
+  template<typename... SourceTokenType>
+  SourceToken *expect(SourceTokenType... tokenType);
+  SourceToken* expectVarchar();
+
  private:
   int curIndex;
   int tokenLength;
@@ -32,3 +37,18 @@ class SourceParseState {
   vector<SourceToken>* tokens;
   ASTNodePtr curCache;
 };
+
+template<typename... SourceTokenType>
+SourceToken* SourceParseState::expect(SourceTokenType... tokenType) {
+  SourceToken* currentToken = getCurrToken();
+
+  if (currentToken == nullptr) {
+    throw SPError(SPERR_END_OF_STREAM);
+  }
+
+  if ((currentToken->isType(tokenType)  || ... || false)) {
+    advanceToken();
+    return currentToken;
+  }
+  throw SPError(SPERR_UNEXPECTED_TOKEN);
+}

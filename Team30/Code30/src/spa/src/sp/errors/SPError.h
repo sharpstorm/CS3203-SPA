@@ -9,6 +9,7 @@ const char SPERR_INVALID_SOURCE_CHAR[] = "Invalid Source Character Detected";
 
 const char SPERR_END_OF_STREAM[] = "End of token stream";
 const char SPERR_UNEXPECTED_TOKEN[] = "Unexpected Token";
+const char SPERR_CONTEXT_ERROR[] = "Context Error";
 
 using std::string;
 

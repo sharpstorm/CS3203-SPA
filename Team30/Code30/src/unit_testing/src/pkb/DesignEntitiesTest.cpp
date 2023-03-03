@@ -42,7 +42,7 @@ TEST_CASE("Statements write and read") {
       unordered_set<int>({1, 2, 3}));
   REQUIRE(queryHandler.getStatementsOfType(StmtType::Read) ==
       unordered_set<int>({4}));
-  // get all statements
+  // get all statement_types
   REQUIRE(queryHandler.getStatementsOfType(StmtType::None) ==
       unordered_set<int>({1, 2, 3, 4}));
 }

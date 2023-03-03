@@ -1,10 +1,10 @@
 #include "TreeWalker.h"
 
-#include "common/ast/StatementListNode.h"
+#include "sp/ast/StatementListNode.h"
 
 void TreeWalker::walkAST(AST ast,
                          VectorPtr<Extractor*> extractors) {
-  DFS(ast.getRoot(), extractors);
+  DFS(ast.getMutableRoot(), extractors);
 }
 
 void TreeWalker::DFS(ASTNodePtr node,

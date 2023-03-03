@@ -1,0 +1,14 @@
+#pragma once
+
+enum class ProcedureContextType {
+  PROCEDURE_CONTEXT,
+  STMT_LIST_CONTEXT,
+  STMT_CONTEXT,
+
+  CALL_CONTEXT,
+  READ_CONTEXT,
+  PRINT_CONTEXT,
+  WHILE_CONTEXT,
+  IF_CONTEXT,
+  ASSIGN_CONTEXT,
+};
