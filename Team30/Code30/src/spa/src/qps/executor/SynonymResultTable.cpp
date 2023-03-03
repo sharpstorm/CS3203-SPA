@@ -1,7 +1,11 @@
+#include <memory>
 #include <utility>
+
 #include "common/SetUtils.h"
 #include "SynonymResultTable.h"
 #include "ResultCoalescer.h"
+
+using std::make_unique;
 
 SynonymResultTable::SynonymResultTable(PQLQuerySynonymList *mapping,
                                        bool booleanResult) :
@@ -9,38 +13,40 @@ SynonymResultTable::SynonymResultTable(PQLQuerySynonymList *mapping,
 
 void SynonymResultTable::extractResults(PQLQueryResult *result,
                                         vector<PQLSynonymName> syns) {
-  // Add synonyms to the new ResultGroup
   ResultGroup* resultGroup = new ResultGroup();
-  IntersectSetPtr<int> rowsToExtract;
-  IntersectSet<int>* rowsToTake = new unordered_set<int>();
-
-  int rowCounts = result->getRowCount();
-  for (int i=0; i < syns.size(); i++) {
-    PQLSynonymName syn = syns[i];
-    resultGroup->addSynonym(syn);
-
-    unordered_set<int> ignoreRows;
-    ResultTableCol colIdx = result->getSynonymCol(syn);
-    for (int j=0; j < rowCounts; j++) {
-      if (ignoreRows.find(j) != ignoreRows.end()) {
-        continue;
-      }
-
-      rowsToTake->insert(j);
-      QueryResultTableRow* currRow = result->getTableRowAt(j);
-      RowSet* rows = result->getRowsWithValue(colIdx,
-                                              currRow->at(colIdx).get());
-      ignoreRows.insert(rows->begin(), rows->end());
-    }
-
-    if (i == 0) {
-      rowsToExtract = IntersectSetPtr<int>(rowsToTake);
-    } else {
-      rowsToExtract = SetUtils::intersectSet(rowsToExtract.get(), rowsToTake);
-    }
+  // Add synonyms to the new ResultGroup
+  for (PQLSynonymName name : syns) {
+    resultGroup->addSynonym(name);
   }
 
-  for (int rowIdx : *rowsToExtract) {
+  IntersectSetPtr<int> rowsToExtract;
+  IntersectSet<int> rowsToTake;
+  unordered_set<int> ignoreRows;
+  int rowCounts = result->getRowCount();
+  for (int i = 0; i < rowCounts; i++) {
+    if (ignoreRows.find(i) != ignoreRows.end()) {
+      continue;
+    }
+    IntersectSetPtr<int> currentIgnoreRows = make_unique<IntersectSet<int>>();
+
+    rowsToTake.insert(i);
+    for (PQLSynonymName syn : syns) {
+       ResultTableCol colIdx = result->getSynonymCol(syn);
+       QueryResultTableRow* currRow = result->getTableRowAt(i);
+       RowSet* rows = result->getRowsWithValue(colIdx,
+                                               currRow->at(colIdx).get());
+       if (currentIgnoreRows->empty()) {
+         currentIgnoreRows->insert(rows->begin(), rows->end());
+       } else {
+         currentIgnoreRows = SetUtils::intersectSet(currentIgnoreRows.get(),
+                                                    rows);
+       }
+    }
+
+    ignoreRows.insert(currentIgnoreRows->begin(), currentIgnoreRows->end());
+  }
+
+  for (int rowIdx : rowsToTake) {
     QueryResultTableRow* tableRow = result->getTableRowAt(rowIdx);
     QueryResultTableRow newRow{};
     for (const PQLSynonymName& syn : syns) {
