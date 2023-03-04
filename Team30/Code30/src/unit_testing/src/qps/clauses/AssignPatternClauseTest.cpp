@@ -13,6 +13,7 @@
 #include "qps/clauses/pattern/AssignPatternClause.h"
 #include "qps/clauses/arguments/SynonymArgument.h"
 #include "qps/clauses/arguments/WildcardArgument.h"
+#include "common/pattern/PatternConverter.h"
 
 using std::shared_ptr, std::make_shared, std::make_unique, std::unique_ptr, std::to_string;
 
@@ -50,11 +51,11 @@ class AssignPatternPKBStub : public StubPKB {
 
  public:
   AssignPatternPKBStub(PKB* in): StubPKB(in),
-  line1(make_unique<PatternTrie>(genInteger(1))),
-  line2(make_unique<PatternTrie>(genVariable("x"))),
-  line3(make_unique<PatternTrie>(genPlus(genInteger(1), genInteger(2)))),
-  line4(make_unique<PatternTrie>(genPlus(genVariable("y"), genVariable("x")))),
-  line5(make_unique<PatternTrie>(genPlus(genPlus(genInteger(2),genVariable("z")),
+  line1(PatternConverter::convertASTToTrie(genInteger(1))),
+  line2(PatternConverter::convertASTToTrie(genVariable("x"))),
+  line3(PatternConverter::convertASTToTrie(genPlus(genInteger(1), genInteger(2)))),
+  line4(PatternConverter::convertASTToTrie(genPlus(genVariable("y"), genVariable("x")))),
+  line5(PatternConverter::convertASTToTrie(genPlus(genPlus(genInteger(2),genVariable("z")),
                                          genVariable("y")))) {
   }
 

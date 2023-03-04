@@ -7,6 +7,7 @@
 #include "common/Types.h"
 #include "pkb/queryHandlers/AssignsQueryHandler.h"
 #include "pkb/storage/StructureMappingProvider.h"
+#include "common/pattern/PatternConverter.h"
 
 using std::make_shared;
 using std::make_unique;
@@ -27,12 +28,15 @@ struct assignTestInit {
 TEST_CASE("AssignQueryHandler Assigns(stmtRef)") {
   auto test = assignTestInit();
   // x = a
-  PatternTrieSPtr node1 = make_shared<PatternTrie>(make_shared<VariableASTNode>("a"));
-  test.store->set(1, node1);
+
+  PatternTriePtr trie = PatternConverter::convertASTToTrie(
+      make_shared<VariableASTNode>("a"));
+  auto sTrie = shared_ptr<PatternTrie>(std::move(trie));
+  test.store->set(1, sTrie);
 
   auto result = test.handler.queryAssigns({StmtType::Assign, 1});
   REQUIRE(result.isEmpty == false);
   REQUIRE(result.firstArgVals == unordered_set<int>({1}));
-  REQUIRE(*result.secondArgVals.begin() == node1.get());
-  REQUIRE(result.pairVals == pair_set<int, PatternTrie*>({{1, node1.get()}}));
+  REQUIRE(*result.secondArgVals.begin() == sTrie.get());
+  REQUIRE(result.pairVals == pair_set<int, PatternTrie*>({{1, sTrie.get()}}));
 }
