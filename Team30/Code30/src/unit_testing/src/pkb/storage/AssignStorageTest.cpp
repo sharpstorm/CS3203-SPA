@@ -1,18 +1,18 @@
 #include <unordered_set>
+#include <memory>
 
 #include "catch.hpp"
 #include "sp/ast/entity/VariableASTNode.h"
 #include "sp/ast/expression_operand/PlusASTNode.h"
-#include "common/Types.h"
 #include "pkb/storage/StorageTypes.h"
 
-using std::unordered_set;
+using std::unordered_set, std::make_shared;
 
 TEST_CASE("AssignStorage addAssign") {
   // x = a + b
-  shared_ptr<IASTNode> node1 = shared_ptr<IASTNode>(new VariableASTNode("a"));
-  shared_ptr<IASTNode> node2 = shared_ptr<IASTNode>(new VariableASTNode("b"));
-  shared_ptr<IASTNode> node3 = shared_ptr<IASTNode>(new PlusASTNode());
+  PatternTrieSPtr node1 = make_shared<PatternTrie>(make_shared<VariableASTNode>("a"));
+  PatternTrieSPtr node2 = make_shared<PatternTrie>(make_shared<VariableASTNode>("b"));
+  PatternTrieSPtr node3 = make_shared<PatternTrie>(make_shared<PlusASTNode>());
   AssignStorage store = AssignStorage();
   store.set(1, node1);
   store.set(2, node2);

@@ -12,7 +12,7 @@ using std::unordered_set;
 TEST_CASE("AssignWriter addAssigns") {
   auto store = make_unique<AssignStorage>();
   auto writer = AssignsWriter(store.get());
-  shared_ptr<IASTNode> node1 = shared_ptr<IASTNode>(new VariableASTNode("a"));
+  PatternTrieSPtr node1 = make_shared<PatternTrie>(make_shared<VariableASTNode>("a"));
   writer.addAssigns(1, node1);
   REQUIRE(store->get(1) == node1);
 }
