@@ -17,6 +17,7 @@ SourceTokenParser::SourceTokenParser():
 AST SourceTokenParser::parseProgram(vector<SourceToken> *tokens) {
   SourceParseState state(tokens);
   ASTNodePtr programNode = make_shared<ProgramNode>();
+  programNode->addChild(procedureParser->parse(&state));
   while (!state.isEnd()) {
     programNode->addChild(procedureParser->parse(&state));
   }
