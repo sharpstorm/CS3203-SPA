@@ -5,10 +5,30 @@
 PatternTrieNode::PatternTrieNode() {
 }
 
-void PatternTrieNode::addNext(string nodeId, PatternTrieNodePtr nextPtr) {
-  next.emplace(nodeId, std::move(nextPtr));
+PatternTrieNode* PatternTrieNode::addNext(uint16_t nodeId) {
+  auto node = next.find(nodeId);
+  if (node != next.end()) {
+    return node->second.get();
+  }
+
+  PatternTrieNode* newNode = new PatternTrieNode();
+  next.emplace(nodeId, PatternTrieNodePtr(newNode));
+
+  return newNode;
 }
 
-bool PatternTrieNode::hasNext(string nodeId) {
-  return next.find(nodeId) != next.end();
+PatternTrieNode *PatternTrieNode::traverse(uint16_t nodeId) {
+  auto node = next.find(nodeId);
+  if (node == next.end()) {
+    return nullptr;
+  }
+  return node->second.get();
+}
+
+bool PatternTrieNode::isEnd() {
+  return next.find(TRIE_END_NODE) != next.end();
+}
+
+void PatternTrieNode::addEnd() {
+  next.emplace(TRIE_END_NODE, nullptr);
 }

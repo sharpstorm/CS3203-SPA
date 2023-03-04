@@ -4,6 +4,7 @@
 #include <utility>
 #include "qps/clauses/pattern/AssignPatternClause.h"
 #include "qps/errors/QPSParserSyntaxError.h"
+#include "common/pattern/PatternConverter.h"
 
 using std::make_unique;
 
@@ -31,19 +32,10 @@ PatternClausePtr PQLAssignPatternContext::parse(
 }
 
 ExpressionSequencePtr PQLAssignPatternContext::buildPostfix(IAST* tree) {
-  if (tree == nullptr || tree->getRoot() == nullptr) {
+  ExpressionSequencePtr expr = PatternConverter::convertASTToPostfix(tree);
+  if (expr == nullptr) {
     throw QPSParserSyntaxError(QPS_PARSER_ERR_INVALID_PATTERN);
   }
-  ExpressionSequencePtr result = make_unique<ExpressionSequence>();
-  traversePostfix(tree->getRoot().get(), result.get());
-  return std::move(result);
-}
 
-void PQLAssignPatternContext::traversePostfix(IASTNode *node,
-                                           ExpressionSequence *output) {
-  for (int i = 0; i < node->getChildCount(); i++) {
-    traversePostfix(node->getChild(i).get(), output);
-  }
-
-  output->push_back(node->getValue());
+  return std::move(expr);
 }
