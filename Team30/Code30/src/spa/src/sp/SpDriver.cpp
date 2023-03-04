@@ -7,6 +7,7 @@ void SpDriver::parseSource(string input, PkbWriter* pkbWriter) {
   DesignExtractor designExtractor(pkbWriter);
   AST ast = parser.parseSource(input);
   designExtractor.extract(ast);
+  pkbWriter->runPostProcessor();
 }
 
 AST SpDriver::parseExpression(string expression) {
