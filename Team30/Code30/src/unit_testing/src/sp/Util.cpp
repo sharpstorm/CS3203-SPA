@@ -22,6 +22,16 @@ class Util {
     return false;
   }
 
+  bool contains(vector<pair<string, string>> v, string s1,
+                string s2) {
+    for (pair<string, string> p : v) {
+      if (p.first == s1 && p.second == s2) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   bool contains(vector<pair<int, string>> v, int lineNumber, string var) {
     for (pair<int, string> p : v) {
       if (p.first == lineNumber && p.second == var) {

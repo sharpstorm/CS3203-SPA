@@ -1,4 +1,5 @@
 #include "ModifiesExtractor.h"
+#include "common/ast/entity/ProcedureNode.h"
 
 ModifiesExtractor::ModifiesExtractor(PkbWriter* writer) : pkbWriter(writer) {
 }
@@ -29,6 +30,10 @@ void ModifiesExtractor::leave(WhileNode* node) {
   statementStartStack.pop_back();
 }
 
+void ModifiesExtractor::visit(ProcedureNode* node) {
+  currentProcName = node->getName();
+}
+
 void ModifiesExtractor::addNodeModifies(StatementASTNode *node,
                                         const string &var) {
   addModifiesRelation(node->getLineNumber(), var);
@@ -38,5 +43,5 @@ void ModifiesExtractor::addNodeModifies(StatementASTNode *node,
 }
 
 void ModifiesExtractor::addModifiesRelation(int x, string var) {
-  pkbWriter->addModifies(x, var, "example");  // todo
+  pkbWriter->addModifies(x, var, currentProcName);
 }
