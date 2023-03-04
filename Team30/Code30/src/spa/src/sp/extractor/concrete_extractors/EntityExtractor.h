@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include "sp/extractor/AbstractExtractor.h"
 #include "common/ast/entity/VariableASTNode.h"
 #include "common/ast/entity/ConstantASTNode.h"
