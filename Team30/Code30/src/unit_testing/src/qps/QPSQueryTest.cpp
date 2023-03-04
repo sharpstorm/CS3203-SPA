@@ -1,13 +1,13 @@
 #include "catch.hpp"
 
+#include "SourceParserStub.cpp"
 #include "qps/IQPS.h"
 #include "qps/QPSFacade.h"
 #include "QPSQueryPKBStub.cpp"
-#include "sp/SpFacade.h"
 
 TEST_CASE("QPS Execute Query") {
   PKB pkbStore;
-  SpFacade exprParser;
+  SourceParserStub exprParser;
   auto pkb = make_unique<QPSQueryPKBStub>(&pkbStore);
   auto qps = make_unique<QPSFacade>(pkb.get(), &exprParser);
 

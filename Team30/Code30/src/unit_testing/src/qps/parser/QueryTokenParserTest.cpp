@@ -10,7 +10,7 @@
 #include "qps/errors/QPSError.h"
 #include "qps/clauses/such_that/FollowsClause.h"
 #include "qps/clauses/such_that/ParentClause.h"
-#include "sp/SpFacade.h"
+#include "../SourceParserStub.cpp"
 
 using std::vector, std::string, std::tuple, std::exception;
 
@@ -28,7 +28,7 @@ tuple<string, PQLTokenType, PQLSynonymType> TEST_TYPE_MAP[] = {
 };
 
 unique_ptr<PQLQuery> testPQLParsing(vector<PQLToken> testcase, vector<PQLQuerySynonym> expectedVariables) {
-  SpFacade exprParser;
+  SourceParserStub exprParser;
   QueryTokenParser parser(&exprParser, &testcase);
   unique_ptr<PQLQuery> result;
   try {
@@ -53,7 +53,7 @@ unique_ptr<PQLQuery> testPQLParsing(vector<PQLToken> testcase, vector<PQLQuerySy
 }
 
 void testPQLParsingRejection(vector<PQLToken> testcase) {
-  SpFacade exprParser;
+  SourceParserStub exprParser;
   QueryTokenParser parser(&exprParser, &testcase);
   try {
     auto result = parser.build();

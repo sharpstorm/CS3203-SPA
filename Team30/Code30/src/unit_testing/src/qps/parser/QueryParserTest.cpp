@@ -11,12 +11,12 @@
 #include "qps/clauses/such_that/FollowsClause.h"
 #include "qps/parser/QueryParser.h"
 #include "qps/clauses/pattern/AssignPatternClause.h"
-#include "sp/SpFacade.h"
+#include "../SourceParserStub.cpp"
 
 using std::vector, std::string, std::cout, std::unique_ptr, std::shared_ptr;
 
 unique_ptr<PQLQuery> testPQLParsing(string testCase) {
-  SpFacade exprParser;
+  SourceParserStub exprParser;
   try {
     return QueryParser(&exprParser).parseQuery(&testCase);
   } catch (const QPSError& err) {
