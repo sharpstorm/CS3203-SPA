@@ -140,4 +140,12 @@ TEST_CASE("Test Full End-to-end") {
   query = "assign a1, a2; variable v; Select v such that Modifies(a1, v) pattern a2(\"a\", \"huehuehue\")";
   expectedRes = unordered_set<string>({});
   launchQuery(qps.get(), query, expectedRes);
+
+  query = "assign a; Select a pattern a(_, _\"z + x\"_)";
+  expectedRes = unordered_set<string>({"8", "9"});
+  launchQuery(qps.get(), query, expectedRes);
+
+  query = "assign a; Select a pattern a(_, \"z + x\")";
+  expectedRes = unordered_set<string>({"8"});
+  launchQuery(qps.get(), query, expectedRes);
 }
