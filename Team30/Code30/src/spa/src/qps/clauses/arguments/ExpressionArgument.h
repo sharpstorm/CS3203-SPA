@@ -4,12 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include "common/pattern/PatternTrieNode.h"
-
-using std::string, std::unique_ptr, std::vector;
-
-typedef vector<string> ExpressionSequence;
-typedef unique_ptr<ExpressionSequence> ExpressionSequencePtr;
+#include "common/pattern/ExpressionSequence.h"
 
 class ExpressionArgument {
  public:
