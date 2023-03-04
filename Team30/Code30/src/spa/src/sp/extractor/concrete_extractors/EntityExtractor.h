@@ -20,4 +20,5 @@ class EntityExtractor : public AbstractExtractor {
  private:
   PkbWriter* pkbWriter;
   int procStart;
+  string procNameCache;
 };
