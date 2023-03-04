@@ -3,7 +3,7 @@
 #include <string>
 #include <memory>
 
-using std::string, std::unique_ptr;
+#include "common/pattern/ExpressionSequence.h"
 
 class ExpressionArgument {
  public:

@@ -2,23 +2,22 @@
 
 #include <utility>
 
-PatternTrie::PatternTrie(IASTPtr ast): ast(std::move(ast)) {}
+PatternTrie::PatternTrie(IASTNodePtr root): root(root) {}
 
 bool PatternTrie::isMatchFull(ExpressionSequence *sequence) {
-  if (ast == nullptr || ast->getRoot() == nullptr) {
+  if (root == nullptr) {
     return false;
   }
 
-  IASTNodePtr root = ast->getRoot();
   return isMatchNode(root, sequence);
 }
 
 bool PatternTrie::isMatchPartial(ExpressionSequence *sequence) {
-  if (ast == nullptr || ast->getRoot() == nullptr) {
+  if (root) {
     return false;
   }
 
-  return traverseForMatch(ast->getRoot(), sequence);
+  return traverseForMatch(root, sequence);
 }
 
 bool PatternTrie::traverseForMatch(IASTNodePtr curNode,

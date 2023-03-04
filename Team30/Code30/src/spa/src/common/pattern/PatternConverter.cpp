@@ -15,7 +15,7 @@ ExpressionSequencePtr PatternConverter::convertASTToPostfix(IAST* tree) {
   return std::move(result);
 }
 
-PatternTriePtr PatternConverter::convertASTToTrie(IASTPtr tree) {
+PatternTriePtr PatternConverter::convertASTToTrie(IASTNodePtr tree) {
   return make_unique<PatternTrie>(std::move(tree));
 }
 
