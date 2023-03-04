@@ -260,13 +260,13 @@ TEST_CASE("Uses Extractor - Multi Proc") {
                  "c = f;"
                  "}";
   Util u;
-  vector<pair<int, string>> v = executeUsesExtractor(input).modifiesStore;
+  vector<pair<int, string>> v = executeUsesExtractor(input).usesStore;
   REQUIRE(u.contains(v, 1, "d"));
   REQUIRE(u.contains(v, 2, "e"));
   REQUIRE(u.contains(v, 3, "f"));
   REQUIRE(u.isSize(v, 3));
 
-  vector<pair<string, string>> v2 = executeUsesExtractor(input).modifiesPStore;
+  vector<pair<string, string>> v2 = executeUsesExtractor(input).usesPStore;
   REQUIRE(u.contains(v2, "proc1", "d"));
   REQUIRE(u.contains(v2, "proc2", "e"));
   REQUIRE(u.contains(v2, "proc3", "f"));
