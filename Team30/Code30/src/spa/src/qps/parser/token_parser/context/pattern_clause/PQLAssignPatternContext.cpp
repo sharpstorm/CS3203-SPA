@@ -3,6 +3,7 @@
 #include <memory>
 #include <utility>
 #include "qps/clauses/pattern/AssignPatternClause.h"
+#include "qps/errors/QPSParserSyntaxError.h"
 
 using std::make_unique;
 
@@ -30,6 +31,9 @@ PatternClausePtr PQLAssignPatternContext::parse(
 }
 
 ExpressionSequencePtr PQLAssignPatternContext::buildPostfix(IAST* tree) {
+  if (tree == nullptr || tree->getRoot() == nullptr) {
+    throw QPSParserSyntaxError(QPS_PARSER_ERR_INVALID_PATTERN);
+  }
   ExpressionSequencePtr result = make_unique<ExpressionSequence>();
   traversePostfix(tree->getRoot().get(), result.get());
   return std::move(result);
