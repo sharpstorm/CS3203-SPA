@@ -1,7 +1,9 @@
+#include <string>
 #include "ProcedureRangeExtractor.h"
 #include "StatementNumberExtractor.h"
 
-ProcedureRangeExtractor::ProcedureRangeExtractor(PkbWriter* writer) : pkbWriter(writer) {
+ProcedureRangeExtractor::ProcedureRangeExtractor(PkbWriter* writer)
+    : pkbWriter(writer) {
 }
 
 void ProcedureRangeExtractor::visit(ProcedureNode* node) {
@@ -38,6 +40,7 @@ void ProcedureRangeExtractor::visit(WhileNode* node) {
 }
 
 
-void ProcedureRangeExtractor::addProcedureRange(string procName, int start, int end) {
+void ProcedureRangeExtractor::
+addProcedureRange(string procName, int start, int end) {
   pkbWriter->addProcedure(procName, start, end);
 }

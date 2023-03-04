@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-
+#include <string>
 #include "sp/extractor/AbstractExtractor.h"
 #include "common/ast/entity/ProcedureNode.h"
 
