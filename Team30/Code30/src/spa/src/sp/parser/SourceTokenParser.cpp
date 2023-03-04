@@ -1,7 +1,6 @@
+#include <memory>
 #include "SourceTokenParser.h"
 #include "sp/ast/entity/ProgramNode.h"
-
-#include <memory>
 
 using std::make_unique;
 
