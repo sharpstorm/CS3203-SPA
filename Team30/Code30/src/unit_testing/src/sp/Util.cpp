@@ -56,6 +56,10 @@ class Util {
     return v.size() == size;
   }
 
+  bool isSize(vector<pair<string, string>> v, int size) {
+    return v.size() == size;
+  }
+
   bool isSize(vector<pair<int, string>> v, int size) {
     return v.size() == size;
   }

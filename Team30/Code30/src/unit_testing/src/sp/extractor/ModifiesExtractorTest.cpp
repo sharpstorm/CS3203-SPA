@@ -129,6 +129,7 @@ TEST_CASE("Modifies Extractor - Nested While in If: then statementList") {
 
   vector<pair<string, string>> v2 = executeModifiesExtractor(input).modifiesPStore;
   REQUIRE(u.contains(v2, "proc", "b"));
+  REQUIRE(u.contains(v2, "proc", "x"));
 }
 
 TEST_CASE("Modifies Extractor - Nested While in If: else statementList") {
@@ -151,6 +152,7 @@ TEST_CASE("Modifies Extractor - Nested While in If: else statementList") {
 
   vector<pair<string, string>> v2 = executeModifiesExtractor(input).modifiesPStore;
   REQUIRE(u.contains(v2, "proc", "b"));
+  REQUIRE(u.contains(v2, "proc", "x"));
 }
 
 TEST_CASE("Modifies Extractor - Nested While in While in While") {
@@ -199,6 +201,7 @@ TEST_CASE("Modifies Extractor - Nested If in If in If") {
 
   vector<pair<string, string>> v2 = executeModifiesExtractor(input).modifiesPStore;
   REQUIRE(u.contains(v2, "proc", "a"));
+  REQUIRE(u.contains(v2, "proc", "x"));
 }
 
 TEST_CASE("Modifies Extractor - Multi Proc") {

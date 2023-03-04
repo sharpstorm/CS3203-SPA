@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include "UsesExtractor.h"
+#include "common/ast/entity/ProcedureNode.h"
 
 using std::string, std::vector;
 
@@ -38,6 +39,10 @@ void UsesExtractor::leave(IfNode* node) {
 
 void UsesExtractor::leave(WhileNode* node) {
   statementStartStack.pop_back();
+}
+
+void UsesExtractor::visit(ProcedureNode* node) {
+  procName = node->getName();
 }
 
 void UsesExtractor::updateUses(shared_ptr<ASTNode> expr, int lineNumber) {
@@ -83,5 +88,5 @@ bool UsesExtractor::setContains(unordered_set<string>* v, const string &x) {
 }
 
 void UsesExtractor::addUsesRelation(int x, string var) {
-  pkbWriter->addUses(x, var, "example");  // todo
+  pkbWriter->addUses(x, var, procName);  // todo
 }
