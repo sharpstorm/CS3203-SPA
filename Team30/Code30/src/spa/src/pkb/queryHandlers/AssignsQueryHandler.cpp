@@ -1,7 +1,8 @@
 #include "AssignsQueryHandler.h"
-#include "common/pattern/PatternTrie.h"
 
 #include <string>
+
+#include "common/pattern/PatternTrie.h"
 
 using std::string;
 
