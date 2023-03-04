@@ -4,9 +4,11 @@
 #include "../../../../../../../lib/catch.hpp"
 #include "../../../../../../spa/src/common/ast/IASTNode.h"
 #include "../../../../../../spa/src/sp/common/SourceToken.h"
-#include "../../../../../../spa/src/sp/parser/GrammarContextProvider.h"
 #include "../../../../../../spa/src/sp/parser/SourceParseState.h"
-#include "../../../../../../spa/src/sp/parser/parse_context/math_context/RelationalExpressionContext.h"
+#include "sp/parser/conditional_context/contexts/RelationalExpressionContext.h"
+#include "sp/parser/entity_context/EntityParser.h"
+#include "sp/parser/expression_context/ExpressionParser.h"
+#include "sp/parser/conditional_context/ConditionalContextProvider.h"
 
 vector<SourceToken> GTE_Input() {  // (x >= y)
   vector<SourceToken> tokens = vector<SourceToken>{
@@ -69,12 +71,18 @@ vector<SourceToken> NotEQ_Input() {  // (x != y)
   return tokens;
 }
 
-TEST_CASE("RationalExpressionContext: Process GTE_Condition") {
+ASTNodePtr testRelationalParsing(vector<SourceToken>* tokens) {
+  SourceParseState state(tokens);
+  EntityParser entParser;
+  ExpressionParser exprParser(&entParser);
+  ConditionalContextProvider ccp(&exprParser);
+  RelationalExpressionContext context(&ccp);
+  return context.generateSubtree(&state);
+}
+
+TEST_CASE("RelationalExpressionContext: Process GTE_Condition") {
   vector<SourceToken> tokens = GTE_Input();
-  SourceParseState state(&tokens);
-  GrammarContextProvider gcp;
-  RelationalExpressionContext context(&gcp);
-  shared_ptr<ASTNode> node = context.generateSubtree(&state);
+  auto node = testRelationalParsing(&tokens);
 
   REQUIRE(node->getType() == ASTNODE_GTE);
   REQUIRE(node->getChild(0)->getType() == ASTNODE_VARIABLE);
@@ -83,12 +91,9 @@ TEST_CASE("RationalExpressionContext: Process GTE_Condition") {
   node.reset();
 }
 
-TEST_CASE("RationalExpressionContext: Process GT_Condition") {
+TEST_CASE("RelationalExpressionContext: Process GT_Condition") {
   vector<SourceToken> tokens = GT_Input();
-  SourceParseState state(&tokens);
-  GrammarContextProvider gcp;
-  RelationalExpressionContext context(&gcp);
-  shared_ptr<ASTNode> node = context.generateSubtree(&state);
+  auto node = testRelationalParsing(&tokens);
 
   REQUIRE(node->getType() == ASTNODE_GT);
   REQUIRE(node->getChild(0)->getType() == ASTNODE_VARIABLE);
@@ -97,12 +102,9 @@ TEST_CASE("RationalExpressionContext: Process GT_Condition") {
   node.reset();
 }
 
-TEST_CASE("RationalExpressionContext: Process LTE_Condition") {
+TEST_CASE("RelationalExpressionContext: Process LTE_Condition") {
   vector<SourceToken> tokens = LTE_Input();
-  SourceParseState state(&tokens);
-  GrammarContextProvider gcp;
-  RelationalExpressionContext context(&gcp);
-  shared_ptr<ASTNode> node = context.generateSubtree(&state);
+  auto node = testRelationalParsing(&tokens);
 
   REQUIRE(node->getType() == ASTNODE_LTE);
   REQUIRE(node->getChild(0)->getType() == ASTNODE_VARIABLE);
@@ -111,12 +113,9 @@ TEST_CASE("RationalExpressionContext: Process LTE_Condition") {
   node.reset();
 }
 
-TEST_CASE("RationalExpressionContext: Process LT_Condition") {
+TEST_CASE("RelationalExpressionContext: Process LT_Condition") {
   vector<SourceToken> tokens = LT_Input();
-  SourceParseState state(&tokens);
-  GrammarContextProvider gcp;
-  RelationalExpressionContext context(&gcp);
-  shared_ptr<ASTNode> node = context.generateSubtree(&state);
+  auto node = testRelationalParsing(&tokens);
 
   REQUIRE(node->getType() == ASTNODE_LT);
   REQUIRE(node->getChild(0)->getType() == ASTNODE_VARIABLE);
@@ -125,12 +124,9 @@ TEST_CASE("RationalExpressionContext: Process LT_Condition") {
   node.reset();
 }
 
-TEST_CASE("RationalExpressionContext: Process Equal_Condition") {
+TEST_CASE("RelationalExpressionContext: Process Equal_Condition") {
   vector<SourceToken> tokens = EQ_Input();
-  SourceParseState state(&tokens);
-  GrammarContextProvider gcp;
-  RelationalExpressionContext context(&gcp);
-  shared_ptr<ASTNode> node = context.generateSubtree(&state);
+  auto node = testRelationalParsing(&tokens);
 
   REQUIRE(node->getType() == ASTNODE_EQUALS);
   REQUIRE(node->getChild(0)->getType() == ASTNODE_VARIABLE);
@@ -139,12 +135,9 @@ TEST_CASE("RationalExpressionContext: Process Equal_Condition") {
   node.reset();
 }
 
-TEST_CASE("RationalExpressionContext: Process Not_Equal_Condition") {
+TEST_CASE("RelationalExpressionContext: Process Not_Equal_Condition") {
   vector<SourceToken> tokens = NotEQ_Input();
-  SourceParseState state(&tokens);
-  GrammarContextProvider gcp;
-  RelationalExpressionContext context(&gcp);
-  shared_ptr<ASTNode> node = context.generateSubtree(&state);
+  auto node = testRelationalParsing(&tokens);
 
   REQUIRE(node->getType() == ASTNODE_NOT_EQUALS);
   REQUIRE(node->getChild(0)->getType() == ASTNODE_VARIABLE);

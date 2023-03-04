@@ -29,7 +29,6 @@ enum ASTNodeType {
   ASTNODE_NOT,
   ASTNODE_AND,
   ASTNODE_OR,
-  ASTNODE_OPERAND,
   ASTNODE_VARIABLE,
   ASTNODE_CONSTANT,
 };
@@ -42,3 +41,5 @@ class IASTNode {
   virtual string getValue() = 0;
   virtual bool isEquals(IASTNode *other) = 0;
 };
+
+typedef shared_ptr<IASTNode> IASTNodePtr;

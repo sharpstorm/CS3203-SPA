@@ -1,11 +1,6 @@
 #include <string>
 
 #include "../../../../../lib/catch.hpp"
-#include "common/ast/entity/ConstantASTNode.h"
-#include "../../../../spa/src/common/ast/statement/AssignNode.h"
-#include "../../../../spa/src/common/ast/statement/IfNode.h"
-#include "../../../../spa/src/common/ast/statement/PrintNode.h"
-#include "../../../../spa/src/common/ast/statement/WhileNode.h"
 #include "../../../../spa/src/common/Types.h"
 #include "../../../../spa/src/pkb/storage/PKB.h"
 #include "../../../../spa/src/pkb/writers/PkbWriter.h"

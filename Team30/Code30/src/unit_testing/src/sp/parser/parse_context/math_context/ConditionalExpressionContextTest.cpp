@@ -3,9 +3,18 @@
 
 #include "../../../../../../../lib/catch.hpp"
 #include "../../../../../../spa/src/sp/common/SourceToken.h"
-#include "../../../../../../spa/src/sp/parser/GrammarContextProvider.h"
 #include "../../../../../../spa/src/sp/parser/SourceParseState.h"
-#include "../../../../../../spa/src/sp/parser/parse_context/math_context/ConditionalExpressionContext.h"
+#include "sp/parser/conditional_context/ConditionalContextProvider.h"
+#include "sp/parser/entity_context/EntityParser.h"
+
+ASTNodePtr testConditionalParsing(vector<SourceToken>* tokens) {
+  SourceParseState state(tokens);
+  EntityParser entParser;
+  ExpressionParser exprParser(&entParser);
+  ConditionalContextProvider ccp(&exprParser);
+  ConditionalExpressionContext context(&ccp);
+  return context.generateSubtree(&state);
+}
 
 vector<SourceToken> notConditionInput() {  // !(x == y)
   vector<SourceToken> tokens = vector<SourceToken>{
@@ -76,10 +85,7 @@ vector<SourceToken> RelationalExpressionInput() {  // ((x >= y) || (x < z))
 
 TEST_CASE("ConditionalExpressionContext: Process Not_Condition") {
   vector<SourceToken> tokens = notConditionInput();
-  SourceParseState state(&tokens);
-  GrammarContextProvider gcp;
-  ConditionalExpressionContext context(&gcp);
-  shared_ptr<ASTNode> node = context.generateSubtree(&state);
+  auto node = testConditionalParsing(&tokens);
 
   REQUIRE(node->getType() == ASTNODE_NOT);
   REQUIRE(node->getChild(0)->getType() == ASTNODE_EQUALS);
@@ -91,10 +97,7 @@ TEST_CASE("ConditionalExpressionContext: Process Not_Condition") {
 
 TEST_CASE("ConditionalExpressionContext: Process And_Condition") {
   vector<SourceToken> tokens = AndConditionInput();
-  SourceParseState state(&tokens);
-  GrammarContextProvider gcp;
-  ConditionalExpressionContext context(&gcp);
-  shared_ptr<ASTNode> node = context.generateSubtree(&state);
+  auto node = testConditionalParsing(&tokens);
 
   REQUIRE(node->getType() == ASTNODE_AND);
   REQUIRE(node->getChild(0)->getType() == ASTNODE_NOT_EQUALS);
@@ -109,10 +112,7 @@ TEST_CASE("ConditionalExpressionContext: Process And_Condition") {
 
 TEST_CASE("ConditionalExpressionContext: Process Or_Condition") {
   vector<SourceToken> tokens = OrConditionInput();
-  SourceParseState state(&tokens);
-  GrammarContextProvider gcp;
-  ConditionalExpressionContext context(&gcp);
-  shared_ptr<ASTNode> node = context.generateSubtree(&state);
+  auto node = testConditionalParsing(&tokens);
 
   REQUIRE(node->getType() == ASTNODE_OR);
   REQUIRE(node->getChild(0)->getType() == ASTNODE_EQUALS);
@@ -127,10 +127,7 @@ TEST_CASE("ConditionalExpressionContext: Process Or_Condition") {
 
 TEST_CASE("ConditionalExpressionContext: Process Relational_Expression") {
   vector<SourceToken> tokens = RelationalExpressionInput();
-  SourceParseState state(&tokens);
-  GrammarContextProvider gcp;
-  ConditionalExpressionContext context(&gcp);
-  shared_ptr<ASTNode> node = context.generateSubtree(&state);
+  auto node = testConditionalParsing(&tokens);
 
   REQUIRE(node->getType() == ASTNODE_OR);
   REQUIRE(node->getChild(0)->getType() == ASTNODE_GTE);

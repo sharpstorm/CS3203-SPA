@@ -2,9 +2,9 @@
 
 #include <string>
 #include "sp/extractor/AbstractExtractor.h"
-#include "common/ast/entity/VariableASTNode.h"
-#include "common/ast/entity/ConstantASTNode.h"
-#include "common/ast/entity/ProcedureNode.h"
+#include "sp/ast/entity/VariableASTNode.h"
+#include "sp/ast/entity/ConstantASTNode.h"
+#include "sp/ast/entity/ProcedureNode.h"
 
 class EntityExtractor : public AbstractExtractor {
  public:

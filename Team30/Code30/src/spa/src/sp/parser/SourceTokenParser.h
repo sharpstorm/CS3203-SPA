@@ -1,24 +1,26 @@
 #pragma once
 
 #include <vector>
+
 #include "../common/SourceToken.h"
-#include "GrammarContextProvider.h"
-#include "common/ast/AST.h"
+#include "sp/ast/AST.h"
+#include "sp/parser/entity_context/EntityParser.h"
+#include "sp/parser/expression_context/ExpressionParser.h"
+#include "sp/parser/conditional_context/ConditionalParser.h"
+#include "sp/parser/procedure_context/ProcedureParser.h"
+
+using std::vector;
 
 class SourceTokenParser {
  public:
-  SourceTokenParser() = default;
+  SourceTokenParser();
 
-  template <SourceGrammarContextType STARTING_CONTEXT>
-  AST parse(vector<SourceToken>* tokens);
+  AST parseProcedure(vector<SourceToken>* tokens);
+  AST parseExpression(vector<SourceToken>* tokens);
 
  private:
-  GrammarContextProvider gcp;
+  IEntityParserPtr entityParser;
+  IExpressionParserPtr exprParser;
+  IConditionalParserPtr condParser;
+  IProcedureParserPtr procedureParser;
 };
-
-template <SourceGrammarContextType STARTING_CONTEXT>
-AST SourceTokenParser::parse(vector<SourceToken>* tokens) {
-  SourceParseState state(tokens);
-  gcp.getContext(STARTING_CONTEXT)->generateSubtree(&state);
-  return AST(state.getCached());
-}

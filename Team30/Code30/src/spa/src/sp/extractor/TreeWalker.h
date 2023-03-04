@@ -3,9 +3,9 @@
 #include <vector>
 
 #include "AbstractExtractor.h"
-#include "common/ast/AST.h"
+#include "sp/ast/AST.h"
 #include "common/UtilityTypes.h"
-#include "common/ast/ASTNode.h"
+#include "sp/ast/ASTNode.h"
 
 class TreeWalker {
  public:

@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "../../../../lib/catch.hpp"
-#include "common/ast/AST.h"
+#include "sp/ast/AST.h"
 #include "../../../spa/src/pkb/storage/PKB.h"
 #include "../../../spa/src/pkb/writers/PkbWriter.h"
 #include "../../../spa/src/sp/SourceParser.h"
