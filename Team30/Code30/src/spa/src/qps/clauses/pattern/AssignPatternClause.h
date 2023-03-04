@@ -16,6 +16,4 @@ class AssignPatternClause: public PatternClause {
                       ClauseArgumentPtr leftArg,
                       ExpressionArgumentPtr rightArg);
   PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler);
-  bool matchPartial(IASTNodePtr rootNode);
-  bool matchExact(IASTNodePtr rootNode);
 };

@@ -13,7 +13,7 @@ bool PatternTrie::isMatchFull(ExpressionSequence *sequence) {
 }
 
 bool PatternTrie::isMatchPartial(ExpressionSequence *sequence) {
-  if (root) {
+  if (root == nullptr) {
     return false;
   }
 
@@ -27,7 +27,7 @@ bool PatternTrie::traverseForMatch(IASTNodePtr curNode,
   }
 
   for (int i = 0; i < curNode->getChildCount(); i++) {
-    if (isMatchNode(curNode->getChild(i), sequence)) {
+    if (traverseForMatch(curNode->getChild(i), sequence)) {
       return true;
     }
   }

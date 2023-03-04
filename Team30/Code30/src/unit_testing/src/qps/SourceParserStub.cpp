@@ -5,7 +5,7 @@
 #include "sp/ast/AST.h"
 #include "common/parser/ISourceExpressionParser.h"
 
-using std::make_shared;
+using std::make_shared, std::make_unique;
 
 class SourceParserStub: public ISourceExpressionParser {
  public:
