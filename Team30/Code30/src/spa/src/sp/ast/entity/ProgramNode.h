@@ -2,7 +2,7 @@
 
 #include <string>
 #include <memory>
-#include "common/ast/ASTNode.h"
+#include "../ASTNode.h"
 #include "sp/extractor/Extractor.h"
 
 using std::string;

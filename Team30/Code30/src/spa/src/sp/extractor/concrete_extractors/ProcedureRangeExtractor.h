@@ -3,7 +3,7 @@
 #include <memory>
 #include <string>
 #include "sp/extractor/AbstractExtractor.h"
-#include "common/ast/entity/ProcedureNode.h"
+#include "sp/ast/entity/ProcedureNode.h"
 
 using std::shared_ptr;
 

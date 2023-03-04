@@ -1,7 +1,7 @@
 #include <string>
 #include <vector>
 #include "UsesExtractor.h"
-#include "common/ast/entity/ProcedureNode.h"
+#include "sp/ast/entity/ProcedureNode.h"
 
 using std::string, std::vector;
 

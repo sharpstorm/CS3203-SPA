@@ -1,5 +1,5 @@
 #include "ModifiesExtractor.h"
-#include "common/ast/entity/ProcedureNode.h"
+#include "sp/ast/entity/ProcedureNode.h"
 
 ModifiesExtractor::ModifiesExtractor(PkbWriter* writer) : pkbWriter(writer) {
 }
