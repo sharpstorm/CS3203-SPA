@@ -1,4 +1,5 @@
 #include "SourceTokenParser.h"
+#include "sp/ast/entity/ProgramNode.h"
 
 #include <memory>
 
@@ -11,6 +12,15 @@ SourceTokenParser::SourceTokenParser():
     procedureParser(make_unique<ProcedureParser>(entityParser.get(),
                                                  exprParser.get(),
                                                  condParser.get())) {
+}
+
+AST SourceTokenParser::parseProgram(vector<SourceToken> *tokens) {
+  SourceParseState state(tokens);
+  ASTNodePtr programNode = make_shared<ProgramNode>();
+  while (!state.isEnd()) {
+    programNode->addChild(procedureParser->parse(&state));
+  }
+  return AST(programNode);
 }
 
 AST SourceTokenParser::parseProcedure(vector<SourceToken> *tokens) {

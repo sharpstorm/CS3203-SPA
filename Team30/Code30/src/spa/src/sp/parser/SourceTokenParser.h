@@ -15,6 +15,7 @@ class SourceTokenParser {
  public:
   SourceTokenParser();
 
+  AST parseProgram(vector<SourceToken>* tokens);
   AST parseProcedure(vector<SourceToken>* tokens);
   AST parseExpression(vector<SourceToken>* tokens);
 
