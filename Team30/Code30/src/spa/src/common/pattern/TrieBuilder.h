@@ -1,10 +1,15 @@
 #pragma once
 
+#include <vector>
+#include <string>
+
 #include "PatternTrie.h"
+
+using std::vector, std::string;
 
 class TrieBuilder {
  public:
-  TrieBuilder(IASTNodePtr astRoot);
+  explicit TrieBuilder(IASTNodePtr astRoot);
   PatternTriePtr build();
 
  private:

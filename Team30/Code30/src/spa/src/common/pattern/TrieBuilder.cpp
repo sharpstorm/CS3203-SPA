@@ -39,8 +39,7 @@ TrieBuilder::BuildState TrieBuilder::walkAST(IASTNode* node) {
   newPostfix.insert(
       newPostfix.end(),
       std::make_move_iterator(leftChild.postfix.begin()),
-      std::make_move_iterator(leftChild.postfix.end())
-  );
+      std::make_move_iterator(leftChild.postfix.end()));
 
   PatternTrieNode* curNode = leftChild.node;
   for (int i = 0; i < rightChild.postfix.size(); i++) {
