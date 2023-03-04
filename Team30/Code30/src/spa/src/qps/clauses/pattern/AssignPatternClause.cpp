@@ -29,14 +29,18 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
     for (auto& it : modifiesResult.pairVals) {
       // Call assigns to retrieve the node
       StmtRef assignRef = StmtRef{StmtType::Assign, it.first};
-      QueryResult<int, shared_ptr<IASTNode>> nodes =
+      QueryResult<int, PatternTrie*> nodes =
           pkbQueryHandler->queryAssigns(assignRef);
 
-      shared_ptr<IASTNode> lineRoot = *nodes.secondArgVals.begin();
+      PatternTrie* lineRoot = *nodes.secondArgVals.begin();
+      ExpressionSequence sequence{rightArgument->getPattern()};
       // DFS to match
       // If successful, add to query result table
-      if ((!rightArgument->allowsPartial() && matchExact(lineRoot))
-          || rightArgument->allowsPartial() && matchPartial(lineRoot)) {
+
+      if ((rightArgument->allowsPartial()
+          && lineRoot->isMatchPartial(&sequence))
+          || (!rightArgument->allowsPartial()
+              && lineRoot->isMatchFull(&sequence))) {
         assignResult.add(it.first, it.second);
       }
     }
