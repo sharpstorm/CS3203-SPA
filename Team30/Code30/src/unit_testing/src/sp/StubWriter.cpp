@@ -28,9 +28,9 @@ class StubPkb : public PkbWriter {
     patternStore.push_back(make_pair(i, node));
   }
 
-//  void addProcedure(string name, int start, int end) {
-//    procedureRangeStore.push_back(triple<string, int, int>(name, start, end));
-//  }
+  void addProcedure(string name, int start, int end) {
+    procedureRangeStore.push_back(triple<string, int, int>(name, start, end));
+  }
 
   vector<pair<int, int>> followsStore;
   vector<pair<int, int>> parentStore;
@@ -39,4 +39,5 @@ class StubPkb : public PkbWriter {
   vector<pair<int, string>> usesStore;
   vector<pair<string, string>> usesPStore;
   vector<pair<int, shared_ptr<IASTNode>>> patternStore;
+  vector<triple<string, int, int>> procedureRangeStore;
 };
