@@ -13,6 +13,7 @@ class QueryPlan {
   int getGroupCount();
   QueryGroupPlan* getGroup(int groupId);
   bool isEmpty();
+  bool isBooleanQuery();
 
  private:
   vector<QueryGroupPlanPtr> clauseGroups;

@@ -17,6 +17,7 @@ class UsesExtractor : public AbstractExtractor {
   void visit(IfNode* node);
   void leave(WhileNode* node);
   void leave(IfNode* node);
+  void visit(ProcedureNode* node);
  private:
   void addUsesRelation(int x, string var);
   void processNode(int lineNumber, unordered_set<string>* v);
@@ -25,4 +26,5 @@ class UsesExtractor : public AbstractExtractor {
   void updateUses(shared_ptr<ASTNode> expr, int lineNumber);
   vector<int> statementStartStack;
   PkbWriter *pkbWriter;
+  string procName;
 };

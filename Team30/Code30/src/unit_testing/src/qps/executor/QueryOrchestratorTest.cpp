@@ -25,8 +25,8 @@ TEST_CASE("Queries with Select only") {
   unique_ptr<PQLQuery> query;
   PQLQuerySynonym targetVariable;
   vector<shared_ptr<Clause>> emptyClause;
-  PQLQueryResultPtr expectedResult;
-  PQLQueryResultPtr actualResult;
+  unique_ptr<SynonymResultTable> expectedResult;
+  unique_ptr<SynonymResultTable> actualResult;
 
   // Statement
   // TODO(KwanHW): To implement once calls are supported
@@ -40,13 +40,14 @@ TEST_CASE("Queries with Select only") {
   };
 
   for (auto stmtType : stmtTypes) {
-    expectedResult = TestQueryResultBuilder::buildExpected(ExpectedParams{
+    unique_ptr<PQLQuerySynonymList> synList = make_unique<PQLQuerySynonymList>(PQLQuerySynonymList({PQLQuerySynonym{stmtType, "s"}}));
+    expectedResult = TestQueryResultBuilder::buildExpectedTable(ExpectedParams{
         {"s", QueryResultItemVector{
             QueryResultItem(1),
             QueryResultItem(2),
             QueryResultItem(3)
         }}
-    });
+    }, synList.get());
     targetVariable = {stmtType, "s"};
     auto selectClause = shared_ptr<IEvaluatable>(new SelectClause(targetVariable));
     auto group = make_unique<QueryGroupPlan>(vector<IEvaluatableSPtr>{selectClause},
@@ -54,24 +55,26 @@ TEST_CASE("Queries with Select only") {
     vector<QueryGroupPlanPtr> groups;
     groups.push_back(std::move(group));
     auto queryPlan = make_unique<QueryPlan>(std::move(groups));
-    actualResult = unique_ptr<PQLQueryResult>(orchestrator.execute(queryPlan.get()));
+    auto targetSyns = make_unique<PQLQuerySynonymList>(PQLQuerySynonymList({PQLQuerySynonym{stmtType, "s"}}));
+    actualResult = unique_ptr<SynonymResultTable>(orchestrator.execute(queryPlan.get()));
     REQUIRE(*expectedResult == *actualResult);
   }
 
-  // TODO(KwanHW): To implement once procedures are supported
+//  // TODO(KwanHW): To implement once procedures are supported
   vector<PQLSynonymType> entTypes{
       PQL_SYN_TYPE_CONSTANT,
       PQL_SYN_TYPE_VARIABLE
   };
 
   for (auto entType : entTypes) {
-    expectedResult = TestQueryResultBuilder::buildExpected(ExpectedParams{
+    unique_ptr<PQLQuerySynonymList> synList = make_unique<PQLQuerySynonymList>(PQLQuerySynonymList({PQLQuerySynonym{entType, "ent"}}));
+    expectedResult = TestQueryResultBuilder::buildExpectedTable(ExpectedParams{
         {"ent", QueryResultItemVector{
             QueryResultItem("x"),
             QueryResultItem("y"),
             QueryResultItem("z")
         }}
-    });
+    }, synList.get());
     targetVariable = {entType, "ent"};
     auto selectClause = shared_ptr<SelectClause>(new SelectClause(targetVariable));
     auto group = make_unique<QueryGroupPlan>(vector<IEvaluatableSPtr>{selectClause},
@@ -79,7 +82,8 @@ TEST_CASE("Queries with Select only") {
     vector<QueryGroupPlanPtr> groups;
     groups.push_back(std::move(group));
     auto queryPlan = make_unique<QueryPlan>(std::move(groups));
-    actualResult = unique_ptr<PQLQueryResult>(orchestrator.execute(queryPlan.get()));
+    auto targetSyns = make_unique<PQLQuerySynonymList>(PQLQuerySynonymList({PQLQuerySynonym{entType, "ent"}}));
+    actualResult = unique_ptr<SynonymResultTable>(orchestrator.execute(queryPlan.get()));
     REQUIRE(*expectedResult == *actualResult);
   }
 }

@@ -73,6 +73,7 @@ TEST_CASE("Simple programs for grammar testing") {
   REQUIRE_NOTHROW(executeExtractors(testcase.CALL_PROCEDURES));
 
   REQUIRE_NOTHROW(executeExtractors(testcase.CALL_CASE_SENSITIVE));
+
 }
 
 TEST_CASE("Programs for testing simple if/else cases") {
