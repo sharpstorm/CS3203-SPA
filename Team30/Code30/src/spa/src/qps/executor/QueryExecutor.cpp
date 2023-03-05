@@ -9,8 +9,7 @@ QueryExecutor::QueryExecutor(PkbQueryHandler* pkbQH):
     orchestrator(QueryOrchestrator(QueryLauncher(pkbQH))) {
 }
 
-PQLQueryResult *QueryExecutor::executeQuery(PQLQuery* query) {
+SynonymResultTable *QueryExecutor::executeQuery(PQLQuery* query) {
   QueryPlanPtr plan = planner.getExecutionPlan(query);
-  PQLQueryResult* result = orchestrator.execute(plan.get());
-  return result;
+  return orchestrator.execute(plan.get());
 }

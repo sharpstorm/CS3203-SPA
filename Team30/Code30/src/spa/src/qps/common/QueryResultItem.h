@@ -37,3 +37,5 @@ typedef unique_ptr<QueryResultItem> QueryResultItemPtr;
 template<class T>
 using QueryResultItemMap = unordered_map<QueryResultItem, T,
                                          QueryResultItem::hasher>;
+using QueryResultItemSet = unordered_set<QueryResultItem,
+                                         QueryResultItem::hasher>;

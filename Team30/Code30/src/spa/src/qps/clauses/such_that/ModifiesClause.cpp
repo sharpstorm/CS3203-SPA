@@ -1,6 +1,7 @@
 #include <utility>
 
 #include "ModifiesClause.h"
+#include "qps/errors/QPSParserSemanticError.h"
 
 ModifiesClause::ModifiesClause(ClauseArgumentPtr leftArg,
                                ClauseArgumentPtr rightArg):
@@ -8,7 +9,19 @@ ModifiesClause::ModifiesClause(ClauseArgumentPtr leftArg,
 }
 
 PQLQueryResult* ModifiesClause::evaluateOn(PkbQueryHandler* pkbQueryHandler) {
-  if (left->synonymSatisfies(ClauseArgument::isStatement)) {
+  if (left->isWildcard()) {
+    throw QPSParserSemanticError(QPS_PARSER_ERR_INVALID_WILDCARD);
+  }
+
+  bool isLeftStatement;
+  if (left->isNamed()) {
+    isLeftStatement = left->synonymSatisfies(ClauseArgument::isStatement);
+  } else {
+    StmtRef stmtRef = left->toStmtRef();
+    isLeftStatement = stmtRef.isKnown();
+  }
+
+  if (isLeftStatement) {
     return Clause::toQueryResult(
         left.get(), right.get(),
         evaluateLeftStatement(pkbQueryHandler));
