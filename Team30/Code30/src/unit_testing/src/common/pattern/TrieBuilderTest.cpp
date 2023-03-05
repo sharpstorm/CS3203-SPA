@@ -1,6 +1,7 @@
 #include "catch.hpp"
 #include "TestASTProvider.h"
 #include "common/pattern/PatternConverter.h"
+#include "sp/SourceParser.h"
 
 void assertMatchFull(PatternTrie* trie, ExpressionSequence expected) {
   REQUIRE(trie->isMatchPartial(&expected));
@@ -57,3 +58,10 @@ TEST_CASE("Trie Building - Heavier Tree") {
   assertNotMatch(triePtr, {"y", "x", "z", "*", "+"});
   assertNotMatch(triePtr, {"x", "x", "z", "*", "+"});
 }
+
+TEST_CASE("Trie Building - Stress Tree") {
+  auto exprTree = SourceParser().parseExpression(
+      "call + procedure + assign - if + 20000 - read + call - read - if * print / while * 1000 + while + call + procedure + assign + if - while / 299385 - asdfasdf123123");
+  auto trie = PatternConverter::convertASTToTrie(exprTree.getRoot());
+}
+
