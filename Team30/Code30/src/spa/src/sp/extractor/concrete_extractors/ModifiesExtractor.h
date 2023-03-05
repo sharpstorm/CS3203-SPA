@@ -15,10 +15,12 @@ class ModifiesExtractor : public AbstractExtractor {
   void leave(WhileNode* node);
   void visit(IfNode* node);
   void leave(IfNode* node);
+  void visit(ProcedureNode* node);
 
  private:
   void addNodeModifies(StatementASTNode* node, const string &var);
   void addModifiesRelation(int x, string var);
   vector<int> statementStartStack;
   PkbWriter *pkbWriter;
+  string currentProcName;
 };
