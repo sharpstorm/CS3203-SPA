@@ -10,8 +10,13 @@ const int LEXER_BUFFER_SIZE = 2048;
 QueryLexerResult QueryLexer::getTokenStream(string* query) {
   vector<PQLToken>* resultVector = new vector<PQLToken>();
 
-  LexerInternalState lexState{"", false, false, false};
+  LexerInternalState lexState{"",
+                              "",
+                              false,
+                              0,
+                              false};
   lexState.buffer.reserve(LEXER_BUFFER_SIZE);
+  lexState.literalBuffer.reserve(LEXER_BUFFER_SIZE);
 
   for (size_t pos = 0; pos < query->length(); pos++) {
     char c = query->at(pos);
@@ -52,8 +57,7 @@ void QueryLexer::processChar(char c,
   }
 
   if (state->isProcessingLiteral) {
-    state->isLiteralVarchar = false;
-    state->buffer.push_back(c);
+    processLiteral((tokenType == PQL_TOKEN_DELIMITER) ? 0 : c, result, state);
     return;
   }
 
@@ -61,6 +65,31 @@ void QueryLexer::processChar(char c,
   if (tokenType != PQL_TOKEN_DELIMITER) {
     result->push_back(PQLToken(tokenType));
   }
+}
+
+void QueryLexer::processLiteral(char c,
+                                vector<PQLToken> *result,
+                                LexerInternalState *state) {
+  if (c != 0) {
+    if (state->buffer.empty()) {
+      state->literalSymbolCount++;
+    } else {
+      state->buffer.push_back(' ');
+    }
+    state->buffer.push_back(c);
+  }
+
+  if (state->buffer.empty()) {
+    return;
+  }
+
+  state->literalSymbolCount++;
+  if (!state->literalBuffer.empty()) {
+    state->literalBuffer += " ";
+  }
+  state->literalBuffer += state->buffer;
+  state->buffer.clear();
+  return;
 }
 
 void QueryLexer::flushBuffer(vector<PQLToken> *result,
@@ -82,18 +111,26 @@ void QueryLexer::toggleLiteral(vector<PQLToken> *result,
 
 void QueryLexer::startLiteral(LexerInternalState *state) {
   state->isProcessingLiteral = true;
-  state->isLiteralVarchar = true;
+  state->literalSymbolCount = 0;
 }
 
 void QueryLexer::flushLiteral(vector<PQLToken> *result,
                               LexerInternalState* state) {
-  if (state->buffer.length() > 0) {
-    PQLTokenType type = (state->isLiteralVarchar) ?
+  if (!state->buffer.empty()) {
+    state->literalSymbolCount++;
+    if (!state->literalBuffer.empty()) {
+      state->literalBuffer += " ";
+    }
+    state->literalBuffer += state->buffer;
+  }
+
+  if (state->literalBuffer.length() > 0) {
+    PQLTokenType type = (state->literalSymbolCount == 1) ?
                         PQL_TOKEN_STRING_LITERAL : PQL_TOKEN_LITERAL;
-    if (tokenTable.isDigit(state->buffer.at(0))) {
+    if (tokenTable.isDigit(state->literalBuffer.at(0))) {
       type = PQL_TOKEN_LITERAL;
     }
-    result->push_back(PQLToken(type, state->buffer));
+    result->push_back(PQLToken(type, state->literalBuffer));
     clearState(state);
   } else {
     throw QPSLexerError(QPS_LEXER_ERR_EMPTY_QUOTE);
@@ -115,9 +152,10 @@ PQLToken QueryLexer::resolveStringToken(string buffer, bool hasSeenChar) {
 
 void QueryLexer::clearState(LexerInternalState *state) {
   state->buffer.clear();
+  state->literalBuffer.clear();
   state->hasSeenChar = false;
   state->isProcessingLiteral = false;
-  state->isLiteralVarchar = true;
+  state->literalSymbolCount = 0;
 }
 
 PQLToken QueryLexer::validateIntegerToken(string* buffer) {

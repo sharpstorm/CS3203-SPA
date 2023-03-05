@@ -107,8 +107,8 @@ TEST_CASE("Test QPS Lexer Literals") {
   testPQLLexSingleToken("\"a1bc\"", PQLToken(PQL_TOKEN_STRING_LITERAL, "a1bc"));
   testPQLLexSingleToken("\"123\"", PQLToken(PQL_TOKEN_LITERAL, "123"));
   testPQLLexSingleToken("\"abc abc\"", PQLToken(PQL_TOKEN_LITERAL, "abc abc"));
-  testPQLLexSingleToken("\"a+b\"", PQLToken(PQL_TOKEN_LITERAL, "a+b"));
-  testPQLLexSingleToken("\"a + b    + c\"", PQLToken(PQL_TOKEN_LITERAL, "a + b    + c"));
+  testPQLLexSingleToken("\"a+b\"", PQLToken(PQL_TOKEN_LITERAL, "a + b"));
+  testPQLLexSingleToken("\"a + b    + c\"", PQLToken(PQL_TOKEN_LITERAL, "a + b + c"));
 }
 
 TEST_CASE("Test QPS Lexer full query") {
@@ -152,3 +152,33 @@ TEST_CASE("Test QPS Lexer Case Sensitivity") {
       PQLToken(PQL_TOKEN_STRING, "Pattern")
   });
 }
+
+TEST_CASE("Test QPS Lexer Literal Handling") {
+  testPQLLexing("Modifies(1, \"   b    \")", vector<PQLToken>{
+      PQLToken(PQL_TOKEN_MODIFIES, "Modifies"),
+      PQLToken(PQL_TOKEN_BRACKET_OPEN),
+      PQLToken(PQL_TOKEN_INTEGER, "1"),
+      PQLToken(PQL_TOKEN_COMMA),
+      PQLToken(PQL_TOKEN_STRING_LITERAL, "b"),
+      PQLToken(PQL_TOKEN_BRACKET_CLOSE)
+  });
+
+  testPQLLexing("a(_, \" a b   \")", vector<PQLToken>{
+      PQLToken(PQL_TOKEN_STRING, "a"),
+      PQLToken(PQL_TOKEN_BRACKET_OPEN),
+      PQLToken(PQL_TOKEN_UNDERSCORE),
+      PQLToken(PQL_TOKEN_COMMA),
+      PQLToken(PQL_TOKEN_LITERAL, "a b"),
+      PQLToken(PQL_TOKEN_BRACKET_CLOSE)
+  });
+
+  testPQLLexing("a(_, \" a\tb + c   \")", vector<PQLToken>{
+      PQLToken(PQL_TOKEN_STRING, "a"),
+      PQLToken(PQL_TOKEN_BRACKET_OPEN),
+      PQLToken(PQL_TOKEN_UNDERSCORE),
+      PQLToken(PQL_TOKEN_COMMA),
+      PQLToken(PQL_TOKEN_LITERAL, "a b + c"),
+      PQLToken(PQL_TOKEN_BRACKET_CLOSE)
+  });
+}
+
