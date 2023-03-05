@@ -41,8 +41,21 @@ shared_ptr<ASTNode> genVariable(string val) {
 }
 
 class AssignPatternPKBStub : public StubPKB {
+ private:
+  PatternTriePtr line1;
+  PatternTriePtr line2;
+  PatternTriePtr line3;
+  PatternTriePtr line4;
+  PatternTriePtr line5;
+
  public:
-  AssignPatternPKBStub(PKB* in): StubPKB(in) {
+  AssignPatternPKBStub(PKB* in): StubPKB(in),
+  line1(make_unique<PatternTrie>(genInteger(1))),
+  line2(make_unique<PatternTrie>(genVariable("x"))),
+  line3(make_unique<PatternTrie>(genPlus(genInteger(1), genInteger(2)))),
+  line4(make_unique<PatternTrie>(genPlus(genVariable("y"), genVariable("x")))),
+  line5(make_unique<PatternTrie>(genPlus(genPlus(genInteger(2),genVariable("z")),
+                                         genVariable("y")))) {
   }
 
   QueryResult<int, string> queryModifies(StmtRef, EntityRef entRef) const override {
@@ -66,24 +79,23 @@ class AssignPatternPKBStub : public StubPKB {
     return res;
   }
 
-  QueryResult<int, shared_ptr<IASTNode>> queryAssigns(StmtRef ref) const override {
-    QueryResult<int, shared_ptr<IASTNode>> res;
+  QueryResult<int, PatternTrie*> queryAssigns(StmtRef ref) const override {
+    QueryResult<int, PatternTrie*> res;
     switch (ref.lineNum) {
       case 1:
-        res.add(1, genInteger(1));
+        res.add(1, line1.get());
         break;
       case 2:
-        res.add(2, genVariable("x"));
+        res.add(2, line2.get());
         break;
       case 3:
-        res.add(3, genPlus(genInteger(1), genInteger(2)));
+        res.add(3, line3.get());
         break;
       case 4:
-        res.add(4, genPlus(genVariable("y"), genVariable("x")));
+        res.add(4, line4.get());
         break;
       case 5:
-        res.add(5, genPlus(genPlus(genInteger(2),genVariable("z")),
-                           genVariable("y")));
+        res.add(5, line5.get());
         break;
     }
 
@@ -91,34 +103,45 @@ class AssignPatternPKBStub : public StubPKB {
   }
 };
 
+ExpressionArgumentPtr makeExpressionArgument(string value, bool isPartial) {
+  if (value.empty()) {
+    return make_unique<ExpressionArgument>();
+  }
+
+  auto exprList = make_unique<ExpressionSequence>();
+  exprList->push_back(value);
+  return make_unique<ExpressionArgument>(std::move(exprList), isPartial);
+}
+
 TEST_CASE("Assign Pattern Constant-Exact") {
   PKB pkbStore;
-  shared_ptr<PkbQueryHandler> pkb = make_shared<AssignPatternPKBStub>(&pkbStore);
+  auto pkb = make_unique<AssignPatternPKBStub>(&pkbStore);
 
   PQLQueryResultPtr expected;
   PQLQueryResultPtr actual;
   PQLQuerySynonym assignSyn(PQL_SYN_TYPE_ASSIGN, "a");
 
+  makeExpressionArgument("x", false);
   // Constant-Variable-Exact
   PatternClausePtr patternClause = make_unique<AssignPatternClause>(
       assignSyn,
-      ClauseArgumentPtr(new EntityArgument("b")),
-      make_unique<ExpressionArgument>("x", false));
+      make_unique<EntityArgument>("b"),
+      makeExpressionArgument("x", false));
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{ 2 });
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get()));
   REQUIRE(*expected == *actual);
 
   // Constant-Integer-Exact
   patternClause = make_unique<AssignPatternClause>(
       assignSyn,
-      ClauseArgumentPtr(new EntityArgument("a")),
-      make_unique<ExpressionArgument>("1", false));
+      make_unique<EntityArgument>("a"),
+      makeExpressionArgument("1", false));
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{ 1 });
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get()));
   REQUIRE(*expected == *actual);
 }
 
@@ -133,34 +156,34 @@ TEST_CASE("Assign Pattern Constant-Wildcard") {
   // Constant-Wildcard
   PatternClausePtr patternClause = make_unique<AssignPatternClause>(
       assignSyn,
-      ClauseArgumentPtr(new EntityArgument("b")),
-      make_unique<ExpressionArgument>("", true));
+      make_unique<EntityArgument>("b"),
+      makeExpressionArgument("", true));
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{2, 4});
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get()));
   REQUIRE(*expected == *actual);
 
   // Constant-Variable-Wildcard
   patternClause = make_unique<AssignPatternClause>(
       assignSyn,
-      ClauseArgumentPtr(new EntityArgument("b")),
-      make_unique<ExpressionArgument>("x", true));
+      make_unique<EntityArgument>("b"),
+      makeExpressionArgument("x", true));
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{2, 4});
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get()));
   REQUIRE(*expected == *actual);
 
   // Constant-Integer-Wildcard
   patternClause = make_unique<AssignPatternClause>(
       assignSyn,
-      ClauseArgumentPtr(new EntityArgument("a")),
-      make_unique<ExpressionArgument>("1", true));
+      make_unique<EntityArgument>("a"),
+      makeExpressionArgument("1", true));
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{1, 3});
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get()));
   REQUIRE(*expected == *actual);
 }
 
@@ -176,45 +199,45 @@ TEST_CASE("Assign Pattern Variable-Exact") {
   // Variable-Integer-Exact
   PatternClausePtr patternClause = make_unique<AssignPatternClause>(
       assignSyn,
-      ClauseArgumentPtr(new SynonymArgument(varSyn)),
-      make_unique<ExpressionArgument>("1", false));
+      make_unique<SynonymArgument>(varSyn),
+      makeExpressionArgument("1", false));
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", "v", pair_set<int, string>{{ 1, "a" }});
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get()));
   REQUIRE(*expected == *actual);
 
   // Constant-Variable-Exact
   patternClause = make_unique<AssignPatternClause>(
       assignSyn,
-      ClauseArgumentPtr(new SynonymArgument(varSyn)),
-      make_unique<ExpressionArgument>("x", false));
+      make_unique<SynonymArgument>(varSyn),
+      makeExpressionArgument("x", false));
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", "v", pair_set<int, string>{{ 2, "b" }});
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get()));
   REQUIRE(*expected == *actual);
 
   // Variable-Integer-Exact
   patternClause = make_unique<AssignPatternClause>(
       assignSyn,
-      ClauseArgumentPtr(new WildcardArgument()),
-      make_unique<ExpressionArgument>("1", false));
+      make_unique<WildcardArgument>(),
+      makeExpressionArgument("1", false));
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{ 1 });
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get()));
   REQUIRE(*expected == *actual);
 
   // Constant-Variable-Exact
   patternClause = make_unique<AssignPatternClause>(
       assignSyn,
-      ClauseArgumentPtr(new WildcardArgument()),
-      make_unique<ExpressionArgument>("x", false));
+      make_unique<WildcardArgument>(),
+      makeExpressionArgument("x", false));
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{ 2 });
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get()));
   REQUIRE(*expected == *actual);
 }
 
@@ -230,50 +253,50 @@ TEST_CASE("Assign Pattern Variable-Partial") {
   // Variable-Integer-Partial
   PatternClausePtr patternClause = make_unique<AssignPatternClause>(
       assignSyn,
-      ClauseArgumentPtr(new SynonymArgument(varSyn)),
-      make_unique<ExpressionArgument>("1", true));
+      make_unique<SynonymArgument>(varSyn),
+      makeExpressionArgument("1", true));
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", "v", pair_set<int, string>{
     { 1, "a" },
     { 3, "a" }
   });
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get()));
   REQUIRE(*expected == *actual);
 
   // Constant-Variable-Partial
   patternClause = make_unique<AssignPatternClause>(
       assignSyn,
-      ClauseArgumentPtr(new SynonymArgument(varSyn)),
-      make_unique<ExpressionArgument>("x", true));
+      make_unique<SynonymArgument>(varSyn),
+      makeExpressionArgument("x", true));
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", "v", pair_set<int, string>{
     { 2, "b" },
     { 4, "b" }
   });
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get()));
   REQUIRE(*expected == *actual);
 
   // Variable-Integer-Partial
   patternClause = make_unique<AssignPatternClause>(
       assignSyn,
-      ClauseArgumentPtr(new WildcardArgument()),
-      make_unique<ExpressionArgument>("2", true));
+      make_unique<WildcardArgument>(),
+      makeExpressionArgument("2", true));
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{ 3, 5 });
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get()));
   REQUIRE(*expected == *actual);
 
   // Constant-Variable-Partial
   patternClause = make_unique<AssignPatternClause>(
       assignSyn,
-      ClauseArgumentPtr(new WildcardArgument()),
-      make_unique<ExpressionArgument>("y", true));
+      make_unique<WildcardArgument>(),
+      makeExpressionArgument("y", true));
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{ 4, 5 });
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get()));
   REQUIRE(*expected == *actual);
 }

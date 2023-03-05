@@ -11,12 +11,14 @@
 #include "qps/clauses/such_that/FollowsClause.h"
 #include "qps/parser/QueryParser.h"
 #include "qps/clauses/pattern/AssignPatternClause.h"
+#include "../SourceParserStub.cpp"
 
 using std::vector, std::string, std::cout, std::unique_ptr, std::shared_ptr;
 
 unique_ptr<PQLQuery> testPQLParsing(string testCase) {
+  SourceParserStub exprParser;
   try {
-    return QueryParser().parseQuery(&testCase);
+    return QueryParser(&exprParser).parseQuery(&testCase);
   } catch (const QPSError& err) {
     WARN(err.what());
     FAIL("FAILED with error: ");
@@ -170,4 +172,21 @@ TEST_CASE("Test Pattern Select - Variable, Wildcard") {
   REQUIRE(resultShared->getEvaluatables().size() == 1);
   AssignPatternClause* pc = dynamic_cast<AssignPatternClause*>(resultShared->getEvaluatables().at(0).get());
   REQUIRE(pc != nullptr);
+}
+
+TEST_CASE("Test ModifiesP - Constant, Constant") {
+  auto result = testPQLParsing("print p; Select p such that Modifies(\"Main\", \"a1\")");
+  shared_ptr<PQLQuery> resultShared = shared_ptr<PQLQuery>(std::move(result));
+
+  requireSynonyms(resultShared, vector<PQLQuerySynonym>{
+      PQLQuerySynonym(PQL_SYN_TYPE_PRINT, "p"),
+  });
+  REQUIRE(resultShared->getResultVariables()->size() == 1);
+  auto resultVar = resultShared->getResultVariables()->at(0);
+  REQUIRE(resultVar.getName() == "p");
+  REQUIRE(resultVar.getType() == PQL_SYN_TYPE_PRINT);
+
+  REQUIRE(resultShared->getEvaluatables().size() == 1);
+  ModifiesClause* mc = dynamic_cast<ModifiesClause*>(resultShared->getEvaluatables().at(0).get());
+  REQUIRE(mc != nullptr);
 }

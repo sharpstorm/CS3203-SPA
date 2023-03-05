@@ -37,7 +37,9 @@ const ExpectedParams PARENTT_PAIRS{
 
 TEST_CASE("ParentTClause Querying") {
   PKB pkbStore;
-  auto pkb = shared_ptr<PkbQueryHandler>(new ClausesPKBStub(&pkbStore));
+  auto pkb = make_unique<ClausesPKBStub>(&pkbStore);
+  PQLQuerySynonym synA1(PQL_SYN_TYPE_ASSIGN, "a1");
+  PQLQuerySynonym synA2(PQL_SYN_TYPE_ASSIGN, "a2");
 
   PQLQueryResultPtr expected;
   PQLQueryResultPtr actual;
@@ -45,47 +47,47 @@ TEST_CASE("ParentTClause Querying") {
   // Static results
   // When stmtNumLeft < stmtNumRight E.g. Parent*(1,4)
   ParentTClause parentTClause = ParentTClause(
-      ClauseArgumentPtr(new StmtArgument(6)),
-      ClauseArgumentPtr(new StmtArgument(9))
+      make_unique<StmtArgument>(6),
+      make_unique<StmtArgument>(9)
   );
   expected = PQLQueryResultPtr(new PQLQueryResult());
-  actual = PQLQueryResultPtr(parentTClause.evaluateOn(pkb));
+  actual = PQLQueryResultPtr(parentTClause.evaluateOn(pkb.get()));
   REQUIRE(*expected == *actual);
 
   // When stmtNumLeft > stmtNumRight E.g. Parent*(4,1)
   parentTClause = ParentTClause(
-      ClauseArgumentPtr(new StmtArgument(9)),
-      ClauseArgumentPtr(new StmtArgument(6))
+      make_unique<StmtArgument>(9),
+      make_unique<StmtArgument>(6)
   );
   expected = PQLQueryResultPtr(new PQLQueryResult());
   expected->setIsStaticFalse(true);
-  actual = PQLQueryResultPtr(parentTClause.evaluateOn(pkb));
+  actual = PQLQueryResultPtr(parentTClause.evaluateOn(pkb.get()));
   REQUIRE(*expected == *actual);
 
   // Left arg is synonym
   parentTClause = ParentTClause(
-      ClauseArgumentPtr(new SynonymArgument(PQLQuerySynonym{PQLSynonymType::PQL_SYN_TYPE_ASSIGN, "a1"})),
-      ClauseArgumentPtr(new StmtArgument(9)));
+      make_unique<SynonymArgument>(synA1),
+      make_unique<StmtArgument>(9));
   expected = TestQueryResultBuilder::buildExpected(PARENTT_LEFT_LINES);
-  actual = PQLQueryResultPtr(parentTClause.evaluateOn(pkb));
+  actual = PQLQueryResultPtr(parentTClause.evaluateOn(pkb.get()));
   REQUIRE(*expected == *actual);
 
   // Right arg is synonym
   parentTClause = ParentTClause(
-      ClauseArgumentPtr(new StmtArgument(6)),
-      ClauseArgumentPtr(new SynonymArgument(PQLQuerySynonym{PQLSynonymType::PQL_SYN_TYPE_ASSIGN, "a2"}))
+      make_unique<StmtArgument>(6),
+      make_unique<SynonymArgument>(synA2)
   );
   expected = TestQueryResultBuilder::buildExpected(PARENTT_RIGHT_LINES);
-  actual = PQLQueryResultPtr(parentTClause.evaluateOn(pkb));
+  actual = PQLQueryResultPtr(parentTClause.evaluateOn(pkb.get()));
   REQUIRE(*expected == *actual);
 
   // Both sides are synonym
   parentTClause = ParentTClause(
-      ClauseArgumentPtr(new SynonymArgument(PQLQuerySynonym{PQLSynonymType::PQL_SYN_TYPE_ASSIGN, "a1"})),
-      ClauseArgumentPtr(new SynonymArgument(PQLQuerySynonym{PQLSynonymType::PQL_SYN_TYPE_ASSIGN, "a2"}))
+      make_unique<SynonymArgument>(synA1),
+      make_unique<SynonymArgument>(synA2)
   );
   expected = TestQueryResultBuilder::buildExpected(PARENTT_PAIRS);
-  actual = PQLQueryResultPtr(parentTClause.evaluateOn(pkb));
+  actual = PQLQueryResultPtr(parentTClause.evaluateOn(pkb.get()));
   REQUIRE(*expected == *actual);
 
 }

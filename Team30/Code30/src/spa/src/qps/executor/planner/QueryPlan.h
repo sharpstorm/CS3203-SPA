@@ -5,7 +5,7 @@
 #include "qps/common/IEvaluatable.h"
 #include "QueryGroupPlan.h"
 
-using std::vector, std::shared_ptr, std::unique_ptr;
+using std::vector, std::unique_ptr;
 
 class QueryPlan {
  public:
@@ -13,6 +13,7 @@ class QueryPlan {
   int getGroupCount();
   QueryGroupPlan* getGroup(int groupId);
   bool isEmpty();
+  bool isBooleanQuery();
 
  private:
   vector<QueryGroupPlanPtr> clauseGroups;

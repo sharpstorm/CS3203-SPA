@@ -2,13 +2,14 @@
 #include <string>
 #include "pkb/writers/PkbWriter.h"
 #include "SourceParser.h"
+#include "common/parser/ISourceExpressionParser.h"
 
 using std::string;
 
-class SpDriver {
+class SpDriver : public ISourceExpressionParser {
  public:
   void parseSource(string input, PkbWriter* pkbWriter);
-  AST parseExpression(string expression);
+  IASTPtr parseExpression(string expression);
 
  private:
   SourceParser parser;

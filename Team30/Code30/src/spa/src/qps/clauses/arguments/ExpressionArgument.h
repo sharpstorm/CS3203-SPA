@@ -2,18 +2,20 @@
 
 #include <string>
 #include <memory>
+#include <vector>
 
-using std::string, std::unique_ptr;
+#include "common/pattern/ExpressionSequence.h"
 
 class ExpressionArgument {
  public:
-  ExpressionArgument(string literalPattern, bool isPartial);
+  ExpressionArgument();
+  ExpressionArgument(ExpressionSequencePtr expression, bool isPartial);
   bool isWildcard();
   bool allowsPartial();
-  string getPattern();
+  ExpressionSequence* getSequence();
 
  private:
-  string literalPattern;
+  ExpressionSequencePtr expressionSequence;
   bool isPartial;
 };
 

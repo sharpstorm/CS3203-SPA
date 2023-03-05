@@ -4,5 +4,5 @@
 
 class ModASTNode: public AbstractExpressionNode {
  public:
-  ModASTNode() : AbstractExpressionNode(ASTNODE_MOD, ":mod") {}
+  ModASTNode() : AbstractExpressionNode(ASTNODE_MOD, ":mod", "%") {}
 };

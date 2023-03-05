@@ -8,6 +8,10 @@ void CallNode::accept(Extractor* e) {
   e->visit(this);
 }
 
+string CallNode::getName() {
+  return procName;
+}
+
 string CallNode::toString() {
   return ":call";
 }

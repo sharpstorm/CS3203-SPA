@@ -6,6 +6,8 @@
 #include "pkb/writers/PkbWriter.h"
 #include "qps/errors/QPSError.h"
 #include "../TestUtils.h"
+#include "sp/ast/entity/VariableASTNode.h"
+#include "sp/ast/AST.h"
 
 using std::make_unique, std::make_shared, std::unordered_set, std::to_string;
 
@@ -27,6 +29,15 @@ using std::make_unique, std::make_shared, std::unordered_set, std::to_string;
  * }
  *
  */
+
+class SourceParserStub: public ISourceExpressionParser {
+ public:
+  IASTPtr parseExpression(string expression) override {
+    auto root = make_shared<VariableASTNode>("a");
+    auto tree = make_unique<AST>(root);
+    return tree;
+  }
+};
 
 unique_ptr<PKB> initPkb() {
   auto pkb = make_unique<PKB>();
@@ -69,8 +80,9 @@ unique_ptr<PKB> initPkb() {
 
 TEST_CASE("Test QP Query Basic Follows") {
   auto pkb = initPkb();
-  shared_ptr<PkbQueryHandler> pkbQH_ptr = make_shared<PkbQueryHandler>(pkb.get());
-  unique_ptr<IQPS> qps = make_unique<QPSFacade>(pkbQH_ptr);
+  auto pkbQH_ptr = make_unique<PkbQueryHandler>(pkb.get());
+  SourceParserStub sp;
+  unique_ptr<IQPS> qps = make_unique<QPSFacade>(pkbQH_ptr.get(), &sp);
 
   launchQuery(qps.get(), "stmt s1, s2; Select s1 such that Follows(s1, s2)",
               unordered_set<string>{ "1", "2", "3", "4" });
@@ -115,8 +127,9 @@ TEST_CASE("Test QP Query Basic Follows") {
 
 TEST_CASE("Test QP Query Basic Follows*") {
   auto pkb = initPkb();
-  shared_ptr<PkbQueryHandler> pkbQH_ptr = make_shared<PkbQueryHandler>(pkb.get());
-  unique_ptr<IQPS> qps = make_unique<QPSFacade>(pkbQH_ptr);
+  auto pkbQH = make_unique<PkbQueryHandler>(pkb.get());
+  SourceParserStub sp;
+  unique_ptr<IQPS> qps = make_unique<QPSFacade>(pkbQH.get(), &sp);
 
   launchQuery(qps.get(), "stmt s1, s2; Select s2 such that Follows*(1, s2)",
               unordered_set<string>{ "2", "3", "4", "5" });
@@ -126,8 +139,9 @@ TEST_CASE("Test QP Query Basic Follows*") {
 
 TEST_CASE("Test QP Query Basic Parent") {
   auto pkb = initPkb();
-  shared_ptr<PkbQueryHandler> pkbQH_ptr = make_shared<PkbQueryHandler>(pkb.get());
-  unique_ptr<IQPS> qps = make_unique<QPSFacade>(pkbQH_ptr);
+  auto pkbQH = make_unique<PkbQueryHandler>(pkb.get());
+  SourceParserStub sp;
+  unique_ptr<IQPS> qps = make_unique<QPSFacade>(pkbQH.get(), &sp);
 
   launchQuery(qps.get(), "stmt s1, s2; Select s2 such that Parent(s1, s2)",
               unordered_set<string>{ "7", "8", "9" });
@@ -141,8 +155,9 @@ TEST_CASE("Test QP Query Basic Parent") {
 
 TEST_CASE("Test QP Query Basic Parent*") {
   auto pkb = initPkb();
-  shared_ptr<PkbQueryHandler> pkbQH_ptr = make_shared<PkbQueryHandler>(pkb.get());
-  unique_ptr<IQPS> qps = make_unique<QPSFacade>(pkbQH_ptr);
+  auto pkbQH = make_unique<PkbQueryHandler>(pkb.get());
+  SourceParserStub sp;
+  unique_ptr<IQPS> qps = make_unique<QPSFacade>(pkbQH.get(), &sp);
 
   launchQuery(qps.get(), "stmt s1, s2; Select s2 such that Parent*(6, s2)",
               unordered_set<string>{ "7", "8", "9" });
@@ -152,8 +167,9 @@ TEST_CASE("Test QP Query Basic Parent*") {
 
 TEST_CASE("Test QP Query Basic Uses") {
   auto pkb = initPkb();
-  shared_ptr<PkbQueryHandler> pkbQH_ptr = make_shared<PkbQueryHandler>(pkb.get());
-  unique_ptr<IQPS> qps = make_unique<QPSFacade>(pkbQH_ptr);
+  auto pkbQH = make_unique<PkbQueryHandler>(pkb.get());
+  SourceParserStub sp;
+  unique_ptr<IQPS> qps = make_unique<QPSFacade>(pkbQH.get(), &sp);
 
   launchQuery(qps.get(), "variable v; Select v such that Uses(4, \"x\")",
               unordered_set<string>({"x", "y", "z"}));
@@ -180,8 +196,9 @@ TEST_CASE("Test QP Query Basic Uses") {
 
 TEST_CASE("Test QP Query Basic Modifies") {
   auto pkb = initPkb();
-  shared_ptr<PkbQueryHandler> pkbQH_ptr = make_shared<PkbQueryHandler>(pkb.get());
-  unique_ptr<IQPS> qps = make_unique<QPSFacade>(pkbQH_ptr);
+  auto pkbQH = make_unique<PkbQueryHandler>(pkb.get());
+  SourceParserStub sp;
+  unique_ptr<IQPS> qps = make_unique<QPSFacade>(pkbQH.get(), &sp);
 
   launchQuery(qps.get(), "assign a; variable v; Select v such that Modifies(1, \"x\")",
               unordered_set<string>({"x", "y", "z"}));

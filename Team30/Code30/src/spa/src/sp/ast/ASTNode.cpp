@@ -19,7 +19,15 @@ void ASTNode::addChild(ASTNodePtr node) {
 }
 
 shared_ptr<IASTNode> ASTNode::getChild(int index) {
+  if (index < 0 || index >= children.size()) {
+    return nullptr;
+  }
+
   return children[index];
+}
+
+int ASTNode::getChildCount() {
+  return children.size();
 }
 
 ASTNodeType ASTNode::getType() {

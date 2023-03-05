@@ -12,7 +12,7 @@ using std::string;
 class AssignsWriter : public IAssignsWriter {
  public:
   explicit AssignsWriter(AssignStorage *assignStorage);
-  void addAssigns(int arg1, shared_ptr<IASTNode> arg2) override;
+  void addAssigns(int arg1, PatternTrieSPtr arg2) override;
 
  private:
   AssignStorage *assignStorage;

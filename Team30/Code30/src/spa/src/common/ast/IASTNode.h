@@ -6,6 +6,7 @@
 using std::shared_ptr, std::string;
 
 enum ASTNodeType {
+  ASTNODE_PROGRAM,
   ASTNODE_PROCEDURE,
   ASTNODE_CALL,
   ASTNODE_STMTLST,
@@ -36,6 +37,7 @@ class IASTNode {
  public:
   virtual ~IASTNode() = default;
   virtual shared_ptr<IASTNode> getChild(int i) = 0;
+  virtual int getChildCount() = 0;
   virtual ASTNodeType getType() = 0;
   virtual string getValue() = 0;
   virtual bool isEquals(IASTNode *other) = 0;

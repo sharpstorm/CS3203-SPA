@@ -1,0 +1,139 @@
+{
+  "timeout": 5000,
+  "cases": [
+
+    { "comment": "---------------- Single Procedure -----------------" },
+    { "comment": "---------------- ModifiesP -----------------" },
+
+    {
+      "name": "Select single proc modifiesP (Const, Const)",
+      "defn": "print p;",
+      "query": "Select p such that Modifies(\"Main\", \"a1\")",
+      "ans": "4"
+    },
+    {
+      "name": "Select single proc modifiesP (Const, Syn)",
+      "defn": "variable v;",
+      "query": "Select v such that Modifies(\"Main\", v)",
+      "ans": "a1,a4,a6"
+    },
+    {
+      "name": "Select single proc modifiesP (Syn, Const)",
+      "defn": "procedure p;",
+      "query": "Select p such that Modifies(p, \"a4\")",
+      "ans": "Main"
+    },
+    {
+      "name": "Select single proc modifiesP (Syn, Syn)",
+      "defn": "procedure p; variable v;",
+      "query": "Select v such that Modifies(p, v)",
+      "ans": "a1,a4,a6,b1,b3,b4,c1,c2,c4,d1,d2"
+    },
+
+    { "comment": "---------------- UsesP -----------------" },
+
+    {
+      "name": "Select single proc usesP (Const, Const)",
+      "defn": "print p;",
+      "query": "Select p such that Uses(\"Main\", \"a5\")",
+      "ans": "4"
+    },
+    {
+      "name": "Select single proc usesP (Const, Syn)",
+      "defn": "variable v;",
+      "query": "Select v such that Uses(\"Main\", v)",
+      "ans": "a1,a2,a3,a5"
+    },
+    {
+      "name": "Select single proc usesP (Syn, Const)",
+      "defn": "procedure p;",
+      "query": "Select p such that Uses(p, \"a5\")",
+      "ans": "Main"
+    },
+    {
+      "name": "Select single proc usesP (Syn, Syn)",
+      "defn": "procedure p; variable v;",
+      "query": "Select v such that Uses(p, v)",
+      "ans": "a1,a2,a3,a5,x,b1,b2,b5,c1,c3,d2"
+    },
+
+    { "comment": "---------------- Cross Procedure -----------------" },
+    { "comment": "---------------- ModifiesP -----------------" },
+
+    {
+      "name": "Select cross proc modifiesP (Const, Const)",
+      "defn": "print p;",
+      "query": "Select p such that Modifies(\"Sub2\", \"d1\")",
+      "ans": "4"
+    },
+    {
+      "name": "Select cross multi proc modifiesP (Const, Const)",
+      "defn": "print p;",
+      "query": "Select p such that Modifies(\"Sub1\", \"d1\")",
+      "ans": "4"
+    },
+    {
+      "name": "Select cross proc modifiesP (Const, Syn)",
+      "defn": "variable v;",
+      "query": "Select v such that Modifies(\"Sub2\", v)",
+      "ans": "c1,c2,c4,d1,d2"
+    },
+    {
+      "name": "Select cross multi proc modifiesP (Const, Syn)",
+      "defn": "variable v;",
+      "query": "Select v such that Modifies(\"Sub1\", v)",
+      "ans": "b1,b3,b4,c1,c2,c4,d1,d2"
+    },
+    {
+      "name": "Select cross proc modifiesP (Syn, Const)",
+      "defn": "procedure p;",
+      "query": "Select p such that Modifies(p, \"c1\")",
+      "ans": "Sub1,Sub2"
+    },
+    {
+      "name": "Select cross multi proc modifiesP (Syn, Const)",
+      "defn": "procedure p;",
+      "query": "Select p such that Modifies(p, \"d1\")",
+      "ans": "Sub1,Sub2,Sub3"
+    },
+
+    { "comment": "---------------- UsesP -----------------" },
+
+    {
+      "name": "Select cross proc usesP (Const, Const)",
+      "defn": "print p;",
+      "query": "Select p such that Uses(\"Sub2\", \"d2\")",
+      "ans": "4"
+    },
+    {
+      "name": "Select cross multi proc usesP (Const, Const)",
+      "defn": "print p;",
+      "query": "Select p such that Uses(\"Sub1\", \"d2\")",
+      "ans": "4"
+    },
+    {
+      "name": "Select cross proc usesP (Const, Syn)",
+      "defn": "variable v;",
+      "query": "Select v such that Uses(\"Sub2\", v)",
+      "ans": "c1,c3,d2"
+    },
+    {
+      "name": "Select cross multi proc usesP (Const, Syn)",
+      "defn": "variable v;",
+      "query": "Select v such that Uses(\"Sub1\", v)",
+      "ans": "b1,b2,b5,c1,c3,d2"
+    },
+    {
+      "name": "Select cross proc usesP (Syn, Const)",
+      "defn": "procedure p;",
+      "query": "Select p such that Uses(p, \"c3\")",
+      "ans": "Sub1,Sub2"
+    },
+    {
+      "name": "Select cross multi proc usesP (Syn, Const)",
+      "defn": "procedure p;",
+      "query": "Select p such that Uses(p, \"d2\")",
+      "ans": "Sub1,Sub2,Sub3"
+    }
+  ]
+}

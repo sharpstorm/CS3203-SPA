@@ -1,7 +1,8 @@
 #include "QPSFacade.h"
 
-QPSFacade::QPSFacade(shared_ptr<PkbQueryHandler> pkbQH) {
-  driver = new QueryDriver(pkbQH);
+QPSFacade::QPSFacade(PkbQueryHandler* pkbQH,
+                     ISourceExpressionParser* exprParser) {
+  driver = new QueryDriver(pkbQH, exprParser);
 }
 
 QPSFacade::~QPSFacade() noexcept {

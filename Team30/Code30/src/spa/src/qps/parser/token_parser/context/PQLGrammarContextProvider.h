@@ -23,6 +23,7 @@
 
 #include "pattern_clause/PQLPatternContext.h"
 #include "qps/parser/token_parser/context/such_that_clause/PQLCallsClauseContext.h"
+#include "common/parser/ISourceExpressionParser.h"
 
 class PQLGrammarContextProvider {
  private:
@@ -46,5 +47,6 @@ class PQLGrammarContextProvider {
   PQLCallsClauseContext callsClauseContext;
 
  public:
+  explicit PQLGrammarContextProvider(ISourceExpressionParser* exprParser);
   IPQLContext* getContext(PQLToken* token);
 };
