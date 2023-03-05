@@ -24,7 +24,7 @@ class StubPkb : public PkbWriter {
     usesStore.push_back(make_pair(i, var));
     usesPStore.push_back(make_pair(procedure, var));
   }
-  void addAssigns(int i, shared_ptr<IASTNode> node) {
+  void addAssigns(int i, PatternTrieSPtr node) {
     patternStore.push_back(make_pair(i, node));
   }
 
@@ -38,6 +38,7 @@ class StubPkb : public PkbWriter {
   vector<pair<string, string>> modifiesPStore;
   vector<pair<int, string>> usesStore;
   vector<pair<string, string>> usesPStore;
+  vector<pair<int, PatternTrieSPtr>> patternStore;
   vector<pair<int, shared_ptr<IASTNode>>> patternStore;
   vector<triple<string, int, int>> procedureRangeStore;
 };

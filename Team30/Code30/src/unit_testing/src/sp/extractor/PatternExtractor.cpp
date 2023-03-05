@@ -12,7 +12,7 @@
 
 using std::vector, std::string, std::pair, std::make_unique;
 
-vector<pair<int, shared_ptr<IASTNode>>> executePatternExtractor(string input) {
+vector<pair<int, PatternTrieSPtr>> executePatternExtractor(string input) {
   TreeWalker treeWalker;
   PKB pkb;
   StubPkb stubby(&pkb);
@@ -29,46 +29,33 @@ TEST_CASE("Pattern Extractor - Simple Assign") {
   string input = "procedure printResults {\n"
                  "a = b;"
                  "}";
-  Util u;
-  vector<pair<int, shared_ptr<IASTNode>>> v = executePatternExtractor(input);
-  VariableASTNode node("b");
-  REQUIRE(node.isEquals(v[0].second.get()));
+  auto v = executePatternExtractor(input);
+  ExpressionSequence expected{"b"};
+  REQUIRE(v[0].second->isMatchFull(&expected));
 }
 
 TEST_CASE("Pattern Extractor - Simple Plus") {
   string input = "procedure printResults {\n"
                  "a = b + c;"
                  "}";
-  Util u;
-  vector<pair<int, shared_ptr<IASTNode>>> v = executePatternExtractor(input);
-  PlusASTNode plus;
-  VariableASTNode n1("b");
-  VariableASTNode n2("c");
-  REQUIRE(plus.isEquals(v[0].second.get()));
-  REQUIRE(n1.isEquals(v[0].second.get()->getChild(0).get()));
-  REQUIRE(n2.isEquals(v[0].second.get()->getChild(1).get()));
+  auto v = executePatternExtractor(input);
+  ExpressionSequence expected{"b"};
+  REQUIRE(v[0].second->isMatchPartial(&expected));
+  expected = {"c"};
+  REQUIRE(v[0].second->isMatchPartial(&expected));
 }
 
 TEST_CASE("Pattern Extractor - Longer expression") {
   string input = "procedure printResults {\n"
                  "a = b + c * d - e;"
                  "}";
-  Util u;
-  vector<pair<int, shared_ptr<IASTNode>>> v = executePatternExtractor(input);
-  PlusASTNode plus;
-  MinusASTNode minus;
-  TimesASTNode times;
-  VariableASTNode b("b");
-  VariableASTNode c("c");
-  VariableASTNode d("d");
-  VariableASTNode e("e");
-  REQUIRE(minus.isEquals(v[0].second.get()));
-  REQUIRE(plus.isEquals(v[0].second.get()->getChild(0).get()));
-  REQUIRE(b.isEquals(v[0].second.get()->getChild(0).get()->getChild(0).get()));
-  REQUIRE(times.isEquals(v[0].second.get()->getChild(0).get()->getChild(1).get()));
-  REQUIRE(c.isEquals(v[0].second.get()->getChild(0).get()
-                         ->getChild(1).get()->getChild(0).get()));
-  REQUIRE(d.isEquals(v[0].second.get()->getChild(0).get()
-                         ->getChild(1).get()->getChild(1).get()));
-  REQUIRE(e.isEquals(v[0].second.get()->getChild(1).get()));
+  auto v = executePatternExtractor(input);
+  ExpressionSequence expected{"b"};
+  REQUIRE(v[0].second->isMatchPartial(&expected));
+  expected = {"c"};
+  REQUIRE(v[0].second->isMatchPartial(&expected));
+  expected = {"d"};
+  REQUIRE(v[0].second->isMatchPartial(&expected));
+  expected = {"e"};
+  REQUIRE(v[0].second->isMatchPartial(&expected));
 }

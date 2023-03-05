@@ -5,9 +5,9 @@
 
 #include "EntityTableManager.h"
 #include "TransitiveRelationTableManager.h"
-#include "common/ast/IASTNode.h"
 #include "tables/HashKeyTable.h"
 #include "tables/HashKeySetTable.h"
+#include "common/pattern/PatternTrie.h"
 
 using std::string;
 
@@ -20,6 +20,6 @@ using UsesStorage = RelationTableManager<int, string>;
 using UsesPStorage = RelationTableManager<string, string>;
 using ModifiesStorage = RelationTableManager<int, string>;
 using ModifiesPStorage = RelationTableManager<string, string>;
-using AssignStorage = HashKeyTable<int, shared_ptr<IASTNode>>;
+using AssignStorage = HashKeyTable<int, PatternTrieSPtr>;
 using CallsStorage = TransitiveRelationTableManager<string>;
 using CallStmtStorage = EntityTableManager<int, string>;

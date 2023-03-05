@@ -41,8 +41,21 @@ shared_ptr<ASTNode> genVariable(string val) {
 }
 
 class AssignPatternPKBStub : public StubPKB {
+ private:
+  PatternTriePtr line1;
+  PatternTriePtr line2;
+  PatternTriePtr line3;
+  PatternTriePtr line4;
+  PatternTriePtr line5;
+
  public:
-  AssignPatternPKBStub(PKB* in): StubPKB(in) {
+  AssignPatternPKBStub(PKB* in): StubPKB(in),
+  line1(make_unique<PatternTrie>(genInteger(1))),
+  line2(make_unique<PatternTrie>(genVariable("x"))),
+  line3(make_unique<PatternTrie>(genPlus(genInteger(1), genInteger(2)))),
+  line4(make_unique<PatternTrie>(genPlus(genVariable("y"), genVariable("x")))),
+  line5(make_unique<PatternTrie>(genPlus(genPlus(genInteger(2),genVariable("z")),
+                                         genVariable("y")))) {
   }
 
   QueryResult<int, string> queryModifies(StmtRef, EntityRef entRef) const override {
@@ -66,24 +79,23 @@ class AssignPatternPKBStub : public StubPKB {
     return res;
   }
 
-  QueryResult<int, shared_ptr<IASTNode>> queryAssigns(StmtRef ref) const override {
-    QueryResult<int, shared_ptr<IASTNode>> res;
+  QueryResult<int, PatternTrie*> queryAssigns(StmtRef ref) const override {
+    QueryResult<int, PatternTrie*> res;
     switch (ref.lineNum) {
       case 1:
-        res.add(1, genInteger(1));
+        res.add(1, line1.get());
         break;
       case 2:
-        res.add(2, genVariable("x"));
+        res.add(2, line2.get());
         break;
       case 3:
-        res.add(3, genPlus(genInteger(1), genInteger(2)));
+        res.add(3, line3.get());
         break;
       case 4:
-        res.add(4, genPlus(genVariable("y"), genVariable("x")));
+        res.add(4, line4.get());
         break;
       case 5:
-        res.add(5, genPlus(genPlus(genInteger(2),genVariable("z")),
-                           genVariable("y")));
+        res.add(5, line5.get());
         break;
     }
 
