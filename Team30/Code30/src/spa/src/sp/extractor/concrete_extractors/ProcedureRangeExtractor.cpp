@@ -8,10 +8,10 @@ ProcedureRangeExtractor::ProcedureRangeExtractor(PkbWriter* writer)
 
 void ProcedureRangeExtractor::visit(ProcedureNode* node) {
   StatementNumberExtractor statementNoExtractor;
-  node->getChildren()[0]->getChildren().front()->accept(&statementNoExtractor);
+  ASTNodePtr stmtLst = node->getChildren()[0];
+  stmtLst->getChildren().front()->accept(&statementNoExtractor);
   int start = statementNoExtractor.getStatementNumber();
-
-  node->getChildren()[0]->getChildren().back()->accept(this);
+  stmtLst->getChildren().back()->accept(this);
   addProcedureRange(node->getName(), start, lineNumberCache);
 }
 
