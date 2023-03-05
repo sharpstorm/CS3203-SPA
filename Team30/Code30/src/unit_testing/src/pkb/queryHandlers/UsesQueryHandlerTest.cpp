@@ -310,25 +310,20 @@ TEST_CASE("UsesQueryHandler Uses(procedureName, variableName)") {
   test.pTable->set("main", "y");
   test.pTable->set("foo", "z");
 
-  auto result1 = test.handler.queryUses({EntityType::Procedure, "main"},
+  auto result1 = test.handler.queryUses({EntityType::None, "main"},
                                         {EntityType::None, "x"});
   REQUIRE(result1.isEmpty == false);
   REQUIRE(result1.firstArgVals == unordered_set<string>({"main"}));
   REQUIRE(result1.secondArgVals == unordered_set<string>({"x"}));
   REQUIRE(result1.pairVals == pair_set<string, string>({{"main", "x"}}));
 
-  auto result2 = test.handler.queryUses({EntityType::Procedure, "main"},
+  auto result2 = test.handler.queryUses({EntityType::None, "main"},
                                         {EntityType::None, "z"});
   REQUIRE(result2.isEmpty == true);
 
-  auto result3 = test.handler.queryUses({EntityType::Procedure, "foo"},
+  auto result3 = test.handler.queryUses({EntityType::None, "foo"},
                                         {EntityType::None, "z"});
   REQUIRE(result3.pairVals == pair_set<string, string>({{"foo", "z"}}));
-
-  // invalid type
-  auto result4 = test.handler.queryUses({EntityType::None, "main"},
-                                        {EntityType::None, "x"});
-  REQUIRE(result4.isEmpty == true);
 }
 
 // Only arg1 known
@@ -339,7 +334,7 @@ TEST_CASE("UsesQueryHandler Uses(procedureName, type)") {
   test.pTable->set("main", "y");
   test.pTable->set("foo", "z");
 
-  auto result1 = test.handler.queryUses({EntityType::Procedure, "main"},
+  auto result1 = test.handler.queryUses({EntityType::None, "main"},
                                         {EntityType::Variable, ""});
   REQUIRE(result1.isEmpty == false);
   REQUIRE(result1.firstArgVals == unordered_set<string>({"main"}));
@@ -347,14 +342,9 @@ TEST_CASE("UsesQueryHandler Uses(procedureName, type)") {
   REQUIRE(result1.pairVals
               == pair_set<string, string>({{"main", "x"}, {"main", "y"}}));
 
-  auto result2 = test.handler.queryUses({EntityType::Procedure, "goo"},
+  auto result2 = test.handler.queryUses({EntityType::None, "goo"},
                                         {EntityType::Variable, ""});
   REQUIRE(result2.isEmpty == true);
-
-  // invalid arg1
-  auto result3 = test.handler.queryUses({EntityType::None, "main"},
-                                        {EntityType::None, ""});
-  REQUIRE(result3.isEmpty == true);
 }
 
 // Only arg2 known
