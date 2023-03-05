@@ -46,7 +46,9 @@ const ExpectedParams FOLLOWST_PAIRS{
 
 TEST_CASE("FollowsTClause Querying") {
   PKB pkbStore;
-  auto pkb = shared_ptr<PkbQueryHandler>(new ClausesPKBStub(&pkbStore));
+  auto pkb = make_unique<ClausesPKBStub>(&pkbStore);
+  PQLQuerySynonym synA1(PQL_SYN_TYPE_ASSIGN, "a1");
+  PQLQuerySynonym synA2(PQL_SYN_TYPE_ASSIGN, "a2");
 
   PQLQueryResultPtr expected;
   PQLQueryResultPtr actual;
@@ -54,45 +56,44 @@ TEST_CASE("FollowsTClause Querying") {
   // Static results
   // When stmtNumLeft < stmtNumRight E.g. Follows*(1,4)
   FollowsTClause followsTClause = FollowsTClause(
-      ClauseArgumentPtr(new StmtArgument(1)),
-      ClauseArgumentPtr(new StmtArgument(4)));
+      make_unique<StmtArgument>(1),
+  make_unique<StmtArgument>(4));
 
   expected = PQLQueryResultPtr(new PQLQueryResult());
-  actual = PQLQueryResultPtr(followsTClause.evaluateOn(pkb));
+  actual = PQLQueryResultPtr(followsTClause.evaluateOn(pkb.get()));
   REQUIRE(*expected == *actual);
 
   // When stmtNumLeft > stmtNumRight E.g. Follows*(4,1)
   followsTClause = FollowsTClause(
-      ClauseArgumentPtr(new StmtArgument(4)),
-      ClauseArgumentPtr(new StmtArgument(1))
-  );
+      make_unique<StmtArgument>(4),
+      make_unique<StmtArgument>(1));
 
   expected = PQLQueryResultPtr(new PQLQueryResult());
   expected->setIsStaticFalse(true);
-  actual = PQLQueryResultPtr(followsTClause.evaluateOn(pkb));
+  actual = PQLQueryResultPtr(followsTClause.evaluateOn(pkb.get()));
   REQUIRE(*expected == *actual);
 
   // Left arg is synonym
   followsTClause = FollowsTClause(
-      ClauseArgumentPtr (new SynonymArgument(PQLQuerySynonym{PQLSynonymType::PQL_SYN_TYPE_ASSIGN, "a1"})),
-      ClauseArgumentPtr(new StmtArgument(4)));
+      make_unique<SynonymArgument>(synA1),
+      make_unique<StmtArgument>(4));
   expected = TestQueryResultBuilder::buildExpected(FOLLOWST_LEFT_LINES);
-  actual = PQLQueryResultPtr(followsTClause.evaluateOn(pkb));
+  actual = PQLQueryResultPtr(followsTClause.evaluateOn(pkb.get()));
   REQUIRE(*expected == *actual);
 
   // Right arg is synonym
   followsTClause = FollowsTClause(
-      ClauseArgumentPtr(new StmtArgument(1)),
-      ClauseArgumentPtr(new SynonymArgument(PQLQuerySynonym{PQLSynonymType::PQL_SYN_TYPE_ASSIGN, "a2"})));
+      make_unique<StmtArgument>(1),
+      make_unique<SynonymArgument>(synA2));
   expected = TestQueryResultBuilder::buildExpected(FOLLOWST_RIGHT_LINES);
-  actual = PQLQueryResultPtr(followsTClause.evaluateOn(pkb));
+  actual = PQLQueryResultPtr(followsTClause.evaluateOn(pkb.get()));
   REQUIRE(*expected == *actual);
 
   // Both sides are synonym
   followsTClause = FollowsTClause(
-      ClauseArgumentPtr(new SynonymArgument(PQLQuerySynonym{PQLSynonymType::PQL_SYN_TYPE_ASSIGN, "a1"})),
-      ClauseArgumentPtr(new SynonymArgument(PQLQuerySynonym{PQLSynonymType::PQL_SYN_TYPE_ASSIGN, "a2"})));
+      make_unique<SynonymArgument>(synA1),
+      make_unique<SynonymArgument>(synA2));
   expected = TestQueryResultBuilder::buildExpected(FOLLOWST_PAIRS);
-  actual = PQLQueryResultPtr(followsTClause.evaluateOn(pkb));
+  actual = PQLQueryResultPtr(followsTClause.evaluateOn(pkb.get()));
   REQUIRE(*expected == *actual);
 }

@@ -1,10 +1,11 @@
 #include <utility>
+#include <memory>
 #include <unordered_set>
 
 #include "AssignPatternClause.h"
 #include "qps/clauses/arguments/SynonymArgument.h"
 
-using std::unordered_set;
+using std::unordered_set, std::make_unique;
 
 AssignPatternClause::AssignPatternClause(PQLQuerySynonym assignSynonym,
                                          ClauseArgumentPtr leftArg,
@@ -13,7 +14,7 @@ AssignPatternClause::AssignPatternClause(PQLQuerySynonym assignSynonym,
     rightArgument(std::move(rightArg)) {}
 
 PQLQueryResult *AssignPatternClause::evaluateOn(
-    shared_ptr<PkbQueryHandler> pkbQueryHandler) {
+    PkbQueryHandler* pkbQueryHandler) {
   StmtRef leftStatement = StmtRef{StmtType::Assign, 0};
   EntityRef rightVariable = leftArg->toEntityRef();
   QueryResult<int, string> modifiesResult =
@@ -33,14 +34,11 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
           pkbQueryHandler->queryAssigns(assignRef);
 
       PatternTrie* lineRoot = *nodes.secondArgVals.begin();
-      ExpressionSequence sequence{rightArgument->getPattern()};
-      // DFS to match
-      // If successful, add to query result table
-
-      if ((rightArgument->allowsPartial()
-          && lineRoot->isMatchPartial(&sequence))
-          || (!rightArgument->allowsPartial()
-              && lineRoot->isMatchFull(&sequence))) {
+      if (rightArgument->allowsPartial()
+          && lineRoot->isMatchPartial(rightArgument->getSequence())) {
+        assignResult.add(it.first, it.second);
+      } else if (!rightArgument->allowsPartial()
+          && lineRoot->isMatchFull(rightArgument->getSequence())) {
         assignResult.add(it.first, it.second);
       }
     }
@@ -48,27 +46,5 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
 
   // Convert to PQLQueryResult
   return Clause::toQueryResult(synArg.get(), leftArg.get(), assignResult);
-}
-
-bool AssignPatternClause::matchPartial(shared_ptr<IASTNode> node) {
-  if (node == nullptr) {
-    return false;
-  }
-
-  if (node->getType() == ASTNODE_VARIABLE ||
-      node->getType() == ASTNODE_CONSTANT) {
-    return node->getValue() == rightArgument->getPattern();
-  }
-
-  return matchPartial(node->getChild(0))
-      || matchPartial(node->getChild(1));
-}
-
-bool AssignPatternClause::matchExact(shared_ptr<IASTNode> rootNode) {
-  if (rootNode->getType() != ASTNODE_VARIABLE &&
-      rootNode->getType() != ASTNODE_CONSTANT) {
-    return false;
-  }
-  return rootNode->getValue() == rightArgument->getPattern();
 }
 

@@ -2,8 +2,9 @@
 #include "QueryTokenParser.h"
 #include "../../errors/QPSParserSyntaxError.h"
 
-QueryTokenParser::QueryTokenParser(vector<PQLToken>* tokens) {
-  this->tokens = tokens;
+QueryTokenParser::QueryTokenParser(ISourceExpressionParser* exprParser,
+                                   vector<PQLToken>* tokens):
+                                   tokens(tokens), contextProvider(exprParser) {
 }
 
 unique_ptr<PQLQuery> QueryTokenParser::build() {

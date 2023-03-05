@@ -9,7 +9,7 @@
 #include "PQLQuerySynonym.h"
 #include "qps/clauses/Clause.h"
 
-using std::string, std::unordered_map, std::vector, std::shared_ptr;
+using std::string, std::unordered_map, std::vector, std::unique_ptr;
 
 class PQLQuery {
  private:
@@ -27,3 +27,5 @@ class PQLQuery {
   vector<IEvaluatableSPtr> getEvaluatables();
   int getClauseCount();
 };
+
+typedef unique_ptr<PQLQuery> PQLQueryPtr;

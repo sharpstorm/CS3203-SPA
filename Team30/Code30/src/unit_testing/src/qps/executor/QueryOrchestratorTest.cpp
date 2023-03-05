@@ -18,9 +18,8 @@ unordered_set<string> EXPECTED_ENTITIES({"x", "y", "z"});
 TEST_CASE("Queries with Select only") {
   // Set-up PKB Stub
   PKB pkbStore;
-  PkbQueryHandler* pkb = new OrchestratorPKBStub(&pkbStore);
-  auto handler = shared_ptr<PkbQueryHandler>(pkb);
-  QueryLauncher launcher(handler);
+  auto pkb = make_unique<OrchestratorPKBStub>(&pkbStore);
+  QueryLauncher launcher(pkb.get());
   QueryOrchestrator orchestrator(launcher);
 
   unique_ptr<PQLQuery> query;

@@ -1,7 +1,6 @@
 #include "QueryLauncher.h"
 
-QueryLauncher::QueryLauncher(shared_ptr<PkbQueryHandler> pkbQH) {
-  pkbQueryHandler = pkbQH;
+QueryLauncher::QueryLauncher(PkbQueryHandler* pkbQH): pkbQueryHandler(pkbQH) {
 }
 
 PQLQueryResult *QueryLauncher::execute(IEvaluatable *evaluatable) {

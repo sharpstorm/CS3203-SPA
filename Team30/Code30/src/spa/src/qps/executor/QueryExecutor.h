@@ -1,6 +1,5 @@
 #pragma once
 
-#include <memory>
 #include "IQueryExecutor.h"
 #include "QueryOrchestrator.h"
 #include "qps/executor/planner/QueryPlanner.h"
@@ -11,6 +10,6 @@ class QueryExecutor: public IQueryExecutor {
   QueryPlanner planner;
 
  public:
-  explicit QueryExecutor(shared_ptr<PkbQueryHandler> pkbQH);
+  explicit QueryExecutor(PkbQueryHandler* pkbQH);
   SynonymResultTable* executeQuery(PQLQuery* query);
 };

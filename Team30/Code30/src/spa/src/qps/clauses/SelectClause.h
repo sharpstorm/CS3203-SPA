@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include <memory>
 #include "Clause.h"
 
 class SelectClause : public Clause {
@@ -10,7 +9,7 @@ class SelectClause : public Clause {
 
  public:
   explicit SelectClause(PQLQuerySynonym target);
-  PQLQueryResult* evaluateOn(shared_ptr<PkbQueryHandler> pkbQueryHandler);
+  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler);
   bool validateArgTypes(VariableTable *variables);
   SynonymList getUsedSynonyms();
 };

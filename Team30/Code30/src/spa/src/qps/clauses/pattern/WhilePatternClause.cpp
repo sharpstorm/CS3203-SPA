@@ -7,6 +7,6 @@ WhilePatternClause::WhilePatternClause(PQLQuerySynonym whileSynonym,
     PatternClause(whileSynonym, std::move(leftArg), PQL_SYN_TYPE_WHILE) {}
 
 PQLQueryResult *WhilePatternClause::evaluateOn(
-    shared_ptr<PkbQueryHandler> pkbQueryHandler) {
+    PkbQueryHandler* pkbQueryHandler) {
   return new PQLQueryResult();
 }

@@ -17,7 +17,7 @@ using std::unordered_set, std::string, std::make_unique;
 
 TEST_CASE("Test QPS Follows Query") {
   PKB pkbStore;
-  PkbQueryHandler* pkb = new StubPKB(&pkbStore);
+  auto pkb = make_unique<StubPKB>(&pkbStore);
   auto builder = QueryBuilder();
   builder.addResultSynonym(PQLQuerySynonym(PQL_SYN_TYPE_STMT, "a"));
   builder.addSynonym("a", PQL_SYN_TYPE_STMT);
@@ -29,9 +29,7 @@ TEST_CASE("Test QPS Follows Query") {
 
   auto query = builder.build();
 
-  auto handler = shared_ptr<PkbQueryHandler>(pkb);
-  auto executor = unique_ptr<IQueryExecutor>(
-      new QueryExecutor(handler));
+  auto executor = unique_ptr<IQueryExecutor>(new QueryExecutor(pkb.get()));
   SynonymResultTable* result = executor->executeQuery(query.get());
   delete(result);
 }

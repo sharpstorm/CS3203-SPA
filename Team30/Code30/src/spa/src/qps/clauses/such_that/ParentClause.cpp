@@ -1,19 +1,17 @@
-#include <memory>
 #include <utility>
 #include <vector>
 #include <unordered_set>
 
 #include "ParentClause.h"
 
-using std::pair, std::vector, std::shared_ptr;
+using std::pair, std::vector;
 
 ParentClause::ParentClause(ClauseArgumentPtr leftArg,
                            ClauseArgumentPtr rightArg):
     AbstractTwoArgClause(std::move(leftArg), std::move(rightArg)) {
 }
 
-PQLQueryResult* ParentClause::evaluateOn(
-        shared_ptr<PkbQueryHandler> pkbQueryHandler) {
+PQLQueryResult* ParentClause::evaluateOn(PkbQueryHandler* pkbQueryHandler) {
   if (isSameSynonym()) {
     return Clause::toQueryResult(left->getName(), unordered_set<int>{});
   }
