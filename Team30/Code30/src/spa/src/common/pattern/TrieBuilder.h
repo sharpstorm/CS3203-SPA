@@ -2,10 +2,11 @@
 
 #include <vector>
 #include <string>
+#include <memory>
 
 #include "PatternTrie.h"
 
-using std::vector, std::string;
+using std::vector, std::string, std::unique_ptr;
 
 class TrieBuilder {
  public:
@@ -13,16 +14,27 @@ class TrieBuilder {
   PatternTriePtr build();
 
  private:
+  struct ProcessingNode {
+    ProcessingNode* next;
+    SymbolIdent ident;
+    ProcessingNode(ProcessingNode* next, SymbolIdent ident):
+        next(next), ident(ident) {}
+  };
+
+  typedef unique_ptr<ProcessingNode> ProcessingNodePtr;
+
+  struct BuildState {
+    PatternTrieNode* node;
+    ProcessingNode* postfixHead;
+    ProcessingNode* postfixTail;
+  };
+
   IASTNodePtr astRoot;
   TrieSymbolTablePtr symTable;
   PatternTrieNodePtr rootNode;
   int nodeCount;
   SymbolIdent symbolIdCounter;
-
-  struct BuildState {
-    PatternTrieNode* node;
-    vector<SymbolIdent> postfix;
-  };
+  vector<ProcessingNodePtr> ownedProcessingNodes;
 
   SymbolIdent registerSymbol(const string &symbol);
   SymbolIdent registerLeaf(const string &symbol);
