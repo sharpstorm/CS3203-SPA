@@ -20,7 +20,8 @@ bool ModifiesQueryHandler::validateArg1(StmtRef arg) const {
 }
 
 bool ModifiesQueryHandler::validateArg1(EntityRef arg) const {
-  return arg.type == EntityType::Procedure;
+  return arg.type == EntityType::Procedure
+      || (arg.type == EntityType::None && arg.isKnown());
 }
 
 bool ModifiesQueryHandler::validateArg2(EntityRef arg) const {

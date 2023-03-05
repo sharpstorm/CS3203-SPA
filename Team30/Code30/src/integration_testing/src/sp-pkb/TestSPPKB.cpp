@@ -152,30 +152,30 @@ TEST_CASE("Test ModifiesP") {
   PkbQueryHandler queryHandler(&pkb);
   spDriver.parseSource(testSource2, &pkbWriter);
 
-  REQUIRE(!queryHandler.queryModifies(EntityRef{EntityType::Procedure, "average"},
-                                      EntityRef{EntityType::Variable, "num1"}).isEmpty);
-  REQUIRE(!queryHandler.queryModifies(EntityRef{EntityType::Procedure, "average"},
-                                      EntityRef{EntityType::Variable, "sum"}).isEmpty);
-  REQUIRE(!queryHandler.queryModifies(EntityRef{EntityType::Procedure, "average"},
-                                      EntityRef{EntityType::Variable, "abc"}).isEmpty);
+  REQUIRE(!queryHandler.queryModifies(EntityRef{EntityType::None, "average"},
+                                      EntityRef{EntityType::None, "num1"}).isEmpty);
+  REQUIRE(!queryHandler.queryModifies(EntityRef{EntityType::None, "average"},
+                                      EntityRef{EntityType::None, "sum"}).isEmpty);
+  REQUIRE(!queryHandler.queryModifies(EntityRef{EntityType::None, "average"},
+                                      EntityRef{EntityType::None, "abc"}).isEmpty);
 
-  REQUIRE(!queryHandler.queryModifies(EntityRef{EntityType::Procedure, "a2"},
-                                      EntityRef{EntityType::Variable, "flag"}).isEmpty);
-  REQUIRE(!queryHandler.queryModifies(EntityRef{EntityType::Procedure, "a2"},
-                                      EntityRef{EntityType::Variable, "num1"}).isEmpty);
-  REQUIRE(!queryHandler.queryModifies(EntityRef{EntityType::Procedure, "a2"},
-                                      EntityRef{EntityType::Variable, "sum"}).isEmpty);
-  REQUIRE(!queryHandler.queryModifies(EntityRef{EntityType::Procedure, "a2"},
-                                      EntityRef{EntityType::Variable, "abc"}).isEmpty);
+  REQUIRE(!queryHandler.queryModifies(EntityRef{EntityType::None, "a2"},
+                                      EntityRef{EntityType::None, "flag"}).isEmpty);
+  REQUIRE(!queryHandler.queryModifies(EntityRef{EntityType::None, "a2"},
+                                      EntityRef{EntityType::None, "num1"}).isEmpty);
+  REQUIRE(!queryHandler.queryModifies(EntityRef{EntityType::None, "a2"},
+                                      EntityRef{EntityType::None, "sum"}).isEmpty);
+  REQUIRE(!queryHandler.queryModifies(EntityRef{EntityType::None, "a2"},
+                                      EntityRef{EntityType::None, "abc"}).isEmpty);
 
-  REQUIRE(!queryHandler.queryModifies(EntityRef{EntityType::Procedure, "main"},
-                                      EntityRef{EntityType::Variable, "flag"}).isEmpty);
-  REQUIRE(!queryHandler.queryModifies(EntityRef{EntityType::Procedure, "main"},
-                                      EntityRef{EntityType::Variable, "num1"}).isEmpty);
-  REQUIRE(!queryHandler.queryModifies(EntityRef{EntityType::Procedure, "main"},
-                                      EntityRef{EntityType::Variable, "sum"}).isEmpty);
-  REQUIRE(!queryHandler.queryModifies(EntityRef{EntityType::Procedure, "main"},
-                                      EntityRef{EntityType::Variable, "abc"}).isEmpty);
+  REQUIRE(!queryHandler.queryModifies(EntityRef{EntityType::None, "main"},
+                                      EntityRef{EntityType::None, "flag"}).isEmpty);
+  REQUIRE(!queryHandler.queryModifies(EntityRef{EntityType::None, "main"},
+                                      EntityRef{EntityType::None, "num1"}).isEmpty);
+  REQUIRE(!queryHandler.queryModifies(EntityRef{EntityType::None, "main"},
+                                      EntityRef{EntityType::None, "sum"}).isEmpty);
+  REQUIRE(!queryHandler.queryModifies(EntityRef{EntityType::None, "main"},
+                                      EntityRef{EntityType::None, "abc"}).isEmpty);
 }
 
 TEST_CASE("Test UsesP") {
@@ -185,37 +185,37 @@ TEST_CASE("Test UsesP") {
   PkbQueryHandler queryHandler(&pkb);
   spDriver.parseSource(testSource2, &pkbWriter);
 
-  REQUIRE(!queryHandler.queryUses(EntityRef{EntityType::Procedure, "average"},
-                                      EntityRef{EntityType::Variable, "num1"}).isEmpty);
-  REQUIRE(!queryHandler.queryUses(EntityRef{EntityType::Procedure, "average"},
-                                      EntityRef{EntityType::Variable, "num2"}).isEmpty);
-  REQUIRE(!queryHandler.queryUses(EntityRef{EntityType::Procedure, "average"},
-                                      EntityRef{EntityType::Variable, "num3"}).isEmpty);
-  REQUIRE(!queryHandler.queryUses(EntityRef{EntityType::Procedure, "average"},
-                                  EntityRef{EntityType::Variable, "a"}).isEmpty);
-  REQUIRE(!queryHandler.queryUses(EntityRef{EntityType::Procedure, "average"},
-                                  EntityRef{EntityType::Variable, "b"}).isEmpty);
+  REQUIRE(!queryHandler.queryUses(EntityRef{EntityType::None, "average"},
+                                      EntityRef{EntityType::None, "num1"}).isEmpty);
+  REQUIRE(!queryHandler.queryUses(EntityRef{EntityType::None, "average"},
+                                      EntityRef{EntityType::None, "num2"}).isEmpty);
+  REQUIRE(!queryHandler.queryUses(EntityRef{EntityType::None, "average"},
+                                      EntityRef{EntityType::None, "num3"}).isEmpty);
+  REQUIRE(!queryHandler.queryUses(EntityRef{EntityType::None, "average"},
+                                  EntityRef{EntityType::None, "a"}).isEmpty);
+  REQUIRE(!queryHandler.queryUses(EntityRef{EntityType::None, "average"},
+                                  EntityRef{EntityType::None, "b"}).isEmpty);
 
-  REQUIRE(!queryHandler.queryUses(EntityRef{EntityType::Procedure, "a2"},
-                                  EntityRef{EntityType::Variable, "num1"}).isEmpty);
-  REQUIRE(!queryHandler.queryUses(EntityRef{EntityType::Procedure, "a2"},
-                                  EntityRef{EntityType::Variable, "num2"}).isEmpty);
-  REQUIRE(!queryHandler.queryUses(EntityRef{EntityType::Procedure, "a2"},
-                                  EntityRef{EntityType::Variable, "num3"}).isEmpty);
-  REQUIRE(!queryHandler.queryUses(EntityRef{EntityType::Procedure, "a2"},
-                                  EntityRef{EntityType::Variable, "a"}).isEmpty);
-  REQUIRE(!queryHandler.queryUses(EntityRef{EntityType::Procedure, "a2"},
-                                  EntityRef{EntityType::Variable, "b"}).isEmpty);
+  REQUIRE(!queryHandler.queryUses(EntityRef{EntityType::None, "a2"},
+                                  EntityRef{EntityType::None, "num1"}).isEmpty);
+  REQUIRE(!queryHandler.queryUses(EntityRef{EntityType::None, "a2"},
+                                  EntityRef{EntityType::None, "num2"}).isEmpty);
+  REQUIRE(!queryHandler.queryUses(EntityRef{EntityType::None, "a2"},
+                                  EntityRef{EntityType::None, "num3"}).isEmpty);
+  REQUIRE(!queryHandler.queryUses(EntityRef{EntityType::None, "a2"},
+                                  EntityRef{EntityType::None, "a"}).isEmpty);
+  REQUIRE(!queryHandler.queryUses(EntityRef{EntityType::None, "a2"},
+                                  EntityRef{EntityType::None, "b"}).isEmpty);
 
 
-  REQUIRE(!queryHandler.queryUses(EntityRef{EntityType::Procedure, "main"},
-                                  EntityRef{EntityType::Variable, "num1"}).isEmpty);
-  REQUIRE(!queryHandler.queryUses(EntityRef{EntityType::Procedure, "main"},
-                                  EntityRef{EntityType::Variable, "num2"}).isEmpty);
-  REQUIRE(!queryHandler.queryUses(EntityRef{EntityType::Procedure, "main"},
-                                  EntityRef{EntityType::Variable, "num3"}).isEmpty);
-  REQUIRE(!queryHandler.queryUses(EntityRef{EntityType::Procedure, "main"},
-                                  EntityRef{EntityType::Variable, "a"}).isEmpty);
-  REQUIRE(!queryHandler.queryUses(EntityRef{EntityType::Procedure, "main"},
-                                  EntityRef{EntityType::Variable, "b"}).isEmpty);
+  REQUIRE(!queryHandler.queryUses(EntityRef{EntityType::None, "main"},
+                                  EntityRef{EntityType::None, "num1"}).isEmpty);
+  REQUIRE(!queryHandler.queryUses(EntityRef{EntityType::None, "main"},
+                                  EntityRef{EntityType::None, "num2"}).isEmpty);
+  REQUIRE(!queryHandler.queryUses(EntityRef{EntityType::None, "main"},
+                                  EntityRef{EntityType::None, "num3"}).isEmpty);
+  REQUIRE(!queryHandler.queryUses(EntityRef{EntityType::None, "main"},
+                                  EntityRef{EntityType::None, "a"}).isEmpty);
+  REQUIRE(!queryHandler.queryUses(EntityRef{EntityType::None, "main"},
+                                  EntityRef{EntityType::None, "b"}).isEmpty);
 }
