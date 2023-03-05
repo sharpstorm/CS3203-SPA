@@ -16,10 +16,10 @@ class SourceTokenParser {
   SourceTokenParser();
 
   AST parseProgram(vector<SourceToken>* tokens);
-  AST parseProcedure(vector<SourceToken>* tokens);
   AST parseExpression(vector<SourceToken>* tokens);
 
  private:
+  AST parseProcedure(vector<SourceToken>* tokens);
   IEntityParserPtr entityParser;
   IExpressionParserPtr exprParser;
   IConditionalParserPtr condParser;
