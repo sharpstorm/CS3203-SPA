@@ -1,7 +1,5 @@
 #include "PkbWriter.h"
 
-#include <memory>
-
 #include "AssignsWriter.h"
 #include "CallsWriter.h"
 #include "FollowsWriter.h"
@@ -12,8 +10,6 @@
 #include "SymbolWriter.h"
 #include "UsesWriter.h"
 #include "PostProcessWriter.h"
-
-using std::make_unique;
 
 PkbWriter::PkbWriter(PKB *pkb)
     : followsWriter(new FollowsWriter(pkb->followsStore)),
@@ -59,7 +55,7 @@ void PkbWriter::addModifies(int stmtNum, string variable, string procedure) {
   modifiesWriter->addModifies(stmtNum, variable, procedure);
 }
 
-void PkbWriter::addAssigns(int stmtNum, shared_ptr<IASTNode> ast) {
+void PkbWriter::addAssigns(int stmtNum, PatternTrieSPtr ast) {
   assignsWriter->addAssigns(stmtNum, ast);
 }
 

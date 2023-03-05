@@ -2,10 +2,10 @@
 
 #include <memory>
 
-#include "common/ast/IASTNode.h"
+#include "common/pattern/PatternTrie.h"
 
 class IAssignsWriter {
  public:
   virtual ~IAssignsWriter() {}
-  virtual void addAssigns(int arg1, shared_ptr<IASTNode> arg2) = 0;
+  virtual void addAssigns(int arg1, PatternTrieSPtr arg2) = 0;
 };

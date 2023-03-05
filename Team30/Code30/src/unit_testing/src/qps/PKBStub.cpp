@@ -42,8 +42,8 @@ class StubPKB: public PkbQueryHandler {
     return QueryResult<string, string>();
   }
 
-  QueryResult<int, shared_ptr<IASTNode>> queryAssigns(StmtRef) const override {
-    return QueryResult<int, shared_ptr<IASTNode>>();
+  QueryResult<int, PatternTrie*> queryAssigns(StmtRef) const override {
+    return QueryResult<int, PatternTrie*>();
   }
 
   unordered_set<string> getSymbolsOfType(EntityType) const override {

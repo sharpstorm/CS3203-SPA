@@ -78,7 +78,7 @@ QueryResult<string, string> PkbQueryHandler::queryModifies(
   return modifiesHandler->queryModifies(arg1, arg2);
 }
 
-QueryResult<int, shared_ptr<IASTNode>> PkbQueryHandler::queryAssigns(
+QueryResult<int, PatternTrie*> PkbQueryHandler::queryAssigns(
     StmtRef arg1) const {
   return assignHandler->queryAssigns(arg1);
 }

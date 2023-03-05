@@ -11,11 +11,12 @@ class AbstractExpressionNode: public BinaryASTNode {
   virtual ~AbstractExpressionNode() = default;
   void accept(Extractor* e);
   string toString();
+  string getValue();
 
  protected:
-  AbstractExpressionNode(ASTNodeType type, string identifier) :
-      BinaryASTNode(type), identifier() {}
+  AbstractExpressionNode(ASTNodeType type, string identifier, string symbol);
 
  private:
   string identifier;
+  string symbolicRepr;
 };

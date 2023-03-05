@@ -22,7 +22,7 @@ class PkbWriter : public IPkbWriter {
  public:
   explicit PkbWriter(PKB *pkb);
 
-  void addAssigns(int stmtNum, shared_ptr<IASTNode> ast) override;
+  void addAssigns(int stmtNum, PatternTrieSPtr ast) override;
   void addFollows(int stmtNum, int stmtNum2) override;
   void addParent(int stmtNum, int stmtNum2) override;
   void addSymbol(string name, EntityType type) override;

@@ -81,18 +81,15 @@ TEST_CASE("Test Writer Pattern") {
   PkbWriter pkbWriter(&pkb);
   PkbQueryHandler queryHandler(&pkb);
   spDriver.parseSource(testSource, &pkbWriter);
-  shared_ptr<IASTNode> node = *queryHandler.
+  PatternTrie* trie = *queryHandler.
           queryAssigns(StmtRef{StmtType::None, 2})
       .secondArgVals.begin();
-  PlusASTNode plus;
-  VariableASTNode v1("num1");
-  VariableASTNode v2("num2");
-  VariableASTNode v3("num3");
-  REQUIRE(node->isEquals(&plus));
-  REQUIRE(node->getChild(0)->isEquals(&plus));
-  REQUIRE(node->getChild(1)->isEquals(&v3));
-  REQUIRE(node->getChild(0)->getChild(0)->isEquals(&v1));
-  REQUIRE(node->getChild(0)->getChild(1)->isEquals(&v2));
+  ExpressionSequence expected{"num1"};
+  REQUIRE(trie->isMatchPartial(&expected));
+  expected = {"num2"};
+  REQUIRE(trie->isMatchPartial(&expected));
+  expected = {"num3"};
+  REQUIRE(trie->isMatchPartial(&expected));
 }
 
 TEST_CASE("Test Bad Program") {
