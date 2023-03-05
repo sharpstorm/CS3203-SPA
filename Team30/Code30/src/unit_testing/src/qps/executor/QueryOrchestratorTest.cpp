@@ -57,7 +57,7 @@ TEST_CASE("Queries with Select only") {
     groups.push_back(std::move(group));
     auto queryPlan = make_unique<QueryPlan>(std::move(groups));
     auto targetSyns = make_unique<PQLQuerySynonymList>(PQLQuerySynonymList({PQLQuerySynonym{stmtType, "s"}}));
-    actualResult = unique_ptr<SynonymResultTable>(orchestrator.execute(queryPlan.get(), targetSyns.get()));
+    actualResult = unique_ptr<SynonymResultTable>(orchestrator.execute(queryPlan.get()));
     REQUIRE(*expectedResult == *actualResult);
   }
 
@@ -84,7 +84,7 @@ TEST_CASE("Queries with Select only") {
     groups.push_back(std::move(group));
     auto queryPlan = make_unique<QueryPlan>(std::move(groups));
     auto targetSyns = make_unique<PQLQuerySynonymList>(PQLQuerySynonymList({PQLQuerySynonym{entType, "ent"}}));
-    actualResult = unique_ptr<SynonymResultTable>(orchestrator.execute(queryPlan.get(), targetSyns.get()));
+    actualResult = unique_ptr<SynonymResultTable>(orchestrator.execute(queryPlan.get()));
     REQUIRE(*expectedResult == *actualResult);
   }
 }

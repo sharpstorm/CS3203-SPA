@@ -1,6 +1,5 @@
 #include <vector>
 #include <memory>
-#include <iostream>
 
 #include "ResultProjector.h"
 

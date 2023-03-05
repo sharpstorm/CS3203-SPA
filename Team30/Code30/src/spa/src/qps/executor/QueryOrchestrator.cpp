@@ -1,13 +1,17 @@
+#include <memory>
+
 #include "QueryOrchestrator.h"
+#include "ResultGroupFactory.h"
+
+using std::make_unique;
 
 QueryOrchestrator::QueryOrchestrator(QueryLauncher launcher) :
     launcher(launcher) {
 }
 
 // Executes every group in the QueryPlan (NEW IMPLEMENTATION)
-SynonymResultTable *QueryOrchestrator::execute(QueryPlan *plan,
-                                           PQLQuerySynonymList* targetSyns) {
-  bool isBool = targetSyns->empty();
+SynonymResultTable *QueryOrchestrator::execute(QueryPlan *plan) {
+  bool isBool = plan->isBooleanQuery();
   if (plan->isEmpty()) {
     return new SynonymResultTable(isBool, false);
   }
@@ -29,7 +33,10 @@ SynonymResultTable *QueryOrchestrator::execute(QueryPlan *plan,
       continue;
     }
 
-    resultTable->extractResults(result, targetGroup->getSelectables());
+    vector<PQLSynonymName>* selectables = targetGroup->getSelectables();
+    unique_ptr<ResultGroup> resultGroup =
+        ResultGroupFactory::extractResults(result, selectables);
+    resultTable->addResultGroup(std::move(resultGroup));
     delete result;
   }
 
@@ -68,4 +75,3 @@ PQLQueryResult *QueryOrchestrator::executeGroup(QueryGroupPlan *plan) {
 
   return finalResult;
 }
-

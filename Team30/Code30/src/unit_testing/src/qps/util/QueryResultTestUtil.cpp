@@ -3,6 +3,7 @@
 #include <utility>
 
 #include "qps/common/PQLQueryResult.h"
+#include "qps/executor/ResultGroupFactory.h"
 #include "qps/executor/SynonymResultTable.h"
 
 using std::vector, std::move, std::make_unique, std::unique_ptr;
@@ -36,12 +37,14 @@ class TestQueryResultBuilder {
 
   static unique_ptr<SynonymResultTable> buildExpectedTable(const ExpectedParams &expectedParams, PQLQuerySynonymList* syns) {
     auto result = make_unique<SynonymResultTable>(syns->empty(), true);
-    vector<PQLSynonymName> names;
+    vector<PQLSynonymName>* names = new vector<PQLSynonymName>();
     for (auto it : *syns) {
-      names.push_back(it.getName());
+      names->push_back(it.getName());
     }
-    result->extractResults(buildExpected(expectedParams).get(), names);
-
+    unique_ptr<ResultGroup> rg = ResultGroupFactory::extractResults(
+        buildExpected(expectedParams).get(), names);
+    result->addResultGroup(std::move(rg));
+    delete names;
     return result;
   }
 };

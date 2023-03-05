@@ -9,9 +9,8 @@ void ResultGroup::addRow(QueryResultTableRow row) {
 }
 
 void ResultGroup::addSynonym(PQLSynonymName name) {
-  int idx = colIdx.size();
-    colIdx.push_back(name);
-    colMap.insert({name, idx});
+  colMap.emplace(name, colIdx.size());
+  colIdx.push_back(name);
 }
 
 void ResultGroup::addColMap(vector<PQLSynonymName> map) {
@@ -20,8 +19,8 @@ void ResultGroup::addColMap(vector<PQLSynonymName> map) {
   }
 }
 
-vector<PQLSynonymName> ResultGroup::getColIndexes() {
-  return colIdx;
+vector<PQLSynonymName>* ResultGroup::getColIndexes() {
+  return &colIdx;
 }
 
 int ResultGroup::getTableRows() {
@@ -35,7 +34,7 @@ QueryResultTableRow* ResultGroup::getRowAt(int idx) {
 ResultGroup* ResultGroup::crossProduct(ResultGroup* other) {
   ResultGroup* output = new ResultGroup();
   output->addColMap(colIdx);
-  output->addColMap(other->getColIndexes());
+  output->addColMap(*other->getColIndexes());
 
   for (int i=0; i < getTableRows(); i++) {
     QueryResultTableRow* leftRow = getRowAt(i);

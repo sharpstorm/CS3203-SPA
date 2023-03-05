@@ -15,13 +15,14 @@ class SynonymResultTable {
   vector<unique_ptr<ResultGroup>> groupResults;
   bool isBooleanResult;
   bool booleanResult;
-  IntersectSet<int> getUniqueRows(PQLQueryResult* result,
-                                  vector<PQLSynonymName>* syns);
+//  IntersectSet<int> getUniqueRows(PQLQueryResult* result,
+//                                  vector<PQLSynonymName>* syns);
 
  public:
   SynonymResultTable(bool isBooleanResult, bool booleanResult);
   ~SynonymResultTable() = default;
-  void extractResults(PQLQueryResult* result, vector<PQLSynonymName> syns);
+//  void extractResults(PQLQueryResult* result, vector<PQLSynonymName> syns);
+  void addResultGroup(unique_ptr<ResultGroup> rg);
   bool getIsBooleanResult();
   bool getBooleanResult();
   int getResultGroupCount();

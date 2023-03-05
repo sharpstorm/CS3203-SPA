@@ -4,15 +4,11 @@
 #include <unordered_set>
 #include <memory>
 #include <vector>
+
+#include "common/UtilityTypes.h"
 #include "qps/common/PQLQueryResult.h"
 
 using std::string, std::unordered_set, std::unique_ptr, std::vector;
-
-template<class T>
-using IntersectSet = unordered_set<T>;
-
-template<class T>
-using IntersectSetPtr = unique_ptr<IntersectSet<T>>;
 
 class ResultCoalescer {
  public:

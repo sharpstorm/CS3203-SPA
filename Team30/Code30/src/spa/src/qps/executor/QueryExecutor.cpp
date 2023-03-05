@@ -11,7 +11,6 @@ QueryExecutor::QueryExecutor(shared_ptr<PkbQueryHandler> pkbQH):
 
 SynonymResultTable *QueryExecutor::executeQuery(PQLQuery* query) {
   unique_ptr<QueryPlan> plan = planner.getExecutionPlan(query);
-  SynonymResultTable* result = orchestrator.execute(plan.get(),
-                                                query->getResultVariables());
+  SynonymResultTable* result = orchestrator.execute(plan.get());
   return result;
 }

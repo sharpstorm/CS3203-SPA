@@ -21,7 +21,7 @@ class ResultGroup {
   void addColMap(vector<PQLSynonymName> map);
   int getTableRows();
   QueryResultTableRow* getRowAt(int idx);
-  vector<PQLSynonymName> getColIndexes();
+  vector<PQLSynonymName>* getColIndexes();
   ResultGroup* crossProduct(ResultGroup* other);
   void project(PQLQuerySynonymList* synList, vector<string>* result);
   bool operator ==(const ResultGroup &rg) const;
