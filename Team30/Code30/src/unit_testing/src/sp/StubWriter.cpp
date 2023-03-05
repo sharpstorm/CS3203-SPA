@@ -39,6 +39,5 @@ class StubPkb : public PkbWriter {
   vector<pair<int, string>> usesStore;
   vector<pair<string, string>> usesPStore;
   vector<pair<int, PatternTrieSPtr>> patternStore;
-  vector<pair<int, shared_ptr<IASTNode>>> patternStore;
   vector<triple<string, int, int>> procedureRangeStore;
 };
