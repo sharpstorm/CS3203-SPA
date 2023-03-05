@@ -27,4 +27,4 @@ class ResultGroup {
   bool operator ==(const ResultGroup &rg) const;
 };
 
-typedef unique_ptr<ResultGroup> ResultGroupPtr ;
+typedef unique_ptr<ResultGroup> ResultGroupPtr;
