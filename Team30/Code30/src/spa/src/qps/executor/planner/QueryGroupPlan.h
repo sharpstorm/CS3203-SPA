@@ -13,7 +13,7 @@ class QueryGroupPlan {
                  vector<PQLSynonymName> selectables);
   vector<IEvaluatableSPtr> getConditionalClauses();
   bool isBooleanResult();
-  vector<PQLSynonymName> getSelectables();
+  vector<PQLSynonymName>* getSelectables();
 
  private:
   vector<IEvaluatableSPtr> conditionalClauses;
