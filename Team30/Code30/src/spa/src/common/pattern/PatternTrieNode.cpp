@@ -17,6 +17,10 @@ PatternTrieNode* PatternTrieNode::addNext(uint16_t nodeId) {
   return newNode;
 }
 
+void PatternTrieNode::addEnd() {
+  next.emplace(TRIE_END_NODE, nullptr);
+}
+
 PatternTrieNode *PatternTrieNode::traverse(uint16_t nodeId) {
   auto node = next.find(nodeId);
   if (node == next.end()) {
@@ -27,8 +31,4 @@ PatternTrieNode *PatternTrieNode::traverse(uint16_t nodeId) {
 
 bool PatternTrieNode::isEnd() {
   return next.find(TRIE_END_NODE) != next.end();
-}
-
-void PatternTrieNode::addEnd() {
-  next.emplace(TRIE_END_NODE, nullptr);
 }

@@ -2,9 +2,9 @@
 
 #include <memory>
 #include <string>
-#include <unordered_map>
+#include <map>
 
-using std::unique_ptr, std::unordered_map;
+using std::unique_ptr, std::map;
 
 typedef uint16_t SymbolIdent;
 
@@ -16,7 +16,7 @@ typedef unique_ptr<PatternTrieNode> PatternTrieNodePtr;
 
 class PatternTrieNode {
  private:
-  unordered_map<uint16_t, PatternTrieNodePtr> next;
+  map<uint16_t, PatternTrieNodePtr> next;
 
  public:
   PatternTrieNode();
