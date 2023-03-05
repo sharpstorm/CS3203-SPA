@@ -3,7 +3,15 @@ name: Valgrind CI Check
 on:
   workflow_dispatch:
     inputs:
-      mode:
+      tooling:
+        type: choice
+        description: Valgrind tool to run
+        options: 
+        - valgrind
+        - massif
+        - callgrind
+        required: true
+      target:
         type: choice
         description: Binary to perform valgrind checks on
         options: 
@@ -11,6 +19,7 @@ on:
         - integration_testing
         - autotester
         required: true
+      
       executeflags:
         type: string
         description: Flags to pass to executable
@@ -60,8 +69,35 @@ jobs:
 
       - name: Compile SPA
         working-directory: ./Team30/Code30/build
-        run: cmake --build . --target ${{ github.event.inputs.mode }} --config ${BUILD_TYPE} -j 4
+        run: cmake --build . --target ${{ github.event.inputs.target }} --config ${BUILD_TYPE} -j 4
 
       - name: Run Valgrind
+        if: github.event.inputs.tooling == 'valgrind'
         working-directory: ./Team30/Code30/build
-        run: valgrind ${{ github.event.inputs.valgrindflags }} ./src/${{ github.event.inputs.mode }}/${{ github.event.inputs.mode }} ${{ github.event.inputs.executeflags }}
+        run: valgrind ${{ github.event.inputs.valgrindflags }} ./src/${{ github.event.inputs.target }}/${{ github.event.inputs.target }} ${{ github.event.inputs.executeflags }}
+
+      - name: Run Massif
+        if: github.event.inputs.tooling == 'massif'
+        working-directory: ./Team30/Code30/build
+        run: valgrind --tool=massif ${{ github.event.inputs.valgrindflags }} ./src/${{ github.event.inputs.target }}/${{ github.event.inputs.target }} ${{ github.event.inputs.executeflags }}
+
+      - name: Upload Massif Result
+        if: github.event.inputs.tooling == 'massif'
+        uses: actions/upload-artifact@v3
+        with:
+          name: massif-report-${{github.sha}}
+          path: ./Team30/Code30/build/massif.out.*
+          retention-days: 1
+
+      - name: Run Callgrind
+        if: github.event.inputs.tooling == 'callgrind'
+        working-directory: ./Team30/Code30/build
+        run: valgrind --tool=callgrind ${{ github.event.inputs.valgrindflags }} ./src/${{ github.event.inputs.target }}/${{ github.event.inputs.target }} ${{ github.event.inputs.executeflags }}
+
+      - name: Upload Callgrind Result
+        if: github.event.inputs.tooling == 'callgrind'
+        uses: actions/upload-artifact@v3
+        with:
+          name: callgrind-report-${{github.sha}}
+          path: ./Team30/Code30/build/callgrind.out.*
+          retention-days: 1
