@@ -12,14 +12,14 @@
 using std::unordered_map, std::unordered_set, std::unique_ptr;
 
 class SynonymResultTable {
-  vector<unique_ptr<ResultGroup>> groupResults;
+  vector<ResultGroupPtr> groupResults;
   bool isBooleanResult;
   bool booleanResult;
 
  public:
   SynonymResultTable(bool isBooleanResult, bool booleanResult);
   ~SynonymResultTable() = default;
-  void addResultGroup(unique_ptr<ResultGroup> rg);
+  void addResultGroup(ResultGroupPtr rg);
   bool getIsBooleanResult();
   bool getBooleanResult();
   int getResultGroupCount();

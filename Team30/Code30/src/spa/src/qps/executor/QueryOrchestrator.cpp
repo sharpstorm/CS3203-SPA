@@ -35,7 +35,7 @@ SynonymResultTable *QueryOrchestrator::execute(QueryPlan *plan) {
     }
 
     vector<PQLSynonymName>* selectables = targetGroup->getSelectables();
-    unique_ptr<ResultGroup> resultGroup =
+    ResultGroupPtr resultGroup =
         ResultGroupFactory::extractResults(result, selectables);
     resultTable->addResultGroup(std::move(resultGroup));
     delete result;

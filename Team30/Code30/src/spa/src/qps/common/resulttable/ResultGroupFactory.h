@@ -13,6 +13,6 @@ class ResultGroupFactory {
   static IntersectSet<int> getUniqueRows(PQLQueryResult* result,
                                   vector<PQLSynonymName>* syns);
  public:
-  static unique_ptr<ResultGroup> extractResults(PQLQueryResult* result,
+  static ResultGroupPtr extractResults(PQLQueryResult* result,
                                                 vector<PQLSynonymName>* syns);
 };

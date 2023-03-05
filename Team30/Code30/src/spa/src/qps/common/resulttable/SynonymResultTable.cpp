@@ -10,7 +10,7 @@ SynonymResultTable::SynonymResultTable(bool isBooleanResult,
                                        bool booleanResult) :
     isBooleanResult(isBooleanResult), booleanResult(booleanResult) { }
 
-void SynonymResultTable::addResultGroup(unique_ptr<ResultGroup> rg) {
+void SynonymResultTable::addResultGroup(ResultGroupPtr rg) {
   groupResults.push_back(std::move(rg));
 }
 

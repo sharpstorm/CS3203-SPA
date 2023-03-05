@@ -41,7 +41,7 @@ class TestQueryResultBuilder {
     for (auto it : *syns) {
       names->push_back(it.getName());
     }
-    unique_ptr<ResultGroup> rg = ResultGroupFactory::extractResults(
+    ResultGroupPtr rg = ResultGroupFactory::extractResults(
         buildExpected(expectedParams).get(), names);
     result->addResultGroup(std::move(rg));
     delete names;

@@ -6,7 +6,7 @@
 
 using std::move;
 
-unique_ptr<ResultGroup> ResultGroupFactory::extractResults(
+ResultGroupPtr ResultGroupFactory::extractResults(
     PQLQueryResult *result, vector<PQLSynonymName> *syns) {
   ResultGroup* resultGroup = new ResultGroup();
   // Add synonyms to the new ResultGroup
@@ -26,7 +26,7 @@ unique_ptr<ResultGroup> ResultGroupFactory::extractResults(
 
     resultGroup->addRow(std::move(newRow));
   }
-return unique_ptr<ResultGroup>(resultGroup);
+return ResultGroupPtr(resultGroup);
 }
 
 IntersectSet<int> ResultGroupFactory::getUniqueRows(

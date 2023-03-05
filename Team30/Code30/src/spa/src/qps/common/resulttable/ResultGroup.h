@@ -26,3 +26,5 @@ class ResultGroup {
   void project(PQLQuerySynonymList* synList, vector<string>* result);
   bool operator ==(const ResultGroup &rg) const;
 };
+
+typedef unique_ptr<ResultGroup> ResultGroupPtr ;
