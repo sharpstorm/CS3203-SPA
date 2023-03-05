@@ -1,9 +1,10 @@
+#include <utility>
 #include <memory>
 
 #include "QueryOrchestrator.h"
-#include "ResultGroupFactory.h"
+#include "qps/common/resulttable/ResultGroupFactory.h"
 
-using std::make_unique;
+using std::make_unique, std::move;
 
 QueryOrchestrator::QueryOrchestrator(QueryLauncher launcher) :
     launcher(launcher) {

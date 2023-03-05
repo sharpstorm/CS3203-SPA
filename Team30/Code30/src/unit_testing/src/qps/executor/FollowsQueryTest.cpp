@@ -4,7 +4,7 @@
 #include "pkb/queryHandlers/PkbQueryHandler.h"
 #include "qps/common/PQLQueryResult.h"
 #include "qps/executor/IQueryExecutor.h"
-#include "qps/executor/SynonymResultTable.h"
+#include "qps/common/resulttable/SynonymResultTable.h"
 #include "qps/executor/QueryExecutor.h"
 #include "qps/parser/builder/QueryBuilder.h"
 #include "qps/clauses/such_that/FollowsClause.h"

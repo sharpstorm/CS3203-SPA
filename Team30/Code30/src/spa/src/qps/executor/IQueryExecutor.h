@@ -2,7 +2,7 @@
 
 #include "../common/PQLQueryResult.h"
 #include "../common/PQLQuery.h"
-#include "SynonymResultTable.h"
+#include "qps/common/resulttable/SynonymResultTable.h"
 
 class IQueryExecutor {
  public:

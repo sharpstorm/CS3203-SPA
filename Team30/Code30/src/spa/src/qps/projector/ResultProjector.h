@@ -5,7 +5,7 @@
 
 #include "qps/common/PQLQueryResult.h"
 #include "qps/common/PQLQuerySynonym.h"
-#include "qps/executor/SynonymResultTable.h"
+#include "qps/common/resulttable/SynonymResultTable.h"
 
 using std::string, std::vector;
 

@@ -3,8 +3,8 @@
 #include <utility>
 
 #include "qps/common/PQLQueryResult.h"
-#include "qps/executor/ResultGroupFactory.h"
-#include "qps/executor/SynonymResultTable.h"
+#include "qps/common/resulttable/ResultGroupFactory.h"
+#include "qps/common/resulttable/SynonymResultTable.h"
 
 using std::vector, std::move, std::make_unique, std::unique_ptr;
 

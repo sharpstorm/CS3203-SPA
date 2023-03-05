@@ -9,7 +9,7 @@
 #include "ResultCoalescer.h"
 #include "common/UtilityTypes.h"
 #include "QueryLauncher.h"
-#include "SynonymResultTable.h"
+#include "qps/common/resulttable/SynonymResultTable.h"
 #include "qps/executor/planner/QueryPlan.h"
 
 using std::vector, std::unique_ptr;
