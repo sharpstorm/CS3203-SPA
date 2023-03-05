@@ -9,5 +9,5 @@ StmtRef StmtArgument::toStmtRef() {
 }
 
 EntityRef StmtArgument::toEntityRef() {
-  throw QPSParserSyntaxError("Invalid call to toEntityRef");
+  return EntityRef{EntityType::None, ""};
 }

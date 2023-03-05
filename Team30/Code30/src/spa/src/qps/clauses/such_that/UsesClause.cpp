@@ -2,6 +2,7 @@
 #include <utility>
 
 #include "UsesClause.h"
+#include "qps/errors/QPSParserSemanticError.h"
 
 using std::string;
 
@@ -12,7 +13,19 @@ UsesClause::UsesClause(ClauseArgumentPtr leftArg, ClauseArgumentPtr rightArg):
 PQLQueryResult* UsesClause::evaluateOn(
         shared_ptr<PkbQueryHandler> pkbQueryHandler) {
   // Check left is an entity
-  if (left->synonymSatisfies(ClauseArgument::isStatement)) {
+  if (left->isWildcard()) {
+    throw QPSParserSemanticError(QPS_PARSER_ERR_INVALID_WILDCARD);
+  }
+
+  bool isLeftStatement;
+  if (left->isNamed()) {
+    isLeftStatement = left->synonymSatisfies(ClauseArgument::isStatement);
+  } else {
+    StmtRef stmtRef = left->toStmtRef();
+    isLeftStatement = stmtRef.isKnown();
+  }
+
+  if (isLeftStatement) {
     return Clause::toQueryResult(
         left.get(), right.get(),
         evaluateLeftStatement(pkbQueryHandler));

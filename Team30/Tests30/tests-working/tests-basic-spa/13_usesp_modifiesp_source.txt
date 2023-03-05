@@ -1,0 +1,28 @@
+procedure Main {
+  a1 = a1 + a2 + a3;
+  a4 = a5;
+  a6 = a2;
+}
+
+procedure DummyProcedure {
+  print x;
+}
+
+procedure Sub1 {
+  b1 = b2;
+  b3 = b2;
+  b4 = b5 + b1;
+  call Sub2;
+}
+
+procedure Sub2 {
+  c1 = 1;
+  c2 = c3;
+  call Sub3;
+  c4 = c1;
+}
+
+procedure Sub3 {
+  d1 = d2;
+  d2 = 10;
+}
