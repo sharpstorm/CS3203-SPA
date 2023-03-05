@@ -148,4 +148,10 @@ TEST_CASE("Test Full End-to-end") {
   query = "assign a; Select a pattern a(_, \"z + x\")";
   expectedRes = unordered_set<string>({"8"});
   launchQuery(qps.get(), query, expectedRes);
+
+  query = "assign a; Select a pattern a(_, _\"(a % * 7))\"_)";
+  launchSyntaxErrorQuery(qps.get(), query);
+
+  query = "assign a; Select a pattern a(_, _\"((a * 7)\"_)";
+  launchSyntaxErrorQuery(qps.get(), query);
 }

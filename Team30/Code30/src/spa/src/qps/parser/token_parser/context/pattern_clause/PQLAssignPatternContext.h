@@ -14,5 +14,5 @@ class PQLAssignPatternContext {
  private:
   ISourceExpressionParser* exprParser;
 
-  ExpressionSequencePtr buildPostfix(IAST* tree);
+  ExpressionSequencePtr buildPostfix(IntermediateExpressionArgument* arg);
 };
