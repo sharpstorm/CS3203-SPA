@@ -2,21 +2,11 @@
 
 #include "AbstractSuchThatClauseContext.h"
 
-template<class Clause, class ClauseT>
+template<class Clause, class ClauseT, class LeftArgExtractor,
+    class RightArgExtractor>
 class PQLTransitiveClauseContext : public AbstractSuchThatClauseContext {
- protected:
-  bool parseTransitiveQualifier(QueryTokenParseState *parserState) {
-    bool isTransitive = parserState->isCurrentTokenType(PQL_TOKEN_ASTRIX);
-
-    if (isTransitive) {
-      parserState->advanceToken();
-    }
-
-    return isTransitive;
-  }
-
-  template<class LeftArgExtractor, class RightArgExtractor>
-  SuchThatClausePtr parseTransitive(QueryTokenParseState *parserState,
+ public:
+  SuchThatClausePtr parse(QueryTokenParseState *parserState,
                                     QueryBuilder* builder) {
     bool isTransitive = parseTransitiveQualifier(parserState);
 
@@ -27,5 +17,10 @@ class PQLTransitiveClauseContext : public AbstractSuchThatClauseContext {
       return AbstractSuchThatClauseContext::parseArgs<
           Clause, LeftArgExtractor, RightArgExtractor>(parserState, builder);
     }
+  }
+
+ private:
+  bool parseTransitiveQualifier(QueryTokenParseState *parserState) {
+    return parserState->tryExpect(PQL_TOKEN_ASTRIX) != nullptr;
   }
 };

@@ -16,5 +16,9 @@ unique_ptr<PQLQuery> QueryTokenParser::build() {
   selectParser.parse(&state, &builder);
   conditionalParser.parse(&state, &builder);
 
+  if (!state.isTokenStreamEnd()) {
+    throw QPSParserSyntaxError(QPS_PARSER_ERR_UNEXPECTED);
+  }
+
   return builder.build();
 }

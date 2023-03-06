@@ -33,3 +33,5 @@ class QueryBuilder {
   void setError(string msg);
   unique_ptr<PQLQuery> build();
 };
+
+typedef unique_ptr<QueryBuilder> QueryBuilderPtr;

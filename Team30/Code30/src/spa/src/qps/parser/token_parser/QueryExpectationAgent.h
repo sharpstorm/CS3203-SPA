@@ -23,7 +23,9 @@ class QueryExpectationAgent {
 template<typename... PQLTokenType>
 PQLToken* QueryExpectationAgent::tryExpect(PQLTokenType... tokenType) {
   PQLToken* currentToken = stream->getCurrentToken();
-  assertNotNull(currentToken);
+  if (currentToken == nullptr) {
+    return nullptr;
+  }
 
   if ((currentToken->isType(tokenType)  || ... || false)) {
     stream->advanceToken();

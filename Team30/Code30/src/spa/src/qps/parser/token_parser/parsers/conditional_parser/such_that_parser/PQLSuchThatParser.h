@@ -2,11 +2,7 @@
 
 #include "../../IPQLParser.h"
 
-#include "contexts/PQLFollowsClauseContext.h"
-#include "contexts/PQLParentClauseContext.h"
-#include "contexts/PQLUsesClauseContext.h"
-#include "contexts/PQLModifiesClauseContext.h"
-#include "contexts/PQLCallsClauseContext.h"
+#include "contexts/PQLSuchThatClauseTypes.h"
 
 class PQLSuchThatParser: public IPQLParser {
  public:

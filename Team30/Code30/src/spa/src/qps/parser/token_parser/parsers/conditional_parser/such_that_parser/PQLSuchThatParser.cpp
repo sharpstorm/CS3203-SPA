@@ -15,9 +15,15 @@ void PQLSuchThatParser::parse(QueryTokenParseState *parserState,
     throw QPSParserSyntaxError(QPS_PARSER_ERR_UNEXPECTED);
   }
 
-  PQLToken* andToken = parserState->tryExpect(PQL_TOKEN_AND);
+  unique_ptr<PQLToken> dummyAnd = make_unique<PQLToken>(PQL_TOKEN_AND);
+  PQLToken* andToken = dummyAnd.get();
   while (andToken != nullptr) {
     context = getContext(parserState->getCurrentTokenType());
+    if (context == nullptr) {
+      throw QPSParserSyntaxError(QPS_PARSER_ERR_UNEXPECTED);
+    }
+
+    parserState->advanceToken();
     SuchThatClausePtr clause = context->parse(parserState, queryBuilder);
     if (clause != nullptr) {
       queryBuilder->addSuchThat(std::move(clause));
