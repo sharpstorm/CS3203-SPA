@@ -65,7 +65,11 @@ TEST_CASE("Multiple Procedures End-to-End") {
 
   // BUGGY
 //  query = "procedure p; Select BOOLEAN such that Calls(_,_)";
-//  expectedRes = unordered_set<string>({"Bumblebee", "Ironhide"});
+//  expectedRes = unordered_set<string>({"TRUE"});
+//  launchQuery(qps.get(), query, expectedRes);
+
+//  query = "procedure p; Select p such that Calls(_,_)";
+//  expectedRes = unordered_set<string>({"Bumblebee", "Megatron", "Ironhide", "Barricade"});
 //  launchQuery(qps.get(), query, expectedRes);
 
   // BUGGY
