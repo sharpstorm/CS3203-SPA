@@ -16,6 +16,8 @@ class CFG {
   vector<int> getNodeMap();
   vector<list<int>> getLinks();
 
+  string getName();
+
  private:
   string procedureName;
   vector<int> nodeMap;

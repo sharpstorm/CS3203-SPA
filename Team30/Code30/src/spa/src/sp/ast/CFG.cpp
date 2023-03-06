@@ -2,6 +2,11 @@
 
 CFG::CFG(string n) : procedureName(n) {}
 
+// if node is an if/while, the first node will signify
+// the node after the if/while (-1 if it is the last node)
+// ifNode: (after stmtLst, ifStmtList, elseStmtList)
+// whileNode: (after stmtLst, stmtLst)
+// Last node in while stmtLst will be marked with -1 at end of linked list
 void CFG::addNode(int lineNum1, int lineNum2) {
   if (nodeMap.size() < lineNum1) {
     increaseMapSize(lineNum1);
@@ -28,3 +33,5 @@ void CFG::increaseMapSize(int num) {
 vector<int> CFG::getNodeMap() { return nodeMap; }
 
 vector<list<int>> CFG::getLinks() { return links; }
+
+string CFG::getName() { return procedureName; }
