@@ -31,17 +31,21 @@ class QueryLexer {
   QueryLexerTokenTable* tokenTable;
   void processChar(const char &c);
   void flushBuffer();
-  void processLiteral(const char &c, const PQLTokenType &type);
+
   void toggleLiteral();
   void startLiteral();
-  void flushLiteral();
+  void endLiteral();
+
+  void appendStringToken(const PQLTokenType &tokenType,
+                         const string &data);
+  void appendSymbolToken(const PQLTokenType &tokenType,
+                         const char &c);
   void clearState();
 
-  PQLToken resolveStringToken(string buffer, bool hasSeenChar);
-  PQLToken validateIntegerToken(string* buffer);
-  PQLToken validateIdentifier(string* buffer);
-
-  void throwInvalidCharError();
+  PQLTokenType resolveStringToken(const string &buffer,
+                                  const bool &hasSeenChar);
+  void validateIntegerToken(const string &buffer);
+  void validateIdentifier(const string &buffer);
 };
 
 typedef unique_ptr<QueryLexer> QueryLexerPtr;

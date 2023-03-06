@@ -41,8 +41,7 @@ void QueryLexer::processChar(const char &c) {
 
   switch (tokenType) {
     case PQL_TOKEN_INVALID:
-      throwInvalidCharError();
-      break;
+      throw QPSLexerError(QPS_LEXER_ERR_INVALID_CHAR);
     case PQL_TOKEN_IGNORE:
       return;
 
@@ -60,28 +59,54 @@ void QueryLexer::processChar(const char &c) {
       break;
   }
 
-  if (isProcessingLiteral) {
-    processLiteral(c, tokenType);
-    return;
-  }
-
   flushBuffer();
   if (tokenType != PQL_TOKEN_DELIMITER) {
-    result->push_back(PQLToken(tokenType));
+    appendSymbolToken(tokenType, c);
   }
 }
 
-void QueryLexer::processLiteral(const char &c, const PQLTokenType &type) {
-  if (type != PQL_TOKEN_DELIMITER) {
-    if (buffer.empty()) {
-      literalSymbolCount++;
-    } else {
-      buffer.push_back(' ');
-    }
-    buffer.push_back(c);
+void QueryLexer::flushBuffer() {
+  if (buffer.length() > 0) {
+    appendStringToken(resolveStringToken(buffer, hasSeenChar), buffer);
+    clearState();
+  }
+}
+
+void QueryLexer::toggleLiteral() {
+  if (!isProcessingLiteral) {
+    startLiteral();
+  } else {
+    endLiteral();
+  }
+}
+
+void QueryLexer::startLiteral() {
+  literalBuffer.clear();
+  isProcessingLiteral = true;
+  literalSymbolCount = 0;
+}
+
+void QueryLexer::endLiteral() {
+  flushBuffer();
+  isProcessingLiteral = false;
+
+  if (literalBuffer.empty()) {
+    throw QPSLexerError(QPS_LEXER_ERR_EMPTY_QUOTE);
   }
 
-  if (buffer.empty()) {
+  bool isCharStart = tokenTable->isCharacter(literalBuffer.at(0));
+  PQLTokenType type = (literalSymbolCount == 1 && isCharStart) ?
+                      PQL_TOKEN_STRING_LITERAL : PQL_TOKEN_LITERAL;
+  result->push_back(PQLToken(type, literalBuffer));
+
+  literalBuffer.clear();
+  literalSymbolCount = 0;
+}
+
+void QueryLexer::appendStringToken(const PQLTokenType &type,
+                                   const string &data) {
+  if (!isProcessingLiteral) {
+    result->push_back(PQLToken(type, data));
     return;
   }
 
@@ -89,91 +114,51 @@ void QueryLexer::processLiteral(const char &c, const PQLTokenType &type) {
   if (!literalBuffer.empty()) {
     literalBuffer += " ";
   }
-  literalBuffer += buffer;
-  buffer.clear();
-  return;
+  literalBuffer += data;
 }
 
-void QueryLexer::flushBuffer() {
-  if (buffer.length() > 0) {
-    result->push_back(resolveStringToken(buffer, hasSeenChar));
-    clearState();
-  }
-}
-
-void QueryLexer::toggleLiteral() {
-  if (isProcessingLiteral) {
-    flushLiteral();
-  } else {
-    startLiteral();
-  }
-}
-
-void QueryLexer::startLiteral() {
-  isProcessingLiteral = true;
-  literalSymbolCount = 0;
-}
-
-void QueryLexer::flushLiteral() {
-  if (!buffer.empty()) {
-    literalSymbolCount++;
-    if (!literalBuffer.empty()) {
-      literalBuffer += " ";
-    }
-    literalBuffer += buffer;
+void QueryLexer::appendSymbolToken(const PQLTokenType &type,
+                                   const char &c) {
+  if (!isProcessingLiteral) {
+    result->push_back(PQLToken(type));
+    return;
   }
 
-  if (literalBuffer.length() > 0) {
-    PQLTokenType type = (literalSymbolCount == 1) ?
-                        PQL_TOKEN_STRING_LITERAL : PQL_TOKEN_LITERAL;
-    if (tokenTable->isDigit(literalBuffer.at(0))) {
-      type = PQL_TOKEN_LITERAL;
-    }
-    result->push_back(PQLToken(type, literalBuffer));
-    clearState();
-  } else {
-    throw QPSLexerError(QPS_LEXER_ERR_EMPTY_QUOTE);
+  literalSymbolCount++;
+  if (!literalBuffer.empty()) {
+    literalBuffer += " ";
   }
+  literalBuffer += c;
 }
 
-PQLToken QueryLexer::resolveStringToken(string buffer, bool hasSeenChar) {
+PQLTokenType QueryLexer::resolveStringToken(const string &buffer,
+                                            const bool &hasSeenChar) {
   try {
-    PQLTokenType token = tokenTable->keywordMap.at(buffer);
-    return PQLToken(token, buffer);
+    return tokenTable->keywordMap.at(buffer);
   } catch (out_of_range&) {
     if (!hasSeenChar) {
-      return validateIntegerToken(&buffer);
+      validateIntegerToken(buffer);
+      return PQL_TOKEN_INTEGER;
     }
 
-    return validateIdentifier(&buffer);
+    validateIdentifier(buffer);
+    return PQL_TOKEN_STRING;
   }
 }
 
 void QueryLexer::clearState() {
   buffer.clear();
-  literalBuffer.clear();
   hasSeenChar = false;
-  isProcessingLiteral = false;
-  literalSymbolCount = 0;
 }
 
-PQLToken QueryLexer::validateIntegerToken(string* buffer) {
-  if (buffer->length() > 1 && tokenTable->isZero(buffer->at(0))) {
+void QueryLexer::validateIntegerToken(const string &buffer) {
+  if (buffer.length() > 1 && tokenTable->isZero(buffer.at(0))) {
     throw QPSLexerError(QPS_LEXER_ERR_INTEGER_ZERO);
   }
-  return PQLToken(PQL_TOKEN_INTEGER, *buffer);
 }
 
-PQLToken QueryLexer::validateIdentifier(string *buffer) {
-  if (tokenTable->isDigit(buffer->at(0))) {
+void QueryLexer::validateIdentifier(const string &buffer) {
+  if (tokenTable->isDigit(buffer.at(0))) {
     throw QPSLexerError(QPS_LEXER_ERR_STRING_DIGIT);
-  }
-
-  return PQLToken(PQL_TOKEN_STRING, *buffer);
-}
-
-void QueryLexer::throwInvalidCharError() {
-  if (!isProcessingLiteral) {
-    throw QPSLexerError(QPS_LEXER_ERR_INVALID_CHAR);
   }
 }
