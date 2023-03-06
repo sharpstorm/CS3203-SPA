@@ -1,6 +1,6 @@
 #include "CFG.h"
 
-CFG::CFG(string n) : name(n) {}
+CFG::CFG(string n) : procedureName(n) {}
 
 void CFG::addNode(int lineNum1, int lineNum2) {
   if (nodeMap.size() < lineNum1) {
