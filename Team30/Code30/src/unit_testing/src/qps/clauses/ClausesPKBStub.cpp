@@ -143,6 +143,58 @@ class ClausesPKBStub : public StubPKB {
     return QueryResult<string, string>();
   };
 
+  QueryResult<string, string> queryCalls(EntityRef e1, EntityRef e2) const override {
+    QueryResult<string, string> result;
+
+    if (e1.type == EntityType::None && e2.type == EntityType::None) {
+      // Both wildcards and Static Results
+      return result;
+    }
+
+    if (!e1.isKnown() && e2.isKnown()) {
+      // (syn, static)
+      result.add("Ironhide", "Barricade");
+    } else if (e1.isKnown() && !e2.isKnown()) {
+      // (static, syn) or (static, wildcard)
+      result.add("Bumblebee", "Megatron");
+      result.add("Bumblebee", "Ironhide");
+    } else {
+      // Both syns or (syn, _) or (_, syn)
+      result.add("Bumblebee", "Megatron");
+      result.add("Bumblebee", "Ironhide");
+      result.add("Ironhide", "Barricade");
+    }
+
+    return result;
+  };
+
+  QueryResult<string, string> queryCallsStar(EntityRef e1, EntityRef e2) const override {
+    QueryResult<string, string> result;
+
+    if (e1.type == EntityType::None && e2.type == EntityType::None) {
+      // Both wildcards and Static Results
+      return result;
+    }
+
+    if (!e1.isKnown() && e2.isKnown()) {
+      // (syn, static)
+      result.add("Ironhide", "Barricade");
+    } else if (e1.isKnown() && !e2.isKnown()) {
+      // (static, syn) or (static, wildcard)
+      result.add("Bumblebee", "Megatron");
+      result.add("Bumblebee", "Ironhide");
+      result.add("Bumblebee", "Barricade");
+    } else {
+      // Both syns or (syn, _) or (_, syn)
+      result.add("Bumblebee", "Megatron");
+      result.add("Bumblebee", "Ironhide");
+      result.add("Bumblebee", "Barricade");
+      result.add("Ironhide", "Barricade");
+    }
+
+    return result;
+  }
+
   unordered_set<string> getSymbolsOfType(EntityType) const override {
     return unordered_set<string>();
   };
