@@ -55,15 +55,14 @@ TEST_CASE("Multiple Procedures End-to-End") {
   string query;
   unordered_set<string> expectedRes;
 
-//  query = "procedure p,q; Select <p,q> such that Calls(p,q)";
-//  expectedRes = unordered_set<string>({"Bumblebee Megatron", "Bumblebee Ironhide", "Ironhide Barricade"});
-//  launchQuery(qps.get(), query, expectedRes);
-//
-//  query = "procedure p,q; Select p such that Calls(p,q)";
-//  expectedRes = unordered_set<string>({"Bumblebee", "Ironhide"});
-//  launchQuery(qps.get(), query, expectedRes);
+  query = "procedure p,q; Select <p,q> such that Calls(p,q)";
+  expectedRes = unordered_set<string>({"Bumblebee Megatron", "Bumblebee Ironhide", "Ironhide Barricade"});
+  launchQuery(qps.get(), query, expectedRes);
 
-  // BUGGY
+  query = "procedure p,q; Select p such that Calls(p,q)";
+  expectedRes = unordered_set<string>({"Bumblebee", "Ironhide"});
+  launchQuery(qps.get(), query, expectedRes);
+
   query = "procedure p; Select BOOLEAN such that Calls(_,_)";
   expectedRes = unordered_set<string>({"TRUE"});
   launchQuery(qps.get(), query, expectedRes);
@@ -72,29 +71,28 @@ TEST_CASE("Multiple Procedures End-to-End") {
   expectedRes = unordered_set<string>({"Bumblebee", "Megatron", "Ironhide", "Barricade"});
   launchQuery(qps.get(), query, expectedRes);
 
-  // BUGGY
   query = "procedure p; Select p such that Calls(_,p)";
   expectedRes = unordered_set<string>({"Megatron", "Ironhide", "Barricade"});
   launchQuery(qps.get(), query, expectedRes);
 
-//  query = "procedure p; Select p such that Calls(p,_)";
-//  expectedRes = unordered_set<string>({"Bumblebee", "Ironhide"});
-//  launchQuery(qps.get(), query, expectedRes);
-//
-//
-//  query = R"(procedure p; Select BOOLEAN such that Calls("Ironhide", "Barricade"))";
-//  expectedRes = unordered_set<string>({"TRUE"});
-//  launchQuery(qps.get(), query, expectedRes);
-//
-//  query = R"(procedure p; Select p such that Calls("Ironhide", "Barricade"))";
-//  expectedRes = unordered_set<string>({"Bumblebee", "Megatron", "Ironhide", "Barricade"});
-//  launchQuery(qps.get(), query, expectedRes);
-//
-//  query = R"(procedure p; Select BOOLEAN such that Calls("Barricade", "Ironhide"))";
-//  expectedRes = unordered_set<string>({"FALSE"});
-//  launchQuery(qps.get(), query, expectedRes);
-//
-//  query = R"(procedure p; Select p such that Calls("Barricade", "Ironhide"))";
-//  expectedRes = unordered_set<string>({});
-//  launchQuery(qps.get(), query, expectedRes);
+  query = "procedure p; Select p such that Calls(p,_)";
+  expectedRes = unordered_set<string>({"Bumblebee", "Ironhide"});
+  launchQuery(qps.get(), query, expectedRes);
+
+
+  query = R"(procedure p; Select BOOLEAN such that Calls("Ironhide", "Barricade"))";
+  expectedRes = unordered_set<string>({"TRUE"});
+  launchQuery(qps.get(), query, expectedRes);
+
+  query = R"(procedure p; Select p such that Calls("Ironhide", "Barricade"))";
+  expectedRes = unordered_set<string>({"Bumblebee", "Megatron", "Ironhide", "Barricade"});
+  launchQuery(qps.get(), query, expectedRes);
+
+  query = R"(procedure p; Select BOOLEAN such that Calls("Barricade", "Ironhide"))";
+  expectedRes = unordered_set<string>({"FALSE"});
+  launchQuery(qps.get(), query, expectedRes);
+
+  query = R"(procedure p; Select p such that Calls("Barricade", "Ironhide"))";
+  expectedRes = unordered_set<string>({});
+  launchQuery(qps.get(), query, expectedRes);
 }
