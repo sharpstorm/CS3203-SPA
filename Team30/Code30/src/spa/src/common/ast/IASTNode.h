@@ -6,6 +6,7 @@
 using std::shared_ptr, std::string;
 
 enum ASTNodeType {
+  ASTNODE_PROGRAM,
   ASTNODE_PROCEDURE,
   ASTNODE_CALL,
   ASTNODE_STMTLST,

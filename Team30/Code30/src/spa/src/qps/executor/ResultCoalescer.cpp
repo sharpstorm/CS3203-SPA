@@ -1,5 +1,7 @@
-#include "ResultCoalescer.h"
 #include <utility>
+
+#include "ResultCoalescer.h"
+#include "common/SetUtils.h"
 
 using std::make_unique;
 
@@ -103,8 +105,8 @@ ResultCoalescer::IntersectResult ResultCoalescer::findIntersect(
       continue;
     }
 
-    leftSet = intersectSet(leftSet.get(), leftSearch.get());
-    rightSet = intersectSet(rightSet.get(), rightSearch.get());
+    leftSet = SetUtils::intersectSet(leftSet.get(), leftSearch.get());
+    rightSet = SetUtils::intersectSet(rightSet.get(), rightSearch.get());
   }
 
   return {std::move(leftSet), std::move(rightSet)};
@@ -146,23 +148,4 @@ void ResultCoalescer::mergeRow(QueryResultTableRow *rowA,
     outputRow->push_back(make_unique<QueryResultItem>(
         *rowB->at(copyCol)));
   }
-}
-
-template<class T>
-IntersectSetPtr<T> ResultCoalescer::intersectSet(IntersectSet<T>* s1,
-                                                 IntersectSet<T>* s2) {
-  if (s1 == nullptr) {
-    return nullptr;
-  } else if (s2 == nullptr) {
-    return nullptr;
-  }
-
-  auto result = make_unique<IntersectSet<T>>();
-  for (auto it = s1->begin(); it != s1->end(); it++) {
-    if (s2->find(*it) != s2->end()) {
-      result->insert(*it);
-    }
-  }
-
-  return result;
 }

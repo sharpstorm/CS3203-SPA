@@ -1,0 +1,10 @@
+1 - comment
+variable v; while w;
+Select v such that Uses(w, v)
+abc,x,y
+5000
+1 - comment
+variable v; while w;
+Select v such that Modifies(w, v)
+none
+5000

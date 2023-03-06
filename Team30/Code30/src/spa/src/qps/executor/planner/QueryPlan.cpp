@@ -16,3 +16,15 @@ QueryGroupPlan *QueryPlan::getGroup(int groupId) {
 bool QueryPlan::isEmpty() {
   return clauseGroups.empty();
 }
+
+bool QueryPlan::isBooleanQuery() {
+  for (auto& group : clauseGroups) {
+    vector<PQLSynonymName>* selectables = group->getSelectables();
+    if (!selectables->empty()) {
+      return false;
+    }
+  }
+
+  return true;
+}
+

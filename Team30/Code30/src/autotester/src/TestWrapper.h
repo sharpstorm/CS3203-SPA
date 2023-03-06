@@ -11,6 +11,7 @@
 
 // include your other headers here
 #include "AbstractWrapper.h"
+#include "pkb/queryHandlers/PkbQueryHandler.h"
 #include <memory>
 
 using std::unique_ptr;
@@ -21,6 +22,7 @@ class TestWrapper : public AbstractWrapper {
   unique_ptr<PKB> pkb;
   unique_ptr<ISp> sp;
   unique_ptr<PkbWriter> pkbWriter;
+  unique_ptr<PkbQueryHandler> pkbQueryHandler;
 
  public:
   // default constructor

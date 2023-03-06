@@ -5,7 +5,7 @@ EntityArgument::EntityArgument(string ident): ident(ident) {
 }
 
 StmtRef EntityArgument::toStmtRef() {
-  throw QPSParserSyntaxError("Invalid call to toStmtRef");
+  return StmtRef{StmtType::None, 0};
 }
 
 EntityRef EntityArgument::toEntityRef() {

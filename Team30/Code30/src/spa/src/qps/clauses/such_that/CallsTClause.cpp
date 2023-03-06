@@ -1,17 +1,21 @@
 #include <memory>
 #include <utility>
+#include <string>
 
 #include "CallsTClause.h"
 
-using std::move;
+using std::move, std::string;
 
 CallsTClause::CallsTClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
     : AbstractTwoArgClause(move(left), move(right)) {
 }
 
-PQLQueryResult *CallsTClause::evaluateOn
-    (shared_ptr<PkbQueryHandler> pkbQueryHandler) {
-  return new PQLQueryResult();
+PQLQueryResult *CallsTClause::evaluateOn(PkbQueryHandler* pkbQueryHandler) {
+  EntityRef leftEntity = left->toEntityRef();
+  EntityRef rightEntity = right->toEntityRef();
+  QueryResult<string, string> queryResult =
+      pkbQueryHandler->queryCallsStar(leftEntity, rightEntity);
+  return Clause::toQueryResult(left.get(), right.get(), queryResult);
 }
 
 bool CallsTClause::validateArgTypes(VariableTable *variables) {

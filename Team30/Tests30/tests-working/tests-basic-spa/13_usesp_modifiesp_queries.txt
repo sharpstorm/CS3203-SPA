@@ -1,0 +1,100 @@
+1 - Select single proc modifiesP (Const, Const)
+print p;
+Select p such that Modifies("Main", "a1")
+4
+5000
+2 - Select single proc modifiesP (Const, Syn)
+variable v;
+Select v such that Modifies("Main", v)
+a1,a4,a6
+5000
+3 - Select single proc modifiesP (Syn, Const)
+procedure p;
+Select p such that Modifies(p, "a4")
+Main
+5000
+4 - Select single proc modifiesP (Syn, Syn)
+procedure p; variable v;
+Select v such that Modifies(p, v)
+a1,a4,a6,b1,b3,b4,c1,c2,c4,d1,d2
+5000
+5 - Select single proc usesP (Const, Const)
+print p;
+Select p such that Uses("Main", "a5")
+4
+5000
+6 - Select single proc usesP (Const, Syn)
+variable v;
+Select v such that Uses("Main", v)
+a1,a2,a3,a5
+5000
+7 - Select single proc usesP (Syn, Const)
+procedure p;
+Select p such that Uses(p, "a5")
+Main
+5000
+8 - Select single proc usesP (Syn, Syn)
+procedure p; variable v;
+Select v such that Uses(p, v)
+a1,a2,a3,a5,x,b1,b2,b5,c1,c3,d2
+5000
+9 - Select cross proc modifiesP (Const, Const)
+print p;
+Select p such that Modifies("Sub2", "d1")
+4
+5000
+10 - Select cross multi proc modifiesP (Const, Const)
+print p;
+Select p such that Modifies("Sub1", "d1")
+4
+5000
+11 - Select cross proc modifiesP (Const, Syn)
+variable v;
+Select v such that Modifies("Sub2", v)
+c1,c2,c4,d1,d2
+5000
+12 - Select cross multi proc modifiesP (Const, Syn)
+variable v;
+Select v such that Modifies("Sub1", v)
+b1,b3,b4,c1,c2,c4,d1,d2
+5000
+13 - Select cross proc modifiesP (Syn, Const)
+procedure p;
+Select p such that Modifies(p, "c1")
+Sub1,Sub2
+5000
+14 - Select cross multi proc modifiesP (Syn, Const)
+procedure p;
+Select p such that Modifies(p, "d1")
+Sub1,Sub2,Sub3
+5000
+15 - Select cross proc usesP (Const, Const)
+print p;
+Select p such that Uses("Sub2", "d2")
+4
+5000
+16 - Select cross multi proc usesP (Const, Const)
+print p;
+Select p such that Uses("Sub1", "d2")
+4
+5000
+17 - Select cross proc usesP (Const, Syn)
+variable v;
+Select v such that Uses("Sub2", v)
+c1,c3,d2
+5000
+18 - Select cross multi proc usesP (Const, Syn)
+variable v;
+Select v such that Uses("Sub1", v)
+b1,b2,b5,c1,c3,d2
+5000
+19 - Select cross proc usesP (Syn, Const)
+procedure p;
+Select p such that Uses(p, "c3")
+Sub1,Sub2
+5000
+20 - Select cross multi proc usesP (Syn, Const)
+procedure p;
+Select p such that Uses(p, "d2")
+Sub1,Sub2,Sub3
+5000

@@ -14,6 +14,6 @@ bool QueryGroupPlan::isBooleanResult() {
   return selectables.empty();
 }
 
-vector<PQLSynonymName> QueryGroupPlan::getSelectables() {
-  return selectables;
+vector<PQLSynonymName>* QueryGroupPlan::getSelectables() {
+  return &selectables;
 }

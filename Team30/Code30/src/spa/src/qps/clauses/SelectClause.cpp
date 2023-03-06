@@ -1,4 +1,3 @@
-#include <memory>
 #include <unordered_set>
 #include <utility>
 #include <vector>
@@ -7,13 +6,12 @@
 #include "arguments/ClauseArgument.h"
 #include "qps/clauses/arguments/ClauseArgumentFactory.h"
 
-using std::pair, std::unordered_set, std::vector, std::shared_ptr;
+using std::pair, std::unordered_set, std::vector;
 
 SelectClause::SelectClause(PQLQuerySynonym target):
     target(target) {}
 
-PQLQueryResult* SelectClause::evaluateOn(
-    shared_ptr<PkbQueryHandler> pkbQueryHandler) {
+PQLQueryResult* SelectClause::evaluateOn(PkbQueryHandler* pkbQueryHandler) {
   ClauseArgumentPtr clauseArg = ClauseArgumentFactory::create(target);
 
   if (target.isStatementType()) {

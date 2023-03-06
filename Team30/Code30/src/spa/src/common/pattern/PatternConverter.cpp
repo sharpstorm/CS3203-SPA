@@ -1,4 +1,5 @@
 #include "PatternConverter.h"
+#include "TrieBuilder.h"
 
 #include <memory>
 #include <utility>
@@ -16,7 +17,7 @@ ExpressionSequencePtr PatternConverter::convertASTToPostfix(IAST* tree) {
 }
 
 PatternTriePtr PatternConverter::convertASTToTrie(IASTNodePtr tree) {
-  return make_unique<PatternTrie>(std::move(tree));
+  return TrieBuilder(tree).build();
 }
 
 void PatternConverter::traversePostfix(IASTNode *node,

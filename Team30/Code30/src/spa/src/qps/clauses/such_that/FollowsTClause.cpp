@@ -1,19 +1,17 @@
 #include <utility>
 #include <vector>
-#include <memory>
 #include <unordered_set>
 
 #include "FollowsTClause.h"
 
-using std::pair, std::vector, std::shared_ptr;
+using std::pair, std::vector;
 
 FollowsTClause::FollowsTClause(ClauseArgumentPtr leftArg,
                                ClauseArgumentPtr rightArg):
     AbstractTwoArgClause(std::move(leftArg), std::move(rightArg)) {
 }
 
-PQLQueryResult* FollowsTClause::evaluateOn(
-        shared_ptr<PkbQueryHandler> pkbQueryHandler) {
+PQLQueryResult* FollowsTClause::evaluateOn(PkbQueryHandler* pkbQueryHandler) {
   if (isSameSynonym()) {
     return Clause::toQueryResult(left->getName(), unordered_set<int>{});
   }

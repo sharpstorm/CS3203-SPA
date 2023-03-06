@@ -46,6 +46,15 @@ class StubPKB: public PkbQueryHandler {
     return QueryResult<int, PatternTrie*>();
   }
 
+  QueryResult<string, string> queryCalls(EntityRef, EntityRef) const override {
+    return QueryResult<string, string>();
+  };
+
+  QueryResult<string, string> queryCallsStar(EntityRef,
+                                             EntityRef) const override {
+    return QueryResult<string, string>();
+  };
+
   unordered_set<string> getSymbolsOfType(EntityType) const override {
     return unordered_set<string>();
   };
