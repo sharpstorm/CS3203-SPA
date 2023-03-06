@@ -9,8 +9,7 @@ PQLToken::PQLToken(PQLTokenType type, string data):
 }
 
 bool PQLToken::operator==(const PQLToken& other) const {
-  if (type == PQL_TOKEN_STRING || type == PQL_TOKEN_INTEGER
-      || type == PQL_TOKEN_LITERAL || type == PQL_TOKEN_STRING_LITERAL) {
+  if ((type & PQL_DATA_TOKEN_MASK) > 0) {
     return type == other.type && tokenData == other.tokenData;
   }
   return type == other.type;
@@ -26,11 +25,6 @@ string PQLToken::getData() {
 
 bool PQLToken::isType(PQLTokenType target) {
   return type == target;
-}
-
-bool PQLToken::isVarchar() {
-  return ((type & PQL_TOKEN_CATEGORY_MASK)
-    & PQL_TOKEN_VARCHAR_MASK) > 0;
 }
 
 bool PQLToken::isSynName() {

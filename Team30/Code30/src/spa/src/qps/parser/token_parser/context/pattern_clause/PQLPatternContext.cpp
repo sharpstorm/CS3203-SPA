@@ -106,7 +106,7 @@ IntermediateExpressionArgumentPtr PQLPatternContext::extractExpression(
         nextToken->getData(), false);
   }
 
-  if (parserState->getCurrentToken()->isCategory(PQL_LITERAL_TOKEN)) {
+  if (parserState->isCurrentTokenCategory(PQL_LITERAL_TOKEN)) {
     nextToken = parserState->expect(PQL_TOKEN_LITERAL,
                                     PQL_TOKEN_STRING_LITERAL);
     parserState->expect(PQL_TOKEN_UNDERSCORE);

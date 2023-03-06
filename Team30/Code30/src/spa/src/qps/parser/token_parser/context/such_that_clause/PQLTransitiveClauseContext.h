@@ -6,8 +6,7 @@ template<class Clause, class ClauseT>
 class PQLTransitiveClauseContext : public PQLSuchThatClauseContext {
  protected:
   bool parseTransitiveQualifier(QueryTokenParseState *parserState) {
-    bool isTransitive = parserState->getCurrentToken()
-        ->isType(PQL_TOKEN_ASTRIX);
+    bool isTransitive = parserState->isCurrentTokenType(PQL_TOKEN_ASTRIX);
 
     if (isTransitive) {
       parserState->advanceToken();

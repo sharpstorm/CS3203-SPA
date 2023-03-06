@@ -14,7 +14,6 @@ class QueryExpectationAgent {
 
   template<typename... T>
   PQLToken *expect(T... tokenType);
-  PQLToken *expectVarchar();
   PQLToken *expectSynName();
 };
 

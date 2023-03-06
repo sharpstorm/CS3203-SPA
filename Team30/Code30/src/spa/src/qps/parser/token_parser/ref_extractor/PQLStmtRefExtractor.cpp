@@ -4,7 +4,7 @@
 
 ClauseArgumentPtr PQLStmtRefExtractor::extract(
     QueryTokenParseState *state) {
-  if (state->getCurrentToken()->isType(PQL_TOKEN_INTEGER)) {
+  if (state->isCurrentTokenType(PQL_TOKEN_INTEGER)) {
     return extractStatement(state);
   }
 
@@ -13,8 +13,9 @@ ClauseArgumentPtr PQLStmtRefExtractor::extract(
 
 ClauseArgumentPtr PQLStmtRefExtractor::extractStatement(
     QueryTokenParseState* state) {
-  int value = stoi(state->getCurrentToken()->getData());
-  state->advanceToken();
+  PQLToken* token = state->expect(PQL_TOKEN_INTEGER);
+  int value = stoi(token->getData());
+
   if (value <= 0) {
     state->getQueryBuilder()->setError(QPS_PARSER_ERR_INVALID_STMT);
   }

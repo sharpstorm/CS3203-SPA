@@ -48,5 +48,5 @@ class PQLGrammarContextProvider {
 
  public:
   explicit PQLGrammarContextProvider(ISourceExpressionParser* exprParser);
-  IPQLContext* getContext(PQLToken* token);
+  IPQLContext* getContext(PQLTokenType type);
 };

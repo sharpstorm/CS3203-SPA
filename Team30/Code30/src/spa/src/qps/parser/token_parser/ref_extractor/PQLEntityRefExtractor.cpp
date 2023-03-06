@@ -3,7 +3,7 @@
 
 ClauseArgumentPtr PQLEntityRefExtractor::extract(
     QueryTokenParseState* state) {
-  if (state->getCurrentToken()->isType(PQL_TOKEN_STRING_LITERAL)) {
+  if (state->isCurrentTokenType(PQL_TOKEN_STRING_LITERAL)) {
     return extractEntity(state);
   }
 

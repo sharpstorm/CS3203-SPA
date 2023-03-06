@@ -47,7 +47,9 @@ class QueryTokenParseState:
   explicit QueryTokenParseState(vector<PQLToken>* tokens);
   bool isTokenStreamEnd();
   void advanceToken();
-  PQLToken* getCurrentToken();
+  PQLTokenType getCurrentTokenType();
+  bool isCurrentTokenType(PQLTokenType type);
+  bool isCurrentTokenCategory(PQLTokenCategory category);
 
   void advanceStage(TokenParsingStage newStage);
   QueryBuilder* getQueryBuilder();

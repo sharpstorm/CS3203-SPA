@@ -4,8 +4,8 @@ PQLGrammarContextProvider::PQLGrammarContextProvider(
     ISourceExpressionParser *exprParser): patternClauseContext(exprParser) {
 }
 
-IPQLContext* PQLGrammarContextProvider::getContext(PQLToken *token) {
-  switch (token->getType()) {
+IPQLContext* PQLGrammarContextProvider::getContext(PQLTokenType type) {
+  switch (type) {
     case PQL_TOKEN_STMT:
       return &stmtContext;
     case PQL_TOKEN_READ:

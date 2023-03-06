@@ -5,7 +5,7 @@ const char BOOLEAN_SELECT[] = "BOOLEAN";
 void PQLSelectContext::parse(QueryTokenParseState *parserState) {
   parserState->advanceStage(TOKEN_PARSE_STAGE_COMMAND);
 
-  if (parserState->getCurrentToken()->isType(PQL_TOKEN_TUPLE_OPEN)) {
+  if (parserState->isCurrentTokenType(PQL_TOKEN_TUPLE_OPEN)) {
     parseTuple(parserState);
     return;
   }
