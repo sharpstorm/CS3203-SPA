@@ -1,9 +1,10 @@
 #include <memory>
 #include <utility>
+#include <string>
 
 #include "CallsClause.h"
 
-using std::move;
+using std::move, std::string;
 
 CallsClause::CallsClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
     : AbstractTwoArgClause(move(left), move(right)) {
