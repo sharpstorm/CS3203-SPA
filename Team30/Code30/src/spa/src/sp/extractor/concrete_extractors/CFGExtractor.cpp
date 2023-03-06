@@ -27,6 +27,11 @@ void CFGExtractor::visit(StatementListNode* node) {
     int lineNoRight = statementNoExtractor.getStatementNumber();
     addCFGRelation(lineNoLeft, lineNoRight);
   }
+
+  children[children.size() - 1]->accept(&statementNoExtractor);
+  int lastLineNo = statementNoExtractor.getStatementNumber();
+
+  addCFGRelation(lastLineNo, -1);
 }
 
 void CFGExtractor::visit(IfNode* node) {
@@ -45,7 +50,7 @@ void CFGExtractor::visit(WhileNode* node) {
   addCFGOnWhileNodeList(node->getLineNumber(), &stmtList);
 }
 
-vector<CFG>* CFGExtractor::getSetOfCFGs() { return &setOfCFGs; }
+vector<CFG> CFGExtractor::getSetOfCFGs() { return setOfCFGs; }
 
 void CFGExtractor::addCFGOnIfNodeList(int conditionalLine,
                                       vector<ASTNodePtr>* childList) {

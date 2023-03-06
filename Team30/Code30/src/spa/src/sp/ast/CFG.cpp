@@ -12,6 +12,10 @@ void CFG::addNode(int lineNum1, int lineNum2) {
 
 void CFG::increaseMapSize(int num) {
   int oldSize = nodeMap.size() - 1;
+  if (oldSize < 0) {
+    oldSize = 0;
+  }
+
   nodeMap.resize(num);
 
   for (int i = oldSize; i < num; i++) {

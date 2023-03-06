@@ -8,9 +8,9 @@
 #include "catch.hpp"
 #include "sp/ast/AST.h"
 
-using std::vector, std::string, std::pair, std::make_unique;
+using std::vector, std::string, std::list, std::make_unique;
 
-vector<CFG>* executeCFGExtractor(string input) {
+vector<CFG> executeCFGExtractor(string input) {
   TreeWalker treeWalker;
   PKB pkb;
   StubPkb stubby(&pkb);
@@ -31,7 +31,11 @@ TEST_CASE("CFGExtractor Simple Statement list") {
       "read num3;"
       "}";
 
-  vector<CFG>* setofCFGs = executeCFGExtractor(input);
+  vector<CFG> setofCFGs = executeCFGExtractor(input);
+  vector<int> nodeMap = {1, 2, 3};
+  vector<list<int>> link = {{2}, {3}, {-1}};
 
-  REQUIRE(!setofCFGs->empty());
+  REQUIRE(setofCFGs.size() == 1);
+  REQUIRE(setofCFGs[0].getNodeMap() == nodeMap);
+  REQUIRE(setofCFGs[0].getLinks() == link);
 }
