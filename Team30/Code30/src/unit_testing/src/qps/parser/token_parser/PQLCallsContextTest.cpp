@@ -6,7 +6,7 @@
 #include "qps/clauses/such_that/CallsClause.h"
 #include "qps/clauses/such_that/CallsTClause.h"
 #include "qps/parser/token_parser/parsers/conditional_parser/such_that_parser/contexts/PQLSuchThatClauseTypes.h"
-#include "PQLContextTestUtils.cpp"
+#include "PQLContextTestUtils.h"
 
 using std::make_unique, std::unordered_map;
 

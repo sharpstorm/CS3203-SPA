@@ -3,8 +3,7 @@
 #include <memory>
 #include <unordered_map>
 
-#include "PQLContextTestUtils.cpp"
-#include "qps/parser/token_parser/context/such_that_clause/PQLParentClauseContext.h"
+#include "PQLContextTestUtils.h"
 #include "qps/errors/QPSParserSyntaxError.h"
 #include "qps/clauses/such_that/ParentClause.h"
 #include "qps/clauses/such_that/ParentTClause.h"

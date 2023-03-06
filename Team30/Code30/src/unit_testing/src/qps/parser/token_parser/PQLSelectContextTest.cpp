@@ -1,25 +1,25 @@
 #include "catch.hpp"
 #include <memory>
 
-#include "../../util/PQLTestTokenSequenceBuilder.cpp"
-#include "qps/parser/token_parser/query_context/PQLSelectParser.h"
+#include "PQLContextTestUtils.h"
+#include "../../util/PQLTestTokenSequenceBuilder.h"
 #include "qps/errors/QPSParserSyntaxError.h"
 #include "qps/errors/QPSParserSemanticError.h"
+#include "qps/parser/token_parser/parsers/select_parser/PQLSelectParser.h"
 
 using std::make_unique;
 
 TEST_CASE("Test PQL Select parsing") {
-  PQLSelectContext context;
+  QueryBuilder builder;
+  builder.addSynonym("s", PQL_SYN_TYPE_STMT);
 
-  auto dummyStream = make_unique<PQLTestTokenSequenceBuilder>()
-      ->synonym("s")
-      ->build();
+  testParsing<PQLSelectParser>(
+      make_unique<PQLTestTokenSequenceBuilder>()
+          ->addToken(PQL_TOKEN_SELECT)
+          ->synonym("s")
+          ->build(), &builder);
 
-  QueryTokenParseState state(&dummyStream);
-  state.getQueryBuilder()->addSynonym("s", PQL_SYN_TYPE_STMT);
-  context.parse(&state);
-
-  auto query = state.getQueryBuilder()->build();
+  auto query = builder.build();
   auto resultVar = query->getResultVariables();
   REQUIRE(resultVar->size() == 1);
   REQUIRE(resultVar->at(0).getName() == "s");
@@ -27,25 +27,24 @@ TEST_CASE("Test PQL Select parsing") {
 }
 
 TEST_CASE("Test PQL Select Tuple parsing") {
-  PQLSelectContext context;
+  QueryBuilder builder;
+  builder.addSynonym("s1", PQL_SYN_TYPE_STMT);
+  builder.addSynonym("s2", PQL_SYN_TYPE_STMT);
+  builder.addSynonym("s3", PQL_SYN_TYPE_STMT);
 
-  auto dummyStream = make_unique<PQLTestTokenSequenceBuilder>()
-      ->addToken(PQL_TOKEN_TUPLE_OPEN)
-      ->synonym("s1")
-      ->comma()
-      ->synonym("s2")
-      ->comma()
-      ->synonym("s3")
-      ->addToken(PQL_TOKEN_TUPLE_CLOSE)
-      ->build();
+  testParsing<PQLSelectParser>(
+      make_unique<PQLTestTokenSequenceBuilder>()
+          ->addToken(PQL_TOKEN_SELECT)
+          ->addToken(PQL_TOKEN_TUPLE_OPEN)
+          ->synonym("s1")
+          ->comma()
+          ->synonym("s2")
+          ->comma()
+          ->synonym("s3")
+          ->addToken(PQL_TOKEN_TUPLE_CLOSE)
+          ->build(), &builder);
 
-  QueryTokenParseState state(&dummyStream);
-  state.getQueryBuilder()->addSynonym("s1", PQL_SYN_TYPE_STMT);
-  state.getQueryBuilder()->addSynonym("s2", PQL_SYN_TYPE_STMT);
-  state.getQueryBuilder()->addSynonym("s3", PQL_SYN_TYPE_STMT);
-  context.parse(&state);
-
-  auto query = state.getQueryBuilder()->build();
+  auto query = builder.build();
   auto resultVar = query->getResultVariables();
   REQUIRE(resultVar->size() == 3);
   REQUIRE(resultVar->at(0).getName() == "s1");
@@ -57,37 +56,29 @@ TEST_CASE("Test PQL Select Tuple parsing") {
 }
 
 TEST_CASE("Test PQL Select Boolean parsing") {
-  PQLSelectContext context;
+  auto builder = testParsing<PQLSelectParser>(
+      make_unique<PQLTestTokenSequenceBuilder>()
+          ->addToken(PQL_TOKEN_SELECT)
+          ->synonym("BOOLEAN")
+          ->build());
 
-  auto dummyStream = make_unique<PQLTestTokenSequenceBuilder>()
-      ->synonym("BOOLEAN")
-      ->build();
-
-  QueryTokenParseState state(&dummyStream);
-  context.parse(&state);
-
-  auto query = state.getQueryBuilder()->build();
+  auto query = builder->build();
   auto resultVar = query->getResultVariables();
   REQUIRE(resultVar->size() == 0);
 }
 
 TEST_CASE("Test PQL Select unknown synonym") {
-  PQLSelectContext context;
-
-  auto dummyStream = make_unique<PQLTestTokenSequenceBuilder>()
-      ->synonym("s")
-      ->build();
-  QueryTokenParseState state(&dummyStream);
-  context.parse(&state);
-  REQUIRE_THROWS_AS(state.getQueryBuilder()->build(), QPSParserSemanticError);
+  auto builder = testParsing<PQLSelectParser>(
+      make_unique<PQLTestTokenSequenceBuilder>()
+          ->addToken(PQL_TOKEN_SELECT)
+          ->synonym("s")
+          ->build());
+  REQUIRE_THROWS_AS(builder->build(), QPSParserSemanticError);
 }
 
 TEST_CASE("Test PQL Select bad symbol") {
-  PQLSelectContext context;
-
-  auto dummyStream = make_unique<PQLTestTokenSequenceBuilder>()
-      ->semicolon()
-      ->build();
-  QueryTokenParseState state(&dummyStream);
-  REQUIRE_THROWS_AS(context.parse(&state), QPSParserSyntaxError);
+  REQUIRE_THROWS_AS(testParsing<PQLSelectParser>(
+      make_unique<PQLTestTokenSequenceBuilder>()
+          ->semicolon()
+          ->build()), QPSParserSyntaxError);
 }
