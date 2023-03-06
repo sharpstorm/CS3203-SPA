@@ -2,40 +2,50 @@
 
 #include <string>
 #include <vector>
+#include <memory>
+
 #include "QueryLexerTokenTable.h"
 #include "../../../common/UtilityTypes.h"
 
-using std::string, std::vector;
-using QueryLexerResult = UniqueVectorPtr<PQLToken>;
+using std::string, std::vector, std::unique_ptr;
+
+typedef vector<PQLToken> PQLTokenStream;
+typedef unique_ptr<PQLTokenStream> PQLTokenStreamPtr;
 
 class QueryLexer {
  public:
-  QueryLexerResult getTokenStream(string *query);
+  explicit QueryLexer(string *query,
+                      QueryLexerTokenTable* tokenTable);
+  PQLTokenStreamPtr getTokenStream();
 
  private:
-  struct LexerInternalState {
-    string buffer;
-    string literalBuffer;
-    bool hasSeenChar;
-    int literalSymbolCount;
-    bool isProcessingLiteral;
-  };
+  string* query;
+  PQLTokenStreamPtr result;
 
-  QueryLexerTokenTable tokenTable;
-  void processChar(char c, vector<PQLToken>* result,
-                   LexerInternalState* state);
-  void flushBuffer(vector<PQLToken>* result,
-                   LexerInternalState* state);
-  void processLiteral(char c, vector<PQLToken>* result,
-                      LexerInternalState* state);
-  void toggleLiteral(vector<PQLToken>* result,
-                     LexerInternalState* state);
-  void startLiteral(LexerInternalState* state);
-  void flushLiteral(vector<PQLToken>* result,
-                    LexerInternalState* state);
-  void clearState(LexerInternalState* state);
-  PQLToken resolveStringToken(string buffer, bool hasSeenChar);
-  PQLToken validateIntegerToken(string* buffer);
-  PQLToken validateIdentifier(string* buffer);
-  void throwInvalidCharError(LexerInternalState* state);
+  string buffer;
+  string literalBuffer;
+  bool hasSeenChar;
+  int literalSymbolCount;
+  bool isProcessingLiteral;
+
+  QueryLexerTokenTable* tokenTable;
+  void processChar(const char &c);
+  void flushBuffer();
+
+  void toggleLiteral();
+  void startLiteral();
+  void endLiteral();
+
+  void appendStringToken(const PQLTokenType &tokenType,
+                         const string &data);
+  void appendSymbolToken(const PQLTokenType &tokenType,
+                         const char &c);
+  void clearState();
+
+  PQLTokenType resolveStringToken(const string &buffer,
+                                  const bool &hasSeenChar);
+  void validateIntegerToken(const string &buffer);
+  void validateIdentifier(const string &buffer);
 };
+
+typedef unique_ptr<QueryLexer> QueryLexerPtr;

@@ -56,4 +56,5 @@ class QueryLexerTokenTable {
   QueryLexerTokenTable();
   static bool isDigit(char c);
   static bool isZero(char c);
+  static bool isCharacter(char c);
 };
