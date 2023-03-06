@@ -59,6 +59,7 @@ enum PQLTokenType: uint16_t {
   PQL_TOKEN_SUCH,
   PQL_TOKEN_THAT,
   PQL_TOKEN_PATTERN,
+  PQL_TOKEN_AND,
 
   // Relationship Keywords
   PQL_TOKEN_FOLLOWS = PQL_RELATIONSHIP_TOKEN,

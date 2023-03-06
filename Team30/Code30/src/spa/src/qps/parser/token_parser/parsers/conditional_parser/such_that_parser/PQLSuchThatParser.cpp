@@ -1,0 +1,44 @@
+#include "PQLSuchThatParser.h"
+
+#include <utility>
+
+using std::move;
+
+void PQLSuchThatParser::parse(QueryTokenParseState *parserState,
+                              QueryBuilder *queryBuilder) {
+  parserState->expect(PQL_TOKEN_SUCH);
+  parserState->expect(PQL_TOKEN_THAT);
+
+  IPQLSuchThatClauseContext* context =
+      getContext(parserState->getCurrentTokenType());
+  if (context == nullptr) {
+    throw QPSParserSyntaxError(QPS_PARSER_ERR_UNEXPECTED);
+  }
+
+  PQLToken* andToken = parserState->tryExpect(PQL_TOKEN_AND);
+  while (andToken != nullptr) {
+    context = getContext(parserState->getCurrentTokenType());
+    SuchThatClausePtr clause = context->parse(parserState, queryBuilder);
+    if (clause != nullptr) {
+      queryBuilder->addSuchThat(std::move(clause));
+    }
+    andToken = parserState->tryExpect(PQL_TOKEN_AND);
+  }
+}
+
+IPQLSuchThatClauseContext *PQLSuchThatParser::getContext(PQLTokenType type) {
+  switch (type) {
+    case PQL_TOKEN_FOLLOWS:
+      return &followsContext;
+    case PQL_TOKEN_PARENT:
+      return &parentContext;
+    case PQL_TOKEN_USES:
+      return &usesContext;
+    case PQL_TOKEN_MODIFIES:
+      return &modifiesContext;
+    case PQL_TOKEN_CALLS:
+      return &callsContext;
+    default:
+      return nullptr;
+  }
+}

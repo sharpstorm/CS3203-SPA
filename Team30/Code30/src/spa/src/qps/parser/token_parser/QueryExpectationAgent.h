@@ -3,6 +3,7 @@
 #include "../PQLToken.h"
 #include "token_stream/QueryTokenStream.h"
 #include "qps/errors/QPSParserSyntaxError.h"
+#include "qps/common/PQLTypes.h"
 
 class QueryExpectationAgent {
  private:
@@ -14,11 +15,13 @@ class QueryExpectationAgent {
 
   template<typename... T>
   PQLToken *expect(T... tokenType);
-  PQLToken *expectSynName();
+  template<typename... T>
+  PQLToken *tryExpect(T... tokenType);
+  PQLSynonymName expectSynName();
 };
 
 template<typename... PQLTokenType>
-PQLToken* QueryExpectationAgent::expect(PQLTokenType... tokenType) {
+PQLToken* QueryExpectationAgent::tryExpect(PQLTokenType... tokenType) {
   PQLToken* currentToken = stream->getCurrentToken();
   assertNotNull(currentToken);
 
@@ -27,5 +30,15 @@ PQLToken* QueryExpectationAgent::expect(PQLTokenType... tokenType) {
     return currentToken;
   }
 
-  throw QPSParserSyntaxError(QPS_PARSER_ERR_UNEXPECTED);
+  return nullptr;
+}
+
+template<typename... PQLTokenType>
+PQLToken* QueryExpectationAgent::expect(PQLTokenType... tokenType) {
+  PQLToken* currentToken = tryExpect(tokenType...);
+  if (currentToken == nullptr) {
+    throw QPSParserSyntaxError(QPS_PARSER_ERR_UNEXPECTED);
+  }
+
+  return currentToken;
 }

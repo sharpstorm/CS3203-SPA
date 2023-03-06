@@ -2,12 +2,12 @@
 #include "qps/clauses/arguments/ClauseArgumentFactory.h"
 
 ClauseArgumentPtr PQLEntityRefExtractor::extract(
-    QueryTokenParseState* state) {
+    QueryTokenParseState* state, QueryBuilder* builder) {
   if (state->isCurrentTokenType(PQL_TOKEN_STRING_LITERAL)) {
     return extractEntity(state);
   }
 
-  return extractCommonRef(state);
+  return extractCommonRef(state, builder);
 }
 
 ClauseArgumentPtr PQLEntityRefExtractor::extractEntity(

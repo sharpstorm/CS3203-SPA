@@ -2,7 +2,7 @@
 #include <memory>
 
 #include "../../util/PQLTestTokenSequenceBuilder.cpp"
-#include "qps/parser/token_parser/context/query/PQLSelectContext.h"
+#include "qps/parser/token_parser/query_context/PQLSelectParser.h"
 #include "qps/errors/QPSParserSyntaxError.h"
 #include "qps/errors/QPSParserSemanticError.h"
 

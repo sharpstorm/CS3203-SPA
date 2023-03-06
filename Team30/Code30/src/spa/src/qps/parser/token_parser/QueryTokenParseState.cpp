@@ -2,8 +2,7 @@
 
 QueryTokenParseState::QueryTokenParseState(vector<PQLToken> *tokens):
     tokenStream(tokens),
-    QueryExpectationAgent(&tokenStream),
-    currentStage(TOKEN_PARSE_STAGE_INIT) {
+    QueryExpectationAgent(&tokenStream) {
 }
 
 bool QueryTokenParseState::isTokenStreamEnd() {
@@ -34,18 +33,4 @@ bool QueryTokenParseState::isCurrentTokenCategory(PQLTokenCategory category) {
   }
 
   return curToken->isCategory(category);
-}
-
-QueryBuilder* QueryTokenParseState::getQueryBuilder() {
-  return &queryBuilder;
-}
-
-void QueryTokenParseState::advanceStage(TokenParsingStage newStage) {
-  unordered_set<TokenParsingStage> allowed =
-      parsingAllowedTransitions[currentStage];
-  if (allowed.find(newStage) == allowed.end()) {
-    throw QPSParserSyntaxError(QPS_PARSER_ERR_TOKEN_SEQUENCE);
-  }
-
-  currentStage = newStage;
 }

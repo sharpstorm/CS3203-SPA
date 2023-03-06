@@ -1,6 +1,6 @@
 #include "QueryExpectationAgent.h"
 
-PQLToken *QueryExpectationAgent::expectSynName() {
+PQLSynonymName QueryExpectationAgent::expectSynName() {
   PQLToken* currentToken = stream->getCurrentToken();
   assertNotNull(currentToken);
 
@@ -9,7 +9,7 @@ PQLToken *QueryExpectationAgent::expectSynName() {
   }
 
   stream->advanceToken();
-  return currentToken;
+  return currentToken->getData();
 }
 
 void QueryExpectationAgent::assertNotNull(PQLToken* token) {

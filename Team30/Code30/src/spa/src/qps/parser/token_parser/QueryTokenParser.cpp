@@ -1,25 +1,20 @@
 #include <memory>
 #include "QueryTokenParser.h"
-#include "../../errors/QPSParserSyntaxError.h"
+#include "qps/parser/builder/QueryBuilder.h"
 
 QueryTokenParser::QueryTokenParser(ISourceExpressionParser* exprParser,
                                    vector<PQLToken>* tokens):
-                                   tokens(tokens), contextProvider(exprParser) {
+                                   tokens(tokens),
+                                   conditionalParser(exprParser) {
 }
 
 unique_ptr<PQLQuery> QueryTokenParser::build() {
   QueryTokenParseState state(this->tokens);
+  QueryBuilder builder;
 
-  while (!state.isTokenStreamEnd()) {
-    IPQLContext* context = contextProvider.getContext(
-        state.getCurrentTokenType());
-    if (context == nullptr) {
-      throw QPSParserSyntaxError(QPS_PARSER_ERR_UNEXPECTED);
-    }
-    state.advanceToken();
-    context->parse(&state);
-  }
+  declarationParser.parse(&state, &builder);
+  selectParser.parse(&state, &builder);
+  conditionalParser.parse(&state, &builder);
 
-  state.advanceStage(TOKEN_PARSE_STAGE_PARSE_END);
-  return state.getQueryBuilder()->build();
+  return builder.build();
 }

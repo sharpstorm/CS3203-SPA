@@ -4,7 +4,7 @@
 #include <string>
 
 #include "../../util/PQLTestTokenSequenceBuilder.cpp"
-#include "qps/parser/token_parser/context/declarations/PQLStmtContext.h"
+#include "qps/parser/token_parser/declaration_context/contexts/PQLStmtContext.h"
 #include "qps/errors/QPSParserSyntaxError.h"
 #include "qps/parser/lexer/QueryLexerTokenTable.h"
 
