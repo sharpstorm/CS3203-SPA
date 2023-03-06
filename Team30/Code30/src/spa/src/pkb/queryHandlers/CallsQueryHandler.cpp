@@ -25,8 +25,7 @@ QueryResult<string, string> CallsQueryHandler::queryCalls(EntityRef e1,
   } else if (e2.isKnown()) {
     return store->query(predicateFactory->getPredicate(e1), e2.name);
   } else {
-    return store->query(entityProvider->getSymbolsOfType(e1.type),
-                        predicateFactory->getPredicate(e2));
+    return store->query(entityProvider->getSymbolsOfType(EntityType::Procedure), predicateFactory->getPredicate(e2));
   }
 }
 
@@ -40,7 +39,6 @@ QueryResult<string, string> CallsQueryHandler::queryCallsStar(
   } else if (e2.isKnown()) {
     return store->queryT(predicateFactory->getPredicate(e1), e2.name);
   } else {
-    return store->queryT(entityProvider->getSymbolsOfType(e1.type),
-                         predicateFactory->getPredicate(e2));
+    return store->query(entityProvider->getSymbolsOfType(EntityType::Procedure), predicateFactory->getPredicate(e2));
   }
 }
