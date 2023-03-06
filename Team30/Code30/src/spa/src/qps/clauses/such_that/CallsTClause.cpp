@@ -9,8 +9,7 @@ CallsTClause::CallsTClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
     : AbstractTwoArgClause(move(left), move(right)) {
 }
 
-PQLQueryResult *CallsTClause::evaluateOn
-    (shared_ptr<PkbQueryHandler> pkbQueryHandler) {
+PQLQueryResult *CallsTClause::evaluateOn(PkbQueryHandler* pkbQueryHandler) {
   EntityRef leftEntity = left->toEntityRef();
   EntityRef rightEntity = right->toEntityRef();
   QueryResult<string, string> queryResult =
