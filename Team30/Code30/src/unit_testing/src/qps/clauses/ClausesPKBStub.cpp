@@ -12,78 +12,39 @@ class ClausesPKBStub : public StubPKB {
 
   QueryResult<int, int> queryFollows(StmtRef s1, StmtRef s2) const override {
     auto result = QueryResult<int, int>();
-    // E.g. Follows(stmtNum, stmtNum)
-    if (s1.isKnown() && s2.isKnown()) {
-      // Failing this case implies something similar to Follows(5,3)
-      if (s1.lineNum <= s2.lineNum) {
-        result.add(1, 2);
-      }
-    } else if (s1.isKnown() || s2.isKnown()) {
-      // Follows(1, a) || Follows(a,2)
-      result.add(1, 2);
-    } else {
-      //  Follows(a1,a2)
-      result.add(1,2);
+    // Static result but s2 > s1 (Does not hold)
+    if (s1.isKnown() && s2.isKnown() && s2.lineNum > s1.lineNum) {
+      return result;
     }
 
+    result.add(1, 2);
     return result;
   };
 
   QueryResult<int, int> queryFollowsStar(StmtRef s1, StmtRef s2) const override {
-//    auto result = QueryResult<int, int>();
-    // E.g. Follows*(stmtNum, stmtNum)
-    if (s1.isKnown() && s2.isKnown()) {
-      // Failing this case implies something similar to Follows*(5,3)
-      if (s1.lineNum <= s2.lineNum) {
-        return createFollowsTResult();
-      }
-    } else if (s1.isKnown() || s2.isKnown()) {
-      // Follows*(1, a) || Follows*(a,4)
-      return createFollowsTResult();
-    } else {
-      //  Follows*(a1,a2)
-      return createFollowsTResult();
+    if (s1.isKnown() && s2.isKnown() && s2.lineNum > s1.lineNum) {
+      return QueryResult<int, int>();
     }
 
-    return QueryResult<int, int>();
+    return createFollowsTResult();
   };
 
   QueryResult<int, int> queryParent(StmtRef s1, StmtRef s2) const override {
     auto result = QueryResult<int, int>();
-    // E.g. Parent(stmtNum, stmtNum)
-    if (s1.isKnown() && s2.isKnown()) {
-      // Failing this case implies something similar to Parent(5,3)
-      if (s1.lineNum <= s2.lineNum) {
-        result.add(6, 7);
-      }
-    } else if (s1.isKnown() || s2.isKnown()) {
-      // Parent(1, a) || Parent(a,2)
-      result.add(6, 7);
-    } else {
-      //  Parent(a1,a2)
-      result.add(6,7);
+    if (s1.isKnown() && s2.isKnown() && s2.lineNum > s1.lineNum) {
+     return result;
     }
 
+    result.add(6,7);
     return result;
   };
 
   QueryResult<int, int> queryParentStar(StmtRef s1, StmtRef s2) const override {
-    auto result = QueryResult<int, int>();
-    // E.g. Parent*(stmtNum, stmtNum)
-    if (s1.isKnown() && s2.isKnown()) {
-      // Failing this case implies something similar to Parent*(5,3)
-      if (s1.lineNum <= s2.lineNum) {
-        return createParentTResult();
-      }
-    } else if (s1.isKnown() || s2.isKnown()) {
-      // Parent*(1, a) || Parent*(a,2)
-      return createParentTResult();
-    } else {
-      //  Parent*(a1, a2)
-      return createParentTResult();
+    if (s1.isKnown() && s2.isKnown() && s2.lineNum > s1.lineNum) {
+      return QueryResult<int, int>();
     }
 
-    return result;
+    return createParentTResult();
   };
 
   QueryResult<int, string> queryUses(StmtRef sRef, EntityRef eRef) const override {
@@ -142,6 +103,58 @@ class ClausesPKBStub : public StubPKB {
                                             EntityRef) const override {
     return QueryResult<string, string>();
   };
+
+  QueryResult<string, string> queryCalls(EntityRef e1, EntityRef e2) const override {
+    QueryResult<string, string> result;
+
+    if (e1.type == EntityType::None && e2.type == EntityType::None) {
+      // Both wildcards and Static Results
+      return result;
+    }
+
+    if (!e1.isKnown() && e2.isKnown()) {
+      // (syn, static)
+      result.add("Ironhide", "Barricade");
+    } else if (e1.isKnown() && !e2.isKnown()) {
+      // (static, syn) or (static, wildcard)
+      result.add("Bumblebee", "Megatron");
+      result.add("Bumblebee", "Ironhide");
+    } else {
+      // Both syns or (syn, _) or (_, syn)
+      result.add("Bumblebee", "Megatron");
+      result.add("Bumblebee", "Ironhide");
+      result.add("Ironhide", "Barricade");
+    }
+
+    return result;
+  };
+
+  QueryResult<string, string> queryCallsStar(EntityRef e1, EntityRef e2) const override {
+    QueryResult<string, string> result;
+
+    if (e1.type == EntityType::None && e2.type == EntityType::None) {
+      // Both wildcards and Static Results
+      return result;
+    }
+
+    if (!e1.isKnown() && e2.isKnown()) {
+      // (syn, static)
+      result.add("Ironhide", "Barricade");
+    } else if (e1.isKnown() && !e2.isKnown()) {
+      // (static, syn) or (static, wildcard)
+      result.add("Bumblebee", "Megatron");
+      result.add("Bumblebee", "Ironhide");
+      result.add("Bumblebee", "Barricade");
+    } else {
+      // Both syns or (syn, _) or (_, syn)
+      result.add("Bumblebee", "Megatron");
+      result.add("Bumblebee", "Ironhide");
+      result.add("Bumblebee", "Barricade");
+      result.add("Ironhide", "Barricade");
+    }
+
+    return result;
+  }
 
   unordered_set<string> getSymbolsOfType(EntityType) const override {
     return unordered_set<string>();
