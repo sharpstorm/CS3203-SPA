@@ -253,5 +253,18 @@ TEST_CASE("Test Full End-to-end") {
   query = "read r; Select r such that Modifies(\"Example\", \"x\")";
   expectedRes = unordered_set<string>({"10"});
   launchQuery(qps.get(), query, expectedRes);
-}
+  
+  query = "assign a; Select a pattern a(_, _\"z + x\"_)";
+  expectedRes = unordered_set<string>({"8", "9"});
+  launchQuery(qps.get(), query, expectedRes);
 
+  query = "assign a; Select a pattern a(_, \"z + x\")";
+  expectedRes = unordered_set<string>({"8"});
+  launchQuery(qps.get(), query, expectedRes);
+
+  query = "assign a; Select a pattern a(_, _\"(a % * 7))\"_)";
+  launchSyntaxErrorQuery(qps.get(), query);
+
+  query = "assign a; Select a pattern a(_, _\"((a * 7)\"_)";
+  launchSyntaxErrorQuery(qps.get(), query);
+}

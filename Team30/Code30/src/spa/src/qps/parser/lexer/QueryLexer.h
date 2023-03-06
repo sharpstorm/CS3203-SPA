@@ -15,8 +15,9 @@ class QueryLexer {
  private:
   struct LexerInternalState {
     string buffer;
+    string literalBuffer;
     bool hasSeenChar;
-    bool isLiteralVarchar;
+    int literalSymbolCount;
     bool isProcessingLiteral;
   };
 
@@ -25,6 +26,8 @@ class QueryLexer {
                    LexerInternalState* state);
   void flushBuffer(vector<PQLToken>* result,
                    LexerInternalState* state);
+  void processLiteral(char c, vector<PQLToken>* result,
+                      LexerInternalState* state);
   void toggleLiteral(vector<PQLToken>* result,
                      LexerInternalState* state);
   void startLiteral(LexerInternalState* state);

@@ -1,15 +1,27 @@
 #include "PatternTrie.h"
 
 #include <utility>
+#include <string>
 
-PatternTrie::PatternTrie(IASTNodePtr root): root(root) {}
+using std::to_string;
+
+PatternTrie::PatternTrie(PatternTrieNodePtr trieRoot,
+                         TrieSymbolTablePtr symbolTable,
+                         int longestPathCount):
+    root(std::move(trieRoot)),
+    symbolTable(std::move(symbolTable)),
+    longestPathCount(longestPathCount) {}
 
 bool PatternTrie::isMatchFull(ExpressionSequence *sequence) {
   if (root == nullptr) {
     return false;
   }
 
-  return isMatchNode(root, sequence);
+  if (sequence->size() != longestPathCount) {
+    return false;
+  }
+
+  return isValidPostfix(sequence);
 }
 
 bool PatternTrie::isMatchPartial(ExpressionSequence *sequence) {
@@ -17,29 +29,27 @@ bool PatternTrie::isMatchPartial(ExpressionSequence *sequence) {
     return false;
   }
 
-  return traverseForMatch(root, sequence);
+  return isValidPostfix(sequence);
 }
 
-bool PatternTrie::traverseForMatch(IASTNodePtr curNode,
-                                  ExpressionSequence *sequence) {
-  if (isMatchNode(curNode, sequence)) {
-    return true;
-  }
-
-  for (int i = 0; i < curNode->getChildCount(); i++) {
-    if (traverseForMatch(curNode->getChild(i), sequence)) {
-      return true;
+bool PatternTrie::isValidPostfix(ExpressionSequence *sequence) {
+  PatternTrieNode* curNode = root.get();
+  for (int i = 0; i < sequence->size(); i++) {
+    SymbolIdent symbol = lookupSymbol(sequence->at(i));
+    curNode = curNode->traverse(symbol);
+    if (curNode == nullptr) {
+      return false;
     }
   }
 
-  return false;
+  return curNode->isEnd();
 }
 
-bool PatternTrie::isMatchNode(IASTNodePtr node,
-                              ExpressionSequence *sequence) {
-  if (node->getType() != ASTNodeType::ASTNODE_VARIABLE
-      && node->getType() != ASTNodeType::ASTNODE_CONSTANT) {
-    return false;
+SymbolIdent PatternTrie::lookupSymbol(const string &symbol) {
+  auto result = symbolTable->find(symbol);
+  if (result == symbolTable->end()) {
+    return TRIE_INVALID_SYMBOL;
   }
-  return node->getValue() == sequence->at(0);
+
+  return result->second;
 }

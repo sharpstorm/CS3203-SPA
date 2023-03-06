@@ -4,6 +4,7 @@
 #include <utility>
 #include "qps/clauses/pattern/AssignPatternClause.h"
 #include "qps/errors/QPSParserSyntaxError.h"
+#include "common/pattern/PatternConverter.h"
 
 using std::make_unique;
 
@@ -21,8 +22,7 @@ PatternClausePtr PQLAssignPatternContext::parse(
         *synonym, std::move(firstArg), make_unique<ExpressionArgument>());
   }
 
-  IASTPtr astTree = secondArg->parse(exprParser);
-  ExpressionSequencePtr sequence = buildPostfix(astTree.get());
+  ExpressionSequencePtr sequence = buildPostfix(secondArg.get());
   ExpressionArgumentPtr exprArg = make_unique<ExpressionArgument>(
       std::move(sequence), secondArg->allowsPartial());
 
@@ -30,20 +30,20 @@ PatternClausePtr PQLAssignPatternContext::parse(
       *synonym, std::move(firstArg), std::move(exprArg));
 }
 
-ExpressionSequencePtr PQLAssignPatternContext::buildPostfix(IAST* tree) {
-  if (tree == nullptr || tree->getRoot() == nullptr) {
+ExpressionSequencePtr PQLAssignPatternContext::buildPostfix(
+    IntermediateExpressionArgument* arg) {
+  IASTPtr astTree;
+  try {
+    astTree = std::move(arg->parse(exprParser));
+  } catch (...) {
     throw QPSParserSyntaxError(QPS_PARSER_ERR_INVALID_PATTERN);
   }
-  ExpressionSequencePtr result = make_unique<ExpressionSequence>();
-  traversePostfix(tree->getRoot().get(), result.get());
-  return std::move(result);
-}
 
-void PQLAssignPatternContext::traversePostfix(IASTNode *node,
-                                           ExpressionSequence *output) {
-  for (int i = 0; i < node->getChildCount(); i++) {
-    traversePostfix(node->getChild(i).get(), output);
+  ExpressionSequencePtr expr = PatternConverter::convertASTToPostfix(
+      astTree.get());
+  if (expr == nullptr) {
+    throw QPSParserSyntaxError(QPS_PARSER_ERR_INVALID_PATTERN);
   }
 
-  output->push_back(node->getValue());
+  return std::move(expr);
 }

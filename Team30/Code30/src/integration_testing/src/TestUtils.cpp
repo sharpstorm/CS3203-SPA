@@ -33,3 +33,33 @@ void launchQuery(IQPS* qps, string query, unordered_set<string> answer) {
   INFO("-----------------------------------------------\n\n");
   assertSetEquality(answer, resultSet);
 }
+
+void launchSyntaxErrorQuery(IQPS* qps, string query) {
+  INFO("-----------------------------------------------\n");
+  INFO("Query: " << query << "\n");
+  UniqueVectorPtr<string> result = nullptr;
+  try {
+    result = qps->evaluate(query);
+  } catch (const QPSParserSemanticError& ex) {
+    FAIL("SEMANTIC ERROR");
+  } catch (const QPSParserSyntaxError& ex) {
+    return;
+  }
+
+  FAIL("SYNTAX ERROR SHOULD BE THROWN");
+}
+
+void launchSemanticErrorQuery(IQPS* qps, string query) {
+  INFO("-----------------------------------------------\n");
+  INFO("Query: " << query << "\n");
+  UniqueVectorPtr<string> result = nullptr;
+  try {
+    result = qps->evaluate(query);
+  } catch (const QPSParserSemanticError& ex) {
+    return;
+  } catch (const QPSParserSyntaxError& ex) {
+    FAIL("SYNTAX ERROR");
+  }
+
+  FAIL("SEMANTIC ERROR SHOULD BE THROWN");
+}
