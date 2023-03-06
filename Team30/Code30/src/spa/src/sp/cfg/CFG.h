@@ -1,5 +1,11 @@
+#pragma once
 #include "CFGNode.h"
 
 class CFG {
-  explicit CFG(CFGNode node);
+ public:
+  explicit CFG(CFGNodePtr node);
+  CFGNodePtr getMutableRoot();
+
+ private:
+  CFGNodePtr root;
 };
