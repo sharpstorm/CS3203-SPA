@@ -2,6 +2,8 @@
 
 CFGNode::CFGNode(CFGNodeType t) : type(t) {}
 
+CFGNode::CFGNode(CFGNodeType t, int num) : type(t), lineNumber(num) {}
+
 void CFGNode::addChild(CFGNodePtr node) { children.push_back(node); }
 
 void CFGNode::setChild(int index, CFGNodePtr node) { children[index] = node; }
