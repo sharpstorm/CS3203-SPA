@@ -45,9 +45,11 @@ TEST_CASE("CallsTClause Querying") {
   expected = TestQueryResultBuilder::buildExpected(ExpectedParams{
       {"p", QueryResultItemVector{QueryResultItem("Bumblebee"),
                                   QueryResultItem("Bumblebee"),
+                                  QueryResultItem("Bumblebee"),
                                   QueryResultItem("Ironhide")}},
       {"q", QueryResultItemVector{QueryResultItem("Megatron"),
                                   QueryResultItem("Ironhide"),
+                                  QueryResultItem("Barricade"),
                                   QueryResultItem("Barricade")}}
   });
   actual = PQLQueryResultPtr(callsClause.evaluateOn(pkb.get()));
@@ -90,7 +92,8 @@ TEST_CASE("CallsTClause Querying") {
   );
   expected = TestQueryResultBuilder::buildExpected(ExpectedParams{
       {"q", QueryResultItemVector{QueryResultItem("Megatron"),
-                                  QueryResultItem("Ironhide")}}
+                                  QueryResultItem("Ironhide"),
+                                  QueryResultItem("Barricade")}}
   });
   actual = PQLQueryResultPtr(callsClause.evaluateOn(pkb.get()));
   REQUIRE(*expected == *actual);
