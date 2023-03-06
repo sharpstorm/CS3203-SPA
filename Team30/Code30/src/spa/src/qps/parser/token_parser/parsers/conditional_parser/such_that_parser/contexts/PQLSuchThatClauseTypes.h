@@ -16,22 +16,27 @@
 typedef PQLTransitiveClauseContext<FollowsClause,
                                    FollowsTClause,
                                    PQLStmtRefExtractor,
-                                   PQLStmtRefExtractor> PQLFollowsClauseContext;
+                                   PQLStmtRefExtractor>
+                                   PQLFollowsClauseContext;
 
 typedef PQLTransitiveClauseContext<ParentClause,
                                    ParentTClause,
                                    PQLStmtRefExtractor,
-                                   PQLStmtRefExtractor> PQLParentClauseContext;
+                                   PQLStmtRefExtractor>
+                                   PQLParentClauseContext;
 
 typedef PQLTransitiveClauseContext<CallsClause,
                                    CallsTClause,
                                    PQLEntityRefExtractor,
-                                   PQLEntityRefExtractor> PQLCallsClauseContext;
+                                   PQLEntityRefExtractor>
+                                   PQLCallsClauseContext;
 
 typedef PQLSuchThatClauseContext<UsesClause,
                                  PQLAnyRefExtractor,
-                                 PQLEntityRefExtractor> PQLUsesClauseContext;
+                                 PQLEntityRefExtractor>
+                                 PQLUsesClauseContext;
 
 typedef PQLSuchThatClauseContext<ModifiesClause,
                                  PQLAnyRefExtractor,
-                                 PQLEntityRefExtractor> PQLModifiesClauseContext;
+                                 PQLEntityRefExtractor>
+                                 PQLModifiesClauseContext;

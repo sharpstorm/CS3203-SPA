@@ -1,8 +1,9 @@
 #include "PQLSuchThatParser.h"
 
 #include <utility>
+#include <memory>
 
-using std::move;
+using std::move, std::unique_ptr;
 
 void PQLSuchThatParser::parse(QueryTokenParseState *parserState,
                               QueryBuilder *queryBuilder) {
