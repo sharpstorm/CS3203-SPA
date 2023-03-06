@@ -1,7 +1,7 @@
 #include "QueryLexerTokenTable.h"
 #include "common/lexer/AsciiCharacters.h"
 
-QueryLexerTokenTable::QueryLexerTokenTable() {
+QueryLexerTokenTable::QueryLexerTokenTable(): tokens() {
   for (int i = 0; i < 256; i++) {
     tokens[i] = PQL_TOKEN_INVALID;
   }

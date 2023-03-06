@@ -7,7 +7,8 @@
 
 class PQLDeclarationParser: IPQLParser {
  public:
-  void parse(QueryTokenParseState* parserState, QueryBuilder *queryBuilder);
+  void parse(QueryTokenParseState* parserState,
+             QueryBuilder *queryBuilder) override;
 
  private:
   IPQLDeclarationContext* getContext(PQLTokenType type);

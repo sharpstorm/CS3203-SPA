@@ -6,7 +6,7 @@ QueryTokenStream::QueryTokenStream(vector<PQLToken> *tokens) {
   totalTokenSize = tokens->size();
 }
 
-bool QueryTokenStream::isTokenStreamEnd() {
+const bool QueryTokenStream::isTokenStreamEnd() {
   return currentIndex >= totalTokenSize;
 }
 

@@ -4,7 +4,7 @@ PQLToken::PQLToken(PQLTokenType type):
     type(type) {
 }
 
-PQLToken::PQLToken(PQLTokenType type, string data):
+PQLToken::PQLToken(PQLTokenType type, const string &data):
     type(type), tokenData(data) {
 }
 

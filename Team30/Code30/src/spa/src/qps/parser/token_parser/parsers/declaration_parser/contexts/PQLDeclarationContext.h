@@ -12,7 +12,8 @@ using std::string;
 template <PQLSynonymType PQL_SYN_TYPE>
 class PQLDeclarationContext: public IPQLDeclarationContext {
  public:
-  void parse(QueryTokenParseState* parserState, QueryBuilder *builder);
+  void parse(QueryTokenParseState* parserState,
+             QueryBuilder *builder) override;
 };
 
 template <PQLSynonymType PQL_SYN_TYPE>

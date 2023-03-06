@@ -8,7 +8,7 @@
 class QueryExpectationAgent {
  private:
   QueryTokenStream* stream;
-  void assertNotNull(PQLToken* token);
+  static void assertNotNull(PQLToken* token);
 
  public:
   explicit QueryExpectationAgent(QueryTokenStream* stream): stream(stream) {}

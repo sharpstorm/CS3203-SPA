@@ -14,6 +14,6 @@ class PQLSelectParser {
  private:
   void parseTuple(QueryTokenParseState* parserState,
                   QueryBuilder *queryBuilder);
-  void addResultSynonym(QueryBuilder *queryBuilder,
-                        string synName);
+  static void addResultSynonym(QueryBuilder *queryBuilder,
+                               const string &synName);
 };

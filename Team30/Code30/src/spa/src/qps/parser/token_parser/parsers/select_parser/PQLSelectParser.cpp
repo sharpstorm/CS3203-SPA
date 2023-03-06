@@ -3,7 +3,7 @@
 const char BOOLEAN_SELECT[] = "BOOLEAN";
 
 void PQLSelectParser::parse(QueryTokenParseState *parserState,
-                             QueryBuilder *queryBuilder) {
+                            QueryBuilder *queryBuilder) {
   parserState->expect(PQL_TOKEN_SELECT);
   if (parserState->isCurrentTokenType(PQL_TOKEN_TUPLE_OPEN)) {
     parseTuple(parserState, queryBuilder);
@@ -19,7 +19,7 @@ void PQLSelectParser::parse(QueryTokenParseState *parserState,
 }
 
 void PQLSelectParser::parseTuple(QueryTokenParseState *parserState,
-                                  QueryBuilder *queryBuilder) {
+                                 QueryBuilder *queryBuilder) {
   parserState->expect(PQL_TOKEN_TUPLE_OPEN);
   PQLSynonymName synName = parserState->expectSynName();
   addResultSynonym(queryBuilder, synName);
@@ -35,7 +35,7 @@ void PQLSelectParser::parseTuple(QueryTokenParseState *parserState,
 }
 
 void PQLSelectParser::addResultSynonym(QueryBuilder *queryBuilder,
-                                        string synName) {
+                                       const string &synName) {
   PQLQuerySynonym* synonym = queryBuilder->accessSynonym(synName);
   if (synonym == nullptr) {
     return;

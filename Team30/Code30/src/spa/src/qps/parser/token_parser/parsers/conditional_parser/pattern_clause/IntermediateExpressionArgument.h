@@ -13,7 +13,8 @@ class IntermediateExpressionArgument {
   bool isPartial;
 
  public:
-  IntermediateExpressionArgument(string literalPattern, bool isPartial);
+  IntermediateExpressionArgument(const string &literalPattern,
+                                 const bool isPartial);
   bool isWildcard();
   bool allowsPartial();
   IASTPtr parse(ISourceExpressionParser* parser);

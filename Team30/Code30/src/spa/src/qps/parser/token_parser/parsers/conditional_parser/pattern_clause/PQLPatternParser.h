@@ -10,7 +10,7 @@ class PQLPatternParser: public IPQLParser {
  public:
   explicit PQLPatternParser(ISourceExpressionParser* exprParser);
   void parse(QueryTokenParseState* parserState,
-             QueryBuilder* builder);
+             QueryBuilder* builder) override;
 
  private:
   PQLAssignPatternContext assignContextParser;
@@ -20,8 +20,8 @@ class PQLPatternParser: public IPQLParser {
   PatternClausePtr extractRemainingArgs(QueryTokenParseState *parserState,
                                         PQLQuerySynonym* synonym,
                                         ClauseArgumentPtr firstArg);
-  PQLQuerySynonym* parseSynonym(QueryTokenParseState *parserState,
-                                QueryBuilder *builder);
+  static PQLQuerySynonym* parseSynonym(QueryTokenParseState *parserState,
+                                       QueryBuilder *builder);
 
   PatternClausePtr
   dispatchTwoArg(PQLQuerySynonym* synonym,
@@ -31,6 +31,6 @@ class PQLPatternParser: public IPQLParser {
   dispatchThreeArg(PQLQuerySynonym* synonym,
                    ClauseArgumentPtr firstArg,
                    IntermediateExpressionArgumentPtr secondArg);
-  IntermediateExpressionArgumentPtr
+  static IntermediateExpressionArgumentPtr
   extractExpression(QueryTokenParseState* parserState);
 };

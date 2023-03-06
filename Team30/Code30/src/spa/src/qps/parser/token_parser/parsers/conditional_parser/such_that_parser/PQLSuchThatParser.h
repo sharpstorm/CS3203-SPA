@@ -6,7 +6,8 @@
 
 class PQLSuchThatParser: public IPQLParser {
  public:
-  void parse(QueryTokenParseState* parserState, QueryBuilder *queryBuilder);
+  void parse(QueryTokenParseState* parserState,
+             QueryBuilder *queryBuilder) override;
 
  private:
     PQLFollowsClauseContext followsContext;

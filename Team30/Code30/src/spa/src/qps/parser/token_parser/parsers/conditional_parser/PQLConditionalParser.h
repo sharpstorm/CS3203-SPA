@@ -7,7 +7,8 @@
 class PQLConditionalParser: public IPQLParser {
  public:
   explicit PQLConditionalParser(ISourceExpressionParser* exprParser);
-  void parse(QueryTokenParseState* parserState, QueryBuilder *queryBuilder);
+  void parse(QueryTokenParseState* parserState,
+             QueryBuilder *queryBuilder) override;
 
  private:
   IPQLParser* getParseContext(PQLTokenType type);

@@ -81,7 +81,7 @@ class PQLToken {
 
  public:
   explicit PQLToken(PQLTokenType type);
-  PQLToken(PQLTokenType type, string data);
+  PQLToken(PQLTokenType type, const string &data);
 
   PQLTokenType getType();
   string getData();

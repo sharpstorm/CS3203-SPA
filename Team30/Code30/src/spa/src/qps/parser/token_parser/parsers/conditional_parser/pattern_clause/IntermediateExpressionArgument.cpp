@@ -1,7 +1,7 @@
 #include "IntermediateExpressionArgument.h"
 
 IntermediateExpressionArgument::IntermediateExpressionArgument(
-    string literalPattern, bool isPartial):
+    const string &literalPattern, const bool isPartial):
     literalPattern(literalPattern), isPartial(isPartial) {}
 
 bool IntermediateExpressionArgument::isWildcard() {
