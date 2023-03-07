@@ -6,14 +6,16 @@
 
 using std::vector;
 
-CFGExtractor::CFGExtractor(PkbWriter* writer) : pkbWriter(writer), index(0) {}
+CFGExtractor::CFGExtractor(PkbWriter* writer) : pkbWriter(writer), index(0) {
+  CFGcache = new CFG();
+}
 
 void CFGExtractor::visit(ProcedureNode* node) {
   CFGcache = new CFG(node->getName());
 }
 
 void CFGExtractor::leave(ProcedureNode* node) {
-  setOfCFGs.push_back(*CFGcache);
+  setOfCFGs.push_back(CFGcache);
   index++;
 }
 
@@ -54,7 +56,7 @@ void CFGExtractor::visit(WhileNode* node) {
   addCFGOnWhileNodeList(node->getLineNumber(), &stmtList);
 }
 
-vector<CFG> CFGExtractor::getSetOfCFGs() { return setOfCFGs; }
+vector<CFG*> CFGExtractor::getSetOfCFGs() { return setOfCFGs; }
 
 void CFGExtractor::addCFGOnIfNodeList(int conditionalLine,
                                       vector<ASTNodePtr>* childList) {

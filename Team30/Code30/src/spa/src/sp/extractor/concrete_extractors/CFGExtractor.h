@@ -14,7 +14,7 @@ class CFGExtractor : public AbstractExtractor {
   void visit(IfNode* node);
   void visit(WhileNode* node);
 
-  vector<CFG> getSetOfCFGs();
+  vector<CFG*> getSetOfCFGs();
 
  private:
   void addCFGOnIfNodeList(int conditionalLine, vector<ASTNodePtr>* childList);
@@ -24,6 +24,6 @@ class CFGExtractor : public AbstractExtractor {
   void addCFGToPKB();
   PkbWriter* pkbWriter;
   CFG* CFGcache;
-  vector<CFG> setOfCFGs;
+  vector<CFG*> setOfCFGs;
   int index;
 };
