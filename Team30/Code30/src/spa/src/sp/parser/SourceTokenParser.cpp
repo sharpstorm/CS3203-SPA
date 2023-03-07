@@ -23,11 +23,6 @@ AST SourceTokenParser::parseProgram(vector<SourceToken> *tokens) {
   return AST(programNode);
 }
 
-AST SourceTokenParser::parseProcedure(vector<SourceToken> *tokens) {
-  SourceParseState state(tokens);
-  return AST(procedureParser->parse(&state));
-}
-
 AST SourceTokenParser::parseExpression(vector<SourceToken> *tokens) {
   SourceParseState state(tokens);
   return AST(exprParser->parse(&state));
