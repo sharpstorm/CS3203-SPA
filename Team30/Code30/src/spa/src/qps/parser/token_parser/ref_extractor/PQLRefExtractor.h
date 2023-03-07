@@ -3,6 +3,7 @@
 #include <memory>
 #include "../../../clauses/arguments/ClauseArgument.h"
 #include "../QueryTokenParseState.h"
+#include "qps/parser/builder/QueryBuilder.h"
 
 using std::unique_ptr;
 
@@ -11,5 +12,5 @@ class PQLRefExtractor {
   virtual ~PQLRefExtractor() = default;
  protected:
   static ClauseArgumentPtr
-      extractCommonRef(QueryTokenParseState* state);
+      extractCommonRef(QueryTokenParseState* state, QueryBuilder* builder);
 };

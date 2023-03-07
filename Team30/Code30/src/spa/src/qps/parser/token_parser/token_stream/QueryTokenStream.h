@@ -13,7 +13,7 @@ class QueryTokenStream {
 
  public:
   explicit QueryTokenStream(vector<PQLToken>* tokens);
-  bool isTokenStreamEnd();
+  const bool isTokenStreamEnd();
   void advanceToken();
   PQLToken* getCurrentToken();
 };

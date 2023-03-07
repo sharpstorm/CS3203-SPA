@@ -22,14 +22,16 @@ class QueryBuilder {
 
  public:
   QueryBuilder();
-  void addResultSynonym(PQLQuerySynonym synonym);
-  bool hasSynonym(PQLSynonymName name);
-  void addSynonym(PQLSynonymName name, PQLSynonymType type);
+  void addResultSynonym(const PQLQuerySynonym &synonym);
+  bool hasSynonym(const PQLSynonymName &name);
+  void addSynonym(const PQLSynonymName &name, const PQLSynonymType &type);
 
-  PQLQuerySynonym* accessSynonym(PQLSynonymName name);
+  PQLQuerySynonym* accessSynonym(const PQLSynonymName &name);
   void addSuchThat(unique_ptr<SuchThatClause> clause);
   void addPattern(unique_ptr<PatternClause> clause);
 
-  void setError(string msg);
+  void setError(const string &msg);
   unique_ptr<PQLQuery> build();
 };
+
+typedef unique_ptr<QueryBuilder> QueryBuilderPtr;

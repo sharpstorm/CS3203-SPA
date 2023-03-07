@@ -1,12 +1,13 @@
 #include "PQLAnyRefExtractor.h"
 
 ClauseArgumentPtr PQLAnyRefExtractor::extract(
-    QueryTokenParseState* state) {
-  if (state->getCurrentToken()->isType(PQL_TOKEN_STRING_LITERAL)) {
+    QueryTokenParseState* state,
+    QueryBuilder* builder) {
+  if (state->isCurrentTokenType(PQL_TOKEN_STRING_LITERAL)) {
     return extractEntity(state);
-  } else if (state->getCurrentToken()->isType(PQL_TOKEN_INTEGER)) {
-    return extractStatement(state);
+  } else if (state->isCurrentTokenType(PQL_TOKEN_INTEGER)) {
+    return extractStatement(state, builder);
   }
 
-  return extractCommonRef(state);
+  return extractCommonRef(state, builder);
 }

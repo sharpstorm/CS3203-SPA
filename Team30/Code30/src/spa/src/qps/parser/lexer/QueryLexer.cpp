@@ -94,7 +94,7 @@ void QueryLexer::endLiteral() {
     throw QPSLexerError(QPS_LEXER_ERR_EMPTY_QUOTE);
   }
 
-  bool isCharStart = tokenTable->isCharacter(literalBuffer.at(0));
+  bool isCharStart = QueryLexerTokenTable::isCharacter(literalBuffer.at(0));
   PQLTokenType type = (literalSymbolCount == 1 && isCharStart) ?
                       PQL_TOKEN_STRING_LITERAL : PQL_TOKEN_LITERAL;
   result->push_back(PQLToken(type, literalBuffer));
@@ -152,13 +152,13 @@ void QueryLexer::clearState() {
 }
 
 void QueryLexer::validateIntegerToken(const string &buffer) {
-  if (buffer.length() > 1 && tokenTable->isZero(buffer.at(0))) {
+  if (buffer.length() > 1 && QueryLexerTokenTable::isZero(buffer.at(0))) {
     throw QPSLexerError(QPS_LEXER_ERR_INTEGER_ZERO);
   }
 }
 
 void QueryLexer::validateIdentifier(const string &buffer) {
-  if (tokenTable->isDigit(buffer.at(0))) {
+  if (QueryLexerTokenTable::isDigit(buffer.at(0))) {
     throw QPSLexerError(QPS_LEXER_ERR_STRING_DIGIT);
   }
 }

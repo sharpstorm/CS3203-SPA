@@ -11,7 +11,9 @@
 #include "qps/clauses/such_that/FollowsClause.h"
 #include "qps/parser/QueryParser.h"
 #include "qps/clauses/pattern/AssignPatternClause.h"
-#include "../SourceParserStub.cpp"
+#include "../SourceParserStub.h"
+#include "qps/errors/QPSParserSemanticError.h"
+#include "qps/errors/QPSLexerError.h"
 
 using std::vector, std::string, std::cout, std::unique_ptr, std::shared_ptr;
 
@@ -28,6 +30,20 @@ unique_ptr<PQLQuery> testPQLParsing(string testCase) {
 
   FAIL("Failed with unknown exception");
   return nullptr;
+}
+
+void expectPQLSyntaxError(string testCase) {
+  SourceParserStub exprParser;
+  try {
+    QueryParser(&exprParser).parseQuery(&testCase);
+    FAIL("No Syntax Exception Thrown");
+  } catch (const QPSParserSyntaxError& err) {
+  } catch (const QPSLexerError& err) {
+  } catch (const QPSParserSemanticError& err) {
+    FAIL("Semantic error wrongly Thrown");
+  } catch (...) {
+    FAIL("Failed with unknown exception");
+  }
 }
 
 void requireSynonyms(shared_ptr<PQLQuery> result, vector<PQLQuerySynonym> expectedVariables) {
@@ -52,6 +68,11 @@ TEST_CASE("Test Unconditional Select") {
   REQUIRE(resultVar.getName() == "s");
   REQUIRE(resultVar.getType() == PQL_SYN_TYPE_STMT);
   REQUIRE(resultShared->getEvaluatables().size() == 0);
+}
+
+TEST_CASE("Test Bad Synonym Name") {
+  expectPQLSyntaxError("stmt 0asd; Select 0asd");
+  expectPQLSyntaxError("stmt 1234; Select 1234");
 }
 
 TEST_CASE("Test Conditional Select - 2 Constants") {

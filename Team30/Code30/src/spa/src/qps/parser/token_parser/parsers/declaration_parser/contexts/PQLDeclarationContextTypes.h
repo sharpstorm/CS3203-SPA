@@ -1,0 +1,14 @@
+#pragma once
+
+#include "PQLDeclarationContext.h"
+
+typedef PQLDeclarationContext<PQL_SYN_TYPE_ASSIGN> PQLAssignContext;
+typedef PQLDeclarationContext<PQL_SYN_TYPE_CALL> PQLCallContext;
+typedef PQLDeclarationContext<PQL_SYN_TYPE_CONSTANT> PQLConstantContext;
+typedef PQLDeclarationContext<PQL_SYN_TYPE_IF> PQLIfContext;
+typedef PQLDeclarationContext<PQL_SYN_TYPE_PRINT> PQLPrintContext;
+typedef PQLDeclarationContext<PQL_SYN_TYPE_PROCEDURE> PQLProcedureContext;
+typedef PQLDeclarationContext<PQL_SYN_TYPE_READ> PQLReadContext;
+typedef PQLDeclarationContext<PQL_SYN_TYPE_STMT> PQLStmtContext;
+typedef PQLDeclarationContext<PQL_SYN_TYPE_VARIABLE> PQLVariableContext;
+typedef PQLDeclarationContext<PQL_SYN_TYPE_WHILE> PQLWhileContext;

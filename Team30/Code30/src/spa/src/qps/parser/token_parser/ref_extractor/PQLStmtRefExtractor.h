@@ -8,9 +8,11 @@ using std::unique_ptr;
 
 class PQLStmtRefExtractor: public PQLRefExtractor {
  public:
-  static ClauseArgumentPtr extract(QueryTokenParseState* state);
+  static ClauseArgumentPtr extract(QueryTokenParseState* state,
+                                   QueryBuilder* builder);
 
  protected:
   static ClauseArgumentPtr
-      extractStatement(QueryTokenParseState* state);
+      extractStatement(QueryTokenParseState* state,
+                       QueryBuilder* builder);
 };

@@ -4,7 +4,7 @@
 
 using std::string;
 
-enum PQLTokenCategory {
+enum PQLTokenCategory: uint16_t {
   PQL_PROCESSING_TOKEN = 0x100,
   PQL_SYMBOL_TOKEN = 0x200,
   PQL_DECLARATION_TOKEN = 0x400,
@@ -15,15 +15,15 @@ enum PQLTokenCategory {
   PQL_LITERAL_TOKEN = 0x8000,
 };
 
-const int PQL_TOKEN_CATEGORY_MASK = 0xFFFFFF00;
-const int PQL_TOKEN_VARCHAR_MASK = PQL_DECLARATION_TOKEN | PQL_QUERY_TOKEN |
-    PQL_RELATIONSHIP_TOKEN | PQL_STRING_TOKEN | PQL_INTEGER_TOKEN;
-const int PQL_TOKEN_SYN_MASK = PQL_DECLARATION_TOKEN | PQL_QUERY_TOKEN |
+const uint16_t PQL_TOKEN_CATEGORY_MASK = 0xFF00;
+const uint16_t PQL_TOKEN_SYN_MASK = PQL_DECLARATION_TOKEN | PQL_QUERY_TOKEN |
     PQL_RELATIONSHIP_TOKEN | PQL_STRING_TOKEN;
+const uint16_t PQL_DATA_TOKEN_MASK = PQL_STRING_TOKEN | PQL_INTEGER_TOKEN |
+    PQL_LITERAL_TOKEN;
 
-enum PQLTokenType {
+enum PQLTokenType: uint16_t {
   // Processing markers
-  PQL_TOKEN_NONE = PQL_PROCESSING_TOKEN,
+  PQL_TOKEN_NULL = PQL_PROCESSING_TOKEN,
   PQL_TOKEN_INVALID,
   PQL_TOKEN_IGNORE,
   PQL_TOKEN_DELIMITER,
@@ -59,6 +59,7 @@ enum PQLTokenType {
   PQL_TOKEN_SUCH,
   PQL_TOKEN_THAT,
   PQL_TOKEN_PATTERN,
+  PQL_TOKEN_AND,
 
   // Relationship Keywords
   PQL_TOKEN_FOLLOWS = PQL_RELATIONSHIP_TOKEN,
@@ -80,13 +81,12 @@ class PQLToken {
 
  public:
   explicit PQLToken(PQLTokenType type);
-  PQLToken(PQLTokenType type, string data);
+  PQLToken(PQLTokenType type, const string &data);
 
   PQLTokenType getType();
   string getData();
   bool isType(PQLTokenType);
   bool isCategory(PQLTokenCategory);
-  bool isVarchar();
   bool isSynName();
   bool operator==(const PQLToken& other) const;
 };

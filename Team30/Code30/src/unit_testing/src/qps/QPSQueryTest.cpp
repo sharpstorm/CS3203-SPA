@@ -1,6 +1,6 @@
 #include "catch.hpp"
 
-#include "SourceParserStub.cpp"
+#include "SourceParserStub.h"
 #include "qps/IQPS.h"
 #include "qps/QPSFacade.h"
 #include "QPSQueryPKBStub.cpp"

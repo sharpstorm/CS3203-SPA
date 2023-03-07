@@ -2,8 +2,7 @@
 
 QueryTokenParseState::QueryTokenParseState(vector<PQLToken> *tokens):
     tokenStream(tokens),
-    QueryExpectationAgent(&tokenStream),
-    currentStage(TOKEN_PARSE_STAGE_INIT) {
+    QueryExpectationAgent(&tokenStream) {
 }
 
 bool QueryTokenParseState::isTokenStreamEnd() {
@@ -14,20 +13,24 @@ void QueryTokenParseState::advanceToken() {
   tokenStream.advanceToken();
 }
 
-PQLToken* QueryTokenParseState::getCurrentToken() {
-  return tokenStream.getCurrentToken();
-}
-
-QueryBuilder* QueryTokenParseState::getQueryBuilder() {
-  return &queryBuilder;
-}
-
-void QueryTokenParseState::advanceStage(TokenParsingStage newStage) {
-  unordered_set<TokenParsingStage> allowed =
-      parsingAllowedTransitions[currentStage];
-  if (allowed.find(newStage) == allowed.end()) {
-    throw QPSParserSyntaxError(QPS_PARSER_ERR_TOKEN_SEQUENCE);
+PQLTokenType QueryTokenParseState::getCurrentTokenType() {
+  PQLToken* curToken = tokenStream.getCurrentToken();
+  if (curToken == nullptr) {
+    return PQL_TOKEN_NULL;
   }
 
-  currentStage = newStage;
+  return curToken->getType();
+}
+
+bool QueryTokenParseState::isCurrentTokenType(PQLTokenType type) {
+  return getCurrentTokenType() == type;
+}
+
+bool QueryTokenParseState::isCurrentTokenCategory(PQLTokenCategory category) {
+  PQLToken* curToken = tokenStream.getCurrentToken();
+  if (curToken == nullptr) {
+    return false;
+  }
+
+  return curToken->isCategory(category);
 }
