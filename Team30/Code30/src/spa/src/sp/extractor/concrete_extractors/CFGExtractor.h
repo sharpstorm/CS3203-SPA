@@ -1,9 +1,14 @@
 #pragma once
 
+#include <memory>
 #include <vector>
 
 #include "../../ast/CFG.h"
 #include "sp/extractor/AbstractExtractor.h"
+
+typedef shared_ptr<CFG> CFGPtr;
+
+using std::make_shared;
 
 class CFGExtractor : public AbstractExtractor {
  public:
@@ -14,7 +19,7 @@ class CFGExtractor : public AbstractExtractor {
   void visit(IfNode* node);
   void visit(WhileNode* node);
 
-  vector<CFG*> getSetOfCFGs();
+  vector<CFGPtr> getSetOfCFGs();
 
  private:
   void addCFGOnIfNodeList(int conditionalLine, vector<ASTNodePtr>* childList);
@@ -23,7 +28,6 @@ class CFGExtractor : public AbstractExtractor {
   void addCFGRelation(int x, int y);
   void addCFGToPKB();
   PkbWriter* pkbWriter;
-  CFG* CFGcache;
-  vector<CFG*> setOfCFGs;
-  int index;
+  CFGPtr CFGcache;
+  vector<CFGPtr> setOfCFGs;
 };

@@ -6,18 +6,15 @@
 
 using std::vector;
 
-CFGExtractor::CFGExtractor(PkbWriter* writer) : pkbWriter(writer), index(0) {
-  CFGcache = new CFG();
+CFGExtractor::CFGExtractor(PkbWriter* writer) : pkbWriter(writer) {
+  CFGcache = make_shared<CFG>();
 }
 
 void CFGExtractor::visit(ProcedureNode* node) {
-  CFGcache = new CFG(node->getName());
+  CFGcache = make_shared<CFG>((node->getName()));
 }
 
-void CFGExtractor::leave(ProcedureNode* node) {
-  setOfCFGs.push_back(CFGcache);
-  index++;
-}
+void CFGExtractor::leave(ProcedureNode* node) { setOfCFGs.push_back(CFGcache); }
 
 void CFGExtractor::visit(StatementListNode* node) {
   if (node->getChildren().empty()) {
@@ -56,7 +53,7 @@ void CFGExtractor::visit(WhileNode* node) {
   addCFGOnWhileNodeList(node->getLineNumber(), &stmtList);
 }
 
-vector<CFG*> CFGExtractor::getSetOfCFGs() { return setOfCFGs; }
+vector<CFGPtr> CFGExtractor::getSetOfCFGs() { return setOfCFGs; }
 
 void CFGExtractor::addCFGOnIfNodeList(int conditionalLine,
                                       vector<ASTNodePtr>* childList) {
@@ -99,4 +96,7 @@ void CFGExtractor::addCFGRelation(int x, int y) { CFGcache->addNode(x, y); }
 
 void CFGExtractor::addCFGToPKB() {
   // pkbWriter->addCFGs(setOfCFGs);
+  //
+  // pkbWriter will need an empty vector of CFGs, which will be periodically
+  // pushed new CFGs when leave(ProcedureNode) is called
 }
