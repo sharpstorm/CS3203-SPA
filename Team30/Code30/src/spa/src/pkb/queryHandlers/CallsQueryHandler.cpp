@@ -41,7 +41,7 @@ QueryResult<string, string> CallsQueryHandler::queryCallsStar(
   } else if (e2.isKnown()) {
     return store->queryT(predicateFactory->getPredicate(e1), e2.name);
   } else {
-    return store->query(
+    return store->queryT(
         entityProvider->getSymbolsOfType(EntityType::Procedure),
         predicateFactory->getPredicate(e2));
   }
