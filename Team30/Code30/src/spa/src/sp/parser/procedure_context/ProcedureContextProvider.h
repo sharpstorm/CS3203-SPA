@@ -19,12 +19,17 @@ class ProcedureContextProvider : public IProcedureContextProvider {
   ProcedureContextProvider(IEntityParser* entityParser,
                            IExpressionParser* exprParser,
                            IConditionalParser* condParser);
-  SourceParseContext* getContext(ProcedureContextType type);
-  IEntityParser* getEntityParser();
-  IConditionalParser* getConditionalParser();
-  IExpressionParser* getExpressionParser();
+  ASTNodePtr generateSubtree(ProcedureContextType type,
+                             SourceParseState* state) override;
+
+  ASTNodePtr parseConstant(SourceParseState* state) override;
+  ASTNodePtr parseVariable(SourceParseState* state) override;
+  ASTNodePtr parseCondition(SourceParseState* state) override;
+  ASTNodePtr parseExpression(SourceParseState* state) override;
 
  private:
+  SourceParseContext* getContext(ProcedureContextType type);
+
   ProcedureContext procedureContext;
   StatementListContext stmtListContext;
   StatementContext stmtContext;

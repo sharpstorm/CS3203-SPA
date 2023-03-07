@@ -9,5 +9,5 @@ class WhileContext : public RecursiveProcedureParseContext {
  public:
   explicit WhileContext(IProcedureContextProvider* provider):
       RecursiveParseContext(provider) {}
-  ASTNodePtr generateSubtree(SourceParseState* state);
+  ASTNodePtr generateSubtree(SourceParseState* state) override;
 };

@@ -20,5 +20,5 @@ class SubContextParser {
 template <class ContextType, ContextType ENTRY_ENUM>
 ASTNodePtr SubContextParser<ContextType, ENTRY_ENUM>::parse(
     SourceParseState *state) {
-  return contextProvider->getContext(ENTRY_ENUM)->generateSubtree(state);
+  return contextProvider->generateSubtree(ENTRY_ENUM, state);
 }

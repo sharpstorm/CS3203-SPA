@@ -9,7 +9,8 @@ template <class ContextType>
 class IContextProvider {
  public:
   virtual ~IContextProvider() = default;
-  virtual SourceParseContext* getContext(ContextType type) = 0;
+  virtual ASTNodePtr generateSubtree(ContextType type,
+                                      SourceParseState* state) = 0;
 };
 
 template <class ContextType>

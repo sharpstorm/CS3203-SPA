@@ -3,7 +3,7 @@
 #include "../IContextProvider.h"
 #include "../RecursiveParseContext.h"
 
-enum ConditionalContextType {
+enum class ConditionalContextType {
   COND_CONTEXT,
   REL_CONTEXT,
   REL_FACTOR_CONTEXT,

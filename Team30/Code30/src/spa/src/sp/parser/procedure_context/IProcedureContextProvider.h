@@ -10,9 +10,10 @@
 
 class IProcedureContextProvider: public IContextProvider<ProcedureContextType> {
  public:
-  virtual IEntityParser* getEntityParser() = 0;
-  virtual IConditionalParser* getConditionalParser() = 0;
-  virtual IExpressionParser* getExpressionParser() = 0;
+  virtual ASTNodePtr parseConstant(SourceParseState* state) = 0;
+  virtual ASTNodePtr parseVariable(SourceParseState* state) = 0;
+  virtual ASTNodePtr parseCondition(SourceParseState* state) = 0;
+  virtual ASTNodePtr parseExpression(SourceParseState* state) = 0;
 };
 
 typedef RecursiveParseContext<IProcedureContextProvider>

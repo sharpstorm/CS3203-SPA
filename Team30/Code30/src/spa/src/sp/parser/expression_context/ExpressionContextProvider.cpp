@@ -6,6 +6,12 @@ ExpressionContextProvider::ExpressionContextProvider(
                                   exprContext(this) {
 }
 
+ASTNodePtr ExpressionContextProvider::generateSubtree(
+    ExpressionContextType type,
+    SourceParseState *state) {
+  return getContext(type)->generateSubtree(state);
+}
+
 SourceParseContext
 *ExpressionContextProvider::getContext(ExpressionContextType type) {
   switch (type) {

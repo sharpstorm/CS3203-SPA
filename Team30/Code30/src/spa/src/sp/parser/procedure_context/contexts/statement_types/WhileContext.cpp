@@ -13,13 +13,12 @@ ASTNodePtr WhileContext::generateSubtree(SourceParseState* state) {
 
   // Conditional Expression
   state->expect(SIMPLE_TOKEN_BRACKET_ROUND_LEFT);
-  ASTNodePtr cond = contextProvider->getConditionalParser()->parse(state);
+  ASTNodePtr cond = contextProvider->parseCondition(state);
   state->expect(SIMPLE_TOKEN_BRACKET_ROUND_RIGHT);
 
   // Statement List
   ASTNodePtr stmtLst = contextProvider
-      ->getContext(ProcedureContextType::STMT_LIST_CONTEXT)
-      ->generateSubtree(state);
+      ->generateSubtree(ProcedureContextType::STMT_LIST_CONTEXT, state);
 
   // Assign to children to While Node
   whileNode->setChild(0, cond);

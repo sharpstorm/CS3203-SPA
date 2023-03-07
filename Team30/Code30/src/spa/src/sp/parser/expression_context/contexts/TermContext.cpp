@@ -11,8 +11,7 @@ ASTNodePtr TermContext::generateSubtree(SourceParseState *state) {
   if (!state->hasCached()) {
     // Expect term
     ASTNodePtr firstExpr = contextProvider
-        ->getContext(ExpressionContextType::FACTOR_CONTEXT)
-        ->generateSubtree(state);
+        ->generateSubtree(ExpressionContextType::FACTOR_CONTEXT, state);
     state->setCached(firstExpr);
   }
 
@@ -30,8 +29,7 @@ ASTNodePtr TermContext::generateSubtree(SourceParseState *state) {
   state->advanceToken();
   state->clearCached();
   shared_ptr<ASTNode> rightTerm = contextProvider
-      ->getContext(ExpressionContextType::FACTOR_CONTEXT)
-      ->generateSubtree(state);
+      ->generateSubtree(ExpressionContextType::FACTOR_CONTEXT, state);
 
   middleNode->setRightChild(rightTerm);
   state->setCached(middleNode);
@@ -41,8 +39,7 @@ ASTNodePtr TermContext::generateSubtree(SourceParseState *state) {
   } else if (state->getCurrToken()
       ->isType(SIMPLE_TOKEN_TIMES, SIMPLE_TOKEN_DIV, SIMPLE_TOKEN_MOD)) {
     return contextProvider
-        ->getContext(ExpressionContextType::TERM_CONTEXT)
-        ->generateSubtree(state);
+        ->generateSubtree(ExpressionContextType::TERM_CONTEXT, state);
   }
   return middleNode;
 }

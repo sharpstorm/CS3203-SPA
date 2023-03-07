@@ -6,7 +6,7 @@ class ConditionalExpressionContext: public RecursiveConditionalParseContext {
  public:
   explicit ConditionalExpressionContext(IConditionalContextProvider* provider):
       RecursiveParseContext(provider) {}
-  ASTNodePtr generateSubtree(SourceParseState* state);
+  ASTNodePtr generateSubtree(SourceParseState* state) override;
 
  private:
   template<class T>

@@ -14,8 +14,7 @@ ASTNodePtr
 RelationalExpressionContext::generateSubtree(SourceParseState *state) {
   state->clearCached();
   ASTNodePtr leftNode = contextProvider
-      ->getContext(REL_FACTOR_CONTEXT)
-      ->generateSubtree(state);
+      ->generateSubtree(ConditionalContextType::REL_FACTOR_CONTEXT, state);
 
   SourceToken* token = state->expect(SIMPLE_TOKEN_GT,
                                      SIMPLE_TOKEN_GTE,
@@ -26,8 +25,10 @@ RelationalExpressionContext::generateSubtree(SourceParseState *state) {
   state->clearCached();
   BinaryASTNodePtr newNode =
       generateRelationalNode(token->getType(), leftNode);
-  newNode->setRightChild(contextProvider->
-      getContext(REL_FACTOR_CONTEXT)->generateSubtree(state));
+  newNode->setRightChild(
+      contextProvider
+          ->generateSubtree(ConditionalContextType::REL_FACTOR_CONTEXT,
+                            state));
   state->setCached(newNode);
   return newNode;
 }
