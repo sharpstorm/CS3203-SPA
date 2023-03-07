@@ -11,14 +11,12 @@ ASTNodePtr StatementListContext::generateSubtree(
 
   state->expect(SIMPLE_TOKEN_BRACKET_CURLY_LEFT);
   ASTNodePtr newNode = contextProvider
-      ->getContext(ProcedureContextType::STMT_CONTEXT)
-      ->generateSubtree(state);
+      ->generateSubtree(ProcedureContextType::STMT_CONTEXT, state);
   node->addChild(newNode);
 
   while (!state->currTokenIsOfType(SIMPLE_TOKEN_BRACKET_CURLY_RIGHT)) {
     newNode = contextProvider
-        ->getContext(ProcedureContextType::STMT_CONTEXT)
-        ->generateSubtree(state);
+        ->generateSubtree(ProcedureContextType::STMT_CONTEXT, state);
     node->addChild(newNode);
   }
 

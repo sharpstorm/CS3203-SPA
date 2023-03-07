@@ -22,7 +22,6 @@ generateSubtree(SourceParseState* state) {
   // Keyword Entity;
   state->expect(KEYWORD);
   ASTNodePtr varNode = contextProvider
-      ->getEntityParser()
       ->parseVariable(state);
 
   state->expect(SIMPLE_TOKEN_SEMICOLON);

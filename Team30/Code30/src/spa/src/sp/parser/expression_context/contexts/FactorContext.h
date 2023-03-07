@@ -9,7 +9,7 @@ class FactorContext: public RecursiveExpressionParseContext {
                 IEntityParser* entityParser):
       RecursiveParseContext(provider),
       entityParser(entityParser) {}
-  ASTNodePtr generateSubtree(SourceParseState* state);
+  ASTNodePtr generateSubtree(SourceParseState* state) override;
 
  private:
   IEntityParser* entityParser;

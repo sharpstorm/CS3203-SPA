@@ -8,7 +8,7 @@ class StatementContext: public RecursiveProcedureParseContext {
  public:
   explicit StatementContext(IProcedureContextProvider * provider):
       RecursiveProcedureParseContext(provider) {}
-  ASTNodePtr generateSubtree(SourceParseState* state);
+  ASTNodePtr generateSubtree(SourceParseState* state) override;
 
  private:
   template <ProcedureContextType CONTEXT_TYPE>

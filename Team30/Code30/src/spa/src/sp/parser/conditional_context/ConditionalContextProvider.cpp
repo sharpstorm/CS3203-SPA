@@ -6,6 +6,12 @@ ConditionalContextProvider::ConditionalContextProvider(
                                     relFactorContext(exprParser) {
 }
 
+ASTNodePtr ConditionalContextProvider::generateSubtree(
+    ConditionalContextType type,
+    SourceParseState *state) {
+  return getContext(type)->generateSubtree(state);
+}
+
 SourceParseContext
 *ConditionalContextProvider::getContext(ConditionalContextType type) {
   switch (type) {

@@ -16,6 +16,27 @@ ProcedureContextProvider::ProcedureContextProvider(
     whileContext(this)
     {}
 
+ASTNodePtr ProcedureContextProvider::generateSubtree(ProcedureContextType type,
+                                                     SourceParseState *state) {
+  return getContext(type)->generateSubtree(state);
+}
+
+ASTNodePtr ProcedureContextProvider::parseVariable(SourceParseState *state) {
+  return entityParser->parseVariable(state);
+}
+
+ASTNodePtr ProcedureContextProvider::parseConstant(SourceParseState *state) {
+  return entityParser->parseConstant(state);
+}
+
+ASTNodePtr ProcedureContextProvider::parseCondition(SourceParseState *state) {
+  return condParser->parse(state);
+}
+
+ASTNodePtr ProcedureContextProvider::parseExpression(SourceParseState *state) {
+  return exprParser->parse(state);
+}
+
 SourceParseContext *ProcedureContextProvider::getContext(
     ProcedureContextType type) {
   switch (type) {
@@ -41,16 +62,4 @@ SourceParseContext *ProcedureContextProvider::getContext(
     default:
       throw SPError(SPERR_CONTEXT_ERROR);
   }
-}
-
-IEntityParser *ProcedureContextProvider::getEntityParser() {
-  return entityParser;
-}
-
-IExpressionParser *ProcedureContextProvider::getExpressionParser() {
-  return exprParser;
-}
-
-IConditionalParser *ProcedureContextProvider::getConditionalParser() {
-  return condParser;
 }
