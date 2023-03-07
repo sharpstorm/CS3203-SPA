@@ -152,8 +152,8 @@ TEST_CASE("CFGExtractor Two Procedures with Simple Statement list") {
   vector<int> nodeMap = {1, 2, 3};
   vector<list<int>> link = {{2}, {3}, {-1}};
 
-  vector<int> nodeMapTwo = {1, 2, 3};
-  vector<list<int>> linkTwo = {{2}, {3}, {-1}};
+  vector<int> nodeMapTwo = {4, 5, 6};
+  vector<list<int>> linkTwo = {{5}, {6}, {-1}};
 
   REQUIRE(setofCFGs.size() == 2);
   REQUIRE(setofCFGs[0]->getName() == "simple");

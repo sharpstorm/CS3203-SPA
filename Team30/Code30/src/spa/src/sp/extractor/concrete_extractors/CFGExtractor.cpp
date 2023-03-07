@@ -20,8 +20,15 @@ void CFGExtractor::visit(StatementListNode* node) {
   if (node->getChildren().empty()) {
     return;
   }
+
   vector<ASTNodePtr> children = node->getChildren();
   StatementNumberExtractor statementNoExtractor;
+
+  if (CFGcache->getNodeMap().empty()) {
+    children[0]->accept(&statementNoExtractor);
+    int startingLine = statementNoExtractor.getStatementNumber() - 1;
+    CFGcache->changeStartingLine(startingLine);
+  }
 
   for (int i = 0; i < children.size() - 1; i++) {
     children[i]->accept(&statementNoExtractor);

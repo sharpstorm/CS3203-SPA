@@ -17,10 +17,13 @@ class CFG {
   vector<int> getNodeMap();
   vector<list<int>> getLinks();
 
+  void changeStartingLine(int num);
+
   string getName();
 
  private:
   string procedureName;
+  int startingLine;
   vector<int> nodeMap;
   vector<list<int>> links;
 };
