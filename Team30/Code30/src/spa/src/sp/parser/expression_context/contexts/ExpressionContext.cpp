@@ -38,10 +38,10 @@ ASTNodePtr ExpressionContext::generateSubtree(
   middleNode->setRightChild(rightTerm);
   state->setCached(middleNode);
 
-  if (state->getCurrToken() == nullptr) {
+  curToken = state->getCurrToken();
+  if (curToken == nullptr) {
     return middleNode;
-  } else if (state->getCurrToken()
-      ->isType(SIMPLE_TOKEN_PLUS, SIMPLE_TOKEN_MINUS)) {
+  } else if (curToken->isType(SIMPLE_TOKEN_PLUS, SIMPLE_TOKEN_MINUS)) {
     return contextProvider
         ->generateSubtree(ExpressionContextType::EXPR_CONTEXT, state);
   }

@@ -34,9 +34,10 @@ ASTNodePtr TermContext::generateSubtree(SourceParseState *state) {
   middleNode->setRightChild(rightTerm);
   state->setCached(middleNode);
 
-  if (state->getCurrToken() == nullptr) {
+  curToken = state->getCurrToken();
+  if (curToken == nullptr) {
     return middleNode;
-  } else if (state->getCurrToken()
+  } else if (curToken
       ->isType(SIMPLE_TOKEN_TIMES, SIMPLE_TOKEN_DIV, SIMPLE_TOKEN_MOD)) {
     return contextProvider
         ->generateSubtree(ExpressionContextType::TERM_CONTEXT, state);
