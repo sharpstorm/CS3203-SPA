@@ -135,32 +135,32 @@ TEST_CASE("CFGExtractor While in If") {
   REQUIRE(setofCFGs[0].getLinks() == link);
 }
 
-// TEST_CASE("CFGExtractor Two Procedures with Simple Statement list") {
-//  string input =
-//      "procedure simple {"
-//      "read num1;"
-//      "read num2;"
-//      "read num3;"
-//      "}"
-//      "procedure simpleTwo {"
-//      "read num4;"
-//      "read num5;"
-//      "read num6;"
-//      "}";
-//
-//  vector<CFG> setofCFGs = executeCFGExtractor(input);
-//  vector<int> nodeMap = {1, 2, 3};
-//  vector<list<int>> link = {{2}, {3}, {-1}};
-//
-//  vector<int> nodeMapTwo = {1, 2, 3};
-//  vector<list<int>> linkTwo = {{2}, {3}, {-1}};
-//
-//  REQUIRE(setofCFGs.size() == 2);
-//  REQUIRE(setofCFGs[0].getName() == "simple");
-//  REQUIRE(setofCFGs[0].getNodeMap() == nodeMap);
-//  REQUIRE(setofCFGs[0].getLinks() == link);
-//
-//  REQUIRE(setofCFGs[1].getName() == "simpleTwo");
-//  REQUIRE(setofCFGs[1].getNodeMap() == nodeMap);
-//  REQUIRE(setofCFGs[1].getLinks() == link);
-//}
+TEST_CASE("CFGExtractor Two Procedures with Simple Statement list") {
+  string input =
+      "procedure simple {"
+      "read num1;"
+      "read num2;"
+      "read num3;"
+      "}"
+      "procedure simpleTwo {"
+      "read num4;"
+      "read num5;"
+      "read num6;"
+      "}";
+
+  vector<CFG> setofCFGs = executeCFGExtractor(input);
+  vector<int> nodeMap = {1, 2, 3};
+  vector<list<int>> link = {{2}, {3}, {-1}};
+
+  vector<int> nodeMapTwo = {1, 2, 3};
+  vector<list<int>> linkTwo = {{2}, {3}, {-1}};
+
+  REQUIRE(setofCFGs.size() == 2);
+  REQUIRE(setofCFGs[0].getName() == "simple");
+  REQUIRE(setofCFGs[0].getNodeMap() == nodeMap);
+  REQUIRE(setofCFGs[0].getLinks() == link);
+
+  REQUIRE(setofCFGs[1].getName() == "simpleTwo");
+  REQUIRE(setofCFGs[1].getNodeMap() == nodeMap);
+  REQUIRE(setofCFGs[1].getLinks() == link);
+}

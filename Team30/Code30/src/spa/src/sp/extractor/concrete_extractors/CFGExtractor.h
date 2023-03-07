@@ -9,6 +9,7 @@ class CFGExtractor : public AbstractExtractor {
  public:
   explicit CFGExtractor(PkbWriter* pkbWriter);
   void visit(ProcedureNode* node);
+  void leave(ProcedureNode* node);
   void visit(StatementListNode* node);
   void visit(IfNode* node);
   void visit(WhileNode* node);
@@ -20,8 +21,9 @@ class CFGExtractor : public AbstractExtractor {
   void addCFGOnWhileNodeList(int conditionalLine,
                              vector<ASTNodePtr>* childList);
   void addCFGRelation(int x, int y);
-  void leave();
+  void addCFGToPKB();
   PkbWriter* pkbWriter;
+  CFG* CFGcache;
   vector<CFG> setOfCFGs;
   int index;
 };

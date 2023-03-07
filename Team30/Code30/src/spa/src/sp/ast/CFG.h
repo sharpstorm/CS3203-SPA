@@ -9,6 +9,8 @@ using std::string, std::vector, std::list;
 class CFG {
  public:
   explicit CFG(string n);
+  CFG();
+  ~CFG();
   void addNode(int lineNum1, int lineNum2);
 
   void increaseMapSize(int num);

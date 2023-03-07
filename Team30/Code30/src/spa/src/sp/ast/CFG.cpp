@@ -2,6 +2,13 @@
 
 CFG::CFG(string n) : procedureName(n) {}
 
+CFG::CFG() { procedureName = ""; }
+
+CFG::~CFG() {
+  nodeMap.clear();
+  links.clear();
+}
+
 // if node is an if/while, the first node will signify
 // the node after the if/while (-1 if it is the last node)
 // ifNode: (after stmtLst, ifStmtList, elseStmtList)
