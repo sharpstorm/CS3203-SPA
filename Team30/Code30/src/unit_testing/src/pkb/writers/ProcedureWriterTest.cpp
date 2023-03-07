@@ -5,6 +5,7 @@
 #include "catch.hpp"
 #include "pkb/storage/tables/HashKeySetTable.h"
 #include "pkb/writers/ProcedureWriter.h"
+#include "pkb/errors/PKBError.h"
 
 using std::make_shared;
 using std::make_unique;
@@ -28,4 +29,15 @@ TEST_CASE("ProcedureWriter addProcedure") {
   REQUIRE(table->get(6) == "test2");
   REQUIRE(reverseTable->get("test1") == unordered_set<int>({1, 2, 3}));
   REQUIRE(reverseTable->get("test2") == unordered_set<int>({4, 5, 6}));
+}
+
+TEST_CASE("ProcedureWriter add duplicate procedure") {
+  auto table = make_shared<HashKeyTable<int, string>>();
+  auto reverseTable = make_shared<HashKeySetTable<string, int>>();
+  auto store = make_unique<ProcedureStorage>(table, reverseTable);
+  auto writer = ProcedureWriter(store.get());
+
+  writer.addProcedure("test1", 1, 3);
+
+  REQUIRE_THROWS_AS(writer.addProcedure("test1", 4, 6), PKBError);
 }
