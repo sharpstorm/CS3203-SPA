@@ -7,10 +7,8 @@ void CyclicProceduresValidator::validate() {
   auto procedures = pkb->procedureStorage->getAllValues();
   for (auto procedure : procedures) {
     auto allCalled = pkb->callsStorage->getByFirstArgT(procedure);
-    for (auto called : allCalled) {
-      if (called == procedure) {
-        throw PKBError(PKBERR_CYCLIC_PROCEDURE);
-      }
+    if (allCalled.find(procedure) != allCalled.end()) {
+      throw PKBError(PKBERR_CYCLIC_PROCEDURE);
     }
   }
 }
