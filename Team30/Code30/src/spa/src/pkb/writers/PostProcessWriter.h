@@ -7,6 +7,7 @@
 #include "pkb/writers/postProcessors/IPostProcessor.h"
 #include "pkb/storage/PKB.h"
 #include "pkb/writers/interfaces/IPkbWriter.h"
+#include "pkb/writers/postProcessors/IPostValidator.h"
 
 using std::vector, std::unique_ptr;
 
@@ -17,4 +18,5 @@ class PostProcessWriter : public IPostProcessWriter {
 
  private:
   vector<unique_ptr<IPostProcessor>> processors;
+  vector<unique_ptr<IPostValidator>> validators;
 };
