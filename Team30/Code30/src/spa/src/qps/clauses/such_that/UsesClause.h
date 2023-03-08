@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <utility>
 
 #include "qps/clauses/SuchThatClause.h"
 #include "qps/clauses/arguments/ClauseArgument.h"

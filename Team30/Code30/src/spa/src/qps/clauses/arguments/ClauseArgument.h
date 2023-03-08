@@ -22,10 +22,12 @@ class ClauseArgument {
   virtual EntityRef toEntityRef() = 0;
 
   static bool isStatement(PQLQuerySynonym syn);
+
   template<PQLSynonymType TYPE>
   static bool isType(PQLQuerySynonym syn) {
     return syn.isType(TYPE);
-  };
+  }
+
   template<SynonymPredicate condA, SynonymPredicate condB>
   static bool isEither(PQLQuerySynonym syn) {
     return condA(syn) || condB(syn);

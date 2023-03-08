@@ -18,4 +18,4 @@ PQLSynonymName ClauseArgument::getName() {
 
 bool ClauseArgument::isStatement(PQLQuerySynonym syn) {
   return syn.isStatementType();
-};
+}
