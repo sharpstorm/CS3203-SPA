@@ -8,16 +8,13 @@ using std::string, std::vector, std::list;
 
 class CFG {
  public:
-  explicit CFG(string n);
+  explicit CFG(string n, int start);
   CFG();
-  void addNode(int lineNum1, int lineNum2);
+  void addLink(int lineNum1, int lineNum2);
 
   void increaseMapSize(int num);
 
-  vector<int> getNodeMap();
   vector<list<int>> getLinks();
-
-  void changeStartingLine(int num);
 
   string getName();
 
@@ -25,6 +22,5 @@ class CFG {
   string procedureName;
   int startingLineIndex;
 
-  vector<int> nodeMap;
   vector<list<int>> links;
 };

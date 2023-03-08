@@ -11,7 +11,12 @@ CFGExtractor::CFGExtractor(PkbWriter* writer) : pkbWriter(writer) {
 }
 
 void CFGExtractor::visit(ProcedureNode* node) {
-  CFGcache = make_shared<CFG>((node->getName()));
+  StatementNumberExtractor statementNoExtractor;
+
+  node->getChildren()[0]->getChildren()[0]->accept(&statementNoExtractor);
+  int startingLineIndex = statementNoExtractor.getStatementNumber() - 1;
+
+  CFGcache = make_shared<CFG>((node->getName(), startingLineIndex));
 }
 
 void CFGExtractor::leave(ProcedureNode* node) { setOfCFGs.push_back(CFGcache); }
@@ -21,14 +26,8 @@ void CFGExtractor::visit(StatementListNode* node) {
     return;
   }
 
-  vector<ASTNodePtr> children = node->getChildren();
   StatementNumberExtractor statementNoExtractor;
-
-  if (CFGcache->getNodeMap().empty()) {
-    children[0]->accept(&statementNoExtractor);
-    int startingLineIndex = statementNoExtractor.getStatementNumber() - 1;
-    CFGcache->changeStartingLine(startingLineIndex);
-  }
+  vector<ASTNodePtr> children = node->getChildren();
 
   for (int i = 0; i < children.size() - 1; i++) {
     children[i]->accept(&statementNoExtractor);
@@ -99,7 +98,7 @@ void CFGExtractor::addCFGOnWhileNodeList(int conditionalLine,
                                conditionalLine);
 }
 
-void CFGExtractor::addCFGRelation(int x, int y) { CFGcache->addNode(x, y); }
+void CFGExtractor::addCFGRelation(int x, int y) { CFGcache->addLink(x, y); }
 
 void CFGExtractor::addCFGToPKB() {
   // pkbWriter->addCFGs(setOfCFGs);
