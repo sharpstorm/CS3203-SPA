@@ -6,10 +6,10 @@
 #include "qps/clauses/arguments/EntityArgument.h"
 #include "qps/clauses/arguments/StmtArgument.h"
 #include "qps/clauses/arguments/SynonymArgument.h"
-#include "qps/clauses/such_that/ModifiesClause.h"
 #include "ClausesPKBStub.cpp"
 #include "qps/clauses/arguments/WildcardArgument.h"
 #include "../util/QueryResultTestUtil.cpp"
+#include "qps/clauses/such_that/ModifiesClause.h"
 
 using std::shared_ptr, std::make_unique, std::unique_ptr;
 
