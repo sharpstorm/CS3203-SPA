@@ -16,7 +16,7 @@ void CFGExtractor::visit(ProcedureNode* node) {
   node->getChildren()[0]->getChildren()[0]->accept(&statementNoExtractor);
   int startingLineIndex = statementNoExtractor.getStatementNumber() - 1;
 
-  CFGcache = make_shared<CFG>((node->getName(), startingLineIndex));
+  CFGcache = make_shared<CFG>(node->getName(), startingLineIndex);
 }
 
 void CFGExtractor::leave(ProcedureNode* node) { setOfCFGs.push_back(CFGcache); }

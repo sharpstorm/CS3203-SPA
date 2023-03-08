@@ -8,7 +8,7 @@ using std::string, std::vector, std::list;
 
 class CFG {
  public:
-  explicit CFG(string n, int start);
+  explicit CFG(string name, int start);
   CFG();
   void addLink(int lineNum1, int lineNum2);
 
