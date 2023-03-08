@@ -1,0 +1,28 @@
+name: Generate Reposense Report
+on: workflow_dispatch
+
+jobs:
+  reposense:
+    runs-on: [self-hosted, Linux, chore]
+    steps:
+    - name: Install JRE
+      run: sudo apt install -y default-jre wget git
+
+    - name: Checkout source repo
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        path: target
+      
+    - name: Download reposense
+      run: wget -O RepoSense.jar https://github.com/reposense/RepoSense/releases/download/v2.4/RepoSense.jar
+
+    - name: Run Reposense
+      run: java -jar RepoSense.jar -r ./target
+
+    - name: Upload Reposense Report
+      uses: actions/upload-artifact@v3
+      with:
+        name: reposense-report
+        path: ./reposense-report/archive.zip
+        retention-days: 1
