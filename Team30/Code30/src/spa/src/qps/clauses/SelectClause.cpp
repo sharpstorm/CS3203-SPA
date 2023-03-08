@@ -1,12 +1,13 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
+#include <string>
 
 #include "SelectClause.h"
 #include "arguments/ClauseArgument.h"
 #include "qps/clauses/arguments/ClauseArgumentFactory.h"
 
-using std::pair, std::unordered_set, std::vector;
+using std::pair, std::unordered_set, std::vector, std::string;
 
 SelectClause::SelectClause(const PQLQuerySynonym &target):
     target(target) {}
