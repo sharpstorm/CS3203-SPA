@@ -3,10 +3,10 @@
 #include <memory>
 #include <string>
 
-#include "arguments/ClauseArgument.h"
+#include "qps/clauses/arguments/ClauseArgument.h"
 #include "common/Types.h"
-#include "Clause.h"
-#include "SuchThatClause.h"
+#include "qps/clauses/Clause.h"
+#include "qps/clauses/SuchThatClause.h"
 
 class AbstractTwoArgClause:
     public SuchThatClause {
