@@ -1,12 +1,15 @@
 #pragma once
 
 #include <utility>
+#include <unordered_set>
 
 #include "qps/clauses/arguments/ClauseArgument.h"
 #include "pkb/queryHandlers/PkbQueryHandler.h"
 #include "qps/common/PQLQueryResult.h"
 #include "qps/clauses/AbstractTwoArgClause.h"
 #include "qps/clauses/SuchThatClause.h"
+
+using std::unordered_set;
 
 template <
     typename LeftResultType, typename LeftArgType,
