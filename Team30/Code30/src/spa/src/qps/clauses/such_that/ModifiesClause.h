@@ -3,7 +3,7 @@
 #include <string>
 #include <utility>
 
-#include "abstract_clauses/AbstractAnyEntClause.h"
+#include "qps/clauses/abstract_clauses/AbstractAnyEntClause.h"
 
 typedef StmtEntInvoker ModifiesSInvoker;
 typedef EntEntInvoker ModifiesPInvoker;

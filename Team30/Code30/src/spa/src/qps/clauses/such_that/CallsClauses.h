@@ -1,7 +1,8 @@
 #pragma once
 
 #include <utility>
-#include "qps/clauses/such_that/abstract_clauses/AbstractEntEntClause.h"
+
+#include "qps/clauses/abstract_clauses/AbstractEntEntClause.h"
 
 typedef EntEntInvoker CallsInvoker;
 

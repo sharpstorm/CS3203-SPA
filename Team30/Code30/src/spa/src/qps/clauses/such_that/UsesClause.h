@@ -3,10 +3,7 @@
 #include <string>
 #include <utility>
 
-#include "qps/clauses/SuchThatClause.h"
-#include "qps/clauses/arguments/ClauseArgument.h"
-#include "qps/clauses/AbstractTwoArgClause.h"
-#include "qps/clauses/such_that/abstract_clauses/AbstractAnyEntClause.h"
+#include "qps/clauses/abstract_clauses/AbstractAnyEntClause.h"
 
 typedef StmtEntInvoker UsesSInvoker;
 typedef EntEntInvoker UsesPInvoker;
