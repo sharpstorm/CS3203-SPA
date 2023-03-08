@@ -2,8 +2,6 @@
 
 #include <utility>
 
-#include "common/Types.h"
-#include "qps/clauses/arguments/ClauseArgument.h"
 #include "AbstractTwoArgClause.h"
 #include "InvokerTypes.h"
 

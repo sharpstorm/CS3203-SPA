@@ -2,7 +2,6 @@
 
 #include "qps/common/PQLQuerySynonym.h"
 #include "qps/common/PQLQueryResult.h"
-#include "qps/common/IEvaluatable.h"
 #include "qps/clauses/PatternClause.h"
 
 class WhilePatternClause: public PatternClause {

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include <utility>
 
 #include "qps/clauses/abstract_clauses/AbstractAnyEntClause.h"

@@ -1,11 +1,10 @@
 #include <utility>
 #include <memory>
-#include <unordered_set>
 
 #include "AssignPatternClause.h"
 #include "qps/clauses/arguments/SynonymArgument.h"
 
-using std::unordered_set, std::make_unique;
+using std::make_unique;
 
 AssignPatternClause::AssignPatternClause(const PQLQuerySynonym &assignSynonym,
                                          ClauseArgumentPtr leftArg,

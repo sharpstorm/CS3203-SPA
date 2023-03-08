@@ -1,6 +1,7 @@
 #pragma once
 
 #include <utility>
+
 #include "qps/clauses/abstract_clauses/AbstractStmtStmtClause.h"
 
 typedef StmtStmtInvoker ParentInvoker;

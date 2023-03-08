@@ -1,6 +1,5 @@
 #pragma once
 
-#include <functional>
 #include <memory>
 #include "../../common/PQLQuerySynonym.h"
 #include "common/Types.h"

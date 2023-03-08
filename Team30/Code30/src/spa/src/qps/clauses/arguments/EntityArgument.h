@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+
 #include "ClauseArgument.h"
 
 using std::string;

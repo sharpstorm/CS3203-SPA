@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include "Clause.h"
 
 class SelectClause : public Clause {

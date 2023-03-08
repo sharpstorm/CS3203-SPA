@@ -2,6 +2,7 @@
 
 #include <string>
 #include <memory>
+
 #include "ClauseArgument.h"
 #include "../../common/PQLQuerySynonym.h"
 

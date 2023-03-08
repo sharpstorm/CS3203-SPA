@@ -1,4 +1,5 @@
 #pragma once
+
 #include "ClauseArgument.h"
 
 class WildcardArgument: public ClauseArgument {

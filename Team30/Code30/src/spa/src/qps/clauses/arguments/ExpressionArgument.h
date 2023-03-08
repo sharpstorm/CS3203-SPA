@@ -1,10 +1,10 @@
 #pragma once
 
-#include <string>
 #include <memory>
-#include <vector>
 
 #include "common/pattern/ExpressionSequence.h"
+
+using std::unique_ptr;
 
 class ExpressionArgument {
  public:

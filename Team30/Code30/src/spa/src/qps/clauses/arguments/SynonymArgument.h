@@ -1,10 +1,7 @@
 #pragma once
 
-#include <functional>
 #include "ClauseArgument.h"
 #include "../../common/PQLQuerySynonym.h"
-
-using std::function;
 
 class SynonymArgument: public ClauseArgument {
  private:
