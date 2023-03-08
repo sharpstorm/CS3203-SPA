@@ -3,6 +3,7 @@
 #include <utility>
 
 #include "qps/clauses/abstract_clauses/AbstractStmtStmtClause.h"
+#include "qps/clauses/SuchThatClause.h"
 
 typedef StmtStmtInvoker FollowsInvoker;
 
