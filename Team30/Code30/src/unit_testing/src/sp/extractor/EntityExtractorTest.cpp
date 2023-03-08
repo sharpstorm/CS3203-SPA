@@ -19,9 +19,14 @@ class PkbWriterStubforEntity : public PkbWriter {
     lineNum = lineNumber;
   }
 
-  void addSymbol(string entityName, EntityType entityType) final {
+  void addVariable(string entityName) final {
     nodeValue = entityName;
-    e_Type = entityType;
+    e_Type = EntityType::Variable;
+  }
+
+  void addConstant(string entityName) final {
+    nodeValue = entityName;
+    e_Type = EntityType::Constant;
   }
 
   int verifyStatement(int lineNumber, StmtType stmtType) {

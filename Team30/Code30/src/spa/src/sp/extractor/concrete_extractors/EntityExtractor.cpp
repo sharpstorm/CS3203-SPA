@@ -4,7 +4,7 @@ EntityExtractor::EntityExtractor(PkbWriter* writer) : pkbWriter(writer) {
 }
 
 void EntityExtractor::visit(ProcedureNode *node) {
-  pkbWriter->addSymbol(node->getName(), EntityType::Procedure);
+//  pkbWriter->addProcedure(node->getName(), );
   procNameCache = node->getName();
 }
 
@@ -33,10 +33,10 @@ void EntityExtractor::visit(CallNode* node) {
 }
 
 void EntityExtractor::visit(VariableASTNode* node) {
-  pkbWriter->addSymbol(node->getValue(), EntityType::Variable);
+  pkbWriter->addVariable(node->getValue());
 }
 
 void EntityExtractor::visit(ConstantASTNode* node) {
-  pkbWriter->addSymbol(node->getValue(), EntityType::Constant);
+  pkbWriter->addConstant(node->getValue());
 }
 

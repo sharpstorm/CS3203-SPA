@@ -16,7 +16,8 @@ class PKB {
 
   FollowsStorage *followsStore;
   ParentStorage *parentStore;
-  SymbolStorage *symbolStorage;
+  VariableStorage *variableStorage;
+  ConstantStorage *constantStorage;
   StatementStorage *statementStorage;
   ProcedureStorage *procedureStorage;
   UsesStorage *usesStorage;

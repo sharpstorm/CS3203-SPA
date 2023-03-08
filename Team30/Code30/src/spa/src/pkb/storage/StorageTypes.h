@@ -13,7 +13,8 @@ using std::string;
 
 using FollowsStorage = TransitiveRelationTableManager<int>;
 using ParentStorage = TransitiveRelationTableManager<int>;
-using SymbolStorage = HashKeySetTable<EntityType, string>;
+using VariableStorage = EntityTableManager<int, string>;
+using ConstantStorage = EntityTableManager<int, string>;
 using StatementStorage = EntityTableManager<int, StmtType>;
 using ProcedureStorage = EntityTableManager<int, string>;
 using UsesStorage = RelationTableManager<int, string>;
