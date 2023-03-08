@@ -15,6 +15,14 @@ class Clause : public IEvaluatable {
   virtual bool validateArgTypes(VariableTable* variables) = 0;
 
  protected:
+  static EntityRef toEntityRef(ClauseArgument* arg) {
+    return arg->toEntityRef();
+  }
+
+  static StmtRef toStmtRef(ClauseArgument* arg) {
+    return arg->toStmtRef();
+  }
+
   template<class T, class U>
   static PQLQueryResult *toQueryResult(ClauseArgument* left,
                                          ClauseArgument* right,

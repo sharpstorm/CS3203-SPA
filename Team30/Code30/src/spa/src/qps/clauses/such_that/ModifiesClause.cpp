@@ -50,18 +50,12 @@ QueryResult<int, string> ModifiesClause::evaluateLeftStatement(
     PkbQueryHandler* pkbQueryHandler) {
   EntityRef rightEntity = right->toEntityRef();
   StmtRef leftStatement = left->toStmtRef();
-  QueryResult<int, string> queryResult =
-      pkbQueryHandler->queryModifies(leftStatement, rightEntity);
-
-  return queryResult;
+  return pkbQueryHandler->queryModifies(leftStatement, rightEntity);
 }
 
 QueryResult<string, string> ModifiesClause::evaluateLeftEntity(
     PkbQueryHandler* pkbQueryHandler) {
   EntityRef rightEntity = right->toEntityRef();
   EntityRef leftEntity = left->toEntityRef();
-  QueryResult<string, string> queryResult =
-      pkbQueryHandler->queryModifies(leftEntity, rightEntity);
-
-  return queryResult;
+  return pkbQueryHandler->queryModifies(leftEntity, rightEntity);
 }
