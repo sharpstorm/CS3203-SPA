@@ -145,3 +145,36 @@ TEST_CASE(
   REQUIRE(res.secondArgVals == unordered_set<int>({1}));
   REQUIRE(res.pairVals == pair_set<int, int>({{2, 1}, {7, 1}}));
 }
+
+TEST_CASE("TransitiveRelationTableManager cyclic direct") {
+  TransitiveRelationTableManager<int> tableManager(
+      make_shared<ContiguousSetTable<int>>(),
+      make_shared<ContiguousSetTable<int>>());
+
+  tableManager.insert(1, 1);
+
+  REQUIRE(tableManager.getByFirstArgT(1) == unordered_set<int>({1}));
+}
+
+TEST_CASE("TransitiveRelationTableManager cyclic indirect 1") {
+  TransitiveRelationTableManager<int> tableManager(
+      make_shared<ContiguousSetTable<int>>(),
+      make_shared<ContiguousSetTable<int>>());
+
+  tableManager.insert(1, 2);
+  tableManager.insert(2, 1);
+
+  REQUIRE(tableManager.getByFirstArgT(1) == unordered_set<int>({1, 2}));
+}
+
+TEST_CASE("TransitiveRelationTableManager cyclic indirect 2") {
+  TransitiveRelationTableManager<int> tableManager(
+      make_shared<ContiguousSetTable<int>>(),
+      make_shared<ContiguousSetTable<int>>());
+
+  tableManager.insert(1, 2);
+  tableManager.insert(2, 3);
+  tableManager.insert(3, 1);
+
+  REQUIRE(tableManager.getByFirstArgT(1) == unordered_set<int>({1, 2, 3}));
+}

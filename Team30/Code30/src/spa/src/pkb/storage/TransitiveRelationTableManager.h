@@ -17,30 +17,6 @@ class TransitiveRelationTableManager : public RelationTableManager<T, T> {
       : RelationTableManager<T, T>(table, reverseTable) {}
 
   /**
-   * Get set of arg2 where R*(arg1, arg2) is true, given arg1.
-   */
-  unordered_set<T> getByFirstArgT(T arg1) const {
-    auto result = this->table->get(arg1);
-    for (auto r : result) {
-      auto subResult = getByFirstArgT(r);
-      result.insert(subResult.begin(), subResult.end());
-    }
-    return result;
-  }
-
-  /**
-   * Get set of arg1 where R*(arg1, arg2) is true, given arg2.
-   */
-  unordered_set<T> getBySecondArgT(T arg2) const {
-    auto result = this->reverseTable->get(arg2);
-    for (auto r : result) {
-      auto subResult = getBySecondArgT(r);
-      result.insert(subResult.begin(), subResult.end());
-    }
-    return result;
-  }
-
-  /**
    * Find R*(arg1, arg2) where arg1 is in the given arg1Values and arg2
    * satisfies arg2Predicate.
    */
@@ -88,5 +64,48 @@ class TransitiveRelationTableManager : public RelationTableManager<T, T> {
    */
   QueryResult<T, T> queryT(Predicate<T> arg1Predicate, T arg2) const {
     return queryT(arg1Predicate, unordered_set<T>({arg2}));
+  }
+
+  /**
+   * Get set of arg2 where R*(arg1, arg2) is true, given arg1.
+   */
+  unordered_set<T> getByFirstArgT(T arg1) const {
+    auto result = unordered_set<T>({});
+    getByFirstArgTHelper(arg1, &result);
+    return result;
+  }
+
+  /**
+   * Get set of arg1 where R*(arg1, arg2) is true, given arg2.
+   */
+  unordered_set<T> getBySecondArgT(T arg2) const {
+    auto result = unordered_set<T>({});
+    getBySecondArgTHelper(arg2, &result);
+    return result;
+  }
+
+ private:
+  void getByFirstArgTHelper(T arg1, unordered_set<T> *allResults) const {
+    auto result = this->table->get(arg1);
+    for (auto r : result) {
+      if (allResults->find(r) != allResults->end()) {
+        continue;
+      }
+      allResults->insert(r);
+      getByFirstArgTHelper(r, allResults);
+    }
+    return;
+  }
+
+  void getBySecondArgTHelper(T arg2, unordered_set<T> *allResults) const {
+    auto result = this->reverseTable->get(arg2);
+    for (auto r : result) {
+      if (allResults->find(r) != allResults->end()) {
+        continue;
+      }
+      allResults->insert(r);
+      getBySecondArgTHelper(r, allResults);
+    }
+    return;
   }
 };
