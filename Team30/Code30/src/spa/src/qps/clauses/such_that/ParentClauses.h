@@ -23,14 +23,16 @@ constexpr ParentInvoker parentTInvoker = [](PkbQueryHandler* pkbQueryHandler,
   return pkbQueryHandler->queryParentStar(leftArg, rightArg);
 };
 
-class ParentClause: public AbstractParentClause<parentInvoker> {
+class ParentClause: public AbstractParentClause<parentInvoker>,
+                    public SuchThatClause  {
  public:
   ParentClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
   }
 };
 
-class ParentTClause: public AbstractParentClause<parentTInvoker> {
+class ParentTClause: public AbstractParentClause<parentTInvoker>,
+                     public SuchThatClause  {
  public:
   ParentTClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {

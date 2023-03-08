@@ -24,14 +24,16 @@ constexpr FollowsInvoker followsTInvoker = [](PkbQueryHandler* pkbQueryHandler,
   return pkbQueryHandler->queryFollowsStar(leftArg, rightArg);
 };
 
-class FollowsClause: public AbstractFollowsClause<followsInvoker> {
+class FollowsClause: public AbstractFollowsClause<followsInvoker>,
+                     public SuchThatClause  {
  public:
   FollowsClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
   }
 };
 
-class FollowsTClause: public AbstractFollowsClause<followsTInvoker> {
+class FollowsTClause: public AbstractFollowsClause<followsTInvoker>,
+                      public SuchThatClause  {
  public:
   FollowsTClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {

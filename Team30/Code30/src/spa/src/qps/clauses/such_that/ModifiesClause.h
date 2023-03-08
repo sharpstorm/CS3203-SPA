@@ -29,7 +29,8 @@ typedef AbstractAnyEntClause<
                              ClauseArgument::isType<PQL_SYN_TYPE_PROCEDURE>>,
     ClauseArgument::isType<PQL_SYN_TYPE_VARIABLE>> AbstractModifiesClause;
 
-class ModifiesClause: public AbstractModifiesClause {
+class ModifiesClause: public AbstractModifiesClause,
+                      public SuchThatClause  {
  public:
   ModifiesClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractAnyEntClause(std::move(left), std::move(right)) {

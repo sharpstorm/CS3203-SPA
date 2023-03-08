@@ -10,10 +10,10 @@ template <
     StmtEntInvoker stmtInvoker,
     SynonymPredicate leftValidator,
     SynonymPredicate rightValidator>
-class AbstractAnyEntClause : public AbstractSuchThatClause {
+class AbstractAnyEntClause : public AbstractTwoArgClause {
  public:
   AbstractAnyEntClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
-      : AbstractSuchThatClause(std::move(left), std::move(right)) {
+      : AbstractTwoArgClause(std::move(left), std::move(right)) {
   }
 
   bool validateArgTypes(VariableTable *table) override {
@@ -21,7 +21,7 @@ class AbstractAnyEntClause : public AbstractSuchThatClause {
       return false;
     }
 
-    return AbstractSuchThatClause::validateArgTypes<
+    return AbstractTwoArgClause::validateArgTypes<
         leftValidator, rightValidator>(table);
   }
 
@@ -39,17 +39,17 @@ class AbstractAnyEntClause : public AbstractSuchThatClause {
     }
 
     if (isLeftStatement) {
-      return AbstractSuchThatClause::evaluateOn<StmtValue, StmtRef,
-                                                EntityValue, EntityRef,
-                                                Clause::toStmtRef,
-                                                Clause::toEntityRef,
-                                                stmtInvoker>(pkbQueryHandler);
+      return AbstractTwoArgClause::evaluateOn<StmtValue, StmtRef,
+                                              EntityValue, EntityRef,
+                                              Clause::toStmtRef,
+                                              Clause::toEntityRef,
+                                              stmtInvoker>(pkbQueryHandler);
     } else {
-      return AbstractSuchThatClause::evaluateOn<EntityValue, EntityRef,
-                                                EntityValue, EntityRef,
-                                                Clause::toEntityRef,
-                                                Clause::toEntityRef,
-                                                entInvoker>(pkbQueryHandler);
+      return AbstractTwoArgClause::evaluateOn<EntityValue, EntityRef,
+                                              EntityValue, EntityRef,
+                                              Clause::toEntityRef,
+                                              Clause::toEntityRef,
+                                              entInvoker>(pkbQueryHandler);
     }
   }
 };
