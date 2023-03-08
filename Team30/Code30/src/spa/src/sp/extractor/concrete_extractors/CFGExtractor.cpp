@@ -26,8 +26,8 @@ void CFGExtractor::visit(StatementListNode* node) {
 
   if (CFGcache->getNodeMap().empty()) {
     children[0]->accept(&statementNoExtractor);
-    int startingLine = statementNoExtractor.getStatementNumber() - 1;
-    CFGcache->changeStartingLine(startingLine);
+    int startingLineIndex = statementNoExtractor.getStatementNumber() - 1;
+    CFGcache->changeStartingLine(startingLineIndex);
   }
 
   for (int i = 0; i < children.size() - 1; i++) {

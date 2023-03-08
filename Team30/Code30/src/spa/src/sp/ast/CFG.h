@@ -23,7 +23,8 @@ class CFG {
 
  private:
   string procedureName;
-  int startingLine;
+  int startingLineIndex;
+
   vector<int> nodeMap;
   vector<list<int>> links;
 };
