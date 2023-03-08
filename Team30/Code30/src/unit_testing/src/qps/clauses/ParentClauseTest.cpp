@@ -5,9 +5,9 @@
 #include "qps/clauses/arguments/ClauseArgument.h"
 #include "qps/clauses/arguments/StmtArgument.h"
 #include "qps/clauses/arguments/SynonymArgument.h"
-#include "qps/clauses/such_that/ParentClause.h"
 #include "ClausesPKBStub.cpp"
 #include "../util/QueryResultTestUtil.cpp"
+#include "qps/clauses/such_that/ParentClauses.h"
 
 //ClauseArgumentPtr(new StmtArgument(6))
 //ClauseArgumentPtr(new StmtArgument(7))

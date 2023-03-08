@@ -5,8 +5,7 @@
 
 #include "PQLContextTestUtils.h"
 #include "qps/errors/QPSParserSyntaxError.h"
-#include "qps/clauses/such_that/ParentClause.h"
-#include "qps/clauses/such_that/ParentTClause.h"
+#include "qps/clauses/such_that/ParentClauses.h"
 #include "qps/errors/QPSParserSemanticError.h"
 
 using std::make_unique, std::unordered_map;

@@ -5,9 +5,9 @@
 #include "qps/clauses/arguments/ClauseArgument.h"
 #include "qps/clauses/arguments/StmtArgument.h"
 #include "qps/clauses/arguments/SynonymArgument.h"
-#include "qps/clauses/such_that/ParentTClause.h"
 #include "ClausesPKBStub.cpp"
 #include "../util/QueryResultTestUtil.cpp"
+#include "qps/clauses/such_that/ParentClauses.h"
 
 const ExpectedParams PARENTT_LEFT_LINES{
     {"a1", QueryResultItemVector {

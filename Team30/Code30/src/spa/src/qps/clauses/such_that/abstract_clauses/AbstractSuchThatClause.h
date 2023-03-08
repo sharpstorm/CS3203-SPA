@@ -8,18 +8,17 @@
 #include "qps/clauses/AbstractTwoArgClause.h"
 #include "qps/clauses/SuchThatClause.h"
 
-template <typename LT, typename LA, typename RT, typename RA>
-using QueryInvoker = QueryResult<LT, RT>(*)(
+template <
+    typename LeftResultType, typename LeftArgType,
+    typename RightResultType, typename RightArgType>
+using QueryInvoker = QueryResult<LeftResultType, RightResultType>(*)(
     PkbQueryHandler* pkbQueryHandler,
-    LA leftArg,
-    RA rightArg);
+    LeftArgType leftArg,
+    RightArgType rightArg);
 
 template <typename ResultType>
 using ArgumentTransformer = ResultType(*)(ClauseArgument* arg);
 
-template <
-    typename LT, typename LA,
-    typename RT, typename RA>
 class AbstractSuchThatClause:
     public AbstractTwoArgClause {
  public:
@@ -29,11 +28,14 @@ class AbstractSuchThatClause:
 
  protected:
   template <
-      ArgumentTransformer<LA> leftTransformer,
-      ArgumentTransformer<RA> rightTransformer,
-      QueryInvoker<LT, LA, RT, RA> invoker>
+      typename LeftResultType, typename LeftArgType,
+      typename RightResultType, typename RightArgType,
+      ArgumentTransformer<LeftArgType> leftTransformer,
+      ArgumentTransformer<RightArgType> rightTransformer,
+      QueryInvoker<LeftResultType, LeftArgType,
+                   RightResultType, RightArgType> invoker>
   PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler) {
-    QueryResult<LT, RT> queryResult = invoker(
+    auto queryResult = invoker(
         pkbQueryHandler,
         leftTransformer(left.get()),
         rightTransformer(right.get()));

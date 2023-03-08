@@ -22,5 +22,17 @@ constexpr CallsInvoker callsTInvoker = [](PkbQueryHandler* pkbQueryHandler,
   return pkbQueryHandler->queryCallsStar(leftArg, rightArg);
 };
 
-typedef AbstractCallsClause<callsInvoker> CallsClause;
-typedef AbstractCallsClause<callsTInvoker> CallsTClause;
+class CallsClause: public AbstractCallsClause<callsInvoker> {
+ public:
+  CallsClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
+      : AbstractEntEntClause(std::move(left), std::move(right)) {
+  }
+};
+
+class CallsTClause: public AbstractCallsClause<callsTInvoker> {
+ public:
+  CallsTClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
+      : AbstractEntEntClause(std::move(left), std::move(right)) {
+  }
+};
+

@@ -26,7 +26,7 @@ class ClauseArgument {
   static bool isType(PQLQuerySynonym syn) {
     return syn.isType(TYPE);
   };
-  template<typename condA, typename condB>
+  template<SynonymPredicate condA, SynonymPredicate condB>
   static bool isEither(PQLQuerySynonym syn) {
     return condA(syn) || condB(syn);
   }

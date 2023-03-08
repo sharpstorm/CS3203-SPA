@@ -7,9 +7,9 @@
 #include "qps/common/resulttable/SynonymResultTable.h"
 #include "qps/executor/QueryExecutor.h"
 #include "qps/parser/builder/QueryBuilder.h"
-#include "qps/clauses/such_that/FollowsClause.h"
 #include "qps/clauses/arguments/ClauseArgumentFactory.h"
 #include "../PKBStub.cpp"
+#include "qps/clauses/such_that/FollowsClauses.h"
 
 #include <memory>
 

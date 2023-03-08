@@ -2,12 +2,12 @@
 
 #include <memory>
 
-#include "qps/clauses/such_that/FollowsClause.h"
 #include "qps/clauses/arguments/ClauseArgument.h"
 #include "qps/clauses/arguments/StmtArgument.h"
 #include "qps/clauses/arguments/SynonymArgument.h"
 #include "ClausesPKBStub.cpp"
 #include "../util/QueryResultTestUtil.cpp"
+#include "qps/clauses/such_that/FollowsClauses.h"
 
 using std::shared_ptr, std::make_unique, std::unique_ptr;
 
