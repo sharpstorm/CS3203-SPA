@@ -49,10 +49,9 @@ class RelationTableManager {
    * Find R(arg1, arg2) where arg1 is in the given arg1Values and arg2 satisfies
    * arg2Predicate.
    */
-  template<typename R = K>
-  QueryResult<R, V> query(unordered_set<K> arg1Values,
+  QueryResult<K, V> query(unordered_set<K> arg1Values,
                           Predicate<V> arg2Predicate) const {
-    QueryResult<R, V> result;
+    QueryResult<K, V> result;
     for (auto arg1 : arg1Values) {
       auto arg2Values = table->get(arg1);
       for (auto arg2 : arg2Values) {
@@ -68,10 +67,9 @@ class RelationTableManager {
    * Find R(arg1, arg2) where arg2 is in the given arg2Values and arg1 satisfies
    * arg1Predicate.
    */
-  template<typename R = K>
-  QueryResult<R, V> query(Predicate<K> arg1Predicate,
+  QueryResult<K, V> query(Predicate<K> arg1Predicate,
                           unordered_set<V> arg2Values) const {
-    QueryResult<R, V> result;
+    QueryResult<K, V> result;
     for (auto arg2 : arg2Values) {
       auto arg1Values = reverseTable->get(arg2);
       for (auto arg1 : arg1Values) {
@@ -86,18 +84,16 @@ class RelationTableManager {
   /**
    * Find R(arg1, arg2) given arg1 and arg2 satisfies arg2Predicate.
    */
-  template<typename R = K>
-  QueryResult<R, V> query(K arg1,
+  QueryResult<K, V> query(K arg1,
                           Predicate<V> arg2Predicate) const {
-    return query<R>(unordered_set<K>({arg1}), arg2Predicate);
+    return query(unordered_set<K>({arg1}), arg2Predicate);
   }
 
   /**
    * Find R(arg1, arg2) given arg2 and arg1 satisfies arg1Predicate.
    */
-  template<typename R = K>
-  QueryResult<R, V> query(Predicate<K> arg1Predicate,
+  QueryResult<K, V> query(Predicate<K> arg1Predicate,
                           V arg2) const {
-    return query<R>(arg1Predicate, unordered_set<V>({arg2}));
+    return query(arg1Predicate, unordered_set<V>({arg2}));
   }
 };
