@@ -35,6 +35,11 @@ class AbstractSuchThatClause:
       QueryInvoker<LeftResultType, LeftArgType,
                    RightResultType, RightArgType> invoker>
   PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler) {
+    if (isSameSynonym()) {
+      return Clause::toQueryResult(left->getName(),
+                                   unordered_set<LeftResultType>{});
+    }
+
     auto queryResult = invoker(
         pkbQueryHandler,
         leftTransformer(left.get()),
