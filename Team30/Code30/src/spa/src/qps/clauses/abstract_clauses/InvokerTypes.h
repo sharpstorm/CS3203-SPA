@@ -1,7 +1,7 @@
 #pragma once
 
 #include "common/Types.h"
-#include "AbstractSuchThatClause.h"
+#include "qps/clauses/such_that/AbstractSuchThatClause.h"
 
 typedef QueryInvoker<EntityValue, EntityRef, EntityValue, EntityRef>
     EntEntInvoker;

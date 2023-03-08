@@ -5,7 +5,7 @@
 #include "common/Types.h"
 #include "qps/clauses/arguments/ClauseArgument.h"
 #include "qps/clauses/AbstractTwoArgClause.h"
-#include "AbstractSuchThatClause.h"
+#include "qps/clauses/such_that/AbstractSuchThatClause.h"
 #include "InvokerTypes.h"
 
 template <
