@@ -16,8 +16,8 @@ template <
     typename RightResultType, typename RightArgType>
 using QueryInvoker = QueryResult<LeftResultType, RightResultType>(*)(
     PkbQueryHandler* pkbQueryHandler,
-    LeftArgType leftArg,
-    RightArgType rightArg);
+    const LeftArgType &leftArg,
+    const RightArgType &rightArg);
 
 template <typename ResultType>
 using ArgumentTransformer = ResultType(*)(ClauseArgument* arg);

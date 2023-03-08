@@ -2,7 +2,7 @@
 
 #include <utility>
 
-IfPatternClause::IfPatternClause(PQLQuerySynonym ifSynonym,
+IfPatternClause::IfPatternClause(const PQLQuerySynonym &ifSynonym,
                                  ClauseArgumentPtr leftArg):
     PatternClause(ifSynonym, std::move(leftArg), PQL_SYN_TYPE_IF) {}
 

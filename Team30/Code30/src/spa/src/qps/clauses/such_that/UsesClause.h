@@ -12,14 +12,14 @@ typedef StmtEntInvoker UsesSInvoker;
 typedef EntEntInvoker UsesPInvoker;
 
 constexpr UsesSInvoker usesSInvoker = [](PkbQueryHandler* pkbQueryHandler,
-                                         StmtRef leftArg,
-                                         EntityRef rightArg){
+                                         const StmtRef &leftArg,
+                                         const EntityRef &rightArg){
   return pkbQueryHandler->queryUses(leftArg, rightArg);
 };
 
 constexpr UsesPInvoker usesPInvoker = [](PkbQueryHandler* pkbQueryHandler,
-                                         EntityRef leftArg,
-                                         EntityRef rightArg){
+                                         const EntityRef &leftArg,
+                                         const EntityRef &rightArg){
   return pkbQueryHandler->queryUses(leftArg, rightArg);
 };
 

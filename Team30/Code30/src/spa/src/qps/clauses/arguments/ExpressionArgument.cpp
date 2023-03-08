@@ -13,7 +13,7 @@ bool ExpressionArgument::isWildcard() {
   return expressionSequence == nullptr && isPartial;
 }
 
-bool ExpressionArgument::allowsPartial() {
+const bool ExpressionArgument::allowsPartial() {
   return isPartial;
 }
 

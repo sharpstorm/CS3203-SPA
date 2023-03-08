@@ -10,7 +10,7 @@ using std::string, std::unique_ptr;
 class ClauseArgumentFactory {
  public:
   static ClauseArgumentPtr createWildcard();
-  static ClauseArgumentPtr create(PQLQuerySynonym variable);
-  static ClauseArgumentPtr create(int stmt);
-  static ClauseArgumentPtr create(string ident);
+  static ClauseArgumentPtr create(const PQLQuerySynonym &variable);
+  static ClauseArgumentPtr create(const int &stmt);
+  static ClauseArgumentPtr create(const string &ident);
 };

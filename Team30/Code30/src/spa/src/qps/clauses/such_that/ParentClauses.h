@@ -12,14 +12,14 @@ using AbstractParentClause = AbstractStmtStmtClause<
     ClauseArgument::isStatement>;
 
 constexpr ParentInvoker parentInvoker = [](PkbQueryHandler* pkbQueryHandler,
-                                           StmtRef leftArg,
-                                           StmtRef rightArg){
+                                           const StmtRef &leftArg,
+                                           const StmtRef &rightArg){
   return pkbQueryHandler->queryParent(leftArg, rightArg);
 };
 
 constexpr ParentInvoker parentTInvoker = [](PkbQueryHandler* pkbQueryHandler,
-                                            StmtRef leftArg,
-                                            StmtRef rightArg){
+                                            const StmtRef &leftArg,
+                                            const StmtRef &rightArg){
   return pkbQueryHandler->queryParentStar(leftArg, rightArg);
 };
 

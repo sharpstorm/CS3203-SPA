@@ -10,15 +10,15 @@ typedef EntEntInvoker ModifiesPInvoker;
 
 constexpr ModifiesSInvoker modifiesSInvoker = [](
     PkbQueryHandler* pkbQueryHandler,
-    StmtRef leftArg,
-    EntityRef rightArg){
+    const StmtRef &leftArg,
+    const EntityRef &rightArg){
   return pkbQueryHandler->queryModifies(leftArg, rightArg);
 };
 
 constexpr ModifiesPInvoker modifiesPInvoker = [](
     PkbQueryHandler* pkbQueryHandler,
-    EntityRef leftArg,
-    EntityRef rightArg){
+    const EntityRef &leftArg,
+    const EntityRef &rightArg){
   return pkbQueryHandler->queryModifies(leftArg, rightArg);
 };
 

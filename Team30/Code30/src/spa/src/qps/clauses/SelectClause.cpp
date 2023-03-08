@@ -8,7 +8,7 @@
 
 using std::pair, std::unordered_set, std::vector;
 
-SelectClause::SelectClause(PQLQuerySynonym target):
+SelectClause::SelectClause(const PQLQuerySynonym &target):
     target(target) {}
 
 PQLQueryResult* SelectClause::evaluateOn(PkbQueryHandler* pkbQueryHandler) {

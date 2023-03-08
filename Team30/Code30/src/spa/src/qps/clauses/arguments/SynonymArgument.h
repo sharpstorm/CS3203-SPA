@@ -11,7 +11,7 @@ class SynonymArgument: public ClauseArgument {
   PQLQuerySynonym synonym;
 
  public:
-  explicit SynonymArgument(PQLQuerySynonym synonym);
+  explicit SynonymArgument(const PQLQuerySynonym &synonym);
   bool synonymSatisfies(SynonymPredicate predicate) override;
   bool isNamed() override;
   PQLSynonymName getName() override;

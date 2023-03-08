@@ -11,7 +11,7 @@ class ExpressionArgument {
   ExpressionArgument();
   ExpressionArgument(ExpressionSequencePtr expression, bool isPartial);
   bool isWildcard();
-  bool allowsPartial();
+  const bool allowsPartial();
   ExpressionSequence* getSequence();
 
  private:

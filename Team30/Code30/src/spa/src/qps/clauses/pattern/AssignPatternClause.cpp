@@ -7,7 +7,7 @@
 
 using std::unordered_set, std::make_unique;
 
-AssignPatternClause::AssignPatternClause(PQLQuerySynonym assignSynonym,
+AssignPatternClause::AssignPatternClause(const PQLQuerySynonym &assignSynonym,
                                          ClauseArgumentPtr leftArg,
                                          ExpressionArgumentPtr rightArg):
     PatternClause(assignSynonym, std::move(leftArg), PQL_SYN_TYPE_ASSIGN),
@@ -15,7 +15,7 @@ AssignPatternClause::AssignPatternClause(PQLQuerySynonym assignSynonym,
 
 PQLQueryResult *AssignPatternClause::evaluateOn(
     PkbQueryHandler* pkbQueryHandler) {
-  StmtRef leftStatement = StmtRef{StmtType::Assign, 0};
+  StmtRef leftStatement = {StmtType::Assign, 0};
   EntityRef rightVariable = leftArg->toEntityRef();
   QueryResult<int, string> modifiesResult =
       pkbQueryHandler->queryModifies(leftStatement, rightVariable);
@@ -29,16 +29,16 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
     // Go through all the line numbers
     for (auto& it : modifiesResult.pairVals) {
       // Call assigns to retrieve the node
-      StmtRef assignRef = StmtRef{StmtType::Assign, it.first};
+      StmtRef assignRef = {StmtType::Assign, it.first};
       QueryResult<int, PatternTrie*> nodes =
           pkbQueryHandler->queryAssigns(assignRef);
 
       PatternTrie* lineRoot = *nodes.secondArgVals.begin();
-      if (rightArgument->allowsPartial()
-          && lineRoot->isMatchPartial(rightArgument->getSequence())) {
-        assignResult.add(it.first, it.second);
-      } else if (!rightArgument->allowsPartial()
-          && lineRoot->isMatchFull(rightArgument->getSequence())) {
+      bool isPartialMatch = rightArgument->allowsPartial()
+          && lineRoot->isMatchPartial(rightArgument->getSequence());
+      bool isFullMatch = !rightArgument->allowsPartial()
+          && lineRoot->isMatchFull(rightArgument->getSequence());
+      if (isPartialMatch || isFullMatch) {
         assignResult.add(it.first, it.second);
       }
     }

@@ -12,14 +12,14 @@ using AbstractCallsClause = AbstractEntEntClause<
     ClauseArgument::isType<PQL_SYN_TYPE_PROCEDURE>>;
 
 constexpr CallsInvoker callsInvoker = [](PkbQueryHandler* pkbQueryHandler,
-                                          EntityRef leftArg,
-                                          EntityRef rightArg){
+                                         const EntityRef &leftArg,
+                                         const EntityRef &rightArg){
   return pkbQueryHandler->queryCalls(leftArg, rightArg);
 };
 
 constexpr CallsInvoker callsTInvoker = [](PkbQueryHandler* pkbQueryHandler,
-                                           EntityRef leftArg,
-                                           EntityRef rightArg){
+                                          const EntityRef &leftArg,
+                                          const EntityRef &rightArg){
   return pkbQueryHandler->queryCallsStar(leftArg, rightArg);
 };
 

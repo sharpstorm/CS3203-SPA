@@ -11,7 +11,6 @@ using std::unordered_set, std::shared_ptr;
 
 class Clause : public IEvaluatable {
  public:
-  virtual ~Clause() = default;
   virtual bool validateArgTypes(VariableTable* variables) = 0;
 
  protected:
