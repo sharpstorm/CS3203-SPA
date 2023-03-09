@@ -20,9 +20,12 @@ jobs:
     - name: Run Reposense
       run: java -jar RepoSense.jar -r ./target
 
+    - name: Delete Unnecessary Files
+      run: rm -r ./reposense-report/target*
+
     - name: Upload Reposense Report
       uses: actions/upload-artifact@v3
       with:
         name: reposense-report
-        path: ./reposense-report/archive.zip
+        path: ./reposense-report/*
         retention-days: 1
