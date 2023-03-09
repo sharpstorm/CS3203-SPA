@@ -8,5 +8,6 @@ using std::string;
 class IWhilePatternQueryHandler {
  public:
   virtual ~IWhilePatternQueryHandler() {}
-  virtual QueryResult<int, string> queryWhilePattern(EntityRef) const = 0;
+  virtual QueryResult<int, string> queryWhilePattern(StmtRef,
+                                                     EntityRef) const = 0;
 };

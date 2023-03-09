@@ -30,7 +30,9 @@ PkbQueryHandler::PkbQueryHandler(PKB *pkb)
                                                  pkb->predicateFactory,
                                                  pkb->structureProvider)),
       whilePatternHandler(new WhilePatternQueryHandler(
-          pkb->whilePatternStorage)),
+          pkb->whilePatternStorage,
+          pkb->predicateFactory,
+          pkb->structureProvider)),
       designEntityHandler(new DesignEntitiesQueryHandler(
           pkb->entityMappingProvider, pkb->structureProvider)),
       assignHandler(new AssignsQueryHandler(pkb->assignStorage)) {}
@@ -105,7 +107,7 @@ QueryResult<int, string> PkbQueryHandler::queryIfPattern(StmtRef arg1,
   return ifPatternHandler->queryIfPattern(arg1, arg2);
 }
 
-QueryResult<int,
-            string> PkbQueryHandler::queryWhilePattern(EntityRef arg) const {
-  return whilePatternHandler->queryWhilePattern(arg);
+QueryResult<int, string>
+PkbQueryHandler::queryWhilePattern(StmtRef arg1, EntityRef arg2) const {
+  return whilePatternHandler->queryWhilePattern(arg1, arg2);
 }
