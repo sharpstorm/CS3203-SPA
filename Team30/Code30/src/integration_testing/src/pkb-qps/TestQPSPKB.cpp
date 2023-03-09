@@ -54,9 +54,9 @@ unique_ptr<PKB> initPkb() {
   pkbWriter->addStatement(8, StmtType::While);
   pkbWriter->addStatement(9, StmtType::Read);
 
-  pkbWriter->addSymbol("x", EntityType::Variable);
-  pkbWriter->addSymbol("y", EntityType::Variable);
-  pkbWriter->addSymbol("z", EntityType::Variable);
+  pkbWriter->addVariable("x");
+  pkbWriter->addVariable("y");
+  pkbWriter->addVariable("z");
 
   pkbWriter->addFollows(1, 2);
   pkbWriter->addFollows(2, 3);
