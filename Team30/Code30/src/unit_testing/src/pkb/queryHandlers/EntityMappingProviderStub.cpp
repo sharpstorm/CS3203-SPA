@@ -1,7 +1,34 @@
 #include "EntityMappingProviderStub.h"
 
-EntityMappingProviderStub::EntityMappingProviderStub() {};
+EntityMappingProviderStub::EntityMappingProviderStub(){};
 
-unordered_set<string> EntityMappingProviderStub::getSymbolsOfType(EntityType type) const {
-  return entityTypeToValue.get(type);
+unordered_set<string> EntityMappingProviderStub::getSymbolsOfType(
+    EntityType type) const {
+  if (type == EntityType::Variable) {
+    return allVariables;
+  } else if (type == EntityType::Constant) {
+    return allConstants;
+  } else if (type == EntityType::Procedure) {
+    return allProcedures;
+  } else {  // when type = Entity::None
+    return {};
+  }
+}
+
+string EntityMappingProviderStub::getVariableByIndex(int index) const {
+  return variableTable.get(index);
+}
+
+string EntityMappingProviderStub::getConstantByIndex(int index) const {
+  return constantTable.get(index);
+}
+
+unordered_set<int> EntityMappingProviderStub::getIndexOfVariable(
+    string name) const {
+  return variableToIndexTable.get(name);
+}
+
+unordered_set<int> EntityMappingProviderStub::getIndexOfConstant(
+    string name) const {
+  return constantToIndexTable.get(name);
 }

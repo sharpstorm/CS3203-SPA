@@ -53,6 +53,24 @@ std::unordered_set<std::string> PkbQueryHandler::getSymbolsOfType(
   return designEntityHandler->getSymbolsOfType(entityType);
 }
 
+string PkbQueryHandler::getVariableByIndex(int index) const {
+  return designEntityHandler->getVariableByIndex(index);
+}
+
+string PkbQueryHandler::getConstantByIndex(int index) const {
+  return designEntityHandler->getConstantByIndex(index);
+}
+
+unordered_set<int> PkbQueryHandler::getIndexOfVariable(
+    string name) const {
+  return designEntityHandler->getIndexOfVariable(name);
+}
+
+unordered_set<int> PkbQueryHandler::getIndexOfConstant(
+    string name) const {
+  return designEntityHandler->getIndexOfConstant(name);
+}
+
 std::unordered_set<int> PkbQueryHandler::getStatementsOfType(
     StmtType stmtType) const {
   return designEntityHandler->getStatementsOfType(stmtType);
