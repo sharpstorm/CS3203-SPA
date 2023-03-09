@@ -26,7 +26,7 @@ struct WhilePatternTestInit {
   };
 };
 
-TEST_CASE("WhilePatternQueryHandler Whiles(var,_,_)") {
+TEST_CASE("WhilePatternQueryHandler w(var,_)") {
   auto test = WhilePatternTestInit();
 
   // positive
@@ -45,7 +45,7 @@ TEST_CASE("WhilePatternQueryHandler Whiles(var,_,_)") {
   REQUIRE(res3.isEmpty == true);
 }
 
-TEST_CASE("WhilePatternQueryHandler Whiles(v,_,_) or Whiles(_,_,_)") {
+TEST_CASE("WhilePatternQueryHandler w(v,_) or w(_,_)") {
   auto test = WhilePatternTestInit();
 
   auto res1 = test.handler.queryWhilePattern({EntityType::None, ""});
