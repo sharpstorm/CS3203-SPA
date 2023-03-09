@@ -6,7 +6,6 @@
 #include "EntityTableManager.h"
 #include "RelationTableManager.h"
 #include "TransitiveRelationTableManager.h"
-#include "PatternTableManager.h"
 #include "tables/HashKeyTable.h"
 #include "tables/HashKeySetTable.h"
 #include "common/pattern/PatternTrie.h"
