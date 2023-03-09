@@ -1,4 +1,5 @@
 #include "EntityExtractor.h"
+#include "sp/errors/SPError.h"
 
 EntityExtractor::EntityExtractor(PkbWriter* writer) : pkbWriter(writer) {
 }
@@ -29,6 +30,10 @@ void EntityExtractor::visit(ReadNode* node) {
 }
 
 void EntityExtractor::visit(CallNode* node) {
+  if (procNameCache == node->getName()) {
+    throw SPError(SPERR_PROCEDURE_SELF_CALL);
+  }
+  pkbWriter->addStatement(node->getLineNumber(), StmtType::Call);
   pkbWriter->addCalls(node->getLineNumber(), procNameCache, node->getName());
 }
 
