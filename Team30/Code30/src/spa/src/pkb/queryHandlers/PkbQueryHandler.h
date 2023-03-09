@@ -25,10 +25,12 @@ class PkbQueryHandler : public IPkbQueryHandler {
   QueryResult<int, string> queryModifies(StmtRef, EntityRef) const override;
   QueryResult<string, string> queryModifies(EntityRef,
                                             EntityRef) const override;
-  QueryResult<int, PatternTrie*> queryAssigns(StmtRef) const override;
+  QueryResult<int, PatternTrie *> queryAssigns(StmtRef) const override;
   QueryResult<string, string> queryCalls(EntityRef, EntityRef) const override;
   QueryResult<string, string> queryCallsStar(EntityRef,
                                              EntityRef) const override;
+  QueryResult<int, string> queryIfPattern(StmtRef, EntityRef) const override;
+  QueryResult<int, string> queryWhilePattern(StmtRef, EntityRef) const override;
   unordered_set<string> getSymbolsOfType(EntityType) const override;
   unordered_set<int> getStatementsOfType(StmtType) const override;
   string getVariableByIndex(int) const override;
@@ -44,4 +46,6 @@ class PkbQueryHandler : public IPkbQueryHandler {
   unique_ptr<IAssignsQueryHandler> assignHandler;
   unique_ptr<IDesignEntitiesQueryHandler> designEntityHandler;
   unique_ptr<ICallsQueryHandler> callsHandler;
+  unique_ptr<IIfPatternQueryHandler> ifPatternHandler;
+  unique_ptr<IWhilePatternQueryHandler> whilePatternHandler;
 };

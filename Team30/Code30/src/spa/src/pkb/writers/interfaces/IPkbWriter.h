@@ -14,6 +14,8 @@
 #include "pkb/writers/interfaces/IStatementWriter.h"
 #include "pkb/writers/interfaces/ISymbolWriter.h"
 #include "pkb/writers/interfaces/IUsesWriter.h"
+#include "IIfPatternWriter.h"
+#include "IWhilePatternWriter.h"
 #include "pkb/writers/interfaces/IVariableWriter.h"
 
 using std::string;
@@ -26,6 +28,8 @@ class IPkbWriter : public IFollowsWriter,
                    public IModifiesWriter,
                    public IAssignsWriter,
                    public ICallsWriter,
+                   public IIfPatternWriter,
+                   public IWhilePatternWriter,
                    public IPostProcessWriter,
                    public IVariableWriter,
                    public IConstantWriter {

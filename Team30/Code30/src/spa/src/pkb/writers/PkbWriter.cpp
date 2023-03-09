@@ -10,6 +10,9 @@
 #include "ProcedureWriter.h"
 #include "StatementWriter.h"
 #include "UsesWriter.h"
+#include "PostProcessWriter.h"
+#include "IfPatternWriter.h"
+#include "WhilePatternWriter.h"
 #include "VariableWriter.h"
 
 PkbWriter::PkbWriter(PKB *pkb)
@@ -21,6 +24,8 @@ PkbWriter::PkbWriter(PKB *pkb)
       statementWriter(new StatementWriter(pkb->statementStorage)),
       procedureWriter(new ProcedureWriter(pkb->procedureStorage)),
       assignsWriter(new AssignsWriter(pkb->assignStorage)),
+      ifPatternWriter(new IfPatternWriter(pkb->ifPatternStorage)),
+      whilePatternWriter(new WhilePatternWriter(pkb->whilePatternStorage)),
       callsWriter(new CallsWriter(pkb->callsStorage, pkb->callStmtStorage)),
       postProcessWriter(new PostProcessWriter(pkb)),
       variableWriter(new VariableWriter(pkb->variableStorage)),
@@ -58,6 +63,14 @@ void PkbWriter::addAssigns(int stmtNum, PatternTrieSPtr ast) {
 void PkbWriter::addCalls(int stmtNum, string currProcedure,
                          string calledProcedure) {
   callsWriter->addCalls(stmtNum, currProcedure, calledProcedure);
+}
+
+void PkbWriter::addIfPattern(int stmtNum, string variable) {
+  ifPatternWriter->addIfPattern(stmtNum, variable);
+}
+
+void PkbWriter::addWhilePattern(int stmtNum, string variable) {
+  whilePatternWriter->addWhilePattern(stmtNum, variable);
 }
 
 void PkbWriter::runPostProcessor() {

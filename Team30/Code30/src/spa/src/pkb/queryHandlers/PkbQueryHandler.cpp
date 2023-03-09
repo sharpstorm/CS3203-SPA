@@ -6,6 +6,8 @@
 #include "ModifiesQueryHandler.h"
 #include "ParentQueryHandler.h"
 #include "UsesQueryHandler.h"
+#include "IfPatternQueryHandler.h"
+#include "WhilePatternQueryHandler.h"
 
 PkbQueryHandler::PkbQueryHandler(PKB *pkb)
     : followsHandler(new FollowsQueryHandler(
@@ -24,6 +26,13 @@ PkbQueryHandler::PkbQueryHandler(PKB *pkb)
       callsHandler(new CallsQueryHandler(pkb->callsStorage,
                                          pkb->predicateFactory,
                                          pkb->entityMappingProvider)),
+      ifPatternHandler(new IfPatternQueryHandler(pkb->ifPatternStorage,
+                                                 pkb->predicateFactory,
+                                                 pkb->structureProvider)),
+      whilePatternHandler(new WhilePatternQueryHandler(
+          pkb->whilePatternStorage,
+          pkb->predicateFactory,
+          pkb->structureProvider)),
       designEntityHandler(new DesignEntitiesQueryHandler(
           pkb->entityMappingProvider, pkb->structureProvider)),
       assignHandler(new AssignsQueryHandler(pkb->assignStorage)) {}
@@ -96,7 +105,7 @@ QueryResult<string, string> PkbQueryHandler::queryModifies(
   return modifiesHandler->queryModifies(arg1, arg2);
 }
 
-QueryResult<int, PatternTrie*> PkbQueryHandler::queryAssigns(
+QueryResult<int, PatternTrie *> PkbQueryHandler::queryAssigns(
     StmtRef arg1) const {
   return assignHandler->queryAssigns(arg1);
 }
@@ -109,4 +118,14 @@ QueryResult<string, string> PkbQueryHandler::queryCalls(EntityRef arg1,
 QueryResult<string, string> PkbQueryHandler::queryCallsStar(
     EntityRef arg1, EntityRef arg2) const {
   return callsHandler->queryCallsStar(arg1, arg2);
+}
+
+QueryResult<int, string> PkbQueryHandler::queryIfPattern(StmtRef arg1,
+                                                         EntityRef arg2) const {
+  return ifPatternHandler->queryIfPattern(arg1, arg2);
+}
+
+QueryResult<int, string>
+PkbQueryHandler::queryWhilePattern(StmtRef arg1, EntityRef arg2) const {
+  return whilePatternHandler->queryWhilePattern(arg1, arg2);
 }
