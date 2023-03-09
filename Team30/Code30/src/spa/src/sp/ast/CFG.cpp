@@ -27,9 +27,6 @@ void CFG::increaseMapSize(int num) {
   if (oldSize < 0) {
     oldSize = 0;
   }
-  if ((oldSize + 1) > num) {
-    return;
-  }
 
   links.resize(num);
 }
