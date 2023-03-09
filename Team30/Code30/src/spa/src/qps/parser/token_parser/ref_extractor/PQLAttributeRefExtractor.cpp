@@ -52,7 +52,8 @@ PQLSynonymAttribute PQLAttributeRefExtractor::extractAttribute(
   return getSynAttribute(foundToken);
 }
 
-PQLSynonymAttribute PQLAttributeRefExtractor::getSynAttribute(PQLToken * token) {
+PQLSynonymAttribute PQLAttributeRefExtractor::getSynAttribute(
+    PQLToken * token) {
   switch (token->getType()) {
     case PQL_TOKEN_VAR_NAME:
       return PQLSynonymAttribute::VAR_NAME;
