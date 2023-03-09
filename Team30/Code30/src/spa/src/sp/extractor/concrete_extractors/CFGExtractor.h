@@ -3,7 +3,7 @@
 #include <memory>
 #include <vector>
 
-#include "../../ast/CFG.h"
+#include "common/cfg/CFG.h"
 #include "sp/extractor/AbstractExtractor.h"
 
 using std::make_shared;

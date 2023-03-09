@@ -1,6 +1,6 @@
 #include "../../../../spa/src/pkb/writers/PkbWriter.h"
 #include "../../../../spa/src/sp/SourceParser.h"
-#include "../../../../spa/src/sp/ast/CFG.h"
+#include "common/cfg/CFG.h"
 #include "../../../../spa/src/sp/extractor/TreeWalker.h"
 #include "../../../../spa/src/sp/extractor/concrete_extractors/CFGExtractor.h"
 #include "../StubWriter.cpp"
