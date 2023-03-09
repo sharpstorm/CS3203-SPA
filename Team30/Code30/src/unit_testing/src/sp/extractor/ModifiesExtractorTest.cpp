@@ -14,7 +14,7 @@ StubPkb executeModifiesExtractor(string input) {
   PKB pkb;
   StubPkb stubby(&pkb);
   SourceParser parser;
-  vector<Extractor*> extractors;
+  vector<IExtractor*> extractors;
   auto modifiesExtractor = make_unique<ModifiesExtractor>(&stubby);
   extractors.push_back(modifiesExtractor.get());
   AST ast = parser.parseSource(input);
@@ -22,7 +22,7 @@ StubPkb executeModifiesExtractor(string input) {
   return stubby;
 }
 
-TEST_CASE("Modifies Extractor - Read statement") {
+TEST_CASE("Modifies IExtractor - Read statement") {
   string input = "procedure proc {\n"
                  "read a;"
                  "}";
@@ -35,7 +35,7 @@ TEST_CASE("Modifies Extractor - Read statement") {
   REQUIRE(u.contains(v2, "proc", "a"));
 }
 
-TEST_CASE("Modifies Extractor - Assign statement") {
+TEST_CASE("Modifies IExtractor - Assign statement") {
   string input = "procedure proc {\n"
                  "a = b;"
                  "}";
@@ -48,7 +48,7 @@ TEST_CASE("Modifies Extractor - Assign statement") {
   REQUIRE(u.contains(v2, "proc", "a"));
 }
 
-TEST_CASE("Modifies Extractor - Single If statement") {
+TEST_CASE("Modifies IExtractor - Single If statement") {
   string input = "procedure proc {\n"
                  "if (!(a < b)) then {"
                  "  a = b;"
@@ -69,7 +69,7 @@ TEST_CASE("Modifies Extractor - Single If statement") {
   REQUIRE(u.contains(v2, "proc", "b"));
 }
 
-TEST_CASE("Modifies Extractor - Single While statement") {
+TEST_CASE("Modifies IExtractor - Single While statement") {
   string input = "procedure proc {\n"
                  "while (a < b) {"
                  "a = b;"
@@ -85,7 +85,7 @@ TEST_CASE("Modifies Extractor - Single While statement") {
   REQUIRE(u.contains(v2, "proc", "a"));
 }
 
-TEST_CASE("Modifies Extractor - Nested If in While") {
+TEST_CASE("Modifies IExtractor - Nested If in While") {
   string input = "procedure proc {\n"
                  "  while (a < b) {"
                  "    if (a != b) then {"
@@ -110,7 +110,7 @@ TEST_CASE("Modifies Extractor - Nested If in While") {
   REQUIRE(u.contains(v2, "proc", "d"));
 }
 
-TEST_CASE("Modifies Extractor - Nested While in If: then statementList") {
+TEST_CASE("Modifies IExtractor - Nested While in If: then statementList") {
   string input = "procedure proc {\n"
                  "  if (a < 1) then {"
                  "    while (a < 2) {"
@@ -132,7 +132,7 @@ TEST_CASE("Modifies Extractor - Nested While in If: then statementList") {
   REQUIRE(u.contains(v2, "proc", "x"));
 }
 
-TEST_CASE("Modifies Extractor - Nested While in If: else statementList") {
+TEST_CASE("Modifies IExtractor - Nested While in If: else statementList") {
   string input = "procedure proc {\n"
                  "  if (a < 1) then { read x; }"
                  "  else {"
@@ -155,7 +155,7 @@ TEST_CASE("Modifies Extractor - Nested While in If: else statementList") {
   REQUIRE(u.contains(v2, "proc", "x"));
 }
 
-TEST_CASE("Modifies Extractor - Nested While in While in While") {
+TEST_CASE("Modifies IExtractor - Nested While in While in While") {
   string input = "procedure proc {\n"
                  "  while (a < 3) {"
                  "    while (a < 2) {"
@@ -177,7 +177,7 @@ TEST_CASE("Modifies Extractor - Nested While in While in While") {
   REQUIRE(u.contains(v2, "proc", "a"));
 }
 
-TEST_CASE("Modifies Extractor - Nested If in If in If") {
+TEST_CASE("Modifies IExtractor - Nested If in If in If") {
   string input = "procedure proc {\n"
                  "  if (a < 3) then {"
                  "    if (a < 2) then {"
@@ -204,7 +204,7 @@ TEST_CASE("Modifies Extractor - Nested If in If in If") {
   REQUIRE(u.contains(v2, "proc", "x"));
 }
 
-TEST_CASE("Modifies Extractor - Multi Proc") {
+TEST_CASE("Modifies IExtractor - Multi Proc") {
   string input = "procedure proc1 {\n"
                  "a = 1;"
                  "}"

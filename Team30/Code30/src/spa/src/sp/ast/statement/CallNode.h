@@ -3,7 +3,7 @@
 #include <string>
 #include "sp/ast/ASTNode.h"
 #include "StatementASTNode.h"
-#include "sp/extractor/Extractor.h"
+#include "sp/extractor/IExtractor.h"
 
 using std::string;
 
@@ -13,7 +13,7 @@ class CallNode : public StatementASTNode {
   ~CallNode() = default;
   string getName();
   string toString();
-  void accept(Extractor* e);
+  void accept(IExtractor* e);
 
  private:
   string procName;

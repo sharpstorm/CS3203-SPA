@@ -15,7 +15,7 @@ vector<CFGPtr> executeCFGExtractor(string input) {
   PKB pkb;
   StubPkb stubby(&pkb);
   SourceParser parser;
-  vector<Extractor*> extractors;
+  vector<IExtractor*> extractors;
   auto cfgExtractor = make_unique<CFGExtractor>(&stubby);
   extractors.push_back(cfgExtractor.get());
   AST ast = parser.parseSource(input);

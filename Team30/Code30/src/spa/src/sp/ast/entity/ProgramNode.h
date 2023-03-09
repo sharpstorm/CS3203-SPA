@@ -3,7 +3,7 @@
 #include <string>
 #include <memory>
 #include "../ASTNode.h"
-#include "sp/extractor/Extractor.h"
+#include "sp/extractor/IExtractor.h"
 
 using std::string;
 

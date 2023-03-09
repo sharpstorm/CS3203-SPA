@@ -8,11 +8,11 @@ StatementListNode::StatementListNode() :ASTNode(ASTNODE_STMTLST) {
   children = vector<ASTNodePtr>{};
 }
 
-void StatementListNode::accept(Extractor* e) {
+void StatementListNode::accept(IExtractor* e) {
   e->visitStmtList(this);
 }
 
-void StatementListNode::leave(Extractor* e) {
+void StatementListNode::leave(IExtractor* e) {
   e->leaveStmtList(this);
 }
 

@@ -3,12 +3,12 @@
 #include "sp/ast/StatementListNode.h"
 
 void TreeWalker::walkAST(AST ast,
-                         VectorPtr<Extractor*> extractors) {
+                         VectorPtr<IExtractor*> extractors) {
   DFS(ast.getMutableRoot(), extractors);
 }
 
 void TreeWalker::DFS(ASTNodePtr node,
-                     VectorPtr<Extractor*> extractors) {
+                     VectorPtr<IExtractor*> extractors) {
   for (int i = 0; i < extractors->size(); i++) {
     node->accept(extractors->at(i));
   }

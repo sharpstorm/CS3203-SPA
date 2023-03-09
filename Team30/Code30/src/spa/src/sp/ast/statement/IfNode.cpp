@@ -12,11 +12,11 @@ IfNode::IfNode(int lineNumber) : StatementASTNode(ASTNODE_IF, "", lineNumber) {
   children = vector<ASTNodePtr>{nullptr, nullptr, nullptr};
 }
 
-void IfNode::accept(Extractor* e) {
+void IfNode::accept(IExtractor* e) {
   e->visitIf(this);
 }
 
-void IfNode::leave(Extractor* e) {
+void IfNode::leave(IExtractor* e) {
   e->leaveIf(this);
 }
 

@@ -14,7 +14,7 @@ vector<pair<int, int>> executeFollowsExtractor(string input) {
   PKB pkb;
   StubPkb stubby(&pkb);
   SourceParser parser;
-  vector<Extractor*> extractors;
+  vector<IExtractor*> extractors;
   auto followsExtractor = make_unique<FollowsExtractor>(&stubby);
   extractors.push_back(followsExtractor.get());
   AST ast = parser.parseSource(input);

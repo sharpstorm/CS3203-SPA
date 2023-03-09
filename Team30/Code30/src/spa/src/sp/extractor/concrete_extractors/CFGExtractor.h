@@ -13,11 +13,11 @@ using std::make_shared;
 class CFGExtractor : public AbstractExtractor {
  public:
   explicit CFGExtractor(PkbWriter* pkbWriter);
-  void visit(ProcedureNode* node);
-  void leave(ProcedureNode* node);
-  void visit(StatementListNode* node);
-  void visit(IfNode* node);
-  void visit(WhileNode* node);
+  void visitProcedure(ProcedureNode* node) override;
+  void leaveProcedure(ProcedureNode* node) override;
+  void visitStmtList(StatementListNode* node) override;
+  void visitIf(IfNode* node) override;
+  void visitWhile(WhileNode* node) override;
 
   vector<CFGPtr> getSetOfCFGs();
 

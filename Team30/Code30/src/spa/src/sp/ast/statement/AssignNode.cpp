@@ -12,7 +12,7 @@ AssignNode::AssignNode(int lineNumber) :
   children = vector<ASTNodePtr>{nullptr, nullptr};
 }
 
-void AssignNode::accept(Extractor* e) {
+void AssignNode::accept(IExtractor* e) {
   e->visitAssign(this);
 }
 

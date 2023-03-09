@@ -17,7 +17,7 @@ vector<pair<int, PatternTrieSPtr>> executePatternExtractor(string input) {
   PKB pkb;
   StubPkb stubby(&pkb);
   SourceParser parser;
-  vector<Extractor*> extractors;
+  vector<IExtractor*> extractors;
   auto patternExtractor = make_unique<PatternExtractor>(&stubby);
   extractors.push_back(patternExtractor.get());
   AST ast = parser.parseSource(input);
@@ -25,7 +25,7 @@ vector<pair<int, PatternTrieSPtr>> executePatternExtractor(string input) {
   return stubby.patternStore;
 }
 
-TEST_CASE("Pattern Extractor - Simple Assign") {
+TEST_CASE("Pattern IExtractor - Simple Assign") {
   string input = "procedure printResults {\n"
                  "a = b;"
                  "}";
@@ -34,7 +34,7 @@ TEST_CASE("Pattern Extractor - Simple Assign") {
   REQUIRE(v[0].second->isMatchFull(&expected));
 }
 
-TEST_CASE("Pattern Extractor - Simple Plus") {
+TEST_CASE("Pattern IExtractor - Simple Plus") {
   string input = "procedure printResults {\n"
                  "a = b + c;"
                  "}";
@@ -45,7 +45,7 @@ TEST_CASE("Pattern Extractor - Simple Plus") {
   REQUIRE(v[0].second->isMatchPartial(&expected));
 }
 
-TEST_CASE("Pattern Extractor - Longer expression") {
+TEST_CASE("Pattern IExtractor - Longer expression") {
   string input = "procedure printResults {\n"
                  "a = b + c * d - e;"
                  "}";

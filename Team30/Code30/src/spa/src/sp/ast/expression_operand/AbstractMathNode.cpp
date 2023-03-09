@@ -5,7 +5,7 @@ AbstractExpressionNode::AbstractExpressionNode(ASTNodeType type,
                                                string symbol):
     BinaryASTNode(type), identifier(identifier), symbolicRepr(symbol) {}
 
-void AbstractExpressionNode::accept(Extractor* e) {
+void AbstractExpressionNode::accept(IExtractor* e) {
   e->visitExpression(this);
 }
 

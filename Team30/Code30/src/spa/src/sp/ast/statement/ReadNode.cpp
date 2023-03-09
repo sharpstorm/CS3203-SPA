@@ -10,7 +10,7 @@ ReadNode::ReadNode(int lineNumber) :
   children = vector<ASTNodePtr>{nullptr};
 }
 
-void ReadNode::accept(Extractor* e) {
+void ReadNode::accept(IExtractor* e) {
   e->visitRead(this);
 }
 

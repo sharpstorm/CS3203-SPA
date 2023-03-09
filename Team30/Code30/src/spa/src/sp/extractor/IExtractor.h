@@ -44,9 +44,9 @@ class ILeafNodeExtractorPart {
   virtual void visitConstant(ConstantASTNode* node) = 0;
 };
 
-class Extractor : virtual public IContainerNodeExtractorPart,
-                  virtual public IBinaryNodeExtractorPart,
-                  virtual public ILeafNodeExtractorPart {
+class IExtractor : virtual public IContainerNodeExtractorPart,
+                   virtual public IBinaryNodeExtractorPart,
+                   virtual public ILeafNodeExtractorPart {
  public:
-  virtual ~Extractor() = default;
+  virtual ~IExtractor() = default;
 };

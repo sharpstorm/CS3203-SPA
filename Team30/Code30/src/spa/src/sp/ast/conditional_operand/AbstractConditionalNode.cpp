@@ -1,6 +1,6 @@
 #include "AbstractConditionalNode.h"
 
-void AbstractConditionalNode::accept(Extractor *e) {
+void AbstractConditionalNode::accept(IExtractor *e) {
   e->visitConditional(this);
 }
 

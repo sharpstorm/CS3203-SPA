@@ -1,6 +1,6 @@
 #include <memory>
 #include "ProgramNode.h"
-#include "sp/extractor/Extractor.h"
+#include "sp/extractor/IExtractor.h"
 
 using std::shared_ptr;
 

@@ -4,12 +4,12 @@
 #include <string>
 #include <memory>
 
-#include "sp/extractor/Extractor.h"
+#include "sp/extractor/IExtractor.h"
 #include "common/ast/IASTNode.h"
 
 using std::vector, std::string, std::shared_ptr;
 
-class Extractor;
+class IExtractor;
 class ASTNode;
 
 typedef shared_ptr<ASTNode> ASTNodePtr;
@@ -26,8 +26,8 @@ class ASTNode : public IASTNode {
   shared_ptr<IASTNode> getChild(int index);
   int getChildCount();
 
-  virtual void accept(Extractor* e) {}
-  virtual void leave(Extractor* e) {}
+  virtual void accept(IExtractor* e) {}
+  virtual void leave(IExtractor* e) {}
 
   ASTNodeType getType();
   string getValue();

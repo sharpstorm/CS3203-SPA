@@ -10,6 +10,6 @@ string ConstantASTNode::toString() {
   return value;
 }
 
-void ConstantASTNode::accept(Extractor* e) {
+void ConstantASTNode::accept(IExtractor* e) {
   e->visitConstant(this);
 }

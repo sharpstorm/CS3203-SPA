@@ -10,7 +10,7 @@ PrintNode::PrintNode(int lineNumber) :
   children = vector<ASTNodePtr>{nullptr};
 }
 
-void PrintNode::accept(Extractor* e) {
+void PrintNode::accept(IExtractor* e) {
   e->visitPrint(this);
 }
 

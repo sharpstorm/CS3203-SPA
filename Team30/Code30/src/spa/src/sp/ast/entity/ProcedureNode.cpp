@@ -1,6 +1,6 @@
 #include <memory>
 #include "ProcedureNode.h"
-#include "sp/extractor/Extractor.h"
+#include "sp/extractor/IExtractor.h"
 
 using std::shared_ptr;
 
@@ -21,10 +21,10 @@ string ProcedureNode::getName() {
   return procName;
 }
 
-void ProcedureNode::accept(Extractor* e) {
+void ProcedureNode::accept(IExtractor* e) {
   e->visitProcedure(this);
 }
 
-void ProcedureNode::leave(Extractor* e) {
+void ProcedureNode::leave(IExtractor* e) {
   e->leaveProcedure(this);
 }

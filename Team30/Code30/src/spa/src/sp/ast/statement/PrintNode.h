@@ -2,7 +2,7 @@
 
 #include <string>
 #include "StatementASTNode.h"
-#include "sp/extractor/Extractor.h"
+#include "sp/extractor/IExtractor.h"
 
 using std::string;
 
@@ -12,5 +12,5 @@ class PrintNode : public StatementASTNode {
   ~PrintNode() = default;
 
   string toString();
-  void accept(Extractor* e);
+  void accept(IExtractor* e);
 };

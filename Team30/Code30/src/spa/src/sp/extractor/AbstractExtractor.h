@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Extractor.h"
+#include "IExtractor.h"
 #include "pkb/storage/PKB.h"
 #include "pkb/writers/PkbWriter.h"
 
@@ -49,7 +49,7 @@ class AbstractLeafNodeExtractorPart: virtual public ILeafNodeExtractorPart {
   virtual void visitConstant(ConstantASTNode* node) override {}
 };
 
-class AbstractExtractor : public Extractor,
+class AbstractExtractor : public IExtractor,
                           public AbstractContainerNodeExtractorPart,
                           public AbstractBinaryNodeExtractorPart,
                           public AbstractLeafNodeExtractorPart {};

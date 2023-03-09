@@ -4,7 +4,7 @@ CallNode::CallNode(int lineNumber, string pName) :
     StatementASTNode(ASTNODE_CALL, "", lineNumber), procName(pName) {
 }
 
-void CallNode::accept(Extractor* e) {
+void CallNode::accept(IExtractor* e) {
   e->visitCall(this);
 }
 
