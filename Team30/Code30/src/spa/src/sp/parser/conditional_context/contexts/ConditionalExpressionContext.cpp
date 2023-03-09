@@ -42,7 +42,7 @@ BinaryASTNodePtr ConditionalExpressionContext::
 generateConditionalNode(ASTNodePtr leftNode) {
   BinaryASTNodePtr node = make_unique<T>();
   node->setLeftChild(std::move(leftNode));
-  return std::move(node);
+  return node;
 }
 
 ASTNodePtr ConditionalExpressionContext::
@@ -88,7 +88,7 @@ processBiCondition(SourceParseState* state) {
       contextProvider
           ->generateSubtree(ConditionalContextType::COND_CONTEXT, state));
   state->expect(SIMPLE_TOKEN_BRACKET_ROUND_RIGHT);
-  return std::move(newNode);
+  return newNode;
 }
 
 ASTNodePtr ConditionalExpressionContext::

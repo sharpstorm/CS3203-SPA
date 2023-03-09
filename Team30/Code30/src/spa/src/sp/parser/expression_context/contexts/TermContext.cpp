@@ -19,7 +19,7 @@ ASTNodePtr TermContext::generateSubtree(SourceParseState *state) {
 
   BinaryASTNodePtr middleNode = generateOperand(state);
   if (middleNode == nullptr) {
-    return std::move(leftExpr);
+    return leftExpr;
   }
   middleNode->setLeftChild(std::move(leftExpr));
 
@@ -35,7 +35,7 @@ ASTNodePtr TermContext::generateSubtree(SourceParseState *state) {
         ->generateSubtree(ExpressionContextType::TERM_CONTEXT, state);
   }
 
-  return std::move(middleNode);
+  return middleNode;
 }
 
 BinaryASTNodePtr TermContext::generateOperand(SourceParseState *state) {

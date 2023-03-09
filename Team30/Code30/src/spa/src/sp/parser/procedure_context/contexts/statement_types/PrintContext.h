@@ -18,6 +18,6 @@ class PrintContext:
   ASTNodePtr makeNode(const int &lineNumber, ASTNodePtr variableNode) {
     ASTNodePtr newNode = make_unique<PrintNode>(lineNumber);
     newNode->setChild(0, std::move(variableNode));
-    return std::move(newNode);
+    return newNode;
   }
 };

@@ -1,7 +1,6 @@
 #include "SpDriver.h"
 
 #include <memory>
-#include <utility>
 
 #include "ISourceParser.h"
 #include "pkb/writers/PkbWriter.h"
@@ -17,6 +16,5 @@ void SpDriver::parseSource(string input, PkbWriter* pkbWriter) {
 }
 
 IASTPtr SpDriver::parseExpression(string expression) {
-  ASTPtr parsed = parser.parseExpression(expression);
-  return std::move(parsed);
+  return parser.parseExpression(expression);
 }

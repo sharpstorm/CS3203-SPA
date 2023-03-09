@@ -61,7 +61,7 @@ bool SourceParseState::hasCached() {
 ASTNodePtr SourceParseState::consumeCache() {
   ASTNodePtr temp = std::move(curCache);
   curCache = nullptr;
-  return std::move(temp);
+  return temp;
 }
 
 int SourceParseState::getLineNumber() {

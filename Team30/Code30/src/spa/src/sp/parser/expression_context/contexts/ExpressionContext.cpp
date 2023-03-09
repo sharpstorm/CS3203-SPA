@@ -22,7 +22,7 @@ ASTNodePtr ExpressionContext::generateSubtree(SourceParseState *state) {
 
   BinaryASTNodePtr middleNode = generateOperand(state);
   if (middleNode == nullptr) {
-    return std::move(leftExpr);
+    return leftExpr;
   }
   middleNode->setLeftChild(std::move(leftExpr));
 
@@ -35,7 +35,7 @@ ASTNodePtr ExpressionContext::generateSubtree(SourceParseState *state) {
     return contextProvider
         ->generateSubtree(ExpressionContextType::EXPR_CONTEXT, state);
   }
-  return std::move(middleNode);
+  return middleNode;
 }
 
 BinaryASTNodePtr ExpressionContext::generateOperand(SourceParseState *state) {

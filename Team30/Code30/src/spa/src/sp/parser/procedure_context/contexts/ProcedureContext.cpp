@@ -18,5 +18,5 @@ ASTNodePtr ProcedureContext::generateSubtree(SourceParseState* state) {
   ASTNodePtr stmtLst = contextProvider
       ->generateSubtree(ProcedureContextType::STMT_LIST_CONTEXT, state);
   procedureNode->addChild(std::move(stmtLst));
-  return std::move(procedureNode);
+  return procedureNode;
 }
