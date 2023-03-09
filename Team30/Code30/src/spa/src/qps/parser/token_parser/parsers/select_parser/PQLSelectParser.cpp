@@ -1,4 +1,5 @@
 #include "PQLSelectParser.h"
+#include "qps/parser/token_parser/ref_extractor/PQLAttributeRefExtractor.h"
 
 const char BOOLEAN_SELECT[] = "BOOLEAN";
 
@@ -13,6 +14,14 @@ void PQLSelectParser::parse(QueryTokenParseState *parserState,
   PQLSynonymName synName = parserState->expectSynName();
   if (synName == BOOLEAN_SELECT) {
     return;
+  }
+
+  // TODO(KwanHW): To test
+  if (parserState->tryExpect(PQL_TOKEN_PERIOD)) {
+    PQLQuerySynonym* syn = queryBuilder->accessSynonym(synName);
+    PQLSynonymAttribute attr =
+        PQLAttributeRefExtractor::extractAttribute(parserState, syn->getType());
+    syn->setSynonymType(attr);
   }
 
   addResultSynonym(queryBuilder, synName);
