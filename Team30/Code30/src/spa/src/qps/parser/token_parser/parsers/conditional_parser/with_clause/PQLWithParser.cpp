@@ -1,6 +1,11 @@
+#include <memory>
+#include <utility>
+
 #include "PQLWithParser.h"
 #include "qps/parser/token_parser/ref_extractor/PQLAnyRefExtractor.h"
 #include "qps/clauses/WithClause.h"
+
+using std::make_unique;
 
 void PQLWithParser::parse(QueryTokenParseState *parserState,
                           QueryBuilder *builder) {

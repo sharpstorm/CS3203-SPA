@@ -15,7 +15,6 @@ enum PQLSynonymType {
   PQL_SYN_TYPE_WHILE,
   PQL_SYN_TYPE_IF,
   PQL_SYN_TYPE_ASSIGN
-
 };
 
 enum PQLSynonymAttribute {

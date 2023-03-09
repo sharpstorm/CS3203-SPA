@@ -11,9 +11,7 @@ ClauseArgumentPtr PQLRefExtractor::extractCommonRef(
   // TO future HW: Somehow this place might be where to capture the attribute
   PQLSynonymName synName = state->expectSynName();
   PQLQuerySynonym* var = builder->accessSynonym(synName);
-  if (state->tryExpect(PQL_TOKEN_PERIOD) != nullptr) {
 
-  }
   if (var == nullptr) {
     return nullptr;
   }
@@ -56,7 +54,7 @@ PQLSynonymAttribute PQLRefExtractor::extractAttribute(
       foundToken = parserState->expect(PQL_TOKEN_STMT_NUM, PQL_TOKEN_VAR_NAME);
       break;
     case PQL_SYN_TYPE_CALL:
-      foundToken = parserState->tryExpect(PQL_TOKEN_PROC_NAME, PQL_TOKEN_STMT_NUM);
+      foundToken = parserState->expect(PQL_TOKEN_PROC_NAME, PQL_TOKEN_STMT_NUM);
       break;
     case PQL_SYN_TYPE_CONSTANT:
       foundToken = parserState->expect(PQL_TOKEN_VALUE);
@@ -81,5 +79,7 @@ PQLSynonymAttribute PQLRefExtractor::getSynAttribute(PQLToken * token) {
       return PQLSynonymAttribute::STMT_NUM;
     case PQL_TOKEN_VALUE:
       return PQLSynonymAttribute::VALUE;
+    default:
+      throw QPSParserSyntaxError(QPS_PARSER_ERR_UNEXPECTED);
   }
 }

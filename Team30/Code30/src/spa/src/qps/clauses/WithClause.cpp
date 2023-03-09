@@ -24,7 +24,7 @@ bool WithClause::validateArgTypes(VariableTable *variables) {
 SynonymList WithClause::getUsedSynonyms() {
   SynonymList result;
   if (leftArg->isNamed()) {
-   result.push_back(leftArg->getName());
+    result.push_back(leftArg->getName());
   }
 
   if (rightArg->isNamed()) {
