@@ -22,13 +22,12 @@ void CFG::addLink(int lineNum1, int lineNum2) {
   links[lineNum1 - startingLineIndex - 1].push_back(lineNum2);
 }
 
-void CFG::increaseMapSize(int num) {
-  int oldSize = links.size() - 1;
-  if (oldSize < 0) {
-    oldSize = 0;
+void CFG::increaseMapSize(int newSize) {
+  if (newSize <= 0) {
+    return;
   }
 
-  links.resize(num);
+  links.resize(newSize);
 }
 
 vector<list<int>> CFG::getLinks() { return links; }
