@@ -16,7 +16,7 @@ using std::unordered_set;
  * Stores mapping of K -> V and V-> Set<K>. Provides insert
  * and get by key / value functionalities.
  */
-template<typename K, typename V>
+template <typename K, typename V>
 class EntityTableManager {
  protected:
   shared_ptr<IBaseTable<K, V>> table;            // maps K -> V

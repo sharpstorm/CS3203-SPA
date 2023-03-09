@@ -13,9 +13,16 @@ using std::unordered_set;
 
 class EntityMappingProvider : public IEntityMappingProvider {
  public:
-  explicit EntityMappingProvider(SymbolStorage *);
+  explicit EntityMappingProvider(VariableStorage *, ConstantStorage *,
+                                 ProcedureStorage *);
   unordered_set<string> getSymbolsOfType(EntityType) const override;
+  string getVariableByIndex(int) const override;
+  string getConstantByIndex(int) const override;
+  unordered_set<int> getIndexOfVariable(string) const override;
+  unordered_set<int> getIndexOfConstant(string) const override;
 
  private:
-  SymbolStorage *symbolStorage;
+  VariableStorage *variableStorage;
+  ConstantStorage *constantStorage;
+  ProcedureStorage *procedureStorage;
 };

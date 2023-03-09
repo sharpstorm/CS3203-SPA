@@ -1,10 +1,8 @@
 #include "EntityExtractor.h"
 
-EntityExtractor::EntityExtractor(PkbWriter* writer) : pkbWriter(writer) {
-}
+EntityExtractor::EntityExtractor(PkbWriter* writer) : pkbWriter(writer) {}
 
-void EntityExtractor::visitProcedure(ProcedureNode *node) {
-  pkbWriter->addSymbol(node->getName(), EntityType::Procedure);
+void EntityExtractor::visitProcedure(ProcedureNode* node) {
   procNameCache = node->getName();
 }
 
@@ -33,10 +31,9 @@ void EntityExtractor::visitCall(CallNode* node) {
 }
 
 void EntityExtractor::visitVariable(VariableASTNode* node) {
-  pkbWriter->addSymbol(node->getValue(), EntityType::Variable);
+  pkbWriter->addVariable(node->getValue());
 }
 
 void EntityExtractor::visitConstant(ConstantASTNode* node) {
-  pkbWriter->addSymbol(node->getValue(), EntityType::Constant);
+  pkbWriter->addConstant(node->getValue());
 }
-

@@ -6,7 +6,7 @@
 #include "IBaseSetTable.h"
 #include "HashKeyTable.h"
 
-using std::unordered_set;
+using std::unordered_set, std::unordered_map;
 
 template<typename K, typename V>
 class HashKeySetTable : public IBaseSetTable<K, V>,
