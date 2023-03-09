@@ -25,7 +25,7 @@ vector<pair<int, PatternTrieSPtr>> executePatternExtractor(string input) {
   return stubby.patternStore;
 }
 
-TEST_CASE("Pattern IExtractor - Simple Assign") {
+TEST_CASE("Pattern Extractor - Simple Assign") {
   string input = "procedure printResults {\n"
                  "a = b;"
                  "}";
@@ -34,7 +34,7 @@ TEST_CASE("Pattern IExtractor - Simple Assign") {
   REQUIRE(v[0].second->isMatchFull(&expected));
 }
 
-TEST_CASE("Pattern IExtractor - Simple Plus") {
+TEST_CASE("Pattern Extractor - Simple Plus") {
   string input = "procedure printResults {\n"
                  "a = b + c;"
                  "}";
@@ -45,7 +45,7 @@ TEST_CASE("Pattern IExtractor - Simple Plus") {
   REQUIRE(v[0].second->isMatchPartial(&expected));
 }
 
-TEST_CASE("Pattern IExtractor - Longer expression") {
+TEST_CASE("Pattern Extractor - Longer expression") {
   string input = "procedure printResults {\n"
                  "a = b + c * d - e;"
                  "}";

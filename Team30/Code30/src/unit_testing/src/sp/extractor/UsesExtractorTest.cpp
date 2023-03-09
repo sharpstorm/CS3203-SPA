@@ -25,7 +25,7 @@ StubPkb executeUsesExtractor(string input) {
   return stubby;
 }
 
-TEST_CASE("Uses IExtractor - Print statement") {
+TEST_CASE("Uses Extractor - Print statement") {
   string input = "procedure proc {\n"
                  "print a;"
                  "}";
@@ -38,7 +38,7 @@ TEST_CASE("Uses IExtractor - Print statement") {
   REQUIRE(u.contains(v2, "proc", "a"));
 }
 
-TEST_CASE("Uses IExtractor - Assign statement 1") {
+TEST_CASE("Uses Extractor - Assign statement 1") {
   string input = "procedure proc {\n"
                  "x = a;"
                  "}";
@@ -51,7 +51,7 @@ TEST_CASE("Uses IExtractor - Assign statement 1") {
   REQUIRE(u.contains(v2, "proc", "a"));
 }
 
-TEST_CASE("Uses IExtractor - Assign statement 2") {
+TEST_CASE("Uses Extractor - Assign statement 2") {
   string input = "procedure proc {\n"
                  "x = (a * b / c % d) + e - f ;"
                  "}";
@@ -74,7 +74,7 @@ TEST_CASE("Uses IExtractor - Assign statement 2") {
   REQUIRE(u.contains(v2, "proc", "f"));
 }
 
-TEST_CASE("Uses IExtractor - Single If statement") {
+TEST_CASE("Uses Extractor - Single If statement") {
   string input = "procedure proc {\n"
                  "if (!(a < b)) then {"
                  "  c = d;"
@@ -99,7 +99,7 @@ TEST_CASE("Uses IExtractor - Single If statement") {
   REQUIRE(u.contains(v2, "proc", "f"));
 }
 
-TEST_CASE("Uses IExtractor - Single While statement") {
+TEST_CASE("Uses Extractor - Single While statement") {
   string input = "procedure proc {\n"
                  "while (a < b) {"
                  "c = d;"
@@ -119,7 +119,7 @@ TEST_CASE("Uses IExtractor - Single While statement") {
   REQUIRE(u.contains(v2, "proc", "d"));
 }
 
-TEST_CASE("Uses IExtractor - Nested If in While") {
+TEST_CASE("Uses Extractor - Nested If in While") {
   string input = "procedure proc {\n"
                  "  while (a < b) {"
                  "    if (c != d) then {"
@@ -154,7 +154,7 @@ TEST_CASE("Uses IExtractor - Nested If in While") {
   REQUIRE(u.contains(v2, "proc", "g"));
 }
 
-TEST_CASE("Uses IExtractor - Nested While in If: then statementList") {
+TEST_CASE("Uses Extractor - Nested While in If: then statementList") {
   string input = "procedure proc {\n"
                  "  if (a < 1) then {"
                  "    while (b < 2) {"
@@ -181,7 +181,7 @@ TEST_CASE("Uses IExtractor - Nested While in If: then statementList") {
   REQUIRE(u.contains(v2, "proc", "x"));
 }
 
-TEST_CASE("Uses IExtractor - Nested While in If: else statementList") {
+TEST_CASE("Uses Extractor - Nested While in If: else statementList") {
   string input = "procedure proc {\n"
                  "  if (a < 1) then { print x; }"
                  "  else {"
@@ -209,7 +209,7 @@ TEST_CASE("Uses IExtractor - Nested While in If: else statementList") {
   REQUIRE(u.contains(v2, "proc", "x"));
 }
 
-TEST_CASE("Uses IExtractor - Nested While in While in While") {
+TEST_CASE("Uses Extractor - Nested While in While in While") {
   string input = "procedure proc {\n"
                  "  while (a < b) {"
                  "    while (c < d) {"
@@ -249,7 +249,7 @@ TEST_CASE("Uses IExtractor - Nested While in While in While") {
   REQUIRE(u.contains(v2, "proc", "h"));
 }
 
-TEST_CASE("Uses IExtractor - Multi Proc") {
+TEST_CASE("Uses Extractor - Multi Proc") {
   string input = "procedure proc1 {\n"
                  "a = d;"
                  "}"
