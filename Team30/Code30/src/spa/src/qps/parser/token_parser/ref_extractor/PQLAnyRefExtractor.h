@@ -12,4 +12,6 @@ class PQLAnyRefExtractor:
  public:
   static ClauseArgumentPtr extract(QueryTokenParseState* state,
                                    QueryBuilder* builder);
+  static ClauseArgumentPtr extractAttr(QueryTokenParseState *state,
+                                QueryBuilder *builder);
 };

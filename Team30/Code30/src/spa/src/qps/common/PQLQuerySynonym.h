@@ -7,10 +7,19 @@
 
 using std::unordered_map, std::vector;
 
+enum PQLSynonymAttribute {
+  NO_ATTRIBUTE,
+  PROC_NAME,
+  VAR_NAME,
+  VALUE,
+  STMT_NUM
+};
+
 class PQLQuerySynonym {
  private:
   PQLSynonymType type;
   PQLSynonymName name;
+  PQLSynonymAttribute attribute;
 
  public:
   PQLQuerySynonym() = default;
@@ -19,6 +28,7 @@ class PQLQuerySynonym {
 
   PQLSynonymType getType();
   PQLSynonymName getName();
+  void setSynonymType(PQLSynonymAttribute attr);
   bool isStatementType();
   bool isEntityType();
   bool isType(PQLSynonymType type);
