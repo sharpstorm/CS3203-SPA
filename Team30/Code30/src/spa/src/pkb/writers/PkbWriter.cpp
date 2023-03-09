@@ -37,7 +37,6 @@ void PkbWriter::addParent(int arg1, int arg2) {
 void PkbWriter::addProcedure(string procedureName, int startLineNum,
                              int endLineNum) {
   procedureWriter->addProcedure(procedureName, startLineNum, endLineNum);
-  // add in both first, will optimise later
 }
 
 void PkbWriter::addStatement(int lineNumber, StmtType stmtType) {

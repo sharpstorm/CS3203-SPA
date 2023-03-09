@@ -23,16 +23,13 @@ class EntityTableManager {
   shared_ptr<IBaseSetTable<V, K>> reverseTable;  // maps V -> set<K>
   unordered_set<K> allKeys;
   unordered_set<V> allValues;
-  int index;
 
  public:
   EntityTableManager(shared_ptr<IBaseTable<K, V>> table,
                      shared_ptr<IBaseSetTable<V, K>> reverseTable)
-      : table(table), reverseTable(reverseTable), index(1) {}
+      : table(table), reverseTable(reverseTable) {}
 
-  int getCurrIndex() { return index; }
   void insert(K arg1, V arg2) {
-    index++;
     table->set(arg1, arg2);
     reverseTable->set(arg2, arg1);
     allKeys.insert(arg1);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+
 #include "pkb/storage/StorageTypes.h"
 #include "pkb/writers/interfaces/IVariableWriter.h"
 
@@ -14,4 +15,5 @@ class VariableWriter : public IVariableWriter {
 
  private:
   VariableStorage *variableStorage;
+  int index;
 };

@@ -20,10 +20,6 @@ TEST_CASE("VariableWriter addVariable") {
 
   writer.addVariable("x");
   writer.addVariable("y");
-//  writer.addSymbol("0", EntityType::Constant);
-//  writer.addSymbol("1", EntityType::Constant);
-//  writer.addSymbol("main", EntityType::Procedure);
-//  writer.addSymbol("x", EntityType::Procedure);
 
   REQUIRE(store->getByKey(1) == "x");
   REQUIRE(store->getByKey(2) == "y");

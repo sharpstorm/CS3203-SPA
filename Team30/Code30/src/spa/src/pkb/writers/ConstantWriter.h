@@ -14,4 +14,5 @@ class ConstantWriter : public IConstantWriter {
 
  private:
   ConstantStorage *constantStorage;
+  int index;
 };

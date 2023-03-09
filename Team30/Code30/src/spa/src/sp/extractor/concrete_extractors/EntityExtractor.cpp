@@ -1,10 +1,10 @@
 #include "EntityExtractor.h"
 
-EntityExtractor::EntityExtractor(PkbWriter* writer) : pkbWriter(writer) {
-}
+EntityExtractor::EntityExtractor(PkbWriter* writer) : pkbWriter(writer) {}
 
-void EntityExtractor::visit(ProcedureNode *node) {
-//  pkbWriter->addProcedure(node->getName(), );
+void EntityExtractor::visit(ProcedureNode* node) {
+  // Todo: investigate the add Procedure here
+  // pkbWriter->addProcedure(node->getName(), );
   procNameCache = node->getName();
 }
 
@@ -39,4 +39,3 @@ void EntityExtractor::visit(VariableASTNode* node) {
 void EntityExtractor::visit(ConstantASTNode* node) {
   pkbWriter->addConstant(node->getValue());
 }
-
