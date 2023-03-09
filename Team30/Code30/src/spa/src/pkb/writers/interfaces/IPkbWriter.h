@@ -14,7 +14,6 @@
 #include "pkb/writers/interfaces/IStatementWriter.h"
 #include "pkb/writers/interfaces/ISymbolWriter.h"
 #include "pkb/writers/interfaces/IUsesWriter.h"
-#include "pkb/writers/interfaces/IPostProcessWriter.h"
 #include "IIfPatternWriter.h"
 #include "IWhilePatternWriter.h"
 #include "pkb/writers/interfaces/IVariableWriter.h"
