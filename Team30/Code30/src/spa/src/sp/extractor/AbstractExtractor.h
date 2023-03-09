@@ -22,31 +22,31 @@
 class AbstractContainerNodeExtractorPart:
     virtual public IContainerNodeExtractorPart {
  public:
-  virtual void visitProcedure(ProcedureNode* node) override {}
-  virtual void visitStmtList(StatementListNode* node) override {}
-  virtual void visitIf(IfNode* node) override {}
-  virtual void visitWhile(WhileNode* node) override {}
+  void visitProcedure(ProcedureNode* node) override {}
+  void visitStmtList(StatementListNode* node) override {}
+  void visitIf(IfNode* node) override {}
+  void visitWhile(WhileNode* node) override {}
 
-  virtual void leaveProcedure(ProcedureNode* node) override {}
-  virtual void leaveStmtList(StatementListNode* node) override {}
-  virtual void leaveIf(IfNode* node) override {}
-  virtual void leaveWhile(WhileNode* node) override {}
+  void leaveProcedure(ProcedureNode* node) override {}
+  void leaveStmtList(StatementListNode* node) override {}
+  void leaveIf(IfNode* node) override {}
+  void leaveWhile(WhileNode* node) override {}
 };
 
 class AbstractBinaryNodeExtractorPart: virtual public IBinaryNodeExtractorPart {
  public:
-  virtual void visitExpression(AbstractExpressionNode* node) override {}
-  virtual void visitConditional(AbstractConditionalNode* node) override {}
+  void visitExpression(AbstractExpressionNode* node) override {}
+  void visitConditional(AbstractConditionalNode* node) override {}
 };
 
 class AbstractLeafNodeExtractorPart: virtual public ILeafNodeExtractorPart {
  public:
-  virtual void visitRead(ReadNode* node) override {}
-  virtual void visitPrint(PrintNode* node) override {}
-  virtual void visitAssign(AssignNode* node) override {}
-  virtual void visitCall(CallNode* node) override {}
-  virtual void visitVariable(VariableASTNode* node) override {}
-  virtual void visitConstant(ConstantASTNode* node) override {}
+  void visitRead(ReadNode* node) override {}
+  void visitPrint(PrintNode* node) override {}
+  void visitAssign(AssignNode* node) override {}
+  void visitCall(CallNode* node) override {}
+  void visitVariable(VariableASTNode* node) override {}
+  void visitConstant(ConstantASTNode* node) override {}
 };
 
 class AbstractExtractor : public IExtractor,
