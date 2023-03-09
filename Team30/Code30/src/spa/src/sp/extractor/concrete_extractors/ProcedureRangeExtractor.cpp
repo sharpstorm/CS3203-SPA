@@ -1,6 +1,8 @@
 #include <string>
 #include "ProcedureRangeExtractor.h"
 #include "StatementNumberExtractor.h"
+#include "pkb/errors/PKBError.h"
+#include "sp/errors/SPError.h"
 
 ProcedureRangeExtractor::ProcedureRangeExtractor(PkbWriter* writer)
     : pkbWriter(writer) {
@@ -42,5 +44,9 @@ void ProcedureRangeExtractor::visit(WhileNode* node) {
 
 void ProcedureRangeExtractor::
 addProcedureRange(string procName, int start, int end) {
-  pkbWriter->addProcedure(procName, start, end);
+  try {
+    pkbWriter->addProcedure(procName, start, end);
+  } catch (PKBError e) {
+    throw SPError(e.what());
+  }
 }
