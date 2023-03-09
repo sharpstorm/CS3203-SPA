@@ -1,8 +1,8 @@
 #include "IfPatternQueryHandler.h"
 
-IfPatternQueryHandler::IfPatternQueryHandler(const IfPatternStorage *store,
-                                             const PredicateFactory *factory,
-                                             const IStructureMappingProvider *provider)
+IfPatternQueryHandler::IfPatternQueryHandler(
+    const IfPatternStorage *store, const PredicateFactory *factory,
+    const IStructureMappingProvider *provider)
     : store(store), predicateFactory(factory), structureProvider(provider) {}
 
 bool IfPatternQueryHandler::validateArg1(StmtRef arg) const {

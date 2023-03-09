@@ -13,7 +13,7 @@ class IfPatternQueryHandler : public IIfPatternQueryHandler {
  public:
   explicit IfPatternQueryHandler(const IfPatternStorage *store,
                                  const PredicateFactory *predicateFactory,
-                                 const IStructureMappingProvider *structureProvider);
+                                 const IStructureMappingProvider *provider);
 
   QueryResult<int, string> queryIfPattern(StmtRef, EntityRef) const override;
 

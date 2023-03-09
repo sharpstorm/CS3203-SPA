@@ -1,8 +1,9 @@
 #include "WhilePatternQueryHandler.h"
 
-WhilePatternQueryHandler::WhilePatternQueryHandler(const WhilePatternStorage *store,
-                                                   const PredicateFactory *factory,
-                                                   const IStructureMappingProvider *provider)
+WhilePatternQueryHandler::WhilePatternQueryHandler(
+    const WhilePatternStorage *store,
+    const PredicateFactory *factory,
+    const IStructureMappingProvider *provider)
     : store(store), predicateFactory(factory), structureProvider(provider) {}
 
 bool WhilePatternQueryHandler::validateArg1(StmtRef arg) const {

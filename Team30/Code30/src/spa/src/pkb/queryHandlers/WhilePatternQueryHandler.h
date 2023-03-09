@@ -14,7 +14,7 @@ class WhilePatternQueryHandler : public IWhilePatternQueryHandler {
  public:
   explicit WhilePatternQueryHandler(const WhilePatternStorage *store,
                                     const PredicateFactory *predicateFactory,
-                                    const IStructureMappingProvider *structureProvider);
+                                    const IStructureMappingProvider *provider);
 
   QueryResult<int, string> queryWhilePattern(StmtRef, EntityRef) const override;
 
