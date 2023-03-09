@@ -93,6 +93,18 @@ TEST_CASE("EntityExtractor ReadNode") {
   REQUIRE(writer.verifyStatement(node.getLineNumber(), StmtType::Read));
 }
 
+TEST_CASE("EntityExtractor CallNode") {
+  CallNode node(6, "sub");
+//
+  PKB pkb;
+  PkbWriterStubforEntity writer(&pkb);
+  EntityExtractor extractor(&writer);
+//
+  extractor.visit(&node);
+//
+  REQUIRE(writer.verifyStatement(node.getLineNumber(), StmtType::Call));
+}
+
 TEST_CASE("EntityExtractor VariableNode") {
   VariableASTNode node("test");
 
