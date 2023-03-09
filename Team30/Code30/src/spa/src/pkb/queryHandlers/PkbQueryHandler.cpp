@@ -27,7 +27,8 @@ PkbQueryHandler::PkbQueryHandler(PKB *pkb)
                                          pkb->predicateFactory,
                                          pkb->entityMappingProvider)),
       ifPatternHandler(new IfPatternQueryHandler(pkb->ifPatternStorage)),
-      whilePatternHandler(new WhilePatternQueryHandler(pkb->whilePatternStorage)),
+      whilePatternHandler(new WhilePatternQueryHandler(
+          pkb->whilePatternStorage)),
       designEntityHandler(new DesignEntitiesQueryHandler(
           pkb->entityMappingProvider, pkb->structureProvider)),
       assignHandler(new AssignsQueryHandler(pkb->assignStorage)) {}

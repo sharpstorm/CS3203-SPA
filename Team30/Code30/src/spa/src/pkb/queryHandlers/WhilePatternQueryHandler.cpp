@@ -1,14 +1,15 @@
 #include "WhilePatternQueryHandler.h"
 
-WhilePatternQueryHandler::WhilePatternQueryHandler(const WhilePatternStorage *store)
+WhilePatternQueryHandler::
+WhilePatternQueryHandler(const WhilePatternStorage *store)
     : store(store) {}
 
 bool WhilePatternQueryHandler::validateArg(EntityRef arg) const {
   return arg.type == EntityType::None || arg.type == EntityType::Variable;
 }
 
-QueryResult<int,
-            string> WhilePatternQueryHandler::queryWhilePattern(EntityRef arg) const {
+QueryResult<int, string>
+WhilePatternQueryHandler::queryWhilePattern(EntityRef arg) const {
   if (!validateArg(arg)) {
     return QueryResult<int, string>();
   }
