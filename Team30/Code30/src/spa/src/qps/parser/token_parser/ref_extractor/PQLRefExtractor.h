@@ -13,10 +13,4 @@ class PQLRefExtractor {
  protected:
   static ClauseArgumentPtr
       extractCommonRef(QueryTokenParseState* state, QueryBuilder* builder);
-  static PQLSynonymAttribute extractAttribute(QueryTokenParseState *parserState,
-                                              QueryBuilder *builder,
-                                              PQLSynonymType type);
-  static PQLSynonymAttribute getSynAttribute(PQLToken *token);
-  static ClauseArgumentPtr extractAttributeRef(QueryTokenParseState *state,
-                                        QueryBuilder *builder);
 };
