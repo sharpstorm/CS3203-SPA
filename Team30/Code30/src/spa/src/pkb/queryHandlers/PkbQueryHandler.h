@@ -30,6 +30,7 @@ class PkbQueryHandler : public IPkbQueryHandler {
   QueryResult<string, string> queryCallsStar(EntityRef,
                                              EntityRef) const override;
   QueryResult<int, string> queryIfPattern(EntityRef) const override;
+  QueryResult<int, string> queryWhilePattern(EntityRef) const override;
   unordered_set<string> getSymbolsOfType(EntityType) const override;
   unordered_set<int> getStatementsOfType(StmtType) const override;
 
@@ -42,4 +43,5 @@ class PkbQueryHandler : public IPkbQueryHandler {
   unique_ptr<IDesignEntitiesQueryHandler> designEntityHandler;
   unique_ptr<ICallsQueryHandler> callsHandler;
   unique_ptr<IIfPatternQueryHandler> ifPatternHandler;
+  unique_ptr<IWhilePatternQueryHandler> whilePatternHandler;
 };

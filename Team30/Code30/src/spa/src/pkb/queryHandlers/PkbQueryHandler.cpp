@@ -7,6 +7,7 @@
 #include "ParentQueryHandler.h"
 #include "UsesQueryHandler.h"
 #include "IfPatternQueryHandler.h"
+#include "WhilePatternQueryHandler.h"
 
 PkbQueryHandler::PkbQueryHandler(PKB *pkb)
     : followsHandler(new FollowsQueryHandler(
@@ -26,6 +27,7 @@ PkbQueryHandler::PkbQueryHandler(PKB *pkb)
                                          pkb->predicateFactory,
                                          pkb->entityMappingProvider)),
       ifPatternHandler(new IfPatternQueryHandler(pkb->ifPatternStorage)),
+      whilePatternHandler(new WhilePatternQueryHandler(pkb->whilePatternStorage)),
       designEntityHandler(new DesignEntitiesQueryHandler(
           pkb->entityMappingProvider, pkb->structureProvider)),
       assignHandler(new AssignsQueryHandler(pkb->assignStorage)) {}
@@ -97,4 +99,9 @@ QueryResult<string, string> PkbQueryHandler::queryCallsStar(
 
 QueryResult<int, string> PkbQueryHandler::queryIfPattern(EntityRef arg) const {
   return ifPatternHandler->queryIfPattern(arg);
+}
+
+QueryResult<int,
+            string> PkbQueryHandler::queryWhilePattern(EntityRef arg) const {
+  return whilePatternHandler->queryWhilePattern(arg);
 }
