@@ -7,5 +7,5 @@ class IfContext : public RecursiveProcedureParseContext {
  public:
   explicit IfContext(IProcedureContextProvider* provider):
       RecursiveProcedureParseContext(provider) {}
-  ASTNodePtr generateSubtree(SourceParseState* state);
+  ASTNodePtr generateSubtree(SourceParseState* state) override;
 };

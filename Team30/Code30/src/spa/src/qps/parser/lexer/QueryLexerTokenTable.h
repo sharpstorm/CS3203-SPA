@@ -21,6 +21,7 @@ const char PQL_KEYWORD_PROCEDURE[] = "procedure";
 
 const char PQL_KEYWORD_SUCH[] = "such";
 const char PQL_KEYWORD_THAT[] = "that";
+const char PQL_KEYWORD_AND[] = "and";
 
 const char PQL_KEYWORD_FOLLOWS[] = "Follows";
 const char PQL_KEYWORD_PARENT[] = "Parent";
@@ -50,10 +51,12 @@ class QueryLexerTokenTable {
       {PQL_KEYWORD_PATTERN, PQL_TOKEN_PATTERN},
       {PQL_KEYWORD_SUCH, PQL_TOKEN_SUCH},
       {PQL_KEYWORD_THAT, PQL_TOKEN_THAT},
-      {PQL_KEYWORD_CALLS, PQL_TOKEN_CALLS}
+      {PQL_KEYWORD_CALLS, PQL_TOKEN_CALLS},
+      { PQL_KEYWORD_AND, PQL_TOKEN_AND}
   };
   PQLTokenType tokens[256];
   QueryLexerTokenTable();
   static bool isDigit(char c);
   static bool isZero(char c);
+  static bool isCharacter(char c);
 };

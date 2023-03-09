@@ -54,8 +54,8 @@ processNotCondition(SourceParseState* state) {
   state->clearCached();
 
   // Create Condition Expression node and parse condition
-  ASTNodePtr leftNode = contextProvider->getContext(COND_CONTEXT)
-      ->generateSubtree(state);
+  ASTNodePtr leftNode = contextProvider
+      ->generateSubtree(ConditionalContextType::COND_CONTEXT, state);
   ASTNodePtr newNode = generateConditionalNode<NotASTNode>(leftNode);
   state->expect(SIMPLE_TOKEN_BRACKET_ROUND_RIGHT);
   return newNode;
@@ -69,7 +69,7 @@ processBiCondition(SourceParseState* state) {
 
   // Parse first condition
   ASTNodePtr leftCondition = contextProvider
-      ->getContext(COND_CONTEXT)->generateSubtree(state);
+      ->generateSubtree(ConditionalContextType::COND_CONTEXT, state);
 
   // Expect ')' -> '&&' / '||' -> '('
   state->expect(SIMPLE_TOKEN_BRACKET_ROUND_RIGHT);
@@ -87,14 +87,15 @@ processBiCondition(SourceParseState* state) {
   }
 
   // Parse second condition
-  newNode->setRightChild(contextProvider
-                             ->getContext(COND_CONTEXT)
-                             ->generateSubtree(state));
+  newNode->setRightChild(
+      contextProvider
+          ->generateSubtree(ConditionalContextType::COND_CONTEXT, state));
   state->expect(SIMPLE_TOKEN_BRACKET_ROUND_RIGHT);
   return newNode;
 }
 
 ASTNodePtr ConditionalExpressionContext::
 processRelationalExpression(SourceParseState* state) {
-  return contextProvider->getContext(REL_CONTEXT)->generateSubtree(state);
+  return contextProvider
+      ->generateSubtree(ConditionalContextType::REL_CONTEXT, state);
 }

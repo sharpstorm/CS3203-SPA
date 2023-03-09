@@ -9,7 +9,8 @@ void ResultGroup::addRow(QueryResultTableRow row) {
 }
 
 void ResultGroup::addSynonym(PQLSynonymName name) {
-  colMap.emplace(name, colIdx.size());
+  int curIndex = colIdx.size();
+  colMap.emplace(name, curIndex);
   colIdx.push_back(name);
 }
 

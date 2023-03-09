@@ -7,13 +7,13 @@ using std::make_shared;
 
 ASTNodePtr AssignContext::generateSubtree(SourceParseState* state) {
   // Parse assignee
-  ASTNodePtr name = contextProvider->getEntityParser()->parseVariable(state);
+  ASTNodePtr name = contextProvider->parseVariable(state);
 
   // Expect Assign operator
   state->expect(SIMPLE_TOKEN_ASSIGN);
 
   // Parse Expression
-  ASTNodePtr expr = contextProvider->getExpressionParser()->parse(state);
+  ASTNodePtr expr = contextProvider->parseExpression(state);
   state->expect(SIMPLE_TOKEN_SEMICOLON);
 
   ASTNodePtr assignNode = make_shared<AssignNode>(state->getLineNumber());

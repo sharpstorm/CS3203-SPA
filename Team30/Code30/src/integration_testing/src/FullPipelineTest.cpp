@@ -267,4 +267,8 @@ TEST_CASE("Test Full End-to-end") {
 
   query = "assign a; Select a pattern a(_, _\"((a * 7)\"_)";
   launchSyntaxErrorQuery(qps.get(), query);
+
+  query = "stmt s; Select s such that Follows*(1, s) and Follows*(s, 3)";
+  expectedRes = unordered_set<string>({"2"});
+  launchQuery(qps.get(), query, expectedRes);
 }

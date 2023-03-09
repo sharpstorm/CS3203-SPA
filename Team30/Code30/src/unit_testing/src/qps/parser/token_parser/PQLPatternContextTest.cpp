@@ -2,14 +2,14 @@
 #include <memory>
 #include <unordered_map>
 
-#include "../../util/PQLTestTokenSequenceBuilder.cpp"
+#include "../../util/PQLTestTokenSequenceBuilder.h"
 #include "qps/errors/QPSParserSyntaxError.h"
 #include "qps/clauses/pattern/AssignPatternClause.h"
 #include "qps/errors/QPSParserSemanticError.h"
-#include "qps/parser/token_parser/context/pattern_clause/PQLPatternContext.h"
 #include "qps/clauses/pattern/IfPatternClause.h"
 #include "qps/clauses/pattern/WhilePatternClause.h"
-#include "../../SourceParserStub.cpp"
+#include "../../SourceParserStub.h"
+#include "qps/parser/token_parser/parsers/conditional_parser/pattern_clause/PQLPatternParser.h"
 
 using std::make_unique, std::unordered_map;
 
@@ -17,17 +17,16 @@ template <class T>
 void testPatternParsing(vector<PQLToken> inputs,
                               unordered_map<string, PQLSynonymType> synonyms) {
   SourceParserStub exprParser;
-  PQLPatternContext context(&exprParser);
+  PQLPatternParser context(&exprParser);
   QueryTokenParseState state(&inputs);
-  state.advanceStage(TOKEN_PARSE_STAGE_COMMAND);
+  QueryBuilder builder;
 
   for (auto it : synonyms) {
-    state.getQueryBuilder()->addSynonym(it.first, it.second);
+    builder.addSynonym(it.first, it.second);
   }
-  context.parse(&state);
-  state.advanceStage(TOKEN_PARSE_STAGE_PARSE_END);
+  context.parse(&state, &builder);
 
-  auto clauses = state.getQueryBuilder()->build()->getEvaluatables();
+  auto clauses = builder.build()->getEvaluatables();
   REQUIRE(clauses.size() == 1);
 
   auto fc = dynamic_cast<T*>(clauses.at(0).get());
@@ -60,6 +59,7 @@ void testWhilePatternParsing(vector<PQLToken> inputs) {
 
 TEST_CASE("Test PQL Assign Pattern parsing Full Match") {
   testAssignPatternParsing(make_unique<PQLTestTokenSequenceBuilder>()
+                               ->addToken(PQL_TOKEN_PATTERN)
                                ->synonym("a")
                                ->openBracket()
                                ->synonym("v")
@@ -69,6 +69,7 @@ TEST_CASE("Test PQL Assign Pattern parsing Full Match") {
                                ->build());
 
   testAssignPatternParsing(make_unique<PQLTestTokenSequenceBuilder>()
+                               ->addToken(PQL_TOKEN_PATTERN)
                                ->synonym("a")
                                ->openBracket()
                                ->ident("x")
@@ -78,6 +79,7 @@ TEST_CASE("Test PQL Assign Pattern parsing Full Match") {
                                ->build());
 
   testAssignPatternParsing(make_unique<PQLTestTokenSequenceBuilder>()
+                               ->addToken(PQL_TOKEN_PATTERN)
                                ->synonym("a")
                                ->openBracket()
                                ->ident("x")
@@ -87,6 +89,7 @@ TEST_CASE("Test PQL Assign Pattern parsing Full Match") {
                                ->build());
 
   testAssignPatternParsing(make_unique<PQLTestTokenSequenceBuilder>()
+                               ->addToken(PQL_TOKEN_PATTERN)
                                ->synonym("a")
                                ->openBracket()
                                ->wildcard()
@@ -99,6 +102,7 @@ TEST_CASE("Test PQL Assign Pattern parsing Full Match") {
 TEST_CASE("Test PQL Assign Pattern parsing Partial Match") {
   testAssignPatternParsing(
       make_unique<PQLTestTokenSequenceBuilder>()
+          ->addToken(PQL_TOKEN_PATTERN)
           ->synonym("a")
           ->openBracket()
           ->synonym("v")
@@ -112,6 +116,7 @@ TEST_CASE("Test PQL Assign Pattern parsing Partial Match") {
 
   testAssignPatternParsing(
       make_unique<PQLTestTokenSequenceBuilder>()
+          ->addToken(PQL_TOKEN_PATTERN)
           ->synonym("a")
           ->openBracket()
           ->ident("x")
@@ -125,6 +130,7 @@ TEST_CASE("Test PQL Assign Pattern parsing Partial Match") {
 
   testAssignPatternParsing(
       make_unique<PQLTestTokenSequenceBuilder>()
+          ->addToken(PQL_TOKEN_PATTERN)
           ->synonym("a")
           ->openBracket()
           ->wildcard()
@@ -140,6 +146,7 @@ TEST_CASE("Test PQL Assign Pattern parsing Partial Match") {
 TEST_CASE("Test PQL Assign Pattern parsing Wildcard") {
   testAssignPatternParsing(
       make_unique<PQLTestTokenSequenceBuilder>()
+          ->addToken(PQL_TOKEN_PATTERN)
           ->synonym("a")
           ->openBracket()
           ->synonym("v")
@@ -151,6 +158,7 @@ TEST_CASE("Test PQL Assign Pattern parsing Wildcard") {
 
   testAssignPatternParsing(
       make_unique<PQLTestTokenSequenceBuilder>()
+          ->addToken(PQL_TOKEN_PATTERN)
           ->synonym("a")
           ->openBracket()
           ->ident("x")
@@ -162,6 +170,7 @@ TEST_CASE("Test PQL Assign Pattern parsing Wildcard") {
 
   testAssignPatternParsing(
       make_unique<PQLTestTokenSequenceBuilder>()
+          ->addToken(PQL_TOKEN_PATTERN)
           ->synonym("a")
           ->openBracket()
           ->wildcard()
@@ -175,6 +184,7 @@ TEST_CASE("Test PQL Assign Pattern parsing Wildcard") {
 TEST_CASE("Test PQL Assign Pattern parsing Complex Pattern") {
   testAssignPatternParsing(
       make_unique<PQLTestTokenSequenceBuilder>()
+          ->addToken(PQL_TOKEN_PATTERN)
           ->synonym("a")
           ->openBracket()
           ->synonym("v")
@@ -188,6 +198,7 @@ TEST_CASE("Test PQL Assign Pattern parsing Complex Pattern") {
 TEST_CASE("Test PQL If Pattern parsing") {
   testIfPatternParsing(
       make_unique<PQLTestTokenSequenceBuilder>()
+          ->addToken(PQL_TOKEN_PATTERN)
           ->synonym("if")
           ->openBracket()
           ->wildcard()
@@ -201,6 +212,7 @@ TEST_CASE("Test PQL If Pattern parsing") {
 TEST_CASE("Test PQL While Pattern parsing") {
   testWhilePatternParsing(
       make_unique<PQLTestTokenSequenceBuilder>()
+          ->addToken(PQL_TOKEN_PATTERN)
           ->synonym("w")
           ->openBracket()
           ->wildcard()
@@ -216,6 +228,7 @@ TEST_CASE("Test PQL While Pattern parsing") {
 TEST_CASE("Test PQL Pattern invalid ref") {
   REQUIRE_THROWS_AS(testAssignPatternParsing(
       make_unique<PQLTestTokenSequenceBuilder>()
+          ->addToken(PQL_TOKEN_PATTERN)
           ->synonym("b")
           ->openBracket()
           ->wildcard()
@@ -227,6 +240,7 @@ TEST_CASE("Test PQL Pattern invalid ref") {
 
   REQUIRE_THROWS_AS(testAssignPatternParsing(
       make_unique<PQLTestTokenSequenceBuilder>()
+          ->addToken(PQL_TOKEN_PATTERN)
           ->synonym("a")
           ->openBracket()
           ->synonym("z")
@@ -240,6 +254,7 @@ TEST_CASE("Test PQL Pattern invalid ref") {
 TEST_CASE("Test PQL Pattern Invalid Syntax") {
   REQUIRE_THROWS_AS(testAssignPatternParsing(
       make_unique<PQLTestTokenSequenceBuilder>()
+          ->addToken(PQL_TOKEN_PATTERN)
           ->synonym("a")
           ->openBracket()
           ->synonym("v")
@@ -251,6 +266,7 @@ TEST_CASE("Test PQL Pattern Invalid Syntax") {
 
   REQUIRE_THROWS_AS(testAssignPatternParsing(
       make_unique<PQLTestTokenSequenceBuilder>()
+          ->addToken(PQL_TOKEN_PATTERN)
           ->synonym("a")
           ->openBracket()
           ->synonym("v")
@@ -262,6 +278,7 @@ TEST_CASE("Test PQL Pattern Invalid Syntax") {
 
   REQUIRE_THROWS_AS(testAssignPatternParsing(
       make_unique<PQLTestTokenSequenceBuilder>()
+          ->addToken(PQL_TOKEN_PATTERN)
           ->synonym("a")
           ->openBracket()
           ->integer(1)
@@ -273,6 +290,7 @@ TEST_CASE("Test PQL Pattern Invalid Syntax") {
 
   REQUIRE_THROWS_AS(testAssignPatternParsing(
       make_unique<PQLTestTokenSequenceBuilder>()
+          ->addToken(PQL_TOKEN_PATTERN)
           ->synonym("a")
           ->openBracket()
           ->wildcard()
@@ -282,6 +300,7 @@ TEST_CASE("Test PQL Pattern Invalid Syntax") {
 
   REQUIRE_THROWS_AS(testAssignPatternParsing(
       make_unique<PQLTestTokenSequenceBuilder>()
+          ->addToken(PQL_TOKEN_PATTERN)
           ->synonym("a")
           ->openBracket()
           ->wildcard()
@@ -297,6 +316,7 @@ TEST_CASE("Test PQL Pattern Invalid Syntax") {
 
   REQUIRE_THROWS_AS(testAssignPatternParsing(
       make_unique<PQLTestTokenSequenceBuilder>()
+          ->addToken(PQL_TOKEN_PATTERN)
           ->synonym("a")
           ->openBracket()
           ->wildcard()
@@ -330,6 +350,7 @@ TEST_CASE("Test PQL Pattern invalid (_, literal) synonym types") {
     REQUIRE_THROWS_AS(
         testPatternParsing<AssignPatternClause>(
             make_unique<PQLTestTokenSequenceBuilder>()
+                ->addToken(PQL_TOKEN_PATTERN)
                 ->synonym("a")
                 ->openBracket()
                 ->wildcard()
@@ -363,6 +384,7 @@ TEST_CASE("Test PQL Pattern invalid (_, _) synonym types") {
     REQUIRE_THROWS_AS(
         testPatternParsing<AssignPatternClause>(
             make_unique<PQLTestTokenSequenceBuilder>()
+                ->addToken(PQL_TOKEN_PATTERN)
                 ->synonym("a")
                 ->openBracket()
                 ->wildcard()
@@ -398,6 +420,7 @@ TEST_CASE("Test PQL Assign Pattern invalid leftArg synonym types") {
     REQUIRE_THROWS_AS(
         testPatternParsing<AssignPatternClause>(
             make_unique<PQLTestTokenSequenceBuilder>()
+                ->addToken(PQL_TOKEN_PATTERN)
                 ->synonym("a")
                 ->openBracket()
                 ->synonym("v")

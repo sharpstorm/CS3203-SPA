@@ -4,6 +4,6 @@
 
 class EntityParser: public IEntityParser {
  public:
-  ASTNodePtr parseVariable(SourceParseState* state);
-  ASTNodePtr parseConstant(SourceParseState* state);
+  ASTNodePtr parseVariable(SourceParseState* state) override;
+  ASTNodePtr parseConstant(SourceParseState* state) override;
 };

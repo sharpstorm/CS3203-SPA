@@ -4,34 +4,35 @@
 
 #include "catch.hpp"
 #include "qps/parser/lexer/QueryLexer.h"
+#include "qps/parser/lexer/QueryLexerFactory.h"
 
 using std::vector, std::string, std::cout;
 
 void testPQLLexing(string testCase, vector<PQLToken> expected) {
-  QueryLexer lexer;
-  QueryLexerResult result = lexer.getTokenStream(&testCase);
+  QueryLexerFactory lexFactory;
+  PQLTokenStreamPtr result = lexFactory.makeLexer(&testCase)->getTokenStream();
   REQUIRE(result->size() == expected.size());
   REQUIRE(equal(expected.begin(), expected.end(), result->begin(), result->end()));
 }
 
 void testPQLLexSingleToken(string testCase, PQLTokenType expected) {
-  QueryLexer lexer;
-  QueryLexerResult result = lexer.getTokenStream(&testCase);
+  QueryLexerFactory lexFactory;
+  PQLTokenStreamPtr result = lexFactory.makeLexer(&testCase)->getTokenStream();
   REQUIRE(result->size() == 1);
   REQUIRE(result->at(0).getType() == expected);
 }
 
 void testPQLLexSingleToken(string testCase, PQLToken expected) {
-  QueryLexer lexer;
-  QueryLexerResult result = lexer.getTokenStream(&testCase);
+  QueryLexerFactory lexFactory;
+  PQLTokenStreamPtr result = lexFactory.makeLexer(&testCase)->getTokenStream();
   REQUIRE(result->size() == 1);
   INFO(result->at(0).getType());
   REQUIRE(result->at(0) == expected);
 }
 
 void testPQLDeclaration(string testCase, PQLTokenType expectedToken, PQLToken expectedArg) {
-  QueryLexer lexer;
-  QueryLexerResult result = lexer.getTokenStream(&testCase);
+  QueryLexerFactory lexFactory;
+  PQLTokenStreamPtr result = lexFactory.makeLexer(&testCase)->getTokenStream();
   testPQLLexing(testCase, vector<PQLToken>{
     PQLToken(expectedToken),
     expectedArg,

@@ -15,8 +15,7 @@ ASTNodePtr ProcedureContext::generateSubtree(SourceParseState* state) {
 
   // Statement List
   ASTNodePtr stmtLst = contextProvider
-      ->getContext(ProcedureContextType::STMT_LIST_CONTEXT)
-      ->generateSubtree(state);
+      ->generateSubtree(ProcedureContextType::STMT_LIST_CONTEXT, state);
 
   procedureNode->addChild(stmtLst);
   state->setCached(procedureNode);

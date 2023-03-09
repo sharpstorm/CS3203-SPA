@@ -3,20 +3,22 @@
 #include "qps/errors/QPSParserSemanticError.h"
 
 ClauseArgumentPtr PQLStmtRefExtractor::extract(
-    QueryTokenParseState *state) {
-  if (state->getCurrentToken()->isType(PQL_TOKEN_INTEGER)) {
-    return extractStatement(state);
+    QueryTokenParseState *state, QueryBuilder* builder) {
+  if (state->isCurrentTokenType(PQL_TOKEN_INTEGER)) {
+    return extractStatement(state, builder);
   }
 
-  return extractCommonRef(state);
+  return extractCommonRef(state, builder);
 }
 
 ClauseArgumentPtr PQLStmtRefExtractor::extractStatement(
-    QueryTokenParseState* state) {
-  int value = stoi(state->getCurrentToken()->getData());
-  state->advanceToken();
+    QueryTokenParseState* state,
+    QueryBuilder* builder) {
+  PQLToken* token = state->expect(PQL_TOKEN_INTEGER);
+  int value = stoi(token->getData());
+
   if (value <= 0) {
-    state->getQueryBuilder()->setError(QPS_PARSER_ERR_INVALID_STMT);
+    builder->setError(QPS_PARSER_ERR_INVALID_STMT);
   }
   return ClauseArgumentFactory::create(value);
 }

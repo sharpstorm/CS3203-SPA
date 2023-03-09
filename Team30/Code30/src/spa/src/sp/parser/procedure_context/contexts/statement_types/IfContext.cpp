@@ -13,20 +13,18 @@ ASTNodePtr IfContext::generateSubtree(SourceParseState* state) {
 
   // Conditional Expression
   state->expect(SIMPLE_TOKEN_BRACKET_ROUND_LEFT);
-  ASTNodePtr cond = contextProvider->getConditionalParser()->parse(state);
+  ASTNodePtr cond = contextProvider->parseCondition(state);
   state->expect(SIMPLE_TOKEN_BRACKET_ROUND_RIGHT);
 
   // Then StmtLst
   state->expect(SIMPLE_TOKEN_KEYWORD_THEN);
   ASTNodePtr thenStmtLst = contextProvider
-      ->getContext(ProcedureContextType::STMT_LIST_CONTEXT)
-      ->generateSubtree(state);
+      ->generateSubtree(ProcedureContextType::STMT_LIST_CONTEXT, state);
 
   // Else StmtLst
   state->expect(SIMPLE_TOKEN_KEYWORD_ELSE);
   ASTNodePtr elseStmtLst = contextProvider
-      ->getContext(ProcedureContextType::STMT_LIST_CONTEXT)
-      ->generateSubtree(state);
+      ->generateSubtree(ProcedureContextType::STMT_LIST_CONTEXT, state);
 
   ifNode->setChild(0, cond);
   ifNode->setChild(1, thenStmtLst);

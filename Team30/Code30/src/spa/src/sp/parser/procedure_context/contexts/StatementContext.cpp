@@ -33,6 +33,5 @@ ASTNodePtr StatementContext::generateSubtree(
 template<ProcedureContextType CONTEXT_TYPE>
 ASTNodePtr StatementContext::invokeSubcontext(SourceParseState *state) {
   return contextProvider
-      ->getContext(CONTEXT_TYPE)
-      ->generateSubtree(state);
+      ->generateSubtree(CONTEXT_TYPE, state);
 }

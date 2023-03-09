@@ -4,21 +4,22 @@
 
 using std::make_unique;
 
-QueryBuilder::QueryBuilder(): errorMsg("") {
+QueryBuilder::QueryBuilder() {
 }
 
-void QueryBuilder::setError(string msg) {
-  if (errorMsg != "") {
+void QueryBuilder::setError(const string &msg) {
+  if (!errorMsg.empty()) {
     return;
   }
   errorMsg = msg;
 }
 
-void QueryBuilder::addResultSynonym(PQLQuerySynonym synonym) {
+void QueryBuilder::addResultSynonym(const PQLQuerySynonym &synonym) {
   resultVariables.push_back(synonym);
 }
 
-void QueryBuilder::addSynonym(PQLSynonymName name, PQLSynonymType type) {
+void QueryBuilder::addSynonym(const PQLSynonymName &name,
+                              const PQLSynonymType &type) {
   if (hasSynonym(name)) {
     setError(QPS_PARSER_ERR_DUPLICATE_SYN);
     return;
@@ -26,11 +27,11 @@ void QueryBuilder::addSynonym(PQLSynonymName name, PQLSynonymType type) {
   variables[name] = PQLQuerySynonym(type, name);
 }
 
-bool QueryBuilder::hasSynonym(PQLSynonymName name) {
+bool QueryBuilder::hasSynonym(const PQLSynonymName &name) {
   return variables.find(name) != variables.end();
 }
 
-PQLQuerySynonym* QueryBuilder::accessSynonym(PQLSynonymName name) {
+PQLQuerySynonym* QueryBuilder::accessSynonym(const PQLSynonymName &name) {
   if (!hasSynonym(name)) {
     setError(QPS_PARSER_ERR_UNKNOWN_SYNONYM);
     return nullptr;
@@ -48,8 +49,8 @@ void QueryBuilder::addPattern(unique_ptr<PatternClause> clause) {
 }
 
 unique_ptr<PQLQuery> QueryBuilder::build() {
-  if (errorMsg != "") {
-    throw QPSParserSemanticError(errorMsg.c_str());
+  if (!errorMsg.empty()) {
+    throw QPSParserSemanticError(errorMsg);
   }
 
   for (int i = 0; i < clauses.size(); i++) {

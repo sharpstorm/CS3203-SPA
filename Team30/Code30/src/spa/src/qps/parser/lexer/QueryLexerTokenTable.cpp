@@ -1,7 +1,7 @@
 #include "QueryLexerTokenTable.h"
 #include "common/lexer/AsciiCharacters.h"
 
-QueryLexerTokenTable::QueryLexerTokenTable() {
+QueryLexerTokenTable::QueryLexerTokenTable(): tokens() {
   for (int i = 0; i < 256; i++) {
     tokens[i] = PQL_TOKEN_INVALID;
   }
@@ -18,6 +18,11 @@ QueryLexerTokenTable::QueryLexerTokenTable() {
   tokens[ASCII_SEMICOLON] = PQL_TOKEN_SEMICOLON;
   tokens[ASCII_UNDERSCORE] = PQL_TOKEN_UNDERSCORE;
   tokens[ASCII_TIMES] = PQL_TOKEN_ASTRIX;
+
+  tokens[ASCII_PLUS] = PQL_TOKEN_VALID;
+  tokens[ASCII_MINUS] = PQL_TOKEN_VALID;
+  tokens[ASCII_SLASH] = PQL_TOKEN_VALID;
+  tokens[ASCII_PERCENT] = PQL_TOKEN_VALID;
 
   tokens[ASCII_ROUND_BRACKET_LEFT] = PQL_TOKEN_BRACKET_OPEN;
   tokens[ASCII_ROUND_BRACKET_RIGHT] = PQL_TOKEN_BRACKET_CLOSE;
@@ -39,6 +44,11 @@ QueryLexerTokenTable::QueryLexerTokenTable() {
 
 bool QueryLexerTokenTable::isDigit(char c) {
   return c >= ASCII_0 && c <= ASCII_9;
+}
+
+bool QueryLexerTokenTable::isCharacter(char c) {
+  return (c >= ASCII_UPPER_A && c <= ASCII_UPPER_Z)
+      || (c >= ASCII_LOWER_A && c <= ASCII_LOWER_Z);
 }
 
 bool QueryLexerTokenTable::isZero(char c) {

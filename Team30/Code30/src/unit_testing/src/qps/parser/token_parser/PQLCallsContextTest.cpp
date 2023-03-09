@@ -3,10 +3,10 @@
 #include <memory>
 #include <unordered_map>
 
-#include "PQLContextTestUtils.cpp"
-#include "qps/parser/token_parser/context/such_that_clause/PQLCallsClauseContext.h"
 #include "qps/clauses/such_that/CallsClause.h"
 #include "qps/clauses/such_that/CallsTClause.h"
+#include "qps/parser/token_parser/parsers/conditional_parser/such_that_parser/contexts/PQLSuchThatClauseTypes.h"
+#include "PQLContextTestUtils.h"
 
 using std::make_unique, std::unordered_map;
 
