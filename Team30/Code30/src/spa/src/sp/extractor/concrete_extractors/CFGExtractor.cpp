@@ -6,9 +6,9 @@
 
 using std::vector;
 
-CFGExtractor::CFGExtractor(PkbWriter* writer) : pkbWriter(writer) {
-  CFGcache = make_shared<CFG>();
-}
+CFGExtractor::CFGExtractor(PkbWriter* writer) :
+    pkbWriter(writer),
+    cfgCache(nullptr) {}
 
 void CFGExtractor::visitProcedure(ProcedureNode* node) {
   StatementNumberExtractor statementNoExtractor;
@@ -16,20 +16,21 @@ void CFGExtractor::visitProcedure(ProcedureNode* node) {
   node->getChildren()[0]->getChildren()[0]->accept(&statementNoExtractor);
   int startingLineIndex = statementNoExtractor.getStatementNumber() - 1;
 
-  CFGcache = make_shared<CFG>(node->getName(), startingLineIndex);
+  cfgCache = make_shared<CFG>(node->getName(), startingLineIndex);
 }
 
 void CFGExtractor::leaveProcedure(ProcedureNode* node) {
-  setOfCFGs.push_back(CFGcache);
+  addCFGToPKB();
+  cfgCache = nullptr;
 }
 
 void CFGExtractor::visitStmtList(StatementListNode* node) {
-  if (node->getChildren().empty()) {
+  if (node->getChildCount() == 0) {
     return;
   }
 
   StatementNumberExtractor statementNoExtractor;
-  vector<ASTNodePtr> children = node->getChildren();
+  vector<ASTNode*> children = node->getChildren();
 
   for (int i = 0; i < children.size() - 1; i++) {
     children[i]->accept(&statementNoExtractor);
@@ -46,28 +47,24 @@ void CFGExtractor::visitStmtList(StatementListNode* node) {
 }
 
 void CFGExtractor::visitIf(IfNode* node) {
-  vector<ASTNodePtr> children = node->getChildren();
-  vector<ASTNodePtr> ifLst = children[1]->getChildren();
-  vector<ASTNodePtr> elseLst = children[2]->getChildren();
+  vector<ASTNode*> children = node->getChildren();
+  vector<ASTNode*> ifLst = children[1]->getChildren();
+  vector<ASTNode*> elseLst = children[2]->getChildren();
 
   addCFGOnIfNodeList(node->getLineNumber(), &ifLst);
   addCFGOnIfNodeList(node->getLineNumber(), &elseLst);
 }
 
 void CFGExtractor::visitWhile(WhileNode* node) {
-  vector<ASTNodePtr> children = node->getChildren();
-  vector<ASTNodePtr> stmtList = children[1]->getChildren();
+  vector<ASTNode*> children = node->getChildren();
+  vector<ASTNode*> stmtList = children[1]->getChildren();
 
   addCFGOnWhileNodeList(node->getLineNumber(), &stmtList);
 }
 
-vector<CFGPtr> CFGExtractor::getSetOfCFGs() { return setOfCFGs; }
-
 void CFGExtractor::addCFGOnIfNodeList(int conditionalLine,
-                                      vector<ASTNodePtr>* childList) {
-  size_t childListSize = childList->size();
-
-  if (childListSize == 0) {
+                                      vector<ASTNode*>* childList) {
+  if (childList->empty()) {
     return;
   }
 
@@ -79,20 +76,19 @@ void CFGExtractor::addCFGOnIfNodeList(int conditionalLine,
 }
 
 void CFGExtractor::addCFGOnWhileNodeList(int conditionalLine,
-                                         vector<ASTNodePtr>* childList) {
-  size_t childListSize = childList->size();
-
-  if (childListSize == 0) {
+                                         vector<ASTNode*>* childList) {
+  if (childList->empty()) {
     return;
   }
 
+  size_t childListSize = childList->size();
   StatementNumberExtractor firstStatementNoExtractor, lastStatementNoExtractor;
   childList->at(0)->accept(
       &firstStatementNoExtractor);  // to connect while statement to beginning
-                                    // of list
+  // of list
   childList->at(childListSize - 1)
       ->accept(&lastStatementNoExtractor);  // to connect end of list to while
-                                            // statement
+  // statement
   CFGExtractor::addCFGRelation(conditionalLine,
                                firstStatementNoExtractor.getStatementNumber());
 
@@ -101,11 +97,11 @@ void CFGExtractor::addCFGOnWhileNodeList(int conditionalLine,
 }
 
 void CFGExtractor::addCFGRelation(int x, int y) {
-  CFGcache->addLink(x, y);
+  cfgCache->addLink(x, y);
 }
 
 void CFGExtractor::addCFGToPKB() {
-  // pkbWriter->addCFGs(setOfCFGs);
+  // pkbWriter->addCFGs(cfgCache);
   //
   // pkbWriter will need an empty vector of CFGs, which will be periodically
   // pushed new CFGs when leave(ProcedureNode) is called

@@ -1,11 +1,13 @@
 #pragma once
 
 #include <memory>
+#include <utility>
+
 #include "sp/ast/ASTNode.h"
 #include "AbstractSingleArgContext.h"
 #include "sp/ast/statement/PrintNode.h"
 
-using std::make_shared;
+using std::make_unique;
 
 class PrintContext:
     public AbstractSingleArgContext<SIMPLE_TOKEN_KEYWORD_PRINT> {
@@ -14,8 +16,8 @@ class PrintContext:
       AbstractSingleArgContext(provider) {}
  protected:
   ASTNodePtr makeNode(const int &lineNumber, ASTNodePtr variableNode) {
-    ASTNodePtr newNode = make_shared<PrintNode>(lineNumber);
-    newNode->setChild(0, variableNode);
-    return newNode;
+    ASTNodePtr newNode = make_unique<PrintNode>(lineNumber);
+    newNode->setChild(0, std::move(variableNode));
+    return std::move(newNode);
   }
 };

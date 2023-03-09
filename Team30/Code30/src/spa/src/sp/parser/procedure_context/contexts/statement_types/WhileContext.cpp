@@ -1,14 +1,16 @@
 #include "WhileContext.h"
 
 #include <memory>
+#include <utility>
+
 #include "sp/ast/statement/WhileNode.h"
 
-using std::make_shared;
+using std::make_unique;
 
 ASTNodePtr WhileContext::generateSubtree(SourceParseState* state) {
   // While Node
   state->expect(SIMPLE_TOKEN_KEYWORD_WHILE);
-  ASTNodePtr whileNode = make_shared<WhileNode>(
+  ASTNodePtr whileNode = make_unique<WhileNode>(
       state->getLineNumber());
 
   // Conditional Expression
@@ -21,8 +23,7 @@ ASTNodePtr WhileContext::generateSubtree(SourceParseState* state) {
       ->generateSubtree(ProcedureContextType::STMT_LIST_CONTEXT, state);
 
   // Assign to children to While Node
-  whileNode->setChild(0, cond);
-  whileNode->setChild(1, stmtLst);
-  state->setCached(whileNode);
+  whileNode->setChild(0, std::move(cond));
+  whileNode->setChild(1, std::move(stmtLst));
   return whileNode;
 }

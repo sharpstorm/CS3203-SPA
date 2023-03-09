@@ -1,5 +1,7 @@
 #include "SourceParseState.h"
 
+#include <utility>
+
 SourceParseState::SourceParseState(vector<SourceToken>* t):
     curIndex(0),
     lineNumber(0),
@@ -33,14 +35,6 @@ SourceToken *SourceParseState::getCurrToken() {
   return &tokens->at(curIndex);
 }
 
-bool SourceParseState::currTokenIsOfType(SourceTokenType type) {
-  SourceToken* token = getCurrToken();
-  if (token == nullptr) {
-    return false;
-  }
-  return token->isType(type);
-}
-
 SourceToken *SourceParseState::peekNextToken() {
   if (curIndex + 1 >= tokenLength) {
     return nullptr;
@@ -56,20 +50,18 @@ bool SourceParseState::nextTokenIsOfType(SourceTokenType type) {
   return token->isType(type);
 }
 
-void SourceParseState::setCached(ASTNodePtr node) {
-  curCache = node;
-}
-
-void SourceParseState::clearCached() {
-  curCache = nullptr;
+void SourceParseState::cacheNode(ASTNodePtr node) {
+  curCache = std::move(node);
 }
 
 bool SourceParseState::hasCached() {
   return curCache != nullptr;
 }
 
-ASTNodePtr SourceParseState::getCached() {
-  return curCache;
+ASTNodePtr SourceParseState::consumeCache() {
+  ASTNodePtr temp = std::move(curCache);
+  curCache = nullptr;
+  return std::move(temp);
 }
 
 int SourceParseState::getLineNumber() {

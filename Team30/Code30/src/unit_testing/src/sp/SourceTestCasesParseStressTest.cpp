@@ -41,8 +41,8 @@ void executeExtractors(string input) {
   extractors.push_back(usesExtractor.get());
   extractors.push_back(modifiesExtractor.get());
 
-  AST ast = parser.parseSource(input);
-  treeWalker.walkAST(ast, &extractors);
+  ASTPtr ast = parser.parseSource(input);
+  treeWalker.walkAST(ast.get(), &extractors);
 }
 
 TEST_CASE("Simple programs for grammar testing") {

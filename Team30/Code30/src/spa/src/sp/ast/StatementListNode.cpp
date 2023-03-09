@@ -18,7 +18,7 @@ void StatementListNode::leave(IExtractor* e) {
 
 string StatementListNode::toString() {
   string ss = "StmtLst: \n";
-  for (ASTNodePtr node : children) {
+  for (const ASTNodePtr &node : children) {
     ss += node->toString() + "\n";
   }
   return ss;

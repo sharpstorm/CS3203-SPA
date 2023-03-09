@@ -29,8 +29,8 @@ TEST_CASE("AssignQueryHandler Assigns(stmtRef)") {
   auto test = assignTestInit();
   // x = a
 
-  PatternTriePtr trie = PatternConverter::convertASTToTrie(
-      make_shared<VariableASTNode>("a"));
+  auto root = make_unique<VariableASTNode>("a");
+  PatternTriePtr trie = PatternConverter::convertASTToTrie(root.get());
   auto sTrie = shared_ptr<PatternTrie>(std::move(trie));
   test.store->set(1, sTrie);
 

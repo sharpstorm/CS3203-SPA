@@ -3,8 +3,9 @@
 #include <list>
 #include <string>
 #include <vector>
+#include <memory>
 
-using std::string, std::vector, std::list;
+using std::string, std::vector, std::list, std::shared_ptr;
 
 class CFG {
  public:
@@ -24,3 +25,5 @@ class CFG {
 
   vector<list<int>> links;
 };
+
+typedef shared_ptr<CFG> CFGSPtr;

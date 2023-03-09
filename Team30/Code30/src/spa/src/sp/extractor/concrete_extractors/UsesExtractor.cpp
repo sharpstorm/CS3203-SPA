@@ -9,7 +9,7 @@ UsesExtractor::UsesExtractor(PkbWriter* writer) : pkbWriter(writer) {
 }
 
 void UsesExtractor::visitAssign(AssignNode* node) {
-  shared_ptr<ASTNode> expr = node->getChildren()[1];
+  ASTNode* expr = node->getChildren()[1];
   updateUses(expr, node->getLineNumber());
 }
 
@@ -22,13 +22,13 @@ void UsesExtractor::visitPrint(PrintNode* node) {
 }
 
 void UsesExtractor::visitWhile(WhileNode* node) {
-  shared_ptr<ASTNode> condExpr = node->getChildren()[0];
+  ASTNode* condExpr = node->getChildren()[0];
   updateUses(condExpr, node->getLineNumber());
   statementStartStack.push_back(node->getLineNumber());
 }
 
 void UsesExtractor::visitIf(IfNode* node) {
-  shared_ptr<ASTNode> condExpr = node->getChildren()[0];
+  ASTNode* condExpr = node->getChildren()[0];
   updateUses(condExpr, node->getLineNumber());
   statementStartStack.push_back(node->getLineNumber());
 }
@@ -45,7 +45,7 @@ void UsesExtractor::visitProcedure(ProcedureNode* node) {
   procName = node->getName();
 }
 
-void UsesExtractor::updateUses(shared_ptr<ASTNode> expr,
+void UsesExtractor::updateUses(ASTNode* expr,
                                const int &lineNumber) {
   unordered_set<string> v;
   recurseExpr(&v, expr);
@@ -63,7 +63,7 @@ void UsesExtractor::processNode(const int &lineNumber,
 }
 
 void UsesExtractor::recurseExpr(unordered_set<string>* v,
-                                shared_ptr<ASTNode> node) {
+                                ASTNode* node) {
   if (node->getType() == ASTNodeType::ASTNODE_CONSTANT) {
     return;
   }

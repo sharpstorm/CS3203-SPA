@@ -9,8 +9,8 @@ using std::string;
 class AbstractConditionalNode: public BinaryASTNode {
  public:
   virtual ~AbstractConditionalNode() = default;
-  void accept(IExtractor* e);
-  string toString();
+  void accept(IExtractor* e) override;
+  string toString() override;
 
  protected:
   AbstractConditionalNode(ASTNodeType type, string identifier) :

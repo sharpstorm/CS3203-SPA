@@ -10,17 +10,32 @@
 
 using std::vector, std::string, std::list, std::make_unique;
 
-vector<CFGPtr> executeCFGExtractor(string input) {
+class CFGExtractorSpy : public CFGExtractor {
+ private:
+  vector<CFGSPtr> created;
+
+ public:
+  explicit CFGExtractorSpy(PkbWriter* pkbWriter): CFGExtractor(pkbWriter) {}
+  void leaveProcedure(ProcedureNode* node) override {
+    created.push_back(cfgCache);
+  }
+
+  vector<CFGSPtr> getCFG() {
+    return created;
+  }
+};
+
+vector<CFGSPtr> executeCFGExtractor(string input) {
   TreeWalker treeWalker;
   PKB pkb;
   StubPkb stubby(&pkb);
   SourceParser parser;
   vector<IExtractor*> extractors;
-  auto cfgExtractor = make_unique<CFGExtractor>(&stubby);
+  auto cfgExtractor = make_unique<CFGExtractorSpy>(&stubby);
   extractors.push_back(cfgExtractor.get());
-  AST ast = parser.parseSource(input);
-  treeWalker.walkAST(ast, &extractors);
-  return cfgExtractor->getSetOfCFGs();
+  ASTPtr ast = parser.parseSource(input);
+  treeWalker.walkAST(ast.get(), &extractors);
+  return cfgExtractor->getCFG();
 }
 
 TEST_CASE("CFGExtractor Simple Statement list") {
@@ -31,7 +46,7 @@ TEST_CASE("CFGExtractor Simple Statement list") {
       "read num3;"
       "}";
 
-  vector<CFGPtr> setofCFGs = executeCFGExtractor(input);
+  vector<CFGSPtr> setofCFGs = executeCFGExtractor(input);
   vector<list<int>> link = {{2}, {3}, {-1}};
 
   REQUIRE(setofCFGs.size() == 1);
@@ -51,7 +66,7 @@ TEST_CASE("CFGExtractor Statement with If") {
       "}"
       "}";
 
-  vector<CFGPtr> setofCFGs = executeCFGExtractor(input);
+  vector<CFGSPtr> setofCFGs = executeCFGExtractor(input);
   vector<list<int>> link = {{2}, {3}, {-1, 4, 6}, {5}, {-1}, {-1}};
 
   REQUIRE(setofCFGs.size() == 1);
@@ -70,7 +85,7 @@ TEST_CASE("CFGExtractor Statement with While loop") {
       "print num2;"
       "}";
 
-  vector<CFGPtr> setofCFGs = executeCFGExtractor(input);
+  vector<CFGSPtr> setofCFGs = executeCFGExtractor(input);
   vector<list<int>> link = {{2}, {3}, {6, 4}, {5}, {3, -1}, {-1}};
 
   REQUIRE(setofCFGs.size() == 1);
@@ -94,7 +109,7 @@ TEST_CASE("CFGExtractor If in While loop") {
       "print num2;"
       "}";
 
-  vector<CFGPtr> setofCFGs = executeCFGExtractor(input);
+  vector<CFGSPtr> setofCFGs = executeCFGExtractor(input);
   vector<list<int>> link = {{2},  {3}, {9, 4},  {7, 5, 6}, {-1},
                             {-1}, {8}, {3, -1}, {-1}};
 
@@ -117,7 +132,7 @@ TEST_CASE("CFGExtractor While in If") {
       "print num2;"
       "}";
 
-  vector<CFGPtr> setofCFGs = executeCFGExtractor(input);
+  vector<CFGSPtr> setofCFGs = executeCFGExtractor(input);
   vector<list<int>> link = {{2}, {3},     {8, 4, 7}, {-1, 5},
                             {6}, {4, -1}, {-1},      {-1}};
 
@@ -140,7 +155,7 @@ TEST_CASE("CFGExtractor While in Else") {
       "print num2;"
       "}";
 
-  vector<CFGPtr> setofCFGs = executeCFGExtractor(input);
+  vector<CFGSPtr> setofCFGs = executeCFGExtractor(input);
   vector<list<int>> link = {{2},     {3}, {8, 4, 5}, {-1},
                             {-1, 6}, {7}, {5, -1},   {-1}};
 
@@ -165,7 +180,7 @@ TEST_CASE("CFGExtractor Triple-While Chain") {
       "print num2;"
       "}";
 
-  vector<CFGPtr> setofCFGs = executeCFGExtractor(input);
+  vector<CFGSPtr> setofCFGs = executeCFGExtractor(input);
   vector<list<int>> link = {{2},     {3},     {9, 4},  {8, 5}, {7, 6},
                             {5, -1}, {4, -1}, {3, -1}, {-1}};
 
@@ -194,7 +209,7 @@ TEST_CASE("CFG Triple-If Chain") {
       "print num2;"
       "}";
 
-  vector<CFGPtr> setofCFGs = executeCFGExtractor(input);
+  vector<CFGSPtr> setofCFGs = executeCFGExtractor(input);
   vector<list<int>> link = {{2},       {3},  {12, 4, 11}, {10, 5, 9},
                             {8, 6, 7}, {-1}, {-1},        {-1},
                             {-1},      {-1}, {-1},        {-1}};
@@ -217,7 +232,7 @@ TEST_CASE("CFGExtractor Two Procedures with Simple Statement list") {
       "read num6;"
       "}";
 
-  vector<CFGPtr> setofCFGs = executeCFGExtractor(input);
+  vector<CFGSPtr> setofCFGs = executeCFGExtractor(input);
   vector<list<int>> link = {{2}, {3}, {4}, {-1}};
   vector<list<int>> linkTwo = {{6}, {7}, {-1}};
 
@@ -247,7 +262,7 @@ TEST_CASE("CFGExtractor Three Procedures with Simple Statement list") {
       "read num9;"
       "}";
 
-  vector<CFGPtr> setofCFGs = executeCFGExtractor(input);
+  vector<CFGSPtr> setofCFGs = executeCFGExtractor(input);
   vector<list<int>> link = {{2}, {3}, {-1}};
   vector<list<int>> linkTwo = {{5}, {6}, {-1}};
   vector<list<int>> linkThree = {{8}, {9}, {-1}};
@@ -298,7 +313,7 @@ TEST_CASE("CFGExtractor Two Procedures with complex statements") {
       "print num4;"
       "}";
 
-  vector<CFGPtr> setofCFGs = executeCFGExtractor(input);
+  vector<CFGSPtr> setofCFGs = executeCFGExtractor(input);
   vector<list<int>> link = {{2},       {3},  {12, 4, 11}, {10, 5, 9},
                             {8, 6, 7}, {-1}, {-1},        {-1},
                             {-1},      {-1}, {-1},        {-1}};

@@ -36,11 +36,9 @@ enum ASTNodeType {
 class IASTNode {
  public:
   virtual ~IASTNode() = default;
-  virtual shared_ptr<IASTNode> getChild(int i) = 0;
+  virtual IASTNode* getChild(int i) = 0;
   virtual int getChildCount() = 0;
   virtual ASTNodeType getType() = 0;
   virtual string getValue() = 0;
   virtual bool isEquals(IASTNode *other) = 0;
 };
-
-typedef shared_ptr<IASTNode> IASTNodePtr;

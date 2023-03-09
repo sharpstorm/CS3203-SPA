@@ -9,7 +9,7 @@
 #include "sp/ast/entity/VariableASTNode.h"
 #include "sp/ast/AST.h"
 
-using std::make_unique, std::make_shared, std::unordered_set, std::to_string;
+using std::make_unique, std::unordered_set, std::to_string;
 
 /*
  * procedure ANYA {
@@ -33,8 +33,8 @@ using std::make_unique, std::make_shared, std::unordered_set, std::to_string;
 class SourceParserStub: public ISourceExpressionParser {
  public:
   IASTPtr parseExpression(string expression) override {
-    auto root = make_shared<VariableASTNode>("a");
-    auto tree = make_unique<AST>(root);
+    auto root = make_unique<VariableASTNode>("a");
+    auto tree = make_unique<AST>(std::move(root));
     return tree;
   }
 };

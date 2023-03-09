@@ -17,8 +17,8 @@ StubPkb executeModifiesExtractor(string input) {
   vector<IExtractor*> extractors;
   auto modifiesExtractor = make_unique<ModifiesExtractor>(&stubby);
   extractors.push_back(modifiesExtractor.get());
-  AST ast = parser.parseSource(input);
-  treeWalker.walkAST(ast, &extractors);
+  ASTPtr ast = parser.parseSource(input);
+  treeWalker.walkAST(ast.get(), &extractors);
   return stubby;
 }
 

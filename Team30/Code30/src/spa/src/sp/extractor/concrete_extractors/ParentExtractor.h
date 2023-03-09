@@ -12,7 +12,7 @@ class ParentExtractor : public AbstractExtractor {
   void visitWhile(WhileNode* node) override;
 
  private:
-  void addParentOnList(int parentLine, vector<ASTNodePtr>* childList);
+  void addParentOnList(int parentLine, vector<ASTNode*>* childList);
   void addParentRelation(int x, int y);
   PkbWriter* pkbWriter;
 };

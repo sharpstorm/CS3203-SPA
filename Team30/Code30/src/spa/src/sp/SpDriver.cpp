@@ -1,6 +1,7 @@
 #include "SpDriver.h"
 
 #include <memory>
+#include <utility>
 
 #include "ISourceParser.h"
 #include "pkb/writers/PkbWriter.h"
@@ -10,12 +11,12 @@ using std::unique_ptr;
 
 void SpDriver::parseSource(string input, PkbWriter* pkbWriter) {
   DesignExtractor designExtractor(pkbWriter);
-  AST ast = parser.parseSource(input);
-  designExtractor.extract(ast);
+  ASTPtr ast = parser.parseSource(input);
+  designExtractor.extract(ast.get());
   pkbWriter->runPostProcessor();
 }
 
 IASTPtr SpDriver::parseExpression(string expression) {
-  AST parsed = parser.parseExpression(expression);
-  return unique_ptr<IAST>(new AST(parsed));
+  ASTPtr parsed = parser.parseExpression(expression);
+  return std::move(parsed);
 }
