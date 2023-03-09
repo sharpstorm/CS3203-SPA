@@ -30,4 +30,12 @@ class HashKeyTable : public IBaseTable<K, V> {
     }
     return V();
   }
+
+  typename unordered_map<K, V>::const_iterator begin() const {
+    return table.begin();
+  }
+
+  typename unordered_map<K, V>::const_iterator end() const {
+    return table.end();
+  }
 };

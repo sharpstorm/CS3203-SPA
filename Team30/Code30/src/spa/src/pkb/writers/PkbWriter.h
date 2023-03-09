@@ -32,6 +32,7 @@ class PkbWriter : public IPkbWriter {
   void addModifies(int stmtNum, string variable, string procedure) override;
   void addCalls(int stmtNum, string currProcedure,
                 string calledProcedure) override;
+  void addIfPattern(int stmtNum, string variable) override;
 
   void runPostProcessor() override;
 
@@ -45,5 +46,6 @@ class PkbWriter : public IPkbWriter {
   unique_ptr<IProcedureWriter> procedureWriter;
   unique_ptr<IAssignsWriter> assignsWriter;
   unique_ptr<ICallsWriter> callsWriter;
+  unique_ptr<IIfPatternWriter> ifPatternWriter;
   unique_ptr<IPostProcessWriter> postProcessWriter;
 };

@@ -24,6 +24,7 @@ class PKB {
   ModifiesStorage *modifiesStorage;
   ModifiesPStorage *modifiesPStorage;
   AssignStorage *assignStorage;
+  IfPatternStorage *ifPatternStorage;
   CallsStorage *callsStorage;
   CallStmtStorage *callStmtStorage;
   StructureMappingProvider *structureProvider;

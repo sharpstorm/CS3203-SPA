@@ -13,6 +13,7 @@
 #include "pkb/writers/interfaces/ISymbolWriter.h"
 #include "pkb/writers/interfaces/IUsesWriter.h"
 #include "pkb/writers/interfaces/IPostProcessWriter.h"
+#include "IIfPatternWriter.h"
 
 using std::string;
 
@@ -25,6 +26,7 @@ class IPkbWriter : public IFollowsWriter,
                    public IModifiesWriter,
                    public IAssignsWriter,
                    public ICallsWriter,
+                   public IIfPatternWriter,
                    public IPostProcessWriter {
  public:
   virtual ~IPkbWriter() {}

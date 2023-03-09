@@ -10,6 +10,7 @@
 #include "SymbolWriter.h"
 #include "UsesWriter.h"
 #include "PostProcessWriter.h"
+#include "IfPatternWriter.h"
 
 PkbWriter::PkbWriter(PKB *pkb)
     : followsWriter(new FollowsWriter(pkb->followsStore)),
@@ -21,6 +22,7 @@ PkbWriter::PkbWriter(PKB *pkb)
       statementWriter(new StatementWriter(pkb->statementStorage)),
       procedureWriter(new ProcedureWriter(pkb->procedureStorage)),
       assignsWriter(new AssignsWriter(pkb->assignStorage)),
+      ifPatternWriter(new IfPatternWriter(pkb->ifPatternStorage)),
       callsWriter(new CallsWriter(pkb->callsStorage, pkb->callStmtStorage)),
       postProcessWriter(new PostProcessWriter(pkb)) {}
 
@@ -62,6 +64,10 @@ void PkbWriter::addAssigns(int stmtNum, PatternTrieSPtr ast) {
 void PkbWriter::addCalls(int stmtNum, string currProcedure,
                          string calledProcedure) {
   callsWriter->addCalls(stmtNum, currProcedure, calledProcedure);
+}
+
+void PkbWriter::addIfPattern(int stmtNum, string variable) {
+  ifPatternWriter->addIfPattern(stmtNum, variable);
 }
 
 void PkbWriter::runPostProcessor() {
