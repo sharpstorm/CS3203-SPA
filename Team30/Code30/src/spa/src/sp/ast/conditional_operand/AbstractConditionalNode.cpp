@@ -1,7 +1,7 @@
 #include "AbstractConditionalNode.h"
 
 void AbstractConditionalNode::accept(Extractor *e) {
-  e->visit(this);
+  e->visitConditional(this);
 }
 
 string AbstractConditionalNode::toString() {

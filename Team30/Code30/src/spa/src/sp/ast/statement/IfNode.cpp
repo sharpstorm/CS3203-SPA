@@ -13,11 +13,11 @@ IfNode::IfNode(int lineNumber) : StatementASTNode(ASTNODE_IF, "", lineNumber) {
 }
 
 void IfNode::accept(Extractor* e) {
-  e->visit(this);
+  e->visitIf(this);
 }
 
 void IfNode::leave(Extractor* e) {
-  e->leave(this);
+  e->leaveIf(this);
 }
 
 string IfNode::toString() {

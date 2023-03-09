@@ -9,13 +9,13 @@ using std::string, std::vector;
 class ModifiesExtractor : public AbstractExtractor {
  public:
   explicit ModifiesExtractor(PkbWriter *pkbWriter);
-  void visit(AssignNode* node);
-  void visit(ReadNode* node);
-  void visit(WhileNode* node);
-  void leave(WhileNode* node);
-  void visit(IfNode* node);
-  void leave(IfNode* node);
-  void visit(ProcedureNode* node);
+  void visitAssign(AssignNode* node) override;
+  void visitRead(ReadNode* node) override;
+  void visitWhile(WhileNode* node) override;
+  void leaveWhile(WhileNode* node) override;
+  void visitIf(IfNode* node) override;
+  void leaveIf(IfNode* node) override;
+  void visitProcedure(ProcedureNode* node) override;
 
  private:
   void addNodeModifies(StatementASTNode* node, const string &var);

@@ -5,12 +5,12 @@
 class StatementNumberExtractor : public AbstractExtractor {
  public:
   StatementNumberExtractor(): statementNumber(0) {}
-  void visit(PrintNode* node);
-  void visit(AssignNode* node);
-  void visit(WhileNode* node);
-  void visit(IfNode* node);
-  void visit(ReadNode* node);
-  void visit(CallNode* node);
+  void visitPrint(PrintNode* node) override;
+  void visitAssign(AssignNode* node) override;
+  void visitWhile(WhileNode* node) override;
+  void visitIf(IfNode* node) override;
+  void visitRead(ReadNode* node) override;
+  void visitCall(CallNode* node) override;
   int getStatementNumber();
 
  private:

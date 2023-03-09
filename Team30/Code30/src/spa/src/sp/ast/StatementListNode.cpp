@@ -9,7 +9,11 @@ StatementListNode::StatementListNode() :ASTNode(ASTNODE_STMTLST) {
 }
 
 void StatementListNode::accept(Extractor* e) {
-  e->visit(this);
+  e->visitStmtList(this);
+}
+
+void StatementListNode::leave(Extractor* e) {
+  e->leaveStmtList(this);
 }
 
 string StatementListNode::toString() {

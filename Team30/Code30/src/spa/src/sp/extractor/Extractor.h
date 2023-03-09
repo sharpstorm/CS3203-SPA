@@ -15,34 +15,38 @@ class ConstantASTNode;
 class AbstractExpressionNode;
 class AbstractConditionalNode;
 
-class Extractor {
+class IContainerNodeExtractorPart {
+ public:
+  virtual void visitProcedure(ProcedureNode* node) = 0;
+  virtual void visitStmtList(StatementListNode* node) = 0;
+  virtual void visitIf(IfNode* node) = 0;
+  virtual void visitWhile(WhileNode* node) = 0;
+
+  virtual void leaveProcedure(ProcedureNode* node) = 0;
+  virtual void leaveStmtList(StatementListNode* node) = 0;
+  virtual void leaveIf(IfNode* node) = 0;
+  virtual void leaveWhile(WhileNode* node) = 0;
+};
+
+class IBinaryNodeExtractorPart {
+ public:
+  virtual void visitExpression(AbstractExpressionNode* node) = 0;
+  virtual void visitConditional(AbstractConditionalNode* node) = 0;
+};
+
+class ILeafNodeExtractorPart {
+ public:
+  virtual void visitRead(ReadNode* node) = 0;
+  virtual void visitPrint(PrintNode* node) = 0;
+  virtual void visitAssign(AssignNode* node) = 0;
+  virtual void visitCall(CallNode* node) = 0;
+  virtual void visitVariable(VariableASTNode* node) = 0;
+  virtual void visitConstant(ConstantASTNode* node) = 0;
+};
+
+class Extractor : virtual public IContainerNodeExtractorPart,
+                  virtual public IBinaryNodeExtractorPart,
+                  virtual public ILeafNodeExtractorPart {
  public:
   virtual ~Extractor() = default;
-  virtual void visit(ProcedureNode* node) = 0;
-  virtual void visit(StatementListNode* node) = 0;
-  virtual void visit(IfNode* node) = 0;
-  virtual void visit(ReadNode* node) = 0;
-  virtual void visit(PrintNode* node) = 0;
-  virtual void visit(WhileNode* node) = 0;
-  virtual void visit(AssignNode* node) = 0;
-  virtual void visit(CallNode* node) = 0;
-  virtual void visit(VariableASTNode* node) = 0;
-  virtual void visit(ConstantASTNode* node) = 0;
-  virtual void visit(AbstractExpressionNode* node) = 0;
-  virtual void visit(AbstractConditionalNode* node) = 0;
-
-  virtual void leave(ProcedureNode* node) = 0;
-  virtual void leave(IfNode* node) = 0;
-  virtual void leave(ReadNode* node) = 0;
-  virtual void leave(PrintNode* node) = 0;
-  virtual void leave(WhileNode* node) = 0;
-  virtual void leave(AssignNode* node) = 0;
-  virtual void leave(CallNode* node) = 0;
-  virtual void leave(VariableASTNode* node) = 0;
-  virtual void leave(ConstantASTNode* node) = 0;
-  virtual void leave(AbstractExpressionNode* node) = 0;
-  virtual void leave(AbstractConditionalNode* node) = 0;
-
- private:
-  PkbWriter* writer;
 };

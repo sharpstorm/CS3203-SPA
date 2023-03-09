@@ -11,4 +11,5 @@ class StatementListNode : public ASTNode {
   StatementListNode();
   string toString();
   void accept(Extractor* e);
+  void leave(Extractor* e);
 };

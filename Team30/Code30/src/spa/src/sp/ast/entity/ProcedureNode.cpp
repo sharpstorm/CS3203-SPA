@@ -22,9 +22,9 @@ string ProcedureNode::getName() {
 }
 
 void ProcedureNode::accept(Extractor* e) {
-  e->visit(this);
+  e->visitProcedure(this);
 }
 
 void ProcedureNode::leave(Extractor* e) {
-  e->leave(this);
+  e->leaveProcedure(this);
 }

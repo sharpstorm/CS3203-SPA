@@ -5,7 +5,7 @@ CallNode::CallNode(int lineNumber, string pName) :
 }
 
 void CallNode::accept(Extractor* e) {
-  e->visit(this);
+  e->visitCall(this);
 }
 
 string CallNode::getName() {

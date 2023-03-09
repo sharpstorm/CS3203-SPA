@@ -11,7 +11,7 @@ PrintNode::PrintNode(int lineNumber) :
 }
 
 void PrintNode::accept(Extractor* e) {
-  e->visit(this);
+  e->visitPrint(this);
 }
 
 string PrintNode::toString() {

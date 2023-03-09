@@ -4,7 +4,7 @@
 VariableASTNode::VariableASTNode(string v): ASTNode(ASTNODE_VARIABLE, v) {}
 
 void VariableASTNode::accept(Extractor* e) {
-  e->visit(this);
+  e->visitVariable(this);
 }
 
 string VariableASTNode::toString() {

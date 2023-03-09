@@ -10,7 +10,7 @@ using std::shared_ptr, std::move;
 PatternExtractor::PatternExtractor(PkbWriter* writer) : pkbWriter(writer) {
 }
 
-void PatternExtractor::visit(AssignNode* node) {
+void PatternExtractor::visitAssign(AssignNode* node) {
   addPattern(node->getLineNumber(), node->getChild(1));
 }
 

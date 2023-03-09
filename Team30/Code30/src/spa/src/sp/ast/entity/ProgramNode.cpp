@@ -15,7 +15,3 @@ string ProgramNode::toString() {
   ss += "}";
   return ss;
 }
-
-void ProgramNode::accept(Extractor* e) {}
-
-void ProgramNode::leave(Extractor* e) {}

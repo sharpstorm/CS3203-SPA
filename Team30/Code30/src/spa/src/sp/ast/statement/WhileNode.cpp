@@ -14,11 +14,11 @@ WhileNode::WhileNode(int lineNumber) :
 }
 
 void WhileNode::accept(Extractor* e) {
-  e->visit(this);
+  e->visitWhile(this);
 }
 
 void WhileNode::leave(Extractor* e) {
-  e->leave(this);
+  e->leaveWhile(this);
 }
 
 string WhileNode::toString() {

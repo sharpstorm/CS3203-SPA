@@ -19,34 +19,37 @@
 #include "sp/ast/expression_operand/AbstractExpressionNode.h"
 #include "sp/ast/conditional_operand/AbstractConditionalNode.h"
 
-class AbstractExtractor : public Extractor {
+class AbstractContainerNodeExtractorPart:
+    virtual public IContainerNodeExtractorPart {
  public:
-  virtual void visit(ProcedureNode* node) {}
-  virtual void visit(StatementListNode* node) {}
-  virtual void visit(IfNode* node) {}
-  virtual void visit(ReadNode* node) {}
-  virtual void visit(AssignNode* node) {}
-  virtual void visit(PrintNode* node) {}
-  virtual void visit(WhileNode* node) {}
-  virtual void visit(CallNode* node) {}
-  virtual void visit(VariableASTNode* node) {}
-  virtual void visit(ConstantASTNode* node) {}
-  virtual void visit(AbstractExpressionNode* node) {}
-  virtual void visit(AbstractConditionalNode* node) {}
+  virtual void visitProcedure(ProcedureNode* node) override {}
+  virtual void visitStmtList(StatementListNode* node) override {}
+  virtual void visitIf(IfNode* node) override {}
+  virtual void visitWhile(WhileNode* node) override {}
 
-  virtual void leave(ProcedureNode* node) {}
-  virtual void leave(StatementListNode* node) {}
-  virtual void leave(IfNode* node) {}
-  virtual void leave(ReadNode* node) {}
-  virtual void leave(AssignNode* node) {}
-  virtual void leave(PrintNode* node) {}
-  virtual void leave(WhileNode* node) {}
-  virtual void leave(CallNode* node) {}
-  virtual void leave(VariableASTNode* node) {}
-  virtual void leave(ConstantASTNode* node) {}
-  virtual void leave(AbstractExpressionNode* node) {}
-  virtual void leave(AbstractConditionalNode* node) {}
-
- private:
-  PkbWriter* pkbWriter;
+  virtual void leaveProcedure(ProcedureNode* node) override {}
+  virtual void leaveStmtList(StatementListNode* node) override {}
+  virtual void leaveIf(IfNode* node) override {}
+  virtual void leaveWhile(WhileNode* node) override {}
 };
+
+class AbstractBinaryNodeExtractorPart: virtual public IBinaryNodeExtractorPart {
+ public:
+  virtual void visitExpression(AbstractExpressionNode* node) override {}
+  virtual void visitConditional(AbstractConditionalNode* node) override {}
+};
+
+class AbstractLeafNodeExtractorPart: virtual public ILeafNodeExtractorPart {
+ public:
+  virtual void visitRead(ReadNode* node) override {}
+  virtual void visitPrint(PrintNode* node) override {}
+  virtual void visitAssign(AssignNode* node) override {}
+  virtual void visitCall(CallNode* node) override {}
+  virtual void visitVariable(VariableASTNode* node) override {}
+  virtual void visitConstant(ConstantASTNode* node) override {}
+};
+
+class AbstractExtractor : public Extractor,
+                          public AbstractContainerNodeExtractorPart,
+                          public AbstractBinaryNodeExtractorPart,
+                          public AbstractLeafNodeExtractorPart {};

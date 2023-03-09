@@ -13,7 +13,7 @@ AssignNode::AssignNode(int lineNumber) :
 }
 
 void AssignNode::accept(Extractor* e) {
-  e->visit(this);
+  e->visitAssign(this);
 }
 
 string AssignNode::toString() {

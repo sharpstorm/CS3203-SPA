@@ -11,5 +11,5 @@ string ConstantASTNode::toString() {
 }
 
 void ConstantASTNode::accept(Extractor* e) {
-  e->visit(this);
+  e->visitConstant(this);
 }

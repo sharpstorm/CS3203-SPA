@@ -11,7 +11,7 @@ ReadNode::ReadNode(int lineNumber) :
 }
 
 void ReadNode::accept(Extractor* e) {
-  e->visit(this);
+  e->visitRead(this);
 }
 
 string ReadNode::toString() {

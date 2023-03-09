@@ -11,6 +11,4 @@ class ProgramNode : public ASTNode {
  public:
   ProgramNode();
   string toString();
-  void leave(Extractor *e);
-  void accept(Extractor *e);
 };

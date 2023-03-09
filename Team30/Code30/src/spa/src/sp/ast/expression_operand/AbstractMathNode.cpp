@@ -6,7 +6,7 @@ AbstractExpressionNode::AbstractExpressionNode(ASTNodeType type,
     BinaryASTNode(type), identifier(identifier), symbolicRepr(symbol) {}
 
 void AbstractExpressionNode::accept(Extractor* e) {
-  e->visit(this);
+  e->visitExpression(this);
 }
 
 string AbstractExpressionNode::toString() {
