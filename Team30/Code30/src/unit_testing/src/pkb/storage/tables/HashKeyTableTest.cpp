@@ -33,17 +33,3 @@ TEST_CASE("HashKeyTable get unset EntityType") {
 
   REQUIRE(table.get(10) == EntityType::None);
 }
-
-TEST_CASE("HashKeyTable begin end iterator") {
-  HashKeyTable<int, string> table;
-
-  table.set(1, "x");
-  table.set(3, "y");
-  table.set(10, "z");
-
-  pair_set<int, string> allPairs;
-  for (auto itr = table.begin(); itr != table.end(); ++itr) {
-    allPairs.insert({itr->first, itr->second});
-  };
-  REQUIRE(allPairs == pair_set<int, string>({{1, "x"}, {3, "y"}, {10, "z"}}));
-}

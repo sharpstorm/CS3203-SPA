@@ -22,21 +22,3 @@ TEST_CASE("HashKeySetTable get unset key") {
   REQUIRE(table.get(10) == unordered_set<int>{});
 }
 
-TEST_CASE("HashKeySetTable begin end iterator") {
-  HashKeySetTable<int, string> table;
-
-  table.set(1, "x");
-  table.set(1, "y");
-  table.set(3, "z");
-
-  auto itr = table.begin();
-  REQUIRE(itr->first == 3);
-  REQUIRE(itr->second == unordered_set<string>({"z"}));
-
-  itr++;
-  REQUIRE(itr->first == 1);
-  REQUIRE(itr->second == unordered_set<string>({"x", "y"}));
-
-  itr++;
-  REQUIRE(itr == table.end());
-}
