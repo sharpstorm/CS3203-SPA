@@ -31,6 +31,7 @@ PKB::PKB()
                                make_shared<HashKeySetTable<StmtType, int>>())),
       assignStorage(new AssignStorage()),
       ifPatternStorage(new IfPatternStorage(
+          make_shared<HashKeySetTable<int, string>>(),
           make_shared<HashKeySetTable<string, int>>())),
       whilePatternStorage(new WhilePatternStorage(
           make_shared<HashKeySetTable<string, int>>())),

@@ -5,17 +5,23 @@
 #include "common/Types.h"
 #include "pkb/queryHandlers/interfaces/IIfPatternQueryHandler.h"
 #include "pkb/storage/StorageTypes.h"
+#include "pkb/predicates/PredicateFactory.h"
 
 using std::string;
 
 class IfPatternQueryHandler : public IIfPatternQueryHandler {
  public:
-  explicit IfPatternQueryHandler(const IfPatternStorage *store);
+  explicit IfPatternQueryHandler(const IfPatternStorage *store,
+                                 const PredicateFactory *predicateFactory,
+                                 const IStructureMappingProvider *structureProvider);
 
-  QueryResult<int, string> queryIfPattern(EntityRef) const override;
+  QueryResult<int, string> queryIfPattern(StmtRef, EntityRef) const override;
 
  private:
   const IfPatternStorage *store;
+  const PredicateFactory *predicateFactory;
+  const IStructureMappingProvider *structureProvider;
 
-  bool validateArg(EntityRef) const;
+  bool validateArg1(StmtRef) const;
+  bool validateArg2(EntityRef) const;
 };

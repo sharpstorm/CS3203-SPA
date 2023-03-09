@@ -26,7 +26,9 @@ PkbQueryHandler::PkbQueryHandler(PKB *pkb)
       callsHandler(new CallsQueryHandler(pkb->callsStorage,
                                          pkb->predicateFactory,
                                          pkb->entityMappingProvider)),
-      ifPatternHandler(new IfPatternQueryHandler(pkb->ifPatternStorage)),
+      ifPatternHandler(new IfPatternQueryHandler(pkb->ifPatternStorage,
+                                                 pkb->predicateFactory,
+                                                 pkb->structureProvider)),
       whilePatternHandler(new WhilePatternQueryHandler(
           pkb->whilePatternStorage)),
       designEntityHandler(new DesignEntitiesQueryHandler(
@@ -98,8 +100,9 @@ QueryResult<string, string> PkbQueryHandler::queryCallsStar(
   return callsHandler->queryCallsStar(arg1, arg2);
 }
 
-QueryResult<int, string> PkbQueryHandler::queryIfPattern(EntityRef arg) const {
-  return ifPatternHandler->queryIfPattern(arg);
+QueryResult<int, string> PkbQueryHandler::queryIfPattern(StmtRef arg1,
+                                                         EntityRef arg2) const {
+  return ifPatternHandler->queryIfPattern(arg1, arg2);
 }
 
 QueryResult<int,

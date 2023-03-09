@@ -25,5 +25,5 @@ using ModifiesPStorage = RelationTableManager<string, string>;
 using AssignStorage = HashKeyTable<int, PatternTrieSPtr>;
 using CallsStorage = TransitiveRelationTableManager<string>;
 using CallStmtStorage = EntityTableManager<int, string>;
-using IfPatternStorage = PatternTableManager<int, string>;
+using IfPatternStorage = RelationTableManager<int, string>;
 using WhilePatternStorage = PatternTableManager<int, string>;
