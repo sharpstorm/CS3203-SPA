@@ -16,6 +16,7 @@ class ClauseArgument {
 
   virtual bool isNamed();
   virtual bool isWildcard();
+  virtual bool hasAttribute();
 
   virtual PQLSynonymName getName();
   virtual StmtRef toStmtRef() = 0;

@@ -31,3 +31,7 @@ bool PQLQuerySynonym::isType(PQLSynonymType targetType) {
 void PQLQuerySynonym::setSynonymType(PQLSynonymAttribute attr) {
   attribute = attr;
 }
+
+bool PQLQuerySynonym::hasAttribute() {
+  return attribute != NO_ATTRIBUTE;
+}

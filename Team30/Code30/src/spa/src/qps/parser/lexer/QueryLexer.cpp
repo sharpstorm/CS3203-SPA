@@ -49,6 +49,7 @@ void QueryLexer::processChar(const char &c) {
       hasSeenChar = true;
       // Fallthrough
     case PQL_TOKEN_INTEGER:
+    case PQL_TOKEN_NUMBER_SIGN:
       buffer.push_back(c);
       return;
 

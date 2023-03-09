@@ -65,7 +65,7 @@ PQLSynonymAttribute PQLRefExtractor::extractAttribute(
       foundToken = parserState->expect(PQL_TOKEN_VAR_NAME);
       break;
     case PQL_SYN_TYPE_PROCEDURE:
-      parserState->expect(PQL_TOKEN_PROC_NAME);
+      foundToken = parserState->expect(PQL_TOKEN_PROC_NAME);
   }
 
   return getSynAttribute(foundToken);

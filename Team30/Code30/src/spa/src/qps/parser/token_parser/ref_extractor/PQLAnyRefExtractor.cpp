@@ -21,5 +21,5 @@ ClauseArgumentPtr PQLAnyRefExtractor::extractAttr(QueryTokenParseState* state,
     return extractStatement(state, builder);
   }
 
-  return extractCommonRef(state, builder);
+  return extractAttributeRef(state, builder);
 }
