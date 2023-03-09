@@ -45,7 +45,8 @@ void UsesExtractor::visitProcedure(ProcedureNode* node) {
   procName = node->getName();
 }
 
-void UsesExtractor::updateUses(shared_ptr<ASTNode> expr, int lineNumber) {
+void UsesExtractor::updateUses(shared_ptr<ASTNode> expr,
+                               const int &lineNumber) {
   unordered_set<string> v;
   recurseExpr(&v, expr);
   processNode(lineNumber, &v);
@@ -54,9 +55,9 @@ void UsesExtractor::updateUses(shared_ptr<ASTNode> expr, int lineNumber) {
   }
 }
 
-void UsesExtractor::processNode(int lineNumber,
+void UsesExtractor::processNode(const int &lineNumber,
                                 unordered_set<string>* v) {
-  for (string s : *v) {
+  for (const string &s : *v) {
     addUsesRelation(lineNumber, s);
   }
 }
@@ -87,6 +88,6 @@ bool UsesExtractor::setContains(unordered_set<string>* v, const string &x) {
   return v->find(x) != v->end();
 }
 
-void UsesExtractor::addUsesRelation(int x, string var) {
-  pkbWriter->addUses(x, var, procName);  // todo
+void UsesExtractor::addUsesRelation(const int &x, const string &var) {
+  pkbWriter->addUses(x, var, procName);
 }

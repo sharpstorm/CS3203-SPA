@@ -24,6 +24,6 @@ void StatementNumberExtractor::visitCall(CallNode *node) {
   statementNumber = node->getLineNumber();
 }
 
-int StatementNumberExtractor::getStatementNumber() {
+const int StatementNumberExtractor::getStatementNumber() {
   return statementNumber;
 }

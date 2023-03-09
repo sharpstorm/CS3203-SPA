@@ -11,7 +11,7 @@ class StatementNumberExtractor : public AbstractExtractor {
   void visitIf(IfNode* node) override;
   void visitRead(ReadNode* node) override;
   void visitCall(CallNode* node) override;
-  int getStatementNumber();
+  const int getStatementNumber();
 
  private:
   int statementNumber;
