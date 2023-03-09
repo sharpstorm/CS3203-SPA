@@ -87,10 +87,10 @@ TEST_CASE("Calls & CallsStar 2 unknowns") {
   writer.addCalls(2, "main", "foo");
   writer.addCalls(3, "main", "woo");
   writer.addCalls(4, "foo", "goo");
-  writer.addSymbol("main", EntityType::Procedure);
-  writer.addSymbol("foo", EntityType::Procedure);
-  writer.addSymbol("woo", EntityType::Procedure);
-  writer.addSymbol("goo", EntityType::Procedure);
+  writer.addProcedure("main", 1, 2);
+  writer.addProcedure("foo", 3, 4);
+  writer.addProcedure("woo", 5, 6);
+  writer.addProcedure("goo", 7, 8);
 
   auto result1 =
       handler.queryCalls({EntityType::None, ""}, {EntityType::None, ""});

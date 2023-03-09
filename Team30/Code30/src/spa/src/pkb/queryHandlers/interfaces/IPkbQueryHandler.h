@@ -10,6 +10,8 @@
 #include "IModifiesQueryHandler.h"
 #include "IParentQueryHandler.h"
 #include "IUsesQueryHandler.h"
+#include "IIfPatternQueryHandler.h"
+#include "IWhilePatternQueryHandler.h"
 
 class IPkbQueryHandler : public IFollowsQueryHandler,
                          public IParentQueryHandler,
@@ -17,7 +19,9 @@ class IPkbQueryHandler : public IFollowsQueryHandler,
                          public IUsesQueryHandler,
                          public IModifiesQueryHandler,
                          public IAssignsQueryHandler,
-                         public ICallsQueryHandler {
+                         public ICallsQueryHandler,
+                         public IIfPatternQueryHandler,
+                         public IWhilePatternQueryHandler {
  public:
   virtual ~IPkbQueryHandler() {}
 };
