@@ -219,3 +219,59 @@ TEST_CASE("Test UsesP") {
   REQUIRE(!queryHandler.queryUses(EntityRef{EntityType::None, "main"},
                                   EntityRef{EntityType::None, "b"}).isEmpty);
 }
+
+
+TEST_CASE("Test While Pattern") {
+  string input = "procedure printResults {\n"
+                 "  while ((((a<b)&&(c>d))&&((c==d)&&(e!=f)))||(((a<b)&&(c>d))&&((c==d)&&(e!=f)))) {"
+                 "    print pp;"
+                 "  }"
+                 "}";
+  SpDriver spDriver;
+  PKB pkb;
+  PkbWriter pkbWriter(&pkb);
+  PkbQueryHandler queryHandler(&pkb);
+  spDriver.parseSource(input, &pkbWriter);
+
+  REQUIRE(!queryHandler.queryWhilePattern(StmtRef{StmtType::While, 1},
+                                  EntityRef{EntityType::None, "a"}).isEmpty);
+  REQUIRE(!queryHandler.queryWhilePattern(StmtRef{StmtType::While, 1},
+                                          EntityRef{EntityType::None, "b"}).isEmpty);
+  REQUIRE(!queryHandler.queryWhilePattern(StmtRef{StmtType::While, 1},
+                                          EntityRef{EntityType::None, "c"}).isEmpty);
+  REQUIRE(!queryHandler.queryWhilePattern(StmtRef{StmtType::While, 1},
+                                          EntityRef{EntityType::None, "d"}).isEmpty);
+  REQUIRE(!queryHandler.queryWhilePattern(StmtRef{StmtType::While, 1},
+                                          EntityRef{EntityType::None, "e"}).isEmpty);
+  REQUIRE(!queryHandler.queryWhilePattern(StmtRef{StmtType::While, 1},
+                                          EntityRef{EntityType::None, "f"}).isEmpty);
+}
+
+TEST_CASE("Test If Pattern") {
+  string input = "procedure printResults {\n"
+                 "  if ((((a<b)&&(c>d))&&((c==d)&&(e!=f)))||(((a<b)&&(c>d))&&((c==d)&&(e!=f)))) then {"
+                 "    print pp;"
+                 "  } else {"
+                 "    read pp;"
+                 "  }"
+                 "}";
+
+  SpDriver spDriver;
+  PKB pkb;
+  PkbWriter pkbWriter(&pkb);
+  PkbQueryHandler queryHandler(&pkb);
+  spDriver.parseSource(input, &pkbWriter);
+
+  REQUIRE(!queryHandler.queryIfPattern(StmtRef{StmtType::If, 1},
+                                          EntityRef{EntityType::None, "a"}).isEmpty);
+  REQUIRE(!queryHandler.queryIfPattern(StmtRef{StmtType::If, 1},
+                                          EntityRef{EntityType::None, "b"}).isEmpty);
+  REQUIRE(!queryHandler.queryIfPattern(StmtRef{StmtType::If, 1},
+                                          EntityRef{EntityType::None, "c"}).isEmpty);
+  REQUIRE(!queryHandler.queryIfPattern(StmtRef{StmtType::If, 1},
+                                          EntityRef{EntityType::None, "d"}).isEmpty);
+  REQUIRE(!queryHandler.queryIfPattern(StmtRef{StmtType::If, 1},
+                                          EntityRef{EntityType::None, "e"}).isEmpty);
+  REQUIRE(!queryHandler.queryIfPattern(StmtRef{StmtType::If, 1},
+                                          EntityRef{EntityType::None, "f"}).isEmpty);
+}
