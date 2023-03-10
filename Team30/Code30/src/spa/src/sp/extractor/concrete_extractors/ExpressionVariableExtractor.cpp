@@ -1,9 +1,7 @@
 #include "ExpressionVariableExtractor.h"
 
 
-ExpressionVariableExtractor::ExpressionVariableExtractor() {
-
-}
+ExpressionVariableExtractor::ExpressionVariableExtractor() {}
 
 void ExpressionVariableExtractor::visitAssign(AssignNode* node) {
   recurseExpr(&variableSetCache, node->getChildren()[1]);
@@ -42,6 +40,7 @@ void ExpressionVariableExtractor::recurseExpr(unordered_set<string>* v,
   }
 }
 
-bool ExpressionVariableExtractor::setContains(unordered_set<string>* v, const string &x) {
+bool ExpressionVariableExtractor::
+setContains(unordered_set<string>* v, const string &x) {
   return v->find(x) != v->end();
 }
