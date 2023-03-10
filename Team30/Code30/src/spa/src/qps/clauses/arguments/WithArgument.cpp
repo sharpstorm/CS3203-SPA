@@ -24,7 +24,7 @@ bool WithArgument::doesReturnInteger() {
 }
 
 bool WithArgument::isSyn() {
-  return syn == nullptr;
+  return syn != nullptr;
 }
 
 PQLSynonymName WithArgument::getSynName() {

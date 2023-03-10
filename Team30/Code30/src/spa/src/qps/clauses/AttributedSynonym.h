@@ -8,13 +8,16 @@
 
 using std::unique_ptr, std::vector;
 
-class AttributedSynonym : public PQLQuerySynonym {
+class AttributedSynonym {
+  PQLQuerySynonym syn;
   PQLSynonymAttribute attribute;
  public:
   AttributedSynonym();
   explicit AttributedSynonym(const PQLQuerySynonym& syn);
   AttributedSynonym(const PQLQuerySynonym& syn, PQLSynonymAttribute attr);
 
+  PQLSynonymType getType();
+  PQLSynonymName getName();
   PQLSynonymAttribute getAttribute();
   bool validateAttribute();
 };

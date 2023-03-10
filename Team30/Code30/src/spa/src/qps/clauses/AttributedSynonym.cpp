@@ -3,18 +3,18 @@
 AttributedSynonym::AttributedSynonym() : attribute(NO_ATTRIBUTE) { }
 
 AttributedSynonym::AttributedSynonym(const PQLQuerySynonym &syn)
-    : PQLQuerySynonym(syn), attribute(NO_ATTRIBUTE) { }
+    : syn(syn), attribute(NO_ATTRIBUTE) { }
 
 AttributedSynonym::AttributedSynonym(const PQLQuerySynonym& syn,
                                      PQLSynonymAttribute attr) :
-                                     PQLQuerySynonym(syn), attribute(attr) { }
+                                     syn(syn), attribute(attr) { }
 
 PQLSynonymAttribute AttributedSynonym::getAttribute() {
   return attribute;
 }
 
 bool AttributedSynonym::validateAttribute() {
-  switch (getType()) {
+  switch (syn.getType()) {
     case PQL_SYN_TYPE_STMT:
     case PQL_SYN_TYPE_ASSIGN:
     case PQL_SYN_TYPE_IF:
@@ -32,5 +32,13 @@ bool AttributedSynonym::validateAttribute() {
     case PQL_SYN_TYPE_PROCEDURE:
       return attribute == PROC_NAME;
   }
+}
+
+PQLSynonymType AttributedSynonym::getType() {
+  return syn.getType();
+}
+
+PQLSynonymName AttributedSynonym::getName() {
+  return syn.getName();
 }
 

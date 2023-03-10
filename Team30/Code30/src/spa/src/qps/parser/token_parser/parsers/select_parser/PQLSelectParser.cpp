@@ -18,21 +18,20 @@ void PQLSelectParser::parse(QueryTokenParseState *parserState,
 
   // TODO(KwanHW): To test
   parseSynonym(parserState, queryBuilder, synName);
-  addResultSynonym(queryBuilder, synName);
 }
 
 void PQLSelectParser::parseTuple(QueryTokenParseState *parserState,
                                  QueryBuilder *queryBuilder) {
   parserState->expect(PQL_TOKEN_TUPLE_OPEN);
   PQLSynonymName synName = parserState->expectSynName();
-  addResultSynonym(queryBuilder, synName);
+  parseSynonym(parserState, queryBuilder, synName);
 
   PQLToken* nextToken = parserState->expect(PQL_TOKEN_TUPLE_CLOSE,
                                             PQL_TOKEN_COMMA);
   while (!nextToken->isType(PQL_TOKEN_TUPLE_CLOSE)) {
+    synName = parserState->expectSynName();
     parseSynonym(parserState, queryBuilder, synName);
-    nextToken = parserState->expect(PQL_TOKEN_TUPLE_CLOSE,
-                                    PQL_TOKEN_COMMA);
+    nextToken = parserState->expect(PQL_TOKEN_TUPLE_CLOSE, PQL_TOKEN_COMMA);
   }
 }
 
@@ -51,7 +50,8 @@ void PQLSelectParser::parseSynonym(QueryTokenParseState *parserState,
                                    QueryBuilder *queryBuilder,
                                    const string &synName) {
   PQLQuerySynonym* syn = queryBuilder->accessSynonym(synName);
-  if (parserState->tryExpect(PQL_TOKEN_PERIOD)) {
+  if (parserState->isCurrentTokenType(PQL_TOKEN_PERIOD)) {
+    parserState->expect(PQL_TOKEN_PERIOD);
     PQLSynonymAttribute attr =
         PQLAttributeRefExtractor::extractAttribute(parserState);
     AttributedSynonym attrSyn(*syn, attr);

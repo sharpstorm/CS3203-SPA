@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <vector>
 #include "qps/common/PQLQueryResult.h"
+#include "qps/clauses/AttributedSynonym.h"
 
 using std::unordered_map, std::unique_ptr, std::string, std::vector;
 
@@ -23,7 +24,7 @@ class ResultGroup {
   QueryResultTableRow* getRowAt(int idx);
   vector<PQLSynonymName>* getColIndexes();
   ResultGroup* crossProduct(ResultGroup* other);
-  void project(PQLQuerySynonymList* synList, vector<string>* result);
+  void project(AttributedSynonymList* synList, vector<string>* result);
   bool operator ==(const ResultGroup &rg) const;
 };
 
