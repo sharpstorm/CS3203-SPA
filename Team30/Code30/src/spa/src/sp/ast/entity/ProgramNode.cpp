@@ -1,6 +1,6 @@
 #include <memory>
 #include "ProgramNode.h"
-#include "sp/extractor/Extractor.h"
+#include "sp/extractor/IExtractor.h"
 
 using std::shared_ptr;
 
@@ -15,7 +15,3 @@ string ProgramNode::toString() {
   ss += "}";
   return ss;
 }
-
-void ProgramNode::accept(Extractor* e) {}
-
-void ProgramNode::leave(Extractor* e) {}

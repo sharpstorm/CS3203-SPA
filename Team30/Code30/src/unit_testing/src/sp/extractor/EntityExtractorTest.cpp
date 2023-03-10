@@ -45,7 +45,7 @@ TEST_CASE("EntityExtractor PrintNode") {
   PkbWriterStubforEntity writer(&pkb);
   EntityExtractor extractor(&writer);
 
-  extractor.visit(&node);
+  extractor.visitPrint(&node);
 
   REQUIRE(writer.verifyStatement(node.getLineNumber(), StmtType::Print));
 }
@@ -57,7 +57,7 @@ TEST_CASE("EntityExtractor AssignNode") {
   PkbWriterStubforEntity writer(&pkb);
   EntityExtractor extractor(&writer);
 
-  extractor.visit(&node);
+  extractor.visitAssign(&node);
 
   REQUIRE(writer.verifyStatement(node.getLineNumber(), StmtType::Assign));
 }
@@ -69,7 +69,7 @@ TEST_CASE("EntityExtractor WhileNode") {
   PkbWriterStubforEntity writer(&pkb);
   EntityExtractor extractor(&writer);
 
-  extractor.visit(&node);
+  extractor.visitWhile(&node);
 
   REQUIRE(writer.verifyStatement(node.getLineNumber(), StmtType::While));
 }
@@ -81,7 +81,7 @@ TEST_CASE("EntityExtractor IfNode") {
   PkbWriterStubforEntity writer(&pkb);
   EntityExtractor extractor(&writer);
 
-  extractor.visit(&node);
+  extractor.visitIf(&node);
 
   REQUIRE(writer.verifyStatement(node.getLineNumber(), StmtType::If));
 }
@@ -93,7 +93,7 @@ TEST_CASE("EntityExtractor ReadNode") {
   PkbWriterStubforEntity writer(&pkb);
   EntityExtractor extractor(&writer);
 
-  extractor.visit(&node);
+  extractor.visitRead(&node);
 
   REQUIRE(writer.verifyStatement(node.getLineNumber(), StmtType::Read));
 }
@@ -105,7 +105,7 @@ TEST_CASE("EntityExtractor VariableNode") {
   PkbWriterStubforEntity writer(&pkb);
   EntityExtractor extractor(&writer);
 
-  extractor.visit(&node);
+  extractor.visitVariable(&node);
 
   REQUIRE(writer.verifyEntity(node.getValue(), EntityType::Variable));
 }
@@ -117,7 +117,7 @@ TEST_CASE("EntityExtractor ConstantNode") {
   PkbWriterStubforEntity writer(&pkb);
   EntityExtractor extractor(&writer);
 
-  extractor.visit(&node);
+  extractor.visitConstant(&node);
 
   REQUIRE(writer.verifyEntity(node.getValue(), EntityType::Constant));
 }

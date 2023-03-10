@@ -2,7 +2,7 @@
 
 #include <string>
 #include "StatementASTNode.h"
-#include "sp/extractor/Extractor.h"
+#include "sp/extractor/IExtractor.h"
 
 using std::string, std::shared_ptr;
 
@@ -12,5 +12,5 @@ class ReadNode : public StatementASTNode {
   ~ReadNode() = default;
 
   string toString();
-  void accept(Extractor* e);
+  void accept(IExtractor* e);
 };

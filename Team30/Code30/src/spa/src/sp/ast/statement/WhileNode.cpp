@@ -13,12 +13,12 @@ WhileNode::WhileNode(int lineNumber) :
   children = vector<ASTNodePtr>{nullptr, nullptr};
 }
 
-void WhileNode::accept(Extractor* e) {
-  e->visit(this);
+void WhileNode::accept(IExtractor* e) {
+  e->visitWhile(this);
 }
 
-void WhileNode::leave(Extractor* e) {
-  e->leave(this);
+void WhileNode::leave(IExtractor* e) {
+  e->leaveWhile(this);
 }
 
 string WhileNode::toString() {

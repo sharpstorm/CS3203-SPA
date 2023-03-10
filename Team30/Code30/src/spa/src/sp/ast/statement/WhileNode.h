@@ -3,7 +3,7 @@
 #include <string>
 
 #include "StatementASTNode.h"
-#include "sp/extractor/Extractor.h"
+#include "sp/extractor/IExtractor.h"
 
 using std::string;
 
@@ -13,6 +13,6 @@ class WhileNode : public StatementASTNode {
   ~WhileNode() = default;
 
   string toString();
-  void accept(Extractor* e);
-  void leave(Extractor* e);
+  void accept(IExtractor* e);
+  void leave(IExtractor* e);
 };

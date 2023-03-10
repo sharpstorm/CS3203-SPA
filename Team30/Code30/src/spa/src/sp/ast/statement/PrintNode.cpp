@@ -10,8 +10,8 @@ PrintNode::PrintNode(int lineNumber) :
   children = vector<ASTNodePtr>{nullptr};
 }
 
-void PrintNode::accept(Extractor* e) {
-  e->visit(this);
+void PrintNode::accept(IExtractor* e) {
+  e->visitPrint(this);
 }
 
 string PrintNode::toString() {

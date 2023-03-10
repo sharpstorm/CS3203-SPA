@@ -8,7 +8,7 @@ using std::vector;
 FollowsExtractor::FollowsExtractor(PkbWriter* writer) : pkbWriter(writer) {
 }
 
-void FollowsExtractor::visit(StatementListNode* node) {
+void FollowsExtractor::visitStmtList(StatementListNode* node) {
   if (node->getChildren().empty()) {
     return;
   }

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "sp/extractor/Extractor.h"
+#include "sp/extractor/IExtractor.h"
 #include "sp/ast/BinaryASTNode.h"
 
 using std::string;
@@ -9,7 +9,7 @@ using std::string;
 class AbstractExpressionNode: public BinaryASTNode {
  public:
   virtual ~AbstractExpressionNode() = default;
-  void accept(Extractor* e);
+  void accept(IExtractor* e);
   string toString();
   string getValue();
 
