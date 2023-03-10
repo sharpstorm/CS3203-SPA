@@ -49,5 +49,7 @@ PQLSynonymAttribute PQLAttributeRefExtractor::extractAttribute(
       parserState->expect(PQL_TOKEN_NUMBER_SIGN);
       return STMT_NUM;
     case PQL_TOKEN_VALUE:return CONST_VALUE;
+    default:
+      throw QPSParserSyntaxError(QPS_PARSER_ERR_WITH_TYPE);
   }
 }

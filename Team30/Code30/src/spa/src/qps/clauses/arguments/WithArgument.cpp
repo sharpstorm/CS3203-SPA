@@ -16,11 +16,7 @@ bool WithArgument::doesReturnInteger() {
     return (syn->getAttribute() & INT_RETURN_MASK) > 0;
   }
 
-  if (intValue == NO_STMT_REF) {
-    return false;
-  }
-
-  return true;
+  return intValue != NO_STMT_REF;
 }
 
 bool WithArgument::isSyn() {
@@ -37,7 +33,7 @@ PQLSynonymType WithArgument::getSynType() {
 
 bool WithArgument::isAttributeValid() {
   if (!isSyn()) {
-    return false;
+    return true;
   }
 
   return syn->validateAttribute();

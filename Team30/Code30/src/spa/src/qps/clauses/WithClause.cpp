@@ -10,14 +10,9 @@ PQLQueryResult *WithClause::evaluateOn(PkbQueryHandler *pkbQueryHandler) {
 }
 
 bool WithClause::validateArgTypes(VariableTable *variables) {
-  if (leftArg->isSyn() && !leftArg->isAttributeValid()) {
+  if (!leftArg->isAttributeValid() || !rightArg->isAttributeValid()) {
     return false;
   }
-
-  if (rightArg->isSyn() && !rightArg->isAttributeValid()) {
-    return false;
-  }
-
   bool leftRetInt = leftArg->doesReturnInteger();
   bool rightRetInt = rightArg->doesReturnInteger();
 
