@@ -47,5 +47,4 @@ addProcedureRange(const string &procName, int start, int end) {
   } catch (PKBError e) {
     throw SPError(e.what());
   }
-
 }
