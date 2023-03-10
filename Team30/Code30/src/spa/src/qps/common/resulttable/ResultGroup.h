@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include <vector>
 #include "qps/common/PQLQueryResult.h"
-#include "qps/clauses/AttributedSynonym.h"
+#include "qps/common/AttributedSynonym.h"
 
 using std::unordered_map, std::unique_ptr, std::string, std::vector;
 

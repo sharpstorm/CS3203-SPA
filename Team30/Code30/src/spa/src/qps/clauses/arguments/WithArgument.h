@@ -3,7 +3,7 @@
 #include <memory>
 #include <string>
 
-#include "qps/clauses/AttributedSynonym.h"
+#include "qps/common/AttributedSynonym.h"
 
 using std::string, std::unique_ptr;
 

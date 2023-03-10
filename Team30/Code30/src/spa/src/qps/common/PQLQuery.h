@@ -8,7 +8,7 @@
 #include "PQLTypes.h"
 #include "PQLQuerySynonym.h"
 #include "qps/clauses/Clause.h"
-#include "qps/clauses/AttributedSynonym.h"
+#include "AttributedSynonym.h"
 
 using std::string, std::unordered_map, std::vector, std::unique_ptr;
 
