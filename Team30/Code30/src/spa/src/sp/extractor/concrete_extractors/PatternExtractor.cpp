@@ -5,7 +5,7 @@
 #include <string>
 
 #include "common/pattern/PatternConverter.h"
-#include "ExpressionVariableExtractor.h"
+#include "ExtractorUtility.h"
 
 using std::shared_ptr, std::move;
 
@@ -17,16 +17,18 @@ void PatternExtractor::visitAssign(AssignNode* node) {
 }
 
 void PatternExtractor::visitWhile(WhileNode* node) {
-  ExpressionVariableExtractor variableExtractor;
-  node->accept(&variableExtractor);
-  for (string s : variableExtractor.getVariableSet()) {
+  ExtractorUtility util;
+  unordered_set<string> variableSet;
+  util.getExprVariables(&variableSet, node->getChildren()[0]);
+  for (string s : variableSet) {
     pkbWriter->addWhilePattern(node->getLineNumber(), s);
   }
 }
 void PatternExtractor::visitIf(IfNode* node) {
-  ExpressionVariableExtractor variableExtractor;
-  node->accept(&variableExtractor);
-  for (string s : variableExtractor.getVariableSet()) {
+  ExtractorUtility util;
+  unordered_set<string> variableSet;
+  util.getExprVariables(&variableSet, node->getChildren()[0]);
+  for (string s : variableSet) {
     pkbWriter->addIfPattern(node->getLineNumber(), s);
   }
 }

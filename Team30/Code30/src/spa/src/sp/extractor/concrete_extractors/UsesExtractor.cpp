@@ -2,7 +2,7 @@
 #include <vector>
 #include "UsesExtractor.h"
 #include "sp/ast/entity/ProcedureNode.h"
-#include "ExpressionVariableExtractor.h"
+#include "ExtractorUtility.h"
 
 using std::string, std::vector;
 
@@ -10,9 +10,10 @@ UsesExtractor::UsesExtractor(PkbWriter* writer) : pkbWriter(writer) {
 }
 
 void UsesExtractor::visitAssign(AssignNode* node) {
-  ExpressionVariableExtractor variableExtractor;
-  node->accept(&variableExtractor);
-  updateUses(variableExtractor.getVariableSet(), node->getLineNumber());
+  ExtractorUtility util;
+  unordered_set<string> variableSet;
+  util.getExprVariables(&variableSet, node->getChildren()[1]);
+  updateUses(variableSet, node->getLineNumber());
 }
 
 void UsesExtractor::visitPrint(PrintNode* node) {
@@ -24,16 +25,18 @@ void UsesExtractor::visitPrint(PrintNode* node) {
 }
 
 void UsesExtractor::visitWhile(WhileNode* node) {
-  ExpressionVariableExtractor variableExtractor;
-  node->accept(&variableExtractor);
-  updateUses(variableExtractor.getVariableSet(), node->getLineNumber());
+  ExtractorUtility util;
+  unordered_set<string> variableSet;
+  util.getExprVariables(&variableSet, node->getChildren()[0]);
+  updateUses(variableSet, node->getLineNumber());
   statementStartStack.push_back(node->getLineNumber());
 }
 
 void UsesExtractor::visitIf(IfNode* node) {
-  ExpressionVariableExtractor variableExtractor;
-  node->accept(&variableExtractor);
-  updateUses(variableExtractor.getVariableSet(), node->getLineNumber());
+  ExtractorUtility util;
+  unordered_set<string> variableSet;
+  util.getExprVariables(&variableSet, node->getChildren()[0]);
+  updateUses(variableSet, node->getLineNumber());
   statementStartStack.push_back(node->getLineNumber());
 }
 
@@ -49,17 +52,17 @@ void UsesExtractor::visitProcedure(ProcedureNode* node) {
   procName = node->getName();
 }
 
-void UsesExtractor::updateUses(unordered_set<string> v,
+void UsesExtractor::updateUses(const unordered_set<string> &v,
                                const int &lineNumber) {
-  processNode(lineNumber, &v);
+  processNode(lineNumber, v);
   for (int i : statementStartStack) {
-    processNode(i, &v);
+    processNode(i, v);
   }
 }
 
 void UsesExtractor::processNode(const int &lineNumber,
-                                unordered_set<string>* v) {
-  for (const string &s : *v) {
+                                const unordered_set<string> &v) {
+  for (const string &s : v) {
     addUsesRelation(lineNumber, s);
   }
 }
