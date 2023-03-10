@@ -8,7 +8,10 @@
 #include "catch.hpp"
 #include "sp/ast/AST.h"
 
-using std::vector, std::string, std::list, std::make_unique;
+#include <string>
+#include <vector>
+
+using std::vector, std::string, std::make_unique;
 
 class CFGExtractorSpy : public CFGExtractor {
  private:
