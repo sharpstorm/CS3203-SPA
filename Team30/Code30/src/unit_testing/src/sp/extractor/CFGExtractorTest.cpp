@@ -16,8 +16,8 @@ class CFGExtractorSpy : public CFGExtractor {
 
  public:
   explicit CFGExtractorSpy(PkbWriter* pkbWriter): CFGExtractor(pkbWriter) {}
-  void leaveProcedure(ProcedureNode* node) override {
-    created.push_back(cfgCache);
+  void addCFGToPKB(CFGSPtr cfg) override {
+    created.push_back(cfg);
   }
 
   vector<CFGSPtr> getCFG() {
@@ -38,6 +38,47 @@ vector<CFGSPtr> executeCFGExtractor(string input) {
   return cfgExtractor->getCFG();
 }
 
+template <class T, class U>
+bool findInIterator(T* iteratable, U target) {
+  for (auto it = iteratable->begin(); it != iteratable->end(); it++) {
+    if (*it == target) {
+      return true;
+    }
+  }
+  return false;
+}
+
+void assertCFG(CFG* cfg, const vector<pair<int, int>> &links) {
+  for (auto x : links) {
+    int firstTransformed = (x.first == CFG_END_NODE) ? CFG_END_NODE : (x.first - cfg->getStartingNode());
+    int secondTransformed = (x.second == CFG_END_NODE) ? CFG_END_NODE : (x.second - cfg->getStartingNode());
+    REQUIRE(findInIterator(cfg->nextLinksOf(x.first), secondTransformed));
+    REQUIRE(findInIterator(cfg->reverseLinksOf(x.second), firstTransformed));
+  }
+
+  int fwdCounter = 0;
+  for (int i = cfg->getStartingNode(); cfg->contains(i); i++) {
+    auto thisLinks = cfg->nextLinksOf(i);
+    for (auto it = thisLinks->begin(); it != thisLinks->end(); it++) {
+      fwdCounter++;
+    }
+  }
+  REQUIRE(fwdCounter == links.size());
+
+  int reverseCounter = 0;
+  for (int i = cfg->getStartingNode(); cfg->contains(i); i++) {
+    auto thisLinks = cfg->reverseLinksOf(i);
+    for (auto it = thisLinks->begin(); it != thisLinks->end(); it++) {
+      reverseCounter++;
+    }
+  }
+  auto thisLinks = cfg->reverseLinksOf(CFG_END_NODE);
+  for (auto it = thisLinks->begin(); it != thisLinks->end(); it++) {
+    reverseCounter++;
+  }
+  REQUIRE(reverseCounter == links.size());
+}
+
 TEST_CASE("CFGExtractor Simple Statement list") {
   string input =
       "procedure simple {"
@@ -47,10 +88,12 @@ TEST_CASE("CFGExtractor Simple Statement list") {
       "}";
 
   vector<CFGSPtr> setofCFGs = executeCFGExtractor(input);
-  vector<list<int>> link = {{2}, {3}, {-1}};
-
   REQUIRE(setofCFGs.size() == 1);
-  REQUIRE(setofCFGs[0]->getLinks() == link);
+  assertCFG(setofCFGs[0].get(), {
+    {1, 2},
+    {2, 3},
+    {3, CFG_END_NODE}
+  });
 }
 
 TEST_CASE("CFGExtractor Statement with If") {
@@ -67,10 +110,16 @@ TEST_CASE("CFGExtractor Statement with If") {
       "}";
 
   vector<CFGSPtr> setofCFGs = executeCFGExtractor(input);
-  vector<list<int>> link = {{2}, {3}, {-1, 4, 6}, {5}, {-1}, {-1}};
-
   REQUIRE(setofCFGs.size() == 1);
-  REQUIRE(setofCFGs[0]->getLinks() == link);
+  assertCFG(setofCFGs[0].get(), {
+    {1, 2},
+    {2, 3},
+    {3, 4},
+    {4, 5},
+    {5, CFG_END_NODE},
+    {3, 6},
+    {6, CFG_END_NODE}
+  });
 }
 
 TEST_CASE("CFGExtractor Statement with While loop") {
@@ -86,10 +135,16 @@ TEST_CASE("CFGExtractor Statement with While loop") {
       "}";
 
   vector<CFGSPtr> setofCFGs = executeCFGExtractor(input);
-  vector<list<int>> link = {{2}, {3}, {6, 4}, {5}, {3, -1}, {-1}};
-
   REQUIRE(setofCFGs.size() == 1);
-  REQUIRE(setofCFGs[0]->getLinks() == link);
+  assertCFG(setofCFGs[0].get(), {
+      {1, 2},
+      {2, 3},
+      {3, 4},
+      {4, 5},
+      {5, 3},
+      {5, 6},
+      {6, CFG_END_NODE}
+  });
 }
 
 TEST_CASE("CFGExtractor If in While loop") {
@@ -110,11 +165,20 @@ TEST_CASE("CFGExtractor If in While loop") {
       "}";
 
   vector<CFGSPtr> setofCFGs = executeCFGExtractor(input);
-  vector<list<int>> link = {{2},  {3}, {9, 4},  {7, 5, 6}, {-1},
-                            {-1}, {8}, {3, -1}, {-1}};
-
   REQUIRE(setofCFGs.size() == 1);
-  REQUIRE(setofCFGs[0]->getLinks() == link);
+  assertCFG(setofCFGs[0].get(), {
+      {1, 2},
+      {2, 3},
+      {3, 4},
+      {4, 5},
+      {4, 6},
+      {5, 7},
+      {6, 7},
+      {7, 8},
+      {8, 3},
+      {8, 9},
+      {9, CFG_END_NODE}
+  });
 }
 
 TEST_CASE("CFGExtractor While in If") {
@@ -133,11 +197,19 @@ TEST_CASE("CFGExtractor While in If") {
       "}";
 
   vector<CFGSPtr> setofCFGs = executeCFGExtractor(input);
-  vector<list<int>> link = {{2}, {3},     {8, 4, 7}, {-1, 5},
-                            {6}, {4, -1}, {-1},      {-1}};
-
   REQUIRE(setofCFGs.size() == 1);
-  REQUIRE(setofCFGs[0]->getLinks() == link);
+  assertCFG(setofCFGs[0].get(), {
+      {1, 2},
+      {2, 3},
+      {3, 4},
+      {4, 5},
+      {5, 6},
+      {6, 4},
+      {6, 8},
+      {3, 7},
+      {7, 8},
+      {8, CFG_END_NODE}
+  });
 }
 
 TEST_CASE("CFGExtractor While in Else") {
@@ -156,11 +228,22 @@ TEST_CASE("CFGExtractor While in Else") {
       "}";
 
   vector<CFGSPtr> setofCFGs = executeCFGExtractor(input);
-  vector<list<int>> link = {{2},     {3}, {8, 4, 5}, {-1},
-                            {-1, 6}, {7}, {5, -1},   {-1}};
-
   REQUIRE(setofCFGs.size() == 1);
-  REQUIRE(setofCFGs[0]->getLinks() == link);
+  assertCFG(setofCFGs[0].get(), {
+      {1, 2},
+      {2, 3},
+
+      {3, 4},
+      {4, 8},
+
+      {3, 5},
+      {5, 6},
+      {6, 7},
+      {7, 5},
+      {7, 8},
+
+      {8, CFG_END_NODE}
+  });
 }
 
 TEST_CASE("CFGExtractor Triple-While Chain") {
@@ -181,11 +264,21 @@ TEST_CASE("CFGExtractor Triple-While Chain") {
       "}";
 
   vector<CFGSPtr> setofCFGs = executeCFGExtractor(input);
-  vector<list<int>> link = {{2},     {3},     {9, 4},  {8, 5}, {7, 6},
-                            {5, -1}, {4, -1}, {3, -1}, {-1}};
-
   REQUIRE(setofCFGs.size() == 1);
-  REQUIRE(setofCFGs[0]->getLinks() == link);
+  assertCFG(setofCFGs[0].get(), {
+      {1, 2},
+      {2, 3},
+      {3, 4},
+      {4, 5},
+      {5, 6},
+      {6, 5},
+      {6, 7},
+      {7, 8},
+      {7, 4},
+      {8, 9},
+      {8, 3},
+      {9, CFG_END_NODE}
+  });
 }
 
 TEST_CASE("CFG Triple-If Chain") {
@@ -210,12 +303,29 @@ TEST_CASE("CFG Triple-If Chain") {
       "}";
 
   vector<CFGSPtr> setofCFGs = executeCFGExtractor(input);
-  vector<list<int>> link = {{2},       {3},  {12, 4, 11}, {10, 5, 9},
-                            {8, 6, 7}, {-1}, {-1},        {-1},
-                            {-1},      {-1}, {-1},        {-1}};
-
   REQUIRE(setofCFGs.size() == 1);
-  REQUIRE(setofCFGs[0]->getLinks() == link);
+  assertCFG(setofCFGs[0].get(), {
+      {1, 2},
+      {2, 3},
+      {3, 4},
+      {4, 5},
+
+      {5, 6},
+      {6, 8},
+
+      {5, 7},
+      {7, 8},
+
+      {8, 10},
+      {4, 9},
+      {9, 10},
+
+      {10, 12},
+      {3, 11},
+      {11, 12},
+
+      {12, CFG_END_NODE}
+  });
 }
 
 TEST_CASE("CFGExtractor Two Procedures with Simple Statement list") {
@@ -233,15 +343,19 @@ TEST_CASE("CFGExtractor Two Procedures with Simple Statement list") {
       "}";
 
   vector<CFGSPtr> setofCFGs = executeCFGExtractor(input);
-  vector<list<int>> link = {{2}, {3}, {4}, {-1}};
-  vector<list<int>> linkTwo = {{6}, {7}, {-1}};
-
   REQUIRE(setofCFGs.size() == 2);
-  REQUIRE(setofCFGs[0]->getName() == "simple");
-  REQUIRE(setofCFGs[0]->getLinks() == link);
+  assertCFG(setofCFGs[0].get(), {
+      {1, 2},
+      {2, 3},
+      {3, 4},
+      {4, CFG_END_NODE}
+  });
 
-  REQUIRE(setofCFGs[1]->getName() == "simpleTwo");
-  REQUIRE(setofCFGs[1]->getLinks() == linkTwo);
+  assertCFG(setofCFGs[1].get(), {
+      {5, 6},
+      {6, 7},
+      {7, CFG_END_NODE}
+  });
 }
 
 TEST_CASE("CFGExtractor Three Procedures with Simple Statement list") {
@@ -263,19 +377,24 @@ TEST_CASE("CFGExtractor Three Procedures with Simple Statement list") {
       "}";
 
   vector<CFGSPtr> setofCFGs = executeCFGExtractor(input);
-  vector<list<int>> link = {{2}, {3}, {-1}};
-  vector<list<int>> linkTwo = {{5}, {6}, {-1}};
-  vector<list<int>> linkThree = {{8}, {9}, {-1}};
-
   REQUIRE(setofCFGs.size() == 3);
-  REQUIRE(setofCFGs[0]->getName() == "simple");
-  REQUIRE(setofCFGs[0]->getLinks() == link);
+  assertCFG(setofCFGs[0].get(), {
+      {1, 2},
+      {2, 3},
+      {3, CFG_END_NODE}
+  });
 
-  REQUIRE(setofCFGs[1]->getName() == "simpleTwo");
-  REQUIRE(setofCFGs[1]->getLinks() == linkTwo);
+  assertCFG(setofCFGs[1].get(), {
+      {4, 5},
+      {5, 6},
+      {6, CFG_END_NODE}
+  });
 
-  REQUIRE(setofCFGs[2]->getName() == "simpleThree");
-  REQUIRE(setofCFGs[2]->getLinks() == linkThree);
+  assertCFG(setofCFGs[2].get(), {
+      {7, 8},
+      {8, 9},
+      {9, CFG_END_NODE}
+  });
 }
 
 TEST_CASE("CFGExtractor Two Procedures with complex statements") {
@@ -314,17 +433,37 @@ TEST_CASE("CFGExtractor Two Procedures with complex statements") {
       "}";
 
   vector<CFGSPtr> setofCFGs = executeCFGExtractor(input);
-  vector<list<int>> link = {{2},       {3},  {12, 4, 11}, {10, 5, 9},
-                            {8, 6, 7}, {-1}, {-1},        {-1},
-                            {-1},      {-1}, {-1},        {-1}};
-
-  vector<list<int>> linkTwo = {{14},     {15},     {21, 16}, {20, 17}, {19, 18},
-                               {17, -1}, {16, -1}, {15, -1}, {-1}};
-
   REQUIRE(setofCFGs.size() == 2);
-  REQUIRE(setofCFGs[0]->getName() == "simple");
-  REQUIRE(setofCFGs[0]->getLinks() == link);
+  assertCFG(setofCFGs[0].get(), {
+      {1, 2},
+      {2, 3},
+      {3, 4},
+      {4, 5},
+      {5, 6},
+      {6, 8},
+      {5, 7},
+      {7, 8},
+      {8, 10},
+      {4, 9},
+      {9, 10},
+      {10, 12},
+      {3, 11},
+      {11, 12},
+      {12, CFG_END_NODE}
+  });
 
-  REQUIRE(setofCFGs[1]->getName() == "simpleTwo");
-  REQUIRE(setofCFGs[1]->getLinks() == linkTwo);
+  assertCFG(setofCFGs[1].get(), {
+      {13, 14},
+      {14, 15},
+      {15, 16},
+      {16, 17},
+      {17, 18},
+      {18, 17},
+      {18, 19},
+      {19, 16},
+      {19, 20},
+      {20, 15},
+      {20, 21},
+      {21, CFG_END_NODE}
+  });
 }
