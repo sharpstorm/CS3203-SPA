@@ -35,7 +35,4 @@ bool PQLToken::isSynName() {
 bool PQLToken::isCategory(PQLTokenCategory category) {
   return (type & PQL_TOKEN_CATEGORY_MASK) == category;
 }
-
-bool PQLToken::isAttribute() {
-  return (type & PQL_ATTRIBUTE_TOKEN) > 0;
 }

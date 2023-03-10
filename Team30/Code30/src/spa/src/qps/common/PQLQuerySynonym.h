@@ -19,7 +19,6 @@ class PQLQuerySynonym {
 
   PQLSynonymType getType();
   PQLSynonymName getName();
-  virtual PQLSynonymAttribute getAttribute();
   bool isStatementType();
   bool isEntityType();
   bool isType(PQLSynonymType type);

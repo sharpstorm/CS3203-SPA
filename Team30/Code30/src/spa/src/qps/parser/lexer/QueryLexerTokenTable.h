@@ -31,7 +31,6 @@ const char PQL_KEYWORD_MODIFIES[] = "Modifies";
 const char PQL_KEYWORD_PATTERN[] = "pattern";
 const char PQL_KEYWORD_CALLS[] = "Calls";
 
-const char PQL_KEYWORD_STMT_NUM[] = "stmt#";
 const char PQL_KEYWORD_PROC_NAME[] = "procName";
 const char PQL_KEYWORD_VAR_NAME[] = "varName";
 const char PQL_KEYWORD_VALUE[] = "value";
@@ -60,7 +59,6 @@ class QueryLexerTokenTable {
       {PQL_KEYWORD_CALLS, PQL_TOKEN_CALLS},
       {PQL_KEYWORD_AND, PQL_TOKEN_AND},
       {PQL_KEYWORD_WITH, PQL_TOKEN_WITH},
-      {PQL_KEYWORD_STMT_NUM, PQL_TOKEN_STMT_NUM},
       {PQL_KEYWORD_PROC_NAME, PQL_TOKEN_PROC_NAME},
       {PQL_KEYWORD_VAR_NAME, PQL_TOKEN_VAR_NAME},
       {PQL_KEYWORD_VALUE, PQL_TOKEN_VALUE}

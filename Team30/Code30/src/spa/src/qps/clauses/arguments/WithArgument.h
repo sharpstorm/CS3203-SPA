@@ -10,20 +10,19 @@ using std::string, std::unique_ptr;
 class WithArgument {
   static const int NO_STMT_REF = -1;
   static const char NO_ENT_REF[];
-  AttributedSynonym syn;
-  bool isSyn;
+  AttributedSynonymPtr syn;
   int intValue;
   string identValue;
  public:
   explicit WithArgument(int intVal);
   explicit WithArgument(string identVal);
-  explicit WithArgument(AttributedSynonym syn);
+  explicit WithArgument(AttributedSynonymPtr syn);
   PQLSynonymName getSynName();
   PQLSynonymType getSynType();
   PQLSynonymAttribute getAttribute();
   bool doesReturnInteger();
   bool isAttributeValid();
-  bool getIsSyn();
+  bool isSyn();
 };
 
 typedef unique_ptr<WithArgument> WithArgumentPtr;

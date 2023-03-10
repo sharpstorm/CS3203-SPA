@@ -17,11 +17,17 @@ enum PQLSynonymType {
   PQL_SYN_TYPE_ASSIGN
 };
 
+enum AttributeReturnMask {
+  NO_RETURN_MASK = 0x0,
+  STR_RETURN_MASK = 0x10,
+  INT_RETURN_MASK = 0x20
+};
+
 enum PQLSynonymAttribute {
-  NO_ATTRIBUTE = 0x0,
-  PROC_NAME = 0x10,
+  NO_ATTRIBUTE = NO_RETURN_MASK,
+  PROC_NAME = STR_RETURN_MASK,
   VAR_NAME,
-  VALUE = 0x20,
+  CONST_VALUE = INT_RETURN_MASK,
   STMT_NUM
 };
 

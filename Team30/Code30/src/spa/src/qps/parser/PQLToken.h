@@ -7,13 +7,13 @@ using std::string;
 enum PQLTokenCategory: uint16_t {
   PQL_PROCESSING_TOKEN = 0x100,
   PQL_SYMBOL_TOKEN = 0x200,
+  PQL_ATTRIBUTE_TOKEN = 0x300,
   PQL_DECLARATION_TOKEN = 0x400,
   PQL_QUERY_TOKEN = 0x800,
   PQL_RELATIONSHIP_TOKEN = 0x1000,
   PQL_STRING_TOKEN = 0x2000,
   PQL_INTEGER_TOKEN = 0x4000,
   PQL_LITERAL_TOKEN = 0x8000,
-  PQL_ATTRIBUTE_TOKEN = 0x8100,
 };
 
 const uint16_t PQL_TOKEN_CATEGORY_MASK = 0xFF00;
@@ -98,6 +98,5 @@ class PQLToken {
   bool isType(PQLTokenType);
   bool isCategory(PQLTokenCategory);
   bool isSynName();
-  bool isAttribute();
   bool operator==(const PQLToken& other) const;
 };

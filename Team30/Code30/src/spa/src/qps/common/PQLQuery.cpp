@@ -3,7 +3,7 @@
 using std::pair;
 
 PQLQuery::PQLQuery(VariableTable vars,
-                   PQLQuerySynonymList resVar,
+                   AttributedSynonymList resVar,
                    vector<ClauseSPtr> c):
                    variables(vars), resultVariables(resVar), clauses(c) {
 }
@@ -12,7 +12,7 @@ int PQLQuery::getVariableCount() {
   return variables.size();
 }
 
-PQLQuerySynonymList* PQLQuery::getResultVariables() {
+AttributedSynonymList* PQLQuery::getResultVariables() {
   return &resultVariables;
 }
 

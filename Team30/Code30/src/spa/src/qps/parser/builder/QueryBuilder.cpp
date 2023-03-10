@@ -14,7 +14,7 @@ void QueryBuilder::setError(const string &msg) {
   errorMsg = msg;
 }
 
-void QueryBuilder::addResultSynonym(const PQLQuerySynonym &synonym) {
+void QueryBuilder::addResultSynonym(const AttributedSynonym &synonym) {
   resultVariables.push_back(synonym);
 }
 

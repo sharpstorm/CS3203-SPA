@@ -2,11 +2,8 @@
 
 AttributedSynonym::AttributedSynonym() : attribute(NO_ATTRIBUTE) { }
 
-AttributedSynonym::AttributedSynonym(PQLSynonymName name,
-                                     PQLSynonymType type,
-                                     PQLSynonymAttribute attribute) :
-                                     PQLQuerySynonym(type, name),
-                                     attribute(attribute) { }
+AttributedSynonym::AttributedSynonym(const PQLQuerySynonym &syn)
+    : PQLQuerySynonym(syn), attribute(NO_ATTRIBUTE) { }
 
 AttributedSynonym::AttributedSynonym(const PQLQuerySynonym& syn,
                                      PQLSynonymAttribute attr) :
@@ -29,7 +26,7 @@ bool AttributedSynonym::validateAttribute() {
     case PQL_SYN_TYPE_CALL:
       return attribute == STMT_NUM || attribute == PROC_NAME;
     case PQL_SYN_TYPE_CONSTANT:
-      return attribute == VALUE;
+      return attribute == CONST_VALUE;
     case PQL_SYN_TYPE_VARIABLE:
       return attribute == VAR_NAME;
     case PQL_SYN_TYPE_PROCEDURE:

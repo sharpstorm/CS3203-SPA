@@ -7,8 +7,8 @@
 class PQLAttributeRefExtractor :
     public PQLStmtRefExtractor, PQLEntityRefExtractor {
  public:
-  static PQLSynonymAttribute extractAttribute(QueryTokenParseState *parserState,
-                                              PQLSynonymType type);
+  static PQLSynonymAttribute extractAttribute(
+      QueryTokenParseState *parserState);
   static WithArgumentPtr extract(QueryTokenParseState* state,
                                           QueryBuilder* builder);
 };

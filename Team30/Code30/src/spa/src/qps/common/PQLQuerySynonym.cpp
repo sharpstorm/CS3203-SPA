@@ -27,7 +27,3 @@ bool PQLQuerySynonym::isEntityType() {
 bool PQLQuerySynonym::isType(PQLSynonymType targetType) {
   return this->type == targetType;
 }
-
-PQLSynonymAttribute PQLQuerySynonym::getAttribute() {
-  return NO_ATTRIBUTE;
-}

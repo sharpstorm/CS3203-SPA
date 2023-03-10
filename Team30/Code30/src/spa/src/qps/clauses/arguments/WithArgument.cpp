@@ -1,17 +1,19 @@
+#include <utility>
+
 #include "WithArgument.h"
 
 WithArgument::WithArgument(int intVal) :
-    intValue(intVal), identValue(NO_ENT_REF), isSyn(false) { }
+    intValue(intVal), identValue(NO_ENT_REF), syn(nullptr) { }
 
 WithArgument::WithArgument(string identVal) :
-    intValue(NO_STMT_REF), identValue(identVal), isSyn(false) { }
+    intValue(NO_STMT_REF), identValue(identVal), syn(nullptr) { }
 
-WithArgument::WithArgument(AttributedSynonym syn) :
-    intValue(NO_STMT_REF), identValue(NO_ENT_REF), syn(syn), isSyn(true) { }
+WithArgument::WithArgument(AttributedSynonymPtr syn) :
+    intValue(NO_STMT_REF), identValue(NO_ENT_REF), syn(std::move(syn)) { }
 
 bool WithArgument::doesReturnInteger() {
-  if (isSyn) {
-    return (syn.getAttribute() & 0x20) > 0;
+  if (isSyn()) {
+    return (syn->getAttribute() & 0x20) > 0;
   }
 
   if (intValue == NO_STMT_REF) {
@@ -21,32 +23,32 @@ bool WithArgument::doesReturnInteger() {
   return true;
 }
 
-bool WithArgument::getIsSyn() {
-  return isSyn;
+bool WithArgument::isSyn() {
+  return syn == nullptr;
 }
 
 PQLSynonymName WithArgument::getSynName() {
-  return syn.getName();
+  return syn->getName();
 }
 
 PQLSynonymType WithArgument::getSynType() {
-  return syn.getType();
+  return syn->getType();
 }
 
 bool WithArgument::isAttributeValid() {
-  if (!isSyn) {
+  if (!isSyn()) {
     return false;
   }
 
-  return syn.validateAttribute();
+  return syn->validateAttribute();
 }
 
 PQLSynonymAttribute WithArgument::getAttribute() {
-  if (!isSyn) {
+  if (!isSyn()) {
     return NO_ATTRIBUTE;
   }
 
-  return syn.getAttribute();
+  return syn->getAttribute();
 }
 
 const char WithArgument::NO_ENT_REF[] = "";

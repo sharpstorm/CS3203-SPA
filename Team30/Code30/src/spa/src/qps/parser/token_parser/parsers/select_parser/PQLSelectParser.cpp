@@ -17,15 +17,7 @@ void PQLSelectParser::parse(QueryTokenParseState *parserState,
   }
 
   // TODO(KwanHW): To test
-  PQLQuerySynonym* syn = queryBuilder->accessSynonym(synName);
-  if (parserState->tryExpect(PQL_TOKEN_PERIOD)) {
-    PQLSynonymAttribute attr =
-        PQLAttributeRefExtractor::extractAttribute(parserState, syn->getType());
-    AttributedSynonym attrSyn(*syn, attr);
-    queryBuilder->addResultSynonym(attrSyn);
-    return;
-  }
-
+  parseSynonym(parserState, queryBuilder, synName);
   addResultSynonym(queryBuilder, synName);
 }
 
@@ -38,18 +30,7 @@ void PQLSelectParser::parseTuple(QueryTokenParseState *parserState,
   PQLToken* nextToken = parserState->expect(PQL_TOKEN_TUPLE_CLOSE,
                                             PQL_TOKEN_COMMA);
   while (!nextToken->isType(PQL_TOKEN_TUPLE_CLOSE)) {
-    synName = parserState->expectSynName();
-    PQLQuerySynonym* syn = queryBuilder->accessSynonym(synName);
-
-    if (parserState->tryExpect(PQL_TOKEN_PERIOD)) {
-      PQLSynonymAttribute attr =
-          PQLAttributeRefExtractor::extractAttribute(parserState, syn->getType());
-      AttributedSynonym attrSyn(*syn, attr);
-      queryBuilder->addResultSynonym(attrSyn);
-      continue;
-    }
-
-    addResultSynonym(queryBuilder, synName);
+    parseSynonym(parserState, queryBuilder, synName);
     nextToken = parserState->expect(PQL_TOKEN_TUPLE_CLOSE,
                                     PQL_TOKEN_COMMA);
   }
@@ -62,5 +43,21 @@ void PQLSelectParser::addResultSynonym(QueryBuilder *queryBuilder,
     return;
   }
 
-  queryBuilder->addResultSynonym(*synonym);
+  AttributedSynonym attrSyn(*synonym, NO_ATTRIBUTE);
+  queryBuilder->addResultSynonym(attrSyn);
+}
+
+void PQLSelectParser::parseSynonym(QueryTokenParseState *parserState,
+                                   QueryBuilder *queryBuilder,
+                                   const string &synName) {
+  PQLQuerySynonym* syn = queryBuilder->accessSynonym(synName);
+  if (parserState->tryExpect(PQL_TOKEN_PERIOD)) {
+    PQLSynonymAttribute attr =
+        PQLAttributeRefExtractor::extractAttribute(parserState);
+    AttributedSynonym attrSyn(*syn, attr);
+    queryBuilder->addResultSynonym(attrSyn);
+    return;
+  }
+
+  addResultSynonym(queryBuilder, synName);
 }

@@ -18,7 +18,6 @@ class QueryExpectationAgent {
   template<typename... T>
   PQLToken *tryExpect(T... tokenType);
   PQLSynonymName expectSynName();
-  PQLToken* expectSynAttr();
 };
 
 template<typename... PQLTokenType>
