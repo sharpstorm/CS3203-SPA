@@ -19,7 +19,7 @@ unordered_set<string> ExpressionVariableExtractor::getVariableSet() {
 }
 
 void ExpressionVariableExtractor::recurseExpr(unordered_set<string>* v,
-                                              shared_ptr<ASTNode> node) {
+                                              ASTNode* node) {
   if (node->getType() == ASTNodeType::ASTNODE_CONSTANT) {
     return;
   }

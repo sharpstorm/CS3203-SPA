@@ -16,7 +16,7 @@ class ExpressionVariableExtractor : public AbstractExtractor {
   void visitIf(IfNode* node) override;
   unordered_set<string> getVariableSet();
  private:
-  void recurseExpr(unordered_set<string>* v, shared_ptr<ASTNode> node);
+  void recurseExpr(unordered_set<string>* v, ASTNode* node);
   bool setContains(unordered_set<string> *v, const string &x);
   unordered_set<string> variableSetCache;
 };

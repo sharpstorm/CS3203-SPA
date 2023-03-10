@@ -20,8 +20,8 @@ StubPkb executePatternExtractor(string input) {
   vector<IExtractor*> extractors;
   auto patternExtractor = make_unique<PatternExtractor>(&stubby);
   extractors.push_back(patternExtractor.get());
-  AST ast = parser.parseSource(input);
-  treeWalker.walkAST(ast, &extractors);
+  auto ast = parser.parseSource(input);
+  treeWalker.walkAST(ast.get(), &extractors);
   return stubby;
 }
 
