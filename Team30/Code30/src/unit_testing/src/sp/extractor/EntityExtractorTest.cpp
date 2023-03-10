@@ -104,8 +104,8 @@ TEST_CASE("EntityExtractor CallNode") {
   PKB pkb;
   PkbWriterStubforEntity writer(&pkb);
   EntityExtractor extractor(&writer);
-  extractor.visit(&pNode);
-  extractor.visit(&node);
+  extractor.visitProcedure(&pNode);
+  extractor.visitCall(&node);
   REQUIRE(writer.verifyStatement(node.getLineNumber(), StmtType::Call));
 }
 
