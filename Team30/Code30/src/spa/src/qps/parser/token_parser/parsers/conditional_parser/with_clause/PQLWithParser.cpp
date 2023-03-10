@@ -10,7 +10,19 @@ using std::make_unique;
 void PQLWithParser::parse(QueryTokenParseState *parserState,
                           QueryBuilder *builder) {
   parserState->expect(PQL_TOKEN_WITH);
-  WithClausePtr withClause = parseWithClause(parserState, builder);
+  unique_ptr<PQLToken> dummyAnd = make_unique<PQLToken>(PQL_TOKEN_AND);
+  PQLToken* andToken = dummyAnd.get();
+
+  while (andToken != nullptr) {
+    WithClausePtr withClause = parseWithClause(parserState, builder);
+    if (withClause == nullptr) {
+      builder->setError(QPS_PARSER_ERR_WITH_TYPE);
+    } else {
+      builder->addWith(std::move(withClause));
+    }
+
+    andToken = parserState->tryExpect(PQL_TOKEN_AND);
+  }
 }
 
 WithClausePtr PQLWithParser::parseWithClause(QueryTokenParseState *parserState,

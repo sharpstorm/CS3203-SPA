@@ -98,5 +98,6 @@ class PQLToken {
   bool isType(PQLTokenType);
   bool isCategory(PQLTokenCategory);
   bool isSynName();
+  bool isAttribute();
   bool operator==(const PQLToken& other) const;
 };

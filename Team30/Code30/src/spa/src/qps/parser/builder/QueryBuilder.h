@@ -10,6 +10,7 @@
 #include "../../common/PQLQuerySynonym.h"
 #include "../../clauses/SuchThatClause.h"
 #include "../../clauses/PatternClause.h"
+#include "qps/clauses/WithClause.h"
 
 using std::string, std::vector, std::unique_ptr, std::unordered_map;
 
@@ -29,6 +30,7 @@ class QueryBuilder {
   PQLQuerySynonym* accessSynonym(const PQLSynonymName &name);
   void addSuchThat(unique_ptr<SuchThatClause> clause);
   void addPattern(unique_ptr<PatternClause> clause);
+  void addWith(unique_ptr<WithClause> clause);
 
   void setError(const string &msg);
   unique_ptr<PQLQuery> build();
