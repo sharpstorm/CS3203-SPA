@@ -5,38 +5,38 @@
 #include "qps/clauses/abstract_clauses/AbstractStmtStmtClause.h"
 #include "qps/clauses/SuchThatClause.h"
 
-typedef StmtStmtInvoker FollowsInvoker;
+typedef StmtStmtInvoker AffectsInvoker;
 
-template <FollowsInvoker invoker>
-using AbstractFollowsClause = AbstractStmtStmtClause<
+template <AffectsInvoker invoker>
+using AbstractAffectsClause = AbstractStmtStmtClause<
     invoker,
     ClauseArgument::isStatement,
     ClauseArgument::isStatement>;
 
-constexpr FollowsInvoker followsInvoker = [](PkbQueryHandler* pkbQueryHandler,
+constexpr AffectsInvoker affectsInvoker = [](PkbQueryHandler* pkbQueryHandler,
                                              const StmtRef &leftArg,
                                              const StmtRef &rightArg){
-  return pkbQueryHandler->queryFollows(leftArg, rightArg);
+  return QueryResult<StmtValue, StmtValue>{};
 };
 
-constexpr FollowsInvoker followsTInvoker = [](PkbQueryHandler* pkbQueryHandler,
+constexpr AffectsInvoker affectsTInvoker = [](PkbQueryHandler* pkbQueryHandler,
                                               const StmtRef &leftArg,
                                               const StmtRef &rightArg){
-  return pkbQueryHandler->queryFollowsStar(leftArg, rightArg);
+  return QueryResult<StmtValue, StmtValue>{};
 };
 
-class FollowsClause: public AbstractFollowsClause<followsInvoker>,
+class AffectsClause: public AbstractAffectsClause<affectsInvoker>,
                      public SuchThatClause  {
  public:
-  FollowsClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
+  AffectsClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
   }
 };
 
-class FollowsTClause: public AbstractFollowsClause<followsTInvoker>,
+class AffectsTClause: public AbstractAffectsClause<affectsTInvoker>,
                       public SuchThatClause  {
  public:
-  FollowsTClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
+  AffectsTClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
   }
 };
