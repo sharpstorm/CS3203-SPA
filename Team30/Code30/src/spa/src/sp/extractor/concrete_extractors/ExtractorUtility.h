@@ -8,7 +8,7 @@ using std::unordered_set;
 
 class ExtractorUtility {
  public:
-  ExtractorUtility(){}
+  ExtractorUtility() {}
   void getExprVariables(unordered_set<string>* v, ASTNode* node);
  private:
   bool setContains(unordered_set<string>* v, const string &x);
