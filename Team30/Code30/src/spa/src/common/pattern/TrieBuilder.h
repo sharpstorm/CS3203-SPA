@@ -10,7 +10,7 @@ using std::vector, std::string, std::unique_ptr;
 
 class TrieBuilder {
  public:
-  explicit TrieBuilder(IASTNodePtr astRoot);
+  explicit TrieBuilder(IASTNode* astRoot);
   PatternTriePtr build();
 
  private:
@@ -29,7 +29,7 @@ class TrieBuilder {
     ProcessingNode* postfixTail;
   };
 
-  IASTNodePtr astRoot;
+  IASTNode* astRoot;
   TrieSymbolTablePtr symTable;
   PatternTrieNodePtr rootNode;
   int nodeCount;

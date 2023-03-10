@@ -17,11 +17,11 @@ StubPkb executeUsesExtractor(string input) {
   PKB pkb;
   StubPkb stubby(&pkb);
   SourceParser parser;
-  vector<Extractor*> extractors;
+  vector<IExtractor*> extractors;
   auto usesExtractor = make_unique<UsesExtractor>(&stubby);
   extractors.push_back(usesExtractor.get());
-  AST ast = parser.parseSource(input);
-  treeWalker.walkAST(ast, &extractors);
+  ASTPtr ast = parser.parseSource(input);
+  treeWalker.walkAST(ast.get(), &extractors);
   return stubby;
 }
 

@@ -7,7 +7,7 @@
 class PatternConverter {
  public:
   static ExpressionSequencePtr convertASTToPostfix(IAST* tree);
-  static PatternTriePtr convertASTToTrie(IASTNodePtr tree);
+  static PatternTriePtr convertASTToTrie(IASTNode* tree);
 
  private:
   static void traversePostfix(IASTNode *node, ExpressionSequence *output);

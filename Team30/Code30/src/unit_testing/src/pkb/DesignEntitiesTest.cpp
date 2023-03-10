@@ -16,11 +16,11 @@ TEST_CASE("Entities write and read") {
   PkbWriter writer = PkbWriter(pkb.get());
   PkbQueryHandler queryHandler = PkbQueryHandler(pkb.get());
 
-  writer.addSymbol("a", EntityType::Variable);
-  writer.addSymbol("b", EntityType::Variable);
-  writer.addSymbol("c", EntityType::Variable);
-  writer.addSymbol("0", EntityType::Constant);
-  writer.addSymbol("1", EntityType::Constant);
+  writer.addVariable("a");
+  writer.addVariable("b");
+  writer.addVariable("c");
+  writer.addConstant("0");
+  writer.addConstant("1");
 
   REQUIRE(queryHandler.getSymbolsOfType(EntityType::Variable) ==
       unordered_set<string>({"a", "b", "c"}));

@@ -2,7 +2,7 @@
 
 #include <utility>
 
-WhilePatternClause::WhilePatternClause(PQLQuerySynonym whileSynonym,
+WhilePatternClause::WhilePatternClause(const PQLQuerySynonym &whileSynonym,
                                        ClauseArgumentPtr leftArg):
     PatternClause(whileSynonym, std::move(leftArg), PQL_SYN_TYPE_WHILE) {}
 

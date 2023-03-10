@@ -10,15 +10,16 @@ WhileNode::WhileNode(int lineNumber) :
     StatementASTNode(ASTNODE_WHILE, "", lineNumber) {
   // index [0] = conditional expression
   // index [1] = statement list
-  children = vector<ASTNodePtr>{nullptr, nullptr};
+  children.push_back(nullptr);
+  children.push_back(nullptr);
 }
 
-void WhileNode::accept(Extractor* e) {
-  e->visit(this);
+void WhileNode::accept(IExtractor* e) {
+  e->visitWhile(this);
 }
 
-void WhileNode::leave(Extractor* e) {
-  e->leave(this);
+void WhileNode::leave(IExtractor* e) {
+  e->leaveWhile(this);
 }
 
 string WhileNode::toString() {

@@ -16,6 +16,6 @@ PQLSynonymName ClauseArgument::getName() {
   return "";
 }
 
-SynonymPredicate ClauseArgument::isStatement = [](PQLQuerySynonym syn) {
+bool ClauseArgument::isStatement(PQLQuerySynonym syn) {
   return syn.isStatementType();
-};
+}

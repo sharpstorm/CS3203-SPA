@@ -3,7 +3,7 @@
 #include <utility>
 
 PatternClause::PatternClause(
-    PQLQuerySynonym synonym,
+    const PQLQuerySynonym &synonym,
     ClauseArgumentPtr leftArg,
     PQLSynonymType synType):
     synonym(synonym), leftArg(std::move(leftArg)), synType(synType) {}

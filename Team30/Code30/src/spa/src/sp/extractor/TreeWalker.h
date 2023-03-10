@@ -10,8 +10,8 @@
 class TreeWalker {
  public:
   TreeWalker() = default;
-  void walkAST(AST ast, VectorPtr<Extractor*> extractors);
+  void walkAST(AST* ast, VectorPtr<IExtractor*> extractors);
 
  private:
-  void DFS(ASTNodePtr ast, VectorPtr<Extractor*> extractors);
+  void DFS(ASTNode* ast, VectorPtr<IExtractor*> extractors);
 };

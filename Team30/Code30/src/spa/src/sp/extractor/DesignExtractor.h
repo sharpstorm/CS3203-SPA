@@ -14,10 +14,10 @@ using std::vector, std::unique_ptr;
 class DesignExtractor {
  public:
   explicit DesignExtractor(PkbWriter* pkbWriter);
-  void extract(AST ast);
+  void extract(AST* ast);
 
  private:
   TreeWalker treeWalker;
-  vector<unique_ptr<Extractor>> ownedExtractors;
-  vector<Extractor*> extractorRefs;
+  vector<unique_ptr<IExtractor>> ownedExtractors;
+  vector<IExtractor*> extractorRefs;
 };

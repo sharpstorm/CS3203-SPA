@@ -14,11 +14,11 @@ vector<triple<string, int, int>> executeProcedureRangeExtractor(string input) {
   PKB pkb;
   StubPkb stubby(&pkb);
   SourceParser parser;
-  vector<Extractor*> extractors;
+  vector<IExtractor*> extractors;
   auto procedureRangeExtractor = make_unique<ProcedureRangeExtractor>(&stubby);
   extractors.push_back(procedureRangeExtractor.get());
-  AST ast = parser.parseSource(input);
-  treeWalker.walkAST(ast, &extractors);
+  ASTPtr ast = parser.parseSource(input);
+  treeWalker.walkAST(ast.get(), &extractors);
   return stubby.procedureRangeStore;
 }
 

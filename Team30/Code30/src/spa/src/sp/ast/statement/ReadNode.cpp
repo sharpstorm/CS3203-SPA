@@ -7,11 +7,11 @@ using std::vector;
 
 ReadNode::ReadNode(int lineNumber) :
     StatementASTNode(ASTNODE_READ, "", lineNumber) {
-  children = vector<ASTNodePtr>{nullptr};
+  children.push_back(nullptr);
 }
 
-void ReadNode::accept(Extractor* e) {
-  e->visit(this);
+void ReadNode::accept(IExtractor* e) {
+  e->visitRead(this);
 }
 
 string ReadNode::toString() {

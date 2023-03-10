@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "sp/extractor/Extractor.h"
+#include "sp/extractor/IExtractor.h"
 #include "sp/ast/BinaryASTNode.h"
 
 using std::string;
@@ -9,8 +9,8 @@ using std::string;
 class AbstractConditionalNode: public BinaryASTNode {
  public:
   virtual ~AbstractConditionalNode() = default;
-  void accept(Extractor* e);
-  string toString();
+  void accept(IExtractor* e) override;
+  string toString() override;
 
  protected:
   AbstractConditionalNode(ASTNodeType type, string identifier) :

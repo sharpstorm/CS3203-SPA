@@ -11,8 +11,8 @@ using std::shared_ptr;
 class PatternExtractor : public AbstractExtractor {
  public:
   explicit PatternExtractor(PkbWriter* pkbWriter);
-  void visit(AssignNode* node);
+  void visitAssign(AssignNode* node) override;
  private:
-  void addPattern(int x, shared_ptr<IASTNode> node);
+  void addPattern(int x, IASTNode* node);
   PkbWriter* pkbWriter;
 };

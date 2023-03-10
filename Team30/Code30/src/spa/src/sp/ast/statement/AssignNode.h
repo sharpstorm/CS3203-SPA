@@ -2,7 +2,7 @@
 
 #include <string>
 #include "StatementASTNode.h"
-#include "sp/extractor/Extractor.h"
+#include "sp/extractor/IExtractor.h"
 
 using std::string;
 
@@ -11,6 +11,6 @@ class AssignNode : public StatementASTNode {
   explicit AssignNode(int lineNumber);
   ~AssignNode() = default;
 
-  string toString();
-  void accept(Extractor* e);
+  string toString() override;
+  void accept(IExtractor* e) override;
 };

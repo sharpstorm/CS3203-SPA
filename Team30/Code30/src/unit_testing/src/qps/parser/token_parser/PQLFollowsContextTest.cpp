@@ -5,8 +5,6 @@
 
 #include "PQLContextTestUtils.h"
 #include "qps/errors/QPSParserSyntaxError.h"
-#include "qps/clauses/such_that/FollowsClause.h"
-#include "qps/clauses/such_that/FollowsTClause.h"
 #include "qps/errors/QPSParserSemanticError.h"
 #include "qps/parser/token_parser/parsers/conditional_parser/such_that_parser/contexts/PQLSuchThatClauseTypes.h"
 

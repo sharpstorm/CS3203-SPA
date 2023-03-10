@@ -20,11 +20,11 @@ using std::unordered_set;
 
 static unique_ptr<EntityMappingProviderStub> setUpEntityMappingProvider() {
   auto provider = make_unique<EntityMappingProviderStub>();
-  provider->entityTypeToValue.set(EntityType::Procedure, "main");
-  provider->entityTypeToValue.set(EntityType::Procedure, "foo");
-  provider->entityTypeToValue.set(EntityType::Procedure, "woo");
-  provider->entityTypeToValue.set(EntityType::Procedure, "goo");
-
+  provider->procedureTable.set(1, "main");
+  provider->procedureTable.set(2, "foo");
+  provider->procedureTable.set(3, "woo");
+  provider->procedureTable.set(4, "goo");
+  provider->allProcedures = {"main", "foo", "woo", "goo"};
   return provider;
 }
 

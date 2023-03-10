@@ -1,4 +1,5 @@
 #include "AbstractTwoArgClause.h"
+
 #include <utility>
 
 AbstractTwoArgClause::AbstractTwoArgClause(

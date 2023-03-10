@@ -3,10 +3,10 @@
 #include <memory>
 #include <unordered_map>
 
-#include "qps/clauses/such_that/FollowsClause.h"
 #include "qps/executor/planner/QueryPlanner.h"
 #include "qps/common/PQLQuerySynonym.h"
 #include "qps/clauses/arguments/ClauseArgumentFactory.h"
+#include "qps/clauses/such_that/FollowsClauses.h"
 
 using std::make_unique, std::unordered_map, std::unique_ptr;
 
