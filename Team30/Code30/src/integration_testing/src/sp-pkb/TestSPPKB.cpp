@@ -222,8 +222,8 @@ TEST_CASE("Test UsesP") {
 
 TEST_CASE("Test self call") {
   string input = "procedure a {"
-                 "  call a;";
-
+                 "  call a;"
+                 "}";
   SpDriver spDriver;
   PKB pkb;
   PkbWriter pkbWriter(&pkb);
