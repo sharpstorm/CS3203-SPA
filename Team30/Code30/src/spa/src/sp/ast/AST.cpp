@@ -1,13 +1,15 @@
 #include "AST.h"
 
+#include <utility>
+
 AST::AST(ASTNodePtr node) {
-  root = node;
+  root = std::move(node);
 }
 
-ASTNodePtr AST::getMutableRoot() {
-  return root;
+ASTNode* AST::getMutableRoot() {
+  return root.get();
 }
 
-IASTNodePtr AST::getRoot() {
-  return root;
+IASTNode* AST::getRoot() {
+  return root.get();
 }

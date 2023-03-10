@@ -10,5 +10,5 @@ using std::string;
 class ProgramNode : public ASTNode {
  public:
   ProgramNode();
-  string toString();
+  string toString() override;
 };

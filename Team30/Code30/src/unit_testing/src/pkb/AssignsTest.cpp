@@ -17,8 +17,8 @@ TEST_CASE("Assign write and read") {
   auto pkb = make_unique<PKB>();
   PkbWriter writer = PkbWriter(pkb.get());
   PkbQueryHandler queryHandler = PkbQueryHandler(pkb.get());
-  PatternTrieSPtr node1 = PatternConverter::convertASTToTrie(
-          make_shared<VariableASTNode>("a"));
+  auto astRoot = make_unique<VariableASTNode>("a");
+  PatternTrieSPtr node1 = PatternConverter::convertASTToTrie(astRoot.get());
 
   writer.addAssigns(1, node1);
   auto result = queryHandler.queryAssigns({StmtType::Assign, 1});

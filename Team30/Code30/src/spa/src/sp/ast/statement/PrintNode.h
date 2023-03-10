@@ -11,6 +11,6 @@ class PrintNode : public StatementASTNode {
   explicit PrintNode(int lineNumber);
   ~PrintNode() = default;
 
-  string toString();
-  void accept(IExtractor* e);
+  string toString() override;
+  void accept(IExtractor* e) override;
 };

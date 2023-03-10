@@ -14,7 +14,7 @@ void PatternExtractor::visitAssign(AssignNode* node) {
   addPattern(node->getLineNumber(), node->getChild(1));
 }
 
-void PatternExtractor::addPattern(int x, shared_ptr<IASTNode> node) {
+void PatternExtractor::addPattern(int x, IASTNode* node) {
   PatternTriePtr trie = PatternConverter::convertASTToTrie(node);
   PatternTrieSPtr sharedPtr = shared_ptr<PatternTrie>(std::move(trie));
   pkbWriter->addAssigns(x, sharedPtr);

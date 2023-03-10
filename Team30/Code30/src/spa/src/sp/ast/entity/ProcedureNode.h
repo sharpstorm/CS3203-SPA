@@ -10,10 +10,11 @@ using std::string;
 class ProcedureNode : public ASTNode {
  public:
   explicit ProcedureNode(string name);
-  string toString();
+  string toString() override;
+  void leave(IExtractor *e) override;
+  void accept(IExtractor *e) override;
+
   string getName();
-  void leave(IExtractor *e);
-  void accept(IExtractor *e);
 
  private:
   string procName;

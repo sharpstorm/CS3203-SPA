@@ -12,7 +12,7 @@ class WhileNode : public StatementASTNode {
   explicit WhileNode(int lineNumber);
   ~WhileNode() = default;
 
-  string toString();
-  void accept(IExtractor* e);
-  void leave(IExtractor* e);
+  string toString() override;
+  void accept(IExtractor* e) override;
+  void leave(IExtractor* e) override;
 };

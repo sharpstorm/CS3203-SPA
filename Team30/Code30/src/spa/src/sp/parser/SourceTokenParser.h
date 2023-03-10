@@ -15,8 +15,8 @@ class SourceTokenParser {
  public:
   SourceTokenParser();
 
-  AST parseProgram(vector<SourceToken>* tokens);
-  AST parseExpression(vector<SourceToken>* tokens);
+  ASTPtr parseProgram(vector<SourceToken>* tokens);
+  ASTPtr parseExpression(vector<SourceToken>* tokens);
 
  private:
   IEntityParserPtr entityParser;

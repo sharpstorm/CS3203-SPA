@@ -13,5 +13,5 @@ class ExpressionContext: public RecursiveExpressionParseContext {
   ASTNodePtr generateSubtree(SourceParseState* state) override;
 
  private:
-  BinaryASTNodePtr generateOperand(SourceToken* curToken);
+  BinaryASTNodePtr generateOperand(SourceParseState *state);
 };
