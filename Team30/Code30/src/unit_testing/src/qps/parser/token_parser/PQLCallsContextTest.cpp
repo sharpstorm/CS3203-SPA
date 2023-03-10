@@ -3,8 +3,6 @@
 #include <memory>
 #include <unordered_map>
 
-#include "qps/clauses/such_that/CallsClause.h"
-#include "qps/clauses/such_that/CallsTClause.h"
 #include "qps/parser/token_parser/parsers/conditional_parser/such_that_parser/contexts/PQLSuchThatClauseTypes.h"
 #include "PQLContextTestUtils.h"
 

@@ -4,16 +4,16 @@
 #include <memory>
 
 #include "catch.hpp"
-#include "qps/parser/lexer/QueryLexer.h"
 #include "qps/common/PQLQuery.h"
 #include "qps/errors/QPSError.h"
 #include "qps/parser/token_parser/QueryTokenParser.h"
-#include "qps/clauses/such_that/FollowsClause.h"
 #include "qps/parser/QueryParser.h"
 #include "qps/clauses/pattern/AssignPatternClause.h"
 #include "../SourceParserStub.h"
 #include "qps/errors/QPSParserSemanticError.h"
 #include "qps/errors/QPSLexerError.h"
+#include "qps/clauses/such_that/FollowsClauses.h"
+#include "qps/clauses/such_that/ModifiesClause.h"
 
 using std::vector, std::string, std::cout, std::unique_ptr, std::shared_ptr;
 

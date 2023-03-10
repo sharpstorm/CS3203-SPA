@@ -5,13 +5,10 @@
 #include "PQLTransitiveClauseContext.h"
 
 #include "qps/clauses/such_that/UsesClause.h"
-#include "qps/clauses/such_that/ParentClause.h"
-#include "qps/clauses/such_that/ParentTClause.h"
-#include "qps/clauses/such_that/FollowsClause.h"
-#include "qps/clauses/such_that/FollowsTClause.h"
-#include "qps/clauses/such_that/CallsClause.h"
-#include "qps/clauses/such_that/CallsTClause.h"
 #include "qps/clauses/such_that/ModifiesClause.h"
+#include "qps/clauses/such_that/CallsClauses.h"
+#include "qps/clauses/such_that/FollowsClauses.h"
+#include "qps/clauses/such_that/ParentClauses.h"
 
 typedef PQLTransitiveClauseContext<FollowsClause,
                                    FollowsTClause,
