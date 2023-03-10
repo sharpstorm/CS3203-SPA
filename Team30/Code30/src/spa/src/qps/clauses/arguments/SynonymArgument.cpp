@@ -15,10 +15,6 @@ PQLSynonymName SynonymArgument::getName() {
   return synonym.getName();
 }
 
-bool SynonymArgument::hasAttribute() {
-  return synonym.hasAttribute();
-}
-
 StmtRef SynonymArgument::toStmtRef() {
   switch (synonym.getType()) {
     case PQL_SYN_TYPE_ASSIGN:

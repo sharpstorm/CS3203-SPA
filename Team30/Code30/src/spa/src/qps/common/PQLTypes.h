@@ -18,10 +18,10 @@ enum PQLSynonymType {
 };
 
 enum PQLSynonymAttribute {
-  NO_ATTRIBUTE,
-  PROC_NAME,
+  NO_ATTRIBUTE = 0x0,
+  PROC_NAME = 0x10,
   VAR_NAME,
-  VALUE,
+  VALUE = 0x20,
   STMT_NUM
 };
 

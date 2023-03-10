@@ -22,7 +22,7 @@ PQLToken* QueryExpectationAgent::expectSynAttr() {
   PQLToken* currentToken = stream->getCurrentToken();
   assertNotNull(currentToken);
 
-  if (!currentToken->isAttribute()) {
+  if (!currentToken->isAttribute() && !currentToken->isType(PQL_TOKEN_STMT)) {
     throw QPSParserSyntaxError(QPS_PARSER_ERR_UNEXPECTED);
   }
 

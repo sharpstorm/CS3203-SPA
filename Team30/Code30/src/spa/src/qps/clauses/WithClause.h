@@ -3,14 +3,15 @@
 #include <memory>
 
 #include "Clause.h"
+#include "qps/clauses/arguments/WithArgument.h"
 
 using std::unique_ptr;
 
 class WithClause: public Clause {
-  ClauseArgumentPtr leftArg;
-  ClauseArgumentPtr rightArg;
+  WithArgumentPtr leftArg;
+  WithArgumentPtr rightArg;
  public:
-  WithClause(ClauseArgumentPtr left, ClauseArgumentPtr right);
+  WithClause(WithArgumentPtr left, WithArgumentPtr right);
   PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler) override;
   bool validateArgTypes(VariableTable* variables) override;
   SynonymList getUsedSynonyms() override;

@@ -28,10 +28,6 @@ bool PQLQuerySynonym::isType(PQLSynonymType targetType) {
   return this->type == targetType;
 }
 
-void PQLQuerySynonym::setSynonymType(PQLSynonymAttribute attr) {
-  attribute = attr;
-}
-
-bool PQLQuerySynonym::hasAttribute() {
-  return attribute != NO_ATTRIBUTE;
+PQLSynonymAttribute PQLQuerySynonym::getAttribute() {
+  return NO_ATTRIBUTE;
 }

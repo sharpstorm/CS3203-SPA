@@ -16,4 +16,6 @@ class PQLSelectParser {
                   QueryBuilder *queryBuilder);
   static void addResultSynonym(QueryBuilder *queryBuilder,
                                const string &synName);
+//  static void addResultSynonym(QueryBuilder *queryBuilder,
+//                               PQLQuerySynonym syn);
 };

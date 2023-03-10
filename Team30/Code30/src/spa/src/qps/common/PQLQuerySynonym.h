@@ -11,7 +11,6 @@ class PQLQuerySynonym {
  private:
   PQLSynonymType type;
   PQLSynonymName name;
-  PQLSynonymAttribute attribute;
 
  public:
   PQLQuerySynonym() = default;
@@ -20,9 +19,8 @@ class PQLQuerySynonym {
 
   PQLSynonymType getType();
   PQLSynonymName getName();
-  void setSynonymType(PQLSynonymAttribute attr);
+  virtual PQLSynonymAttribute getAttribute();
   bool isStatementType();
-  bool hasAttribute();
   bool isEntityType();
   bool isType(PQLSynonymType type);
   bool operator==(const PQLQuerySynonym& other) const;

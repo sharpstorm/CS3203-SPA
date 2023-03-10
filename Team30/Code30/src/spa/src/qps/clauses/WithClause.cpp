@@ -1,8 +1,9 @@
 #include <utility>
 
 #include "WithClause.h"
+#include "qps/errors/QPSParserSemanticError.h"
 
-WithClause::WithClause(ClauseArgumentPtr left, ClauseArgumentPtr right) :
+WithClause::WithClause(WithArgumentPtr left, WithArgumentPtr right) :
     leftArg(std::move(left)), rightArg(std::move(right)) {}
 
 PQLQueryResult *WithClause::evaluateOn(PkbQueryHandler *pkbQueryHandler) {
@@ -10,25 +11,29 @@ PQLQueryResult *WithClause::evaluateOn(PkbQueryHandler *pkbQueryHandler) {
 }
 
 bool WithClause::validateArgTypes(VariableTable *variables) {
-  if (leftArg->isNamed() && !leftArg->hasAttribute()) {
-    return false;
+  if (leftArg->getIsSyn() && !leftArg->isAttributeValid()) {
+    throw QPSParserSemanticError(QPS_PARSER_ERR_INVALID_ATTRIBUTE);
   }
 
-  if (rightArg->isNamed() && !rightArg->hasAttribute()) {
-    return false;
+  if (rightArg->getIsSyn() && !rightArg->isAttributeValid()) {
+    throw QPSParserSemanticError(QPS_PARSER_ERR_INVALID_ATTRIBUTE);
   }
 
-  return true;
+  bool leftRetInt = leftArg->doesReturnInteger();
+  bool rightRetInt = rightArg->doesReturnInteger();
+
+  // They both must return an int or a str
+  return (leftRetInt && rightRetInt) || (!leftRetInt && !rightRetInt);
 }
 
 SynonymList WithClause::getUsedSynonyms() {
   SynonymList result;
-  if (leftArg->isNamed()) {
-    result.push_back(leftArg->getName());
+  if (leftArg->getIsSyn()) {
+    result.push_back(leftArg->getSynName());
   }
 
-  if (rightArg->isNamed()) {
-    result.push_back(rightArg->getName());
+  if (rightArg->getIsSyn()) {
+    result.push_back(rightArg->getSynName());
   }
 
   return result;
