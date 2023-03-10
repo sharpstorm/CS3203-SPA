@@ -9,6 +9,21 @@
 
 using std::make_unique;
 
+void testSynAttribute(AttributedSynonym syn,
+                      vector<PQLToken> tokenSeq) {
+  QueryBuilder builder;
+  builder.addSynonym(syn.getName(), syn.getType());
+
+  testParsing<PQLSelectParser>(tokenSeq, &builder);
+
+  auto query = builder.build();
+  auto resultVar = query->getResultVariables();
+  REQUIRE(resultVar->size() == 1);
+  REQUIRE(resultVar->at(0).getName() == syn.getName());
+  REQUIRE(resultVar->at(0).getType() == syn.getType());
+  REQUIRE(resultVar->at(0).getAttribute() == syn.getAttribute());
+}
+
 TEST_CASE("Test PQL Select parsing") {
   QueryBuilder builder;
   builder.addSynonym("s", PQL_SYN_TYPE_STMT);
@@ -81,4 +96,101 @@ TEST_CASE("Test PQL Select bad symbol") {
       make_unique<PQLTestTokenSequenceBuilder>()
           ->semicolon()
           ->build()), QPSParserSyntaxError);
+}
+
+TEST_CASE("Test PQL Select attribute parsing") {
+  AttributedSynonym syn =
+      AttributedSynonym(PQLQuerySynonym(PQL_SYN_TYPE_STMT, "s1"), STMT_NUM);
+
+  auto tokenSeq = make_unique<PQLTestTokenSequenceBuilder>()
+          ->addToken(PQL_TOKEN_SELECT)
+          ->synonym("s1")
+          ->addToken(PQL_TOKEN_PERIOD)
+          ->addToken(PQL_TOKEN_STMT)
+          ->addToken(PQL_TOKEN_NUMBER_SIGN)
+          ->addToken(PQL_TOKEN_EQUALS)
+          ->integer(1)->build();
+  testSynAttribute(syn, tokenSeq);
+
+  syn = AttributedSynonym(PQLQuerySynonym(PQL_SYN_TYPE_VARIABLE, "v1"), VAR_NAME);
+  tokenSeq = make_unique<PQLTestTokenSequenceBuilder>()
+          ->addToken(PQL_TOKEN_SELECT)
+          ->synonym("v1")
+          ->addToken(PQL_TOKEN_PERIOD)
+          ->addToken(PQL_TOKEN_VAR_NAME)
+          ->addToken(PQL_TOKEN_EQUALS)
+          ->ident("x")->build();
+
+  testSynAttribute(syn, tokenSeq);
+
+
+  syn = AttributedSynonym(PQLQuerySynonym(PQL_SYN_TYPE_PROCEDURE, "p1"), PROC_NAME);
+  tokenSeq = make_unique<PQLTestTokenSequenceBuilder>()
+          ->addToken(PQL_TOKEN_SELECT)
+          ->synonym("p1")
+          ->addToken(PQL_TOKEN_PERIOD)
+          ->addToken(PQL_TOKEN_PROC_NAME)
+          ->addToken(PQL_TOKEN_EQUALS)
+          ->ident("x")->build();
+
+  testSynAttribute(syn, tokenSeq);
+
+  syn = AttributedSynonym(PQLQuerySynonym(PQL_SYN_TYPE_CONSTANT, "c1"), CONST_VALUE);
+  tokenSeq = make_unique<PQLTestTokenSequenceBuilder>()
+          ->addToken(PQL_TOKEN_SELECT)
+          ->synonym("c1")
+          ->addToken(PQL_TOKEN_PERIOD)
+          ->addToken(PQL_TOKEN_VALUE)
+          ->addToken(PQL_TOKEN_EQUALS)
+          ->integer(8)->build();
+
+  testSynAttribute(syn, tokenSeq);
+}
+
+TEST_CASE("Test PQL Select attribute in tuple parsing") {
+  QueryBuilder builder;
+  builder.addSynonym("s1", PQL_SYN_TYPE_STMT);
+  builder.addSynonym("v1", PQL_SYN_TYPE_VARIABLE);
+  builder.addSynonym("p1", PQL_SYN_TYPE_PROCEDURE);
+  builder.addSynonym("c1", PQL_SYN_TYPE_CONSTANT);
+
+  // Select <s1.stmt#, v1.varName, p1.procName, c1.value>
+  testParsing<PQLSelectParser>(
+      make_unique<PQLTestTokenSequenceBuilder>()
+          ->addToken(PQL_TOKEN_SELECT)
+          ->addToken(PQL_TOKEN_TUPLE_OPEN)
+          ->synonym("s1")
+          ->addToken(PQL_TOKEN_PERIOD)
+          ->addToken(PQL_TOKEN_STMT)
+          ->addToken(PQL_TOKEN_NUMBER_SIGN)
+          ->comma()
+          ->synonym("v1")
+          ->addToken(PQL_TOKEN_PERIOD)
+          ->addToken(PQL_TOKEN_VAR_NAME)
+          ->comma()
+          ->synonym("p1")
+          ->addToken(PQL_TOKEN_PERIOD)
+          ->addToken(PQL_TOKEN_PROC_NAME)
+          ->comma()
+          ->synonym("c1")
+          ->addToken(PQL_TOKEN_PERIOD)
+          ->addToken(PQL_TOKEN_VALUE)
+          ->addToken(PQL_TOKEN_TUPLE_CLOSE)
+          ->build(), &builder);
+
+  auto query = builder.build();
+  auto resultVar = query->getResultVariables();
+  REQUIRE(resultVar->size() == 4);
+  REQUIRE(resultVar->at(0).getName() == "s1");
+  REQUIRE(resultVar->at(0).getType() == PQL_SYN_TYPE_STMT);
+  REQUIRE(resultVar->at(0).getAttribute() == STMT_NUM);
+  REQUIRE(resultVar->at(1).getName() == "v1");
+  REQUIRE(resultVar->at(1).getType() == PQL_SYN_TYPE_VARIABLE);
+  REQUIRE(resultVar->at(1).getAttribute() == VAR_NAME);
+  REQUIRE(resultVar->at(2).getName() == "p1");
+  REQUIRE(resultVar->at(2).getType() == PQL_SYN_TYPE_PROCEDURE);
+  REQUIRE(resultVar->at(2).getAttribute() == PROC_NAME);
+  REQUIRE(resultVar->at(3).getName() == "c1");
+  REQUIRE(resultVar->at(3).getType() == PQL_SYN_TYPE_CONSTANT);
+  REQUIRE(resultVar->at(3).getAttribute() == CONST_VALUE);
 }
