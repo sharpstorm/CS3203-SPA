@@ -63,6 +63,6 @@ TEST_CASE("Trie Building - Heavier Tree") {
 TEST_CASE("Trie Building - Stress Tree") {
   auto exprTree = SourceParser().parseExpression(
       "call + procedure + assign - if + 20000 - read + call - read - if * print / while * 1000 + while + call + procedure + assign + if - while / 299385 - asdfasdf123123");
-  auto trie = PatternConverter::convertASTToTrie(exprTree.getRoot());
+  auto trie = PatternConverter::convertASTToTrie(exprTree->getRoot());
 }
 

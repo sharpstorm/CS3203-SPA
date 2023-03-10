@@ -9,15 +9,17 @@ IfNode::IfNode(int lineNumber) : StatementASTNode(ASTNODE_IF, "", lineNumber) {
   // index [0] = conditional expression
   // index [1] = Then StmtLst
   // index [2] = Else StmtLst
-  children = vector<ASTNodePtr>{nullptr, nullptr, nullptr};
+  children.push_back(nullptr);
+  children.push_back(nullptr);
+  children.push_back(nullptr);
 }
 
-void IfNode::accept(Extractor* e) {
-  e->visit(this);
+void IfNode::accept(IExtractor* e) {
+  e->visitIf(this);
 }
 
-void IfNode::leave(Extractor* e) {
-  e->leave(this);
+void IfNode::leave(IExtractor* e) {
+  e->leaveIf(this);
 }
 
 string IfNode::toString() {

@@ -1,47 +1,39 @@
 #include "EntityExtractor.h"
-#include "sp/errors/SPError.h"
 
-EntityExtractor::EntityExtractor(PkbWriter* writer) : pkbWriter(writer) {
-}
+EntityExtractor::EntityExtractor(PkbWriter* writer) : pkbWriter(writer) {}
 
-void EntityExtractor::visit(ProcedureNode *node) {
-  pkbWriter->addSymbol(node->getName(), EntityType::Procedure);
+void EntityExtractor::visitProcedure(ProcedureNode* node) {
   procNameCache = node->getName();
 }
 
-void EntityExtractor::visit(PrintNode* node) {
-  pkbWriter->addStatement(node->getLineNumber(), StmtType::Print);
+void EntityExtractor::visitPrint(PrintNode* node) {
+  addStatement<StmtType::Print>(node);
 }
 
-void EntityExtractor::visit(AssignNode* node) {
-  pkbWriter->addStatement(node->getLineNumber(), StmtType::Assign);
+void EntityExtractor::visitAssign(AssignNode* node) {
+  addStatement<StmtType::Assign>(node);
 }
 
-void EntityExtractor::visit(WhileNode* node) {
-  pkbWriter->addStatement(node->getLineNumber(), StmtType::While);
+void EntityExtractor::visitWhile(WhileNode* node) {
+  addStatement<StmtType::While>(node);
 }
 
-void EntityExtractor::visit(IfNode* node) {
-  pkbWriter->addStatement(node->getLineNumber(), StmtType::If);
+void EntityExtractor::visitIf(IfNode* node) {
+  addStatement<StmtType::If>(node);
 }
 
-void EntityExtractor::visit(ReadNode* node) {
-  pkbWriter->addStatement(node->getLineNumber(), StmtType::Read);
+void EntityExtractor::visitRead(ReadNode* node) {
+  addStatement<StmtType::Read>(node);
 }
 
-void EntityExtractor::visit(CallNode* node) {
-  if (procNameCache == node->getName()) {
-    throw SPError(SPERR_PROCEDURE_SELF_CALL);
-  }
-  pkbWriter->addStatement(node->getLineNumber(), StmtType::Call);
+void EntityExtractor::visitCall(CallNode* node) {
   pkbWriter->addCalls(node->getLineNumber(), procNameCache, node->getName());
 }
 
-void EntityExtractor::visit(VariableASTNode* node) {
-  pkbWriter->addSymbol(node->getValue(), EntityType::Variable);
+void EntityExtractor::visitVariable(VariableASTNode* node) {
+  pkbWriter->addVariable(node->getValue());
 }
 
-void EntityExtractor::visit(ConstantASTNode* node) {
-  pkbWriter->addSymbol(node->getValue(), EntityType::Constant);
+void EntityExtractor::visitConstant(ConstantASTNode* node) {
+  pkbWriter->addConstant(node->getValue());
 }
-

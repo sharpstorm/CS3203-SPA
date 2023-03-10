@@ -1,4 +1,5 @@
 #include <string>
+#include <utility>
 
 #include "catch.hpp"
 #include "pkb/storage/tables/HashKeyTable.h"

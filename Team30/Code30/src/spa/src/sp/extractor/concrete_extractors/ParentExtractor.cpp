@@ -4,24 +4,24 @@
 ParentExtractor::ParentExtractor(PkbWriter* writer) : pkbWriter(writer) {
 }
 
-void ParentExtractor::visit(IfNode* node) {
-  vector<ASTNodePtr> children = node->getChildren();
-  vector<ASTNodePtr> ifLst = children[1]->getChildren();
-  vector<ASTNodePtr> elseLst = children[2]->getChildren();
+void ParentExtractor::visitIf(IfNode* node) {
+  vector<ASTNode*> children = node->getChildren();
+  vector<ASTNode*> ifLst = children[1]->getChildren();
+  vector<ASTNode*> elseLst = children[2]->getChildren();
 
   addParentOnList(node->getLineNumber(), &ifLst);
   addParentOnList(node->getLineNumber(), &elseLst);
 }
 
-void ParentExtractor::visit(WhileNode* node) {
-  vector<ASTNodePtr> children = node->getChildren();
-  vector<ASTNodePtr> stmtList = children[1]->getChildren();
+void ParentExtractor::visitWhile(WhileNode* node) {
+  vector<ASTNode*> children = node->getChildren();
+  vector<ASTNode*> stmtList = children[1]->getChildren();
 
   addParentOnList(node->getLineNumber(), &stmtList);
 }
 
 void ParentExtractor::addParentOnList(int parentLine,
-                                      vector<ASTNodePtr> *childList) {
+                                      vector<ASTNode*> *childList) {
   StatementNumberExtractor statementNoExtractor;
   for (int i = 0; i < childList->size(); i++) {
     childList->at(i)->accept(&statementNoExtractor);

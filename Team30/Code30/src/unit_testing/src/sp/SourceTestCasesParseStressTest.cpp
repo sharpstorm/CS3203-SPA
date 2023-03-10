@@ -10,7 +10,7 @@
 #include "../../../spa/src/pkb/writers/PkbWriter.h"
 #include "../../../spa/src/sp/SourceParser.h"
 #include "../../../spa/src/sp/extractor/AbstractExtractor.h"
-#include "../../../spa/src/sp/extractor/Extractor.h"
+#include "sp/extractor/IExtractor.h"
 #include "../../../spa/src/sp/extractor/TreeWalker.h"
 #include "../../../spa/src/sp/extractor/concrete_extractors/EntityExtractor.h"
 #include "../../../spa/src/sp/extractor/concrete_extractors/FollowsExtractor.h"
@@ -27,7 +27,7 @@ void executeExtractors(string input) {
   PKB pkb;
   PkbWriter pkbWriter(&pkb);
   SourceParser parser;
-  vector<Extractor*> extractors;
+  vector<IExtractor*> extractors;
 
   auto followsExtractor = make_unique<FollowsExtractor>(&pkbWriter);
   auto parentExtractor = make_unique<ParentExtractor>(&pkbWriter);
@@ -41,8 +41,8 @@ void executeExtractors(string input) {
   extractors.push_back(usesExtractor.get());
   extractors.push_back(modifiesExtractor.get());
 
-  AST ast = parser.parseSource(input);
-  treeWalker.walkAST(ast, &extractors);
+  ASTPtr ast = parser.parseSource(input);
+  treeWalker.walkAST(ast.get(), &extractors);
 }
 
 TEST_CASE("Simple programs for grammar testing") {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Extractor.h"
+#include "IExtractor.h"
 #include "pkb/storage/PKB.h"
 #include "pkb/writers/PkbWriter.h"
 
@@ -19,34 +19,37 @@
 #include "sp/ast/expression_operand/AbstractExpressionNode.h"
 #include "sp/ast/conditional_operand/AbstractConditionalNode.h"
 
-class AbstractExtractor : public Extractor {
+class AbstractContainerNodeExtractorPart:
+    virtual public IContainerNodeExtractorPart {
  public:
-  virtual void visit(ProcedureNode* node) {}
-  virtual void visit(StatementListNode* node) {}
-  virtual void visit(IfNode* node) {}
-  virtual void visit(ReadNode* node) {}
-  virtual void visit(AssignNode* node) {}
-  virtual void visit(PrintNode* node) {}
-  virtual void visit(WhileNode* node) {}
-  virtual void visit(CallNode* node) {}
-  virtual void visit(VariableASTNode* node) {}
-  virtual void visit(ConstantASTNode* node) {}
-  virtual void visit(AbstractExpressionNode* node) {}
-  virtual void visit(AbstractConditionalNode* node) {}
+  void visitProcedure(ProcedureNode* node) override {}
+  void visitStmtList(StatementListNode* node) override {}
+  void visitIf(IfNode* node) override {}
+  void visitWhile(WhileNode* node) override {}
 
-  virtual void leave(ProcedureNode* node) {}
-  virtual void leave(StatementListNode* node) {}
-  virtual void leave(IfNode* node) {}
-  virtual void leave(ReadNode* node) {}
-  virtual void leave(AssignNode* node) {}
-  virtual void leave(PrintNode* node) {}
-  virtual void leave(WhileNode* node) {}
-  virtual void leave(CallNode* node) {}
-  virtual void leave(VariableASTNode* node) {}
-  virtual void leave(ConstantASTNode* node) {}
-  virtual void leave(AbstractExpressionNode* node) {}
-  virtual void leave(AbstractConditionalNode* node) {}
-
- private:
-  PkbWriter* pkbWriter;
+  void leaveProcedure(ProcedureNode* node) override {}
+  void leaveStmtList(StatementListNode* node) override {}
+  void leaveIf(IfNode* node) override {}
+  void leaveWhile(WhileNode* node) override {}
 };
+
+class AbstractBinaryNodeExtractorPart: virtual public IBinaryNodeExtractorPart {
+ public:
+  void visitExpression(AbstractExpressionNode* node) override {}
+  void visitConditional(AbstractConditionalNode* node) override {}
+};
+
+class AbstractLeafNodeExtractorPart: virtual public ILeafNodeExtractorPart {
+ public:
+  void visitRead(ReadNode* node) override {}
+  void visitPrint(PrintNode* node) override {}
+  void visitAssign(AssignNode* node) override {}
+  void visitCall(CallNode* node) override {}
+  void visitVariable(VariableASTNode* node) override {}
+  void visitConstant(ConstantASTNode* node) override {}
+};
+
+class AbstractExtractor : public IExtractor,
+                          public AbstractContainerNodeExtractorPart,
+                          public AbstractBinaryNodeExtractorPart,
+                          public AbstractLeafNodeExtractorPart {};

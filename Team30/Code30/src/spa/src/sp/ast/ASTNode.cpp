@@ -1,29 +1,36 @@
 #include "ASTNode.h"
 
+#include <utility>
+
 ASTNode::ASTNode(ASTNodeType t) : type(t), value("") {
 }
 
 ASTNode::ASTNode(ASTNodeType t, string v) : type(t), value(v) {
 }
 
-vector<ASTNodePtr> ASTNode::getChildren() {
-  return children;
+vector<ASTNode*> ASTNode::getChildren() {
+  vector<ASTNode*> result;
+  for (int i = 0; i < children.size(); i++) {
+    result.push_back(children.at(i).get());
+  }
+
+  return result;
 }
 
 void ASTNode::setChild(int index, ASTNodePtr node) {
-  children[index] = node;
+  children[index] = std::move(node);
 }
 
 void ASTNode::addChild(ASTNodePtr node) {
-  children.push_back(node);
+  children.push_back(std::move(node));
 }
 
-shared_ptr<IASTNode> ASTNode::getChild(int index) {
+IASTNode* ASTNode::getChild(int index) {
   if (index < 0 || index >= children.size()) {
     return nullptr;
   }
 
-  return children[index];
+  return children[index].get();
 }
 
 int ASTNode::getChildCount() {

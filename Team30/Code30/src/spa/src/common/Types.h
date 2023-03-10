@@ -12,9 +12,12 @@ enum class EntityType { None, Procedure, Variable, Constant };
 
 enum class StmtType { None, Read, Print, Assign, Call, While, If };
 
+typedef string EntityValue;
+typedef int StmtValue;
+
 struct StmtRef {
   StmtType type;
-  int lineNum;
+  StmtValue lineNum;
   bool isKnown() {
     return lineNum != 0;
   }
@@ -22,7 +25,7 @@ struct StmtRef {
 
 struct EntityRef {
   EntityType type;
-  string name;
+  EntityValue name;
   bool isKnown() {
     return !name.empty();
   }

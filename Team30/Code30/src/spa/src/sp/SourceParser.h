@@ -9,8 +9,8 @@ using std::string;
 
 class SourceParser : public ISourceParser {
  public:
-  AST parseSource(string input);
-  AST parseExpression(string expression);
+  ASTPtr parseSource(string input) override;
+  ASTPtr parseExpression(string expression) override;
 
  private:
   SourceLexer sourceLexer;

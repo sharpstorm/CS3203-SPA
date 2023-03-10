@@ -16,11 +16,11 @@ vector<pair<int, int>> executeParentExtractor(string input) {
   PKB pkb;
   StubPkb stubby(&pkb);
   SourceParser parser;
-  vector<Extractor*> extractors;
+  vector<IExtractor*> extractors;
   auto parentExtractor = make_unique<ParentExtractor>(&stubby);
   extractors.push_back(parentExtractor.get());
-  AST ast = parser.parseSource(input);
-  treeWalker.walkAST(ast, &extractors);
+  ASTPtr ast = parser.parseSource(input);
+  treeWalker.walkAST(ast.get(), &extractors);
   return stubby.parentStore;
 }
 

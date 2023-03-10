@@ -21,29 +21,38 @@ PKB::PKB()
                                make_shared<HashKeySetTable<string, string>>())),
       usesStorage(new UsesStorage(make_shared<HashKeySetTable<int, string>>(),
                                   make_shared<HashKeySetTable<string, int>>())),
-      usesPStorage(new UsesPStorage(make_shared<HashKeySetTable<string,
-                                                                string>>(),
-                                    make_shared<HashKeySetTable<string,
-                                                                string>>())),
-      symbolStorage(new SymbolStorage()),
+      usesPStorage(
+          new UsesPStorage(make_shared<HashKeySetTable<string, string>>(),
+                           make_shared<HashKeySetTable<string, string>>())),
+      variableStorage(
+          new VariableStorage(make_shared<ContiguousTable<string>>(),
+                              make_shared<HashKeySetTable<string, int>>())),
+      constantStorage(
+          new ConstantStorage(make_shared<ContiguousTable<string>>(),
+                              make_shared<HashKeySetTable<string, int>>())),
       statementStorage(
           new StatementStorage(make_shared<ContiguousTable<StmtType>>(),
                                make_shared<HashKeySetTable<StmtType, int>>())),
       assignStorage(new AssignStorage()),
-      callStmtStorage(new CallStmtStorage(
-          make_shared<HashKeyTable<int, string>>(),
+      ifPatternStorage(new IfPatternStorage(
+          make_shared<HashKeySetTable<int, string>>(),
           make_shared<HashKeySetTable<string, int>>())),
-      callsStorage(new CallsStorage(
-          make_shared<HashKeySetTable<string, string>>(),
-          make_shared<HashKeySetTable<string, string>>())),
-      procedureStorage(new ProcedureStorage(
-          make_shared<ContiguousTable<string>>(),
+      whilePatternStorage(new WhilePatternStorage(
+          make_shared<HashKeySetTable<int, string>>(),
           make_shared<HashKeySetTable<string, int>>())),
-      structureProvider(
-          new StructureMappingProvider(statementStorage,
-                                       procedureStorage,
-                                       callStmtStorage)),
-      entityMappingProvider(new EntityMappingProvider(symbolStorage)),
+      callStmtStorage(
+          new CallStmtStorage(make_shared<HashKeyTable<int, string>>(),
+                              make_shared<HashKeySetTable<string, int>>())),
+      callsStorage(
+          new CallsStorage(make_shared<HashKeySetTable<string, string>>(),
+                           make_shared<HashKeySetTable<string, string>>())),
+      procedureStorage(
+          new ProcedureStorage(make_shared<ContiguousTable<string>>(),
+                               make_shared<HashKeySetTable<string, int>>())),
+      structureProvider(new StructureMappingProvider(
+          statementStorage, procedureStorage, callStmtStorage)),
+      entityMappingProvider(new EntityMappingProvider(
+          variableStorage, constantStorage, procedureStorage)),
       predicateFactory(
           new PredicateFactory(structureProvider, entityMappingProvider)) {}
 PKB::~PKB() {
@@ -53,10 +62,12 @@ PKB::~PKB() {
   delete (modifiesPStorage);
   delete (usesStorage);
   delete (usesPStorage);
-  delete (symbolStorage);
+  delete (variableStorage);
+  delete (constantStorage);
   delete (statementStorage);
   delete (procedureStorage);
   delete (assignStorage);
+  delete (ifPatternStorage);
   delete (structureProvider);
   delete (entityMappingProvider);
   delete (predicateFactory);

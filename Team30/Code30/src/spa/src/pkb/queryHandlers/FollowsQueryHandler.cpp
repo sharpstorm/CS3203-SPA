@@ -3,10 +3,10 @@
 
 FollowsQueryHandler::FollowsQueryHandler(
     const FollowsStorage *store, const PredicateFactory *predicateFactory,
-    const IStructureMappingProvider *stuctureProvider)
+    const IStructureMappingProvider *structureProvider)
     : store(store),
       predicateFactory(predicateFactory),
-      structureProvider(stuctureProvider) {}
+      structureProvider(structureProvider) {}
 
 QueryResult<int, int> FollowsQueryHandler::queryFollows(StmtRef s1,
                                                         StmtRef s2) const {
