@@ -15,6 +15,8 @@ class PQLSuchThatParser: public IPQLParser {
     PQLUsesClauseContext usesContext;
     PQLModifiesClauseContext modifiesContext;
     PQLCallsClauseContext callsContext;
+    PQLNextClauseContext nextContext;
+    PQLAffectsClauseContext affectsContext;
 
   IPQLSuchThatClauseContext* getContext(PQLTokenType type);
 };

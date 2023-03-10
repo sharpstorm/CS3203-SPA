@@ -45,6 +45,10 @@ IPQLSuchThatClauseContext *PQLSuchThatParser::getContext(PQLTokenType type) {
       return &modifiesContext;
     case PQL_TOKEN_CALLS:
       return &callsContext;
+    case PQL_TOKEN_NEXT:
+      return &nextContext;
+    case PQL_TOKEN_AFFECTS:
+      return &affectsContext;
     default:
       return nullptr;
   }
