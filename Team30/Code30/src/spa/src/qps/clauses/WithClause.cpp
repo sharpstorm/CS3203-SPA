@@ -10,12 +10,10 @@ PQLQueryResult *WithClause::evaluateOn(PkbQueryHandler *pkbQueryHandler) {
 }
 
 bool WithClause::validateArgTypes(VariableTable *variables) {
-  // Change to false
   if (leftArg->isSyn() && !leftArg->isAttributeValid()) {
     return false;
   }
 
-  // Change to false
   if (rightArg->isSyn() && !rightArg->isAttributeValid()) {
     return false;
   }

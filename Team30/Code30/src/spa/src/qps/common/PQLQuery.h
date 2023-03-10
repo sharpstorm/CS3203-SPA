@@ -15,7 +15,6 @@ using std::string, std::unordered_map, std::vector, std::unique_ptr;
 class PQLQuery {
  private:
   VariableTable variables;
-//  PQLQuerySynonymList resultVariables;
   AttributedSynonymList resultVariables;
   vector<ClauseSPtr> clauses;
 

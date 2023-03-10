@@ -13,7 +13,7 @@ WithArgument::WithArgument(AttributedSynonymPtr syn) :
 
 bool WithArgument::doesReturnInteger() {
   if (isSyn()) {
-    return (syn->getAttribute() & 0x20) > 0;
+    return (syn->getAttribute() & INT_RETURN_MASK) > 0;
   }
 
   if (intValue == NO_STMT_REF) {
