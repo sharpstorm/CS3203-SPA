@@ -2,6 +2,7 @@
 #include <vector>
 #include "UsesExtractor.h"
 #include "sp/ast/entity/ProcedureNode.h"
+#include "ExpressionVariableExtractor.h"
 
 using std::string, std::vector;
 
@@ -9,8 +10,9 @@ UsesExtractor::UsesExtractor(PkbWriter* writer) : pkbWriter(writer) {
 }
 
 void UsesExtractor::visitAssign(AssignNode* node) {
-  shared_ptr<ASTNode> expr = node->getChildren()[1];
-  updateUses(expr, node->getLineNumber());
+  ExpressionVariableExtractor variableExtractor;
+  node->accept(&variableExtractor);
+  updateUses(variableExtractor.getVariableSet(), node->getLineNumber());
 }
 
 void UsesExtractor::visitPrint(PrintNode* node) {
@@ -22,14 +24,16 @@ void UsesExtractor::visitPrint(PrintNode* node) {
 }
 
 void UsesExtractor::visitWhile(WhileNode* node) {
-  shared_ptr<ASTNode> condExpr = node->getChildren()[0];
-  updateUses(condExpr, node->getLineNumber());
+  ExpressionVariableExtractor variableExtractor;
+  node->accept(&variableExtractor);
+  updateUses(variableExtractor.getVariableSet(), node->getLineNumber());
   statementStartStack.push_back(node->getLineNumber());
 }
 
 void UsesExtractor::visitIf(IfNode* node) {
-  shared_ptr<ASTNode> condExpr = node->getChildren()[0];
-  updateUses(condExpr, node->getLineNumber());
+  ExpressionVariableExtractor variableExtractor;
+  node->accept(&variableExtractor);
+  updateUses(variableExtractor.getVariableSet(), node->getLineNumber());
   statementStartStack.push_back(node->getLineNumber());
 }
 
@@ -45,10 +49,8 @@ void UsesExtractor::visitProcedure(ProcedureNode* node) {
   procName = node->getName();
 }
 
-void UsesExtractor::updateUses(shared_ptr<ASTNode> expr,
+void UsesExtractor::updateUses(unordered_set<string> v,
                                const int &lineNumber) {
-  unordered_set<string> v;
-  recurseExpr(&v, expr);
   processNode(lineNumber, &v);
   for (int i : statementStartStack) {
     processNode(i, &v);
@@ -60,32 +62,6 @@ void UsesExtractor::processNode(const int &lineNumber,
   for (const string &s : *v) {
     addUsesRelation(lineNumber, s);
   }
-}
-
-void UsesExtractor::recurseExpr(unordered_set<string>* v,
-                                shared_ptr<ASTNode> node) {
-  if (node->getType() == ASTNodeType::ASTNODE_CONSTANT) {
-    return;
-  }
-
-  if (node->getType() == ASTNodeType::ASTNODE_VARIABLE) {
-    string value = node->toString();
-    if (!setContains(v, value)) {
-      v->insert(value);
-    }
-    return;
-  }
-
-  if (node->getChildren()[0] != nullptr) {
-    recurseExpr(v, node->getChildren()[0]);
-  }
-  if (node->getChildren()[1] != nullptr) {
-    recurseExpr(v, node->getChildren()[1]);
-  }
-}
-
-bool UsesExtractor::setContains(unordered_set<string>* v, const string &x) {
-  return v->find(x) != v->end();
 }
 
 void UsesExtractor::addUsesRelation(const int &x, const string &var) {
