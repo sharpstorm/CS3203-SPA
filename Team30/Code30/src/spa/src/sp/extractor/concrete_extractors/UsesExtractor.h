@@ -11,19 +11,19 @@ using std::string, std::unordered_set, std::vector;
 class UsesExtractor : public AbstractExtractor {
  public:
   explicit UsesExtractor(PkbWriter *pkbWriter);
-  void visit(AssignNode* node);
-  void visit(PrintNode* node);
-  void visit(WhileNode* node);
-  void visit(IfNode* node);
-  void leave(WhileNode* node);
-  void leave(IfNode* node);
-  void visit(ProcedureNode* node);
+  void visitAssign(AssignNode* node) override;
+  void visitPrint(PrintNode* node) override;
+  void visitWhile(WhileNode* node) override;
+  void visitIf(IfNode* node) override;
+  void leaveWhile(WhileNode* node) override;
+  void leaveIf(IfNode* node) override;
+  void visitProcedure(ProcedureNode* node) override;
  private:
-  void addUsesRelation(int x, string var);
-  void processNode(int lineNumber, unordered_set<string>* v);
-  void recurseExpr(unordered_set<string>* v, shared_ptr<ASTNode> node);
+  void addUsesRelation(const int &x, const string &var);
+  void processNode(const int &lineNumber, unordered_set<string>* v);
+  void recurseExpr(unordered_set<string>* v, ASTNode* node);
   bool setContains(unordered_set<string> *v, const string &x);
-  void updateUses(shared_ptr<ASTNode> expr, int lineNumber);
+  void updateUses(ASTNode* expr, const int &lineNumber);
   vector<int> statementStartStack;
   PkbWriter *pkbWriter;
   string procName;

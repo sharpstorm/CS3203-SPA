@@ -9,11 +9,12 @@ AssignNode::AssignNode(int lineNumber) :
     StatementASTNode(ASTNODE_ASSIGN, "", lineNumber) {
   // index [0] = assignee
   // index [1] = expression
-  children = vector<ASTNodePtr>{nullptr, nullptr};
+  children.push_back(nullptr);
+  children.push_back(nullptr);
 }
 
-void AssignNode::accept(Extractor* e) {
-  e->visit(this);
+void AssignNode::accept(IExtractor* e) {
+  e->visitAssign(this);
 }
 
 string AssignNode::toString() {

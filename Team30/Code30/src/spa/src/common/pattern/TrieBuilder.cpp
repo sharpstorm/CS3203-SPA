@@ -5,7 +5,7 @@
 
 using std::make_unique;
 
-TrieBuilder::TrieBuilder(IASTNodePtr astRoot):
+TrieBuilder::TrieBuilder(IASTNode* astRoot):
     astRoot(astRoot),
     symTable(make_unique<TrieSymbolTable>()),
     rootNode(make_unique<PatternTrieNode>()),
@@ -14,7 +14,7 @@ TrieBuilder::TrieBuilder(IASTNodePtr astRoot):
 }
 
 PatternTriePtr TrieBuilder::build() {
-  walkAST(astRoot.get());
+  walkAST(astRoot);
 
   return make_unique<PatternTrie>(std::move(rootNode),
                                   std::move(symTable),
@@ -34,8 +34,8 @@ TrieBuilder::BuildState TrieBuilder::walkAST(IASTNode* node) {
     };
   }
 
-  TrieBuilder::BuildState leftChild = walkAST(node->getChild(0).get());
-  TrieBuilder::BuildState rightChild = walkAST(node->getChild(1).get());
+  TrieBuilder::BuildState leftChild = walkAST(node->getChild(0));
+  TrieBuilder::BuildState rightChild = walkAST(node->getChild(1));
 
   PatternTrieNode* curNode = leftChild.node;
   leftChild.postfixTail->next = rightChild.postfixHead;

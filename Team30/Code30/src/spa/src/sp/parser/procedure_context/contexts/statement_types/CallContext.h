@@ -5,7 +5,7 @@
 #include "sp/ast/statement/CallNode.h"
 #include "AbstractSingleArgContext.h"
 
-using std::make_shared;
+using std::make_unique;
 
 class CallContext:
     public AbstractSingleArgContext<SIMPLE_TOKEN_KEYWORD_CALL> {
@@ -14,6 +14,6 @@ class CallContext:
       AbstractSingleArgContext(provider) {}
  protected:
   ASTNodePtr makeNode(const int &lineNumber, ASTNodePtr variableNode) {
-    return make_shared<CallNode>(lineNumber, variableNode->getValue());
+    return make_unique<CallNode>(lineNumber, variableNode->getValue());
   }
 };

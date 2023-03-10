@@ -1,4 +1,6 @@
 #include <memory>
+#include <utility>
+
 #include "SourceTokenParser.h"
 #include "sp/ast/entity/ProgramNode.h"
 
@@ -13,17 +15,17 @@ SourceTokenParser::SourceTokenParser():
                                                  condParser.get())) {
 }
 
-AST SourceTokenParser::parseProgram(vector<SourceToken> *tokens) {
+ASTPtr SourceTokenParser::parseProgram(vector<SourceToken> *tokens) {
   SourceParseState state(tokens);
-  ASTNodePtr programNode = make_shared<ProgramNode>();
-  programNode->addChild(procedureParser->parse(&state));
+  ASTNodePtr programNode = make_unique<ProgramNode>();
+  programNode->addChild(std::move(procedureParser->parse(&state)));
   while (!state.isEnd()) {
-    programNode->addChild(procedureParser->parse(&state));
+    programNode->addChild(std::move(procedureParser->parse(&state)));
   }
-  return AST(programNode);
+  return make_unique<AST>(std::move(programNode));
 }
 
-AST SourceTokenParser::parseExpression(vector<SourceToken> *tokens) {
+ASTPtr SourceTokenParser::parseExpression(vector<SourceToken> *tokens) {
   SourceParseState state(tokens);
-  return AST(exprParser->parse(&state));
+  return make_unique<AST>(std::move(exprParser->parse(&state)));
 }

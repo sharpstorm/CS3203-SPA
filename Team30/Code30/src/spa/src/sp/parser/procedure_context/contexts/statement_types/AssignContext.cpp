@@ -1,9 +1,11 @@
 #include "AssignContext.h"
 
 #include <memory>
+#include <utility>
+
 #include "sp/ast/statement/AssignNode.h"
 
-using std::make_shared;
+using std::make_unique;
 
 ASTNodePtr AssignContext::generateSubtree(SourceParseState* state) {
   // Parse assignee
@@ -16,9 +18,8 @@ ASTNodePtr AssignContext::generateSubtree(SourceParseState* state) {
   ASTNodePtr expr = contextProvider->parseExpression(state);
   state->expect(SIMPLE_TOKEN_SEMICOLON);
 
-  ASTNodePtr assignNode = make_shared<AssignNode>(state->getLineNumber());
-  assignNode->setChild(0, name);
-  assignNode->setChild(1, expr);
-  state->setCached(assignNode);
+  ASTNodePtr assignNode = make_unique<AssignNode>(state->getLineNumber());
+  assignNode->setChild(0, std::move(name));
+  assignNode->setChild(1, std::move(expr));
   return assignNode;
 }

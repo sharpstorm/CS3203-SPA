@@ -1,5 +1,7 @@
 #pragma once
 
+#include <utility>
+
 #include "sp/ast/ASTNode.h"
 #include "../../ProcedureContextType.h"
 #include "../../IProcedureContextProvider.h"
@@ -21,14 +23,7 @@ ASTNodePtr AbstractSingleArgContext<KEYWORD>::
 generateSubtree(SourceParseState* state) {
   // Keyword Entity;
   state->expect(KEYWORD);
-  ASTNodePtr varNode = contextProvider
-      ->parseVariable(state);
-
+  ASTNodePtr varNode = contextProvider->parseVariable(state);
   state->expect(SIMPLE_TOKEN_SEMICOLON);
-
-  ASTNodePtr newNode = makeNode(state->getLineNumber(),
-                                varNode);
-  state->setCached(newNode);
-
-  return newNode;
+  return makeNode(state->getLineNumber(), std::move(varNode));
 }

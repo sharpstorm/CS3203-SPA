@@ -1,60 +1,55 @@
 #include <memory>
+#include <utility>
 #include "ExpressionContext.h"
 
 #include "sp/ast/expression_operand/PlusASTNode.h"
 #include "sp/ast/expression_operand/MinusASTNode.h"
 
-using std::make_shared;
+using std::make_unique;
 
 ExpressionContext::ExpressionContext(IExpressionContextProvider *provider):
     RecursiveParseContext(provider) {}
 
-ASTNodePtr ExpressionContext::generateSubtree(
-    SourceParseState *state) {
-
+ASTNodePtr ExpressionContext::generateSubtree(SourceParseState *state) {
+  ASTNodePtr leftExpr;
   if (!state->hasCached()) {
     // Expect term
-    shared_ptr<ASTNode> firstExpr = contextProvider
+    leftExpr = contextProvider
         ->generateSubtree(ExpressionContextType::TERM_CONTEXT, state);
-    state->setCached(firstExpr);
+  } else {
+    leftExpr = state->consumeCache();
   }
 
-  SourceToken* curToken = state->getCurrToken();
-  if (curToken == nullptr) {
-    return state->getCached();
-  }
-
-  shared_ptr<BinaryASTNode> middleNode = generateOperand(curToken);
+  BinaryASTNodePtr middleNode = generateOperand(state);
   if (middleNode == nullptr) {
-    return state->getCached();
+    return leftExpr;
   }
-  middleNode->setLeftChild(state->getCached());
+  middleNode->setLeftChild(std::move(leftExpr));
 
-  state->advanceToken();
-  state->clearCached();
-
-  shared_ptr<ASTNode> rightTerm = contextProvider
+  ASTNodePtr rightTerm = contextProvider
       ->generateSubtree(ExpressionContextType::TERM_CONTEXT, state);
-  middleNode->setRightChild(rightTerm);
-  state->setCached(middleNode);
+  middleNode->setRightChild(std::move(rightTerm));
 
-  curToken = state->getCurrToken();
-  if (curToken == nullptr) {
-    return middleNode;
-  } else if (curToken->isType(SIMPLE_TOKEN_PLUS, SIMPLE_TOKEN_MINUS)) {
+  if (state->currTokenIsOfType(SIMPLE_TOKEN_PLUS, SIMPLE_TOKEN_MINUS)) {
+    state->cacheNode(std::move(middleNode));
     return contextProvider
         ->generateSubtree(ExpressionContextType::EXPR_CONTEXT, state);
   }
   return middleNode;
 }
 
-BinaryASTNodePtr ExpressionContext::generateOperand(
-    SourceToken* curToken) {
+BinaryASTNodePtr ExpressionContext::generateOperand(SourceParseState *state) {
+  SourceToken* curToken = state->tryExpect(SIMPLE_TOKEN_PLUS,
+                                           SIMPLE_TOKEN_MINUS);
+  if (curToken == nullptr) {
+    return nullptr;
+  }
+
   switch (curToken->getType()) {
     case SIMPLE_TOKEN_PLUS:
-      return make_shared<PlusASTNode>();
+      return make_unique<PlusASTNode>();
     case SIMPLE_TOKEN_MINUS:
-      return make_shared<MinusASTNode>();
+      return make_unique<MinusASTNode>();
     default:
       return nullptr;
   }

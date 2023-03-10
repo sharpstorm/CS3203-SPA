@@ -1,13 +1,12 @@
 #pragma once
 
-#include <functional>
 #include <memory>
 #include "../../common/PQLQuerySynonym.h"
 #include "common/Types.h"
 
-using std::function, std::unique_ptr;
+using std::unique_ptr;
 
-using SynonymPredicate = function<bool(PQLQuerySynonym)>;
+typedef bool (*SynonymPredicate)(PQLQuerySynonym syn);
 
 class ClauseArgument {
  public:
@@ -21,12 +20,17 @@ class ClauseArgument {
   virtual StmtRef toStmtRef() = 0;
   virtual EntityRef toEntityRef() = 0;
 
-  static SynonymPredicate isStatement;
+  static bool isStatement(PQLQuerySynonym syn);
 
-  template<PQLSynonymType type>
-  constexpr static bool(*isType)(PQLQuerySynonym) = [](PQLQuerySynonym syn) {
-    return syn.isType(type);
-  };
+  template<PQLSynonymType TYPE>
+  static bool isType(PQLQuerySynonym syn) {
+    return syn.isType(TYPE);
+  }
+
+  template<SynonymPredicate condA, SynonymPredicate condB>
+  static bool isEither(PQLQuerySynonym syn) {
+    return condA(syn) || condB(syn);
+  }
 };
 
-using ClauseArgumentPtr = unique_ptr<ClauseArgument>;
+typedef unique_ptr<ClauseArgument> ClauseArgumentPtr;

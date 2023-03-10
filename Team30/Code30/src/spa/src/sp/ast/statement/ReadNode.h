@@ -2,15 +2,15 @@
 
 #include <string>
 #include "StatementASTNode.h"
-#include "sp/extractor/Extractor.h"
+#include "sp/extractor/IExtractor.h"
 
-using std::string, std::shared_ptr;
+using std::string;
 
 class ReadNode : public StatementASTNode {
  public:
   explicit ReadNode(int lineNumber);
   ~ReadNode() = default;
 
-  string toString();
-  void accept(Extractor* e);
+  string toString() override;
+  void accept(IExtractor* e) override;
 };

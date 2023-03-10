@@ -8,11 +8,11 @@ using std::vector;
 FollowsExtractor::FollowsExtractor(PkbWriter* writer) : pkbWriter(writer) {
 }
 
-void FollowsExtractor::visit(StatementListNode* node) {
+void FollowsExtractor::visitStmtList(StatementListNode* node) {
   if (node->getChildren().empty()) {
     return;
   }
-  vector<ASTNodePtr> children = node->getChildren();
+  vector<ASTNode*> children = node->getChildren();
   StatementNumberExtractor statementNoExtractor;
 
   for (int i = 0; i < children.size() - 1; i++) {

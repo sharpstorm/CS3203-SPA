@@ -9,17 +9,21 @@
 class EntityExtractor : public AbstractExtractor {
  public:
   explicit EntityExtractor(PkbWriter* pkbWriter);
-  void visit(ProcedureNode* node);
-  void visit(PrintNode* node);
-  void visit(AssignNode* node);
-  void visit(WhileNode* node);
-  void visit(IfNode* node);
-  void visit(ReadNode* node);
-  void visit(CallNode* node);
-  void visit(VariableASTNode* node);
-  void visit(ConstantASTNode* node);
+  void visitProcedure(ProcedureNode* node);
+  void visitPrint(PrintNode* node);
+  void visitAssign(AssignNode* node);
+  void visitWhile(WhileNode* node);
+  void visitIf(IfNode* node);
+  void visitRead(ReadNode* node);
+  void visitCall(CallNode* node);
+  void visitVariable(VariableASTNode* node);
+  void visitConstant(ConstantASTNode* node);
  private:
   PkbWriter* pkbWriter;
-  int procStart;
   string procNameCache;
+
+  template <StmtType type, class T>
+  const void addStatement(T* node) {
+    pkbWriter->addStatement(node->getLineNumber(), type);
+  }
 };

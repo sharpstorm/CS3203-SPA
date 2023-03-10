@@ -17,11 +17,11 @@ vector<pair<int, PatternTrieSPtr>> executePatternExtractor(string input) {
   PKB pkb;
   StubPkb stubby(&pkb);
   SourceParser parser;
-  vector<Extractor*> extractors;
+  vector<IExtractor*> extractors;
   auto patternExtractor = make_unique<PatternExtractor>(&stubby);
   extractors.push_back(patternExtractor.get());
-  AST ast = parser.parseSource(input);
-  treeWalker.walkAST(ast, &extractors);
+  ASTPtr ast = parser.parseSource(input);
+  treeWalker.walkAST(ast.get(), &extractors);
   return stubby.patternStore;
 }
 

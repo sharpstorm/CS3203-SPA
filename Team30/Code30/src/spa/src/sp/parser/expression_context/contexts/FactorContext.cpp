@@ -16,11 +16,9 @@ ASTNodePtr FactorContext::generateSubtree(SourceParseState *state) {
       return entityParser->parseConstant(state);
     case SIMPLE_TOKEN_BRACKET_ROUND_LEFT:
       state->expect(SIMPLE_TOKEN_BRACKET_ROUND_LEFT);
-      state->clearCached();
       node = contextProvider
           ->generateSubtree(ExpressionContextType::EXPR_CONTEXT, state);
       state->expect(SIMPLE_TOKEN_BRACKET_ROUND_RIGHT);
-      state->clearCached();
       return node;
     default:
       throw SPError(SPERR_UNEXPECTED_TOKEN);

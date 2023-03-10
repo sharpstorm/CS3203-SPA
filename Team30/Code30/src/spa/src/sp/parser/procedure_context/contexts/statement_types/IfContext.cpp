@@ -1,15 +1,15 @@
 #include "IfContext.h"
 
 #include <memory>
+#include <utility>
 #include "sp/ast/statement/IfNode.h"
 
-using std::make_shared;
+using std::make_unique;
 
 ASTNodePtr IfContext::generateSubtree(SourceParseState* state) {
   // If Node
   state->expect(SIMPLE_TOKEN_KEYWORD_IF);
-  ASTNodePtr ifNode = make_shared<IfNode>(
-      state->getLineNumber());
+  ASTNodePtr ifNode = make_unique<IfNode>(state->getLineNumber());
 
   // Conditional Expression
   state->expect(SIMPLE_TOKEN_BRACKET_ROUND_LEFT);
@@ -26,9 +26,8 @@ ASTNodePtr IfContext::generateSubtree(SourceParseState* state) {
   ASTNodePtr elseStmtLst = contextProvider
       ->generateSubtree(ProcedureContextType::STMT_LIST_CONTEXT, state);
 
-  ifNode->setChild(0, cond);
-  ifNode->setChild(1, thenStmtLst);
-  ifNode->setChild(2, elseStmtLst);
-  state->setCached(ifNode);
+  ifNode->setChild(0, std::move(cond));
+  ifNode->setChild(1, std::move(thenStmtLst));
+  ifNode->setChild(2, std::move(elseStmtLst));
   return ifNode;
 }

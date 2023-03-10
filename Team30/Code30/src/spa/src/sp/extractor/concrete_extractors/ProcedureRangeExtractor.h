@@ -2,23 +2,24 @@
 
 #include <memory>
 #include <string>
+
 #include "sp/extractor/AbstractExtractor.h"
 #include "sp/ast/entity/ProcedureNode.h"
 
-using std::shared_ptr;
+using std::shared_ptr, std::string;
 
 class ProcedureRangeExtractor : public AbstractExtractor {
  public:
   explicit ProcedureRangeExtractor(PkbWriter* pkbWriter);
-  void visit(ProcedureNode* node);
-  void visit(ReadNode* node);
-  void visit(PrintNode* node);
-  void visit(WhileNode* node);
-  void visit(IfNode* node);
-  void visit(AssignNode* node);
-  void visit(CallNode* node);
+  void visitProcedure(ProcedureNode* node) override;
+  void visitRead(ReadNode* node) override;
+  void visitPrint(PrintNode* node) override;
+  void visitWhile(WhileNode* node) override;
+  void visitIf(IfNode* node) override;
+  void visitAssign(AssignNode* node) override;
+  void visitCall(CallNode* node) override;
  private:
-  void addProcedureRange(string name, int start, int end);
+  void addProcedureRange(const string &name, int start, int end);
   PkbWriter* pkbWriter;
   int lineNumberCache;
 };

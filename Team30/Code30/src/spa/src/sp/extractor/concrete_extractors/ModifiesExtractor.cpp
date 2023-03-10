@@ -4,33 +4,33 @@
 ModifiesExtractor::ModifiesExtractor(PkbWriter* writer) : pkbWriter(writer) {
 }
 
-void ModifiesExtractor::visit(AssignNode* node) {
+void ModifiesExtractor::visitAssign(AssignNode* node) {
   string leftVar = node->getChildren()[0]->toString();
   addNodeModifies(node, leftVar);
 }
 
-void ModifiesExtractor::visit(ReadNode* node) {
+void ModifiesExtractor::visitRead(ReadNode* node) {
   string var = node->getChildren()[0]->toString();
   addNodeModifies(node, var);
 }
 
-void ModifiesExtractor::visit(WhileNode* node) {
+void ModifiesExtractor::visitWhile(WhileNode* node) {
   statementStartStack.push_back(node->getLineNumber());
 }
 
-void ModifiesExtractor::visit(IfNode* node) {
+void ModifiesExtractor::visitIf(IfNode* node) {
   statementStartStack.push_back(node->getLineNumber());
 }
 
-void ModifiesExtractor::leave(IfNode* node) {
+void ModifiesExtractor::leaveIf(IfNode* node) {
   statementStartStack.pop_back();
 }
 
-void ModifiesExtractor::leave(WhileNode* node) {
+void ModifiesExtractor::leaveWhile(WhileNode* node) {
   statementStartStack.pop_back();
 }
 
-void ModifiesExtractor::visit(ProcedureNode* node) {
+void ModifiesExtractor::visitProcedure(ProcedureNode* node) {
   currentProcName = node->getName();
 }
 

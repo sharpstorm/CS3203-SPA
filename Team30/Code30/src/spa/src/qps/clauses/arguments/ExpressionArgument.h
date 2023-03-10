@@ -1,17 +1,17 @@
 #pragma once
 
-#include <string>
 #include <memory>
-#include <vector>
 
 #include "common/pattern/ExpressionSequence.h"
+
+using std::unique_ptr;
 
 class ExpressionArgument {
  public:
   ExpressionArgument();
   ExpressionArgument(ExpressionSequencePtr expression, bool isPartial);
   bool isWildcard();
-  bool allowsPartial();
+  const bool allowsPartial();
   ExpressionSequence* getSequence();
 
  private:
