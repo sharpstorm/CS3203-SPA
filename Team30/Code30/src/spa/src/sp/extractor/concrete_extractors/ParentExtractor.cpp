@@ -4,7 +4,7 @@
 ParentExtractor::ParentExtractor(PkbWriter* writer) : pkbWriter(writer) {
 }
 
-void ParentExtractor::visit(IfNode* node) {
+void ParentExtractor::visitIf(IfNode* node) {
   vector<ASTNodePtr> children = node->getChildren();
   vector<ASTNodePtr> ifLst = children[1]->getChildren();
   vector<ASTNodePtr> elseLst = children[2]->getChildren();
@@ -13,7 +13,7 @@ void ParentExtractor::visit(IfNode* node) {
   addParentOnList(node->getLineNumber(), &elseLst);
 }
 
-void ParentExtractor::visit(WhileNode* node) {
+void ParentExtractor::visitWhile(WhileNode* node) {
   vector<ASTNodePtr> children = node->getChildren();
   vector<ASTNodePtr> stmtList = children[1]->getChildren();
 

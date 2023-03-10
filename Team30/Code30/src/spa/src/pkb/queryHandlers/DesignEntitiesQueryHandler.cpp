@@ -15,3 +15,21 @@ std::unordered_set<int> DesignEntitiesQueryHandler::getStatementsOfType(
     StmtType stmtType) const {
   return structureMappingProvider->getStatementsOfType(stmtType);
 }
+
+string DesignEntitiesQueryHandler::getVariableByIndex(int index) const {
+  return entityMappingProvider->getVariableByIndex(index);
+}
+
+string DesignEntitiesQueryHandler::getConstantByIndex(int index) const {
+  return entityMappingProvider->getConstantByIndex(index);
+}
+
+unordered_set<int> DesignEntitiesQueryHandler::getIndexOfVariable(
+    string name) const {
+  return entityMappingProvider->getIndexOfVariable(name);
+}
+
+unordered_set<int> DesignEntitiesQueryHandler::getIndexOfConstant(
+    string name) const {
+  return entityMappingProvider->getIndexOfConstant(name);
+}

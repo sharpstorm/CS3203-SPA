@@ -18,6 +18,6 @@ class DesignExtractor {
 
  private:
   TreeWalker treeWalker;
-  vector<unique_ptr<Extractor>> ownedExtractors;
-  vector<Extractor*> extractorRefs;
+  vector<unique_ptr<IExtractor>> ownedExtractors;
+  vector<IExtractor*> extractorRefs;
 };

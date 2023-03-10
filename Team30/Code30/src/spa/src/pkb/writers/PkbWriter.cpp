@@ -2,27 +2,34 @@
 
 #include "AssignsWriter.h"
 #include "CallsWriter.h"
+#include "ConstantWriter.h"
 #include "FollowsWriter.h"
 #include "ModifiesWriter.h"
 #include "ParentWriter.h"
+#include "PostProcessWriter.h"
 #include "ProcedureWriter.h"
 #include "StatementWriter.h"
-#include "SymbolWriter.h"
 #include "UsesWriter.h"
 #include "PostProcessWriter.h"
+#include "IfPatternWriter.h"
+#include "WhilePatternWriter.h"
+#include "VariableWriter.h"
 
 PkbWriter::PkbWriter(PKB *pkb)
     : followsWriter(new FollowsWriter(pkb->followsStore)),
       parentWriter(new ParentWriter(pkb->parentStore)),
       usesWriter(new UsesWriter(pkb->usesStorage, pkb->usesPStorage)),
-      modifiesWriter(new ModifiesWriter(pkb->modifiesStorage,
-                                        pkb->modifiesPStorage)),
-      symbolWriter(new SymbolWriter(pkb->symbolStorage)),
+      modifiesWriter(
+          new ModifiesWriter(pkb->modifiesStorage, pkb->modifiesPStorage)),
       statementWriter(new StatementWriter(pkb->statementStorage)),
       procedureWriter(new ProcedureWriter(pkb->procedureStorage)),
       assignsWriter(new AssignsWriter(pkb->assignStorage)),
+      ifPatternWriter(new IfPatternWriter(pkb->ifPatternStorage)),
+      whilePatternWriter(new WhilePatternWriter(pkb->whilePatternStorage)),
       callsWriter(new CallsWriter(pkb->callsStorage, pkb->callStmtStorage)),
-      postProcessWriter(new PostProcessWriter(pkb)) {}
+      postProcessWriter(new PostProcessWriter(pkb)),
+      variableWriter(new VariableWriter(pkb->variableStorage)),
+      constantWriter(new ConstantWriter(pkb->constantStorage)) {}
 
 void PkbWriter::addFollows(int arg1, int arg2) {
   followsWriter->addFollows(arg1, arg2);
@@ -32,15 +39,9 @@ void PkbWriter::addParent(int arg1, int arg2) {
   parentWriter->addParent(arg1, arg2);
 }
 
-void PkbWriter::addSymbol(string entityName, EntityType entityType) {
-  symbolWriter->addSymbol(entityName, entityType);
-}
-
 void PkbWriter::addProcedure(string procedureName, int startLineNum,
                              int endLineNum) {
   procedureWriter->addProcedure(procedureName, startLineNum, endLineNum);
-  // add in both first, will optimise later
-  symbolWriter->addSymbol(procedureName, EntityType::Procedure);
 }
 
 void PkbWriter::addStatement(int lineNumber, StmtType stmtType) {
@@ -64,6 +65,22 @@ void PkbWriter::addCalls(int stmtNum, string currProcedure,
   callsWriter->addCalls(stmtNum, currProcedure, calledProcedure);
 }
 
+void PkbWriter::addIfPattern(int stmtNum, string variable) {
+  ifPatternWriter->addIfPattern(stmtNum, variable);
+}
+
+void PkbWriter::addWhilePattern(int stmtNum, string variable) {
+  whilePatternWriter->addWhilePattern(stmtNum, variable);
+}
+
 void PkbWriter::runPostProcessor() {
   postProcessWriter->runPostProcessor();
+}
+
+void PkbWriter::addVariable(string name) {
+  variableWriter->addVariable(name);
+}
+
+void PkbWriter::addConstant(string name) {
+  constantWriter->addConstant(name);
 }

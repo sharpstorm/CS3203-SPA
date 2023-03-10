@@ -4,8 +4,7 @@
 #include "catch.hpp"
 #include "pkb/storage/tables/HashKeySetTable.h"
 
-using std::string;
-using std::unordered_set;
+using std::string, std::unordered_set, std::make_pair;
 
 TEST_CASE("HashKeySetTable with different key value types") {
   HashKeySetTable<string, int> table;
@@ -22,3 +21,4 @@ TEST_CASE("HashKeySetTable get unset key") {
 
   REQUIRE(table.get(10) == unordered_set<int>{});
 }
+

@@ -28,8 +28,11 @@ using std::make_unique;
 struct MUPostProcessorTestInit {
   unique_ptr<PKB> pkb;
   PkbWriter writer;
+  ModifiesUsesPostProcessor processor;
   MUPostProcessorTestInit()
-      : pkb(make_unique<PKB>()), writer(PkbWriter(pkb.get())) {
+      : pkb(make_unique<PKB>()),
+        writer(PkbWriter(pkb.get())),
+        processor(ModifiesUsesPostProcessor(pkb.get())) {
     writer.addModifies(1, "x", "main");
     writer.addModifies(2, "x", "main");
     writer.addUses(1, "y", "main");
@@ -127,7 +130,7 @@ TEST_CASE("ModifiesUsesPostProcessorTest assert initial usesStorage") {
 
 TEST_CASE("ModifiesUsesPostProcessorTest check post-processed modifiesPStorage") {
   auto test = MUPostProcessorTestInit();
-  test.writer.runPostProcessor();
+  test.processor.process();
 
   auto m1 = test.pkb->modifiesPStorage->getByFirstArg("main");
   REQUIRE(m1 == unordered_set<string>({"x", "z", "w"}));
@@ -148,7 +151,7 @@ TEST_CASE("ModifiesUsesPostProcessorTest check post-processed modifiesPStorage")
 
 TEST_CASE("ModifiesUsesPostProcessorTest check post-processed modifiesStorage") {
   auto test = MUPostProcessorTestInit();
-  test.writer.runPostProcessor();
+  test.processor.process();
 
   auto c1 = test.pkb->modifiesStorage->getByFirstArg(3);
   REQUIRE(c1 == unordered_set<string>({"w", "z"}));
@@ -167,7 +170,7 @@ TEST_CASE("ModifiesUsesPostProcessorTest check post-processed modifiesStorage") 
 
 TEST_CASE("ModifiesUsesPostProcessorTest check post-processed usesPStorage") {
   auto test = MUPostProcessorTestInit();
-  test.writer.runPostProcessor();
+  test.processor.process();
 
   auto u1 = test.pkb->usesPStorage->getByFirstArg("main");
   REQUIRE(u1 == unordered_set<string>({"y", "x", "z"}));
@@ -188,7 +191,7 @@ TEST_CASE("ModifiesUsesPostProcessorTest check post-processed usesPStorage") {
 
 TEST_CASE("ModifiesUsesPostProcessorTest check post-processed usesStorage") {
   auto test = MUPostProcessorTestInit();
-  test.writer.runPostProcessor();
+  test.processor.process();
 
   auto c1 = test.pkb->usesStorage->getByFirstArg(3);
   REQUIRE(c1 == unordered_set<string>({"x", "z"}));

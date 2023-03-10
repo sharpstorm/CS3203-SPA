@@ -14,7 +14,7 @@ StubPkb executeModifiesExtractor(string input) {
   PKB pkb;
   StubPkb stubby(&pkb);
   SourceParser parser;
-  vector<Extractor*> extractors;
+  vector<IExtractor*> extractors;
   auto modifiesExtractor = make_unique<ModifiesExtractor>(&stubby);
   extractors.push_back(modifiesExtractor.get());
   AST ast = parser.parseSource(input);

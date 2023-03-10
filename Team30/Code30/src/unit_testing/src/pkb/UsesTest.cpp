@@ -26,9 +26,9 @@ TEST_CASE("Uses (StmtRef, EntityRef)") {
   writer.addStatement(2, StmtType::If);
   writer.addStatement(3, StmtType::Print);
   writer.addStatement(4, StmtType::Assign);
-  writer.addSymbol("x", EntityType::Variable);
-  writer.addSymbol("y", EntityType::Variable);
-  writer.addSymbol("z", EntityType::Variable);
+  writer.addVariable("x");
+  writer.addVariable("y");
+  writer.addVariable("z");
 
   auto result1 =
       handler.queryUses({StmtType::None, 1}, {EntityType::None, "y"});
@@ -59,11 +59,11 @@ TEST_CASE("Uses (EntityRef, EntityRef)") {
   writer.addUses(3, "z", "main");
   writer.addUses(4, "w", "foo");
   writer.addUses(5, "z", "goo");
-  writer.addSymbol("x", EntityType::Variable);
-  writer.addSymbol("y", EntityType::Variable);
-  writer.addSymbol("z", EntityType::Variable);
-  writer.addSymbol("w", EntityType::Variable);
-  writer.addSymbol("a", EntityType::Variable);
+  writer.addVariable("x");
+  writer.addVariable("y");
+  writer.addVariable("z");
+  writer.addVariable("w");
+  writer.addVariable("a");
   writer.addProcedure("main", 1, 3);
   writer.addProcedure("foo", 4, 4);
   writer.addProcedure("goo", 5, 5);

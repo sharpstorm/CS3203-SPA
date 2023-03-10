@@ -1,10 +1,10 @@
 #include "VariableASTNode.h"
-#include "sp/extractor/Extractor.h"
+#include "sp/extractor/IExtractor.h"
 
 VariableASTNode::VariableASTNode(string v): ASTNode(ASTNODE_VARIABLE, v) {}
 
-void VariableASTNode::accept(Extractor* e) {
-  e->visit(this);
+void VariableASTNode::accept(IExtractor* e) {
+  e->visitVariable(this);
 }
 
 string VariableASTNode::toString() {

@@ -5,7 +5,7 @@
 class FollowsExtractor : public AbstractExtractor {
  public:
   explicit FollowsExtractor(PkbWriter* pkbWriter);
-  void visit(StatementListNode* node);
+  void visitStmtList(StatementListNode* node) override;
 
  private:
   void addFollowsRelation(int x, int y);
