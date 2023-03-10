@@ -1,3 +1,4 @@
+#include <string>
 #include "ParentExtractor.h"
 #include "StatementNumberExtractor.h"
 
