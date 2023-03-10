@@ -15,6 +15,6 @@ class PatternExtractor : public AbstractExtractor {
   void visitWhile(WhileNode* node) override;
   void visitIf(IfNode* node) override;
  private:
-  void addPattern(int x, shared_ptr<IASTNode> node);
+  void addPattern(int x, IASTNode* node);
   PkbWriter* pkbWriter;
 };

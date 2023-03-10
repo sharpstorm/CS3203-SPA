@@ -11,9 +11,10 @@ class CallNode : public StatementASTNode {
  public:
   explicit CallNode(int lineNumber, string procName);
   ~CallNode() = default;
+
   string getName();
-  string toString();
-  void accept(IExtractor* e);
+  string toString() override;
+  void accept(IExtractor* e) override;
 
  private:
   string procName;

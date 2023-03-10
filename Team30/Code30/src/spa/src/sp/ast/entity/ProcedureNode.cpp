@@ -1,8 +1,5 @@
-#include <memory>
 #include "ProcedureNode.h"
 #include "sp/extractor/IExtractor.h"
-
-using std::shared_ptr;
 
 ProcedureNode::ProcedureNode(string name): procName(name),
                                            ASTNode(ASTNODE_PROCEDURE) {
@@ -10,7 +7,7 @@ ProcedureNode::ProcedureNode(string name): procName(name),
 
 string ProcedureNode::toString() {
   string ss = "Procedure:" + procName + " {";
-  for (shared_ptr<ASTNode> node : children) {
+  for (const ASTNodePtr &node : children) {
     ss += node->toString() + "\n";
   }
   ss += "}";

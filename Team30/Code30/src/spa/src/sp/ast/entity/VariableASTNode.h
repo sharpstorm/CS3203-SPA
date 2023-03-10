@@ -10,6 +10,6 @@ using std::string;
 class VariableASTNode : public ASTNode {
  public:
   explicit VariableASTNode(string value);
-  void accept(IExtractor* e);
+  void accept(IExtractor* e) override;
   string toString();
 };

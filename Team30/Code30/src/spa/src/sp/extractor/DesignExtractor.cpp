@@ -22,6 +22,6 @@ DesignExtractor::DesignExtractor(PkbWriter* pkbWriter) {
   }
 }
 
-void DesignExtractor::extract(AST ast) {
+void DesignExtractor::extract(AST* ast) {
   treeWalker.walkAST(ast, &extractorRefs);
 }

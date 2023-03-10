@@ -13,8 +13,8 @@ using std::unordered_set;
 TEST_CASE("AssignWriter addAssigns") {
   auto store = make_unique<AssignStorage>();
   auto writer = AssignsWriter(store.get());
-  auto trie = PatternConverter::convertASTToTrie(
-      make_shared<VariableASTNode>("a"));
+  auto astRoot = make_unique<VariableASTNode>("a");
+  auto trie = PatternConverter::convertASTToTrie(astRoot.get());
   auto sTrie = shared_ptr<PatternTrie>(std::move(trie));
 
   writer.addAssigns(1, sTrie);

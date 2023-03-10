@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <string>
+#include <utility>
 
 #include "qps/clauses/arguments/ClauseArgument.h"
 #include "qps/clauses/arguments/EntityArgument.h"
@@ -25,20 +26,19 @@ using std::shared_ptr, std::make_shared, std::make_unique, std::unique_ptr, std:
  * 5.    c = 2 + z + y;
  */
 
-shared_ptr<ASTNode> genPlus(shared_ptr<ASTNode> left,
-                             shared_ptr<ASTNode> right) {
-  auto node = make_shared<PlusASTNode>();
-  node->setLeftChild(left);
-  node->setRightChild(right);
+ASTNodePtr genPlus(ASTNodePtr left, ASTNodePtr right) {
+  auto node = make_unique<PlusASTNode>();
+  node->setLeftChild(std::move(left));
+  node->setRightChild(std::move(right));
   return node;
 }
 
-shared_ptr<ASTNode> genInteger(int val) {
-  return make_shared<ConstantASTNode>(to_string(val));
+ASTNodePtr genInteger(int val) {
+  return make_unique<ConstantASTNode>(to_string(val));
 }
 
-shared_ptr<ASTNode> genVariable(string val) {
-  return make_shared<VariableASTNode>(val);
+ASTNodePtr genVariable(string val) {
+  return make_unique<VariableASTNode>(val);
 }
 
 class AssignPatternPKBStub : public StubPKB {
@@ -50,13 +50,17 @@ class AssignPatternPKBStub : public StubPKB {
   PatternTriePtr line5;
 
  public:
-  AssignPatternPKBStub(PKB* in): StubPKB(in),
-  line1(PatternConverter::convertASTToTrie(genInteger(1))),
-  line2(PatternConverter::convertASTToTrie(genVariable("x"))),
-  line3(PatternConverter::convertASTToTrie(genPlus(genInteger(1), genInteger(2)))),
-  line4(PatternConverter::convertASTToTrie(genPlus(genVariable("y"), genVariable("x")))),
-  line5(PatternConverter::convertASTToTrie(genPlus(genPlus(genInteger(2),genVariable("z")),
-                                         genVariable("y")))) {
+  AssignPatternPKBStub(PKB* in):
+      StubPKB(in),
+      line1(PatternConverter::convertASTToTrie(genInteger(1).get())),
+      line2(PatternConverter::convertASTToTrie(genVariable("x").get())),
+      line3(PatternConverter::convertASTToTrie(
+          genPlus(std::move(genInteger(1)),
+                  std::move(genInteger(2))).get())),
+      line4(PatternConverter::convertASTToTrie(
+          genPlus(genVariable("y"), genVariable("x")).get())),
+      line5(PatternConverter::convertASTToTrie(genPlus(genPlus(genInteger(2),genVariable("z")),
+                                                       genVariable("y")).get())) {
   }
 
   QueryResult<int, string> queryModifies(StmtRef, EntityRef entRef) const override {
@@ -259,8 +263,8 @@ TEST_CASE("Assign Pattern Variable-Partial") {
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", "v", pair_set<int, string>{
-    { 1, "a" },
-    { 3, "a" }
+      { 1, "a" },
+      { 3, "a" }
   });
   actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get()));
   REQUIRE(*expected == *actual);
@@ -273,8 +277,8 @@ TEST_CASE("Assign Pattern Variable-Partial") {
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", "v", pair_set<int, string>{
-    { 2, "b" },
-    { 4, "b" }
+      { 2, "b" },
+      { 4, "b" }
   });
   actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get()));
   REQUIRE(*expected == *actual);

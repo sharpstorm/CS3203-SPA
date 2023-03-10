@@ -7,7 +7,7 @@ ProcedureRangeExtractor::ProcedureRangeExtractor(PkbWriter* writer)
 
 void ProcedureRangeExtractor::visitProcedure(ProcedureNode* node) {
   StatementNumberExtractor statementNoExtractor;
-  ASTNodePtr stmtLst = node->getChildren()[0];
+  ASTNode* stmtLst = node->getChildren()[0];
   stmtLst->getChildren().front()->accept(&statementNoExtractor);
   int start = statementNoExtractor.getStatementNumber();
   stmtLst->getChildren().back()->accept(this);

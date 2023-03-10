@@ -1,9 +1,10 @@
 #include <memory>
+#include <utility>
 
 #include "ProcedureContext.h"
 #include "sp/ast/entity/ProcedureNode.h"
 
-using std::make_shared;
+using std::make_unique;
 
 ASTNodePtr ProcedureContext::generateSubtree(SourceParseState* state) {
   // Procedure Node
@@ -11,13 +12,11 @@ ASTNodePtr ProcedureContext::generateSubtree(SourceParseState* state) {
 
   // Name
   SourceToken* nameToken = state->expectVarchar();
-  ASTNodePtr procedureNode = make_shared<ProcedureNode>(nameToken->getValue());
+  ASTNodePtr procedureNode = make_unique<ProcedureNode>(nameToken->getValue());
 
   // Statement List
   ASTNodePtr stmtLst = contextProvider
       ->generateSubtree(ProcedureContextType::STMT_LIST_CONTEXT, state);
-
-  procedureNode->addChild(stmtLst);
-  state->setCached(procedureNode);
+  procedureNode->addChild(std::move(stmtLst));
   return procedureNode;
 }

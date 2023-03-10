@@ -1,15 +1,12 @@
-#include <memory>
 #include "ProgramNode.h"
 #include "sp/extractor/IExtractor.h"
-
-using std::shared_ptr;
 
 ProgramNode::ProgramNode(): ASTNode(ASTNODE_PROGRAM) {
 }
 
 string ProgramNode::toString() {
   string ss;
-  for (shared_ptr<ASTNode> node : children) {
+  for (const ASTNodePtr &node : children) {
     ss += node->toString() + "\n";
   }
   ss += "}";
