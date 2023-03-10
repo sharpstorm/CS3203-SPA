@@ -19,7 +19,8 @@ TEST_CASE("Test QPS Follows Query") {
   PKB pkbStore;
   auto pkb = make_unique<StubPKB>(&pkbStore);
   auto builder = QueryBuilder();
-  builder.addResultSynonym(PQLQuerySynonym(PQL_SYN_TYPE_STMT, "a"));
+  AttributedSynonym syn = AttributedSynonym(PQLQuerySynonym(PQL_SYN_TYPE_STMT, "a"));
+  builder.addResultSynonym(syn);
   builder.addSynonym("a", PQL_SYN_TYPE_STMT);
   builder.addSynonym("b", PQL_SYN_TYPE_STMT);
   builder.addSuchThat(make_unique<FollowsClause>(

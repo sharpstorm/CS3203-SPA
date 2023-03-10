@@ -89,10 +89,11 @@ TEST_CASE("Test QPS Lexer Symbols") {
       PQLToken(PQL_TOKEN_UNDERSCORE),
       PQLToken(PQL_TOKEN_LITERAL, "+"),
       PQLToken(PQL_TOKEN_ASTRIX),
+      PQLToken(PQL_TOKEN_EQUALS)
   };
 
-  testPQLLexing(";(),._\"+\"*", symbolSet);
-  testPQLLexing("; ( ) , . _ \"+\" * ", symbolSet);
+  testPQLLexing(";(),._\"+\"*=", symbolSet);
+  testPQLLexing("; ( ) , . _ \"+\" * =", symbolSet);
 }
 
 TEST_CASE("Test QPS Lexer Relationships") {
@@ -100,6 +101,7 @@ TEST_CASE("Test QPS Lexer Relationships") {
   testPQLLexSingleToken("Parent", PQL_TOKEN_PARENT);
   testPQLLexSingleToken("Uses", PQL_TOKEN_USES);
   testPQLLexSingleToken("Modifies", PQL_TOKEN_MODIFIES);
+  testPQLLexSingleToken("Calls", PQL_TOKEN_CALLS);
 }
 
 TEST_CASE("Test QPS Lexer Literals") {
@@ -180,6 +182,59 @@ TEST_CASE("Test QPS Lexer Literal Handling") {
       PQLToken(PQL_TOKEN_COMMA),
       PQLToken(PQL_TOKEN_LITERAL, "a b + c"),
       PQLToken(PQL_TOKEN_BRACKET_CLOSE)
+  });
+}
+
+TEST_CASE("Test QPS Lexer Attributes") {
+  testPQLLexing("a1.stmt#", vector<PQLToken>{
+    PQLToken(PQL_TOKEN_STRING, "a1"),
+    PQLToken(PQL_TOKEN_PERIOD),
+    PQLToken(PQL_TOKEN_STMT),
+    PQLToken(PQL_TOKEN_NUMBER_SIGN)
+  });
+
+  testPQLLexing("p.procName", vector<PQLToken>{
+    PQLToken(PQL_TOKEN_STRING, "p"),
+    PQLToken(PQL_TOKEN_PERIOD),
+    PQLToken(PQL_TOKEN_PROC_NAME)
+  });
+
+  testPQLLexing("v.varName", vector<PQLToken>{
+      PQLToken(PQL_TOKEN_STRING, "v"),
+      PQLToken(PQL_TOKEN_PERIOD),
+      PQLToken(PQL_TOKEN_VAR_NAME)
+  });
+
+  testPQLLexing("c.value", vector<PQLToken>{
+      PQLToken(PQL_TOKEN_STRING, "c"),
+      PQLToken(PQL_TOKEN_PERIOD),
+      PQLToken(PQL_TOKEN_VALUE)
+  });
+}
+
+TEST_CASE("Test QPS Lexer Attribute Compare Handling") {
+  testPQLLexing("1 = 1", vector<PQLToken>{
+    PQLToken(PQL_TOKEN_INTEGER, "1"),
+    PQLToken(PQL_TOKEN_EQUALS),
+    PQLToken(PQL_TOKEN_INTEGER, "1")
+  });
+
+  testPQLLexing("a1.stmt# = 1", vector<PQLToken>{
+    PQLToken(PQL_TOKEN_STRING, "a1"),
+    PQLToken(PQL_TOKEN_PERIOD),
+    PQLToken(PQL_TOKEN_STMT),
+    PQLToken(PQL_TOKEN_NUMBER_SIGN),
+    PQLToken(PQL_TOKEN_EQUALS),
+    PQLToken(PQL_TOKEN_INTEGER, "1")
+  });
+
+  testPQLLexing("1 = a1.stmt#", vector<PQLToken>{
+      PQLToken(PQL_TOKEN_INTEGER, "1"),
+      PQLToken(PQL_TOKEN_EQUALS),
+      PQLToken(PQL_TOKEN_STRING, "a1"),
+      PQLToken(PQL_TOKEN_PERIOD),
+      PQLToken(PQL_TOKEN_STMT),
+      PQLToken(PQL_TOKEN_NUMBER_SIGN)
   });
 }
 

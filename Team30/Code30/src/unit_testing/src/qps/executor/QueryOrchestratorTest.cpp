@@ -40,7 +40,8 @@ TEST_CASE("Queries with Select only") {
   };
 
   for (auto stmtType : stmtTypes) {
-    unique_ptr<PQLQuerySynonymList> synList = make_unique<PQLQuerySynonymList>(PQLQuerySynonymList({PQLQuerySynonym{stmtType, "s"}}));
+    AttributedSynonym attrSyn = AttributedSynonym(PQLQuerySynonym{stmtType, "s"});
+    auto synList = make_unique<AttributedSynonymList>(AttributedSynonymList({attrSyn}));
     expectedResult = TestQueryResultBuilder::buildExpectedTable(ExpectedParams{
         {"s", QueryResultItemVector{
             QueryResultItem(1),
@@ -55,7 +56,7 @@ TEST_CASE("Queries with Select only") {
     vector<QueryGroupPlanPtr> groups;
     groups.push_back(std::move(group));
     auto queryPlan = make_unique<QueryPlan>(std::move(groups));
-    auto targetSyns = make_unique<PQLQuerySynonymList>(PQLQuerySynonymList({PQLQuerySynonym{stmtType, "s"}}));
+    auto targetSyns = make_unique<AttributedSynonymList>(AttributedSynonymList ({attrSyn}));
     actualResult = unique_ptr<SynonymResultTable>(orchestrator.execute(queryPlan.get()));
     REQUIRE(*expectedResult == *actualResult);
   }
@@ -67,7 +68,9 @@ TEST_CASE("Queries with Select only") {
   };
 
   for (auto entType : entTypes) {
-    unique_ptr<PQLQuerySynonymList> synList = make_unique<PQLQuerySynonymList>(PQLQuerySynonymList({PQLQuerySynonym{entType, "ent"}}));
+    AttributedSynonym attrSyn = AttributedSynonym(PQLQuerySynonym{entType, "ent"});
+    auto synList = make_unique<AttributedSynonymList>(AttributedSynonymList({attrSyn}));
+//    unique_ptr<PQLQuerySynonymList> synList = make_unique<PQLQuerySynonymList>(PQLQuerySynonymList({PQLQuerySynonym{entType, "ent"}}));
     expectedResult = TestQueryResultBuilder::buildExpectedTable(ExpectedParams{
         {"ent", QueryResultItemVector{
             QueryResultItem("x"),
@@ -82,7 +85,7 @@ TEST_CASE("Queries with Select only") {
     vector<QueryGroupPlanPtr> groups;
     groups.push_back(std::move(group));
     auto queryPlan = make_unique<QueryPlan>(std::move(groups));
-    auto targetSyns = make_unique<PQLQuerySynonymList>(PQLQuerySynonymList({PQLQuerySynonym{entType, "ent"}}));
+    auto targetSyns = make_unique<AttributedSynonymList>(AttributedSynonymList ({attrSyn}));
     actualResult = unique_ptr<SynonymResultTable>(orchestrator.execute(queryPlan.get()));
     REQUIRE(*expectedResult == *actualResult);
   }
