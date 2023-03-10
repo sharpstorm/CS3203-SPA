@@ -16,7 +16,6 @@ void PQLSelectParser::parse(QueryTokenParseState *parserState,
     return;
   }
 
-  // TODO(KwanHW): To test
   parseSynonym(parserState, queryBuilder, synName);
 }
 

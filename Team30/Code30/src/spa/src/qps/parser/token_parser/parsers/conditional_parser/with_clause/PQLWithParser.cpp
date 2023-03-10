@@ -28,7 +28,6 @@ void PQLWithParser::parse(QueryTokenParseState *parserState,
 
 WithClausePtr PQLWithParser::parseWithClause(QueryTokenParseState *parserState,
                                     QueryBuilder *builder) {
-  // Expect either an integer, string or [syn, period, attrName]
   WithArgumentPtr left =
       PQLAttributeRefExtractor::extract(parserState, builder);
 
@@ -36,10 +35,8 @@ WithClausePtr PQLWithParser::parseWithClause(QueryTokenParseState *parserState,
     return nullptr;
   }
 
-  // Expect an equals
   parserState->expect(PQL_TOKEN_EQUALS);
 
-  // Expect either an integer, string or [syn, period, attrName]
   WithArgumentPtr right =
       PQLAttributeRefExtractor::extract(parserState, builder);
 
@@ -47,6 +44,5 @@ WithClausePtr PQLWithParser::parseWithClause(QueryTokenParseState *parserState,
     return nullptr;
   }
 
-  // Create the clause here
   return make_unique<WithClause>(std::move(left), std::move(right));
 }

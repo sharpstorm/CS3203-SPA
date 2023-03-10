@@ -28,8 +28,6 @@ AttributedSynonym ATTR_TARGET_RESULT_VAR(TARGET_RESULT_VAR);
 AttributedSynonym ATTR_TARGET_ENTITY_VAR(TARGET_ENTITY_VAR);
 AttributedSynonymList TARGET_RESULT_VARS{ATTR_TARGET_RESULT_VAR};
 AttributedSynonymList TARGET_ENTITY_VARS{ATTR_TARGET_ENTITY_VAR};
-//PQLQuerySynonymList TARGET_RESULT_VARS{TARGET_RESULT_VAR};
-//PQLQuerySynonymList TARGET_ENTITY_VARS{TARGET_ENTITY_VAR};
 
 TEST_CASE("Project when result is static") {
   SynonymResultTable result(false, true);

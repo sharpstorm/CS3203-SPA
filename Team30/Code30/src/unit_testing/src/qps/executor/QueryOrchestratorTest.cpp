@@ -70,7 +70,6 @@ TEST_CASE("Queries with Select only") {
   for (auto entType : entTypes) {
     AttributedSynonym attrSyn = AttributedSynonym(PQLQuerySynonym{entType, "ent"});
     auto synList = make_unique<AttributedSynonymList>(AttributedSynonymList({attrSyn}));
-//    unique_ptr<PQLQuerySynonymList> synList = make_unique<PQLQuerySynonymList>(PQLQuerySynonymList({PQLQuerySynonym{entType, "ent"}}));
     expectedResult = TestQueryResultBuilder::buildExpectedTable(ExpectedParams{
         {"ent", QueryResultItemVector{
             QueryResultItem("x"),
