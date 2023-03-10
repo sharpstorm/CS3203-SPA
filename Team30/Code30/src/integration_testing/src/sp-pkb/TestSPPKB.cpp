@@ -219,3 +219,63 @@ TEST_CASE("Test UsesP") {
   REQUIRE(!queryHandler.queryUses(EntityRef{EntityType::None, "main"},
                                   EntityRef{EntityType::None, "b"}).isEmpty);
 }
+
+TEST_CASE("Test self call") {
+  string input = "procedure a {"
+                 "  call a;";
+
+  SpDriver spDriver;
+  PKB pkb;
+  PkbWriter pkbWriter(&pkb);
+  PkbQueryHandler queryHandler(&pkb);
+  REQUIRE_THROWS_AS(spDriver.parseSource(input, &pkbWriter), SPError);
+}
+
+TEST_CASE("Test acyclic call") {
+  string input = "procedure a {"
+                 "  call b;"
+                 "}"
+                 "procedure b {"
+                 "  call c;"
+                 "}"
+                 "procedure c {"
+                 "  call a;"
+                 "}";
+
+  SpDriver spDriver;
+  PKB pkb;
+  PkbWriter pkbWriter(&pkb);
+  PkbQueryHandler queryHandler(&pkb);
+  REQUIRE_THROWS_AS(spDriver.parseSource(input, &pkbWriter), SPError);
+}
+
+
+TEST_CASE("Test Duplicate proc") {
+  string input = "procedure a {"
+                 "  call b;"
+                 "}"
+                 "procedure a {"
+                 "  call c;"
+                 "}";
+
+  SpDriver spDriver;
+  PKB pkb;
+  PkbWriter pkbWriter(&pkb);
+  PkbQueryHandler queryHandler(&pkb);
+  REQUIRE_THROWS_AS(spDriver.parseSource(input, &pkbWriter), SPError);
+}
+
+TEST_CASE("Test Non existent proc") {
+  string input = "procedure a {"
+                 "  call b;"
+                 "}"
+                 "procedure b {"
+                 "  call c;"
+                 "}";
+
+  SpDriver spDriver;
+  PKB pkb;
+  PkbWriter pkbWriter(&pkb);
+  PkbQueryHandler queryHandler(&pkb);
+  REQUIRE_THROWS_AS(spDriver.parseSource(input, &pkbWriter), SPError);
+}
