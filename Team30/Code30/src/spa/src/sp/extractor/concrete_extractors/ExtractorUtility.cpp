@@ -1,6 +1,8 @@
+#include <unordered_set>
 #include "ExtractorUtility.h"
 
-void ExtractorUtility::getExprVariables(unordered_set<string>* v, ASTNode* node) {
+void ExtractorUtility::
+getExprVariables(unordered_set<string>* v, ASTNode* node) {
   if (node->getType() == ASTNodeType::ASTNODE_CONSTANT) {
     return;
   }
@@ -21,6 +23,7 @@ void ExtractorUtility::getExprVariables(unordered_set<string>* v, ASTNode* node)
   }
 }
 
-bool ExtractorUtility::setContains(unordered_set<std::string> *v, const std::string &x) {
+bool ExtractorUtility::
+setContains(unordered_set<std::string> *v, const std::string &x) {
   return v->find(x) != v->end();
 }

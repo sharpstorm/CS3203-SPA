@@ -3,6 +3,7 @@
 #include <memory>
 #include <utility>
 #include <string>
+#include <unordered_set>
 
 #include "common/pattern/PatternConverter.h"
 #include "ExtractorUtility.h"
