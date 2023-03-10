@@ -19,15 +19,15 @@ template<class T>
 using IntersectSetPtr = unique_ptr<IntersectSet<T>>;
 
 template <class T>
-struct AbstractIterator
-{
+class AbstractIterator {
+ public:
   using iterator_category = std::forward_iterator_tag;
   using value_type = T;
   using difference_type = T;
   using pointer = const T*;
   using reference = const T&;
 
-  AbstractIterator(pointer ptr) : curPos(ptr) {}
+  explicit AbstractIterator(pointer ptr) : curPos(ptr) {}
 
   reference operator*() const {
     return *curPos;
@@ -50,11 +50,11 @@ struct AbstractIterator
 
   bool operator== (const AbstractIterator& other) {
     return curPos == other.curPos;
-  };
+  }
 
   bool operator!= (const AbstractIterator& other) {
     return curPos != other.curPos;
-  };
+  }
 
  private:
   pointer curPos;

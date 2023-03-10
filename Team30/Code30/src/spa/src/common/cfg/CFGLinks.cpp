@@ -12,7 +12,7 @@ void CFGForwardLink::addLink(const CFGNode &node) {
   } else if (branches[1] == CFG_NO_NODE) {
     branches[1] = node;
   } else {
-    assert(1 == 2); // This should not be reached
+    assert(1 == 2);  // This should not be reached
   }
 }
 

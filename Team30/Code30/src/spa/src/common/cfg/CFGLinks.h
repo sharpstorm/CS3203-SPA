@@ -8,8 +8,8 @@
 using std::vector, std::array;
 
 typedef uint16_t CFGNode;
-const static CFGNode CFG_END_NODE = 65534;
-const static CFGNode CFG_NO_NODE = 65535;
+static const CFGNode CFG_END_NODE = 65534;
+static const CFGNode CFG_NO_NODE = 65535;
 
 typedef AbstractIterator<CFGNode> ForwardLinkIterator;
 
