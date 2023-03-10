@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <utility>
+#include <string>
 
 #include "common/pattern/PatternConverter.h"
 #include "ExpressionVariableExtractor.h"
