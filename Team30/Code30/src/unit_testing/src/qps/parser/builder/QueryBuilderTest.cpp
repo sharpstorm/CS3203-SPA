@@ -1,10 +1,10 @@
 #include "catch.hpp"
 #include "qps/parser/builder/QueryBuilder.h"
-#include "qps/clauses/such_that/FollowsClause.h"
-#include "qps/clauses/such_that/ParentClause.h"
 #include "qps/clauses/such_that/ModifiesClause.h"
 #include "qps/errors/QPSParserSemanticError.h"
 #include "qps/clauses/arguments/ClauseArgumentFactory.h"
+#include "qps/clauses/such_that/FollowsClauses.h"
+#include "qps/clauses/such_that/ParentClauses.h"
 
 using std::make_unique, std::move;
 

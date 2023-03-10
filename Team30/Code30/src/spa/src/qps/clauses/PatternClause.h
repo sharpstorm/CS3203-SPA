@@ -2,20 +2,17 @@
 
 #include <memory>
 
-#include "qps/common/PQLQueryResult.h"
-#include "qps/common/PQLQuery.h"
 #include "qps/clauses/Clause.h"
 
 using std::unique_ptr;
 
-class PatternClause: public Clause {
+class PatternClause: virtual public Clause {
  public:
-  PatternClause(PQLQuerySynonym synonym,
+  PatternClause(const PQLQuerySynonym &synonym,
                 ClauseArgumentPtr leftArg,
                 PQLSynonymType synType);
-  virtual ~PatternClause() = default;
-  SynonymList getUsedSynonyms();
-  bool validateArgTypes(VariableTable *variables);
+  SynonymList getUsedSynonyms() override;
+  bool validateArgTypes(VariableTable *variables) override;
 
  protected:
   PQLQuerySynonym synonym;

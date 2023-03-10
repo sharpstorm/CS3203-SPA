@@ -8,8 +8,6 @@
 #include "qps/common/PQLQuery.h"
 #include "qps/common/PQLQuerySynonym.h"
 #include "qps/errors/QPSError.h"
-#include "qps/clauses/such_that/FollowsClause.h"
-#include "qps/clauses/such_that/ParentClause.h"
 #include "../SourceParserStub.h"
 
 using std::vector, std::string, std::tuple, std::exception;

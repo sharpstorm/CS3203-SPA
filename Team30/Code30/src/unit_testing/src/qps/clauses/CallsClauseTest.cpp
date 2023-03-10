@@ -2,17 +2,17 @@
 
 #include <memory>
 
-#include "qps/clauses/such_that/CallsClause.h"
 #include "qps/clauses/arguments/ClauseArgument.h"
 #include "qps/clauses/arguments/EntityArgument.h"
 #include "qps/clauses/arguments/SynonymArgument.h"
 #include "ClausesPKBStub.cpp"
 #include "../util/QueryResultTestUtil.cpp"
 #include "qps/clauses/arguments/WildcardArgument.h"
+#include "qps/clauses/such_that/CallsClauses.h"
 
 using std::shared_ptr, std::make_unique, std::unique_ptr;
 
-TEST_CASE("CallsClause Querying") {
+TEST_CASE("AbstractEntEntClause Querying") {
   PKB pkbStore;
   auto pkb = make_unique<ClausesPKBStub>(&pkbStore);
   PQLQuerySynonym synP(PQL_SYN_TYPE_PROCEDURE, "p");

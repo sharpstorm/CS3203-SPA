@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+
 #include "qps/clauses/PatternClause.h"
 #include "qps/clauses/arguments/ClauseArgument.h"
 #include "qps/clauses/arguments/ExpressionArgument.h"
@@ -12,8 +13,8 @@ class AssignPatternClause: public PatternClause {
   ExpressionArgumentPtr rightArgument;
 
  public:
-  AssignPatternClause(PQLQuerySynonym assignSynonym,
+  AssignPatternClause(const PQLQuerySynonym &assignSynonym,
                       ClauseArgumentPtr leftArg,
                       ExpressionArgumentPtr rightArg);
-  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler);
+  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler) override;
 };

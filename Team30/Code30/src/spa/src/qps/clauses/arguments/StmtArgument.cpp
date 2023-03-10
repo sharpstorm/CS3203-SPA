@@ -1,5 +1,4 @@
 #include "StmtArgument.h"
-#include "qps/errors/QPSParserSyntaxError.h"
 
 StmtArgument::StmtArgument(int stmtNumber): stmtNumber(stmtNumber) {
 }

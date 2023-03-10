@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+
 #include "ClauseArgument.h"
 
 using std::string;
@@ -10,7 +11,7 @@ class EntityArgument: public ClauseArgument {
   string ident;
 
  public:
-  explicit EntityArgument(string ident);
+  explicit EntityArgument(const string &ident);
   StmtRef toStmtRef() override;
   EntityRef toEntityRef() override;
 };

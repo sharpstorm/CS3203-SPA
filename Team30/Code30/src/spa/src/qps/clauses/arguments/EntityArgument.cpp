@@ -1,7 +1,6 @@
 #include "EntityArgument.h"
-#include "qps/errors/QPSParserSyntaxError.h"
 
-EntityArgument::EntityArgument(string ident): ident(ident) {
+EntityArgument::EntityArgument(const string &ident): ident(ident) {
 }
 
 StmtRef EntityArgument::toStmtRef() {
