@@ -11,18 +11,26 @@ void PQLSelectParser::parse(QueryTokenParseState *parserState,
     return;
   }
 
-  parseSynonym(parserState, queryBuilder);
+  PQLSynonymName synName = parserState->expectSynName();
+
+  if (synName == BOOLEAN_SELECT) {
+    return;
+  }
+
+  parseSynonym(parserState, queryBuilder, synName);
 }
 
 void PQLSelectParser::parseTuple(QueryTokenParseState *parserState,
                                  QueryBuilder *queryBuilder) {
   parserState->expect(PQL_TOKEN_TUPLE_OPEN);
-  parseSynonym(parserState, queryBuilder);
+  PQLSynonymName synName = parserState->expectSynName();
+  parseSynonym(parserState, queryBuilder, synName);
 
   PQLToken* nextToken = parserState->expect(PQL_TOKEN_TUPLE_CLOSE,
                                             PQL_TOKEN_COMMA);
   while (!nextToken->isType(PQL_TOKEN_TUPLE_CLOSE)) {
-    parseSynonym(parserState, queryBuilder);
+    synName = parserState->expectSynName();
+    parseSynonym(parserState, queryBuilder, synName);
     nextToken = parserState->expect(PQL_TOKEN_TUPLE_CLOSE, PQL_TOKEN_COMMA);
   }
 }
@@ -39,13 +47,8 @@ void PQLSelectParser::addResultSynonym(QueryBuilder *queryBuilder,
 }
 
 void PQLSelectParser::parseSynonym(QueryTokenParseState *parserState,
-                                   QueryBuilder *queryBuilder) {
-  PQLSynonymName synName = parserState->expectSynName();
-
-  if (synName == BOOLEAN_SELECT) {
-    return;
-  }
-
+                                   QueryBuilder *queryBuilder,
+                                   const string &synName) {
   PQLQuerySynonym* syn = queryBuilder->accessSynonym(synName);
   if (parserState->isCurrentTokenType(PQL_TOKEN_PERIOD)) {
     parserState->expect(PQL_TOKEN_PERIOD);

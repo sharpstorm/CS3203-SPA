@@ -19,8 +19,8 @@ enum PQLSynonymType {
 
 enum AttributeReturnMask {
   NO_RETURN_MASK = 0x0,
-  STR_RETURN_MASK = 0x100,
-  INT_RETURN_MASK = 0x200
+  STR_RETURN_MASK = 0x10,
+  INT_RETURN_MASK = 0x20
 };
 
 enum PQLSynonymAttribute {
