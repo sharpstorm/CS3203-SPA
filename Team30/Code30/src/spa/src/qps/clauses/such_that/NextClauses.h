@@ -2,7 +2,7 @@
 
 #include <utility>
 
-#include "qps/clauses/abstract_clauses/AbstractStmtStmtClause.h"
+#include "abstract_clauses/AbstractStmtStmtClause.h"
 #include "qps/clauses/SuchThatClause.h"
 
 typedef StmtStmtInvoker NextInvoker;
@@ -25,16 +25,14 @@ constexpr NextInvoker nextTInvoker = [](PkbQueryHandler* pkbQueryHandler,
   return QueryResult<StmtValue, StmtValue>{};
 };
 
-class NextClause: public AbstractNextClause<nextInvoker>,
-                  public SuchThatClause  {
+class NextClause: public AbstractNextClause<nextInvoker> {
  public:
   NextClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
   }
 };
 
-class NextTClause: public AbstractNextClause<nextTInvoker>,
-                   public SuchThatClause  {
+class NextTClause: public AbstractNextClause<nextTInvoker> {
  public:
   NextTClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {

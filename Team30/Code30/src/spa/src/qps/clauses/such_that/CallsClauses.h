@@ -2,7 +2,7 @@
 
 #include <utility>
 
-#include "qps/clauses/abstract_clauses/AbstractEntEntClause.h"
+#include "abstract_clauses/AbstractEntEntClause.h"
 #include "qps/clauses/SuchThatClause.h"
 
 typedef EntEntInvoker CallsInvoker;
@@ -25,16 +25,14 @@ constexpr CallsInvoker callsTInvoker = [](PkbQueryHandler* pkbQueryHandler,
   return pkbQueryHandler->queryCallsStar(leftArg, rightArg);
 };
 
-class CallsClause: public AbstractCallsClause<callsInvoker>,
-                   public SuchThatClause {
+class CallsClause: public AbstractCallsClause<callsInvoker> {
  public:
   CallsClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractEntEntClause(std::move(left), std::move(right)) {
   }
 };
 
-class CallsTClause: public AbstractCallsClause<callsTInvoker>,
-                    public SuchThatClause  {
+class CallsTClause: public AbstractCallsClause<callsTInvoker> {
  public:
   CallsTClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractEntEntClause(std::move(left), std::move(right)) {
