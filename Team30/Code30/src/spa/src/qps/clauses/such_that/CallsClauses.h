@@ -3,6 +3,7 @@
 #include <utility>
 
 #include "qps/clauses/abstract_clauses/AbstractEntEntClause.h"
+#include "qps/clauses/SuchThatClause.h"
 
 typedef EntEntInvoker CallsInvoker;
 

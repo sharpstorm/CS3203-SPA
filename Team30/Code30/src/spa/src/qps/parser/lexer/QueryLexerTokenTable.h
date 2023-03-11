@@ -29,6 +29,8 @@ const char PQL_KEYWORD_USES[] = "Uses";
 const char PQL_KEYWORD_MODIFIES[] = "Modifies";
 const char PQL_KEYWORD_PATTERN[] = "pattern";
 const char PQL_KEYWORD_CALLS[] = "Calls";
+const char PQL_KEYWORD_NEXT[] = "Next";
+const char PQL_KEYWORD_AFFECTS[] = "Affects";
 
 class QueryLexerTokenTable {
  public:
@@ -52,7 +54,9 @@ class QueryLexerTokenTable {
       {PQL_KEYWORD_SUCH, PQL_TOKEN_SUCH},
       {PQL_KEYWORD_THAT, PQL_TOKEN_THAT},
       {PQL_KEYWORD_CALLS, PQL_TOKEN_CALLS},
-      { PQL_KEYWORD_AND, PQL_TOKEN_AND}
+      {PQL_KEYWORD_AND, PQL_TOKEN_AND},
+      {PQL_KEYWORD_NEXT, PQL_TOKEN_NEXT},
+      {PQL_KEYWORD_AFFECTS, PQL_TOKEN_AFFECTS}
   };
   PQLTokenType tokens[256];
   QueryLexerTokenTable();

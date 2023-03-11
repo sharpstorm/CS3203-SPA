@@ -220,6 +220,9 @@ TEST_CASE("Test UsesP") {
                                   EntityRef{EntityType::None, "b"}).isEmpty);
 }
 
+TEST_CASE("Test self call") {
+  string input = "procedure a {"
+                 "  call a;"
 
 TEST_CASE("Test While Pattern") {
   string input = "procedure printResults {\n"
@@ -231,6 +234,18 @@ TEST_CASE("Test While Pattern") {
   PKB pkb;
   PkbWriter pkbWriter(&pkb);
   PkbQueryHandler queryHandler(&pkb);
+  REQUIRE_THROWS_AS(spDriver.parseSource(input, &pkbWriter), SPError);
+}
+
+TEST_CASE("Test acyclic call") {
+  string input = "procedure a {"
+                 "  call b;"
+                 "}"
+                 "procedure b {"
+                 "  call c;"
+                 "}"
+                 "procedure c {"
+                 "  call a;"
   spDriver.parseSource(input, &pkbWriter);
 
   REQUIRE(!queryHandler.queryWhilePattern(StmtRef{StmtType::While, 1},
@@ -260,6 +275,38 @@ TEST_CASE("Test If Pattern") {
   PKB pkb;
   PkbWriter pkbWriter(&pkb);
   PkbQueryHandler queryHandler(&pkb);
+  REQUIRE_THROWS_AS(spDriver.parseSource(input, &pkbWriter), SPError);
+}
+
+
+TEST_CASE("Test Duplicate proc") {
+  string input = "procedure a {"
+                 "  call b;"
+                 "}"
+                 "procedure a {"
+                 "  call c;"
+                 "}";
+
+  SpDriver spDriver;
+  PKB pkb;
+  PkbWriter pkbWriter(&pkb);
+  PkbQueryHandler queryHandler(&pkb);
+  REQUIRE_THROWS_AS(spDriver.parseSource(input, &pkbWriter), SPError);
+}
+
+TEST_CASE("Test Non existent proc") {
+  string input = "procedure a {"
+                 "  call b;"
+                 "}"
+                 "procedure b {"
+                 "  call c;"
+                 "}";
+
+  SpDriver spDriver;
+  PKB pkb;
+  PkbWriter pkbWriter(&pkb);
+  PkbQueryHandler queryHandler(&pkb);
+  REQUIRE_THROWS_AS(spDriver.parseSource(input, &pkbWriter), SPError);
   spDriver.parseSource(input, &pkbWriter);
 
   REQUIRE(!queryHandler.queryIfPattern(StmtRef{StmtType::If, 1},

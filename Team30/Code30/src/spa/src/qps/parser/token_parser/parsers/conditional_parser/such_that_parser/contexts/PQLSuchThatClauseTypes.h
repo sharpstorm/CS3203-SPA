@@ -9,31 +9,45 @@
 #include "qps/clauses/such_that/CallsClauses.h"
 #include "qps/clauses/such_that/FollowsClauses.h"
 #include "qps/clauses/such_that/ParentClauses.h"
+#include "qps/clauses/such_that/NextClauses.h"
+#include "qps/clauses/such_that/AffectsClauses.h"
 
 typedef PQLTransitiveClauseContext<FollowsClause,
                                    FollowsTClause,
                                    PQLStmtRefExtractor,
                                    PQLStmtRefExtractor>
-                                   PQLFollowsClauseContext;
+    PQLFollowsClauseContext;
 
 typedef PQLTransitiveClauseContext<ParentClause,
                                    ParentTClause,
                                    PQLStmtRefExtractor,
                                    PQLStmtRefExtractor>
-                                   PQLParentClauseContext;
+    PQLParentClauseContext;
 
 typedef PQLTransitiveClauseContext<CallsClause,
                                    CallsTClause,
                                    PQLEntityRefExtractor,
                                    PQLEntityRefExtractor>
-                                   PQLCallsClauseContext;
+    PQLCallsClauseContext;
 
 typedef PQLSuchThatClauseContext<UsesClause,
                                  PQLAnyRefExtractor,
                                  PQLEntityRefExtractor>
-                                 PQLUsesClauseContext;
+    PQLUsesClauseContext;
 
 typedef PQLSuchThatClauseContext<ModifiesClause,
                                  PQLAnyRefExtractor,
                                  PQLEntityRefExtractor>
-                                 PQLModifiesClauseContext;
+    PQLModifiesClauseContext;
+
+typedef PQLTransitiveClauseContext<NextClause,
+                                   NextTClause,
+                                   PQLStmtRefExtractor,
+                                   PQLStmtRefExtractor>
+    PQLNextClauseContext;
+
+typedef PQLTransitiveClauseContext<AffectsClause,
+                                   AffectsTClause,
+                                   PQLStmtRefExtractor,
+                                   PQLStmtRefExtractor>
+    PQLAffectsClauseContext;
