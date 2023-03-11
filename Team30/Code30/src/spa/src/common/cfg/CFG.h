@@ -16,12 +16,16 @@ class CFG {
   CFG(const string &name, const int &start);
   CFG();
 
-  void addLink(const int &from, const int &to);
-  bool contains(const CFGNode &node);
-  CFGNode getStartingNode();
+  bool containsStatement(const int &stmtNo);
+  int getStartingStmtNumber();
+  CFGNode toCFGNode(const int &stmtNo);
+  int fromCFGNode(const CFGNode &node);
 
-  CFGForwardLink* nextLinksOf(CFGNode node);
-  CFGBackwardLink* reverseLinksOf(CFGNode node);
+  // All CFG Operations operate on an internal index
+  void addLink(const CFGNode &from, const CFGNode &to);
+
+  CFGForwardLink* nextLinksOf(const CFGNode& node);
+  CFGBackwardLink* reverseLinksOf(const CFGNode& node);
 
  private:
   string procedureName;
@@ -31,6 +35,7 @@ class CFG {
   vector<CFGBackwardLink> backwardLinks;
   CFGBackwardLink endNodeBackwardLink;
 
+  bool containsNode(const CFGNode &node);
   void increaseMapSize(int num);
 
   template <class T>
@@ -40,15 +45,12 @@ class CFG {
     if (from == CFG_END_NODE) {
       return;
     }
-    int fromIndex = from - startingLineIndex;
-    int toIndex = (to == CFG_END_NODE) ?
-                  CFG_END_NODE : to - startingLineIndex;
 
-    if (target->size() < fromIndex + 1) {
-      increaseMapSize(fromIndex + 1);
+    if (target->size() < from + 1) {
+      increaseMapSize(from + 1);
     }
 
-    target->at(fromIndex).addLink(toIndex);
+    target->at(from).addLink(to);
   }
 };
 

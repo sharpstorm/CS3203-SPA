@@ -53,15 +53,15 @@ bool findInIterator(T* iteratable, U target) {
 
 void assertCFG(CFG* cfg, const vector<pair<int, int>> &links) {
   for (auto x : links) {
-    int firstTransformed = (x.first == CFG_END_NODE) ? CFG_END_NODE : (x.first - cfg->getStartingNode());
-    int secondTransformed = (x.second == CFG_END_NODE) ? CFG_END_NODE : (x.second - cfg->getStartingNode());
-    REQUIRE(findInIterator(cfg->nextLinksOf(x.first), secondTransformed));
-    REQUIRE(findInIterator(cfg->reverseLinksOf(x.second), firstTransformed));
+    int firstTransformed = cfg->toCFGNode(x.first);
+    int secondTransformed = cfg->toCFGNode(x.second);
+    REQUIRE(findInIterator(cfg->nextLinksOf(firstTransformed), secondTransformed));
+    REQUIRE(findInIterator(cfg->reverseLinksOf(secondTransformed), firstTransformed));
   }
 
   int fwdCounter = 0;
-  for (int i = cfg->getStartingNode(); cfg->contains(i); i++) {
-    auto thisLinks = cfg->nextLinksOf(i);
+  for (int i = cfg->getStartingStmtNumber(); cfg->containsStatement(i); i++) {
+    auto thisLinks = cfg->nextLinksOf(cfg->toCFGNode(i));
     for (auto it = thisLinks->begin(); it != thisLinks->end(); it++) {
       fwdCounter++;
     }
@@ -69,8 +69,8 @@ void assertCFG(CFG* cfg, const vector<pair<int, int>> &links) {
   REQUIRE(fwdCounter == links.size());
 
   int reverseCounter = 0;
-  for (int i = cfg->getStartingNode(); cfg->contains(i); i++) {
-    auto thisLinks = cfg->reverseLinksOf(i);
+  for (int i = cfg->getStartingStmtNumber(); cfg->containsStatement(i); i++) {
+    auto thisLinks = cfg->reverseLinksOf(cfg->toCFGNode(i));
     for (auto it = thisLinks->begin(); it != thisLinks->end(); it++) {
       reverseCounter++;
     }
