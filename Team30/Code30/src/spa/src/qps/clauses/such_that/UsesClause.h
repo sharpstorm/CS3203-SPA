@@ -2,7 +2,7 @@
 
 #include <utility>
 
-#include "qps/clauses/abstract_clauses/AbstractAnyEntClause.h"
+#include "abstract_clauses/AbstractAnyEntClause.h"
 #include "qps/clauses/SuchThatClause.h"
 
 typedef StmtEntInvoker UsesSInvoker;
@@ -27,8 +27,7 @@ typedef AbstractAnyEntClause<
                              ClauseArgument::isType<PQL_SYN_TYPE_PROCEDURE>>,
     ClauseArgument::isType<PQL_SYN_TYPE_VARIABLE>> AbstractUsesClause;
 
-class UsesClause: public AbstractUsesClause,
-                  public SuchThatClause  {
+class UsesClause: public AbstractUsesClause {
  public:
   UsesClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
   : AbstractAnyEntClause(std::move(left), std::move(right)) {

@@ -2,7 +2,7 @@
 
 #include <utility>
 
-#include "qps/clauses/abstract_clauses/AbstractStmtStmtClause.h"
+#include "abstract_clauses/AbstractStmtStmtClause.h"
 #include "qps/clauses/SuchThatClause.h"
 
 typedef StmtStmtInvoker AffectsInvoker;
@@ -25,16 +25,14 @@ constexpr AffectsInvoker affectsTInvoker = [](PkbQueryHandler* pkbQueryHandler,
   return QueryResult<StmtValue, StmtValue>{};
 };
 
-class AffectsClause: public AbstractAffectsClause<affectsInvoker>,
-                     public SuchThatClause  {
+class AffectsClause: public AbstractAffectsClause<affectsInvoker> {
  public:
   AffectsClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
   }
 };
 
-class AffectsTClause: public AbstractAffectsClause<affectsTInvoker>,
-                      public SuchThatClause  {
+class AffectsTClause: public AbstractAffectsClause<affectsTInvoker> {
  public:
   AffectsTClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
