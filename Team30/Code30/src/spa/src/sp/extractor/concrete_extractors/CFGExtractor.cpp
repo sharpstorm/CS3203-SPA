@@ -108,7 +108,8 @@ void CFGExtractor::addCFGRelation(int from, int to) {
   if (from == to) {
     return;
   }
-  cfgCache->addLink(from, to);
+  cfgCache->addLink(cfgCache->toCFGNode(from),
+                    cfgCache->toCFGNode(to));
 }
 
 void CFGExtractor::addCFGToPKB(CFGSPtr cfg) {

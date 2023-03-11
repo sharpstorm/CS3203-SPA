@@ -9,12 +9,11 @@ CFG::CFG() : CFG("", 0) {}
 // the node after the if/while (-1 if it is the last node)
 // ifNode: (after ifStmtList, elseStmtList)
 // whileNode: (after stmtLst, stmtLst)
-void CFG::addLink(const int &from, const int &to) {
+void CFG::addLink(const CFGNode &from, const CFGNode &to) {
   addLink(&forwardLinks, from, to);
 
   if (to == CFG_END_NODE) {
-    int fromIndex = from - startingLineIndex;
-    endNodeBackwardLink.addLink(fromIndex);
+    endNodeBackwardLink.addLink(from);
   } else {
     addLink(&backwardLinks, to, from);
   }
@@ -29,31 +28,44 @@ void CFG::increaseMapSize(int newSize) {
   backwardLinks.resize(newSize);
 }
 
-bool CFG::contains(const CFGNode &node) {
-  return (node >= startingLineIndex)
-      && (node < startingLineIndex + forwardLinks.size());
+bool CFG::containsStatement(const int &stmtNo) {
+  return (stmtNo >= startingLineIndex)
+      && (stmtNo < startingLineIndex + forwardLinks.size());
 }
 
-CFGNode CFG::getStartingNode() {
+int CFG::getStartingStmtNumber() {
   return startingLineIndex;
 }
 
-CFGForwardLink* CFG::nextLinksOf(CFGNode node) {
-  if (!contains(node)) {
-    return nullptr;
+CFGNode CFG::toCFGNode(const int &stmtNo) {
+  if (stmtNo == CFG_END_NODE || stmtNo == CFG_NO_NODE) {
+    return (stmtNo & 0xFFFF);
   }
-
-  int index = node - startingLineIndex;
-  return &forwardLinks[index];
+  return (stmtNo - startingLineIndex) & 0xFFFF;  // Only take lower 16
 }
 
-CFGBackwardLink* CFG::reverseLinksOf(CFGNode node) {
-  if (node == CFG_END_NODE) {
-    return &endNodeBackwardLink;
-  } else if (!contains(node)) {
+int CFG::fromCFGNode(const CFGNode &node) {
+  return startingLineIndex + node;
+}
+
+CFGForwardLink* CFG::nextLinksOf(const CFGNode &node) {
+  if (!containsNode(node)) {
     return nullptr;
   }
 
-  int index = node - startingLineIndex;
-  return &backwardLinks[index];
+  return &forwardLinks[node];
+}
+
+CFGBackwardLink* CFG::reverseLinksOf(const CFGNode &node) {
+  if (node == CFG_END_NODE) {
+    return &endNodeBackwardLink;
+  } else if (!containsNode(node)) {
+    return nullptr;
+  }
+
+  return &backwardLinks[node];
+}
+
+bool CFG::containsNode(const CFGNode &node) {
+  return node < forwardLinks.size();
 }
