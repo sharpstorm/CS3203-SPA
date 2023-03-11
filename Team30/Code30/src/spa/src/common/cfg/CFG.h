@@ -17,7 +17,10 @@ class CFG {
   CFG();
 
   bool containsStatement(const int &stmtNo);
+  bool containsNode(const CFGNode &node);
+
   int getStartingStmtNumber();
+  int getNodeCount();
   CFGNode toCFGNode(const int &stmtNo);
   int fromCFGNode(const CFGNode &node);
 
@@ -35,7 +38,6 @@ class CFG {
   vector<CFGBackwardLink> backwardLinks;
   CFGBackwardLink endNodeBackwardLink;
 
-  bool containsNode(const CFGNode &node);
   void increaseMapSize(int num);
 
   template <class T>

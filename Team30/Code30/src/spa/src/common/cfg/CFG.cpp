@@ -69,3 +69,7 @@ CFGBackwardLink* CFG::reverseLinksOf(const CFGNode &node) {
 bool CFG::containsNode(const CFGNode &node) {
   return node < forwardLinks.size();
 }
+
+int CFG::getNodeCount() {
+  return forwardLinks.size();
+}
