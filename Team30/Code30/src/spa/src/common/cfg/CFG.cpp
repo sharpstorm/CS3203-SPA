@@ -1,35 +1,59 @@
 #include "CFG.h"
 
-CFG::CFG(string name, int start)
+CFG::CFG(const string &name, const int &start)
     : procedureName(name), startingLineIndex(start) {}
 
-CFG::CFG() {
-  procedureName = "";
-  startingLineIndex = 0;
-}
+CFG::CFG() : CFG("", 0) {}
 
 // if node is an if/while, the first node will signify
 // the node after the if/while (-1 if it is the last node)
-// ifNode: (after stmtLst, ifStmtList, elseStmtList)
+// ifNode: (after ifStmtList, elseStmtList)
 // whileNode: (after stmtLst, stmtLst)
-// Last node in while stmtLst will be marked with -1 at end of linked list
-// e.g. (4, -1), where 4 is the line number of the while statement
-void CFG::addLink(int lineNum1, int lineNum2) {
-  if (links.size() < (lineNum1 - startingLineIndex)) {
-    increaseMapSize(lineNum1 - startingLineIndex);
-  }
+void CFG::addLink(const int &from, const int &to) {
+  addLink(&forwardLinks, from, to);
 
-  links[lineNum1 - startingLineIndex - 1].push_back(lineNum2);
+  if (to == CFG_END_NODE) {
+    int fromIndex = from - startingLineIndex;
+    endNodeBackwardLink.addLink(fromIndex);
+  } else {
+    addLink(&backwardLinks, to, from);
+  }
 }
 
 void CFG::increaseMapSize(int newSize) {
-  if (newSize <= 0) {
+  if (newSize <= 0 || newSize <= forwardLinks.size()) {
     return;
   }
 
-  links.resize(newSize);
+  forwardLinks.resize(newSize);
+  backwardLinks.resize(newSize);
 }
 
-vector<list<int>> CFG::getLinks() { return links; }
+bool CFG::contains(const CFGNode &node) {
+  return (node >= startingLineIndex)
+      && (node < startingLineIndex + forwardLinks.size());
+}
 
-string CFG::getName() { return procedureName; }
+CFGNode CFG::getStartingNode() {
+  return startingLineIndex;
+}
+
+CFGForwardLink* CFG::nextLinksOf(CFGNode node) {
+  if (!contains(node)) {
+    return nullptr;
+  }
+
+  int index = node - startingLineIndex;
+  return &forwardLinks[index];
+}
+
+CFGBackwardLink* CFG::reverseLinksOf(CFGNode node) {
+  if (node == CFG_END_NODE) {
+    return &endNodeBackwardLink;
+  } else if (!contains(node)) {
+    return nullptr;
+  }
+
+  int index = node - startingLineIndex;
+  return &backwardLinks[index];
+}
