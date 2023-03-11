@@ -25,3 +25,7 @@ void ProcedureNode::accept(IExtractor* e) {
 void ProcedureNode::leave(IExtractor* e) {
   e->leaveProcedure(this);
 }
+
+ASTNode *ProcedureNode::getChildStatement(const int &statementIndex) {
+  return children.at(0)->getChildren()[statementIndex];
+}

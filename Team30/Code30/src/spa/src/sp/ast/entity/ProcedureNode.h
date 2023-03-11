@@ -15,6 +15,7 @@ class ProcedureNode : public ASTNode {
   void accept(IExtractor *e) override;
 
   string getName();
+  ASTNode* getChildStatement(const int &statementIndex);
 
  private:
   string procName;

@@ -1,29 +1,57 @@
 #pragma once
 
-#include <list>
 #include <string>
 #include <vector>
 #include <memory>
+#include <cassert>
 
-using std::string, std::vector, std::list, std::shared_ptr;
+#include "common/UtilityTypes.h"
+#include "CFGLinks.h"
 
+using std::string, std::vector, std::shared_ptr;
+
+// CFG can only handle up to 65534 Nodes
 class CFG {
  public:
-  explicit CFG(string name, int start);
+  CFG(const string &name, const int &start);
   CFG();
-  void addLink(int lineNum1, int lineNum2);
 
-  void increaseMapSize(int num);
+  bool containsStatement(const int &stmtNo);
+  int getStartingStmtNumber();
+  CFGNode toCFGNode(const int &stmtNo);
+  int fromCFGNode(const CFGNode &node);
 
-  vector<list<int>> getLinks();
+  // All CFG Operations operate on an internal index
+  void addLink(const CFGNode &from, const CFGNode &to);
 
-  string getName();
+  CFGForwardLink* nextLinksOf(const CFGNode& node);
+  CFGBackwardLink* reverseLinksOf(const CFGNode& node);
 
  private:
   string procedureName;
   int startingLineIndex;
 
-  vector<list<int>> links;
+  vector<CFGForwardLink> forwardLinks;
+  vector<CFGBackwardLink> backwardLinks;
+  CFGBackwardLink endNodeBackwardLink;
+
+  bool containsNode(const CFGNode &node);
+  void increaseMapSize(int num);
+
+  template <class T>
+  constexpr void addLink(T* target, const int &from, const int &to) {
+    assert(from != CFG_NO_NODE);
+
+    if (from == CFG_END_NODE) {
+      return;
+    }
+
+    if (target->size() < from + 1) {
+      increaseMapSize(from + 1);
+    }
+
+    target->at(from).addLink(to);
+  }
 };
 
 typedef shared_ptr<CFG> CFGSPtr;

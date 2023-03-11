@@ -13,96 +13,121 @@ CFGExtractor::CFGExtractor(PkbWriter* writer) :
 void CFGExtractor::visitProcedure(ProcedureNode* node) {
   StatementNumberExtractor statementNoExtractor;
 
-  node->getChildren()[0]->getChildren()[0]->accept(&statementNoExtractor);
-  int startingLineIndex = statementNoExtractor.getStatementNumber() - 1;
+  node->getChildStatement(0)->accept(&statementNoExtractor);
+  int startingLineIndex = statementNoExtractor.getStatementNumber();
 
   cfgCache = make_shared<CFG>(node->getName(), startingLineIndex);
+  clearableLastLines.push(startingLineIndex);
+  resetPoint.push(startingLineIndex);
+  resetCounters.push(0);
+  cachedLastLines.push(stack<int>{});
 }
 
 void CFGExtractor::leaveProcedure(ProcedureNode* node) {
-  addCFGToPKB();
+  while (!clearableLastLines.empty()) {
+    addCFGRelation(clearableLastLines.top(), CFG_END_NODE);
+    clearableLastLines.pop();
+  }
+
+  addCFGToPKB(cfgCache);
   cfgCache = nullptr;
 }
 
-void CFGExtractor::visitStmtList(StatementListNode* node) {
-  if (node->getChildCount() == 0) {
+void CFGExtractor::leaveStmtList(StatementListNode *node) {
+  int curCount = resetCounters.top();
+  resetCounters.pop();
+
+  if (curCount > 0) {
+    flushStack(&clearableLastLines, &cachedLastLines.top());
+    clearableLastLines.push(resetPoint.top());
+    resetCounters.push(curCount - 1);
     return;
   }
 
-  StatementNumberExtractor statementNoExtractor;
-  vector<ASTNode*> children = node->getChildren();
-
-  for (int i = 0; i < children.size() - 1; i++) {
-    children[i]->accept(&statementNoExtractor);
-    int lineNoLeft = statementNoExtractor.getStatementNumber();
-    children[i + 1]->accept(&statementNoExtractor);
-    int lineNoRight = statementNoExtractor.getStatementNumber();
-    addCFGRelation(lineNoLeft, lineNoRight);
-  }
-
-  children[children.size() - 1]->accept(&statementNoExtractor);
-  int lastLineNo = statementNoExtractor.getStatementNumber();
-
-  addCFGRelation(lastLineNo, -1);
+  flushStack(&cachedLastLines.top(), &clearableLastLines);
+  resetPoint.pop();
+  cachedLastLines.pop();
 }
 
 void CFGExtractor::visitIf(IfNode* node) {
-  vector<ASTNode*> children = node->getChildren();
-  vector<ASTNode*> ifLst = children[1]->getChildren();
-  vector<ASTNode*> elseLst = children[2]->getChildren();
-
-  addCFGOnIfNodeList(node->getLineNumber(), &ifLst);
-  addCFGOnIfNodeList(node->getLineNumber(), &elseLst);
+  advanceStatement(node);
+  resetPoint.push(node->getLineNumber());
+  resetCounters.push(1);
+  cachedLastLines.push(stack<int>{});
 }
 
 void CFGExtractor::visitWhile(WhileNode* node) {
-  vector<ASTNode*> children = node->getChildren();
-  vector<ASTNode*> stmtList = children[1]->getChildren();
-
-  addCFGOnWhileNodeList(node->getLineNumber(), &stmtList);
+  advanceStatement(node);
+  resetPoint.push(node->getLineNumber());
+  resetCounters.push(0);
+  cachedLastLines.push(stack<int>{});
 }
 
-void CFGExtractor::addCFGOnIfNodeList(int conditionalLine,
-                                      vector<ASTNode*>* childList) {
-  if (childList->empty()) {
-    return;
+void CFGExtractor::leaveWhile(WhileNode* node) {
+  stack<int> temp;
+  int value;
+  while (!clearableLastLines.empty()) {
+    value = clearableLastLines.top();
+    addCFGRelation(value, node->getLineNumber());
+    temp.push(value);
+    clearableLastLines.pop();
   }
 
-  StatementNumberExtractor statementNoExtractor;
-  childList->at(0)->accept(
-      &statementNoExtractor);  // to connect if statement to beginning of list
-  CFGExtractor::addCFGRelation(conditionalLine,
-                               statementNoExtractor.getStatementNumber());
+  while (!temp.empty()) {
+    clearableLastLines.push(temp.top());
+    temp.pop();
+  }
 }
 
-void CFGExtractor::addCFGOnWhileNodeList(int conditionalLine,
-                                         vector<ASTNode*>* childList) {
-  if (childList->empty()) {
+void CFGExtractor::visitAssign(AssignNode *node) {
+  advanceStatement(node);
+}
+
+void CFGExtractor::visitRead(ReadNode *node) {
+  advanceStatement(node);
+}
+
+void CFGExtractor::visitPrint(PrintNode *node) {
+  advanceStatement(node);
+}
+
+void CFGExtractor::visitCall(CallNode *node) {
+  advanceStatement(node);
+}
+
+void CFGExtractor::advanceStatement(StatementASTNode* node) {
+  int nodeNum = node->getLineNumber();
+  while (!clearableLastLines.empty()) {
+    addCFGRelation(clearableLastLines.top(), nodeNum);
+    clearableLastLines.pop();
+  }
+  clearableLastLines.push(nodeNum);
+}
+
+void CFGExtractor::addCFGRelation(int from, int to) {
+  if (from == to) {
     return;
   }
-
-  size_t childListSize = childList->size();
-  StatementNumberExtractor firstStatementNoExtractor, lastStatementNoExtractor;
-  childList->at(0)->accept(
-      &firstStatementNoExtractor);  // to connect while statement to beginning
-  // of list
-  childList->at(childListSize - 1)
-      ->accept(&lastStatementNoExtractor);  // to connect end of list to while
-  // statement
-  CFGExtractor::addCFGRelation(conditionalLine,
-                               firstStatementNoExtractor.getStatementNumber());
-
-  CFGExtractor::addCFGRelation(lastStatementNoExtractor.getStatementNumber(),
-                               conditionalLine);
+  cfgCache->addLink(cfgCache->toCFGNode(from),
+                    cfgCache->toCFGNode(to));
 }
 
-void CFGExtractor::addCFGRelation(int x, int y) {
-  cfgCache->addLink(x, y);
-}
-
-void CFGExtractor::addCFGToPKB() {
+void CFGExtractor::addCFGToPKB(CFGSPtr cfg) {
   // pkbWriter->addCFGs(cfgCache);
   //
   // pkbWriter will need an empty vector of CFGs, which will be periodically
   // pushed new CFGs when leave(ProcedureNode) is called
+}
+
+void CFGExtractor::flushStack(stack<int> *source, stack<int> *target) {
+  stack<int> temp;
+  while (!source->empty()) {
+    temp.push(source->top());
+    source->pop();
+  }
+
+  while (!temp.empty()) {
+    target->push(temp.top());
+    temp.pop();
+  }
 }
