@@ -20,10 +20,8 @@ class UsesExtractor : public AbstractExtractor {
   void visitProcedure(ProcedureNode* node) override;
  private:
   void addUsesRelation(const int &x, const string &var);
-  void processNode(const int &lineNumber, unordered_set<string>* v);
-  void recurseExpr(unordered_set<string>* v, ASTNode* node);
-  bool setContains(unordered_set<string> *v, const string &x);
-  void updateUses(ASTNode* expr, const int &lineNumber);
+  void processNode(const int &lineNumber, const unordered_set<string> &v);
+  void updateUses(const unordered_set<string> &v, const int &lineNumber);
   vector<int> statementStartStack;
   PkbWriter *pkbWriter;
   string procName;
