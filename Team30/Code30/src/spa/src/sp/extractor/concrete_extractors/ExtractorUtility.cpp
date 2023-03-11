@@ -8,7 +8,7 @@ getExprVariables(unordered_set<string>* v, ASTNode* node) {
   }
 
   if (node->getType() == ASTNodeType::ASTNODE_VARIABLE) {
-    string value = node->toString();
+    string value = node->getValue();
     if (!setContains(v, value)) {
       v->insert(value);
     }
