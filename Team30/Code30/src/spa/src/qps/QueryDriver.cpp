@@ -7,7 +7,7 @@ UniqueVectorPtr<string> QueryDriver::evaluate(string* query) {
   PQLQueryPtr pqlQuery = parser->parseQuery(query);
   SynonymResultTable* synTable = executor->executeQuery(pqlQuery.get());
 
-  PQLQuerySynonymList* queryVar = pqlQuery->getResultVariables();
+  AttributedSynonymList* queryVar = pqlQuery->getResultVariables();
   UniqueVectorPtr<string> result = projector.project(synTable, queryVar);
   delete(synTable);
   return result;

@@ -18,6 +18,8 @@ IPQLParser *PQLConditionalParser::getParseContext(PQLTokenType type) {
       return &suchThatParser;
     case PQL_TOKEN_PATTERN:
       return &patternParser;
+    case PQL_TOKEN_WITH:
+      return &withParser;
     default:
       return nullptr;
   }

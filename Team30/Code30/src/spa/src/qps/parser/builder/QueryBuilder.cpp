@@ -14,7 +14,7 @@ void QueryBuilder::setError(const string &msg) {
   errorMsg = msg;
 }
 
-void QueryBuilder::addResultSynonym(const PQLQuerySynonym &synonym) {
+void QueryBuilder::addResultSynonym(const AttributedSynonym &synonym) {
   resultVariables.push_back(synonym);
 }
 
@@ -45,6 +45,10 @@ void QueryBuilder::addSuchThat(unique_ptr<SuchThatClause> clause) {
 }
 
 void QueryBuilder::addPattern(unique_ptr<PatternClause> clause) {
+  clauses.push_back(std::move(clause));
+}
+
+void QueryBuilder::addWith(unique_ptr<WithClause> clause) {
   clauses.push_back(std::move(clause));
 }
 

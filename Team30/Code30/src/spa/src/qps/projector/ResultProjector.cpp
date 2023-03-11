@@ -6,7 +6,7 @@
 using std::to_string, std::vector, std::make_unique;
 
 UniqueVectorPtr<string> ResultProjector::project(
-    SynonymResultTable *queryResult, PQLQuerySynonymList *resultVariables) {
+    SynonymResultTable *queryResult, AttributedSynonymList*resultVariables) {
   UniqueVectorPtr<string> result =
       make_unique<vector<string>>(vector<string>{});
 

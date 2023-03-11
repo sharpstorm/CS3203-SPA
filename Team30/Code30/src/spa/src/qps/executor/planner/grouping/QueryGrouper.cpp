@@ -31,7 +31,7 @@ void QueryGrouper::initIndex() {
     }
   }
 
-  PQLQuerySynonymList* selections = query->getResultVariables();
+  AttributedSynonymList* selections = query->getResultVariables();
   for (auto it = selections->begin(); it != selections->end(); it++) {
     groupIndex.insertSelection(it->getName());
   }

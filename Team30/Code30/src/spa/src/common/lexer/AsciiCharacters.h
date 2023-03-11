@@ -6,6 +6,7 @@ const int ASCII_CARRIAGE_RETURN = 13;
 const int ASCII_WHITESPACE = 32;
 
 const int ASCII_QUOTE = 34;
+const int ASCII_NUMBER_SIGN = 35;
 const int ASCII_PERCENT = 37;
 
 const int ASCII_TIMES = 42;

@@ -12,6 +12,7 @@ const char QPS_PARSER_ERR_INVALID_STMT[] =
     "Statement ref provided is invalid";
 const char QPS_PARSER_ERR_INVALID_WILDCARD[] =
     "Wildcard disallowed as argument";
+const char QPS_PARSER_ERR_INVALID_ATTRIBUTE[] = "Invalid attribute in clause";
 
 class QPSParserSemanticError: public QPSError {
  public:

@@ -3,6 +3,7 @@
 #include "../IPQLParser.h"
 #include "pattern_clause/PQLPatternParser.h"
 #include "such_that_parser/PQLSuchThatParser.h"
+#include "with_clause/PQLWithParser.h"
 
 class PQLConditionalParser: public IPQLParser {
  public:
@@ -15,4 +16,5 @@ class PQLConditionalParser: public IPQLParser {
 
   PQLPatternParser patternParser;
   PQLSuchThatParser suchThatParser;
+  PQLWithParser withParser;
 };

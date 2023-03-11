@@ -61,4 +61,3 @@ void testDeclarationParsing(vector<PQLToken> dummyStream, PQLSynonymName syn) {
 
   REQUIRE(builder->hasSynonym(syn));
 }
-

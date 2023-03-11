@@ -1,4 +1,5 @@
 #include "PQLSelectParser.h"
+#include "qps/parser/token_parser/ref_extractor/PQLAttributeRefExtractor.h"
 
 const char BOOLEAN_SELECT[] = "BOOLEAN";
 
@@ -11,26 +12,26 @@ void PQLSelectParser::parse(QueryTokenParseState *parserState,
   }
 
   PQLSynonymName synName = parserState->expectSynName();
+
   if (synName == BOOLEAN_SELECT) {
     return;
   }
 
-  addResultSynonym(queryBuilder, synName);
+  parseSynonym(parserState, queryBuilder, synName);
 }
 
 void PQLSelectParser::parseTuple(QueryTokenParseState *parserState,
                                  QueryBuilder *queryBuilder) {
   parserState->expect(PQL_TOKEN_TUPLE_OPEN);
   PQLSynonymName synName = parserState->expectSynName();
-  addResultSynonym(queryBuilder, synName);
+  parseSynonym(parserState, queryBuilder, synName);
 
   PQLToken* nextToken = parserState->expect(PQL_TOKEN_TUPLE_CLOSE,
                                             PQL_TOKEN_COMMA);
   while (!nextToken->isType(PQL_TOKEN_TUPLE_CLOSE)) {
     synName = parserState->expectSynName();
-    addResultSynonym(queryBuilder, synName);
-    nextToken = parserState->expect(PQL_TOKEN_TUPLE_CLOSE,
-                                    PQL_TOKEN_COMMA);
+    parseSynonym(parserState, queryBuilder, synName);
+    nextToken = parserState->expect(PQL_TOKEN_TUPLE_CLOSE, PQL_TOKEN_COMMA);
   }
 }
 
@@ -41,5 +42,22 @@ void PQLSelectParser::addResultSynonym(QueryBuilder *queryBuilder,
     return;
   }
 
-  queryBuilder->addResultSynonym(*synonym);
+  AttributedSynonym attrSyn(*synonym, NO_ATTRIBUTE);
+  queryBuilder->addResultSynonym(attrSyn);
+}
+
+void PQLSelectParser::parseSynonym(QueryTokenParseState *parserState,
+                                   QueryBuilder *queryBuilder,
+                                   const string &synName) {
+  PQLQuerySynonym* syn = queryBuilder->accessSynonym(synName);
+  if (parserState->isCurrentTokenType(PQL_TOKEN_PERIOD)) {
+    parserState->expect(PQL_TOKEN_PERIOD);
+    PQLSynonymAttribute attr =
+        PQLAttributeRefExtractor::extractAttribute(parserState);
+    AttributedSynonym attrSyn(*syn, attr);
+    queryBuilder->addResultSynonym(attrSyn);
+    return;
+  }
+
+  addResultSynonym(queryBuilder, synName);
 }

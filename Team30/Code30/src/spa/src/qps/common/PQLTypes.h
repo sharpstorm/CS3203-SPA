@@ -17,5 +17,19 @@ enum PQLSynonymType {
   PQL_SYN_TYPE_ASSIGN
 };
 
+enum AttributeReturnMask {
+  NO_RETURN_MASK = 0x0,
+  STR_RETURN_MASK = 0x10,
+  INT_RETURN_MASK = 0x20
+};
+
+enum PQLSynonymAttribute {
+  NO_ATTRIBUTE = NO_RETURN_MASK,
+  PROC_NAME = STR_RETURN_MASK,
+  VAR_NAME,
+  CONST_VALUE = INT_RETURN_MASK,
+  STMT_NUM
+};
+
 const int PQL_SYN_STMT_MASK = PQL_SYN_TYPE_STMT;
 typedef string PQLSynonymName;

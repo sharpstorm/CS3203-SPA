@@ -58,7 +58,7 @@ ResultGroup* ResultGroup::crossProduct(ResultGroup* other) {
   return output;
 }
 
-void ResultGroup::project(PQLQuerySynonymList *synList,
+void ResultGroup::project(AttributedSynonymList *synList,
                             vector<string>* result) {
   // Iterate through each row
   for (int i=0; i < getTableRows(); i++) {
@@ -66,7 +66,7 @@ void ResultGroup::project(PQLQuerySynonymList *synList,
     string rowString;
     for (int j=0; j < synList->size(); j++) {
       // Get the column index from the result group
-      PQLQuerySynonym syn = synList->at(j);
+      AttributedSynonym syn = synList->at(j);
       ResultTableCol col = colMap.at(syn.getName());
       rowString += row->at(col)->project();
       if (j < synList->size() - 1) {

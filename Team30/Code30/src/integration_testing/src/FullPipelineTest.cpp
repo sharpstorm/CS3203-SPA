@@ -146,6 +146,15 @@ TEST_CASE("Test Full End-to-end") {
   expectedRes = unordered_set<string>{"FALSE"};
   launchQuery(qps.get(), query, expectedRes);
 
+  // SAME ASBOVE but uses 'and'
+  query = "stmt s; assign a; Select BOOLEAN such that Follows(a, s) and Modifies(1,\"z\")";
+  expectedRes = unordered_set<string>{"FALSE"};
+  launchQuery(qps.get(), query, expectedRes);
+
+  query = "stmt s; Select s such that Follows*(1, s) and Follows*(s, 3)";
+  expectedRes = unordered_set<string>({"2"});
+  launchQuery(qps.get(), query, expectedRes);
+
   query = "stmt s; assign a; Select <s,a> such that Follows(s, s)";
   expectedRes = unordered_set<string>{};
   launchQuery(qps.get(), query, expectedRes);
@@ -268,7 +277,4 @@ TEST_CASE("Test Full End-to-end") {
   query = "assign a; Select a pattern a(_, _\"((a * 7)\"_)";
   launchSyntaxErrorQuery(qps.get(), query);
 
-  query = "stmt s; Select s such that Follows*(1, s) and Follows*(s, 3)";
-  expectedRes = unordered_set<string>({"2"});
-  launchQuery(qps.get(), query, expectedRes);
 }

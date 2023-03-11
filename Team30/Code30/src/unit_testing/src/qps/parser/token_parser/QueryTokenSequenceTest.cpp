@@ -28,6 +28,16 @@ TEST_CASE("Test QueryTokenParseState Stage Valid Flows") {
   testStringParsing("procedure p; assign a; Select p pattern a(_, _)");
   testStringParsing("procedure p; assign a; Select p such that Follows(1, 2) pattern a(_, _)");
   testStringParsing("procedure p; assign a; Select p pattern a(_, _) such that Follows(1, 2)");
+  testStringParsing("assign a; Select a with 1 = 1");
+  testStringParsing("assign a; Select a with 1 = a.stmt#");
+  testStringParsing("assign a; Select a with a.stmt# = 1");
+  testStringParsing("assign a; Select a with a.stmt# = a.stmt#");
+  testStringParsing("variable v; Select v with \"x\" = \"x\"");
+  testStringParsing("variable v; Select v with \"x\" = v.varName");
+  testStringParsing("variable v; Select v with v.varName = \"x\"");
+  testStringParsing("variable v; Select v with v.varName = v.varName");
+  testStringParsing("assign a; variable v; Select a such that Uses(a,v) with a.stmt# = 1");
+  testStringParsing("assign a; variable v; Select a with a.stmt# = 1 such that Uses(a,v)");
 }
 
 TEST_CASE("Test QueryTokenParseState Stage Invalid Flows") {
@@ -66,4 +76,8 @@ TEST_CASE("Test QueryTokenParseState Stage Invalid Flows") {
   REQUIRE_THROWS_AS(testStringParsing("assign a; Select a pattern a(_,_) assign a2"), QPSParserSyntaxError);
   REQUIRE_THROWS_AS(testStringParsing("assign a; Select a pattern a(_,_) Select a"), QPSParserSyntaxError);
   REQUIRE_THROWS_AS(testStringParsing("assign a; Select a pattern a(_,_) Follows(1, 2)"), QPSParserSyntaxError);
+
+  REQUIRE_THROWS_AS(testStringParsing("assign a; Select a with = 1"), QPSParserSyntaxError);
+  REQUIRE_THROWS_AS(testStringParsing("assign a; Select a with = "), QPSParserSyntaxError);
+  REQUIRE_THROWS_AS(testStringParsing("assign a; Select a with 1 = "), QPSParserSyntaxError);
 }
