@@ -3,7 +3,7 @@
 #include "common/Types.h"
 #include "common/cfg/CFG.h"
 #include "CFGWalker.h"
-#include "qps/cfg/cfg_querier/ICFGQuerier.h"
+#include "qps/cfg/cfg_querier/ICFGClauseQuerier.h"
 
 class CFGQuerier {
  public:
@@ -16,7 +16,7 @@ class CFGQuerier {
   ICFGQuerierPtr nextQuerier;
   ICFGQuerierPtr nextTQuerier;
 
-  StmtTransitiveResult queryArgs(ICFGQuerier* caller,
+  StmtTransitiveResult queryArgs(ICFGClauseQuerier* caller,
                                  const StmtRef &arg0,
                                  const StmtRef &arg1);
 };

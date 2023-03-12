@@ -8,7 +8,7 @@ using std::unique_ptr;
 
 typedef QueryResult<StmtValue, StmtValue> StmtTransitiveResult;
 
-class ICFGQuerier {
+class ICFGClauseQuerier {
  public:
   virtual StmtTransitiveResult queryBool(const StmtValue &arg0,
                                          const StmtValue &arg1) = 0;
@@ -17,4 +17,4 @@ class ICFGQuerier {
   virtual StmtTransitiveResult queryAll() = 0;
 };
 
-typedef unique_ptr<ICFGQuerier> ICFGQuerierPtr;
+typedef unique_ptr<ICFGClauseQuerier> ICFGQuerierPtr;

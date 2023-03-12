@@ -22,7 +22,7 @@ StmtTransitiveResult CFGQuerier::queryNextT(const StmtRef &arg0,
   return queryArgs(nextTQuerier.get(), arg0, arg1);
 }
 
-StmtTransitiveResult CFGQuerier::queryArgs(ICFGQuerier* caller,
+StmtTransitiveResult CFGQuerier::queryArgs(ICFGClauseQuerier* caller,
                                            const StmtRef &arg0,
                                            const StmtRef &arg1) {
   if (arg0.isKnown() && arg1.isKnown()) {

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "ICFGQuerier.h"
+#include "ICFGClauseQuerier.h"
 #include "common/cfg/CFG.h"
 #include "qps/cfg/CFGWalker.h"
 
-class CFGNextQuerier: public ICFGQuerier {
+class CFGNextQuerier: public ICFGClauseQuerier {
  public:
   explicit CFGNextQuerier(CFG *cfg);
 
