@@ -385,6 +385,32 @@ TEST_CASE("Test acyclic call") {
   REQUIRE_THROWS_AS(spDriver.parseSource(input, &pkbWriter), SPError);
 }
 
+TEST_CASE("Test double acyclic call") {
+  string input =
+      "procedure a {"
+      "  call b;"
+      "}"
+      "procedure b {"
+      "  call c;"
+      "}"
+      "procedure c {"
+      "  call a;"
+      "  call e;"
+      "}"
+      "procedure d {"
+      "  call c;"
+      "}"
+      "procedure e {"
+      "  call d;"
+      "}";
+
+  SpDriver spDriver;
+  PKB pkb;
+  PkbWriter pkbWriter(&pkb);
+  PkbQueryHandler queryHandler(&pkb);
+  REQUIRE_THROWS_AS(spDriver.parseSource(input, &pkbWriter), SPError);
+}
+
 TEST_CASE("Test If Pattern") {
   string input =
       "procedure printResults {\n"
