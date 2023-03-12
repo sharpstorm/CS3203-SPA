@@ -253,7 +253,7 @@ TEST_CASE("NextT Type Filtering") {
                      StmtRef{StmtType::None, 1},
                      StmtRef{StmtType::Assign, 0});
   REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{2});
+  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{2, 4});
 
   result = queryNextT(&querier,
                       StmtRef{StmtType::None, 1},
