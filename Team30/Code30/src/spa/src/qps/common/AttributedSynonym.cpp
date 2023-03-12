@@ -1,4 +1,5 @@
 #include "AttributedSynonym.h"
+#include "qps/errors/QPSParserSemanticError.h"
 
 AttributedSynonym::AttributedSynonym() : attribute(NO_ATTRIBUTE) { }
 
@@ -31,6 +32,8 @@ bool AttributedSynonym::validateAttribute() {
       return attribute == VAR_NAME;
     case PQL_SYN_TYPE_PROCEDURE:
       return attribute == PROC_NAME;
+    default:
+      throw QPSParserSemanticError(QPS_PARSER_ERR_UNKNOWN_SYNONYM);
   }
 }
 

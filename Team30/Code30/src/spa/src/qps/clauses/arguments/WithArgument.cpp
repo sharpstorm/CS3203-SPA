@@ -54,7 +54,6 @@ bool WithArgument::isStaticValueEqual(const WithArgument &other) {
   }
 
   return intValue == other.intValue && identValue == other.identValue;
-
 }
 
 const char WithArgument::NO_ENT_REF[] = "";
