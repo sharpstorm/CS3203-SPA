@@ -6,13 +6,13 @@
 
 class CFGNextQuerier: public ICFGQuerier {
  public:
-  CFGNextQuerier(CFG *cfg);
+  explicit CFGNextQuerier(CFG *cfg);
 
   StmtTransitiveResult queryBool(const StmtValue &arg0,
                                  const StmtValue &arg1) override;
-  virtual StmtTransitiveResult queryFrom(const StmtValue &arg0) override;
-  virtual StmtTransitiveResult queryTo(const StmtValue &arg1) override;
-  virtual StmtTransitiveResult queryAll() override;
+  StmtTransitiveResult queryFrom(const StmtValue &arg0) override;
+  StmtTransitiveResult queryTo(const StmtValue &arg1) override;
+  StmtTransitiveResult queryAll() override;
 
  private:
   CFG* cfg;

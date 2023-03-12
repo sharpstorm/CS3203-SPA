@@ -110,7 +110,7 @@ constexpr bool nodewiseWalkerCallback(NodewiseWalkerState<T>* state,
                                       CFGNode node) {
   state->callback(state->callbackState, node);
   return true;
-};
+}
 
 template <typename T, WalkerSingleCallback<T> callback>
 void CFGWalker::walkFrom(CFGNode start, T* cbState) {
@@ -139,7 +139,7 @@ constexpr bool pairwiseWalkerCallback(PairwiseWalkerState<T>* state,
                                       CFGNode node) {
   state->callback(state->cbState, state->startNode, node);
   return true;
-};
+}
 
 template<typename T, WalkerPairCallback<T> callback>
 void CFGWalker::walkAll(T* cbState) {

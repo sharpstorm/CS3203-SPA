@@ -19,7 +19,7 @@ constexpr bool staticWalkerCallback(StaticWalkerState* state, CFGNode node) {
     return false;
   }
   return true;
-};
+}
 
 bool CFGWalker::walkStatic(CFGNode start, CFGNode end) {
   StaticWalkerState state{false, end};
