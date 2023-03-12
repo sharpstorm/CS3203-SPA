@@ -2,6 +2,7 @@
 #include "common/cfg/CFG.h"
 #include "qps/cfg/CFGWalker.h"
 #include "common/Types.h"
+#include "TestCFGProvider.h"
 
 typedef unordered_set<CFGNode> CFGNodeSet;
 typedef pair_set<CFGNode, CFGNode> CFGNodePairSet;
@@ -40,24 +41,8 @@ void assertWalkAll(CFGWalker* walker, CFGNodePairSet set) {
   REQUIRE(nodes == set);
 }
 
-/*
- * 0 |  x = 1;
- * 1 |  y = 2;
- * 2 |  z = 3;
- */
-CFG getLinearCFG() {
-  CFG cfg("Linear", 1);
-
-  cfg.addLink(0, 1);
-  cfg.addLink(1, 2);
-  cfg.addLink(2, 3);
-  cfg.addLink(3, CFG_END_NODE);
-
-  return cfg;
-}
-
 TEST_CASE("CFG Linear Static Walk") {
-  auto cfg = getLinearCFG();
+  auto cfg = TestCFGProvider::getLinearCFG();
   CFGWalker walker(&cfg);
 
   REQUIRE(walker.walkStatic(0, 1));
@@ -81,7 +66,7 @@ TEST_CASE("CFG Linear Static Walk") {
 }
 
 TEST_CASE("CFG Linear Set Walk") {
-  auto cfg = getLinearCFG();
+  auto cfg = TestCFGProvider::getLinearCFG();
   CFGWalker walker(&cfg);
 
   assertWalkFrom(&walker, 0, {1, 2, 3});
@@ -104,29 +89,8 @@ TEST_CASE("CFG Linear Set Walk") {
   });
 }
 
-/*
- * 0 |  x = 1;
- * 1 |  if (x != 1) then {
- * 2 |    x = 2;
- *   |  } else {
- * 3 |    x = 3;
- *   |  }
- */
-
-CFG getSimpleIfCFG() {
-  CFG cfg("SimpleIf", 1);
-
-  cfg.addLink(0, 1);
-  cfg.addLink(1, 2);
-  cfg.addLink(1, 3);
-  cfg.addLink(2, CFG_END_NODE);
-  cfg.addLink(3, CFG_END_NODE);
-
-  return cfg;
-}
-
 TEST_CASE("CFG Simple If Static Walk") {
-  auto cfg = getSimpleIfCFG();
+  auto cfg = TestCFGProvider::getSimpleIfCFG();
   CFGWalker walker(&cfg);
 
   REQUIRE(walker.walkStatic(0, 1));
@@ -152,7 +116,7 @@ TEST_CASE("CFG Simple If Static Walk") {
 }
 
 TEST_CASE("CFG Simple If Set Walk") {
-  auto cfg = getSimpleIfCFG();
+  auto cfg = TestCFGProvider::getSimpleIfCFG();
   CFGWalker walker(&cfg);
 
   assertWalkFrom(&walker, 0, {1, 2, 3});
@@ -174,25 +138,8 @@ TEST_CASE("CFG Simple If Set Walk") {
   });
 }
 
-/*
- * 0 |  x = 1;
- * 1 |  while (x != 1) {
- * 2 |    x = 2;
- *   |  }
- */
-CFG getSimpleWhileCFG() {
-  CFG cfg("SimpleWhile", 1);
-
-  cfg.addLink(0, 1);
-  cfg.addLink(1, 2);
-  cfg.addLink(2, 1);
-  cfg.addLink(2, CFG_END_NODE);
-
-  return cfg;
-}
-
 TEST_CASE("CFG Simple While Static Walk") {
-  auto cfg = getSimpleWhileCFG();
+  auto cfg = TestCFGProvider::getSimpleWhileCFG();
   CFGWalker walker(&cfg);
 
   REQUIRE(walker.walkStatic(0, 1));
@@ -208,7 +155,7 @@ TEST_CASE("CFG Simple While Static Walk") {
 }
 
 TEST_CASE("CFG Simple While Set Walk") {
-  auto cfg = getSimpleWhileCFG();
+  auto cfg = TestCFGProvider::getSimpleWhileCFG();
   CFGWalker walker(&cfg);
 
   assertWalkFrom(&walker, 0, {1, 2});
@@ -229,37 +176,8 @@ TEST_CASE("CFG Simple While Set Walk") {
   });
 }
 
-/*
- * 0 |  x = 1;
- * 1 |  while (a == b) {
- * 2 |    y = 2;
- * 3 |    if (x == y) then {
- * 4 |      z = 3;
- *   |    } else {
- * 5 |      w = 4;
- * 6 |      a = 5;
- *   |    }
- *   |  }
- */
-CFG getSimpleMultiCycleCFG() {
-  CFG cfg("SimpleMultiCycle", 1);
-
-  cfg.addLink(0, 1);
-  cfg.addLink(1, 2);
-  cfg.addLink(2, 3);
-  cfg.addLink(3, 4);
-  cfg.addLink(4, 2);
-  cfg.addLink(4, CFG_END_NODE);
-
-  cfg.addLink(3, 5);
-  cfg.addLink(5, 6);
-  cfg.addLink(6, 2);
-  cfg.addLink(6, CFG_END_NODE);
-  return cfg;
-}
-
 TEST_CASE("CFG Simple Multi-Cycle Walk") {
-  auto cfg = getSimpleMultiCycleCFG();
+  auto cfg = TestCFGProvider::getSimpleMultiCycleCFG();
   CFGWalker walker(&cfg);
 
   assertWalkFrom(&walker, 0, {1, 2, 3, 4, 5, 6});
