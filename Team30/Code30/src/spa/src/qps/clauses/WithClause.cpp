@@ -17,10 +17,10 @@ PQLQueryResult *WithClause::evaluateOn(PkbQueryHandler *pkbQueryHandler) {
   } else if (leftArg->isSyn() || rightArg->isSyn()) {
     // Cat 2 - Performing mapping from syn to constant
   }
-  
+
   // Cat 3 - Remap right syn to left
   // Cat 4 -
-  return nullptr;
+  return result;
 }
 
 bool WithClause::isBooleanClause() {

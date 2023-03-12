@@ -27,7 +27,7 @@ WithArgumentPtr PQLAttributeRefExtractor::extract(QueryTokenParseState* state,
 
   state->expect(PQL_TOKEN_PERIOD);
   PQLSynonymAttribute attr = extractAttribute(state);
-  AttributedSynonymPtr attrSynPtr = make_unique<AttributedSynonym>(*var, attr);
+  AttributedSynonymPtr attrSynPtr = make_unique<AttributedSynonym>(var, attr);
 
   return make_unique<WithArgument>(std::move(attrSynPtr));
 }

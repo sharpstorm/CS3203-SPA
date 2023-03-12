@@ -2,10 +2,10 @@
 
 AttributedSynonym::AttributedSynonym() : attribute(NO_ATTRIBUTE) { }
 
-AttributedSynonym::AttributedSynonym(const PQLQuerySynonym &syn)
+AttributedSynonym::AttributedSynonym(PQLQuerySynonym* syn)
     : syn(syn), attribute(NO_ATTRIBUTE) { }
 
-AttributedSynonym::AttributedSynonym(const PQLQuerySynonym& syn,
+AttributedSynonym::AttributedSynonym(PQLQuerySynonym* syn,
                                      PQLSynonymAttribute attr) :
                                      syn(syn), attribute(attr) { }
 
@@ -14,7 +14,7 @@ PQLSynonymAttribute AttributedSynonym::getAttribute() {
 }
 
 bool AttributedSynonym::validateAttribute() {
-  switch (syn.getType()) {
+  switch (syn->getType()) {
     case PQL_SYN_TYPE_STMT:
     case PQL_SYN_TYPE_ASSIGN:
     case PQL_SYN_TYPE_IF:
@@ -35,10 +35,10 @@ bool AttributedSynonym::validateAttribute() {
 }
 
 PQLSynonymType AttributedSynonym::getType() {
-  return syn.getType();
+  return syn->getType();
 }
 
 PQLSynonymName AttributedSynonym::getName() {
-  return syn.getName();
+  return syn->getName();
 }
 

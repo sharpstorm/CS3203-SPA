@@ -9,12 +9,12 @@
 using std::unique_ptr, std::vector;
 
 class AttributedSynonym {
-  PQLQuerySynonym syn;
+  PQLQuerySynonym* syn;
   PQLSynonymAttribute attribute;
  public:
   AttributedSynonym();
-  explicit AttributedSynonym(const PQLQuerySynonym& syn);
-  AttributedSynonym(const PQLQuerySynonym& syn, PQLSynonymAttribute attr);
+  explicit AttributedSynonym(PQLQuerySynonym* syn);
+  AttributedSynonym(PQLQuerySynonym* syn, PQLSynonymAttribute attr);
 
   PQLSynonymType getType();
   PQLSynonymName getName();
