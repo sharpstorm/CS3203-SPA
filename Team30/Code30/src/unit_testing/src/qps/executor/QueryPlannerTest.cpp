@@ -12,10 +12,10 @@ using std::make_unique, std::unordered_map, std::unique_ptr;
 
 PQLQuerySynonym PQL_RESULT_VAR{PQL_SYN_TYPE_STMT, "a"};
 PQLQuerySynonym PQL_RESULT_VAR2{PQL_SYN_TYPE_STMT, "b"};
-AttributedSynonym ATTR_RESULT_VAR(PQL_RESULT_VAR);
-AttributedSynonym ATTR_RESULT_VAR2(PQL_RESULT_VAR2);
+AttributedSynonym ATTR_RESULT_VAR(&PQL_RESULT_VAR);
+AttributedSynonym ATTR_RESULT_VAR2(&PQL_RESULT_VAR2);
 AttributedSynonymList PQL_RESULT_VARS{ATTR_RESULT_VAR};
-unordered_map<string, PQLQuerySynonym> PQL_VAR_MAP({{"a", PQL_RESULT_VAR}});
+unordered_map<string, PQLQuerySynonym*> PQL_VAR_MAP({{"a", &PQL_RESULT_VAR}});
 
 // Will not have select clause
 TEST_CASE("Plan where a clause is using target declaration variable") {

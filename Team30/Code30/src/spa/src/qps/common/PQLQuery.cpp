@@ -22,7 +22,7 @@ PQLQuerySynonym* PQLQuery::getVariable(PQLSynonymName name) {
     return nullptr;
   }
 
-  return &item->second;
+  return item->second;
 }
 
 vector<IEvaluatableSPtr> PQLQuery::getEvaluatables() {

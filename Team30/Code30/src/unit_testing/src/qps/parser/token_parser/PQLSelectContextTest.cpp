@@ -100,7 +100,7 @@ TEST_CASE("Test PQL Select bad symbol") {
 
 TEST_CASE("Test PQL Select attribute parsing") {
   AttributedSynonym syn =
-      AttributedSynonym(PQLQuerySynonym(PQL_SYN_TYPE_STMT, "s1"), STMT_NUM);
+      AttributedSynonym(new PQLQuerySynonym(PQL_SYN_TYPE_STMT, "s1"), STMT_NUM);
 
   auto tokenSeq = make_unique<PQLTestTokenSequenceBuilder>()
           ->addToken(PQL_TOKEN_SELECT)
@@ -112,7 +112,7 @@ TEST_CASE("Test PQL Select attribute parsing") {
           ->integer(1)->build();
   testSynAttribute(syn, tokenSeq);
 
-  syn = AttributedSynonym(PQLQuerySynonym(PQL_SYN_TYPE_VARIABLE, "v1"), VAR_NAME);
+  syn = AttributedSynonym(new PQLQuerySynonym(PQL_SYN_TYPE_VARIABLE, "v1"), VAR_NAME);
   tokenSeq = make_unique<PQLTestTokenSequenceBuilder>()
           ->addToken(PQL_TOKEN_SELECT)
           ->synonym("v1")
@@ -124,7 +124,7 @@ TEST_CASE("Test PQL Select attribute parsing") {
   testSynAttribute(syn, tokenSeq);
 
 
-  syn = AttributedSynonym(PQLQuerySynonym(PQL_SYN_TYPE_PROCEDURE, "p1"), PROC_NAME);
+  syn = AttributedSynonym(new PQLQuerySynonym(PQL_SYN_TYPE_PROCEDURE, "p1"), PROC_NAME);
   tokenSeq = make_unique<PQLTestTokenSequenceBuilder>()
           ->addToken(PQL_TOKEN_SELECT)
           ->synonym("p1")
@@ -135,7 +135,7 @@ TEST_CASE("Test PQL Select attribute parsing") {
 
   testSynAttribute(syn, tokenSeq);
 
-  syn = AttributedSynonym(PQLQuerySynonym(PQL_SYN_TYPE_CONSTANT, "c1"), CONST_VALUE);
+  syn = AttributedSynonym(new PQLQuerySynonym(PQL_SYN_TYPE_CONSTANT, "c1"), CONST_VALUE);
   tokenSeq = make_unique<PQLTestTokenSequenceBuilder>()
           ->addToken(PQL_TOKEN_SELECT)
           ->synonym("c1")

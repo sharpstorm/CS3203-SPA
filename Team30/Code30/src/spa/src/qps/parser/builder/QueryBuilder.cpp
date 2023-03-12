@@ -24,7 +24,7 @@ void QueryBuilder::addSynonym(const PQLSynonymName &name,
     setError(QPS_PARSER_ERR_DUPLICATE_SYN);
     return;
   }
-  variables[name] = PQLQuerySynonym(type, name);
+  variables[name] = new PQLQuerySynonym(type, name);
 }
 
 bool QueryBuilder::hasSynonym(const PQLSynonymName &name) {
@@ -37,7 +37,7 @@ PQLQuerySynonym* QueryBuilder::accessSynonym(const PQLSynonymName &name) {
     return nullptr;
   }
 
-  return &variables[name];
+  return variables[name];
 }
 
 void QueryBuilder::addSuchThat(unique_ptr<SuchThatClause> clause) {
