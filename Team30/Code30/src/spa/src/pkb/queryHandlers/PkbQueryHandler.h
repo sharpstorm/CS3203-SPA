@@ -37,6 +37,7 @@ class PkbQueryHandler : public IPkbQueryHandler {
   string getConstantByIndex(int) const override;
   unordered_set<int> getIndexOfVariable(string) const override;
   unordered_set<int> getIndexOfConstant(string) const override;
+  QueryResult<int, CFG *> queryCFGs(StmtRef) const override;
 
  private:
   unique_ptr<IFollowsQueryHandler> followsHandler;
@@ -48,4 +49,5 @@ class PkbQueryHandler : public IPkbQueryHandler {
   unique_ptr<ICallsQueryHandler> callsHandler;
   unique_ptr<IIfPatternQueryHandler> ifPatternHandler;
   unique_ptr<IWhilePatternQueryHandler> whilePatternHandler;
+  unique_ptr<ICFGsQueryHandler> cfgsHandler;
 };

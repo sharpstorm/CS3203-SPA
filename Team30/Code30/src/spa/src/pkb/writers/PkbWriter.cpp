@@ -14,6 +14,7 @@
 #include "IfPatternWriter.h"
 #include "WhilePatternWriter.h"
 #include "VariableWriter.h"
+#include "CFGsWriter.h"
 
 PkbWriter::PkbWriter(PKB *pkb)
     : followsWriter(new FollowsWriter(pkb->followsStore)),
@@ -29,7 +30,8 @@ PkbWriter::PkbWriter(PKB *pkb)
       callsWriter(new CallsWriter(pkb->callsStorage, pkb->callStmtStorage)),
       postProcessWriter(new PostProcessWriter(pkb)),
       variableWriter(new VariableWriter(pkb->variableStorage)),
-      constantWriter(new ConstantWriter(pkb->constantStorage)) {}
+      constantWriter(new ConstantWriter(pkb->constantStorage)),
+      cfgsWriter(new CFGsWriter(pkb->cfgStorage)) {}
 
 void PkbWriter::addFollows(int arg1, int arg2) {
   followsWriter->addFollows(arg1, arg2);
@@ -83,4 +85,8 @@ void PkbWriter::addVariable(string name) {
 
 void PkbWriter::addConstant(string name) {
   constantWriter->addConstant(name);
+}
+
+void PkbWriter::addCFGs(string name, CFGSPtr cfg) {
+  cfgsWriter->addCFGs(name, cfg);
 }
