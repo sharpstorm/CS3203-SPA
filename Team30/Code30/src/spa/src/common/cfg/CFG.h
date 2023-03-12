@@ -38,6 +38,7 @@ class CFG {
   vector<CFGBackwardLink> backwardLinks;
   CFGBackwardLink endNodeBackwardLink;
 
+  bool containsNode(const CFGNode &node);
   void increaseMapSize(int num);
 
   template <class T>
