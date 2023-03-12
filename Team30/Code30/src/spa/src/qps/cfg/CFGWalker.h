@@ -14,10 +14,10 @@ template <typename T>
 using WalkerPairCallback = void(*)(T* ptr, CFGNode nodeLeft, CFGNode nodeRight);
 
 template <typename T>
-using BFSCallback = bool(*)(T* ptr, CFGNode node);
+using DFSCallback = bool(*)(T* ptr, CFGNode node);
 
 template <typename T>
-using BFSLinkGetter = T*(*)(CFG* cfg, CFGNode node);
+using DFSLinkGetter = T*(*)(CFG* cfg, CFGNode node);
 
 class CFGWalker {
  private:
@@ -39,8 +39,8 @@ class CFGWalker {
 
  private:
   template <
-      typename T, BFSCallback<T> callback,
-      typename U, BFSLinkGetter<U> stepGetter>
+      typename T, DFSCallback<T> callback,
+      typename U, DFSLinkGetter<U> stepGetter>
   void runDFS(CFGNode start, T* state) {
     if (!cfg->containsNode(start)) {
       return;
@@ -83,7 +83,7 @@ class CFGWalker {
     return cfg->nextLinksOf(node);
   }
 
-  template <typename T, BFSCallback<T> callback>
+  template <typename T, DFSCallback<T> callback>
   void runForwardDFS(CFGNode start, T* state) {
     runDFS<T, callback, CFGForwardLink, forwardLinkGetter>(start, state);
   }
@@ -92,7 +92,7 @@ class CFGWalker {
     return cfg->reverseLinksOf(node);
   }
 
-  template <typename T, BFSCallback<T> callback>
+  template <typename T, DFSCallback<T> callback>
   void runBackwardDFS(CFGNode start, T* state) {
     runDFS<T, callback, CFGBackwardLink, backwardLinkGetter>(start, state);
   }
