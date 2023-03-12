@@ -1,15 +1,27 @@
 #include "catch.hpp"
+
 #include "TestCFGProvider.h"
 #include "qps/cfg/CFGQuerier.h"
+#include "CFGTestUtils.h"
 
-StmtTransitiveResult queryNextT(CFGQuerier* querier, int left, int right) {
+typedef CFGQuerier<int, CFGTestUtils::dummyTypePredicate> CFGTestQuerier;
+
+template <typename T, StmtTypePredicate<T> U>
+StmtTransitiveResult queryNextT(CFGQuerier<T, U>* querier, int left, int right) {
   return querier->queryNextT(
       StmtRef{StmtType::None, left},
       StmtRef{StmtType::None, right}
   );
 }
 
-void assertQueryNextTEmpty(CFGQuerier* querier,
+template <typename T, StmtTypePredicate<T> U>
+StmtTransitiveResult queryNextT(CFGQuerier<T, U>* querier,
+                                StmtRef left,
+                                StmtRef right) {
+  return querier->queryNextT(left, right);
+}
+
+void assertQueryNextTEmpty(CFGTestQuerier* querier,
                            int left,
                            unordered_set<int> rights) {
   for (auto it = rights.begin(); it != rights.end(); it++) {
@@ -17,7 +29,7 @@ void assertQueryNextTEmpty(CFGQuerier* querier,
   }
 }
 
-void assertQueryNextTNotEmpty(CFGQuerier* querier,
+void assertQueryNextTNotEmpty(CFGTestQuerier* querier,
                               int left,
                               unordered_set<int> rights) {
   for (auto it = rights.begin(); it != rights.end(); it++) {
@@ -27,7 +39,7 @@ void assertQueryNextTNotEmpty(CFGQuerier* querier,
 
 TEST_CASE("NextT Linear (Const, Const)") {
   auto cfg = TestCFGProvider::getLinearCFG();
-  CFGQuerier querier(&cfg);
+  CFGTestQuerier querier(&cfg, nullptr);
 
   assertQueryNextTNotEmpty(&querier, 1, {2, 3, 4});
   assertQueryNextTNotEmpty(&querier, 2, {3, 4});
@@ -41,7 +53,7 @@ TEST_CASE("NextT Linear (Const, Const)") {
 
 TEST_CASE("NextT Linear (Const, _)") {
   auto cfg = TestCFGProvider::getLinearCFG();
-  CFGQuerier querier(&cfg);
+  CFGTestQuerier querier(&cfg, nullptr);
 
   auto result = queryNextT(&querier, 1, 0);
   REQUIRE_FALSE(result.isEmpty);
@@ -61,7 +73,7 @@ TEST_CASE("NextT Linear (Const, _)") {
 
 TEST_CASE("NextT Linear (_, Const)") {
   auto cfg = TestCFGProvider::getLinearCFG();
-  CFGQuerier querier(&cfg);
+  CFGTestQuerier querier(&cfg, nullptr);
 
   auto result = queryNextT(&querier, 0, 1);
   REQUIRE(result.isEmpty);
@@ -81,7 +93,7 @@ TEST_CASE("NextT Linear (_, Const)") {
 
 TEST_CASE("NextT Linear (_, _)") {
   auto cfg = TestCFGProvider::getLinearCFG();
-  CFGQuerier querier(&cfg);
+  CFGTestQuerier querier(&cfg, nullptr);
 
   auto result = queryNextT(&querier, 0, 0);
   REQUIRE_FALSE(result.isEmpty);
@@ -98,7 +110,7 @@ TEST_CASE("NextT Linear (_, _)") {
 
 TEST_CASE("NextT Multi-Cycle (Const, Const)") {
   auto cfg = TestCFGProvider::getSimpleMultiCycleCFG();
-  CFGQuerier querier(&cfg);
+  CFGTestQuerier querier(&cfg, nullptr);
 
   assertQueryNextTNotEmpty(&querier, 1, {2, 3, 4, 5, 6, 7});
   assertQueryNextTNotEmpty(&querier, 2, {3, 4, 5, 6, 7});
@@ -119,7 +131,7 @@ TEST_CASE("NextT Multi-Cycle (Const, Const)") {
 
 TEST_CASE("NextT Multi-Cycle (Const, _)") {
   auto cfg = TestCFGProvider::getSimpleMultiCycleCFG();
-  CFGQuerier querier(&cfg);
+  CFGTestQuerier querier(&cfg, nullptr);
 
   auto result = queryNextT(&querier, 1, 0);
   REQUIRE_FALSE(result.isEmpty);
@@ -152,7 +164,7 @@ TEST_CASE("NextT Multi-Cycle (Const, _)") {
 
 TEST_CASE("NextT Multi-Cycle (_, Const)") {
   auto cfg = TestCFGProvider::getSimpleMultiCycleCFG();
-  CFGQuerier querier(&cfg);
+  CFGTestQuerier querier(&cfg, nullptr);
 
   auto result = queryNextT(&querier, 0, 1);
   REQUIRE(result.isEmpty);
@@ -184,7 +196,7 @@ TEST_CASE("NextT Multi-Cycle (_, Const)") {
 
 TEST_CASE("NextT Multi-Cycle (_, _)") {
   auto cfg = TestCFGProvider::getSimpleMultiCycleCFG();
-  CFGQuerier querier(&cfg);
+  CFGTestQuerier querier(&cfg, nullptr);
 
   auto result = queryNextT(&querier, 0, 0);
   REQUIRE_FALSE(result.isEmpty);
@@ -197,5 +209,74 @@ TEST_CASE("NextT Multi-Cycle (_, _)") {
       {5, 3}, {5, 4}, {5, 5}, {5, 6}, {5, 7},
       {6, 3}, {6, 4}, {6, 5}, {6, 6}, {6, 7},
       {7, 3}, {7, 4}, {7, 5}, {7, 6}, {7, 7},
+  });
+}
+
+TEST_CASE("NextT Type Filtering") {
+  constexpr StmtTypePredicate<int> typePredicate =
+      [](int* closure, StmtType type, int stmtNumber) -> bool {
+        switch (stmtNumber) {
+          case 1:
+            return type == StmtType::Assign;
+          case 2:
+            return type == StmtType::Assign;
+          case 3:
+            return type == StmtType::Print;
+          case 4:
+            return type == StmtType::Assign;
+          default:
+            return false;
+        }
+      };
+  auto cfg = TestCFGProvider::getLinearCFG();
+  CFGQuerier<int, typePredicate> querier(&cfg, nullptr);
+
+  auto result = queryNextT(&querier,
+                          StmtRef{StmtType::Assign, 0},
+                          StmtRef{StmtType::None, 3});
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1, 2});
+
+  result = queryNextT(&querier,
+                     StmtRef{StmtType::Print, 0},
+                     StmtRef{StmtType::None, 3});
+  REQUIRE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{});
+
+  result = queryNextT(&querier,
+                     StmtRef{StmtType::None, 1},
+                     StmtRef{StmtType::Print, 0});
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{3});
+
+  result = queryNextT(&querier,
+                     StmtRef{StmtType::None, 1},
+                     StmtRef{StmtType::Assign, 0});
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{2});
+
+  result = queryNextT(&querier,
+                      StmtRef{StmtType::None, 1},
+                      StmtRef{StmtType::Read, 0});
+  REQUIRE(result.isEmpty);
+  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{});
+
+  result = queryNextT(&querier,
+                     StmtRef{StmtType::Assign, 0},
+                     StmtRef{StmtType::Assign, 0});
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.pairVals == pair_set<StmtValue, StmtValue> {
+      {1, 2},
+      {1, 4},
+      {2, 4},
+  });
+
+  result = queryNextT(&querier,
+                     StmtRef{StmtType::Assign, 0},
+                     StmtRef{StmtType::Print, 0});
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.pairVals == pair_set<StmtValue, StmtValue> {
+      {1, 3},
+      {2, 3}
   });
 }

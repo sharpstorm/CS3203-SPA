@@ -1,17 +1,29 @@
 #include "catch.hpp"
+
 #include "TestCFGProvider.h"
 #include "qps/cfg/CFGQuerier.h"
+#include "CFGTestUtils.h"
 
-StmtTransitiveResult queryNext(CFGQuerier* querier, int left, int right) {
+typedef CFGQuerier<int, CFGTestUtils::dummyTypePredicate> CFGTestQuerier;
+
+template <typename T, StmtTypePredicate<T> U>
+StmtTransitiveResult queryNext(CFGQuerier<T, U>* querier, int left, int right) {
   return querier->queryNext(
       StmtRef{StmtType::None, left},
       StmtRef{StmtType::None, right}
   );
 }
 
+template <typename T, StmtTypePredicate<T> U>
+StmtTransitiveResult queryNext(CFGQuerier<T, U>* querier,
+                               StmtRef left,
+                               StmtRef right) {
+  return querier->queryNext(left, right);
+}
+
 TEST_CASE("Next Linear (Const, Const)") {
   auto cfg = TestCFGProvider::getLinearCFG();
-  CFGQuerier querier(&cfg);
+  CFGTestQuerier querier(&cfg, nullptr);
 
   REQUIRE_FALSE(queryNext(&querier, 1, 2).isEmpty);
   REQUIRE_FALSE(queryNext(&querier, 2, 3).isEmpty);
@@ -32,7 +44,7 @@ TEST_CASE("Next Linear (Const, Const)") {
 
 TEST_CASE("Next Linear (Const, _)") {
   auto cfg = TestCFGProvider::getLinearCFG();
-  CFGQuerier querier(&cfg);
+  CFGTestQuerier querier(&cfg, nullptr);
 
   auto result = queryNext(&querier, 1, 0);
   REQUIRE_FALSE(result.isEmpty);
@@ -52,7 +64,7 @@ TEST_CASE("Next Linear (Const, _)") {
 
 TEST_CASE("Next Linear (_, Const)") {
   auto cfg = TestCFGProvider::getLinearCFG();
-  CFGQuerier querier(&cfg);
+  CFGTestQuerier querier(&cfg, nullptr);
 
   auto result = queryNext(&querier, 0, 1);
   REQUIRE(result.isEmpty);
@@ -72,7 +84,7 @@ TEST_CASE("Next Linear (_, Const)") {
 
 TEST_CASE("Next Linear (_, _)") {
   auto cfg = TestCFGProvider::getLinearCFG();
-  CFGQuerier querier(&cfg);
+  CFGTestQuerier querier(&cfg, nullptr);
 
   auto result = queryNext(&querier, 0, 0);
   REQUIRE_FALSE(result.isEmpty);
@@ -86,7 +98,7 @@ TEST_CASE("Next Linear (_, _)") {
 
 TEST_CASE("Next Multi-Cycle (Const, Const)") {
   auto cfg = TestCFGProvider::getSimpleMultiCycleCFG();
-  CFGQuerier querier(&cfg);
+  CFGTestQuerier querier(&cfg, nullptr);
 
   REQUIRE_FALSE(queryNext(&querier, 1, 2).isEmpty);
   REQUIRE_FALSE(queryNext(&querier, 2, 3).isEmpty);
@@ -101,7 +113,7 @@ TEST_CASE("Next Multi-Cycle (Const, Const)") {
 
 TEST_CASE("Next Multi-Cycle (Const, _)") {
   auto cfg = TestCFGProvider::getSimpleMultiCycleCFG();
-  CFGQuerier querier(&cfg);
+  CFGTestQuerier querier(&cfg, nullptr);
 
   auto result = queryNext(&querier, 1, 0);
   REQUIRE_FALSE(result.isEmpty);
@@ -134,7 +146,7 @@ TEST_CASE("Next Multi-Cycle (Const, _)") {
 
 TEST_CASE("Next Multi-Cycle (_, Const)") {
   auto cfg = TestCFGProvider::getSimpleMultiCycleCFG();
-  CFGQuerier querier(&cfg);
+  CFGTestQuerier querier(&cfg, nullptr);
 
   auto result = queryNext(&querier, 0, 1);
   REQUIRE(result.isEmpty);
@@ -166,7 +178,7 @@ TEST_CASE("Next Multi-Cycle (_, Const)") {
 
 TEST_CASE("Next Multi-Cycle (_, _)") {
   auto cfg = TestCFGProvider::getSimpleMultiCycleCFG();
-  CFGQuerier querier(&cfg);
+  CFGTestQuerier querier(&cfg, nullptr);
 
   auto result = queryNext(&querier, 0, 0);
   REQUIRE_FALSE(result.isEmpty);
@@ -180,5 +192,65 @@ TEST_CASE("Next Multi-Cycle (_, _)") {
       {4, 6},
       {6, 7},
       {7, 3},
+  });
+}
+
+TEST_CASE("Next Type Filtering") {
+  constexpr StmtTypePredicate<int> typePredicate =
+      [](int* closure, StmtType type, int stmtNumber) -> bool {
+        switch (stmtNumber) {
+          case 1:
+            return type == StmtType::Assign;
+          case 2:
+            return type == StmtType::Assign;
+          case 3:
+            return type == StmtType::Print;
+          case 4:
+            return type == StmtType::Assign;
+          default:
+            return false;
+        }
+      };
+  auto cfg = TestCFGProvider::getLinearCFG();
+  CFGQuerier<int, typePredicate> querier(&cfg, nullptr);
+
+  auto result = queryNext(&querier,
+                          StmtRef{StmtType::Assign, 0},
+                          StmtRef{StmtType::None, 2});
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1});
+
+  result = queryNext(&querier,
+                     StmtRef{StmtType::Print, 0},
+                     StmtRef{StmtType::None, 2});
+  REQUIRE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{});
+
+  result = queryNext(&querier,
+                     StmtRef{StmtType::None, 2},
+                     StmtRef{StmtType::Print, 0});
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{3});
+
+  result = queryNext(&querier,
+                     StmtRef{StmtType::None, 2},
+                     StmtRef{StmtType::Assign, 0});
+  REQUIRE(result.isEmpty);
+  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{});
+
+  result = queryNext(&querier,
+                     StmtRef{StmtType::Assign, 0},
+                     StmtRef{StmtType::Assign, 0});
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.pairVals == pair_set<StmtValue, StmtValue> {
+      {1, 2}
+  });
+
+  result = queryNext(&querier,
+                     StmtRef{StmtType::Assign, 0},
+                     StmtRef{StmtType::Print, 0});
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.pairVals == pair_set<StmtValue, StmtValue> {
+      {2, 3}
   });
 }
