@@ -47,4 +47,15 @@ PQLSynonymAttribute WithArgument::getAttribute() {
   return syn->getAttribute();
 }
 
+bool WithArgument::isStaticValueEqual(const WithArgument &other) {
+  // If either are syn values
+  if (isSyn() || other.syn != nullptr) {
+    return false;
+  }
+
+  return intValue == other.intValue && identValue == other.identValue;
+
+}
+
 const char WithArgument::NO_ENT_REF[] = "";
+

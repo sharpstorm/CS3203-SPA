@@ -20,6 +20,7 @@ class WithArgument {
   PQLSynonymName getSynName();
   PQLSynonymType getSynType();
   PQLSynonymAttribute getAttribute();
+  bool isStaticValueEqual(const WithArgument &other);
   bool doesReturnInteger();
   bool isAttributeValid();
   bool isSyn();

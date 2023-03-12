@@ -15,6 +15,7 @@ class WithClause: public Clause {
   PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler) override;
   bool validateArgTypes(VariableTable* variables) override;
   SynonymList getUsedSynonyms() override;
+  bool isBooleanClause();
 };
 
 typedef unique_ptr<WithClause> WithClausePtr;
