@@ -20,6 +20,9 @@ constexpr StmtTypePredicate<PkbQueryHandler> typeChecker =
     [](PkbQueryHandler* pkb,
        StmtType type,
        StmtValue stmtNumber) -> bool{
+      if (type == StmtType::None) {
+        return true;
+      }
       return pkb->getStatementType(stmtNumber) == type;
     };
 
