@@ -78,6 +78,7 @@ void CFGExtractor::leaveWhile(WhileNode* node) {
     clearableLastLines.push(temp.top());
     temp.pop();
   }
+  clearableLastLines.push(node->getLineNumber());
 }
 
 void CFGExtractor::visitAssign(AssignNode *node) {
