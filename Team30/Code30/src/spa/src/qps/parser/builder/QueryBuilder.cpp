@@ -52,6 +52,10 @@ void QueryBuilder::addWith(unique_ptr<WithClause> clause) {
   clauses.push_back(std::move(clause));
 }
 
+void QueryBuilder::addConstraint(ConstraintSPtr constraint) {
+  constraints.push_back(constraint);
+}
+
 unique_ptr<PQLQuery> QueryBuilder::build() {
   if (!errorMsg.empty()) {
     throw QPSParserSemanticError(errorMsg);
@@ -64,6 +68,6 @@ unique_ptr<PQLQuery> QueryBuilder::build() {
   }
 
   unique_ptr<PQLQuery> created(
-      new PQLQuery(variables, resultVariables, clauses));
+      new PQLQuery(variables, resultVariables, clauses, constraints));
   return created;
 }

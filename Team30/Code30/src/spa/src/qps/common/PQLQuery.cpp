@@ -4,9 +4,10 @@ using std::pair;
 
 PQLQuery::PQLQuery(VariableTable vars,
                    AttributedSynonymList resVar,
-                   vector<ClauseSPtr> c):
-                   variables(vars), resultVariables(resVar), clauses(c) {
-}
+                   vector<ClauseSPtr> c,
+                   vector<ConstraintSPtr> con):
+                   variables(vars), resultVariables(resVar), clauses(c),
+                   constraints(con) { }
 
 int PQLQuery::getVariableCount() {
   return variables.size();
@@ -36,4 +37,8 @@ vector<IEvaluatableSPtr> PQLQuery::getEvaluatables() {
 
 int PQLQuery::getClauseCount() {
   return clauses.size();
+}
+
+vector<ConstraintSPtr> PQLQuery::getConstraints() {
+  return constraints;
 }

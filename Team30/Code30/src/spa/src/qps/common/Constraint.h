@@ -1,6 +1,10 @@
 #pragma once
 
+#include <utility>
+
 #include "qps/clauses/arguments/WithArgument.h"
+
+using std::shared_ptr;
 
 class Constraint {
   WithArgumentPtr leftArg;
@@ -13,3 +17,5 @@ class Constraint {
   bool mapSynToStatic();
   bool applyConstraint(VariableTable variables);
 };
+
+typedef shared_ptr<Constraint> ConstraintSPtr;

@@ -5,6 +5,7 @@
 #include <vector>
 #include <memory>
 
+#include "Constraint.h"
 #include "PQLTypes.h"
 #include "PQLQuerySynonym.h"
 #include "qps/clauses/Clause.h"
@@ -17,15 +18,18 @@ class PQLQuery {
   VariableTable variables;
   AttributedSynonymList resultVariables;
   vector<ClauseSPtr> clauses;
+  vector<ConstraintSPtr> constraints;
 
  public:
   PQLQuery(VariableTable vars,
            AttributedSynonymList resVars,
-           vector<ClauseSPtr> c);
+           vector<ClauseSPtr> c,
+           vector<ConstraintSPtr> con);
   int getVariableCount();
   AttributedSynonymList * getResultVariables();
   PQLQuerySynonym* getVariable(PQLSynonymName name);
   vector<IEvaluatableSPtr> getEvaluatables();
+  vector<ConstraintSPtr> getConstraints();
   int getClauseCount();
 };
 

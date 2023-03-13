@@ -20,6 +20,7 @@ class QueryBuilder {
   unordered_map<string, PQLQuerySynonym*> variables;
   vector<AttributedSynonym> resultVariables;
   vector<ClauseSPtr> clauses;
+  vector<ConstraintSPtr> constraints;
 
  public:
   QueryBuilder();
@@ -31,6 +32,7 @@ class QueryBuilder {
   void addSuchThat(unique_ptr<SuchThatClause> clause);
   void addPattern(unique_ptr<PatternClause> clause);
   void addWith(unique_ptr<WithClause> clause);
+  void addConstraint(ConstraintSPtr constraint);
 
   void setError(const string &msg);
   unique_ptr<PQLQuery> build();
