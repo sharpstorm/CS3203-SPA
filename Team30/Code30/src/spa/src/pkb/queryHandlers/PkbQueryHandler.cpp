@@ -1,38 +1,37 @@
 #include "PkbQueryHandler.h"
 
 #include "AssignsQueryHandler.h"
+#include "CFGsQueryHandler.h"
 #include "CallsQueryHandler.h"
 #include "FollowsQueryHandler.h"
+#include "IfPatternQueryHandler.h"
 #include "ModifiesQueryHandler.h"
 #include "ParentQueryHandler.h"
 #include "UsesQueryHandler.h"
-#include "IfPatternQueryHandler.h"
 #include "WhilePatternQueryHandler.h"
 
 PkbQueryHandler::PkbQueryHandler(PKB *pkb)
     : followsHandler(new FollowsQueryHandler(
-    pkb->followsStore, pkb->predicateFactory, pkb->structureProvider)),
+          pkb->followsStore, pkb->predicateFactory, pkb->structureProvider)),
       parentHandler(new ParentQueryHandler(
           pkb->parentStore, pkb->predicateFactory, pkb->structureProvider)),
-      usesHandler(new UsesQueryHandler(pkb->usesStorage, pkb->usesPStorage,
-                                       pkb->predicateFactory,
-                                       pkb->structureProvider,
-                                       pkb->entityMappingProvider)),
-      modifiesHandler(new ModifiesQueryHandler(pkb->modifiesStorage,
-                                               pkb->modifiesPStorage,
-                                               pkb->predicateFactory,
-                                               pkb->structureProvider,
-                                               pkb->entityMappingProvider)),
+      usesHandler(new UsesQueryHandler(
+          pkb->usesStorage, pkb->usesPStorage, pkb->predicateFactory,
+          pkb->structureProvider, pkb->entityMappingProvider)),
+      modifiesHandler(new ModifiesQueryHandler(
+          pkb->modifiesStorage, pkb->modifiesPStorage, pkb->predicateFactory,
+          pkb->structureProvider, pkb->entityMappingProvider)),
       callsHandler(new CallsQueryHandler(pkb->callsStorage,
                                          pkb->predicateFactory,
                                          pkb->entityMappingProvider)),
+      cfgsHandler(
+          new CFGsQueryHandler(pkb->cfgStorage, pkb->structureProvider)),
       ifPatternHandler(new IfPatternQueryHandler(pkb->ifPatternStorage,
                                                  pkb->predicateFactory,
                                                  pkb->structureProvider)),
-      whilePatternHandler(new WhilePatternQueryHandler(
-          pkb->whilePatternStorage,
-          pkb->predicateFactory,
-          pkb->structureProvider)),
+      whilePatternHandler(new WhilePatternQueryHandler(pkb->whilePatternStorage,
+                                                       pkb->predicateFactory,
+                                                       pkb->structureProvider)),
       designEntityHandler(new DesignEntitiesQueryHandler(
           pkb->entityMappingProvider, pkb->structureProvider)),
       assignHandler(new AssignsQueryHandler(pkb->assignStorage)) {}
@@ -70,13 +69,11 @@ string PkbQueryHandler::getConstantByIndex(int index) const {
   return designEntityHandler->getConstantByIndex(index);
 }
 
-unordered_set<int> PkbQueryHandler::getIndexOfVariable(
-    string name) const {
+unordered_set<int> PkbQueryHandler::getIndexOfVariable(string name) const {
   return designEntityHandler->getIndexOfVariable(name);
 }
 
-unordered_set<int> PkbQueryHandler::getIndexOfConstant(
-    string name) const {
+unordered_set<int> PkbQueryHandler::getIndexOfConstant(string name) const {
   return designEntityHandler->getIndexOfConstant(name);
 }
 
@@ -125,7 +122,11 @@ QueryResult<int, string> PkbQueryHandler::queryIfPattern(StmtRef arg1,
   return ifPatternHandler->queryIfPattern(arg1, arg2);
 }
 
-QueryResult<int, string>
-PkbQueryHandler::queryWhilePattern(StmtRef arg1, EntityRef arg2) const {
+QueryResult<int, string> PkbQueryHandler::queryWhilePattern(
+    StmtRef arg1, EntityRef arg2) const {
   return whilePatternHandler->queryWhilePattern(arg1, arg2);
+}
+
+QueryResult<int, CFG*> PkbQueryHandler::queryCFGs(StmtRef arg1) const {
+  return cfgsHandler->queryCFGs(arg1);
 }

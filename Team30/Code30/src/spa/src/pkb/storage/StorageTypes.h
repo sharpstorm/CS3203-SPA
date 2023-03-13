@@ -9,6 +9,7 @@
 #include "tables/HashKeyTable.h"
 #include "tables/HashKeySetTable.h"
 #include "common/pattern/PatternTrie.h"
+#include "common/cfg/CFG.h"
 
 using std::string;
 
@@ -29,3 +30,4 @@ using CallsStorage = TransitiveRelationTableManager<string>;
 using CallStmtStorage = EntityTableManager<int, string>;
 using IfPatternStorage = RelationTableManager<int, string>;
 using WhilePatternStorage = RelationTableManager<int, string>;
+using CFGStorage = HashKeyTable<string, CFGSPtr>;

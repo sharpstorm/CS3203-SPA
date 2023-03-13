@@ -46,6 +46,7 @@ PKB::PKB()
       callsStorage(
           new CallsStorage(make_shared<HashKeySetTable<string, string>>(),
                            make_shared<HashKeySetTable<string, string>>())),
+      cfgStorage(new CFGStorage()),
       procedureStorage(
           new ProcedureStorage(make_shared<ContiguousTable<string>>(),
                                make_shared<HashKeySetTable<string, int>>())),
@@ -73,4 +74,5 @@ PKB::~PKB() {
   delete (predicateFactory);
   delete (callStmtStorage);
   delete (callsStorage);
+  delete (cfgStorage);
 }
