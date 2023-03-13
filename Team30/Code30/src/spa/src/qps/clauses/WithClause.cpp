@@ -7,18 +7,7 @@ WithClause::WithClause(WithArgumentPtr left, WithArgumentPtr right) :
 
 PQLQueryResult *WithClause::evaluateOn(PkbQueryHandler *pkbQueryHandler) {
   PQLQueryResult* result = new PQLQueryResult();
-  // Cat 1 - Evaluate the static types
-  if (isBooleanClause()) {
-    if (!leftArg->isStaticValueEqual(*rightArg)) {
-      result->setIsStaticFalse(false);
-    }
 
-    return result;
-  } else if (leftArg->isSyn() || rightArg->isSyn()) {
-    // Cat 2 - Performing mapping from syn to constant
-  }
-
-  // Cat 3 - Remap right syn to left
   // Cat 4 -
   return result;
 }
