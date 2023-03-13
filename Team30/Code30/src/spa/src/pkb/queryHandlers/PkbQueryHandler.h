@@ -33,6 +33,7 @@ class PkbQueryHandler : public IPkbQueryHandler {
   QueryResult<int, string> queryWhilePattern(StmtRef, EntityRef) const override;
   unordered_set<string> getSymbolsOfType(EntityType) const override;
   unordered_set<int> getStatementsOfType(StmtType) const override;
+  StmtType getStatementType(int) const override;
   string getVariableByIndex(int) const override;
   string getConstantByIndex(int) const override;
   unordered_set<int> getIndexOfVariable(string) const override;

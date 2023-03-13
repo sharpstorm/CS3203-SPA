@@ -13,6 +13,7 @@ class IDesignEntitiesQueryHandler {
   virtual ~IDesignEntitiesQueryHandler() {}
   virtual unordered_set<string> getSymbolsOfType(EntityType) const = 0;
   virtual unordered_set<int> getStatementsOfType(StmtType) const = 0;
+  virtual StmtType getStatementType(int) const = 0;
   virtual string getVariableByIndex(int) const = 0;
   virtual string getConstantByIndex(int) const = 0;
   virtual unordered_set<int> getIndexOfVariable(string) const = 0;

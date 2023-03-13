@@ -82,6 +82,10 @@ std::unordered_set<int> PkbQueryHandler::getStatementsOfType(
   return designEntityHandler->getStatementsOfType(stmtType);
 }
 
+StmtType PkbQueryHandler::getStatementType(int stmtNo) const {
+  return designEntityHandler->getStatementType(stmtNo);
+}
+
 QueryResult<int, string> PkbQueryHandler::queryUses(StmtRef arg1,
                                                     EntityRef arg2) const {
   return usesHandler->queryUses(arg1, arg2);
