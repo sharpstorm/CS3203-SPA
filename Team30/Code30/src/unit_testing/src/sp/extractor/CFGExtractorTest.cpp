@@ -143,7 +143,7 @@ TEST_CASE("CFGExtractor Statement with While loop") {
       {1, 2},
       {2, 3},
       {3, 4},
-      {3, CFG_END_NODE},
+      {3, 6},
       {4, 5},
       {5, 3},
       {5, 6},
