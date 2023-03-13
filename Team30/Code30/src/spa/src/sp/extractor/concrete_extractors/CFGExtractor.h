@@ -3,11 +3,12 @@
 #include <memory>
 #include <vector>
 #include <stack>
+#include <string>
 
 #include "common/cfg/CFG.h"
 #include "sp/extractor/AbstractExtractor.h"
 
-using std::make_shared, std::stack;
+using std::make_shared, std::stack, std::string;
 
 class CFGExtractor : public AbstractExtractor {
  public:
@@ -33,6 +34,7 @@ class CFGExtractor : public AbstractExtractor {
 
   PkbWriter* pkbWriter;
   CFGSPtr cfgCache;
+  string procedureNameCache;
   stack<int> resetPoint;
   stack<int> resetCounters;
 

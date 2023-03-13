@@ -16,7 +16,8 @@ void CFGExtractor::visitProcedure(ProcedureNode* node) {
   node->getChildStatement(0)->accept(&statementNoExtractor);
   int startingLineIndex = statementNoExtractor.getStatementNumber();
 
-  cfgCache = make_shared<CFG>(node->getName(), startingLineIndex);
+  procedureNameCache = node->getName();
+  cfgCache = make_shared<CFG>(startingLineIndex);
   clearableLastLines.push(startingLineIndex);
   resetPoint.push(startingLineIndex);
   resetCounters.push(0);
@@ -113,10 +114,7 @@ void CFGExtractor::addCFGRelation(int from, int to) {
 }
 
 void CFGExtractor::addCFGToPKB(CFGSPtr cfg) {
-  // pkbWriter->addCFGs(cfgCache);
-  //
-  // pkbWriter will need an empty vector of CFGs, which will be periodically
-  // pushed new CFGs when leave(ProcedureNode) is called
+  pkbWriter->addCFGs(procedureNameCache, cfg);
 }
 
 void CFGExtractor::flushStack(stack<int> *source, stack<int> *target) {

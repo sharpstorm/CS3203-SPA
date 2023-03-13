@@ -7,7 +7,7 @@
  * 3 |  w = 4;
  */
 CFG TestCFGProvider::getLinearCFG() {
-  CFG cfg("Linear", 1);
+  CFG cfg(1);
 
   cfg.addLink(0, 1);
   cfg.addLink(1, 2);
@@ -26,7 +26,7 @@ CFG TestCFGProvider::getLinearCFG() {
  *   |  }
  */
 CFG TestCFGProvider::getSimpleIfCFG() {
-  CFG cfg("SimpleIf", 1);
+  CFG cfg(1);
 
   cfg.addLink(0, 1);
   cfg.addLink(1, 2);
@@ -44,7 +44,7 @@ CFG TestCFGProvider::getSimpleIfCFG() {
  *   |  }
  */
 CFG TestCFGProvider::getSimpleWhileCFG() {
-  CFG cfg("SimpleWhile", 1);
+  CFG cfg(1);
 
   cfg.addLink(0, 1);
   cfg.addLink(1, 2);
@@ -67,7 +67,7 @@ CFG TestCFGProvider::getSimpleWhileCFG() {
  *   |  }
  */
 CFG TestCFGProvider::getSimpleMultiCycleCFG() {
-  CFG cfg("SimpleMultiCycle", 1);
+  CFG cfg(1);
 
   cfg.addLink(0, 1);
   cfg.addLink(1, 2);

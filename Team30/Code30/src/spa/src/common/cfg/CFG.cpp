@@ -1,9 +1,6 @@
 #include "CFG.h"
 
-CFG::CFG(const string &name, const int &start)
-    : procedureName(name), startingLineIndex(start) {}
-
-CFG::CFG() : CFG("", 0) {}
+CFG::CFG(const int &start): startingLineIndex(start) {}
 
 // if node is an if/while, the first node will signify
 // the node after the if/while (-1 if it is the last node)

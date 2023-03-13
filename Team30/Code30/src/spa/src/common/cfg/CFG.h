@@ -13,8 +13,7 @@ using std::string, std::vector, std::shared_ptr;
 // CFG can only handle up to 65534 Nodes
 class CFG {
  public:
-  CFG(const string &name, const int &start);
-  CFG();
+  explicit CFG(const int &start);
 
   bool containsStatement(const int &stmtNo);
   bool containsNode(const CFGNode &node);
@@ -31,7 +30,6 @@ class CFG {
   CFGBackwardLink* reverseLinksOf(const CFGNode& node);
 
  private:
-  string procedureName;
   int startingLineIndex;
 
   vector<CFGForwardLink> forwardLinks;
