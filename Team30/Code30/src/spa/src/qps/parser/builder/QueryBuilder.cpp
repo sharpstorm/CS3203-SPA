@@ -1,10 +1,13 @@
+#include <utility>
+#include <memory>
+
 #include "QueryBuilder.h"
 #include "qps/errors/QPSParserSemanticError.h"
-#include "qps/errors/QPSParserSyntaxError.h"
 
 using std::make_unique;
 
 QueryBuilder::QueryBuilder() {
+  variables = make_unique<VariableTable>();
 }
 
 void QueryBuilder::setError(const string &msg) {
@@ -24,11 +27,12 @@ void QueryBuilder::addSynonym(const PQLSynonymName &name,
     setError(QPS_PARSER_ERR_DUPLICATE_SYN);
     return;
   }
-  variables[name] = PQLQuerySynonym(type, name);
+
+  variables->emplace(name, PQLQuerySynonym(type, name));
 }
 
 bool QueryBuilder::hasSynonym(const PQLSynonymName &name) {
-  return variables.find(name) != variables.end();
+  return variables->find(name) != variables->end();
 }
 
 PQLQuerySynonym* QueryBuilder::accessSynonym(const PQLSynonymName &name) {
@@ -37,7 +41,7 @@ PQLQuerySynonym* QueryBuilder::accessSynonym(const PQLSynonymName &name) {
     return nullptr;
   }
 
-  return &variables[name];
+  return &(*variables)[name];
 }
 
 void QueryBuilder::addSuchThat(unique_ptr<SuchThatClause> clause) {
@@ -70,12 +74,13 @@ unique_ptr<PQLQuery> QueryBuilder::build() {
 
   // Clause Validation
   for (int i = 0; i < clauses.size(); i++) {
-    if (!clauses.at(i)->validateArgTypes(&variables)) {
+    if (!clauses.at(i)->validateArgTypes(variables.get())) {
       throw QPSParserSemanticError(QPS_PARSER_ERR_SYNONYM_TYPE);
     }
   }
 
   unique_ptr<PQLQuery> created(
-      new PQLQuery(variables, resultVariables, clauses, constraints));
+      new PQLQuery(
+          std::move(variables), resultVariables, clauses, constraints));
   return created;
 }

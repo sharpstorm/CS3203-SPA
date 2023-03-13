@@ -1,16 +1,18 @@
+#include <utility>
+
 #include "PQLQuery.h"
 
 using std::pair;
 
-PQLQuery::PQLQuery(VariableTable vars,
+PQLQuery::PQLQuery(VariableTablePtr vars,
                    AttributedSynonymList resVar,
                    vector<ClauseSPtr> c,
                    vector<ConstraintSPtr> con):
-                   variables(vars), resultVariables(resVar), clauses(c),
-                   constraints(con) { }
+                   variables(std::move(vars)), resultVariables(resVar),
+                   clauses(c), constraints(con) { }
 
 int PQLQuery::getVariableCount() {
-  return variables.size();
+  return variables->size();
 }
 
 AttributedSynonymList* PQLQuery::getResultVariables() {
@@ -18,8 +20,8 @@ AttributedSynonymList* PQLQuery::getResultVariables() {
 }
 
 PQLQuerySynonym* PQLQuery::getVariable(PQLSynonymName name) {
-  auto item = variables.find(name);
-  if (item == variables.end()) {
+  auto item = variables->find(name);
+  if (item == variables->end()) {
     return nullptr;
   }
 

@@ -1,11 +1,12 @@
 #pragma once
 
 #include "PQLTypes.h"
+#include <memory>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
-using std::unordered_map, std::vector;
+using std::unordered_map, std::vector, std::unique_ptr;
 
 class PQLQuerySynonym {
  private:
@@ -26,4 +27,5 @@ class PQLQuerySynonym {
 };
 
 typedef unordered_map<string, PQLQuerySynonym> VariableTable;
+typedef unique_ptr<VariableTable> VariableTablePtr;
 typedef vector<PQLQuerySynonym> PQLQuerySynonymList;
