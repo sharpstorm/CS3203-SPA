@@ -23,7 +23,7 @@ class WithArgument {
   bool isStaticValueEqual(const WithArgument &other);
   bool doesReturnInteger();
   bool isAttributeValid();
-  bool isSyn();
+  bool isSyn() const;
 };
 
 typedef unique_ptr<WithArgument> WithArgumentPtr;

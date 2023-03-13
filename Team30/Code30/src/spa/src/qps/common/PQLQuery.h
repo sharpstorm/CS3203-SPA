@@ -27,6 +27,10 @@ class PQLQuery {
            vector<ConstraintSPtr> con);
   int getVariableCount();
   AttributedSynonymList * getResultVariables();
+  // FOR DEBUGGING
+  AttributedSynonym getResultVariableAt(int i) {
+    return resultVariables[i];
+  }
   PQLQuerySynonym* getVariable(PQLSynonymName name);
   vector<IEvaluatableSPtr> getEvaluatables();
   vector<ConstraintSPtr> getConstraints();

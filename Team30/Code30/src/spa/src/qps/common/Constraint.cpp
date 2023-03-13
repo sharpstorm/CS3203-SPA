@@ -10,7 +10,7 @@ bool Constraint::isStaticArguments() {
 }
 
 // TODO(WeiXin): Change this for cat 3
-bool Constraint::replaceSyns(VariableTable variables) {
+bool Constraint::replaceSyns(VariableTable* variables) {
   return false;
 }
 
@@ -19,7 +19,7 @@ bool Constraint::mapSynToStatic() {
   return false;
 }
 
-bool Constraint::applyConstraint(VariableTable variables) {
+bool Constraint::applyConstraint(VariableTable* variables) {
   if (isStaticArguments()) {
     return leftArg->isStaticValueEqual(*rightArg);
   }

@@ -40,7 +40,8 @@ TEST_CASE("Queries with Select only") {
   };
 
   for (auto stmtType : stmtTypes) {
-    AttributedSynonym attrSyn = AttributedSynonym(new PQLQuerySynonym{stmtType, "s"});
+    auto querySyn = make_unique<PQLQuerySynonym>(PQLQuerySynonym{stmtType, "s"});
+    AttributedSynonym attrSyn = AttributedSynonym(querySyn.get());
     auto synList = make_unique<AttributedSynonymList>(AttributedSynonymList({attrSyn}));
     expectedResult = TestQueryResultBuilder::buildExpectedTable(ExpectedParams{
         {"s", QueryResultItemVector{
@@ -68,7 +69,8 @@ TEST_CASE("Queries with Select only") {
   };
 
   for (auto entType : entTypes) {
-    AttributedSynonym attrSyn = AttributedSynonym(new PQLQuerySynonym{entType, "ent"});
+    auto querySyn = make_unique<PQLQuerySynonym>(PQLQuerySynonym{entType, "ent"});
+    AttributedSynonym attrSyn = AttributedSynonym(querySyn.get());
     auto synList = make_unique<AttributedSynonymList>(AttributedSynonymList({attrSyn}));
     expectedResult = TestQueryResultBuilder::buildExpectedTable(ExpectedParams{
         {"ent", QueryResultItemVector{

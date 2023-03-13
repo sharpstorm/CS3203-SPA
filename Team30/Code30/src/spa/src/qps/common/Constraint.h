@@ -13,9 +13,9 @@ class Constraint {
  public:
   Constraint(WithArgumentPtr left, WithArgumentPtr right);
   bool isStaticArguments();
-  bool replaceSyns(VariableTable variables);
+  bool replaceSyns(VariableTable* variables);
   bool mapSynToStatic();
-  bool applyConstraint(VariableTable variables);
+  bool applyConstraint(VariableTable* variables);
   bool validateConstraints();
 };
 

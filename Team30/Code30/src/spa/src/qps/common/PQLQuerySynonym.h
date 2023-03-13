@@ -25,5 +25,5 @@ class PQLQuerySynonym {
   bool operator==(const PQLQuerySynonym& other) const;
 };
 
-typedef unordered_map<string, PQLQuerySynonym*> VariableTable;
+typedef unordered_map<string, PQLQuerySynonym> VariableTable;
 typedef vector<PQLQuerySynonym> PQLQuerySynonymList;

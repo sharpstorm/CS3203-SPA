@@ -19,7 +19,7 @@ bool WithArgument::doesReturnInteger() {
   return intValue != NO_STMT_REF;
 }
 
-bool WithArgument::isSyn() {
+bool WithArgument::isSyn() const {
   return syn != nullptr;
 }
 
@@ -49,7 +49,7 @@ PQLSynonymAttribute WithArgument::getAttribute() {
 
 bool WithArgument::isStaticValueEqual(const WithArgument &other) {
   // If either are syn values
-  if (isSyn() || other.syn != nullptr) {
+  if (isSyn() || other.isSyn()) {
     return false;
   }
 
