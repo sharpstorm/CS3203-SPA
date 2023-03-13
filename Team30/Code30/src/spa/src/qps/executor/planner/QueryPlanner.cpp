@@ -18,5 +18,6 @@ QueryPlanPtr QueryPlanner::getExecutionPlan(PQLQuery *targetQuery) {
 
   groupPlans = groupOrderer.orderGroups(move(groupPlans));
 
-  return make_unique<QueryPlan>(move(groupPlans), targetQuery->getConstraints());
+  return make_unique<QueryPlan>(move(groupPlans),
+                                targetQuery->getConstraints());
 }

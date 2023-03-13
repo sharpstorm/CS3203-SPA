@@ -14,7 +14,7 @@ bool Constraint::replaceSyns(VariableTable variables) {
   return false;
 }
 
-//TODO(WeiXin): Change the signature for cat 2 (need OverrideTable)
+// TODO(WeiXin): Change the signature for cat 2 (need OverrideTable)
 bool Constraint::mapSynToStatic() {
   return false;
 }
