@@ -17,7 +17,6 @@ using std::string, std::vector, std::unique_ptr, std::unordered_map;
 class QueryBuilder {
  private:
   string errorMsg;
-//  unordered_map<string, PQLQuerySynonym> variables;
   VariableTablePtr variables;
   vector<AttributedSynonym> resultVariables;
   vector<ClauseSPtr> clauses;
