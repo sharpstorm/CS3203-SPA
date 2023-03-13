@@ -3,11 +3,15 @@
 #include "ICFGClauseQuerier.h"
 #include "common/cfg/CFG.h"
 #include "qps/cfg/CFGWalker.h"
+#include "CFGQuerier.h"
+#include "qps/cfg/CFGQuerierTypes.h"
 
 template <class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
-class CFGNextTQuerier: public ICFGClauseQuerier {
+class CFGNextTQuerier: public ICFGClauseQuerier,
+                       public CFGQuerier<
+                           CFGNextTQuerier<ClosureType, typePredicate>> {
  public:
-  CFGNextTQuerier(CFG *cfg, CFGWalker* walker, ClosureType* closure);
+  CFGNextTQuerier(CFG *cfg, ClosureType* closure);
 
   StmtTransitiveResult queryBool(const StmtValue &arg0,
                                  const StmtValue &arg1) override;
@@ -15,12 +19,13 @@ class CFGNextTQuerier: public ICFGClauseQuerier {
                                  const StmtType &type1) override;
   StmtTransitiveResult queryTo(const StmtType &type0,
                                const StmtValue &arg1) override;
-  StmtTransitiveResult queryAll(const StmtType &type0,
-                                const StmtType &type1) override;
+  void queryAll(StmtTransitiveResult* resultOut,
+                const StmtType &type0,
+                const StmtType &type1) override;
 
  private:
   CFG* cfg;
-  CFGWalker* walker;
+  CFGWalker walker;
   ClosureType* closure;
 
   struct ResultClosure {
@@ -34,8 +39,8 @@ class CFGNextTQuerier: public ICFGClauseQuerier {
 
 template <class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
 CFGNextTQuerier<ClosureType, typePredicate>::
-CFGNextTQuerier(CFG *cfg, CFGWalker *walker, ClosureType* closure):
-    cfg(cfg), walker(walker), closure(closure) {}
+CFGNextTQuerier(CFG *cfg, ClosureType* closure):
+    cfg(cfg), walker(cfg), closure(closure) {}
 
 template <class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
 StmtTransitiveResult CFGNextTQuerier<ClosureType, typePredicate>::
@@ -50,7 +55,7 @@ queryBool(const StmtValue &arg0, const StmtValue &arg1) {
   CFGNode nodeStart = cfg->toCFGNode(arg0);
   CFGNode nodeEnd = cfg->toCFGNode(arg1);
 
-  if (walker->walkStatic(nodeStart, nodeEnd)) {
+  if (walker.walkStatic(nodeStart, nodeEnd)) {
     result.add(nodeStart, nodeEnd);
   }
 
@@ -77,7 +82,7 @@ queryFrom(const StmtValue &arg0, const StmtType &type1) {
       };
 
   CFGNode nodeStart = cfg->toCFGNode(arg0);
-  walker->walkFrom<ResultClosure, callback>(nodeStart, &state);
+  walker.walkFrom<ResultClosure, callback>(nodeStart, &state);
 
   return result;
 }
@@ -102,16 +107,15 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
       };
 
   CFGNode nodeEnd = cfg->toCFGNode(arg1);
-  walker->walkTo<ResultClosure, callback>(nodeEnd, &state);
+  walker.walkTo<ResultClosure, callback>(nodeEnd, &state);
 
   return result;
 }
 
 template <class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
-StmtTransitiveResult CFGNextTQuerier<ClosureType, typePredicate>::
-queryAll(const StmtType &type0, const StmtType &type1) {
-  StmtTransitiveResult result;
-  ResultClosure state{ cfg, closure, &result, type0, type1 };
+void CFGNextTQuerier<ClosureType, typePredicate>::
+queryAll(StmtTransitiveResult* resultOut, const StmtType &type0, const StmtType &type1) {
+  ResultClosure state{ cfg, closure, resultOut, type0, type1 };
 
   constexpr WalkerPairCallback<ResultClosure> callback =
       [](ResultClosure *state, CFGNode nodeLeft, CFGNode nodeRight) {
@@ -123,7 +127,5 @@ queryAll(const StmtType &type0, const StmtType &type1) {
         }
         state->result->add(fromStmtNumber, toStmtNumber);
       };
-  walker->walkAll<ResultClosure, callback>(&state);
-
-  return result;
+  walker.walkAll<ResultClosure, callback>(&state);
 }

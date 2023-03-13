@@ -7,6 +7,7 @@
 using std::unique_ptr;
 
 typedef QueryResult<StmtValue, StmtValue> StmtTransitiveResult;
+typedef unique_ptr<StmtTransitiveResult> StmtTransitiveResultPtr;
 
 class ICFGClauseQuerier {
  public:
@@ -16,8 +17,9 @@ class ICFGClauseQuerier {
                                          const StmtType &type1) = 0;
   virtual StmtTransitiveResult queryTo(const StmtType &type0,
                                        const StmtValue &arg1) = 0;
-  virtual StmtTransitiveResult queryAll(const StmtType &type0,
-                                        const StmtType &type1) = 0;
+  virtual void queryAll(StmtTransitiveResult* resultOut,
+                        const StmtType &type0,
+                        const StmtType &type1) = 0;
 };
 
 typedef unique_ptr<ICFGClauseQuerier> ICFGQuerierPtr;

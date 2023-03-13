@@ -3,11 +3,13 @@
 #include "ICFGClauseQuerier.h"
 #include "common/cfg/CFG.h"
 #include "qps/cfg/CFGWalker.h"
-#include "qps/cfg/CFGQuerier.h"
+#include "CFGQuerier.h"
 #include "qps/cfg/CFGQuerierTypes.h"
 
 template <class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
-class CFGNextQuerier: public ICFGClauseQuerier {
+class CFGNextQuerier: public ICFGClauseQuerier,
+                      public CFGQuerier<
+                          CFGNextQuerier<ClosureType, typePredicate>>{
  public:
   explicit CFGNextQuerier(CFG* cfg, ClosureType* closure);
 
@@ -17,8 +19,9 @@ class CFGNextQuerier: public ICFGClauseQuerier {
                                  const StmtType &type1) override;
   StmtTransitiveResult queryTo(const StmtType &type0,
                                const StmtValue &arg1) override;
-  StmtTransitiveResult queryAll(const StmtType &type0,
-                                const StmtType &type1) override;
+  void queryAll(StmtTransitiveResult* resultOut,
+                const StmtType &type0,
+                const StmtType &type1) override;
 
  private:
   CFG* cfg;
@@ -112,10 +115,10 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
 }
 
 template <class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
-StmtTransitiveResult CFGNextQuerier<ClosureType, typePredicate>::
-queryAll(const StmtType &type0, const StmtType &type1) {
-  StmtTransitiveResult result;
-
+void CFGNextQuerier<ClosureType, typePredicate>::
+queryAll(StmtTransitiveResult* resultOut,
+         const StmtType &type0,
+         const StmtType &type1) {
   for (CFGNode nodeFrom = 0; nodeFrom < cfg->getNodeCount(); nodeFrom++) {
     int fromStmtNumber = cfg->fromCFGNode(nodeFrom);
     if (!typePredicate(closure, type0, fromStmtNumber)) {
@@ -133,9 +136,7 @@ queryAll(const StmtType &type0, const StmtType &type1) {
       if (!typePredicate(closure, type1, toStmtNumber)) {
         continue;
       }
-      result.add(fromStmtNumber, toStmtNumber);
+      resultOut->add(fromStmtNumber, toStmtNumber);
     }
   }
-
-  return result;
 }

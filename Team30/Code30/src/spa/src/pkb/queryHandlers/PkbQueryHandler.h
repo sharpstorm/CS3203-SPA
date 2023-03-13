@@ -3,6 +3,7 @@
 #include <memory>
 #include <string>
 #include <unordered_set>
+#include <vector>
 
 #include "DesignEntitiesQueryHandler.h"
 #include "pkb/queryHandlers/interfaces/IPkbQueryHandler.h"
@@ -10,7 +11,7 @@
 
 using std::string;
 using std::unique_ptr, std::shared_ptr;
-using std::unordered_set;
+using std::unordered_set, std::vector;
 
 class PkbQueryHandler : public IPkbQueryHandler {
  public:
@@ -38,7 +39,7 @@ class PkbQueryHandler : public IPkbQueryHandler {
   string getConstantByIndex(int) const override;
   unordered_set<int> getIndexOfVariable(string) const override;
   unordered_set<int> getIndexOfConstant(string) const override;
-  QueryResult<int, CFG *> queryCFGs(StmtRef) const override;
+  vector<CFG*> queryCFGs(StmtRef) const override;
 
  private:
   unique_ptr<IFollowsQueryHandler> followsHandler;

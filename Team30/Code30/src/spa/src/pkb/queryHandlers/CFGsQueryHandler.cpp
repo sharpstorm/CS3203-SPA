@@ -6,15 +6,23 @@ using std::string;
 
 CFGsQueryHandler::CFGsQueryHandler(
     const CFGStorage *cfgsStorage,
+    const IEntityMappingProvider *entityProvider,
     const IStructureMappingProvider *structureProvider)
-    : cfgsStorage(cfgsStorage), structureProvider(structureProvider) {}
+    : cfgsStorage(cfgsStorage), entityProvider(entityProvider),
+    structureProvider(structureProvider) {}
 
-QueryResult<int, CFG*> CFGsQueryHandler::queryCFGs(StmtRef stmt) const {
-  QueryResult<int, CFG*> result;
+vector<CFG*> CFGsQueryHandler::queryCFGs(StmtRef stmt) const {
+  vector<CFG*> result;
   if (!stmt.isKnown()) {
-    return result;
+    unordered_set<string> procedures = entityProvider
+        ->getSymbolsOfType(EntityType::Procedure);
+    for (auto it = procedures.begin(); it != procedures.end(); it++) {
+      result.push_back(cfgsStorage->get(*it).get());
+    }
+  } else {
+    string procedureName = structureProvider->getProcedureForLine(stmt.lineNum);
+    result.push_back(cfgsStorage->get(procedureName).get());
   }
-  string procedureName = structureProvider->getProcedureForLine(stmt.lineNum);
-  result.add(stmt.lineNum, cfgsStorage->get(procedureName).get());
+
   return result;
 }

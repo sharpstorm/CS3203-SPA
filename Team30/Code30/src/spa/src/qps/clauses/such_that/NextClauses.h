@@ -4,6 +4,9 @@
 
 #include "abstract_clauses/AbstractStmtStmtClause.h"
 #include "qps/clauses/SuchThatClause.h"
+#include "qps/cfg/CFGQuerierTypes.h"
+#include "qps/cfg/cfg_querier/CFGNextQuerier.h"
+#include "qps/cfg/cfg_querier/CFGNextTQuerier.h"
 
 typedef StmtStmtInvoker NextInvoker;
 
@@ -13,17 +16,42 @@ using AbstractNextClause = AbstractStmtStmtClause<
     ClauseArgument::isStatement,
     ClauseArgument::isStatement>;
 
-constexpr NextInvoker nextInvoker = [](PkbQueryHandler* pkbQueryHandler,
-                                       const StmtRef &leftArg,
-                                       const StmtRef &rightArg){
-  return QueryResult<StmtValue, StmtValue>{};
+constexpr StmtTypePredicate<PkbQueryHandler> typeChecker =
+    [](PkbQueryHandler* pkb,
+       StmtType type,
+       StmtValue stmtNumber) -> bool{
+      return pkb->getStatementType(stmtNumber) == type;
+    };
+
+typedef CFGNextQuerier<PkbQueryHandler, typeChecker> ConcreteNextQuerier;
+typedef CFGNextTQuerier<PkbQueryHandler, typeChecker> ConcreteNextTQuerier;
+
+template <class T>
+constexpr NextInvoker abstractNextInvoker = [](PkbQueryHandler* pkbQueryHandler,
+                                               const StmtRef &leftArg,
+                                               const StmtRef &rightArg){
+  vector<CFG*> cfgs;
+  if (leftArg.isKnown()) {
+    cfgs = pkbQueryHandler->queryCFGs(leftArg);
+  } else {
+    cfgs = pkbQueryHandler->queryCFGs(rightArg);
+  }
+
+  if (leftArg.isKnown() || rightArg.isKnown()) {
+    T querier(cfgs[0], pkbQueryHandler);
+    return querier.queryArgs(leftArg, rightArg);
+  }
+
+  QueryResult<StmtValue, StmtValue> result{};
+  for (auto it = cfgs.begin(); it != cfgs.end(); it++) {
+    T querier(*it, pkbQueryHandler);
+    querier.queryArgs(leftArg, rightArg, &result);
+  }
+  return result;
 };
 
-constexpr NextInvoker nextTInvoker = [](PkbQueryHandler* pkbQueryHandler,
-                                        const StmtRef &leftArg,
-                                        const StmtRef &rightArg){
-  return QueryResult<StmtValue, StmtValue>{};
-};
+constexpr NextInvoker nextInvoker = abstractNextInvoker<ConcreteNextQuerier>;
+constexpr NextInvoker nextTInvoker = abstractNextInvoker<ConcreteNextTQuerier>;
 
 class NextClause: public AbstractNextClause<nextInvoker> {
  public:
