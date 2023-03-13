@@ -61,6 +61,14 @@ unique_ptr<PQLQuery> QueryBuilder::build() {
     throw QPSParserSemanticError(errorMsg);
   }
 
+  // Constraint Validation
+  for (int i = 0; i < constraints.size(); i++) {
+    if (!constraints.at(i)->validateConstraints()) {
+      throw QPSParserSemanticError(QPS_PARSER_ERR_SYNONYM_TYPE);
+    }
+  }
+
+  // Clause Validation
   for (int i = 0; i < clauses.size(); i++) {
     if (!clauses.at(i)->validateArgTypes(&variables)) {
       throw QPSParserSemanticError(QPS_PARSER_ERR_SYNONYM_TYPE);

@@ -55,7 +55,7 @@ TEST_CASE("Queries with Select only") {
                                              vector<PQLSynonymName>{"s"});
     vector<QueryGroupPlanPtr> groups;
     groups.push_back(std::move(group));
-    auto queryPlan = make_unique<QueryPlan>(std::move(groups));
+    auto queryPlan = make_unique<QueryPlan>(std::move(groups), vector<ConstraintSPtr>());
     auto targetSyns = make_unique<AttributedSynonymList>(AttributedSynonymList ({attrSyn}));
     actualResult = unique_ptr<SynonymResultTable>(orchestrator.execute(queryPlan.get()));
     REQUIRE(*expectedResult == *actualResult);
@@ -83,7 +83,7 @@ TEST_CASE("Queries with Select only") {
                                              vector<PQLSynonymName>{"ent"});
     vector<QueryGroupPlanPtr> groups;
     groups.push_back(std::move(group));
-    auto queryPlan = make_unique<QueryPlan>(std::move(groups));
+    auto queryPlan = make_unique<QueryPlan>(std::move(groups), vector<ConstraintSPtr>());
     auto targetSyns = make_unique<AttributedSynonymList>(AttributedSynonymList ({attrSyn}));
     actualResult = unique_ptr<SynonymResultTable>(orchestrator.execute(queryPlan.get()));
     REQUIRE(*expectedResult == *actualResult);

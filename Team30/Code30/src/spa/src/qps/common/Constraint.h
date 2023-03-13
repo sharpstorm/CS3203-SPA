@@ -16,6 +16,7 @@ class Constraint {
   bool replaceSyns(VariableTable variables);
   bool mapSynToStatic();
   bool applyConstraint(VariableTable variables);
+  bool validateConstraints();
 };
 
 typedef shared_ptr<Constraint> ConstraintSPtr;

@@ -12,8 +12,6 @@ class PQLWithParser: public IPQLParser {
  public:
   void parse(QueryTokenParseState* parserState,
              QueryBuilder* builder) override;
-//  static unique_ptr<WithClause> parseWithClause(
-//      QueryTokenParseState *parserState, QueryBuilder *builder);
   static void parseWithClause(
       QueryTokenParseState *parserState, QueryBuilder *builder);
 };

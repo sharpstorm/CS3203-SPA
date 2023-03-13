@@ -27,3 +27,13 @@ bool Constraint::applyConstraint(VariableTable variables) {
   // TODO(WeiXin): Handle cat 2 & 3 here
 }
 
+bool Constraint::validateConstraints() {
+  if (!leftArg->isAttributeValid() || !rightArg->isAttributeValid()) {
+    return false;
+  }
+  bool leftRetInt = leftArg->doesReturnInteger();
+  bool rightRetInt = rightArg->doesReturnInteger();
+
+  // They both must return an int or a str
+  return leftRetInt == rightRetInt;
+}
