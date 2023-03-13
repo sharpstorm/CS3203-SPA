@@ -1,6 +1,7 @@
 #include "CFGsQueryHandler.h"
 
 #include <string>
+#include <unordered_set>
 
 using std::string;
 

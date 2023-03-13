@@ -114,7 +114,9 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
 
 template <class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
 void CFGNextTQuerier<ClosureType, typePredicate>::
-queryAll(StmtTransitiveResult* resultOut, const StmtType &type0, const StmtType &type1) {
+queryAll(StmtTransitiveResult* resultOut,
+         const StmtType &type0,
+         const StmtType &type1) {
   ResultClosure state{ cfg, closure, resultOut, type0, type1 };
 
   constexpr WalkerPairCallback<ResultClosure> callback =
