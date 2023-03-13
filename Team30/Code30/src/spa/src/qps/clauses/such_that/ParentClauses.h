@@ -2,7 +2,7 @@
 
 #include <utility>
 
-#include "qps/clauses/abstract_clauses/AbstractStmtStmtClause.h"
+#include "abstract_clauses/AbstractStmtStmtClause.h"
 #include "qps/clauses/SuchThatClause.h"
 
 typedef StmtStmtInvoker ParentInvoker;
@@ -25,16 +25,14 @@ constexpr ParentInvoker parentTInvoker = [](PkbQueryHandler* pkbQueryHandler,
   return pkbQueryHandler->queryParentStar(leftArg, rightArg);
 };
 
-class ParentClause: public AbstractParentClause<parentInvoker>,
-                    public SuchThatClause  {
+class ParentClause: public AbstractParentClause<parentInvoker> {
  public:
   ParentClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
   }
 };
 
-class ParentTClause: public AbstractParentClause<parentTInvoker>,
-                     public SuchThatClause  {
+class ParentTClause: public AbstractParentClause<parentTInvoker> {
  public:
   ParentTClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {

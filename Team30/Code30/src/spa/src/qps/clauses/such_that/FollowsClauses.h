@@ -2,7 +2,7 @@
 
 #include <utility>
 
-#include "qps/clauses/abstract_clauses/AbstractStmtStmtClause.h"
+#include "abstract_clauses/AbstractStmtStmtClause.h"
 #include "qps/clauses/SuchThatClause.h"
 
 typedef StmtStmtInvoker FollowsInvoker;
@@ -25,16 +25,14 @@ constexpr FollowsInvoker followsTInvoker = [](PkbQueryHandler* pkbQueryHandler,
   return pkbQueryHandler->queryFollowsStar(leftArg, rightArg);
 };
 
-class FollowsClause: public AbstractFollowsClause<followsInvoker>,
-                     public SuchThatClause  {
+class FollowsClause: public AbstractFollowsClause<followsInvoker> {
  public:
   FollowsClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
   }
 };
 
-class FollowsTClause: public AbstractFollowsClause<followsTInvoker>,
-                      public SuchThatClause  {
+class FollowsTClause: public AbstractFollowsClause<followsTInvoker> {
  public:
   FollowsTClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {

@@ -6,10 +6,11 @@
 #include "common/Types.h"
 #include "qps/clauses/Clause.h"
 #include "InvokerTypes.h"
+#include "qps/clauses/SuchThatClause.h"
 
 using std::unordered_set;
 
-class AbstractTwoArgClause: virtual public Clause {
+class AbstractTwoArgClause: public SuchThatClause {
  protected:
   ClauseArgumentPtr left;
   ClauseArgumentPtr right;
