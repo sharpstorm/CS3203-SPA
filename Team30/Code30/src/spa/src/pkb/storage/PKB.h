@@ -29,6 +29,7 @@ class PKB {
   WhilePatternStorage *whilePatternStorage;
   CallsStorage *callsStorage;
   CallStmtStorage *callStmtStorage;
+  CFGStorage *cfgStorage;
   StructureMappingProvider *structureProvider;
   EntityMappingProvider *entityMappingProvider;
   PredicateFactory *predicateFactory;

@@ -4,13 +4,14 @@
 #include <unordered_set>
 
 #include "IAssignsQueryHandler.h"
+#include "ICFGsQueryHandler.h"
 #include "ICallsQueryHandler.h"
 #include "IDesignEntitiesQueryHandler.h"
 #include "IFollowsQueryHandler.h"
+#include "IIfPatternQueryHandler.h"
 #include "IModifiesQueryHandler.h"
 #include "IParentQueryHandler.h"
 #include "IUsesQueryHandler.h"
-#include "IIfPatternQueryHandler.h"
 #include "IWhilePatternQueryHandler.h"
 
 class IPkbQueryHandler : public IFollowsQueryHandler,
@@ -21,7 +22,8 @@ class IPkbQueryHandler : public IFollowsQueryHandler,
                          public IAssignsQueryHandler,
                          public ICallsQueryHandler,
                          public IIfPatternQueryHandler,
-                         public IWhilePatternQueryHandler {
+                         public IWhilePatternQueryHandler,
+                         public ICFGsQueryHandler {
  public:
   virtual ~IPkbQueryHandler() {}
 };

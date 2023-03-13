@@ -6,6 +6,7 @@
 #include "common/Types.h"
 #include "pkb/storage/PKB.h"
 #include "pkb/writers/interfaces/IAssignsWriter.h"
+#include "pkb/writers/interfaces/ICFGsWriter.h"
 #include "pkb/writers/interfaces/IConstantWriter.h"
 #include "pkb/writers/interfaces/IFollowsWriter.h"
 #include "pkb/writers/interfaces/IModifiesWriter.h"
@@ -37,6 +38,7 @@ class PkbWriter : public IPkbWriter {
                 string calledProcedure) override;
   void addIfPattern(int stmtNum, string variable) override;
   void addWhilePattern(int stmtNum, string variable) override;
+  void addCFGs(string name, CFGSPtr cfg) override;
 
   void runPostProcessor() override;
 
@@ -54,4 +56,5 @@ class PkbWriter : public IPkbWriter {
   unique_ptr<IPostProcessWriter> postProcessWriter;
   unique_ptr<IVariableWriter> variableWriter;
   unique_ptr<IConstantWriter> constantWriter;
+  unique_ptr<ICFGsWriter> cfgsWriter;
 };
