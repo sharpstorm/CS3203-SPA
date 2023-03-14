@@ -38,3 +38,34 @@ Second, Third
 procedure p;
 Select p such that Calls (_, _)
 First, Second, Third
+11 - Select String Calls (Strings, Wildcard) True (String) (Wildcard)
+procedure p;
+Select p such that Calls ("First", _)
+Second
+11 - Select String Calls (Strings, Wildcard) None (String) (Wildcard)
+procedure p;
+Select p such that Calls ("Third", _)
+
+12 - Select String Calls (Wildcard, String) True (Wildcard) (String)
+procedure p;
+Select p such that Calls (_, "Third")
+Second
+13 - Select String Calls (Wildcard, String) False (Wildcard) (String)
+procedure p;
+Select p such that Calls (_, "First")
+
+14 - Select NEGATIVE Calls (String, String) Error (String) (String)
+Select BOOLEAN such that Calls ("Invalid", "Second")
+SemanticError
+15 - Select NEGATIVE Calls (Wildcard, String) Error (String) (String)
+procedure p;
+Select p such that Calls (_, "Invalid")
+SemanticError
+16 - Select NEGATIVE Calls (Procedure, While) Error (Synonym) (Synonym)
+procedure p; while w;
+Select p such that Calls (p, w)
+SemanticError
+16 - Select NEGATIVE Calls (Read, Procedure) Error (Synonym) (Synonym)
+procedure p; read r1;
+Select p such that Calls (r1, p)
+SemanticError
