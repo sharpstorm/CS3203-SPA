@@ -1,9 +1,12 @@
 #pragma once
 
+#include <memory>
 #include <string>
+#include <unordered_map>
+
 #include "OverrideTransformer.h"
 
-using std::string;
+using std::string, std::shared_ptr, std::unordered_map;
 
 typedef unordered_map<string, OverrideTransformer> OverrideTable;
 

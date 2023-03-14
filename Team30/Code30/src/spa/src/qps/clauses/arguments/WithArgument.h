@@ -26,7 +26,7 @@ class WithArgument {
   bool isSyn() const;
   int getIntValue();
   string getIdentValue();
-  AttributedSynonym* getAttrSyn();
+  AttributedSynonym getAttrSyn();
 };
 
 typedef unique_ptr<WithArgument> WithArgumentPtr;

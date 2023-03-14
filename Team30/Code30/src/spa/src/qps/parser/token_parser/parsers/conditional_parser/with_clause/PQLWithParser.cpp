@@ -58,9 +58,10 @@ ConstraintSPtr PQLWithParser::parseConstraint(
     WithArgumentPtr left, WithArgumentPtr right) {
   ConstraintSPtr constraint;
   if (!left->isSyn() && !right->isSyn()) {
-    constraint = make_shared<ConstantConstraint>(std::move(left), std::move(right));
+    constraint = make_shared<ConstantConstraint>(
+        std::move(left), std::move(right));
   } else if (left->isSyn() && right->isSyn()) {
-    // Cat 3 here
+    // TODO(KwanHW): Cat 3 here
   } else {
     // Cat 2
     if (left->isSyn()) {
@@ -68,7 +69,7 @@ ConstraintSPtr PQLWithParser::parseConstraint(
     } else {
       constraint = parseOverrideConstraint(std::move(right), std::move(left));
     }
-  };
+  }
 
   return constraint;
 }

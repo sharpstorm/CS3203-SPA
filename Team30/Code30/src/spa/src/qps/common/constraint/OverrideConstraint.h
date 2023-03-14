@@ -8,27 +8,28 @@
 
 class OverrideConstraint : virtual public Constraint {
  private:
-  AttributedSynonym* syn;
+  AttributedSynonym syn;
   OverrideTransformer overrideTransformer;
+
  public:
-  OverrideConstraint(AttributedSynonym* syn, OverrideTransformer transformer) :
-  syn(syn), overrideTransformer(transformer) {}
+  OverrideConstraint(AttributedSynonym syn, OverrideTransformer transformer) :
+      syn(syn), overrideTransformer(transformer) {}
 
   bool applyConstraint(VariableTable* varTable, OverrideTable* overrideTable) {
-    PQLSynonymName synName = syn->getName();
+    PQLSynonymName synName = syn.getName();
     if (overrideTable->find(synName) != overrideTable->end()) {
       return false;
     }
     overrideTable->insert({synName, overrideTransformer});
     return true;
-  };
+  }
 
   bool validateConstraint() {
-    if (!syn->validateAttribute()) {
+    if (!syn.validateAttribute()) {
       return false;
     }
 
-    switch (syn->getAttribute()) {
+    switch (syn.getAttribute()) {
       case STMT_NUM:
       case CONST_VALUE:
         return overrideTransformer.returnsInteger();
@@ -36,7 +37,7 @@ class OverrideConstraint : virtual public Constraint {
       case VAR_NAME:
         return !overrideTransformer.returnsInteger();
       default:
-          throw QPSParserSemanticError(QPS_PARSER_ERR_UNKNOWN_SYNONYM);
+        throw QPSParserSemanticError(QPS_PARSER_ERR_UNKNOWN_SYNONYM);
     }
   }
 };

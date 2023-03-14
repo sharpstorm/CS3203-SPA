@@ -9,7 +9,8 @@
 using std::make_unique;
 
 class PQLWithParser: public IPQLParser {
-  static ConstraintSPtr parseConstraint(WithArgumentPtr left, WithArgumentPtr right);
+  static ConstraintSPtr parseConstraint(
+      WithArgumentPtr left, WithArgumentPtr right);
   static ConstraintSPtr parseOverrideConstraint(
       WithArgumentPtr synArg, WithArgumentPtr staticArg);
  public:
