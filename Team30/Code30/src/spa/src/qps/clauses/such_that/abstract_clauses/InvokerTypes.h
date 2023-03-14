@@ -10,6 +10,11 @@ using QueryInvoker = QueryResult<LeftResultType, RightResultType>(*)(
     const LeftArgType &leftArg,
     const RightArgType &rightArg);
 
+template <typename ResultType, typename ArgType>
+using SymmetricQueryInvoker = unordered_set<ResultType>(*)(
+    PkbQueryHandler* pkbQueryHandler,
+    const ArgType &arg);
+
 template <typename ResultType>
 using ArgumentTransformer = ResultType(*)(ClauseArgument* arg);
 
@@ -21,3 +26,6 @@ typedef QueryInvoker<StmtValue, StmtRef, EntityValue, EntityRef>
 
 typedef QueryInvoker<StmtValue, StmtRef, StmtValue, StmtRef>
     StmtStmtInvoker;
+
+typedef SymmetricQueryInvoker<StmtValue, StmtRef> StmtInvoker;
+typedef SymmetricQueryInvoker<EntityValue, EntityRef> EntInvoker;

@@ -7,6 +7,7 @@
 
 template <
     EntEntInvoker invoker,
+    EntInvoker symmetricInvoker,
     SynonymPredicate leftValidator,
     SynonymPredicate rightValidator>
 class AbstractEntEntClause: public AbstractTwoArgClause {
@@ -14,6 +15,7 @@ class AbstractEntEntClause: public AbstractTwoArgClause {
   AbstractEntEntClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractTwoArgClause(std::move(left), std::move(right)) {
   }
+
   bool validateArgTypes(VariableTable *table) override {
     return AbstractTwoArgClause::validateArgTypes<
         leftValidator, rightValidator>(table);
@@ -24,6 +26,7 @@ class AbstractEntEntClause: public AbstractTwoArgClause {
                                             EntityValue, EntityRef,
                                             Clause::toEntityRef,
                                             Clause::toEntityRef,
-                                            invoker>(pkbQueryHandler);
+                                            invoker,
+                                            symmetricInvoker>(pkbQueryHandler);
   }
 };

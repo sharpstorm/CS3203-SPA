@@ -14,14 +14,14 @@ class CFGNextQuerier: public ICFGClauseQuerier,
   explicit CFGNextQuerier(CFG* cfg, ClosureType* closure);
 
   StmtTransitiveResult queryBool(const StmtValue &arg0,
-                                 const StmtValue &arg1) override;
+                                 const StmtValue &arg1) override final;
   StmtTransitiveResult queryFrom(const StmtValue &arg0,
-                                 const StmtType &type1) override;
+                                 const StmtType &type1) override final;
   StmtTransitiveResult queryTo(const StmtType &type0,
-                               const StmtValue &arg1) override;
+                               const StmtValue &arg1) override final;
   void queryAll(StmtTransitiveResult* resultOut,
                 const StmtType &type0,
-                const StmtType &type1) override;
+                const StmtType &type1) override final;
 
  private:
   CFG* cfg;

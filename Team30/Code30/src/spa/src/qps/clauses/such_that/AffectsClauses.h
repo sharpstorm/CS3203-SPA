@@ -6,10 +6,12 @@
 #include "qps/clauses/SuchThatClause.h"
 
 typedef StmtStmtInvoker AffectsInvoker;
+typedef StmtInvoker AffectsSameSynInvoker;
 
-template <AffectsInvoker invoker>
+template <AffectsInvoker invoker, AffectsSameSynInvoker sameSynInvoker>
 using AbstractAffectsClause = AbstractStmtStmtClause<
     invoker,
+    sameSynInvoker,
     ClauseArgument::isStatement,
     ClauseArgument::isStatement>;
 
@@ -25,14 +27,24 @@ constexpr AffectsInvoker affectsTInvoker = [](PkbQueryHandler* pkbQueryHandler,
   return QueryResult<StmtValue, StmtValue>{};
 };
 
-class AffectsClause: public AbstractAffectsClause<affectsInvoker> {
+constexpr AffectsSameSynInvoker affectsSymmetricInvoker =
+    [](PkbQueryHandler* pkbQueryHandler,
+       const StmtRef &arg){
+      return unordered_set<StmtValue>{};
+    };
+
+class AffectsClause: public AbstractAffectsClause<
+    affectsInvoker,
+    affectsSymmetricInvoker> {
  public:
   AffectsClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
   }
 };
 
-class AffectsTClause: public AbstractAffectsClause<affectsTInvoker> {
+class AffectsTClause: public AbstractAffectsClause<
+    affectsTInvoker,
+    affectsSymmetricInvoker> {
  public:
   AffectsTClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {

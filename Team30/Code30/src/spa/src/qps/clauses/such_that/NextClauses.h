@@ -10,10 +10,12 @@
 #include "qps/cfg/cfg_querier/CFGNextTQuerier.h"
 
 typedef StmtStmtInvoker NextInvoker;
+typedef StmtInvoker NextSameSynInvoker;
 
-template <NextInvoker invoker>
+template <NextInvoker invoker, NextSameSynInvoker sameSynInvoker>
 using AbstractNextClause = AbstractStmtStmtClause<
     invoker,
+    sameSynInvoker,
     ClauseArgument::isStatement,
     ClauseArgument::isStatement>;
 
@@ -54,17 +56,52 @@ constexpr NextInvoker abstractNextInvoker = [](PkbQueryHandler* pkbQueryHandler,
   return result;
 };
 
+template <class T>
+constexpr NextSameSynInvoker abstractNextSameSynInvoker = [](
+    PkbQueryHandler* pkbQueryHandler,
+    const StmtRef &arg) -> unordered_set<StmtValue> {
+  vector<CFG*> cfgs = pkbQueryHandler->queryCFGs(StmtRef{StmtType::None, 0});
+  unordered_set<StmtValue> result;
+
+  for (auto it = cfgs.begin(); it != cfgs.end(); it++) {
+    CFG* cfg = *it;
+    T querier(cfg, pkbQueryHandler);
+    int startingStatement = cfg->getStartingStmtNumber();
+
+    for (int i = 0; i < cfg->getNodeCount(); i++) {
+      int statement = startingStatement + i;
+      if (!typeChecker(pkbQueryHandler, arg.type, statement)) {
+        continue;
+      }
+      
+      auto relationResult = querier.queryBool(statement, statement);
+      if (!relationResult.isEmpty) {
+        result.insert(statement);
+      }
+    }
+  }
+  return result;
+};
+
 constexpr NextInvoker nextInvoker = abstractNextInvoker<ConcreteNextQuerier>;
 constexpr NextInvoker nextTInvoker = abstractNextInvoker<ConcreteNextTQuerier>;
+constexpr NextSameSynInvoker nextSameSynInvoker =
+    abstractNextSameSynInvoker<ConcreteNextQuerier>;
+constexpr NextSameSynInvoker nextTSameSynInvoker =
+    abstractNextSameSynInvoker<ConcreteNextTQuerier>;
 
-class NextClause: public AbstractNextClause<nextInvoker> {
+class NextClause: public AbstractNextClause<
+    nextInvoker,
+    nextSameSynInvoker> {
  public:
   NextClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
   }
 };
 
-class NextTClause: public AbstractNextClause<nextTInvoker> {
+class NextTClause: public AbstractNextClause<
+    nextTInvoker,
+    nextTSameSynInvoker> {
  public:
   NextTClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {

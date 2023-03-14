@@ -336,4 +336,8 @@ TEST_CASE("Test Full End-to-end") {
                                           "11 5", "11 7", "11 8", "11 9", "11 11", "11 12"
                                       });
   launchQuery(qps.get(), query, expectedRes);
+
+  query = "assign a1; Select <a1, a1> such that Next*(a1, a1)";
+  expectedRes = unordered_set<string>({"5 5", "7 7", "8 8", "9 9", "11 11"});
+  launchQuery(qps.get(), query, expectedRes);
 }
