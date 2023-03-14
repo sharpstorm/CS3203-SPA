@@ -1,18 +1,23 @@
 #pragma once
 
-#include "Constraint.h"
+#include <utility>
 
-template <typename Constant>
+#include "Constraint.h"
+#include "qps/clauses/arguments/WithArgument.h"
 
 class ConstantConstraint : virtual public Constraint {
  private:
-  Constant leftArg;
-  Constant rightArg;
+  WithArgumentPtr leftArg;
+  WithArgumentPtr rightArg;
  public:
-  ConstantConstraint(Constant arg1, Constant arg2)
-      : leftArg(arg1), rightArg(arg2) {}
+  ConstantConstraint(WithArgumentPtr arg1, WithArgumentPtr arg2)
+      : leftArg(std::move(arg1)), rightArg(std::move(arg2)) {}
   bool applyConstraint(VariableTable* variableTable,
-                       OverrideTable* overrideTable) {
-    return leftArg == rightArg;
+                       OverrideTable* overrideTable) override {
+    return leftArg->isStaticValueEqual(*rightArg);
+  }
+
+  bool validateConstraint() {
+    return leftArg->doesReturnInteger() == rightArg->doesReturnInteger();
   }
 };

@@ -5,6 +5,9 @@
 #include "qps/clauses/WithClause.h"
 #include "qps/parser/token_parser/ref_extractor/PQLAttributeRefExtractor.h"
 #include "qps/clauses/arguments/WithArgument.h"
+#include "qps/common/constraint/Constraint.h"
+#include "qps/common/constraint/ConstantConstraint.h"
+#include "qps/common/constraint/OverrideConstraint.h"
 
 using std::make_unique, std::make_shared;
 
@@ -43,10 +46,40 @@ void PQLWithParser::parseWithClause(QueryTokenParseState *parserState,
     WithClausePtr withClause =
         make_unique<WithClause>(std::move(left), std::move(right));
     builder->addWith(std::move(withClause));
-    return;
+  } else {
+    ConstraintSPtr constraint = parseConstraint(
+        std::move(left), std::move(right));
+    builder->addConstraint(constraint);
   }
+}
 
-  ConstraintSPtr constraint =
-      make_shared<Constraint>(std::move(left), std::move(right));
-  builder->addConstraint(constraint);
+
+ConstraintSPtr PQLWithParser::parseConstraint(
+    WithArgumentPtr left, WithArgumentPtr right) {
+  ConstraintSPtr constraint;
+  if (!left->isSyn() && !right->isSyn()) {
+    constraint = make_shared<ConstantConstraint>(std::move(left), std::move(right));
+  } else if (left->isSyn() && right->isSyn()) {
+    // Cat 3 here
+  } else {
+    // Cat 2
+    if (left->isSyn()) {
+      constraint = parseOverrideConstraint(std::move(left), std::move(right));
+    } else {
+      constraint = parseOverrideConstraint(std::move(right), std::move(left));
+    }
+  };
+
+  return constraint;
+}
+
+ConstraintSPtr PQLWithParser::parseOverrideConstraint(
+    WithArgumentPtr synArg, WithArgumentPtr staticArg) {
+  if (staticArg->doesReturnInteger()) {
+    OverrideTransformer trans(staticArg->getIntValue());
+    return make_shared<OverrideConstraint>(synArg->getAttrSyn(), trans);
+  } else {
+    OverrideTransformer trans(staticArg->getIdentValue());
+    return make_shared<OverrideConstraint>(synArg->getAttrSyn(), trans);
+  }
 }

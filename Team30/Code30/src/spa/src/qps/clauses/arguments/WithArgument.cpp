@@ -56,5 +56,19 @@ bool WithArgument::isStaticValueEqual(const WithArgument &other) {
   return intValue == other.intValue && identValue == other.identValue;
 }
 
+int WithArgument::getIntValue() {
+  return intValue;
+}
+
+string WithArgument::getIdentValue() {
+  return identValue;
+}
+
+AttributedSynonym *WithArgument::getAttrSyn() {
+  return syn.get();
+}
+
 const char WithArgument::NO_ENT_REF[] = "";
+
+
 

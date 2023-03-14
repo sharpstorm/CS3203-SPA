@@ -5,15 +5,14 @@
 #include <vector>
 #include <memory>
 
-#include "Constraint.h"
 #include "PQLTypes.h"
 #include "PQLQuerySynonym.h"
 #include "qps/clauses/Clause.h"
 #include "AttributedSynonym.h"
+#include "qps/common/constraint/Constraint.h"
+#include "qps/common/constraint/OverrideTransformer.h"
 
 using std::string, std::unordered_map, std::vector, std::unique_ptr;
-
-typedef unordered_map<string, OverrideTransformer> OverrideTable;
 
 class PQLQuery {
  private:

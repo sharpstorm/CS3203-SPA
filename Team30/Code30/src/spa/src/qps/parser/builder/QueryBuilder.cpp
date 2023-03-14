@@ -67,7 +67,7 @@ unique_ptr<PQLQuery> QueryBuilder::build() {
 
   // Constraint Validation
   for (int i = 0; i < constraints.size(); i++) {
-    if (!constraints.at(i)->validateConstraints()) {
+    if (!constraints.at(i)->validateConstraint()) {
       throw QPSParserSemanticError(QPS_PARSER_ERR_SYNONYM_TYPE);
     }
   }

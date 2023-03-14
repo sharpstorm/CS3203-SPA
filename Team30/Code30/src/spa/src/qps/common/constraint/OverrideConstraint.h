@@ -4,15 +4,39 @@
 #include "Constraint.h"
 #include "qps/common/PQLQuerySynonym.h"
 #include "OverrideTransformer.h"
+#include "qps/errors/QPSParserSemanticError.h"
 
 class OverrideConstraint : virtual public Constraint {
  private:
-  string synName;
+  AttributedSynonym* syn;
   OverrideTransformer overrideTransformer;
  public:
-  OverrideConstraint(string synName, OverrideTransformer overrideTransformer) :
-  synName(synName), overrideTransformer(overrideTransformer) {}
-  bool applyConstraint(VariableTable varTable, OverrideTable* overrideTable) {
+  OverrideConstraint(AttributedSynonym* syn, OverrideTransformer transformer) :
+  syn(syn), overrideTransformer(transformer) {}
+
+  bool applyConstraint(VariableTable* varTable, OverrideTable* overrideTable) {
+    PQLSynonymName synName = syn->getName();
+    if (overrideTable->find(synName) != overrideTable->end()) {
+      return false;
+    }
     overrideTable->insert({synName, overrideTransformer});
+    return true;
   };
+
+  bool validateConstraint() {
+    if (!syn->validateAttribute()) {
+      return false;
+    }
+
+    switch (syn->getAttribute()) {
+      case STMT_NUM:
+      case CONST_VALUE:
+        return overrideTransformer.returnsInteger();
+      case PROC_NAME:
+      case VAR_NAME:
+        return !overrideTransformer.returnsInteger();
+      default:
+          throw QPSParserSemanticError(QPS_PARSER_ERR_UNKNOWN_SYNONYM);
+    }
+  }
 };

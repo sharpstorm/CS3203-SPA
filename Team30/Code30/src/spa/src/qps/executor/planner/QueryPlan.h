@@ -2,9 +2,10 @@
 
 #include <vector>
 #include <memory>
-#include "qps/common/Constraint.h"
-#include "qps/common/IEvaluatable.h"
+
 #include "QueryGroupPlan.h"
+#include "qps/common/IEvaluatable.h"
+#include "qps/common/constraint/Constraint.h"
 
 using std::vector, std::unique_ptr;
 

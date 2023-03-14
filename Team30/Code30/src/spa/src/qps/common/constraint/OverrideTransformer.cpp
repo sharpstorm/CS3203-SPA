@@ -13,3 +13,9 @@ EntityRef OverrideTransformer::transformArg(EntityRef input) {
   }
   return EntityRef { EntityType::None, entRef };
 }
+
+bool OverrideTransformer::returnsInteger() {
+  return stmtRef != NO_STMT_REF;
+}
+
+const char OverrideTransformer::NO_ENT_REF[] = "";

@@ -24,6 +24,9 @@ class WithArgument {
   bool doesReturnInteger();
   bool isAttributeValid();
   bool isSyn() const;
+  int getIntValue();
+  string getIdentValue();
+  AttributedSynonym* getAttrSyn();
 };
 
 typedef unique_ptr<WithArgument> WithArgumentPtr;
