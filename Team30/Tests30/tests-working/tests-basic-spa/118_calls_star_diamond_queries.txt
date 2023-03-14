@@ -1,45 +1,45 @@
 1 - Select BOOLEAN Calls* (String, String) True (String) (String)
-Select BOOLEAN such that Calls& ("First", "Third")
+Select BOOLEAN such that Calls* ("First", "Fourth")
 TRUE
 5000
 2 - Select BOOLEAN Calls* (String, String) False (String) (String)
-Select BOOLEAN such that Calls* ("First", "Fourth")
+Select BOOLEAN such that Calls* ("Fourth", "Third")
 FALSE
 5000
-3 - Select Procedure Calls* (String, Procedure) True (String) (Synonym)
+3 - Select Procedure Calls* (Procedure, String) True (Synonym) (String)
 procedure p;
-Select p such that Calls* (p, "Third")
-First, Second, Fourth
+Select p such that Calls* (p, "Fourth")
+First, Second, Third
 5000
-4 - Select Procedure Calls* (String, Procedure) None (String) (Synonym)
+4 - Select Procedure Calls* (Procedure, String) None (Synonym) (String) 
 procedure p;
 Select p such that Calls* (p, "First")
 
 5000
-5 - Select Procedure Calls* (Procedure, String) True (Synonym) (String)
+5 - Select Procedure Calls* (String, Procedure) True (String) (Synonym)
 procedure p;
-Select p such that Calls* ("Second", p)
-Third
+Select p such that Calls* ("First", p)
+Second, Third, Fourth
 5000
-6 - Select Procedure Calls* (String, Procedure) None (String) (Synonym)
+6 - Select Procedure Calls* (String, Procedure) None (Synonym) (String)
 procedure p;
-Select p such that Calls* ("Third", p)
+Select p such that Calls* ("Fourth", p)
 
 5000
 7 - Select Procedure Calls* (Procedure, Procedure) True (Synonym) (Synonym)
 procedure p, q;
 Select p such that Calls* (p, q)
-First, Second, Fourth
+First, Second, Third
 5000
 8 - Select Procedure Calls* (Procedure, Wildcard) True (Synonym) (Wildcard)
 procedure p;
 Select p such that Calls* (p, _)
-First, Second, Fourth
+First, Second, Third
 5000
 9 - Select Procdure Calls* (Wildcard, Procedure) None (Wildcard) (Synonym)
 procedure p;
 Select p such that Calls* (_, p)
-Second, Third
+Second, Third, Fourth
 5000
 10 - Select WildCard Calls* (Wildcard, Wildcard) True (Wildcard) (Wildcard)
 procedure p;
@@ -50,12 +50,12 @@ First, Second, Third, Fourth
 Select BOOLEAN such that Calls* ("First", _)
 TRUE
 5000
-12 - Select BOOLEAN Calls* (Strings, Wildcard) FALSE (String) (Wildcard)
-Select BOOLEAN such that Calls* ("Third", _)
+12 - Select BOOLEAN Calls* (Strings, Wildcard) False(String) (Wildcard)
+Select BOOLEAN such that Calls* ("Fourth", _)
 FALSE
 5000
 13 - Select BOOLEAN Calls* (Wildcard, String) True (Wildcard) (String)
-Select BOOLEAN such that Calls* (_, "Third")
+Select p such that Calls* (_, "Fourth")
 TRUE
 5000
 14 - Select BOOLEAN Calls* (Wildcard, String) False (Wildcard) (String)

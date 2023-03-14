@@ -1,14 +1,19 @@
 procedure First {
     read x;
     read z;
-    call Second; }
+    while (x >= 0) {
+        call Second;
+        x = x - 1;
+    }
+    call Third; 
+}
 
 procedure Second {
     x = 0;
     i = 5;
     while (i!=0) {
         x = x + 2*y;
-        call Third;
+        call Fourth;
         i = i - 1; }
     if (x==1) then {
         x = x+1; }
@@ -21,5 +26,13 @@ procedure Second {
 procedure Third {
     z = 5;
     v = z;
+    if (z == 5) {
+        call Fourth;
+    }   
     print v; 
+}  
+
+procedure Fourth {
+    num = 0;
+    print num;
 }    
