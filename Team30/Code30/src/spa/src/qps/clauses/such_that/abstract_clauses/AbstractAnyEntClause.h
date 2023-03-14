@@ -1,6 +1,7 @@
 #pragma once
 
 #include <utility>
+#include <unordered_set>
 
 #include "qps/errors/QPSParserSemanticError.h"
 #include "InvokerTypes.h"

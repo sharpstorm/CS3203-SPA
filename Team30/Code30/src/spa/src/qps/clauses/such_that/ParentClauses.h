@@ -1,6 +1,7 @@
 #pragma once
 
 #include <utility>
+#include <unordered_set>
 
 #include "abstract_clauses/AbstractStmtStmtClause.h"
 #include "qps/clauses/SuchThatClause.h"

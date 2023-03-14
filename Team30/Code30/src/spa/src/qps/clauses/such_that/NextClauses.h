@@ -2,6 +2,7 @@
 
 #include <utility>
 #include <vector>
+#include <unordered_set>
 
 #include "abstract_clauses/AbstractStmtStmtClause.h"
 #include "qps/clauses/SuchThatClause.h"
@@ -73,7 +74,7 @@ constexpr NextSameSynInvoker abstractNextSameSynInvoker = [](
       if (!typeChecker(pkbQueryHandler, arg.type, statement)) {
         continue;
       }
-      
+
       auto relationResult = querier.queryBool(statement, statement);
       if (!relationResult.isEmpty) {
         result.insert(statement);
