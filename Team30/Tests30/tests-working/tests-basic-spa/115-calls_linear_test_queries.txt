@@ -51,36 +51,36 @@ procedure p;
 Select p such that Calls ("First", _)
 Second
 5000
-11 - Select String Calls (Strings, Wildcard) None (String) (Wildcard)
+12 - Select String Calls (Strings, Wildcard) None (String) (Wildcard)
 procedure p;
 Select p such that Calls ("Third", _)
 
 5000
-12 - Select String Calls (Wildcard, String) True (Wildcard) (String)
+13 - Select String Calls (Wildcard, String) True (Wildcard) (String)
 procedure p;
 Select p such that Calls (_, "Third")
 Second
 5000
-13 - Select String Calls (Wildcard, String) False (Wildcard) (String)
+14 - Select String Calls (Wildcard, String) False (Wildcard) (String)
 procedure p;
 Select p such that Calls (_, "First")
 
 5000
-14 - Select NEGATIVE Calls (String, String) Error (String) (String)
+15 - Select NEGATIVE Calls (String, String) Error (String) (String)
 Select BOOLEAN such that Calls ("Invalid", "Second")
 SemanticError
 5000
-15 - Select NEGATIVE Calls (Wildcard, String) Error (String) (String)
+16 - Select NEGATIVE Calls (Wildcard, String) Error (String) (String)
 procedure p;
 Select p such that Calls (_, "Invalid")
 SemanticError
 5000
-16 - Select NEGATIVE Calls (Procedure, While) Error (Synonym) (Synonym)
+17 - Select NEGATIVE Calls (Procedure, While) Error (Synonym) (Synonym)
 procedure p; while w;
 Select p such that Calls (p, w)
 SemanticError
 5000
-17 - Select NEGATIVE Calls (Read, Procedure) Error (Synonym) (Synonym)
+18 - Select NEGATIVE Calls (Read, Procedure) Error (Synonym) (Synonym)
 procedure p; read r1;
 Select p such that Calls (r1, p)
 SemanticError
