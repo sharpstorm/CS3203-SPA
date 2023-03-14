@@ -480,3 +480,29 @@ TEST_CASE("CFGExtractor Two Procedures with complex statements") {
       {21, CFG_END_NODE}
   });
 }
+
+TEST_CASE("CFGExtractor Nested While") {
+  string input =
+      "procedure simple {"
+      "read num1;"
+      "while (x == 2) {"
+      "  while (y == 3) {"
+      "    x = 4;"
+      "  }"
+      "}"
+      "}";
+
+  vector<CFGSPtr> setofCFGs = executeCFGExtractor(input);
+  REQUIRE(setofCFGs.size() == 1);
+  assertCFG(setofCFGs[0].get(), {
+      {1, 2},
+      {2, 3},
+      {2, CFG_END_NODE},
+      {3, 4},
+      {3, CFG_END_NODE},
+      {3, 2},
+      {4, 3},
+      {4, 2},
+      {4, CFG_END_NODE}
+  });
+}

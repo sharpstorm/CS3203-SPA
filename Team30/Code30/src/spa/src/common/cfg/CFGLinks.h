@@ -9,31 +9,14 @@ using std::vector, std::array;
 
 typedef uint16_t CFGNode;
 static const CFGNode CFG_END_NODE = 65534;
-static const CFGNode CFG_NO_NODE = 65535;
 
-typedef AbstractIterator<CFGNode> ForwardLinkIterator;
-
-// The maximum Fan-Out is only 2
-class CFGForwardLink {
- private:
-  array<CFGNode, 2> branches;
-
- public:
-  CFGForwardLink();
-  explicit CFGForwardLink(const CFGNode &node);
-  void addLink(const CFGNode &node);
-
-  ForwardLinkIterator begin();
-  ForwardLinkIterator end();
-};
-
-class CFGBackwardLink {
+class CFGLinks {
  private:
   vector<CFGNode> links;
 
  public:
-  CFGBackwardLink() = default;
-  explicit CFGBackwardLink(const CFGNode &node);
+  CFGLinks() = default;
+  explicit CFGLinks(const CFGNode &node);
   void addLink(const CFGNode &node);
 
   vector<CFGNode>::iterator begin();

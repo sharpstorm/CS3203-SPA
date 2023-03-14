@@ -79,22 +79,22 @@ class CFGWalker {
     }
   }
 
-  static CFGForwardLink* forwardLinkGetter(CFG* cfg, CFGNode node) {
+  static CFGLinks* forwardLinkGetter(CFG* cfg, CFGNode node) {
     return cfg->nextLinksOf(node);
   }
 
   template <typename T, DFSCallback<T> callback>
   void runForwardDFS(CFGNode start, T* state) {
-    runDFS<T, callback, CFGForwardLink, forwardLinkGetter>(start, state);
+    runDFS<T, callback, CFGLinks, forwardLinkGetter>(start, state);
   }
 
-  static CFGBackwardLink* backwardLinkGetter(CFG* cfg, CFGNode node) {
+  static CFGLinks* backwardLinkGetter(CFG* cfg, CFGNode node) {
     return cfg->reverseLinksOf(node);
   }
 
   template <typename T, DFSCallback<T> callback>
   void runBackwardDFS(CFGNode start, T* state) {
-    runDFS<T, callback, CFGBackwardLink, backwardLinkGetter>(start, state);
+    runDFS<T, callback, CFGLinks, backwardLinkGetter>(start, state);
   }
 };
 

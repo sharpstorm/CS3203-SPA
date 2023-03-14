@@ -45,7 +45,7 @@ queryBool(const StmtValue &arg0, const StmtValue &arg1) {
   CFGNode nodeFrom = cfg->toCFGNode(arg0);
   CFGNode nodeTo = cfg->toCFGNode(arg1);
 
-  CFGForwardLink* links = cfg->nextLinksOf(nodeFrom);
+  CFGLinks* links = cfg->nextLinksOf(nodeFrom);
   if (links == nullptr) {
     return result;
   }
@@ -70,7 +70,7 @@ queryFrom(const StmtValue &arg0, const StmtType &type1) {
   }
 
   CFGNode nodeFrom = cfg->toCFGNode(arg0);
-  CFGForwardLink* links = cfg->nextLinksOf(nodeFrom);
+  CFGLinks* links = cfg->nextLinksOf(nodeFrom);
   for (auto it = links->begin(); it != links->end(); it++) {
     CFGNode node = *it;
     if (node == CFG_END_NODE) {
@@ -97,7 +97,7 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
   }
 
   CFGNode nodeTo = cfg->toCFGNode(arg1);
-  CFGBackwardLink* links = cfg->reverseLinksOf(nodeTo);
+  CFGLinks* links = cfg->reverseLinksOf(nodeTo);
   for (auto it = links->begin(); it != links->end(); it++) {
     CFGNode node = *it;
     if (node == CFG_END_NODE) {
@@ -125,7 +125,7 @@ queryAll(StmtTransitiveResult* resultOut,
       continue;
     }
 
-    CFGForwardLink* links = cfg->nextLinksOf(nodeFrom);
+    CFGLinks* links = cfg->nextLinksOf(nodeFrom);
     for (auto it = links->begin(); it != links->end(); it++) {
       CFGNode nodeTo = *it;
       if (nodeTo == CFG_END_NODE) {

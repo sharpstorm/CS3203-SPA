@@ -26,22 +26,20 @@ class CFG {
   // All CFG Operations operate on an internal index
   void addLink(const CFGNode &from, const CFGNode &to);
 
-  CFGForwardLink* nextLinksOf(const CFGNode& node);
-  CFGBackwardLink* reverseLinksOf(const CFGNode& node);
+  CFGLinks* nextLinksOf(const CFGNode& node);
+  CFGLinks* reverseLinksOf(const CFGNode& node);
 
  private:
   int startingLineIndex;
 
-  vector<CFGForwardLink> forwardLinks;
-  vector<CFGBackwardLink> backwardLinks;
-  CFGBackwardLink endNodeBackwardLink;
+  vector<CFGLinks> forwardLinks;
+  vector<CFGLinks> backwardLinks;
+  CFGLinks endNodeBackwardLink;
 
   void increaseMapSize(int num);
 
   template <class T>
   constexpr void addLink(T* target, const int &from, const int &to) {
-    assert(from != CFG_NO_NODE);
-
     if (from == CFG_END_NODE) {
       return;
     }
