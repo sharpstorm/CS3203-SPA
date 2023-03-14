@@ -9,8 +9,10 @@ class ConstantConstraint : virtual public Constraint {
   Constant leftArg;
   Constant rightArg;
  public:
-  ConstantConstraint(Constant arg1, Constant arg2) : leftArg(arg1), rightArg(arg2) {}
-  bool applyConstraint(VariableTable* variableTable, OverrideTable* overrideTable) {
+  ConstantConstraint(Constant arg1, Constant arg2)
+      : leftArg(arg1), rightArg(arg2) {}
+  bool applyConstraint(VariableTable* variableTable,
+                       OverrideTable* overrideTable) {
     return leftArg == rightArg;
-  };
+  }
 };

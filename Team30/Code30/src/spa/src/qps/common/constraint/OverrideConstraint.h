@@ -1,8 +1,10 @@
 #pragma once
 
+#include <string>
 #include "Constraint.h"
 #include "qps/common/PQLQuerySynonym.h"
 #include "OverrideTransformer.h"
+
 class OverrideConstraint : virtual public Constraint {
  private:
   string synName;
