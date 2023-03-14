@@ -1,0 +1,40 @@
+1 - Select BOOLEAN Calls (String, String) True (String) (String)
+Select BOOLEAN such that Calls ("First", "Second")
+TRUE
+5000
+2 - Select BOOLEAN Calls (String, String) False (String) (String)
+Select BOOLEAN such that Calls ("First", "Third")
+FALSE
+5000
+3 - Select Procedure Calls (String, Procedure) True (String) (Synonym)
+procedure p;
+Select p such that Calls (p, "Third")
+Second
+4 - Select Procedure Calls (String, Procedure) None (String) (Synonym)
+procedure p;
+Select p such that Calls (p, "First")
+
+5 - Select Procedure Calls (Procedure, String) True (Synonym) (String)
+procedure p;
+Select p such that Calls ("Second", p)
+Third
+6 - Select Procedure Calls (String, Procedure) None (String) (Synonym)
+procedure p;
+Select p such that Calls ("Third", p)
+
+7 - Select Procedure Calls (Procedure, Procedure) True (Synonym) (Synonym)
+procedure p, q;
+Select p such that Calls (p, q)
+First, Second
+8 - Select Procedure Calls (Procedure, Wildcard) True (Synonym) (Wildcard)
+procedure p;
+Select p such that Calls (p, _)
+First, Second
+9 - Select Procdure Calls (Wildcard, Procedure) None (Wildcard) (Synonym)
+procedure p;
+Select p such that Calls (_, p)
+Second, Third
+10 - Select WildCard Calls (Wildcard, Wildcard) True (Wildcard) (Wildcard)
+procedure p;
+Select p such that Calls (_, _)
+First, Second, Third
