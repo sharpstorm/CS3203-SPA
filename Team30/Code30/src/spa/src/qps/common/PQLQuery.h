@@ -8,8 +8,11 @@
 #include "PQLTypes.h"
 #include "PQLQuerySynonym.h"
 #include "qps/clauses/Clause.h"
+#include "qps/common/constraint/OverrideTransformer.h"
 
 using std::string, std::unordered_map, std::vector, std::unique_ptr;
+
+typedef unordered_map<string, OverrideTransformer> OverrideTable;
 
 class PQLQuery {
  private:
