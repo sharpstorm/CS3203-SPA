@@ -97,6 +97,11 @@ TEST_CASE("End-to-end Tuples Test") {
                      "11 11", "11 12",
                      "12 1", "12 2", "12 3", "12 5", "12 7", "12 8", "12 9",
                      "12 11", "12 12"});
+
+  // Tuple with only single syn
+  pipeline.query(
+      "assign a1, a2; variable v; Select <a1> such that Uses(a1, v) pattern a1(v,_) such that Follows(1,a2)",
+      {"5", "9", "11"});
 }
 
 TEST_CASE("End-to-End BOOLEAN Test") {
@@ -147,20 +152,22 @@ TEST_CASE("End-to-End BOOLEAN Test") {
   pipeline.query("stmt BOOLEAN; Select BOOLEAN such that Follows(BOOLEAN, 2)",
                  {"1"});
 
-  // Case-sensitive booelan keyword
+  // Case-sensitive BOOLEAN keyword
   pipeline.query("stmt BOOLEAn; Select BOOLEAN such that Follows(BOOLEAn, 2)",
                  {"TRUE"});
 
   // No clause, non-empty result BOOLEAN
-  pipeline.query("stmt s; Select BOOLEAN", {"TRUE"});
+  pipeline.query("stmt s; Select BOOLEAN",
+                 {"TRUE"});
 
   // No clause, empty result BOOLEAN
-  pipeline.query("call cl; Select BOOLEAN", {"FALSE"});
+  pipeline.query("call cl; Select BOOLEAN",
+                 {"FALSE"});
 }
 
 TEST_CASE("End-to-End No Clause") {
   auto pipeline = TestPipelineProvider();
-  
+
   pipeline.query("constant c; Select c",
                  {"0", "1", "2", "3", "5"});
 
@@ -260,6 +267,38 @@ TEST_CASE("End-to-End Assign Pattern Test") {
 
   pipeline.query("assign a; Select a pattern a(_, \"z + x\")",
                  {"8"});
+}
+
+TEST_CASE("End-to-End If Pattern Test") {
+  auto pipeline = TestPipelineProvider();
+
+  pipeline.query("if ifs; Select ifs pattern ifs (\"x\", _)",
+                 {"6"});
+
+  pipeline.query("if ifs; Select ifs pattern ifs (\"y\", _)",
+                 {});
+
+  pipeline.query("if ifs; variable v; Select <v, ifs> pattern ifs (v, _)",
+                 {"x 6"});
+
+  pipeline.query("if ifs; Select ifs pattern ifs (_, _)",
+                 {"6"});
+}
+
+TEST_CASE("End-to-End While Pattern Test") {
+  auto pipeline = TestPipelineProvider();
+
+  pipeline.query("while while; Select while pattern while (\"i\", _, _)",
+                 {"4"});
+
+  pipeline.query("while while; Select while pattern while (\"x\", _, _)",
+                 {});
+
+  pipeline.query("while while; variable v; Select <v, while> pattern while (v, _, _)",
+                 {"i 4"});
+
+  pipeline.query("while while; Select while pattern while (_, _, _)",
+                 {"4"});
 }
 
 TEST_CASE("End-to-End Pattern Error") {
