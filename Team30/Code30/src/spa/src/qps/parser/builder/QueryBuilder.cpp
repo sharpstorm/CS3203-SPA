@@ -41,7 +41,7 @@ PQLQuerySynonym* QueryBuilder::accessSynonym(const PQLSynonymName &name) {
     return nullptr;
   }
 
-  return &(*variables)[name];
+  return &(variables->at(name));
 }
 
 void QueryBuilder::addSuchThat(unique_ptr<SuchThatClause> clause) {
