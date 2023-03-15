@@ -299,6 +299,9 @@ TEST_CASE("End-to-End While Pattern Test") {
 
   pipeline.query("while while; Select while pattern while (_, _, _)",
                  {"4"});
+
+  pipeline.query("while w; Select w pattern w(_,_,_) such that Parent(w, 5)",
+                 {"4"});
 }
 
 TEST_CASE("End-to-End Pattern Error") {
