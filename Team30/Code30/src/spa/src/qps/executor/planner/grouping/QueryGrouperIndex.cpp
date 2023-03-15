@@ -31,3 +31,7 @@ bool QueryGrouperIndex::selectSynonym(const PQLSynonymName &name) {
 unordered_set<PQLSynonymName>* QueryGrouperIndex::getSelectSynonyms() {
   return &selectSynonyms;
 }
+
+bool QueryGrouperIndex::hasSelectables() {
+  return selectSynonyms.size() > 0;
+}

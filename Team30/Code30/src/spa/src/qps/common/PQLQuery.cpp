@@ -32,6 +32,14 @@ PQLQuerySynonym* PQLQuery::getVariable(PQLSynonymName name) {
   return &item->second;
 }
 
+SynonymList PQLQuery::getDeclaredSynonyms() {
+  vector<string> result;
+  for (auto it = variables->begin(); it != variables->end(); it++) {
+    result.push_back(it->first);
+  }
+  return result;
+}
+
 vector<IEvaluatableSPtr> PQLQuery::getEvaluatables() {
   vector<IEvaluatableSPtr> evals;
   for (ClauseSPtr ie : clauses) {

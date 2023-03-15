@@ -17,8 +17,13 @@ QueryGrouper::QueryGrouper(PQLQuery *query) :
 vector<QueryGroupPtr> QueryGrouper::groupClauses() {
   vector<QueryGroupPtr> groups;
   initIndex();
-  findGroups(&groups);
-  findIndependentSelects(&groups);
+
+  if (!groupIndex.hasSelectables() && query->getClauseCount() == 0) {
+    selectAllDeclarations(&groups);
+  } else {
+    findGroups(&groups);
+    findIndependentSelects(&groups);
+  }
 
   return groups;
 }
@@ -104,12 +109,24 @@ void QueryGrouper::queueClauses(queue<PlanNode> *target,
 void QueryGrouper::findIndependentSelects(vector<QueryGroupPtr> *result) {
   unordered_set<PQLSynonymName>* unselected = groupIndex.getSelectSynonyms();
   for (auto it = unselected->begin(); it != unselected->end(); it++) {
-    PQLQuerySynonym* synonym = query->getVariable(*it);
-    IEvaluatableSPtr selectClause = make_shared<SelectClause>(*synonym);
-
-    QueryGroupPtr selectGroup = make_unique<QueryGroup>();
-    selectGroup->addEvaluatable(selectClause);
-    selectGroup->addSelectable(synonym->getName());
+    PQLSynonymName name = *it;
+    QueryGroupPtr selectGroup = makeSelectClause(name);
+    selectGroup->addSelectable(name);
     result->push_back(move(selectGroup));
   }
+}
+
+void QueryGrouper::selectAllDeclarations(vector<QueryGroupPtr> *result) {
+  for (PQLSynonymName name : query->getDeclaredSynonyms()) {
+    result->push_back(makeSelectClause(name));
+  }
+}
+
+QueryGroupPtr QueryGrouper::makeSelectClause(const PQLSynonymName &name) {
+  PQLQuerySynonym* synonym = query->getVariable(name);
+  IEvaluatableSPtr selectClause = make_shared<SelectClause>(*synonym);
+
+  QueryGroupPtr selectGroup = make_unique<QueryGroup>();
+  selectGroup->addEvaluatable(selectClause);
+  return selectGroup;
 }

@@ -30,6 +30,7 @@ class PQLQuery {
   VariableTable* getVarTable();
   AttributedSynonymList * getResultVariables();
   PQLQuerySynonym* getVariable(PQLSynonymName name);
+  SynonymList getDeclaredSynonyms();
   vector<IEvaluatableSPtr> getEvaluatables();
   vector<ConstraintSPtr> getConstraints();
   int getClauseCount();
