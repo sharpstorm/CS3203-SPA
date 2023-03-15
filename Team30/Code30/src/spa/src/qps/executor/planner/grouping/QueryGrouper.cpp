@@ -25,8 +25,6 @@ vector<QueryGroupPtr> QueryGrouper::groupClauses() {
     findIndependentSelects(&groups);
   }
 
-
-
   return groups;
 }
 
@@ -119,7 +117,7 @@ void QueryGrouper::findIndependentSelects(vector<QueryGroupPtr> *result) {
 }
 
 void QueryGrouper::selectAllDeclarations(vector<QueryGroupPtr> *result) {
-  for (string name : query->getDeclaredSynonyms()) {
+  for (PQLSynonymName name : query->getDeclaredSynonyms()) {
     result->push_back(makeSelectClause(name));
   }
 }
