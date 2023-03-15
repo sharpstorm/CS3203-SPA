@@ -151,6 +151,19 @@ TEST_CASE("Test Full End-to-end") {
   expectedRes = unordered_set<string>{"FALSE"};
   launchQuery(qps.get(), query, expectedRes);
 
+  // Declares BOOLEAN as a synonym
+  query = "read BOOLEAN; Select BOOLEAN";
+  expectedRes = unordered_set<string>{"10"};
+  launchQuery(qps.get(), query, expectedRes);
+
+  query = "stmt BOOLEAN; Select BOOLEAN such that Follows(BOOLEAN, 2)";
+  expectedRes = unordered_set<string>{"1"};
+  launchQuery(qps.get(), query, expectedRes);
+
+  query = "stmt BOOLEAn; Select BOOLEAN such that Follows(BOOLEAn, 2)";
+  expectedRes = unordered_set<string>{"TRUE"};
+  launchQuery(qps.get(), query, expectedRes);
+
   query = "stmt s; Select s such that Follows*(1, s) and Follows*(s, 3)";
   expectedRes = unordered_set<string>({"2"});
   launchQuery(qps.get(), query, expectedRes);

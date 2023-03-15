@@ -82,6 +82,21 @@ TEST_CASE("Test PQL Select Boolean parsing") {
   REQUIRE(resultVar->size() == 0);
 }
 
+TEST_CASE("Test PQL Select Declared BOOLEAN Name parsing") {
+  QueryBuilder qb;
+  qb.addSynonym("BOOLEAN", PQL_SYN_TYPE_ASSIGN);
+  testParsing<PQLSelectParser>(
+      make_unique<PQLTestTokenSequenceBuilder>()
+          ->addToken(PQL_TOKEN_SELECT)
+          ->synonym("BOOLEAN")
+          ->build(), &qb);
+
+  auto query = qb.build();
+  auto resultVar = query->getResultVariables();
+  REQUIRE(resultVar->size() == 1);
+  REQUIRE(resultVar->at(0).getName() == "BOOLEAN");
+}
+
 TEST_CASE("Test PQL Select unknown synonym") {
   auto builder = testParsing<PQLSelectParser>(
       make_unique<PQLTestTokenSequenceBuilder>()

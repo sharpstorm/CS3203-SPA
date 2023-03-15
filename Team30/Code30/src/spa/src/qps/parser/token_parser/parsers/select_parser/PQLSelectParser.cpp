@@ -13,7 +13,7 @@ void PQLSelectParser::parse(QueryTokenParseState *parserState,
 
   PQLSynonymName synName = parserState->expectSynName();
 
-  if (synName == BOOLEAN_SELECT) {
+  if (synName == BOOLEAN_SELECT && !queryBuilder->hasSynonym(synName)) {
     return;
   }
 
