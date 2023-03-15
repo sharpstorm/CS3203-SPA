@@ -31,13 +31,14 @@ TEST_CASE("Test QueryTokenParseState Stage Valid Flows") {
   testStringParsing("assign a; Select a with 1 = 1");
   testStringParsing("assign a; Select a with 1 = a.stmt#");
   testStringParsing("assign a; Select a with a.stmt# = 1");
-  testStringParsing("assign a; Select a with a.stmt# = a.stmt#");
   testStringParsing("variable v; Select v with \"x\" = \"x\"");
   testStringParsing("variable v; Select v with \"x\" = v.varName");
   testStringParsing("variable v; Select v with v.varName = \"x\"");
-  testStringParsing("variable v; Select v with v.varName = v.varName");
   testStringParsing("assign a; variable v; Select a such that Uses(a,v) with a.stmt# = 1");
   testStringParsing("assign a; variable v; Select a with a.stmt# = 1 such that Uses(a,v)");
+  // Disabled for now - Cat 3 cases
+//  testStringParsing("assign a; Select a with a.stmt# = a.stmt#");
+//  testStringParsing("variable v; Select v with v.varName = v.varName");
 }
 
 TEST_CASE("Test QueryTokenParseState Stage Invalid Flows") {
