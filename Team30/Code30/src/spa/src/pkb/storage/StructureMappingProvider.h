@@ -10,8 +10,7 @@
 
 class StructureMappingProvider : public IStructureMappingProvider {
  public:
-  StructureMappingProvider(StatementStorage *,
-                           ProcedureStorage *,
+  StructureMappingProvider(StatementStorage *, ProcedureStorage *,
                            CallStmtStorage *);
   StmtType getStatementType(int) const override;
   std::unordered_set<int> getValuesOfType(StmtType) const override;

@@ -1,8 +1,7 @@
 #include "StructureMappingProvider.h"
 
 StructureMappingProvider::StructureMappingProvider(
-    StatementStorage *statementStorage,
-    ProcedureStorage *procedureStorage,
+    StatementStorage *statementStorage, ProcedureStorage *procedureStorage,
     CallStmtStorage *callStmtStorage)
     : statementStorage(statementStorage),
       procedureStorage(procedureStorage),
@@ -21,9 +20,7 @@ std::unordered_set<int> StructureMappingProvider::getValuesOfType(
   }
 }
 
-bool StructureMappingProvider::isValueOfType(int lineNumber, StmtType) const {
-
-}
+bool StructureMappingProvider::isValueOfType(int lineNumber, StmtType) const {}
 
 unordered_set<int> StructureMappingProvider::getProcedureLines(
     std::string procedureName) const {
