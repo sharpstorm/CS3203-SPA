@@ -143,6 +143,7 @@ TEST_CASE("CFGExtractor Statement with While loop") {
       {1, 2},
       {2, 3},
       {3, 4},
+      {3, 6},
       {4, 5},
       {5, 3},
       {5, 6},
@@ -173,6 +174,7 @@ TEST_CASE("CFGExtractor If in While loop") {
       {1, 2},
       {2, 3},
       {3, 4},
+      {3, 9},
       {4, 5},
       {4, 6},
       {5, 7},
@@ -206,6 +208,7 @@ TEST_CASE("CFGExtractor While in If") {
       {2, 3},
       {3, 4},
       {4, 5},
+      {4, 8},
       {5, 6},
       {6, 4},
       {6, 8},
@@ -241,6 +244,7 @@ TEST_CASE("CFGExtractor While in Else") {
 
       {3, 5},
       {5, 6},
+      {5, 8},
       {6, 7},
       {7, 5},
       {7, 8},
@@ -272,8 +276,11 @@ TEST_CASE("CFGExtractor Triple-While Chain") {
       {1, 2},
       {2, 3},
       {3, 4},
+      {3, 9},
       {4, 5},
+      {4, 8},
       {5, 6},
+      {5, 7},
       {6, 5},
       {6, 7},
       {7, 8},
@@ -459,8 +466,11 @@ TEST_CASE("CFGExtractor Two Procedures with complex statements") {
       {13, 14},
       {14, 15},
       {15, 16},
+      {15, 21},
       {16, 17},
+      {16, 20},
       {17, 18},
+      {17, 19},
       {18, 17},
       {18, 19},
       {19, 16},
@@ -468,5 +478,31 @@ TEST_CASE("CFGExtractor Two Procedures with complex statements") {
       {20, 15},
       {20, 21},
       {21, CFG_END_NODE}
+  });
+}
+
+TEST_CASE("CFGExtractor Nested While") {
+  string input =
+      "procedure simple {"
+      "read num1;"
+      "while (x == 2) {"
+      "  while (y == 3) {"
+      "    x = 4;"
+      "  }"
+      "}"
+      "}";
+
+  vector<CFGSPtr> setofCFGs = executeCFGExtractor(input);
+  REQUIRE(setofCFGs.size() == 1);
+  assertCFG(setofCFGs[0].get(), {
+      {1, 2},
+      {2, 3},
+      {2, CFG_END_NODE},
+      {3, 4},
+      {3, CFG_END_NODE},
+      {3, 2},
+      {4, 3},
+      {4, 2},
+      {4, CFG_END_NODE}
   });
 }

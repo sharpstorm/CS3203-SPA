@@ -27,4 +27,3 @@ bool QueryPlan::isBooleanQuery() {
 
   return true;
 }
-

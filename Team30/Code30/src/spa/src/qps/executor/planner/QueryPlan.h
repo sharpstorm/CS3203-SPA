@@ -2,8 +2,10 @@
 
 #include <vector>
 #include <memory>
-#include "qps/common/IEvaluatable.h"
+
 #include "QueryGroupPlan.h"
+#include "qps/common/IEvaluatable.h"
+#include "qps/common/constraint/Constraint.h"
 
 using std::vector, std::unique_ptr;
 
@@ -17,6 +19,7 @@ class QueryPlan {
 
  private:
   vector<QueryGroupPlanPtr> clauseGroups;
+  vector<ConstraintSPtr> constraints;
 };
 
 typedef unique_ptr<QueryPlan> QueryPlanPtr;

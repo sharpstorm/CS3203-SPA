@@ -19,7 +19,7 @@ bool WithArgument::doesReturnInteger() {
   return intValue != NO_STMT_REF;
 }
 
-bool WithArgument::isSyn() {
+bool WithArgument::isSyn() const {
   return syn != nullptr;
 }
 
@@ -47,4 +47,28 @@ PQLSynonymAttribute WithArgument::getAttribute() {
   return syn->getAttribute();
 }
 
+bool WithArgument::isStaticValueEqual(const WithArgument &other) {
+  // If either are syn values
+  if (isSyn() || other.isSyn()) {
+    return false;
+  }
+
+  return intValue == other.intValue && identValue == other.identValue;
+}
+
+int WithArgument::getIntValue() {
+  return intValue;
+}
+
+string WithArgument::getIdentValue() {
+  return identValue;
+}
+
+AttributedSynonym WithArgument::getAttrSyn() {
+  return *syn;
+}
+
 const char WithArgument::NO_ENT_REF[] = "";
+
+
+

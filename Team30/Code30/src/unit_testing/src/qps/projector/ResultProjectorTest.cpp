@@ -24,8 +24,8 @@ void testResultProjection(vector<string>* expected, vector<string>* actual) {
 ResultProjector projector;
 PQLQuerySynonym TARGET_RESULT_VAR{PQL_SYN_TYPE_ASSIGN, "a"};
 PQLQuerySynonym TARGET_ENTITY_VAR{PQL_SYN_TYPE_VARIABLE, "v"};
-AttributedSynonym ATTR_TARGET_RESULT_VAR(TARGET_RESULT_VAR);
-AttributedSynonym ATTR_TARGET_ENTITY_VAR(TARGET_ENTITY_VAR);
+AttributedSynonym ATTR_TARGET_RESULT_VAR(&TARGET_RESULT_VAR);
+AttributedSynonym ATTR_TARGET_ENTITY_VAR(&TARGET_ENTITY_VAR);
 AttributedSynonymList TARGET_RESULT_VARS{ATTR_TARGET_RESULT_VAR};
 AttributedSynonymList TARGET_ENTITY_VARS{ATTR_TARGET_ENTITY_VAR};
 

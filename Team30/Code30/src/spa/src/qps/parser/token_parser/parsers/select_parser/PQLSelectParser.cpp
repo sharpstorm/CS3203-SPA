@@ -42,7 +42,7 @@ void PQLSelectParser::addResultSynonym(QueryBuilder *queryBuilder,
     return;
   }
 
-  AttributedSynonym attrSyn(*synonym, NO_ATTRIBUTE);
+  AttributedSynonym attrSyn(synonym, NO_ATTRIBUTE);
   queryBuilder->addResultSynonym(attrSyn);
 }
 
@@ -54,7 +54,7 @@ void PQLSelectParser::parseSynonym(QueryTokenParseState *parserState,
     parserState->expect(PQL_TOKEN_PERIOD);
     PQLSynonymAttribute attr =
         PQLAttributeRefExtractor::extractAttribute(parserState);
-    AttributedSynonym attrSyn(*syn, attr);
+    AttributedSynonym attrSyn(syn, attr);
     queryBuilder->addResultSynonym(attrSyn);
     return;
   }

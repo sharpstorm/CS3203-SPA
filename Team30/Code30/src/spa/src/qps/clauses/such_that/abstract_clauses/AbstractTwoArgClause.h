@@ -23,14 +23,16 @@ class AbstractTwoArgClause: public SuchThatClause {
       ArgumentTransformer<LeftArgType> leftTransformer,
       ArgumentTransformer<RightArgType> rightTransformer,
       QueryInvoker<LeftResultType, LeftArgType,
-      RightResultType, RightArgType> invoker>
+                   RightResultType, RightArgType> diffSynInvoker,
+      SymmetricQueryInvoker<LeftResultType, LeftArgType> sameSynInvoker>
   PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler) {
     if (isSameSynonym()) {
-      return Clause::toQueryResult(left->getName(),
-                                   unordered_set<LeftResultType>{});
+      auto queryResult = sameSynInvoker(pkbQueryHandler,
+                                        leftTransformer(left.get()));
+      return Clause::toQueryResult(left->getName(), queryResult);
     }
 
-    auto queryResult = invoker(
+    auto queryResult = diffSynInvoker(
         pkbQueryHandler,
         leftTransformer(left.get()),
         rightTransformer(right.get()));

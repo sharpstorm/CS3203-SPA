@@ -1,10 +1,14 @@
 #pragma once
 
+#include <vector>
+
 #include "common/Types.h"
 #include "common/cfg/CFG.h"
+
+using std::vector;
 
 class ICFGsQueryHandler {
  public:
   virtual ~ICFGsQueryHandler() {}
-  virtual QueryResult<int, CFG*> queryCFGs(StmtRef) const = 0;
+  virtual vector<CFG*> queryCFGs(StmtRef) const = 0;
 };

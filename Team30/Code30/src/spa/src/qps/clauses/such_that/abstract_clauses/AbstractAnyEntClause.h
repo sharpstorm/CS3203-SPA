@@ -1,6 +1,7 @@
 #pragma once
 
 #include <utility>
+#include <unordered_set>
 
 #include "qps/errors/QPSParserSemanticError.h"
 #include "InvokerTypes.h"
@@ -40,17 +41,29 @@ class AbstractAnyEntClause : public AbstractTwoArgClause {
     }
 
     if (isLeftStatement) {
+      constexpr SymmetricQueryInvoker<StmtValue, StmtRef> dummyInvoker =
+          [](PkbQueryHandler* pkbQueryHandler,
+             const StmtRef &arg) -> unordered_set<StmtValue> {
+        return unordered_set<StmtValue>{};
+      };
       return AbstractTwoArgClause::evaluateOn<StmtValue, StmtRef,
                                               EntityValue, EntityRef,
                                               Clause::toStmtRef,
                                               Clause::toEntityRef,
-                                              stmtInvoker>(pkbQueryHandler);
+                                              stmtInvoker,
+                                              dummyInvoker>(pkbQueryHandler);
     } else {
+      constexpr SymmetricQueryInvoker<EntityValue, EntityRef> dummyInvoker =
+          [](PkbQueryHandler* pkbQueryHandler,
+             const EntityRef &arg) -> unordered_set<EntityValue> {
+            return unordered_set<EntityValue>{};
+          };
       return AbstractTwoArgClause::evaluateOn<EntityValue, EntityRef,
                                               EntityValue, EntityRef,
                                               Clause::toEntityRef,
                                               Clause::toEntityRef,
-                                              entInvoker>(pkbQueryHandler);
+                                              entInvoker,
+                                              dummyInvoker>(pkbQueryHandler);
     }
   }
 };

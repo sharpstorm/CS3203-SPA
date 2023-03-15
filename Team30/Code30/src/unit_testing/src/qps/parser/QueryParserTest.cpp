@@ -129,15 +129,18 @@ TEST_CASE("Test Conditional Select - 1 Constant") {
 }
 
 TEST_CASE("Test Conditional Select - 0 Constants") {
-  auto result = testPQLParsing("stmt s1, s2; Select s1 such that Follows(s1, s2)");
-
-  requireSynonyms(result.get(), vector<PQLQuerySynonym>{
+  auto expectedVariables = vector<PQLQuerySynonym>{
       PQLQuerySynonym(PQL_SYN_TYPE_STMT, "s1"),
       PQLQuerySynonym(PQL_SYN_TYPE_STMT, "s2")
-  });
-  requireResultSynonyms(result.get(), {
+  };
+  auto expectedResultVars = unordered_map<PQLSynonymName, PQLSynonymType>({
       {"s1", PQL_SYN_TYPE_STMT}
   });
+
+  auto result = testPQLParsing("stmt s1, s2; Select s1 such that Follows(s1, s2)");
+
+  requireResultSynonyms(result.get(), expectedResultVars);
+  requireSynonyms(result.get(), expectedVariables);
   requireClauseExists<FollowsClause>(result.get());
 }
 
