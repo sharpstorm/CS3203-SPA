@@ -7,6 +7,7 @@
 
 template <
     StmtStmtInvoker invoker,
+    StmtInvoker symmetricInvoker,
     SynonymPredicate leftValidator,
     SynonymPredicate rightValidator>
 class AbstractStmtStmtClause: public AbstractTwoArgClause {
@@ -25,6 +26,7 @@ class AbstractStmtStmtClause: public AbstractTwoArgClause {
                                             StmtValue, StmtRef,
                                             Clause::toStmtRef,
                                             Clause::toStmtRef,
-                                            invoker>(pkbQueryHandler);
+                                            invoker,
+                                            symmetricInvoker>(pkbQueryHandler);
   }
 };

@@ -16,6 +16,10 @@ std::unordered_set<int> DesignEntitiesQueryHandler::getStatementsOfType(
   return structureMappingProvider->getStatementsOfType(stmtType);
 }
 
+StmtType DesignEntitiesQueryHandler::getStatementType(int stmtNo) const {
+  return structureMappingProvider->getStatementType(stmtNo);
+}
+
 string DesignEntitiesQueryHandler::getVariableByIndex(int index) const {
   return entityMappingProvider->getVariableByIndex(index);
 }

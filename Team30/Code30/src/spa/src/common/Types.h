@@ -18,7 +18,7 @@ typedef int StmtValue;
 struct StmtRef {
   StmtType type;
   StmtValue lineNum;
-  bool isKnown() {
+  const bool isKnown() const {
     return lineNum != 0;
   }
 };
@@ -26,7 +26,7 @@ struct StmtRef {
 struct EntityRef {
   EntityType type;
   EntityValue name;
-  bool isKnown() {
+  const bool isKnown() const {
     return !name.empty();
   }
 };

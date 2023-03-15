@@ -6,6 +6,7 @@
 #include "sp/extractor/concrete_extractors/ModifiesExtractor.h"
 #include "sp/extractor/concrete_extractors/PatternExtractor.h"
 #include "sp/extractor/concrete_extractors/ProcedureRangeExtractor.h"
+#include "sp/extractor/concrete_extractors/CFGExtractor.h"
 
 using std::make_unique;
 
@@ -17,6 +18,7 @@ DesignExtractor::DesignExtractor(PkbWriter* pkbWriter) {
   ownedExtractors.push_back(make_unique<ModifiesExtractor>(pkbWriter));
   ownedExtractors.push_back(make_unique<PatternExtractor>(pkbWriter));
   ownedExtractors.push_back(make_unique<ProcedureRangeExtractor>(pkbWriter));
+  ownedExtractors.push_back(make_unique<CFGExtractor>(pkbWriter));
   for (int i = 0; i < ownedExtractors.size(); i++) {
     extractorRefs.push_back(ownedExtractors.at(i).get());
   }

@@ -12,7 +12,7 @@
 
 PkbQueryHandler::PkbQueryHandler(PKB *pkb)
     : followsHandler(new FollowsQueryHandler(
-          pkb->followsStore, pkb->predicateFactory, pkb->structureProvider)),
+    pkb->followsStore, pkb->predicateFactory, pkb->structureProvider)),
       parentHandler(new ParentQueryHandler(
           pkb->parentStore, pkb->predicateFactory, pkb->structureProvider)),
       usesHandler(new UsesQueryHandler(
@@ -25,7 +25,9 @@ PkbQueryHandler::PkbQueryHandler(PKB *pkb)
                                          pkb->predicateFactory,
                                          pkb->entityMappingProvider)),
       cfgsHandler(
-          new CFGsQueryHandler(pkb->cfgStorage, pkb->structureProvider)),
+          new CFGsQueryHandler(pkb->cfgStorage,
+                               pkb->entityMappingProvider,
+                               pkb->structureProvider)),
       ifPatternHandler(new IfPatternQueryHandler(pkb->ifPatternStorage,
                                                  pkb->predicateFactory,
                                                  pkb->structureProvider)),
@@ -82,6 +84,10 @@ std::unordered_set<int> PkbQueryHandler::getStatementsOfType(
   return designEntityHandler->getStatementsOfType(stmtType);
 }
 
+StmtType PkbQueryHandler::getStatementType(int stmtNo) const {
+  return designEntityHandler->getStatementType(stmtNo);
+}
+
 QueryResult<int, string> PkbQueryHandler::queryUses(StmtRef arg1,
                                                     EntityRef arg2) const {
   return usesHandler->queryUses(arg1, arg2);
@@ -127,6 +133,6 @@ QueryResult<int, string> PkbQueryHandler::queryWhilePattern(
   return whilePatternHandler->queryWhilePattern(arg1, arg2);
 }
 
-QueryResult<int, CFG*> PkbQueryHandler::queryCFGs(StmtRef arg1) const {
+vector<CFG*> PkbQueryHandler::queryCFGs(StmtRef arg1) const {
   return cfgsHandler->queryCFGs(arg1);
 }
