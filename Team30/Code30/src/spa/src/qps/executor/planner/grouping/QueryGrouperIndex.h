@@ -20,4 +20,5 @@ class QueryGrouperIndex {
   void insertSelection(const PQLSynonymName &name);
   bool selectSynonym(const PQLSynonymName &name);
   unordered_set<PQLSynonymName>* getSelectSynonyms();
+  bool hasSelectables();
 };

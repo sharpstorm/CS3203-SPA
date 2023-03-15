@@ -77,7 +77,7 @@ TEST_CASE("Test Full End-to-end") {
   query = "stmt s; assign a1, a2; variable v1,v2; Select <a1,s> such that Follows*(a1, a2) such that Uses(a1, v1) such that Modifies(a2,v2)";
   expectedRes = unordered_set<string>({"5 1", "5 2", "5 3", "5 4", "5 5", "5 6", "5 7", "5 8", "5 9", "5 10", "5 11", "5 12",
                                        "9 1", "9 2", "9 3", "9 4", "9 5", "9 6", "9 7", "9 8", "9 9", "9 10", "9 11", "9 12"
-                                       });
+                                      });
   launchQuery(qps.get(), query, expectedRes);
 
   // Pure select tupling
@@ -162,6 +162,14 @@ TEST_CASE("Test Full End-to-end") {
 
   query = "stmt BOOLEAn; Select BOOLEAN such that Follows(BOOLEAn, 2)";
   expectedRes = unordered_set<string>{"TRUE"};
+  launchQuery(qps.get(), query, expectedRes);
+
+  query = "stmt s; Select BOOLEAN";
+  expectedRes = unordered_set<string>{"TRUE"};
+  launchQuery(qps.get(), query, expectedRes);
+
+  query = "call cl; Select BOOLEAN";
+  expectedRes = unordered_set<string>{"FALSE"};
   launchQuery(qps.get(), query, expectedRes);
 
   query = "stmt s; Select s such that Follows*(1, s) and Follows*(s, 3)";
@@ -275,7 +283,7 @@ TEST_CASE("Test Full End-to-end") {
   query = "read r; Select r such that Modifies(\"Example\", \"x\")";
   expectedRes = unordered_set<string>({"10"});
   launchQuery(qps.get(), query, expectedRes);
-  
+
   query = "assign a; Select a pattern a(_, _\"z + x\"_)";
   expectedRes = unordered_set<string>({"8", "9"});
   launchQuery(qps.get(), query, expectedRes);
@@ -289,5 +297,4 @@ TEST_CASE("Test Full End-to-end") {
 
   query = "assign a; Select a pattern a(_, _\"((a * 7)\"_)";
   launchSyntaxErrorQuery(qps.get(), query);
-
 }
