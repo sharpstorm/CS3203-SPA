@@ -14,7 +14,8 @@ class StructureMappingProvider : public IStructureMappingProvider {
                            ProcedureStorage *,
                            CallStmtStorage *);
   StmtType getStatementType(int) const override;
-  std::unordered_set<int> getStatementsOfType(StmtType) const override;
+  std::unordered_set<int> getValuesOfType(StmtType) const override;
+  bool isValueOfType(int, StmtType) const override;
   unordered_set<int> getProcedureLines(std::string) const override;
   std::string getProcedureForLine(int) const override;
   std::unordered_set<int> getCallStmtsOfProcedure(std::string) const override;

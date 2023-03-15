@@ -24,7 +24,8 @@ class EntityMappingProviderStub : public IEntityMappingProvider {
   HashKeySetTable<string, int> procedureToStmtNumTable;
 
   EntityMappingProviderStub();
-  unordered_set<string> getSymbolsOfType(EntityType) const override;
+  unordered_set<string> getValuesOfType(EntityType) const override;
+  bool isValueOfType(string, EntityType) const override;
   string getVariableByIndex(int) const override;
   string getConstantByIndex(int) const override;
   unordered_set<int> getIndexOfVariable(string) const override;

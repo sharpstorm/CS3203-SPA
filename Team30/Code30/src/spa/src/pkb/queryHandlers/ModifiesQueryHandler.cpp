@@ -41,7 +41,7 @@ QueryResult<int, string> ModifiesQueryHandler::queryModifies(
                                   arg2.name);
   } else {
     return modifiesStorage->query(
-        structureProvider->getStatementsOfType(arg1.type),
+        structureProvider->getValuesOfType(arg1.type),
         predicateFactory->getPredicate(arg2));
   }
 }
@@ -59,7 +59,7 @@ QueryResult<string, string> ModifiesQueryHandler::queryModifies(
                                    arg2.name);
   } else {
     return modifiesPStorage->query(
-        entitiesProvider->getSymbolsOfType(EntityType::Procedure),
+        entitiesProvider->getValuesOfType(EntityType::Procedure),
         predicateFactory->getPredicate(arg2));
   }
 }

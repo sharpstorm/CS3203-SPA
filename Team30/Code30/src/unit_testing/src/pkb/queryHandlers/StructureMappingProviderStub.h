@@ -29,7 +29,9 @@ class StructureMappingProviderStub : public IStructureMappingProvider {
 
   StmtType getStatementType(int stmt) const override;
 
-  unordered_set<int> getStatementsOfType(StmtType stmtType) const override;
+  unordered_set<int> getValuesOfType(StmtType stmtType) const override;
+
+  bool isValueOfType(int, StmtType) const override;
 
   unordered_set<int> getProcedureLines(string procedure) const override;
 

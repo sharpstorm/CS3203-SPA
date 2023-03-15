@@ -19,7 +19,7 @@ QueryResult<int, int> ParentQueryHandler::queryParent(StmtRef s1,
     return store->query(predicateFactory->getPredicate(s1), s2.lineNum);
   } else {
     // (stmtType, stmtType)
-    return store->query(structureProvider->getStatementsOfType(s1.type),
+    return store->query(structureProvider->getValuesOfType(s1.type),
                         predicateFactory->getPredicate(s2));
   }
 }
@@ -35,7 +35,7 @@ QueryResult<int, int> ParentQueryHandler::queryParentStar(StmtRef s1,
     return store->queryT(predicateFactory->getPredicate(s1), s2.lineNum);
   } else {
     // (stmtType, stmtType)
-    return store->queryT(structureProvider->getStatementsOfType(s1.type),
+    return store->queryT(structureProvider->getValuesOfType(s1.type),
                          predicateFactory->getPredicate(s2));
   }
 }

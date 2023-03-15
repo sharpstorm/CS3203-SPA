@@ -27,7 +27,7 @@ WhilePatternQueryHandler::queryWhilePattern(StmtRef arg1,
   } else if (arg2.isKnown()) {
     return store->query(predicateFactory->getPredicate(arg1), arg2.name);
   } else {
-    return store->query(structureProvider->getStatementsOfType(arg1.type),
+    return store->query(structureProvider->getValuesOfType(arg1.type),
                         predicateFactory->getPredicate(arg2));
   }
 }

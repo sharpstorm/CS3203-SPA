@@ -5,15 +5,17 @@
 #include <utility>
 #include <functional>
 
+#include "IProvider.h"
 #include "../../../common/Types.h"
 
 using std::string, std::unordered_set, std::pair, std::function;
 
-class IStructureMappingProvider {
+class IStructureMappingProvider: IProvider<int, StmtType> {
  public:
   virtual ~IStructureMappingProvider() {}
+  virtual unordered_set<int> getValuesOfType(StmtType) const = 0;
+  virtual bool isValueOfType(int, StmtType) const = 0;
   virtual StmtType getStatementType(int) const = 0;
-  virtual unordered_set<int> getStatementsOfType(StmtType) const = 0;
   virtual unordered_set<int> getProcedureLines(string) const = 0;
   virtual string getProcedureForLine(int) const = 0;
   virtual unordered_set<int> getCallStmtsOfProcedure(string) const = 0;

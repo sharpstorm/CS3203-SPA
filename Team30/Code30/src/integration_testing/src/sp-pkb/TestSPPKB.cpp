@@ -87,7 +87,7 @@ TEST_CASE("Test Write Entity") {
   PkbWriter pkbWriter(&pkb);
   PkbQueryHandler queryHandler(&pkb);
   spDriver.parseSource(testSource, &pkbWriter);
-  REQUIRE(queryHandler.getSymbolsOfType(EntityType::Variable) ==
+  REQUIRE(queryHandler.getValuesOfType(EntityType::Variable) ==
       unordered_set<string>({"num1", "num2", "num3", "sum", "a", "b", "abc"}));
 }
 

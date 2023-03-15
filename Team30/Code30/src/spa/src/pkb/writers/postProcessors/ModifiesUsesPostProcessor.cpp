@@ -13,7 +13,7 @@ void ModifiesUsesPostProcessor::process() {
 
 void ModifiesUsesPostProcessor::populateProcedureAndVars() {
   auto procedures =
-      pkb->entityMappingProvider->getSymbolsOfType(EntityType::Procedure);
+      pkb->entityMappingProvider->getValuesOfType(EntityType::Procedure);
   for (const auto &procedure : procedures) {
     // get descendent procedures
     auto calledProcedures = pkb->callsStorage->getByFirstArgT(procedure);
@@ -31,7 +31,7 @@ void ModifiesUsesPostProcessor::populateProcedureAndVars() {
 }
 
 void ModifiesUsesPostProcessor::populateCallStmtAndVars() {
-  auto callStmts = pkb->structureProvider->getStatementsOfType(StmtType::Call);
+  auto callStmts = pkb->structureProvider->getValuesOfType(StmtType::Call);
   for (auto &stmt : callStmts) {
     auto procedure = pkb->structureProvider->getCalledProcedure(stmt);
     auto modifiesVars = pkb->modifiesPStorage->getByFirstArg(procedure);

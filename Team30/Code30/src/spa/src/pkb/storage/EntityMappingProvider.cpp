@@ -7,7 +7,7 @@ EntityMappingProvider::EntityMappingProvider(VariableStorage *variableStorage,
       constantStorage(constantStorage),
       procedureStorage(procedureStorage) {}
 
-unordered_set<string> EntityMappingProvider::getSymbolsOfType(
+unordered_set<string> EntityMappingProvider::getValuesOfType(
     EntityType entityType) const {
   if (entityType == EntityType::Variable) {
     return variableStorage->getAllValues();
@@ -19,6 +19,11 @@ unordered_set<string> EntityMappingProvider::getSymbolsOfType(
     // note: EntityType::None is invalid
     return {};
   }
+}
+
+bool EntityMappingProvider::isValueOfType(string name,
+                                          EntityType entityType) const {
+  return true;
 }
 
 string EntityMappingProvider::getVariableByIndex(int index) const {

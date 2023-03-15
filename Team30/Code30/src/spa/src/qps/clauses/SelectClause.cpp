@@ -18,13 +18,13 @@ PQLQueryResult* SelectClause::evaluateOn(PkbQueryHandler* pkbQueryHandler) {
   if (target.isStatementType()) {
     StmtRef stmtVar = clauseArg->toStmtRef();
     unordered_set<int> pkbResult = pkbQueryHandler
-        ->getStatementsOfType(stmtVar.type);
+        ->getValuesOfType(stmtVar.type);
     return Clause::toQueryResult(target.getName(), pkbResult);
   }
 
   EntityRef entityVar = clauseArg->toEntityRef();
   unordered_set<string> pkbResult = pkbQueryHandler
-      ->getSymbolsOfType(entityVar.type);
+      ->getValuesOfType(entityVar.type);
   return Clause::toQueryResult(target.getName(), pkbResult);
 }
 

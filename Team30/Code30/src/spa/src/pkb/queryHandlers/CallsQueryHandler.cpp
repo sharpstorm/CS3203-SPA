@@ -26,7 +26,7 @@ QueryResult<string, string> CallsQueryHandler::queryCalls(EntityRef e1,
     return store->query(predicateFactory->getPredicate(e1), e2.name);
   } else {
     return store->query(
-        entityProvider->getSymbolsOfType(EntityType::Procedure),
+        entityProvider->getValuesOfType(EntityType::Procedure),
         predicateFactory->getPredicate(e2));
   }
 }
@@ -42,7 +42,7 @@ QueryResult<string, string> CallsQueryHandler::queryCallsStar(
     return store->queryT(predicateFactory->getPredicate(e1), e2.name);
   } else {
     return store->queryT(
-        entityProvider->getSymbolsOfType(EntityType::Procedure),
+        entityProvider->getValuesOfType(EntityType::Procedure),
         predicateFactory->getPredicate(e2));
   }
 }

@@ -39,7 +39,7 @@ QueryResult<int, string> UsesQueryHandler::queryUses(StmtRef arg1,
   } else if (arg2.isKnown()) {
     return usesStorage->query(predicateFactory->getPredicate(arg1), arg2.name);
   } else {
-    return usesStorage->query(structureProvider->getStatementsOfType(arg1.type),
+    return usesStorage->query(structureProvider->getValuesOfType(arg1.type),
                               predicateFactory->getPredicate(arg2));
   }
 }
@@ -56,7 +56,7 @@ QueryResult<string, string> UsesQueryHandler::queryUses(EntityRef arg1,
     return usesPStorage->query(predicateFactory->getPredicate(arg1), arg2.name);
   } else {
     return usesPStorage->query(
-        entitiesProvider->getSymbolsOfType(EntityType::Procedure),
+        entitiesProvider->getValuesOfType(EntityType::Procedure),
         predicateFactory->getPredicate(arg2));
   }
 }

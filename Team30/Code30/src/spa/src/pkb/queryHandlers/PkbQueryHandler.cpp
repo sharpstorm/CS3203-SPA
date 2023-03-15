@@ -58,9 +58,9 @@ QueryResult<int, int> PkbQueryHandler::queryParentStar(StmtRef s1,
   return parentHandler->queryParentStar(s1, s2);
 }
 
-std::unordered_set<std::string> PkbQueryHandler::getSymbolsOfType(
+std::unordered_set<std::string> PkbQueryHandler::getValuesOfType(
     EntityType entityType) const {
-  return designEntityHandler->getSymbolsOfType(entityType);
+  return designEntityHandler->getValuesOfType(entityType);
 }
 
 string PkbQueryHandler::getVariableByIndex(int index) const {
@@ -79,9 +79,9 @@ unordered_set<int> PkbQueryHandler::getIndexOfConstant(string name) const {
   return designEntityHandler->getIndexOfConstant(name);
 }
 
-std::unordered_set<int> PkbQueryHandler::getStatementsOfType(
+std::unordered_set<int> PkbQueryHandler::getValuesOfType(
     StmtType stmtType) const {
-  return designEntityHandler->getStatementsOfType(stmtType);
+  return designEntityHandler->getValuesOfType(stmtType);
 }
 
 StmtType PkbQueryHandler::getStatementType(int stmtNo) const {

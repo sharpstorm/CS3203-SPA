@@ -2,7 +2,7 @@
 
 EntityMappingProviderStub::EntityMappingProviderStub(){};
 
-unordered_set<string> EntityMappingProviderStub::getSymbolsOfType(
+unordered_set<string> EntityMappingProviderStub::getValuesOfType(
     EntityType type) const {
   if (type == EntityType::Variable) {
     return allVariables;
@@ -31,4 +31,8 @@ unordered_set<int> EntityMappingProviderStub::getIndexOfVariable(
 unordered_set<int> EntityMappingProviderStub::getIndexOfConstant(
     string name) const {
   return constantToIndexTable.get(name);
+}
+
+bool EntityMappingProviderStub::isValueOfType(string, EntityType) const {
+  return true;
 }

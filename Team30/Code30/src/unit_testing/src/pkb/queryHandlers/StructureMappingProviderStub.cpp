@@ -8,7 +8,7 @@ StmtType StructureMappingProviderStub::getStatementType(int stmt) const {
   return stmtNumToType.get(stmt);
 }
 
-unordered_set<int> StructureMappingProviderStub::getStatementsOfType(
+unordered_set<int> StructureMappingProviderStub::getValuesOfType(
     StmtType stmtType) const {
   if (stmtType == StmtType::None) {
     return allStmts;
@@ -32,4 +32,8 @@ string StructureMappingProviderStub::getCalledProcedure(int stmt) const {
 unordered_set<int> StructureMappingProviderStub::getCallStmtsOfProcedure(
     string procedureName) const {
   return CalledProcedureToStmtNum.get(procedureName);
+}
+
+bool StructureMappingProviderStub::isValueOfType(int, StmtType) const {
+
 }

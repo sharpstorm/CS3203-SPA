@@ -15,7 +15,8 @@ class EntityMappingProvider : public IEntityMappingProvider {
  public:
   explicit EntityMappingProvider(VariableStorage *, ConstantStorage *,
                                  ProcedureStorage *);
-  unordered_set<string> getSymbolsOfType(EntityType) const override;
+  unordered_set<string> getValuesOfType(EntityType) const override;
+  bool isValueOfType(string, EntityType) const override;
   string getVariableByIndex(int) const override;
   string getConstantByIndex(int) const override;
   unordered_set<int> getIndexOfVariable(string) const override;

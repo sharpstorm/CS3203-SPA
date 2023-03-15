@@ -156,10 +156,11 @@ class ClausesPKBStub : public StubPKB {
     return result;
   }
 
-  unordered_set<string> getSymbolsOfType(EntityType) const override {
+  unordered_set<string> getValuesOfType(EntityType) const override {
     return unordered_set<string>();
   };
-  unordered_set<int> getStatementsOfType(StmtType) const override {
+
+  unordered_set<int> getValuesOfType(StmtType) const override {
     return unordered_set<int>();
   };
 

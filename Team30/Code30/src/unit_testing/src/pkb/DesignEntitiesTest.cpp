@@ -22,9 +22,9 @@ TEST_CASE("Entities write and read") {
   writer.addConstant("0");
   writer.addConstant("1");
 
-  REQUIRE(queryHandler.getSymbolsOfType(EntityType::Variable) ==
+  REQUIRE(queryHandler.getValuesOfType(EntityType::Variable) ==
       unordered_set<string>({"a", "b", "c"}));
-  REQUIRE(queryHandler.getSymbolsOfType(EntityType::Constant) ==
+  REQUIRE(queryHandler.getValuesOfType(EntityType::Constant) ==
       unordered_set<string>({"0", "1"}));
 }
 
@@ -38,12 +38,12 @@ TEST_CASE("Statements write and read") {
   writer.addStatement(3, StmtType::Assign);
   writer.addStatement(4, StmtType::Read);
 
-  REQUIRE(queryHandler.getStatementsOfType(StmtType::Assign) ==
+  REQUIRE(queryHandler.getValuesOfType(StmtType::Assign) ==
       unordered_set<int>({1, 2, 3}));
-  REQUIRE(queryHandler.getStatementsOfType(StmtType::Read) ==
+  REQUIRE(queryHandler.getValuesOfType(StmtType::Read) ==
       unordered_set<int>({4}));
   // get all statement_types
-  REQUIRE(queryHandler.getStatementsOfType(StmtType::None) ==
+  REQUIRE(queryHandler.getValuesOfType(StmtType::None) ==
       unordered_set<int>({1, 2, 3, 4}));
 }
 

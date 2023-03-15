@@ -19,8 +19,8 @@ class DesignEntitiesQueryHandler : public IDesignEntitiesQueryHandler {
       const IEntityMappingProvider *entityMappingProvider,
       const IStructureMappingProvider *structureMappingProvider);
 
-  unordered_set<string> getSymbolsOfType(EntityType) const override;
-  unordered_set<int> getStatementsOfType(StmtType) const override;
+  unordered_set<string> getValuesOfType(EntityType) const override;
+  unordered_set<int> getValuesOfType(StmtType) const override;
   StmtType getStatementType(int) const override;
   string getVariableByIndex(int) const override;
   string getConstantByIndex(int) const override;

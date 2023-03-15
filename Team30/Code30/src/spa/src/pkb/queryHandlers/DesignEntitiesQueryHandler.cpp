@@ -6,14 +6,14 @@ DesignEntitiesQueryHandler::DesignEntitiesQueryHandler(
     : entityMappingProvider(entityMappingProvider),
       structureMappingProvider(structureMappingProvider) {}
 
-std::unordered_set<std::string> DesignEntitiesQueryHandler::getSymbolsOfType(
+std::unordered_set<std::string> DesignEntitiesQueryHandler::getValuesOfType(
     EntityType entityType) const {
-  return entityMappingProvider->getSymbolsOfType(entityType);
+  return entityMappingProvider->getValuesOfType(entityType);
 }
 
-std::unordered_set<int> DesignEntitiesQueryHandler::getStatementsOfType(
+std::unordered_set<int> DesignEntitiesQueryHandler::getValuesOfType(
     StmtType stmtType) const {
-  return structureMappingProvider->getStatementsOfType(stmtType);
+  return structureMappingProvider->getValuesOfType(stmtType);
 }
 
 StmtType DesignEntitiesQueryHandler::getStatementType(int stmtNo) const {

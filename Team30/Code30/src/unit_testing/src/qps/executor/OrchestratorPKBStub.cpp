@@ -5,11 +5,11 @@ class OrchestratorPKBStub: public StubPKB {
   OrchestratorPKBStub(PKB* in) : StubPKB(in) {
   }
 
-  unordered_set<string> getSymbolsOfType(EntityType) const {
+  unordered_set<string> getValuesOfType(EntityType) const {
     return unordered_set<string>({"x", "y", "z"});
   }
 
-  unordered_set<int> getStatementsOfType(StmtType) const {
+  unordered_set<int> getValuesOfType(StmtType) const {
     return unordered_set<int>({1, 2, 3});
   }
 };
