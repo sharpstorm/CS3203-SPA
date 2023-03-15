@@ -1,15 +1,15 @@
 #pragma once
 
+#include <utility>
+
 #include "qps/common/PQLQuerySynonym.h"
-#include "qps/common/PQLQueryResult.h"
-#include "qps/clauses/PatternClause.h"
 #include "AbstractPatternClause.h"
 
 constexpr PatternQueryInvoker whilePatternInvoker =
     [](PkbQueryHandler* pkbHandler,
        const StmtRef &stmtRef,
        const EntityRef &entityRef)
-        -> QueryResult<int, string> {
+        -> QueryResult<StmtValue, EntityValue> {
       return pkbHandler->queryWhilePattern(stmtRef, entityRef);
     };
 

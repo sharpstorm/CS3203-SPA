@@ -3,15 +3,13 @@
 #include <utility>
 
 #include "qps/common/PQLQuerySynonym.h"
-#include "qps/common/PQLQueryResult.h"
-#include "qps/clauses/PatternClause.h"
 #include "AbstractPatternClause.h"
 
 constexpr PatternQueryInvoker ifPatternInvoker =
     [](PkbQueryHandler* pkbHandler,
        const StmtRef &stmtRef,
        const EntityRef &entityRef)
-        -> QueryResult<int, string> {
+        -> QueryResult<StmtValue, EntityValue> {
       return pkbHandler->queryIfPattern(stmtRef, entityRef);
     };
 

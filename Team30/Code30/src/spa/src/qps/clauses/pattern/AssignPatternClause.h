@@ -2,7 +2,7 @@
 
 #include "qps/clauses/arguments/ClauseArgument.h"
 #include "qps/clauses/arguments/ExpressionArgument.h"
-#include "AbstractPatternClause.h"
+#include "../PatternClause.h"
 
 class AssignPatternClause: public PatternClause {
  private:
