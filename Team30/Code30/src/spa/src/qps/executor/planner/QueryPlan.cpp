@@ -2,9 +2,8 @@
 
 #include <utility>
 
-QueryPlan::QueryPlan(vector<QueryGroupPlanPtr> groups,
-                     vector<ConstraintSPtr> cons):
-    clauseGroups(std::move(groups)), constraints(cons) {}
+QueryPlan::QueryPlan(vector<QueryGroupPlanPtr> groups):
+    clauseGroups(std::move(groups)) {}
 
 int QueryPlan::getGroupCount() {
   return clauseGroups.size();
@@ -28,8 +27,3 @@ bool QueryPlan::isBooleanQuery() {
 
   return true;
 }
-
-vector<ConstraintSPtr> QueryPlan::getConstraints() {
-  return constraints;
-}
-

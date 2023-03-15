@@ -11,10 +11,9 @@ using std::vector, std::unique_ptr;
 
 class QueryPlan {
  public:
-  QueryPlan(vector<QueryGroupPlanPtr> groups, vector<ConstraintSPtr> cons);
+  explicit QueryPlan(vector<QueryGroupPlanPtr> groups);
   int getGroupCount();
   QueryGroupPlan* getGroup(int groupId);
-  vector<ConstraintSPtr> getConstraints();
   bool isEmpty();
   bool isBooleanQuery();
 

@@ -17,9 +17,6 @@ SynonymResultTable *QueryOrchestrator::execute(QueryPlan *plan) {
     return new SynonymResultTable(isBool, false);
   }
 
-  // TODO(WeiXin): Do the constraint application here. If some constraint
-  //  application returns false, return new SynTable(isBool, false)
-
   SynonymResultTable* resultTable = new SynonymResultTable(isBool, true);
   for (int i = 0; i < plan->getGroupCount(); i++) {
     QueryGroupPlan* targetGroup = plan->getGroup(i);

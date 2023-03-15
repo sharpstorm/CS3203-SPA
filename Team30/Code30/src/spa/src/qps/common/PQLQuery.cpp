@@ -15,6 +15,10 @@ int PQLQuery::getVariableCount() {
   return variables->size();
 }
 
+VariableTable* PQLQuery::getVarTable() {
+  return variables.get();
+}
+
 AttributedSynonymList* PQLQuery::getResultVariables() {
   return &resultVariables;
 }

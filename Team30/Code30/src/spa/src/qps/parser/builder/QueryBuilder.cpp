@@ -52,6 +52,7 @@ void QueryBuilder::addPattern(unique_ptr<PatternClause> clause) {
   clauses.push_back(std::move(clause));
 }
 
+
 void QueryBuilder::addWith(unique_ptr<WithClause> clause) {
   clauses.push_back(std::move(clause));
 }

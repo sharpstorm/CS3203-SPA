@@ -77,10 +77,10 @@ ConstraintSPtr PQLWithParser::parseConstraint(
 ConstraintSPtr PQLWithParser::parseOverrideConstraint(
     WithArgumentPtr synArg, WithArgumentPtr staticArg) {
   if (staticArg->doesReturnInteger()) {
-    OverrideTransformer trans(staticArg->getIntValue());
-    return make_shared<OverrideConstraint>(synArg->getAttrSyn(), trans);
+    return make_shared<OverrideConstraint>(
+        synArg->getAttrSyn(), staticArg->getIntValue());
   } else {
-    OverrideTransformer trans(staticArg->getIdentValue());
-    return make_shared<OverrideConstraint>(synArg->getAttrSyn(), trans);
+    return make_shared<OverrideConstraint>(
+        synArg->getAttrSyn(), staticArg->getIdentValue());
   }
 }
