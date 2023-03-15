@@ -34,7 +34,7 @@ PQLQuerySynonym* PQLQuery::getVariable(PQLSynonymName name) {
 
 SynonymList PQLQuery::getDeclaredSynonyms() {
   vector<string> result;
-  for (auto it = variables.begin(); it != variables.end(); it++) {
+  for (auto it = variables->begin(); it != variables->end(); it++) {
     result.push_back(it->first);
   }
   return result;
