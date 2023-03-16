@@ -8,6 +8,6 @@ template <typename V, typename T>
 class IProvider {
  public:
   virtual ~IProvider() {}
-  unordered_set<V> getValuesOfType(T type);
-  bool isValueOfType(V value, T type);
+  virtual unordered_set<V> getValuesOfType(T type) const = 0;
+  virtual bool isValueOfType(V value, T type) const = 0;
 };

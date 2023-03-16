@@ -24,7 +24,7 @@ struct IRef {
   virtual T getType() const = 0;
 };
 
-struct StmtRef : IRef<StmtType, int> {
+struct StmtRef : public IRef<StmtType, int> {
   StmtType type;
   int lineNum;
   StmtRef(StmtType type, int lineNum) : type(type), lineNum(lineNum) {}
@@ -33,7 +33,7 @@ struct StmtRef : IRef<StmtType, int> {
   StmtType getType() const override { return type; }
 };
 
-struct EntityRef : IRef<EntityType, string> {
+struct EntityRef : public IRef<EntityType, string> {
   EntityType type;
   string name;
   explicit EntityRef(EntityType type) : type(type) {}

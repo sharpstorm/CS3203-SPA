@@ -3,9 +3,10 @@
 #include <string>
 
 #include "common/Types.h"
+#include "pkb/predicates/PredicateFactory.h"
 #include "pkb/queryHandlers/interfaces/IIfPatternQueryHandler.h"
 #include "pkb/storage/StorageTypes.h"
-#include "pkb/predicates/PredicateFactory.h"
+#include "pkb/storage/interfaces/IStructureMappingProvider.h"
 
 using std::string;
 

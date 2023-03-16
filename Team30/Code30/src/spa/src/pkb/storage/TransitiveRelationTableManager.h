@@ -9,7 +9,7 @@
  * - R(arg1, arg2) or
  * - R(arg1, a) and R*(a, arg2) for some a
  */
-template<typename T>
+template <typename T>
 class TransitiveRelationTableManager : public RelationTableManager<T, T> {
  public:
   TransitiveRelationTableManager(shared_ptr<IBaseSetTable<T, T>> table,
@@ -17,11 +17,29 @@ class TransitiveRelationTableManager : public RelationTableManager<T, T> {
       : RelationTableManager<T, T>(table, reverseTable) {}
 
   /**
+   * Get set of arg2 where R*(arg1, arg2) is true, given arg1.
+   */
+  unordered_set<T> getByFirstArg(T arg1) const override {
+    auto result = unordered_set<T>({});
+    getByFirstArgTHelper(arg1, &result);
+    return result;
+  }
+
+  /**
+   * Get set of arg1 where R*(arg1, arg2) is true, given arg2.
+   */
+  unordered_set<T> getBySecondArg(T arg2) const override {
+    auto result = unordered_set<T>({});
+    getBySecondArgTHelper(arg2, &result);
+    return result;
+  }
+
+  /**
    * Find R*(arg1, arg2) where arg1 is in the given arg1Values and arg2
    * satisfies arg2Predicate.
    */
-  QueryResult<T, T> queryT(unordered_set<T> arg1Values,
-                           Predicate<T> arg2Predicate) const {
+  QueryResult<T, T> query(unordered_set<T> arg1Values,
+                          Predicate<T> arg2Predicate) const override {
     QueryResult<T, T> result;
     for (auto arg1 : arg1Values) {
       auto arg2Values = getByFirstArgT(arg1);
@@ -38,8 +56,8 @@ class TransitiveRelationTableManager : public RelationTableManager<T, T> {
    * Find R*(arg1, arg2) where arg2 is in the given arg2Values and arg1
    * satisfies arg1Predicate.
    */
-  QueryResult<T, T> queryT(Predicate<T> arg1Predicate,
-                           unordered_set<T> arg2Values) const {
+  QueryResult<T, T> query(Predicate<T> arg1Predicate,
+                          unordered_set<T> arg2Values) const override {
     QueryResult<T, T> result;
     for (auto arg2 : arg2Values) {
       auto arg1Values = getBySecondArgT(arg2);
@@ -55,33 +73,15 @@ class TransitiveRelationTableManager : public RelationTableManager<T, T> {
   /**
    * Find R*(arg1, arg2) given arg1 and arg2 satisfies arg2Predicate.
    */
-  QueryResult<T, T> queryT(T arg1, Predicate<T> arg2Predicate) const {
+  QueryResult<T, T> query(T arg1, Predicate<T> arg2Predicate) const override {
     return queryT(unordered_set<T>({arg1}), arg2Predicate);
   }
 
   /**
    * Find R*(arg1, arg2) given arg2 and arg1 satisfies arg1Predicate.
    */
-  QueryResult<T, T> queryT(Predicate<T> arg1Predicate, T arg2) const {
+  QueryResult<T, T> query(Predicate<T> arg1Predicate, T arg2) const override {
     return queryT(arg1Predicate, unordered_set<T>({arg2}));
-  }
-
-  /**
-   * Get set of arg2 where R*(arg1, arg2) is true, given arg1.
-   */
-  unordered_set<T> getByFirstArgT(T arg1) const {
-    auto result = unordered_set<T>({});
-    getByFirstArgTHelper(arg1, &result);
-    return result;
-  }
-
-  /**
-   * Get set of arg1 where R*(arg1, arg2) is true, given arg2.
-   */
-  unordered_set<T> getBySecondArgT(T arg2) const {
-    auto result = unordered_set<T>({});
-    getBySecondArgTHelper(arg2, &result);
-    return result;
   }
 
  private:

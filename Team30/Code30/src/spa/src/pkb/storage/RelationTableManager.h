@@ -36,12 +36,12 @@ class RelationTableManager {
   /**
    * Get set of arg2 where R(arg1, arg2) is true, given arg1 value.
    */
-  unordered_set<V> getByFirstArg(K arg1) const { return table->get(arg1); }
+  virtual unordered_set<V> getByFirstArg(K arg1) const { return table->get(arg1); }
 
   /**
    * Get set of arg1 where R(arg1, arg2) is true, given arg2 value.
    */
-  unordered_set<K> getBySecondArg(V arg2) const {
+  virtual unordered_set<K> getBySecondArg(V arg2) const {
     return reverseTable->get(arg2);
   }
 
@@ -49,7 +49,7 @@ class RelationTableManager {
    * Find R(arg1, arg2) where arg1 is in the given arg1Values and arg2 satisfies
    * arg2Predicate.
    */
-  QueryResult<K, V> query(unordered_set<K> arg1Values,
+  virtual QueryResult<K, V> query(unordered_set<K> arg1Values,
                           Predicate<V> arg2Predicate) const {
     QueryResult<K, V> result;
     for (auto arg1 : arg1Values) {
@@ -67,7 +67,7 @@ class RelationTableManager {
    * Find R(arg1, arg2) where arg2 is in the given arg2Values and arg1 satisfies
    * arg1Predicate.
    */
-  QueryResult<K, V> query(Predicate<K> arg1Predicate,
+  virtual QueryResult<K, V> query(Predicate<K> arg1Predicate,
                           unordered_set<V> arg2Values) const {
     QueryResult<K, V> result;
     for (auto arg2 : arg2Values) {
@@ -84,7 +84,7 @@ class RelationTableManager {
   /**
    * Find R(arg1, arg2) given arg1 and arg2 satisfies arg2Predicate.
    */
-  QueryResult<K, V> query(K arg1,
+  virtual QueryResult<K, V> query(K arg1,
                           Predicate<V> arg2Predicate) const {
     return query(unordered_set<K>({arg1}), arg2Predicate);
   }
@@ -92,7 +92,7 @@ class RelationTableManager {
   /**
    * Find R(arg1, arg2) given arg2 and arg1 satisfies arg1Predicate.
    */
-  QueryResult<K, V> query(Predicate<K> arg1Predicate,
+  virtual QueryResult<K, V> query(Predicate<K> arg1Predicate,
                           V arg2) const {
     return query(arg1Predicate, unordered_set<V>({arg2}));
   }

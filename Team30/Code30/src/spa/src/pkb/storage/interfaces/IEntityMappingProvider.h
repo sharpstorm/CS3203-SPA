@@ -9,7 +9,7 @@
 using std::string;
 using std::unordered_set;
 
-class IEntityMappingProvider {
+class IEntityMappingProvider: public IProvider<string, EntityType> {
  public:
   virtual ~IEntityMappingProvider() {}
   virtual unordered_set<string> getValuesOfType(EntityType) const = 0;

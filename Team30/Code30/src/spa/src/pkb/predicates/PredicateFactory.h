@@ -1,22 +1,17 @@
 #pragma once
 
 #include <string>
-#include "pkb/PkbTypes.h"
+
 #include "common/Types.h"
-#include "pkb/storage/StructureMappingProvider.h"
-#include "pkb/storage/EntityMappingProvider.h"
+#include "pkb/PkbTypes.h"
+#include "pkb/storage/interfaces/IProvider.h"
 
 using std::string;
 
 class PredicateFactory {
- private:
-  const IStructureMappingProvider *structureProvider;
-  const IEntityMappingProvider *entityProvider;
-
  public:
-  explicit PredicateFactory(const IStructureMappingProvider *,
-                            const IEntityMappingProvider *);
+  PredicateFactory();
 
-  Predicate<int> getPredicate(StmtRef) const;
-  Predicate<string> getPredicate(EntityRef) const;
+  template <typename V, typename T>
+  Predicate<V> getPredicate(IRef<T, V>*, IProvider<V, T>*) const;
 };

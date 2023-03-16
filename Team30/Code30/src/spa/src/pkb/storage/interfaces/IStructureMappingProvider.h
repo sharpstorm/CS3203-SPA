@@ -10,7 +10,7 @@
 
 using std::string, std::unordered_set, std::pair, std::function;
 
-class IStructureMappingProvider: IProvider<int, StmtType> {
+class IStructureMappingProvider: public IProvider<int, StmtType> {
  public:
   virtual ~IStructureMappingProvider() {}
   virtual unordered_set<int> getValuesOfType(StmtType) const = 0;
