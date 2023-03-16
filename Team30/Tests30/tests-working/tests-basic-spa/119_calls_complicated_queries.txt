@@ -1,0 +1,90 @@
+1 - Select BOOLEAN Calls(String, String) True (String) (String)
+
+Select BOOLEAN such that Calls("First", "Fourth")
+TRUE
+5000
+2 - Select BOOLEAN Calls(String, String) False (String) (String)
+
+Select BOOLEAN such that Calls("Fourth", "Third")
+FALSE
+5000
+3 - Select BOOLEAN Calls(String, String) False (String) (String)
+
+Select BOOLEAN such that Calls("Unknown", "Second")
+FALSE
+5000
+4 - Select Procedure Calls(Procedure, String) True (Synonym) (String)
+procedure p;
+Select p such that Calls(p, "Fourth")
+First, Second, Third, Fifth
+5000
+5 - Select Procedure Calls(Procedure, String) None (Synonym) (String) 
+procedure p;
+Select p such that Calls(p, "First")
+
+5000
+6 - Select Procedure Calls(String, Procedure) True (String) (Synonym)
+procedure p;
+Select p such that Calls("First", p)
+Second, Third, Fourth, Ninth
+5000
+7 - Select Procedure Calls(String, Procedure) None (Synonym) (String)
+procedure p;
+Select p such that Calls("Fourth", p)
+
+5000
+8 - Select Procedure Calls(Procedure, Procedure) True (Synonym) (Synonym)
+procedure p, q;
+Select p such that Calls(p, q)
+First, Second, Third, Fifth, Sixth, Ninth
+5000
+9 - Select Procedure Calls(Procedure, Wildcard) True (Synonym) (Wildcard)
+procedure p;
+Select p such that Calls(p, _)
+First, Second, Third, Fifth, Sixth, Ninth
+5000
+10 - Select Procdure Calls(Wildcard, Procedure) None (Wildcard) (Synonym)
+procedure p;
+Select p such that Calls(_, p)
+Second, Third, Fourth, Fifth, Sixth, Seventh, Ninth
+5000
+11 - Select WildCard Calls(Wildcard, Wildcard) True (Wildcard) (Wildcard)
+procedure p;
+Select p such that Calls(_, _)
+First, Second, Third, Fourth, Fifth, Sixth, Seventh, Eighth, Ninth
+5000
+12 - Select BOOLEAN Calls(Strings, Wildcard) True (String) (Wildcard)
+
+Select BOOLEAN such that Calls("First", _)
+TRUE
+5000
+13 - Select BOOLEAN Calls(Strings, Wildcard) False(String) (Wildcard)
+
+Select BOOLEAN such that Calls("Fourth", _)
+FALSE
+5000
+14 - Select BOOLEAN Calls(Wildcard, String) True (Wildcard) (String)
+
+Select BOOLEAN such that Calls(_, "Fourth")
+TRUE
+5000
+15 - Select BOOLEAN Calls(Wildcard, String) False (Wildcard) (String)
+
+Select BOOLEAN such that Calls(_, "First")
+FALSE
+5000
+16 - Select Procedure Calls(Wildcard, String) None (String) (String)
+procedure p;
+Select p such that Calls(_, "Invalid")
+
+5000
+17 - Select NEGATIVE Calls(Procedure, While) Error (Synonym) (Synonym)
+procedure p; while w;
+Select p such that Calls(p, w)
+SemanticError
+5000
+18 - Select NEGATIVE Calls(Read, Procedure) Error (Synonym) (Synonym)
+procedure p; read r1;
+Select p such that Calls(r1, p)
+SemanticError
+5000
