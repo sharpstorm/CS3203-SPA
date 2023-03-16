@@ -1,101 +1,90 @@
-1 - Select BOOLEAN Calls* (String, String) True (String) (String)
+1 - Select BOOLEAN Calls*(String, String) True (String) (String)
 
-Select BOOLEAN such that Calls* ("First", "Fourth")
+Select BOOLEAN such that Calls*("First", "Fourth")
 TRUE
 5000
-2 - Select BOOLEAN Calls* (String, String) False (String) (String)
+2 - Select BOOLEAN Calls*(String, String) False (String) (String)
 
-Select BOOLEAN such that Calls* ("Fourth", "Third")
+Select BOOLEAN such that Calls*("Fourth", "Third")
 FALSE
 5000
-3 - Select Procedure Calls* (Procedure, String) True (Synonym) (String)
-procedure p;
+3 - Select BOOLEAN Calls*(String, String) False (String) (String)
 
-Select p such that Calls* (p, "Fourth")
+Select BOOLEAN such that Calls*("Invalid", "Second")
+FALSE
+5000
+4 - Select Procedure Calls*(Procedure, String) True (Synonym) (String)
+procedure p;
+Select p such that Calls*(p, "Fourth")
 First, Second, Third
 5000
-4 - Select Procedure Calls* (Procedure, String) None (Synonym) (String) 
+5 - Select Procedure Calls*(Procedure, String) None (Synonym) (String) 
 procedure p;
-
-Select p such that Calls* (p, "First")
+Select p such that Calls*(p, "First")
 
 5000
-5 - Select Procedure Calls* (String, Procedure) True (String) (Synonym)
+6 - Select Procedure Calls*(String, Procedure) True (String) (Synonym)
 procedure p;
-
-Select p such that Calls* ("First", p)
+Select p such that Calls*("First", p)
 Second, Third, Fourth
 5000
-6 - Select Procedure Calls* (String, Procedure) None (Synonym) (String)
+7 - Select Procedure Calls*(String, Procedure) None (Synonym) (String)
 procedure p;
-
-Select p such that Calls* ("Fourth", p)
+Select p such that Calls*("Fourth", p)
 
 5000
-7 - Select Procedure Calls* (Procedure, Procedure) True (Synonym) (Synonym)
+8 - Select Procedure Calls*(Procedure, Procedure) True (Synonym) (Synonym)
 procedure p, q;
-
-Select p such that Calls* (p, q)
+Select p such that Calls*(p, q)
 First, Second, Third
 5000
-8 - Select Procedure Calls* (Procedure, Wildcard) True (Synonym) (Wildcard)
+9 - Select Procedure Calls*(Procedure, Wildcard) True (Synonym) (Wildcard)
 procedure p;
-
-Select p such that Calls* (p, _)
+Select p such that Calls*(p, _)
 First, Second, Third
 5000
-9 - Select Procdure Calls* (Wildcard, Procedure) None (Wildcard) (Synonym)
+10 - Select Procdure Calls*(Wildcard, Procedure) None (Wildcard) (Synonym)
 procedure p;
-
-Select p such that Calls* (_, p)
+Select p such that Calls*(_, p)
 Second, Third, Fourth
 5000
-10 - Select WildCard Calls* (Wildcard, Wildcard) True (Wildcard) (Wildcard)
+11 - Select WildCard Calls*(Wildcard, Wildcard) True (Wildcard) (Wildcard)
 procedure p;
-
-Select p such that Calls* (_, _)
+Select p such that Calls*(_, _)
 First, Second, Third, Fourth
 5000
-11 - Select BOOLEAN Calls* (Strings, Wildcard) True (String) (Wildcard)
+12 - Select BOOLEAN Calls*(Strings, Wildcard) True (String) (Wildcard)
 
-Select BOOLEAN such that Calls* ("First", _)
+Select BOOLEAN such that Calls*("First", _)
 TRUE
 5000
-12 - Select BOOLEAN Calls* (Strings, Wildcard) False(String) (Wildcard)
+13 - Select BOOLEAN Calls*(Strings, Wildcard) False(String) (Wildcard)
 
-Select BOOLEAN such that Calls* ("Fourth", _)
+Select BOOLEAN such that Calls*("Fourth", _)
 FALSE
 5000
-13 - Select BOOLEAN Calls* (Wildcard, String) True (Wildcard) (String)
+14 - Select BOOLEAN Calls*(Wildcard, String) True (Wildcard) (String)
 
-Select p such that Calls* (_, "Fourth")
+Select BOOLEAN such that Calls*(_, "Fourth")
 TRUE
 5000
-14 - Select BOOLEAN Calls* (Wildcard, String) False (Wildcard) (String)
+15 - Select BOOLEAN Calls*(Wildcard, String) False (Wildcard) (String)
 
-Select p such that Calls* (_, "First")
+Select BOOLEAN such that Calls*(_, "First")
 FALSE
 5000
-15 - Select Procedure Calls* (Wildcard, String) None (String) (String)
+16 - Select Procedure Calls*(Wildcard, String) None (String) (String)
 procedure p;
-
-Select p such that Calls* (_, "Invalid")
+Select p such that Calls*(_, "Invalid")
 
 5000
-16 - Select NEGATIVE Calls* (String, String) Error (String) (String)
-
-Select BOOLEAN such that Calls* ("Invalid", "Second")
-SemanticError
-5000
-17 - Select NEGATIVE Calls* (Procedure, While) Error (Synonym) (Synonym)
+17 - Select NEGATIVE Calls*(Procedure, While) Error (Synonym) (Synonym)
 procedure p; while w;
-
-Select p such that Calls* (p, w)
+Select p such that Calls*(p, w)
 SemanticError
 5000
-18 - Select NEGATIVE Calls* (Read, Procedure) Error (Synonym) (Synonym)
+18 - Select NEGATIVE Calls*(Read, Procedure) Error (Synonym) (Synonym)
 procedure p; read r1;
-
-Select p such that Calls* (r1, p)
+Select p such that Calls*(r1, p)
 SemanticError
 5000

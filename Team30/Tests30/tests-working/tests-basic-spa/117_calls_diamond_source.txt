@@ -28,8 +28,10 @@ procedure Second {
 procedure Third {
     z = 5;
     v = z;
-    if (z == 5) {
+    if (z == 5) then {
         call Fourth;
+    } else {
+        print z;
     }   
     print v; 
 }  
