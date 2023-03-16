@@ -88,3 +88,33 @@ procedure p; read r1;
 Select p such that Calls*(r1, p)
 SemanticError
 5000
+19 - Select NEGATIVE Calls* (Print, Print) Error (Synonym) (Synonym)
+print pr;
+Select pr such that Calls*(pr, pr)
+SemanticError
+5000
+20 - Select NEGATIVE Calls* (Ifs, Ifs) Error (Synonym) (Synonym)
+if ifs;
+Select ifs such that Calls*(ifs, ifs)
+SemanticError
+5000
+21 - Select NEGATIVE Calls* (Constant, Constant) Error (Constant) (Constant)
+procedure p;
+Select p such that Calls*(0, 100)
+SyntaxError
+5000
+22 - Select NEGATIVE Calls* (Constant, WildCard) Error (Constant) (WildCard)
+procedure p; constant c;
+Select p such that Calls*(c, _)
+SemanticError
+5000
+23 - Select NEGATIVE Calls* (Constant, WildCard) Error (Constant) (WildCard)
+constant c;
+Select c such that Calls*(c, _)
+SemanticError
+5000
+24 - Select NEGATIVE Calls* (WildCard, Constant) Error (WildCard) (Synonym)
+constant c;
+Select c such that Calls*(_, c)
+SemanticError
+5000
