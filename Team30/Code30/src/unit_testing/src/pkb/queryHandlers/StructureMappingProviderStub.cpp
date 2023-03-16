@@ -33,3 +33,8 @@ unordered_set<int> StructureMappingProviderStub::getCallStmtsOfProcedure(
     string procedureName) const {
   return CalledProcedureToStmtNum.get(procedureName);
 }
+
+bool StructureMappingProviderStub::isStatementOfType(StmtType stmtType,
+                                                     int lineNumber) const {
+  return stmtNumToType.get(lineNumber) == stmtType;
+}

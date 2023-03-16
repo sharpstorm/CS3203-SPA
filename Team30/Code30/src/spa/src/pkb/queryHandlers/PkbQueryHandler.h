@@ -40,6 +40,9 @@ class PkbQueryHandler : public IPkbQueryHandler {
   unordered_set<int> getIndexOfVariable(string) const override;
   unordered_set<int> getIndexOfConstant(string) const override;
   vector<CFG*> queryCFGs(StmtRef) const override;
+  bool isStatementOfType(StmtType, int) const override;
+  bool isSymbolOfType(EntityType, string) const override;
+  string getCalledDeclaration(int) const override;
 
  private:
   unique_ptr<IFollowsQueryHandler> followsHandler;

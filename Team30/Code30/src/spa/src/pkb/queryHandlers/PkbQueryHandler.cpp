@@ -136,3 +136,17 @@ QueryResult<int, string> PkbQueryHandler::queryWhilePattern(
 vector<CFG*> PkbQueryHandler::queryCFGs(StmtRef arg1) const {
   return cfgsHandler->queryCFGs(arg1);
 }
+
+bool PkbQueryHandler::isStatementOfType(StmtType stmtType,
+                                                   int stmtNo) const {
+  return designEntityHandler->isStatementOfType(stmtType, stmtNo);
+}
+
+bool PkbQueryHandler::isSymbolOfType(EntityType entityType,
+                                                string name) const {
+  return designEntityHandler->isSymbolOfType(entityType, name);
+}
+
+string PkbQueryHandler::getCalledDeclaration(int callStmt) const {
+  return designEntityHandler->getCalledDeclaration(callStmt);
+}

@@ -38,3 +38,16 @@ unordered_set<int> EntityMappingProvider::getIndexOfConstant(
     string name) const {
   return constantStorage->getByValue(name);
 }
+
+bool EntityMappingProvider::isSymbolOfType(EntityType entityType,
+                                           string name) const {
+  if (entityType == EntityType::Variable) {
+    return !variableStorage->getByValue(name).empty();
+  } else if (entityType == EntityType::Constant) {
+    return !constantStorage->getByValue(name).empty();
+  } else if (entityType == EntityType::Procedure) {
+    return !procedureStorage->getByValue(name).empty();
+  } else {
+    return false;
+  }
+}
