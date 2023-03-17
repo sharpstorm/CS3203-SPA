@@ -22,8 +22,3 @@ bool AbstractTwoArgClause::isSameSynonym() {
   return left->isNamed() && right->isNamed()
       && left->getName() == right->getName();
 }
-
-bool AbstractTwoArgClause::canSubstitute(OverrideTable* table,
-                                         PQLSynonymName synName) {
-  return table->find(synName) != table->end();
-}

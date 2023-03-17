@@ -24,8 +24,7 @@ class AbstractPatternClause: public PatternClause {
                              OverrideTable* table) {
     StmtRef leftStatement = {StatementType, 0};
     EntityRef leftVar = leftArg->toEntityRef();
-    if (leftArg->isNamed() &&
-        (table->find(leftArg->getName()) != table->end())) {
+    if (canSubstitute(table, leftArg.get())) {
       OverrideTransformer overrideTrans = table->at(leftArg->getName());
       leftVar = overrideTrans.transformArg(leftVar);
     }

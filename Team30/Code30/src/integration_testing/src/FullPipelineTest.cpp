@@ -226,6 +226,9 @@ TEST_CASE("End-to-End Assign Pattern Test") {
   pipeline.query("assign a; Select a pattern a (\"x\", _\"1\"_)",
                  {"5"});
 
+  pipeline.query("assign a; variable v; Select a pattern a (v, _\"1\"_) with v.varName = \"x\"",
+                 {"5"});
+
   pipeline.query("assign a; Select a pattern a (\"y\", _\"x\"_)",
                  {"8"});
 
@@ -275,7 +278,13 @@ TEST_CASE("End-to-End If Pattern Test") {
   pipeline.query("if ifs; Select ifs pattern ifs (\"x\", _)",
                  {"6"});
 
+  pipeline.query("if ifs; variable v; Select ifs pattern ifs (v, _) with v.varName = \"x\"",
+                 {"6"});
+
   pipeline.query("if ifs; Select ifs pattern ifs (\"y\", _)",
+                 {});
+
+  pipeline.query("if ifs; variable v; Select ifs pattern ifs (v, _) with v.varName = \"y\"",
                  {});
 
   pipeline.query("if ifs; variable v; Select <v, ifs> pattern ifs (v, _)",
@@ -291,7 +300,13 @@ TEST_CASE("End-to-End While Pattern Test") {
   pipeline.query("while while; Select while pattern while (\"i\", _, _)",
                  {"4"});
 
+  pipeline.query("while while; variable v; Select while pattern while (v, _, _) with v.varName = \"i\"",
+                 {"4"});
+
   pipeline.query("while while; Select while pattern while (\"x\", _, _)",
+                 {});
+
+  pipeline.query("while while; variable v; Select while pattern while (v, _, _) with v.varName =\"x\"",
                  {});
 
   pipeline.query("while while; variable v; Select <v, while> pattern while (v, _, _)",
@@ -372,6 +387,19 @@ TEST_CASE("End-to-End Next Test") {
 
   pipeline.query("assign a1; Select <a1, a1> such that Next*(a1, a1)",
                  {"5 5", "7 7", "8 8", "9 9", "11 11"});
+}
+
+TEST_CASE("With Clause Tests - Cat 1 (static = static)") {
+  auto pipeline = TestPipelineProvider();
+
+  pipeline.query("Select BOOLEAN with 1 = 1", {"TRUE"});
+  pipeline.query("variable v; Select v with 1 = 1", {"x", "z", "i", "y"});
+
+  pipeline.query("Select BOOLEAN with 1 = 2", {"FALSE"});
+  pipeline.query("variable v; Select v with 1 = 2", {});
+
+  pipeline.query("Select BOOLEAN with \"foo\" = \"foo\"", {"TRUE"});
+  pipeline.query("variable v; Select v with \"foo\" = \"foo\"", {"x", "z", "i", "y"});
 }
 
 TEST_CASE("Out of Bounds Statement") {

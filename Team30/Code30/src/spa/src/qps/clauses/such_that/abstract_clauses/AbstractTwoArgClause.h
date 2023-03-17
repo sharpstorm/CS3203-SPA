@@ -16,7 +16,6 @@ class AbstractTwoArgClause: public SuchThatClause {
   ClauseArgumentPtr right;
 
   bool isSameSynonym();
-  bool canSubstitute(OverrideTable* table, PQLSynonymName synName);
 
   template <
       typename LeftResultType, typename LeftArgType,
@@ -36,12 +35,12 @@ class AbstractTwoArgClause: public SuchThatClause {
 
     LeftArgType leftArg = leftTransformer(left.get());
     RightArgType rightArg = rightTransformer(right.get());
-    if (left->isNamed() && canSubstitute(table, left->getName())) {
+    if (canSubstitute(table, left.get())) {
       OverrideTransformer overrideTrans = table->at(left->getName());
       leftArg = overrideTrans.transformArg(leftArg);
     }
 
-    if (right->isNamed() && canSubstitute(table, right->getName())) {
+    if (canSubstitute(table, right.get())) {
       OverrideTransformer overrideTrans = table->at(right->getName());
       rightArg = overrideTrans.transformArg(rightArg);
     }

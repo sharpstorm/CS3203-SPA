@@ -22,6 +22,14 @@ class Clause : public IEvaluatable {
     return arg->toStmtRef();
   }
 
+  static bool canSubstitute(OverrideTable* table,ClauseArgument* arg) {
+    if (!arg->isNamed()) {
+      return false;
+    }
+
+    return table->find(arg->getName()) != table->end();
+  }
+
   template<class T, class U>
   static PQLQueryResult *toQueryResult(ClauseArgument* left,
                                        ClauseArgument* right,
