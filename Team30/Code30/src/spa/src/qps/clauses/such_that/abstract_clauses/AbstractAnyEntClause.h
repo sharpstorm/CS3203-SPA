@@ -27,7 +27,8 @@ class AbstractAnyEntClause : public AbstractTwoArgClause {
         leftValidator, rightValidator>(table);
   }
 
-  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler, OverrideTable* table) override {
+  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler,
+                             OverrideTable* table) override {
     if (left->isWildcard()) {
       throw QPSParserSemanticError(QPS_PARSER_ERR_INVALID_WILDCARD);
     }
@@ -51,7 +52,8 @@ class AbstractAnyEntClause : public AbstractTwoArgClause {
                                               Clause::toStmtRef,
                                               Clause::toEntityRef,
                                               stmtInvoker,
-                                              dummyInvoker>(pkbQueryHandler, table);
+                                              dummyInvoker>
+                                              (pkbQueryHandler, table);
     } else {
       constexpr SymmetricQueryInvoker<EntityValue, EntityRef> dummyInvoker =
           [](PkbQueryHandler* pkbQueryHandler, OverrideTable* table,
@@ -63,7 +65,8 @@ class AbstractAnyEntClause : public AbstractTwoArgClause {
                                               Clause::toEntityRef,
                                               Clause::toEntityRef,
                                               entInvoker,
-                                              dummyInvoker>(pkbQueryHandler, table);
+                                              dummyInvoker>
+                                              (pkbQueryHandler, table);
     }
   }
 };

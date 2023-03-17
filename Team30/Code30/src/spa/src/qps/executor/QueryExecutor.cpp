@@ -11,7 +11,6 @@ QueryExecutor::QueryExecutor(PkbQueryHandler* pkbQH):
 }
 
 SynonymResultTable *QueryExecutor::executeQuery(PQLQuery* query) {
-  // TODO(WeiXin): Move this if necessary
   OverrideTablePtr overrideTable = make_unique<OverrideTable>();
   bool isBoolResult = query->getResultVariables()->empty();
   for (const auto& con : query->getConstraints()) {

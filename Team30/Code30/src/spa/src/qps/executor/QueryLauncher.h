@@ -8,6 +8,5 @@ class QueryLauncher {
   PkbQueryHandler* pkbQueryHandler;
  public:
   explicit QueryLauncher(PkbQueryHandler* pkbQH);
-//  PQLQueryResult* execute(IEvaluatable* evaluatable);
   PQLQueryResult* execute(IEvaluatable* evaluatable, OverrideTable * table);
 };

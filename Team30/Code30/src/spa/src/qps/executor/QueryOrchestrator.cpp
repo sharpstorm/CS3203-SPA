@@ -11,7 +11,6 @@ QueryOrchestrator::QueryOrchestrator(QueryLauncher launcher) :
 }
 
 // Executes every group in the QueryPlan (NEW IMPLEMENTATION)
-//SynonymResultTable *QueryOrchestrator::execute(QueryPlan *plan) {
 SynonymResultTable *QueryOrchestrator::execute(
     QueryPlan *plan, OverrideTable* overrideTable) {
   bool isBool = plan->isBooleanQuery();
@@ -47,7 +46,6 @@ SynonymResultTable *QueryOrchestrator::execute(
 }
 
 // Executes each clause in the QueryGroupPlan
-//PQLQueryResult *QueryOrchestrator::executeGroup(QueryGroupPlan *plan) {
 PQLQueryResult *QueryOrchestrator::executeGroup(
     QueryGroupPlan *plan, OverrideTable* overrideTable) {
   vector<IEvaluatableSPtr> executables = plan->getConditionalClauses();

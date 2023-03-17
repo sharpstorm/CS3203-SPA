@@ -17,13 +17,11 @@ using std::vector, std::unique_ptr;
 class QueryOrchestrator {
  public:
   explicit QueryOrchestrator(QueryLauncher launcher);
-//  SynonymResultTable* execute(QueryPlan* plan);
   SynonymResultTable* execute(QueryPlan* plan, OverrideTable* table);
 
  private:
   QueryLauncher launcher;
   ResultCoalescer coalescer;
 
-//  PQLQueryResult* executeGroup(QueryGroupPlan* plan);
   PQLQueryResult* executeGroup(QueryGroupPlan* plan, OverrideTable* table);
 };
