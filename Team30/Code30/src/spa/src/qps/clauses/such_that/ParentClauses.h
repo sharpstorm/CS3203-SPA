@@ -17,19 +17,21 @@ using AbstractParentClause = AbstractStmtStmtClause<
     ClauseArgument::isStatement>;
 
 constexpr ParentInvoker parentInvoker = [](PkbQueryHandler* pkbQueryHandler,
+                                           OverrideTable * table,
                                            const StmtRef &leftArg,
                                            const StmtRef &rightArg){
   return pkbQueryHandler->queryParent(leftArg, rightArg);
 };
 
 constexpr ParentInvoker parentTInvoker = [](PkbQueryHandler* pkbQueryHandler,
+                                            OverrideTable * table,
                                             const StmtRef &leftArg,
                                             const StmtRef &rightArg){
   return pkbQueryHandler->queryParentStar(leftArg, rightArg);
 };
 
 constexpr ParentSameSynInvoker parentSymmetricInvoker =
-    [](PkbQueryHandler* pkbQueryHandler,
+    [](PkbQueryHandler* pkbQueryHandler, OverrideTable * table,
        const StmtRef &arg){
       return unordered_set<StmtValue>{};
     };

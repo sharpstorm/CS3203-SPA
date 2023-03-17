@@ -13,7 +13,8 @@ AssignPatternClause::AssignPatternClause(const PQLQuerySynonym &assignSynonym,
     rightArgument(std::move(rightArg)) {}
 
 PQLQueryResult *AssignPatternClause::evaluateOn(
-    PkbQueryHandler* pkbQueryHandler) {
+//    PkbQueryHandler* pkbQueryHandler) {
+  PkbQueryHandler* pkbQueryHandler, OverrideTable* table) {
   StmtRef leftStatement = {StmtType::Assign, 0};
   EntityRef rightVariable = leftArg->toEntityRef();
   QueryResult<int, string> modifiesResult =

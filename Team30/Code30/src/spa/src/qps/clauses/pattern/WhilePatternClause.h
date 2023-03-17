@@ -8,7 +8,7 @@ class WhilePatternClause: public PatternClause {
  public:
   explicit WhilePatternClause(const PQLQuerySynonym &whileSynonym,
                               ClauseArgumentPtr leftArg);
-  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler) override;
+  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler, OverrideTable*) override;
 
  private:
   PQLQuerySynonym whileSynonym;

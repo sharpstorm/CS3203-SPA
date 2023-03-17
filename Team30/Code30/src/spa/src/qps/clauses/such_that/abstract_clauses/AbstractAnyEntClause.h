@@ -27,7 +27,7 @@ class AbstractAnyEntClause : public AbstractTwoArgClause {
         leftValidator, rightValidator>(table);
   }
 
-  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler) override {
+  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler, OverrideTable* table) override {
     if (left->isWildcard()) {
       throw QPSParserSemanticError(QPS_PARSER_ERR_INVALID_WILDCARD);
     }
@@ -42,7 +42,7 @@ class AbstractAnyEntClause : public AbstractTwoArgClause {
 
     if (isLeftStatement) {
       constexpr SymmetricQueryInvoker<StmtValue, StmtRef> dummyInvoker =
-          [](PkbQueryHandler* pkbQueryHandler,
+          [](PkbQueryHandler* pkbQueryHandler, OverrideTable* table,
              const StmtRef &arg) -> unordered_set<StmtValue> {
         return unordered_set<StmtValue>{};
       };
@@ -51,10 +51,10 @@ class AbstractAnyEntClause : public AbstractTwoArgClause {
                                               Clause::toStmtRef,
                                               Clause::toEntityRef,
                                               stmtInvoker,
-                                              dummyInvoker>(pkbQueryHandler);
+                                              dummyInvoker>(pkbQueryHandler, table);
     } else {
       constexpr SymmetricQueryInvoker<EntityValue, EntityRef> dummyInvoker =
-          [](PkbQueryHandler* pkbQueryHandler,
+          [](PkbQueryHandler* pkbQueryHandler, OverrideTable* table,
              const EntityRef &arg) -> unordered_set<EntityValue> {
             return unordered_set<EntityValue>{};
           };
@@ -63,7 +63,7 @@ class AbstractAnyEntClause : public AbstractTwoArgClause {
                                               Clause::toEntityRef,
                                               Clause::toEntityRef,
                                               entInvoker,
-                                              dummyInvoker>(pkbQueryHandler);
+                                              dummyInvoker>(pkbQueryHandler, table);
     }
   }
 };

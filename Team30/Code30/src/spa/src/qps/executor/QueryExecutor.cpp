@@ -21,5 +21,5 @@ SynonymResultTable *QueryExecutor::executeQuery(PQLQuery* query) {
   }
 
   QueryPlanPtr plan = planner.getExecutionPlan(query);
-  return orchestrator.execute(plan.get());
+  return orchestrator.execute(plan.get(), overrideTable.get());
 }

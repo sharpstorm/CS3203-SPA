@@ -10,6 +10,7 @@ typedef EntEntInvoker ModifiesPInvoker;
 
 constexpr ModifiesSInvoker modifiesSInvoker = [](
     PkbQueryHandler* pkbQueryHandler,
+    OverrideTable* table,
     const StmtRef &leftArg,
     const EntityRef &rightArg){
   return pkbQueryHandler->queryModifies(leftArg, rightArg);
@@ -17,6 +18,7 @@ constexpr ModifiesSInvoker modifiesSInvoker = [](
 
 constexpr ModifiesPInvoker modifiesPInvoker = [](
     PkbQueryHandler* pkbQueryHandler,
+    OverrideTable* table,
     const EntityRef &leftArg,
     const EntityRef &rightArg){
   return pkbQueryHandler->queryModifies(leftArg, rightArg);

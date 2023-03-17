@@ -8,7 +8,7 @@ class IfPatternClause: public PatternClause {
  public:
   explicit IfPatternClause(const PQLQuerySynonym &ifSynonym,
                            ClauseArgumentPtr leftArg);
-  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler) override;
+  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler, OverrideTable* table) override;
 
  private:
   PQLQuerySynonym ifSynonym;
