@@ -37,3 +37,17 @@ unordered_set<int> DesignEntitiesQueryHandler::getIndexOfConstant(
     string name) const {
   return entityMappingProvider->getIndexOfConstant(name);
 }
+
+bool DesignEntitiesQueryHandler::isStatementOfType(StmtType stmtType,
+                                                   int stmtNo) const {
+  return structureMappingProvider->isStatementOfType(stmtType, stmtNo);
+}
+
+bool DesignEntitiesQueryHandler::isSymbolOfType(EntityType entityType,
+                                                string name) const {
+  return entityMappingProvider->isSymbolOfType(entityType, name);
+}
+
+string DesignEntitiesQueryHandler::getCalledDeclaration(int callStmt) const {
+  return structureMappingProvider->getCalledProcedure(callStmt);
+}

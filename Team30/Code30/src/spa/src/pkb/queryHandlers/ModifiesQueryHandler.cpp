@@ -1,5 +1,6 @@
-#include <string>
 #include "ModifiesQueryHandler.h"
+
+#include <string>
 
 using std::string;
 
@@ -20,8 +21,8 @@ bool ModifiesQueryHandler::validateArg1(StmtRef arg) const {
 }
 
 bool ModifiesQueryHandler::validateArg1(EntityRef arg) const {
-  return arg.type == EntityType::Procedure
-      || (arg.type == EntityType::None && arg.isKnown());
+  return arg.type == EntityType::Procedure ||
+         (arg.type == EntityType::None && arg.isKnown());
 }
 
 bool ModifiesQueryHandler::validateArg2(EntityRef arg) const {
@@ -61,5 +62,13 @@ QueryResult<string, string> ModifiesQueryHandler::queryModifies(
     return modifiesPStorage->query(
         entitiesProvider->getSymbolsOfType(EntityType::Procedure),
         predicateFactory->getPredicate(arg2));
+  }
+}
+
+string ModifiesQueryHandler::getReadDeclarations(int readStmt) const {
+  if (modifiesStorage->getByFirstArg(readStmt).empty()) {
+    return "";
+  } else {
+    return *modifiesStorage->getByFirstArg(readStmt).begin();
   }
 }

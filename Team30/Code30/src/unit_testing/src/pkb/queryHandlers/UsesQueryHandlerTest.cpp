@@ -390,3 +390,15 @@ TEST_CASE("UsesQueryHandler Uses(type, type)") {
                                         {EntityType::Variable, ""});
   REQUIRE(result2.isEmpty == true);
 }
+
+// printDeclaration
+TEST_CASE("UsesQueryHandler getPrintDeclarations(printStmt)") {
+  auto test = usesTestInit();
+  test.table->set(1, "x");
+  test.table->set(2, "x");
+  test.table->set(3, "z");
+  test.table->set(4, "y");
+  test.table->set(5, "test");
+
+  REQUIRE(test.handler.getPrintDeclarations(5) == "test");
+}
