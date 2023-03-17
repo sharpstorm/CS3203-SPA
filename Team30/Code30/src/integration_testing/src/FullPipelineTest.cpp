@@ -373,3 +373,53 @@ TEST_CASE("End-to-End Next Test") {
   pipeline.query("assign a1; Select <a1, a1> such that Next*(a1, a1)",
                  {"5 5", "7 7", "8 8", "9 9", "11 11"});
 }
+
+TEST_CASE("Out of Bounds Statement") {
+  auto pipeline = TestPipelineProvider();
+
+  pipeline.query("stmt r; Select r such that Follows(99, 100)",
+                 {});
+  pipeline.query("stmt r; Select r such that Follows(r, 100)",
+                 {});
+  pipeline.query("stmt r; Select r such that Follows(100, r)",
+                 {});
+
+  pipeline.query("stmt r; Select r such that Follows*(99, 100)",
+                 {});
+  pipeline.query("stmt r; Select r such that Follows*(r, 100)",
+                 {});
+  pipeline.query("stmt r; Select r such that Follows*(100, r)",
+                 {});
+
+  pipeline.query("stmt r; Select r such that Parent(99, 100)",
+                 {});
+  pipeline.query("stmt r; Select r such that Parent(r, 100)",
+                 {});
+  pipeline.query("stmt r; Select r such that Parent(100, r)",
+                 {});
+
+  pipeline.query("stmt r; Select r such that Parent*(99, 100)",
+                 {});
+  pipeline.query("stmt r; Select r such that Parent*(r, 100)",
+                 {});
+  pipeline.query("stmt r; Select r such that Parent*(100, r)",
+                 {});
+
+  pipeline.query("stmt r; Select r such that Uses(99, _)",
+                 {});
+  pipeline.query("stmt r; Select r such that Modifies(99, _)",
+                 {});
+
+  pipeline.query("stmt r; Select r such that Next(99, 100)",
+                 {});
+  pipeline.query("stmt r; Select r such that Next(r, 100)",
+                 {});
+  pipeline.query("stmt r; Select r such that Next(100, r)",
+                 {});
+  pipeline.query("stmt r; Select r such that Next*(98, 100)",
+                 {});
+  pipeline.query("stmt r; Select r such that Next*(r, 100)",
+                 {});
+  pipeline.query("stmt r; Select r such that Next*(100, r)",
+                 {});
+}
