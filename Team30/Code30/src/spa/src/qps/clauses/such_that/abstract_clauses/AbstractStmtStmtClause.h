@@ -2,7 +2,7 @@
 
 #include <utility>
 
-#include "InvokerTypes.h"
+#include "qps/clauses/InvokerTypes.h"
 #include "AbstractTwoArgClause.h"
 
 template <

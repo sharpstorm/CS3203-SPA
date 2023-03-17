@@ -5,7 +5,7 @@
 #include "qps/clauses/arguments/ClauseArgument.h"
 #include "common/Types.h"
 #include "qps/clauses/Clause.h"
-#include "InvokerTypes.h"
+#include "qps/clauses/InvokerTypes.h"
 #include "qps/clauses/SuchThatClause.h"
 
 using std::unordered_set;

@@ -4,7 +4,7 @@
 #include <unordered_set>
 
 #include "qps/errors/QPSParserSemanticError.h"
-#include "InvokerTypes.h"
+#include "qps/clauses/InvokerTypes.h"
 #include "AbstractTwoArgClause.h"
 
 template <
