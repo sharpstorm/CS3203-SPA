@@ -395,7 +395,7 @@ TEST_CASE("End-to-End Next Test") {
 TEST_CASE("With Clause Tests - Cat 1 (static = static)") {
   auto pipeline = TestPipelineProvider();
 
-//  pipeline.query("Select BOOLEAN with 1 = 1", {"TRUE"});
+  pipeline.query("Select BOOLEAN with 1 = 1", {"TRUE"});
   pipeline.query("variable v; Select v with 1 = 1", {"x", "z", "i", "y"});
 
   pipeline.query("Select BOOLEAN with 1 = 2", {"FALSE"});
@@ -479,4 +479,29 @@ TEST_CASE("Out of Bounds Statement") {
                  {});
   pipeline.query("stmt r; Select r such that Next*(100, r)",
                  {});
+}
+
+TEST_CASE("End-to-End Attribute Projection Test") {
+  auto pipeline = TestPipelineProvider();
+
+  // stmt#
+  pipeline.query("assign a; Select a.stmt#", {"1", "2", "3", "5", "7", "8", "9", "11", "12"});
+  pipeline.query("if a; Select a.stmt#", {"6"});
+  pipeline.query("while a; Select a.stmt#", {"4"});
+  pipeline.query("call a; Select a.stmt#", {});
+  pipeline.query("print a; Select a.stmt#", {});
+  pipeline.query("read a; Select a.stmt#", {"10"});
+  pipeline.query("stmt a; Select a.stmt#", {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"});
+
+  // procName
+  pipeline.query("procedure p; Select p.procName", {"Example"});
+  pipeline.query("call p; Select p.procName", {});
+
+  // varName
+  pipeline.query("variable v; Select v.varName", {"x", "z", "i", "y"});
+  pipeline.query("read v; Select v.varName", {"x"});
+  pipeline.query("print v; Select v.varName", {});
+
+  // value
+  pipeline.query("constant c; Select c.value", {"2", "3", "5", "1", "0"});
 }
