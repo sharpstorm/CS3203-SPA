@@ -6,6 +6,7 @@
 #include <vector>
 #include "qps/common/PQLQueryResult.h"
 #include "qps/common/AttributedSynonym.h"
+#include "qps/common/constraint/Constraint.h"
 
 using std::unordered_map, std::unique_ptr, std::string, std::vector;
 
@@ -13,6 +14,9 @@ class ResultGroup {
   QueryResultTable groupTable;
   unordered_map<PQLSynonymName, ResultTableCol> colMap;
   vector<PQLSynonymName> colIdx;
+  string projectAttributeValue(PkbQueryHandler* handler,
+                               QueryResultItem* item,
+                               AttributedSynonym syn);
 
  public:
   ResultGroup() = default;
@@ -25,8 +29,13 @@ class ResultGroup {
   vector<PQLSynonymName>* getColIndexes();
   ResultGroup* crossProduct(ResultGroup* other);
   void project(AttributedSynonymList* synList,
+               OverrideTable* overridetable,
                PkbQueryHandler* handler,
                vector<string>* result);
+  bool isSameValues(AttributedSynonym syn,
+      PkbQueryHandler* handler,
+                    QueryResultItem* item,
+                    OverrideTransformer trans);
   bool operator ==(const ResultGroup &rg) const;
 };
 

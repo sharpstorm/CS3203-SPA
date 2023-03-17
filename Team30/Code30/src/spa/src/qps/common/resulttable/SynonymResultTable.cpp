@@ -2,13 +2,13 @@
 #include <utility>
 
 #include "SynonymResultTable.h"
-#include "qps/executor/ResultCoalescer.h"
 
 using std::make_unique;
 
 SynonymResultTable::SynonymResultTable(bool isBooleanResult,
                                        bool booleanResult) :
-    isBooleanResult(isBooleanResult), booleanResult(booleanResult) { }
+    isBooleanResult(isBooleanResult),
+    booleanResult(booleanResult) { }
 
 void SynonymResultTable::addResultGroup(ResultGroupPtr rg) {
   groupResults.push_back(std::move(rg));
@@ -28,6 +28,15 @@ int SynonymResultTable::getResultGroupCount() {
 ResultGroup* SynonymResultTable::getResultGroup(int idx) {
   return groupResults.at(idx).get();
 }
+
+void SynonymResultTable::setOverrideTable(OverrideTablePtr overrideTab) {
+  overrideTable = std::move(overrideTab);
+}
+
+OverrideTable *SynonymResultTable::getOverrideTable() {
+  return overrideTable.get();
+}
+
 bool SynonymResultTable::operator==(const SynonymResultTable &srt) const {
   if (booleanResult != srt.booleanResult ||
       groupResults.size() != srt.groupResults.size()) {

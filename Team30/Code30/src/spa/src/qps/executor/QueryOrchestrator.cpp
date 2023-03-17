@@ -4,15 +4,15 @@
 #include "QueryOrchestrator.h"
 #include "qps/common/resulttable/ResultGroupFactory.h"
 
-using std::make_unique, std::move;
+using std::make_unique;
 
 QueryOrchestrator::QueryOrchestrator(QueryLauncher launcher) :
     launcher(launcher) {
 }
 
-// Executes every group in the QueryPlan (NEW IMPLEMENTATION)
+// Executes every group in the QueryPlan
 SynonymResultTable *QueryOrchestrator::execute(
-    QueryPlan *plan, OverrideTable* overrideTable) {
+    QueryPlan *plan, OverrideTablePtr overrideTable) {
   bool isBool = plan->isBooleanQuery();
   if (plan->isEmpty()) {
     return new SynonymResultTable(isBool, false);
@@ -21,7 +21,7 @@ SynonymResultTable *QueryOrchestrator::execute(
   SynonymResultTable* resultTable = new SynonymResultTable(isBool, true);
   for (int i = 0; i < plan->getGroupCount(); i++) {
     QueryGroupPlan* targetGroup = plan->getGroup(i);
-    PQLQueryResult* result = executeGroup(targetGroup, overrideTable);
+    PQLQueryResult* result = executeGroup(targetGroup, overrideTable.get());
 
     // If any of the result is empty, return FALSE / EmptyResultTable
     if (result->isFalse()) {
@@ -42,6 +42,7 @@ SynonymResultTable *QueryOrchestrator::execute(
     delete result;
   }
 
+  resultTable->setOverrideTable(std::move(overrideTable));
   return resultTable;
 }
 

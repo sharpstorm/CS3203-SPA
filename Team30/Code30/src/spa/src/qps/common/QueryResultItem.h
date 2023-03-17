@@ -20,6 +20,7 @@ class QueryResultItem {
   string getEntRef();
   int getStmtRef();
   string project();
+  bool returnsInteger();
   bool operator==(const QueryResultItem& other) const;
   bool operator!=(const QueryResultItem& other) const;
 

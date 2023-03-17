@@ -31,3 +31,7 @@ string QueryResultItem::getEntRef() {
 int QueryResultItem::getStmtRef() {
   return stmtRef;
 }
+
+bool QueryResultItem::returnsInteger() {
+  return stmtRef != NO_STMT_REF;
+}

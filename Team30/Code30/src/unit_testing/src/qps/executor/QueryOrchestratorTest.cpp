@@ -59,7 +59,7 @@ TEST_CASE("Queries with Select only") {
     auto queryPlan = make_unique<QueryPlan>(std::move(groups));
     auto targetSyns = make_unique<AttributedSynonymList>(AttributedSynonymList ({attrSyn}));
     OverrideTablePtr override = make_unique<OverrideTable>();
-    actualResult = unique_ptr<SynonymResultTable>(orchestrator.execute(queryPlan.get(), override.get()));
+    actualResult = unique_ptr<SynonymResultTable>(orchestrator.execute(queryPlan.get(), std::move(override)));
     REQUIRE(*expectedResult == *actualResult);
   }
 
@@ -89,7 +89,7 @@ TEST_CASE("Queries with Select only") {
     auto queryPlan = make_unique<QueryPlan>(std::move(groups));
     auto targetSyns = make_unique<AttributedSynonymList>(AttributedSynonymList ({attrSyn}));
     OverrideTablePtr override = make_unique<OverrideTable>();
-    actualResult = unique_ptr<SynonymResultTable>(orchestrator.execute(queryPlan.get(), override.get()));
+    actualResult = unique_ptr<SynonymResultTable>(orchestrator.execute(queryPlan.get(), std::move(override)));
     REQUIRE(*expectedResult == *actualResult);
   }
 }
