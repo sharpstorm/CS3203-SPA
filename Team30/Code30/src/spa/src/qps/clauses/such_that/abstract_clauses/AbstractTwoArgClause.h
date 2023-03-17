@@ -16,6 +16,7 @@ class AbstractTwoArgClause: public SuchThatClause {
   ClauseArgumentPtr right;
 
   bool isSameSynonym();
+  bool canSubstitute(OverrideTable* table, PQLSynonymName synName);
 
   template <
       typename LeftResultType, typename LeftArgType,
@@ -27,18 +28,27 @@ class AbstractTwoArgClause: public SuchThatClause {
       SymmetricQueryInvoker<LeftResultType, LeftArgType> sameSynInvoker>
   PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler,
                              OverrideTable* table) {
-    // TODO(KwanHW): If syn can be substituted, substitute with static value
     if (isSameSynonym()) {
       auto queryResult = sameSynInvoker(pkbQueryHandler, table,
                                         leftTransformer(left.get()));
       return Clause::toQueryResult(left->getName(), queryResult);
     }
 
+    LeftArgType leftArg = leftTransformer(left.get());
+    RightArgType rightArg = rightTransformer(right.get());
+    if (left->isNamed() && canSubstitute(table, left->getName())) {
+      OverrideTransformer overrideTrans = table->at(left->getName());
+      leftArg = overrideTrans.transformArg(leftArg);
+    }
+
+    if (right->isNamed() && canSubstitute(table, right->getName())) {
+      OverrideTransformer overrideTrans = table->at(right->getName());
+      rightArg = overrideTrans.transformArg(rightArg);
+    }
 
     auto queryResult = diffSynInvoker(
         pkbQueryHandler, table,
-        leftTransformer(left.get()),
-        rightTransformer(right.get()));
+        leftArg, rightArg);
     return Clause::toQueryResult(left.get(), right.get(), queryResult);
   }
 
