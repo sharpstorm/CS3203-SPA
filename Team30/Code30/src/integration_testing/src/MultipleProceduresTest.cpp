@@ -60,7 +60,7 @@ TEST_CASE("Multiple Procedures End-to-End") {
   expectedRes = unordered_set<string>({"FALSE"});
   launchQuery(qps.get(), query, expectedRes);
 
-  query = "print p; Select BOOLEAN with p.stmt# = 3";
+  query = "print p; Select BOOLEAN with p.stmt# = 17";
   expectedRes = unordered_set<string>({"TRUE"});
   launchQuery(qps.get(), query, expectedRes);
 
