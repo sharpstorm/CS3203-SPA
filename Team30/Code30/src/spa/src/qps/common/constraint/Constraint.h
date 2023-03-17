@@ -5,6 +5,7 @@
 #include <unordered_map>
 
 #include "OverrideTransformer.h"
+#include "pkb/queryHandlers/PkbQueryHandler.h"
 
 using std::string, std::shared_ptr, std::unordered_map;
 
