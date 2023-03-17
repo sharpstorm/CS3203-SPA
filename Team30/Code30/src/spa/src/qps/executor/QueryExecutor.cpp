@@ -13,13 +13,19 @@ QueryExecutor::QueryExecutor(PkbQueryHandler* pkbQH):
 SynonymResultTable *QueryExecutor::executeQuery(PQLQuery* query) {
   // TODO(WeiXin): Move this if necessary
   OverrideTablePtr overrideTable = make_unique<OverrideTable>();
+  bool isBoolResult = query->getResultVariables()->empty();
   for (const auto& con : query->getConstraints()) {
     if (!con->applyConstraint(query->getVarTable(), overrideTable.get())) {
-      bool isBoolResult = query->getResultVariables()->empty();
       return new SynonymResultTable(isBoolResult, false);
     }
   }
 
   QueryPlanPtr plan = planner.getExecutionPlan(query);
+
+  // Query just have constraints
+  if (plan->isEmpty()) {
+    return new SynonymResultTable(isBoolResult, true);
+  }
+
   return orchestrator.execute(plan.get(), overrideTable.get());
 }
