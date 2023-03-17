@@ -57,10 +57,10 @@ TEST_CASE("Multiple Procedures End-to-End") {
 
   // Print cat 2
   query = "print p; Select BOOLEAN with p.stmt# = 1";
-  expectedRes = unordered_set<string>({"TRUE"});
+  expectedRes = unordered_set<string>({"FALSE"});
   launchQuery(qps.get(), query, expectedRes);
 
-  query = "print p; Select BOOLEAN with p.stmt# = 1";
+  query = "print p; Select BOOLEAN with p.stmt# = 3";
   expectedRes = unordered_set<string>({"TRUE"});
   launchQuery(qps.get(), query, expectedRes);
 
