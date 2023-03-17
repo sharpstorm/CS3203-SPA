@@ -24,8 +24,8 @@ class Clause : public IEvaluatable {
 
   template<class T, class U>
   static PQLQueryResult *toQueryResult(ClauseArgument* left,
-                                         ClauseArgument* right,
-                                         QueryResult<T, U> queryResult) {
+                                       ClauseArgument* right,
+                                       QueryResult<T, U> queryResult) {
     PQLQueryResult* pqlQueryResult = new PQLQueryResult();
     if (!left->isNamed() && !right->isNamed()) {
       pqlQueryResult->setIsStaticFalse(queryResult.isEmpty);
@@ -37,6 +37,20 @@ class Clause : public IEvaluatable {
       pqlQueryResult->add(left->getName(), queryResult.firstArgVals);
     } else if (right->isNamed()) {
       pqlQueryResult->add(right->getName(), queryResult.secondArgVals);
+    }
+
+    return pqlQueryResult;
+  }
+
+  template<class T, class U>
+  static PQLQueryResult *toQueryResult(const PQLSynonymName &left,
+                                       ClauseArgument* right,
+                                       QueryResult<T, U> queryResult) {
+    PQLQueryResult* pqlQueryResult = new PQLQueryResult();
+    if (right->isNamed()) {
+      pqlQueryResult->add(left, right->getName(), queryResult.pairVals);
+    } else {
+      pqlQueryResult->add(left, queryResult.firstArgVals);
     }
 
     return pqlQueryResult;

@@ -1,15 +1,23 @@
 #pragma once
 
+#include <utility>
+
 #include "qps/common/PQLQuerySynonym.h"
-#include "qps/common/PQLQueryResult.h"
-#include "qps/clauses/PatternClause.h"
+#include "AbstractPatternClause.h"
 
-class IfPatternClause: public PatternClause {
+constexpr PatternQueryInvoker ifPatternInvoker =
+    [](PkbQueryHandler* pkbHandler,
+       OverrideTable* table,
+       const StmtRef &stmtRef,
+       const EntityRef &entityRef)
+        -> QueryResult<StmtValue, EntityValue> {
+      return pkbHandler->queryIfPattern(stmtRef, entityRef);
+    };
+
+class IfPatternClause: public AbstractPatternClause<
+    PQL_SYN_TYPE_IF, StmtType::If, ifPatternInvoker> {
  public:
-  explicit IfPatternClause(const PQLQuerySynonym &ifSynonym,
-                           ClauseArgumentPtr leftArg);
-  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler, OverrideTable* table) override;
-
- private:
-  PQLQuerySynonym ifSynonym;
+  IfPatternClause(const PQLQuerySynonym &ifSynonym,
+                  ClauseArgumentPtr leftArg):
+      AbstractPatternClause(ifSynonym, std::move(leftArg)) {}
 };

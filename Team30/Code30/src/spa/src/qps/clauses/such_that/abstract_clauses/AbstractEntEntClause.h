@@ -3,7 +3,7 @@
 #include <utility>
 
 #include "AbstractTwoArgClause.h"
-#include "InvokerTypes.h"
+#include "qps/clauses/InvokerTypes.h"
 
 template <
     EntEntInvoker invoker,
