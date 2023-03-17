@@ -3,21 +3,24 @@
 #include "executor/QueryExecutor.h"
 #include "common/PQLQuerySynonym.h"
 
-UniqueVectorPtr<string> QueryDriver::evaluate(string* query) {
-  PQLQueryPtr pqlQuery = parser->parseQuery(query);
-  SynonymResultTable* synTable = executor->executeQuery(pqlQuery.get());
-  AttributedSynonymList* queryVar = pqlQuery->getResultVariables();
-  UniqueVectorPtr<string> result = projector.project(synTable, queryVar);
-  delete(synTable);
-  return result;
-}
-
 QueryDriver::QueryDriver(PkbQueryHandler* pkbQH,
                          ISourceExpressionParser* exprParser):
-  parser(new QueryParser(exprParser)), executor(new QueryExecutor(pkbQH)) {
-}
+    pkbQueryHandler(pkbQH),
+    parser(new QueryParser(exprParser)),
+    executor(new QueryExecutor(pkbQH)) { }
 
 QueryDriver::~QueryDriver() {
   delete(parser);
   delete(executor);
 }
+
+UniqueVectorPtr<string> QueryDriver::evaluate(string* query) {
+  PQLQueryPtr pqlQuery = parser->parseQuery(query);
+  SynonymResultTable* synTable = executor->executeQuery(pqlQuery.get());
+  AttributedSynonymList* queryVar = pqlQuery->getResultVariables();
+  UniqueVectorPtr<string> result = projector.project(
+      synTable, queryVar, pkbQueryHandler);
+  delete(synTable);
+  return result;
+}
+

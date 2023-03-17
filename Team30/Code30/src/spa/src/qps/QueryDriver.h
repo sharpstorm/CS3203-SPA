@@ -15,6 +15,7 @@ class QueryDriver: public IQueryDriver {
   IQueryParser* parser;
   IQueryExecutor* executor;
   ResultProjector projector;
+  PkbQueryHandler* pkbQueryHandler;
  public:
   explicit QueryDriver(PkbQueryHandler* pkbQH,
                        ISourceExpressionParser* exprParser);

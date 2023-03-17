@@ -52,3 +52,7 @@ bool AttributedSynonym::isStatementType() {
   return syn->isStatementType();
 }
 
+bool AttributedSynonym::hasAttribute() {
+  return attribute != NO_ATTRIBUTE;
+}
+

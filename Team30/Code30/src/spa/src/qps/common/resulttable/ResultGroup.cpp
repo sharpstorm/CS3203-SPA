@@ -59,16 +59,38 @@ ResultGroup* ResultGroup::crossProduct(ResultGroup* other) {
 }
 
 void ResultGroup::project(AttributedSynonymList *synList,
+                            PkbQueryHandler* handler,
                             vector<string>* result) {
   // Iterate through each row
   for (int i=0; i < getTableRows(); i++) {
     QueryResultTableRow* row = getRowAt(i);
     string rowString;
     for (int j=0; j < synList->size(); j++) {
-      // Get the column index from the result group
       AttributedSynonym syn = synList->at(j);
       ResultTableCol col = colMap.at(syn.getName());
-      rowString += row->at(col)->project();
+      QueryResultItem* queryItem = row->at(col).get();
+
+      bool synIsStmtType = syn.isStatementType();
+      bool synOutputsInteger = syn.returnsInteger();
+      bool isTypeConstant = syn.getType() == PQL_SYN_TYPE_CONSTANT;
+      if (syn.hasAttribute() && !isTypeConstant && synIsStmtType != synOutputsInteger) {
+        string attrVal;
+        // read/print.varName
+        if (synIsStmtType) {
+          if (syn.getType() == PQL_SYN_TYPE_READ) {
+           attrVal = handler->getReadDeclarations(queryItem->getStmtRef());
+          } else {
+            attrVal = handler->getPrintDeclarations(queryItem->getStmtRef());
+          }
+        } else {
+          // call.procName
+          attrVal = handler->getCalledDeclaration(queryItem->getStmtRef());
+        }
+        rowString += attrVal;
+      } else {
+        rowString += queryItem->project();
+      }
+
       if (j < synList->size() - 1) {
         rowString += " ";
       }

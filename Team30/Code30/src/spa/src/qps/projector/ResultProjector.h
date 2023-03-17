@@ -13,5 +13,6 @@ using std::string, std::vector;
 class ResultProjector {
  public:
   UniqueVectorPtr<string> project(SynonymResultTable* queryResult,
-                                  AttributedSynonymList* resultVariables);
+                                  AttributedSynonymList* resultVariables,
+                                  PkbQueryHandler* pkbQueryHandldler);
 };

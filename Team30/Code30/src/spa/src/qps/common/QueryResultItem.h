@@ -17,6 +17,8 @@ class QueryResultItem {
  public:
   explicit QueryResultItem(int stmt): stmtRef(stmt), entRef(NO_ENT_REF) {}
   explicit QueryResultItem(string ent): stmtRef(NO_STMT_REF), entRef(ent) {}
+  string getEntRef();
+  int getStmtRef();
   string project();
   bool operator==(const QueryResultItem& other) const;
   bool operator!=(const QueryResultItem& other) const;

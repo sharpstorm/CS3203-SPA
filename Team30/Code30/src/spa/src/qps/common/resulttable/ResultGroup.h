@@ -24,7 +24,9 @@ class ResultGroup {
   QueryResultTableRow* getRowAt(int idx);
   vector<PQLSynonymName>* getColIndexes();
   ResultGroup* crossProduct(ResultGroup* other);
-  void project(AttributedSynonymList* synList, vector<string>* result);
+  void project(AttributedSynonymList* synList,
+               PkbQueryHandler* handler,
+               vector<string>* result);
   bool operator ==(const ResultGroup &rg) const;
 };
 

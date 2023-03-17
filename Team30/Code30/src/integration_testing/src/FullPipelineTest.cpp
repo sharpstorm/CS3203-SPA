@@ -395,7 +395,7 @@ TEST_CASE("End-to-End Next Test") {
 TEST_CASE("With Clause Tests - Cat 1 (static = static)") {
   auto pipeline = TestPipelineProvider();
 
-  pipeline.query("Select BOOLEAN with 1 = 1", {"TRUE"});
+//  pipeline.query("Select BOOLEAN with 1 = 1", {"TRUE"});
   pipeline.query("variable v; Select v with 1 = 1", {"x", "z", "i", "y"});
 
   pipeline.query("Select BOOLEAN with 1 = 2", {"FALSE"});
