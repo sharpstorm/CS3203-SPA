@@ -150,3 +150,12 @@ bool PkbQueryHandler::isSymbolOfType(EntityType entityType,
 string PkbQueryHandler::getCalledDeclaration(int callStmt) const {
   return designEntityHandler->getCalledDeclaration(callStmt);
 }
+
+string PkbQueryHandler::getReadDeclarations(int readStmt) const {
+  return modifiesHandler->getReadDeclarations(readStmt);
+}
+
+string PkbQueryHandler::getPrintDeclarations(int printStmt) const {
+  return usesHandler->getPrintDeclarations(printStmt);
+}
+

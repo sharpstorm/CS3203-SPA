@@ -43,6 +43,8 @@ class PkbQueryHandler : public IPkbQueryHandler {
   bool isStatementOfType(StmtType, int) const override;
   bool isSymbolOfType(EntityType, string) const override;
   string getCalledDeclaration(int) const override;
+  string getReadDeclarations(int) const override;
+  string getPrintDeclarations(int) const override;
 
  private:
   unique_ptr<IFollowsQueryHandler> followsHandler;
