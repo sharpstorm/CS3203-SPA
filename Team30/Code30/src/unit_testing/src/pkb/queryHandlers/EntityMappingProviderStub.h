@@ -29,4 +29,5 @@ class EntityMappingProviderStub : public IEntityMappingProvider {
   string getConstantByIndex(int) const override;
   unordered_set<int> getIndexOfVariable(string) const override;
   unordered_set<int> getIndexOfConstant(string) const override;
+  bool isSymbolOfType(EntityType, string) const override;
 };

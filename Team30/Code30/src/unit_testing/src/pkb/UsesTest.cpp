@@ -47,6 +47,9 @@ TEST_CASE("Uses (StmtRef, EntityRef)") {
   REQUIRE(result4.pairVals
               == pair_set<int, string>({{1, "x"}, {1, "y"}, {2, "x"}, {2, "y"},
                                         {3, "x"}, {4, "x"}, {4, "y"},}));
+
+  // print Declaration
+  REQUIRE(handler.getPrintDeclarations(3) == "x");
 }
 
 TEST_CASE("Uses (EntityRef, EntityRef)") {
