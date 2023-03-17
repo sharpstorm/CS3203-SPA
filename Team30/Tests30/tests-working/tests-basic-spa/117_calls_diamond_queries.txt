@@ -88,3 +88,8 @@ procedure p; read r1;
 Select p such that Calls(r1, p)
 SemanticError
 5000
+19 - Select NEGATIVE Calls (Procedure, Procedure) None (Synonym) (Synonym)
+procedure p;
+Select p such that Calls(p, p)
+
+5000

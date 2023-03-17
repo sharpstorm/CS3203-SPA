@@ -118,3 +118,8 @@ constant c;
 Select c such that Calls(_, c)
 SemanticError
 5000
+24 - Select NEGATIVE Calls (Procedure, Procedure) None (Synonym) (Synonym)
+procedure p;
+Select p such that Calls(p, p)
+
+5000
