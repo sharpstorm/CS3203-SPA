@@ -168,6 +168,9 @@ TEST_CASE("End-to-End BOOLEAN Test") {
 TEST_CASE("End-to-End No Clause") {
   auto pipeline = TestPipelineProvider();
 
+  pipeline.query("constant c; Select c with c.value = 3",
+                 {"0", "1", "2", "3", "5"});
+
   pipeline.query("constant c; Select c",
                  {"0", "1", "2", "3", "5"});
 
@@ -400,6 +403,32 @@ TEST_CASE("With Clause Tests - Cat 1 (static = static)") {
 
   pipeline.query("Select BOOLEAN with \"foo\" = \"foo\"", {"TRUE"});
   pipeline.query("variable v; Select v with \"foo\" = \"foo\"", {"x", "z", "i", "y"});
+}
+
+TEST_CASE("With Clause Tests - Cat 2 (attrRef = static)") {
+  auto pipeline = TestPipelineProvider();
+
+  pipeline.query("variable v; Select BOOLEAN with v.varName = \"x\"", {"TRUE"});
+  pipeline.query("variable v; Select BOOLEAN with v.varName = \"g\"", {"FALSE"});
+
+  pipeline.query("assign a; Select BOOLEAN with a.stmt# = 1", {"TRUE"});
+  pipeline.query("assign a; Select BOOLEAN with a.stmt# = 4", {"FALSE"});
+
+  pipeline.query("while w; Select BOOLEAN with w.stmt# = 4", {"TRUE"});
+  pipeline.query("while w; Select BOOLEAN with w.stmt# = 1", {"FALSE"});
+
+  pipeline.query("if ifs; Select BOOLEAN with ifs.stmt# = 6", {"TRUE"});
+  pipeline.query("if ifs; Select BOOLEAN with ifs.stmt# = 1", {"FALSE"});
+
+  pipeline.query("read r; Select BOOLEAN with r.stmt# = 10", {"TRUE"});
+  pipeline.query("read r; Select BOOLEAN with r.stmt# = 1", {"FALSE"});
+
+  pipeline.query("read r; Select BOOLEAN with r.varName = \"x\"", {"TRUE"});
+  pipeline.query("read r; Select BOOLEAN with r.varName = \"g\"", {"FALSE"});
+
+  pipeline.query("constant c; Select BOOLEAN with c.value = 1", {"TRUE"});
+  pipeline.query("constant c; Select BOOLEAN with c.value = 99", {"FALSE"});
+
 }
 
 TEST_CASE("Out of Bounds Statement") {

@@ -55,6 +55,48 @@ TEST_CASE("Multiple Procedures End-to-End") {
   string query;
   unordered_set<string> expectedRes;
 
+  // Print cat 2
+  query = "print p; Select BOOLEAN with p.stmt# = 1";
+  expectedRes = unordered_set<string>({"TRUE"});
+  launchQuery(qps.get(), query, expectedRes);
+
+  query = "print p; Select BOOLEAN with p.stmt# = 1";
+  expectedRes = unordered_set<string>({"TRUE"});
+  launchQuery(qps.get(), query, expectedRes);
+
+  query = "print p; Select BOOLEAN with p.varName = \"q\"";
+  expectedRes = unordered_set<string>({"TRUE"});
+  launchQuery(qps.get(), query, expectedRes);
+
+  query = "print p; Select BOOLEAN with p.varName = \"asdf\"";
+  expectedRes = unordered_set<string>({"FALSE"});
+  launchQuery(qps.get(), query, expectedRes);
+
+  // Call cat 2
+  query = "call c; Select BOOLEAN with c.procName = \"Optimus\"";
+  expectedRes = unordered_set<string>({"FALSE"});
+  launchQuery(qps.get(), query, expectedRes);
+
+  query = "call c; Select BOOLEAN with c.procName = \"Megatron\"";
+  expectedRes = unordered_set<string>({"TRUE"});
+  launchQuery(qps.get(), query, expectedRes);
+
+  query = "call c; Select BOOLEAN with c.stmt# = 1";
+  expectedRes = unordered_set<string>({"FALSE"});
+  launchQuery(qps.get(), query, expectedRes);
+
+  query = "call c; Select BOOLEAN with c.stmt# = 2";
+  expectedRes = unordered_set<string>({"TRUE"});
+  launchQuery(qps.get(), query, expectedRes);
+
+  query = "procedure p; Select BOOLEAN with p.procName = \"Megatron\"";
+  expectedRes = unordered_set<string>({"TRUE"});
+  launchQuery(qps.get(), query, expectedRes);
+
+  query = "procedure p; Select BOOLEAN with p.procName = \"Optimus\"";
+  expectedRes = unordered_set<string>({"FALSE"});
+  launchQuery(qps.get(), query, expectedRes);
+
   query = "procedure p,q; Select <p,q> such that Calls(p,q)";
   expectedRes = unordered_set<string>({"Bumblebee Megatron", "Bumblebee Ironhide", "Ironhide Barricade"});
   launchQuery(qps.get(), query, expectedRes);

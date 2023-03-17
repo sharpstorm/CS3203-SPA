@@ -19,3 +19,11 @@ bool OverrideTransformer::returnsInteger() {
 }
 
 const char OverrideTransformer::NO_ENT_REF[] = "";
+
+StmtValue OverrideTransformer::getStmtValue() {
+  return stmtRef;
+}
+
+EntityValue OverrideTransformer::getEntityValue() {
+  return entRef;
+}

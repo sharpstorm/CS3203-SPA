@@ -20,6 +20,8 @@ class AttributedSynonym {
   PQLSynonymName getName();
   PQLSynonymAttribute getAttribute();
   bool validateAttribute();
+  bool returnsInteger();
+  bool isStatementType();
 };
 
 typedef shared_ptr<AttributedSynonym> AttributedSynonymSPtr;
