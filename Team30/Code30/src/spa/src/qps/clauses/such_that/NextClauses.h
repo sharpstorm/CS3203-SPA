@@ -38,10 +38,16 @@ constexpr NextInvoker abstractNextInvoker = [](PkbQueryHandler* pkbQueryHandler,
                                                const StmtRef &leftArg,
                                                const StmtRef &rightArg){
   vector<CFG*> cfgs;
+  QueryResult<StmtValue, StmtValue> result{};
+
   if (leftArg.isKnown()) {
     cfgs = pkbQueryHandler->queryCFGs(leftArg);
   } else {
     cfgs = pkbQueryHandler->queryCFGs(rightArg);
+  }
+
+  if (cfgs.empty()) {
+    return result;
   }
 
   if (leftArg.isKnown() || rightArg.isKnown()) {
@@ -49,7 +55,7 @@ constexpr NextInvoker abstractNextInvoker = [](PkbQueryHandler* pkbQueryHandler,
     return querier.queryArgs(leftArg, rightArg);
   }
 
-  QueryResult<StmtValue, StmtValue> result{};
+
   for (auto it = cfgs.begin(); it != cfgs.end(); it++) {
     T querier(*it, pkbQueryHandler);
     querier.queryArgs(leftArg, rightArg, &result);
