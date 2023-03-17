@@ -22,7 +22,7 @@ class Clause : public IEvaluatable {
     return arg->toStmtRef();
   }
 
-  static bool canSubstitute(OverrideTable* table,ClauseArgument* arg) {
+  static bool canSubstitute(OverrideTable* table, ClauseArgument* arg) {
     if (!arg->isNamed()) {
       return false;
     }
