@@ -21,7 +21,7 @@ FALSE
 5 - Select BOOLEAN Next (Integer, Integer) True (Integer) (Integer)
 
 Select BOOLEAN such that Next(5, 21)
-FALSE
+TRUE
 5000
 6 - Select BOOLEAN Next (Integer, Integer) True (Integer) (Integer)
 
@@ -36,7 +36,7 @@ TRUE
 8 - Select BOOLEAN Next (Integer, Integer) False (Integer) (Integer)
 
 Select BOOLEAN such that Next(8, 19)
-FALSE
+TRUE
 5000
 9 - Select BOOLEAN Next (Integer, Integer) False (Integer) (Integer)
 
@@ -56,7 +56,7 @@ Select s such that Next(s, 2)
 12 - Select Statement Next (Statement, Integer) True (Synoynm) (Integer)
 stmt s;
 Select s such that Next(s, 11)
-10
+10,13
 5000
 13 - Select Statement Next (Statement, Integer) True (Synoynm) (Integer)
 stmt s;
@@ -101,7 +101,7 @@ Select s such that Next(19, s)
 21 - Select Statement Next (Integer, Statement) True (Integer) (Synonym)
 stmt s;
 Select s such that Next(13, s)
-11
+11, 14
 5000
 22 - Select Statement Next (Integer, Statement) True (Integer) (Synonym)
 stmt s;
@@ -111,12 +111,12 @@ Select s such that Next(12, s)
 23 - Select Statement Next (Statement, Integer) True (Synoynm) (Integer)
 stmt s;
 Select s such that Next(s, 20)
-9
+8
 5000
 24 - Select Statement Next (Statement, Integer) True (Synoynm) (Integer)
 stmt s;
 Select s such that Next(s, 8)
-6
+5,6
 5000
 25 - Select Statement Next (Integer, Statement) True (Integer) (Synonym)
 stmt s;
@@ -206,12 +206,12 @@ SemanticError
 42 - Select NEGATIVE Next (Read, Read) Error (Synonym) (Synonym)
 read r1; stmt s;
 Select s such that Next(r1, r1)
-SemanticError
+SyntaxError
 5000
 43 - Select NEGATIVE Next (Read, Read) Error (Synonym) (Synonym)
 read r1; stmt s;
 Select r1 such that Next(r1, r1)
-SemanticError
+SyntaxError
 5000
 44 - Select NEGATIVE Next (While, While) None (Synonym) (Synonym)
 while w; stmt s;
