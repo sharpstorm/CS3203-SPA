@@ -424,16 +424,19 @@ TEST_CASE("With Clause Tests - Cat 2 (attrRef = static)") {
   pipeline.query("if ifs; Select BOOLEAN with ifs.stmt# = 1", {"FALSE"});
   pipeline.query("assign a1;if a2; Select a2.stmt# with a2.stmt# = 6 such that Follows*(a1,a2)", {"6"});
 
+  pipeline.query("constant c; Select BOOLEAN with c.value = 1", {"TRUE"});
+  pipeline.query("constant c; Select BOOLEAN with c.value = 99", {"FALSE"});
+
   pipeline.query("read r; Select BOOLEAN with r.stmt# = 10", {"TRUE"});
   pipeline.query("read r; Select BOOLEAN with r.stmt# = 1", {"FALSE"});
-  pipeline.query("assign a1;read a2; Select a2.stmt# with a2.stmt# = 10 such that Follows*(a1,a2)", {"10"});
+  pipeline.query("assign a1;read r; Select r.stmt# with r.stmt# = 10 such that Follows*(a1,r)", {"10"});
+  pipeline.query("assign a1;read r; Select r.stmt# with r.varName = \"x\" such that Follows*(a1,r)", {"10"});
 
   pipeline.query("read r; Select BOOLEAN with r.varName = \"x\"", {"TRUE"});
   pipeline.query("read r; Select BOOLEAN with r.varName = \"g\"", {"FALSE"});
-  pipeline.query("assign a1;read a2; Select a2.varName with a2.varName = \"x\" such that Modifies(a2,_)", {"x"});
+  pipeline.query("assign a1;read r; Select r.varName with r.varName = \"x\" such that Modifies(r,_)", {"x"});
+  pipeline.query("assign a1;read r; Select r.varName with r.stmt# = 10 such that Modifies(r,_)", {"x"});
 
-  pipeline.query("constant c; Select BOOLEAN with c.value = 1", {"TRUE"});
-  pipeline.query("constant c; Select BOOLEAN with c.value = 99", {"FALSE"});
 }
 
 TEST_CASE("Out of Bounds Statement") {

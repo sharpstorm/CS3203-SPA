@@ -191,13 +191,10 @@ bool ResultGroup::isSameValues(AttributedSynonym syn,
 string ResultGroup::projectAttributeValue(PkbQueryHandler *handler,
                                           QueryResultItem *item,
                                           AttributedSynonym syn) {
-  bool synIsStmtType = syn.isStatementType();
-  if (synIsStmtType) {
-    if (syn.getType() == PQL_SYN_TYPE_READ) {
-      // read.varName
-      return handler->getReadDeclarations(item->getStmtRef());
-    }
-
+  if (syn.getType() == PQL_SYN_TYPE_READ) {
+    // read.varName
+    return handler->getReadDeclarations(item->getStmtRef());
+  } else if (syn.getType() == PQL_SYN_TYPE_PRINT) {
     // print.varName
     return  handler->getPrintDeclarations(item->getStmtRef());
   }
