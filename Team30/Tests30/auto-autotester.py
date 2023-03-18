@@ -5,7 +5,9 @@ import argparse
 from os.path import exists
 import glob
 import os
+import shutil
 import subprocess
+from pathlib import Path    
 
 class style:
     MAGENTA = '\033[95m'
@@ -167,6 +169,14 @@ def execTests(args, jobs):
     tempFileName = 'out.xml'
     autotesterBinary = args.autotester_binary
     isFastFail = not args.slow_fail
+    shouldOutputXML = args.output_files != ''
+    outputDir = args.output_files
+
+    if shouldOutputXML:
+        if os.path.exists(outputDir) and os.path.isdir(outputDir):
+            shutil.rmtree(outputDir)
+
+        os.mkdir(outputDir)
 
     isOverallFail = False
     passCount = 0
@@ -196,7 +206,11 @@ def execTests(args, jobs):
             printResult(result, args)
             passCount += result['passCount']
             totalCount += len(result['result'])
-            os.remove(tempFileName)
+            if shouldOutputXML:
+                outputName = Path(query).name[:-12]
+                shutil.move(tempFileName, os.path.join(outputDir, outputName))
+            else:
+                os.remove(tempFileName)
 
             if passCount != totalCount:
                 isFailure = True
@@ -233,6 +247,7 @@ def runTests(args):
     
     print(f'{style.MAGENTA}-------- Auto Autotester Found {len(jobs)} Jobs --------{style.RESET}')
     print()
+
     return execTests(args, jobs)
 
 def main():
@@ -247,6 +262,7 @@ def main():
     parser.add_argument('-q', '--show-query', help='Print test queries', action='store_true')
     parser.add_argument('-f', '--show-fail-data', help='Print test queries', action='store_true')
     parser.add_argument('-s', '--summary', help='Prints only a 1-line summary', action='store_true')
+    parser.add_argument('-of', '--output-files', help='Outputs the autotester XML files to a particular folder')
 
     # Testing Behaviour
     parser.add_argument('-sf', '--slow-fail', help='Do not stop upon encountering an error', action='store_true')
