@@ -169,7 +169,7 @@ def execTests(args, jobs):
     tempFileName = 'out.xml'
     autotesterBinary = args.autotester_binary
     isFastFail = not args.slow_fail
-    shouldOutputXML = args.output_files != ''
+    shouldOutputXML = args.output_files is not None
     outputDir = args.output_files
 
     if shouldOutputXML:
