@@ -14,7 +14,8 @@ class PQLWithParser: public IPQLParser {
   static ConstraintSPtr parseOverrideConstraint(
       WithArgumentPtr synArg, WithArgumentPtr staticArg);
   static bool isNonDefaultCase(AttributedSynonym attrSyn);
-  static void addWithSelectClause(QueryBuilder* builder, AttributedSynonym attrSyn);
+  static void addWithSelectClause(QueryBuilder* builder,
+                                  AttributedSynonym attrSyn);
  public:
   void parse(QueryTokenParseState* parserState,
              QueryBuilder* builder) override;

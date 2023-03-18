@@ -27,7 +27,8 @@ class AbstractAnyEntClause : public AbstractTwoArgClause {
         leftValidator, rightValidator>(table);
   }
 
-  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler, OverrideTable* overrideTable) override {
+  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler,
+                             OverrideTable* overrideTable) override {
     if (left->isWildcard()) {
       throw QPSParserSemanticError(QPS_PARSER_ERR_INVALID_WILDCARD);
     }

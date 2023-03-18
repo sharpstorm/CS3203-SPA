@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include <unordered_set>
 
 #include "qps/clauses/arguments/ClauseArgument.h"
@@ -8,7 +9,7 @@
 #include "qps/clauses/InvokerTypes.h"
 #include "qps/clauses/SuchThatClause.h"
 
-using std::unordered_set;
+using std::unordered_set, std::string;
 
 class AbstractTwoArgClause: public SuchThatClause {
  protected:
@@ -25,7 +26,8 @@ class AbstractTwoArgClause: public SuchThatClause {
       QueryInvoker<LeftResultType, LeftArgType,
                    RightResultType, RightArgType> diffSynInvoker,
       SymmetricQueryInvoker<LeftResultType, LeftArgType> sameSynInvoker>
-  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler, OverrideTable* table) {
+  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler,
+                             OverrideTable* table) {
     if (isSameSynonym()) {
       auto queryResult = sameSynInvoker(pkbQueryHandler,
                                         leftTransformer(left.get()));
