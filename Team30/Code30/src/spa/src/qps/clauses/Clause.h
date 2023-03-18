@@ -21,7 +21,7 @@ class Clause : public IEvaluatable {
 
   bool isValidRef(EntityRef entRef, PkbQueryHandler* handler) {
     if (entRef.type == EntityType::None) {
-      return false;
+      return true;
     }
 
     return !entRef.isKnown() ||
