@@ -8,4 +8,5 @@ class IUsesQueryHandler {
   virtual ~IUsesQueryHandler() {}
   virtual QueryResult<int, string> queryUses(StmtRef, EntityRef) const = 0;
   virtual QueryResult<string, string> queryUses(EntityRef, EntityRef) const = 0;
+  virtual string getPrintDeclarations(int) const = 0;
 };

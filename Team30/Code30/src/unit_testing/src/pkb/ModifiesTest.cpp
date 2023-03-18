@@ -47,6 +47,8 @@ TEST_CASE("Modifies (StmtRef, EntityRef)") {
   REQUIRE(result4.pairVals
               == pair_set<int, string>({{1, "x"}, {1, "y"}, {2, "x"}, {2, "y"},
                                         {3, "x"}, {4, "x"}, {4, "y"}}));
+  // read Declaration
+  REQUIRE(handler.getReadDeclarations(3) == "x");
 }
 
 TEST_CASE("Modifies (EntityRef, EntityRef)") {
@@ -96,4 +98,5 @@ TEST_CASE("Modifies (EntityRef, EntityRef)") {
                                            {"main", "z"}, {"foo", "w"},
                                            {"goo", "z"}}));
 }
+
 
