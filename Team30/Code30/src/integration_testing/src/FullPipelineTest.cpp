@@ -481,3 +481,10 @@ TEST_CASE("Out of Bounds Statement") {
   pipeline.query("stmt r; Select r such that Next*(100, r)",
                  {});
 }
+
+TEST_CASE("Bad with") {
+  auto pipeline = TestPipelineProvider(SOURCE2);
+
+  pipeline.query("read r; Select r with r.varName = \"x\"",
+                 {"2", "3"});
+}
