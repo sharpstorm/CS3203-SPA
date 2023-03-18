@@ -19,7 +19,6 @@ PQLQueryResult *WithSelectClause::evaluateOn(PkbQueryHandler *pkbQueryHandler,
       ->getStatementsOfType(stmtVar.type);
 
   // read/print.varName, call.procName
-//  EntityValue overrideVal = trans.getEntityValue();
   unordered_set<int> foundSet = unordered_set<int>();
   for (auto s : pkbResult) {
     if (synType == PQL_SYN_TYPE_READ &&

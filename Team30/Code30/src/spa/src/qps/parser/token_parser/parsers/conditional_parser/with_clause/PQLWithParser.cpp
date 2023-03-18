@@ -57,7 +57,7 @@ void PQLWithParser::parseWithClause(QueryTokenParseState *parserState,
 
 ConstraintSPtr PQLWithParser::parseConstraint(
     WithArgumentPtr left, WithArgumentPtr right, QueryBuilder* builder) {
-  ConstraintSPtr constraint;
+  ConstraintSPtr constraint = nullptr;
   if (!left->isSyn() && !right->isSyn()) {
     constraint = make_shared<ConstantConstraint>(
         std::move(left), std::move(right));

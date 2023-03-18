@@ -1,7 +1,6 @@
 #pragma once
 
 #include <memory>
-#include <string>
 
 #include "Clause.h"
 #include "qps/common/AttributedSynonym.h"
