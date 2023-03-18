@@ -14,7 +14,7 @@ class ResultGroup {
   QueryResultTable groupTable;
   unordered_map<PQLSynonymName, ResultTableCol> colMap;
   vector<PQLSynonymName> colIdx;
-  string projectAttributeValue(PkbQueryHandler* handler,
+  static string projectAttributeValue(PkbQueryHandler* handler,
                                QueryResultItem* item,
                                AttributedSynonym syn);
 
@@ -32,7 +32,7 @@ class ResultGroup {
                OverrideTable* overridetable,
                PkbQueryHandler* handler,
                vector<string>* result);
-  bool isSameValues(AttributedSynonym syn,
+  static bool isSameValues(AttributedSynonym syn,
       PkbQueryHandler* handler,
                     QueryResultItem* item,
                     OverrideTransformer trans);

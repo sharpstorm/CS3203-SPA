@@ -24,13 +24,16 @@ class AbstractPatternClause: public PatternClause {
                              OverrideTable* table) {
     StmtRef leftStatement = {StatementType, 0};
     EntityRef leftVar = leftArg->toEntityRef();
-    if (canSubstitute(table, leftArg.get())) {
+    if (leftArg->canSubstitute(table)) {
       OverrideTransformer overrideTrans = table->at(leftArg->getName());
       leftVar = overrideTrans.transformArg(leftVar);
+      if (!Clause::isValidRef(leftVar, pkbQueryHandler)) {
+        return new PQLQueryResult();
+      }
     }
 
     QueryResult<StmtValue, EntityValue> result =
-        invoker(pkbQueryHandler, table, leftStatement, leftVar);
+        invoker(pkbQueryHandler, leftStatement, leftVar);
     return Clause::toQueryResult(synonym.getName(), leftArg.get(), result);
   }
 };

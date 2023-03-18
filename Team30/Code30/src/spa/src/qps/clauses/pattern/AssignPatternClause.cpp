@@ -14,12 +14,15 @@ AssignPatternClause::AssignPatternClause(const PQLQuerySynonym &assignSynonym,
     rightArgument(std::move(rightArg)) {}
 
 PQLQueryResult *AssignPatternClause::evaluateOn(
-  PkbQueryHandler* pkbQueryHandler, OverrideTable* table) {
+    PkbQueryHandler* pkbQueryHandler, OverrideTable* table) {
   StmtRef leftStatement = {StmtType::Assign, 0};
   EntityRef rightVariable = leftArg->toEntityRef();
-  if (canSubstitute(table, leftArg.get())) {
+  if (leftArg->canSubstitute(table)) {
     OverrideTransformer overrideTransformer = table->at(leftArg->getName());
     rightVariable = overrideTransformer.transformArg(rightVariable);
+    if (!Clause::isValidRef(rightVariable, pkbQueryHandler)) {
+      return new PQLQueryResult();
+    }
   }
 
   QueryResult<int, string> modifiesResult =

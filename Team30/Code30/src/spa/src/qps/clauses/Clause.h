@@ -14,20 +14,26 @@ class Clause : public IEvaluatable {
   virtual bool validateArgTypes(VariableTable* variables) = 0;
 
  protected:
+  bool isValidRef(StmtRef stmtRef, PkbQueryHandler* handler) {
+    return !stmtRef.isKnown() ||
+        handler->isStatementOfType(stmtRef.type, stmtRef.lineNum);
+  }
+
+  bool isValidRef(EntityRef entRef, PkbQueryHandler* handler) {
+    if (entRef.type == EntityType::None) {
+      return true;
+    }
+
+    return !entRef.isKnown() ||
+        handler->isSymbolOfType(entRef.type, entRef.name);
+  }
+
   static EntityRef toEntityRef(ClauseArgument* arg) {
     return arg->toEntityRef();
   }
 
   static StmtRef toStmtRef(ClauseArgument* arg) {
     return arg->toStmtRef();
-  }
-
-  static bool canSubstitute(OverrideTable* table, ClauseArgument* arg) {
-    if (!arg->isNamed()) {
-      return false;
-    }
-
-    return table->find(arg->getName()) != table->end();
   }
 
   template<class T, class U>

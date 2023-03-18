@@ -9,14 +9,12 @@ typedef StmtEntInvoker UsesSInvoker;
 typedef EntEntInvoker UsesPInvoker;
 
 constexpr UsesSInvoker usesSInvoker = [](PkbQueryHandler* pkbQueryHandler,
-                                         OverrideTable* table,
                                          const StmtRef &leftArg,
                                          const EntityRef &rightArg){
   return pkbQueryHandler->queryUses(leftArg, rightArg);
 };
 
 constexpr UsesPInvoker usesPInvoker = [](PkbQueryHandler* pkbQueryHandler,
-                                         OverrideTable* table,
                                          const EntityRef &leftArg,
                                          const EntityRef &rightArg){
   return pkbQueryHandler->queryUses(leftArg, rightArg);

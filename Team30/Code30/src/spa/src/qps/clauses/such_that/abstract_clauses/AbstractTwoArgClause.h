@@ -28,26 +28,32 @@ class AbstractTwoArgClause: public SuchThatClause {
   PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler,
                              OverrideTable* table) {
     if (isSameSynonym()) {
-      auto queryResult = sameSynInvoker(pkbQueryHandler, table,
+      auto queryResult = sameSynInvoker(pkbQueryHandler,
                                         leftTransformer(left.get()));
       return Clause::toQueryResult(left->getName(), queryResult);
     }
 
     LeftArgType leftArg = leftTransformer(left.get());
     RightArgType rightArg = rightTransformer(right.get());
-    if (canSubstitute(table, left.get())) {
+    if (left->canSubstitute(table)) {
       OverrideTransformer overrideTrans = table->at(left->getName());
       leftArg = overrideTrans.transformArg(leftArg);
+     if (!Clause::isValidRef(leftArg, pkbQueryHandler)) {
+        return new PQLQueryResult();
+      }
     }
 
-    if (canSubstitute(table, right.get())) {
+    if (right->canSubstitute(table)) {
       OverrideTransformer overrideTrans = table->at(right->getName());
       rightArg = overrideTrans.transformArg(rightArg);
+      if (!Clause::isValidRef(rightArg, pkbQueryHandler)) {
+        return new PQLQueryResult();
+      }
     }
 
     auto queryResult = diffSynInvoker(
-        pkbQueryHandler, table,
-        leftArg, rightArg);
+        pkbQueryHandler, leftArg, rightArg);
+
     return Clause::toQueryResult(left.get(), right.get(), queryResult);
   }
 

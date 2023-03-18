@@ -16,8 +16,7 @@ class Constraint {
  public:
   virtual ~Constraint() = default;
   virtual bool applyConstraint(VariableTable* variableTable,
-                               OverrideTable* overrideTable,
-                               PkbQueryHandler* queryHandler) = 0;
+                               OverrideTable* overrideTable) = 0;
   virtual bool validateConstraint() = 0;
 };
 

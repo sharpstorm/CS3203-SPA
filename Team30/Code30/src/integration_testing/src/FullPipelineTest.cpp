@@ -408,6 +408,7 @@ TEST_CASE("With Clause Tests - Cat 1 (static = static)") {
 TEST_CASE("With Clause Tests - Cat 2 (attrRef = static)") {
   auto pipeline = TestPipelineProvider();
 
+  pipeline.query("assign a; Select BOOLEAN with a.stmt# = 4", {"FALSE"});
   pipeline.query("variable v; Select BOOLEAN with v.varName = \"x\"", {"TRUE"});
   pipeline.query("variable v; Select BOOLEAN with v.varName = \"g\"", {"FALSE"});
   pipeline.query("assign a; variable v; Select v.varName with v.varName = \"x\" such that Uses(a, v)", {"x"});
@@ -512,4 +513,11 @@ TEST_CASE("End-to-End Attribute Projection Test") {
 
   // value
   pipeline.query("constant c; Select c.value", {"2", "3", "5", "1", "0"});
+}
+
+TEST_CASE("Bad with") {
+  auto pipeline = TestPipelineProvider(SOURCE2);
+
+  pipeline.query("read r; Select r with r.varName = \"x\"",
+                 {"2", "3"});
 }

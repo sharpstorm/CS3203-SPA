@@ -7,15 +7,14 @@
 
 using std::vector, std::unique_ptr, std::make_unique;
 
-QueryExecutor::QueryExecutor(PkbQueryHandler* pkbQH): pkbQueryHandler(pkbQH),
-    orchestrator(QueryOrchestrator(QueryLauncher(pkbQH))) { }
+QueryExecutor::QueryExecutor(PkbQueryHandler* pkbQH):
+  orchestrator(QueryOrchestrator(QueryLauncher(pkbQH))) { }
 
 SynonymResultTable *QueryExecutor::executeQuery(PQLQuery* query) {
   OverrideTablePtr overrideTable = make_unique<OverrideTable>();
   bool isBoolResult = query->getResultVariables()->empty();
   for (const auto& con : query->getConstraints()) {
-    if (!con->applyConstraint(
-        query->getVarTable(), overrideTable.get(), pkbQueryHandler)) {
+    if (!con->applyConstraint(query->getVarTable(), overrideTable.get())) {
       return new SynonymResultTable(isBoolResult, false);
     }
   }

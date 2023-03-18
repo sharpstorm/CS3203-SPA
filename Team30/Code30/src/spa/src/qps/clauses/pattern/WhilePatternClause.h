@@ -7,7 +7,6 @@
 
 constexpr PatternQueryInvoker whilePatternInvoker =
     [](PkbQueryHandler* pkbHandler,
-       OverrideTable* table,
        const StmtRef &stmtRef,
        const EntityRef &entityRef)
         -> QueryResult<StmtValue, EntityValue> {
