@@ -30,10 +30,12 @@ class WithClause: public Clause {
                             SynToStmtMap *map);
   bool populateMap(PQLSynonymType type, SynToStmtMap *map,
                    PkbQueryHandler *pkbQueryHandler);
-  bool isLeftDefault();
-  bool isRightDefault();
 
  private:
+  bool isEmptyResult();
+  void evaluateOnIntAttributes(PQLQueryResult *result, PkbQueryHandler *pkbQueryHandler);
+  void evaluateOnStringAttributes(PQLQueryResult *result, PkbQueryHandler *pkbQueryHandler);
+
   template <class R1, class R2, class U, class V, class T1, class T2>
   pair_set<R1, R2> crossMaps(SynToStmtMap* map1,
                                 SynToStmtMap* map2,

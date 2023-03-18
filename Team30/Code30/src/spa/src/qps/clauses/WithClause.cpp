@@ -19,59 +19,66 @@ constexpr SynStmtMapExtractor<StmtList, string, StmtList> valueExtractor =
 PQLQueryResult *WithClause::evaluateOn(PkbQueryHandler *pkbQueryHandler) {
   PQLQueryResult* result = new PQLQueryResult();
 
-  // Return false if both arg attributes are stmt# but neither of them is of Stmt Type
-  if (((leftArg->getAttribute() & INT_RETURN_MASK) > 0)
-      && ((leftArg->getAttribute() & INT_RETURN_MASK)> 0)) {
-    if (leftArg->getSynType() != PQL_SYN_TYPE_STMT
-        && rightArg->getSynType() != PQL_SYN_TYPE_STMT) {
-      return result;
-    }
+  if (isEmptyResult()) {
+    return result;
   }
 
   if (leftArg->doesReturnInteger()) {
-    // stmt.stmt#, read.stmt#, print.stmt#, call.stmt#, while.stmt#, if.stmt#, assign.stmt#
-    unordered_set<int> set1;
-    unordered_set<int> set2;
-    StmtType leftType = PKBTypeAdapter::convertPQLSynonymToStmt(leftArg->getSynType());
-    StmtType rightType = PKBTypeAdapter::convertPQLSynonymToStmt(rightArg->getSynType());
-    set1 = pkbQueryHandler->getStatementsOfType(leftType);
-    set2 = pkbQueryHandler->getStatementsOfType(rightType);
-    pair_set<int,int> queryResult;
-    for (int i : set1) {
-      if (set2.find(i) == set2.end()) {
-        continue;
-      }
-      queryResult.insert({i, i});
-    }
-    result->add(leftArg->getSynName(), rightArg->getSynName(), queryResult);
+    evaluateOnIntAttributes(result, pkbQueryHandler);
   } else {
-    // call.procName, read.varName, print.varName, procedure.procName, variable.varName
-    SynToStmtMap map1;
-    SynToStmtMap map2;
-    bool isLeftDefault = populateMap(leftArg->getSynType(), &map1, pkbQueryHandler);
-    bool isRightDefault = populateMap(rightArg->getSynType(), &map2, pkbQueryHandler);
-
-    if (isLeftDefault && isRightDefault) {
-      auto queryResult = crossMaps<string, string>(&map1, &map2, keyExtractor, keyExtractor);
-      result->add(leftArg->getSynName(), rightArg->getSynName(), queryResult);
-    } else if (!isLeftDefault && !isRightDefault) {
-      auto queryResult = crossMaps<int, int>(&map1, &map2, valueExtractor, valueExtractor);
-      result->add(leftArg->getSynName(), rightArg->getSynName(), queryResult);
-    } else if (isLeftDefault) {
-      auto queryResult = crossMaps<string, int>(&map1, &map2, keyExtractor, valueExtractor);
-      result->add(leftArg->getSynName(), rightArg->getSynName(), queryResult);
-    } else {
-      auto queryResult = crossMaps<int, string>(&map1, &map2, valueExtractor, keyExtractor);
-      result->add(leftArg->getSynName(), rightArg->getSynName(), queryResult);
-    }
-    for (auto &it1 : map1) {
-      auto map2FindIterator = map2.find(it1.first);
-      if (map2FindIterator == map2.end()) {
-        continue;
-      }
-    }
+    evaluateOnStringAttributes(result, pkbQueryHandler);
   }
   return result;
+}
+
+bool WithClause::isEmptyResult() {
+  return (((leftArg->getAttribute() & INT_RETURN_MASK) > 0)
+  && ((leftArg->getAttribute() & INT_RETURN_MASK)> 0))
+  &&
+  ((leftArg->getSynType() != PQL_SYN_TYPE_STMT)
+  && (rightArg->getSynType() != PQL_SYN_TYPE_STMT));
+}
+
+void WithClause::evaluateOnIntAttributes(PQLQueryResult *result, PkbQueryHandler *pkbQueryHandler) {
+  StmtType leftType = PKBTypeAdapter::convertPQLSynonymToStmt(leftArg->getSynType());
+  StmtType rightType = PKBTypeAdapter::convertPQLSynonymToStmt(rightArg->getSynType());
+  unordered_set<int> set1 = pkbQueryHandler->getStatementsOfType(leftType);
+  unordered_set<int> set2 = pkbQueryHandler->getStatementsOfType(rightType);
+  pair_set<int,int> queryResult;
+  for (int i : set1) {
+    if (set2.find(i) == set2.end()) {
+      continue;
+    }
+    queryResult.insert({i, i});
+  }
+  result->add(leftArg->getSynName(), rightArg->getSynName(), queryResult);
+}
+
+void WithClause::evaluateOnStringAttributes(PQLQueryResult *result, PkbQueryHandler *pkbQueryHandler) {
+  SynToStmtMap map1;
+  SynToStmtMap map2;
+  bool isLeftDefault = populateMap(leftArg->getSynType(), &map1, pkbQueryHandler);
+  bool isRightDefault = populateMap(rightArg->getSynType(), &map2, pkbQueryHandler);
+
+  if (isLeftDefault && isRightDefault) {
+    auto queryResult = crossMaps<string, string>(&map1, &map2, keyExtractor, keyExtractor);
+    result->add(leftArg->getSynName(), rightArg->getSynName(), queryResult);
+  } else if (!isLeftDefault && !isRightDefault) {
+    auto queryResult = crossMaps<int, int>(&map1, &map2, valueExtractor, valueExtractor);
+    result->add(leftArg->getSynName(), rightArg->getSynName(), queryResult);
+  } else if (isLeftDefault) {
+    auto queryResult = crossMaps<string, int>(&map1, &map2, keyExtractor, valueExtractor);
+    result->add(leftArg->getSynName(), rightArg->getSynName(), queryResult);
+  } else {
+    auto queryResult = crossMaps<int, string>(&map1, &map2, valueExtractor, keyExtractor);
+    result->add(leftArg->getSynName(), rightArg->getSynName(), queryResult);
+  }
+  for (auto &it1 : map1) {
+    auto map2FindIterator = map2.find(it1.first);
+    if (map2FindIterator == map2.end()) {
+      continue;
+    }
+  }
 }
 
 template <PKBAttributeQuerier querier, PQLSynonymType synType>
