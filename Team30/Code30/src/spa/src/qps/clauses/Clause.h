@@ -20,6 +20,10 @@ class Clause : public IEvaluatable {
   }
 
   bool isValidRef(EntityRef entRef, PkbQueryHandler* handler) {
+    if (entRef.type == EntityType::None) {
+      return false;
+    }
+
     return !entRef.isKnown() ||
         handler->isSymbolOfType(entRef.type, entRef.name);
   }

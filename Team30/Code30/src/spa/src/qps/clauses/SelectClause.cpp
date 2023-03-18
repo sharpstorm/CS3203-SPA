@@ -17,26 +17,24 @@ PQLQueryResult* SelectClause::evaluateOn(PkbQueryHandler* pkbQueryHandler,
   ClauseArgumentPtr clauseArg = ClauseArgumentFactory::create(target);
   PQLSynonymName synName = target.getName();
   if (target.isStatementType()) {
-    StmtRef stmtVar = clauseArg->toStmtRef();
-    unordered_set<int> pkbResult = pkbQueryHandler
-        ->getStatementsOfType(stmtVar.type);
-
+    unordered_set<int> result;
+    StmtRef stmtRef = clauseArg->toStmtRef();
     if (clauseArg->canSubstitute(table)) {
       OverrideTransformer trans = table->at(synName);
       StmtValue stmtVal = trans.getStmtValue();
-      if (pkbResult.find(stmtVal) != pkbResult.end()) {
-        return Clause::toQueryResult(target.getName(),
-                                     unordered_set<int>({stmtVal}));
-      } else {
-        return Clause::toQueryResult(target.getName(), unordered_set<int>());
+      if (pkbQueryHandler->isStatementOfType(stmtRef.type, stmtVal)) {
+        result.insert(stmtVal);
       }
+    } else {
+      result = pkbQueryHandler
+          ->getStatementsOfType(stmtRef.type);
     }
-    return Clause::toQueryResult(target.getName(), pkbResult);
+
+    return Clause::toQueryResult(target.getName(), result);
   }
 
-  EntityRef entityVar = clauseArg->toEntityRef();
-  unordered_set<string> pkbResult = pkbQueryHandler
-      ->getSymbolsOfType(entityVar.type);
+  unordered_set<string> result;
+  EntityRef entRef = clauseArg->toEntityRef();
   if (clauseArg->canSubstitute(table)) {
     OverrideTransformer trans = table->at(synName);
     EntityValue entVal;
@@ -45,15 +43,15 @@ PQLQueryResult* SelectClause::evaluateOn(PkbQueryHandler* pkbQueryHandler,
     } else {
       entVal = trans.getEntityValue();
     }
-    if (pkbResult.find(entVal) != pkbResult.end()) {
-      return Clause::toQueryResult(target.getName(),
-                                   unordered_set<string>({entVal}));
-    } else {
-      return Clause::toQueryResult(target.getName(), unordered_set<string>());
+
+    if (pkbQueryHandler->isSymbolOfType(entRef.type, entVal)) {
+      result.insert(entVal);
     }
+  } else {
+    result = pkbQueryHandler->getSymbolsOfType(entRef.type);
   }
 
-  return Clause::toQueryResult(target.getName(), pkbResult);
+  return Clause::toQueryResult(target.getName(), result);
 }
 
 bool SelectClause::validateArgTypes(VariableTable *variables) {

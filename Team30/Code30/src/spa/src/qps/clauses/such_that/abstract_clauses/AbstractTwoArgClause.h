@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include <unordered_set>
 
 #include "qps/clauses/arguments/ClauseArgument.h"
@@ -9,7 +8,7 @@
 #include "qps/clauses/InvokerTypes.h"
 #include "qps/clauses/SuchThatClause.h"
 
-using std::unordered_set, std::string;
+using std::unordered_set;
 
 class AbstractTwoArgClause: public SuchThatClause {
  protected:

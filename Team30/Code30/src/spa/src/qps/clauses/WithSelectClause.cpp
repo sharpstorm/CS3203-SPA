@@ -5,31 +5,30 @@
 
 using std::unordered_set;
 
-WithSelectClause::WithSelectClause(AttributedSynonym aSyn) : attrSyn(aSyn) { }
+WithSelectClause::WithSelectClause(AttributedSynonym aSyn, EntityValue enVal) :
+  attrSyn(aSyn), entVal(enVal) { }
 
 PQLQueryResult *WithSelectClause::evaluateOn(PkbQueryHandler *pkbQueryHandler,
                                              OverrideTable *table) {
-  ClauseArgumentPtr clauseArg = ClauseArgumentFactory::create(attrSyn.getSyn());
-  PQLQuerySynonym* clauseSyn = clauseArg->getSyn();
-  PQLSynonymType synType = clauseSyn->getType();
+  PQLQuerySynonym* syn = attrSyn.getSyn();
+  ClauseArgumentPtr clauseArg = ClauseArgumentFactory::create(*syn);
+  PQLSynonymType synType = syn->getType();
 
   StmtRef stmtVar = clauseArg->toStmtRef();
   unordered_set<int> pkbResult = pkbQueryHandler
       ->getStatementsOfType(stmtVar.type);
 
-  OverrideTransformer trans = table->at(attrSyn.getName());
-
   // read/print.varName, call.procName
-  EntityValue overrideVal = trans.getEntityValue();
+//  EntityValue overrideVal = trans.getEntityValue();
   unordered_set<int> foundSet = unordered_set<int>();
   for (auto s : pkbResult) {
     if (synType == PQL_SYN_TYPE_READ &&
-        pkbQueryHandler->getReadDeclarations(s) == overrideVal) {
+        pkbQueryHandler->getReadDeclarations(s) == entVal) {
       foundSet.insert(s);
     } else if (synType == PQL_SYN_TYPE_PRINT &&
-        pkbQueryHandler->getPrintDeclarations(s) == overrideVal) {
+        pkbQueryHandler->getPrintDeclarations(s) == entVal) {
       foundSet.insert(s);
-    } else if (pkbQueryHandler->getCalledDeclaration(s) == overrideVal) {
+    } else if (pkbQueryHandler->getCalledDeclaration(s) == entVal) {
       foundSet.insert(s);
     }
   }

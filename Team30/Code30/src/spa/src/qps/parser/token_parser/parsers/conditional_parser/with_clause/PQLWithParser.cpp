@@ -49,10 +49,11 @@ void PQLWithParser::parseWithClause(QueryTokenParseState *parserState,
   } else {
     ConstraintSPtr constraint = parseConstraint(
         std::move(left), std::move(right), builder);
-    builder->addConstraint(constraint);
+    if (constraint != nullptr) {
+      builder->addConstraint(constraint);
+    }
   }
 }
-
 
 ConstraintSPtr PQLWithParser::parseConstraint(
     WithArgumentPtr left, WithArgumentPtr right, QueryBuilder* builder) {
@@ -66,14 +67,18 @@ ConstraintSPtr PQLWithParser::parseConstraint(
     // Cat 2
     if (left->isSyn()) {
       if (isNonDefaultCase(left->getAttrSyn())) {
-        addWithSelectClause(builder, left->getAttrSyn());
+        addWithSelectClause(builder, left->getAttrSyn(),
+                            right->getIdentValue());
+      } else {
+        constraint = parseOverrideConstraint(std::move(left), std::move(right));
       }
-      constraint = parseOverrideConstraint(std::move(left), std::move(right));
     } else {
       if (isNonDefaultCase(right->getAttrSyn())) {
-        addWithSelectClause(builder, right->getAttrSyn());
+        addWithSelectClause(builder, right->getAttrSyn(),
+                            left->getIdentValue());
+      } else {
+        constraint = parseOverrideConstraint(std::move(right), std::move(left));
       }
-      constraint = parseOverrideConstraint(std::move(right), std::move(left));
     }
   }
 
@@ -105,9 +110,10 @@ bool PQLWithParser::isNonDefaultCase(AttributedSynonym attrSyn) {
 }
 
 void PQLWithParser::addWithSelectClause(QueryBuilder* builder,
-                                        AttributedSynonym attrSyn) {
+                                        AttributedSynonym attrSyn,
+                                        string identValue) {
   WithSelectClausePtr withSelect = make_unique<WithSelectClause>(
-      attrSyn);
+      attrSyn, identValue);
   builder->addWithSelect(std::move(withSelect));
 }
 

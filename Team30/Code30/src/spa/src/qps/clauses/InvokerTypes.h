@@ -3,7 +3,6 @@
 #include <unordered_set>
 
 #include "common/Types.h"
-#include "qps/common/constraint/Constraint.h"
 
 template <
     typename LeftResultType, typename LeftArgType,

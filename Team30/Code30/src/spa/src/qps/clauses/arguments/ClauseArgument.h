@@ -27,9 +27,6 @@ class ClauseArgument {
   static bool isStatement(PQLQuerySynonym syn);
   bool canSubstitute(OverrideTable* table);
 
-//  static StmtType getStmtTypeFromSynType(PQLSynonymType type);
-//  static EntityType getEntTypeFromSynType(PQLSynonymType type);
-
   template<PQLSynonymType TYPE>
   static bool isType(PQLQuerySynonym syn) {
     return syn.isType(TYPE);
