@@ -373,3 +373,21 @@ TEST_CASE("End-to-End Next Test") {
   pipeline.query("assign a1; Select <a1, a1> such that Next*(a1, a1)",
                  {"5 5", "7 7", "8 8", "9 9", "11 11"});
 }
+
+TEST_CASE("End-to-End Affects Test") {
+  auto pipeline = TestPipelineProvider();
+
+  pipeline.query("read r; Select r such that Affects(1, 5)",
+                 {"10"});
+  pipeline.query("read r; Select r such that Affects(2, 5)",
+                 {});
+  pipeline.query("assign a; Select a such that Affects(1, a)",
+                 {"5", "12"});
+  pipeline.query("assign a; Select a such that Affects(a, 11)",
+                 {"3", "11"});
+  pipeline.query("assign a; Select a such that Affects(11, a)",
+                 {"9", "11"});
+  pipeline.query("assign a1, a2; Select <a1, a2> such that Affects(a1, a2)",
+                 {"1 5", "1 12", "2 8", "2 9", "3 9", "3 11",
+                  "5 7", "5 8", "5 9", "7 9", "9 8", "9 9", "11 9", "11 11"});
+}
