@@ -2,7 +2,9 @@
 
 #include <memory>
 #include <unordered_set>
+#include <unordered_map>
 #include <string>
+#include <vector>
 
 #include "Clause.h"
 #include "qps/clauses/arguments/WithArgument.h"
@@ -20,6 +22,7 @@ using SynStmtMapExtractor = const T*(*)(const U* first, const V* second);
 class WithClause: public Clause {
   WithArgumentPtr leftArg;
   WithArgumentPtr rightArg;
+
  public:
   WithClause(WithArgumentPtr left, WithArgumentPtr right);
   PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler) override;
@@ -82,8 +85,8 @@ class WithClause: public Clause {
     }
   }
 
-  void crossProduct(const string* set1, const string* set2, pair_set<string,
-                                                                     string>* output) {
+  void crossProduct(const string* set1,
+                    const string* set2, pair_set<string, string>* output) {
     output->insert({*set1, *set2});
   }
   SynonymList getUsedSynonyms() override;

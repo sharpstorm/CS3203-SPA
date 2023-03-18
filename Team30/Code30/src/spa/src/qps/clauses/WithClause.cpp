@@ -1,4 +1,5 @@
 #include <utility>
+#include <vector>
 
 #include "WithClause.h"
 #include "qps/clauses/arguments/PKBTypeAdapter.h"
@@ -41,8 +42,10 @@ bool WithClause::isEmptyResult() {
 
 void WithClause::evaluateOnIntAttributes(PQLQueryResult *result,
                                          PkbQueryHandler *pkbQueryHandler) {
-  StmtType leftType = PKBTypeAdapter::convertPQLSynonymToStmt(leftArg->getSynType());
-  StmtType rightType = PKBTypeAdapter::convertPQLSynonymToStmt(rightArg->getSynType());
+  StmtType leftType =
+      PKBTypeAdapter::convertPQLSynonymToStmt(leftArg->getSynType());
+  StmtType rightType =
+      PKBTypeAdapter::convertPQLSynonymToStmt(rightArg->getSynType());
   unordered_set<int> set1 = pkbQueryHandler->getStatementsOfType(leftType);
   unordered_set<int> set2 = pkbQueryHandler->getStatementsOfType(rightType);
   pair_set<int,int> queryResult;
@@ -59,12 +62,14 @@ void WithClause::evaluateOnStringAttributes(PQLQueryResult *result,
                                             PkbQueryHandler *pkbQueryHandler) {
   SynToStmtMap map1;
   SynToStmtMap map2;
-  bool isLeftDefault = populateMap(leftArg->getSynType(), &map1, pkbQueryHandler);
-  bool isRightDefault = populateMap(rightArg->getSynType(), &map2, pkbQueryHandler);
+  bool isLeftDefault =
+      populateMap(leftArg->getSynType(),&map1, pkbQueryHandler);
+  bool isRightDefault =
+      populateMap(rightArg->getSynType(), &map2, pkbQueryHandler);
 
   if (isLeftDefault && isRightDefault) {
     auto queryResult = crossMaps<string, string>
-        (&map1, &map2, keyExtractor,keyExtractor);
+        (&map1, &map2, keyExtractor, keyExtractor);
     result->add(leftArg->getSynName(), rightArg->getSynName(), queryResult);
   } else if (!isLeftDefault && !isRightDefault) {
     auto queryResult = crossMaps<int, int>
