@@ -6,6 +6,7 @@
 
 #include "qps/executor/planner/grouping/QueryGroup.h"
 #include "qps/executor/planner/QueryGroupPlan.h"
+#include "common/data_structs/BitField.h"
 
 using std::queue, std::vector, std::unordered_set;
 
@@ -15,6 +16,6 @@ class QueryClauseOrderer {
 
  private:
   void populateQueue(queue<int>* target,
-                     vector<bool>* clauseDone,
+                     BitField* clauseDone,
                      unordered_set<int>* edges);
 };
