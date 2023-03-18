@@ -19,7 +19,7 @@ class VariableTable {
   void finalizeTable();
   PQLQuerySynonymProxy getProxyFor(const PQLSynonymName &name);
   vector<PQLQuerySynonym> getDeclaredSynonyms();
-  unordered_map<string, PQLQuerySynonym*> getProxyArray();
+  unordered_map<string, PQLQuerySynonym*>* getProxyArray();
   PQLQuerySynonym* find(const PQLSynonymName &name);
   unordered_set<PQLQuerySynonym*> getReferredSynonyms();
 };

@@ -52,3 +52,7 @@ unordered_set<PQLQuerySynonym*> VariableTable::getReferredSynonyms() {
 vector<PQLQuerySynonym> VariableTable::getDeclaredSynonyms() {
   return declaredSynonyms;
 }
+
+unordered_map<string, PQLQuerySynonym*>* VariableTable::getProxyArray() {
+  return &proxyArray;
+}
