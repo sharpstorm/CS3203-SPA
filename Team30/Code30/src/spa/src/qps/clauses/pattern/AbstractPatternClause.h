@@ -20,17 +20,16 @@ class AbstractPatternClause: public PatternClause {
       PatternClause(synonym, std::move(leftArg), SYN_TYPE) {
   }
 
-  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler,
-                             OverrideTable* table) {
+  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler) {
     StmtRef leftStatement = {StatementType, 0};
     EntityRef leftVar = leftArg->toEntityRef();
-    if (leftArg->canSubstitute(table)) {
-      OverrideTransformer overrideTrans = table->at(leftArg->getName());
-      leftVar = overrideTrans.transformArg(leftVar);
-    }
+//    if (leftArg->canSubstitute(table)) {
+//      OverrideTransformer overrideTrans = table->at(leftArg->getName());
+//      leftVar = overrideTrans.transformArg(leftVar);
+//    }
 
     QueryResult<StmtValue, EntityValue> result =
-        invoker(pkbQueryHandler, table, leftStatement, leftVar);
+        invoker(pkbQueryHandler, leftStatement, leftVar);
     return Clause::toQueryResult(synonym.getName(), leftArg.get(), result);
   }
 };

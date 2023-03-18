@@ -12,6 +12,5 @@ class AssignPatternClause: public PatternClause {
   AssignPatternClause(const PQLQuerySynonym &assignSynonym,
                       ClauseArgumentPtr leftArg,
                       ExpressionArgumentPtr rightArg);
-  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler,
-                             OverrideTable* table) override;
+  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler) override;
 };

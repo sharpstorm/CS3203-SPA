@@ -17,22 +17,19 @@ using AbstractAffectsClause = AbstractStmtStmtClause<
     ClauseArgument::isStatement>;
 
 constexpr AffectsInvoker affectsInvoker = [](PkbQueryHandler* pkbQueryHandler,
-                                             OverrideTable * table,
                                              const StmtRef &leftArg,
                                              const StmtRef &rightArg){
   return QueryResult<StmtValue, StmtValue>{};
 };
 
 constexpr AffectsInvoker affectsTInvoker = [](PkbQueryHandler* pkbQueryHandler,
-                                              OverrideTable * table,
                                               const StmtRef &leftArg,
                                               const StmtRef &rightArg){
   return QueryResult<StmtValue, StmtValue>{};
 };
 
 constexpr AffectsSameSynInvoker affectsSymmetricInvoker =
-    [](PkbQueryHandler* pkbQueryHandler, OverrideTable* table,
-       const StmtRef &arg){
+    [](PkbQueryHandler* pkbQueryHandler, const StmtRef &arg){
       return unordered_set<StmtValue>{};
     };
 

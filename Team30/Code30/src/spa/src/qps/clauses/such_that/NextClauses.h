@@ -35,7 +35,6 @@ typedef CFGNextTQuerier<PkbQueryHandler, typeChecker> ConcreteNextTQuerier;
 
 template <class T>
 constexpr NextInvoker abstractNextInvoker = [](PkbQueryHandler* pkbQueryHandler,
-                                               OverrideTable * table,
                                                const StmtRef &leftArg,
                                                const StmtRef &rightArg){
   vector<CFG*> cfgs;
@@ -66,8 +65,8 @@ constexpr NextInvoker abstractNextInvoker = [](PkbQueryHandler* pkbQueryHandler,
 
 template <class T>
 constexpr NextSameSynInvoker abstractNextSameSynInvoker = [](
-    PkbQueryHandler* pkbQueryHandler, OverrideTable * table,
-    const StmtRef &arg) -> unordered_set<StmtValue> {
+    PkbQueryHandler* pkbQueryHandler, const StmtRef &arg) ->
+    unordered_set<StmtValue> {
   vector<CFG*> cfgs = pkbQueryHandler->queryCFGs(StmtRef{StmtType::None, 0});
   unordered_set<StmtValue> result;
 

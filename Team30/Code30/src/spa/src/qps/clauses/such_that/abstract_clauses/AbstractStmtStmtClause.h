@@ -21,14 +21,13 @@ class AbstractStmtStmtClause: public AbstractTwoArgClause {
         leftValidator, rightValidator>(table);
   }
 
-  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler,
-                             OverrideTable* table) override {
+  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler) override {
     return AbstractTwoArgClause::evaluateOn<StmtValue, StmtRef,
                                             StmtValue, StmtRef,
                                             Clause::toStmtRef,
                                             Clause::toStmtRef,
                                             invoker,
                                             symmetricInvoker>
-                                            (pkbQueryHandler, table);
+                                            (pkbQueryHandler);
   }
 };

@@ -5,8 +5,7 @@
 WithClause::WithClause(WithArgumentPtr left, WithArgumentPtr right) :
     leftArg(std::move(left)), rightArg(std::move(right)) {}
 
-PQLQueryResult *WithClause::evaluateOn(
-    PkbQueryHandler *pkbQueryHandler, OverrideTable* table) {
+PQLQueryResult *WithClause::evaluateOn(PkbQueryHandler *pkbQueryHandler) {
   PQLQueryResult* result = new PQLQueryResult();
 
   // Cat 4 -

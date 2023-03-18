@@ -12,8 +12,7 @@ class WithClause: public Clause {
   WithArgumentPtr rightArg;
  public:
   WithClause(WithArgumentPtr left, WithArgumentPtr right);
-  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler,
-                             OverrideTable* table) override;
+  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler) override;
   bool validateArgTypes(VariableTable* variables) override;
   SynonymList getUsedSynonyms() override;
 };

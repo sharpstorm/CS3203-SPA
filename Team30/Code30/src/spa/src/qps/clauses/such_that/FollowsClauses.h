@@ -17,23 +17,19 @@ using AbstractFollowsClause = AbstractStmtStmtClause<
     ClauseArgument::isStatement>;
 
 constexpr FollowsInvoker followsInvoker = [](PkbQueryHandler* pkbQueryHandler,
-                                             OverrideTable* table,
                                              const StmtRef &leftArg,
                                              const StmtRef &rightArg){
   return pkbQueryHandler->queryFollows(leftArg, rightArg);
 };
 
 constexpr FollowsInvoker followsTInvoker = [](PkbQueryHandler* pkbQueryHandler,
-                                              OverrideTable* table,
                                               const StmtRef &leftArg,
                                               const StmtRef &rightArg){
   return pkbQueryHandler->queryFollowsStar(leftArg, rightArg);
 };
 
 constexpr FollowsSameSynInvoker followsSymmetricInvoker =
-    [](PkbQueryHandler* pkbQueryHandler,
-       OverrideTable* table,
-       const StmtRef &arg){
+    [](PkbQueryHandler* pkbQueryHandler, const StmtRef &arg){
       return unordered_set<StmtValue>{};
     };
 

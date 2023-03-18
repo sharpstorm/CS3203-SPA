@@ -27,8 +27,7 @@ class AbstractAnyEntClause : public AbstractTwoArgClause {
         leftValidator, rightValidator>(table);
   }
 
-  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler,
-                             OverrideTable* table) override {
+  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler) override {
     if (left->isWildcard()) {
       throw QPSParserSemanticError(QPS_PARSER_ERR_INVALID_WILDCARD);
     }
@@ -43,8 +42,8 @@ class AbstractAnyEntClause : public AbstractTwoArgClause {
 
     if (isLeftStatement) {
       constexpr SymmetricQueryInvoker<StmtValue, StmtRef> dummyInvoker =
-          [](PkbQueryHandler* pkbQueryHandler, OverrideTable* table,
-             const StmtRef &arg) -> unordered_set<StmtValue> {
+          [](PkbQueryHandler* pkbQueryHandler, const StmtRef &arg) ->
+          unordered_set<StmtValue> {
         return unordered_set<StmtValue>{};
       };
       return AbstractTwoArgClause::evaluateOn<StmtValue, StmtRef,
@@ -53,11 +52,11 @@ class AbstractAnyEntClause : public AbstractTwoArgClause {
                                               Clause::toEntityRef,
                                               stmtInvoker,
                                               dummyInvoker>
-                                              (pkbQueryHandler, table);
+                                              (pkbQueryHandler);
     } else {
       constexpr SymmetricQueryInvoker<EntityValue, EntityRef> dummyInvoker =
-          [](PkbQueryHandler* pkbQueryHandler, OverrideTable* table,
-             const EntityRef &arg) -> unordered_set<EntityValue> {
+          [](PkbQueryHandler* pkbQueryHandler, const EntityRef &arg) ->
+          unordered_set<EntityValue> {
             return unordered_set<EntityValue>{};
           };
       return AbstractTwoArgClause::evaluateOn<EntityValue, EntityRef,
@@ -66,7 +65,7 @@ class AbstractAnyEntClause : public AbstractTwoArgClause {
                                               Clause::toEntityRef,
                                               entInvoker,
                                               dummyInvoker>
-                                              (pkbQueryHandler, table);
+                                              (pkbQueryHandler);
     }
   }
 };
