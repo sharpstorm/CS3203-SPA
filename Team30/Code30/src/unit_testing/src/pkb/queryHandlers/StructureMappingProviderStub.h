@@ -40,4 +40,6 @@ class StructureMappingProviderStub : public IStructureMappingProvider {
   unordered_set<int> getCallStmtsOfProcedure(string) const override;
 
   string getCalledProcedure(int) const override;
+
+  bool isStatementOfType(StmtType, int) const override;
 };

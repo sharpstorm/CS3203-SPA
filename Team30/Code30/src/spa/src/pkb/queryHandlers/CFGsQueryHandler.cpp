@@ -22,6 +22,9 @@ vector<CFG*> CFGsQueryHandler::queryCFGs(StmtRef stmt) const {
     }
   } else {
     string procedureName = structureProvider->getProcedureForLine(stmt.lineNum);
+    if (procedureName.empty()) {
+      return result;
+    }
     result.push_back(cfgsStorage->get(procedureName).get());
   }
 

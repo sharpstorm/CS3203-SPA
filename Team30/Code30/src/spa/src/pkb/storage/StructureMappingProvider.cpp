@@ -40,3 +40,8 @@ std::unordered_set<int> StructureMappingProvider::getCallStmtsOfProcedure(
 std::string StructureMappingProvider::getCalledProcedure(int lineNumber) const {
   return callStmtStorage->getByKey(lineNumber);
 }
+
+bool StructureMappingProvider::isStatementOfType(StmtType stmtType,
+                                                 int lineNumber) const {
+  return statementStorage->getByKey(lineNumber) == stmtType;
+}

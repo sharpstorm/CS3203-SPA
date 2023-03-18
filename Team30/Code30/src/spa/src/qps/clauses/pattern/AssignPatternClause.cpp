@@ -16,34 +16,34 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
     PkbQueryHandler* pkbQueryHandler) {
   StmtRef leftStatement = {StmtType::Assign, 0};
   EntityRef rightVariable = leftArg->toEntityRef();
-  QueryResult<int, string> modifiesResult =
+  QueryResult<StmtValue, EntityValue> modifiesResult =
       pkbQueryHandler->queryModifies(leftStatement, rightVariable);
 
-  ClauseArgumentPtr synArg = make_unique<SynonymArgument>(synonym);
-  QueryResult<int, string> assignResult;
   if (rightArgument->isWildcard()) {
-    return Clause::toQueryResult(synArg.get(), leftArg.get(),
+    return Clause::toQueryResult(synonym.getName(), leftArg.get(),
                                  modifiesResult);
-  } else {
-    // Go through all the line numbers
-    for (auto& it : modifiesResult.pairVals) {
-      // Call assigns to retrieve the node
-      StmtRef assignRef = {StmtType::Assign, it.first};
-      QueryResult<int, PatternTrie*> nodes =
-          pkbQueryHandler->queryAssigns(assignRef);
+  }
 
-      PatternTrie* lineRoot = *nodes.secondArgVals.begin();
-      bool isPartialMatch = rightArgument->allowsPartial()
-          && lineRoot->isMatchPartial(rightArgument->getSequence());
-      bool isFullMatch = !rightArgument->allowsPartial()
-          && lineRoot->isMatchFull(rightArgument->getSequence());
-      if (isPartialMatch || isFullMatch) {
-        assignResult.add(it.first, it.second);
-      }
+  QueryResult<StmtValue, EntityValue> assignResult;
+  // Go through all the line numbers
+  for (auto& it : modifiesResult.pairVals) {
+    // Call assigns to retrieve the node
+    StmtRef assignRef = {StmtType::Assign, it.first};
+    QueryResult<StmtValue, PatternTrie*> nodes =
+        pkbQueryHandler->queryAssigns(assignRef);
+
+    PatternTrie* lineRoot = *nodes.secondArgVals.begin();
+    bool isPartialMatch = rightArgument->allowsPartial()
+        && lineRoot->isMatchPartial(rightArgument->getSequence());
+    bool isFullMatch = !rightArgument->allowsPartial()
+        && lineRoot->isMatchFull(rightArgument->getSequence());
+    if (isPartialMatch || isFullMatch) {
+      assignResult.add(it.first, it.second);
     }
   }
 
   // Convert to PQLQueryResult
-  return Clause::toQueryResult(synArg.get(), leftArg.get(), assignResult);
+  return Clause::toQueryResult(synonym.getName(), leftArg.get(),
+                               assignResult);
 }
 

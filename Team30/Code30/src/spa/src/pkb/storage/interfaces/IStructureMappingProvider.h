@@ -20,4 +20,5 @@ class IStructureMappingProvider: public IProvider<int, StmtType> {
   virtual string getProcedureForLine(int) const = 0;
   virtual unordered_set<int> getCallStmtsOfProcedure(string) const = 0;
   virtual string getCalledProcedure(int) const = 0;
+  virtual bool isStatementOfType(StmtType, int) const = 0;
 };

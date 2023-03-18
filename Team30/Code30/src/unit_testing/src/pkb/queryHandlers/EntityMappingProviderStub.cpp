@@ -1,6 +1,6 @@
 #include "EntityMappingProviderStub.h"
 
-EntityMappingProviderStub::EntityMappingProviderStub(){};
+EntityMappingProviderStub::EntityMappingProviderStub() {};
 
 unordered_set<string> EntityMappingProviderStub::getValuesOfType(
     EntityType type) const {
@@ -33,6 +33,15 @@ unordered_set<int> EntityMappingProviderStub::getIndexOfConstant(
   return constantToIndexTable.get(name);
 }
 
-bool EntityMappingProviderStub::isValueOfType(string, EntityType) const {
-  return true;
+bool EntityMappingProviderStub::isSymbolOfType(EntityType entityType,
+                                               string name) const {
+  if (entityType == EntityType::Variable) {
+    return !variableToIndexTable.get(name).empty();
+  } else if (entityType == EntityType::Constant) {
+    return !constantToIndexTable.get(name).empty();
+  } else if (entityType == EntityType::Procedure) {
+    return !procedureToStmtNumTable.get(name).empty();
+  } else {
+    return false;
+  }
 }
