@@ -70,6 +70,12 @@ class CFGAffectsQuerier: public ICFGClauseQuerier,
 
   bool validateArg(const StmtValue &arg);
 
+  template <class T>
+  static constexpr bool isContainer(T* closure, int stmtNumber) {
+    return (typePredicate(closure, StmtType::While, stmtNumber)
+        || typePredicate(closure, StmtType::If, stmtNumber));
+  }
+
   static constexpr WalkerSingleCallback<QueryFromResultClosure>
       forwardWalkerCallback =
       [](QueryFromResultClosure *state, CFGNode nextNode) -> bool {
@@ -83,6 +89,9 @@ class CFGAffectsQuerier: public ICFGClauseQuerier,
           }
         }
 
+        if (isContainer(state->closure, stmtNumber)) {
+          return true;
+        }
         return modifiesGetter(state->closure, stmtNumber) != state->target;
       };
 
@@ -91,6 +100,11 @@ class CFGAffectsQuerier: public ICFGClauseQuerier,
       [](QueryToResultClosure *state, CFGNode nextNode, BitField curState)
           -> BitField {
         int stmtNumber = state->cfg->fromCFGNode(nextNode);
+
+        if (isContainer(state->closure, stmtNumber)) {
+          return curState;
+        }
+
         EntityValue modifiedVar = modifiesGetter(state->closure, stmtNumber);
         if (auto it = state->symbolMap.find(modifiedVar);
             it != state->symbolMap.end()) {
@@ -104,6 +118,7 @@ class CFGAffectsQuerier: public ICFGClauseQuerier,
       backwardWalkerCallback =
       [](QueryToResultClosure *state, CFGNode nextNode) {
         int stmtNumber = state->cfg->fromCFGNode(nextNode);
+
         if (!typePredicate(state->closure, StmtType::Assign, stmtNumber)) {
           return;
         }
@@ -151,6 +166,9 @@ queryBool(const StmtValue &arg0, const StmtValue &arg1) {
           throw CFGHaltWalkerException();
         }
 
+        if (isContainer(state->closure, stmtNumber)) {
+          return true;
+        }
         return modifiesGetter(state->closure, stmtNumber) != state->target;
       };
 

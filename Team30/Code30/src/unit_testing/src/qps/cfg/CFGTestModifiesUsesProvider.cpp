@@ -8,13 +8,17 @@ CFGTestModifiesUsesProvider::CFGTestModifiesUsesProvider(
     CFGTestModifiesUsesProvider::CFGTestModifiesUsesProvider(
         vector<EntityValue> modifies,
         vector<unordered_set<EntityValue>> uses,
-        unordered_set<StmtValue> typeExclusions):
+        unordered_map<StmtValue, StmtType> typeExclusions):
         modifies(modifies), uses(uses), typeExclusions(typeExclusions) {}
 
 bool CFGTestModifiesUsesProvider::typePredicate(CFGTestModifiesUsesProvider *state,
                                                 StmtType type,
                                                 StmtValue value) {
-  return state->typeExclusions.find(value) == state->typeExclusions.end();
+  auto it = state->typeExclusions.find(value);
+  if (it == state->typeExclusions.end()) {
+    return type == StmtType::Assign;
+  }
+  return it->second == type;
 }
 
 EntityValue CFGTestModifiesUsesProvider::getModifies(CFGTestModifiesUsesProvider *state,

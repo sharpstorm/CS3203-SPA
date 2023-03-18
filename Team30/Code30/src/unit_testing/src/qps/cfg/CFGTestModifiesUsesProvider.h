@@ -2,9 +2,10 @@
 
 #include <vector>
 #include <unordered_set>
+#include <unordered_map>
 #include "common/Types.h"
 
-using std::vector, std::unordered_set;
+using std::vector, std::unordered_set, std::unordered_map;
 
 class CFGTestModifiesUsesProvider {
  public:
@@ -12,7 +13,7 @@ class CFGTestModifiesUsesProvider {
                               vector<unordered_set<EntityValue>> uses);
   CFGTestModifiesUsesProvider(vector<EntityValue> modifies,
                               vector<unordered_set<EntityValue>> uses,
-                              unordered_set<StmtValue> typeExclusions);
+                              unordered_map<StmtValue, StmtType> typeExclusions);
 
   static EntityValue getModifies(CFGTestModifiesUsesProvider* state,
                                           StmtValue value);
@@ -24,5 +25,5 @@ class CFGTestModifiesUsesProvider {
  private:
   vector<EntityValue> modifies;
   vector<unordered_set<EntityValue>> uses;
-  unordered_set<StmtValue> typeExclusions;
+  unordered_map<StmtValue, StmtType> typeExclusions;
 };
