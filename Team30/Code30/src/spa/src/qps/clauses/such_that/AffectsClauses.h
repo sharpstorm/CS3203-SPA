@@ -2,6 +2,7 @@
 
 #include <utility>
 #include <unordered_set>
+#include <vector>
 
 #include "abstract_clauses/AbstractStmtStmtClause.h"
 #include "qps/clauses/SuchThatClause.h"
@@ -85,7 +86,8 @@ constexpr AffectsInvoker affectsTInvoker = [](PkbQueryHandler* pkbQueryHandler,
 constexpr AffectsSameSynInvoker affectsSymmetricInvoker =
     [](PkbQueryHandler* pkbQueryHandler,
        const StmtRef &arg){
-      vector<CFG*> cfgs = pkbQueryHandler->queryCFGs(StmtRef{StmtType::None, 0});
+      vector<CFG*> cfgs = pkbQueryHandler->queryCFGs(
+          StmtRef{StmtType::None, 0});
       unordered_set<StmtValue> result;
 
       for (auto it = cfgs.begin(); it != cfgs.end(); it++) {

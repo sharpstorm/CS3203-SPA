@@ -24,6 +24,7 @@ using DFSLinkGetter = CFGLinks*(*)(CFG* cfg, CFGNode node);
 class CFGStatefulWalker {
  private:
   CFG* cfg;
+
  public:
   explicit CFGStatefulWalker(CFG *cfg): cfg(cfg) {
   }

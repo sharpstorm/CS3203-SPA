@@ -1,6 +1,6 @@
 #include "catch.hpp"
 #include "common/cfg/CFG.h"
-#include "qps/cfg/CFGWalker.h"
+#include "qps/cfg/cfg_querier/walkers/CFGWalker.h"
 #include "common/Types.h"
 #include "TestCFGProvider.h"
 

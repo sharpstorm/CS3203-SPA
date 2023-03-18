@@ -1,8 +1,10 @@
 #include "CFGWalker.h"
-#include "qps/cfg/cfg_querier/CFGHaltWalkerException.h"
 
 #include <set>
 #include <utility>
+
+#include "qps/cfg/cfg_querier/CFGHaltWalkerException.h"
+
 
 using std::set, std::pair;
 
