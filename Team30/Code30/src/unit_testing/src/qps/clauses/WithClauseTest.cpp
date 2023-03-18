@@ -97,6 +97,7 @@ TEST_CASE("With Execution Typing") {
   PQLQueryResult* result;
 
   // int, int
+  // default - default
   result = testWithClause(
       PQL_SYN_TYPE_CALL, "cl", STMT_NUM,
       PQL_SYN_TYPE_STMT, "s", STMT_NUM);
@@ -110,6 +111,8 @@ TEST_CASE("With Execution Typing") {
   REQUIRE(*result == *expected);
   delete result;
 
+  // int - int
+  // not-default - not default
   result = testWithClause(
       PQL_SYN_TYPE_PRINT, "p", VAR_NAME,
       PQL_SYN_TYPE_CALL, "cl", PROC_NAME);
@@ -123,6 +126,7 @@ TEST_CASE("With Execution Typing") {
   delete result;
 
   // string, int
+  // default - non default
   result = testWithClause(
       PQL_SYN_TYPE_PROCEDURE, "p", PROC_NAME,
       PQL_SYN_TYPE_CALL, "cl", PROC_NAME);
@@ -137,6 +141,7 @@ TEST_CASE("With Execution Typing") {
   delete result;
 
   // int, string
+  // non-default - default
   result = testWithClause(
       PQL_SYN_TYPE_CALL, "cl", PROC_NAME,
       PQL_SYN_TYPE_PROCEDURE, "p", PROC_NAME);
@@ -161,6 +166,8 @@ TEST_CASE("With Execution Typing") {
   REQUIRE(*result == *expected);
   delete result;
 
+  // default - default
+  // string - string
   result = testWithClause(
       PQL_SYN_TYPE_PROCEDURE, "p", PROC_NAME,
       PQL_SYN_TYPE_VARIABLE, "v", VAR_NAME);
