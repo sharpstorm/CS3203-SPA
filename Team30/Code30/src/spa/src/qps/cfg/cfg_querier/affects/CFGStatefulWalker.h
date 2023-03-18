@@ -25,7 +25,8 @@ class CFGStatefulWalker {
  private:
   CFG* cfg;
  public:
-  explicit CFGStatefulWalker(CFG* cfg);
+  explicit CFGStatefulWalker(CFG *cfg): cfg(cfg) {
+  }
 
   template <typename T, StatefulWalkerSingleCallback<T> callback>
   void walkTo(CFGNode end, BitField initialState, T* cbState,
@@ -99,9 +100,6 @@ class CFGStatefulWalker {
     runDFS<T, callback, backwardLinkGetter>(start, initialState, state);
   }
 };
-
-CFGStatefulWalker::CFGStatefulWalker(CFG *cfg): cfg(cfg) {
-}
 
 template <typename T>
 struct StatefulNodewiseWalkerState {

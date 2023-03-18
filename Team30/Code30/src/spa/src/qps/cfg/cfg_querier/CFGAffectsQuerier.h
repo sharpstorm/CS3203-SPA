@@ -8,7 +8,7 @@
 #include "qps/cfg/CFGWalker.h"
 #include "CFGQuerier.h"
 #include "qps/cfg/CFGQuerierTypes.h"
-#include "affects/CFGStatefulWalker.h"
+#include "qps/cfg/cfg_querier/affects/CFGStatefulWalker.h"
 
 using std::unordered_set, std::unordered_map;
 
@@ -71,7 +71,7 @@ class CFGAffectsQuerier: public ICFGClauseQuerier,
   bool validateArg(const StmtValue &arg);
 
   template <class T>
-  static constexpr bool isContainer(T* closure, int stmtNumber) {
+  static constexpr bool isContainer(T* closure, const int &stmtNumber) {
     return (typePredicate(closure, StmtType::While, stmtNumber)
         || typePredicate(closure, StmtType::If, stmtNumber));
   }
@@ -79,7 +79,8 @@ class CFGAffectsQuerier: public ICFGClauseQuerier,
   static constexpr WalkerSingleCallback<QueryFromResultClosure>
       forwardWalkerCallback =
       [](QueryFromResultClosure *state, CFGNode nextNode) -> bool {
-        int stmtNumber = state->cfg->fromCFGNode(nextNode);
+        int stmtNumber = 0;
+        stmtNumber = state->cfg->fromCFGNode(nextNode);
 
         if (typePredicate(state->closure, StmtType::Assign, stmtNumber)) {
           unordered_set<EntityValue> usedVars = usesGetter(state->closure,
@@ -117,7 +118,8 @@ class CFGAffectsQuerier: public ICFGClauseQuerier,
   static constexpr StatefulWalkerSingleCallback<QueryToResultClosure>
       backwardWalkerCallback =
       [](QueryToResultClosure *state, CFGNode nextNode) {
-        int stmtNumber = state->cfg->fromCFGNode(nextNode);
+        int stmtNumber = 0;
+        stmtNumber = state->cfg->fromCFGNode(nextNode);
 
         if (!typePredicate(state->closure, StmtType::Assign, stmtNumber)) {
           return;
