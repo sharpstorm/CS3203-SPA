@@ -35,12 +35,12 @@ class AbstractTwoArgClause: public SuchThatClause {
 
     LeftArgType leftArg = leftTransformer(left.get());
     RightArgType rightArg = rightTransformer(right.get());
-    if (canSubstitute(table, left.get())) {
+    if (left->canSubstitute(table)) {
       OverrideTransformer overrideTrans = table->at(left->getName());
       leftArg = overrideTrans.transformArg(leftArg);
     }
 
-    if (canSubstitute(table, right.get())) {
+    if (right->canSubstitute(table)) {
       OverrideTransformer overrideTrans = table->at(right->getName());
       rightArg = overrideTrans.transformArg(rightArg);
     }

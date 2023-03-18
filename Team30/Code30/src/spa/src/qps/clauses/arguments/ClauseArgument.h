@@ -1,8 +1,10 @@
 #pragma once
 
 #include <memory>
-#include "../../common/PQLQuerySynonym.h"
+
 #include "common/Types.h"
+#include "../../common/PQLQuerySynonym.h"
+#include "qps/common/constraint/Constraint.h"
 
 using std::unique_ptr;
 
@@ -21,6 +23,7 @@ class ClauseArgument {
   virtual EntityRef toEntityRef() = 0;
 
   static bool isStatement(PQLQuerySynonym syn);
+  bool canSubstitute(OverrideTable* table);
 
   template<PQLSynonymType TYPE>
   static bool isType(PQLQuerySynonym syn) {

@@ -17,7 +17,7 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
   PkbQueryHandler* pkbQueryHandler, OverrideTable* table) {
   StmtRef leftStatement = {StmtType::Assign, 0};
   EntityRef rightVariable = leftArg->toEntityRef();
-  if (canSubstitute(table, leftArg.get())) {
+  if (leftArg->canSubstitute(table)) {
     OverrideTransformer overrideTransformer = table->at(leftArg->getName());
     rightVariable = overrideTransformer.transformArg(rightVariable);
   }
