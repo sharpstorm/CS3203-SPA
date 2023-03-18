@@ -8,7 +8,7 @@
 #include "qps/cfg/cfg_querier/walkers/CFGWalker.h"
 #include "CFGQuerier.h"
 #include "qps/cfg/CFGQuerierTypes.h"
-#include "qps/cfg/cfg_querier/affects/CFGStatefulWalker.h"
+#include "qps/cfg/cfg_querier/walkers/CFGStatefulWalker.h"
 
 using std::unordered_set, std::unordered_map;
 
