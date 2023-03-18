@@ -25,7 +25,7 @@ class AbstractTwoArgClause: public SuchThatClause {
       QueryInvoker<LeftResultType, LeftArgType,
                    RightResultType, RightArgType> diffSynInvoker,
       SymmetricQueryInvoker<LeftResultType, LeftArgType> sameSynInvoker>
-  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler) {
+  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler, OverrideTable* overrideTable) {
     if (isSameSynonym()) {
       auto queryResult = sameSynInvoker(pkbQueryHandler,
                                         leftTransformer(left.get()));

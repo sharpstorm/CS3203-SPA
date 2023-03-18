@@ -21,13 +21,13 @@ class AbstractEntEntClause: public AbstractTwoArgClause {
         leftValidator, rightValidator>(table);
   }
 
-  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler) override {
+  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler, OverrideTable* table) override {
     return AbstractTwoArgClause::evaluateOn<EntityValue, EntityRef,
                                             EntityValue, EntityRef,
                                             Clause::toEntityRef,
                                             Clause::toEntityRef,
                                             invoker,
                                             symmetricInvoker>
-                                            (pkbQueryHandler);
+                                            (pkbQueryHandler, table);
   }
 };
