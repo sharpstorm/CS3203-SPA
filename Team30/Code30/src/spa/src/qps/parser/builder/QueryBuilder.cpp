@@ -28,10 +28,15 @@ void QueryBuilder::addSynonym(const PQLSynonymName &name,
   }
 
   variables->add(name, PQLQuerySynonym(type, name));
+  declaredNames.insert(name);
 }
 
 bool QueryBuilder::hasSynonym(const PQLSynonymName &name) {
-  return variables->find(name) != nullptr;
+  return declaredNames.find(name) != declaredNames.end();
+}
+
+void QueryBuilder::finalizeSynonymTable() {
+  variables->finalizeTable();
 }
 
 PQLQuerySynonym* QueryBuilder::accessSynonym(const PQLSynonymName &name) {
@@ -50,7 +55,6 @@ void QueryBuilder::addSuchThat(unique_ptr<SuchThatClause> clause) {
 void QueryBuilder::addPattern(unique_ptr<PatternClause> clause) {
   clauses.push_back(std::move(clause));
 }
-
 
 void QueryBuilder::addWith(unique_ptr<WithClause> clause) {
   clauses.push_back(std::move(clause));

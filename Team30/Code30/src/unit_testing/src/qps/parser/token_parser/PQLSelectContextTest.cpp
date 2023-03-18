@@ -13,6 +13,7 @@ void testSynAttribute(AttributedSynonym syn,
                       vector<PQLToken> tokenSeq) {
   QueryBuilder builder;
   builder.addSynonym(syn.getName(), syn.getType());
+  builder.finalizeSynonymTable();
 
   testParsing<PQLSelectParser>(tokenSeq, &builder);
 
@@ -27,6 +28,7 @@ void testSynAttribute(AttributedSynonym syn,
 TEST_CASE("Test PQL Select parsing") {
   QueryBuilder builder;
   builder.addSynonym("s", PQL_SYN_TYPE_STMT);
+  builder.finalizeSynonymTable();
 
   testParsing<PQLSelectParser>(
       make_unique<PQLTestTokenSequenceBuilder>()
@@ -46,6 +48,7 @@ TEST_CASE("Test PQL Select Tuple parsing") {
   builder.addSynonym("s1", PQL_SYN_TYPE_STMT);
   builder.addSynonym("s2", PQL_SYN_TYPE_STMT);
   builder.addSynonym("s3", PQL_SYN_TYPE_STMT);
+  builder.finalizeSynonymTable();
 
   testParsing<PQLSelectParser>(
       make_unique<PQLTestTokenSequenceBuilder>()
@@ -85,6 +88,7 @@ TEST_CASE("Test PQL Select Boolean parsing") {
 TEST_CASE("Test PQL Select Declared BOOLEAN Name parsing") {
   QueryBuilder qb;
   qb.addSynonym("BOOLEAN", PQL_SYN_TYPE_ASSIGN);
+  qb.finalizeSynonymTable();
   testParsing<PQLSelectParser>(
       make_unique<PQLTestTokenSequenceBuilder>()
           ->addToken(PQL_TOKEN_SELECT)
@@ -172,6 +176,7 @@ TEST_CASE("Test PQL Select attribute in tuple parsing") {
   builder.addSynonym("v1", PQL_SYN_TYPE_VARIABLE);
   builder.addSynonym("p1", PQL_SYN_TYPE_PROCEDURE);
   builder.addSynonym("c1", PQL_SYN_TYPE_CONSTANT);
+  builder.finalizeSynonymTable();
 
   // Select <s1.stmt#, v1.varName, p1.procName, c1.value>
   testParsing<PQLSelectParser>(

@@ -10,6 +10,7 @@ VariableTable::VariableTable(unordered_map<string, PQLQuerySynonym> map) {
   for (auto it : map) {
     add(it.first, it.second);
   }
+  finalizeTable();
 }
 
 PQLQuerySynonymProxy VariableTable::getProxyFor(const PQLSynonymName &name) {
@@ -31,7 +32,13 @@ PQLQuerySynonym* VariableTable::find(const PQLSynonymName &name) {
 
 void VariableTable::add(const PQLSynonymName &name, PQLQuerySynonym syn) {
   declaredSynonyms.push_back(syn);
-  proxyArray.emplace(name, &(declaredSynonyms.back()));
+}
+
+void VariableTable::finalizeTable() {
+  for (int i = 0; i < declaredSynonyms.size(); i++) {
+    PQLQuerySynonym* syn = &(declaredSynonyms.at(i));
+    proxyArray.emplace(syn->getName(), syn);
+  }
 }
 
 unordered_set<PQLQuerySynonym*> VariableTable::getReferredSynonyms() {

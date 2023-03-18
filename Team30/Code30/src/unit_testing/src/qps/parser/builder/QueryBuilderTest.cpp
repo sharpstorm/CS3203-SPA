@@ -20,6 +20,7 @@ TEST_CASE("Test QueryBuilder Success") {
   qb.addSynonym("h", PQL_SYN_TYPE_PRINT);
   qb.addSynonym("i", PQL_SYN_TYPE_READ);
   qb.addSynonym("j", PQL_SYN_TYPE_IF);
+  qb.finalizeSynonymTable();
 
   qb.addSuchThat(make_unique<FollowsClause>(ClauseArgumentFactory::create(1),
                                             ClauseArgumentFactory::create(2)));
@@ -57,12 +58,14 @@ TEST_CASE("Test QueryBuilder Duplicate Variable") {
   QueryBuilder qb;
   qb.addSynonym("a", PQL_SYN_TYPE_STMT);
   qb.addSynonym("a", PQL_SYN_TYPE_PROCEDURE);
+  qb.finalizeSynonymTable();
   REQUIRE_THROWS_AS(qb.build(), QPSParserSemanticError);
 }
 
 TEST_CASE("Test QueryBuilder Access Unknown Variable") {
   QueryBuilder qb;
   qb.addSynonym("a", PQL_SYN_TYPE_STMT);
+  qb.finalizeSynonymTable();
   qb.accessSynonym("b");
   REQUIRE_THROWS_AS(qb.build(), QPSParserSemanticError);
 }
@@ -70,6 +73,7 @@ TEST_CASE("Test QueryBuilder Access Unknown Variable") {
 TEST_CASE("Test QueryBuilder Invalid Clause - Follows") {
   QueryBuilder qb;
   qb.addSynonym("a", PQL_SYN_TYPE_CONSTANT);
+  qb.finalizeSynonymTable();
   qb.addSuchThat(make_unique<FollowsClause>(
       ClauseArgumentFactory::create(PQLQuerySynonym(PQL_SYN_TYPE_CONSTANT, "a")),
       ClauseArgumentFactory::create(2)));
@@ -77,6 +81,7 @@ TEST_CASE("Test QueryBuilder Invalid Clause - Follows") {
 
   QueryBuilder qb2;
   qb2.addSynonym("a", PQL_SYN_TYPE_CONSTANT);
+  qb.finalizeSynonymTable();
   qb2.addSuchThat(make_unique<FollowsClause>(
       ClauseArgumentFactory::create(2),
       ClauseArgumentFactory::create(PQLQuerySynonym(PQL_SYN_TYPE_CONSTANT, "a"))
@@ -87,6 +92,7 @@ TEST_CASE("Test QueryBuilder Invalid Clause - Follows") {
 TEST_CASE("Test QueryBuilder Invalid Clause - Modifies") {
   QueryBuilder qb;
   qb.addSynonym("a", PQL_SYN_TYPE_CONSTANT);
+  qb.finalizeSynonymTable();
   qb.addSuchThat(make_unique<ModifiesClause>(
       ClauseArgumentFactory::create(PQLQuerySynonym(PQL_SYN_TYPE_CONSTANT, "a")),
       ClauseArgumentFactory::create("a")));
@@ -100,6 +106,7 @@ TEST_CASE("Test QueryBuilder Invalid Clause - Modifies") {
 
   QueryBuilder qb3;
   qb3.addSynonym("a", PQL_SYN_TYPE_CONSTANT);
+  qb.finalizeSynonymTable();
   qb3.addSuchThat(make_unique<ModifiesClause>(
       ClauseArgumentFactory::create("a"),
       ClauseArgumentFactory::create(PQLQuerySynonym(PQL_SYN_TYPE_CONSTANT, "a"))));

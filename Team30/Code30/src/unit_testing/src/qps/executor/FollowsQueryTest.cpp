@@ -24,6 +24,7 @@ TEST_CASE("Test QPS Follows Query") {
   builder.addResultSynonym(syn);
   builder.addSynonym("a", PQL_SYN_TYPE_STMT);
   builder.addSynonym("b", PQL_SYN_TYPE_STMT);
+  builder.finalizeSynonymTable();
   builder.addSuchThat(make_unique<FollowsClause>(
       ClauseArgumentFactory::create(*builder.accessSynonym("a")),
       ClauseArgumentFactory::create(*builder.accessSynonym("b"))

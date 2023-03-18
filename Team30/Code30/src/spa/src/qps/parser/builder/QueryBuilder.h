@@ -21,12 +21,14 @@ class QueryBuilder {
   vector<AttributedSynonym> resultVariables;
   vector<ClauseSPtr> clauses;
   vector<ConstraintSPtr> constraints;
+  unordered_set<PQLSynonymName> declaredNames;
 
  public:
   QueryBuilder();
   void addResultSynonym(const AttributedSynonym &syn);
   bool hasSynonym(const PQLSynonymName &name);
   void addSynonym(const PQLSynonymName &name, const PQLSynonymType &type);
+  void finalizeSynonymTable();
 
   PQLQuerySynonym* accessSynonym(const PQLSynonymName &name);
   void addSuchThat(unique_ptr<SuchThatClause> clause);
