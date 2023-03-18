@@ -207,7 +207,7 @@ def execTests(args, jobs):
             passCount += result['passCount']
             totalCount += len(result['result'])
             if shouldOutputXML:
-                outputName = Path(query).name[:-12]
+                outputName = Path(query).name[:-12] + '.xml'
                 shutil.move(tempFileName, os.path.join(outputDir, outputName))
             else:
                 os.remove(tempFileName)
