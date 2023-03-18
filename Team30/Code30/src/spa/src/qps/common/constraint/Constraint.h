@@ -4,6 +4,7 @@
 #include <string>
 #include <unordered_map>
 
+#include "qps/common/VariableTable.h"
 #include "OverrideTransformer.h"
 
 using std::string, std::shared_ptr, std::unordered_map;

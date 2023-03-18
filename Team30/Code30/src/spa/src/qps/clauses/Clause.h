@@ -6,6 +6,7 @@
 #include "qps/common/IEvaluatable.h"
 #include "qps/common/PQLQueryResult.h"
 #include "qps/clauses/arguments/ClauseArgument.h"
+#include "qps/common/VariableTable.h"
 
 using std::unordered_set, std::shared_ptr;
 
