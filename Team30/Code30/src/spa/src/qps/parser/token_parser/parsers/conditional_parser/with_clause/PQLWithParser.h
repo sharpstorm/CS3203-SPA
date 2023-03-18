@@ -10,9 +10,11 @@ using std::make_unique;
 
 class PQLWithParser: public IPQLParser {
   static ConstraintSPtr parseConstraint(
-      WithArgumentPtr left, WithArgumentPtr right);
+      WithArgumentPtr left, WithArgumentPtr right, QueryBuilder* builder);
   static ConstraintSPtr parseOverrideConstraint(
       WithArgumentPtr synArg, WithArgumentPtr staticArg);
+  static bool isNonDefaultCase(AttributedSynonym attrSyn);
+  static void addWithSelectClause(QueryBuilder* builder, AttributedSynonym attrSyn);
  public:
   void parse(QueryTokenParseState* parserState,
              QueryBuilder* builder) override;

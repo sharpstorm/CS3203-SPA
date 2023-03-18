@@ -1,12 +1,13 @@
 #pragma once
 
 #include <memory>
+#include <string>
 
 #include "common/Types.h"
 #include "../../common/PQLQuerySynonym.h"
 #include "qps/common/constraint/Constraint.h"
 
-using std::unique_ptr;
+using std::unique_ptr, std::to_string, std::string;
 
 typedef bool (*SynonymPredicate)(PQLQuerySynonym syn);
 
@@ -26,10 +27,8 @@ class ClauseArgument {
   static bool isStatement(PQLQuerySynonym syn);
   bool canSubstitute(OverrideTable* table);
 
-  static StmtType getStmtTypeFromSynType(PQLSynonymType type);
-  static EntityType getEntTypeFromSynType(PQLSynonymType type);
-  bool existsInPKB(PkbQueryHandler* handler,
-                   OverrideTransformer trans);
+//  static StmtType getStmtTypeFromSynType(PQLSynonymType type);
+//  static EntityType getEntTypeFromSynType(PQLSynonymType type);
 
   template<PQLSynonymType TYPE>
   static bool isType(PQLQuerySynonym syn) {

@@ -48,14 +48,14 @@ void PQLWithParser::parseWithClause(QueryTokenParseState *parserState,
     builder->addWith(std::move(withClause));
   } else {
     ConstraintSPtr constraint = parseConstraint(
-        std::move(left), std::move(right));
+        std::move(left), std::move(right), builder);
     builder->addConstraint(constraint);
   }
 }
 
 
 ConstraintSPtr PQLWithParser::parseConstraint(
-    WithArgumentPtr left, WithArgumentPtr right) {
+    WithArgumentPtr left, WithArgumentPtr right, QueryBuilder* builder) {
   ConstraintSPtr constraint;
   if (!left->isSyn() && !right->isSyn()) {
     constraint = make_shared<ConstantConstraint>(
@@ -65,8 +65,14 @@ ConstraintSPtr PQLWithParser::parseConstraint(
   } else {
     // Cat 2
     if (left->isSyn()) {
+      if (isNonDefaultCase(left->getAttrSyn())) {
+        addWithSelectClause(builder, left->getAttrSyn());
+      }
       constraint = parseOverrideConstraint(std::move(left), std::move(right));
     } else {
+      if (isNonDefaultCase(right->getAttrSyn())) {
+        addWithSelectClause(builder, right->getAttrSyn());
+      }
       constraint = parseOverrideConstraint(std::move(right), std::move(left));
     }
   }
@@ -84,3 +90,24 @@ ConstraintSPtr PQLWithParser::parseOverrideConstraint(
         synArg->getAttrSyn(), staticArg->getIdentValue());
   }
 }
+
+bool PQLWithParser::isNonDefaultCase(AttributedSynonym attrSyn) {
+  PQLSynonymType synType = attrSyn.getType();
+  PQLSynonymAttribute synAttr = attrSyn.getAttribute();
+
+  if (synAttr == VAR_NAME) {
+    return synType == PQL_SYN_TYPE_READ || synType == PQL_SYN_TYPE_PRINT;
+  } else if (synAttr == PROC_NAME) {
+    return synType == PQL_SYN_TYPE_CALL;
+  }
+
+  return false;
+}
+
+void PQLWithParser::addWithSelectClause(QueryBuilder* builder,
+                                        AttributedSynonym attrSyn) {
+  WithSelectClausePtr withSelect = make_unique<WithSelectClause>(
+      attrSyn);
+  builder->addWithSelect(std::move(withSelect));
+}
+
