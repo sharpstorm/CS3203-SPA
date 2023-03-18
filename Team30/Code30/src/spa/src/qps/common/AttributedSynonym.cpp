@@ -52,3 +52,7 @@ bool AttributedSynonym::isStatementType() {
   return syn->isStatementType();
 }
 
+PQLQuerySynonym AttributedSynonym::getSyn() {
+  return *syn;
+}
+

@@ -19,9 +19,23 @@ class AttributedSynonym {
   PQLSynonymType getType();
   PQLSynonymName getName();
   PQLSynonymAttribute getAttribute();
+  PQLQuerySynonym getSyn();
   bool validateAttribute();
   bool returnsInteger();
   bool isStatementType();
+
+  struct hasher {
+    std::size_t operator()(const AttributedSynonym &k) const {
+      if (k.attribute != NO_ATTRIBUTE) {
+        return std::hash<string>()(k.syn->getName()) ^
+            std::hash<int>()(k.syn->getType());
+      } else {
+        return std::hash<string>()(k.syn->getName()) ^
+            std::hash<int>()(k.syn->getType()) ^
+            std::hash<int>()(k.attribute);
+      }
+    }
+  };
 };
 
 typedef shared_ptr<AttributedSynonym> AttributedSynonymSPtr;

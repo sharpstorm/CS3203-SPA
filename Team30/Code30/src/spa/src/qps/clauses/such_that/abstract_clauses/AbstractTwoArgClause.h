@@ -25,7 +25,7 @@ class AbstractTwoArgClause: public SuchThatClause {
       QueryInvoker<LeftResultType, LeftArgType,
                    RightResultType, RightArgType> diffSynInvoker,
       SymmetricQueryInvoker<LeftResultType, LeftArgType> sameSynInvoker>
-  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler, OverrideTable* overrideTable) {
+  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler, OverrideTable* table) {
     if (isSameSynonym()) {
       auto queryResult = sameSynInvoker(pkbQueryHandler,
                                         leftTransformer(left.get()));
@@ -34,24 +34,25 @@ class AbstractTwoArgClause: public SuchThatClause {
 
     LeftArgType leftArg = leftTransformer(left.get());
     RightArgType rightArg = rightTransformer(right.get());
-//    if (left->canSubstitute(table)) {
-//      OverrideTransformer overrideTrans = table->at(left->getName());
-//      if (!left->existsInPKB(pkbQueryHandler, overrideTrans)) {
-//        return new PQLQueryResult();
-//      }
-//      leftArg = overrideTrans.transformArg(leftArg);
-//    }
-//
-//    if (right->canSubstitute(table)) {
-//      OverrideTransformer overrideTrans = table->at(right->getName());
-//      if (!right->existsInPKB(pkbQueryHandler, overrideTrans)) {
-//        return new PQLQueryResult();
-//      }
-//      rightArg = overrideTrans.transformArg(rightArg);
-//    }
+    if (left->canSubstitute(table)) {
+      OverrideTransformer overrideTrans = table->at(left->getName());
+      leftArg = overrideTrans.transformArg(leftArg);
+     if (!Clause::isValidRef(leftArg, pkbQueryHandler)) {
+        return new PQLQueryResult();
+      }
+    }
+
+    if (right->canSubstitute(table)) {
+      OverrideTransformer overrideTrans = table->at(right->getName());
+      rightArg = overrideTrans.transformArg(rightArg);
+      if (!Clause::isValidRef(rightArg, pkbQueryHandler)) {
+        return new PQLQueryResult();
+      }
+    }
 
     auto queryResult = diffSynInvoker(
         pkbQueryHandler, leftArg, rightArg);
+
     return Clause::toQueryResult(left.get(), right.get(), queryResult);
   }
 
