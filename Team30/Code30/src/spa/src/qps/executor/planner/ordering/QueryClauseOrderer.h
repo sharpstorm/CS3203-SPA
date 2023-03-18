@@ -10,12 +10,14 @@
 
 using std::queue, std::vector, std::unordered_set;
 
+typedef int ClauseId;
+
 class QueryClauseOrderer {
  public:
   QueryGroupPlanPtr orderClauses(QueryGroup* group);
 
  private:
-  void populateQueue(queue<int>* target,
+  void populateQueue(queue<ClauseId>* target,
                      BitField* clauseDone,
-                     unordered_set<int>* edges);
+                     unordered_set<ClauseId>* edges);
 };

@@ -9,30 +9,30 @@ QueryGroupPlanPtr QueryClauseOrderer::orderClauses(QueryGroup *group) {
   BitField seenClauses(group->getEvaluatableCount());
 
   int curIndex = 0;
-  queue<int> queuedClauses;
+  queue<ClauseId> queuedClauses;
   queuedClauses.push(0);
   seenClauses.set(0);
 
   while (!queuedClauses.empty()) {
-    int evalId = queuedClauses.front();
+    ClauseId evalId = queuedClauses.front();
     queuedClauses.pop();
 
     IEvaluatableSPtr evaluatable = group->getEvaluatable(evalId);
     groupOrdering[curIndex] = evaluatable;
     curIndex++;
 
-    unordered_set<int>* edges = group->getRelated(evalId);
+    unordered_set<ClauseId>* edges = group->getRelated(evalId);
     populateQueue(&queuedClauses, &seenClauses, edges);
   }
 
   return make_unique<QueryGroupPlan>(groupOrdering, group->getSelectables());
 }
 
-void QueryClauseOrderer::populateQueue(queue<int> *target,
+void QueryClauseOrderer::populateQueue(queue<ClauseId> *target,
                                        BitField *clauseDone,
-                                       unordered_set<int> *edges) {
+                                       unordered_set<ClauseId> *edges) {
   for (auto it = edges->begin(); it != edges->end(); it++) {
-    int otherClauseId = *it;
+    ClauseId otherClauseId = *it;
     if (clauseDone->isSet(otherClauseId)) {
       continue;
     }
