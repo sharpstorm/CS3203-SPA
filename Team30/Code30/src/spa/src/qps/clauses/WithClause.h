@@ -11,7 +11,8 @@
 
 using std::unique_ptr, std::string;
 
-using PKBAttributeQuerier = string(*)(PkbQueryHandler* queryHandler, const int &stmt);
+using PKBAttributeQuerier =
+    string(*)(PkbQueryHandler* queryHandler, const int &stmt);
 
 typedef vector<int> StmtList;
 typedef unordered_map<string, StmtList> SynToStmtMap;

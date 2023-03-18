@@ -48,7 +48,7 @@ void WithClause::evaluateOnIntAttributes(PQLQueryResult *result,
       PKBTypeAdapter::convertPQLSynonymToStmt(rightArg->getSynType());
   unordered_set<int> set1 = pkbQueryHandler->getStatementsOfType(leftType);
   unordered_set<int> set2 = pkbQueryHandler->getStatementsOfType(rightType);
-  pair_set<int,int> queryResult;
+  pair_set<int, int> queryResult;
   for (int i : set1) {
     if (set2.find(i) == set2.end()) {
       continue;
@@ -63,7 +63,7 @@ void WithClause::evaluateOnStringAttributes(PQLQueryResult *result,
   SynToStmtMap map1;
   SynToStmtMap map2;
   bool isLeftDefault =
-      populateMap(leftArg->getSynType(),&map1, pkbQueryHandler);
+      populateMap(leftArg->getSynType(), &map1, pkbQueryHandler);
   bool isRightDefault =
       populateMap(rightArg->getSynType(), &map2, pkbQueryHandler);
 
