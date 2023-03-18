@@ -10,14 +10,15 @@ QueryExecutor::QueryExecutor(PkbQueryHandler* pkbQH):
 }
 
 SynonymResultTable *QueryExecutor::executeQuery(PQLQuery* query) {
-  // TODO(WeiXin): Move this if necessary
-  OverrideTable* overrideTable = new OverrideTable();
+  VariableTableProxyBuilder variableTableProxyBuilder(query->getVarTable());
+  OverrideTable overrideTable;
   for (const auto& con : query->getConstraints()) {
-    if (con->applyConstraint(query->getVarTable(), overrideTable)) {
+    if (con->applyConstraint(&variableTableProxyBuilder, &overrideTable)) {
       bool isBoolResult = query->getResultVariables()->empty();
       return new SynonymResultTable(isBoolResult, false);
     }
   }
+  variableTableProxyBuilder.build();
 
   QueryPlanPtr plan = planner.getExecutionPlan(query);
   return orchestrator.execute(plan.get());
