@@ -4,14 +4,15 @@
 
 #include "common/cfg/CFG.h"
 #include "common/data_structs/BitField.h"
+#include "qps/cfg/cfg_querier/CFGHaltWalkerException.h"
 
 using std::vector;
 
 template <typename T>
-using WalkerSingleCallback = void(*)(T* ptr, CFGNode node);
+using WalkerSingleCallback = bool(*)(T* ptr, CFGNode node);
 
 template <typename T>
-using WalkerPairCallback = void(*)(T* ptr, CFGNode nodeLeft, CFGNode nodeRight);
+using WalkerPairCallback = bool(*)(T* ptr, CFGNode nodeLeft, CFGNode nodeRight);
 
 template <typename T>
 using DFSCallback = bool(*)(T* ptr, CFGNode node);
@@ -45,9 +46,19 @@ class CFGWalker {
       return;
     }
 
-    vector<CFGNode> currentNodes;
     BitField seenNodes(cfg->getNodeCount());
+    try {
+      runDFSOn<T, callback, stepGetter>(start, state, &seenNodes);
+    } catch (CFGHaltWalkerException) {
+      // Expected halt, ignore signal
+    }
+  }
 
+  template <
+      typename T, DFSCallback<T> callback,
+      DFSLinkGetter stepGetter>
+  void runDFSOn(CFGNode start, T* state, BitField* seenNodes) {
+    vector<CFGNode> currentNodes;
     currentNodes.push_back(start);
     while (!currentNodes.empty()) {
       CFGNode curNode = currentNodes.back();
@@ -60,17 +71,13 @@ class CFGWalker {
           continue;
         }
 
-        if (seenNodes.isSet(nextNode)) {
+        if (seenNodes->isSet(nextNode)) {
           continue;
         }
-        seenNodes.set(nextNode);
 
-        bool shouldContinue = callback(state, nextNode);
-        if (!shouldContinue) {
-          return;
-        }
-
-        if (nextNode != start) {
+        seenNodes->set(nextNode);
+        bool shouldQueue = callback(state, nextNode);
+        if (shouldQueue && nextNode != start) {
           currentNodes.push_back(nextNode);
         }
       }
@@ -106,8 +113,7 @@ struct NodewiseWalkerState {
 template <typename T>
 constexpr bool nodewiseWalkerCallback(NodewiseWalkerState<T>* state,
                                       CFGNode node) {
-  state->callback(state->callbackState, node);
-  return true;
+  return state->callback(state->callbackState, node);
 }
 
 template <typename T, WalkerSingleCallback<T> callback>
@@ -135,8 +141,7 @@ struct PairwiseWalkerState {
 template <typename T>
 constexpr bool pairwiseWalkerCallback(PairwiseWalkerState<T>* state,
                                       CFGNode node) {
-  state->callback(state->cbState, state->startNode, node);
-  return true;
+  return state->callback(state->cbState, state->startNode, node);
 }
 
 template<typename T, WalkerPairCallback<T> callback>

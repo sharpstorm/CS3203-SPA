@@ -1,4 +1,5 @@
 #include "CFGWalker.h"
+#include "qps/cfg/cfg_querier/CFGHaltWalkerException.h"
 
 #include <set>
 #include <utility>
@@ -16,7 +17,7 @@ struct StaticWalkerState {
 constexpr bool staticWalkerCallback(StaticWalkerState* state, CFGNode node) {
   if (node == state->target) {
     state->isFound = true;
-    return false;
+    throw CFGHaltWalkerException();
   }
   return true;
 }
