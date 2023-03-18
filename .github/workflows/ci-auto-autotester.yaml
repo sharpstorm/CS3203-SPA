@@ -1,8 +1,13 @@
 name: Auto Autotester Run
 
 on:
-  - workflow_dispatch
-  - pull_request
+  workflow_dispatch:
+    inputs:
+      genoutput:
+        type: boolean
+        description: Generate XML
+        required: true
+  pull_request:
 
 env:
     BUILD_TYPE: Release
@@ -68,4 +73,18 @@ jobs:
   
       - name: Run Auto Autotester
         working-directory: ./Team30
+        if: github.event.inputs.genoutput != 'true'
         run: python3 Tests30/auto-autotester.py ./Code30/build/src/autotester/autotester ./Tests30/tests-working/
+
+      - name: Run Auto Autotester
+        working-directory: ./Team30
+        if: github.event.inputs.genoutput == 'true'
+        run: python3 Tests30/auto-autotester.py ./Code30/build/src/autotester/autotester ./Tests30/tests-working/ -of output_temp
+
+      - name: Upload Autotester Result
+        if: github.event.inputs.genoutput == 'true'
+        uses: actions/upload-artifact@v3
+        with:
+          name: autotester-${{github.sha}}
+          path: ./Team30/output_temp/*
+          retention-days: 1
