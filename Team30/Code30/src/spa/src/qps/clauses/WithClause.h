@@ -39,7 +39,8 @@ class WithClause: public Clause {
   bool isEmptyResult();
   void evaluateOnIntAttributes(PQLQueryResult *result,
                                PkbQueryHandler *pkbQueryHandler);
-  void evaluateOnStringAttributes(PQLQueryResult *result
+
+  void evaluateOnStringAttributes(PQLQueryResult *result,
                                   PkbQueryHandler *pkbQueryHandler);
 
   template <class R1, class R2, class U, class V, class T1, class T2>
