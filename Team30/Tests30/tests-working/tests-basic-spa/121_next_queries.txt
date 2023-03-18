@@ -21,7 +21,7 @@ FALSE
 5 - Select BOOLEAN Next (Integer, Integer) True (Integer) (Integer)
 
 Select BOOLEAN such that Next(5, 21)
-TRUE
+FALSE
 5000
 6 - Select BOOLEAN Next (Integer, Integer) True (Integer) (Integer)
 
