@@ -1,6 +1,9 @@
 #include "AbstractTwoArgClause.h"
 
 #include <utility>
+#include <string>
+
+using std::to_string;
 
 AbstractTwoArgClause::AbstractTwoArgClause(
     ClauseArgumentPtr left,

@@ -19,11 +19,17 @@ class ClauseArgument {
   virtual bool isWildcard();
 
   virtual PQLSynonymName getName();
+  virtual PQLQuerySynonym* getSyn();
   virtual StmtRef toStmtRef() = 0;
   virtual EntityRef toEntityRef() = 0;
 
   static bool isStatement(PQLQuerySynonym syn);
   bool canSubstitute(OverrideTable* table);
+
+  static StmtType getStmtTypeFromSynType(PQLSynonymType type);
+  static EntityType getEntTypeFromSynType(PQLSynonymType type);
+  bool existsInPKB(PkbQueryHandler* handler,
+                          OverrideTransformer trans);
 
   template<PQLSynonymType TYPE>
   static bool isType(PQLQuerySynonym syn) {

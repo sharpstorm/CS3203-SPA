@@ -14,9 +14,6 @@ class OverrideConstraint : virtual public Constraint {
  private:
   AttributedSynonym syn;
   OverrideTransformer overrideTransformer;
-//  StmtType getStmtTypeFromSynType(PQLSynonymType synType);
-//  EntityType getEntTypeFromSynType(PQLSynonymType synType);
-//  bool existsInPKB(PkbQueryHandler* handler, PQLSynonymType synType);
 
  public:
   OverrideConstraint(AttributedSynonym syn, string identVal) :
