@@ -169,7 +169,7 @@ TEST_CASE("End-to-End No Clause") {
   auto pipeline = TestPipelineProvider();
 
   pipeline.query("constant c; Select c with c.value = 3",
-                 {"0", "1", "2", "3", "5"});
+                 {"3"});
 
   pipeline.query("constant c; Select c",
                  {"0", "1", "2", "3", "5"});
@@ -408,6 +408,7 @@ TEST_CASE("With Clause Tests - Cat 1 (static = static)") {
 TEST_CASE("With Clause Tests - Cat 2 (attrRef = static)") {
   auto pipeline = TestPipelineProvider();
 
+  pipeline.query("assign a; Select BOOLEAN with a.stmt# = 4", {"FALSE"});
   pipeline.query("variable v; Select BOOLEAN with v.varName = \"x\"", {"TRUE"});
   pipeline.query("variable v; Select BOOLEAN with v.varName = \"g\"", {"FALSE"});
 

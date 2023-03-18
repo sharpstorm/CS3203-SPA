@@ -29,7 +29,7 @@ class ClauseArgument {
   static StmtType getStmtTypeFromSynType(PQLSynonymType type);
   static EntityType getEntTypeFromSynType(PQLSynonymType type);
   bool existsInPKB(PkbQueryHandler* handler,
-                          OverrideTransformer trans);
+                   OverrideTransformer trans);
 
   template<PQLSynonymType TYPE>
   static bool isType(PQLQuerySynonym syn) {

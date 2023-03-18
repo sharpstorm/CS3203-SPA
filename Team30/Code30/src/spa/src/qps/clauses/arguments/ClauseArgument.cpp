@@ -29,7 +29,7 @@ bool ClauseArgument::isStatement(PQLQuerySynonym syn) {
 }
 
 bool ClauseArgument::canSubstitute(OverrideTable *table) {
-  if (isNamed()) {
+  if (!isNamed()) {
     return false;
   }
 
