@@ -1,11 +1,15 @@
 #pragma once
 #include <string>
+#include <vector>
 #include <unordered_set>
+#include <unordered_map>
+#include <memory>
+
 #include "PQLQuerySynonym.h"
 
 using std::string, std::unordered_set;
 
-typedef PQLQuerySynonym** PQLQuerySynonymProxy ;
+typedef PQLQuerySynonym** PQLQuerySynonymProxy;
 
 class VariableTable {
  private:
@@ -13,7 +17,7 @@ class VariableTable {
   vector<PQLQuerySynonym> declaredSynonyms;
  public:
   VariableTable();
-  VariableTable(unordered_map<string, PQLQuerySynonym> map);
+  explicit VariableTable(unordered_map<string, PQLQuerySynonym> map);
   int size();
   void add(const PQLSynonymName &name, PQLQuerySynonym syn);
   void finalizeTable();
