@@ -6,6 +6,7 @@
 
 #include "qps/common/VariableTable.h"
 #include "OverrideTransformer.h"
+#include "VariableTableProxyBuilder.h"
 
 using std::string, std::shared_ptr, std::unordered_map;
 
@@ -14,7 +15,7 @@ typedef unordered_map<string, OverrideTransformer> OverrideTable;
 class Constraint {
  public:
   virtual ~Constraint() = default;
-  virtual bool applyConstraint(VariableTable* variableTable,
+  virtual bool applyConstraint(VariableTableProxyBuilder* variableTable,
                                OverrideTable* overrideTable) = 0;
   virtual bool validateConstraint() = 0;
 };
