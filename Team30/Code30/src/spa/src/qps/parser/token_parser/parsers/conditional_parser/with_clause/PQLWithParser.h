@@ -7,7 +7,7 @@
 #include "qps/parser/token_parser/parsers/IPQLParser.h"
 #include "qps/clauses/WithClause.h"
 
-using std::make_unique, std:string;
+using std::make_unique, std::string;
 
 class PQLWithParser: public IPQLParser {
   static ConstraintSPtr parseConstraint(
