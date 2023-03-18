@@ -14,9 +14,9 @@ class OverrideConstraint : virtual public Constraint {
  private:
   AttributedSynonym syn;
   OverrideTransformer overrideTransformer;
-  StmtType getStmtTypeFromSynType(PQLSynonymType synType);
-  EntityType getEntTypeFromSynType(PQLSynonymType synType);
-  bool existsInPKB(PkbQueryHandler* handler, PQLSynonymType synType);
+//  StmtType getStmtTypeFromSynType(PQLSynonymType synType);
+//  EntityType getEntTypeFromSynType(PQLSynonymType synType);
+//  bool existsInPKB(PkbQueryHandler* handler, PQLSynonymType synType);
 
  public:
   OverrideConstraint(AttributedSynonym syn, string identVal) :
@@ -25,16 +25,10 @@ class OverrideConstraint : virtual public Constraint {
       syn(syn), overrideTransformer(OverrideTransformer(intVal)) { }
 
   bool applyConstraint(VariableTable* varTable,
-                       OverrideTable* overrideTable,
-                       PkbQueryHandler* handler) {
+                       OverrideTable* overrideTable) override {
     PQLSynonymName synName = syn.getName();
-    PQLSynonymType synType = syn.getType();
 
     if (overrideTable->find(synName) != overrideTable->end()) {
-      return false;
-    }
-
-    if (!existsInPKB(handler, synType)) {
       return false;
     }
 

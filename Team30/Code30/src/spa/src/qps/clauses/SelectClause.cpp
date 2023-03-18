@@ -16,6 +16,7 @@ PQLQueryResult* SelectClause::evaluateOn(
     PkbQueryHandler* pkbQueryHandler, OverrideTable* table) {
   ClauseArgumentPtr clauseArg = ClauseArgumentFactory::create(target);
 
+  // TODO(KwanHW) do substitution here
   if (target.isStatementType()) {
     StmtRef stmtVar = clauseArg->toStmtRef();
     unordered_set<int> pkbResult = pkbQueryHandler
