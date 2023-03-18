@@ -1,5 +1,6 @@
 #include <utility>
 #include <memory>
+#include <unordered_set>
 
 #include "QueryBuilder.h"
 #include "qps/errors/QPSParserSemanticError.h"

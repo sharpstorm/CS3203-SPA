@@ -14,4 +14,4 @@ void VariableTableProxyBuilder::VariableTableProxyBuilder::build() {
 
 VariableTable* VariableTableProxyBuilder::getTable() {
   return table;
-};
+}
