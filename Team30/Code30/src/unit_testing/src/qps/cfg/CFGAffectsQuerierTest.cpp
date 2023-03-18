@@ -269,3 +269,262 @@ TEST_CASE("Affects While (Const, _)") {
   result = queryAffects(&querier, 4, 0);
   REQUIRE(result.isEmpty);
 }
+
+/*
+ * 1 |  x = 1;
+ * 2 |  if (x != 1) then {
+ * 3 |    x = x;
+ *   |  } else {
+ * 4 |    x = 2;
+ *   |  }
+ * 5 |  x = x;
+ */
+TEST_CASE("Affects If No Through Path (_, Const)") {
+  auto cfg = TestCFGProvider::getAffectsIfCFG();
+  auto pkbProvider =
+      CFGTestModifiesUsesProvider({ "x", "", "x", "x", "x" },
+                                  { {}, {"x"}, {"x"}, {}, {"x"} },
+                                  { 2 });
+  CFGTestAffectsQuerier querier(&cfg, &pkbProvider);
+
+  auto result = queryAffects(&querier, 0, 1);
+  REQUIRE(result.isEmpty);
+
+  result = queryAffects(&querier, 0, 2);
+  REQUIRE(result.isEmpty);
+
+  result = queryAffects(&querier, 0, 3);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1});
+
+  result = queryAffects(&querier, 0, 4);
+  REQUIRE(result.isEmpty);
+
+  result = queryAffects(&querier, 0, 5);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{3, 4});
+}
+
+/*
+ * 1 |  x = 1;
+ * 2 |  if (x != 1) then {
+ * 3 |    y = x;
+ *   |  } else {
+ * 4 |    x = x;
+ *   |  }
+ * 5 |  x = x;
+ */
+TEST_CASE("Affects If Then Through Path (_, Const)") {
+  auto cfg = TestCFGProvider::getAffectsIfCFG();
+  auto pkbProvider =
+      CFGTestModifiesUsesProvider({ "x", "", "y", "x", "x" },
+                                  { {}, {"x"}, {"x"}, {"x"}, {"x"} },
+                                  { 2 });
+  CFGTestAffectsQuerier querier(&cfg, &pkbProvider);
+
+  auto result = queryAffects(&querier, 0, 1);
+  REQUIRE(result.isEmpty);
+
+  result = queryAffects(&querier, 0, 2);
+  REQUIRE(result.isEmpty);
+
+  result = queryAffects(&querier, 0, 3);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1});
+
+  result = queryAffects(&querier, 0, 4);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1});
+
+  result = queryAffects(&querier, 0, 5);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1, 4});
+}
+
+/*
+ * 1 |  x = 1;
+ * 2 |  if (x != 1) then {
+ * 3 |    x = x;
+ *   |  } else {
+ * 4 |    y = x;
+ *   |  }
+ * 5 |  x = x;
+ */
+TEST_CASE("Affects If Else Through Path (_, Const)") {
+  auto cfg = TestCFGProvider::getAffectsIfCFG();
+  auto pkbProvider =
+      CFGTestModifiesUsesProvider({ "x", "", "x", "y", "x" },
+                                  { {}, {"x"}, {"x"}, {"x"}, {"x"} },
+                                  { 2 });
+  CFGTestAffectsQuerier querier(&cfg, &pkbProvider);
+
+  auto result = queryAffects(&querier, 0, 1);
+  REQUIRE(result.isEmpty);
+
+  result = queryAffects(&querier, 0, 2);
+  REQUIRE(result.isEmpty);
+
+  result = queryAffects(&querier, 0, 3);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1});
+
+  result = queryAffects(&querier, 0, 4);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1});
+
+  result = queryAffects(&querier, 0, 5);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1, 3});
+}
+
+/*
+ * 1 |  x = 1;
+ * 2 |  if (x != 1) then {
+ * 3 |    z = x;
+ *   |  } else {
+ * 4 |    y = x;
+ *   |  }
+ * 5 |  x = x;
+ */
+TEST_CASE("Affects If Both Through Path (_, Const)") {
+  auto cfg = TestCFGProvider::getAffectsIfCFG();
+  auto pkbProvider =
+      CFGTestModifiesUsesProvider({ "x", "", "z", "y", "x" },
+                                  { {}, {"x"}, {"x"}, {"x"}, {"x"} },
+                                  { 2 });
+  CFGTestAffectsQuerier querier(&cfg, &pkbProvider);
+
+  auto result = queryAffects(&querier, 0, 1);
+  REQUIRE(result.isEmpty);
+
+  result = queryAffects(&querier, 0, 2);
+  REQUIRE(result.isEmpty);
+
+  result = queryAffects(&querier, 0, 3);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1});
+
+  result = queryAffects(&querier, 0, 4);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1});
+
+  result = queryAffects(&querier, 0, 5);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1});
+}
+
+/*
+ * 1 |  x = 1;
+ * 2 |  while (x != 1) {
+ * 3 |    x = x;
+ *   |  }
+ * 4 |  x = x;
+ */
+TEST_CASE("Affects While (_, Const)") {
+  auto cfg = TestCFGProvider::getAffectsWhileCFG();
+  auto pkbProvider =
+      CFGTestModifiesUsesProvider({ "x", "", "x", "x" },
+                                  { {}, {"x"}, {"x"}, {"x"} },
+                                  { 2 });
+  CFGTestAffectsQuerier querier(&cfg, &pkbProvider);
+
+  auto result = queryAffects(&querier, 0, 1);
+  REQUIRE(result.isEmpty);
+
+  result = queryAffects(&querier, 0, 2);
+  REQUIRE(result.isEmpty);
+
+  result = queryAffects(&querier, 0, 3);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1, 3});
+
+  result = queryAffects(&querier, 0, 4);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1, 3});
+}
+
+/*
+ * 1 |  x = 1;
+ * 2 |  while (x != 1) {
+ * 3 |    y = x;
+ *   |  }
+ * 4 |  x = x;
+ */
+TEST_CASE("Affects While No Mod in Loop (_, Const)") {
+  auto cfg = TestCFGProvider::getAffectsWhileCFG();
+  auto pkbProvider =
+      CFGTestModifiesUsesProvider({ "x", "", "y", "x" },
+                                  { {}, {"x"}, {"x"}, {"x"} },
+                                  { 2 });
+  CFGTestAffectsQuerier querier(&cfg, &pkbProvider);
+
+  auto result = queryAffects(&querier, 0, 1);
+  REQUIRE(result.isEmpty);
+
+  result = queryAffects(&querier, 0, 2);
+  REQUIRE(result.isEmpty);
+
+  result = queryAffects(&querier, 0, 3);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1});
+
+  result = queryAffects(&querier, 0, 4);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1});
+}
+
+/*
+ * 1 |  x = 1;
+ * 2 |  if (x != 1) then {
+ * 3 |    x = x;
+ *   |  } else {
+ * 4 |    x = 2;
+ *   |  }
+ * 5 |  x = x;
+ */
+TEST_CASE("Affects If No Through Path (_, _)") {
+  auto cfg = TestCFGProvider::getAffectsIfCFG();
+  auto pkbProvider =
+      CFGTestModifiesUsesProvider({ "x", "", "x", "x", "x" },
+                                  { {}, {"x"}, {"x"}, {}, {"x"} },
+                                  { 2 });
+  CFGTestAffectsQuerier querier(&cfg, &pkbProvider);
+
+  auto result = StmtTransitiveResult();
+  queryAffects(&querier, &result, 0, 0);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.pairVals == pair_set<StmtValue, StmtValue> {
+      {1, 3},
+      {3, 5},
+      {4, 5}
+  });
+}
+
+
+/*
+ * 1 |  x = 1;
+ * 2 |  if (x != 1) then {
+ * 3 |    y = x;
+ *   |  } else {
+ * 4 |    x = x;
+ *   |  }
+ * 5 |  x = x;
+ */
+TEST_CASE("Affects If Then Through Path (_, _)") {
+  auto cfg = TestCFGProvider::getAffectsIfCFG();
+  auto pkbProvider =
+      CFGTestModifiesUsesProvider({ "x", "", "y", "x", "x" },
+                                  { {}, {"x"}, {"x"}, {"x"}, {"x"} },
+                                  { 2 });
+  CFGTestAffectsQuerier querier(&cfg, &pkbProvider);
+
+  auto result = StmtTransitiveResult();
+  queryAffects(&querier, &result, 0, 0);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.pairVals == pair_set<StmtValue, StmtValue> {
+      {1, 3},
+      {1, 4},
+      {1, 5},
+      {4, 5}
+  });
+}

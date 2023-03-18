@@ -46,9 +46,8 @@ class CFGWalker {
       return;
     }
 
-    BitField seenNodes(cfg->getNodeCount());
     try {
-      runDFSOn<T, callback, stepGetter>(start, state, &seenNodes);
+      runDFSOn<T, callback, stepGetter>(start, state);
     } catch (CFGHaltWalkerException) {
       // Expected halt, ignore signal
     }
@@ -57,8 +56,10 @@ class CFGWalker {
   template <
       typename T, DFSCallback<T> callback,
       DFSLinkGetter stepGetter>
-  void runDFSOn(CFGNode start, T* state, BitField* seenNodes) {
+  void runDFSOn(CFGNode start, T* state) {
+    BitField seenNodes(cfg->getNodeCount());
     vector<CFGNode> currentNodes;
+
     currentNodes.push_back(start);
     while (!currentNodes.empty()) {
       CFGNode curNode = currentNodes.back();
@@ -71,11 +72,11 @@ class CFGWalker {
           continue;
         }
 
-        if (seenNodes->isSet(nextNode)) {
+        if (seenNodes.isSet(nextNode)) {
           continue;
         }
 
-        seenNodes->set(nextNode);
+        seenNodes.set(nextNode);
         bool shouldQueue = callback(state, nextNode);
         if (shouldQueue && nextNode != start) {
           currentNodes.push_back(nextNode);

@@ -1,12 +1,19 @@
 #pragma once
 
 #include <unordered_set>
+#include <unordered_map>
 
 #include "ICFGClauseQuerier.h"
 #include "common/cfg/CFG.h"
 #include "qps/cfg/CFGWalker.h"
 #include "CFGQuerier.h"
 #include "qps/cfg/CFGQuerierTypes.h"
+#include "affects/CFGStatefulWalker.h"
+
+using std::unordered_set, std::unordered_map;
+
+typedef unordered_set<EntityValue> EntitySet;
+typedef unordered_map<EntityValue, int> EntitySymbolMap;
 
 template <
     class ClosureType,
@@ -49,12 +56,59 @@ class CFGAffectsQuerier: public ICFGClauseQuerier,
     EntityValue target;
   };
 
+  struct QueryToResultClosure {
+    CFG* cfg;
+    ClosureType* closure;
+    StmtTransitiveResult* result;
+    StmtValue endingStmt;
+    EntitySymbolMap symbolMap;
+  };
 
   CFG* cfg;
   CFGWalker walker;
   ClosureType* closure;
 
   bool validateArg(const StmtValue &arg);
+
+  static constexpr WalkerSingleCallback<QueryFromResultClosure>
+      forwardWalkerCallback =
+      [](QueryFromResultClosure *state, CFGNode nextNode) -> bool {
+        int stmtNumber = state->cfg->fromCFGNode(nextNode);
+
+        if (typePredicate(state->closure, StmtType::Assign, stmtNumber)) {
+          unordered_set<EntityValue> usedVars = usesGetter(state->closure,
+                                                           stmtNumber);
+          if (usedVars.find(state->target) != usedVars.end()) {
+            state->result->add(state->startingStmt, stmtNumber);
+          }
+        }
+
+        return modifiesGetter(state->closure, stmtNumber) != state->target;
+      };
+
+  static constexpr StatefulWalkerStateTransformer<QueryToResultClosure>
+      backwardWalkerTransformer =
+      [](QueryToResultClosure *state, CFGNode nextNode, BitField curState)
+          -> BitField {
+        int stmtNumber = state->cfg->fromCFGNode(nextNode);
+        EntityValue modifiedVar = modifiesGetter(state->closure, stmtNumber);
+        if (auto it = state->symbolMap.find(modifiedVar);
+            it != state->symbolMap.end()) {
+          curState.unset(it->second);
+        }
+
+        return curState;
+      };
+
+  static constexpr StatefulWalkerSingleCallback<QueryToResultClosure>
+      backwardWalkerCallback =
+      [](QueryToResultClosure *state, CFGNode nextNode) {
+        int stmtNumber = state->cfg->fromCFGNode(nextNode);
+        if (!typePredicate(state->closure, StmtType::Assign, stmtNumber)) {
+          return;
+        }
+        state->result->add(stmtNumber, state->endingStmt);
+      };
 };
 
 template <
@@ -124,24 +178,9 @@ queryFrom(const StmtValue &arg0, const StmtType &type1) {
   CFGNode nodeFrom = cfg->toCFGNode(arg0);
   EntityValue modifiedVar = modifiesGetter(closure, arg0);
 
-
   QueryFromResultClosure state{ cfg, closure, &result, arg0, modifiedVar };
-  constexpr WalkerSingleCallback<QueryFromResultClosure> callback =
-      [](QueryFromResultClosure *state, CFGNode nextNode) -> bool {
-        int stmtNumber = state->cfg->fromCFGNode(nextNode);
-
-        if (typePredicate(state->closure, StmtType::Assign, stmtNumber)) {
-          unordered_set<EntityValue> usedVars = usesGetter(state->closure,
-                                                           stmtNumber);
-          if (usedVars.find(state->target) != usedVars.end()) {
-            state->result->add(state->startingStmt, stmtNumber);
-          }
-        }
-
-        return modifiesGetter(state->closure, stmtNumber) != state->target;
-      };
-
-  walker.walkFrom<QueryFromResultClosure, callback>(nodeFrom, &state);
+  walker.walkFrom<QueryFromResultClosure, forwardWalkerCallback>(nodeFrom,
+                                                                 &state);
   return result;
 }
 
@@ -154,7 +193,36 @@ StmtTransitiveResult CFGAffectsQuerier<ClosureType, typePredicate,
                                        modifiesGetter, usesGetter>::
 queryTo(const StmtType &type0, const StmtValue &arg1) {
   StmtTransitiveResult result;
+  if (!validateArg(arg1)) {
+    return result;
+  }
 
+  CFGNode nodeTo = cfg->toCFGNode(arg1);
+  EntitySet usedVars = usesGetter(closure, arg1);
+  EntitySymbolMap symbolMap;
+  if (usedVars.empty()) {
+    return result;
+  }
+
+  int counter = 0;
+  for (EntityValue val : usedVars) {
+    symbolMap.emplace(val, counter);
+    counter++;
+  }
+
+  BitField initialState(counter);
+  for (int i = 0; i < counter; i++) {
+    initialState.set(i);
+  }
+
+  QueryToResultClosure state { cfg, closure, &result, arg1, symbolMap };
+  CFGStatefulWalker statefulWalker(cfg);
+
+  statefulWalker.walkTo<QueryToResultClosure,
+                        backwardWalkerCallback>(nodeTo,
+                                                initialState,
+                                                &state,
+                                                backwardWalkerTransformer);
   return result;
 }
 
@@ -168,6 +236,18 @@ void CFGAffectsQuerier<ClosureType, typePredicate,
 queryAll(StmtTransitiveResult* resultOut,
          const StmtType &type0,
          const StmtType &type1) {
+  for (int start = 0; start < cfg->getNodeCount(); start++) {
+    int stmtNumber = cfg->fromCFGNode(start);
+    if (!typePredicate(closure, StmtType::Assign, stmtNumber)) {
+      continue;
+    }
+
+    EntityValue modifiedVar = modifiesGetter(closure, stmtNumber);
+    QueryFromResultClosure state{ cfg, closure, resultOut,
+                                  stmtNumber, modifiedVar };
+    walker.walkFrom<QueryFromResultClosure, forwardWalkerCallback>(start,
+                                                                   &state);
+  }
 }
 
 template <
