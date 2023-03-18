@@ -24,18 +24,13 @@ AttributedSynonymList* PQLQuery::getResultVariables() {
 }
 
 PQLQuerySynonym* PQLQuery::getVariable(PQLSynonymName name) {
-  auto item = variables->find(name);
-  if (item == variables->end()) {
-    return nullptr;
-  }
-
-  return &item->second;
+  return variables->find(name);
 }
 
 SynonymList PQLQuery::getDeclaredSynonyms() {
   vector<string> result;
-  for (auto it = variables->begin(); it != variables->end(); it++) {
-    result.push_back(it->first);
+  for (auto i : variables->getReferredSynonyms()) {
+    result.push_back(i->getName());
   }
   return result;
 }

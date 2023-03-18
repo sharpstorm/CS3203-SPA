@@ -6,8 +6,7 @@
 
 using std::make_unique;
 
-QueryBuilder::QueryBuilder() {
-  variables = make_unique<VariableTable>();
+QueryBuilder::QueryBuilder(): variables(make_unique<VariableTable>()) {
 }
 
 void QueryBuilder::setError(const string &msg) {
@@ -28,11 +27,11 @@ void QueryBuilder::addSynonym(const PQLSynonymName &name,
     return;
   }
 
-  variables->emplace(name, PQLQuerySynonym(type, name));
+  variables->add(name, PQLQuerySynonym(type, name));
 }
 
 bool QueryBuilder::hasSynonym(const PQLSynonymName &name) {
-  return variables->find(name) != variables->end();
+  return variables->find(name) != nullptr;
 }
 
 PQLQuerySynonym* QueryBuilder::accessSynonym(const PQLSynonymName &name) {
@@ -41,7 +40,7 @@ PQLQuerySynonym* QueryBuilder::accessSynonym(const PQLSynonymName &name) {
     return nullptr;
   }
 
-  return &(variables->at(name));
+  return (variables->find(name));
 }
 
 void QueryBuilder::addSuchThat(unique_ptr<SuchThatClause> clause) {
