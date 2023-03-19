@@ -15,5 +15,5 @@ class ModifiesUsesPostProcessor : public IPostProcessor {
   PKB *pkb;
 
   void populateProcedureAndVars();
-  void populateCallStmtAndVars();
+  void populateCallStmtAndContainers();
 };
