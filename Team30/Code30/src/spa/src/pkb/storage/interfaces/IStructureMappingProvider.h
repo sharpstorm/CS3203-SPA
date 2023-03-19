@@ -13,7 +13,6 @@ using std::string, std::unordered_set, std::pair, std::function;
 class IStructureMappingProvider : public IProvider<StmtValue, StmtType> {
  public:
   virtual ~IStructureMappingProvider() {}
-  virtual unordered_set<int> getValuesOfType(StmtType) const = 0;
   virtual StmtType getStatementType(int) const = 0;
   virtual unordered_set<int> getProcedureLines(string) const = 0;
   virtual string getProcedureForLine(int) const = 0;
