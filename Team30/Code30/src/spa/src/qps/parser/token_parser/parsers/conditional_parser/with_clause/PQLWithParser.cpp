@@ -24,7 +24,7 @@ void PQLWithParser::parse(QueryTokenParseState *parserState,
 }
 
 void PQLWithParser::parseWithClause(QueryTokenParseState *parserState,
-                                             QueryBuilder *builder) {
+                                    QueryBuilder *builder) {
   WithArgumentPtr left =
       PQLAttributeRefExtractor::extract(parserState, builder);
 
@@ -57,32 +57,51 @@ void PQLWithParser::parseWithClause(QueryTokenParseState *parserState,
 
 ConstraintSPtr PQLWithParser::parseConstraint(
     WithArgumentPtr left, WithArgumentPtr right, QueryBuilder* builder) {
-  ConstraintSPtr constraint = nullptr;
   if (!left->isSyn() && !right->isSyn()) {
-    constraint = make_shared<ConstantConstraint>(
-        std::move(left), std::move(right));
+    return handleConstant(std::move(left), std::move(right));
   } else if (left->isSyn() && right->isSyn()) {
-    // TODO(KwanHW): Cat 3 here
+    return handleTwoSyns(std::move(left), std::move(right), builder);
   } else {
     // Cat 2
-    if (left->isSyn()) {
-      if (isNonDefaultCase(left->getAttrSyn())) {
-        addWithSelectClause(builder, left->getAttrSyn(),
-                            right->getIdentValue());
-      } else {
-        constraint = parseOverrideConstraint(std::move(left), std::move(right));
-      }
-    } else {
-      if (isNonDefaultCase(right->getAttrSyn())) {
-        addWithSelectClause(builder, right->getAttrSyn(),
-                            left->getIdentValue());
-      } else {
-        constraint = parseOverrideConstraint(std::move(right), std::move(left));
-      }
-    }
+    return handleOverride(std::move(left), std::move(right), builder);
+  }
+}
+
+ConstraintSPtr PQLWithParser::handleConstant(WithArgumentPtr left,
+                                             WithArgumentPtr right) {
+  return make_shared<ConstantConstraint>(
+      std::move(left), std::move(right));
+}
+
+ConstraintSPtr PQLWithParser::handleOverride(WithArgumentPtr left,
+                                             WithArgumentPtr right,
+                                             QueryBuilder* builder) {
+  bool isLeftSyn = left->isSyn();
+  WithArgumentPtr synArg = isLeftSyn ? std::move(left) : std::move(right);
+  WithArgumentPtr constArg = isLeftSyn ? std::move(right) : std::move(left);
+
+  if (isNonDefaultCase(synArg->getAttrSyn())) {
+    addWithSelectClause(builder, synArg->getAttrSyn(),
+                        constArg->getIdentValue());
+    return nullptr;
   }
 
-  return constraint;
+  return parseOverrideConstraint(std::move(synArg), std::move(constArg));
+}
+
+ConstraintSPtr PQLWithParser::handleTwoSyns(WithArgumentPtr left,
+                                            WithArgumentPtr right,
+                                            QueryBuilder *builder) {
+  if (left->getSynType() == right->getSynType()) {
+    // TODO(sharpstorm): Same Syn Handling
+    return nullptr;
+  }
+
+  // Different Synonym Types
+  WithClausePtr withClause = make_unique<WithClause>(std::move(left),
+                                                     std::move(right));
+  builder->addWith(std::move(withClause));
+  return nullptr;
 }
 
 ConstraintSPtr PQLWithParser::parseOverrideConstraint(

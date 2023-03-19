@@ -12,6 +12,12 @@ using std::make_unique, std::string;
 class PQLWithParser: public IPQLParser {
   static ConstraintSPtr parseConstraint(
       WithArgumentPtr left, WithArgumentPtr right, QueryBuilder* builder);
+  static ConstraintSPtr handleConstant(WithArgumentPtr left, WithArgumentPtr right);
+  static ConstraintSPtr handleOverride(WithArgumentPtr left, WithArgumentPtr right,
+                                       QueryBuilder* builder);
+  static ConstraintSPtr handleTwoSyns(WithArgumentPtr left, WithArgumentPtr right,
+                                   QueryBuilder* builder);
+
   static ConstraintSPtr parseOverrideConstraint(
       WithArgumentPtr synArg, WithArgumentPtr staticArg);
   static bool isNonDefaultCase(AttributedSynonym attrSyn);
