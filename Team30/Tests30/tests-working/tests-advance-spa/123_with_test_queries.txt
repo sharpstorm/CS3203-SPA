@@ -228,3 +228,38 @@ assign a, a1; read r1, r2, r3, r4; print pn1, pn2, pn3, pn4; if ifs1, ifs2, ifs3
 Select r1 with s1.stmt# = r1.stmt# with s1.stmt# = 1
 1
 5000
+43 - Cat 1 - true
+assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 with "x" = "x"
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21
+5000
+44 - Cat 1 - false
+assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 with "x" = "y"
+
+5000
+45 - Cat 1 - semantic
+assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 with "x" = 1
+SemanticError
+5000
+46 - Cat 1 - semantic
+assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 with 1 = "y"
+SemanticError
+5000
+47 - Cat 1 - semantic
+assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 with 1 = s1
+SemanticError
+5000
+48 - semantic
+assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 with s1 = s1
+SemanticError
+5000
+49 - semantic
+assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 with n1 = n2
+SemanticError
+5000
