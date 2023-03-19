@@ -138,14 +138,14 @@ string ResultGroup::projectNonDefaultAttribute(PkbQueryHandler *handler,
                                                AttributedSynonym syn) {
   if (syn.getType() == PQL_SYN_TYPE_READ) {
     // read.varName
-    return handler->getReadDeclarations(item->getStmtRef());
+    return handler->getReadDeclarations(item->toStmtValue());
   } else if (syn.getType() == PQL_SYN_TYPE_PRINT) {
     // print.varName
-    return  handler->getPrintDeclarations(item->getStmtRef());
+    return  handler->getPrintDeclarations(item->toStmtValue());
   }
 
   // call.procName
-  return handler->getCalledDeclaration(item->getStmtRef());
+  return handler->getCalledDeclaration(item->toStmtValue());
 }
 
 bool ResultGroup::isNonDefaultCase(AttributedSynonym syn) {

@@ -5,10 +5,12 @@
 
 using std::to_string, std::vector, std::make_unique;
 
+ResultProjector::ResultProjector(PkbQueryHandler *handler):
+    pkbQueryHandler(handler) { }
+
 UniqueVectorPtr<string> ResultProjector::project(
     SynonymResultTable *queryResult,
-    AttributedSynonymList*resultVariables,
-    PkbQueryHandler* handler) {
+    AttributedSynonymList*resultVariables) {
   UniqueVectorPtr<string> result =
       make_unique<vector<string>>(vector<string>{});
 
@@ -32,6 +34,6 @@ UniqueVectorPtr<string> ResultProjector::project(
   }
 
   // Map and project to tuple
-  finalGroup->project(resultVariables, handler, result.get());
+  finalGroup->project(resultVariables, pkbQueryHandler, result.get());
   return result;
 }

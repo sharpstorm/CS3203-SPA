@@ -12,7 +12,7 @@ QueryOrchestrator::QueryOrchestrator(QueryLauncher launcher) :
 
 // Executes every group in the QueryPlan
 SynonymResultTable *QueryOrchestrator::execute(
-    QueryPlan *plan, OverrideTablePtr overrideTable) {
+    QueryPlan *plan, OverrideTable* overrideTable) {
   bool isBool = plan->isBooleanQuery();
   if (plan->isEmpty()) {
     return new SynonymResultTable(isBool, false);
@@ -21,7 +21,7 @@ SynonymResultTable *QueryOrchestrator::execute(
   SynonymResultTable* resultTable = new SynonymResultTable(isBool, true);
   for (int i = 0; i < plan->getGroupCount(); i++) {
     QueryGroupPlan* targetGroup = plan->getGroup(i);
-    PQLQueryResult* result = executeGroup(targetGroup, overrideTable.get());
+    PQLQueryResult* result = executeGroup(targetGroup, overrideTable);
 
     // If any of the result is empty, return FALSE / EmptyResultTable
     if (result->isFalse()) {

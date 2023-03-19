@@ -24,14 +24,6 @@ string QueryResultItem::project() {
 
 const char QueryResultItem::NO_ENT_REF[] = "";
 
-string QueryResultItem::getEntRef() {
-  return entRef;
-}
-
-int QueryResultItem::getStmtRef() {
+int QueryResultItem::toStmtValue() {
   return stmtRef;
-}
-
-bool QueryResultItem::returnsInteger() {
-  return stmtRef != NO_STMT_REF;
 }
