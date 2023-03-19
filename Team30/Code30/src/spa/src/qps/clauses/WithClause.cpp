@@ -17,7 +17,8 @@ constexpr SynStmtMapExtractor<StmtList, string, StmtList> valueExtractor =
       return second;
     };
 
-PQLQueryResult *WithClause::evaluateOn(PkbQueryHandler *pkbQueryHandler, OverrideTable* table) {
+PQLQueryResult *WithClause::evaluateOn(PkbQueryHandler *pkbQueryHandler,
+                                       OverrideTable* table) {
   PQLQueryResult* result = new PQLQueryResult();
 
   if (isEmptyResult()) {
@@ -33,10 +34,12 @@ PQLQueryResult *WithClause::evaluateOn(PkbQueryHandler *pkbQueryHandler, Overrid
 }
 
 bool WithClause::isEmptyResult() {
-  return (((leftArg->getAttribute() & INT_RETURN_MASK) > 0)
-      && ((rightArg->getAttribute() & INT_RETURN_MASK)> 0))
-      && ((leftArg->getSynType() != PQL_SYN_TYPE_STMT)
-          && (rightArg->getSynType() != PQL_SYN_TYPE_STMT));
+  bool leftReturnsInt = leftArg->doesReturnInteger();
+  bool rightReturnsInt = rightArg->doesReturnInteger();
+  bool isLeftStmt = leftArg->getSynType() == PQL_SYN_TYPE_STMT;
+  bool isRightStmt = rightArg->getSynType() == PQL_SYN_TYPE_STMT;
+
+  return leftReturnsInt && rightReturnsInt && !isLeftStmt && !isRightStmt;
 }
 
 void WithClause::evaluateOnIntAttributes(PQLQueryResult *result,
@@ -45,10 +48,11 @@ void WithClause::evaluateOnIntAttributes(PQLQueryResult *result,
       PKBTypeAdapter::convertPQLSynonymToStmt(leftArg->getSynType());
   StmtType rightType =
       PKBTypeAdapter::convertPQLSynonymToStmt(rightArg->getSynType());
-  unordered_set<int> set1 = pkbQueryHandler->getStatementsOfType(leftType);
-  unordered_set<int> set2 = pkbQueryHandler->getStatementsOfType(rightType);
-  pair_set<int, int> queryResult;
-  for (int i : set1) {
+  StmtValueSet set1 = pkbQueryHandler->getStatementsOfType(leftType);
+  StmtValueSet set2 = pkbQueryHandler->getStatementsOfType(rightType);
+
+  pair_set<StmtValue, StmtValue> queryResult;
+  for (StmtValue i : set1) {
     if (set2.find(i) == set2.end()) {
       continue;
     }
@@ -69,25 +73,19 @@ void WithClause::evaluateOnStringAttributes(PQLQueryResult *result,
   if (isLeftDefault && isRightDefault) {
     auto queryResult = crossMaps<string, string>
         (&map1, &map2, keyExtractor, keyExtractor);
-    result->add(leftArg->getSynName(), rightArg->getSynName(), queryResult);
+    addToResult(result, queryResult);
   } else if (!isLeftDefault && !isRightDefault) {
-    auto queryResult = crossMaps<int, int>
+    auto queryResult = crossMaps<StmtValue, StmtValue>
         (&map1, &map2, valueExtractor, valueExtractor);
-    result->add(leftArg->getSynName(), rightArg->getSynName(), queryResult);
+    addToResult(result, queryResult);
   } else if (isLeftDefault) {
-    auto queryResult = crossMaps<string, int>
+    auto queryResult = crossMaps<EntityValue, StmtValue>
         (&map1, &map2, keyExtractor, valueExtractor);
-    result->add(leftArg->getSynName(), rightArg->getSynName(), queryResult);
+    addToResult(result, queryResult);
   } else {
-    auto queryResult = crossMaps<int, string>
+    auto queryResult = crossMaps<StmtValue, EntityValue>
         (&map1, &map2, valueExtractor, keyExtractor);
-    result->add(leftArg->getSynName(), rightArg->getSynName(), queryResult);
-  }
-  for (auto &it1 : map1) {
-    auto map2FindIterator = map2.find(it1.first);
-    if (map2FindIterator == map2.end()) {
-      continue;
-    }
+    addToResult(result, queryResult);
   }
 }
 
@@ -100,23 +98,23 @@ void WithClause::queryPkbForAttribute(PkbQueryHandler *pkbQueryHandler,
     if (auto search = map->find(result); search != map->end()) {
       search->second.push_back(i);
     } else {
-      map->emplace(result, vector<int>{i});
+      map->emplace(result, StmtList{i});
     }
   }
 }
 
 constexpr PKBAttributeQuerier CallsQuerier =
-    [](PkbQueryHandler *pkbQueryHandler, const int &stmt) {
+    [](PkbQueryHandler *pkbQueryHandler, const StmtValue &stmt) {
       return pkbQueryHandler->getCalledDeclaration(stmt);
     };
 
 constexpr PKBAttributeQuerier ReadQuerier =
-    [](PkbQueryHandler *pkbQueryHandler, const int &stmt) {
+    [](PkbQueryHandler *pkbQueryHandler, const StmtValue &stmt) {
       return pkbQueryHandler->getReadDeclarations(stmt);
     };
 
 constexpr PKBAttributeQuerier PrintQuerier =
-    [](PkbQueryHandler *pkbQueryHandler, const int &stmt) {
+    [](PkbQueryHandler *pkbQueryHandler, const StmtValue &stmt) {
       return pkbQueryHandler->getPrintDeclarations(stmt);
     };
 
@@ -141,7 +139,7 @@ bool WithClause::populateMap(PQLSynonymType type, SynToStmtMap *map,
 
   EntityType leftEntityType = PKBTypeAdapter::convertPQLSynonymToEntity(type);
   for (string s : pkbQueryHandler->getSymbolsOfType(leftEntityType)) {
-    map->emplace(s, vector<int>{});
+    map->emplace(s, StmtList{});
   }
   return true;
 }

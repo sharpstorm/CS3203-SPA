@@ -1,7 +1,6 @@
 #pragma once
 
 #include <memory>
-#include <unordered_set>
 #include <unordered_map>
 #include <string>
 #include <vector>
@@ -43,6 +42,10 @@ class WithClause: public Clause {
 
   void evaluateOnStringAttributes(PQLQueryResult *result,
                                   PkbQueryHandler *pkbQueryHandler);
+  template <class T>
+  void addToResult(PQLQueryResult *result, const T &pkbResult) {
+    result->add(leftArg->getSynName(), rightArg->getSynName(), pkbResult);
+  }
 
   template <class R1, class R2, class U, class V, class T1, class T2>
   pair_set<R1, R2> crossMaps(SynToStmtMap* map1,
