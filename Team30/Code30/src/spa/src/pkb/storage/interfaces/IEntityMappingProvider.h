@@ -13,6 +13,6 @@ class IEntityMappingProvider : public IProvider<EntityValue, EntityType> {
   virtual ~IEntityMappingProvider() {}
   virtual EntityValue getVariableByIndex(StmtValue) const = 0;
   virtual EntityValue getConstantByIndex(StmtValue) const = 0;
-  virtual unordered_set<StmtValue> getIndexOfVariable(EntityValue) const = 0;
-  virtual unordered_set<StmtValue> getIndexOfConstant(EntityValue) const = 0;
+  virtual unordered_set<int> getIndexOfVariable(EntityValue) const = 0;
+  virtual unordered_set<int> getIndexOfConstant(EntityValue) const = 0;
 };
