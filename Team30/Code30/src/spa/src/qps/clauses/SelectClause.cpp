@@ -21,13 +21,12 @@ PQLQueryResult* SelectClause::evaluateOn(PkbQueryHandler* pkbQueryHandler,
     StmtRef stmtRef = clauseArg->toStmtRef();
     if (clauseArg->canSubstitute(table)) {
       OverrideTransformer trans = table->at(synName);
-      StmtValue stmtVal = trans.getStmtValue();
-      if (pkbQueryHandler->isStatementOfType(stmtRef.type, stmtVal)) {
-        result.insert(stmtVal);
+      stmtRef = trans.transformArg(stmtRef);
+      if (Clause::isValidRef(stmtRef, pkbQueryHandler)) {
+        result.insert(stmtRef.lineNum);
       }
     } else {
-      result = pkbQueryHandler
-          ->getStatementsOfType(stmtRef.type);
+      result = pkbQueryHandler->getStatementsOfType(stmtRef.type);
     }
 
     return Clause::toQueryResult(target->getName(), result);
@@ -38,6 +37,7 @@ PQLQueryResult* SelectClause::evaluateOn(PkbQueryHandler* pkbQueryHandler,
   if (clauseArg->canSubstitute(table)) {
     OverrideTransformer trans = table->at(synName);
     EntityValue entVal;
+
     if (target->getType() == PQL_SYN_TYPE_CONSTANT) {
       entVal = to_string(trans.getStmtValue());
     } else {

@@ -504,6 +504,8 @@ TEST_CASE("Override With Clause Test, Default") {
 
   pipeline.query("read r; Select r with r.stmt# = 2",
                  {"2"});
+  pipeline.query("stmt s; Select s with s.stmt# = 2",
+                 {"2"});
 }
 
 TEST_CASE("With Clause Constant Constraint") {

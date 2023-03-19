@@ -94,8 +94,8 @@ ConstraintSPtr PQLWithParser::handleTwoSyns(WithArgumentPtr left,
                                             WithArgumentPtr right,
                                             QueryBuilder *builder) {
   if (left->getSynType() == right->getSynType()) {
-    // TODO(sharpstorm): Same Syn Handling
-    return nullptr;
+    return make_unique<SynonymConstraint>(left->getSynName(),
+                                          right->getSynName());
   }
 
   // Different Synonym Types
