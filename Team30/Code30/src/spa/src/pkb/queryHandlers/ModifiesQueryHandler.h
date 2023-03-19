@@ -2,10 +2,11 @@
 
 #include <string>
 #include <unordered_set>
+
 #include "common/Types.h"
 #include "interfaces/IModifiesQueryHandler.h"
-#include "pkb/storage/StorageTypes.h"
 #include "pkb/predicates/PredicateFactory.h"
+#include "pkb/storage/StorageTypes.h"
 #include "pkb/storage/interfaces/IStructureMappingProvider.h"
 
 using std::string;
@@ -13,8 +14,7 @@ using std::unordered_set;
 
 class ModifiesQueryHandler : public IModifiesQueryHandler {
  public:
-  ModifiesQueryHandler(const ModifiesStorage *,
-                       const ModifiesPStorage *,
+  ModifiesQueryHandler(const ModifiesStorage *, const ModifiesPStorage *,
                        const PredicateFactory *,
                        const IStructureMappingProvider *,
                        const IEntityMappingProvider *);
@@ -22,6 +22,8 @@ class ModifiesQueryHandler : public IModifiesQueryHandler {
   QueryResult<int, string> queryModifies(StmtRef, EntityRef) const override;
   QueryResult<string, string> queryModifies(EntityRef,
                                             EntityRef) const override;
+  string getReadDeclarations(int) const override;
+
  private:
   const ModifiesStorage *modifiesStorage;
   const ModifiesPStorage *modifiesPStorage;

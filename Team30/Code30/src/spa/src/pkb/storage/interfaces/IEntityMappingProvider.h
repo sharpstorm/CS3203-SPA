@@ -17,4 +17,5 @@ class IEntityMappingProvider {
   virtual string getConstantByIndex(int) const = 0;
   virtual unordered_set<int> getIndexOfVariable(string) const = 0;
   virtual unordered_set<int> getIndexOfConstant(string) const = 0;
+  virtual bool isSymbolOfType(EntityType, string) const = 0;
 };

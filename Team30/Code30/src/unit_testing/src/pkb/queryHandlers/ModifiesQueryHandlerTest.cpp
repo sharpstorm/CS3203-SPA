@@ -392,3 +392,13 @@ TEST_CASE("ModifiesQueryHandler Modifies(type, type)") {
                                             {EntityType::Variable, ""});
   REQUIRE(result2.isEmpty == true);
 }
+
+TEST_CASE("ModifiesQueryHandler getReadDeclaration(readStmt)") {
+  auto test = modifiesTestInit();
+  test.table->set(1, "x");
+  test.table->set(2, "x");
+  test.table->set(3, "z");
+  test.table->set(4, "y");
+
+  REQUIRE(test.handler.getReadDeclarations(4) == "y");
+}

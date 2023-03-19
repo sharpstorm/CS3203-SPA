@@ -60,3 +60,11 @@ QueryResult<string, string> UsesQueryHandler::queryUses(EntityRef arg1,
         predicateFactory->getPredicate(arg2));
   }
 }
+
+string UsesQueryHandler::getPrintDeclarations(int printStmt) const {
+  if (usesStorage->getByFirstArg(printStmt).empty()) {
+    return "";
+  } else {
+    return *usesStorage->getByFirstArg(printStmt).begin();
+  }
+}
