@@ -10,7 +10,7 @@
 
 using std::shared_ptr, std::vector, std::string;
 
-typedef vector<string> SynonymList;
+typedef vector<PQLSynonymName> SynonymList;
 
 class IEvaluatable {
  public:

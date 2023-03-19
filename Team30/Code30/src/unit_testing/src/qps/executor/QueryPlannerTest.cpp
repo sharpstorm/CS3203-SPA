@@ -10,12 +10,17 @@
 
 using std::make_unique, std::unordered_map, std::unique_ptr;
 
-PQLQuerySynonym PQL_RESULT_VAR{PQL_SYN_TYPE_STMT, "a"};
-PQLQuerySynonym PQL_RESULT_VAR2{PQL_SYN_TYPE_STMT, "b"};
-AttributedSynonym ATTR_RESULT_VAR(&PQL_RESULT_VAR);
-AttributedSynonym ATTR_RESULT_VAR2(&PQL_RESULT_VAR2);
+PQLQuerySynonym PQL_RESULT_VAR_RAW{PQL_SYN_TYPE_STMT, "a"};
+PQLQuerySynonym PQL_RESULT_VAR2_RAW{PQL_SYN_TYPE_STMT, "b"};
+PQLQuerySynonym* PQL_RESULT_VAR_PTR = &PQL_RESULT_VAR_RAW;
+PQLQuerySynonym* PQL_RESULT_VAR2_PTR = &PQL_RESULT_VAR2_RAW;
+PQLQuerySynonymProxy PQL_RESULT_VAR(&PQL_RESULT_VAR_PTR);
+PQLQuerySynonymProxy PQL_RESULT_VAR2(&PQL_RESULT_VAR2_PTR);
+
+AttributedSynonym ATTR_RESULT_VAR(PQL_RESULT_VAR);
+AttributedSynonym ATTR_RESULT_VAR2(PQL_RESULT_VAR2);
 AttributedSynonymList PQL_RESULT_VARS{ATTR_RESULT_VAR};
-unordered_map<string, PQLQuerySynonym> PQL_VAR_MAP({{"a", PQL_RESULT_VAR}});
+unordered_map<string, PQLQuerySynonym> PQL_VAR_MAP({{"a", PQL_RESULT_VAR_RAW}});
 
 // Will not have select clause
 TEST_CASE("Plan where a clause is using target declaration variable") {

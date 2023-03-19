@@ -1,13 +1,13 @@
 #include <utility>
 #include <memory>
+#include <unordered_set>
 
 #include "QueryBuilder.h"
 #include "qps/errors/QPSParserSemanticError.h"
 
 using std::make_unique;
 
-QueryBuilder::QueryBuilder() {
-  variables = make_unique<VariableTable>();
+QueryBuilder::QueryBuilder(): variables(make_unique<VariableTable>()) {
 }
 
 void QueryBuilder::setError(const string &msg) {
@@ -28,20 +28,25 @@ void QueryBuilder::addSynonym(const PQLSynonymName &name,
     return;
   }
 
-  variables->emplace(name, PQLQuerySynonym(type, name));
+  variables->add(name, PQLQuerySynonym(type, name));
+  declaredNames.insert(name);
 }
 
 bool QueryBuilder::hasSynonym(const PQLSynonymName &name) {
-  return variables->find(name) != variables->end();
+  return declaredNames.find(name) != declaredNames.end();
 }
 
-PQLQuerySynonym* QueryBuilder::accessSynonym(const PQLSynonymName &name) {
+void QueryBuilder::finalizeSynonymTable() {
+  variables->finalizeTable();
+}
+
+PQLQuerySynonymProxy* QueryBuilder::accessSynonym(const PQLSynonymName &name) {
   if (!hasSynonym(name)) {
     setError(QPS_PARSER_ERR_UNKNOWN_SYNONYM);
     return nullptr;
   }
 
-  return &(variables->at(name));
+  return (variables->find(name));
 }
 
 void QueryBuilder::addSuchThat(unique_ptr<SuchThatClause> clause) {
@@ -51,7 +56,6 @@ void QueryBuilder::addSuchThat(unique_ptr<SuchThatClause> clause) {
 void QueryBuilder::addPattern(unique_ptr<PatternClause> clause) {
   clauses.push_back(std::move(clause));
 }
-
 
 void QueryBuilder::addWith(unique_ptr<WithClause> clause) {
   clauses.push_back(std::move(clause));

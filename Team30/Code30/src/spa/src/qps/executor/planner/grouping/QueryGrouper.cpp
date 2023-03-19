@@ -123,8 +123,8 @@ void QueryGrouper::selectAllDeclarations(vector<QueryGroupPtr> *result) {
 }
 
 QueryGroupPtr QueryGrouper::makeSelectClause(const PQLSynonymName &name) {
-  PQLQuerySynonym* synonym = query->getVariable(name);
-  IEvaluatableSPtr selectClause = make_shared<SelectClause>(*synonym);
+  PQLQuerySynonymProxy* synProxy = query->getVariable(name);
+  IEvaluatableSPtr selectClause = make_shared<SelectClause>(*synProxy);
 
   QueryGroupPtr selectGroup = make_unique<QueryGroup>();
   selectGroup->addEvaluatable(selectClause);

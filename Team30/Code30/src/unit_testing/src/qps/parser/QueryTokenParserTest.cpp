@@ -43,8 +43,8 @@ unique_ptr<PQLQuery> testPQLParsing(vector<PQLToken> testcase, vector<PQLQuerySy
     auto expectedVar = expectedVariables.at(i);
     auto var = result->getVariable(expectedVar.getName());
     REQUIRE(var != nullptr);
-    REQUIRE(var->getName() == expectedVar.getName());
-    REQUIRE(var->getType() == expectedVar.getType());
+    REQUIRE((*var)->getName() == expectedVar.getName());
+    REQUIRE((*var)->getType() == expectedVar.getType());
   }
 
   return result;

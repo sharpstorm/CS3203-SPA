@@ -13,13 +13,13 @@ PQLAssignPatternContext::PQLAssignPatternContext(
 }
 
 PatternClausePtr PQLAssignPatternContext::parse(
-    PQLQuerySynonym *synonym,
+    PQLQuerySynonymProxy synonym,
     ClauseArgumentPtr firstArg,
     IntermediateExpressionArgumentPtr secondArg) {
 
   if (secondArg->isWildcard()) {
     return make_unique<AssignPatternClause>(
-        *synonym, std::move(firstArg), make_unique<ExpressionArgument>());
+        synonym, std::move(firstArg), make_unique<ExpressionArgument>());
   }
 
   ExpressionSequencePtr sequence = buildPostfix(secondArg.get());
@@ -27,7 +27,7 @@ PatternClausePtr PQLAssignPatternContext::parse(
       std::move(sequence), secondArg->allowsPartial());
 
   return make_unique<AssignPatternClause>(
-      *synonym, std::move(firstArg), std::move(exprArg));
+      synonym, std::move(firstArg), std::move(exprArg));
 }
 
 ExpressionSequencePtr PQLAssignPatternContext::buildPostfix(

@@ -7,7 +7,7 @@
 class PQLAssignPatternContext {
  public:
   explicit PQLAssignPatternContext(ISourceExpressionParser* exprParser);
-  PatternClausePtr parse(PQLQuerySynonym* synonym,
+  PatternClausePtr parse(PQLQuerySynonymProxy synonym,
                          ClauseArgumentPtr firstArg,
                          IntermediateExpressionArgumentPtr secondArg);
 

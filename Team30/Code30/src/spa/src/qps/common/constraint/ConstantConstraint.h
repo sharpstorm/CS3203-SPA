@@ -12,7 +12,7 @@ class ConstantConstraint : virtual public Constraint {
  public:
   ConstantConstraint(WithArgumentPtr arg1, WithArgumentPtr arg2)
       : leftArg(std::move(arg1)), rightArg(std::move(arg2)) {}
-  bool applyConstraint(VariableTable* variableTable,
+  bool applyConstraint(VariableTableProxyBuilder* variableTable,
                        OverrideTable* overrideTable) override {
     return leftArg->isStaticValueEqual(*rightArg);
   }

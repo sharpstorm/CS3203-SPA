@@ -9,29 +9,28 @@
 
 using std::pair, std::unordered_set, std::vector, std::string, std::to_string;
 
-SelectClause::SelectClause(const PQLQuerySynonym &target) :
+SelectClause::SelectClause(const PQLQuerySynonymProxy &target):
     target(target) {}
 
 PQLQueryResult *SelectClause::evaluateOn(
     PkbQueryHandler *pkbQueryHandler,
     OverrideTable *table) {
   ClauseArgumentPtr clauseArg = ClauseArgumentFactory::create(target);
-  PQLSynonymName synName = target.getName();
-  if (target.isStatementType()) {
+  PQLSynonymName synName = target->getName();
+  if (target->isStatementType()) {
     unordered_set<int> result;
     StmtRef stmtRef = clauseArg->toStmtRef();
     if (clauseArg->canSubstitute(table)) {
       OverrideTransformer trans = table->at(synName);
-      StmtValue stmtVal = trans.getStmtValue();
-      if (pkbQueryHandler->isStatementOfType(stmtRef.type, stmtVal)) {
-        result.insert(stmtVal);
+      stmtRef = trans.transformArg(stmtRef);
+      if (Clause::isValidRef(stmtRef, pkbQueryHandler)) {
+        result.insert(stmtRef.lineNum);
       }
     } else {
-      result = pkbQueryHandler
-          ->getStatementsOfType(stmtRef.type);
+      result = pkbQueryHandler->getStatementsOfType(stmtRef.type);
     }
 
-    return Clause::toQueryResult(target.getName(), result);
+    return Clause::toQueryResult(target->getName(), result);
   }
 
   unordered_set<string> result;
@@ -39,7 +38,8 @@ PQLQueryResult *SelectClause::evaluateOn(
   if (clauseArg->canSubstitute(table)) {
     OverrideTransformer trans = table->at(synName);
     EntityValue entVal;
-    if (target.getType() == PQL_SYN_TYPE_CONSTANT) {
+
+    if (target->getType() == PQL_SYN_TYPE_CONSTANT) {
       entVal = to_string(trans.getStmtValue());
     } else {
       entVal = trans.getEntityValue();
@@ -52,13 +52,13 @@ PQLQueryResult *SelectClause::evaluateOn(
     result = pkbQueryHandler->getSymbolsOfType(entRef.type);
   }
 
-  return Clause::toQueryResult(target.getName(), result);
+  return Clause::toQueryResult(target->getName(), result);
 }
 
 bool SelectClause::validateArgTypes(VariableTable *variables) {
-  return !target.isType(PQL_SYN_TYPE_PROCEDURE);
+  return !target->isType(PQL_SYN_TYPE_PROCEDURE);
 }
 
 SynonymList SelectClause::getUsedSynonyms() {
-  return SynonymList{target.getName()};
+  return SynonymList{target->getName()};
 }
