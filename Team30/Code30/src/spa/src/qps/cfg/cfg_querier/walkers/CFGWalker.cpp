@@ -3,6 +3,9 @@
 #include <set>
 #include <utility>
 
+#include "qps/cfg/cfg_querier/CFGHaltWalkerException.h"
+
+
 using std::set, std::pair;
 
 CFGWalker::CFGWalker(CFG *cfg): cfg(cfg) {
@@ -16,7 +19,7 @@ struct StaticWalkerState {
 constexpr bool staticWalkerCallback(StaticWalkerState* state, CFGNode node) {
   if (node == state->target) {
     state->isFound = true;
-    return false;
+    throw CFGHaltWalkerException();
   }
   return true;
 }

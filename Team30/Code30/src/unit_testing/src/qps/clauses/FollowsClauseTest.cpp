@@ -20,13 +20,15 @@ TEST_CASE("FollowsClause Querying") {
   PQLQueryResultPtr expected;
   PQLQueryResultPtr actual;
 
+  OverrideTablePtr override = make_unique<OverrideTable>();
+
   // Static results
   // When stmtNumLeft < stmtNumRight E.g. Follows(1,2)
   FollowsClause followsClause = FollowsClause(
       make_unique<StmtArgument>(1),
   make_unique<StmtArgument>(4));
   expected = make_unique<PQLQueryResult>();
-  actual = PQLQueryResultPtr(followsClause.evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(followsClause.evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 
   // When stmtNumLeft > stmtNumRight E.g. Follows(2,1)
@@ -35,7 +37,7 @@ TEST_CASE("FollowsClause Querying") {
       make_unique<StmtArgument>(1));
   expected = make_unique<PQLQueryResult>();
   expected->setIsStaticFalse(true);
-  actual = PQLQueryResultPtr(followsClause.evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(followsClause.evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 
   // Left arg is synonym
@@ -48,7 +50,7 @@ TEST_CASE("FollowsClause Querying") {
         QueryResultItem(1)
       }}
   });
-  actual = PQLQueryResultPtr(followsClause.evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(followsClause.evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 
   // Right arg is synonym
@@ -60,7 +62,7 @@ TEST_CASE("FollowsClause Querying") {
           QueryResultItem(2)
       }}
   });
-  actual = PQLQueryResultPtr(followsClause.evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(followsClause.evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 
   // Both are synonyms
@@ -75,7 +77,7 @@ TEST_CASE("FollowsClause Querying") {
           QueryResultItem(2)
       }}
   });
-  actual = PQLQueryResultPtr(followsClause.evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(followsClause.evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 }
 

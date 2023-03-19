@@ -2,7 +2,7 @@
 
 #include "ICFGClauseQuerier.h"
 #include "common/cfg/CFG.h"
-#include "qps/cfg/CFGWalker.h"
+#include "qps/cfg/cfg_querier/walkers/CFGWalker.h"
 #include "CFGQuerier.h"
 #include "qps/cfg/CFGQuerierTypes.h"
 

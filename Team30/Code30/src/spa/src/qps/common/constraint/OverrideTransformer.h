@@ -14,6 +14,8 @@ class OverrideTransformer {
  public:
   explicit OverrideTransformer(int stmt): stmtRef(stmt), entRef(NO_ENT_REF) {}
   explicit OverrideTransformer(string ent): stmtRef(NO_STMT_REF), entRef(ent) {}
+  StmtValue getStmtValue();
+  EntityValue getEntityValue();
   bool returnsInteger();
   StmtRef transformArg(StmtRef input);
   EntityRef transformArg(EntityRef input);

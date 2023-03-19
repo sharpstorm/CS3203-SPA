@@ -47,3 +47,7 @@ EntityRef SynonymArgument::toEntityRef() {
       return EntityRef{EntityType::None};
   }
 }
+
+PQLQuerySynonym *SynonymArgument::getSyn() {
+  return &synonym;
+}

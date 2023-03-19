@@ -14,6 +14,8 @@ enum class StmtType { None, Read, Print, Assign, Call, While, If };
 
 typedef string EntityValue;
 typedef int StmtValue;
+typedef unordered_set<StmtValue> StmtValueSet;
+typedef unordered_set<EntityValue> EntityValueSet;
 
 template<typename Value, typename Type>
 struct IRef {

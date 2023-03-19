@@ -1,6 +1,7 @@
 #pragma once
 
 #include "common/cfg/CFG.h"
+#include "qps/cfg/CFGQuerierTypes.h"
 
 class TestCFGProvider {
  public:
@@ -8,4 +9,7 @@ class TestCFGProvider {
   static CFG getSimpleIfCFG();
   static CFG getSimpleWhileCFG();
   static CFG getSimpleMultiCycleCFG();
+
+  static CFG getAffectsIfCFG();
+  static CFG getAffectsWhileCFG();
 };

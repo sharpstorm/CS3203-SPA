@@ -17,7 +17,7 @@ class ConstantConstraint : virtual public Constraint {
     return leftArg->isStaticValueEqual(*rightArg);
   }
 
-  bool validateConstraint() {
+  bool validateConstraint() override {
     return leftArg->doesReturnInteger() == rightArg->doesReturnInteger();
   }
 };
