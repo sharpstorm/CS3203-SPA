@@ -14,13 +14,12 @@ class Clause : public IEvaluatable {
  public:
   virtual bool validateArgTypes(VariableTable* variables) = 0;
 
- protected:
-  bool isValidRef(StmtRef stmtRef, PkbQueryHandler* handler) {
+  static bool isValidRef(StmtRef stmtRef, PkbQueryHandler* handler) {
     return !stmtRef.isKnown() || stmtRef.type == StmtType::None
         || handler->isStatementOfType(stmtRef.type, stmtRef.lineNum);
   }
 
-  bool isValidRef(EntityRef entRef, PkbQueryHandler* handler) {
+  static bool isValidRef(EntityRef entRef, PkbQueryHandler* handler) {
     if (entRef.type == EntityType::None) {
       return true;
     }
@@ -29,6 +28,7 @@ class Clause : public IEvaluatable {
         handler->isSymbolOfType(entRef.type, entRef.name);
   }
 
+ protected:
   static EntityRef toEntityRef(ClauseArgument* arg) {
     return arg->toEntityRef();
   }
