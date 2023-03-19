@@ -21,12 +21,6 @@ TEST_CASE("SynonymUFDS Test") {
   varTable.add("d", syn4);
   varTable.add("e", syn5);
   varTable.finalizeTable();
-
-  PQLQuerySynonym* ptr1 = varTable.getProxyArray()->at("a");
-  PQLQuerySynonym* ptr2 = varTable.getProxyArray()->at("b");
-  PQLQuerySynonym* ptr3 = varTable.getProxyArray()->at("c");
-  PQLQuerySynonym* ptr4 = varTable.getProxyArray()->at("d");
-  PQLQuerySynonym* ptr5 = varTable.getProxyArray()->at("e");
   SynonymUFDS ufds(&varTable);
 
   vector<int> v = ufds.getParents();
@@ -37,28 +31,27 @@ TEST_CASE("SynonymUFDS Test") {
   REQUIRE(v[3] == 3);
   REQUIRE(v[4] == 4);
 
+  REQUIRE(*ufds.getSetValue("a") == syn1);
+  REQUIRE(*ufds.getSetValue("b") == syn2);
+  REQUIRE(*ufds.getSetValue("c") == syn3);
+  REQUIRE(*ufds.getSetValue("d") == syn4);
+  REQUIRE(*ufds.getSetValue("e") == syn5);
 
-  REQUIRE(contains(&ufds.synArr,ptr1));
-  REQUIRE(contains(&ufds.synArr,ptr2));
-  REQUIRE(contains(&ufds.synArr,ptr3));
-  REQUIRE(contains(&ufds.synArr,ptr4));
-  REQUIRE(contains(&ufds.synArr,ptr5));
 
-  REQUIRE(ufds.findSet(ptr1) == ptr1);
-  REQUIRE(ufds.findSet(ptr2) == ptr2);
-  REQUIRE(ufds.findSet(ptr3) == ptr3);
-  REQUIRE(ufds.findSet(ptr4) == ptr4);
-  REQUIRE(ufds.findSet(ptr5) == ptr5);
+  ufds.mergeSets("a", "b");
+  REQUIRE(ufds.getSetValue("a") == ufds.getSetValue("b"));
 
-  ufds.mergeSets(ptr1, ptr2);
-  REQUIRE(ufds.findSet(ptr1) == ufds.findSet(ptr2));
+  ufds.mergeSets("c", "d");
+  REQUIRE(ufds.getSetValue("c") == ufds.getSetValue("d"));
 
-  ufds.mergeSets(ptr1, ptr3);
-  REQUIRE(ufds.findSet(ptr2) == ufds.findSet(ptr3));
-  REQUIRE(ufds.findSet(ptr1) == ufds.findSet(ptr3));
+  ufds.mergeSets("d", "e");
+  REQUIRE(ufds.getSetValue("c") == ufds.getSetValue("d"));
+  REQUIRE(ufds.getSetValue("c") == ufds.getSetValue("e"));
+  REQUIRE(ufds.getSetValue("d") == ufds.getSetValue("e"));
 
-  ufds.mergeSets(ptr3, ptr4);
-  REQUIRE(ufds.findSet(ptr1) == ufds.findSet(ptr4));
-  REQUIRE(ufds.findSet(ptr2) == ufds.findSet(ptr4));
-  REQUIRE(ufds.findSet(ptr3) == ufds.findSet(ptr4));
+  ufds.mergeSets("a", "e");
+  REQUIRE(ufds.getSetValue("a") == ufds.getSetValue("b"));
+  REQUIRE(ufds.getSetValue("a") == ufds.getSetValue("c"));
+  REQUIRE(ufds.getSetValue("a") == ufds.getSetValue("d"));
+  REQUIRE(ufds.getSetValue("a") == ufds.getSetValue("e"));
 }

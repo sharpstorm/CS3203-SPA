@@ -41,7 +41,9 @@ TEST_CASE("Queries with Select only") {
 
   for (auto stmtType : stmtTypes) {
     auto querySyn = make_unique<PQLQuerySynonym>(PQLQuerySynonym{stmtType, "s"});
-    AttributedSynonym attrSyn = AttributedSynonym(querySyn.get());
+    auto synPtr = querySyn.get();
+    PQLQuerySynonymProxy proxy(&synPtr);
+    AttributedSynonym attrSyn = AttributedSynonym(proxy);
     auto synList = make_unique<AttributedSynonymList>(AttributedSynonymList({attrSyn}));
     expectedResult = TestQueryResultBuilder::buildExpectedTable(ExpectedParams{
         {"s", QueryResultItemVector{
@@ -50,8 +52,8 @@ TEST_CASE("Queries with Select only") {
             QueryResultItem(3)
         }}
     }, synList.get());
-    targetVariable = {stmtType, "s"};
-    auto selectClause = shared_ptr<IEvaluatable>(new SelectClause(targetVariable));
+
+    auto selectClause = shared_ptr<IEvaluatable>(new SelectClause(proxy));
     auto group = make_unique<QueryGroupPlan>(vector<IEvaluatableSPtr>{selectClause},
                                              vector<PQLSynonymName>{"s"});
     vector<QueryGroupPlanPtr> groups;
@@ -71,7 +73,10 @@ TEST_CASE("Queries with Select only") {
 
   for (auto entType : entTypes) {
     auto querySyn = make_unique<PQLQuerySynonym>(PQLQuerySynonym{entType, "ent"});
-    AttributedSynonym attrSyn = AttributedSynonym(querySyn.get());
+    auto synPtr = querySyn.get();
+    PQLQuerySynonymProxy proxy(&synPtr);
+
+    AttributedSynonym attrSyn = AttributedSynonym(proxy);
     auto synList = make_unique<AttributedSynonymList>(AttributedSynonymList({attrSyn}));
     expectedResult = TestQueryResultBuilder::buildExpectedTable(ExpectedParams{
         {"ent", QueryResultItemVector{
@@ -80,8 +85,7 @@ TEST_CASE("Queries with Select only") {
             QueryResultItem("z")
         }}
     }, synList.get());
-    targetVariable = {entType, "ent"};
-    auto selectClause = shared_ptr<SelectClause>(new SelectClause(targetVariable));
+    auto selectClause = shared_ptr<SelectClause>(new SelectClause(proxy));
     auto group = make_unique<QueryGroupPlan>(vector<IEvaluatableSPtr>{selectClause},
                                              vector<PQLSynonymName>{"ent"});
     vector<QueryGroupPlanPtr> groups;

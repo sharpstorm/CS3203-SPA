@@ -22,10 +22,14 @@ TEST_CASE("Test QueryBuilder Success") {
   qb.addSynonym("j", PQL_SYN_TYPE_IF);
   qb.finalizeSynonymTable();
 
+  PQLQuerySynonym synRaw(PQL_SYN_TYPE_STMT, "a");
+  auto synPtr = &synRaw;
+  PQLQuerySynonymProxy synProxy(&synPtr);
+
   qb.addSuchThat(make_unique<FollowsClause>(ClauseArgumentFactory::create(1),
                                             ClauseArgumentFactory::create(2)));
-  qb.addSuchThat(make_unique<ParentClause>(ClauseArgumentFactory::create(
-      PQLQuerySynonym(PQL_SYN_TYPE_STMT, "a")), ClauseArgumentFactory::create(2)));
+  qb.addSuchThat(make_unique<ParentClause>(ClauseArgumentFactory::create(synProxy),
+                                           ClauseArgumentFactory::create(2)));
 
   REQUIRE(qb.hasSynonym("a"));
   REQUIRE(qb.hasSynonym("b"));
@@ -38,15 +42,15 @@ TEST_CASE("Test QueryBuilder Success") {
   REQUIRE(qb.hasSynonym("i"));
   REQUIRE(qb.hasSynonym("j"));
 
-  REQUIRE(*qb.accessSynonym("a") == PQLQuerySynonym(PQL_SYN_TYPE_STMT, "a"));
-  REQUIRE(*qb.accessSynonym("i") == PQLQuerySynonym(PQL_SYN_TYPE_READ, "i"));
+  REQUIRE(**qb.accessSynonym("a") == PQLQuerySynonym(PQL_SYN_TYPE_STMT, "a"));
+  REQUIRE(**qb.accessSynonym("i") == PQLQuerySynonym(PQL_SYN_TYPE_READ, "i"));
 
   auto result = qb.build();
 
   REQUIRE(result->getVariableCount() == 10);
   REQUIRE(result->getEvaluatables().size() == 2);
-  REQUIRE(*result->getVariable("a") == PQLQuerySynonym(PQL_SYN_TYPE_STMT, "a"));
-  REQUIRE(*result->getVariable("h") == PQLQuerySynonym(PQL_SYN_TYPE_PRINT, "h"));
+  REQUIRE(**result->getVariable("a") == PQLQuerySynonym(PQL_SYN_TYPE_STMT, "a"));
+  REQUIRE(**result->getVariable("h") == PQLQuerySynonym(PQL_SYN_TYPE_PRINT, "h"));
 
   auto fc = dynamic_cast<FollowsClause*>(result->getEvaluatables().at(0).get());
   REQUIRE(fc != nullptr);
@@ -74,8 +78,12 @@ TEST_CASE("Test QueryBuilder Invalid Clause - Follows") {
   QueryBuilder qb;
   qb.addSynonym("a", PQL_SYN_TYPE_CONSTANT);
   qb.finalizeSynonymTable();
+
+  PQLQuerySynonym synRaw(PQL_SYN_TYPE_CONSTANT, "a");
+  auto synPtr = &synRaw;
+  PQLQuerySynonymProxy synProxy(&synPtr);
   qb.addSuchThat(make_unique<FollowsClause>(
-      ClauseArgumentFactory::create(PQLQuerySynonym(PQL_SYN_TYPE_CONSTANT, "a")),
+      ClauseArgumentFactory::create(synProxy),
       ClauseArgumentFactory::create(2)));
   REQUIRE_THROWS_AS(qb.build(), QPSParserSemanticError);
 
@@ -84,7 +92,7 @@ TEST_CASE("Test QueryBuilder Invalid Clause - Follows") {
   qb.finalizeSynonymTable();
   qb2.addSuchThat(make_unique<FollowsClause>(
       ClauseArgumentFactory::create(2),
-      ClauseArgumentFactory::create(PQLQuerySynonym(PQL_SYN_TYPE_CONSTANT, "a"))
+      ClauseArgumentFactory::create(synProxy)
   ));
   REQUIRE_THROWS_AS(qb2.build(), QPSParserSemanticError);
 }
@@ -93,8 +101,12 @@ TEST_CASE("Test QueryBuilder Invalid Clause - Modifies") {
   QueryBuilder qb;
   qb.addSynonym("a", PQL_SYN_TYPE_CONSTANT);
   qb.finalizeSynonymTable();
+
+  PQLQuerySynonym synRaw(PQL_SYN_TYPE_CONSTANT, "a");
+  auto synPtr = &synRaw;
+  PQLQuerySynonymProxy synProxy(&synPtr);
   qb.addSuchThat(make_unique<ModifiesClause>(
-      ClauseArgumentFactory::create(PQLQuerySynonym(PQL_SYN_TYPE_CONSTANT, "a")),
+      ClauseArgumentFactory::create(synProxy),
       ClauseArgumentFactory::create("a")));
   REQUIRE_THROWS_AS(qb.build(), QPSParserSemanticError);
 
@@ -109,6 +121,6 @@ TEST_CASE("Test QueryBuilder Invalid Clause - Modifies") {
   qb.finalizeSynonymTable();
   qb3.addSuchThat(make_unique<ModifiesClause>(
       ClauseArgumentFactory::create("a"),
-      ClauseArgumentFactory::create(PQLQuerySynonym(PQL_SYN_TYPE_CONSTANT, "a"))));
+      ClauseArgumentFactory::create(synProxy)));
   REQUIRE_THROWS_AS(qb3.build(), QPSParserSemanticError);
 }

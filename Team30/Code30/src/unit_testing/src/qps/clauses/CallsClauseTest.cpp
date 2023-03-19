@@ -15,8 +15,12 @@ using std::shared_ptr, std::make_unique, std::unique_ptr;
 TEST_CASE("AbstractEntEntClause Querying") {
   PKB pkbStore;
   auto pkb = make_unique<ClausesPKBStub>(&pkbStore);
-  PQLQuerySynonym synP(PQL_SYN_TYPE_PROCEDURE, "p");
-  PQLQuerySynonym synQ(PQL_SYN_TYPE_PROCEDURE, "q");
+  PQLQuerySynonym synPRaw(PQL_SYN_TYPE_PROCEDURE, "p");
+  PQLQuerySynonym synQRaw(PQL_SYN_TYPE_PROCEDURE, "q");
+  PQLQuerySynonym* synPRawPtr = &synPRaw;
+  PQLQuerySynonym* synQRawPtr = &synQRaw;
+  PQLQuerySynonymProxy synP(&synPRawPtr);
+  PQLQuerySynonymProxy synQ(&synQRawPtr);
 
   PQLQueryResultPtr expected;
   PQLQueryResultPtr actual;
