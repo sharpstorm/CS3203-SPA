@@ -17,16 +17,6 @@ ModifiesQueryHandler::ModifiesQueryHandler(
   PkbEntEntQueryHandler::setLeftTransformer(procArgTransformer);
 }
 
-QueryResult<StmtValue, EntityValue> ModifiesQueryHandler::queryModifies(
-    StmtRef leftArg, EntityRef rightArg) const {
-  return PkbStmtEntQueryHandler::query(&leftArg, &rightArg);
-}
-
-QueryResult<EntityValue, EntityValue> ModifiesQueryHandler::queryModifies(
-    EntityRef leftArg, EntityRef rightArg) const {
-  return PkbEntEntQueryHandler::query(&leftArg, &rightArg);
-}
-
 EntityValue ModifiesQueryHandler::getReadDeclarations(
     StmtValue readStmt) const {
   // assumes input is read stmt

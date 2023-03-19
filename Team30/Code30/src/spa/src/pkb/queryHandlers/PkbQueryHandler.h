@@ -13,6 +13,14 @@
 #include "FollowsQueryHandler.h"
 #include "ModifiesQueryHandler.h"
 #include "pkb/queryHandlers/interfaces/ICallsTQueryHandler.h"
+#include "pkb/queryHandlers/interfaces/IParentTQueryHandler.h"
+#include "pkb/queryHandlers/interfaces/ICallsQueryHandler.h"
+#include "pkb/queryHandlers/interfaces/IParentQueryHandler.h"
+#include "pkb/queryHandlers/interfaces/IUsesQueryHandler.h"
+#include "pkb/queryHandlers/interfaces/IIfPatternQueryHandler.h"
+#include "pkb/queryHandlers/interfaces/IWhilePatternQueryHandler.h"
+#include "pkb/queryHandlers/interfaces/IAssignsQueryHandler.h"
+#include "pkb/queryHandlers/interfaces/ICFGsQueryHandler.h"
 
 using std::string;
 using std::unique_ptr, std::shared_ptr;

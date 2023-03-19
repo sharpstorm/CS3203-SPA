@@ -1,10 +1,10 @@
 #pragma once
 
 #include "common/Types.h"
+#include "pkb/queryHandlers/BaseQueryHandler.h"
 
-class ICallsQueryHandler {
+class ICallsQueryHandler : virtual public PkbEntEntQueryHandler {
  public:
-  virtual ~ICallsQueryHandler() {}
-  virtual QueryResult<EntityValue, EntityValue> queryCalls(EntityRef,
-                                                           EntityRef) const = 0;
+  virtual ~ICallsQueryHandler() = default;
+  using PkbEntEntQueryHandler::query;
 };

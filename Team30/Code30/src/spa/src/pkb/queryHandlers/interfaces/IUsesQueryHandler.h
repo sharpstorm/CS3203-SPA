@@ -2,13 +2,13 @@
 
 #include "common/Types.h"
 #include "pkb/queryHandlers/BaseQueryHandler.h"
-
-class IUsesQueryHandler {
+#include "pkb/queryHandlers/BaseQueryHandler.h"
+class IUsesQueryHandler
+    : virtual public PkbStmtEntQueryHandler,
+        virtual public PkbEntEntQueryHandler {
  public:
-  virtual ~IUsesQueryHandler() {}
-  virtual QueryResult<StmtValue, EntityValue> queryUses(StmtRef,
-                                                        EntityRef) const = 0;
-  virtual QueryResult<EntityValue, EntityValue> queryUses(EntityRef,
-                                                          EntityRef) const = 0;
+  virtual ~IUsesQueryHandler() = default;
+  using PkbStmtEntQueryHandler::query;
+  using PkbEntEntQueryHandler::query;
   virtual EntityValue getPrintDeclarations(StmtValue) const = 0;
 };

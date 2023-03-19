@@ -9,7 +9,4 @@ WhilePatternQueryHandler::WhilePatternQueryHandler(
   PkbStmtEntQueryHandler::setRightValidator(varRightArgValidator);
 }
 
-QueryResult<StmtValue, EntityValue> WhilePatternQueryHandler::queryWhilePattern(
-    StmtRef leftArg, EntityRef rightArg) const {
-  return PkbStmtEntQueryHandler::query(&leftArg, &rightArg);
-}
+
