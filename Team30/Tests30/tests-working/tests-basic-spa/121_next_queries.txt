@@ -23,10 +23,10 @@ FALSE
 Select BOOLEAN such that Next(5, 21)
 FALSE
 5000
-6 - Select BOOLEAN Next (Integer, Integer) True (Integer) (Integer)
+6 - Select BOOLEAN Next (Integer, Integer) False [more than one set](Integer) (Integer)
 
 Select BOOLEAN such that Next(13, 14)
-TRUE
+FALSE
 5000
 7 - Select BOOLEAN Next (Integer, Integer) True (Integer) (Integer)
 
@@ -101,7 +101,7 @@ Select s such that Next(19, s)
 21 - Select Statement Next (Integer, Statement) True (Integer) (Synonym)
 stmt s;
 Select s such that Next(13, s)
-11, 14
+11
 5000
 22 - Select Statement Next (Integer, Statement) True (Integer) (Synonym)
 stmt s;
@@ -111,7 +111,7 @@ Select s such that Next(12, s)
 23 - Select Statement Next (Statement, Integer) True (Synoynm) (Integer)
 stmt s;
 Select s such that Next(s, 20)
-9,18,19
+9,19
 5000
 24 - Select Statement Next (Statement, Integer) True (Synoynm) (Integer)
 stmt s;
@@ -171,7 +171,7 @@ Select s such that Next(s, pn)
 35 - Select Statement Next (Print, Statement) All Print Statements (Synonym) (Synonym)
 stmt s; print pn;
 Select s such that Next(pn, s)
-8,10,11,14,17,20
+8,10,11,20
 5000
 36 - Select NEGATIVE Next (Print, Statement) Print Statements (Synonym) (Synonym)
 stmt s; print pn;
