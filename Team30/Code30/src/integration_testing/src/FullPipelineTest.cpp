@@ -492,6 +492,13 @@ TEST_CASE("Out of Bounds Statement") {
                  {});
   pipeline.query("stmt r; Select r such that Next*(100, r)",
                  {});
+
+  pipeline.query("stmt r; Select r such that Affects(99, 100)",
+                 {});
+  pipeline.query("stmt r; Select r such that Affects(r, 100)",
+                 {});
+  pipeline.query("stmt r; Select r such that Affects(100, r)",
+                 {});
 }
 
 TEST_CASE("End-to-End Attribute Projection Test") {
