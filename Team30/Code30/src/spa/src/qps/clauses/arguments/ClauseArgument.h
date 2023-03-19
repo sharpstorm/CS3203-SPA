@@ -1,10 +1,13 @@
 #pragma once
 
 #include <memory>
-#include "../../common/PQLQuerySynonym.h"
-#include "common/Types.h"
+#include <string>
 
-using std::unique_ptr;
+#include "common/Types.h"
+#include "../../common/PQLQuerySynonym.h"
+#include "qps/common/constraint/Constraint.h"
+
+using std::unique_ptr, std::to_string, std::string;
 
 typedef bool (*SynonymPredicate)(PQLQuerySynonym syn);
 
@@ -17,10 +20,12 @@ class ClauseArgument {
   virtual bool isWildcard();
 
   virtual PQLSynonymName getName();
+  virtual PQLQuerySynonym* getSyn();
   virtual StmtRef toStmtRef() = 0;
   virtual EntityRef toEntityRef() = 0;
 
   static bool isStatement(PQLQuerySynonym syn);
+  bool canSubstitute(OverrideTable* table);
 
   template<PQLSynonymType TYPE>
   static bool isType(PQLQuerySynonym syn) {

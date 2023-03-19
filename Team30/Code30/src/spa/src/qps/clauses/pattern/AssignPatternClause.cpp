@@ -1,10 +1,11 @@
 #include <utility>
 #include <memory>
+#include <string>
 
 #include "AssignPatternClause.h"
 #include "qps/clauses/arguments/SynonymArgument.h"
 
-using std::make_unique;
+using std::make_unique, std::string;
 
 AssignPatternClause::AssignPatternClause(const PQLQuerySynonym &assignSynonym,
                                          ClauseArgumentPtr leftArg,
@@ -13,10 +14,18 @@ AssignPatternClause::AssignPatternClause(const PQLQuerySynonym &assignSynonym,
     rightArgument(std::move(rightArg)) {}
 
 PQLQueryResult *AssignPatternClause::evaluateOn(
-    PkbQueryHandler* pkbQueryHandler) {
+    PkbQueryHandler* pkbQueryHandler, OverrideTable* table) {
   StmtRef leftStatement = {StmtType::Assign, 0};
   EntityRef rightVariable = leftArg->toEntityRef();
-  QueryResult<StmtValue, EntityValue> modifiesResult =
+  if (leftArg->canSubstitute(table)) {
+    OverrideTransformer overrideTransformer = table->at(leftArg->getName());
+    rightVariable = overrideTransformer.transformArg(rightVariable);
+    if (!Clause::isValidRef(rightVariable, pkbQueryHandler)) {
+      return new PQLQueryResult();
+    }
+  }
+
+  QueryResult<int, string> modifiesResult =
       pkbQueryHandler->queryModifies(leftStatement, rightVariable);
 
   if (rightArgument->isWildcard()) {
