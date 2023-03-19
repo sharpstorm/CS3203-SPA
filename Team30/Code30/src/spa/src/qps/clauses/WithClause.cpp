@@ -36,14 +36,28 @@ PQLQueryResult *WithClause::evaluateOn(PkbQueryHandler *pkbQueryHandler,
 bool WithClause::isEmptyResult() {
   bool leftReturnsInt = leftArg->doesReturnInteger();
   bool rightReturnsInt = rightArg->doesReturnInteger();
-  bool isLeftStmt = leftArg->getSynType() == PQL_SYN_TYPE_STMT;
-  bool isRightStmt = rightArg->getSynType() == PQL_SYN_TYPE_STMT;
+  bool isLeftIndependent = isIntegerIndependent(leftArg->getSynType());
+  bool isRightIndependent = isIntegerIndependent(rightArg->getSynType());
 
-  return leftReturnsInt && rightReturnsInt && !isLeftStmt && !isRightStmt;
+  return leftReturnsInt && rightReturnsInt
+      && !isLeftIndependent && !isRightIndependent;
 }
 
 void WithClause::evaluateOnIntAttributes(PQLQueryResult *result,
                                          PkbQueryHandler *pkbQueryHandler) {
+  if (leftArg->getSynType() == PQL_SYN_TYPE_CONSTANT) {
+    evaluateOnStmtConst(result, pkbQueryHandler,
+                        leftArg.get(), rightArg.get());
+  } else if (rightArg->getSynType() == PQL_SYN_TYPE_CONSTANT) {
+    evaluateOnStmtConst(result, pkbQueryHandler,
+                        rightArg.get(), leftArg.get());
+  } else {
+    evaluateOnStmtStmt(result, pkbQueryHandler);
+  }
+}
+
+void WithClause::evaluateOnStmtStmt(PQLQueryResult *result,
+                                    PkbQueryHandler *pkbQueryHandler) {
   StmtType leftType =
       PKBTypeAdapter::convertPQLSynonymToStmt(leftArg->getSynType());
   StmtType rightType =
@@ -59,6 +73,27 @@ void WithClause::evaluateOnIntAttributes(PQLQueryResult *result,
     queryResult.insert({i, i});
   }
   result->add(leftArg->getSynName(), rightArg->getSynName(), queryResult);
+}
+
+void WithClause::evaluateOnStmtConst(PQLQueryResult *result,
+                                     PkbQueryHandler *pkbQueryHandler,
+                                     WithArgument *constant,
+                                     WithArgument *stmt) {
+  StmtType stmtType =
+      PKBTypeAdapter::convertPQLSynonymToStmt(stmt->getSynType());
+  StmtValueSet stmtSet = pkbQueryHandler->getStatementsOfType(stmtType);
+  EntityValueSet constantSet = pkbQueryHandler
+      ->getSymbolsOfType(EntityType::Constant);
+
+  pair_set<StmtValue, EntityValue> queryResult;
+  for (StmtValue i : stmtSet) {
+    string stringInt = to_string(i);
+    if (constantSet.find(stringInt) == constantSet.end()) {
+      continue;
+    }
+    queryResult.insert({i, stringInt});
+  }
+  result->add(stmt->getSynName(), constant->getSynName(), queryResult);
 }
 
 void WithClause::evaluateOnStringAttributes(PQLQueryResult *result,
@@ -166,4 +201,8 @@ SynonymList WithClause::getUsedSynonyms() {
   }
 
   return result;
+}
+
+bool WithClause::isIntegerIndependent(const PQLSynonymType &type) {
+  return type == PQL_SYN_TYPE_STMT || type == PQL_SYN_TYPE_CONSTANT;
 }
