@@ -13,3 +13,5 @@ class VariableTableProxyBuilder {
   void build();
   VariableTable* getTable();
 };
+
+typedef unique_ptr<VariableTableProxyBuilder> VariableTableProxyBuilderPtr;

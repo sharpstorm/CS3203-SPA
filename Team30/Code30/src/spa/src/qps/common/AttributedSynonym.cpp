@@ -14,10 +14,6 @@ PQLSynonymAttribute AttributedSynonym::getAttribute() {
   return attribute;
 }
 
-PQLQuerySynonym* AttributedSynonym::getSyn() {
-  return syn;
-}
-
 bool AttributedSynonym::validateAttribute() {
   switch (syn->getType()) {
     case PQL_SYN_TYPE_STMT:

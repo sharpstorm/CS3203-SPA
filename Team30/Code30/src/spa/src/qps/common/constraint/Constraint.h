@@ -8,9 +8,10 @@
 #include "OverrideTransformer.h"
 #include "VariableTableProxyBuilder.h"
 
-using std::string, std::shared_ptr, std::unordered_map;
+using std::string, std::shared_ptr, std::unordered_map, std::unique_ptr;
 
 typedef unordered_map<string, OverrideTransformer> OverrideTable;
+typedef unique_ptr<OverrideTable> OverrideTablePtr;
 
 class Constraint {
  public:
