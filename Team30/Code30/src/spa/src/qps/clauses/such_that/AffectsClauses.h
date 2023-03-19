@@ -65,6 +65,10 @@ constexpr AffectsInvoker affectsInvoker = [](PkbQueryHandler* pkbQueryHandler,
     cfgs = pkbQueryHandler->queryCFGs(rightArg);
   }
 
+  if (cfgs.empty()) {
+    return result;
+  }
+
   if (leftArg.isKnown() || rightArg.isKnown()) {
     ConcreteAffectsQuerier querier(cfgs[0], pkbQueryHandler);
     return querier.queryArgs(leftArg, rightArg);
