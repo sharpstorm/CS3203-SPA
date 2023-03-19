@@ -594,3 +594,14 @@ TEST_CASE("With Const = Stmt Number Test") {
   pipeline.query("stmt s; constant c; Select c with s.stmt# = c.value",
                  {"1", "2", "3", "5"});
 }
+
+TEST_CASE("Affects Typing Test") {
+  auto pipeline = TestPipelineProvider();
+
+  pipeline.query("read r1; Select r1 such that Affects(r1, r1)",
+                 {});
+  pipeline.query("read r1, r2; Select r2 such that Affects(r1, r2) with r1.stmt# = r2.stmt#",
+                 {});
+  pipeline.query("stmt r1, r2; Select r2 such that Affects(r1, r2) with r1.stmt# = r2.stmt#",
+                 {"9", "11"});
+}

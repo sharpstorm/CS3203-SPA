@@ -1,0 +1,10 @@
+1 - Affects Bug
+read r1; stmt s;
+Select s such that Affects(r1, r1)
+
+5000
+2 - Affects Bug
+while w;
+Select w such that Affects(w, w)
+
+5000
