@@ -172,3 +172,63 @@ stmt s;
 Select s such that Affects(_, s)
 
 5000
+36 - Select Statement Affects (Statement, Print) Affects Print Statements (Synonym) (Synonym)
+stmt s; print pn;
+Select s such that Affects(s, pn)
+2,7,15
+5000
+37 - Select Statement Affects (Print, Statement) None (Synonym) (Synonym)
+stmt s; print pn;
+Select s such that Affects(pn, s)
+
+5000
+38 - Select NEGATIVE Affects (Print, Statement) None (Synonym) (Synonym)
+stmt s; print pn;
+Select pn such that Affects(pn, s)
+
+5000
+39 - Select NEGATIVE Affects (Procedure, Procedure) Error (Synonym) (Synonym)
+procedure p; stmt s;
+Select s such that Affects(p, p)
+SemanticError
+5000
+40 - Select NEGATIVE Affects (Procedure, Procedure) Error (Synonym) (Synonym)
+procedure p; stmt s;
+Select p such that Affects(p, p)
+SemanticError
+5000
+41 - Select NEGATIVE Affects (Constant, Constant) Error (Synonym) (Synonym)
+constant c; stmt s;
+Select c such that Affects(c, c)
+SemanticError
+5000
+42 - Select NEGATIVE Affects (Variable, Variable) Error (Synonym) (Synonym)
+variable v; stmt s;
+Select s such that Affects(v, v)
+SemanticError
+5000
+43 - Select NEGATIVE Affects (Variable, Variable) Error (Synonym) (Synonym)
+variable v; stmt s;
+Select v such that Affects(v, v)
+SemanticError
+5000
+44 - Select NEGATIVE Affects (Read, Read) None (Synonym) (Synonym)
+read r1; stmt s;
+Select s such that Affects(r1, r1)
+
+5000
+45 - Select NEGATIVE Affects (Read, Read) None(Synonym) (Synonym)
+read r1; stmt s;
+Select r1 such that Affects(r1, r1)
+
+5000
+46 - Select NEGATIVE Affects (While, While) None (Synonym) (Synonym)
+while w; stmt s;
+Select s such that Affects(w, w)
+
+5000
+47 - Select NEGATIVE Affects (While, While) None (Synonym) (Synonym)
+while w; stmt s;
+Select w such that Affects(w, w)
+
+5000

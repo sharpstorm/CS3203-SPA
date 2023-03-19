@@ -173,7 +173,7 @@ stmt s; print pn;
 Select s such that Next(pn, s)
 8,10,11,14,17,20
 5000
-36 - Select NEGATIVE Next (Print, Statement) Error (Synonym) (Synonym)
+36 - Select NEGATIVE Next (Print, Statement) Print Statements (Synonym) (Synonym)
 stmt s; print pn;
 Select pn such that Next(pn, s)
 6,7,13,16,19
