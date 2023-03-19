@@ -1,5 +1,10 @@
 #pragma once
+
+#include <memory>
+
 #include "SynonymUFDS.h"
+
+using std::unique_ptr;
 
 class VariableTableProxyBuilder {
  private:

@@ -13,7 +13,7 @@ class SynonymUFDS {
  private:
   vector<int> parent;
   vector<uint16_t> rank;
-  unordered_map<string, int> synNameMap;
+  unordered_map<PQLSynonymName, int> synNameMap;
   vector<PQLQuerySynonym*> synArr;
 
  public:

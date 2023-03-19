@@ -42,7 +42,6 @@ void VariableTable::finalizeTable() {
     PQLQuerySynonym* syn = &(declaredSynonyms.at(i));
     proxyMap.emplace(syn->getName(), PQLQuerySynonymProxy(&rawProxy.at(i)));
   }
-
 }
 
 unordered_set<PQLSynonymName> VariableTable::getReferredSynonyms() {
