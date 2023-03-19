@@ -1,0 +1,5 @@
+1 - CFG While Path Bug
+
+Select BOOLEAN such that Next(3, 4)
+FALSE
+5000

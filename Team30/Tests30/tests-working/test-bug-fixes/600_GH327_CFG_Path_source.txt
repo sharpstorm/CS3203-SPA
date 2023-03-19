@@ -1,0 +1,7 @@
+procedure Bumblebee {
+    while (t==0) {
+        a = 5;
+        print y;
+    }
+    q = p;
+}
