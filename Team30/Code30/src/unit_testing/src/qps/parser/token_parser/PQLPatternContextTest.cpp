@@ -205,6 +205,8 @@ TEST_CASE("Test PQL If Pattern parsing") {
           ->wildcard()
           ->comma()
           ->wildcard()
+          ->comma()
+          ->wildcard()
           ->closeBracket()
           ->build()
   );
@@ -216,8 +218,6 @@ TEST_CASE("Test PQL While Pattern parsing") {
           ->addToken(PQL_TOKEN_PATTERN)
           ->synonym("w")
           ->openBracket()
-          ->wildcard()
-          ->comma()
           ->wildcard()
           ->comma()
           ->wildcard()
