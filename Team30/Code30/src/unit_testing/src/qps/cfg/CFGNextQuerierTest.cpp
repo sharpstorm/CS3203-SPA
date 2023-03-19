@@ -282,7 +282,7 @@ TEST_CASE("Next Type Filtering") {
 
 TEST_CASE("Next While-Cycle Path") {
   auto cfg = TestCFGProvider::getAffectsWhileCFG();
-  CFGTestNextQuerier querier(&cfg, nullptr);
+  CFGTestNextQuerier querier(&cfg, 0);
 
   StmtTransitiveResult result;
   queryNext(&querier, &result, 0, 0);
