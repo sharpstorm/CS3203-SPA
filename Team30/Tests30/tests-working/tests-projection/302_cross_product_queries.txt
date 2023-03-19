@@ -1,0 +1,20 @@
+1 - Cross-Product No Duplicates - Has Results
+read r; call c; variable v;
+Select <r, v> such that Modifies(r, v)
+1 x, 2 y, 14 i
+5000
+2 - Cross-Product No Duplicates - Empty
+print p; assign a;
+Select <a, p> such that Follows(a, p)
+
+5000
+3 - Cross-Product No Duplicates - Complicated, Related Syns
+assign a; variable v;
+Select <a, v> such that Modifies(a, v) and Parent(_, a)
+23 c, 22 a, 8 x, 7 y, 6 c, 11 b
+5000
+4 - Cross-Product No Duplicates - Complicated, Disjoint Syns
+read r; variable v; procedure p;
+Select <r, p> such that Modifies(r, v) and Calls(p, _)
+1 Juggernaut, 2 Juggernaut, 14 Juggernaut
+5000

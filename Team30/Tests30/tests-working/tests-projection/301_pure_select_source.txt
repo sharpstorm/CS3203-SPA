@@ -1,0 +1,39 @@
+procedure Bloodseeker {
+	x = 1;
+	y = 2;
+	read z;
+	while (z > 5) {
+		print x;
+		x = 7 + y;
+		read a;
+		y = y + 3 + a;
+		if (y == 9)	then {
+			print a;
+			z = x + x;
+		} else {
+			while (y > 0) {
+				x = x + 5;
+				y = y - 2;
+			}
+			call Lycan;
+		}
+		read y;
+		g = 84 + z;
+		print z;
+		print g;
+	}
+	print x;
+	print y;
+}
+
+procedure Lycan {
+	read b;
+	read e;
+	e = b + c;
+	call Puck;
+}
+
+procedure Puck {
+	g = 4;
+	j = 20;
+}
