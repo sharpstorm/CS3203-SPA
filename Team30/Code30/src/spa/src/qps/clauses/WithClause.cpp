@@ -2,7 +2,7 @@
 #include <vector>
 
 #include "WithClause.h"
-#include "qps/clauses/arguments/PKBTypeAdapter.h"
+#include "qps/clauses/arguments/ClauseArgumentFactory.h"
 
 WithClause::WithClause(WithArgumentPtr left, WithArgumentPtr right) :
     leftArg(std::move(left)), rightArg(std::move(right)) {}
@@ -26,9 +26,9 @@ PQLQueryResult *WithClause::evaluateOn(PkbQueryHandler *pkbQueryHandler,
   }
 
   if (leftArg->doesReturnInteger()) {
-    evaluateOnIntAttributes(result, pkbQueryHandler);
+    evaluateOnIntAttributes(result, pkbQueryHandler, table);
   } else {
-    evaluateOnStringAttributes(result, pkbQueryHandler);
+    evaluateOnStringAttributes(result, pkbQueryHandler, table);
   }
   return result;
 }
@@ -44,27 +44,26 @@ bool WithClause::isEmptyResult() {
 }
 
 void WithClause::evaluateOnIntAttributes(PQLQueryResult *result,
-                                         PkbQueryHandler *pkbQueryHandler) {
+                                         PkbQueryHandler *pkbQueryHandler,
+                                         OverrideTable *table) {
   if (leftArg->getSynType() == PQL_SYN_TYPE_CONSTANT) {
-    evaluateOnStmtConst(result, pkbQueryHandler,
+    evaluateOnStmtConst(result, pkbQueryHandler, table,
                         leftArg.get(), rightArg.get());
   } else if (rightArg->getSynType() == PQL_SYN_TYPE_CONSTANT) {
-    evaluateOnStmtConst(result, pkbQueryHandler,
+    evaluateOnStmtConst(result, pkbQueryHandler, table,
                         rightArg.get(), leftArg.get());
   } else {
-    evaluateOnStmtStmt(result, pkbQueryHandler);
+    evaluateOnStmtStmt(result, pkbQueryHandler, table);
   }
 }
 
 void WithClause::evaluateOnStmtStmt(PQLQueryResult *result,
-                                    PkbQueryHandler *pkbQueryHandler) {
-  StmtType leftType =
-      PKBTypeAdapter::convertPQLSynonymToStmt(leftArg->getSynType());
-  StmtType rightType =
-      PKBTypeAdapter::convertPQLSynonymToStmt(rightArg->getSynType());
-  StmtValueSet set1 = pkbQueryHandler->getStatementsOfType(leftType);
-  StmtValueSet set2 = pkbQueryHandler->getStatementsOfType(rightType);
-
+                                    PkbQueryHandler *pkbQueryHandler,
+                                    OverrideTable *table) {
+  StmtValueSet set1 = queryForStatement(leftArg->getSyn(),
+                                        pkbQueryHandler, table);
+  StmtValueSet set2 = queryForStatement(rightArg->getSyn(),
+                                        pkbQueryHandler, table);
   pair_set<StmtValue, StmtValue> queryResult;
   for (StmtValue i : set1) {
     if (set2.find(i) == set2.end()) {
@@ -77,14 +76,13 @@ void WithClause::evaluateOnStmtStmt(PQLQueryResult *result,
 
 void WithClause::evaluateOnStmtConst(PQLQueryResult *result,
                                      PkbQueryHandler *pkbQueryHandler,
+                                     OverrideTable *table,
                                      WithArgument *constant,
                                      WithArgument *stmt) {
-  StmtType stmtType =
-      PKBTypeAdapter::convertPQLSynonymToStmt(stmt->getSynType());
-  StmtValueSet stmtSet = pkbQueryHandler->getStatementsOfType(stmtType);
-  EntityValueSet constantSet = pkbQueryHandler
-      ->getSymbolsOfType(EntityType::Constant);
-
+  StmtValueSet stmtSet = queryForStatement(stmt->getSyn(),
+                                           pkbQueryHandler, table);
+  EntityValueSet constantSet = queryForEntity(constant->getSyn(),
+                                              pkbQueryHandler, table);
   pair_set<StmtValue, EntityValue> queryResult;
   for (StmtValue i : stmtSet) {
     string stringInt = to_string(i);
@@ -97,13 +95,14 @@ void WithClause::evaluateOnStmtConst(PQLQueryResult *result,
 }
 
 void WithClause::evaluateOnStringAttributes(PQLQueryResult *result,
-                                            PkbQueryHandler *pkbQueryHandler) {
+                                            PkbQueryHandler *pkbQueryHandler,
+                                            OverrideTable* table) {
   SynToStmtMap map1;
   SynToStmtMap map2;
   bool isLeftDefault =
-      populateMap(leftArg->getSynType(), &map1, pkbQueryHandler);
+      populateMap(leftArg.get(), &map1, pkbQueryHandler, table);
   bool isRightDefault =
-      populateMap(rightArg->getSynType(), &map2, pkbQueryHandler);
+      populateMap(rightArg.get(), &map2, pkbQueryHandler, table);
 
   if (isLeftDefault && isRightDefault) {
     auto queryResult = crossMaps<string, string>
@@ -124,11 +123,14 @@ void WithClause::evaluateOnStringAttributes(PQLQueryResult *result,
   }
 }
 
-template <PKBAttributeQuerier querier, PQLSynonymType synType>
+template <PKBAttributeQuerier querier>
 void WithClause::queryPkbForAttribute(PkbQueryHandler *pkbQueryHandler,
-                                      SynToStmtMap *map) {
-  StmtType stmtType = PKBTypeAdapter::convertPQLSynonymToStmt(synType);
-  for (int i : pkbQueryHandler->getStatementsOfType(stmtType)) {
+                                      OverrideTable *table,
+                                      SynToStmtMap *map,
+                                      WithArgument* arg) {
+  StmtValueSet statements = queryForStatement(
+      arg->getSyn(), pkbQueryHandler, table);
+  for (int i : statements) {
     string result = querier(pkbQueryHandler, i);
     if (auto search = map->find(result); search != map->end()) {
       search->second.push_back(i);
@@ -153,29 +155,29 @@ constexpr PKBAttributeQuerier PrintQuerier =
       return pkbQueryHandler->getPrintDeclarations(stmt);
     };
 
-bool WithClause::populateMap(PQLSynonymType type, SynToStmtMap *map,
-                             PkbQueryHandler *pkbQueryHandler) {
-  switch (type) {
+bool WithClause::populateMap(WithArgument* arg, SynToStmtMap *map,
+                             PkbQueryHandler *pkbQueryHandler,
+                             OverrideTable* table) {
+  switch (arg->getSynType()) {
     case PQL_SYN_TYPE_CALL:
-      queryPkbForAttribute<CallsQuerier,
-                           PQL_SYN_TYPE_CALL>(pkbQueryHandler, map);
+      queryPkbForAttribute<CallsQuerier>(pkbQueryHandler, table, map, arg);
       return false;
     case PQL_SYN_TYPE_READ:
-      queryPkbForAttribute<ReadQuerier,
-                           PQL_SYN_TYPE_READ>(pkbQueryHandler, map);
+      queryPkbForAttribute<ReadQuerier>(pkbQueryHandler, table, map, arg);
       return false;
     case PQL_SYN_TYPE_PRINT:
-      queryPkbForAttribute<PrintQuerier,
-                           PQL_SYN_TYPE_PRINT>(pkbQueryHandler, map);
+      queryPkbForAttribute<PrintQuerier>(pkbQueryHandler, table, map, arg);
       return false;
     default:
       break;
   }
 
-  EntityType leftEntityType = PKBTypeAdapter::convertPQLSynonymToEntity(type);
-  for (string s : pkbQueryHandler->getSymbolsOfType(leftEntityType)) {
+  EntityValueSet entSet = queryForEntity(arg->getSyn(), pkbQueryHandler,
+                                         table);
+  for (string s : entSet) {
     map->emplace(s, StmtList{});
   }
+
   return true;
 }
 
@@ -205,4 +207,38 @@ SynonymList WithClause::getUsedSynonyms() {
 
 bool WithClause::isIntegerIndependent(const PQLSynonymType &type) {
   return type == PQL_SYN_TYPE_STMT || type == PQL_SYN_TYPE_CONSTANT;
+}
+
+StmtValueSet WithClause::queryForStatement(PQLQuerySynonymProxy syn,
+                                           PkbQueryHandler *pkbQueryHandler,
+                                           OverrideTable* table) {
+  ClauseArgumentPtr clauseArg = ClauseArgumentFactory::create(syn);
+  StmtRef stmtRef = clauseArg->toStmtRef();
+  if (clauseArg->canSubstitute(table)) {
+    OverrideTransformer transformer = table->at(syn->getName());
+    stmtRef = transformer.transformArg(stmtRef);
+    if (Clause::isValidRef(stmtRef, pkbQueryHandler)) {
+      return StmtValueSet{ stmtRef.lineNum };
+    }
+    return StmtValueSet{};
+  }
+
+  return pkbQueryHandler->getStatementsOfType(stmtRef.getType());
+}
+
+EntityValueSet WithClause::queryForEntity(PQLQuerySynonymProxy syn,
+                                          PkbQueryHandler *pkbQueryHandler,
+                                          OverrideTable *table) {
+  ClauseArgumentPtr clauseArg = ClauseArgumentFactory::create(syn);
+  EntityRef entRef = clauseArg->toEntityRef();
+  if (clauseArg->canSubstitute(table)) {
+    OverrideTransformer transformer = table->at(syn->getName());
+    entRef = transformer.transformArg(entRef);
+    if (Clause::isValidRef(entRef, pkbQueryHandler)) {
+      return EntityValueSet { entRef.name };
+    }
+    return EntityValueSet{};
+  }
+
+  return pkbQueryHandler->getSymbolsOfType(entRef.getType());
 }

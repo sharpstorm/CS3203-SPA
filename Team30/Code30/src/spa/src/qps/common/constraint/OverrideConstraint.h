@@ -21,7 +21,7 @@ class OverrideConstraint : virtual public Constraint {
   OverrideConstraint(AttributedSynonym syn, int intVal) :
       syn(syn), overrideTransformer(OverrideTransformer(intVal)) { }
 
-  bool applyConstraint(VariableTableProxyBuilder* variableTable,
+  bool applyConstraint(SynonymProxyBuilder* variableTable,
                        OverrideTable* overrideTable) override {
     PQLSynonymName synName = syn.getName();
 

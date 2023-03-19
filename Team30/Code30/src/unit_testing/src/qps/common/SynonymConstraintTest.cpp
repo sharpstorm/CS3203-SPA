@@ -19,7 +19,7 @@ TEST_CASE("SynonymConstraint Test") {
   varTable.add("s5", syn5);
   varTable.finalizeTable();
 
-  VariableTableProxyBuilder varTableProxyBuilder(&varTable);
+  SynonymProxyBuilder varTableProxyBuilder(&varTable);
   OverrideTable overrideTable;
 
   SynonymConstraint constraint1("s1", "s2");
