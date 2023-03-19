@@ -44,13 +44,13 @@ IntersectSet<int> ResultGroupFactory::getUniqueRows(
     for (const PQLSynonymName& syn : *syns) {
       ResultTableCol colIdx = result->getSynonymCol(syn);
       QueryResultTableRow* currRow = result->getTableRowAt(i);
-      RowSet* rows = result->getRowsWithValue(colIdx,
+      RowSetPtr rows = result->getRowsWithValue(colIdx,
                                               currRow->at(colIdx).get());
       if (currentIgnoreRows->empty()) {
         currentIgnoreRows->insert(rows->begin(), rows->end());
       } else {
         currentIgnoreRows = SetUtils::intersectSet(currentIgnoreRows.get(),
-                                                   rows);
+                                                   rows.get());
       }
     }
 

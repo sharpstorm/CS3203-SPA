@@ -11,7 +11,9 @@
 using std::string, std::vector;
 
 class ResultProjector {
+  PkbQueryHandler* pkbQueryHandler;
  public:
+  explicit ResultProjector(PkbQueryHandler* handler);
   UniqueVectorPtr<string> project(SynonymResultTable* queryResult,
                                   AttributedSynonymList* resultVariables);
 };

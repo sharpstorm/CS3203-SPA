@@ -1,8 +1,10 @@
 #include <utility>
 #include <memory>
+#include <string>
+
 #include "ResultGroup.h"
 
-using std::make_unique;
+using std::make_unique, std::to_string;
 
 void ResultGroup::addRow(QueryResultTableRow row) {
   groupTable.push_back(std::move(row));
@@ -59,20 +61,30 @@ ResultGroup* ResultGroup::crossProduct(ResultGroup* other) {
 }
 
 void ResultGroup::project(AttributedSynonymList *synList,
+                            PkbQueryHandler* handler,
                             vector<string>* result) {
   // Iterate through each row
   for (int i=0; i < getTableRows(); i++) {
     QueryResultTableRow* row = getRowAt(i);
     string rowString;
+
     for (int j=0; j < synList->size(); j++) {
-      // Get the column index from the result group
       AttributedSynonym syn = synList->at(j);
       ResultTableCol col = colMap.at(syn.getName());
-      rowString += row->at(col)->project();
+      QueryResultItem* queryItem = row->at(col).get();
+
+      // Special case attribution read/print.varName and call.procName
+      if (isNonDefaultCase(syn)) {
+        rowString += projectNonDefaultAttribute(handler, queryItem, syn);
+      } else {
+        rowString += queryItem->project();
+      }
+
       if (j < synList->size() - 1) {
         rowString += " ";
       }
     }
+
     result->push_back(rowString);
   }
 }
@@ -119,4 +131,25 @@ bool ResultGroup::operator==(const ResultGroup &rg) const {
   }
 
   return true;
+}
+
+string ResultGroup::projectNonDefaultAttribute(PkbQueryHandler *handler,
+                                               QueryResultItem *item,
+                                               AttributedSynonym syn) {
+  if (syn.getType() == PQL_SYN_TYPE_READ) {
+    // read.varName
+    return handler->getReadDeclarations(item->toStmtValue());
+  } else if (syn.getType() == PQL_SYN_TYPE_PRINT) {
+    // print.varName
+    return  handler->getPrintDeclarations(item->toStmtValue());
+  }
+
+  // call.procName
+  return handler->getCalledDeclaration(item->toStmtValue());
+}
+
+bool ResultGroup::isNonDefaultCase(AttributedSynonym syn) {
+  bool isTypeConstant = syn.getType() == PQL_SYN_TYPE_CONSTANT;
+  return syn.hasAttribute() && !isTypeConstant &&
+          syn.isStatementType() != syn.returnsInteger();
 }

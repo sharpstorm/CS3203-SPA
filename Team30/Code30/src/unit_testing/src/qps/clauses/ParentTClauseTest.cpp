@@ -43,6 +43,7 @@ TEST_CASE("ParentTClause Querying") {
 
   PQLQueryResultPtr expected;
   PQLQueryResultPtr actual;
+  OverrideTablePtr override = make_unique<OverrideTable>();
 
   // Static results
   // When stmtNumLeft < stmtNumRight E.g. Parent*(1,4)
@@ -51,7 +52,7 @@ TEST_CASE("ParentTClause Querying") {
       make_unique<StmtArgument>(9)
   );
   expected = PQLQueryResultPtr(new PQLQueryResult());
-  actual = PQLQueryResultPtr(parentTClause.evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(parentTClause.evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 
   // When stmtNumLeft > stmtNumRight E.g. Parent*(4,1)
@@ -61,7 +62,7 @@ TEST_CASE("ParentTClause Querying") {
   );
   expected = PQLQueryResultPtr(new PQLQueryResult());
   expected->setIsStaticFalse(true);
-  actual = PQLQueryResultPtr(parentTClause.evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(parentTClause.evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 
   // Left arg is synonym
@@ -69,7 +70,7 @@ TEST_CASE("ParentTClause Querying") {
       make_unique<SynonymArgument>(synA1),
       make_unique<StmtArgument>(9));
   expected = TestQueryResultBuilder::buildExpected(PARENTT_LEFT_LINES);
-  actual = PQLQueryResultPtr(parentTClause.evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(parentTClause.evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 
   // Right arg is synonym
@@ -78,7 +79,7 @@ TEST_CASE("ParentTClause Querying") {
       make_unique<SynonymArgument>(synA2)
   );
   expected = TestQueryResultBuilder::buildExpected(PARENTT_RIGHT_LINES);
-  actual = PQLQueryResultPtr(parentTClause.evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(parentTClause.evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 
   // Both sides are synonym
@@ -87,7 +88,7 @@ TEST_CASE("ParentTClause Querying") {
       make_unique<SynonymArgument>(synA2)
   );
   expected = TestQueryResultBuilder::buildExpected(PARENTT_PAIRS);
-  actual = PQLQueryResultPtr(parentTClause.evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(parentTClause.evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 
 }

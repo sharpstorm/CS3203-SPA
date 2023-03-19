@@ -22,6 +22,7 @@ typedef unordered_set<int> RowSet;
 
 typedef QueryResultItemMap<RowSet> ColMapItem;
 typedef unique_ptr<ColMapItem> ColMapItemPtr;
+typedef unique_ptr<RowSet> RowSetPtr;
 
 class PQLQueryResult {
  private:
@@ -59,7 +60,7 @@ class PQLQueryResult {
   QueryResultTableRow* getTableRowAt(int rowIndex);
   void putTableRow(vector<QueryResultItemPtr> row);
   int getRowCount();
-  RowSet* getRowsWithValue(ResultTableCol column, QueryResultItem* value);
+  RowSetPtr getRowsWithValue(ResultTableCol column, QueryResultItem* value);
 
   bool operator ==(const PQLQueryResult &pqr) const;
 

@@ -168,6 +168,9 @@ TEST_CASE("End-to-End BOOLEAN Test") {
 TEST_CASE("End-to-End No Clause") {
   auto pipeline = TestPipelineProvider();
 
+  pipeline.query("constant c; Select c with c.value = 3",
+                 {"3"});
+
   pipeline.query("constant c; Select c",
                  {"0", "1", "2", "3", "5"});
 
@@ -226,6 +229,9 @@ TEST_CASE("End-to-End Assign Pattern Test") {
   pipeline.query("assign a; Select a pattern a (\"x\", _\"1\"_)",
                  {"5"});
 
+  pipeline.query("assign a; variable v; Select a pattern a (v, _\"1\"_) with v.varName = \"x\"",
+                 {"5"});
+
   pipeline.query("assign a; Select a pattern a (\"y\", _\"x\"_)",
                  {"8"});
 
@@ -275,7 +281,13 @@ TEST_CASE("End-to-End If Pattern Test") {
   pipeline.query("if ifs; Select ifs pattern ifs (\"x\", _)",
                  {"6"});
 
+  pipeline.query("if ifs; variable v; Select ifs pattern ifs (v, _) with v.varName = \"x\"",
+                 {"6"});
+
   pipeline.query("if ifs; Select ifs pattern ifs (\"y\", _)",
+                 {});
+
+  pipeline.query("if ifs; variable v; Select ifs pattern ifs (v, _) with v.varName = \"y\"",
                  {});
 
   pipeline.query("if ifs; variable v; Select <v, ifs> pattern ifs (v, _)",
@@ -291,7 +303,13 @@ TEST_CASE("End-to-End While Pattern Test") {
   pipeline.query("while while; Select while pattern while (\"i\", _, _)",
                  {"4"});
 
+  pipeline.query("while while; variable v; Select while pattern while (v, _, _) with v.varName = \"i\"",
+                 {"4"});
+
   pipeline.query("while while; Select while pattern while (\"x\", _, _)",
+                 {});
+
+  pipeline.query("while while; variable v; Select while pattern while (v, _, _) with v.varName =\"x\"",
                  {});
 
   pipeline.query("while while; variable v; Select <v, while> pattern while (v, _, _)",
@@ -374,6 +392,54 @@ TEST_CASE("End-to-End Next Test") {
                  {"5 5", "7 7", "8 8", "9 9", "11 11"});
 }
 
+TEST_CASE("With Clause Tests - Cat 1 (static = static)") {
+  auto pipeline = TestPipelineProvider();
+
+  pipeline.query("Select BOOLEAN with 1 = 1", {"TRUE"});
+  pipeline.query("variable v; Select v with 1 = 1", {"x", "z", "i", "y"});
+
+  pipeline.query("Select BOOLEAN with 1 = 2", {"FALSE"});
+  pipeline.query("variable v; Select v with 1 = 2", {});
+
+  pipeline.query("Select BOOLEAN with \"foo\" = \"foo\"", {"TRUE"});
+  pipeline.query("variable v; Select v with \"foo\" = \"foo\"", {"x", "z", "i", "y"});
+}
+
+TEST_CASE("With Clause Tests - Cat 2 (attrRef = static)") {
+  auto pipeline = TestPipelineProvider();
+
+  pipeline.query("assign a; Select BOOLEAN with a.stmt# = 4", {"FALSE"});
+  pipeline.query("variable v; Select BOOLEAN with v.varName = \"x\"", {"TRUE"});
+  pipeline.query("variable v; Select BOOLEAN with v.varName = \"g\"", {"FALSE"});
+  pipeline.query("assign a; variable v; Select v.varName with v.varName = \"x\" such that Uses(a, v)", {"x"});
+
+  pipeline.query("assign a; Select BOOLEAN with a.stmt# = 1", {"TRUE"});
+  pipeline.query("assign a; Select BOOLEAN with a.stmt# = 4", {"FALSE"});
+  pipeline.query("assign a1, a2; Select a2.stmt# with a2.stmt# = 3 such that Follows*(a1,a2)", {"3"});
+
+  pipeline.query("while w; Select BOOLEAN with w.stmt# = 4", {"TRUE"});
+  pipeline.query("while w; Select BOOLEAN with w.stmt# = 1", {"FALSE"});
+  pipeline.query("assign a1;while a2; Select a2.stmt# with a2.stmt# = 4 such that Follows*(a1,a2)", {"4"});
+
+  pipeline.query("if ifs; Select BOOLEAN with ifs.stmt# = 6", {"TRUE"});
+  pipeline.query("if ifs; Select BOOLEAN with ifs.stmt# = 1", {"FALSE"});
+  pipeline.query("assign a1;if a2; Select a2.stmt# with a2.stmt# = 6 such that Follows*(a1,a2)", {"6"});
+
+  pipeline.query("constant c; Select BOOLEAN with c.value = 1", {"TRUE"});
+  pipeline.query("constant c; Select BOOLEAN with c.value = 99", {"FALSE"});
+
+  pipeline.query("read r; Select BOOLEAN with r.stmt# = 10", {"TRUE"});
+  pipeline.query("read r; Select BOOLEAN with r.stmt# = 1", {"FALSE"});
+  pipeline.query("assign a1;read r; Select r.stmt# with r.stmt# = 10 such that Follows*(a1,r)", {"10"});
+  pipeline.query("assign a1;read r; Select r.stmt# with r.varName = \"x\" such that Follows*(a1,r)", {"10"});
+
+  pipeline.query("read r; Select BOOLEAN with r.varName = \"x\"", {"TRUE"});
+  pipeline.query("read r; Select BOOLEAN with r.varName = \"g\"", {"FALSE"});
+  pipeline.query("assign a1;read r; Select r.varName with r.varName = \"x\" such that Modifies(r,_)", {"x"});
+  pipeline.query("assign a1;read r; Select r.varName with r.stmt# = 10 such that Modifies(r,_)", {"x"});
+
+}
+
 TEST_CASE("Out of Bounds Statement") {
   auto pipeline = TestPipelineProvider();
 
@@ -422,4 +488,89 @@ TEST_CASE("Out of Bounds Statement") {
                  {});
   pipeline.query("stmt r; Select r such that Next*(100, r)",
                  {});
+}
+
+TEST_CASE("End-to-End Attribute Projection Test") {
+  auto pipeline = TestPipelineProvider();
+
+  // stmt#
+  pipeline.query("assign a; Select a.stmt#", {"1", "2", "3", "5", "7", "8", "9", "11", "12"});
+  pipeline.query("if a; Select a.stmt#", {"6"});
+  pipeline.query("while a; Select a.stmt#", {"4"});
+  pipeline.query("call a; Select a.stmt#", {});
+  pipeline.query("print a; Select a.stmt#", {});
+  pipeline.query("read a; Select a.stmt#", {"10"});
+  pipeline.query("stmt a; Select a.stmt#", {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"});
+
+  // procName
+  pipeline.query("procedure p; Select p.procName", {"Example"});
+  pipeline.query("call p; Select p.procName", {});
+
+  // varName
+  pipeline.query("variable v; Select v.varName", {"x", "z", "i", "y"});
+  pipeline.query("read v; Select v.varName", {"x"});
+  pipeline.query("print v; Select v.varName", {});
+
+  // value
+  pipeline.query("constant c; Select c.value", {"2", "3", "5", "1", "0"});
+}
+
+TEST_CASE("Override With Clause Test, Non Default") {
+  auto pipeline = TestPipelineProvider(SOURCE2);
+
+  pipeline.query("read r; Select r with r.varName = \"x\"",
+                 {"2", "3"});
+
+  pipeline.query("read r; Select r with r.varName = \"y\"",
+                 {"1", "4"});
+
+  pipeline.query("read r; Select r with r.varName = \"z\"",
+                 {});
+}
+
+TEST_CASE("Override With Clause Test, Default") {
+  auto pipeline = TestPipelineProvider(SOURCE2);
+
+  pipeline.query("read r; Select r with r.stmt# = 2",
+                 {"2"});
+}
+
+TEST_CASE("With Clause Constant Constraint") {
+  auto pipeline = TestPipelineProvider(SOURCE2);
+
+  pipeline.query("Select BOOLEAN with 2 = 3",
+                 {"FALSE"});
+  pipeline.query("Select BOOLEAN with 2 = 2",
+                 {"TRUE"});
+  pipeline.query("stmt s; Select s such that Follows(1, s) with 2 = 3",
+                 {});
+  pipeline.query("stmt s; Select s such that Follows(1, s) with 2 = 2",
+                 {"2"});
+}
+
+TEST_CASE("With Clause Different Synonyms") {
+  auto pipeline = TestPipelineProvider(SOURCE3);
+
+  pipeline.query("print p; call cl; Select p with p.varName = cl.procName",
+                 {"2"});
+  pipeline.query("print p; procedure pr; Select pr with p.varName = pr.procName",
+                 {"p2"});
+}
+
+TEST_CASE("End-to-End Affects Test") {
+  auto pipeline = TestPipelineProvider();
+
+  pipeline.query("read r; Select r such that Affects(1, 5)",
+                 {"10"});
+  pipeline.query("read r; Select r such that Affects(2, 5)",
+                 {});
+  pipeline.query("assign a; Select a such that Affects(1, a)",
+                 {"5", "12"});
+  pipeline.query("assign a; Select a such that Affects(a, 11)",
+                 {"3", "11"});
+  pipeline.query("assign a; Select a such that Affects(11, a)",
+                 {"9", "11"});
+  pipeline.query("assign a1, a2; Select <a1, a2> such that Affects(a1, a2)",
+                 {"1 5", "1 12", "2 8", "2 9", "3 9", "3 11",
+                  "5 7", "5 8", "5 9", "7 9", "9 8", "9 9", "11 9", "11 11"});
 }

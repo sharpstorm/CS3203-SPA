@@ -2,7 +2,7 @@
 
 #include "ICFGClauseQuerier.h"
 #include "common/cfg/CFG.h"
-#include "qps/cfg/CFGWalker.h"
+#include "qps/cfg/cfg_querier/walkers/CFGWalker.h"
 #include "CFGQuerier.h"
 #include "qps/cfg/CFGQuerierTypes.h"
 
@@ -76,9 +76,10 @@ queryFrom(const StmtValue &arg0, const StmtType &type1) {
       [](ResultClosure *state, CFGNode node) {
         int stmtNumber = state->cfg->fromCFGNode(node);
         if (!typePredicate(state->closure, state->arg1Type, stmtNumber)) {
-          return;
+          return true;
         }
         state->result->add(0, stmtNumber);
+        return true;
       };
 
   CFGNode nodeStart = cfg->toCFGNode(arg0);
@@ -98,12 +99,13 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
   }
 
   constexpr WalkerSingleCallback<ResultClosure> callback =
-      [](ResultClosure *state, CFGNode node) {
+      [](ResultClosure *state, CFGNode node) -> bool {
         int stmtNumber = state->cfg->fromCFGNode(node);
         if (!typePredicate(state->closure, state->arg0Type, stmtNumber)) {
-          return;
+          return true;
         }
         state->result->add(stmtNumber, 0);
+        return true;
       };
 
   CFGNode nodeEnd = cfg->toCFGNode(arg1);
@@ -125,9 +127,10 @@ queryAll(StmtTransitiveResult* resultOut,
         int toStmtNumber = state->cfg->fromCFGNode(nodeRight);
         if (!typePredicate(state->closure, state->arg0Type, fromStmtNumber)
             || !typePredicate(state->closure, state->arg1Type, toStmtNumber)) {
-          return;
+          return true;
         }
         state->result->add(fromStmtNumber, toStmtNumber);
+        return true;
       };
   walker.walkAll<ResultClosure, callback>(&state);
 }

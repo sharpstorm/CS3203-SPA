@@ -29,8 +29,7 @@ constexpr CallsInvoker callsTInvoker = [](PkbQueryHandler* pkbQueryHandler,
 };
 
 constexpr CallsSameSynInvoker callsSymmetricInvoker =
-    [](PkbQueryHandler* pkbQueryHandler,
-       const EntityRef &arg){
+    [](PkbQueryHandler* pkbQueryHandler, const EntityRef &arg){
       return unordered_set<EntityValue>{};
     };
 

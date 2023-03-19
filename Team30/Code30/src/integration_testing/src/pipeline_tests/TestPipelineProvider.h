@@ -24,9 +24,30 @@ const char SOURCE1[] = "procedure Example {\n"
                        "    i = i - 1; }\n" // 11
                        "  z = x + 1; }"; // 12
 
+const char SOURCE2[] = "procedure Example {\n"
+                       "  read y;\n" // 1
+                       "  read x;\n" // 2
+                       "  read x;\n" // 3
+                       "  read y;\n" // 4
+                       "}";
+
+const char SOURCE3[] = "procedure p1 {\n"
+                       "  call p3;\n"
+                       "  print p2;\n"
+                       "}\n"
+                       "\n"
+                       "procedure p2 {\n"
+                       "  read p1;\n"
+                       "}\n"
+                       "\n"
+                       "procedure p3 {\n"
+                       "  call p2;\n"
+                       "}";
+
 class TestPipelineProvider {
  public:
   TestPipelineProvider();
+  explicit TestPipelineProvider(string source);
   void query(const string &query, const unordered_set<string> &answer);
   void expectSyntaxError(const string &query);
   void expectSemanticError(const string &query);

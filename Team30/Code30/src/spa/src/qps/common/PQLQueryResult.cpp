@@ -59,13 +59,13 @@ int PQLQueryResult::getRowCount() {
   return combinedTable.size();
 }
 
-RowSet *PQLQueryResult::getRowsWithValue(ResultTableCol column,
+RowSetPtr PQLQueryResult::getRowsWithValue(ResultTableCol column,
                                          QueryResultItem* value) {
   ColMapItem* item = colMap.at(column).get();
   if (item->find(*value) == item->end()) {
     return nullptr;
   }
-  return new RowSet(item->at(*value));
+  return make_unique<RowSet>(item->at(*value));
 }
 
 bool PQLQueryResult::operator==(const PQLQueryResult &pqr) const {

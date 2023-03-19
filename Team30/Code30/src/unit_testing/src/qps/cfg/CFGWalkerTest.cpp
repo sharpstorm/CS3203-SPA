@@ -1,26 +1,28 @@
 #include "catch.hpp"
 #include "common/cfg/CFG.h"
-#include "qps/cfg/CFGWalker.h"
+#include "qps/cfg/cfg_querier/walkers/CFGWalker.h"
 #include "common/Types.h"
 #include "TestCFGProvider.h"
 
 typedef unordered_set<CFGNode> CFGNodeSet;
 typedef pair_set<CFGNode, CFGNode> CFGNodePairSet;
 
-void setWalkCallback(CFGNodeSet* state, CFGNode node) {
+bool setWalkCallback(CFGNodeSet* state, CFGNode node) {
   if (state->find(node) != state->end()) {
     FAIL("Same node callback twice");
   }
   state->insert(node);
+  return true;
 }
 
-void pairWalkCallback(CFGNodePairSet* state,
+bool pairWalkCallback(CFGNodePairSet* state,
                       CFGNode nodeLeft,
                       CFGNode nodeRight) {
   if (state->find({nodeLeft, nodeRight}) != state->end()) {
     FAIL("Same node callback twice");
   }
   state->insert({ nodeLeft, nodeRight });
+  return true;
 }
 
 void assertWalkFrom(CFGWalker* walker, CFGNode from, CFGNodeSet set) {

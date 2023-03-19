@@ -44,4 +44,19 @@ PQLSynonymType AttributedSynonym::getType() {
 PQLSynonymName AttributedSynonym::getName() {
   return syn->getName();
 }
+bool AttributedSynonym::returnsInteger() {
+  return (attribute & INT_RETURN_MASK) > 0;
+}
+
+bool AttributedSynonym::isStatementType() {
+  return syn->isStatementType();
+}
+
+bool AttributedSynonym::hasAttribute() {
+  return attribute != NO_ATTRIBUTE;
+}
+
+PQLQuerySynonym* AttributedSynonym::getSyn() {
+  return syn;
+}
 
