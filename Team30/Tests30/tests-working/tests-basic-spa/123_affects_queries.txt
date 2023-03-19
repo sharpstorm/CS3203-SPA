@@ -33,25 +33,25 @@ FALSE
 Select BOOLEAN such that Affects(12, 15)
 FALSE
 5000
-8 - Select BOOLEAN Affects (Integer, Integer) True (Integer) (Integer)
+8 - Select BOOLEAN Affects (Integer, Integer) False (Integer) (Integer)
 
 Select BOOLEAN such that Affects(13, 14)
-TRUE
+FALSE
 5000
 9 - Select BOOLEAN Affects (Integer, Integer) False (Integer) (Integer)
 
 Select BOOLEAN such that Affects(24, 1)
 FALSE
 5000
-10 - Select BOOLEAN Affects (Integer, Integer) False (Integer) (Integer)
+10 - Select BOOLEAN Affects (Integer, Integer) True (Integer) (Integer)
 
 Select BOOLEAN such that Affects(2, 7)
-FALSE
+TRUE
 5000
 11 - Select Statement Affects (Statement, Integer) True (Synoynm) (Integer)
 stmt s;
 Select s such that Affects(s, 23)
-17, 20
+1, 3, 6, 18, 19
 5000
 12 - Select Statement Affects (Statement, Integer) True (Synoynm) (Integer)
 stmt s;
@@ -61,7 +61,7 @@ Select s such that Affects(s, 3)
 13 - Select Statement Affects (Statement, Integer) True (Synoynm) (Integer)
 stmt s;
 Select s such that Affects(s, 6)
-3
+1
 5000
 14 - Select Statement Affects (Statement, Integer) None (Synoynm) (Integer)
 stmt s;
@@ -81,12 +81,12 @@ Select s such that Affects(s, 100)
 17 - Select Statement Affects (Integer, Statement) True (Integer) (Synonym)
 stmt s;
 Select s such that Affects(3, s)
-19, 22
+13, 22, 23
 5000
 18 - Select Statement Affects (Integer, Statement) True (Integer) (Synonym)
 stmt s;
 Select s such that Affects(19, s)
-22
+22, 23
 5000
 19 - Select Statement Affects (Integer, Statement) True (Integer) (Synonym)
 stmt s;
@@ -96,7 +96,7 @@ Select s such that Affects(7, s)
 20 - Select Statement Affects (Integer, Statement) True (Integer) (Synonym)
 stmt s;
 Select s such that Affects(17, s)
-23
+15
 5000
 21 - Select Statement Affects (Integer, Statement) None (Integer) (Synonym)
 stmt s;
@@ -116,20 +116,20 @@ Select s such that Affects(22, s)
 24 - Select Statement Affects (Integer, Statement) True (Integer) (Synonym)
 stmt s;
 Select s such that Affects(13, s)
-14
+12
 5000
 25 - Select Statement Affects (Integer, Statement) None (Integer) (Synonym)
 stmt s;
 Select s such that Affects(14, s)
-
+12
 5000
 26 - Select Statement Affects (Integer, Statement) True (Integer) (Synonym)
 stmt s;
 Select s such that Affects(2, s)
-7, 15, 20
+3, 7, 15
 5000
-27 - Select Statement Affects (Statement, Integer) True (Synoynm) (Integer)
+27 - Select Statement Affects (Statement, Integer) None (Synoynm) (Integer)
 stmt s;
 Select s such that Affects(s, 24)
-1,6,18
+
 5000
