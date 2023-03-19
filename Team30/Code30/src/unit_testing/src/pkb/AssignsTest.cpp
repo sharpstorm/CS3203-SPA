@@ -1,5 +1,4 @@
 #include <memory>
-#include <string>
 #include <unordered_set>
 
 #include "catch.hpp"
@@ -26,5 +25,5 @@ TEST_CASE("Assign write and read") {
   REQUIRE(result.isEmpty == false);
   REQUIRE(result.firstArgVals == unordered_set<int>({1}));
   REQUIRE(*result.secondArgVals.begin() == node1.get());
-  REQUIRE(result.pairVals == pair_set<int, PatternTrie*>({{1, node1.get()}}));
+  REQUIRE(result.pairVals == pair_set<int, PatternTrie *>({{1, node1.get()}}));
 }

@@ -7,7 +7,6 @@
 #include "catch.hpp"
 #include "common/Types.h"
 #include "pkb/PkbTypes.h"
-#include "pkb/predicates/PredicateFactory.h"
 #include "pkb/storage/RelationTableManager.h"
 #include "pkb/storage/StructureMappingProvider.h"
 #include "pkb/storage/tables/ContiguousSetTable.h"
@@ -19,9 +18,10 @@ using std::string;
 using std::unordered_set;
 
 TEST_CASE("RelationTableManager insert and getByArg1, getByArg2") {
-  RelationTableManager<int, string> tableManager(
-      make_shared<ContiguousSetTable<string>>(),
-      make_shared<HashKeySetTable<string, int>>());
+  auto table = make_shared<ContiguousSetTable<string>>();
+  auto reverseTable = make_shared<HashKeySetTable<string, int>>();
+  RelationTableManager<int, string>
+      tableManager(table.get(), reverseTable.get());
 
   tableManager.insert(1, "a");
   tableManager.insert(2, "b");
@@ -30,12 +30,14 @@ TEST_CASE("RelationTableManager insert and getByArg1, getByArg2") {
 
   REQUIRE(tableManager.getByFirstArg(1) == unordered_set<string>({"a", "c"}));
   REQUIRE(tableManager.getBySecondArg("b") == unordered_set<int>({2, 4}));
+
 }
 
 TEST_CASE("RelationTableManager query known arg1 values with arg2 predicate") {
-  RelationTableManager<int, string> tableManager(
-      make_shared<ContiguousSetTable<string>>(),
-      make_shared<HashKeySetTable<string, int>>());
+  auto table = make_shared<ContiguousSetTable<string>>();
+  auto reverseTable = make_shared<HashKeySetTable<string, int>>();
+  RelationTableManager<int, string>
+      tableManager(table.get(), reverseTable.get());
 
   tableManager.insert(1, "a");
   tableManager.insert(2, "b");
@@ -44,7 +46,7 @@ TEST_CASE("RelationTableManager query known arg1 values with arg2 predicate") {
   tableManager.insert(3, "f");
 
   unordered_set<string> validValues({"a", "e", "f"});
-  Predicate<string> isValid = [validValues](string const &s) {
+  Predicate<string> isValid = [validValues](const string s) -> bool {
     return validValues.find(s) != validValues.end();
   };
 
@@ -56,9 +58,11 @@ TEST_CASE("RelationTableManager query known arg1 values with arg2 predicate") {
 }
 
 TEST_CASE("RelationTableManager query known arg2 values with arg1 predicate") {
+  auto table = make_shared<ContiguousSetTable<string>>();
+  auto reverseTable = make_shared<HashKeySetTable<string, int>>();
   RelationTableManager<int, string> tableManager(
-      make_shared<ContiguousSetTable<string>>(),
-      make_shared<HashKeySetTable<string, int>>());
+      table.get(),
+      reverseTable.get());
 
   tableManager.insert(1, "a");
   tableManager.insert(2, "b");
@@ -79,9 +83,11 @@ TEST_CASE("RelationTableManager query known arg2 values with arg1 predicate") {
 }
 
 TEST_CASE("RelationTableManager query known arg1 with arg2 predicate") {
+  auto table = make_shared<ContiguousSetTable<string>>();
+  auto reverseTable = make_shared<HashKeySetTable<string, int>>();
   RelationTableManager<int, string> tableManager(
-      make_shared<ContiguousSetTable<string>>(),
-      make_shared<HashKeySetTable<string, int>>());
+      table.get(),
+      reverseTable.get());
 
   tableManager.insert(1, "a");
   tableManager.insert(2, "b");
@@ -99,9 +105,11 @@ TEST_CASE("RelationTableManager query known arg1 with arg2 predicate") {
 }
 
 TEST_CASE("RelationTableManager query known arg2 with arg1 predicate") {
+  auto table = make_shared<ContiguousSetTable<string>>();
+  auto reverseTable = make_shared<HashKeySetTable<string, int>>();
   RelationTableManager<int, string> tableManager(
-      make_shared<ContiguousSetTable<string>>(),
-      make_shared<HashKeySetTable<string, int>>());
+      table.get(),
+      reverseTable.get());
 
   tableManager.insert(1, "a");
   tableManager.insert(2, "b");

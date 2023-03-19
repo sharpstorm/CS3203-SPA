@@ -50,6 +50,10 @@ bool AttributedSynonym::isStatementType() {
   return synProxy->isStatementType();
 }
 
+bool AttributedSynonym::hasAttribute() {
+  return attribute != NO_ATTRIBUTE;
+}
+
 PQLQuerySynonym* AttributedSynonym::getSyn() {
   return synProxy.get();
 }

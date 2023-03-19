@@ -4,16 +4,17 @@
 
 using std::string;
 
-class StubPKB: public PkbQueryHandler {
+class StubPKB : public PkbQueryHandler {
  public:
-  StubPKB(PKB* in): PkbQueryHandler(in) {
+  StubPKB(PKB *in) : PkbQueryHandler(in) {
   }
 
   QueryResult<int, int> queryFollows(StmtRef s1, StmtRef s2) const override {
     return QueryResult<int, int>();
   };
 
-  QueryResult<int, int> queryFollowsStar(StmtRef s1, StmtRef s2) const override {
+  QueryResult<int, int> queryFollowsStar(StmtRef s1,
+                                         StmtRef s2) const override {
     return QueryResult<int, int>();
   };
 
@@ -42,8 +43,8 @@ class StubPKB: public PkbQueryHandler {
     return QueryResult<string, string>();
   }
 
-  QueryResult<int, PatternTrie*> queryAssigns(StmtRef) const override {
-    return QueryResult<int, PatternTrie*>();
+  QueryResult<int, PatternTrie *> queryAssigns(StmtRef) const override {
+    return QueryResult<int, PatternTrie *>();
   }
 
   QueryResult<string, string> queryCalls(EntityRef, EntityRef) const override {
@@ -58,6 +59,7 @@ class StubPKB: public PkbQueryHandler {
   unordered_set<string> getSymbolsOfType(EntityType) const override {
     return unordered_set<string>();
   };
+
   unordered_set<int> getStatementsOfType(StmtType) const override {
     return unordered_set<int>();
   };

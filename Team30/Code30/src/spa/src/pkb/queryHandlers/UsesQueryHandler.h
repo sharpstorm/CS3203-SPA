@@ -1,32 +1,28 @@
 #pragma once
 
-#include <string>
-#include <unordered_set>
-
 #include "common/Types.h"
-#include "interfaces/IUsesQueryHandler.h"
-#include "pkb/predicates/PredicateFactory.h"
 #include "pkb/storage/StorageTypes.h"
-#include "pkb/storage/interfaces/IStructureMappingProvider.h"
+#include "BaseQueryHandler.h"
+#include "PkbStmtEntQueryInvoker.h"
+#include "PkbEntEntQueryInvoker.h"
+#include "interfaces/IUsesQueryHandler.h"
 
-class UsesQueryHandler : public IUsesQueryHandler {
+class UsesQueryHandler
+    : private PkbStmtEntQueryHandler,
+      private PkbEntEntQueryHandler,
+      public IUsesQueryHandler {
  public:
-  UsesQueryHandler(const UsesStorage *, const UsesPStorage *,
-                   const PredicateFactory *, const IStructureMappingProvider *,
-                   const IEntityMappingProvider *);
-
-  QueryResult<int, string> queryUses(StmtRef, EntityRef) const override;
-  QueryResult<string, string> queryUses(EntityRef, EntityRef) const override;
-  string getPrintDeclarations(int) const override;
+  UsesQueryHandler(PkbStmtEntQueryInvoker *,
+                   PkbEntEntQueryInvoker *,
+                   UsesStorage *,
+                   UsesPStorage *);
+  QueryResult<StmtValue, EntityValue> queryUses(StmtRef,
+                                                EntityRef) const override;
+  QueryResult<EntityValue, EntityValue> queryUses(EntityRef,
+                                                  EntityRef) const override;
+  EntityValue getPrintDeclarations(StmtValue) const override;
 
  private:
   const UsesStorage *usesStorage;
-  const UsesPStorage *usesPStorage;
-  const PredicateFactory *predicateFactory;
-  const IStructureMappingProvider *structureProvider;
-  const IEntityMappingProvider *entitiesProvider;
-
-  bool validateArg1(StmtRef) const;
-  bool validateArg1(EntityRef) const;
-  bool validateArg2(EntityRef) const;
 };
+

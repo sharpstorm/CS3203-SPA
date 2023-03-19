@@ -17,8 +17,8 @@
 #include "CFGsWriter.h"
 
 PkbWriter::PkbWriter(PKB *pkb)
-    : followsWriter(new FollowsWriter(pkb->followsStore)),
-      parentWriter(new ParentWriter(pkb->parentStore)),
+    : followsWriter(new FollowsWriter(pkb->followsStorage)),
+      parentWriter(new ParentWriter(pkb->parentStorage)),
       usesWriter(new UsesWriter(pkb->usesStorage, pkb->usesPStorage)),
       modifiesWriter(
           new ModifiesWriter(pkb->modifiesStorage, pkb->modifiesPStorage)),

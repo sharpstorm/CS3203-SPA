@@ -25,9 +25,9 @@ TEST_CASE("Entities write and read") {
   writer.addProcedure("main", 3, 4);
 
   REQUIRE(queryHandler.getSymbolsOfType(EntityType::Variable) ==
-          unordered_set<string>({"a", "b", "c"}));
+      unordered_set<string>({"a", "b", "c"}));
   REQUIRE(queryHandler.getSymbolsOfType(EntityType::Constant) ==
-          unordered_set<string>({"0", "1"}));
+      unordered_set<string>({"0", "1"}));
 
   REQUIRE(queryHandler.isSymbolOfType(EntityType::Constant, "0") == true);
   REQUIRE(queryHandler.isSymbolOfType(EntityType::Variable, "a") == true);
@@ -54,13 +54,12 @@ TEST_CASE("Statements write and read") {
   writer.addCalls(5, "main", "sub");
 
   REQUIRE(queryHandler.getStatementsOfType(StmtType::Assign) ==
-          unordered_set<int>({1, 2, 3}));
+      unordered_set<int>({1, 2, 3}));
   REQUIRE(queryHandler.getStatementsOfType(StmtType::Read) ==
-          unordered_set<int>({4}));
+      unordered_set<int>({4}));
   // get all statement_types
   REQUIRE(queryHandler.getStatementsOfType(StmtType::None) ==
-          unordered_set<int>({1, 2, 3, 4, 5}));
-
+      unordered_set<int>({1, 2, 3, 4, 5}));
   REQUIRE(queryHandler.getStatementType(1) == StmtType::Assign);
   REQUIRE(queryHandler.isStatementOfType(StmtType::Assign, 1) == true);
   REQUIRE(queryHandler.isStatementOfType(StmtType::Read, 1) == false);

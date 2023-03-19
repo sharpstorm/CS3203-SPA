@@ -7,7 +7,7 @@
 #include "ResultGroup.h"
 #include "common/SetUtils.h"
 #include "qps/common/PQLQueryResult.h"
-
+#include "qps/common/constraint/Constraint.h"
 
 using std::unordered_map, std::unordered_set, std::unique_ptr;
 
@@ -17,7 +17,8 @@ class SynonymResultTable {
   bool booleanResult;
 
  public:
-  SynonymResultTable(bool isBooleanResult, bool booleanResult);
+  SynonymResultTable(bool isBooleanResult,
+                     bool booleanResult);
   ~SynonymResultTable() = default;
   void addResultGroup(ResultGroupPtr rg);
   bool getIsBooleanResult();

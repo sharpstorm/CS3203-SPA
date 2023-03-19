@@ -13,9 +13,9 @@ using std::string;
 using std::unordered_set;
 
 TEST_CASE("ConstantWriter addConstant") {
-  auto table = make_shared<ContiguousTable<string>>();
-  auto reverseTable = make_shared<HashKeySetTable<string, int>>();
-  auto store = make_unique<ConstantStorage>(table, reverseTable);
+  auto table = make_shared<EntityTable>();
+  auto reverseTable = make_shared<EntityRevTable>();
+  auto store = make_unique<ConstantStorage>(table.get(), reverseTable.get());
   auto writer = ConstantWriter(store.get());
 
   writer.addConstant("0");

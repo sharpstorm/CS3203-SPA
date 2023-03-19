@@ -27,6 +27,7 @@ class AttributedSynonym {
   bool validateAttribute();
   bool returnsInteger();
   bool isStatementType();
+  bool hasAttribute();
 };
 
 typedef shared_ptr<AttributedSynonym> AttributedSynonymSPtr;

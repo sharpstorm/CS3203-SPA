@@ -12,8 +12,9 @@ using std::pair, std::unordered_set, std::vector, std::string, std::to_string;
 SelectClause::SelectClause(const PQLQuerySynonymProxy &target):
     target(target) {}
 
-PQLQueryResult* SelectClause::evaluateOn(PkbQueryHandler* pkbQueryHandler,
-                                         OverrideTable* table) {
+PQLQueryResult *SelectClause::evaluateOn(
+    PkbQueryHandler *pkbQueryHandler,
+    OverrideTable *table) {
   ClauseArgumentPtr clauseArg = ClauseArgumentFactory::create(target);
   PQLSynonymName synName = target->getName();
   if (target->isStatementType()) {

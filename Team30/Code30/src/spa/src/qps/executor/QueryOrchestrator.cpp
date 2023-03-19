@@ -4,13 +4,13 @@
 #include "QueryOrchestrator.h"
 #include "qps/common/resulttable/ResultGroupFactory.h"
 
-using std::make_unique, std::move;
+using std::make_unique;
 
 QueryOrchestrator::QueryOrchestrator(QueryLauncher launcher) :
     launcher(launcher) {
 }
 
-// Executes every group in the QueryPlan (NEW IMPLEMENTATION)
+// Executes every group in the QueryPlan
 SynonymResultTable *QueryOrchestrator::execute(
     QueryPlan *plan, OverrideTable* overrideTable) {
   bool isBool = plan->isBooleanQuery();

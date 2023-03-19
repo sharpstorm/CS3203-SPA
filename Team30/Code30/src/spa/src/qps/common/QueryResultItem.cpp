@@ -23,3 +23,7 @@ string QueryResultItem::project() {
 }
 
 const char QueryResultItem::NO_ENT_REF[] = "";
+
+int QueryResultItem::toStmtValue() {
+  return stmtRef;
+}

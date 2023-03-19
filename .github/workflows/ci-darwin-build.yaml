@@ -8,7 +8,7 @@ env:
 jobs:
   build-darwin:
     runs-on: [self-hosted, macOS]
-    timeout-minutes: 10
+    timeout-minutes: 15
     strategy:
       fail-fast: true
 

@@ -4,14 +4,14 @@ StructureMappingProvider::StructureMappingProvider(
     StatementStorage *statementStorage, ProcedureStorage *procedureStorage,
     CallStmtStorage *callStmtStorage)
     : statementStorage(statementStorage),
-      procedureStorage(procedureStorage),
-      callStmtStorage(callStmtStorage) {}
+    procedureStorage(procedureStorage),
+    callStmtStorage(callStmtStorage) {}
 
 StmtType StructureMappingProvider::getStatementType(int lineNumber) const {
   return statementStorage->getByKey(lineNumber);
 }
 
-std::unordered_set<int> StructureMappingProvider::getStatementsOfType(
+std::unordered_set<int> StructureMappingProvider::getValuesOfType(
     StmtType stmtType) const {
   if (stmtType == StmtType::None) {
     return statementStorage->getAllKeys();
@@ -39,7 +39,7 @@ std::string StructureMappingProvider::getCalledProcedure(int lineNumber) const {
   return callStmtStorage->getByKey(lineNumber);
 }
 
-bool StructureMappingProvider::isStatementOfType(StmtType stmtType,
-                                                 int lineNumber) const {
+bool StructureMappingProvider::isValueOfType(
+    StmtType stmtType, StmtValue lineNumber) const {
   return statementStorage->getByKey(lineNumber) == stmtType;
 }
