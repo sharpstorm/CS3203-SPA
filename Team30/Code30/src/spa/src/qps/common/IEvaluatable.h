@@ -6,6 +6,7 @@
 
 #include "PQLQueryResult.h"
 #include "pkb/queryHandlers/PkbQueryHandler.h"
+#include "qps/common/constraint/Constraint.h"
 
 using std::shared_ptr, std::vector, std::string;
 
@@ -14,8 +15,8 @@ typedef vector<string> SynonymList;
 class IEvaluatable {
  public:
   virtual ~IEvaluatable() = default;
-  virtual PQLQueryResult* evaluateOn(
-          PkbQueryHandler* pkbQueryHandler) = 0;
+  virtual PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler,
+                                     OverrideTable* table) = 0;
   virtual SynonymList getUsedSynonyms() = 0;
 };
 

@@ -1,12 +1,13 @@
 #pragma once
 
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "qps/common/PQLTypes.h"
 #include "qps/common/PQLQuerySynonym.h"
 
-using std::unique_ptr, std::vector, std::shared_ptr;
+using std::unique_ptr, std::vector, std::shared_ptr, std::string;
 
 class AttributedSynonym {
   PQLQuerySynonym* syn;
@@ -20,7 +21,10 @@ class AttributedSynonym {
   PQLSynonymType getType();
   PQLSynonymName getName();
   PQLSynonymAttribute getAttribute();
+  PQLQuerySynonym* getSyn();
   bool validateAttribute();
+  bool returnsInteger();
+  bool isStatementType();
 };
 
 typedef shared_ptr<AttributedSynonym> AttributedSynonymSPtr;

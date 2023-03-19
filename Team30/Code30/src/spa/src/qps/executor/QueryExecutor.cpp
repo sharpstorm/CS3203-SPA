@@ -1,25 +1,29 @@
+#include <memory>
 #include <vector>
 
 #include "QueryExecutor.h"
 #include "qps/common/IEvaluatable.h"
 
-using std::vector;
+using std::vector, std::unique_ptr, std::make_unique;
 
 QueryExecutor::QueryExecutor(PkbQueryHandler* pkbQH):
-    orchestrator(QueryOrchestrator(QueryLauncher(pkbQH))) {
-}
+  orchestrator(QueryOrchestrator(QueryLauncher(pkbQH))) { }
 
 SynonymResultTable *QueryExecutor::executeQuery(PQLQuery* query) {
-  VariableTableProxyBuilder variableTableProxyBuilder(query->getVarTable());
-  OverrideTable overrideTable;
+  OverrideTablePtr overrideTable = make_unique<OverrideTable>();
+  bool isBoolResult = query->getResultVariables()->empty();
   for (const auto& con : query->getConstraints()) {
-    if (con->applyConstraint(&variableTableProxyBuilder, &overrideTable)) {
-      bool isBoolResult = query->getResultVariables()->empty();
+    if (!con->applyConstraint(query->getVarTable(), overrideTable.get())) {
       return new SynonymResultTable(isBoolResult, false);
     }
   }
-  variableTableProxyBuilder.build();
 
   QueryPlanPtr plan = planner.getExecutionPlan(query);
-  return orchestrator.execute(plan.get());
+
+  // Query just have constraints
+  if (plan->isEmpty()) {
+    return new SynonymResultTable(isBoolResult, true);
+  }
+
+  return orchestrator.execute(plan.get(), overrideTable.get());
 }

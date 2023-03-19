@@ -29,8 +29,7 @@ constexpr AffectsInvoker affectsTInvoker = [](PkbQueryHandler* pkbQueryHandler,
 };
 
 constexpr AffectsSameSynInvoker affectsSymmetricInvoker =
-    [](PkbQueryHandler* pkbQueryHandler,
-       const StmtRef &arg){
+    [](PkbQueryHandler* pkbQueryHandler, const StmtRef &arg){
       return unordered_set<StmtValue>{};
     };
 

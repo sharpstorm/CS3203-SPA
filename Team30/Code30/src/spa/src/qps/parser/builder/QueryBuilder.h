@@ -12,6 +12,7 @@
 #include "../../clauses/SuchThatClause.h"
 #include "../../clauses/PatternClause.h"
 #include "qps/clauses/WithClause.h"
+#include "qps/clauses/WithSelectClause.h"
 
 using std::string, std::vector, std::unique_ptr, std::unordered_map;
 
@@ -35,6 +36,7 @@ class QueryBuilder {
   void addSuchThat(unique_ptr<SuchThatClause> clause);
   void addPattern(unique_ptr<PatternClause> clause);
   void addWith(unique_ptr<WithClause> clause);
+  void addWithSelect(unique_ptr<WithSelectClause> clause);
   void addConstraint(ConstraintSPtr constraint);
 
   void setError(const string &msg);

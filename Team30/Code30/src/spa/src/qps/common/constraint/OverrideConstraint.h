@@ -5,6 +5,10 @@
 #include "qps/common/PQLQuerySynonym.h"
 #include "OverrideTransformer.h"
 #include "qps/errors/QPSParserSemanticError.h"
+#include "qps/common/AttributedSynonym.h"
+#include "pkb/queryHandlers/PkbQueryHandler.h"
+
+using std::string, std::to_string;
 
 class OverrideConstraint : virtual public Constraint {
  private:
@@ -17,17 +21,19 @@ class OverrideConstraint : virtual public Constraint {
   OverrideConstraint(AttributedSynonym syn, int intVal) :
       syn(syn), overrideTransformer(OverrideTransformer(intVal)) { }
 
-  bool applyConstraint(VariableTableProxyBuilder* variableTable,
-                       OverrideTable* overrideTable) {
+  bool applyConstraint(VariableTable* varTable,
+                       OverrideTable* overrideTable) override {
     PQLSynonymName synName = syn.getName();
+
     if (overrideTable->find(synName) != overrideTable->end()) {
       return false;
     }
+
     overrideTable->insert({synName, overrideTransformer});
     return true;
   }
 
-  bool validateConstraint() {
+  bool validateConstraint() override {
     if (!syn.validateAttribute()) {
       return false;
     }

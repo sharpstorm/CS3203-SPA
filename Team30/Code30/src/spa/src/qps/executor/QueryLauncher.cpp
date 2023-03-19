@@ -3,6 +3,7 @@
 QueryLauncher::QueryLauncher(PkbQueryHandler* pkbQH): pkbQueryHandler(pkbQH) {
 }
 
-PQLQueryResult *QueryLauncher::execute(IEvaluatable *evaluatable) {
-  return evaluatable->evaluateOn(pkbQueryHandler);
+PQLQueryResult *QueryLauncher::execute(IEvaluatable *evaluatable,
+                                       OverrideTable* table) {
+  return evaluatable->evaluateOn(pkbQueryHandler, table);
 }
