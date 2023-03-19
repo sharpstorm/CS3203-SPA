@@ -1,8 +1,8 @@
 #include "../PKBStub.cpp"
 
-class OrchestratorPKBStub: public StubPKB {
+class OrchestratorPKBStub : public StubPKB {
  public:
-  OrchestratorPKBStub(PKB* in) : StubPKB(in) {
+  OrchestratorPKBStub(PKB *in) : StubPKB(in) {
   }
 
   unordered_set<string> getSymbolsOfType(EntityType) const {

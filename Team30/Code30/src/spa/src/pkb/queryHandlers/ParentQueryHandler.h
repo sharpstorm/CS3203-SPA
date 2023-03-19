@@ -1,22 +1,16 @@
 #pragma once
 
-#include "../../common/Types.h"
-#include "../predicates/PredicateFactory.h"
-#include "../storage/StorageTypes.h"
-#include "../storage/StructureMappingProvider.h"
-#include "interfaces/IParentQueryHandler.h"
+#include "common/Types.h"
+#include "pkb/storage/StorageTypes.h"
+#include "pkb/queryHandlers/interfaces/IParentQueryHandler.h"
+#include "BaseQueryHandler.h"
+#include "PkbStmtStmtQueryInvoker.h"
 
-class ParentQueryHandler : public IParentQueryHandler {
+class ParentQueryHandler : private PkbStmtStmtQueryHandler,
+                           public IParentQueryHandler {
  public:
-  ParentQueryHandler(const ParentStorage *store,
-                     const PredicateFactory *predicateFactory,
-                     const IStructureMappingProvider *stuctureProvider);
-
-  QueryResult<int, int> queryParent(StmtRef s1, StmtRef s2) const override;
-  QueryResult<int, int> queryParentStar(StmtRef s1, StmtRef s2) const override;
-
- private:
-  const ParentStorage *store;
-  const PredicateFactory *predicateFactory;
-  const IStructureMappingProvider *structureProvider;
+  ParentQueryHandler(PkbStmtStmtQueryInvoker *invoker,
+                     ParentStorage *storage);
+  QueryResult<StmtValue, StmtValue> queryParent(StmtRef,
+                                                StmtRef) const override;
 };

@@ -4,11 +4,10 @@
 
 #include "catch.hpp"
 #include "common/Types.h"
-#include "pkb/predicates/PredicateFactory.h"
 #include "pkb/queryHandlers/FollowsQueryHandler.h"
 #include "pkb/storage/StructureMappingProvider.h"
-#include "pkb/storage/tables/ContiguousSetTable.h"
 #include "StructureMappingProviderStub.h"
+#include "pkb/queryHandlers/FollowsTQueryHandler.h"
 
 using std::make_shared;
 using std::make_unique;
@@ -40,53 +39,50 @@ static std::unique_ptr<StructureMappingProviderStub> setUpStructureMappingProvid
   return provider;
 }
 
-struct followsTestInit {
-  shared_ptr<ContiguousSetTable<int>> table;
-  shared_ptr<ContiguousSetTable<int>> reverseTable;
-  unique_ptr<FollowsStorage> store;
-  unique_ptr<StructureMappingProviderStub> structureProvider;
-  unique_ptr<PredicateFactory> factory;
-  FollowsQueryHandler handler;
-
-  followsTestInit() :
-      table(make_shared<ContiguousSetTable<int>>()),
-      reverseTable(make_shared<ContiguousSetTable<int>>()),
-      store(make_unique<FollowsStorage>(table, reverseTable)),
-      structureProvider(setUpStructureMappingProvider()),
-      factory(make_unique<PredicateFactory>(structureProvider.get(),
-                                            nullptr)),
-      handler(FollowsQueryHandler(store.get(),
-                                  factory.get(),
-                                  structureProvider.get())) {};
+struct followsTest {
+  shared_ptr<FollowsTable> table = make_shared<FollowsTable>();
+  shared_ptr<FollowsRevTable> reverseTable = make_shared<FollowsRevTable>();
+  unique_ptr<FollowsStorage>
+      store = make_unique<FollowsStorage>(table.get(), reverseTable.get());
+  unique_ptr<FollowsTStorage>
+      storeT = make_unique<FollowsTStorage>(table.get(), reverseTable.get());
+  unique_ptr<StructureMappingProviderStub>
+      structureProvider = setUpStructureMappingProvider();
+  unique_ptr<StmtPredicateFactory>
+      factory = make_unique<StmtPredicateFactory>(structureProvider.get());
+  unique_ptr<PkbStmtStmtQueryInvoker> invoker =
+      make_unique<PkbStmtStmtQueryInvoker>(
+          structureProvider.get(),
+          factory.get());
+  FollowsQueryHandler handler = FollowsQueryHandler(invoker.get(), store.get());
+  FollowsTQueryHandler
+      handlerT = FollowsTQueryHandler(invoker.get(), storeT.get());
 };
+
 /* Follows */
 
 TEST_CASE("FollowsQueryHandler follows(stmtNum,stmtNum)") {
-  auto test = followsTestInit();
+  auto test = followsTest();
 
   test.table->set(1, 2);
   test.table->set(2, 4);
 
-  REQUIRE(
-      test.handler.queryFollows({StmtType::None, 1},
-                                {StmtType::None, 2}).isEmpty ==
-          false);
-  REQUIRE(
-      test.handler.queryFollows({StmtType::None, 2},
-                                {StmtType::None, 1}).isEmpty ==
-          true);
-  REQUIRE(
-      test.handler.queryFollows({StmtType::None, 4},
-                                {StmtType::None, 4}).isEmpty ==
-          true);
-  REQUIRE(
-      test.handler.queryFollows({StmtType::None, 1},
-                                {StmtType::None, 1}).isEmpty ==
-          true);
+  REQUIRE(test.handler.queryFollows(
+      {StmtType::None, 1},
+      {StmtType::None, 2}).isEmpty == false);
+  REQUIRE(test.handler.queryFollows(
+      {StmtType::None, 2},
+      {StmtType::None, 1}).isEmpty == true);
+  REQUIRE(test.handler.queryFollows(
+      {StmtType::None, 4},
+      {StmtType::None, 4}).isEmpty == true);
+  REQUIRE(test.handler.queryFollows(
+      {StmtType::None, 1},
+      {StmtType::None, 1}).isEmpty == true);
 }
 
 TEST_CASE("FollowsQueryHandler follows(stmtNum,stmtType)") {
-  auto test = followsTestInit();
+  auto test = followsTest();
 
   test.table->set(1, 2);
   test.table->set(2, 3);
@@ -105,7 +101,7 @@ TEST_CASE("FollowsQueryHandler follows(stmtNum,stmtType)") {
 }
 
 TEST_CASE("FollowsQueryHandler follows(stmtType, stmtNum)") {
-  auto test = followsTestInit();
+  auto test = followsTest();
 
   test.reverseTable->set(5, 2);
   test.reverseTable->set(6, 5);
@@ -124,7 +120,7 @@ TEST_CASE("FollowsQueryHandler follows(stmtType, stmtNum)") {
 }
 
 TEST_CASE("FollowsQueryHandler follows(stmtType, stmtType)") {
-  auto test = followsTestInit();
+  auto test = followsTest();
 
   test.table->set(2, 5);
   test.table->set(3, 4);
@@ -141,65 +137,67 @@ TEST_CASE("FollowsQueryHandler follows(stmtType, stmtType)") {
 
 /* FollowsStar */
 TEST_CASE("FollowsQueryHandler followsStar(stmtNum,stmtNum)") {
-  auto test = followsTestInit();
+  auto test = followsTest();
 
   test.table->set(1, 2);
   test.table->set(2, 5);
 
   REQUIRE(
-      test.handler.queryFollowsStar({StmtType::None, 1}, {StmtType::None, 2})
+      test.handlerT.queryFollowsStar({StmtType::None, 1}, {StmtType::None, 2})
           .isEmpty == false);
   REQUIRE(
-      test.handler.queryFollowsStar({StmtType::None, 1}, {StmtType::None, 5})
+      test.handlerT.queryFollowsStar({StmtType::None, 1}, {StmtType::None, 5})
           .isEmpty == false);
   REQUIRE(
-      test.handler.queryFollowsStar({StmtType::None, 1}, {StmtType::None, 1})
+      test.handlerT.queryFollowsStar({StmtType::None, 1}, {StmtType::None, 1})
           .isEmpty == true);
   REQUIRE(
-      test.handler.queryFollowsStar({StmtType::None, 5}, {StmtType::None, 2})
+      test.handlerT.queryFollowsStar({StmtType::None, 5}, {StmtType::None, 2})
           .isEmpty == true);
 }
 
 TEST_CASE("FollowsQueryHandler followsStar(stmtNum,stmtType)") {
-  auto test = followsTestInit();
+  auto test = followsTest();
 
   test.table->set(10, 11);
   test.table->set(11, 12);
   test.table->set(12, 16);
 
   auto result1 =
-      test.handler.queryFollowsStar({StmtType::None, 10}, {StmtType::While, 0});
+      test.handlerT.queryFollowsStar(
+          {StmtType::None, 10},
+          {StmtType::While, 0});
   REQUIRE(result1.isEmpty == false);
   REQUIRE(result1.firstArgVals == unordered_set<int>({10}));
   REQUIRE(result1.secondArgVals == unordered_set<int>({12, 16}));
   REQUIRE(result1.pairVals == pair_set<int, int>({{10, 12}, {10, 16}}));
 
   auto result2 =
-      test.handler.queryFollowsStar({StmtType::None, 12}, {StmtType::If, 0});
+      test.handlerT.queryFollowsStar({StmtType::None, 12}, {StmtType::If, 0});
   REQUIRE(result2.isEmpty == true);
 }
 
 TEST_CASE("FollowsQueryHandler followsStar(stmtType,stmtNum)") {
-  auto test = followsTestInit();
+  auto test = followsTest();
 
   test.reverseTable->set(12, 11);
   test.reverseTable->set(13, 12);
   test.reverseTable->set(14, 13);
 
   auto result1 =
-      test.handler.queryFollowsStar({StmtType::If, 0}, {StmtType::None, 13});
+      test.handlerT.queryFollowsStar({StmtType::If, 0}, {StmtType::None, 13});
   REQUIRE(result1.isEmpty == false);
   REQUIRE(result1.firstArgVals == unordered_set<int>({11}));
   REQUIRE(result1.secondArgVals == unordered_set<int>({13}));
   REQUIRE(result1.pairVals == pair_set<int, int>({{11, 13}}));
 
   auto result2 =
-      test.handler.queryFollowsStar({StmtType::If, 0}, {StmtType::None, 11});
+      test.handlerT.queryFollowsStar({StmtType::If, 0}, {StmtType::None, 11});
   REQUIRE(result2.isEmpty == true);
 }
 
 TEST_CASE("FollowsQueryHandler followsStar(stmtType,stmtType)") {
-  auto test = followsTestInit();
+  auto test = followsTest();
 
   test.table->set(11, 12);
   test.table->set(12, 14);
@@ -207,7 +205,7 @@ TEST_CASE("FollowsQueryHandler followsStar(stmtType,stmtType)") {
   test.table->set(15, 16);
 
   auto result1 =
-      test.handler.queryFollowsStar({StmtType::If, 0}, {StmtType::While, 0});
+      test.handlerT.queryFollowsStar({StmtType::If, 0}, {StmtType::While, 0});
   REQUIRE(result1.isEmpty == false);
   REQUIRE(result1.firstArgVals == unordered_set<int>({11, 14}));
   REQUIRE(result1.secondArgVals == unordered_set<int>({12, 16}));
@@ -215,7 +213,7 @@ TEST_CASE("FollowsQueryHandler followsStar(stmtType,stmtType)") {
       pair_set<int, int>({{11, 12}, {11, 16}, {14, 16}}));
 
   auto result2 =
-      test.handler.queryFollowsStar({StmtType::None, 0}, {StmtType::While, 0});
+      test.handlerT.queryFollowsStar({StmtType::None, 0}, {StmtType::While, 0});
   REQUIRE(result2.isEmpty == false);
   REQUIRE(result2.firstArgVals == unordered_set<int>({11, 12, 14, 15}));
   REQUIRE(result2.secondArgVals == unordered_set<int>({12, 16}));
@@ -223,12 +221,13 @@ TEST_CASE("FollowsQueryHandler followsStar(stmtType,stmtType)") {
       pair_set<int, int>({{11, 12}, {11, 16}, {12, 16}, {14, 16}, {15, 16}}));
 
   auto result3 =
-      test.handler.queryFollowsStar({StmtType::If, 0}, {StmtType::None, 0});
+      test.handlerT.queryFollowsStar({StmtType::If, 0}, {StmtType::None, 0});
   REQUIRE(result3.isEmpty == false);
   REQUIRE(result3.firstArgVals == unordered_set<int>({11, 14}));
   REQUIRE(result3.secondArgVals == unordered_set<int>({12, 12, 14, 15, 16}));
   REQUIRE(result3.pairVals ==
-      pair_set<int, int>({{11, 12}, {11, 14}, {11, 15}, {11, 16}, {14, 15},
-                          {14, 16}}));
+      pair_set<int, int>(
+          {{11, 12}, {11, 14}, {11, 15}, {11, 16}, {14, 15},
+           {14, 16}}));
 }
 

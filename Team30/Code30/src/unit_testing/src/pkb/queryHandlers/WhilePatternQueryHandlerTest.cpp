@@ -4,7 +4,6 @@
 
 #include "catch.hpp"
 #include "pkb/storage/StorageTypes.h"
-#include "pkb/storage/tables/HashKeySetTable.h"
 #include "pkb/queryHandlers/WhilePatternQueryHandler.h"
 #include "StructureMappingProviderStub.h"
 
@@ -29,24 +28,27 @@ static unique_ptr<StructureMappingProviderStub> setUpStructureMappingProvider() 
   return provider;
 }
 
-struct whilePatternTestInit {
-  shared_ptr<HashKeySetTable<int, string>> table;
-  shared_ptr<HashKeySetTable<string, int>> reverseTable;
-  unique_ptr<WhilePatternStorage> store;
-  unique_ptr<StructureMappingProviderStub> structureProvider;
-  unique_ptr<PredicateFactory> factory;
-  WhilePatternQueryHandler handler;
-
-  whilePatternTestInit()
-      : table(make_shared<HashKeySetTable<int, string>>()),
-        reverseTable(make_shared<HashKeySetTable<string, int>>()),
-        store(make_unique<WhilePatternStorage>(table, reverseTable)),
-        structureProvider(setUpStructureMappingProvider()),
-        factory(make_unique<PredicateFactory>(structureProvider.get(),
-                                              nullptr)),
-        handler(WhilePatternQueryHandler(store.get(),
-                                         factory.get(),
-                                         structureProvider.get())) {
+struct whilePatternTest {
+  shared_ptr<WhilePatternTable> table = make_shared<WhilePatternTable>();
+  shared_ptr<WhilePatternRevTable>
+      reverseTable = make_shared<WhilePatternRevTable>();
+  unique_ptr<WhilePatternStorage>
+      store = make_unique<WhilePatternStorage>(table.get(), reverseTable.get());
+  unique_ptr<StructureMappingProviderStub>
+      structureProvider = setUpStructureMappingProvider();
+  unique_ptr<StmtPredicateFactory>
+      stmtPredFactory =
+      make_unique<StmtPredicateFactory>(structureProvider.get());
+  unique_ptr<EntityPredicateFactory>
+      entPredFactory = make_unique<EntityPredicateFactory>();
+  unique_ptr<PkbStmtEntQueryInvoker> stmtEntInvoker =
+      make_unique<PkbStmtEntQueryInvoker>(structureProvider.get(),
+                                          stmtPredFactory.get(),
+                                          entPredFactory.get());
+  WhilePatternQueryHandler
+      handler = WhilePatternQueryHandler(stmtEntInvoker.get(),
+                                         store.get());
+  whilePatternTest() {
     table->set(1, "a");
     table->set(2, "a");
     table->set(1, "b");
@@ -55,11 +57,11 @@ struct whilePatternTestInit {
     reverseTable->set("a", 2);
     reverseTable->set("b", 1);
     reverseTable->set("c", 3);
-  };
+  }
 };
 
 TEST_CASE("WhilePatternQueryHandler whiles(varname,_)") {
-  auto test = whilePatternTestInit();
+  auto test = whilePatternTest();
 
   // positive
   auto res1 =
@@ -84,7 +86,7 @@ TEST_CASE("WhilePatternQueryHandler whiles(varname,_)") {
 }
 
 TEST_CASE("WhilePatternQueryHandler w(v,_) or w(_,_)") {
-  auto test = whilePatternTestInit();
+  auto test = whilePatternTest();
 
   auto res1 =
       test.handler.queryWhilePattern({StmtType::While, 0},
@@ -108,7 +110,7 @@ TEST_CASE("WhilePatternQueryHandler w(v,_) or w(_,_)") {
 }
 
 TEST_CASE("WhilePatternQueryHandler w(varname,_) with w.stmt# ") {
-  auto test = whilePatternTestInit();
+  auto test = whilePatternTest();
 
   // positive
   auto res1 =
@@ -126,7 +128,7 @@ TEST_CASE("WhilePatternQueryHandler w(varname,_) with w.stmt# ") {
 }
 
 TEST_CASE("WhilePatternQueryHandler w(v,_) / w(_,_) with w.stmt# ") {
-  auto test = whilePatternTestInit();
+  auto test = whilePatternTest();
 
   auto res1 =
       test.handler.queryWhilePattern({StmtType::None, 1},

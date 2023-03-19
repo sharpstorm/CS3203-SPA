@@ -31,8 +31,10 @@ struct MUPostProcessorTestInit {
   ModifiesUsesPostProcessor processor;
   MUPostProcessorTestInit()
       : pkb(make_unique<PKB>()),
-        writer(PkbWriter(pkb.get())),
-        processor(ModifiesUsesPostProcessor(pkb.get())) {
+      writer(PkbWriter(pkb.get())),
+      processor(ModifiesUsesPostProcessor(pkb.get())) {
+    writer.addParent(1, 2);
+    writer.addParent(1, 3);
     writer.addModifies(1, "x", "main");
     writer.addModifies(2, "x", "main");
     writer.addUses(1, "y", "main");
@@ -128,7 +130,8 @@ TEST_CASE("ModifiesUsesPostProcessorTest assert initial usesStorage") {
   REQUIRE(test.pkb->usesStorage->getBySecondArg("z") == unordered_set({7}));
 }
 
-TEST_CASE("ModifiesUsesPostProcessorTest check post-processed modifiesPStorage") {
+TEST_CASE(
+    "ModifiesUsesPostProcessorTest check post-processed modifiesPStorage") {
   auto test = MUPostProcessorTestInit();
   test.processor.process();
 
@@ -149,7 +152,8 @@ TEST_CASE("ModifiesUsesPostProcessorTest check post-processed modifiesPStorage")
   REQUIRE(rm3 == unordered_set<string>({"goo", "hoo", "main", "foo"}));
 }
 
-TEST_CASE("ModifiesUsesPostProcessorTest check post-processed modifiesStorage") {
+TEST_CASE(
+    "ModifiesUsesPostProcessorTest check post-processed modifiesStorage") {
   auto test = MUPostProcessorTestInit();
   test.processor.process();
 
@@ -159,13 +163,16 @@ TEST_CASE("ModifiesUsesPostProcessorTest check post-processed modifiesStorage") 
   REQUIRE(c2 == unordered_set<string>({"w"}));
   auto c3 = test.pkb->modifiesStorage->getByFirstArg(8);
   REQUIRE(c3 == unordered_set<string>({"w"}));
+  // while container
+  auto c4 = test.pkb->modifiesStorage->getByFirstArg(1);
+  REQUIRE(c4 == unordered_set<string>({"x", "w", "z"}));
 
   auto cr1 = test.pkb->modifiesStorage->getBySecondArg("x");
   REQUIRE(cr1 == unordered_set({1, 2}));
   auto cr2 = test.pkb->modifiesStorage->getBySecondArg("z");
-  REQUIRE(cr2 == unordered_set({4, 3}));
+  REQUIRE(cr2 == unordered_set({1, 4, 3}));
   auto cr3 = test.pkb->modifiesStorage->getBySecondArg("w");
-  REQUIRE(cr3 == unordered_set({6, 3, 5, 8}));
+  REQUIRE(cr3 == unordered_set({1, 6, 3, 5, 8}));
 }
 
 TEST_CASE("ModifiesUsesPostProcessorTest check post-processed usesPStorage") {
@@ -199,11 +206,86 @@ TEST_CASE("ModifiesUsesPostProcessorTest check post-processed usesStorage") {
   REQUIRE(c2 == unordered_set<string>({"x", "z"}));
   auto c3 = test.pkb->usesStorage->getByFirstArg(8);
   REQUIRE(c3 == unordered_set<string>({"x", "z"}));
+  // while container
+  auto c4 = test.pkb->usesStorage->getByFirstArg(1);
+  REQUIRE(c4 == unordered_set<string>({"y", "x", "z"}));
 
   auto cr1 = test.pkb->usesStorage->getBySecondArg("y");
   REQUIRE(cr1 == unordered_set({1}));
   auto cr2 = test.pkb->usesStorage->getBySecondArg("x");
-  REQUIRE(cr2 == unordered_set({6, 3, 5, 8}));
+  REQUIRE(cr2 == unordered_set({1, 6, 3, 5, 8}));
   auto cr3 = test.pkb->usesStorage->getBySecondArg("z");
-  REQUIRE(cr3 == unordered_set({7, 3, 5, 8}));
+  REQUIRE(cr3 == unordered_set({1, 7, 3, 5, 8}));
+}
+
+
+//procedure main {
+//1  while(0 < 1) {
+//2    if (y == 2) {
+//3	      read x;
+//4       call foo;
+//     }
+//  }
+//}
+//procedure foo {
+//5  z = 1;
+//6  print z;
+//}
+
+struct MUPostProcessorTest2 {
+  unique_ptr<PKB> pkb;
+  PkbWriter writer;
+  ModifiesUsesPostProcessor processor;
+  MUPostProcessorTest2()
+      : pkb(make_unique<PKB>()),
+      writer(PkbWriter(pkb.get())),
+      processor(ModifiesUsesPostProcessor(pkb.get())) {
+    writer.addParent(1, 2);
+    writer.addParent(2, 3);
+    writer.addParent(2, 4);
+    writer.addModifies(1, "x", "main");
+    writer.addModifies(2, "x", "main");
+    writer.addModifies(3, "x", "main");
+    writer.addUses(2, "y", "main");
+    writer.addCalls(4, "main", "foo");
+    writer.addStatement(4, StmtType::Call);
+    writer.addProcedure("main", 1, 4);
+    writer.addModifies(5, "z", "foo");
+    writer.addUses(6, "z", "foo");
+    writer.addProcedure("foo", 5, 6);
+  };
+};
+
+TEST_CASE("ModifiesUsesPostProcessorTest check modifies for ontainer stmts") {
+  auto test = MUPostProcessorTest2();
+  test.processor.process();
+
+  auto c1 = test.pkb->modifiesStorage->getByFirstArg(1);
+  REQUIRE(c1 == unordered_set<string>({"x", "z"}));
+  auto c2 = test.pkb->modifiesStorage->getByFirstArg(2);
+  REQUIRE(c2 == unordered_set<string>({"x", "z"}));
+  auto c3 = test.pkb->modifiesStorage->getByFirstArg(4);
+  REQUIRE(c3 == unordered_set<string>({"z"}));
+
+  auto cr1 = test.pkb->modifiesStorage->getBySecondArg("x");
+  REQUIRE(cr1 == unordered_set({1, 2, 3}));
+  auto cr2 = test.pkb->modifiesStorage->getBySecondArg("z");
+  REQUIRE(cr2 == unordered_set({1, 2, 4, 5}));
+}
+
+TEST_CASE("ModifiesUsesPostProcessorTest check uses for ontainer stmts") {
+  auto test = MUPostProcessorTest2();
+  test.processor.process();
+
+  auto c1 = test.pkb->usesStorage->getByFirstArg(1);
+  REQUIRE(c1 == unordered_set<string>({"z"}));
+  auto c2 = test.pkb->usesStorage->getByFirstArg(2);
+  REQUIRE(c2 == unordered_set<string>({"y", "z"}));
+  auto c3 = test.pkb->usesStorage->getByFirstArg(4);
+  REQUIRE(c3 == unordered_set<string>({"z"}));
+
+  auto cr1 = test.pkb->usesStorage->getBySecondArg("y");
+  REQUIRE(cr1 == unordered_set({2}));
+  auto cr2 = test.pkb->usesStorage->getBySecondArg("z");
+  REQUIRE(cr2 == unordered_set({1, 2, 4, 6}));
 }

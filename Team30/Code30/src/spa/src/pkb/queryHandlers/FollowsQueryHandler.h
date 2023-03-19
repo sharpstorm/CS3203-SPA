@@ -1,22 +1,16 @@
 #pragma once
 
-#include "../../common/Types.h"
-#include "../predicates/PredicateFactory.h"
-#include "../storage/StorageTypes.h"
-#include "../storage/StructureMappingProvider.h"
-#include "interfaces/IFollowsQueryHandler.h"
+#include "common/Types.h"
+#include "pkb/storage/StorageTypes.h"
+#include "pkb/queryHandlers/interfaces/IFollowsQueryHandler.h"
+#include "BaseQueryHandler.h"
+#include "PkbStmtStmtQueryInvoker.h"
 
-class FollowsQueryHandler : public IFollowsQueryHandler {
+class FollowsQueryHandler : private PkbStmtStmtQueryHandler,
+                            public IFollowsQueryHandler {
  public:
-  FollowsQueryHandler(const FollowsStorage *store,
-                      const PredicateFactory *predicateFactory,
-                      const IStructureMappingProvider *stuctureProvider);
-
-  QueryResult<int, int> queryFollows(StmtRef s1, StmtRef s2) const override;
-  QueryResult<int, int> queryFollowsStar(StmtRef s1, StmtRef s2) const override;
-
- private:
-  const FollowsStorage *store;
-  const PredicateFactory *predicateFactory;
-  const IStructureMappingProvider *structureProvider;
+  FollowsQueryHandler(PkbStmtStmtQueryInvoker *invoker,
+                      FollowsStorage *storage);
+  QueryResult<StmtValue, StmtValue> queryFollows(StmtRef,
+                                                 StmtRef) const override;
 };

@@ -2,13 +2,13 @@
 
 #include "pkb/PkbTypes.h"
 
-StructureMappingProviderStub::StructureMappingProviderStub(){};
+StructureMappingProviderStub::StructureMappingProviderStub() {};
 
 StmtType StructureMappingProviderStub::getStatementType(int stmt) const {
   return stmtNumToType.get(stmt);
 }
 
-unordered_set<int> StructureMappingProviderStub::getStatementsOfType(
+unordered_set<int> StructureMappingProviderStub::getValuesOfType(
     StmtType stmtType) const {
   if (stmtType == StmtType::None) {
     return allStmts;
@@ -34,7 +34,7 @@ unordered_set<int> StructureMappingProviderStub::getCallStmtsOfProcedure(
   return CalledProcedureToStmtNum.get(procedureName);
 }
 
-bool StructureMappingProviderStub::isStatementOfType(StmtType stmtType,
-                                                     int lineNumber) const {
-  return stmtNumToType.get(lineNumber) == stmtType;
+bool StructureMappingProviderStub::isValueOfType(
+    StmtType type, StmtValue num) const {
+  return stmtNumToType.get(num) == type;
 }
