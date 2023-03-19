@@ -4,20 +4,20 @@
 
 #include "common/cfg/CFG.h"
 #include "common/data_structs/BitField.h"
+#include "qps/cfg/cfg_querier/CFGHaltWalkerException.h"
 
 using std::vector;
 
 template <typename T>
-using WalkerSingleCallback = void(*)(T* ptr, CFGNode node);
+using WalkerSingleCallback = bool(*)(T* ptr, CFGNode node);
 
 template <typename T>
-using WalkerPairCallback = void(*)(T* ptr, CFGNode nodeLeft, CFGNode nodeRight);
+using WalkerPairCallback = bool(*)(T* ptr, CFGNode nodeLeft, CFGNode nodeRight);
 
 template <typename T>
 using DFSCallback = bool(*)(T* ptr, CFGNode node);
 
-template <typename T>
-using DFSLinkGetter = T*(*)(CFG* cfg, CFGNode node);
+using DFSLinkGetter = CFGLinks*(*)(CFG* cfg, CFGNode node);
 
 class CFGWalker {
  private:
@@ -40,15 +40,25 @@ class CFGWalker {
  private:
   template <
       typename T, DFSCallback<T> callback,
-      typename U, DFSLinkGetter<U> stepGetter>
+      DFSLinkGetter stepGetter>
   void runDFS(CFGNode start, T* state) {
     if (!cfg->containsNode(start)) {
       return;
     }
 
-    vector<CFGNode> currentNodes;
+    try {
+      runDFSOn<T, callback, stepGetter>(start, state);
+    } catch (CFGHaltWalkerException) {
+      // Expected halt, ignore signal
+    }
+  }
+
+  template <
+      typename T, DFSCallback<T> callback,
+      DFSLinkGetter stepGetter>
+  void runDFSOn(CFGNode start, T* state) {
     BitField seenNodes(cfg->getNodeCount());
-    bool hasCallbackFirst = false;
+    vector<CFGNode> currentNodes;
 
     currentNodes.push_back(start);
     while (!currentNodes.empty()) {
@@ -65,14 +75,10 @@ class CFGWalker {
         if (seenNodes.isSet(nextNode)) {
           continue;
         }
+
         seenNodes.set(nextNode);
-
-        bool shouldContinue = callback(state, nextNode);
-        if (!shouldContinue) {
-          return;
-        }
-
-        if (nextNode != start) {
+        bool shouldQueue = callback(state, nextNode);
+        if (shouldQueue && nextNode != start) {
           currentNodes.push_back(nextNode);
         }
       }
@@ -85,7 +91,7 @@ class CFGWalker {
 
   template <typename T, DFSCallback<T> callback>
   void runForwardDFS(CFGNode start, T* state) {
-    runDFS<T, callback, CFGLinks, forwardLinkGetter>(start, state);
+    runDFS<T, callback, forwardLinkGetter>(start, state);
   }
 
   static CFGLinks* backwardLinkGetter(CFG* cfg, CFGNode node) {
@@ -94,7 +100,7 @@ class CFGWalker {
 
   template <typename T, DFSCallback<T> callback>
   void runBackwardDFS(CFGNode start, T* state) {
-    runDFS<T, callback, CFGLinks, backwardLinkGetter>(start, state);
+    runDFS<T, callback, backwardLinkGetter>(start, state);
   }
 };
 
@@ -108,8 +114,7 @@ struct NodewiseWalkerState {
 template <typename T>
 constexpr bool nodewiseWalkerCallback(NodewiseWalkerState<T>* state,
                                       CFGNode node) {
-  state->callback(state->callbackState, node);
-  return true;
+  return state->callback(state->callbackState, node);
 }
 
 template <typename T, WalkerSingleCallback<T> callback>
@@ -137,8 +142,7 @@ struct PairwiseWalkerState {
 template <typename T>
 constexpr bool pairwiseWalkerCallback(PairwiseWalkerState<T>* state,
                                       CFGNode node) {
-  state->callback(state->cbState, state->startNode, node);
-  return true;
+  return state->callback(state->cbState, state->startNode, node);
 }
 
 template<typename T, WalkerPairCallback<T> callback>
