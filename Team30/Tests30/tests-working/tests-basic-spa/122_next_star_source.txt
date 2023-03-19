@@ -12,13 +12,17 @@ procedure nextTest{
             while (num4 > 3) {
               num4 = num4 - 1;
                 print num4;
-            } num4 = 0;
+            } 
+            num4 = 0;
             num2 = num2 - 1;
             print num2;
-          } num2 = 5;
+          } 
+          num2 = 5;
           num1 = num1 + 1;
-      }} else { print num3;
+      }} else { 
+          print num3;
       } if (num3>5) then {
-        print num3;
-      } else { print num2;
+          print num3;
+      } else { 
+          print num2;
       }}
