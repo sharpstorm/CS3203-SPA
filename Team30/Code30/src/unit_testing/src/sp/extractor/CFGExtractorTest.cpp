@@ -146,7 +146,6 @@ TEST_CASE("CFGExtractor Statement with While loop") {
       {3, 6},
       {4, 5},
       {5, 3},
-      {5, 6},
       {6, CFG_END_NODE}
   });
 }
@@ -181,7 +180,6 @@ TEST_CASE("CFGExtractor If in While loop") {
       {6, 7},
       {7, 8},
       {8, 3},
-      {8, 9},
       {9, CFG_END_NODE}
   });
 }
@@ -211,7 +209,6 @@ TEST_CASE("CFGExtractor While in If") {
       {4, 8},
       {5, 6},
       {6, 4},
-      {6, 8},
       {3, 7},
       {7, 8},
       {8, CFG_END_NODE}
@@ -247,7 +244,6 @@ TEST_CASE("CFGExtractor While in Else") {
       {5, 8},
       {6, 7},
       {7, 5},
-      {7, 8},
 
       {8, CFG_END_NODE}
   });
@@ -282,10 +278,7 @@ TEST_CASE("CFGExtractor Triple-While Chain") {
       {5, 6},
       {5, 7},
       {6, 5},
-      {6, 7},
-      {7, 8},
       {7, 4},
-      {8, 9},
       {8, 3},
       {9, CFG_END_NODE}
   });
@@ -472,11 +465,8 @@ TEST_CASE("CFGExtractor Two Procedures with complex statements") {
       {17, 18},
       {17, 19},
       {18, 17},
-      {18, 19},
       {19, 16},
-      {19, 20},
       {20, 15},
-      {20, 21},
       {21, CFG_END_NODE}
   });
 }
@@ -499,10 +489,7 @@ TEST_CASE("CFGExtractor Nested While") {
       {2, 3},
       {2, CFG_END_NODE},
       {3, 4},
-      {3, CFG_END_NODE},
       {3, 2},
-      {4, 3},
-      {4, 2},
-      {4, CFG_END_NODE}
+      {4, 3}
   });
 }
