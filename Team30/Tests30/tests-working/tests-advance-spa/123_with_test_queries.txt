@@ -248,18 +248,18 @@ assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stm
 Select s1 with 1 = "y"
 SemanticError
 5000
-47 - Cat 1 - semantic
+47 - Cat 1 - syntax
 assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
 Select s1 with 1 = s1
-SemanticError
+SyntaxError
 5000
-48 - semantic
+48 - syntax
 assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
 Select s1 with s1 = s1
-SemanticError
+SyntaxError
 5000
-49 - semantic
+49 - syntax
 assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
 Select s1 with n1 = n2
-SemanticError
+SyntaxError
 5000
