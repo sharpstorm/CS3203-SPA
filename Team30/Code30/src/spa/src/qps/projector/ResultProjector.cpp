@@ -31,8 +31,7 @@ UniqueVectorPtr<string> ResultProjector::project(
     finalGroup = finalGroup->crossProduct(queryResult->getResultGroup(i));
   }
 
-  OverrideTable* overrideTable = queryResult->getOverrideTable();
   // Map and project to tuple
-  finalGroup->project(resultVariables, overrideTable, handler, result.get());
+  finalGroup->project(resultVariables, handler, result.get());
   return result;
 }

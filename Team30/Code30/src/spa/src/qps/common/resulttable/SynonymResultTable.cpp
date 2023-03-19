@@ -29,14 +29,6 @@ ResultGroup* SynonymResultTable::getResultGroup(int idx) {
   return groupResults.at(idx).get();
 }
 
-void SynonymResultTable::setOverrideTable(OverrideTablePtr overrideTab) {
-  overrideTable = std::move(overrideTab);
-}
-
-OverrideTable *SynonymResultTable::getOverrideTable() {
-  return overrideTable.get();
-}
-
 bool SynonymResultTable::operator==(const SynonymResultTable &srt) const {
   if (booleanResult != srt.booleanResult ||
       groupResults.size() != srt.groupResults.size()) {

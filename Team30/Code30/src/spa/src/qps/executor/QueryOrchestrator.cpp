@@ -42,7 +42,6 @@ SynonymResultTable *QueryOrchestrator::execute(
     delete result;
   }
 
-  resultTable->setOverrideTable(std::move(overrideTable));
   return resultTable;
 }
 

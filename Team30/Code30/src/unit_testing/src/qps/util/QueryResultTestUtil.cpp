@@ -42,11 +42,9 @@ class TestQueryResultBuilder {
       names->push_back(it.getName());
     }
 
-    OverrideTablePtr override = make_unique<OverrideTable>();
     ResultGroupPtr rg = ResultGroupFactory::extractResults(
         buildExpected(expectedParams).get(), names);
     result->addResultGroup(std::move(rg));
-    result->setOverrideTable(std::move(override));
     delete names;
     return result;
   }

@@ -15,7 +15,6 @@ class SynonymResultTable {
   vector<ResultGroupPtr> groupResults;
   bool isBooleanResult;
   bool booleanResult;
-  OverrideTablePtr overrideTable;
 
  public:
   SynonymResultTable(bool isBooleanResult,
@@ -25,8 +24,6 @@ class SynonymResultTable {
   bool getIsBooleanResult();
   bool getBooleanResult();
   int getResultGroupCount();
-  void setOverrideTable(OverrideTablePtr overrideTab);
-  OverrideTable* getOverrideTable();
   ResultGroup* getResultGroup(int idx);
   bool operator ==(const SynonymResultTable &srt) const;
 };

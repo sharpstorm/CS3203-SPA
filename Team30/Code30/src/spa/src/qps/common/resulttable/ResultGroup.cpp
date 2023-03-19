@@ -61,39 +61,21 @@ ResultGroup* ResultGroup::crossProduct(ResultGroup* other) {
 }
 
 void ResultGroup::project(AttributedSynonymList *synList,
-                            OverrideTable* overrideTable,
                             PkbQueryHandler* handler,
                             vector<string>* result) {
   // Iterate through each row
   for (int i=0; i < getTableRows(); i++) {
     QueryResultTableRow* row = getRowAt(i);
     string rowString;
-    bool toSkip = false;
 
     for (int j=0; j < synList->size(); j++) {
       AttributedSynonym syn = synList->at(j);
       ResultTableCol col = colMap.at(syn.getName());
       QueryResultItem* queryItem = row->at(col).get();
 
-      // Check for existence of override value and ensure it matches
-      if (overrideTable->find(syn.getName()) != overrideTable->end()) {
-        OverrideTransformer transformer = overrideTable->at(syn.getName());
-        if (!isSameValues(syn, handler, queryItem, transformer)) {
-          toSkip = true;
-          break;
-        }
-      }
-
-      string attrVal;
-      bool synIsStmtType = syn.isStatementType();
-      bool synOutputsInteger = syn.returnsInteger();
-      bool isTypeConstant = syn.getType() == PQL_SYN_TYPE_CONSTANT;
-
       // Special case attribution read/print.varName and call.procName
-      if (syn.hasAttribute() && !isTypeConstant &&
-          synIsStmtType != synOutputsInteger) {
-        attrVal = projectAttributeValue(handler, queryItem, syn);
-        rowString += attrVal;
+      if (isNonDefaultCase(syn)) {
+        rowString += projectNonDefaultAttribute(handler, queryItem, syn);
       } else {
         rowString += queryItem->project();
       }
@@ -101,10 +83,6 @@ void ResultGroup::project(AttributedSynonymList *synList,
       if (j < synList->size() - 1) {
         rowString += " ";
       }
-    }
-
-    if (toSkip) {
-      continue;
     }
 
     result->push_back(rowString);
@@ -155,42 +133,9 @@ bool ResultGroup::operator==(const ResultGroup &rg) const {
   return true;
 }
 
-bool ResultGroup::isSameValues(AttributedSynonym syn,
-                               PkbQueryHandler* handler,
-                               QueryResultItem *item,
-                               OverrideTransformer trans) {
-  int itemStmt = item->getStmtRef();
-  string itemEnt = item->getEntRef();
-
-  int transStmt = trans.getStmtValue();
-  string transEnt = trans.getEntityValue();
-
-  // constant.value
-  if (trans.returnsInteger() && !item->returnsInteger()) {
-     return to_string(transStmt) == itemEnt;
-  }
-
-  // call.procName, read/print.varName
-  PQLSynonymType synType = syn.getType();
-  if (!trans.returnsInteger() && item->returnsInteger()) {
-    string attrVal;
-    if (synType == PQL_SYN_TYPE_READ) {
-     attrVal = handler->getReadDeclarations(itemStmt);
-    } else if (synType == PQL_SYN_TYPE_PRINT) {
-      attrVal = handler->getPrintDeclarations(itemStmt);
-    } else {
-      attrVal = handler->getCalledDeclaration(itemStmt);
-    }
-
-    return attrVal == transEnt;
-  }
-
-  return itemStmt == transStmt && itemEnt == transEnt;
-}
-
-string ResultGroup::projectAttributeValue(PkbQueryHandler *handler,
-                                          QueryResultItem *item,
-                                          AttributedSynonym syn) {
+string ResultGroup::projectNonDefaultAttribute(PkbQueryHandler *handler,
+                                               QueryResultItem *item,
+                                               AttributedSynonym syn) {
   if (syn.getType() == PQL_SYN_TYPE_READ) {
     // read.varName
     return handler->getReadDeclarations(item->getStmtRef());
@@ -201,4 +146,10 @@ string ResultGroup::projectAttributeValue(PkbQueryHandler *handler,
 
   // call.procName
   return handler->getCalledDeclaration(item->getStmtRef());
+}
+
+bool ResultGroup::isNonDefaultCase(AttributedSynonym syn) {
+  bool isTypeConstant = syn.getType() == PQL_SYN_TYPE_CONSTANT;
+  return syn.hasAttribute() && !isTypeConstant &&
+          syn.isStatementType() != syn.returnsInteger();
 }

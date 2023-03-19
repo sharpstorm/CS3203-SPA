@@ -14,9 +14,10 @@ class ResultGroup {
   QueryResultTable groupTable;
   unordered_map<PQLSynonymName, ResultTableCol> colMap;
   vector<PQLSynonymName> colIdx;
-  static string projectAttributeValue(PkbQueryHandler* handler,
-                               QueryResultItem* item,
-                               AttributedSynonym syn);
+  static string projectNonDefaultAttribute(PkbQueryHandler* handler,
+                                           QueryResultItem* item,
+                                           AttributedSynonym syn);
+  static bool isNonDefaultCase(AttributedSynonym syn);
 
  public:
   ResultGroup() = default;
@@ -29,13 +30,8 @@ class ResultGroup {
   vector<PQLSynonymName>* getColIndexes();
   ResultGroup* crossProduct(ResultGroup* other);
   void project(AttributedSynonymList* synList,
-               OverrideTable* overridetable,
                PkbQueryHandler* handler,
                vector<string>* result);
-  static bool isSameValues(AttributedSynonym syn,
-      PkbQueryHandler* handler,
-                    QueryResultItem* item,
-                    OverrideTransformer trans);
   bool operator ==(const ResultGroup &rg) const;
 };
 
