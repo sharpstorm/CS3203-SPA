@@ -6,7 +6,7 @@
 
 #include "qps/common/VariableTable.h"
 #include "OverrideTransformer.h"
-#include "VariableTableProxyBuilder.h"
+#include "SynonymProxyBuilder.h"
 
 using std::string, std::shared_ptr, std::unordered_map, std::unique_ptr;
 
@@ -16,7 +16,7 @@ typedef unique_ptr<OverrideTable> OverrideTablePtr;
 class Constraint {
  public:
   virtual ~Constraint() = default;
-  virtual bool applyConstraint(VariableTableProxyBuilder* variableTable,
+  virtual bool applyConstraint(SynonymProxyBuilder* variableTable,
                                OverrideTable* overrideTable) = 0;
   virtual bool validateConstraint() = 0;
 };

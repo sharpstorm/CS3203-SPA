@@ -14,7 +14,7 @@ QueryExecutor::QueryExecutor(PkbQueryHandler* pkbQH):
 SynonymResultTable *QueryExecutor::executeQuery(PQLQuery* query) {
   OverrideTablePtr overrideTable = make_unique<OverrideTable>();
   VariableTableProxyBuilderPtr varTableProxyBuilderPtr =
-      make_unique<VariableTableProxyBuilder>(query->getVarTable());
+      make_unique<SynonymProxyBuilder>(query->getVarTable());
   bool isBoolResult = query->getResultVariables()->empty();
   for (const auto& con : query->getConstraints()) {
     if (!con->applyConstraint(varTableProxyBuilderPtr.get(),
