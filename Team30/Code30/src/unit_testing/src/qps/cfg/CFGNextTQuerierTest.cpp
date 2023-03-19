@@ -59,7 +59,7 @@ void assertQueryNextTNotEmpty(CFGTestNextTQuerier* querier,
 
 TEST_CASE("NextT Linear (Const, Const)") {
   auto cfg = TestCFGProvider::getLinearCFG();
-  CFGTestNextTQuerier querier(&cfg, nullptr);
+  CFGTestNextTQuerier querier(&cfg, 0);
 
   assertQueryNextTNotEmpty(&querier, 1, {2, 3, 4});
   assertQueryNextTNotEmpty(&querier, 2, {3, 4});
@@ -73,7 +73,7 @@ TEST_CASE("NextT Linear (Const, Const)") {
 
 TEST_CASE("NextT Linear (Const, _)") {
   auto cfg = TestCFGProvider::getLinearCFG();
-  CFGTestNextTQuerier querier(&cfg, nullptr);
+  CFGTestNextTQuerier querier(&cfg, 0);
 
   auto result = queryNextT(&querier, 1, 0);
   REQUIRE_FALSE(result.isEmpty);
@@ -93,7 +93,7 @@ TEST_CASE("NextT Linear (Const, _)") {
 
 TEST_CASE("NextT Linear (_, Const)") {
   auto cfg = TestCFGProvider::getLinearCFG();
-  CFGTestNextTQuerier querier(&cfg, nullptr);
+  CFGTestNextTQuerier querier(&cfg, 0);
 
   auto result = queryNextT(&querier, 0, 1);
   REQUIRE(result.isEmpty);
@@ -113,7 +113,7 @@ TEST_CASE("NextT Linear (_, Const)") {
 
 TEST_CASE("NextT Linear (_, _)") {
   auto cfg = TestCFGProvider::getLinearCFG();
-  CFGTestNextTQuerier querier(&cfg, nullptr);
+  CFGTestNextTQuerier querier(&cfg, 0);
 
   StmtTransitiveResult result;
   queryNextT(&querier, &result, 0, 0);
@@ -131,7 +131,7 @@ TEST_CASE("NextT Linear (_, _)") {
 
 TEST_CASE("NextT Multi-Cycle (Const, Const)") {
   auto cfg = TestCFGProvider::getSimpleMultiCycleCFG();
-  CFGTestNextTQuerier querier(&cfg, nullptr);
+  CFGTestNextTQuerier querier(&cfg, 0);
 
   assertQueryNextTNotEmpty(&querier, 1, {2, 3, 4, 5, 6, 7});
   assertQueryNextTNotEmpty(&querier, 2, {3, 4, 5, 6, 7});
@@ -152,7 +152,7 @@ TEST_CASE("NextT Multi-Cycle (Const, Const)") {
 
 TEST_CASE("NextT Multi-Cycle (Const, _)") {
   auto cfg = TestCFGProvider::getSimpleMultiCycleCFG();
-  CFGTestNextTQuerier querier(&cfg, nullptr);
+  CFGTestNextTQuerier querier(&cfg, 0);
 
   auto result = queryNextT(&querier, 1, 0);
   REQUIRE_FALSE(result.isEmpty);
@@ -185,7 +185,7 @@ TEST_CASE("NextT Multi-Cycle (Const, _)") {
 
 TEST_CASE("NextT Multi-Cycle (_, Const)") {
   auto cfg = TestCFGProvider::getSimpleMultiCycleCFG();
-  CFGTestNextTQuerier querier(&cfg, nullptr);
+  CFGTestNextTQuerier querier(&cfg, 0);
 
   auto result = queryNextT(&querier, 0, 1);
   REQUIRE(result.isEmpty);
@@ -217,7 +217,7 @@ TEST_CASE("NextT Multi-Cycle (_, Const)") {
 
 TEST_CASE("NextT Multi-Cycle (_, _)") {
   auto cfg = TestCFGProvider::getSimpleMultiCycleCFG();
-  CFGTestNextTQuerier querier(&cfg, nullptr);
+  CFGTestNextTQuerier querier(&cfg, 0);
 
   StmtTransitiveResult result;
   queryNextT(&querier, &result, 0, 0);
@@ -236,7 +236,7 @@ TEST_CASE("NextT Multi-Cycle (_, _)") {
 
 TEST_CASE("NextT Type Filtering") {
   constexpr StmtTypePredicate<int> typePredicate =
-      [](int* closure, StmtType type, int stmtNumber) -> bool {
+      [](const int &closure, StmtType type, int stmtNumber) -> bool {
         switch (stmtNumber) {
           case 1:
             return type == StmtType::Assign;
@@ -251,7 +251,7 @@ TEST_CASE("NextT Type Filtering") {
         }
       };
   auto cfg = TestCFGProvider::getLinearCFG();
-  CFGNextTQuerier<int, typePredicate> querier(&cfg, nullptr);
+  CFGNextTQuerier<int, typePredicate> querier(&cfg, 0);
 
   auto result = queryNextT(&querier,
                            StmtRef{StmtType::Assign, 0},

@@ -12,12 +12,10 @@ constexpr SynStmtMapExtractor<StmtList, EntityValue, StmtList> valueExtractor =
       return second;
     };
 
-WithClauseEvaluator::WithClauseEvaluator(PkbQueryHandler *pkbQueryHandler,
-                                         OverrideTable *table,
+WithClauseEvaluator::WithClauseEvaluator(const QueryExecutorAgent &agent,
                                          WithArgument* leftArg,
                                          WithArgument* rightArg):
-    pkbQueryHandler(pkbQueryHandler),
-    table(table),
+    agent(agent),
     leftArg(leftArg),
     rightArg(rightArg),
     result(new PQLQueryResult()) {}
@@ -85,35 +83,35 @@ void WithClauseEvaluator::evaluateOnStringAttributes() {
   if (isLeftDefault && isRightDefault) {
     auto queryResult = crossMaps<EntityValue, EntityValue>
         (&map1, &map2, keyExtractor, keyExtractor);
-    addToResult(result, queryResult);
+    addToResult(queryResult);
   } else if (!isLeftDefault && !isRightDefault) {
     auto queryResult = crossMaps<StmtValue, StmtValue>
         (&map1, &map2, valueExtractor, valueExtractor);
-    addToResult(result, queryResult);
+    addToResult(queryResult);
   } else if (isLeftDefault) {
     auto queryResult = crossMaps<EntityValue, StmtValue>
         (&map1, &map2, keyExtractor, valueExtractor);
-    addToResult(result, queryResult);
+    addToResult(queryResult);
   } else {
     auto queryResult = crossMaps<StmtValue, EntityValue>
         (&map1, &map2, valueExtractor, keyExtractor);
-    addToResult(result, queryResult);
+    addToResult(queryResult);
   }
 }
 
 constexpr PKBAttributeQuerier CallsQuerier =
-    [](PkbQueryHandler *pkbQueryHandler, const StmtValue &stmt) {
-      return pkbQueryHandler->getCalledDeclaration(stmt);
+    [](const QueryExecutorAgent &agent, const StmtValue &stmt) {
+      return agent->getCalledDeclaration(stmt);
     };
 
 constexpr PKBAttributeQuerier ReadQuerier =
-    [](PkbQueryHandler *pkbQueryHandler, const StmtValue &stmt) {
-      return pkbQueryHandler->getReadDeclarations(stmt);
+    [](const QueryExecutorAgent &agent, const StmtValue &stmt) {
+      return agent->getReadDeclarations(stmt);
     };
 
 constexpr PKBAttributeQuerier PrintQuerier =
-    [](PkbQueryHandler *pkbQueryHandler, const StmtValue &stmt) {
-      return pkbQueryHandler->getPrintDeclarations(stmt);
+    [](const QueryExecutorAgent &agent, const StmtValue &stmt) {
+      return agent->getPrintDeclarations(stmt);
     };
 
 bool WithClauseEvaluator::populateMap(WithArgument *arg, SynToStmtMap *map) {
@@ -144,7 +142,7 @@ void WithClauseEvaluator::queryPkbForAttribute(SynToStmtMap *map,
                                                WithArgument* arg) {
   StmtValueSet statements = queryForStatement(arg->getSyn());
   for (int i : statements) {
-    EntityValue result = querier(pkbQueryHandler, i);
+    EntityValue result = querier(agent, i);
     if (auto search = map->find(result); search != map->end()) {
       search->second.push_back(i);
     } else {
@@ -156,31 +154,29 @@ void WithClauseEvaluator::queryPkbForAttribute(SynToStmtMap *map,
 StmtValueSet WithClauseEvaluator::queryForStatement(PQLQuerySynonymProxy syn) {
   ClauseArgumentPtr clauseArg = ClauseArgumentFactory::create(syn);
   StmtRef stmtRef = clauseArg->toStmtRef();
-  if (clauseArg->canSubstitute(table)) {
-    OverrideTransformer transformer = table->at(syn->getName());
-    stmtRef = transformer.transformArg(stmtRef);
-    if (Clause::isValidRef(stmtRef, pkbQueryHandler)) {
+  stmtRef = agent.transform(syn->getName(), stmtRef);
+  if (stmtRef.isKnown()) {
+    if (agent.isValid(stmtRef)) {
       return StmtValueSet{ stmtRef.lineNum };
     }
     return StmtValueSet{};
   }
 
-  return pkbQueryHandler->getStatementsOfType(stmtRef.getType());
+  return agent->getStatementsOfType(stmtRef.getType());
 }
 
 EntityValueSet WithClauseEvaluator::queryForEntity(PQLQuerySynonymProxy syn) {
   ClauseArgumentPtr clauseArg = ClauseArgumentFactory::create(syn);
   EntityRef entRef = clauseArg->toEntityRef();
-  if (clauseArg->canSubstitute(table)) {
-    OverrideTransformer transformer = table->at(syn->getName());
-    entRef = transformer.transformArg(entRef);
-    if (Clause::isValidRef(entRef, pkbQueryHandler)) {
+  entRef = agent.transform(syn->getName(), entRef);
+  if (entRef.isKnown()) {
+    if (agent.isValid(entRef)) {
       return EntityValueSet { entRef.name };
     }
     return EntityValueSet{};
   }
 
-  return pkbQueryHandler->getSymbolsOfType(entRef.getType());
+  return agent->getSymbolsOfType(entRef.getType());
 }
 
 bool WithClauseEvaluator::isEmptyResult() {

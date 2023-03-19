@@ -9,8 +9,7 @@ class SelectClause : public Clause {
 
  public:
   explicit SelectClause(const PQLQuerySynonymProxy &target);
-  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler,
-                             OverrideTable* table) override;
+  PQLQueryResult* evaluateOn(const QueryExecutorAgent &agent) override;
   bool validateArgTypes(VariableTable *variables) override;
   SynonymList getUsedSynonyms() override;
 };

@@ -16,20 +16,20 @@ using AbstractCallsClause = AbstractEntEntClause<
     ClauseArgument::isType<PQL_SYN_TYPE_PROCEDURE>,
     ClauseArgument::isType<PQL_SYN_TYPE_PROCEDURE>>;
 
-constexpr CallsInvoker callsInvoker = [](PkbQueryHandler* pkbQueryHandler,
+constexpr CallsInvoker callsInvoker = [](const QueryExecutorAgent &agent,
                                          const EntityRef &leftArg,
                                          const EntityRef &rightArg){
-  return pkbQueryHandler->queryCalls(leftArg, rightArg);
+  return agent->queryCalls(leftArg, rightArg);
 };
 
-constexpr CallsInvoker callsTInvoker = [](PkbQueryHandler* pkbQueryHandler,
+constexpr CallsInvoker callsTInvoker = [](const QueryExecutorAgent &agent,
                                           const EntityRef &leftArg,
                                           const EntityRef &rightArg){
-  return pkbQueryHandler->queryCallsStar(leftArg, rightArg);
+  return agent->queryCallsStar(leftArg, rightArg);
 };
 
 constexpr CallsSameSynInvoker callsSymmetricInvoker =
-    [](PkbQueryHandler* pkbQueryHandler, const EntityRef &arg){
+    [](const QueryExecutorAgent &agent, const EntityRef &arg){
       return unordered_set<EntityValue>{};
     };
 

@@ -8,26 +8,32 @@ using std::unordered_set;
 WithSelectClause::WithSelectClause(AttributedSynonym aSyn, EntityValue enVal) :
     attrSyn(aSyn), entVal(enVal) { }
 
-PQLQueryResult *WithSelectClause::evaluateOn(PkbQueryHandler *pkbQueryHandler,
-                                             OverrideTable *table) {
+PQLQueryResult *WithSelectClause::evaluateOn(const QueryExecutorAgent &agent) {
   ClauseArgumentPtr clauseArg = ClauseArgumentFactory::create(
       attrSyn.getSynProxy());
   PQLSynonymType synType = attrSyn.getType();
 
   StmtRef stmtVar = clauseArg->toStmtRef();
-  unordered_set<int> pkbResult = pkbQueryHandler
-      ->getStatementsOfType(stmtVar.type);
+  stmtVar = agent.transform(clauseArg->getName(), stmtVar);
+  unordered_set<int> pkbResult;
+  if (stmtVar.isKnown()) {
+    if (agent.isValid(stmtVar)) {
+      pkbResult.insert(stmtVar.lineNum);
+    }
+  } else if (!stmtVar.isKnown()) {
+    pkbResult = agent->getStatementsOfType(stmtVar.type);
+  }
 
   // read/print.varName, call.procName
   unordered_set<int> foundSet = unordered_set<int>();
   for (auto s : pkbResult) {
     if (synType == PQL_SYN_TYPE_READ &&
-        pkbQueryHandler->getReadDeclarations(s) == entVal) {
+        agent->getReadDeclarations(s) == entVal) {
       foundSet.insert(s);
     } else if (synType == PQL_SYN_TYPE_PRINT &&
-        pkbQueryHandler->getPrintDeclarations(s) == entVal) {
+        agent->getPrintDeclarations(s) == entVal) {
       foundSet.insert(s);
-    } else if (pkbQueryHandler->getCalledDeclaration(s) == entVal) {
+    } else if (agent->getCalledDeclaration(s) == entVal) {
       foundSet.insert(s);
     }
   }

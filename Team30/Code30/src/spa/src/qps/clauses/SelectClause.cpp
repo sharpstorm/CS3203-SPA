@@ -6,28 +6,24 @@
 #include "SelectClause.h"
 #include "arguments/ClauseArgument.h"
 #include "qps/clauses/arguments/ClauseArgumentFactory.h"
+#include "qps/executor/QueryExecutorAgent.h"
 
 using std::pair, std::unordered_set, std::vector, std::string, std::to_string;
 
 SelectClause::SelectClause(const PQLQuerySynonymProxy &target):
     target(target) {}
 
-PQLQueryResult *SelectClause::evaluateOn(
-    PkbQueryHandler *pkbQueryHandler,
-    OverrideTable *table) {
+PQLQueryResult *SelectClause::evaluateOn(const QueryExecutorAgent &agent) {
   ClauseArgumentPtr clauseArg = ClauseArgumentFactory::create(target);
   PQLSynonymName synName = target->getName();
   if (target->isStatementType()) {
     unordered_set<int> result;
     StmtRef stmtRef = clauseArg->toStmtRef();
-    if (clauseArg->canSubstitute(table)) {
-      OverrideTransformer trans = table->at(synName);
-      stmtRef = trans.transformArg(stmtRef);
-      if (Clause::isValidRef(stmtRef, pkbQueryHandler)) {
-        result.insert(stmtRef.lineNum);
-      }
-    } else {
-      result = pkbQueryHandler->getStatementsOfType(stmtRef.type);
+    stmtRef = agent.transform(synName, stmtRef);
+    if (stmtRef.isKnown() && agent.isValid(stmtRef)) {
+      result.insert(stmtRef.lineNum);
+    } else if (!stmtRef.isKnown()) {
+      result = agent->getStatementsOfType(stmtRef.type);
     }
 
     return Clause::toQueryResult(target->getName(), result);
@@ -35,21 +31,11 @@ PQLQueryResult *SelectClause::evaluateOn(
 
   unordered_set<string> result;
   EntityRef entRef = clauseArg->toEntityRef();
-  if (clauseArg->canSubstitute(table)) {
-    OverrideTransformer trans = table->at(synName);
-    EntityValue entVal;
-
-    if (target->getType() == PQL_SYN_TYPE_CONSTANT) {
-      entVal = to_string(trans.getStmtValue());
-    } else {
-      entVal = trans.getEntityValue();
-    }
-
-    if (pkbQueryHandler->isSymbolOfType(entRef.type, entVal)) {
-      result.insert(entVal);
-    }
-  } else {
-    result = pkbQueryHandler->getSymbolsOfType(entRef.type);
+  entRef = agent.transform(clauseArg->getName(), entRef);
+  if (entRef.isKnown() && agent.isValid(entRef)) {
+    result.insert(entRef.name);
+  } else if (!entRef.isKnown()) {
+    result = agent->getSymbolsOfType(entRef.type);
   }
 
   return Clause::toQueryResult(target->getName(), result);

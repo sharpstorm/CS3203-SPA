@@ -25,11 +25,11 @@ class OverrideConstraint : virtual public Constraint {
                        OverrideTable* overrideTable) override {
     PQLSynonymName synName = syn.getName();
 
-    if (overrideTable->find(synName) != overrideTable->end()) {
+    if (overrideTable->contains(synName)) {
       return false;
     }
 
-    overrideTable->insert({synName, overrideTransformer});
+    overrideTable->insert(synName, overrideTransformer);
     return true;
   }
 

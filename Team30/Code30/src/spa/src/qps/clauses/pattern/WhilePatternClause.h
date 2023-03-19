@@ -6,11 +6,11 @@
 #include "AbstractPatternClause.h"
 
 constexpr PatternQueryInvoker whilePatternInvoker =
-    [](PkbQueryHandler* pkbHandler,
+    [](const QueryExecutorAgent &agent,
        const StmtRef &stmtRef,
        const EntityRef &entityRef)
         -> QueryResult<StmtValue, EntityValue> {
-      return pkbHandler->queryWhilePattern(stmtRef, entityRef);
+      return agent->queryWhilePattern(stmtRef, entityRef);
     };
 
 class WhilePatternClause: public AbstractPatternClause<

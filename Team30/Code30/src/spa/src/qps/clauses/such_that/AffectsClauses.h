@@ -18,12 +18,12 @@ using AbstractAffectsClause = AbstractStmtStmtClause<
     ClauseArgument::isStatement,
     ClauseArgument::isStatement>;
 
-constexpr ModifiesGetter<PkbQueryHandler> modifiesQuerier =
-    [](PkbQueryHandler* pkb,
+constexpr ModifiesGetter<QueryExecutorAgent> modifiesQuerier =
+    [](const QueryExecutorAgent &agent,
        StmtValue stmtNumber) -> EntityValue {
       QueryResult<StmtValue, EntityValue> result =
-          pkb->queryModifies(StmtRef{StmtType::None, stmtNumber},
-                             EntityRef{EntityType::None, ""});
+          agent->queryModifies(StmtRef{StmtType::None, stmtNumber},
+                               EntityRef{EntityType::None, ""});
       if (result.isEmpty) {
         return "";
       }
@@ -34,20 +34,20 @@ constexpr ModifiesGetter<PkbQueryHandler> modifiesQuerier =
       return "";
     };
 
-constexpr UsesGetter<PkbQueryHandler> usesQuerier =
-    [](PkbQueryHandler* pkb,
+constexpr UsesGetter<QueryExecutorAgent> usesQuerier =
+    [](const QueryExecutorAgent &agent,
        StmtValue stmtNumber) -> unordered_set<EntityValue> {
       QueryResult<StmtValue, EntityValue> result =
-          pkb->queryUses(StmtRef{StmtType::None, stmtNumber},
-                         EntityRef{EntityType::None, ""});
+          agent->queryUses(StmtRef{StmtType::None, stmtNumber},
+                           EntityRef{EntityType::None, ""});
       return result.secondArgVals;
     };
 
 
-typedef CFGAffectsQuerier<PkbQueryHandler, typeChecker,
+typedef CFGAffectsQuerier<QueryExecutorAgent, typeChecker,
                           modifiesQuerier, usesQuerier> ConcreteAffectsQuerier;
 
-constexpr AffectsInvoker affectsInvoker = [](PkbQueryHandler* pkbQueryHandler,
+constexpr AffectsInvoker affectsInvoker = [](const QueryExecutorAgent &agent,
                                              const StmtRef &leftArg,
                                              const StmtRef &rightArg){
   QueryResult<StmtValue, StmtValue> result{};
@@ -60,9 +60,9 @@ constexpr AffectsInvoker affectsInvoker = [](PkbQueryHandler* pkbQueryHandler,
 
   vector<CFG*> cfgs;
   if (leftArg.isKnown()) {
-    cfgs = pkbQueryHandler->queryCFGs(leftArg);
+    cfgs = agent->queryCFGs(leftArg);
   } else {
-    cfgs = pkbQueryHandler->queryCFGs(rightArg);
+    cfgs = agent->queryCFGs(rightArg);
   }
 
   if (cfgs.empty()) {
@@ -70,38 +70,38 @@ constexpr AffectsInvoker affectsInvoker = [](PkbQueryHandler* pkbQueryHandler,
   }
 
   if (leftArg.isKnown() || rightArg.isKnown()) {
-    ConcreteAffectsQuerier querier(cfgs[0], pkbQueryHandler);
+    ConcreteAffectsQuerier querier(cfgs[0], agent);
     return querier.queryArgs(leftArg, rightArg);
   }
 
   for (auto it = cfgs.begin(); it != cfgs.end(); it++) {
-    ConcreteAffectsQuerier querier(*it, pkbQueryHandler);
+    ConcreteAffectsQuerier querier(*it, agent);
     querier.queryArgs(leftArg, rightArg, &result);
   }
   return result;
 };
 
-constexpr AffectsInvoker affectsTInvoker = [](PkbQueryHandler* pkbQueryHandler,
+constexpr AffectsInvoker affectsTInvoker = [](const QueryExecutorAgent &agent,
                                               const StmtRef &leftArg,
                                               const StmtRef &rightArg){
   return QueryResult<StmtValue, StmtValue>{};
 };
 
 constexpr AffectsSameSynInvoker affectsSymmetricInvoker =
-    [](PkbQueryHandler* pkbQueryHandler,
+    [](const QueryExecutorAgent &agent,
        const StmtRef &arg){
-      vector<CFG*> cfgs = pkbQueryHandler->queryCFGs(
+      vector<CFG*> cfgs = agent->queryCFGs(
           StmtRef{StmtType::None, 0});
       unordered_set<StmtValue> result;
 
       for (auto it = cfgs.begin(); it != cfgs.end(); it++) {
         CFG* cfg = *it;
-        ConcreteAffectsQuerier querier(cfg, pkbQueryHandler);
+        ConcreteAffectsQuerier querier(cfg, agent);
         int startingStatement = cfg->getStartingStmtNumber();
 
         for (int i = 0; i < cfg->getNodeCount(); i++) {
           int statement = startingStatement + i;
-          if (!typeChecker(pkbQueryHandler, StmtType::Assign, statement)) {
+          if (!typeChecker(agent, StmtType::Assign, statement)) {
             continue;
           }
 

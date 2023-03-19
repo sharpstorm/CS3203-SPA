@@ -15,11 +15,11 @@ class CFGTestModifiesUsesProvider {
                               vector<unordered_set<EntityValue>> uses,
                               unordered_map<StmtValue, StmtType> typeExclusions);
 
-  static EntityValue getModifies(CFGTestModifiesUsesProvider* state,
+  static EntityValue getModifies(const CFGTestModifiesUsesProvider &state,
                                           StmtValue value);
-  static unordered_set<EntityValue> getUses(CFGTestModifiesUsesProvider* state,
+  static unordered_set<EntityValue> getUses(const CFGTestModifiesUsesProvider &state,
                                                      StmtValue value);
-  static bool typePredicate(CFGTestModifiesUsesProvider* state, StmtType type,
+  static bool typePredicate(const CFGTestModifiesUsesProvider &state, StmtType type,
                             StmtValue value);
 
  private:

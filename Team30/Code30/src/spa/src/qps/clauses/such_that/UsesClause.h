@@ -8,16 +8,16 @@
 typedef StmtEntInvoker UsesSInvoker;
 typedef EntEntInvoker UsesPInvoker;
 
-constexpr UsesSInvoker usesSInvoker = [](PkbQueryHandler* pkbQueryHandler,
+constexpr UsesSInvoker usesSInvoker = [](const QueryExecutorAgent &agent,
                                          const StmtRef &leftArg,
                                          const EntityRef &rightArg){
-  return pkbQueryHandler->queryUses(leftArg, rightArg);
+  return agent->queryUses(leftArg, rightArg);
 };
 
-constexpr UsesPInvoker usesPInvoker = [](PkbQueryHandler* pkbQueryHandler,
+constexpr UsesPInvoker usesPInvoker = [](const QueryExecutorAgent &agent,
                                          const EntityRef &leftArg,
                                          const EntityRef &rightArg){
-  return pkbQueryHandler->queryUses(leftArg, rightArg);
+  return agent->queryUses(leftArg, rightArg);
 };
 
 typedef AbstractAnyEntClause<

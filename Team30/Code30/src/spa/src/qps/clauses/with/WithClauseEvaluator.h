@@ -4,9 +4,10 @@
 #include "qps/common/constraint/OverrideTable.h"
 #include "qps/common/PQLQueryResult.h"
 #include "qps/clauses/arguments/WithArgument.h"
+#include "qps/executor/QueryExecutorAgent.h"
 
 using PKBAttributeQuerier =
-    EntityValue(*)(PkbQueryHandler* queryHandler, const int &stmt);
+    EntityValue(*)(const QueryExecutorAgent &agent, const int &stmt);
 
 typedef vector<int> StmtList;
 typedef unordered_map<EntityValue, StmtList> SynToStmtMap;
@@ -19,15 +20,13 @@ using SynStmtMapExtractor = const T*(*)(const U* first, const V* second);
 
 class WithClauseEvaluator {
  public:
-  WithClauseEvaluator(PkbQueryHandler* pkbQueryHandler,
-                      OverrideTable* table,
+  WithClauseEvaluator(const QueryExecutorAgent &agent,
                       WithArgument* leftArg,
                       WithArgument* rightArg);
   PQLQueryResult* evaluate();
 
  private:
-  PkbQueryHandler* pkbQueryHandler;
-  OverrideTable* table;
+  const QueryExecutorAgent &agent;
   WithArgument* leftArg;
   WithArgument* rightArg;
 

@@ -13,8 +13,7 @@ class WithClause: public Clause {
 
  public:
   WithClause(WithArgumentPtr left, WithArgumentPtr right);
-  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler,
-                             OverrideTable* table) override;
+  PQLQueryResult* evaluateOn(const QueryExecutorAgent &agent) override;
   bool validateArgTypes(VariableTable* variables) override;
   SynonymList getUsedSynonyms() override;
 

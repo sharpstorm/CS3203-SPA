@@ -20,30 +20,30 @@ using AbstractNextClause = AbstractStmtStmtClause<
     ClauseArgument::isStatement,
     ClauseArgument::isStatement>;
 
-constexpr StmtTypePredicate<PkbQueryHandler> typeChecker =
-    [](PkbQueryHandler* pkb,
+constexpr StmtTypePredicate<QueryExecutorAgent> typeChecker =
+    [](const QueryExecutorAgent &agent,
        StmtType type,
        StmtValue stmtNumber) -> bool{
       if (type == StmtType::None) {
         return true;
       }
-      return pkb->getStatementType(stmtNumber) == type;
+      return agent->getStatementType(stmtNumber) == type;
     };
 
-typedef CFGNextQuerier<PkbQueryHandler, typeChecker> ConcreteNextQuerier;
-typedef CFGNextTQuerier<PkbQueryHandler, typeChecker> ConcreteNextTQuerier;
+typedef CFGNextQuerier<QueryExecutorAgent, typeChecker> ConcreteNextQuerier;
+typedef CFGNextTQuerier<QueryExecutorAgent, typeChecker> ConcreteNextTQuerier;
 
 template <class T>
-constexpr NextInvoker abstractNextInvoker = [](PkbQueryHandler* pkbQueryHandler,
+constexpr NextInvoker abstractNextInvoker = [](const QueryExecutorAgent &agent,
                                                const StmtRef &leftArg,
                                                const StmtRef &rightArg){
   vector<CFG*> cfgs;
   QueryResult<StmtValue, StmtValue> result{};
 
   if (leftArg.isKnown()) {
-    cfgs = pkbQueryHandler->queryCFGs(leftArg);
+    cfgs = agent->queryCFGs(leftArg);
   } else {
-    cfgs = pkbQueryHandler->queryCFGs(rightArg);
+    cfgs = agent->queryCFGs(rightArg);
   }
 
   if (cfgs.empty()) {
@@ -51,13 +51,13 @@ constexpr NextInvoker abstractNextInvoker = [](PkbQueryHandler* pkbQueryHandler,
   }
 
   if (leftArg.isKnown() || rightArg.isKnown()) {
-    T querier(cfgs[0], pkbQueryHandler);
+    T querier(cfgs[0], agent);
     return querier.queryArgs(leftArg, rightArg);
   }
 
 
   for (auto it = cfgs.begin(); it != cfgs.end(); it++) {
-    T querier(*it, pkbQueryHandler);
+    T querier(*it, agent);
     querier.queryArgs(leftArg, rightArg, &result);
   }
   return result;
@@ -65,19 +65,19 @@ constexpr NextInvoker abstractNextInvoker = [](PkbQueryHandler* pkbQueryHandler,
 
 template <class T>
 constexpr NextSameSynInvoker abstractNextSameSynInvoker = [](
-    PkbQueryHandler* pkbQueryHandler, const StmtRef &arg) ->
+    const QueryExecutorAgent &agent, const StmtRef &arg) ->
     unordered_set<StmtValue> {
-  vector<CFG*> cfgs = pkbQueryHandler->queryCFGs(StmtRef{StmtType::None, 0});
+  vector<CFG*> cfgs = agent->queryCFGs(StmtRef{StmtType::None, 0});
   unordered_set<StmtValue> result;
 
   for (auto it = cfgs.begin(); it != cfgs.end(); it++) {
     CFG* cfg = *it;
-    T querier(cfg, pkbQueryHandler);
+    T querier(cfg, agent);
     int startingStatement = cfg->getStartingStmtNumber();
 
     for (int i = 0; i < cfg->getNodeCount(); i++) {
       int statement = startingStatement + i;
-      if (!typeChecker(pkbQueryHandler, arg.type, statement)) {
+      if (!typeChecker(agent, arg.type, statement)) {
         continue;
       }
 

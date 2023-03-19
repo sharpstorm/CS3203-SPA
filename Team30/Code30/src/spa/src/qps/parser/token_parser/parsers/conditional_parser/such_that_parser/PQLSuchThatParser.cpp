@@ -10,12 +10,7 @@ void PQLSuchThatParser::parse(QueryTokenParseState *parserState,
   parserState->expect(PQL_TOKEN_SUCH);
   parserState->expect(PQL_TOKEN_THAT);
 
-  IPQLSuchThatClauseContext* context =
-      getContext(parserState->getCurrentTokenType());
-  if (context == nullptr) {
-    throw QPSParserSyntaxError(QPS_PARSER_ERR_UNEXPECTED);
-  }
-
+  IPQLSuchThatClauseContext* context;
   unique_ptr<PQLToken> dummyAnd = make_unique<PQLToken>(PQL_TOKEN_AND);
   PQLToken* andToken = dummyAnd.get();
   while (andToken != nullptr) {

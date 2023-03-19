@@ -6,11 +6,11 @@
 #include "AbstractPatternClause.h"
 
 constexpr PatternQueryInvoker ifPatternInvoker =
-    [](PkbQueryHandler* pkbHandler,
+    [](const QueryExecutorAgent &agent,
        const StmtRef &stmtRef,
        const EntityRef &entityRef)
         -> QueryResult<StmtValue, EntityValue> {
-      return pkbHandler->queryIfPattern(stmtRef, entityRef);
+      return agent->queryIfPattern(stmtRef, entityRef);
     };
 
 class IfPatternClause: public AbstractPatternClause<
