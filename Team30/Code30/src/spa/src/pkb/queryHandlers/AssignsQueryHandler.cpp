@@ -1,17 +1,13 @@
 #include "AssignsQueryHandler.h"
 
-#include <string>
-
 #include "common/pattern/PatternTrie.h"
-
-using std::string;
 
 AssignsQueryHandler::AssignsQueryHandler(const AssignStorage *assignStore)
     : assignStore(assignStore) {}
 
-QueryResult<int, PatternTrie*> AssignsQueryHandler::queryAssigns(
+QueryResult<StmtValue, PatternTrie *> AssignsQueryHandler::queryAssigns(
     StmtRef stmt) const {
-  QueryResult<int, PatternTrie*> result;
+  QueryResult<StmtValue, PatternTrie *> result;
   if (!stmt.isKnown()) {
     return result;
   }

@@ -31,7 +31,7 @@ class StructureMappingProviderStub : public IStructureMappingProvider {
 
   unordered_set<int> getValuesOfType(StmtType stmtType) const override;
 
-  bool isValueOfType(int, StmtType) const override;
+  bool isValueOfType(StmtType, StmtValue) const override;
 
   unordered_set<int> getProcedureLines(string procedure) const override;
 
@@ -40,6 +40,4 @@ class StructureMappingProviderStub : public IStructureMappingProvider {
   unordered_set<int> getCallStmtsOfProcedure(string) const override;
 
   string getCalledProcedure(int) const override;
-
-  bool isStatementOfType(StmtType, int) const override;
 };

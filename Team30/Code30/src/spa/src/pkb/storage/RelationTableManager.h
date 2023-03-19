@@ -9,6 +9,7 @@
 
 using std::shared_ptr;
 using std::unordered_set;
+using pkb::Predicate;
 
 /**
  * Table manager for relation, R(arg1, arg2), where args are type K and V
@@ -19,13 +20,14 @@ using std::unordered_set;
 template<typename K, typename V>
 class RelationTableManager {
  protected:
-  shared_ptr<IBaseSetTable<K, V>> table;         // maps K -> set<V>
-  shared_ptr<IBaseSetTable<V, K>> reverseTable;  // maps V -> set<K>
+  IBaseSetTable<K, V> *table;         // maps K -> set<V>
+  IBaseSetTable<V, K> *reverseTable;  // maps V -> set<K>
 
 
  public:
-  RelationTableManager(shared_ptr<IBaseSetTable<K, V>> table,
-                       shared_ptr<IBaseSetTable<V, K>> reverseTable)
+  RelationTableManager(
+      IBaseSetTable<K, V> *table,
+      IBaseSetTable<V, K> *reverseTable)
       : table(table), reverseTable(reverseTable) {}
 
   void insert(K arg1, V arg2) {
@@ -36,7 +38,10 @@ class RelationTableManager {
   /**
    * Get set of arg2 where R(arg1, arg2) is true, given arg1 value.
    */
-  virtual unordered_set<V> getByFirstArg(K arg1) const { return table->get(arg1); }
+  virtual unordered_set<V> getByFirstArg(K arg1) const {
+    return table->get(
+        arg1);
+  }
 
   /**
    * Get set of arg1 where R(arg1, arg2) is true, given arg2 value.
@@ -49,8 +54,8 @@ class RelationTableManager {
    * Find R(arg1, arg2) where arg1 is in the given arg1Values and arg2 satisfies
    * arg2Predicate.
    */
-  virtual QueryResult<K, V> query(unordered_set<K> arg1Values,
-                          Predicate<V> arg2Predicate) const {
+  virtual QueryResult<K, V> query(
+      unordered_set<K> arg1Values, Predicate<V> arg2Predicate) const {
     QueryResult<K, V> result;
     for (auto arg1 : arg1Values) {
       auto arg2Values = table->get(arg1);
@@ -67,8 +72,8 @@ class RelationTableManager {
    * Find R(arg1, arg2) where arg2 is in the given arg2Values and arg1 satisfies
    * arg1Predicate.
    */
-  virtual QueryResult<K, V> query(Predicate<K> arg1Predicate,
-                          unordered_set<V> arg2Values) const {
+  virtual QueryResult<K, V> query(
+      Predicate<K> arg1Predicate, unordered_set<V> arg2Values) const {
     QueryResult<K, V> result;
     for (auto arg2 : arg2Values) {
       auto arg1Values = reverseTable->get(arg2);
@@ -84,16 +89,14 @@ class RelationTableManager {
   /**
    * Find R(arg1, arg2) given arg1 and arg2 satisfies arg2Predicate.
    */
-  virtual QueryResult<K, V> query(K arg1,
-                          Predicate<V> arg2Predicate) const {
+  virtual QueryResult<K, V> query(K arg1, Predicate<V> arg2Predicate) const {
     return query(unordered_set<K>({arg1}), arg2Predicate);
   }
 
   /**
    * Find R(arg1, arg2) given arg2 and arg1 satisfies arg1Predicate.
    */
-  virtual QueryResult<K, V> query(Predicate<K> arg1Predicate,
-                          V arg2) const {
+  virtual QueryResult<K, V> query(Predicate<K> arg1Predicate, V arg2) const {
     return query(arg1Predicate, unordered_set<V>({arg2}));
   }
 };

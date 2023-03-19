@@ -16,7 +16,7 @@ void ModifiesUsesPostProcessor::populateProcedureAndVars() {
       pkb->entityMappingProvider->getValuesOfType(EntityType::Procedure);
   for (const auto &procedure : procedures) {
     // get descendent procedures
-    auto calledProcedures = pkb->callsStorage->getByFirstArgT(procedure);
+    auto calledProcedures = pkb->callsTStorage->getByFirstArg(procedure);
     for (const auto &calledProcedure : calledProcedures) {
       auto modifiesVars = pkb->modifiesPStorage->getByFirstArg(calledProcedure);
       for (const auto &v : modifiesVars) {

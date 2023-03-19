@@ -33,14 +33,14 @@ unordered_set<int> EntityMappingProviderStub::getIndexOfConstant(
   return constantToIndexTable.get(name);
 }
 
-bool EntityMappingProviderStub::isSymbolOfType(EntityType entityType,
-                                               string name) const {
-  if (entityType == EntityType::Variable) {
-    return !variableToIndexTable.get(name).empty();
-  } else if (entityType == EntityType::Constant) {
-    return !constantToIndexTable.get(name).empty();
-  } else if (entityType == EntityType::Procedure) {
-    return !procedureToStmtNumTable.get(name).empty();
+bool EntityMappingProviderStub::isValueOfType(
+    EntityType type, string value) const {
+  if (type == EntityType::Variable) {
+    return !variableToIndexTable.get(value).empty();
+  } else if (type == EntityType::Constant) {
+    return !variableToIndexTable.get(value).empty();
+  } else if (type == EntityType::Procedure) {
+    return !variableToIndexTable.get(value).empty();
   } else {
     return false;
   }

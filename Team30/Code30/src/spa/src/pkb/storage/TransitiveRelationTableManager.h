@@ -3,17 +3,20 @@
 #include <unordered_set>
 
 #include "RelationTableManager.h"
+using pkb::Predicate;
+
 /**
  * Table manager for transitive relations, R*(arg1, arg2) where args are type T.
  * R*(arg1, arg2) is true if
  * - R(arg1, arg2) or
  * - R(arg1, a) and R*(a, arg2) for some a
  */
-template <typename T>
+template<typename T>
 class TransitiveRelationTableManager : public RelationTableManager<T, T> {
  public:
-  TransitiveRelationTableManager(shared_ptr<IBaseSetTable<T, T>> table,
-                                 shared_ptr<IBaseSetTable<T, T>> reverseTable)
+  TransitiveRelationTableManager(
+      IBaseSetTable<T, T> *table,
+      IBaseSetTable<T, T> *reverseTable)
       : RelationTableManager<T, T>(table, reverseTable) {}
 
   /**
@@ -34,15 +37,16 @@ class TransitiveRelationTableManager : public RelationTableManager<T, T> {
     return result;
   }
 
-  /**
+  /**s
    * Find R*(arg1, arg2) where arg1 is in the given arg1Values and arg2
    * satisfies arg2Predicate.
    */
-  QueryResult<T, T> query(unordered_set<T> arg1Values,
-                          Predicate<T> arg2Predicate) const override {
+  QueryResult<T, T> query(
+      unordered_set<T> arg1Values,
+      Predicate<T> arg2Predicate) const override {
     QueryResult<T, T> result;
     for (auto arg1 : arg1Values) {
-      auto arg2Values = getByFirstArgT(arg1);
+      auto arg2Values = getByFirstArg(arg1);
       for (auto arg2 : arg2Values) {
         if (arg2Predicate(arg2)) {
           result.add(arg1, arg2);
@@ -56,11 +60,12 @@ class TransitiveRelationTableManager : public RelationTableManager<T, T> {
    * Find R*(arg1, arg2) where arg2 is in the given arg2Values and arg1
    * satisfies arg1Predicate.
    */
-  QueryResult<T, T> query(Predicate<T> arg1Predicate,
-                          unordered_set<T> arg2Values) const override {
+  QueryResult<T, T> query(
+      Predicate<T> arg1Predicate,
+      unordered_set<T> arg2Values) const override {
     QueryResult<T, T> result;
     for (auto arg2 : arg2Values) {
-      auto arg1Values = getBySecondArgT(arg2);
+      auto arg1Values = getBySecondArg(arg2);
       for (auto arg1 : arg1Values) {
         if (arg1Predicate(arg1)) {
           result.add(arg1, arg2);
@@ -74,14 +79,14 @@ class TransitiveRelationTableManager : public RelationTableManager<T, T> {
    * Find R*(arg1, arg2) given arg1 and arg2 satisfies arg2Predicate.
    */
   QueryResult<T, T> query(T arg1, Predicate<T> arg2Predicate) const override {
-    return queryT(unordered_set<T>({arg1}), arg2Predicate);
+    return query(unordered_set<T>({arg1}), arg2Predicate);
   }
 
   /**
    * Find R*(arg1, arg2) given arg2 and arg1 satisfies arg1Predicate.
    */
   QueryResult<T, T> query(Predicate<T> arg1Predicate, T arg2) const override {
-    return queryT(arg1Predicate, unordered_set<T>({arg2}));
+    return query(arg1Predicate, unordered_set<T>({arg2}));
   }
 
  private:

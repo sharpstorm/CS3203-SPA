@@ -6,10 +6,9 @@
 #include "EntityMappingProviderStub.h"
 #include "catch.hpp"
 #include "common/Types.h"
-#include "pkb/predicates/PredicateFactory.h"
 #include "pkb/queryHandlers/CallsQueryHandler.h"
 #include "pkb/storage/StructureMappingProvider.h"
-#include "pkb/storage/tables/ContiguousSetTable.h"
+#include "pkb/queryHandlers/CallsTQueryHandler.h"
 
 using std::make_shared;
 using std::make_unique;
@@ -28,55 +27,60 @@ static unique_ptr<EntityMappingProviderStub> setUpEntityMappingProvider() {
   return provider;
 }
 
-struct callsTestInit {
-  shared_ptr<HashKeySetTable<string, string>> table;
-  shared_ptr<HashKeySetTable<string, string>> reverseTable;
-  unique_ptr<CallsStorage> store;
-  unique_ptr<EntityMappingProviderStub> entityProvider;
-  unique_ptr<PredicateFactory> factory;
-  CallsQueryHandler handler;
-
-  callsTestInit()
-      : table(make_shared<HashKeySetTable<string, string>>()),
-        reverseTable(make_shared<HashKeySetTable<string, string>>()),
-        store(make_unique<CallsStorage>(table, reverseTable)),
-        entityProvider(setUpEntityMappingProvider()),
-        factory(make_unique<PredicateFactory>(nullptr, entityProvider.get())),
-        handler(CallsQueryHandler(store.get(), factory.get(),
-                                  entityProvider.get())) {}
+struct callsTest {
+  shared_ptr<CallsTable> table = make_shared<CallsTable>();
+  shared_ptr<CallsRevTable> reverseTable = make_shared<CallsRevTable>();
+  unique_ptr<CallsStorage>
+      store = make_unique<CallsStorage>(table.get(), reverseTable.get());
+  unique_ptr<CallsTStorage>
+      storeT = make_unique<CallsTStorage>(table.get(), reverseTable.get());
+  unique_ptr<EntityMappingProviderStub>
+      entityProvider = setUpEntityMappingProvider();
+  unique_ptr<EntityPredicateFactory>
+      factory = make_unique<EntityPredicateFactory>();
+  unique_ptr<PkbEntEntQueryInvoker> invoker =
+      make_unique<PkbEntEntQueryInvoker>(
+          entityProvider.get(),
+          factory.get());
+  CallsQueryHandler handler = CallsQueryHandler(invoker.get(), store.get());
+  CallsTQueryHandler handlerT = CallsTQueryHandler(invoker.get(), storeT.get());
 };
 
 /* Calls */
 
 TEST_CASE("CallsQueryHandler calls(entityName, entityName)") {
-  auto test = callsTestInit();
+  auto test = callsTest();
 
   test.table->set("main", "foo");
   test.table->set("foo", "goo");
 
   REQUIRE(test.handler
-              .queryCalls({EntityType::Procedure, "main"},
-                          {EntityType::Procedure, "foo"})
-              .isEmpty == false);
+      .queryCalls(
+          {EntityType::Procedure, "main"},
+          {EntityType::Procedure, "foo"})
+      .isEmpty == false);
   REQUIRE(test.handler
-              .queryCalls({EntityType::Procedure, "foo"},
-                          {EntityType::Procedure, "goo"})
-              .isEmpty == false);
+      .queryCalls(
+          {EntityType::Procedure, "foo"},
+          {EntityType::Procedure, "goo"})
+      .isEmpty == false);
   REQUIRE(test.handler
-              .queryCalls({EntityType::Procedure, "main"},
-                          {EntityType::Procedure, "goo"})
-              .isEmpty == true);
+      .queryCalls(
+          {EntityType::Procedure, "main"},
+          {EntityType::Procedure, "goo"})
+      .isEmpty == true);
 }
 
 TEST_CASE("CallsQueryHandler calls(_, entityName)") {
-  auto test = callsTestInit();
+  auto test = callsTest();
 
   test.table->set("main", "foo");
   test.table->set("foo", "goo");
   test.reverseTable->set("foo", "main");
 
-  auto result = test.handler.queryCalls({EntityType::None, ""},
-                                        {EntityType::Procedure, "foo"});
+  auto result = test.handler.queryCalls(
+      {EntityType::None, ""},
+      {EntityType::Procedure, "foo"});
   REQUIRE(result.isEmpty == false);
   REQUIRE(result.firstArgVals == unordered_set<string>{"main"});
   REQUIRE(result.secondArgVals == unordered_set<string>{"foo"});
@@ -84,23 +88,24 @@ TEST_CASE("CallsQueryHandler calls(_, entityName)") {
 }
 
 TEST_CASE("CallsQueryHandler calls(entityName, _)") {
-  auto test = callsTestInit();
+  auto test = callsTest();
 
   test.table->set("main", "foo");
   test.table->set("main", "woo");
   test.table->set("foo", "goo");
 
-  auto result = test.handler.queryCalls({EntityType::Procedure, "main"},
-                                        {EntityType::None, ""});
+  auto result = test.handler.queryCalls(
+      {EntityType::Procedure, "main"},
+      {EntityType::None, ""});
   REQUIRE(result.isEmpty == false);
   REQUIRE(result.firstArgVals == unordered_set<string>{"main"});
   REQUIRE(result.secondArgVals == unordered_set<string>{"woo", "foo"});
   REQUIRE(result.pairVals ==
-          pair_set<string, string>{{"main", "foo"}, {"main", "woo"}});
+      pair_set<string, string>{{"main", "foo"}, {"main", "woo"}});
 }
 
 TEST_CASE("CallsQueryHandler calls(_, _)") {
-  auto test = callsTestInit();
+  auto test = callsTest();
 
   test.table->set("main", "foo");
   test.table->set("main", "woo");
@@ -118,51 +123,53 @@ TEST_CASE("CallsQueryHandler calls(_, _)") {
 
 /* Call Star */
 TEST_CASE("CallsQueryHandler callsStar(entityName, entityName)") {
-  auto test = callsTestInit();
+  auto test = callsTest();
 
   test.table->set("main", "foo");
   test.table->set("foo", "goo");
 
-  REQUIRE(test.handler
-              .queryCallsStar({EntityType::Procedure, "main"},
-                              {EntityType::Procedure, "foo"})
-              .isEmpty == false);
-  REQUIRE(test.handler
-              .queryCallsStar({EntityType::Procedure, "foo"},
-                              {EntityType::Procedure, "goo"})
-              .isEmpty == false);
-  REQUIRE(test.handler
-              .queryCallsStar({EntityType::Procedure, "main"},
-                              {EntityType::Procedure, "goo"})
-              .isEmpty == false);
+  REQUIRE(test.handlerT.queryCallsStar(
+          {EntityType::Procedure, "main"},
+          {EntityType::Procedure, "foo"})
+      .isEmpty == false);
+  REQUIRE(test.handlerT.queryCallsStar(
+          {EntityType::Procedure, "foo"},
+          {EntityType::Procedure, "goo"})
+      .isEmpty == false);
+  REQUIRE(test.handlerT.queryCallsStar(
+          {EntityType::Procedure, "main"},
+          {EntityType::Procedure, "goo"})
+      .isEmpty == false);
 }
 
 TEST_CASE("CallsQueryHandler callsStar(_, entityName)") {
-  auto test = callsTestInit();
+  auto test = callsTest();
 
   test.table->set("main", "foo");
   test.table->set("foo", "goo");
   test.reverseTable->set("foo", "main");
   test.reverseTable->set("goo", "foo");
 
-  auto result = test.handler.queryCallsStar({EntityType::None, ""},
-                                            {EntityType::Procedure, "goo"});
+  auto result = test.handlerT.queryCallsStar(
+      {EntityType::None, ""},
+      {EntityType::Procedure, "goo"});
   REQUIRE(result.isEmpty == false);
   REQUIRE(result.firstArgVals == unordered_set<string>{"foo", "main"});
   REQUIRE(result.secondArgVals == unordered_set<string>{"goo"});
   REQUIRE(result.pairVals ==
-          pair_set<string, string>{{"main", "goo"}, {"foo", "goo"}});
+      pair_set<string, string>{{"main", "goo"}, {"foo", "goo"}});
 }
 
 TEST_CASE("CallsQueryHandler callsStar(entityName, _)") {
-  auto test = callsTestInit();
+  auto test = callsTest();
 
   test.table->set("main", "foo");
   test.table->set("main", "woo");
   test.table->set("foo", "goo");
 
-  auto result = test.handler.queryCallsStar({EntityType::Procedure, "main"},
-                                            {EntityType::None, ""});
+  auto result = test.handlerT.queryCallsStar(
+      {EntityType::Procedure, "main"},
+      {EntityType::None, ""});
   REQUIRE(result.isEmpty == false);
   REQUIRE(result.firstArgVals == unordered_set<string>{"main"});
   REQUIRE(result.secondArgVals == unordered_set<string>{"woo", "foo", "goo"});
@@ -172,14 +179,15 @@ TEST_CASE("CallsQueryHandler callsStar(entityName, _)") {
 }
 
 TEST_CASE("CallsQueryHandler callsStar(_, _)") {
-  auto test = callsTestInit();
+  auto test = callsTest();
 
   test.table->set("main", "foo");
   test.table->set("main", "woo");
   test.table->set("foo", "goo");
 
-  auto result = test.handler.queryCallsStar({EntityType::None, ""},
-                                            {EntityType::None, ""});
+  auto result = test.handlerT.queryCallsStar(
+      {EntityType::None, ""},
+      {EntityType::None, ""});
   REQUIRE(result.isEmpty == false);
   REQUIRE(result.firstArgVals == unordered_set<string>{"main", "foo"});
   REQUIRE(result.secondArgVals == unordered_set<string>{"woo", "foo", "goo"});

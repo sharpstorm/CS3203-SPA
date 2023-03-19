@@ -1,70 +1,37 @@
-#include <string>
 #include "UsesQueryHandler.h"
+#include "ArgValidators.h"
+#include "ArgTransformers.h"
 
-using std::string;
-
-UsesQueryHandler::UsesQueryHandler(
-    const UsesStorage *usesStorage,
-    const UsesPStorage *usesPStorage,
-    const PredicateFactory *predicateFactory,
-    const IStructureMappingProvider *structureProvider,
-    const IEntityMappingProvider *entitiesProvider)
-    : usesStorage(usesStorage),
-      usesPStorage(usesPStorage),
-      predicateFactory(predicateFactory),
-      structureProvider(structureProvider),
-      entitiesProvider(entitiesProvider) {}
-
-bool UsesQueryHandler::validateArg1(StmtRef arg) const {
-  return arg.type != StmtType::Read;
+UsesQueryHandler::UsesQueryHandler(PkbStmtEntQueryInvoker *invoker,
+                                   PkbEntEntQueryInvoker *pInvoker,
+                                   UsesStorage *storage,
+                                   UsesPStorage *pStorage)
+    : PkbStmtEntQueryHandler(invoker, storage),
+      PkbEntEntQueryHandler(pInvoker, pStorage),
+      usesStorage(storage) {
+  PkbStmtEntQueryHandler::setLeftValidator(usesLeftArgValidator);
+  PkbStmtEntQueryHandler::setRightValidator(varRightArgValidator);
+  PkbEntEntQueryHandler::setLeftValidator(procLeftArgValidator);
+  PkbEntEntQueryHandler::setRightValidator(varRightArgValidator);
+  PkbEntEntQueryHandler::setLeftTransformer(procArgTransformer);
 }
 
-bool UsesQueryHandler::validateArg1(EntityRef arg) const {
-  return arg.type == EntityType::Procedure
-      || (arg.type == EntityType::None && arg.isKnown());
+QueryResult<StmtValue, EntityValue> UsesQueryHandler::queryUses(
+    StmtRef leftArg, EntityRef rightArg) const {
+  return PkbStmtEntQueryHandler::query(&leftArg, &rightArg);
 }
 
-bool UsesQueryHandler::validateArg2(EntityRef arg) const {
-  return arg.type == EntityType::None || arg.type == EntityType::Variable;
+QueryResult<EntityValue, EntityValue> UsesQueryHandler::queryUses(
+    EntityRef leftArg, EntityRef rightArg) const {
+  return PkbEntEntQueryHandler::query(&leftArg, &rightArg);
 }
 
-QueryResult<int, string> UsesQueryHandler::queryUses(StmtRef arg1,
-                                                     EntityRef arg2) const {
-  if (!validateArg1(arg1) || !validateArg2(arg2)) {
-    return QueryResult<int, string>();
-  }
-  if (arg1.isKnown()) {
-    return usesStorage->query(arg1.lineNum,
-                              predicateFactory->getPredicate(arg2));
-  } else if (arg2.isKnown()) {
-    return usesStorage->query(predicateFactory->getPredicate(arg1), arg2.name);
-  } else {
-    return usesStorage->query(structureProvider->getValuesOfType(arg1.type),
-                              predicateFactory->getPredicate(arg2));
-  }
-}
-
-QueryResult<string, string> UsesQueryHandler::queryUses(EntityRef arg1,
-                                                        EntityRef arg2) const {
-  if (!validateArg1(arg1) || !validateArg2(arg2)) {
-    return QueryResult<string, string>();
-  }
-  if (arg1.isKnown()) {
-    return usesPStorage->query(arg1.name,
-                               predicateFactory->getPredicate(arg2));
-  } else if (arg2.isKnown()) {
-    return usesPStorage->query(predicateFactory->getPredicate(arg1), arg2.name);
-  } else {
-    return usesPStorage->query(
-        entitiesProvider->getValuesOfType(EntityType::Procedure),
-        predicateFactory->getPredicate(arg2));
-  }
-}
-
-string UsesQueryHandler::getPrintDeclarations(int printStmt) const {
-  if (usesStorage->getByFirstArg(printStmt).empty()) {
+EntityValue UsesQueryHandler::getPrintDeclarations(StmtValue printStmt) const {
+  // assumes input is print stmt
+  auto values = usesStorage->getByFirstArg(printStmt);
+  if (values.empty()) {
     return "";
   } else {
-    return *usesStorage->getByFirstArg(printStmt).begin();
+    return *values.begin();
   }
 }

@@ -9,22 +9,22 @@
 
 using std::pair, std::unordered_set, std::vector, std::string;
 
-SelectClause::SelectClause(const PQLQuerySynonym &target):
+SelectClause::SelectClause(const PQLQuerySynonym &target) :
     target(target) {}
 
-PQLQueryResult* SelectClause::evaluateOn(PkbQueryHandler* pkbQueryHandler) {
+PQLQueryResult *SelectClause::evaluateOn(PkbQueryHandler *pkbQueryHandler) {
   ClauseArgumentPtr clauseArg = ClauseArgumentFactory::create(target);
 
   if (target.isStatementType()) {
     StmtRef stmtVar = clauseArg->toStmtRef();
     unordered_set<int> pkbResult = pkbQueryHandler
-        ->getValuesOfType(stmtVar.type);
+        ->getStatementsOfType(stmtVar.type);
     return Clause::toQueryResult(target.getName(), pkbResult);
   }
 
   EntityRef entityVar = clauseArg->toEntityRef();
   unordered_set<string> pkbResult = pkbQueryHandler
-      ->getValuesOfType(entityVar.type);
+      ->getSymbolsOfType(entityVar.type);
   return Clause::toQueryResult(target.getName(), pkbResult);
 }
 
