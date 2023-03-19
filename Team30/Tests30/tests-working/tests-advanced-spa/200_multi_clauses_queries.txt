@@ -1,0 +1,80 @@
+1 - Multi-Clause Such That
+assign a; if ifs; while w; stmt s;
+Select <s, ifs, w> such that Follows(s, ifs) such that Follows(ifs, w) such that Modifies(w, "z")
+4 5 8, 8 10 13
+5000
+2 - Multi-Clause Such That
+assign a; if ifs; while w; stmt s;
+Select <s, ifs, w> such that Follows*(s, ifs) such that Follows(ifs, w) such that Modifies(w, "z")
+1 5 8, 2 5 8, 3 5 8, 4 5 8, 1 10 13, 2 10 13, 3 10 13, 4 10 13, 5 10 13, 8 10 13
+5000
+3 - Multi-Clause Pattern
+assign a; if ifs; while w; stmt s; variable v;
+Select <ifs, w, v> pattern w(v, _) and ifs(v, _, _)
+5 13 www
+5000
+4 - Multi-Clause Pattern
+assign a; if ifs; while w; stmt s; variable v;
+Select <ifs, w, a, v> pattern a(v, _) and ifs(v, _, _) and w(v, _)
+5 13 4 www
+5000
+5 - Multi-Clause With
+stmt s1, s2, s3; constant c;
+Select <s1, s2, s3, c> with s1.stmt# = s2.stmt# and s2.stmt# = s3.stmt# and s3.stmt# = c.value
+2 2 2 2, 10 10 10 10
+5000
+6 - Multi-Clause With
+stmt s1, s2, s3; constant c;
+Select <s1, s2, s3, c> with s1.stmt# = s2.stmt# and s2.stmt# = s3.stmt# and s3.stmt# = c.value and s3.stmt# = 3
+
+5000
+7 - Multi-Clause With Types
+stmt s1, s2; constant c;
+Select <s1> with 1 = 1 and s1.stmt# = 2 and s2.stmt# = s1.stmt# and s1.stmt# = c.value
+2
+5000
+8 - Multi-Clause Patterns and Such That
+assign a; if ifs; while w; variable v1, v2;
+Select <v1, v2> pattern ifs(v1,_,_) and w(v2,_) and a("x", _) such that Uses(a, v1) and Uses(a, v2)
+www yyy, www www, xx yyy, xx www
+5000
+9 - Multi-Clause Patterns and Such That
+assign a; if ifs; while w; variable v1, v2;
+Select <v1, v2> pattern ifs(v1,_,_) and w(v2,_) and a("x", _) such that Uses(a, v1) and Modifies(a, v2)
+
+5000
+10 - Multi-Clause Patterns and With
+assign a; if ifs; while w; variable v1, v2;
+Select <v1> pattern w(v1,_) and a(v1, _) with a.stmt# = 4
+www
+5000
+11 - Multi-Clause Patterns and With
+assign a; if ifs; while w; variable v1, v2;
+Select <v1, v2> pattern ifs(v1,_,_) and w(v2,_) and a("x", _) with v1.varName = v2.varName
+www www
+5000
+12 - Such That and With
+assign a; if ifs; while w; variable v1, v2; procedure p; stmt s1;
+Select <p, s1> such that Modifies(s1, v1) with v1.varName = p.procName
+x 1, x 5, x 6, x 10, x 11
+5000
+13 - Such That and With
+assign a; if ifs; while w; variable v1, v2; stmt s1, s2;
+Select <v1> such that Uses(s1, v1) and Uses(s2, v2) with s1.stmt#=s2.stmt#
+a,xx,www,xxx,yyy,x
+5000
+14 - Multi-Clause Patterns and Such That and With
+assign a; if ifs; while w; variable v1, v2;
+Select <v1, v2> pattern ifs(v1,_,_) and w(v2,_) and a("x", _) such that Uses(a, v1) and Uses(a, v2) with w.stmt#=8
+www yyy, xx yyy
+5000
+15 - Multi-Clause Patterns and Such That With
+assign a; if ifs; while w; variable v1, v2;
+Select <v1, v2> pattern ifs(v1,_,_) and w(v2,_) and a("x", _) such that Uses(a, v1) and Uses(a, v2) with v1.varName = v2.varName
+www www
+5000
+16 - Multi-Clause Patterns and Such That With
+assign a; if ifs; while w; variable v1, v2; procedure p;
+Select <v1.varName, p> with p.procName = v1.varName
+x x
+5000
