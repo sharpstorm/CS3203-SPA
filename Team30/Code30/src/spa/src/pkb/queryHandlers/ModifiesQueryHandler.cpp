@@ -2,13 +2,14 @@
 #include "ArgValidators.h"
 #include "ArgTransformers.h"
 
-ModifiesQueryHandler::ModifiesQueryHandler(PkbStmtEntQueryInvoker *invoker,
-                                           PkbEntEntQueryInvoker *pInvoker,
-                                           ModifiesStorage *storage,
-                                           ModifiesPStorage *pStorage)
+ModifiesQueryHandler::ModifiesQueryHandler(
+    PkbStmtEntQueryInvoker *invoker,
+    PkbEntEntQueryInvoker *pInvoker,
+    ModifiesStorage *storage,
+    ModifiesPStorage *pStorage)
     : PkbStmtEntQueryHandler(invoker, storage),
-      PkbEntEntQueryHandler(pInvoker, pStorage),
-      modifiesStorage(storage) {
+    PkbEntEntQueryHandler(pInvoker, pStorage),
+    modifiesStorage(storage) {
   PkbStmtEntQueryHandler::setLeftValidator(modifiesLeftArgValidator);
   PkbStmtEntQueryHandler::setRightValidator(varRightArgValidator);
   PkbEntEntQueryHandler::setLeftValidator(procLeftArgValidator);
@@ -26,7 +27,8 @@ QueryResult<EntityValue, EntityValue> ModifiesQueryHandler::queryModifies(
   return PkbEntEntQueryHandler::query(&leftArg, &rightArg);
 }
 
-EntityValue ModifiesQueryHandler::getReadDeclarations(StmtValue readStmt) const {
+EntityValue ModifiesQueryHandler::getReadDeclarations(
+    StmtValue readStmt) const {
   // assumes input is read stmt
   auto values = modifiesStorage->getByFirstArg(readStmt);
   if (values.empty()) {

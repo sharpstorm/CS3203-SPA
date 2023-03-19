@@ -7,10 +7,10 @@
 class StmtPredicateFactory : public AbstractPredicateFactory<StmtValue,
                                                              StmtType> {
  public:
-  StmtPredicateFactory(IStructureMappingProvider *provider);
+  explicit StmtPredicateFactory(IStructureMappingProvider *provider);
 
-  Predicate<StmtValue> handleType(IRef<StmtValue,
-                                       StmtType> *ref) const override;
+  Predicate<StmtValue> handleType(
+      IRef<StmtValue, StmtType> *ref) const override;
 
  private:
   IStructureMappingProvider *provider;

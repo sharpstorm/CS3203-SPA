@@ -11,9 +11,9 @@ using std::unordered_set;
 class IEntityMappingProvider : public IProvider<EntityValue, EntityType> {
  public:
   virtual ~IEntityMappingProvider() {}
-  virtual unordered_set<string> getValuesOfType(EntityType) const = 0;
-  virtual string getVariableByIndex(int) const = 0;
-  virtual string getConstantByIndex(int) const = 0;
-  virtual unordered_set<int> getIndexOfVariable(string) const = 0;
-  virtual unordered_set<int> getIndexOfConstant(string) const = 0;
+  virtual unordered_set<EntityValue> getValuesOfType(EntityType) const = 0;
+  virtual EntityValue getVariableByIndex(StmtValue) const = 0;
+  virtual EntityValue getConstantByIndex(StmtValue) const = 0;
+  virtual unordered_set<StmtValue> getIndexOfVariable(EntityValue) const = 0;
+  virtual unordered_set<StmtValue> getIndexOfConstant(EntityValue) const = 0;
 };

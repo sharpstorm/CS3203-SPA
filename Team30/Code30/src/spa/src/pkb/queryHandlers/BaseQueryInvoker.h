@@ -8,7 +8,8 @@
 #include "pkb/storage/interfaces/IStructureMappingProvider.h"
 #include "pkb/storage/interfaces/IEntityMappingProvider.h"
 
-template<typename LeftValue, typename LeftType, typename RightValue, typename RightType>
+template<typename LeftValue, typename LeftType, typename RightValue,
+    typename RightType>
 class BaseQueryInvoker {
  private:
   IProvider<LeftValue, LeftType> *leftProvider;

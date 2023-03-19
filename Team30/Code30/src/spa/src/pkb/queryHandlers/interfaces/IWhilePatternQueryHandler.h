@@ -5,6 +5,6 @@
 class IWhilePatternQueryHandler {
  public:
   virtual ~IWhilePatternQueryHandler() {}
-  virtual QueryResult<StmtValue, EntityValue> queryWhilePattern(StmtRef,
-                                                                EntityRef) const = 0;
+  virtual QueryResult<StmtValue, EntityValue> queryWhilePattern(
+      StmtRef, EntityRef) const = 0;
 };

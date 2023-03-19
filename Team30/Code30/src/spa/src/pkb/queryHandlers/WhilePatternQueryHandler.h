@@ -11,12 +11,12 @@
 using std::string;
 
 class WhilePatternQueryHandler : private PkbStmtEntQueryHandler,
-                                 public IWhilePatternQueryHandler {
+    public IWhilePatternQueryHandler {
  public:
-  explicit WhilePatternQueryHandler(PkbStmtEntQueryInvoker *,
-                                    WhilePatternStorage *);
+  explicit WhilePatternQueryHandler(
+      PkbStmtEntQueryInvoker *,
+      WhilePatternStorage *);
 
-  QueryResult<StmtValue, EntityValue> queryWhilePattern(StmtRef,
-                                                        EntityRef) const override;
-
+  QueryResult<StmtValue, EntityValue> queryWhilePattern(
+      StmtRef, EntityRef) const override;
 };

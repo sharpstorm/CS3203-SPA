@@ -4,12 +4,16 @@
 #include "BaseQueryInvoker.h"
 
 using std::optional, std::nullopt;
-using pkb::ArgValidator, pkb::ArgTransformer, pkb::defaultValidator, pkb::defaultTransformer;
+using pkb::ArgValidator, pkb::ArgTransformer, pkb::defaultValidator,
+    pkb::defaultTransformer;
 
-template<typename LeftValue, typename LeftType, typename RightValue, typename RightType>
+template<typename LeftValue,
+    typename LeftType,
+    typename RightValue,
+    typename RightType>
 class BaseQueryHandler {
  public:
-  BaseQueryHandler(
+  explicit BaseQueryHandler(
       BaseQueryInvoker<LeftValue,
                        LeftType,
                        RightValue,

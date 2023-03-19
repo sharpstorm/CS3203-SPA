@@ -1,12 +1,8 @@
 #pragma once
 
 #include <functional>
-#include <utility>
-#include <optional>
 
 #include "common/Types.h"
-
-using std::optional;
 
 namespace pkb {
   // predicate
@@ -36,4 +32,4 @@ namespace pkb {
     return arg;
   };
 
-}
+}  // namespace pkb

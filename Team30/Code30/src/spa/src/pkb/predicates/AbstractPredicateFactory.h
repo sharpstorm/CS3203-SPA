@@ -11,7 +11,7 @@ using pkb::Predicate;
 template<typename Value, typename Type>
 class AbstractPredicateFactory {
  public:
-  ~AbstractPredicateFactory() {};
+  ~AbstractPredicateFactory() {}
 
   virtual Predicate<Value> handleType(IRef<Value, Type> *ref) const = 0;
 
@@ -22,5 +22,5 @@ class AbstractPredicateFactory {
       return [](Value const s) { return true; };
     }
     return handleType(ref);
-  };
+  }
 };

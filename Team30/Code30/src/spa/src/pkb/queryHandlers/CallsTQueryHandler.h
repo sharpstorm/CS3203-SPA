@@ -7,11 +7,12 @@
 #include "BaseQueryHandler.h"
 
 class CallsTQueryHandler : private PkbEntEntQueryHandler,
-                           public ICallsTQueryHandler {
+    public ICallsTQueryHandler {
  public:
-  CallsTQueryHandler(PkbEntEntQueryInvoker *,
-                     CallsTStorage *);
+  CallsTQueryHandler(
+      PkbEntEntQueryInvoker *,
+      CallsTStorage *);
 
-  QueryResult<EntityValue, EntityValue> queryCallsStar(EntityRef,
-                                                       EntityRef) const override;
+  QueryResult<EntityValue, EntityValue> queryCallsStar(
+      EntityRef, EntityRef) const override;
 };
