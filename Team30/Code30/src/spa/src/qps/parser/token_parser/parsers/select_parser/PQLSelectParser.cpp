@@ -60,7 +60,7 @@ void PQLSelectParser::parseSynonym(QueryTokenParseState *parserState,
     parserState->expect(PQL_TOKEN_PERIOD);
     PQLSynonymAttribute attr =
         PQLAttributeRefExtractor::extractAttribute(parserState);
-    if (!isValidAttribute(synValue->getType(),attr)) {
+    if (!isValidAttribute(synValue->getType(), attr)) {
       throw QPSParserSemanticError(QPS_PARSER_ERR_INVALID_ATTRIBUTE);
     }
 
