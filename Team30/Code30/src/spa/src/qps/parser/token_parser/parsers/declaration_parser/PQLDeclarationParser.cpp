@@ -9,6 +9,7 @@ void PQLDeclarationParser::parse(QueryTokenParseState *parserState,
     context->parse(parserState, queryBuilder);
     context = getContext(parserState->getCurrentTokenType());
   }
+  queryBuilder->finalizeSynonymTable();
 }
 
 IPQLDeclarationContext *PQLDeclarationParser::getContext(PQLTokenType type) {

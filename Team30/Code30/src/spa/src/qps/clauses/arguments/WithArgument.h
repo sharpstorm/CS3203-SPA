@@ -13,10 +13,12 @@ class WithArgument {
   AttributedSynonymPtr syn;
   int intValue;
   string identValue;
+
  public:
   explicit WithArgument(int intVal);
   explicit WithArgument(string identVal);
   explicit WithArgument(AttributedSynonymPtr syn);
+  PQLQuerySynonym* getSyn();
   PQLSynonymName getSynName();
   PQLSynonymType getSynType();
   PQLSynonymAttribute getAttribute();

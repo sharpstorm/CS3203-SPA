@@ -20,10 +20,13 @@ TEST_CASE("Test QPS Follows Query") {
   auto pkb = make_unique<StubPKB>(&pkbStore);
   auto builder = QueryBuilder();
   auto querySyn = make_unique<PQLQuerySynonym>(PQLQuerySynonym(PQL_SYN_TYPE_STMT, "a"));
-  AttributedSynonym syn = AttributedSynonym(querySyn.get());
+  auto synPtr = querySyn.get();
+  PQLQuerySynonymProxy proxy(&synPtr);
+  AttributedSynonym syn = AttributedSynonym(proxy);
   builder.addResultSynonym(syn);
   builder.addSynonym("a", PQL_SYN_TYPE_STMT);
   builder.addSynonym("b", PQL_SYN_TYPE_STMT);
+  builder.finalizeSynonymTable();
   builder.addSuchThat(make_unique<FollowsClause>(
       ClauseArgumentFactory::create(*builder.accessSynonym("a")),
       ClauseArgumentFactory::create(*builder.accessSynonym("b"))

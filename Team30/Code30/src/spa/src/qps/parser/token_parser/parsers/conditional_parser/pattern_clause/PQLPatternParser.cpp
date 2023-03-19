@@ -34,7 +34,7 @@ void PQLPatternParser::parse(QueryTokenParseState *parserState,
 PatternClausePtr PQLPatternParser::parsePatternClause(
     QueryTokenParseState *parserState,
     QueryBuilder* builder) {
-  PQLQuerySynonym* synonym = parseSynonym(parserState, builder);
+  PQLQuerySynonymProxy* synonym = parseSynonym(parserState, builder);
   parserState->expect(PQL_TOKEN_BRACKET_OPEN);
   ClauseArgumentPtr left = PQLEntityRefExtractor::extract(parserState,
                                                           builder);
@@ -45,7 +45,7 @@ PatternClausePtr PQLPatternParser::parsePatternClause(
 
 PatternClausePtr PQLPatternParser::extractRemainingArgs(
     QueryTokenParseState *parserState,
-    PQLQuerySynonym* synonym,
+    PQLQuerySynonymProxy* synonym,
     ClauseArgumentPtr firstArg) {
   IntermediateExpressionArgumentPtr exprArg = extractExpression(parserState);
   PQLToken* nextToken = parserState->expect(PQL_TOKEN_COMMA,
@@ -62,7 +62,7 @@ PatternClausePtr PQLPatternParser::extractRemainingArgs(
   }
 }
 
-PQLQuerySynonym* PQLPatternParser::parseSynonym(
+PQLQuerySynonymProxy* PQLPatternParser::parseSynonym(
     QueryTokenParseState *parserState,
     QueryBuilder *builder) {
   PQLSynonymName synName = parserState->expectSynName();
@@ -70,19 +70,20 @@ PQLQuerySynonym* PQLPatternParser::parseSynonym(
 }
 
 PatternClausePtr PQLPatternParser::dispatchTwoArg(
-    PQLQuerySynonym* synonym,
+    PQLQuerySynonymProxy* synonym,
     ClauseArgumentPtr firstArg,
     IntermediateExpressionArgumentPtr secondArg) {
   if (synonym == nullptr) {
     return nullptr;
   }
 
-  if (synonym->isType(PQL_SYN_TYPE_IF) && secondArg->isWildcard()) {
-    return make_unique<IfPatternClause>(*synonym, std::move(firstArg));
+  PQLQuerySynonymProxy synProxy = *synonym;
+  if (synProxy->isType(PQL_SYN_TYPE_IF) && secondArg->isWildcard()) {
+    return make_unique<IfPatternClause>(synProxy, std::move(firstArg));
   }
 
-  if (synonym->isType(PQL_SYN_TYPE_ASSIGN)) {
-    return assignContextParser.parse(synonym, std::move(firstArg),
+  if (synProxy->isType(PQL_SYN_TYPE_ASSIGN)) {
+    return assignContextParser.parse(synProxy, std::move(firstArg),
                                      std::move(secondArg));
   }
 
@@ -90,14 +91,14 @@ PatternClausePtr PQLPatternParser::dispatchTwoArg(
 }
 
 PatternClausePtr PQLPatternParser::dispatchThreeArg(
-    PQLQuerySynonym* synonym,
+    PQLQuerySynonymProxy* synonym,
     ClauseArgumentPtr firstArg,
     IntermediateExpressionArgumentPtr secondArg) {
   if (!secondArg->isWildcard()) {
     throw QPSParserSyntaxError(QPS_PARSER_ERR_UNEXPECTED);
   }
 
-  if (synonym == nullptr || !synonym->isType(PQL_SYN_TYPE_WHILE)) {
+  if (synonym == nullptr || !(*synonym)->isType(PQL_SYN_TYPE_WHILE)) {
     return nullptr;
   }
 

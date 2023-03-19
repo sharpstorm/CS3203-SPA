@@ -18,17 +18,17 @@ class PQLPatternParser: public IPQLParser {
   PatternClausePtr parsePatternClause(QueryTokenParseState* parserState,
                                       QueryBuilder* builder);
   PatternClausePtr extractRemainingArgs(QueryTokenParseState *parserState,
-                                        PQLQuerySynonym* synonym,
+                                        PQLQuerySynonymProxy* synonym,
                                         ClauseArgumentPtr firstArg);
-  static PQLQuerySynonym* parseSynonym(QueryTokenParseState *parserState,
-                                       QueryBuilder *builder);
+  static PQLQuerySynonymProxy* parseSynonym(QueryTokenParseState *parserState,
+                                            QueryBuilder *builder);
 
   PatternClausePtr
-  dispatchTwoArg(PQLQuerySynonym* synonym,
+  dispatchTwoArg(PQLQuerySynonymProxy* synonym,
                  ClauseArgumentPtr firstArg,
                  IntermediateExpressionArgumentPtr secondArg);
   PatternClausePtr
-  dispatchThreeArg(PQLQuerySynonym* synonym,
+  dispatchThreeArg(PQLQuerySynonymProxy* synonym,
                    ClauseArgumentPtr firstArg,
                    IntermediateExpressionArgumentPtr secondArg);
   static IntermediateExpressionArgumentPtr

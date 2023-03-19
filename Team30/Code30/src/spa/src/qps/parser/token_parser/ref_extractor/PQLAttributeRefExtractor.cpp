@@ -20,7 +20,7 @@ WithArgumentPtr PQLAttributeRefExtractor::extract(QueryTokenParseState* state,
   }
 
   PQLSynonymName synName = state->expectSynName();
-  PQLQuerySynonym* var = builder->accessSynonym(synName);
+  PQLQuerySynonymProxy* var = builder->accessSynonym(synName);
 
   state->expect(PQL_TOKEN_PERIOD);
   PQLSynonymAttribute attr = extractAttribute(state);
@@ -29,7 +29,7 @@ WithArgumentPtr PQLAttributeRefExtractor::extract(QueryTokenParseState* state,
     return nullptr;
   }
 
-  AttributedSynonymPtr attrSynPtr = make_unique<AttributedSynonym>(var, attr);
+  AttributedSynonymPtr attrSynPtr = make_unique<AttributedSynonym>(*var, attr);
 
   return make_unique<WithArgument>(std::move(attrSynPtr));
 }

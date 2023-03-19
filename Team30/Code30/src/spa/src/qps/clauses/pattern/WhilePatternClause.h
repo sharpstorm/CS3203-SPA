@@ -16,7 +16,7 @@ constexpr PatternQueryInvoker whilePatternInvoker =
 class WhilePatternClause: public AbstractPatternClause<
     PQL_SYN_TYPE_WHILE, StmtType::While, whilePatternInvoker> {
  public:
-  WhilePatternClause(const PQLQuerySynonym &whileSynonym,
+  WhilePatternClause(const PQLQuerySynonymProxy &whileSynonym,
                      ClauseArgumentPtr leftArg):
       AbstractPatternClause(whileSynonym, std::move(leftArg)) {}
 };

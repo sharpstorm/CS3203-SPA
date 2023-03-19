@@ -37,24 +37,28 @@ void PQLSelectParser::parseTuple(QueryTokenParseState *parserState,
 
 void PQLSelectParser::addResultSynonym(QueryBuilder *queryBuilder,
                                        const string &synName) {
-  PQLQuerySynonym* synonym = queryBuilder->accessSynonym(synName);
-  if (synonym == nullptr) {
+  PQLQuerySynonymProxy* synProxy = queryBuilder->accessSynonym(synName);
+  if (synProxy == nullptr) {
     return;
   }
 
-  AttributedSynonym attrSyn(synonym, NO_ATTRIBUTE);
+  AttributedSynonym attrSyn(*synProxy, NO_ATTRIBUTE);
   queryBuilder->addResultSynonym(attrSyn);
 }
 
 void PQLSelectParser::parseSynonym(QueryTokenParseState *parserState,
                                    QueryBuilder *queryBuilder,
                                    const string &synName) {
-  PQLQuerySynonym* syn = queryBuilder->accessSynonym(synName);
+  PQLQuerySynonymProxy* syn = queryBuilder->accessSynonym(synName);
+  if (syn == nullptr) {
+    return;
+  }
+
   if (parserState->isCurrentTokenType(PQL_TOKEN_PERIOD)) {
     parserState->expect(PQL_TOKEN_PERIOD);
     PQLSynonymAttribute attr =
         PQLAttributeRefExtractor::extractAttribute(parserState);
-    AttributedSynonym attrSyn(syn, attr);
+    AttributedSynonym attrSyn(*syn, attr);
     queryBuilder->addResultSynonym(attrSyn);
     return;
   }

@@ -9,7 +9,7 @@ class AssignPatternClause: public PatternClause {
   ExpressionArgumentPtr rightArgument;
 
  public:
-  AssignPatternClause(const PQLQuerySynonym &assignSynonym,
+  AssignPatternClause(const PQLQuerySynonymProxy &assignSynonym,
                       ClauseArgumentPtr leftArg,
                       ExpressionArgumentPtr rightArg);
   PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler,

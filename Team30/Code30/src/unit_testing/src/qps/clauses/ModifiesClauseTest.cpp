@@ -16,8 +16,12 @@ using std::shared_ptr, std::make_unique, std::unique_ptr;
 TEST_CASE("Modifies Querying") {
   PKB pkbStore;
   auto pkb = make_unique<ClausesPKBStub>(&pkbStore);
-  PQLQuerySynonym synA(PQL_SYN_TYPE_ASSIGN, "a");
-  PQLQuerySynonym synV(PQL_SYN_TYPE_VARIABLE, "v");
+  PQLQuerySynonym assignSynRaw(PQL_SYN_TYPE_ASSIGN, "a");
+  PQLQuerySynonym varSynRaw(PQL_SYN_TYPE_VARIABLE, "v");
+  PQLQuerySynonym* assignSynPtr = &assignSynRaw;
+  PQLQuerySynonym* varSynPtr = &varSynRaw;
+  PQLQuerySynonymProxy synA(&assignSynPtr);
+  PQLQuerySynonymProxy synV(&varSynPtr);
 
   PQLQueryResultPtr expected;
   PQLQueryResultPtr actual;
