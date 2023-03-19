@@ -88,7 +88,8 @@ PQLQueryResult* testWithClause(PQLSynonymType leftType, PQLSynonymName leftName,
 
   PKB pkb;
   WithStubPkb stubHandler(&pkb);
-  auto result = clause.evaluateOn(&stubHandler);
+  OverrideTable table;
+  auto result = clause.evaluateOn(&stubHandler, &table);
   return result;
 }
 
