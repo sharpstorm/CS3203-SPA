@@ -8,14 +8,14 @@ using std::unique_ptr;
 
 class PatternClause: virtual public Clause {
  public:
-  PatternClause(const PQLQuerySynonym &synonym,
+  PatternClause(const PQLQuerySynonymProxy &synonym,
                 ClauseArgumentPtr leftArg,
                 PQLSynonymType synType);
   SynonymList getUsedSynonyms() override;
   bool validateArgTypes(VariableTable *variables) override;
 
  protected:
-  PQLQuerySynonym synonym;
+  PQLQuerySynonymProxy synonym;
   ClauseArgumentPtr leftArg;
 
  private:

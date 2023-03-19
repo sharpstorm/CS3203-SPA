@@ -12,13 +12,14 @@ using std::string;
 using std::unordered_set;
 
 TEST_CASE("CallsWriter addCalls") {
-  auto table = make_shared<HashKeySetTable<string, string>>();
-  auto reverseTable = make_shared<HashKeySetTable<string, string>>();
-  auto store = make_unique<CallsStorage>(table, reverseTable);
+  auto table = make_shared<CallsTable>();
+  auto reverseTable = make_shared<CallsRevTable>();
+  auto store = make_unique<CallsStorage>(table.get(), reverseTable.get());
 
-  auto stmtTable = make_shared<HashKeyTable<int, string>>();
-  auto reverseStmtTable = make_shared<HashKeySetTable<string, int>>();
-  auto stmtStore = make_unique<CallStmtStorage>(stmtTable, reverseStmtTable);
+  auto stmtTable = make_shared<CallStmtTable>();
+  auto reverseStmtTable = make_shared<CallStmtRevTable>();
+  auto stmtStore = make_unique<CallStmtStorage>(stmtTable.get(),
+                                                reverseStmtTable.get());
   auto writer = CallsWriter(store.get(), stmtStore.get());
 
   writer.addCalls(2, "main", "called");

@@ -11,6 +11,7 @@
 #include "AttributedSynonym.h"
 #include "qps/common/constraint/Constraint.h"
 #include "qps/common/constraint/OverrideTransformer.h"
+#include "qps/common/VariableTable.h"
 
 using std::string, std::unordered_map, std::vector, std::unique_ptr;
 
@@ -29,7 +30,7 @@ class PQLQuery {
   int getVariableCount();
   VariableTable* getVarTable();
   AttributedSynonymList * getResultVariables();
-  PQLQuerySynonym* getVariable(PQLSynonymName name);
+  PQLQuerySynonymProxy* getVariable(PQLSynonymName name);
   SynonymList getDeclaredSynonyms();
   vector<IEvaluatableSPtr> getEvaluatables();
   vector<ConstraintSPtr> getConstraints();

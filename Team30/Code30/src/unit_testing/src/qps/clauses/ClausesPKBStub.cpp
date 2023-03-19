@@ -4,10 +4,9 @@
 
 using std::string;
 
-
 class ClausesPKBStub : public StubPKB {
  public:
-  ClausesPKBStub(PKB* in): StubPKB(in) {
+  ClausesPKBStub(PKB *in) : StubPKB(in) {
   }
 
   QueryResult<int, int> queryFollows(StmtRef s1, StmtRef s2) const override {
@@ -21,7 +20,8 @@ class ClausesPKBStub : public StubPKB {
     return result;
   };
 
-  QueryResult<int, int> queryFollowsStar(StmtRef s1, StmtRef s2) const override {
+  QueryResult<int, int> queryFollowsStar(StmtRef s1,
+                                         StmtRef s2) const override {
     if (s1.isKnown() && s2.isKnown() && s2.lineNum > s1.lineNum) {
       return QueryResult<int, int>();
     }
@@ -32,10 +32,10 @@ class ClausesPKBStub : public StubPKB {
   QueryResult<int, int> queryParent(StmtRef s1, StmtRef s2) const override {
     auto result = QueryResult<int, int>();
     if (s1.isKnown() && s2.isKnown() && s2.lineNum > s1.lineNum) {
-     return result;
+      return result;
     }
 
-    result.add(6,7);
+    result.add(6, 7);
     return result;
   };
 
@@ -47,9 +47,10 @@ class ClausesPKBStub : public StubPKB {
     return createParentTResult();
   };
 
-  QueryResult<int, string> queryUses(StmtRef sRef, EntityRef eRef) const override {
+  QueryResult<int, string> queryUses(StmtRef sRef,
+                                     EntityRef eRef) const override {
     if (sRef.isKnown() && eRef.isKnown()) {
-     return QueryResult<int, string>();
+      return QueryResult<int, string>();
     }
 
     auto result = QueryResult<int, string>();
@@ -76,7 +77,8 @@ class ClausesPKBStub : public StubPKB {
     return QueryResult<string, string>();
   };
 
-  QueryResult<int, string> queryModifies(StmtRef sRef, EntityRef eRef) const override {
+  QueryResult<int, string> queryModifies(StmtRef sRef,
+                                         EntityRef eRef) const override {
     if (sRef.isKnown() && eRef.isKnown()) {
       return QueryResult<int, string>();
     }
@@ -104,7 +106,8 @@ class ClausesPKBStub : public StubPKB {
     return QueryResult<string, string>();
   };
 
-  QueryResult<string, string> queryCalls(EntityRef e1, EntityRef e2) const override {
+  QueryResult<string, string> queryCalls(EntityRef e1,
+                                         EntityRef e2) const override {
     QueryResult<string, string> result;
 
     if (e1.type == EntityType::None && e2.type == EntityType::None) {
@@ -129,7 +132,8 @@ class ClausesPKBStub : public StubPKB {
     return result;
   };
 
-  QueryResult<string, string> queryCallsStar(EntityRef e1, EntityRef e2) const override {
+  QueryResult<string, string> queryCallsStar(EntityRef e1,
+                                             EntityRef e2) const override {
     QueryResult<string, string> result;
 
     if (e1.type == EntityType::None && e2.type == EntityType::None) {
@@ -159,6 +163,7 @@ class ClausesPKBStub : public StubPKB {
   unordered_set<string> getSymbolsOfType(EntityType) const override {
     return unordered_set<string>();
   };
+
   unordered_set<int> getStatementsOfType(StmtType) const override {
     return unordered_set<int>();
   };

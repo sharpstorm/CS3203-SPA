@@ -12,9 +12,9 @@ using std::string;
 using std::unordered_set;
 
 TEST_CASE("StatementWriter addStatement") {
-  auto table = make_shared<HashKeyTable<int, StmtType>>();
-  auto reverseTable = make_shared<HashKeySetTable<StmtType, int>>();
-  auto store = make_unique<StatementStorage>(table, reverseTable);
+  auto table = make_shared<StmtTable>();
+  auto reverseTable = make_shared<StmtRevTable>();
+  auto store = make_unique<StatementStorage>(table.get(), reverseTable.get());
   auto writer = StatementWriter(store.get());
 
   writer.addStatement(1, StmtType::Assign);

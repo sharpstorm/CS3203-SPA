@@ -73,17 +73,22 @@ PQLQuerySynonym makeSyn(PQLSynonymType type, PQLSynonymName name) {
   return PQLQuerySynonym(type, name);
 }
 
-AttributedSynonymPtr makeWithArg(PQLQuerySynonym* syn, PQLSynonymAttribute attr) {
+AttributedSynonymPtr makeWithArg(PQLQuerySynonymProxy syn, PQLSynonymAttribute attr) {
   return make_unique<AttributedSynonym>(syn, attr);
 }
 
 PQLQueryResult* testWithClause(PQLSynonymType leftType, PQLSynonymName leftName, PQLSynonymAttribute leftAttr,
                                PQLSynonymType rightType, PQLSynonymName rightName, PQLSynonymAttribute rightAttr) {
-  auto leftSyn = makeSyn(leftType, leftName);
-  auto rightSyn = makeSyn(rightType, rightName);
+  auto leftSynRaw = makeSyn(leftType, leftName);
+  auto rightSynRaw = makeSyn(rightType, rightName);
 
-  auto leftArg = make_unique<WithArgument>(std::move(makeWithArg(&leftSyn, leftAttr)));
-  auto rightArg = make_unique<WithArgument>(std::move(makeWithArg(&rightSyn, rightAttr)));
+  PQLQuerySynonym* leftSynPtr = &leftSynRaw;
+  PQLQuerySynonym* rightSynPtr = &rightSynRaw;
+  PQLQuerySynonymProxy leftSyn(&leftSynPtr);
+  PQLQuerySynonymProxy rightSyn(&rightSynPtr);
+
+  auto leftArg = make_unique<WithArgument>(std::move(makeWithArg(leftSyn, leftAttr)));
+  auto rightArg = make_unique<WithArgument>(std::move(makeWithArg(rightSyn, rightAttr)));
   auto clause = WithClause(std::move(leftArg), std::move(rightArg));
 
   PKB pkb;

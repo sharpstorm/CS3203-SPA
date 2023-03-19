@@ -1,14 +1,12 @@
 #include <memory>
 #include <unordered_set>
-#include <utility>
 
-#include "EntityMappingProviderStub.h"
-#include "StructureMappingProviderStub.h"
 #include "catch.hpp"
 #include "common/Types.h"
-#include "pkb/predicates/PredicateFactory.h"
 #include "pkb/queryHandlers/UsesQueryHandler.h"
 #include "pkb/storage/StructureMappingProvider.h"
+#include "StructureMappingProviderStub.h"
+#include "EntityMappingProviderStub.h"
 
 using std::make_shared;
 using std::make_unique;
@@ -55,39 +53,44 @@ static unique_ptr<EntityMappingProviderStub> setUpEntityMappingProvider() {
   return provider;
 }
 
-struct usesTestInit {
-  shared_ptr<HashKeySetTable<int, string>> table;
-  shared_ptr<HashKeySetTable<string, int>> reverseTable;
-  unique_ptr<UsesStorage> store;
-  shared_ptr<HashKeySetTable<string, string>> pTable;
-  shared_ptr<HashKeySetTable<string, string>> reversePTable;
-  unique_ptr<UsesPStorage> pStore;
-  unique_ptr<StructureMappingProviderStub> structureProvider;
-  unique_ptr<EntityMappingProviderStub> entityProvider;
-  unique_ptr<PredicateFactory> factory;
-  UsesQueryHandler handler;
-
-  usesTestInit()
-      : table(make_shared<HashKeySetTable<int, string>>()),
-        reverseTable(make_shared<HashKeySetTable<string, int>>()),
-        store(make_unique<UsesStorage>(table, reverseTable)),
-        pTable(make_shared<HashKeySetTable<string, string>>()),
-        reversePTable(make_shared<HashKeySetTable<string, string>>()),
-        pStore(make_unique<UsesPStorage>(pTable, reversePTable)),
-        structureProvider(setUpStructureMappingProvider()),
-        entityProvider(setUpEntityMappingProvider()),
-        factory(make_unique<PredicateFactory>(structureProvider.get(),
-                                              entityProvider.get())),
-        handler(UsesQueryHandler(store.get(), pStore.get(), factory.get(),
-                                 structureProvider.get(),
-                                 entityProvider.get())){};
+struct usesTest {
+  shared_ptr<UsesTable> table = make_shared<UsesTable>();
+  shared_ptr<UsesRevTable> reverseTable = make_shared<UsesRevTable>();
+  shared_ptr<UsesPTable> pTable = make_shared<UsesPTable>();
+  shared_ptr<UsesPRevTable>
+      reversePTable = make_shared<UsesPRevTable>();
+  unique_ptr<UsesStorage>
+      store = make_unique<UsesStorage>(table.get(), reverseTable.get());
+  unique_ptr<UsesPStorage>
+      pStore = make_unique<UsesPStorage>(pTable.get(), reversePTable.get());
+  unique_ptr<StructureMappingProviderStub>
+      structureProvider = setUpStructureMappingProvider();
+  unique_ptr<EntityMappingProviderStub>
+      entityProvider = setUpEntityMappingProvider();
+  unique_ptr<StmtPredicateFactory>
+      stmtPredFactory =
+      make_unique<StmtPredicateFactory>(structureProvider.get());
+  unique_ptr<EntityPredicateFactory>
+      entPredFactory = make_unique<EntityPredicateFactory>();
+  unique_ptr<PkbStmtEntQueryInvoker> stmtEntInvoker =
+      make_unique<PkbStmtEntQueryInvoker>(structureProvider.get(),
+                                          stmtPredFactory.get(),
+                                          entPredFactory.get());
+  unique_ptr<PkbEntEntQueryInvoker> entEntInvoker =
+      make_unique<PkbEntEntQueryInvoker>(entityProvider.get(),
+                                         entPredFactory.get());
+  UsesQueryHandler
+      handler = UsesQueryHandler(stmtEntInvoker.get(),
+                                 entEntInvoker.get(),
+                                 store.get(),
+                                 pStore.get());
 };
 
 /** Uses(StmtRef, EntityRef) */
 
 // Both args known
 TEST_CASE("UsesQueryHandler Uses(stmtNum, variableName)") {
-  auto test = usesTestInit();
+  auto test = usesTest();
   test.table->set(1, "x");
   test.table->set(2, "x");
   test.table->set(3, "z");
@@ -101,9 +104,8 @@ TEST_CASE("UsesQueryHandler Uses(stmtNum, variableName)") {
 }
 
 // Only arg1 known
-
 TEST_CASE("UsesQueryHandler Uses(stmtNum, variableType)") {
-  auto test = usesTestInit();
+  auto test = usesTest();
 
   test.table->set(1, "x");
   test.table->set(2, "x");
@@ -118,7 +120,7 @@ TEST_CASE("UsesQueryHandler Uses(stmtNum, variableType)") {
 }
 
 TEST_CASE("UsesQueryHandler Uses(stmtNum, _)") {
-  auto test = usesTestInit();
+  auto test = usesTest();
 
   test.table->set(1, "x");
   test.table->set(2, "x");
@@ -133,7 +135,7 @@ TEST_CASE("UsesQueryHandler Uses(stmtNum, _)") {
 }
 
 TEST_CASE("UsesQueryHandler Uses(stmtNum, constant)") {
-  auto test = usesTestInit();
+  auto test = usesTest();
 
   test.table->set(1, "x");
 
@@ -145,7 +147,7 @@ TEST_CASE("UsesQueryHandler Uses(stmtNum, constant)") {
 // Only arg2 known
 
 TEST_CASE("UsesQueryHandler Uses(type, variableName), assign, print") {
-  auto test = usesTestInit();
+  auto test = usesTest();
 
   test.reverseTable->set("x", 1);
   test.reverseTable->set("x", 2);
@@ -171,7 +173,7 @@ TEST_CASE("UsesQueryHandler Uses(type, variableName), assign, print") {
 }
 
 TEST_CASE("UsesQueryHandler Uses(type, variableName), if, while") {
-  auto test = usesTestInit();
+  auto test = usesTest();
 
   test.reverseTable->set("x", 6);
   test.reverseTable->set("y", 6);
@@ -195,7 +197,7 @@ TEST_CASE("UsesQueryHandler Uses(type, variableName), if, while") {
 }
 
 TEST_CASE("UsesQueryHandler Uses(type, variableName), read") {
-  auto test = usesTestInit();
+  auto test = usesTest();
 
   test.reverseTable->set("x", 5);  // should not happen
 
@@ -206,7 +208,7 @@ TEST_CASE("UsesQueryHandler Uses(type, variableName), read") {
 }
 
 TEST_CASE("UsesQueryHandler Uses(type, variableName), stmt") {
-  auto test = usesTestInit();
+  auto test = usesTest();
 
   test.reverseTable->set("x", 1);
   test.reverseTable->set("y", 2);
@@ -220,13 +222,13 @@ TEST_CASE("UsesQueryHandler Uses(type, variableName), stmt") {
   REQUIRE(result1.firstArgVals == unordered_set<int>({1, 4, 6}));
   REQUIRE(result1.secondArgVals == unordered_set<string>({"x"}));
   REQUIRE(result1.pairVals ==
-          pair_set<int, string>({{1, "x"}, {4, "x"}, {6, "x"}}));
+      pair_set<int, string>({{1, "x"}, {4, "x"}, {6, "x"}}));
 }
 
 // Both args unknown
 
 TEST_CASE("UsesQueryHandler Uses(stmtType, varType)") {
-  auto test = usesTestInit();
+  auto test = usesTest();
 
   test.table->set(1, "x");
   test.table->set(1, "z");
@@ -246,11 +248,11 @@ TEST_CASE("UsesQueryHandler Uses(stmtType, varType)") {
   REQUIRE(result1.firstArgVals == unordered_set<int>({1, 2, 3}));
   REQUIRE(result1.secondArgVals == unordered_set<string>({"x", "y", "z"}));
   REQUIRE(result1.pairVals ==
-          pair_set<int, string>({{1, "x"}, {1, "z"}, {2, "y"}, {3, "x"}}));
+      pair_set<int, string>({{1, "x"}, {1, "z"}, {2, "y"}, {3, "x"}}));
 }
 
 TEST_CASE("UsesQueryHandler Uses(statement, _)") {
-  auto test = usesTestInit();
+  auto test = usesTest();
 
   test.table->set(1, "x");
   test.table->set(1, "z");
@@ -269,11 +271,11 @@ TEST_CASE("UsesQueryHandler Uses(statement, _)") {
   REQUIRE(result1.firstArgVals == unordered_set<int>({1, 4, 6}));
   REQUIRE(result1.secondArgVals == unordered_set<string>({"x", "y", "z"}));
   REQUIRE(result1.pairVals ==
-          pair_set<int, string>({{1, "x"}, {1, "z"}, {4, "x"}, {6, "y"}}));
+      pair_set<int, string>({{1, "x"}, {1, "z"}, {4, "x"}, {6, "y"}}));
 }
 
 TEST_CASE("UsesQueryHandler call statement") {
-  auto test = usesTestInit();
+  auto test = usesTest();
 
   test.table->set(8, "x");
   test.table->set(8, "y");
@@ -295,13 +297,13 @@ TEST_CASE("UsesQueryHandler call statement") {
   auto result3 =
       test.handler.queryUses({StmtType::None, 0}, {EntityType::None, ""});
   REQUIRE(result3.pairVals ==
-          pair_set<int, string>({{8, "x"}, {8, "y"}, {1, "z"}}));
+      pair_set<int, string>({{8, "x"}, {8, "y"}, {1, "z"}}));
 }
 
 /** Uses(EntityRef, EntityRef) */
 // Both args known
 TEST_CASE("UsesQueryHandler Uses(procedureName, variableName)") {
-  auto test = usesTestInit();
+  auto test = usesTest();
 
   test.pTable->set("main", "x");
   test.pTable->set("main", "y");
@@ -325,7 +327,7 @@ TEST_CASE("UsesQueryHandler Uses(procedureName, variableName)") {
 
 // Only arg1 known
 TEST_CASE("UsesQueryHandler Uses(procedureName, type)") {
-  auto test = usesTestInit();
+  auto test = usesTest();
 
   test.pTable->set("main", "x");
   test.pTable->set("main", "y");
@@ -337,7 +339,7 @@ TEST_CASE("UsesQueryHandler Uses(procedureName, type)") {
   REQUIRE(result1.firstArgVals == unordered_set<string>({"main"}));
   REQUIRE(result1.secondArgVals == unordered_set<string>({"x", "y"}));
   REQUIRE(result1.pairVals ==
-          pair_set<string, string>({{"main", "x"}, {"main", "y"}}));
+      pair_set<string, string>({{"main", "x"}, {"main", "y"}}));
 
   auto result2 = test.handler.queryUses({EntityType::None, "goo"},
                                         {EntityType::Variable, ""});
@@ -346,7 +348,7 @@ TEST_CASE("UsesQueryHandler Uses(procedureName, type)") {
 
 // Only arg2 known
 TEST_CASE("UsesQueryHandler Uses(type, variable)") {
-  auto test = usesTestInit();
+  auto test = usesTest();
 
   test.reversePTable->set("x", "main");
   test.reversePTable->set("x", "foo");
@@ -359,7 +361,7 @@ TEST_CASE("UsesQueryHandler Uses(type, variable)") {
   REQUIRE(result1.firstArgVals == unordered_set<string>({"main", "foo"}));
   REQUIRE(result1.secondArgVals == unordered_set<string>({"x"}));
   REQUIRE(result1.pairVals ==
-          pair_set<string, string>({{"main", "x"}, {"foo", "x"}}));
+      pair_set<string, string>({{"main", "x"}, {"foo", "x"}}));
 
   // invalid arg1
   auto result2 =
@@ -369,7 +371,7 @@ TEST_CASE("UsesQueryHandler Uses(type, variable)") {
 
 // Both args unknown
 TEST_CASE("UsesQueryHandler Uses(type, type)") {
-  auto test = usesTestInit();
+  auto test = usesTest();
 
   test.pTable->set("main", "x");
   test.pTable->set("main", "y");
@@ -382,8 +384,8 @@ TEST_CASE("UsesQueryHandler Uses(type, type)") {
   REQUIRE(result1.firstArgVals == unordered_set<string>({"main", "foo"}));
   REQUIRE(result1.secondArgVals == unordered_set<string>({"x", "y", "z"}));
   REQUIRE(result1.pairVals ==
-          pair_set<string, string>(
-              {{"main", "x"}, {"main", "y"}, {"foo", "z"}, {"foo", "y"}}));
+      pair_set<string, string>(
+          {{"main", "x"}, {"main", "y"}, {"foo", "z"}, {"foo", "y"}}));
 
   // invalid arg1
   auto result2 = test.handler.queryUses({EntityType::None, ""},
@@ -393,7 +395,7 @@ TEST_CASE("UsesQueryHandler Uses(type, type)") {
 
 // printDeclaration
 TEST_CASE("UsesQueryHandler getPrintDeclarations(printStmt)") {
-  auto test = usesTestInit();
+  auto test = usesTest();
   test.table->set(1, "x");
   test.table->set(2, "x");
   test.table->set(3, "z");

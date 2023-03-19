@@ -44,6 +44,7 @@ void testSuchThatParsing(vector<PQLToken> inputs,
   for (auto it : synonyms) {
     builder.addSynonym(it.first, it.second);
   }
+  builder.finalizeSynonymTable();
 
   auto clause = context.parse(&state, &builder);
   builder.addSuchThat(std::move(clause));

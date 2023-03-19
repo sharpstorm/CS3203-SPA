@@ -3,18 +3,18 @@
 #include <string>
 
 #include "catch.hpp"
-#include "pkb/storage/tables/HashKeySetTable.h"
 #include "pkb/writers/UsesWriter.h"
 
 using std::make_shared, std::make_unique, std::unordered_set, std::string;
 
 TEST_CASE("UsesWriter addUses") {
-  auto table = make_shared<HashKeySetTable<int, string>>();
-  auto reverseTable = make_shared<HashKeySetTable<string, int>>();
-  auto usesStorage = make_unique<UsesStorage>(table, reverseTable);
-  auto pTable = make_shared<HashKeySetTable<string, string>>();
-  auto reversePTable = make_shared<HashKeySetTable<string, string>>();
-  auto usesPStorage = make_unique<UsesPStorage>(pTable, reversePTable);
+  auto table = make_shared<UsesTable>();
+  auto reverseTable = make_shared<UsesRevTable>();
+  auto usesStorage = make_unique<UsesStorage>(table.get(), reverseTable.get());
+  auto pTable = make_shared<UsesPTable>();
+  auto reversePTable = make_shared<UsesPRevTable>();
+  auto usesPStorage =
+      make_unique<UsesPStorage>(pTable.get(), reversePTable.get());
   auto writer = UsesWriter(usesStorage.get(), usesPStorage.get());
 
   writer.addUses(1, "x", "main");

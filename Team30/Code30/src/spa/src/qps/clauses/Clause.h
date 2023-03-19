@@ -6,6 +6,7 @@
 #include "qps/common/IEvaluatable.h"
 #include "qps/common/PQLQueryResult.h"
 #include "qps/clauses/arguments/ClauseArgument.h"
+#include "qps/common/VariableTable.h"
 
 using std::unordered_set, std::shared_ptr;
 
@@ -15,8 +16,8 @@ class Clause : public IEvaluatable {
 
  protected:
   bool isValidRef(StmtRef stmtRef, PkbQueryHandler* handler) {
-    return !stmtRef.isKnown() ||
-        handler->isStatementOfType(stmtRef.type, stmtRef.lineNum);
+    return !stmtRef.isKnown() || stmtRef.type == StmtType::None
+        || handler->isStatementOfType(stmtRef.type, stmtRef.lineNum);
   }
 
   bool isValidRef(EntityRef entRef, PkbQueryHandler* handler) {

@@ -6,13 +6,13 @@
 using std::unordered_set;
 
 WithSelectClause::WithSelectClause(AttributedSynonym aSyn, EntityValue enVal) :
-  attrSyn(aSyn), entVal(enVal) { }
+    attrSyn(aSyn), entVal(enVal) { }
 
 PQLQueryResult *WithSelectClause::evaluateOn(PkbQueryHandler *pkbQueryHandler,
                                              OverrideTable *table) {
-  PQLQuerySynonym* syn = attrSyn.getSyn();
-  ClauseArgumentPtr clauseArg = ClauseArgumentFactory::create(*syn);
-  PQLSynonymType synType = syn->getType();
+  ClauseArgumentPtr clauseArg = ClauseArgumentFactory::create(
+      attrSyn.getSynProxy());
+  PQLSynonymType synType = attrSyn.getType();
 
   StmtRef stmtVar = clauseArg->toStmtRef();
   unordered_set<int> pkbResult = pkbQueryHandler

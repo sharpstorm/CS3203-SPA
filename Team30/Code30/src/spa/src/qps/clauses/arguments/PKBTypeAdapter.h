@@ -7,50 +7,36 @@
 class PKBTypeAdapter {
  public:
   static StmtType convertPQLSynonymToStmt(PQLSynonymType type) {
-    StmtType returnType;
     switch (type) {
       case PQL_SYN_TYPE_CALL:
-        returnType = StmtType::Call;
-        break;
+        return StmtType::Call;
       case PQL_SYN_TYPE_ASSIGN:
-        returnType = StmtType::Assign;
-        break;
+        return StmtType::Assign;
       case PQL_SYN_TYPE_IF:
-        returnType = StmtType::If;
-        break;
+        return StmtType::If;
       case PQL_SYN_TYPE_WHILE:
-        returnType = StmtType::While;
-        break;
+        return StmtType::While;
       case PQL_SYN_TYPE_READ:
-        returnType = StmtType::Read;
-        break;
+        return StmtType::Read;
       case PQL_SYN_TYPE_PRINT:
-        returnType = StmtType::Print;
-        break;
+        return StmtType::Print;
       case PQL_SYN_TYPE_STMT:
-        returnType = StmtType::None;
-        break;
+        return StmtType::None;
       default:
-        throw QPSExecutionError("asdfasdfasdf");
+        throw QPSExecutionError("Execution Error");
     }
-    return returnType;
   }
 
   static EntityType convertPQLSynonymToEntity(PQLSynonymType type) {
-    EntityType returnType;
     switch (type) {
       case PQL_SYN_TYPE_PROCEDURE:
-        returnType = EntityType::Procedure;
-        break;
+        return EntityType::Procedure;
       case PQL_SYN_TYPE_VARIABLE:
-        returnType = EntityType::Variable;
-        break;
+        return EntityType::Variable;
       case PQL_SYN_TYPE_CONSTANT:
-        returnType = EntityType::Constant;
-        break;
+        return EntityType::Constant;
       default:
-        throw QPSExecutionError("asdfasdfasdf");
+        throw QPSExecutionError("Execution Error");
     }
-    return returnType;
   }
 };

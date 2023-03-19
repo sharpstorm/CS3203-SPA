@@ -14,8 +14,12 @@ using std::shared_ptr, std::make_unique, std::unique_ptr;
 TEST_CASE("FollowsClause Querying") {
   PKB pkbStore;
   auto pkb = make_unique<ClausesPKBStub>(&pkbStore);
-  PQLQuerySynonym synA1(PQL_SYN_TYPE_ASSIGN, "a1");
-  PQLQuerySynonym synA2(PQL_SYN_TYPE_ASSIGN, "a2");
+  PQLQuerySynonym synA1Raw(PQL_SYN_TYPE_ASSIGN, "a1");
+  PQLQuerySynonym synA2Raw(PQL_SYN_TYPE_ASSIGN, "a2");
+  PQLQuerySynonym* synA1Ptr = &synA1Raw;
+  PQLQuerySynonym* synA2Ptr = &synA2Raw;
+  PQLQuerySynonymProxy synA1(&synA1Ptr);
+  PQLQuerySynonymProxy synA2(&synA2Ptr);
 
   PQLQueryResultPtr expected;
   PQLQueryResultPtr actual;
