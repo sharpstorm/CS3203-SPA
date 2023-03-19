@@ -1,0 +1,1014 @@
+procedure aa {
+  aa1 = aa2;
+  call ab;
+}
+
+procedure aaWhile {
+  while (x == 2) {
+    aa1 = aa2;
+    call ab;
+  }
+}
+
+procedure aaIf {
+  if (x == 2) then {
+    aa1 = aa2;
+    call ab;
+  } else {
+    x = 2;
+  }
+}
+
+procedure ab {
+  ab1 = ba2;
+  call ac;
+}
+
+procedure ac {
+  ac1 = ca2;
+  call ad;
+}
+
+procedure ad {
+  ad1 = da2;
+  call ae;
+}
+
+procedure ae {
+  ae1 = ea2;
+  call af;
+}
+
+procedure af {
+  af1 = fa2;
+  call ag;
+}
+
+procedure ag {
+  ag1 = ga2;
+  call ah;
+}
+
+procedure ah {
+  ah1 = ha2;
+  call ai;
+}
+
+procedure ai {
+  ai1 = ia2;
+  call aj;
+}
+
+procedure aj {
+  aj1 = ja2;
+  call ba;
+}
+
+procedure ba {
+  ba1 = ab2;
+  call bb;
+}
+
+procedure bb {
+  bb1 = bb2;
+  call bc;
+}
+
+procedure bc {
+  bc1 = cb2;
+  call bd;
+}
+
+procedure bd {
+  bd1 = db2;
+  call be;
+}
+
+procedure be {
+  be1 = eb2;
+  call bf;
+}
+
+procedure bf {
+  bf1 = fb2;
+  call bg;
+}
+
+procedure bg {
+  bg1 = gb2;
+  call bh;
+}
+
+procedure bh {
+  bh1 = hb2;
+  call bi;
+}
+
+procedure bi {
+  bi1 = ib2;
+  call bj;
+}
+
+procedure bj {
+  bj1 = jb2;
+  call ca;
+}
+
+procedure ca {
+  ca1 = ac2;
+  call cb;
+}
+
+procedure cb {
+  cb1 = bc2;
+  call cc;
+}
+
+procedure cc {
+  cc1 = cc2;
+  call cd;
+}
+
+procedure cd {
+  cd1 = dc2;
+  call ce;
+}
+
+procedure ce {
+  ce1 = ec2;
+  call cf;
+}
+
+procedure cf {
+  cf1 = fc2;
+  call cg;
+}
+
+procedure cg {
+  cg1 = gc2;
+  call ch;
+}
+
+procedure ch {
+  ch1 = hc2;
+  call ci;
+}
+
+procedure ci {
+  ci1 = ic2;
+  call cj;
+}
+
+procedure cj {
+  cj1 = jc2;
+  call da;
+}
+
+procedure da {
+  da1 = ad2;
+  call db;
+}
+
+procedure db {
+  db1 = bd2;
+  call dc;
+}
+
+procedure dc {
+  dc1 = cd2;
+  call dd;
+}
+
+procedure dd {
+  dd1 = dd2;
+  call de;
+}
+
+procedure de {
+  de1 = ed2;
+  call df;
+}
+
+procedure df {
+  df1 = fd2;
+  call dg;
+}
+
+procedure dg {
+  dg1 = gd2;
+  call dh;
+}
+
+procedure dh {
+  dh1 = hd2;
+  call di;
+}
+
+procedure di {
+  di1 = id2;
+  call dj;
+}
+
+procedure dj {
+  dj1 = jd2;
+  call ea;
+}
+
+procedure ea {
+  ea1 = ae2;
+  call eb;
+}
+
+procedure eb {
+  eb1 = be2;
+  call ec;
+}
+
+procedure ec {
+  ec1 = ce2;
+  call ed;
+}
+
+procedure ed {
+  ed1 = de2;
+  call ee;
+}
+
+procedure ee {
+  ee1 = ee2;
+  call ef;
+}
+
+procedure ef {
+  ef1 = fe2;
+  call eg;
+}
+
+procedure eg {
+  eg1 = ge2;
+  call eh;
+}
+
+procedure eh {
+  eh1 = he2;
+  call ei;
+}
+
+procedure ei {
+  ei1 = ie2;
+  call ej;
+}
+
+procedure ej {
+  ej1 = je2;
+  call fa;
+}
+
+procedure fa {
+  fa1 = af2;
+  call fb;
+}
+
+procedure fb {
+  fb1 = bf2;
+  call fc;
+}
+
+procedure fc {
+  fc1 = cf2;
+  call fd;
+}
+
+procedure fd {
+  fd1 = df2;
+  call fe;
+}
+
+procedure fe {
+  fe1 = ef2;
+  call ff;
+}
+
+procedure ff {
+  ff1 = ff2;
+  call fg;
+}
+
+procedure fg {
+  fg1 = gf2;
+  call fh;
+}
+
+procedure fh {
+  fh1 = hf2;
+  call fi;
+}
+
+procedure fi {
+  fi1 = if2;
+  call fj;
+}
+
+procedure fj {
+  fj1 = jf2;
+  call ga;
+}
+
+procedure ga {
+  ga1 = ag2;
+  call gb;
+}
+
+procedure gb {
+  gb1 = bg2;
+  call gc;
+}
+
+procedure gc {
+  gc1 = cg2;
+  call gd;
+}
+
+procedure gd {
+  gd1 = dg2;
+  call ge;
+}
+
+procedure ge {
+  ge1 = eg2;
+  call gf;
+}
+
+procedure gf {
+  gf1 = fg2;
+  call gg;
+}
+
+procedure gg {
+  gg1 = gg2;
+  call gh;
+}
+
+procedure gh {
+  gh1 = hg2;
+  call gi;
+}
+
+procedure gi {
+  gi1 = ig2;
+  call gj;
+}
+
+procedure gj {
+  gj1 = jg2;
+  call ha;
+}
+
+procedure ha {
+  ha1 = ah2;
+  call hb;
+}
+
+procedure hb {
+  hb1 = bh2;
+  call hc;
+}
+
+procedure hc {
+  hc1 = ch2;
+  call hd;
+}
+
+procedure hd {
+  hd1 = dh2;
+  call he;
+}
+
+procedure he {
+  he1 = eh2;
+  call hf;
+}
+
+procedure hf {
+  hf1 = fh2;
+  call hg;
+}
+
+procedure hg {
+  hg1 = gh2;
+  call hh;
+}
+
+procedure hh {
+  hh1 = hh2;
+  call hi;
+}
+
+procedure hi {
+  hi1 = ih2;
+  call hj;
+}
+
+procedure hj {
+  hj1 = jh2;
+  call ia;
+}
+
+procedure ia {
+  ia1 = ai2;
+  call ib;
+}
+
+procedure ib {
+  ib1 = bi2;
+  call ic;
+}
+
+procedure ic {
+  ic1 = ci2;
+  call id;
+}
+
+procedure id {
+  id1 = di2;
+  call ie;
+}
+
+procedure ie {
+  ie1 = ei2;
+  call if;
+}
+
+procedure if {
+  if1 = fi2;
+  call ig;
+}
+
+procedure ig {
+  ig1 = gi2;
+  call ih;
+}
+
+procedure ih {
+  ih1 = hi2;
+  call ii;
+}
+
+procedure ii {
+  ii1 = ii2;
+  call ij;
+}
+
+procedure ij {
+  ij1 = ji2;
+  call ja;
+}
+
+procedure ja {
+  ja1 = aj2;
+  call jb;
+}
+
+procedure jb {
+  jb1 = bj2;
+  call jc;
+}
+
+procedure jc {
+  jc1 = cj2;
+  call jd;
+}
+
+procedure jd {
+  jd1 = dj2;
+  call je;
+}
+
+procedure je {
+  je1 = ej2;
+  call jf;
+}
+
+procedure jf {
+  jf1 = fj2;
+  call jg;
+}
+
+procedure jg {
+  jg1 = gj2;
+  call jh;
+}
+
+procedure jh {
+  jh1 = hj2;
+  call ji;
+}
+
+procedure ji {
+  ji1 = ij2;
+  call jj;
+}
+
+procedure jj {
+  jj1 = jj2;
+  call ka;
+}
+
+procedure ka {
+  ka1 = ak2;
+  call kb;
+}
+
+procedure kb {
+  kb1 = bk2;
+  call kc;
+}
+
+procedure kc {
+  kc1 = ck2;
+  call kd;
+}
+
+procedure kd {
+  kd1 = dk2;
+  call ke;
+}
+
+procedure ke {
+  ke1 = ek2;
+  call kf;
+}
+
+procedure kf {
+  kf1 = fk2;
+  call kg;
+}
+
+procedure kg {
+  kg1 = gk2;
+  call kh;
+}
+
+procedure kh {
+  kh1 = hk2;
+  call ki;
+}
+
+procedure ki {
+  ki1 = ik2;
+  call kj;
+}
+
+procedure kj {
+  kj1 = jk2;
+  call la;
+}
+
+procedure la {
+  la1 = al2;
+  call lb;
+}
+
+procedure lb {
+  lb1 = bl2;
+  call lc;
+}
+
+procedure lc {
+  lc1 = cl2;
+  call ld;
+}
+
+procedure ld {
+  ld1 = dl2;
+  call le;
+}
+
+procedure le {
+  le1 = el2;
+  call lf;
+}
+
+procedure lf {
+  lf1 = fl2;
+  call lg;
+}
+
+procedure lg {
+  lg1 = gl2;
+  call lh;
+}
+
+procedure lh {
+  lh1 = hl2;
+  call li;
+}
+
+procedure li {
+  li1 = il2;
+  call lj;
+}
+
+procedure lj {
+  lj1 = jl2;
+  call ma;
+}
+
+procedure ma {
+  ma1 = am2;
+  call mb;
+}
+
+procedure mb {
+  mb1 = bm2;
+  call mc;
+}
+
+procedure mc {
+  mc1 = cm2;
+  call md;
+}
+
+procedure md {
+  md1 = dm2;
+  call me;
+}
+
+procedure me {
+  me1 = em2;
+  call mf;
+}
+
+procedure mf {
+  mf1 = fm2;
+  call mg;
+}
+
+procedure mg {
+  mg1 = gm2;
+  call mh;
+}
+
+procedure mh {
+  mh1 = hm2;
+  call mi;
+}
+
+procedure mi {
+  mi1 = im2;
+  call mj;
+}
+
+procedure mj {
+  mj1 = jm2;
+  call na;
+}
+
+procedure na {
+  na1 = an2;
+  call nb;
+}
+
+procedure nb {
+  nb1 = bn2;
+  call nc;
+}
+
+procedure nc {
+  nc1 = cn2;
+  call nd;
+}
+
+procedure nd {
+  nd1 = dn2;
+  call ne;
+}
+
+procedure ne {
+  ne1 = en2;
+  call nf;
+}
+
+procedure nf {
+  nf1 = fn2;
+  call ng;
+}
+
+procedure ng {
+  ng1 = gn2;
+  call nh;
+}
+
+procedure nh {
+  nh1 = hn2;
+  call ni;
+}
+
+procedure ni {
+  ni1 = in2;
+  call nj;
+}
+
+procedure nj {
+  nj1 = jn2;
+  call oa;
+}
+
+procedure oa {
+  oa1 = ao2;
+  call ob;
+}
+
+procedure ob {
+  ob1 = bo2;
+  call oc;
+}
+
+procedure oc {
+  oc1 = co2;
+  call od;
+}
+
+procedure od {
+  od1 = do2;
+  call oe;
+}
+
+procedure oe {
+  oe1 = eo2;
+  call of;
+}
+
+procedure of {
+  of1 = fo2;
+  call og;
+}
+
+procedure og {
+  og1 = go2;
+  call oh;
+}
+
+procedure oh {
+  oh1 = ho2;
+  call oi;
+}
+
+procedure oi {
+  oi1 = io2;
+  call oj;
+}
+
+procedure oj {
+  oj1 = jo2;
+  call pa;
+}
+
+procedure pa {
+  pa1 = ap2;
+  call pb;
+}
+
+procedure pb {
+  pb1 = bp2;
+  call pc;
+}
+
+procedure pc {
+  pc1 = cp2;
+  call pd;
+}
+
+procedure pd {
+  pd1 = dp2;
+  call pe;
+}
+
+procedure pe {
+  pe1 = ep2;
+  call pf;
+}
+
+procedure pf {
+  pf1 = fp2;
+  call pg;
+}
+
+procedure pg {
+  pg1 = gp2;
+  call ph;
+}
+
+procedure ph {
+  ph1 = hp2;
+  call pi;
+}
+
+procedure pi {
+  pi1 = ip2;
+  call pj;
+}
+
+procedure pj {
+  pj1 = jp2;
+  call qa;
+}
+
+procedure qa {
+  qa1 = aq2;
+  call qb;
+}
+
+procedure qb {
+  qb1 = bq2;
+  call qc;
+}
+
+procedure qc {
+  qc1 = cq2;
+  call qd;
+}
+
+procedure qd {
+  qd1 = dq2;
+  call qe;
+}
+
+procedure qe {
+  qe1 = eq2;
+  call qf;
+}
+
+procedure qf {
+  qf1 = fq2;
+  call qg;
+}
+
+procedure qg {
+  qg1 = gq2;
+  call qh;
+}
+
+procedure qh {
+  qh1 = hq2;
+  call qi;
+}
+
+procedure qi {
+  qi1 = iq2;
+  call qj;
+}
+
+procedure qj {
+  qj1 = jq2;
+  call ra;
+}
+
+procedure ra {
+  ra1 = ar2;
+  call rb;
+}
+
+procedure rb {
+  rb1 = br2;
+  call rc;
+}
+
+procedure rc {
+  rc1 = cr2;
+  call rd;
+}
+
+procedure rd {
+  rd1 = dr2;
+  call re;
+}
+
+procedure re {
+  re1 = er2;
+  call rf;
+}
+
+procedure rf {
+  rf1 = fr2;
+  call rg;
+}
+
+procedure rg {
+  rg1 = gr2;
+  call rh;
+}
+
+procedure rh {
+  rh1 = hr2;
+  call ri;
+}
+
+procedure ri {
+  ri1 = ir2;
+  call rj;
+}
+
+procedure rj {
+  rj1 = jr2;
+  call sa;
+}
+
+procedure sa {
+  sa1 = as2;
+  call sb;
+}
+
+procedure sb {
+  sb1 = bs2;
+  call sc;
+}
+
+procedure sc {
+  sc1 = cs2;
+  call sd;
+}
+
+procedure sd {
+  sd1 = ds2;
+  call se;
+}
+
+procedure se {
+  se1 = es2;
+  call sf;
+}
+
+procedure sf {
+  sf1 = fs2;
+  call sg;
+}
+
+procedure sg {
+  sg1 = gs2;
+  call sh;
+}
+
+procedure sh {
+  sh1 = hs2;
+  call si;
+}
+
+procedure si {
+  si1 = is2;
+  call sj;
+}
+
+procedure sj {
+  sj1 = js2;
+  call ta;
+}
+
+procedure ta {
+  ta1 = at2;
+  call tb;
+}
+
+procedure tb {
+  tb1 = bt2;
+  call tc;
+}
+
+procedure tc {
+  tc1 = ct2;
+  call td;
+}
+
+procedure td {
+  td1 = dt2;
+  call te;
+}
+
+procedure te {
+  te1 = et2;
+  call tf;
+}
+
+procedure tf {
+  tf1 = ft2;
+  call tg;
+}
+
+procedure tg {
+  tg1 = gt2;
+  call th;
+}
+
+procedure th {
+  th1 = ht2;
+  call ti;
+}
+
+procedure ti {
+  ti1 = it2;
+  call tj;
+}
+
+procedure tj {
+  tj1 = jt2;
+}
