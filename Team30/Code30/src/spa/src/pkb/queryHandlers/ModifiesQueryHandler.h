@@ -14,7 +14,7 @@ class ModifiesQueryHandler : public IModifiesQueryHandler {
       PkbEntEntQueryInvoker *,
       ModifiesStorage *,
       ModifiesPStorage *);
-  
+
   EntityValue getReadDeclarations(StmtValue) const;
 
  private:

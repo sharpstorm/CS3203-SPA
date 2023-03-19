@@ -2,7 +2,7 @@
 
 #include "common/Types.h"
 #include "pkb/queryHandlers/BaseQueryHandler.h"
-#include "pkb/queryHandlers/BaseQueryHandler.h"
+
 class IUsesQueryHandler
     : virtual public PkbStmtEntQueryHandler,
         virtual public PkbEntEntQueryHandler {
