@@ -278,47 +278,47 @@ TEST_CASE("End-to-End Assign Pattern Test") {
 TEST_CASE("End-to-End If Pattern Test") {
   auto pipeline = TestPipelineProvider();
 
-  pipeline.query("if ifs; Select ifs pattern ifs (\"x\", _)",
+  pipeline.query("if ifs; Select ifs pattern ifs (\"x\", _, _)",
                  {"6"});
 
-  pipeline.query("if ifs; variable v; Select ifs pattern ifs (v, _) with v.varName = \"x\"",
+  pipeline.query("if ifs; variable v; Select ifs pattern ifs (v, _, _) with v.varName = \"x\"",
                  {"6"});
 
-  pipeline.query("if ifs; Select ifs pattern ifs (\"y\", _)",
+  pipeline.query("if ifs; Select ifs pattern ifs (\"y\", _, _)",
                  {});
 
-  pipeline.query("if ifs; variable v; Select ifs pattern ifs (v, _) with v.varName = \"y\"",
+  pipeline.query("if ifs; variable v; Select ifs pattern ifs (v, _, _) with v.varName = \"y\"",
                  {});
 
-  pipeline.query("if ifs; variable v; Select <v, ifs> pattern ifs (v, _)",
+  pipeline.query("if ifs; variable v; Select <v, ifs> pattern ifs (v, _, _)",
                  {"x 6"});
 
-  pipeline.query("if ifs; Select ifs pattern ifs (_, _)",
+  pipeline.query("if ifs; Select ifs pattern ifs (_, _, _)",
                  {"6"});
 }
 
 TEST_CASE("End-to-End While Pattern Test") {
   auto pipeline = TestPipelineProvider();
 
-  pipeline.query("while while; Select while pattern while (\"i\", _, _)",
+  pipeline.query("while while; Select while pattern while (\"i\", _)",
                  {"4"});
 
-  pipeline.query("while while; variable v; Select while pattern while (v, _, _) with v.varName = \"i\"",
+  pipeline.query("while while; variable v; Select while pattern while (v, _) with v.varName = \"i\"",
                  {"4"});
 
-  pipeline.query("while while; Select while pattern while (\"x\", _, _)",
+  pipeline.query("while while; Select while pattern while (\"x\", _)",
                  {});
 
-  pipeline.query("while while; variable v; Select while pattern while (v, _, _) with v.varName =\"x\"",
+  pipeline.query("while while; variable v; Select while pattern while (v, _) with v.varName =\"x\"",
                  {});
 
-  pipeline.query("while while; variable v; Select <v, while> pattern while (v, _, _)",
+  pipeline.query("while while; variable v; Select <v, while> pattern while (v, _)",
                  {"i 4"});
 
-  pipeline.query("while while; Select while pattern while (_, _, _)",
+  pipeline.query("while while; Select while pattern while (_, _)",
                  {"4"});
 
-  pipeline.query("while w; Select w pattern w(_,_,_) such that Parent(w, 5)",
+  pipeline.query("while w; Select w pattern w(_,_) such that Parent(w, 5)",
                  {"4"});
 }
 
