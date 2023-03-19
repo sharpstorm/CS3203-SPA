@@ -7,7 +7,7 @@ procedure affectsTest{
           num1 = num1 + 1;
       } else { 
           num2 = num2 + 1;
-      } if (num2 == 0) then {
+      } if (num2==0) then {
           while (num1 <= 5) {
               while (num2 >= 0) {
                   while (num4 > 3) {
@@ -23,10 +23,10 @@ procedure affectsTest{
       }} else { 
           num3 = 0;
           num2 = 0;
-      } if (num3 > 5) then {
+      } if (num3>5) then {
           num3 = num3 - 1;
       } else { 
           num2 = num1 + num3;
       }
-      num1 = 1;
+         num1 = 1;
 }
