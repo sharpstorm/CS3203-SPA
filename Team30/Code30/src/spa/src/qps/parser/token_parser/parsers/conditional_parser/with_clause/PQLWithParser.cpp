@@ -48,15 +48,16 @@ void PQLWithParser::parseWithClause(QueryTokenParseState *parserState,
     builder->addWith(std::move(withClause));
   } else {
     ConstraintSPtr constraint = parseConstraint(
-        std::move(left), std::move(right));
-    builder->addConstraint(constraint);
+        std::move(left), std::move(right), builder);
+    if (constraint != nullptr) {
+      builder->addConstraint(constraint);
+    }
   }
 }
 
-
 ConstraintSPtr PQLWithParser::parseConstraint(
-    WithArgumentPtr left, WithArgumentPtr right) {
-  ConstraintSPtr constraint;
+    WithArgumentPtr left, WithArgumentPtr right, QueryBuilder* builder) {
+  ConstraintSPtr constraint = nullptr;
   if (!left->isSyn() && !right->isSyn()) {
     constraint = make_shared<ConstantConstraint>(
         std::move(left), std::move(right));
@@ -65,9 +66,19 @@ ConstraintSPtr PQLWithParser::parseConstraint(
   } else {
     // Cat 2
     if (left->isSyn()) {
-      constraint = parseOverrideConstraint(std::move(left), std::move(right));
+      if (isNonDefaultCase(left->getAttrSyn())) {
+        addWithSelectClause(builder, left->getAttrSyn(),
+                            right->getIdentValue());
+      } else {
+        constraint = parseOverrideConstraint(std::move(left), std::move(right));
+      }
     } else {
-      constraint = parseOverrideConstraint(std::move(right), std::move(left));
+      if (isNonDefaultCase(right->getAttrSyn())) {
+        addWithSelectClause(builder, right->getAttrSyn(),
+                            left->getIdentValue());
+      } else {
+        constraint = parseOverrideConstraint(std::move(right), std::move(left));
+      }
     }
   }
 
@@ -84,3 +95,25 @@ ConstraintSPtr PQLWithParser::parseOverrideConstraint(
         synArg->getAttrSyn(), staticArg->getIdentValue());
   }
 }
+
+bool PQLWithParser::isNonDefaultCase(AttributedSynonym attrSyn) {
+  PQLSynonymType synType = attrSyn.getType();
+  PQLSynonymAttribute synAttr = attrSyn.getAttribute();
+
+  if (synAttr == VAR_NAME) {
+    return synType == PQL_SYN_TYPE_READ || synType == PQL_SYN_TYPE_PRINT;
+  } else if (synAttr == PROC_NAME) {
+    return synType == PQL_SYN_TYPE_CALL;
+  }
+
+  return false;
+}
+
+void PQLWithParser::addWithSelectClause(QueryBuilder* builder,
+                                        AttributedSynonym attrSyn,
+                                        string identValue) {
+  WithSelectClausePtr withSelect = make_unique<WithSelectClause>(
+      attrSyn, identValue);
+  builder->addWithSelect(std::move(withSelect));
+}
+

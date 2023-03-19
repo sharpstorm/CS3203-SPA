@@ -29,8 +29,7 @@ constexpr FollowsInvoker followsTInvoker = [](PkbQueryHandler* pkbQueryHandler,
 };
 
 constexpr FollowsSameSynInvoker followsSymmetricInvoker =
-    [](PkbQueryHandler* pkbQueryHandler,
-       const StmtRef &arg){
+    [](PkbQueryHandler* pkbQueryHandler, const StmtRef &arg){
       return unordered_set<StmtValue>{};
     };
 

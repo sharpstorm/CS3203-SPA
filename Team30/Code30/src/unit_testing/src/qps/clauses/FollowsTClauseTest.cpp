@@ -53,6 +53,7 @@ TEST_CASE("FollowsTClause Querying") {
   PQLQueryResultPtr expected;
   PQLQueryResultPtr actual;
 
+  OverrideTablePtr override = make_unique<OverrideTable>();
   // Static results
   // When stmtNumLeft < stmtNumRight E.g. Follows*(1,4)
   FollowsTClause followsTClause = FollowsTClause(
@@ -60,7 +61,7 @@ TEST_CASE("FollowsTClause Querying") {
   make_unique<StmtArgument>(4));
 
   expected = PQLQueryResultPtr(new PQLQueryResult());
-  actual = PQLQueryResultPtr(followsTClause.evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(followsTClause.evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 
   // When stmtNumLeft > stmtNumRight E.g. Follows*(4,1)
@@ -70,7 +71,7 @@ TEST_CASE("FollowsTClause Querying") {
 
   expected = PQLQueryResultPtr(new PQLQueryResult());
   expected->setIsStaticFalse(true);
-  actual = PQLQueryResultPtr(followsTClause.evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(followsTClause.evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 
   // Left arg is synonym
@@ -78,7 +79,7 @@ TEST_CASE("FollowsTClause Querying") {
       make_unique<SynonymArgument>(synA1),
       make_unique<StmtArgument>(4));
   expected = TestQueryResultBuilder::buildExpected(FOLLOWST_LEFT_LINES);
-  actual = PQLQueryResultPtr(followsTClause.evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(followsTClause.evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 
   // Right arg is synonym
@@ -86,7 +87,7 @@ TEST_CASE("FollowsTClause Querying") {
       make_unique<StmtArgument>(1),
       make_unique<SynonymArgument>(synA2));
   expected = TestQueryResultBuilder::buildExpected(FOLLOWST_RIGHT_LINES);
-  actual = PQLQueryResultPtr(followsTClause.evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(followsTClause.evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 
   // Both sides are synonym
@@ -94,6 +95,6 @@ TEST_CASE("FollowsTClause Querying") {
       make_unique<SynonymArgument>(synA1),
       make_unique<SynonymArgument>(synA2));
   expected = TestQueryResultBuilder::buildExpected(FOLLOWST_PAIRS);
-  actual = PQLQueryResultPtr(followsTClause.evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(followsTClause.evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 }

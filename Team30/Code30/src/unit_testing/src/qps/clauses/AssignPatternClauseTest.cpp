@@ -125,6 +125,7 @@ TEST_CASE("Assign Pattern Constant-Exact") {
   PQLQueryResultPtr expected;
   PQLQueryResultPtr actual;
   PQLQuerySynonym assignSyn(PQL_SYN_TYPE_ASSIGN, "a");
+  OverrideTablePtr override = make_unique<OverrideTable>();
 
   makeExpressionArgument("x", false);
   // Constant-Variable-Exact
@@ -135,7 +136,7 @@ TEST_CASE("Assign Pattern Constant-Exact") {
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{ 2 });
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 
   // Constant-Integer-Exact
@@ -146,7 +147,7 @@ TEST_CASE("Assign Pattern Constant-Exact") {
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{ 1 });
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 }
 
@@ -157,6 +158,7 @@ TEST_CASE("Assign Pattern Constant-Wildcard") {
   PQLQueryResultPtr expected;
   PQLQueryResultPtr actual;
   PQLQuerySynonym assignSyn(PQL_SYN_TYPE_ASSIGN, "a");
+  OverrideTablePtr override = make_unique<OverrideTable>();
 
   // Constant-Wildcard
   PatternClausePtr patternClause = make_unique<AssignPatternClause>(
@@ -166,7 +168,7 @@ TEST_CASE("Assign Pattern Constant-Wildcard") {
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{2, 4});
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 
   // Constant-Variable-Wildcard
@@ -177,7 +179,7 @@ TEST_CASE("Assign Pattern Constant-Wildcard") {
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{2, 4});
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 
   // Constant-Integer-Wildcard
@@ -188,7 +190,7 @@ TEST_CASE("Assign Pattern Constant-Wildcard") {
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{1, 3});
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 }
 
@@ -200,6 +202,7 @@ TEST_CASE("Assign Pattern Variable-Exact") {
   PQLQueryResultPtr actual;
   PQLQuerySynonym assignSyn(PQL_SYN_TYPE_ASSIGN, "a");
   PQLQuerySynonym varSyn(PQL_SYN_TYPE_VARIABLE, "v");
+  OverrideTablePtr override = make_unique<OverrideTable>();
 
   // Variable-Integer-Exact
   PatternClausePtr patternClause = make_unique<AssignPatternClause>(
@@ -209,7 +212,7 @@ TEST_CASE("Assign Pattern Variable-Exact") {
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", "v", pair_set<int, string>{{ 1, "a" }});
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 
   // Constant-Variable-Exact
@@ -220,7 +223,7 @@ TEST_CASE("Assign Pattern Variable-Exact") {
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", "v", pair_set<int, string>{{ 2, "b" }});
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 
   // Variable-Integer-Exact
@@ -231,7 +234,7 @@ TEST_CASE("Assign Pattern Variable-Exact") {
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{ 1 });
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 
   // Constant-Variable-Exact
@@ -242,7 +245,7 @@ TEST_CASE("Assign Pattern Variable-Exact") {
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{ 2 });
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 }
 
@@ -254,6 +257,7 @@ TEST_CASE("Assign Pattern Variable-Partial") {
   PQLQueryResultPtr actual;
   PQLQuerySynonym assignSyn(PQL_SYN_TYPE_ASSIGN, "a");
   PQLQuerySynonym varSyn(PQL_SYN_TYPE_VARIABLE, "v");
+  OverrideTablePtr override = make_unique<OverrideTable>();
 
   // Variable-Integer-Partial
   PatternClausePtr patternClause = make_unique<AssignPatternClause>(
@@ -266,7 +270,7 @@ TEST_CASE("Assign Pattern Variable-Partial") {
       { 1, "a" },
       { 3, "a" }
   });
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 
   // Constant-Variable-Partial
@@ -280,7 +284,7 @@ TEST_CASE("Assign Pattern Variable-Partial") {
       { 2, "b" },
       { 4, "b" }
   });
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 
   // Variable-Integer-Partial
@@ -291,7 +295,7 @@ TEST_CASE("Assign Pattern Variable-Partial") {
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{ 3, 5 });
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 
   // Constant-Variable-Partial
@@ -302,6 +306,6 @@ TEST_CASE("Assign Pattern Variable-Partial") {
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{ 4, 5 });
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 }

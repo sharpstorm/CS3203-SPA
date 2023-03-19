@@ -65,8 +65,8 @@ constexpr NextInvoker abstractNextInvoker = [](PkbQueryHandler* pkbQueryHandler,
 
 template <class T>
 constexpr NextSameSynInvoker abstractNextSameSynInvoker = [](
-    PkbQueryHandler* pkbQueryHandler,
-    const StmtRef &arg) -> unordered_set<StmtValue> {
+    PkbQueryHandler* pkbQueryHandler, const StmtRef &arg) ->
+    unordered_set<StmtValue> {
   vector<CFG*> cfgs = pkbQueryHandler->queryCFGs(StmtRef{StmtType::None, 0});
   unordered_set<StmtValue> result;
 

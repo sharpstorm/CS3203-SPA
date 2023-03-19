@@ -2,13 +2,15 @@
 #include "qps/QPSFacade.h"
 #include "../TestUtils.h"
 
-TestPipelineProvider::TestPipelineProvider():
+TestPipelineProvider::TestPipelineProvider(string source):
     pkb(make_unique<PKB>()),
     pkbWriter(make_unique<PkbWriter>(pkb.get())),
     pkbQH(make_unique<PkbQueryHandler>(pkb.get())),
     qps(make_unique<QPSFacade>(pkbQH.get(), &spDriver)) {
-  spDriver.parseSource(SOURCE1, pkbWriter.get());
+  spDriver.parseSource(source, pkbWriter.get());
 }
+
+TestPipelineProvider::TestPipelineProvider(): TestPipelineProvider(SOURCE1) {}
 
 void TestPipelineProvider::query(const string &query,
                                  const unordered_set<string> &answer) {

@@ -25,17 +25,35 @@ class AbstractTwoArgClause: public SuchThatClause {
       QueryInvoker<LeftResultType, LeftArgType,
                    RightResultType, RightArgType> diffSynInvoker,
       SymmetricQueryInvoker<LeftResultType, LeftArgType> sameSynInvoker>
-  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler) {
+  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler,
+                             OverrideTable* table) {
     if (isSameSynonym()) {
       auto queryResult = sameSynInvoker(pkbQueryHandler,
                                         leftTransformer(left.get()));
       return Clause::toQueryResult(left->getName(), queryResult);
     }
 
+    LeftArgType leftArg = leftTransformer(left.get());
+    RightArgType rightArg = rightTransformer(right.get());
+    if (left->canSubstitute(table)) {
+      OverrideTransformer overrideTrans = table->at(left->getName());
+      leftArg = overrideTrans.transformArg(leftArg);
+     if (!Clause::isValidRef(leftArg, pkbQueryHandler)) {
+        return new PQLQueryResult();
+      }
+    }
+
+    if (right->canSubstitute(table)) {
+      OverrideTransformer overrideTrans = table->at(right->getName());
+      rightArg = overrideTrans.transformArg(rightArg);
+      if (!Clause::isValidRef(rightArg, pkbQueryHandler)) {
+        return new PQLQueryResult();
+      }
+    }
+
     auto queryResult = diffSynInvoker(
-        pkbQueryHandler,
-        leftTransformer(left.get()),
-        rightTransformer(right.get()));
+        pkbQueryHandler, leftArg, rightArg);
+
     return Clause::toQueryResult(left.get(), right.get(), queryResult);
   }
 
