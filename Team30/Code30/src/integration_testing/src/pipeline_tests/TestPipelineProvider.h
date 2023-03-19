@@ -24,9 +24,17 @@ const char SOURCE1[] = "procedure Example {\n"
                        "    i = i - 1; }\n" // 11
                        "  z = x + 1; }"; // 12
 
+const char SOURCE2[] = "procedure Example {\n"
+                       "  read y;\n" // 1
+                       "  read x;\n" // 2
+                       "  read x;\n" // 3
+                       "  read y;\n" // 4
+                       "}";
+
 class TestPipelineProvider {
  public:
   TestPipelineProvider();
+  explicit TestPipelineProvider(string source);
   void query(const string &query, const unordered_set<string> &answer);
   void expectSyntaxError(const string &query);
   void expectSemanticError(const string &query);

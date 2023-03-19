@@ -21,14 +21,15 @@ TEST_CASE("Uses querying") {
 
   PQLQueryResultPtr expected;
   PQLQueryResultPtr actual;
-
+  OverrideTablePtr override = make_unique<OverrideTable>();
+  
   // Static Results
   UsesClause usesClause = UsesClause(
       make_unique<StmtArgument>(1),
       make_unique<EntityArgument>("x"));
   expected = make_unique<PQLQueryResult>();
   expected->setIsStaticFalse(true);
-  actual = PQLQueryResultPtr(usesClause.evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(usesClause.evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 
   // Wildcard - Static Statement
@@ -36,7 +37,7 @@ TEST_CASE("Uses querying") {
       make_unique<StmtArgument>(6),
       make_unique<WildcardArgument>());
   expected = make_unique<PQLQueryResult>();
-  actual = PQLQueryResultPtr(usesClause.evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(usesClause.evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 
   // Wildcard - Synonym Statement
@@ -50,7 +51,7 @@ TEST_CASE("Uses querying") {
         QueryResultItem(8)
       }},
   });
-  actual = PQLQueryResultPtr(usesClause.evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(usesClause.evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 
   // Statement synonym
@@ -64,7 +65,7 @@ TEST_CASE("Uses querying") {
         QueryResultItem(8)
       }},
   });
-  actual = PQLQueryResultPtr(usesClause.evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(usesClause.evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 
   // Entity synonym
@@ -74,7 +75,7 @@ TEST_CASE("Uses querying") {
   expected = TestQueryResultBuilder::buildExpected((ExpectedParams{
       {"v", QueryResultItemVector {QueryResultItem("count")}}
   }));
-  actual = PQLQueryResultPtr(usesClause.evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(usesClause.evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 
   // Both synonyms
@@ -100,6 +101,6 @@ TEST_CASE("Uses querying") {
           QueryResultItem("y")
       }}
   });
-  actual = PQLQueryResultPtr(usesClause.evaluateOn(pkb.get()));
+  actual = PQLQueryResultPtr(usesClause.evaluateOn(pkb.get(), override.get()));
   REQUIRE(*expected == *actual);
 }

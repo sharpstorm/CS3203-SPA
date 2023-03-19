@@ -1,0 +1,40 @@
+procedure First {
+    read x;
+    read z;
+    while (x >= 0) {
+        call Second;
+        x = x - 1;
+    }
+    call Third; 
+}
+
+procedure Second {
+    x = 0;
+    i = 5;
+    while (i!=0) {
+        x = x + 2*y;
+        call Fourth;
+        i = i - 1; }
+    if (x==1) then {
+        x = x+1; }
+      else {
+        z = 1; }
+    z = z + x + i;
+    y = z + 2;
+    x = x * y + z; }
+
+procedure Third {
+    z = 5;
+    v = z;
+    if (z == 5) then {
+        call Fourth;
+    } else {
+        print z;
+    }   
+    print v; 
+}  
+
+procedure Fourth {
+    num = 0;
+    print num;
+}    

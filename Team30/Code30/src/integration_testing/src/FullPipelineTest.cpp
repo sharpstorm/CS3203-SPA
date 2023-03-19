@@ -168,6 +168,9 @@ TEST_CASE("End-to-End BOOLEAN Test") {
 TEST_CASE("End-to-End No Clause") {
   auto pipeline = TestPipelineProvider();
 
+  pipeline.query("constant c; Select c with c.value = 3",
+                 {"3"});
+
   pipeline.query("constant c; Select c",
                  {"0", "1", "2", "3", "5"});
 
@@ -226,6 +229,9 @@ TEST_CASE("End-to-End Assign Pattern Test") {
   pipeline.query("assign a; Select a pattern a (\"x\", _\"1\"_)",
                  {"5"});
 
+  pipeline.query("assign a; variable v; Select a pattern a (v, _\"1\"_) with v.varName = \"x\"",
+                 {"5"});
+
   pipeline.query("assign a; Select a pattern a (\"y\", _\"x\"_)",
                  {"8"});
 
@@ -275,7 +281,13 @@ TEST_CASE("End-to-End If Pattern Test") {
   pipeline.query("if ifs; Select ifs pattern ifs (\"x\", _)",
                  {"6"});
 
+  pipeline.query("if ifs; variable v; Select ifs pattern ifs (v, _) with v.varName = \"x\"",
+                 {"6"});
+
   pipeline.query("if ifs; Select ifs pattern ifs (\"y\", _)",
+                 {});
+
+  pipeline.query("if ifs; variable v; Select ifs pattern ifs (v, _) with v.varName = \"y\"",
                  {});
 
   pipeline.query("if ifs; variable v; Select <v, ifs> pattern ifs (v, _)",
@@ -291,7 +303,13 @@ TEST_CASE("End-to-End While Pattern Test") {
   pipeline.query("while while; Select while pattern while (\"i\", _, _)",
                  {"4"});
 
+  pipeline.query("while while; variable v; Select while pattern while (v, _, _) with v.varName = \"i\"",
+                 {"4"});
+
   pipeline.query("while while; Select while pattern while (\"x\", _, _)",
+                 {});
+
+  pipeline.query("while while; variable v; Select while pattern while (v, _, _) with v.varName =\"x\"",
                  {});
 
   pipeline.query("while while; variable v; Select <v, while> pattern while (v, _, _)",
@@ -374,6 +392,46 @@ TEST_CASE("End-to-End Next Test") {
                  {"5 5", "7 7", "8 8", "9 9", "11 11"});
 }
 
+TEST_CASE("With Clause Tests - Cat 1 (static = static)") {
+  auto pipeline = TestPipelineProvider();
+
+  pipeline.query("Select BOOLEAN with 1 = 1", {"TRUE"});
+  pipeline.query("variable v; Select v with 1 = 1", {"x", "z", "i", "y"});
+
+  pipeline.query("Select BOOLEAN with 1 = 2", {"FALSE"});
+  pipeline.query("variable v; Select v with 1 = 2", {});
+
+  pipeline.query("Select BOOLEAN with \"foo\" = \"foo\"", {"TRUE"});
+  pipeline.query("variable v; Select v with \"foo\" = \"foo\"", {"x", "z", "i", "y"});
+}
+
+TEST_CASE("With Clause Tests - Cat 2 (attrRef = static)") {
+  auto pipeline = TestPipelineProvider();
+
+  pipeline.query("assign a; Select BOOLEAN with a.stmt# = 4", {"FALSE"});
+  pipeline.query("variable v; Select BOOLEAN with v.varName = \"x\"", {"TRUE"});
+  pipeline.query("variable v; Select BOOLEAN with v.varName = \"g\"", {"FALSE"});
+
+  pipeline.query("assign a; Select BOOLEAN with a.stmt# = 1", {"TRUE"});
+  pipeline.query("assign a; Select BOOLEAN with a.stmt# = 4", {"FALSE"});
+
+  pipeline.query("while w; Select BOOLEAN with w.stmt# = 4", {"TRUE"});
+  pipeline.query("while w; Select BOOLEAN with w.stmt# = 1", {"FALSE"});
+
+  pipeline.query("if ifs; Select BOOLEAN with ifs.stmt# = 6", {"TRUE"});
+  pipeline.query("if ifs; Select BOOLEAN with ifs.stmt# = 1", {"FALSE"});
+
+  pipeline.query("read r; Select BOOLEAN with r.stmt# = 10", {"TRUE"});
+  pipeline.query("read r; Select BOOLEAN with r.stmt# = 1", {"FALSE"});
+
+  pipeline.query("read r; Select BOOLEAN with r.varName = \"x\"", {"TRUE"});
+  pipeline.query("read r; Select BOOLEAN with r.varName = \"g\"", {"FALSE"});
+
+  pipeline.query("constant c; Select BOOLEAN with c.value = 1", {"TRUE"});
+  pipeline.query("constant c; Select BOOLEAN with c.value = 99", {"FALSE"});
+
+}
+
 TEST_CASE("Out of Bounds Statement") {
   auto pipeline = TestPipelineProvider();
 
@@ -422,4 +480,11 @@ TEST_CASE("Out of Bounds Statement") {
                  {});
   pipeline.query("stmt r; Select r such that Next*(100, r)",
                  {});
+}
+
+TEST_CASE("Bad with") {
+  auto pipeline = TestPipelineProvider(SOURCE2);
+
+  pipeline.query("read r; Select r with r.varName = \"x\"",
+                 {"2", "3"});
 }

@@ -17,7 +17,7 @@ constexpr SynStmtMapExtractor<StmtList, string, StmtList> valueExtractor =
       return second;
     };
 
-PQLQueryResult *WithClause::evaluateOn(PkbQueryHandler *pkbQueryHandler) {
+PQLQueryResult *WithClause::evaluateOn(PkbQueryHandler *pkbQueryHandler, OverrideTable* table) {
   PQLQueryResult* result = new PQLQueryResult();
 
   if (isEmptyResult()) {
