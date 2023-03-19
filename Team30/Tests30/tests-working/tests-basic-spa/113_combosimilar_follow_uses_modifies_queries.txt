@@ -75,12 +75,12 @@ none
 5000
 16 - Parent and pattern (_,_)
 while a;
-Select a such that Parent(a, 10) pattern a (_,_,_)
+Select a such that Parent(a, 10) pattern a (_,_)
 6
 5000
 17 - Parent and pattern (_,_)
 if a;
-Select a such that Parent(a, 10) pattern a (_,_)
+Select a such that Parent(a, 10) pattern a (_,_,_)
 
 5000
 18 - Parent and pattern (_,_)
@@ -90,12 +90,12 @@ none
 5000
 19 - Parent and pattern (_,_)
 if a1; assign a2;
-Select a1 such that Parent(a1,a2) pattern a1 (_,_)
+Select a1 such that Parent(a1,a2) pattern a1 (_,_,_)
 11
 5000
 20 - Parent and pattern (_,_)
 while a1; assign a2;
-Select a1 such that Parent(a1,a2) pattern a1 (_,_,_)
+Select a1 such that Parent(a1,a2) pattern a1 (_,_)
 6,16
 5000
 21 - Parent and pattern (_,_)
@@ -115,12 +115,12 @@ none
 5000
 24 - Parent and pattern a (_,_) - variable
 while a; variable v;
-Select v such that Parent(a, 10) pattern a (_,_,_)
+Select v such that Parent(a, 10) pattern a (_,_)
 a, i, x, y, z, j
 5000
 25 - Parent and pattern a (_,_) - variable
 if a; variable v;
-Select v such that Parent(a, 10) pattern a (_,_)
+Select v such that Parent(a, 10) pattern a (_,_,_)
 
 5000
 26 - Parent and pattern (_,_)
@@ -140,7 +140,7 @@ none
 5000
 29 - Parent and pattern (_,_) - variable
 if a1; assign a2; variable v;
-Select v such that Parent(a1,a2) pattern a1 (_,_)
+Select v such that Parent(a1,a2) pattern a1 (_,_,_)
 a, z, x, y, j, i
 5000
 30 - Parent and pattern (_,_) - variable
@@ -150,7 +150,7 @@ a, z, x, y, j, i
 5000
 31 - Parent and pattern (_,_) - variable
 while a1; assign a2; variable v;
-Select v such that Parent(a1,a2) pattern a1 (_,_,_)
+Select v such that Parent(a1,a2) pattern a1 (_,_)
 a, z, x, y, j, i
 5000
 32 - Parent and pattern (_,_) - variable
@@ -170,12 +170,12 @@ none
 5000
 35 - Parent and pattern (v, _)
 while a; variable v;
-Select a such that Parent(a, 10) pattern a (v, _, _)
+Select a such that Parent(a, 10) pattern a (v, _)
 6
 5000
 36 - Parent and pattern (v, _)
 if a; variable v;
-Select a such that Parent(a, 10) pattern a (v, _)
+Select a such that Parent(a, 10) pattern a (v, _,_)
 
 5000
 37 - Parent and pattern (v, _) - variable
@@ -190,12 +190,12 @@ none
 5000
 39 - Parent and pattern (v, _) - variable
 while a; variable v;
-Select v such that Parent(a, 10) pattern a (v, _,_)
+Select v such that Parent(a, 10) pattern a (v, _)
 i
 5000
 40 - Parent and pattern (v, _) - variable
 if a; variable v;
-Select v such that Parent(a, 10) pattern a (v, _)
+Select v such that Parent(a, 10) pattern a (v, _, _)
 
 5000
 41 - Parent and pattern (v, _)
@@ -205,12 +205,12 @@ none
 5000
 42 - Parent and pattern (v, _)
 if a1; assign a2; variable v;
-Select a1 such that Parent(a1, a2) pattern a1 (v, _)
+Select a1 such that Parent(a1, a2) pattern a1 (v, _, _)
 11
 5000
 43 - Parent and pattern (v, _)
 while a1; assign a2; variable v;
-Select a1 such that Parent(a1, a2) pattern a1 (v, _, _)
+Select a1 such that Parent(a1, a2) pattern a1 (v, _)
 6,16
 5000
 44 - Parent and pattern (v, _)
@@ -235,12 +235,12 @@ none
 5000
 48 - Parent and pattern (v, _) - variable
 if a1; assign a2; variable v;
-Select v such that Parent(a1, a2) pattern a1 (v, _)
+Select v such that Parent(a1, a2) pattern a1 (v, _, _)
 x
 5000
 49 - Parent and pattern (v, _) - variable
 while a1; assign a2; variable v;
-Select v such that Parent(a1, a2) pattern a1 (v, _,_)
+Select v such that Parent(a1, a2) pattern a1 (v, _)
 i,j
 5000
 50 - Parent and pattern (v, _) - variable
