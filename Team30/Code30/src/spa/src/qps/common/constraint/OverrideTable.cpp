@@ -8,7 +8,8 @@ StmtRef OverrideTable::transformArg(const PQLSynonymName &name, StmtRef ref) {
   return table.at(name).transformArg(ref);
 }
 
-EntityRef OverrideTable::transformArg(const PQLSynonymName &name, EntityRef ref) {
+EntityRef OverrideTable::transformArg(const PQLSynonymName &name,
+                                      EntityRef ref) {
   if (!contains(name)) {
     return ref;
   }
