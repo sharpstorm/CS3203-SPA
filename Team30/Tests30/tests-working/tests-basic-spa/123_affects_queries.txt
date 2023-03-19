@@ -199,7 +199,7 @@ Select p such that Affects(p, p)
 SemanticError
 5000
 41 - Select NEGATIVE Affects (Constant, Constant) Error (Synonym) (Synonym)
-constant c; stmt s;
+constant c;
 Select c such that Affects(c, c)
 SemanticError
 5000
@@ -232,4 +232,19 @@ Select s such that Affects(w, w)
 while w;
 Select w such that Affects(w, w)
 
+5000
+48 - Select NEGATIVE Affects (Constant, Statement) Error (Synonym) (Synonym)
+constant c; stmt s;
+Select s such that Affects(s, c)
+SemanticError
+5000
+49 - Select NEGATIVE Affects (Statement, Constant) Error (Synonym) (Synonym)
+constant c; stmt s;
+Select s such that Affects(c, s)
+SemanticError
+5000
+50 - Select Constant Affects (Statement, Statement) All constants (Synonym) (Synonym)
+constant c; stmt s;
+Select c such that Affects(s, s)
+0, 10, 1, 5, 3
 5000
