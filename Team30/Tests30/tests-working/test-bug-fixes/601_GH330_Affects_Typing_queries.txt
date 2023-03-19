@@ -1,0 +1,10 @@
+1 - Affects Bug
+read r1; stmt s;
+Select s such that Affects(r1, r1)
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24
+5000
+2 - Affects Bug
+while w;
+Select w such that Affects(w, w)
+15, 18
+5000
