@@ -26,5 +26,5 @@ SynonymResultTable *QueryExecutor::executeQuery(PQLQuery* query) {
     return new SynonymResultTable(isBoolResult, true);
   }
 
-  return orchestrator.execute(plan.get(), std::move(overrideTable));
+  return orchestrator.execute(plan.get(), overrideTable.get());
 }

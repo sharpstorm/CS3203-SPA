@@ -95,10 +95,10 @@ ResultCoalescer::IntersectResult ResultCoalescer::findIntersect(
     ResultTableCol leftCol = state->leftCommons.at(j);
     ResultTableCol rightCol = state->rightCommons.at(j);
     auto referenceValue = currentRow->at(leftCol).get();
-    auto leftSearch = IntersectSetPtr<int>(mergeState->setA
-        ->getRowsWithValue(leftCol, referenceValue));
-    auto rightSearch = IntersectSetPtr<int>(mergeState->setB
-        ->getRowsWithValue(rightCol, referenceValue));
+    auto leftSearch = mergeState->setA->
+        getRowsWithValue(leftCol, referenceValue);
+    auto rightSearch = mergeState->setB->
+        getRowsWithValue(rightCol, referenceValue);
     if (j == 0) {
       leftSet = std::move(leftSearch);
       rightSet = std::move(rightSearch);

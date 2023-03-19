@@ -7,7 +7,7 @@ QueryDriver::QueryDriver(PkbQueryHandler* pkbQH,
                          ISourceExpressionParser* exprParser):
     parser(new QueryParser(exprParser)),
     executor(new QueryExecutor(pkbQH)),
-    projector(new ResultProjector(pkbQH)){ }
+    projector(new ResultProjector(pkbQH)) { }
 
 QueryDriver::~QueryDriver() {
   delete(parser);
