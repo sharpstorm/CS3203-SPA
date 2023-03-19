@@ -42,6 +42,15 @@ class WithClause: public Clause {
 
   void evaluateOnStringAttributes(PQLQueryResult *result,
                                   PkbQueryHandler *pkbQueryHandler);
+
+  void evaluateOnStmtStmt(PQLQueryResult *result,
+                          PkbQueryHandler *pkbQueryHandler);
+  void evaluateOnStmtConst(PQLQueryResult *result,
+                           PkbQueryHandler *pkbQueryHandler,
+                           WithArgument* constant,
+                           WithArgument* stmt);
+  bool isIntegerIndependent(const PQLSynonymType &type);
+
   template <class T>
   void addToResult(PQLQueryResult *result, const T &pkbResult) {
     result->add(leftArg->getSynName(), rightArg->getSynName(), pkbResult);

@@ -587,3 +587,10 @@ TEST_CASE("End-to-End Affects Test") {
                  {"1 5", "1 12", "2 8", "2 9", "3 9", "3 11",
                   "5 7", "5 8", "5 9", "7 9", "9 8", "9 9", "11 9", "11 11"});
 }
+
+TEST_CASE("With Const = Stmt Number Test") {
+  auto pipeline = TestPipelineProvider();
+
+  pipeline.query("stmt s; constant c; Select c with s.stmt# = c.value",
+                 {"1", "2", "3", "5"});
+}
