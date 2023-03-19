@@ -1,0 +1,5 @@
+1 - Select Same Syn with constraint
+assign a;
+Select a such that Next*(a,a) with a.stmt# = 3
+3
+5000
