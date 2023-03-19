@@ -31,6 +31,19 @@ const char SOURCE2[] = "procedure Example {\n"
                        "  read y;\n" // 4
                        "}";
 
+const char SOURCE3[] = "procedure p1 {\n"
+                       "  call p3;\n"
+                       "  print p2;\n"
+                       "}\n"
+                       "\n"
+                       "procedure p2 {\n"
+                       "  read p1;\n"
+                       "}\n"
+                       "\n"
+                       "procedure p3 {\n"
+                       "  call p2;\n"
+                       "}";
+
 class TestPipelineProvider {
  public:
   TestPipelineProvider();

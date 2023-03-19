@@ -515,9 +515,44 @@ TEST_CASE("End-to-End Attribute Projection Test") {
   pipeline.query("constant c; Select c.value", {"2", "3", "5", "1", "0"});
 }
 
-TEST_CASE("Bad with") {
+TEST_CASE("Override With Clause Test, Non Default") {
   auto pipeline = TestPipelineProvider(SOURCE2);
 
   pipeline.query("read r; Select r with r.varName = \"x\"",
                  {"2", "3"});
+
+  pipeline.query("read r; Select r with r.varName = \"y\"",
+                 {"1", "4"});
+
+  pipeline.query("read r; Select r with r.varName = \"z\"",
+                 {});
+}
+
+TEST_CASE("Override With Clause Test, Default") {
+  auto pipeline = TestPipelineProvider(SOURCE2);
+
+  pipeline.query("read r; Select r with r.stmt# = 2",
+                 {"2"});
+}
+
+TEST_CASE("With Clause Constant Constraint") {
+  auto pipeline = TestPipelineProvider(SOURCE2);
+
+  pipeline.query("Select BOOLEAN with 2 = 3",
+                 {"FALSE"});
+  pipeline.query("Select BOOLEAN with 2 = 2",
+                 {"TRUE"});
+  pipeline.query("stmt s; Select s such that Follows(1, s) with 2 = 3",
+                 {});
+  pipeline.query("stmt s; Select s such that Follows(1, s) with 2 = 2",
+                 {"2"});
+}
+
+TEST_CASE("With Clause Different Synonyms") {
+  auto pipeline = TestPipelineProvider(SOURCE3);
+
+  pipeline.query("print p; call cl; Select p with p.varName = cl.procName",
+                 {"2"});
+  pipeline.query("print p; procedure pr; Select pr with p.varName = pr.procName",
+                 {"p2"});
 }
