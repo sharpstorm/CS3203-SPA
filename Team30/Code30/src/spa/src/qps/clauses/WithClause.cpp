@@ -34,10 +34,9 @@ PQLQueryResult *WithClause::evaluateOn(PkbQueryHandler *pkbQueryHandler) {
 
 bool WithClause::isEmptyResult() {
   return (((leftArg->getAttribute() & INT_RETURN_MASK) > 0)
-      && ((leftArg->getAttribute() & INT_RETURN_MASK)> 0))
-      &&
-          ((leftArg->getSynType() != PQL_SYN_TYPE_STMT)
-              && (rightArg->getSynType() != PQL_SYN_TYPE_STMT));
+      && ((rightArg->getAttribute() & INT_RETURN_MASK)> 0))
+      && ((leftArg->getSynType() != PQL_SYN_TYPE_STMT)
+          && (rightArg->getSynType() != PQL_SYN_TYPE_STMT));
 }
 
 void WithClause::evaluateOnIntAttributes(PQLQueryResult *result,
