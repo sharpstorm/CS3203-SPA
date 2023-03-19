@@ -1,0 +1,100 @@
+procedure First {
+    read x;
+    read y;
+    read z;
+    while (x >= 0) {
+        call Second;
+        while (y== 0) {
+	    call             Third;
+            if (y == z) then {
+                call Fourth;
+            } else {
+                call    Second;
+            }
+            y = y + 1;
+            call Ninth;
+        } 
+        x = x - 1;
+    }
+    call Third; 
+}
+
+procedure Second {
+    x = 0;
+    i = 5;
+    while (i!=0) {
+        call Third;
+        i = i - 1; }
+    if (x==1) then {
+        call Third; }
+      else {
+          if (x == 0) then {
+              call        Fourth;
+          } else {
+              x = x - 1;
+          }
+      }
+}
+
+procedure Third {
+    z = 5;
+    v = z;
+    if (z == 5) then {
+        while (v != z) {
+            if (z == 4 ) then {
+                call Fifth;
+	    } else {
+                call Fourth;
+            }
+        }
+    } else {
+        print z;
+    }   
+    print v; 
+}  
+
+procedure Fourth {
+    num = 0;
+    print num;
+}
+
+procedure Fifth {
+    x = 1;
+    if (x==1) then {
+        call Fourth; 
+        if (x >= 0) then {
+            call Sixth;
+	    if (x > 0) then {
+                call Seventh;
+                call Fourth;
+            } else {
+ 	        call Seventh;
+            }
+            call Sixth;
+        } else { 
+            call Sixth;
+        }
+    }
+    else {
+      if (x == 0) then {
+           call        Fourth;
+      } else {
+           x = x - 1;
+      }
+    }
+}
+
+procedure Sixth{
+    call Seventh;
+}
+procedure Seventh{
+    num1 = 0;
+    print num;
+}
+procedure Eighth{
+    num2 = 0;
+    print num2;
+}
+procedure Ninth{
+    call Sixth;
+}
