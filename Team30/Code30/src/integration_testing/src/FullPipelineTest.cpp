@@ -362,7 +362,7 @@ TEST_CASE("End-to-End Next Test") {
                  {
                      "1 2", "2 3", "3 4", "4 5", "4 12",
                      "5 6", "6 7", "6 8", "7 9", "8 9", "9 10",
-                     "10 11", "11 12", "11 4"});
+                     "10 11", "11 4"});
 
   pipeline.query("read r; Select r such that Next*(1, 12)",
                  { "10" });
@@ -586,4 +586,22 @@ TEST_CASE("End-to-End Affects Test") {
   pipeline.query("assign a1, a2; Select <a1, a2> such that Affects(a1, a2)",
                  {"1 5", "1 12", "2 8", "2 9", "3 9", "3 11",
                   "5 7", "5 8", "5 9", "7 9", "9 8", "9 9", "11 9", "11 11"});
+}
+
+TEST_CASE("With Const = Stmt Number Test") {
+  auto pipeline = TestPipelineProvider();
+
+  pipeline.query("stmt s; constant c; Select c with s.stmt# = c.value",
+                 {"1", "2", "3", "5"});
+}
+
+TEST_CASE("Affects Typing Test") {
+  auto pipeline = TestPipelineProvider();
+
+  pipeline.query("read r1; Select r1 such that Affects(r1, r1)",
+                 {});
+  pipeline.query("read r1, r2; Select r2 such that Affects(r1, r2) with r1.stmt# = r2.stmt#",
+                 {});
+  pipeline.query("stmt r1, r2; Select r2 such that Affects(r1, r2) with r1.stmt# = r2.stmt#",
+                 {"9", "11"});
 }

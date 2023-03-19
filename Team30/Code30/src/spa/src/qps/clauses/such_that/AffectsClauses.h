@@ -90,9 +90,14 @@ constexpr AffectsInvoker affectsTInvoker = [](PkbQueryHandler* pkbQueryHandler,
 constexpr AffectsSameSynInvoker affectsSymmetricInvoker =
     [](PkbQueryHandler* pkbQueryHandler,
        const StmtRef &arg){
+      unordered_set<StmtValue> result;
+
+      if (arg.type != StmtType::None && arg.type != StmtType::Assign) {
+        return result;
+      }
+
       vector<CFG*> cfgs = pkbQueryHandler->queryCFGs(
           StmtRef{StmtType::None, 0});
-      unordered_set<StmtValue> result;
 
       for (auto it = cfgs.begin(); it != cfgs.end(); it++) {
         CFG* cfg = *it;

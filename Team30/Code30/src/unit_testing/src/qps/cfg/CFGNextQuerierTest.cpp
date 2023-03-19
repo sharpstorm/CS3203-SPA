@@ -279,3 +279,19 @@ TEST_CASE("Next Type Filtering") {
       {2, 3}
   });
 }
+
+TEST_CASE("Next While-Cycle Path") {
+  auto cfg = TestCFGProvider::getAffectsWhileCFG();
+  CFGTestNextQuerier querier(&cfg, nullptr);
+
+  StmtTransitiveResult result;
+  queryNext(&querier, &result, 0, 0);
+  REQUIRE_FALSE(result.isEmpty);
+
+  REQUIRE(result.pairVals == pair_set<StmtValue, StmtValue> {
+      {1, 2},
+      {2, 3},
+      {3, 2},
+      {2, 4}
+  });
+}

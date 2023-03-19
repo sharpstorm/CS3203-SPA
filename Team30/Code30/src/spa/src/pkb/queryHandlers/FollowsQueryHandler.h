@@ -6,11 +6,9 @@
 #include "BaseQueryHandler.h"
 #include "PkbStmtStmtQueryInvoker.h"
 
-class FollowsQueryHandler : private PkbStmtStmtQueryHandler,
-                            public IFollowsQueryHandler {
+class FollowsQueryHandler : public IFollowsQueryHandler {
  public:
-  FollowsQueryHandler(PkbStmtStmtQueryInvoker *invoker,
-                      FollowsStorage *storage);
-  QueryResult<StmtValue, StmtValue> queryFollows(StmtRef,
-                                                 StmtRef) const override;
+  FollowsQueryHandler(
+      PkbStmtStmtQueryInvoker *invoker,
+      FollowsStorage *storage);
 };

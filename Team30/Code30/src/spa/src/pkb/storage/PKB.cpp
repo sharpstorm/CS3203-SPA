@@ -1,13 +1,5 @@
 #include "PKB.h"
 
-#include <memory>
-
-#include "tables/ContiguousSetTable.h"
-#include "tables/HashKeySetTable.h"
-#include "tables/HashKeyTable.h"
-
-using std::make_shared, std::string;
-
 PKB::PKB() {}
 
 PKB::~PKB() {

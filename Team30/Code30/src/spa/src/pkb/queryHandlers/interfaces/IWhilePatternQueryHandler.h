@@ -1,10 +1,10 @@
 #pragma once
 
 #include "common/Types.h"
+#include "pkb/queryHandlers/BaseQueryHandler.h"
 
-class IWhilePatternQueryHandler {
+class IWhilePatternQueryHandler : virtual public PkbStmtEntQueryHandler {
  public:
-  virtual ~IWhilePatternQueryHandler() {}
-  virtual QueryResult<StmtValue, EntityValue> queryWhilePattern(
-      StmtRef, EntityRef) const = 0;
+  virtual ~IWhilePatternQueryHandler() = default;
+  using PkbStmtEntQueryHandler::query;
 };

@@ -18,7 +18,7 @@ class WithArgument {
   explicit WithArgument(int intVal);
   explicit WithArgument(string identVal);
   explicit WithArgument(AttributedSynonymPtr syn);
-  PQLQuerySynonym* getSyn();
+  PQLQuerySynonymProxy getSyn();
   PQLSynonymName getSynName();
   PQLSynonymType getSynType();
   PQLSynonymAttribute getAttribute();

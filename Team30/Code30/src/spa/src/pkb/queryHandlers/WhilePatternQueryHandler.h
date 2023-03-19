@@ -10,13 +10,9 @@
 
 using std::string;
 
-class WhilePatternQueryHandler : private PkbStmtEntQueryHandler,
-    public IWhilePatternQueryHandler {
+class WhilePatternQueryHandler : public IWhilePatternQueryHandler {
  public:
   explicit WhilePatternQueryHandler(
       PkbStmtEntQueryInvoker *,
       WhilePatternStorage *);
-
-  QueryResult<StmtValue, EntityValue> queryWhilePattern(
-      StmtRef, EntityRef) const override;
 };

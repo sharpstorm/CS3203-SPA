@@ -1,7 +1,7 @@
 #include "SynonymConstraint.h"
 
 bool SynonymConstraint::applyConstraint
-    (VariableTableProxyBuilder* varTableProxyBuilder,
+    (SynonymProxyBuilder* varTableProxyBuilder,
      OverrideTable* overrideTable) {
   varTableProxyBuilder->joinSynonyms(syn1, syn2);
   return true;

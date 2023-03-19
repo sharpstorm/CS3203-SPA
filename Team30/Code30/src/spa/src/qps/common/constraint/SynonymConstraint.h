@@ -10,7 +10,7 @@ class SynonymConstraint : virtual public Constraint {
   SynonymConstraint(const PQLSynonymName &syn1,
                     const PQLSynonymName &syn2) :
       syn1(syn1), syn2(syn2) {}
-  bool applyConstraint(VariableTableProxyBuilder* varTableProxyBuilder,
+  bool applyConstraint(SynonymProxyBuilder* varTableProxyBuilder,
                        OverrideTable* overrideTable);
   bool validateConstraint() {
     return true;

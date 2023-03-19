@@ -13,22 +13,33 @@ QueryExecutor::QueryExecutor(PkbQueryHandler* pkbQH):
 
 SynonymResultTable *QueryExecutor::executeQuery(PQLQuery* query) {
   OverrideTablePtr overrideTable = make_unique<OverrideTable>();
-  VariableTableProxyBuilderPtr varTableProxyBuilderPtr =
-      make_unique<VariableTableProxyBuilder>(query->getVarTable());
   bool isBoolResult = query->getResultVariables()->empty();
-  for (const auto& con : query->getConstraints()) {
-    if (!con->applyConstraint(varTableProxyBuilderPtr.get(),
-                              overrideTable.get())) {
-      return new SynonymResultTable(isBoolResult, false);
-    }
-  }
-  varTableProxyBuilderPtr->build();
-  QueryPlanPtr plan = planner.getExecutionPlan(query);
 
+  bool areConstraintsResolved =
+      resolveConstraints(query, overrideTable.get());
+  if (!areConstraintsResolved) {
+    return new SynonymResultTable(isBoolResult, false);
+  }
+
+  QueryPlanPtr plan = planner.getExecutionPlan(query);
   // Query just have constraints
   if (plan->isEmpty()) {
     return new SynonymResultTable(isBoolResult, true);
   }
 
   return orchestrator.execute(plan.get(), overrideTable.get());
+}
+
+bool QueryExecutor::resolveConstraints(PQLQuery* query,
+                                       OverrideTable* overrideTable) {
+  SynonymProxyBuilderPtr synProxyBuilder = make_unique<SynonymProxyBuilder>(
+      query->getVarTable());
+
+  for (const auto& con : query->getConstraints()) {
+    if (!con->applyConstraint(synProxyBuilder.get(), overrideTable)) {
+      return false;
+    }
+  }
+  synProxyBuilder->build();
+  return synProxyBuilder->resolveOverrideMerging(overrideTable);
 }

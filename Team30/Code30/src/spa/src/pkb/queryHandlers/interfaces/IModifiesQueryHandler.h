@@ -3,12 +3,12 @@
 #include "common/Types.h"
 #include "pkb/queryHandlers/BaseQueryHandler.h"
 
-class IModifiesQueryHandler {
+class IModifiesQueryHandler
+    : virtual public PkbStmtEntQueryHandler,
+        virtual public PkbEntEntQueryHandler {
  public:
-  virtual ~IModifiesQueryHandler() {}
-  virtual QueryResult<StmtValue, EntityValue> queryModifies(
-      StmtRef, EntityRef) const = 0;
-  virtual QueryResult<EntityValue, EntityValue> queryModifies(
-      EntityRef, EntityRef) const = 0;
+  virtual ~IModifiesQueryHandler() = default;
+  using PkbStmtEntQueryHandler::query;
+  using PkbEntEntQueryHandler::query;
   virtual EntityValue getReadDeclarations(StmtValue) const = 0;
 };
