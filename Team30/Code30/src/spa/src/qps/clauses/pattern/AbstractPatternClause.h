@@ -23,8 +23,8 @@ class AbstractPatternClause: public PatternClause {
   PQLQueryResult* evaluateOn(const QueryExecutorAgent &agent) {
     StmtRef leftStatement = {StatementType, 0};
     EntityRef leftVar = leftArg->toEntityRef();
-    leftStatement = agent.transform(synonym->getName(), leftStatement);
-    leftVar = agent.transform(leftArg->getName(), leftVar);
+    leftStatement = agent.transformArg(synonym->getName(), leftStatement);
+    leftVar = agent.transformArg(leftArg->getName(), leftVar);
 
     if (!agent.isValid(leftStatement) || !agent.isValid(leftVar)) {
       return new PQLQueryResult();

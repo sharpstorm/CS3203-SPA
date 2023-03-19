@@ -1,11 +1,10 @@
 #include <utility>
 #include <memory>
-#include <string>
 
 #include "AssignPatternClause.h"
 #include "qps/clauses/arguments/SynonymArgument.h"
 
-using std::make_unique, std::string;
+using std::make_unique;
 
 AssignPatternClause::AssignPatternClause(
     const PQLQuerySynonymProxy &assignSynonym,
@@ -14,18 +13,19 @@ AssignPatternClause::AssignPatternClause(
     PatternClause(assignSynonym, std::move(leftArg), PQL_SYN_TYPE_ASSIGN),
     rightArgument(std::move(rightArg)) {}
 
-PQLQueryResult *AssignPatternClause::evaluateOn(const QueryExecutorAgent &agent) {
+PQLQueryResult *AssignPatternClause::evaluateOn(
+    const QueryExecutorAgent &agent) {
   StmtRef leftStatement = {StmtType::Assign, 0};
   EntityRef rightVariable = leftArg->toEntityRef();
 
-  leftStatement = agent.transform(synonym->getName(), leftStatement);
-  rightVariable = agent.transform(leftArg->getName(), rightVariable);
+  leftStatement = agent.transformArg(synonym->getName(), leftStatement);
+  rightVariable = agent.transformArg(leftArg->getName(), rightVariable);
 
   if (!agent.isValid(leftStatement) || !agent.isValid(rightVariable)) {
     return new PQLQueryResult();
   }
 
-  QueryResult<int, string> modifiesResult = agent
+  QueryResult<StmtValue, EntityValue> modifiesResult = agent
       ->queryModifies(leftStatement, rightVariable);
 
   if (rightArgument->isWildcard()) {
@@ -44,7 +44,7 @@ PQLQueryResult *AssignPatternClause::evaluateOn(const QueryExecutorAgent &agent)
 void AssignPatternClause::checkTries(
     const QueryExecutorAgent &agent,
     QueryResult<StmtValue, EntityValue> *result,
-    QueryResult<int, string>* modifiesResult) {
+    QueryResult<StmtValue, EntityValue>* modifiesResult) {
   for (auto& it : modifiesResult->pairVals) {
     // Call assigns to retrieve the node
     StmtRef assignRef = {StmtType::Assign, it.first};

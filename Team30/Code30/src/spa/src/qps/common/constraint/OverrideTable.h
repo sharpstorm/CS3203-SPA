@@ -11,8 +11,8 @@ using std::unique_ptr, std::unordered_map;
 class OverrideTable {
  public:
   bool contains(const PQLSynonymName &name);
-  StmtRef transform(const PQLSynonymName &name, StmtRef ref);
-  EntityRef transform(const PQLSynonymName &name, EntityRef ref);
+  StmtRef transformArg(const PQLSynonymName &name, StmtRef ref);
+  EntityRef transformArg(const PQLSynonymName &name, EntityRef ref);
   void insert(const PQLSynonymName &name,
               const OverrideTransformer &transformer);
   OverrideTransformer get(const PQLSynonymName &name);

@@ -154,7 +154,7 @@ void WithClauseEvaluator::queryPkbForAttribute(SynToStmtMap *map,
 StmtValueSet WithClauseEvaluator::queryForStatement(PQLQuerySynonymProxy syn) {
   ClauseArgumentPtr clauseArg = ClauseArgumentFactory::create(syn);
   StmtRef stmtRef = clauseArg->toStmtRef();
-  stmtRef = agent.transform(syn->getName(), stmtRef);
+  stmtRef = agent.transformArg(syn->getName(), stmtRef);
   if (stmtRef.isKnown()) {
     if (agent.isValid(stmtRef)) {
       return StmtValueSet{ stmtRef.lineNum };
@@ -168,7 +168,7 @@ StmtValueSet WithClauseEvaluator::queryForStatement(PQLQuerySynonymProxy syn) {
 EntityValueSet WithClauseEvaluator::queryForEntity(PQLQuerySynonymProxy syn) {
   ClauseArgumentPtr clauseArg = ClauseArgumentFactory::create(syn);
   EntityRef entRef = clauseArg->toEntityRef();
-  entRef = agent.transform(syn->getName(), entRef);
+  entRef = agent.transformArg(syn->getName(), entRef);
   if (entRef.isKnown()) {
     if (agent.isValid(entRef)) {
       return EntityValueSet { entRef.name };

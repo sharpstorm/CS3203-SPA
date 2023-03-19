@@ -10,7 +10,7 @@ class AssignPatternClause: public PatternClause {
 
   void checkTries(const QueryExecutorAgent &agent,
                   QueryResult<StmtValue, EntityValue>* result,
-                  QueryResult<int, string>* modifiesResult);
+                  QueryResult<StmtValue, EntityValue>* modifiesResult);
 
  public:
   AssignPatternClause(const PQLQuerySynonymProxy &assignSynonym,

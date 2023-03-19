@@ -19,7 +19,7 @@ PQLQueryResult *SelectClause::evaluateOn(const QueryExecutorAgent &agent) {
   if (target->isStatementType()) {
     unordered_set<int> result;
     StmtRef stmtRef = clauseArg->toStmtRef();
-    stmtRef = agent.transform(synName, stmtRef);
+    stmtRef = agent.transformArg(synName, stmtRef);
     if (stmtRef.isKnown() && agent.isValid(stmtRef)) {
       result.insert(stmtRef.lineNum);
     } else if (!stmtRef.isKnown()) {
@@ -31,7 +31,7 @@ PQLQueryResult *SelectClause::evaluateOn(const QueryExecutorAgent &agent) {
 
   unordered_set<string> result;
   EntityRef entRef = clauseArg->toEntityRef();
-  entRef = agent.transform(clauseArg->getName(), entRef);
+  entRef = agent.transformArg(clauseArg->getName(), entRef);
   if (entRef.isKnown() && agent.isValid(entRef)) {
     result.insert(entRef.name);
   } else if (!entRef.isKnown()) {

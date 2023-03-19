@@ -8,7 +8,7 @@ WithClause::WithClause(WithArgumentPtr left, WithArgumentPtr right) :
     leftArg(std::move(left)), rightArg(std::move(right)) {}
 
 PQLQueryResult *WithClause::evaluateOn(const QueryExecutorAgent &agent) {
-  return WithClauseEvaluator(agent,leftArg.get(),
+  return WithClauseEvaluator(agent, leftArg.get(),
                              rightArg.get()).evaluate();
 }
 

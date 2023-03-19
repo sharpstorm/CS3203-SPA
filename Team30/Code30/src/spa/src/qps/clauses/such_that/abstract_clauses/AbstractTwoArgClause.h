@@ -29,7 +29,7 @@ class AbstractTwoArgClause: public SuchThatClause {
   PQLQueryResult* evaluateOn(const QueryExecutorAgent &agent) {
     if (isSameSynonym()) {
       auto ref = leftTransformer(left.get());
-      ref = agent.transform(left->getName(), ref);
+      ref = agent.transformArg(left->getName(), ref);
       if (!agent.isValid(ref)) {
         return new PQLQueryResult();
       }
@@ -41,8 +41,8 @@ class AbstractTwoArgClause: public SuchThatClause {
     LeftArgType leftArg = leftTransformer(left.get());
     RightArgType rightArg = rightTransformer(right.get());
 
-    leftArg = agent.transform(left->getName(), leftArg);
-    rightArg = agent.transform(right->getName(), rightArg);
+    leftArg = agent.transformArg(left->getName(), leftArg);
+    rightArg = agent.transformArg(right->getName(), rightArg);
     if (!agent.isValid(leftArg) || !agent.isValid(rightArg)) {
       return new PQLQueryResult();
     }

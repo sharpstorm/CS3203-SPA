@@ -6,8 +6,8 @@
 class QueryExecutorAgent {
  public:
   QueryExecutorAgent(PkbQueryHandler* pkb, OverrideTable* table);
-  StmtRef transform(const PQLSynonymName name, const StmtRef &ref) const;
-  EntityRef transform(const PQLSynonymName name, const EntityRef &ref) const;
+  StmtRef transformArg(const PQLSynonymName name, const StmtRef &ref) const;
+  EntityRef transformArg(const PQLSynonymName name, const EntityRef &ref) const;
   bool isValid(const StmtRef &ref) const;
   bool isValid(const EntityRef &ref) const;
 

@@ -14,7 +14,7 @@ PQLQueryResult *WithSelectClause::evaluateOn(const QueryExecutorAgent &agent) {
   PQLSynonymType synType = attrSyn.getType();
 
   StmtRef stmtVar = clauseArg->toStmtRef();
-  stmtVar = agent.transform(clauseArg->getName(), stmtVar);
+  stmtVar = agent.transformArg(clauseArg->getName(), stmtVar);
   unordered_set<int> pkbResult;
   if (stmtVar.isKnown()) {
     if (agent.isValid(stmtVar)) {

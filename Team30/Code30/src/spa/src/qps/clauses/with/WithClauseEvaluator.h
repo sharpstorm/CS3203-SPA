@@ -1,5 +1,9 @@
 #pragma once
 
+#include <vector>
+#include <unordered_map>
+#include <memory>
+
 #include "pkb/queryHandlers/PkbQueryHandler.h"
 #include "qps/common/constraint/OverrideTable.h"
 #include "qps/common/PQLQueryResult.h"

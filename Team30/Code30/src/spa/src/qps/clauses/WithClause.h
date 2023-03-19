@@ -16,7 +16,6 @@ class WithClause: public Clause {
   PQLQueryResult* evaluateOn(const QueryExecutorAgent &agent) override;
   bool validateArgTypes(VariableTable* variables) override;
   SynonymList getUsedSynonyms() override;
-
 };
 
 typedef unique_ptr<WithClause> WithClausePtr;

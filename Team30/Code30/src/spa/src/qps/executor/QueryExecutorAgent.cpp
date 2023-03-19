@@ -8,22 +8,22 @@ PkbQueryHandler *QueryExecutorAgent::operator->() const {
   return this->pkbQueryHandler;
 }
 
-StmtRef QueryExecutorAgent::transform(const PQLSynonymName name,
-                                      const StmtRef &ref) const {
+StmtRef QueryExecutorAgent::transformArg(const PQLSynonymName name,
+                                         const StmtRef &ref) const {
   if (name.empty()) {
     return ref;
   }
 
-  return overrideTable->transform(name, ref);
+  return overrideTable->transformArg(name, ref);
 }
 
-EntityRef QueryExecutorAgent::transform(const PQLSynonymName name,
-                                        const EntityRef &ref) const {
+EntityRef QueryExecutorAgent::transformArg(const PQLSynonymName name,
+                                           const EntityRef &ref) const {
   if (name.empty()) {
     return ref;
   }
 
-  return overrideTable->transform(name, ref);
+  return overrideTable->transformArg(name, ref);
 }
 
 bool QueryExecutorAgent::isValid(const StmtRef &ref) const {
