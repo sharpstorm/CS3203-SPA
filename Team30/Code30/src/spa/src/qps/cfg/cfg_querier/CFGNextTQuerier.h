@@ -11,7 +11,7 @@ class CFGNextTQuerier: public ICFGClauseQuerier,
                        public CFGQuerier<
                            CFGNextTQuerier<ClosureType, typePredicate>> {
  public:
-  CFGNextTQuerier(CFG *cfg, ClosureType* closure);
+  CFGNextTQuerier(CFG *cfg, const ClosureType &closure);
 
   StmtTransitiveResult queryBool(const StmtValue &arg0,
                                  const StmtValue &arg1) final;
@@ -26,11 +26,11 @@ class CFGNextTQuerier: public ICFGClauseQuerier,
  private:
   CFG* cfg;
   CFGWalker walker;
-  ClosureType* closure;
+  const ClosureType &closure;
 
   struct ResultClosure {
     CFG* cfg;
-    ClosureType* closure;
+    const ClosureType &closure;
     StmtTransitiveResult* result;
     StmtType arg0Type;
     StmtType arg1Type;
@@ -39,7 +39,7 @@ class CFGNextTQuerier: public ICFGClauseQuerier,
 
 template <class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
 CFGNextTQuerier<ClosureType, typePredicate>::
-CFGNextTQuerier(CFG *cfg, ClosureType* closure):
+CFGNextTQuerier(CFG *cfg, const ClosureType &closure):
     cfg(cfg), walker(cfg), closure(closure) {}
 
 template <class ClosureType, StmtTypePredicate<ClosureType> typePredicate>

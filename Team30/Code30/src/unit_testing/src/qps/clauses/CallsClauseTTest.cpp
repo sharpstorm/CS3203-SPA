@@ -25,13 +25,14 @@ TEST_CASE("CallsTClause Querying") {
   PQLQueryResultPtr expected;
   PQLQueryResultPtr actual;
   OverrideTablePtr override = make_unique<OverrideTable>();
+  QueryExecutorAgent agent(pkb.get(), override.get());
 
   // Static results - False result
   CallsTClause callsClause = CallsTClause(
       make_unique<EntityArgument>("Barricade"),
       make_unique<EntityArgument>("Ironhide"));
   expected = make_unique<PQLQueryResult>();
-  actual = PQLQueryResultPtr(callsClause.evaluateOn(pkb.get(), override.get()));
+  actual = PQLQueryResultPtr(callsClause.evaluateOn(agent));
   REQUIRE(*expected == *actual);
 
   // Static results - True result
@@ -40,7 +41,7 @@ TEST_CASE("CallsTClause Querying") {
       make_unique<EntityArgument>("Barricade"));
   expected = make_unique<PQLQueryResult>();
   expected->setIsStaticFalse(true);
-  actual = PQLQueryResultPtr(callsClause.evaluateOn(pkb.get(), override.get()));
+  actual = PQLQueryResultPtr(callsClause.evaluateOn(agent));
   REQUIRE(*expected == *actual);
 
   // Both syns
@@ -57,7 +58,7 @@ TEST_CASE("CallsTClause Querying") {
                                   QueryResultItem("Barricade"),
                                   QueryResultItem("Barricade")}}
   });
-  actual = PQLQueryResultPtr(callsClause.evaluateOn(pkb.get(), override.get()));
+  actual = PQLQueryResultPtr(callsClause.evaluateOn(agent));
   REQUIRE(*expected == *actual);
 
   // Both wildcards
@@ -65,7 +66,7 @@ TEST_CASE("CallsTClause Querying") {
       make_unique<WildcardArgument>(),
       make_unique<WildcardArgument>());
   expected = make_unique<PQLQueryResult>();
-  actual = PQLQueryResultPtr(callsClause.evaluateOn(pkb.get(), override.get()));
+  actual = PQLQueryResultPtr(callsClause.evaluateOn(agent));
   REQUIRE(*expected == *actual);
 
   // Left arg is syn
@@ -76,7 +77,7 @@ TEST_CASE("CallsTClause Querying") {
   expected = TestQueryResultBuilder::buildExpected(ExpectedParams{
       {"p", QueryResultItemVector{QueryResultItem("Ironhide")}}
   });
-  actual = PQLQueryResultPtr(callsClause.evaluateOn(pkb.get(), override.get()));
+  actual = PQLQueryResultPtr(callsClause.evaluateOn(agent));
   REQUIRE(*expected == *actual);
 
   // (syn, wildcard)
@@ -86,7 +87,7 @@ TEST_CASE("CallsTClause Querying") {
   expected = TestQueryResultBuilder::buildExpected(ExpectedParams{
       {"p", QueryResultItemVector{QueryResultItem("Bumblebee"), QueryResultItem("Ironhide")}}
   });
-  actual = PQLQueryResultPtr(callsClause.evaluateOn(pkb.get(), override.get()));
+  actual = PQLQueryResultPtr(callsClause.evaluateOn(agent));
   REQUIRE(*expected == *actual);
 
   // Right arg is syn
@@ -100,7 +101,7 @@ TEST_CASE("CallsTClause Querying") {
                                   QueryResultItem("Ironhide"),
                                   QueryResultItem("Barricade")}}
   });
-  actual = PQLQueryResultPtr(callsClause.evaluateOn(pkb.get(), override.get()));
+  actual = PQLQueryResultPtr(callsClause.evaluateOn(agent));
   REQUIRE(*expected == *actual);
 
   // (wildcard, syn)
@@ -113,7 +114,7 @@ TEST_CASE("CallsTClause Querying") {
                                   QueryResultItem("Ironhide"),
                                   QueryResultItem("Barricade")}}
   });
-  actual = PQLQueryResultPtr(callsClause.evaluateOn(pkb.get(), override.get()));
+  actual = PQLQueryResultPtr(callsClause.evaluateOn(agent));
   REQUIRE(*expected == *actual);
 
   // (static, wildcard)
@@ -122,7 +123,7 @@ TEST_CASE("CallsTClause Querying") {
       make_unique<WildcardArgument>()
   );
   expected = make_unique<PQLQueryResult>();
-  actual = PQLQueryResultPtr(callsClause.evaluateOn(pkb.get(), override.get()));
+  actual = PQLQueryResultPtr(callsClause.evaluateOn(agent));
   REQUIRE(*expected == *actual);
 
   // (wildcard, static)
@@ -131,6 +132,6 @@ TEST_CASE("CallsTClause Querying") {
       make_unique<EntityArgument>("Megatron")
   );
   expected = make_unique<PQLQueryResult>();
-  actual = PQLQueryResultPtr(callsClause.evaluateOn(pkb.get(), override.get()));
+  actual = PQLQueryResultPtr(callsClause.evaluateOn(agent));
   REQUIRE(*expected == *actual);
 }

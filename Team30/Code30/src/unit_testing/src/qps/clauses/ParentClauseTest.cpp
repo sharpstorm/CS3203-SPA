@@ -29,13 +29,14 @@ TEST_CASE("ParentClause Querying") {
   PQLQueryResultPtr actual;
 
   OverrideTablePtr override = make_unique<OverrideTable>();
+  QueryExecutorAgent agent(pkb.get(), override.get());
   // Static results
   // When stmtNumLeft < stmtNumRight E.g. Parent(6,7)
   ParentClause parentClause = ParentClause(
       make_unique<StmtArgument>(6),
       make_unique<StmtArgument>(7));
   expected = PQLQueryResultPtr(new PQLQueryResult());
-  actual = PQLQueryResultPtr(parentClause.evaluateOn(pkb.get(), override.get()));
+  actual = PQLQueryResultPtr(parentClause.evaluateOn(agent));
   REQUIRE(*expected == *actual);
 
   // When stmtNumLeft > stmtNumRight E.g. Parent(7,6)
@@ -45,7 +46,7 @@ TEST_CASE("ParentClause Querying") {
   );
   expected = PQLQueryResultPtr(new PQLQueryResult());
   expected->setIsStaticFalse(true);
-  actual = PQLQueryResultPtr(parentClause.evaluateOn(pkb.get(), override.get()));
+  actual = PQLQueryResultPtr(parentClause.evaluateOn(agent));
   REQUIRE(*expected == *actual);
 
   // Left arg is synonym
@@ -59,7 +60,7 @@ TEST_CASE("ParentClause Querying") {
       }}
   });
 
-  actual = PQLQueryResultPtr(parentClause.evaluateOn(pkb.get(), override.get()));
+  actual = PQLQueryResultPtr(parentClause.evaluateOn(agent));
   REQUIRE(*expected == *actual);
 
   // Right arg is synonym
@@ -72,7 +73,7 @@ TEST_CASE("ParentClause Querying") {
       }}
   });
 
-  actual = PQLQueryResultPtr(parentClause.evaluateOn(pkb.get(), override.get()));
+  actual = PQLQueryResultPtr(parentClause.evaluateOn(agent));
   REQUIRE(*expected == *actual);
 
   // Both sides are synonym
@@ -87,6 +88,6 @@ TEST_CASE("ParentClause Querying") {
           QueryResultItem(7)
       }}
   });
-  actual = PQLQueryResultPtr(parentClause.evaluateOn(pkb.get(), override.get()));
+  actual = PQLQueryResultPtr(parentClause.evaluateOn(agent));
   REQUIRE(*expected == *actual);
 }

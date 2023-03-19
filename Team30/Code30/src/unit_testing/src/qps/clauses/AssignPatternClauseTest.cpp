@@ -128,6 +128,7 @@ TEST_CASE("Assign Pattern Constant-Exact") {
   PQLQuerySynonym* assignSynPtr = &assignSynRaw;
   PQLQuerySynonymProxy assignSyn(&assignSynPtr);
   OverrideTablePtr override = make_unique<OverrideTable>();
+  QueryExecutorAgent agent(pkb.get(), override.get());
 
   makeExpressionArgument("x", false);
   // Constant-Variable-Exact
@@ -138,7 +139,7 @@ TEST_CASE("Assign Pattern Constant-Exact") {
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{ 2 });
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get(), override.get()));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(agent));
   REQUIRE(*expected == *actual);
 
   // Constant-Integer-Exact
@@ -149,7 +150,7 @@ TEST_CASE("Assign Pattern Constant-Exact") {
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{ 1 });
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get(), override.get()));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(agent));
   REQUIRE(*expected == *actual);
 }
 
@@ -163,6 +164,7 @@ TEST_CASE("Assign Pattern Constant-Wildcard") {
   PQLQuerySynonym* assignSynPtr = &assignSynRaw;
   PQLQuerySynonymProxy assignSyn(&assignSynPtr);
   OverrideTablePtr override = make_unique<OverrideTable>();
+  QueryExecutorAgent agent(pkb.get(), override.get());
 
   // Constant-Wildcard
   PatternClausePtr patternClause = make_unique<AssignPatternClause>(
@@ -172,7 +174,7 @@ TEST_CASE("Assign Pattern Constant-Wildcard") {
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{2, 4});
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get(), override.get()));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(agent));
   REQUIRE(*expected == *actual);
 
   // Constant-Variable-Wildcard
@@ -183,7 +185,7 @@ TEST_CASE("Assign Pattern Constant-Wildcard") {
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{2, 4});
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get(), override.get()));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(agent));
   REQUIRE(*expected == *actual);
 
   // Constant-Integer-Wildcard
@@ -194,7 +196,7 @@ TEST_CASE("Assign Pattern Constant-Wildcard") {
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{1, 3});
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get(), override.get()));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(agent));
   REQUIRE(*expected == *actual);
 }
 
@@ -212,6 +214,7 @@ TEST_CASE("Assign Pattern Variable-Exact") {
   PQLQuerySynonymProxy varSyn(&varSynPtr);
 
   OverrideTablePtr table = make_unique<OverrideTable>();
+  QueryExecutorAgent agent(pkb.get(), table.get());
 
   // Variable-Integer-Exact
   PatternClausePtr patternClause = make_unique<AssignPatternClause>(
@@ -221,7 +224,7 @@ TEST_CASE("Assign Pattern Variable-Exact") {
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", "v", pair_set<int, string>{{ 1, "a" }});
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get(), table.get()));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(agent));
   REQUIRE(*expected == *actual);
 
   // Constant-Variable-Exact
@@ -232,7 +235,7 @@ TEST_CASE("Assign Pattern Variable-Exact") {
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", "v", pair_set<int, string>{{ 2, "b" }});
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get(), table.get()));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(agent));
   REQUIRE(*expected == *actual);
 
   // Variable-Integer-Exact
@@ -243,7 +246,7 @@ TEST_CASE("Assign Pattern Variable-Exact") {
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{ 1 });
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get(), table.get()));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(agent));
   REQUIRE(*expected == *actual);
 
   // Constant-Variable-Exact
@@ -254,7 +257,7 @@ TEST_CASE("Assign Pattern Variable-Exact") {
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{ 2 });
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get(), table.get()));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(agent));
   REQUIRE(*expected == *actual);
 }
 
@@ -272,6 +275,7 @@ TEST_CASE("Assign Pattern Variable-Partial") {
   PQLQuerySynonymProxy varSyn(&varSynPtr);
 
   OverrideTablePtr table = make_unique<OverrideTable>();
+  QueryExecutorAgent agent(pkb.get(), table.get());
 
   // Variable-Integer-Partial
   PatternClausePtr patternClause = make_unique<AssignPatternClause>(
@@ -284,7 +288,7 @@ TEST_CASE("Assign Pattern Variable-Partial") {
       { 1, "a" },
       { 3, "a" }
   });
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get(), table.get()));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(agent));
   REQUIRE(*expected == *actual);
 
   // Constant-Variable-Partial
@@ -298,7 +302,7 @@ TEST_CASE("Assign Pattern Variable-Partial") {
       { 2, "b" },
       { 4, "b" }
   });
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get(), table.get()));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(agent));
   REQUIRE(*expected == *actual);
 
   // Variable-Integer-Partial
@@ -309,7 +313,7 @@ TEST_CASE("Assign Pattern Variable-Partial") {
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{ 3, 5 });
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get(), table.get()));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(agent));
   REQUIRE(*expected == *actual);
 
   // Constant-Variable-Partial
@@ -320,6 +324,6 @@ TEST_CASE("Assign Pattern Variable-Partial") {
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{ 4, 5 });
-  actual = PQLQueryResultPtr(patternClause->evaluateOn(pkb.get(), table.get()));
+  actual = PQLQueryResultPtr(patternClause->evaluateOn(agent));
   REQUIRE(*expected == *actual);
 }

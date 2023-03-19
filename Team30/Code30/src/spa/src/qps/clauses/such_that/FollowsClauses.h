@@ -16,20 +16,20 @@ using AbstractFollowsClause = AbstractStmtStmtClause<
     ClauseArgument::isStatement,
     ClauseArgument::isStatement>;
 
-constexpr FollowsInvoker followsInvoker = [](PkbQueryHandler* pkbQueryHandler,
+constexpr FollowsInvoker followsInvoker = [](const QueryExecutorAgent &agent,
                                              const StmtRef &leftArg,
-                                             const StmtRef &rightArg){
-  return pkbQueryHandler->queryFollows(leftArg, rightArg);
+                                             const StmtRef &rightArg) {
+  return agent->queryFollows(leftArg, rightArg);
 };
 
-constexpr FollowsInvoker followsTInvoker = [](PkbQueryHandler* pkbQueryHandler,
+constexpr FollowsInvoker followsTInvoker = [](const QueryExecutorAgent &agent,
                                               const StmtRef &leftArg,
                                               const StmtRef &rightArg){
-  return pkbQueryHandler->queryFollowsStar(leftArg, rightArg);
+  return agent->queryFollowsStar(leftArg, rightArg);
 };
 
 constexpr FollowsSameSynInvoker followsSymmetricInvoker =
-    [](PkbQueryHandler* pkbQueryHandler, const StmtRef &arg){
+    [](const QueryExecutorAgent &agent, const StmtRef &arg){
       return unordered_set<StmtValue>{};
     };
 

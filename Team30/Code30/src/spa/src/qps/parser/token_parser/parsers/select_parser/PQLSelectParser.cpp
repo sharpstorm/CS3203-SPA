@@ -90,5 +90,7 @@ bool PQLSelectParser::isValidAttribute(PQLSynonymType synType,
       return attrType == STMT_NUM || attrType == VAR_NAME;
     case PQL_SYN_TYPE_CALL:
       return attrType == STMT_NUM || attrType == PROC_NAME;
+    default:
+      return false;
   }
 }

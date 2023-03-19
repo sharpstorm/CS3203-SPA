@@ -21,6 +21,7 @@ class WithArgument {
   PQLQuerySynonymProxy getSyn();
   PQLSynonymName getSynName();
   PQLSynonymType getSynType();
+  bool isSynType(PQLSynonymType type);
   PQLSynonymAttribute getAttribute();
   bool isStaticValueEqual(const WithArgument &other);
   bool doesReturnInteger();

@@ -8,10 +8,13 @@ class AssignPatternClause: public PatternClause {
  private:
   ExpressionArgumentPtr rightArgument;
 
+  void checkTries(const QueryExecutorAgent &agent,
+                  QueryResult<StmtValue, EntityValue>* result,
+                  QueryResult<StmtValue, EntityValue>* modifiesResult);
+
  public:
   AssignPatternClause(const PQLQuerySynonymProxy &assignSynonym,
                       ClauseArgumentPtr leftArg,
                       ExpressionArgumentPtr rightArg);
-  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler,
-                             OverrideTable* table) override;
+  PQLQueryResult* evaluateOn(const QueryExecutorAgent &agent) override;
 };

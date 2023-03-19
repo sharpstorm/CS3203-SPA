@@ -27,7 +27,7 @@ class CFGAffectsQuerier: public ICFGClauseQuerier,
                                                modifiesGetter,
                                                usesGetter>> {
  public:
-  explicit CFGAffectsQuerier(CFG* cfg, ClosureType* closure);
+  explicit CFGAffectsQuerier(CFG* cfg, const ClosureType &closure);
 
   StmtTransitiveResult queryBool(const StmtValue &arg0,
                                  const StmtValue &arg1) final;
@@ -39,10 +39,16 @@ class CFGAffectsQuerier: public ICFGClauseQuerier,
                 const StmtType &type0,
                 const StmtType &type1) final;
 
+  template <class T, StmtTypePredicate<T> typeChecker>
+  static constexpr bool isContainer(const T &closure, const int &stmtNumber) {
+    return (typeChecker(closure, StmtType::While, stmtNumber)
+        || typeChecker(closure, StmtType::If, stmtNumber));
+  }
+
  private:
   struct BoolResultClosure {
     CFG* cfg;
-    ClosureType* closure;
+    const ClosureType &closure;
     EntityValue target;
     StmtValue targetStmt;
     bool isValidPathFound;
@@ -50,7 +56,7 @@ class CFGAffectsQuerier: public ICFGClauseQuerier,
 
   struct QueryFromResultClosure {
     CFG* cfg;
-    ClosureType* closure;
+    const ClosureType &closure;
     StmtTransitiveResult* result;
     StmtValue startingStmt;
     EntityValue target;
@@ -58,7 +64,7 @@ class CFGAffectsQuerier: public ICFGClauseQuerier,
 
   struct QueryToResultClosure {
     CFG* cfg;
-    ClosureType* closure;
+    const ClosureType &closure;
     StmtTransitiveResult* result;
     StmtValue endingStmt;
     EntitySymbolMap symbolMap;
@@ -66,15 +72,9 @@ class CFGAffectsQuerier: public ICFGClauseQuerier,
 
   CFG* cfg;
   CFGWalker walker;
-  ClosureType* closure;
+  const ClosureType &closure;
 
   bool validateArg(const StmtValue &arg);
-
-  template <class T, StmtTypePredicate<T> typeChecker>
-  static constexpr bool isContainer(T* closure, const int &stmtNumber) {
-    return (typeChecker(closure, StmtType::While, stmtNumber)
-        || typeChecker(closure, StmtType::If, stmtNumber));
-  }
 
   void queryForward(StmtTransitiveResult* resultOut,
                     const StmtValue &start);
@@ -87,7 +87,8 @@ template <
     UsesGetter<ClosureType> usesGetter>
 CFGAffectsQuerier<ClosureType, typePredicate,
                   modifiesGetter, usesGetter>::CFGAffectsQuerier(
-    CFG *cfg, ClosureType* closure): cfg(cfg), walker(cfg), closure(closure) {}
+    CFG *cfg, const ClosureType &closure): cfg(cfg), walker(cfg),
+                                           closure(closure) {}
 
 template <
     class ClosureType,
@@ -120,7 +121,7 @@ queryBool(const StmtValue &arg0, const StmtValue &arg1) {
           throw CFGHaltWalkerException();
         }
 
-        if (isContainer<ClosureType,
+        if (CFGAffectsQuerier::isContainer<ClosureType,
                         typePredicate>(state->closure, stmtNumber)) {
           return true;
         }

@@ -27,6 +27,7 @@ TEST_CASE("Modifies Querying") {
   PQLQueryResultPtr actual;
 
   OverrideTablePtr override = make_unique<OverrideTable>();
+  QueryExecutorAgent agent(pkb.get(), override.get());
   // Static Results
   ModifiesClause modifiesClause = ModifiesClause(
       make_unique<StmtArgument>(1),
@@ -34,7 +35,7 @@ TEST_CASE("Modifies Querying") {
 
   expected = make_unique<PQLQueryResult>();
   expected->setIsStaticFalse(true);
-  actual = PQLQueryResultPtr(modifiesClause.evaluateOn(pkb.get(), override.get()));
+  actual = PQLQueryResultPtr(modifiesClause.evaluateOn(agent));
   REQUIRE(*expected == *actual);
 
   // Wildcard - Static Statement
@@ -42,7 +43,7 @@ TEST_CASE("Modifies Querying") {
       make_unique<StmtArgument>(1),
       make_unique<WildcardArgument>());
   expected = make_unique<PQLQueryResult>();
-  actual = PQLQueryResultPtr(modifiesClause.evaluateOn(pkb.get(), override.get()));
+  actual = PQLQueryResultPtr(modifiesClause.evaluateOn(agent));
   REQUIRE(*expected == *actual);
 
   // Wildcard - Statement Synonym
@@ -52,7 +53,7 @@ TEST_CASE("Modifies Querying") {
   expected = TestQueryResultBuilder::buildExpected(ExpectedParams{
       {"a", QueryResultItemVector{QueryResultItem(1), QueryResultItem(2), QueryResultItem(3), QueryResultItem(6), QueryResultItem(7), QueryResultItem(8) }}
   });
-  actual = PQLQueryResultPtr(modifiesClause.evaluateOn(pkb.get(), override.get()));
+  actual = PQLQueryResultPtr(modifiesClause.evaluateOn(agent));
   REQUIRE(*expected == *actual);
 
   // Statement synonym
@@ -63,7 +64,7 @@ TEST_CASE("Modifies Querying") {
   expected = TestQueryResultBuilder::buildExpected(ExpectedParams{
       {"a", QueryResultItemVector{QueryResultItem(1), QueryResultItem(6)}}
   });
-  actual = PQLQueryResultPtr(modifiesClause.evaluateOn(pkb.get(), override.get()));
+  actual = PQLQueryResultPtr(modifiesClause.evaluateOn(agent));
   REQUIRE(*actual == *expected);
 
   // Entity synonym
@@ -73,7 +74,7 @@ TEST_CASE("Modifies Querying") {
   expected = TestQueryResultBuilder::buildExpected(ExpectedParams{
       {"v", QueryResultItemVector{QueryResultItem("cenY")}}
   });
-  actual = PQLQueryResultPtr(modifiesClause.evaluateOn(pkb.get(), override.get()));
+  actual = PQLQueryResultPtr(modifiesClause.evaluateOn(agent));
   REQUIRE(*actual == *expected);
 
   // Both synonyms
@@ -99,6 +100,6 @@ TEST_CASE("Modifies Querying") {
           QueryResultItem("cenY")
       }}
   });
-  actual = PQLQueryResultPtr(modifiesClause.evaluateOn(pkb.get(), override.get()));
+  actual = PQLQueryResultPtr(modifiesClause.evaluateOn(agent));
   REQUIRE(*actual == *expected);
 }

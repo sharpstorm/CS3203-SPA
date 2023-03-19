@@ -25,7 +25,6 @@ class ClauseArgument {
   virtual EntityRef toEntityRef() = 0;
 
   static bool isStatement(PQLQuerySynonym syn);
-  bool canSubstitute(OverrideTable* table);
 
   template<PQLSynonymType TYPE>
   static bool isType(PQLQuerySynonym syn) {

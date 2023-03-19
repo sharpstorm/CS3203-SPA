@@ -16,20 +16,20 @@ using AbstractParentClause = AbstractStmtStmtClause<
     ClauseArgument::isStatement,
     ClauseArgument::isStatement>;
 
-constexpr ParentInvoker parentInvoker = [](PkbQueryHandler* pkbQueryHandler,
+constexpr ParentInvoker parentInvoker = [](const QueryExecutorAgent &agent,
                                            const StmtRef &leftArg,
                                            const StmtRef &rightArg){
-  return pkbQueryHandler->queryParent(leftArg, rightArg);
+  return agent->queryParent(leftArg, rightArg);
 };
 
-constexpr ParentInvoker parentTInvoker = [](PkbQueryHandler* pkbQueryHandler,
+constexpr ParentInvoker parentTInvoker = [](const QueryExecutorAgent &agent,
                                             const StmtRef &leftArg,
                                             const StmtRef &rightArg){
-  return pkbQueryHandler->queryParentStar(leftArg, rightArg);
+  return agent->queryParentStar(leftArg, rightArg);
 };
 
 constexpr ParentSameSynInvoker parentSymmetricInvoker =
-    [](PkbQueryHandler* pkbQueryHandler, const StmtRef &arg){
+    [](const QueryExecutorAgent &agent, const StmtRef &arg){
       return unordered_set<StmtValue>{};
     };
 

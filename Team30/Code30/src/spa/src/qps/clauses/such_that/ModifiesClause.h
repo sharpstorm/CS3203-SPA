@@ -9,17 +9,17 @@ typedef StmtEntInvoker ModifiesSInvoker;
 typedef EntEntInvoker ModifiesPInvoker;
 
 constexpr ModifiesSInvoker modifiesSInvoker = [](
-    PkbQueryHandler* pkbQueryHandler,
+    const QueryExecutorAgent &agent,
     const StmtRef &leftArg,
     const EntityRef &rightArg){
-  return pkbQueryHandler->queryModifies(leftArg, rightArg);
+  return agent->queryModifies(leftArg, rightArg);
 };
 
 constexpr ModifiesPInvoker modifiesPInvoker = [](
-    PkbQueryHandler* pkbQueryHandler,
+    const QueryExecutorAgent &agent,
     const EntityRef &leftArg,
     const EntityRef &rightArg){
-  return pkbQueryHandler->queryModifies(leftArg, rightArg);
+  return agent->queryModifies(leftArg, rightArg);
 };
 
 typedef AbstractAnyEntClause<

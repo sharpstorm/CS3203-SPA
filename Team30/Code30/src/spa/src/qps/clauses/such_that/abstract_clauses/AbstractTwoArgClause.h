@@ -25,35 +25,29 @@ class AbstractTwoArgClause: public SuchThatClause {
       QueryInvoker<LeftResultType, LeftArgType,
                    RightResultType, RightArgType> diffSynInvoker,
       SymmetricQueryInvoker<LeftResultType, LeftArgType> sameSynInvoker>
-  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler,
-                             OverrideTable* table) {
+
+  PQLQueryResult* evaluateOn(const QueryExecutorAgent &agent) {
     if (isSameSynonym()) {
-      auto queryResult = sameSynInvoker(pkbQueryHandler,
-                                        leftTransformer(left.get()));
+      auto ref = leftTransformer(left.get());
+      ref = agent.transformArg(left->getName(), ref);
+      if (!agent.isValid(ref)) {
+        return new PQLQueryResult();
+      }
+
+      auto queryResult = sameSynInvoker(agent, ref);
       return Clause::toQueryResult(left->getName(), queryResult);
     }
 
     LeftArgType leftArg = leftTransformer(left.get());
     RightArgType rightArg = rightTransformer(right.get());
-    if (left->canSubstitute(table)) {
-      OverrideTransformer overrideTrans = table->at(left->getName());
-      leftArg = overrideTrans.transformArg(leftArg);
-     if (!Clause::isValidRef(leftArg, pkbQueryHandler)) {
-        return new PQLQueryResult();
-      }
+
+    leftArg = agent.transformArg(left->getName(), leftArg);
+    rightArg = agent.transformArg(right->getName(), rightArg);
+    if (!agent.isValid(leftArg) || !agent.isValid(rightArg)) {
+      return new PQLQueryResult();
     }
 
-    if (right->canSubstitute(table)) {
-      OverrideTransformer overrideTrans = table->at(right->getName());
-      rightArg = overrideTrans.transformArg(rightArg);
-      if (!Clause::isValidRef(rightArg, pkbQueryHandler)) {
-        return new PQLQueryResult();
-      }
-    }
-
-    auto queryResult = diffSynInvoker(
-        pkbQueryHandler, leftArg, rightArg);
-
+    auto queryResult = diffSynInvoker(agent, leftArg, rightArg);
     return Clause::toQueryResult(left.get(), right.get(), queryResult);
   }
 

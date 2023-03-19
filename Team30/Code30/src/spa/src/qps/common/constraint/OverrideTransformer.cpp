@@ -1,5 +1,9 @@
 #include "OverrideTransformer.h"
 
+#include <string>
+
+using std::to_string;
+
 StmtRef OverrideTransformer::transformArg(StmtRef input) {
   if (stmtRef == NO_STMT_REF) {
     return input;
@@ -8,6 +12,13 @@ StmtRef OverrideTransformer::transformArg(StmtRef input) {
 }
 
 EntityRef OverrideTransformer::transformArg(EntityRef input) {
+  if (input.getType() == EntityType::Constant) {
+    if (stmtRef == NO_STMT_REF) {
+      return input;
+    }
+    return EntityRef {EntityType::Constant, to_string(stmtRef) };
+  }
+
   if (entRef == NO_ENT_REF) {
     return input;
   }

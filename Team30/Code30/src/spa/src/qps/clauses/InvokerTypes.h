@@ -3,18 +3,19 @@
 #include <unordered_set>
 
 #include "common/Types.h"
+#include "../executor/QueryExecutorAgent.h"
 
 template <
     typename LeftResultType, typename LeftArgType,
     typename RightResultType, typename RightArgType>
 using QueryInvoker = QueryResult<LeftResultType, RightResultType>(*)(
-    PkbQueryHandler* pkbQueryHandler,
+    const QueryExecutorAgent &agent,
     const LeftArgType &leftArg,
     const RightArgType &rightArg);
 
 template <typename ResultType, typename ArgType>
 using SymmetricQueryInvoker = unordered_set<ResultType>(*)(
-    PkbQueryHandler* pkbQueryHandler,
+    const QueryExecutorAgent &agent,
     const ArgType &arg);
 
 template <typename ResultType>

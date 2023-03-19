@@ -35,6 +35,10 @@ PQLSynonymType WithArgument::getSynType() {
   return syn->getType();
 }
 
+bool WithArgument::isSynType(PQLSynonymType type) {
+  return syn->getType() == type;
+}
+
 bool WithArgument::isAttributeValid() {
   if (!isSyn()) {
     return true;
