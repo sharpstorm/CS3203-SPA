@@ -172,7 +172,8 @@ bool WithClause::populateMap(WithArgument* arg, SynToStmtMap *map,
       break;
   }
 
-  EntityValueSet entSet = queryForEntity(arg->getSyn(), pkbQueryHandler, table);
+  EntityValueSet entSet = queryForEntity(arg->getSyn(), pkbQueryHandler,
+                                         table);
   for (string s : entSet) {
     map->emplace(s, StmtList{});
   }
