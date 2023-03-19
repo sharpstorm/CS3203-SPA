@@ -1,235 +1,235 @@
-1 - Select BOOLEAN Affects** (Integer, Integer) True (Integer) (Integer)
+1 - Select BOOLEAN Affects* (Integer, Integer) True (Integer) (Integer)
 
-Select BOOLEAN such that Affects**(1, 18)
+Select BOOLEAN such that Affects*(1, 18)
 TRUE
 5000
-2 - Select BOOLEAN Affects** (Integer, Integer) True (Integer) (Integer)
+2 - Select BOOLEAN Affects* (Integer, Integer) True (Integer) (Integer)
 
-Select BOOLEAN such that Affects**(2, 15)
+Select BOOLEAN such that Affects*(2, 15)
 TRUE
 5000
-3 - Select BOOLEAN Affects** (Integer, Integer) True (Integer) (Integer)
+3 - Select BOOLEAN Affects* (Integer, Integer) True (Integer) (Integer)
 
-Select BOOLEAN such that Affects**(13, 12)
+Select BOOLEAN such that Affects*(13, 12)
 TRUE
 5000
-4 - Select BOOLEAN Affects** (Integer, Integer) False (Integer) (Integer)
+4 - Select BOOLEAN Affects* (Integer, Integer) False (Integer) (Integer)
 
-Select BOOLEAN such that Affects**(3, 19)
+Select BOOLEAN such that Affects*(3, 19)
 FALSE
 5000
-5 - Select BOOLEAN Affects** (Integer, Integer) False (Integer) (Integer)
+5 - Select BOOLEAN Affects* (Integer, Integer) False (Integer) (Integer)
 
-Select BOOLEAN such that Affects**(2, 22)
+Select BOOLEAN such that Affects*(2, 22)
 FALSE
 5000
-6 - Select BOOLEAN Affects** (Integer, Integer) False (Integer) (Integer)
+6 - Select BOOLEAN Affects* (Integer, Integer) False (Integer) (Integer)
 
-Select BOOLEAN such that Affects**(22, 23)
+Select BOOLEAN such that Affects*(22, 23)
 FALSE
 5000
-7 - Select BOOLEAN Affects** (Integer, Integer) False (Integer) (Integer)
+7 - Select BOOLEAN Affects* (Integer, Integer) False (Integer) (Integer)
 
-Select BOOLEAN such that Affects**(12, 15)
+Select BOOLEAN such that Affects*(12, 15)
 FALSE
 5000
-8 - Select BOOLEAN Affects** (Integer, Integer) False (Integer) (Integer)
+8 - Select BOOLEAN Affects* (Integer, Integer) False (Integer) (Integer)
 
-Select BOOLEAN such that Affects**(13, 14)
+Select BOOLEAN such that Affects*(13, 14)
 FALSE
 5000
-9 - Select BOOLEAN Affects** (Integer, Integer) False (Integer) (Integer)
+9 - Select BOOLEAN Affects* (Integer, Integer) False (Integer) (Integer)
 
-Select BOOLEAN such that Affects**(24, 1)
+Select BOOLEAN such that Affects*(24, 1)
 FALSE
 5000
-10 - Select BOOLEAN Affects** (Integer, Integer) True (Integer) (Integer)
+10 - Select BOOLEAN Affects* (Integer, Integer) True (Integer) (Integer)
 
-Select BOOLEAN such that Affects**(2, 7)
+Select BOOLEAN such that Affects*(2, 7)
 TRUE
 5000
-11 - Select Statement Affects** (Statement, Integer) True (Synoynm) (Integer)
+11 - Select Statement Affects* (Statement, Integer) True (Synoynm) (Integer)
 stmt s;
-Select s such that Affects**(s, 23)
+Select s such that Affects*(s, 23)
 2,3,7,15,17,19,20
 5000
-12 - Select Statement Affects** (Statement, Integer) True (Synoynm) (Integer)
+12 - Select Statement Affects* (Statement, Integer) True (Synoynm) (Integer)
 stmt s;
-Select s such that Affects**(s, 3)
+Select s such that Affects*(s, 3)
 1, 2
 5000
-13 - Select Statement Affects** (Statement, Integer) True (Synoynm) (Integer)
+13 - Select Statement Affects* (Statement, Integer) True (Synoynm) (Integer)
 stmt s;
-Select s such that Affects**(s, 13)
+Select s such that Affects*(s, 13)
 4,12,13,14
 5000
-14 - Select Statement Affects** (Statement, Integer) None (Synoynm) (Integer)
+14 - Select Statement Affects* (Statement, Integer) None (Synoynm) (Integer)
 stmt s;
-Select s such that Affects**(s, 11)
+Select s such that Affects*(s, 11)
 
 5000
-15 - Select Statement Affects** (Statement, Integer) None (Synoynm) (Integer)
+15 - Select Statement Affects* (Statement, Integer) None (Synoynm) (Integer)
 stmt s;
-Select s such that Affects**(s, 1)
+Select s such that Affects*(s, 1)
 
 5000
-16 - Select Statement Affects** (Statement, Integer) None (Synoynm) (Integer)
+16 - Select Statement Affects* (Statement, Integer) None (Synoynm) (Integer)
 stmt s;
-Select s such that Affects**(s, 100)
+Select s such that Affects*(s, 100)
 
 5000
-17 - Select Statement Affects** (Integer, Statement) True (Integer) (Synonym)
+17 - Select Statement Affects* (Integer, Statement) True (Integer) (Synonym)
 stmt s;
-Select s such that Affects**(3, s)
+Select s such that Affects*(3, s)
 13, 22, 23
 5000
-18 - Select Statement Affects** (Integer, Statement) True (Integer) (Synonym)
+18 - Select Statement Affects* (Integer, Statement) True (Integer) (Synonym)
 stmt s;
-Select s such that Affects**(15, s)
+Select s such that Affects*(15, s)
 15, 23
 5000
-19 - Select Statement Affects** (Integer, Statement) True (Integer) (Synonym)
+19 - Select Statement Affects* (Integer, Statement) True (Integer) (Synonym)
 stmt s;
-Select s such that Affects**(7, s)
+Select s such that Affects*(7, s)
 15, 23
 5000
-20 - Select Statement Affects** (Integer, Statement) True (Integer) (Synonym)
+20 - Select Statement Affects* (Integer, Statement) True (Integer) (Synonym)
 stmt s;
-Select s such that Affects**(17, s)
+Select s such that Affects*(17, s)
 15, 23
 5000
-21 - Select Statement Affects** (Integer, Statement) None (Integer) (Synonym)
+21 - Select Statement Affects* (Integer, Statement) None (Integer) (Synonym)
 stmt s;
-Select s such that Affects**(24, s)
+Select s such that Affects*(24, s)
 
 5000
-22 - Select Statement Affects** (Integer, Statement) None (Integer) (Synonym)
+22 - Select Statement Affects* (Integer, Statement) None (Integer) (Synonym)
 stmt s;
-Select s such that Affects**(23, s)
+Select s such that Affects*(23, s)
 
 5000
-23 - Select Statement Affects** (Integer, Statement) None (Integer) (Synonym)
+23 - Select Statement Affects* (Integer, Statement) None (Integer) (Synonym)
 stmt s;
-Select s such that Affects**(22, s)
+Select s such that Affects*(22, s)
 
 5000
-24 - Select Statement Affects** (Integer, Statement) True (Integer) (Synonym)
+24 - Select Statement Affects* (Integer, Statement) True (Integer) (Synonym)
 stmt s;
-Select s such that Affects**(13, s)
+Select s such that Affects*(13, s)
 12, 13
 5000
-25 - Select Statement Affects** (Integer, Statement) None (Integer) (Synonym)
+25 - Select Statement Affects* (Integer, Statement) None (Integer) (Synonym)
 stmt s;
-Select s such that Affects**(14, s)
+Select s such that Affects*(14, s)
 12, 13
 5000
-26 - Select Statement Affects** (Integer, Statement) True (Integer) (Synonym)
+26 - Select Statement Affects* (Integer, Statement) True (Integer) (Synonym)
 stmt s;
-Select s such that Affects**(2, s)
+Select s such that Affects*(2, s)
 3, 7, 15, 23
 5000
-27 - Select Statement Affects** (Statement, Integer) None (Synoynm) (Integer)
+27 - Select Statement Affects* (Statement, Integer) None (Synoynm) (Integer)
 stmt s;
-Select s such that Affects**(s, 24)
+Select s such that Affects*(s, 24)
 
 5000
-28 - Select Statement Affects** (Statement, Statement) Circular (Synoynm) (Synonym)
+28 - Select Statement Affects* (Statement, Statement) Circular (Synoynm) (Synonym)
 stmt s;
-Select s such that Affects**(s, s)
+Select s such that Affects*(s, s)
 15,18
 5000
-29 - Select Statement Affects** (Statement, Statement) Affects** Statement (Synoynm) (Synonym)
+29 - Select Statement Affects* (Statement, Statement) Affects* Statement (Synoynm) (Synonym)
 stmt s, s1;
-Select s such that Affects**(s, s1)
+Select s such that Affects*(s, s1)
 1,2,3,4,6,7,12,13,14,15,17,18,19
 5000
-30 - Select Statement Affects** (Statement, Statement) Affected by (Synoynm) (Synonym)
+30 - Select Statement Affects* (Statement, Statement) Affected by (Synoynm) (Synonym)
 stmt s, s1;
-Select s1 such that Affects**(s, s1)
+Select s1 such that Affects*(s, s1)
 3,6,7,12,13,15,18,22,23
 5000
-31 - Select Statement Affects** (Statement, Wildcard) Affects** Statement (Synoynm) (Wildcard)
+31 - Select Statement Affects* (Statement, Wildcard) Affects* Statement (Synoynm) (Wildcard)
 stmt s;
-Select s such that Affects**(s, _)
+Select s such that Affects*(s, _)
 1,2,3,4,6,7,12,13,14,15,17,18,19
 5000
-32 - Select Statement Affects** (Wildcard, Statement) Affected by (Wildcard) (Synonym)
+32 - Select Statement Affects* (Wildcard, Statement) Affected by (Wildcard) (Synonym)
 stmt s;
-Select s such that Affects**(_, s)
+Select s such that Affects*(_, s)
 3,6,7,12,13,15,18,22,23
 5000
-33 - Select Statements Affects** (Wildcard, Wildcard) All Statements (Wildcard) (Wildcard)
-Select s such that Affects**(_, _)
+33 - Select Statements Affects* (Wildcard, Wildcard) All Statements (Wildcard) (Wildcard)
+Select s such that Affects*(_, _)
 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24
 5000
-34 - Select Statement Affects** (Integer, Wildcard) True (Integer) (Wildcard)
+34 - Select Statement Affects* (Integer, Wildcard) True (Integer) (Wildcard)
 stmt s;
-Select s such that Affects**(2, _)
+Select s such that Affects*(2, _)
 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24
 5000
-35 - Select Statement Affects** (Wildcard, Integer) None (Wildcard) (Integer)
+35 - Select Statement Affects* (Wildcard, Integer) None (Wildcard) (Integer)
 stmt s;
-Select s such that Affects**(_, s)
+Select s such that Affects*(_, s)
 
 5000
-36 - Select Statement Affects** (Statement, Print) Affects** Print Statements (Synonym) (Synonym)
+36 - Select Statement Affects* (Statement, Print) Affects* Print Statements (Synonym) (Synonym)
 stmt s; print pn;
-Select s such that Affects**(s, pn)
+Select s such that Affects*(s, pn)
 2,7,15
 5000
-37 - Select Statement Affects** (Print, Statement) None (Synonym) (Synonym)
+37 - Select Statement Affects* (Print, Statement) None (Synonym) (Synonym)
 stmt s; print pn;
-Select s such that Affects**(pn, s)
+Select s such that Affects*(pn, s)
 
 5000
-38 - Select NEGATIVE Affects** (Print, Statement) None (Synonym) (Synonym)
+38 - Select NEGATIVE Affects* (Print, Statement) None (Synonym) (Synonym)
 stmt s; print pn;
-Select pn such that Affects**(pn, s)
+Select pn such that Affects*(pn, s)
 
 5000
-39 - Select NEGATIVE Affects** (Procedure, Procedure) Error (Synonym) (Synonym)
+39 - Select NEGATIVE Affects* (Procedure, Procedure) Error (Synonym) (Synonym)
 procedure p; stmt s;
-Select s such that Affects**(p, p)
+Select s such that Affects*(p, p)
 SemanticError
 5000
-40 - Select NEGATIVE Affects** (Procedure, Procedure) Error (Synonym) (Synonym)
+40 - Select NEGATIVE Affects* (Procedure, Procedure) Error (Synonym) (Synonym)
 procedure p; stmt s;
-Select p such that Affects**(p, p)
+Select p such that Affects*(p, p)
 SemanticError
 5000
-41 - Select NEGATIVE Affects** (Constant, Constant) Error (Synonym) (Synonym)
+41 - Select NEGATIVE Affects* (Constant, Constant) Error (Synonym) (Synonym)
 constant c; stmt s;
-Select c such that Affects**(c, c)
+Select c such that Affects*(c, c)
 SemanticError
 5000
-42 - Select NEGATIVE Affects** (Variable, Variable) Error (Synonym) (Synonym)
+42 - Select NEGATIVE Affects* (Variable, Variable) Error (Synonym) (Synonym)
 variable v; stmt s;
-Select s such that Affects**(v, v)
+Select s such that Affects*(v, v)
 SemanticError
 5000
-43 - Select NEGATIVE Affects** (Variable, Variable) Error (Synonym) (Synonym)
+43 - Select NEGATIVE Affects* (Variable, Variable) Error (Synonym) (Synonym)
 variable v; stmt s;
-Select v such that Affects**(v, v)
+Select v such that Affects*(v, v)
 SemanticError
 5000
-44 - Select NEGATIVE Affects** (Read, Read) None (Synonym) (Synonym)
+44 - Select NEGATIVE Affects* (Read, Read) None (Synonym) (Synonym)
 read r1; stmt s;
-Select s such that Affects**(r1, r1)
+Select s such that Affects*(r1, r1)
 
 5000
-45 - Select NEGATIVE Affects** (Read, Read) None(Synonym) (Synonym)
+45 - Select NEGATIVE Affects* (Read, Read) None(Synonym) (Synonym)
 read r1; stmt s;
-Select r1 such that Affects**(r1, r1)
+Select r1 such that Affects*(r1, r1)
 
 5000
-46 - Select NEGATIVE Affects** (While, While) None (Synonym) (Synonym)
+46 - Select NEGATIVE Affects* (While, While) None (Synonym) (Synonym)
 while w; stmt s;
-Select s such that Affects**(w, w)
+Select s such that Affects*(w, w)
 
 5000
-47 - Select NEGATIVE Affects** (While, While) None (Synonym) (Synonym)
+47 - Select NEGATIVE Affects* (While, While) None (Synonym) (Synonym)
 while w; stmt s;
-Select w such that Affects**(w, w)
+Select w such that Affects*(w, w)
 
 5000
 48 - Select NEGATIVE Affects* (Constant, Statement) Error (Synonym) (Synonym)
