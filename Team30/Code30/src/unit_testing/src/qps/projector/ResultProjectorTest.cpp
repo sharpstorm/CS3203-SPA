@@ -21,7 +21,6 @@ void testResultProjection(vector<string>* expected, vector<string>* actual) {
   REQUIRE(*expected == *actual);
 }
 
-ResultProjector projector;
 PQLQuerySynonym TARGET_RESULT_VAR{PQL_SYN_TYPE_ASSIGN, "a"};
 PQLQuerySynonym TARGET_ENTITY_VAR{PQL_SYN_TYPE_VARIABLE, "v"};
 AttributedSynonym ATTR_TARGET_RESULT_VAR(&TARGET_RESULT_VAR);
@@ -30,12 +29,18 @@ AttributedSynonymList TARGET_RESULT_VARS{ATTR_TARGET_RESULT_VAR};
 AttributedSynonymList TARGET_ENTITY_VARS{ATTR_TARGET_ENTITY_VAR};
 
 TEST_CASE("Project when result is static") {
+  PKB pkbStore;
+  unique_ptr<PkbQueryHandler> pkbQH = make_unique<PkbQueryHandler>(&pkbStore);
+  unique_ptr<ResultProjector> projector = make_unique<ResultProjector>(pkbQH.get());
   SynonymResultTable result(false, true);
-  UniqueVectorPtr<string> projectedResult = projector.project(&result, &TARGET_RESULT_VARS);
+  UniqueVectorPtr<string> projectedResult = projector->project(&result, &TARGET_RESULT_VARS);
   REQUIRE(projectedResult->empty());
 }
 
 TEST_CASE("Projecting Statements") {
+  PKB pkbStore;
+  unique_ptr<PkbQueryHandler> pkbQH = make_unique<PkbQueryHandler>(&pkbStore);
+  unique_ptr<ResultProjector> projector = make_unique<ResultProjector>(pkbQH.get());
   unique_ptr<SynonymResultTable> result;
   UniqueVectorPtr<string> actual;
   UniqueVectorPtr<string> expected;
@@ -48,11 +53,14 @@ TEST_CASE("Projecting Statements") {
       }}
   }, &TARGET_RESULT_VARS);
   expected = UniqueVectorPtr<string>(new vector<string>({"1", "2", "3"}));
-  actual = projector.project(result.get(), &TARGET_RESULT_VARS);
+  actual = projector->project(result.get(), &TARGET_RESULT_VARS);
   testResultProjection(expected.get(), actual.get());
 }
 
 TEST_CASE("Projecting Entities") {
+  PKB pkbStore;
+  unique_ptr<PkbQueryHandler> pkbQH = make_unique<PkbQueryHandler>(&pkbStore);
+  unique_ptr<ResultProjector> projector = make_unique<ResultProjector>(pkbQH.get());
   unique_ptr<SynonymResultTable> result;
   UniqueVectorPtr<string> actual;
   UniqueVectorPtr<string> expected;
@@ -64,6 +72,6 @@ TEST_CASE("Projecting Entities") {
       }}
   }, &TARGET_ENTITY_VARS);
   expected = UniqueVectorPtr<string>(new vector<string>({"x", "y"}));
-  actual = projector.project(result.get(), &TARGET_ENTITY_VARS);
+  actual = projector->project(result.get(), &TARGET_ENTITY_VARS);
   testResultProjection(expected.get(), actual.get());
 }
