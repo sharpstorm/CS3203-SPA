@@ -16,6 +16,7 @@ class AttributedSynonym {
   explicit AttributedSynonym(PQLQuerySynonym* syn);
   AttributedSynonym(PQLQuerySynonym* syn, PQLSynonymAttribute attr);
 
+  PQLQuerySynonym* getSyn();
   PQLSynonymType getType();
   PQLSynonymName getName();
   PQLSynonymAttribute getAttribute();

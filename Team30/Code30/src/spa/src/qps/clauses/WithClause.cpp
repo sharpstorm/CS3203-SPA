@@ -12,6 +12,7 @@ PQLQueryResult *WithClause::evaluateOn(PkbQueryHandler *pkbQueryHandler) {
   return result;
 }
 
+
 bool WithClause::validateArgTypes(VariableTable *variables) {
   if (!leftArg->isAttributeValid() || !rightArg->isAttributeValid()) {
     return false;

@@ -8,6 +8,7 @@
 #include "qps/common/constraint/ConstantConstraint.h"
 #include "qps/common/constraint/OverrideConstraint.h"
 #include "qps/parser/token_parser/ref_extractor/PQLAttributeRefExtractor.h"
+#include "qps/common/constraint/SynonymConstraint.h"
 
 using std::make_unique, std::make_shared;
 
@@ -61,7 +62,7 @@ ConstraintSPtr PQLWithParser::parseConstraint(
     constraint = make_shared<ConstantConstraint>(
         std::move(left), std::move(right));
   } else if (left->isSyn() && right->isSyn()) {
-    // TODO(KwanHW): Cat 3 here
+    constraint = make_shared<SynonymConstraint>(left->getSyn(), right->getSyn());
   } else {
     // Cat 2
     if (left->isSyn()) {

@@ -23,6 +23,10 @@ bool WithArgument::isSyn() const {
   return syn != nullptr;
 }
 
+PQLQuerySynonym* WithArgument::getSyn() {
+  return syn->getSyn();
+}
+
 PQLSynonymName WithArgument::getSynName() {
   return syn->getName();
 }
