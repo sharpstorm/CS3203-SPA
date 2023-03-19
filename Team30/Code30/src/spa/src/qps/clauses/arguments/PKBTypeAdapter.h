@@ -20,10 +20,8 @@ class PKBTypeAdapter {
         return StmtType::Read;
       case PQL_SYN_TYPE_PRINT:
         return StmtType::Print;
-      case PQL_SYN_TYPE_STMT:
-        return StmtType::None;
       default:
-        throw QPSExecutionError("Execution Error");
+        return StmtType::None;
     }
   }
 
@@ -36,7 +34,7 @@ class PKBTypeAdapter {
       case PQL_SYN_TYPE_CONSTANT:
         return EntityType::Constant;
       default:
-        throw QPSExecutionError("Execution Error");
+        return EntityType::None;
     }
   }
 };

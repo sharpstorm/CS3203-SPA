@@ -29,27 +29,43 @@ class WithClause: public Clause {
                              OverrideTable* table) override;
   bool validateArgTypes(VariableTable* variables) override;
 
-  template <PKBAttributeQuerier querier, PQLSynonymType synType>
+  template <PKBAttributeQuerier querier>
   void queryPkbForAttribute(PkbQueryHandler *pkbQueryHandler,
-                            SynToStmtMap *map);
-  bool populateMap(PQLSynonymType type, SynToStmtMap *map,
-                   PkbQueryHandler *pkbQueryHandler);
+                            OverrideTable *table,
+                            SynToStmtMap *map,
+                            WithArgument* arg);
+  bool populateMap(WithArgument* arg, SynToStmtMap *map,
+                   PkbQueryHandler *pkbQueryHandler,
+                   OverrideTable *table);
 
  private:
   bool isEmptyResult();
   void evaluateOnIntAttributes(PQLQueryResult *result,
-                               PkbQueryHandler *pkbQueryHandler);
+                               PkbQueryHandler *pkbQueryHandler,
+                               OverrideTable *table);
 
   void evaluateOnStringAttributes(PQLQueryResult *result,
-                                  PkbQueryHandler *pkbQueryHandler);
+                                  PkbQueryHandler *pkbQueryHandler,
+                                  OverrideTable *table);
 
   void evaluateOnStmtStmt(PQLQueryResult *result,
-                          PkbQueryHandler *pkbQueryHandler);
+                          PkbQueryHandler *pkbQueryHandler,
+                          OverrideTable *table);
   void evaluateOnStmtConst(PQLQueryResult *result,
                            PkbQueryHandler *pkbQueryHandler,
+                           OverrideTable *table,
                            WithArgument* constant,
                            WithArgument* stmt);
+
   bool isIntegerIndependent(const PQLSynonymType &type);
+
+  StmtValueSet queryForStatement(PQLQuerySynonymProxy ref,
+                                 PkbQueryHandler *pkbQueryHandler,
+                                 OverrideTable* table);
+
+  EntityValueSet queryForEntity(PQLQuerySynonymProxy ref,
+                                PkbQueryHandler *pkbQueryHandler,
+                                OverrideTable* table);
 
   template <class T>
   void addToResult(PQLQueryResult *result, const T &pkbResult) {
