@@ -9,7 +9,7 @@
 
 using std::pair, std::unordered_set, std::vector, std::string, std::to_string;
 
-SelectClause::SelectClause(const PQLQuerySynonym &target):
+SelectClause::SelectClause(PQLQuerySynonymProxy target):
     target(target) {}
 
 PQLQueryResult* SelectClause::evaluateOn(PkbQueryHandler* pkbQueryHandler,

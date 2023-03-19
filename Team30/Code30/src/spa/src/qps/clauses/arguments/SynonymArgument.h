@@ -5,10 +5,12 @@
 
 class SynonymArgument: public ClauseArgument {
  private:
-  PQLQuerySynonym synonym;
+  PQLQuerySynonymProxy synProxy;
+
+  PQLQuerySynonym* resolveProxy();
 
  public:
-  explicit SynonymArgument(const PQLQuerySynonym &synonym);
+  explicit SynonymArgument(PQLQuerySynonymProxy synonym);
   bool synonymSatisfies(SynonymPredicate predicate) override;
   bool isNamed() override;
   PQLQuerySynonym* getSyn() override;

@@ -3,19 +3,23 @@
 
 AttributedSynonym::AttributedSynonym() : attribute(NO_ATTRIBUTE) { }
 
-AttributedSynonym::AttributedSynonym(PQLQuerySynonym* syn)
-    : syn(syn), attribute(NO_ATTRIBUTE) { }
+AttributedSynonym::AttributedSynonym(PQLQuerySynonymProxy synProxy) :
+    synProxy(synProxy), attribute(NO_ATTRIBUTE) { }
 
-AttributedSynonym::AttributedSynonym(PQLQuerySynonym* syn,
+AttributedSynonym::AttributedSynonym(PQLQuerySynonymProxy synProxy,
                                      PQLSynonymAttribute attr) :
-                                     syn(syn), attribute(attr) { }
+    synProxy(synProxy), attribute(attr) { }
+
+PQLQuerySynonym* AttributedSynonym::resolveProxy() {
+  return *synProxy;
+}
 
 PQLSynonymAttribute AttributedSynonym::getAttribute() {
   return attribute;
 }
 
 bool AttributedSynonym::validateAttribute() {
-  switch (syn->getType()) {
+  switch (resolveProxy()->getType()) {
     case PQL_SYN_TYPE_STMT:
     case PQL_SYN_TYPE_ASSIGN:
     case PQL_SYN_TYPE_IF:
@@ -38,21 +42,24 @@ bool AttributedSynonym::validateAttribute() {
 }
 
 PQLSynonymType AttributedSynonym::getType() {
-  return syn->getType();
+  return resolveProxy()->getType();
 }
 
 PQLSynonymName AttributedSynonym::getName() {
-  return syn->getName();
+  return resolveProxy()->getName();
 }
 bool AttributedSynonym::returnsInteger() {
   return (attribute & INT_RETURN_MASK) > 0;
 }
 
 bool AttributedSynonym::isStatementType() {
-  return syn->isStatementType();
+  return resolveProxy()->isStatementType();
 }
 
 PQLQuerySynonym* AttributedSynonym::getSyn() {
-  return syn;
+  return resolveProxy();
 }
 
+PQLQuerySynonymProxy AttributedSynonym::getSynProxy() {
+  return synProxy;
+}

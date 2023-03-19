@@ -13,6 +13,7 @@ class WithArgument {
   AttributedSynonymPtr syn;
   int intValue;
   string identValue;
+
  public:
   explicit WithArgument(int intVal);
   explicit WithArgument(string identVal);

@@ -20,6 +20,6 @@ ClauseArgumentPtr ClauseArgumentFactory::createWildcard() {
 }
 
 ClauseArgumentPtr ClauseArgumentFactory::create(
-    const PQLQuerySynonym &variable) {
-  return make_unique<SynonymArgument>(variable);
+    PQLQuerySynonymProxy synProxy) {
+  return make_unique<SynonymArgument>(synProxy);
 }

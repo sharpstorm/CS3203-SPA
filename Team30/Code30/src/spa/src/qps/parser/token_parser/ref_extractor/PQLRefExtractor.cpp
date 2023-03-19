@@ -15,5 +15,5 @@ ClauseArgumentPtr PQLRefExtractor::extractCommonRef(
     return nullptr;
   }
 
-  return ClauseArgumentFactory::create(*var);
+  return ClauseArgumentFactory::create(var);
 }

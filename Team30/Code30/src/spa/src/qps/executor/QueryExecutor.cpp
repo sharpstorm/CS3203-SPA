@@ -21,7 +21,7 @@ SynonymResultTable *QueryExecutor::executeQuery(PQLQuery* query) {
       return new SynonymResultTable(isBoolResult, false);
     }
   }
-
+  varTableProxyBuilderPtr->build();
   QueryPlanPtr plan = planner.getExecutionPlan(query);
 
   // Query just have constraints
