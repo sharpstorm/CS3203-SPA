@@ -8,6 +8,7 @@
 #include "qps/common/constraint/ConstantConstraint.h"
 #include "qps/common/constraint/OverrideConstraint.h"
 #include "qps/parser/token_parser/ref_extractor/PQLAttributeRefExtractor.h"
+#include "qps/common/constraint/SynonymConstraint.h"
 
 using std::make_unique, std::make_shared;
 
@@ -93,8 +94,8 @@ ConstraintSPtr PQLWithParser::handleTwoSyns(WithArgumentPtr left,
                                             WithArgumentPtr right,
                                             QueryBuilder *builder) {
   if (left->getSynType() == right->getSynType()) {
-    // TODO(sharpstorm): Same Syn Handling
-    return nullptr;
+    return make_unique<SynonymConstraint>(left->getSynName(),
+                                          right->getSynName());
   }
 
   // Different Synonym Types

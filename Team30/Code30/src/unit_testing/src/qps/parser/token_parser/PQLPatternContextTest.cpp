@@ -24,6 +24,7 @@ void testPatternParsing(vector<PQLToken> inputs,
   for (auto it : synonyms) {
     builder.addSynonym(it.first, it.second);
   }
+  builder.finalizeSynonymTable();
   context.parse(&state, &builder);
 
   auto clauses = builder.build()->getEvaluatables();

@@ -52,7 +52,7 @@ void requireSynonyms(PQLQuery* result, vector<PQLQuerySynonym> expectedVariables
     auto expectedVar = expectedVariables.at(i);
     auto var = result->getVariable(expectedVar.getName());
     REQUIRE(var != nullptr);
-    REQUIRE(*var == expectedVar);
+    REQUIRE(**var == expectedVar);
   }
 }
 

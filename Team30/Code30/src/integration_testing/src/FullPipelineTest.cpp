@@ -408,6 +408,8 @@ TEST_CASE("With Clause Tests - Cat 1 (static = static)") {
 TEST_CASE("With Clause Tests - Cat 2 (attrRef = static)") {
   auto pipeline = TestPipelineProvider();
 
+  pipeline.query("stmt s1, s2; Select <s1,s2> such that Follows*(s1,s2) with s1.stmt# = s2.stmt#", {});
+
   pipeline.query("assign a; Select BOOLEAN with a.stmt# = 4", {"FALSE"});
   pipeline.query("variable v; Select BOOLEAN with v.varName = \"x\"", {"TRUE"});
   pipeline.query("variable v; Select BOOLEAN with v.varName = \"g\"", {"FALSE"});
@@ -437,6 +439,8 @@ TEST_CASE("With Clause Tests - Cat 2 (attrRef = static)") {
   pipeline.query("read r; Select BOOLEAN with r.varName = \"g\"", {"FALSE"});
   pipeline.query("assign a1;read r; Select r.varName with r.varName = \"x\" such that Modifies(r,_)", {"x"});
   pipeline.query("assign a1;read r; Select r.varName with r.stmt# = 10 such that Modifies(r,_)", {"x"});
+  
+  pipeline.query("stmt s1, s2; Select s1 with s1.stmt# = s2.stmt#", {"1","2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"});
 
 }
 
@@ -532,6 +536,8 @@ TEST_CASE("Override With Clause Test, Default") {
   auto pipeline = TestPipelineProvider(SOURCE2);
 
   pipeline.query("read r; Select r with r.stmt# = 2",
+                 {"2"});
+  pipeline.query("stmt s; Select s with s.stmt# = 2",
                  {"2"});
 }
 

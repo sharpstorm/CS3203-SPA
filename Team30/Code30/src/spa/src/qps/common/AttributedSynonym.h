@@ -6,25 +6,28 @@
 
 #include "qps/common/PQLTypes.h"
 #include "qps/common/PQLQuerySynonym.h"
+#include "VariableTable.h"
+#include "PQLQuerySynonymProxy.h"
 
 using std::unique_ptr, std::vector, std::shared_ptr, std::string;
 
 class AttributedSynonym {
-  PQLQuerySynonym* syn;
+  PQLQuerySynonymProxy synProxy;
   PQLSynonymAttribute attribute;
- public:
-  AttributedSynonym();
-  explicit AttributedSynonym(PQLQuerySynonym* syn);
-  AttributedSynonym(PQLQuerySynonym* syn, PQLSynonymAttribute attr);
 
+ public:
+  explicit AttributedSynonym(PQLQuerySynonymProxy synProxy);
+  AttributedSynonym(PQLQuerySynonymProxy synProxy, PQLSynonymAttribute attr);
+
+  PQLQuerySynonymProxy getSynProxy();
+  PQLQuerySynonym* getSyn();
   PQLSynonymType getType();
   PQLSynonymName getName();
   PQLSynonymAttribute getAttribute();
-  PQLQuerySynonym* getSyn();
-  bool hasAttribute();
   bool validateAttribute();
   bool returnsInteger();
   bool isStatementType();
+  bool hasAttribute();
 };
 
 typedef shared_ptr<AttributedSynonym> AttributedSynonymSPtr;

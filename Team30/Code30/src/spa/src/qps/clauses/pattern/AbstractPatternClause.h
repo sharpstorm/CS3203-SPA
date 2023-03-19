@@ -15,7 +15,7 @@ template <PQLSynonymType SYN_TYPE, StmtType StatementType,
     PatternQueryInvoker invoker>
 class AbstractPatternClause: public PatternClause {
  protected:
-  AbstractPatternClause(const PQLQuerySynonym &synonym,
+  AbstractPatternClause(const PQLQuerySynonymProxy &synonym,
                         ClauseArgumentPtr leftArg):
       PatternClause(synonym, std::move(leftArg), SYN_TYPE) {
   }
@@ -34,6 +34,6 @@ class AbstractPatternClause: public PatternClause {
 
     QueryResult<StmtValue, EntityValue> result =
         invoker(pkbQueryHandler, leftStatement, leftVar);
-    return Clause::toQueryResult(synonym.getName(), leftArg.get(), result);
+    return Clause::toQueryResult(synonym->getName(), leftArg.get(), result);
   }
 };

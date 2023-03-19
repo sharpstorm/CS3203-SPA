@@ -1,21 +1,19 @@
 #include "AttributedSynonym.h"
 #include "qps/errors/QPSParserSemanticError.h"
 
-AttributedSynonym::AttributedSynonym() : attribute(NO_ATTRIBUTE) { }
+AttributedSynonym::AttributedSynonym(PQLQuerySynonymProxy synProxy) :
+    synProxy(synProxy), attribute(NO_ATTRIBUTE) { }
 
-AttributedSynonym::AttributedSynonym(PQLQuerySynonym* syn)
-    : syn(syn), attribute(NO_ATTRIBUTE) { }
-
-AttributedSynonym::AttributedSynonym(PQLQuerySynonym* syn,
+AttributedSynonym::AttributedSynonym(PQLQuerySynonymProxy synProxy,
                                      PQLSynonymAttribute attr) :
-                                     syn(syn), attribute(attr) { }
+    synProxy(synProxy), attribute(attr) { }
 
 PQLSynonymAttribute AttributedSynonym::getAttribute() {
   return attribute;
 }
 
 bool AttributedSynonym::validateAttribute() {
-  switch (syn->getType()) {
+  switch (synProxy->getType()) {
     case PQL_SYN_TYPE_STMT:
     case PQL_SYN_TYPE_ASSIGN:
     case PQL_SYN_TYPE_IF:
@@ -38,18 +36,18 @@ bool AttributedSynonym::validateAttribute() {
 }
 
 PQLSynonymType AttributedSynonym::getType() {
-  return syn->getType();
+  return synProxy->getType();
 }
 
 PQLSynonymName AttributedSynonym::getName() {
-  return syn->getName();
+  return synProxy->getName();
 }
 bool AttributedSynonym::returnsInteger() {
   return (attribute & INT_RETURN_MASK) > 0;
 }
 
 bool AttributedSynonym::isStatementType() {
-  return syn->isStatementType();
+  return synProxy->isStatementType();
 }
 
 bool AttributedSynonym::hasAttribute() {
@@ -57,6 +55,9 @@ bool AttributedSynonym::hasAttribute() {
 }
 
 PQLQuerySynonym* AttributedSynonym::getSyn() {
-  return syn;
+  return synProxy.get();
 }
 
+PQLQuerySynonymProxy AttributedSynonym::getSynProxy() {
+  return synProxy;
+}

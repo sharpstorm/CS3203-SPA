@@ -7,9 +7,10 @@
 
 using std::make_unique, std::string;
 
-AssignPatternClause::AssignPatternClause(const PQLQuerySynonym &assignSynonym,
-                                         ClauseArgumentPtr leftArg,
-                                         ExpressionArgumentPtr rightArg):
+AssignPatternClause::AssignPatternClause(
+    const PQLQuerySynonymProxy &assignSynonym,
+    ClauseArgumentPtr leftArg,
+    ExpressionArgumentPtr rightArg):
     PatternClause(assignSynonym, std::move(leftArg), PQL_SYN_TYPE_ASSIGN),
     rightArgument(std::move(rightArg)) {}
 
@@ -29,7 +30,7 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
       pkbQueryHandler->queryModifies(leftStatement, rightVariable);
 
   if (rightArgument->isWildcard()) {
-    return Clause::toQueryResult(synonym.getName(), leftArg.get(),
+    return Clause::toQueryResult(synonym->getName(), leftArg.get(),
                                  modifiesResult);
   }
 
@@ -52,7 +53,7 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
   }
 
   // Convert to PQLQueryResult
-  return Clause::toQueryResult(synonym.getName(), leftArg.get(),
+  return Clause::toQueryResult(synonym->getName(), leftArg.get(),
                                assignResult);
 }
 
