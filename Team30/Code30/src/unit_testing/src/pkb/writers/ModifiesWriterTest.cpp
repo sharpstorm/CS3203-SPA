@@ -3,18 +3,19 @@
 #include <string>
 
 #include "catch.hpp"
-#include "pkb/storage/tables/HashKeySetTable.h"
 #include "pkb/writers/ModifiesWriter.h"
 
 using std::make_shared, std::make_unique, std::unordered_set, std::string;
 
 TEST_CASE("ModifiesWriter addModifies") {
-  auto table = make_shared<HashKeySetTable<int, string>>();
-  auto reverseTable = make_shared<HashKeySetTable<string, int>>();
-  auto modifiesStorage = make_unique<ModifiesStorage>(table, reverseTable);
-  auto pTable = make_shared<HashKeySetTable<string, string>>();
-  auto reversePTable = make_shared<HashKeySetTable<string, string>>();
-  auto modifiesPStorage = make_unique<ModifiesPStorage>(pTable, reversePTable);
+  auto table = make_shared<ModifiesTable>();
+  auto reverseTable = make_shared<ModifiesRevTable>();
+  auto modifiesStorage =
+      make_unique<ModifiesStorage>(table.get(), reverseTable.get());
+  auto pTable = make_shared<ModifiesPTable>();
+  auto reversePTable = make_shared<ModifiesPRevTable>();
+  auto modifiesPStorage =
+      make_unique<ModifiesPStorage>(pTable.get(), reversePTable.get());
   auto writer = ModifiesWriter(modifiesStorage.get(), modifiesPStorage.get());
 
   writer.addModifies(1, "x", "main");

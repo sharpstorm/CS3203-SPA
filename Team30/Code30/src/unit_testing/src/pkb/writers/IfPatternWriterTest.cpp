@@ -8,9 +8,9 @@
 using std::make_shared, std::make_unique, std::unordered_set, std::string;
 
 TEST_CASE("IfPatternWriterTest addIfPattern") {
-  auto table = make_shared<HashKeySetTable<int, string>>();
-  auto reverseTable = make_shared<HashKeySetTable<string, int>>();
-  auto store = make_unique<IfPatternStorage>(table, reverseTable);
+  auto table = make_shared<IfPatternTable>();
+  auto reverseTable = make_shared<IfPatternRevTable>();
+  auto store = make_unique<IfPatternStorage>(table.get(), reverseTable.get());
   auto writer = IfPatternWriter(store.get());
 
   writer.addIfPattern(1, "x");

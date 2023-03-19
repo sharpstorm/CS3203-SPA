@@ -13,9 +13,9 @@ using std::string;
 using std::unordered_set;
 
 TEST_CASE("ProcedureWriter addProcedure") {
-  auto table = make_shared<HashKeyTable<int, string>>();
-  auto reverseTable = make_shared<HashKeySetTable<string, int>>();
-  auto store = make_unique<ProcedureStorage>(table, reverseTable);
+  auto table = make_shared<EntityTable>();
+  auto reverseTable = make_shared<EntityRevTable>();
+  auto store = make_unique<ProcedureStorage>(table.get(), reverseTable.get());
   auto writer = ProcedureWriter(store.get());
 
   writer.addProcedure("test1", 1, 3);
@@ -32,9 +32,9 @@ TEST_CASE("ProcedureWriter addProcedure") {
 }
 
 TEST_CASE("ProcedureWriter add duplicate procedure") {
-  auto table = make_shared<HashKeyTable<int, string>>();
-  auto reverseTable = make_shared<HashKeySetTable<string, int>>();
-  auto store = make_unique<ProcedureStorage>(table, reverseTable);
+  auto table = make_shared<EntityTable>();
+  auto reverseTable = make_shared<EntityRevTable>();
+  auto store = make_unique<ProcedureStorage>(table.get(), reverseTable.get());
   auto writer = ProcedureWriter(store.get());
 
   writer.addProcedure("test1", 1, 3);

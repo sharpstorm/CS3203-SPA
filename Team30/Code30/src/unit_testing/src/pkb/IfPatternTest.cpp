@@ -2,7 +2,6 @@
 #include <memory>
 
 #include "catch.hpp"
-#include "pkb/queryHandlers/IfPatternQueryHandler.h"
 #include "pkb/queryHandlers/PkbQueryHandler.h"
 #include "pkb/storage/PKB.h"
 #include "pkb/writers/PkbWriter.h"

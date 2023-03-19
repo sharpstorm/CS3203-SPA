@@ -1,13 +1,14 @@
 #include "EntityMappingProvider.h"
 
-EntityMappingProvider::EntityMappingProvider(VariableStorage *variableStorage,
-                                             ConstantStorage *constantStorage,
-                                             ProcedureStorage *procedureStorage)
+EntityMappingProvider::EntityMappingProvider(
+    VariableStorage *variableStorage,
+    ConstantStorage *constantStorage,
+    ProcedureStorage *procedureStorage)
     : variableStorage(variableStorage),
-      constantStorage(constantStorage),
-      procedureStorage(procedureStorage) {}
+    constantStorage(constantStorage),
+    procedureStorage(procedureStorage) {}
 
-unordered_set<string> EntityMappingProvider::getSymbolsOfType(
+unordered_set<string> EntityMappingProvider::getValuesOfType(
     EntityType entityType) const {
   if (entityType == EntityType::Variable) {
     return variableStorage->getAllValues();
@@ -39,8 +40,8 @@ unordered_set<int> EntityMappingProvider::getIndexOfConstant(
   return constantStorage->getByValue(name);
 }
 
-bool EntityMappingProvider::isSymbolOfType(EntityType entityType,
-                                           string name) const {
+bool EntityMappingProvider::isValueOfType(
+    EntityType entityType, EntityValue name) const {
   if (entityType == EntityType::Variable) {
     return !variableStorage->getByValue(name).empty();
   } else if (entityType == EntityType::Constant) {

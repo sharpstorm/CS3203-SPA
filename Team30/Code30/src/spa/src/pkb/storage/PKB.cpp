@@ -8,71 +8,67 @@
 
 using std::make_shared, std::string;
 
-PKB::PKB()
-    : followsStore(new FollowsStorage(make_shared<ContiguousSetTable<int>>(),
-                                      make_shared<ContiguousSetTable<int>>())),
-      parentStore(new ParentStorage(make_shared<ContiguousSetTable<int>>(),
-                                    make_shared<ContiguousSetTable<int>>())),
-      modifiesStorage(
-          new ModifiesStorage(make_shared<HashKeySetTable<int, string>>(),
-                              make_shared<HashKeySetTable<string, int>>())),
-      modifiesPStorage(
-          new ModifiesPStorage(make_shared<HashKeySetTable<string, string>>(),
-                               make_shared<HashKeySetTable<string, string>>())),
-      usesStorage(new UsesStorage(make_shared<HashKeySetTable<int, string>>(),
-                                  make_shared<HashKeySetTable<string, int>>())),
-      usesPStorage(
-          new UsesPStorage(make_shared<HashKeySetTable<string, string>>(),
-                           make_shared<HashKeySetTable<string, string>>())),
-      variableStorage(
-          new VariableStorage(make_shared<ContiguousTable<string>>(),
-                              make_shared<HashKeySetTable<string, int>>())),
-      constantStorage(
-          new ConstantStorage(make_shared<ContiguousTable<string>>(),
-                              make_shared<HashKeySetTable<string, int>>())),
-      statementStorage(
-          new StatementStorage(make_shared<ContiguousTable<StmtType>>(),
-                               make_shared<HashKeySetTable<StmtType, int>>())),
-      assignStorage(new AssignStorage()),
-      ifPatternStorage(new IfPatternStorage(
-          make_shared<HashKeySetTable<int, string>>(),
-          make_shared<HashKeySetTable<string, int>>())),
-      whilePatternStorage(new WhilePatternStorage(
-          make_shared<HashKeySetTable<int, string>>(),
-          make_shared<HashKeySetTable<string, int>>())),
-      callStmtStorage(
-          new CallStmtStorage(make_shared<HashKeyTable<int, string>>(),
-                              make_shared<HashKeySetTable<string, int>>())),
-      callsStorage(
-          new CallsStorage(make_shared<HashKeySetTable<string, string>>(),
-                           make_shared<HashKeySetTable<string, string>>())),
-      cfgStorage(new CFGStorage()),
-      procedureStorage(
-          new ProcedureStorage(make_shared<ContiguousTable<string>>(),
-                               make_shared<HashKeySetTable<string, int>>())),
-      structureProvider(new StructureMappingProvider(
-          statementStorage, procedureStorage, callStmtStorage)),
-      entityMappingProvider(new EntityMappingProvider(
-          variableStorage, constantStorage, procedureStorage)),
-      predicateFactory(
-          new PredicateFactory(structureProvider, entityMappingProvider)) {}
+PKB::PKB() {}
+
 PKB::~PKB() {
-  delete (followsStore);
-  delete (parentStore);
-  delete (modifiesStorage);
-  delete (modifiesPStorage);
-  delete (usesStorage);
-  delete (usesPStorage);
   delete (variableStorage);
+  delete (variableTable);
+  delete (variableRevTable);
   delete (constantStorage);
-  delete (statementStorage);
+  delete (constantTable);
+  delete (constantRevTable);
   delete (procedureStorage);
-  delete (assignStorage);
-  delete (ifPatternStorage);
+  delete (procedureTable);
+  delete (procedureRevTable);
+  delete (statementStorage);
+  delete (stmtTable);
+  delete (stmtRevTable);
+  delete (callStmtStorage);
+  delete (callStmtTable);
+  delete (callStmtRevTable);
+
   delete (structureProvider);
   delete (entityMappingProvider);
-  delete (predicateFactory);
-  delete (callStmtStorage);
+  delete (stmtPredicateFactory);
+  delete (entityPredicateFactory);
+
+  delete (followsStorage);
+  delete (followsTStorage);
+  delete (followsTable);
+  delete (followsRevTable);
+
+  delete (parentStorage);
+  delete (parentTStorage);
+  delete (parentTable);
+  delete (parentRevTable);
+
+  delete (modifiesStorage);
+  delete (modifiesTable);
+  delete (modifiesRevTable);
+  delete (modifiesPStorage);
+  delete (modifiesPTable);
+  delete (modifiesPRevTable);
+
+  delete (usesStorage);
+  delete (usesTable);
+  delete (usesRevTable);
+  delete (usesPStorage);
+  delete (usesPTable);
+  delete (usesPRevTable);
+
   delete (callsStorage);
+  delete (callsTStorage);
+  delete (callsTable);
+  delete (callsRevTable);
+
+  delete (ifPatternStorage);
+  delete (ifPatternTable);
+  delete (ifPatternRevTable);
+
+  delete (whilePatternStorage);
+  delete (whilePatternTable);
+  delete (whilePatternRevTable);
+
+  delete (assignStorage);
   delete (cfgStorage);
 }

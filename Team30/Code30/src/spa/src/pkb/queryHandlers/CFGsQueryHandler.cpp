@@ -16,7 +16,7 @@ vector<CFG*> CFGsQueryHandler::queryCFGs(StmtRef stmt) const {
   vector<CFG*> result;
   if (!stmt.isKnown()) {
     unordered_set<string> procedures = entityProvider
-        ->getSymbolsOfType(EntityType::Procedure);
+        ->getValuesOfType(EntityType::Procedure);
     for (auto it = procedures.begin(); it != procedures.end(); it++) {
       result.push_back(cfgsStorage->get(*it).get());
     }

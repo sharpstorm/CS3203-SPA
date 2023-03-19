@@ -8,9 +8,10 @@
 using std::make_shared, std::make_unique, std::unordered_set, std::string;
 
 TEST_CASE("WhilePatternWriterTest addWhilePattern") {
-  auto table = make_shared<HashKeySetTable<int, string>>();
-  auto reverseTable = make_shared<HashKeySetTable<string, int>>();
-  auto store = make_unique<WhilePatternStorage>(table, reverseTable);
+  auto table = make_shared<WhilePatternTable>();
+  auto reverseTable = make_shared<WhilePatternRevTable>();
+  auto store = make_unique<WhilePatternStorage>(
+      table.get(), reverseTable.get());
   auto writer = WhilePatternWriter(store.get());
 
   writer.addWhilePattern(1, "x");

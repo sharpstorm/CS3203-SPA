@@ -4,7 +4,6 @@
 
 #include "catch.hpp"
 #include "pkb/storage/StorageTypes.h"
-#include "pkb/storage/tables/HashKeySetTable.h"
 #include "pkb/queryHandlers/IfPatternQueryHandler.h"
 #include "StructureMappingProviderStub.h"
 
@@ -29,24 +28,26 @@ static unique_ptr<StructureMappingProviderStub> setUpStructureMappingProvider() 
   return provider;
 }
 
-struct ifPatternTestInit {
-  shared_ptr<HashKeySetTable<int, string>> table;
-  shared_ptr<HashKeySetTable<string, int>> reverseTable;
-  unique_ptr<IfPatternStorage> store;
-  unique_ptr<StructureMappingProviderStub> structureProvider;
-  unique_ptr<PredicateFactory> factory;
-  IfPatternQueryHandler handler;
-
-  ifPatternTestInit()
-      : table(make_shared<HashKeySetTable<int, string>>()),
-        reverseTable(make_shared<HashKeySetTable<string, int>>()),
-        store(make_unique<IfPatternStorage>(table, reverseTable)),
-        structureProvider(setUpStructureMappingProvider()),
-        factory(make_unique<PredicateFactory>(structureProvider.get(),
-                                              nullptr)),
-        handler(IfPatternQueryHandler(store.get(),
-                                      factory.get(),
-                                      structureProvider.get())) {
+struct ifPatternTest {
+  shared_ptr<IfPatternTable> table = make_shared<IfPatternTable>();
+  shared_ptr<IfPatternRevTable> reverseTable = make_shared<IfPatternRevTable>();
+  unique_ptr<IfPatternStorage>
+      store = make_unique<IfPatternStorage>(table.get(), reverseTable.get());
+  unique_ptr<StructureMappingProviderStub>
+      structureProvider = setUpStructureMappingProvider();
+  unique_ptr<StmtPredicateFactory>
+      stmtPredFactory =
+      make_unique<StmtPredicateFactory>(structureProvider.get());
+  unique_ptr<EntityPredicateFactory>
+      entPredFactory = make_unique<EntityPredicateFactory>();
+  unique_ptr<PkbStmtEntQueryInvoker> stmtEntInvoker =
+      make_unique<PkbStmtEntQueryInvoker>(structureProvider.get(),
+                                          stmtPredFactory.get(),
+                                          entPredFactory.get());
+  IfPatternQueryHandler
+      handler = IfPatternQueryHandler(stmtEntInvoker.get(),
+                                      store.get());
+  ifPatternTest() {
     table->set(1, "a");
     table->set(2, "a");
     table->set(1, "b");
@@ -55,11 +56,11 @@ struct ifPatternTestInit {
     reverseTable->set("a", 2);
     reverseTable->set("b", 1);
     reverseTable->set("c", 3);
-  };
+  }
 };
 
 TEST_CASE("IfPatternQueryHandler ifs(varname,_,_)") {
-  auto test = ifPatternTestInit();
+  auto test = ifPatternTest();
 
   // positive
   auto res1 =
@@ -81,7 +82,7 @@ TEST_CASE("IfPatternQueryHandler ifs(varname,_,_)") {
 }
 
 TEST_CASE("IfPatternQueryHandler ifs(v,_,_) or ifs(_,_,_)") {
-  auto test = ifPatternTestInit();
+  auto test = ifPatternTest();
 
   auto res1 =
       test.handler.queryIfPattern({StmtType::If, 0}, {EntityType::None, ""});
@@ -104,7 +105,7 @@ TEST_CASE("IfPatternQueryHandler ifs(v,_,_) or ifs(_,_,_)") {
 }
 
 TEST_CASE("IfPatternQueryHandler ifs(varname,_,_) with ifs.stmt# ") {
-  auto test = ifPatternTestInit();
+  auto test = ifPatternTest();
 
   // positive
   auto res1 =
@@ -120,7 +121,7 @@ TEST_CASE("IfPatternQueryHandler ifs(varname,_,_) with ifs.stmt# ") {
 }
 
 TEST_CASE("IfPatternQueryHandler ifs(v,_,_) / ifs(_,_,_) with ifs.stmt# ") {
-  auto test = ifPatternTestInit();
+  auto test = ifPatternTest();
 
   auto res1 =
       test.handler.queryIfPattern({StmtType::None, 1}, {EntityType::None, ""});

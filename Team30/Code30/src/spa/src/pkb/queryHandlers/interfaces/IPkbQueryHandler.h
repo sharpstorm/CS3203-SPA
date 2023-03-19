@@ -6,6 +6,7 @@
 #include "IAssignsQueryHandler.h"
 #include "ICFGsQueryHandler.h"
 #include "ICallsQueryHandler.h"
+#include "ICallsTQueryHandler.h"
 #include "IDesignEntitiesQueryHandler.h"
 #include "IFollowsQueryHandler.h"
 #include "IIfPatternQueryHandler.h"
@@ -13,16 +14,21 @@
 #include "IParentQueryHandler.h"
 #include "IUsesQueryHandler.h"
 #include "IWhilePatternQueryHandler.h"
+#include "IFollowsTQueryHandler.h"
+#include "IParentTQueryHandler.h"
 
-class IPkbQueryHandler : public IFollowsQueryHandler,
+class IPkbQueryHandler : public IDesignEntitiesQueryHandler,
+                         public IFollowsQueryHandler,
+                         public IFollowsTQueryHandler,
                          public IParentQueryHandler,
-                         public IDesignEntitiesQueryHandler,
-                         public IUsesQueryHandler,
+                         public IParentTQueryHandler,
                          public IModifiesQueryHandler,
-                         public IAssignsQueryHandler,
+                         public IUsesQueryHandler,
                          public ICallsQueryHandler,
+                         public ICallsTQueryHandler,
                          public IIfPatternQueryHandler,
                          public IWhilePatternQueryHandler,
+                         public IAssignsQueryHandler,
                          public ICFGsQueryHandler {
  public:
   virtual ~IPkbQueryHandler() {}

@@ -1,15 +1,14 @@
 #include <memory>
 #include <string>
 #include <unordered_set>
-#include <utility>
 
-#include "EntityMappingProviderStub.h"
-#include "StructureMappingProviderStub.h"
 #include "catch.hpp"
 #include "common/Types.h"
-#include "pkb/predicates/PredicateFactory.h"
 #include "pkb/queryHandlers/ModifiesQueryHandler.h"
 #include "pkb/storage/StructureMappingProvider.h"
+#include "pkb/queryHandlers/PkbEntEntQueryInvoker.h"
+#include "StructureMappingProviderStub.h"
+#include "EntityMappingProviderStub.h"
 
 using std::make_shared;
 using std::make_unique;
@@ -57,39 +56,44 @@ static unique_ptr<EntityMappingProviderStub> setUpEntityMappingProvider() {
   return provider;
 }
 
-struct modifiesTestInit {
-  shared_ptr<HashKeySetTable<int, string>> table;
-  shared_ptr<HashKeySetTable<string, int>> reverseTable;
-  unique_ptr<ModifiesStorage> store;
-  shared_ptr<HashKeySetTable<string, string>> pTable;
-  shared_ptr<HashKeySetTable<string, string>> reversePTable;
-  unique_ptr<ModifiesPStorage> pStore;
-  unique_ptr<StructureMappingProviderStub> structureProvider;
-  unique_ptr<EntityMappingProviderStub> entityProvider;
-  unique_ptr<PredicateFactory> factory;
-  ModifiesQueryHandler handler;
-
-  modifiesTestInit()
-      : table(make_shared<HashKeySetTable<int, string>>()),
-        reverseTable(make_shared<HashKeySetTable<string, int>>()),
-        store(make_unique<ModifiesStorage>(table, reverseTable)),
-        pTable(make_shared<HashKeySetTable<string, string>>()),
-        reversePTable(make_shared<HashKeySetTable<string, string>>()),
-        pStore(make_unique<ModifiesPStorage>(pTable, reversePTable)),
-        structureProvider(setUpStructureMappingProvider()),
-        entityProvider(setUpEntityMappingProvider()),
-        factory(make_unique<PredicateFactory>(structureProvider.get(),
-                                              entityProvider.get())),
-        handler(ModifiesQueryHandler(store.get(), pStore.get(), factory.get(),
-                                     structureProvider.get(),
-                                     entityProvider.get())){};
+struct modifiesTest {
+  shared_ptr<ModifiesTable> table = make_shared<ModifiesTable>();
+  shared_ptr<ModifiesRevTable> reverseTable = make_shared<ModifiesRevTable>();
+  shared_ptr<ModifiesPTable> pTable = make_shared<ModifiesPTable>();
+  shared_ptr<ModifiesPRevTable>
+      reversePTable = make_shared<ModifiesPRevTable>();
+  unique_ptr<ModifiesStorage>
+      store = make_unique<ModifiesStorage>(table.get(), reverseTable.get());
+  unique_ptr<ModifiesPStorage>
+      pStore = make_unique<ModifiesPStorage>(pTable.get(), reversePTable.get());
+  unique_ptr<StructureMappingProviderStub>
+      structureProvider = setUpStructureMappingProvider();
+  unique_ptr<EntityMappingProviderStub>
+      entityProvider = setUpEntityMappingProvider();
+  unique_ptr<StmtPredicateFactory>
+      stmtPredFactory =
+      make_unique<StmtPredicateFactory>(structureProvider.get());
+  unique_ptr<EntityPredicateFactory>
+      entPredFactory = make_unique<EntityPredicateFactory>();
+  unique_ptr<PkbStmtEntQueryInvoker> stmtEntInvoker =
+      make_unique<PkbStmtEntQueryInvoker>(structureProvider.get(),
+                                          stmtPredFactory.get(),
+                                          entPredFactory.get());
+  unique_ptr<PkbEntEntQueryInvoker> entEntInvoker =
+      make_unique<PkbEntEntQueryInvoker>(entityProvider.get(),
+                                         entPredFactory.get());
+  ModifiesQueryHandler
+      handler = ModifiesQueryHandler(stmtEntInvoker.get(),
+                                     entEntInvoker.get(),
+                                     store.get(),
+                                     pStore.get());
 };
 
 /** Modifies(StmtRef, EntityRef) */
 
 // Both args known
 TEST_CASE("ModifiesQueryHandler Modifies(stmtNum, variableName)") {
-  auto test = modifiesTestInit();
+  auto test = modifiesTest();
   test.table->set(1, "x");
   test.table->set(2, "x");
   test.table->set(3, "z");
@@ -103,9 +107,8 @@ TEST_CASE("ModifiesQueryHandler Modifies(stmtNum, variableName)") {
 }
 
 // Only arg1 known
-
 TEST_CASE("ModifiesQueryHandler Modifies(stmtNum, variableType)") {
-  auto test = modifiesTestInit();
+  auto test = modifiesTest();
 
   test.table->set(1, "x");
   test.table->set(2, "x");
@@ -120,7 +123,7 @@ TEST_CASE("ModifiesQueryHandler Modifies(stmtNum, variableType)") {
 }
 
 TEST_CASE("ModifiesQueryHandler Modifies(stmtNum, _)") {
-  auto test = modifiesTestInit();
+  auto test = modifiesTest();
 
   test.table->set(1, "x");
   test.table->set(2, "x");
@@ -135,7 +138,7 @@ TEST_CASE("ModifiesQueryHandler Modifies(stmtNum, _)") {
 }
 
 TEST_CASE("ModifiesQueryHandler Modifies(stmtNum, constant)") {
-  auto test = modifiesTestInit();
+  auto test = modifiesTest();
 
   test.table->set(1, "x");
 
@@ -147,7 +150,7 @@ TEST_CASE("ModifiesQueryHandler Modifies(stmtNum, constant)") {
 // Only arg2 known
 
 TEST_CASE("ModifiesQueryHandler Modifies(type, variableName), assign, read") {
-  auto test = modifiesTestInit();
+  auto test = modifiesTest();
 
   test.reverseTable->set("x", 1);
   test.reverseTable->set("x", 2);
@@ -173,7 +176,7 @@ TEST_CASE("ModifiesQueryHandler Modifies(type, variableName), assign, read") {
 }
 
 TEST_CASE("ModifiesQueryHandler Modifies(type, variableName), if, while") {
-  auto test = modifiesTestInit();
+  auto test = modifiesTest();
 
   test.reverseTable->set("x", 6);
   test.reverseTable->set("y", 6);
@@ -197,7 +200,7 @@ TEST_CASE("ModifiesQueryHandler Modifies(type, variableName), if, while") {
 }
 
 TEST_CASE("ModifiesQueryHandler Modifies(type, variableName), print") {
-  auto test = modifiesTestInit();
+  auto test = modifiesTest();
 
   test.reverseTable->set("x", 5);  // should not happen
 
@@ -208,7 +211,7 @@ TEST_CASE("ModifiesQueryHandler Modifies(type, variableName), print") {
 }
 
 TEST_CASE("ModifiesQueryHandler Modifies(type, variableName), stmt") {
-  auto test = modifiesTestInit();
+  auto test = modifiesTest();
 
   test.reverseTable->set("x", 1);
   test.reverseTable->set("y", 2);
@@ -222,13 +225,13 @@ TEST_CASE("ModifiesQueryHandler Modifies(type, variableName), stmt") {
   REQUIRE(result1.firstArgVals == unordered_set<int>({1, 4, 6}));
   REQUIRE(result1.secondArgVals == unordered_set<string>({"x"}));
   REQUIRE(result1.pairVals ==
-          pair_set<int, string>({{1, "x"}, {4, "x"}, {6, "x"}}));
+      pair_set<int, string>({{1, "x"}, {4, "x"}, {6, "x"}}));
 }
 
 // Both args unknown
 
 TEST_CASE("ModifiesQueryHandler Modifies(stmtType, varType)") {
-  auto test = modifiesTestInit();
+  auto test = modifiesTest();
 
   test.table->set(1, "x");
   test.table->set(1, "z");
@@ -248,11 +251,11 @@ TEST_CASE("ModifiesQueryHandler Modifies(stmtType, varType)") {
   REQUIRE(result1.firstArgVals == unordered_set<int>({1, 2, 3}));
   REQUIRE(result1.secondArgVals == unordered_set<string>({"x", "y", "z"}));
   REQUIRE(result1.pairVals ==
-          pair_set<int, string>({{1, "x"}, {1, "z"}, {2, "y"}, {3, "x"}}));
+      pair_set<int, string>({{1, "x"}, {1, "z"}, {2, "y"}, {3, "x"}}));
 }
 
 TEST_CASE("ModifiesQueryHandler Modifies(statement, _)") {
-  auto test = modifiesTestInit();
+  auto test = modifiesTest();
 
   test.table->set(1, "x");
   test.table->set(1, "z");
@@ -271,11 +274,11 @@ TEST_CASE("ModifiesQueryHandler Modifies(statement, _)") {
   REQUIRE(result1.firstArgVals == unordered_set<int>({1, 4, 6}));
   REQUIRE(result1.secondArgVals == unordered_set<string>({"x", "y", "z"}));
   REQUIRE(result1.pairVals ==
-          pair_set<int, string>({{1, "x"}, {1, "z"}, {4, "x"}, {6, "y"}}));
+      pair_set<int, string>({{1, "x"}, {1, "z"}, {4, "x"}, {6, "y"}}));
 }
 
 TEST_CASE("ModifiesQueryHandler call statement") {
-  auto test = modifiesTestInit();
+  auto test = modifiesTest();
 
   test.table->set(8, "x");
   test.table->set(8, "y");
@@ -297,13 +300,13 @@ TEST_CASE("ModifiesQueryHandler call statement") {
   auto result3 =
       test.handler.queryModifies({StmtType::None, 0}, {EntityType::None, ""});
   REQUIRE(result3.pairVals ==
-          pair_set<int, string>({{8, "x"}, {8, "y"}, {1, "z"}}));
+      pair_set<int, string>({{8, "x"}, {8, "y"}, {1, "z"}}));
 }
 
 /** Modifies(EntityRef, EntityRef) */
 // Both args known
 TEST_CASE("ModifiesQueryHandler Modifies(procedureName, variableName)") {
-  auto test = modifiesTestInit();
+  auto test = modifiesTest();
 
   test.pTable->set("main", "x");
   test.pTable->set("main", "y");
@@ -327,7 +330,7 @@ TEST_CASE("ModifiesQueryHandler Modifies(procedureName, variableName)") {
 
 // Only arg1 known
 TEST_CASE("ModifiesQueryHandler Modifies(procedureName, type)") {
-  auto test = modifiesTestInit();
+  auto test = modifiesTest();
 
   test.pTable->set("main", "x");
   test.pTable->set("main", "y");
@@ -339,7 +342,7 @@ TEST_CASE("ModifiesQueryHandler Modifies(procedureName, type)") {
   REQUIRE(result1.firstArgVals == unordered_set<string>({"main"}));
   REQUIRE(result1.secondArgVals == unordered_set<string>({"x", "y"}));
   REQUIRE(result1.pairVals ==
-          pair_set<string, string>({{"main", "x"}, {"main", "y"}}));
+      pair_set<string, string>({{"main", "x"}, {"main", "y"}}));
 
   auto result2 = test.handler.queryModifies({EntityType::None, "goo"},
                                             {EntityType::Variable, ""});
@@ -348,7 +351,7 @@ TEST_CASE("ModifiesQueryHandler Modifies(procedureName, type)") {
 
 // Only arg2 known
 TEST_CASE("ModifiesQueryHandler Modifies(type, variable)") {
-  auto test = modifiesTestInit();
+  auto test = modifiesTest();
 
   test.reversePTable->set("x", "main");
   test.reversePTable->set("x", "foo");
@@ -361,7 +364,7 @@ TEST_CASE("ModifiesQueryHandler Modifies(type, variable)") {
   REQUIRE(result1.firstArgVals == unordered_set<string>({"main", "foo"}));
   REQUIRE(result1.secondArgVals == unordered_set<string>({"x"}));
   REQUIRE(result1.pairVals ==
-          pair_set<string, string>({{"main", "x"}, {"foo", "x"}}));
+      pair_set<string, string>({{"main", "x"}, {"foo", "x"}}));
 
   // invalid arg1
   auto result2 = test.handler.queryModifies({EntityType::None, ""},
@@ -371,7 +374,7 @@ TEST_CASE("ModifiesQueryHandler Modifies(type, variable)") {
 
 // Both args unknown
 TEST_CASE("ModifiesQueryHandler Modifies(type, type)") {
-  auto test = modifiesTestInit();
+  auto test = modifiesTest();
 
   test.pTable->set("main", "x");
   test.pTable->set("main", "y");
@@ -384,8 +387,8 @@ TEST_CASE("ModifiesQueryHandler Modifies(type, type)") {
   REQUIRE(result1.firstArgVals == unordered_set<string>({"main", "foo"}));
   REQUIRE(result1.secondArgVals == unordered_set<string>({"x", "y", "z"}));
   REQUIRE(result1.pairVals ==
-          pair_set<string, string>(
-              {{"main", "x"}, {"main", "y"}, {"foo", "z"}, {"foo", "y"}}));
+      pair_set<string, string>(
+          {{"main", "x"}, {"main", "y"}, {"foo", "z"}, {"foo", "y"}}));
 
   // invalid arg1
   auto result2 = test.handler.queryModifies({EntityType::None, ""},
@@ -393,8 +396,8 @@ TEST_CASE("ModifiesQueryHandler Modifies(type, type)") {
   REQUIRE(result2.isEmpty == true);
 }
 
-TEST_CASE("ModifiesQueryHandler getReadDeclaration(readStmt)") {
-  auto test = modifiesTestInit();
+TEST_CASE("ModifiesQueryHandler getReadDeclarations(readStmt)") {
+  auto test = modifiesTest();
   test.table->set(1, "x");
   test.table->set(2, "x");
   test.table->set(3, "z");
@@ -402,3 +405,4 @@ TEST_CASE("ModifiesQueryHandler getReadDeclaration(readStmt)") {
 
   REQUIRE(test.handler.getReadDeclarations(4) == "y");
 }
+

@@ -6,7 +6,6 @@
 #include "sp/ast/expression_operand/PlusASTNode.h"
 #include "common/Types.h"
 #include "pkb/queryHandlers/AssignsQueryHandler.h"
-#include "pkb/storage/StructureMappingProvider.h"
 #include "common/pattern/PatternConverter.h"
 
 using std::make_shared;
@@ -21,7 +20,7 @@ struct assignTestInit {
 
   assignTestInit()
       : store(make_unique<AssignStorage>()),
-        handler(AssignsQueryHandler(store.get())) {}
+      handler(AssignsQueryHandler(store.get())) {}
 };
 
 // assign stmt
@@ -38,5 +37,5 @@ TEST_CASE("AssignQueryHandler Assigns(stmtRef)") {
   REQUIRE(result.isEmpty == false);
   REQUIRE(result.firstArgVals == unordered_set<int>({1}));
   REQUIRE(*result.secondArgVals.begin() == sTrie.get());
-  REQUIRE(result.pairVals == pair_set<int, PatternTrie*>({{1, sTrie.get()}}));
+  REQUIRE(result.pairVals == pair_set<int, PatternTrie *>({{1, sTrie.get()}}));
 }
