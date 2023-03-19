@@ -6,7 +6,6 @@
 #include "common/Types.h"
 #include "pkb/queryHandlers/ParentQueryHandler.h"
 #include "pkb/storage/StructureMappingProvider.h"
-#include "pkb/storage/tables/ContiguousSetTable.h"
 #include "StructureMappingProviderStub.h"
 #include "pkb/queryHandlers/ParentTQueryHandler.h"
 
@@ -58,6 +57,16 @@ struct parentTest {
   ParentQueryHandler handler = ParentQueryHandler(invoker.get(), store.get());
   ParentTQueryHandler
       handlerT = ParentTQueryHandler(invoker.get(), storeT.get());
+
+  QueryResult<StmtValue, StmtValue> query(
+      StmtRef leftArg, StmtRef rightArg) {
+    return handler.query(&leftArg, &rightArg);
+  }
+
+  QueryResult<StmtValue, StmtValue> queryT(
+      StmtRef leftArg, StmtRef rightArg) {
+    return handlerT.query(&leftArg, &rightArg);
+  }
 };
 
 /* Parent */
@@ -68,13 +77,13 @@ TEST_CASE("ParentQueryHandler parent(stmtNum,stmtNum)") {
   test.table->set(1, 2);
   test.table->set(2, 4);
 
-  REQUIRE(test.handler.queryParent({StmtType::None, 1}, {StmtType::None, 2})
+  REQUIRE(test.query({StmtType::None, 1}, {StmtType::None, 2})
       .isEmpty == false);
-  REQUIRE(test.handler.queryParent({StmtType::None, 2}, {StmtType::None, 1})
+  REQUIRE(test.query({StmtType::None, 2}, {StmtType::None, 1})
       .isEmpty == true);
-  REQUIRE(test.handler.queryParent({StmtType::None, 4}, {StmtType::None, 4})
+  REQUIRE(test.query({StmtType::None, 4}, {StmtType::None, 4})
       .isEmpty == true);
-  REQUIRE(test.handler.queryParent({StmtType::None, 1}, {StmtType::None, 1})
+  REQUIRE(test.query({StmtType::None, 1}, {StmtType::None, 1})
       .isEmpty == true);
 }
 
@@ -85,15 +94,13 @@ TEST_CASE("ParentQueryHandler parent(stmtNum,stmtType)") {
   test.table->set(2, 3);
   test.table->set(3, 5);
 
-  auto result1 =
-      test.handler.queryParent({StmtType::None, 1}, {StmtType::Assign, 0});
+  auto result1 = test.query({StmtType::None, 1}, {StmtType::Assign, 0});
   REQUIRE(result1.isEmpty == false);
   REQUIRE(result1.firstArgVals == unordered_set<int>({1}));
   REQUIRE(result1.secondArgVals == unordered_set<int>({2}));
   REQUIRE(result1.pairVals == pair_set<int, int>({{1, 2}}));
 
-  auto result2 =
-      test.handler.queryParent({StmtType::None, 2}, {StmtType::Read, 0});
+  auto result2 = test.query({StmtType::None, 2}, {StmtType::Read, 0});
   REQUIRE(result2.isEmpty == true);
 }
 
@@ -104,15 +111,13 @@ TEST_CASE("ParentQueryHandler parent(stmtType, stmtNum)") {
   test.reverseTable->set(6, 5);
   test.reverseTable->set(8, 6);
 
-  auto result1 =
-      test.handler.queryParent({StmtType::Assign, 0}, {StmtType::None, 5});
+  auto result1 = test.query({StmtType::Assign, 0}, {StmtType::None, 5});
   REQUIRE(result1.isEmpty == false);
   REQUIRE(result1.firstArgVals == unordered_set<int>({2}));
   REQUIRE(result1.secondArgVals == unordered_set<int>({5}));
   REQUIRE(result1.pairVals == pair_set<int, int>({{2, 5}}));
 
-  auto result2 =
-      test.handler.queryParent({StmtType::Read, 0}, {StmtType::None, 8});
+  auto result2 = test.query({StmtType::Read, 0}, {StmtType::None, 8});
   REQUIRE(result2.isEmpty == true);
 }
 
@@ -123,8 +128,7 @@ TEST_CASE("ParentQueryHandler parent(stmtType, stmtType)") {
   test.table->set(3, 4);
   test.table->set(5, 6);
 
-  auto result1 =
-      test.handler.queryParent({StmtType::Assign, 0}, {StmtType::Read, 0});
+  auto result1 = test.query({StmtType::Assign, 0}, {StmtType::Read, 0});
 
   REQUIRE(result1.isEmpty == false);
   REQUIRE(result1.firstArgVals == unordered_set<int>({2, 3}));
@@ -139,19 +143,19 @@ TEST_CASE("ParentQueryHandler parentStar(stmtNum,stmtNum)") {
   test.table->set(1, 2);
   test.table->set(2, 5);
 
-  REQUIRE(test.handlerT.queryParentStar(
+  REQUIRE(test.queryT(
           {StmtType::None, 1},
           {StmtType::None, 2})
       .isEmpty == false);
-  REQUIRE(test.handlerT.queryParentStar(
+  REQUIRE(test.queryT(
           {StmtType::None, 1},
           {StmtType::None, 5})
       .isEmpty == false);
-  REQUIRE(test.handlerT.queryParentStar(
+  REQUIRE(test.queryT(
           {StmtType::None, 1},
           {StmtType::None, 1})
       .isEmpty == true);
-  REQUIRE(test.handlerT.queryParentStar(
+  REQUIRE(test.queryT(
           {StmtType::None, 5},
           {StmtType::None, 2})
       .isEmpty == true);
@@ -164,15 +168,13 @@ TEST_CASE("ParentQueryHandler parentStar(stmtNum,stmtType)") {
   test.table->set(11, 12);
   test.table->set(12, 16);
 
-  auto result1 =
-      test.handlerT.queryParentStar({StmtType::None, 10}, {StmtType::While, 0});
+  auto result1 = test.queryT({StmtType::None, 10}, {StmtType::While, 0});
   REQUIRE(result1.isEmpty == false);
   REQUIRE(result1.firstArgVals == unordered_set<int>({10}));
   REQUIRE(result1.secondArgVals == unordered_set<int>({12, 16}));
   REQUIRE(result1.pairVals == pair_set<int, int>({{10, 12}, {10, 16}}));
 
-  auto result2 =
-      test.handlerT.queryParentStar({StmtType::None, 12}, {StmtType::If, 0});
+  auto result2 = test.queryT({StmtType::None, 12}, {StmtType::If, 0});
   REQUIRE(result2.isEmpty == true);
 }
 
@@ -183,15 +185,13 @@ TEST_CASE("ParentQueryHandler parentStar(stmtType,stmtNum)") {
   test.reverseTable->set(13, 12);
   test.reverseTable->set(14, 13);
 
-  auto result1 =
-      test.handlerT.queryParentStar({StmtType::If, 0}, {StmtType::None, 13});
+  auto result1 = test.queryT({StmtType::If, 0}, {StmtType::None, 13});
   REQUIRE(result1.isEmpty == false);
   REQUIRE(result1.firstArgVals == unordered_set<int>({11}));
   REQUIRE(result1.secondArgVals == unordered_set<int>({13}));
   REQUIRE(result1.pairVals == pair_set<int, int>({{11, 13}}));
 
-  auto result2 =
-      test.handlerT.queryParentStar({StmtType::If, 0}, {StmtType::None, 11});
+  auto result2 = test.queryT({StmtType::If, 0}, {StmtType::None, 11});
   REQUIRE(result2.isEmpty == true);
 }
 
@@ -203,24 +203,21 @@ TEST_CASE("ParentQueryHandler parentStar(stmtType,stmtType)") {
   test.table->set(14, 15);
   test.table->set(15, 16);
 
-  auto result1 =
-      test.handlerT.queryParentStar({StmtType::If, 0}, {StmtType::While, 0});
+  auto result1 = test.queryT({StmtType::If, 0}, {StmtType::While, 0});
   REQUIRE(result1.isEmpty == false);
   REQUIRE(result1.firstArgVals == unordered_set<int>({11, 14}));
   REQUIRE(result1.secondArgVals == unordered_set<int>({12, 16}));
   REQUIRE(result1.pairVals ==
       pair_set<int, int>({{11, 12}, {11, 16}, {14, 16}}));
 
-  auto result2 =
-      test.handlerT.queryParentStar({StmtType::None, 0}, {StmtType::While, 0});
+  auto result2 = test.queryT({StmtType::None, 0}, {StmtType::While, 0});
   REQUIRE(result2.isEmpty == false);
   REQUIRE(result2.firstArgVals == unordered_set<int>({11, 12, 14, 15}));
   REQUIRE(result2.secondArgVals == unordered_set<int>({12, 16}));
   REQUIRE(result2.pairVals ==
       pair_set<int, int>({{11, 12}, {11, 16}, {12, 16}, {14, 16}, {15, 16}}));
 
-  auto result3 =
-      test.handlerT.queryParentStar({StmtType::If, 0}, {StmtType::None, 0});
+  auto result3 = test.queryT({StmtType::If, 0}, {StmtType::None, 0});
   REQUIRE(result3.isEmpty == false);
   REQUIRE(result3.firstArgVals == unordered_set<int>({11, 14}));
   REQUIRE(result3.secondArgVals == unordered_set<int>({12, 12, 14, 15, 16}));

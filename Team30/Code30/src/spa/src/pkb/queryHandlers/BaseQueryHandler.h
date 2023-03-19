@@ -21,6 +21,7 @@ class BaseQueryHandler {
       RelationTableManager<LeftValue, RightValue> *store)
       : queryInvoker(queryInvoker),
       store(store) {}
+  BaseQueryHandler() {}
 
   QueryResult<LeftValue, RightValue> query(
       IRef<LeftValue, LeftType> *leftArg,

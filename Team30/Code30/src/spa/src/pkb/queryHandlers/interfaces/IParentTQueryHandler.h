@@ -1,10 +1,10 @@
 #pragma once
 
 #include "common/Types.h"
+#include "pkb/queryHandlers/BaseQueryHandler.h"
 
-class IParentTQueryHandler {
+class IParentTQueryHandler : virtual public PkbStmtStmtQueryHandler {
  public:
   virtual ~IParentTQueryHandler() {}
-  virtual QueryResult<StmtValue, StmtValue> queryParentStar(StmtRef,
-                                                            StmtRef) const = 0;
+  using PkbStmtStmtQueryHandler::query;
 };

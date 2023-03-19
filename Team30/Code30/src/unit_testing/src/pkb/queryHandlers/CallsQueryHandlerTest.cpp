@@ -44,6 +44,16 @@ struct callsTest {
           factory.get());
   CallsQueryHandler handler = CallsQueryHandler(invoker.get(), store.get());
   CallsTQueryHandler handlerT = CallsTQueryHandler(invoker.get(), storeT.get());
+
+  QueryResult<EntityValue, EntityValue> query(
+      EntityRef leftArg, EntityRef rightArg) {
+    return handler.query(&leftArg, &rightArg);
+  }
+
+  QueryResult<EntityValue, EntityValue> queryT(
+      EntityRef leftArg, EntityRef rightArg) {
+    return handlerT.query(&leftArg, &rightArg);
+  }
 };
 
 /* Calls */
@@ -54,18 +64,15 @@ TEST_CASE("CallsQueryHandler calls(entityName, entityName)") {
   test.table->set("main", "foo");
   test.table->set("foo", "goo");
 
-  REQUIRE(test.handler
-      .queryCalls(
+  REQUIRE(test.query(
           {EntityType::Procedure, "main"},
           {EntityType::Procedure, "foo"})
       .isEmpty == false);
-  REQUIRE(test.handler
-      .queryCalls(
+  REQUIRE(test.query(
           {EntityType::Procedure, "foo"},
           {EntityType::Procedure, "goo"})
       .isEmpty == false);
-  REQUIRE(test.handler
-      .queryCalls(
+  REQUIRE(test.query(
           {EntityType::Procedure, "main"},
           {EntityType::Procedure, "goo"})
       .isEmpty == true);
@@ -78,7 +85,7 @@ TEST_CASE("CallsQueryHandler calls(_, entityName)") {
   test.table->set("foo", "goo");
   test.reverseTable->set("foo", "main");
 
-  auto result = test.handler.queryCalls(
+  auto result = test.query(
       {EntityType::None, ""},
       {EntityType::Procedure, "foo"});
   REQUIRE(result.isEmpty == false);
@@ -94,7 +101,7 @@ TEST_CASE("CallsQueryHandler calls(entityName, _)") {
   test.table->set("main", "woo");
   test.table->set("foo", "goo");
 
-  auto result = test.handler.queryCalls(
+  auto result = test.query(
       {EntityType::Procedure, "main"},
       {EntityType::None, ""});
   REQUIRE(result.isEmpty == false);
@@ -112,7 +119,7 @@ TEST_CASE("CallsQueryHandler calls(_, _)") {
   test.table->set("foo", "goo");
 
   auto result =
-      test.handler.queryCalls({EntityType::None, ""}, {EntityType::None, ""});
+      test.query({EntityType::None, ""}, {EntityType::None, ""});
   REQUIRE(result.isEmpty == false);
   REQUIRE(result.firstArgVals == unordered_set<string>{"main", "foo"});
   REQUIRE(result.secondArgVals == unordered_set<string>{"woo", "foo", "goo"});
@@ -128,15 +135,15 @@ TEST_CASE("CallsQueryHandler callsStar(entityName, entityName)") {
   test.table->set("main", "foo");
   test.table->set("foo", "goo");
 
-  REQUIRE(test.handlerT.queryCallsStar(
+  REQUIRE(test.queryT(
           {EntityType::Procedure, "main"},
           {EntityType::Procedure, "foo"})
       .isEmpty == false);
-  REQUIRE(test.handlerT.queryCallsStar(
+  REQUIRE(test.queryT(
           {EntityType::Procedure, "foo"},
           {EntityType::Procedure, "goo"})
       .isEmpty == false);
-  REQUIRE(test.handlerT.queryCallsStar(
+  REQUIRE(test.queryT(
           {EntityType::Procedure, "main"},
           {EntityType::Procedure, "goo"})
       .isEmpty == false);
@@ -150,7 +157,7 @@ TEST_CASE("CallsQueryHandler callsStar(_, entityName)") {
   test.reverseTable->set("foo", "main");
   test.reverseTable->set("goo", "foo");
 
-  auto result = test.handlerT.queryCallsStar(
+  auto result = test.queryT(
       {EntityType::None, ""},
       {EntityType::Procedure, "goo"});
   REQUIRE(result.isEmpty == false);
@@ -167,7 +174,7 @@ TEST_CASE("CallsQueryHandler callsStar(entityName, _)") {
   test.table->set("main", "woo");
   test.table->set("foo", "goo");
 
-  auto result = test.handlerT.queryCallsStar(
+  auto result = test.queryT(
       {EntityType::Procedure, "main"},
       {EntityType::None, ""});
   REQUIRE(result.isEmpty == false);
@@ -185,7 +192,7 @@ TEST_CASE("CallsQueryHandler callsStar(_, _)") {
   test.table->set("main", "woo");
   test.table->set("foo", "goo");
 
-  auto result = test.handlerT.queryCallsStar(
+  auto result = test.queryT(
       {EntityType::None, ""},
       {EntityType::None, ""});
   REQUIRE(result.isEmpty == false);

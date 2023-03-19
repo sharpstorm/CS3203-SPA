@@ -42,12 +42,14 @@ struct whilePatternTest {
   unique_ptr<EntityPredicateFactory>
       entPredFactory = make_unique<EntityPredicateFactory>();
   unique_ptr<PkbStmtEntQueryInvoker> stmtEntInvoker =
-      make_unique<PkbStmtEntQueryInvoker>(structureProvider.get(),
-                                          stmtPredFactory.get(),
-                                          entPredFactory.get());
+      make_unique<PkbStmtEntQueryInvoker>(
+          structureProvider.get(),
+          stmtPredFactory.get(),
+          entPredFactory.get());
   WhilePatternQueryHandler
-      handler = WhilePatternQueryHandler(stmtEntInvoker.get(),
-                                         store.get());
+      handler = WhilePatternQueryHandler(
+      stmtEntInvoker.get(),
+      store.get());
   whilePatternTest() {
     table->set(1, "a");
     table->set(2, "a");
@@ -58,54 +60,51 @@ struct whilePatternTest {
     reverseTable->set("b", 1);
     reverseTable->set("c", 3);
   }
+
+  QueryResult<StmtValue, EntityValue> query(
+      StmtRef leftArg, EntityRef rightArg) {
+    return handler.query(&leftArg, &rightArg);
+  }
 };
 
 TEST_CASE("WhilePatternQueryHandler whiles(varname,_)") {
   auto test = whilePatternTest();
 
   // positive
-  auto res1 =
-      test.handler.queryWhilePattern({StmtType::While, 0},
-                                     {EntityType::None, "a"});
+  auto res1 = test.query({StmtType::While, 0}, {EntityType::None, "a"});
   REQUIRE(res1.firstArgVals == unordered_set<int>({1, 2}));
   REQUIRE(res1.secondArgVals == unordered_set<string>({"a"}));
   REQUIRE(res1.pairVals == pair_set<int, string>({{1, "a"}, {2, "a"}}));
 
-  auto res2 =
-      test.handler.queryWhilePattern({StmtType::While, 0},
-                                     {EntityType::None, "c"});
+  auto res2 = test.query({StmtType::While, 0}, {EntityType::None, "c"});
   REQUIRE(res2.firstArgVals == unordered_set<int>({3}));
   REQUIRE(res2.secondArgVals == unordered_set<string>({"c"}));
   REQUIRE(res2.pairVals == pair_set<int, string>({{3, "c"}}));
 
   // negative
-  auto res3 =
-      test.handler.queryWhilePattern({StmtType::While, 0},
-                                     {EntityType::None, "f"});
+  auto res3 = test.query({StmtType::While, 0}, {EntityType::None, "f"});
   REQUIRE(res3.isEmpty == true);
 }
 
 TEST_CASE("WhilePatternQueryHandler w(v,_) or w(_,_)") {
   auto test = whilePatternTest();
 
-  auto res1 =
-      test.handler.queryWhilePattern({StmtType::While, 0},
-                                     {EntityType::None, ""});
+  auto res1 = test.query({StmtType::While, 0}, {EntityType::None, ""});
   REQUIRE(res1.firstArgVals == unordered_set<int>({1, 2, 3}));
   REQUIRE(res1.secondArgVals == unordered_set<string>({"a", "b", "c"}));
-  REQUIRE(res1.pairVals == pair_set<int, string>({{1, "a"}, {1, "b"}, {2, "a"},
-                                                  {3, "c"}}));
+  REQUIRE(res1.pairVals == pair_set<int, string>(
+      {{1, "a"}, {1, "b"}, {2, "a"},
+       {3, "c"}}));
 
-  auto res2 = test.handler.queryWhilePattern({StmtType::While, 0},
-                                             {EntityType::Variable, ""});
+  auto res2 = test.query({StmtType::While, 0}, {EntityType::Variable, ""});
   REQUIRE(res2.firstArgVals == unordered_set<int>({1, 2, 3}));
   REQUIRE(res2.secondArgVals == unordered_set<string>({"a", "b", "c"}));
-  REQUIRE(res2.pairVals == pair_set<int, string>({{1, "a"}, {1, "b"}, {2, "a"},
-                                                  {3, "c"}}));
+  REQUIRE(res2.pairVals == pair_set<int, string>(
+      {{1, "a"}, {1, "b"}, {2, "a"},
+       {3, "c"}}));
 
   // invalid arg2
-  auto res3 = test.handler.queryWhilePattern({StmtType::While, 0},
-                                             {EntityType::Procedure, ""});
+  auto res3 = test.query({StmtType::While, 0}, {EntityType::Procedure, ""});
   REQUIRE(res3.isEmpty == true);
 }
 
@@ -113,38 +112,30 @@ TEST_CASE("WhilePatternQueryHandler w(varname,_) with w.stmt# ") {
   auto test = whilePatternTest();
 
   // positive
-  auto res1 =
-      test.handler.queryWhilePattern({StmtType::None, 1},
-                                     {EntityType::None, "a"});
+  auto res1 = test.query({StmtType::None, 1}, {EntityType::None, "a"});
   REQUIRE(res1.firstArgVals == unordered_set<int>({1}));
   REQUIRE(res1.secondArgVals == unordered_set<string>({"a"}));
   REQUIRE(res1.pairVals == pair_set<int, string>({{1, "a"}}));
 
   // negative
-  auto res3 =
-      test.handler.queryWhilePattern({StmtType::None, 1},
-                                     {EntityType::None, "c"});
+  auto res3 = test.query({StmtType::None, 1}, {EntityType::None, "c"});
   REQUIRE(res3.isEmpty == true);
 }
 
 TEST_CASE("WhilePatternQueryHandler w(v,_) / w(_,_) with w.stmt# ") {
   auto test = whilePatternTest();
 
-  auto res1 =
-      test.handler.queryWhilePattern({StmtType::None, 1},
-                                     {EntityType::None, ""});
+  auto res1 = test.query({StmtType::None, 1}, {EntityType::None, ""});
   REQUIRE(res1.firstArgVals == unordered_set<int>({1}));
   REQUIRE(res1.secondArgVals == unordered_set<string>({"a", "b"}));
   REQUIRE(res1.pairVals == pair_set<int, string>({{1, "a"}, {1, "b"}}));
 
-  auto res2 = test.handler.queryWhilePattern({StmtType::None, 3},
-                                             {EntityType::Variable, ""});
+  auto res2 = test.query({StmtType::None, 3}, {EntityType::Variable, ""});
   REQUIRE(res2.firstArgVals == unordered_set<int>({3}));
   REQUIRE(res2.secondArgVals == unordered_set<string>({"c"}));
   REQUIRE(res2.pairVals == pair_set<int, string>({{3, "c"}}));
 
   // invalid arg1
-  auto res3 = test.handler.queryWhilePattern({StmtType::If, 1},
-                                             {EntityType::Variable, ""});
+  auto res3 = test.query({StmtType::If, 1}, {EntityType::Variable, ""});
   REQUIRE(res3.isEmpty == true);
 }

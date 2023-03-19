@@ -6,12 +6,9 @@
 #include "PkbStmtStmtQueryInvoker.h"
 #include "pkb/queryHandlers/interfaces/IParentTQueryHandler.h"
 
-class ParentTQueryHandler : private PkbStmtStmtQueryHandler,
-                            public IParentTQueryHandler {
+class ParentTQueryHandler : public IParentTQueryHandler {
  public:
-  ParentTQueryHandler(PkbStmtStmtQueryInvoker *invoker,
-                      ParentTStorage *storage);
-
-  QueryResult<StmtValue, StmtValue> queryParentStar(StmtRef,
-                                                    StmtRef) const override;
+  ParentTQueryHandler(
+      PkbStmtStmtQueryInvoker *invoker,
+      ParentTStorage *storage);
 };

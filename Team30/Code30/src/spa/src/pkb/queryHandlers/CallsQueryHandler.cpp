@@ -9,8 +9,3 @@ CallsQueryHandler::CallsQueryHandler(
   PkbEntEntQueryHandler::setRightValidator(callsArgValidator);
   PkbEntEntQueryHandler::setLeftTransformer(procArgTransformer);
 }
-
-QueryResult<EntityValue, EntityValue> CallsQueryHandler::queryCalls(
-    EntityRef leftArg, EntityRef rightArg) const {
-  return PkbEntEntQueryHandler::query(&leftArg, &rightArg);
-}
