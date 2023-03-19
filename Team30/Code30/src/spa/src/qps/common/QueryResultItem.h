@@ -17,6 +17,7 @@ class QueryResultItem {
  public:
   explicit QueryResultItem(int stmt): stmtRef(stmt), entRef(NO_ENT_REF) {}
   explicit QueryResultItem(string ent): stmtRef(NO_STMT_REF), entRef(ent) {}
+  int toStmtValue();
   string project();
   bool operator==(const QueryResultItem& other) const;
   bool operator!=(const QueryResultItem& other) const;
@@ -36,6 +37,4 @@ typedef unique_ptr<QueryResultItem> QueryResultItemPtr;
 
 template<class T>
 using QueryResultItemMap = unordered_map<QueryResultItem, T,
-                                         QueryResultItem::hasher>;
-using QueryResultItemSet = unordered_set<QueryResultItem,
                                          QueryResultItem::hasher>;

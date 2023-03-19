@@ -21,6 +21,7 @@ class AttributedSynonym {
   PQLSynonymName getName();
   PQLSynonymAttribute getAttribute();
   PQLQuerySynonym* getSyn();
+  bool hasAttribute();
   bool validateAttribute();
   bool returnsInteger();
   bool isStatementType();

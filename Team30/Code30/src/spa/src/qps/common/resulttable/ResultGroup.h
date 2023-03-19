@@ -6,6 +6,7 @@
 #include <vector>
 #include "qps/common/PQLQueryResult.h"
 #include "qps/common/AttributedSynonym.h"
+#include "qps/common/constraint/Constraint.h"
 
 using std::unordered_map, std::unique_ptr, std::string, std::vector;
 
@@ -13,6 +14,10 @@ class ResultGroup {
   QueryResultTable groupTable;
   unordered_map<PQLSynonymName, ResultTableCol> colMap;
   vector<PQLSynonymName> colIdx;
+  static string projectNonDefaultAttribute(PkbQueryHandler* handler,
+                                           QueryResultItem* item,
+                                           AttributedSynonym syn);
+  static bool isNonDefaultCase(AttributedSynonym syn);
 
  public:
   ResultGroup() = default;
@@ -24,7 +29,9 @@ class ResultGroup {
   QueryResultTableRow* getRowAt(int idx);
   vector<PQLSynonymName>* getColIndexes();
   ResultGroup* crossProduct(ResultGroup* other);
-  void project(AttributedSynonymList* synList, vector<string>* result);
+  void project(AttributedSynonymList* synList,
+               PkbQueryHandler* handler,
+               vector<string>* result);
   bool operator ==(const ResultGroup &rg) const;
 };
 

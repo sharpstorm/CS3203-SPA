@@ -411,24 +411,32 @@ TEST_CASE("With Clause Tests - Cat 2 (attrRef = static)") {
   pipeline.query("assign a; Select BOOLEAN with a.stmt# = 4", {"FALSE"});
   pipeline.query("variable v; Select BOOLEAN with v.varName = \"x\"", {"TRUE"});
   pipeline.query("variable v; Select BOOLEAN with v.varName = \"g\"", {"FALSE"});
+  pipeline.query("assign a; variable v; Select v.varName with v.varName = \"x\" such that Uses(a, v)", {"x"});
 
   pipeline.query("assign a; Select BOOLEAN with a.stmt# = 1", {"TRUE"});
   pipeline.query("assign a; Select BOOLEAN with a.stmt# = 4", {"FALSE"});
+  pipeline.query("assign a1, a2; Select a2.stmt# with a2.stmt# = 3 such that Follows*(a1,a2)", {"3"});
 
   pipeline.query("while w; Select BOOLEAN with w.stmt# = 4", {"TRUE"});
   pipeline.query("while w; Select BOOLEAN with w.stmt# = 1", {"FALSE"});
+  pipeline.query("assign a1;while a2; Select a2.stmt# with a2.stmt# = 4 such that Follows*(a1,a2)", {"4"});
 
   pipeline.query("if ifs; Select BOOLEAN with ifs.stmt# = 6", {"TRUE"});
   pipeline.query("if ifs; Select BOOLEAN with ifs.stmt# = 1", {"FALSE"});
-
-  pipeline.query("read r; Select BOOLEAN with r.stmt# = 10", {"TRUE"});
-  pipeline.query("read r; Select BOOLEAN with r.stmt# = 1", {"FALSE"});
-
-  pipeline.query("read r; Select BOOLEAN with r.varName = \"x\"", {"TRUE"});
-  pipeline.query("read r; Select BOOLEAN with r.varName = \"g\"", {"FALSE"});
+  pipeline.query("assign a1;if a2; Select a2.stmt# with a2.stmt# = 6 such that Follows*(a1,a2)", {"6"});
 
   pipeline.query("constant c; Select BOOLEAN with c.value = 1", {"TRUE"});
   pipeline.query("constant c; Select BOOLEAN with c.value = 99", {"FALSE"});
+
+  pipeline.query("read r; Select BOOLEAN with r.stmt# = 10", {"TRUE"});
+  pipeline.query("read r; Select BOOLEAN with r.stmt# = 1", {"FALSE"});
+  pipeline.query("assign a1;read r; Select r.stmt# with r.stmt# = 10 such that Follows*(a1,r)", {"10"});
+  pipeline.query("assign a1;read r; Select r.stmt# with r.varName = \"x\" such that Follows*(a1,r)", {"10"});
+
+  pipeline.query("read r; Select BOOLEAN with r.varName = \"x\"", {"TRUE"});
+  pipeline.query("read r; Select BOOLEAN with r.varName = \"g\"", {"FALSE"});
+  pipeline.query("assign a1;read r; Select r.varName with r.varName = \"x\" such that Modifies(r,_)", {"x"});
+  pipeline.query("assign a1;read r; Select r.varName with r.stmt# = 10 such that Modifies(r,_)", {"x"});
 
 }
 
@@ -480,6 +488,31 @@ TEST_CASE("Out of Bounds Statement") {
                  {});
   pipeline.query("stmt r; Select r such that Next*(100, r)",
                  {});
+}
+
+TEST_CASE("End-to-End Attribute Projection Test") {
+  auto pipeline = TestPipelineProvider();
+
+  // stmt#
+  pipeline.query("assign a; Select a.stmt#", {"1", "2", "3", "5", "7", "8", "9", "11", "12"});
+  pipeline.query("if a; Select a.stmt#", {"6"});
+  pipeline.query("while a; Select a.stmt#", {"4"});
+  pipeline.query("call a; Select a.stmt#", {});
+  pipeline.query("print a; Select a.stmt#", {});
+  pipeline.query("read a; Select a.stmt#", {"10"});
+  pipeline.query("stmt a; Select a.stmt#", {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"});
+
+  // procName
+  pipeline.query("procedure p; Select p.procName", {"Example"});
+  pipeline.query("call p; Select p.procName", {});
+
+  // varName
+  pipeline.query("variable v; Select v.varName", {"x", "z", "i", "y"});
+  pipeline.query("read v; Select v.varName", {"x"});
+  pipeline.query("print v; Select v.varName", {});
+
+  // value
+  pipeline.query("constant c; Select c.value", {"2", "3", "5", "1", "0"});
 }
 
 TEST_CASE("Override With Clause Test, Non Default") {
