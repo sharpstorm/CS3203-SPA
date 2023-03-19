@@ -32,7 +32,7 @@ class QueryBuilder {
   void addSynonym(const PQLSynonymName &name, const PQLSynonymType &type);
   void finalizeSynonymTable();
 
-  PQLQuerySynonym* accessSynonym(const PQLSynonymName &name);
+  PQLQuerySynonymProxy* accessSynonym(const PQLSynonymName &name);
   void addSuchThat(unique_ptr<SuchThatClause> clause);
   void addPattern(unique_ptr<PatternClause> clause);
   void addWith(unique_ptr<WithClause> clause);

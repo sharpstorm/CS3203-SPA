@@ -40,7 +40,7 @@ void QueryBuilder::finalizeSynonymTable() {
   variables->finalizeTable();
 }
 
-PQLQuerySynonym* QueryBuilder::accessSynonym(const PQLSynonymName &name) {
+PQLQuerySynonymProxy* QueryBuilder::accessSynonym(const PQLSynonymName &name) {
   if (!hasSynonym(name)) {
     setError(QPS_PARSER_ERR_UNKNOWN_SYNONYM);
     return nullptr;

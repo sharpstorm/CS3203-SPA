@@ -16,7 +16,7 @@ constexpr PatternQueryInvoker ifPatternInvoker =
 class IfPatternClause: public AbstractPatternClause<
     PQL_SYN_TYPE_IF, StmtType::If, ifPatternInvoker> {
  public:
-  IfPatternClause(const PQLQuerySynonym &ifSynonym,
+  IfPatternClause(const PQLQuerySynonymProxy &ifSynonym,
                   ClauseArgumentPtr leftArg):
       AbstractPatternClause(ifSynonym, std::move(leftArg)) {}
 };

@@ -1,11 +1,11 @@
 #include "SynonymArgument.h"
 
-SynonymArgument::SynonymArgument(PQLQuerySynonymProxy synProxy):
+SynonymArgument::SynonymArgument(const PQLQuerySynonymProxy &synProxy):
     synProxy(synProxy) {
 }
 
 bool SynonymArgument::synonymSatisfies(SynonymPredicate predicate) {
-  return predicate(*resolveProxy());
+  return predicate(*synProxy);
 }
 
 bool SynonymArgument::isNamed() {
@@ -13,15 +13,11 @@ bool SynonymArgument::isNamed() {
 }
 
 PQLSynonymName SynonymArgument::getName() {
-  return resolveProxy()->getName();
-}
-
-PQLQuerySynonym *SynonymArgument::resolveProxy() {
-  return *synProxy;
+  return synProxy->getName();
 }
 
 StmtRef SynonymArgument::toStmtRef() {
-  switch (resolveProxy()->getType()) {
+  switch (synProxy->getType()) {
     case PQL_SYN_TYPE_ASSIGN:
       return StmtRef{StmtType::Assign, 0};
     case PQL_SYN_TYPE_READ:
@@ -40,7 +36,7 @@ StmtRef SynonymArgument::toStmtRef() {
 }
 
 EntityRef SynonymArgument::toEntityRef() {
-  switch (resolveProxy()->getType()) {
+  switch (synProxy->getType()) {
     case PQL_SYN_TYPE_VARIABLE:
       return EntityRef{EntityType::Variable, ""};
     case PQL_SYN_TYPE_CONSTANT:
@@ -53,5 +49,5 @@ EntityRef SynonymArgument::toEntityRef() {
 }
 
 PQLQuerySynonym *SynonymArgument::getSyn() {
-  return resolveProxy();
+  return synProxy.get();
 }

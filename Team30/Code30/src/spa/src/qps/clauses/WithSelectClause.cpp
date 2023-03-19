@@ -10,10 +10,9 @@ WithSelectClause::WithSelectClause(AttributedSynonym aSyn, EntityValue enVal) :
 
 PQLQueryResult *WithSelectClause::evaluateOn(PkbQueryHandler *pkbQueryHandler,
                                              OverrideTable *table) {
-  PQLQuerySynonym* syn = attrSyn.getSyn();
   ClauseArgumentPtr clauseArg = ClauseArgumentFactory::create(
       attrSyn.getSynProxy());
-  PQLSynonymType synType = syn->getType();
+  PQLSynonymType synType = attrSyn.getType();
 
   StmtRef stmtVar = clauseArg->toStmtRef();
   unordered_set<int> pkbResult = pkbQueryHandler

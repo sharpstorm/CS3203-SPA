@@ -1,14 +1,15 @@
 #include "VariableTableProxyBuilder.h"
 
-void VariableTableProxyBuilder::joinSynonyms(PQLQuerySynonym *syn1,
-                                             PQLQuerySynonym *syn2) {
+void VariableTableProxyBuilder::joinSynonyms(const PQLSynonymName &syn1,
+                                             const PQLSynonymName &syn2) {
   ufds.mergeSets(syn1, syn2);
 }
 
 void VariableTableProxyBuilder::VariableTableProxyBuilder::build() {
-  for (auto i = table->getProxyArray()->begin();
-  i != table->getProxyArray()->end(); i++) {
-    i->second = ufds.findSet(i->second);
+  ProxyMap* proxyMap = table->getProxyMap();
+  for (auto i = proxyMap->begin(); i != proxyMap->end(); i++) {
+    PQLQuerySynonym* newPtr = ufds.getSetValue(i->first);
+    i->second.updatePointer(newPtr);
   }
 }
 

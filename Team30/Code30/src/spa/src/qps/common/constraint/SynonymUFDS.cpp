@@ -6,11 +6,14 @@ SynonymUFDS::SynonymUFDS(VariableTable* varTable):
     synArr(varTable->size()) {
   for (uint16_t i = 0; i < varTable->size(); i++) {
     parent[i] = i;
+    rank[i] = 0;
   }
 
   int index = 0;
-  for (auto i : varTable->getReferredSynonyms()) {
-    synArr[index] = i;
+  ProxyMap* proxyMap = varTable->getProxyMap();
+  for (auto it = proxyMap->begin(); it != proxyMap->end(); it++) {
+    synArr[index] = it->second.get();
+    synNameMap[it->first] = index;
     index += 1;
   }
 }
@@ -19,37 +22,59 @@ vector<int> SynonymUFDS::getParents() {
   return parent;
 }
 
-int SynonymUFDS::indexOf(PQLQuerySynonym *syn) {
-  for (int i = 0; i < synArr.size(); i++) {
-    if (synArr[i] == syn) {
-      return i;
-    }
+int SynonymUFDS::indexOf(const PQLSynonymName &syn) {
+  auto it = synNameMap.find(syn);
+  if (it == synNameMap.end()) {
+    return -1;
   }
-  return -1;
+
+  return it->second;
 }
 
-PQLQuerySynonym* SynonymUFDS::findSet(PQLQuerySynonym *syn) {
+PQLQuerySynonym* SynonymUFDS::getSetValue(const PQLSynonymName &syn) {
   int index = indexOf(syn);
-  if (parent[index] == index) {
-    return syn;
+  if (index < 0) {
+    return nullptr;
   }
-  PQLQuerySynonym* synParent = synArr[parent[index]];
-  return synArr[indexOf(findSet(synParent))];
+
+  int parent = findSet(index);
+  return synArr[parent];
 }
 
-bool SynonymUFDS::isSameSet(PQLQuerySynonym* syn1,
-                            PQLQuerySynonym* syn2) {
-  return findSet(syn1) == findSet(syn2);
+int SynonymUFDS::findSet(int node) {
+  if (parent[node] == node) {
+    return node;
+  }
+
+  parent[node] = findSet(parent[node]);
+  return parent[node];
 }
 
-void SynonymUFDS::mergeSets(PQLQuerySynonym* syn1,
-                            PQLQuerySynonym* syn2) {
+bool SynonymUFDS::isSameSet(const PQLSynonymName &syn1,
+                            const PQLSynonymName &syn2) {
+  int setA = indexOf(syn1);
+  int setB = indexOf(syn2);
+  if (setA < 0 || setB < 0) {
+    return false;
+  }
+
+  return findSet(setA) == findSet(setB);
+}
+
+void SynonymUFDS::mergeSets(const PQLSynonymName &syn1,
+                            const PQLSynonymName &syn2) {
+  int setA = indexOf(syn1);
+  int setB = indexOf(syn2);
+  if (setA < 0 || setB < 0) {
+    return;
+  }
+
   if (isSameSet(syn1, syn2)) {
     return;
   }
 
-  int aParent = indexOf(findSet(syn1));
-  int bParent = indexOf(findSet(syn2));
+  int aParent = findSet(setA);
+  int bParent = findSet(setB);
 
   if (rank[aParent] > rank[bParent]) {
     parent[bParent] = aParent;

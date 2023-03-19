@@ -9,11 +9,11 @@ ClauseArgumentPtr PQLRefExtractor::extractCommonRef(
   }
 
   PQLSynonymName synName = state->expectSynName();
-  PQLQuerySynonym* var = builder->accessSynonym(synName);
+  PQLQuerySynonymProxy* var = builder->accessSynonym(synName);
 
   if (var == nullptr) {
     return nullptr;
   }
 
-  return ClauseArgumentFactory::create(var);
+  return ClauseArgumentFactory::create(*var);
 }

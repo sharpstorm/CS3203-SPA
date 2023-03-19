@@ -9,14 +9,14 @@
 
 using std::pair, std::unordered_set, std::vector, std::string, std::to_string;
 
-SelectClause::SelectClause(PQLQuerySynonymProxy target):
+SelectClause::SelectClause(const PQLQuerySynonymProxy &target):
     target(target) {}
 
 PQLQueryResult* SelectClause::evaluateOn(PkbQueryHandler* pkbQueryHandler,
                                          OverrideTable* table) {
   ClauseArgumentPtr clauseArg = ClauseArgumentFactory::create(target);
-  PQLSynonymName synName = target.getName();
-  if (target.isStatementType()) {
+  PQLSynonymName synName = target->getName();
+  if (target->isStatementType()) {
     unordered_set<int> result;
     StmtRef stmtRef = clauseArg->toStmtRef();
     if (clauseArg->canSubstitute(table)) {
@@ -30,7 +30,7 @@ PQLQueryResult* SelectClause::evaluateOn(PkbQueryHandler* pkbQueryHandler,
           ->getStatementsOfType(stmtRef.type);
     }
 
-    return Clause::toQueryResult(target.getName(), result);
+    return Clause::toQueryResult(target->getName(), result);
   }
 
   unordered_set<string> result;
@@ -38,7 +38,7 @@ PQLQueryResult* SelectClause::evaluateOn(PkbQueryHandler* pkbQueryHandler,
   if (clauseArg->canSubstitute(table)) {
     OverrideTransformer trans = table->at(synName);
     EntityValue entVal;
-    if (target.getType() == PQL_SYN_TYPE_CONSTANT) {
+    if (target->getType() == PQL_SYN_TYPE_CONSTANT) {
       entVal = to_string(trans.getStmtValue());
     } else {
       entVal = trans.getEntityValue();
@@ -51,13 +51,13 @@ PQLQueryResult* SelectClause::evaluateOn(PkbQueryHandler* pkbQueryHandler,
     result = pkbQueryHandler->getSymbolsOfType(entRef.type);
   }
 
-  return Clause::toQueryResult(target.getName(), result);
+  return Clause::toQueryResult(target->getName(), result);
 }
 
 bool SelectClause::validateArgTypes(VariableTable *variables) {
-  return !target.isType(PQL_SYN_TYPE_PROCEDURE);
+  return !target->isType(PQL_SYN_TYPE_PROCEDURE);
 }
 
 SynonymList SelectClause::getUsedSynonyms() {
-  return SynonymList{target.getName()};
+  return SynonymList{target->getName()};
 }

@@ -6,26 +6,27 @@
 #include <memory>
 
 #include "PQLQuerySynonym.h"
+#include "PQLQuerySynonymProxy.h"
+
+typedef unordered_map<string, PQLQuerySynonymProxy> ProxyMap;
 
 using std::string, std::unordered_set;
 
-typedef PQLQuerySynonym** PQLQuerySynonymProxy;
-
 class VariableTable {
  private:
-  unordered_map<string, PQLQuerySynonym*> proxyArray;
+  ProxyMap proxyMap;
   vector<PQLQuerySynonym> declaredSynonyms;
+  vector<PQLQuerySynonym*> rawProxy;
  public:
   VariableTable();
   explicit VariableTable(unordered_map<string, PQLQuerySynonym> map);
   int size();
   void add(const PQLSynonymName &name, PQLQuerySynonym syn);
   void finalizeTable();
-  PQLQuerySynonymProxy getProxyFor(const PQLSynonymName &name);
-  vector<PQLQuerySynonym> getDeclaredSynonyms();
-  unordered_map<string, PQLQuerySynonym*>* getProxyArray();
-  PQLQuerySynonym* find(const PQLSynonymName &name);
-  unordered_set<PQLQuerySynonym*> getReferredSynonyms();
+
+  ProxyMap* getProxyMap();
+  unordered_set<PQLSynonymName> getReferredSynonyms();
+  PQLQuerySynonymProxy* find(const PQLSynonymName &name);
 };
 
 typedef unique_ptr<VariableTable> VariableTablePtr;

@@ -4,10 +4,11 @@
 
 class SynonymConstraint : virtual public Constraint {
  private:
-  PQLQuerySynonym* syn1;
-  PQLQuerySynonym* syn2;
+  PQLSynonymName syn1;
+  PQLSynonymName syn2;
  public:
-  SynonymConstraint(PQLQuerySynonym* syn1, PQLQuerySynonym* syn2) :
+  SynonymConstraint(const PQLSynonymName &syn1,
+                    const PQLSynonymName &syn2) :
       syn1(syn1), syn2(syn2) {}
   bool applyConstraint(VariableTableProxyBuilder* varTableProxyBuilder,
                        OverrideTable* overrideTable);

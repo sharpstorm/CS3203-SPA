@@ -7,6 +7,7 @@
 #include "qps/common/PQLTypes.h"
 #include "qps/common/PQLQuerySynonym.h"
 #include "VariableTable.h"
+#include "PQLQuerySynonymProxy.h"
 
 using std::unique_ptr, std::vector, std::shared_ptr, std::string;
 
@@ -14,10 +15,7 @@ class AttributedSynonym {
   PQLQuerySynonymProxy synProxy;
   PQLSynonymAttribute attribute;
 
-  PQLQuerySynonym* resolveProxy();
-
  public:
-  AttributedSynonym();
   explicit AttributedSynonym(PQLQuerySynonymProxy synProxy);
   AttributedSynonym(PQLQuerySynonymProxy synProxy, PQLSynonymAttribute attr);
 
