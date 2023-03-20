@@ -1,7 +1,8 @@
 #pragma once
 
-#include "Constraint.h"
 #include <vector>
+
+#include "Constraint.h"
 
 class SynonymConstraint : virtual public Constraint {
  private:
