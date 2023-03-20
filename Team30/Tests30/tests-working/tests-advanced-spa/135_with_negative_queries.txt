@@ -1,0 +1,90 @@
+1 - NEGATIVE Incorrect with spelling
+
+Select BOOLEAN whit 1 = 1
+SyntaxError
+5000
+2 - NEGATIVE Missing equals
+
+Select BOOLEAN with 1 1
+SyntaxError
+5000
+3 - NEGATIVE Undeclared synonym
+
+Select BOOLEAN with s.stmt# = 1
+SemanticError
+5000
+4 - NEGATIVE Synonym with invalid attribute
+stmt s;
+Select BOOLEAN with s.value = 1
+SemanticError
+5000
+5 - NEGATIVE Constraint of wrong type (Integer Syn)
+stmt s;
+Select BOOLEAN with s.stmt# = "x"
+SemanticError
+5000
+6 - NEGATIVE Constraint of wrong type (String Syn)
+variable v;
+Select BOOLEAN with v.varName = 1
+SemanticError
+5000
+7 - NEGATIVE Unfinished with (RHS)
+stmt s;
+Select BOOLEAN with s.stmt# =
+SyntaxError
+5000
+8 - NEGATIVE Unfinished with (LHS)
+stmt s;
+Select BOOLEAN with = 1
+SyntaxError
+5000
+9 - NEGATIVE Missing with
+
+Select BOOLEAN 1 = 1
+SyntaxError
+5000
+10 - NEGATIVE Incorrect casing
+
+Select BOOLEAN wItH 1 = 1
+SyntaxError
+5000
+11 - NEGATIVE wrong ordering
+
+Select BOOLEAN 1 = 1 with
+SyntaxError
+5000
+12 - NEGATIVE stmt no number sign
+stmt s;
+Select BOOLEAN with s.stmt = 1
+SyntaxError
+5000
+13 - NEGATIVE shortcut naming (varName)
+variable v;
+Select BOOLEAN with v.vName = "x"
+SyntaxError
+5000
+14 - NEGATIVE shortcut naming (procName)
+procedure p;
+Select BOOLEAN with p.pName = "Slardar"
+SyntaxError
+5000
+15 - NEGATIVE shortcut naming (value)
+constant c;
+Select BOOLEAN with c.val = 1
+SyntaxError
+5000
+16 - NEGATIVE Incomplete quoting (LHS)
+
+Select BOOLEAN with "x = "y"
+SyntaxError
+5000
+17 - NEGATIVE Incomplete quoting (RHS)
+
+Select BOOLEAN with "y" = "x
+SyntaxError
+5000
+18 - NEGATIVE attrRefs under quote
+
+Select BOOLEAN with "y = x"
+SyntaxError
+5000
