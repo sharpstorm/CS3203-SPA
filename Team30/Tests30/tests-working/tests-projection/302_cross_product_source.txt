@@ -1,0 +1,35 @@
+procedure Juggernaut {
+	read x;
+	read y;
+	a = 3;
+	b = 4;
+	while (x == 3) {
+		c = 3;
+		y = y / 3;
+		x = c + y;
+		if (x < 5) then {
+			print x;
+		} else {
+			b = 44;
+			call Medusa;
+		}
+		while (c > 0) {
+			read i;
+			print c;
+		}
+	}
+	print a;
+	print b;
+}
+
+procedure Medusa {
+	i = 44;
+	h = 3;
+	b = i - x;
+	if (b > 20) then {
+		a = 2;
+	} else {
+		c = 5;
+	}
+	print i;
+}
