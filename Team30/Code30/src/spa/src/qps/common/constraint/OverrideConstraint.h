@@ -1,6 +1,8 @@
 #pragma once
 
 #include <string>
+#include <vector>
+
 #include "Constraint.h"
 #include "qps/common/PQLQuerySynonym.h"
 #include "OverrideTransformer.h"

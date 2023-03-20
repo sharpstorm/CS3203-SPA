@@ -10,7 +10,7 @@ using std::unique_ptr, std::vector, std::unordered_set;
 
 class QueryGroup {
  public:
-  explicit QueryGroup(): canEmpty(false) {}
+  QueryGroup(): canEmpty(false) {}
   explicit QueryGroup(bool canEmpty): canEmpty(canEmpty) {}
   int addEvaluatable(IEvaluatableSPtr evaluatable);
   void linkEvaluatables(int id1, int id2);

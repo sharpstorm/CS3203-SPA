@@ -1,6 +1,7 @@
 #pragma once
 
 #include <utility>
+#include <vector>
 
 #include "Constraint.h"
 #include "qps/clauses/arguments/WithArgument.h"
