@@ -1,0 +1,265 @@
+1 - Cat 1 - true
+assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 with 1 = 1
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21
+5000
+2 - Cat 1 - false
+assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 with 1 = 2
+
+5000
+3 - Cat 2
+assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 with s1.stmt# = 1
+1
+5000
+4 - Cat 2
+assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select r with r.stmt# = 1
+1
+5000
+5 - Cat 2
+assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select pn with pn.stmt# = 1
+
+5000
+6 - Cat 2
+assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select v with v.varName = "z"
+z
+5000
+7 - Cat 2
+assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select const with const.value = 1
+1
+5000
+8 - Cat 2
+assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select w with w.stmt# = 6
+6
+5000
+9 - Cat 2
+assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select w with w.stmt# = 6
+6
+5000
+10 - Cat 2
+assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select w with w.stmt# = 7
+
+5000
+11 - Cat 3
+assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Follows(s1, s2) with s1.stmt# = s2.stmt#
+
+5000
+12 - Cat 3
+assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Follows*(s1, s2) with s1.stmt# = s2.stmt#
+
+5000
+13 - Cat 3
+assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Parent(s1, s2) with s1.stmt# = s2.stmt#
+
+5000
+14 - Cat 3
+assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Parent*(s1, s2) with s1.stmt# = s2.stmt#
+
+5000
+15 - Cat 3 - transitive
+assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2, s3; procedure p; stmt n1, n2; call c;
+Select s1 such that Follows(s1, s3) with s1.stmt# = s2.stmt# with s2.stmt# = s3.stmt#
+
+5000
+16 - Cat 3 - transitive
+assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2, s3, s4; procedure p; stmt n1, n2; call c;
+Select s1 such that Follows(s1, s4) with s1.stmt# = s2.stmt# with s2.stmt# = s3.stmt# with s4.stmt# = s3.stmt#
+
+5000
+17 - Cat 3 - transitive
+assign a, a1; read r1, r2, r3, r4; print pn; if ifs; while w; variable v; constant const; stmt s1, s2, s3, s4; procedure p; stmt n1, n2; call c;
+Select r1 such that Follows(r1, r4) with r1.stmt# = r2.stmt# with r2.stmt# = r3.stmt# with r4.stmt# = r3.stmt#
+
+5000
+18 - Cat 3 - transitive
+assign a, a1; read r1, r2, r3, r4; print pn1, pn2, pn3, pn4; if ifs; while w; variable v; constant const; stmt s1, s2, s3, s4; procedure p; stmt n1, n2; call c;
+Select pn1 such that Follows(pn1, pn4) with pn1.stmt# = pn2.stmt# with pn2.stmt# = pn3.stmt# with pn4.stmt# = pn3.stmt#
+
+5000
+19 - Cat 3 - transitive
+assign a, a1; read r1, r2, r3, r4; print pn1, pn2, pn3, pn4; if ifs; while w; variable v; constant const; stmt s1, s2, s3, s4; procedure p; stmt n1, n2; call c1, c2, c3, c4;
+Select pn1 such that Follows(c1, c4) with c1.stmt# = c2.stmt# with c2.stmt# = c3.stmt# with c4.stmt# = c3.stmt#
+
+5000
+20 - Cat 3 - transitive
+assign a, a1; read r1, r2, r3, r4; print pn1, pn2, pn3, pn4; if ifs1, ifs2, ifs3, ifs4; while w1, w2, w3, w4; variable v; constant const; stmt s1, s2, s3, s4; procedure p; stmt n1, n2; call c1, c2, c3, c4;
+Select w1 such that Follows(w1, w4) with w1.stmt# = w2.stmt# with w2.stmt# = w3.stmt# with w4.stmt# = w3.stmt#
+
+5000
+21 - Cat 3 - transitive
+assign a, a1; read r1, r2, r3, r4; print pn1, pn2, pn3, pn4; if ifs1, ifs2, ifs3, ifs4; while w1, w2, w3, w4; variable v; constant const; stmt s1, s2, s3, s4; procedure p; stmt n1, n2; call c1, c2, c3, c4;
+Select ifs1 such that Follows(ifs1, ifs4) with ifs1.stmt# = ifs2.stmt# with ifs2.stmt# = ifs3.stmt# with ifs4.stmt# = ifs3.stmt#
+
+5000
+22 - Cat 4
+assign a, a1; read r1, r2, r3, r4; print pn1, pn2, pn3, pn4; if ifs1, ifs2, ifs3, ifs4; while w1, w2, w3, w4; variable v; constant const; stmt s1, s2, s3, s4; procedure p; stmt n1, n2; call c1, c2, c3, c4;
+Select r1 with r1.varName = pn1.varName
+1, 19
+5000
+23 - Cat 4
+assign a, a1; read r1, r2, r3, r4; print pn1, pn2, pn3, pn4; if ifs1, ifs2, ifs3, ifs4; while w1, w2, w3, w4; variable v; constant const; stmt s1, s2, s3, s4; procedure p; stmt n1, n2; call c1, c2, c3, c4;
+Select r1 with r1.varName = c1.procName
+19, 21
+5000
+24 - Cat 4
+assign a, a1; read r1, r2, r3, r4; print pn1, pn2, pn3, pn4; if ifs1, ifs2, ifs3, ifs4; while w1, w2, w3, w4; variable v; constant const; stmt s1, s2, s3, s4; procedure p; stmt n1, n2; call c1, c2, c3, c4;
+Select r1 with r1.varName = p.procName
+19, 21
+5000
+25 - Cat 4
+assign a, a1; read r1, r2, r3, r4; print pn1, pn2, pn3, pn4; if ifs1, ifs2, ifs3, ifs4; while w1, w2, w3, w4; variable v; constant const; stmt s1, s2, s3, s4; procedure p; stmt n1, n2; call c1, c2, c3, c4;
+Select c1 with c1.procName = p.procName
+3, 8
+5000
+25 - Cat 4
+assign a, a1; read r1, r2, r3, r4; print pn1, pn2, pn3, pn4; if ifs1, ifs2, ifs3, ifs4; while w1, w2, w3, w4; variable v; constant const; stmt s1, s2, s3, s4; procedure p; stmt n1, n2; call c1, c2, c3, c4;
+Select c1 with c1.procName = p.procName with s1.stmt# = s2.stmt#
+3, 8
+5000
+25 - Cat 4
+assign a, a1; read r1, r2, r3, r4; print pn1, pn2, pn3, pn4; if ifs1, ifs2, ifs3, ifs4; while w1, w2, w3, w4; variable v; constant const; stmt s1, s2, s3, s4; procedure p; stmt n1, n2; call c1, c2, c3, c4;
+Select c1 with c1.procName = a.stmt#
+SemanticError
+5000
+25 - Cat 4
+assign a, a1; read r1, r2, r3, r4; print pn1, pn2, pn3, pn4; if ifs1, ifs2, ifs3, ifs4; while w1, w2, w3, w4; variable v; constant const; stmt s1, s2, s3, s4; procedure p; stmt n1, n2; call c1, c2, c3, c4;
+Select c1 with c1.procName = a.varName
+SemanticError
+5000
+25 - Cat 4
+assign a, a1; read r1, r2, r3, r4; print pn1, pn2, pn3, pn4; if ifs1, ifs2, ifs3, ifs4; while w1, w2, w3, w4; variable v; constant const; stmt s1, s2, s3, s4; procedure p; stmt n1, n2; call c1, c2, c3, c4;
+Select c1 with v.procName = a.varName
+SemanticError
+5000
+26 - Cat 2 and 3
+assign a, a1; read r1, r2, r3, r4; print pn1, pn2, pn3, pn4; if ifs1, ifs2, ifs3, ifs4; while w1, w2, w3, w4; variable v; constant const; stmt s1, s2, s3, s4; procedure p; stmt n1, n2; call c1, c2, c3, c4;
+Select s1 with s1.stmt# = s2.stmt# with s1.stmt# = 1
+1
+5000
+27 - Cat 2 and 3
+assign a, a1; read r1, r2, r3, r4; print pn1, pn2, pn3, pn4; if ifs1, ifs2, ifs3, ifs4; while w1, w2, w3, w4; variable v; constant const; stmt s1, s2, s3, s4; procedure p; stmt n1, n2; call c1, c2, c3, c4;
+Select s1 with s1.stmt# = s2.stmt# with s2.stmt# = 1
+1
+5000
+28 - Cat 2 and 3 
+assign a, a1; read r1, r2, r3, r4; print pn1, pn2, pn3, pn4; if ifs1, ifs2, ifs3, ifs4; while w1, w2, w3, w4; variable v; constant const; stmt s1, s2, s3, s4; procedure p; stmt n1, n2; call c1, c2, c3, c4;
+Select s1 with s1.stmt# = s2.stmt# with s3.stmt# = s1.stmt# with s1.stmt# = 1
+1
+5000
+29 - Cat 2 and 3 
+assign a, a1; read r1, r2, r3, r4; print pn1, pn2, pn3, pn4; if ifs1, ifs2, ifs3, ifs4; while w1, w2, w3, w4; variable v; constant const; stmt s1, s2, s3, s4; procedure p; stmt n1, n2; call c1, c2, c3, c4;
+Select s1 with s1.stmt# = s2.stmt# with s3.stmt# = s1.stmt# with s2.stmt# = 1
+1
+5000
+30 - Cat 2 and 3 
+assign a, a1; read r1, r2, r3, r4; print pn1, pn2, pn3, pn4; if ifs1, ifs2, ifs3, ifs4; while w1, w2, w3, w4; variable v; constant const; stmt s1, s2, s3, s4; procedure p; stmt n1, n2; call c1, c2, c3, c4;
+Select s1 with s1.stmt# = s2.stmt# with s3.stmt# = s1.stmt# with s3.stmt# = 1
+1
+5000
+31 - Cat 1 and 2 
+assign a, a1; read r1, r2, r3, r4; print pn1, pn2, pn3, pn4; if ifs1, ifs2, ifs3, ifs4; while w1, w2, w3, w4; variable v; constant const; stmt s1, s2, s3, s4; procedure p; stmt n1, n2; call c1, c2, c3, c4;
+Select s1 with 1 = 1 with s1.stmt# = 1
+1
+5000
+32 - Cat 1 and 2 
+assign a, a1; read r1, r2, r3, r4; print pn1, pn2, pn3, pn4; if ifs1, ifs2, ifs3, ifs4; while w1, w2, w3, w4; variable v; constant const; stmt s1, s2, s3, s4; procedure p; stmt n1, n2; call c1, c2, c3, c4;
+Select s1 with 1 = 123 with s1.stmt# = 1
+
+5000
+33 - Cat 1 and 2 
+assign a, a1; read r1, r2, r3, r4; print pn1, pn2, pn3, pn4; if ifs1, ifs2, ifs3, ifs4; while w1, w2, w3, w4; variable v; constant const; stmt s1, s2, s3, s4; procedure p; stmt n1, n2; call c1, c2, c3, c4;
+Select s1 with s1.stmt# = 1 with 1 = 1 
+1
+5000
+34 - Cat 1 and 2 
+assign a, a1; read r1, r2, r3, r4; print pn1, pn2, pn3, pn4; if ifs1, ifs2, ifs3, ifs4; while w1, w2, w3, w4; variable v; constant const; stmt s1, s2, s3, s4; procedure p; stmt n1, n2; call c1, c2, c3, c4;
+Select s1 with s1.stmt# = 1 with 1 = 123 
+
+5000
+35 - Cat 1 and 3 
+assign a, a1; read r1, r2, r3, r4; print pn1, pn2, pn3, pn4; if ifs1, ifs2, ifs3, ifs4; while w1, w2, w3, w4; variable v; constant const; stmt s1, s2, s3, s4; procedure p; stmt n1, n2; call c1, c2, c3, c4;
+Select s1 with s1.stmt# = s2.stmt# with 1 = 1 
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21
+5000
+36 - Cat 1 and 3 
+assign a, a1; read r1, r2, r3, r4; print pn1, pn2, pn3, pn4; if ifs1, ifs2, ifs3, ifs4; while w1, w2, w3, w4; variable v; constant const; stmt s1, s2, s3, s4; procedure p; stmt n1, n2; call c1, c2, c3, c4;
+Select s1 with s1.stmt# = s2.stmt# with 1 = 2
+
+5000
+37 - Cat 1 and 4
+assign a, a1; read r1, r2, r3, r4; print pn1, pn2, pn3, pn4; if ifs1, ifs2, ifs3, ifs4; while w1, w2, w3, w4; variable v; constant const; stmt s1, s2, s3, s4; procedure p; stmt n1, n2; call c1, c2, c3, c4;
+Select s1 with s1.stmt# = r1.stmt# with 1 = 2
+
+5000
+38 - Cat 1 and 4
+assign a, a1; read r1, r2, r3, r4; print pn1, pn2, pn3, pn4; if ifs1, ifs2, ifs3, ifs4; while w1, w2, w3, w4; variable v; constant const; stmt s1, s2, s3, s4; procedure p; stmt n1, n2; call c1, c2, c3, c4;
+Select s1 with s1.stmt# = r1.stmt# with 1 = 1
+1, 2, 19, 21
+5000
+39 - Cat 1 and 4
+assign a, a1; read r1, r2, r3, r4; print pn1, pn2, pn3, pn4; if ifs1, ifs2, ifs3, ifs4; while w1, w2, w3, w4; variable v; constant const; stmt s1, s2, s3, s4; procedure p; stmt n1, n2; call c1, c2, c3, c4;
+Select s1 with 1 = 2 with s1.stmt# = r1.stmt# 
+
+5000
+40 - Cat 1 and 4
+assign a, a1; read r1, r2, r3, r4; print pn1, pn2, pn3, pn4; if ifs1, ifs2, ifs3, ifs4; while w1, w2, w3, w4; variable v; constant const; stmt s1, s2, s3, s4; procedure p; stmt n1, n2; call c1, c2, c3, c4;
+Select s1 with 1 = 1 with s1.stmt# = r1.stmt# 
+1, 2, 19, 21
+5000
+41 - Cat 2 and 4
+assign a, a1; read r1, r2, r3, r4; print pn1, pn2, pn3, pn4; if ifs1, ifs2, ifs3, ifs4; while w1, w2, w3, w4; variable v; constant const; stmt s1, s2, s3, s4; procedure p; stmt n1, n2; call c1, c2, c3, c4;
+Select s1 with s1.stmt# = r1.stmt# with s1.stmt# = 1
+1
+5000
+42 - Cat 2 and 4
+assign a, a1; read r1, r2, r3, r4; print pn1, pn2, pn3, pn4; if ifs1, ifs2, ifs3, ifs4; while w1, w2, w3, w4; variable v; constant const; stmt s1, s2, s3, s4; procedure p; stmt n1, n2; call c1, c2, c3, c4;
+Select r1 with s1.stmt# = r1.stmt# with s1.stmt# = 1
+1
+5000
+43 - Cat 1 - true
+assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 with "x" = "x"
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21
+5000
+44 - Cat 1 - false
+assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 with "x" = "y"
+
+5000
+45 - Cat 1 - semantic
+assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 with "x" = 1
+SemanticError
+5000
+46 - Cat 1 - semantic
+assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 with 1 = "y"
+SemanticError
+5000
+47 - Cat 1 - syntax
+assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 with 1 = s1
+SyntaxError
+5000
+48 - syntax
+assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 with s1 = s1
+SyntaxError
+5000
+49 - syntax
+assign a, a1; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 with n1 = n2
+SyntaxError
+5000

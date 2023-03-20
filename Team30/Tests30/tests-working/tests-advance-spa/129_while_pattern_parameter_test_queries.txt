@@ -1,0 +1,45 @@
+1 - syn-syn
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select w pattern w(v,v)
+SyntaxError
+5000
+2 - syn-wild
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select w pattern w(v, _)
+1, 3
+5000
+3 - syn - var
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select w pattern w(v, "v")
+SemanticError
+5000
+4 - const-syn
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select w pattern w("v",_)
+
+5000
+5 - const-wild
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select w pattern w("v", _)
+
+5000
+6 - const - var
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select w pattern w("v", "v")
+SemanticError
+5000
+7 - wild-syn
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select w pattern w(_,v)
+SyntaxError
+5000
+8 - wild-wild
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select w pattern w(_, _)
+1,3
+5000
+9 - wild - var
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select w pattern w(_, "v")
+SemanticError
+5000

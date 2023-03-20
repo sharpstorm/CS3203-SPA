@@ -1,0 +1,151 @@
+1 - syn-syn overlap Modifies
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Modifies(s1, v)
+1, 2, 4, 5, 7, 9, 11, 12, 13, 14, 15, 16, 17, 19, 21, 10, 3, 6, 8
+5000
+2 - syn-syn no overlap Modifies
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Modifies(s2, v)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21
+5000
+3 - syn-wildcard overlap Modifies
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Modifies(s1, _)
+1, 2, 4, 5, 7, 9, 11, 12, 13, 14, 15, 16, 17, 19, 21, 10, 3, 6, 8
+5000
+4 - syn-wildcard no overlap Modifies
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Modifies(s2, _)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21
+5000
+5 - syn-constant overlap Modifies
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Modifies(s1, "x")
+1, 4, 7, 11, 15, 3, 10, 6
+5000
+6 - syn-constant no overlap Modifies
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Modifies(s2, "x")
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21
+5000
+7 - wildcard-wildcard Modifies
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Modifies(_, _)
+SemanticError
+5000
+8 - wildcard-syn Modifies
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Modifies(_, v)
+SemanticError
+5000
+9 - wildcard-const Modifies
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Modifies(_, "v")
+SemanticError
+5000
+10  const-syn - exist Modifies
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Modifies(1, v)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21
+5000
+11  const-wildcard - exist Modifies
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Modifies(1, _)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21
+5000
+12  const-const - exist Modifies
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Modifies(1, "x")
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21
+5000
+13  const-syn - dont exist Modifies
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Modifies(20, v)
+
+5000
+14  const-wildcard - dont exist Modifies
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Modifies(20, _)
+
+5000
+15  const-const - dont exist Modifies
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Modifies(20, "x")
+
+5000
+16 - syn-syn overlap Uses
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Uses(s1, v)
+3,6,7,8,9,10,11,13,14,15,17,18,20
+5000
+17 - syn-syn no overlap Uses
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Uses(s2, v)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21
+5000
+18 - syn-wildcard overlap Uses
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Uses(s1, _)
+3,6,7,8,9,10,11,13,14,15,17,18,20
+5000
+19 - syn-wildcard no overlap Uses
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Uses(s2, _)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21
+5000
+20 - syn-constant overlap Uses
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Uses(s1, "x")
+10,11,13,15,18,3,6,7,8
+5000
+21 - syn-constant no overlap Uses
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Uses(s2, "x")
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21
+5000
+22 - wildcard-wildcard Uses
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Uses(_, _)
+SemanticError
+5000
+23 - wildcard-syn Uses
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Uses(_, v)
+SemanticError
+5000
+24 - wildcard-const Uses
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Uses(_, "v")
+SemanticError
+5000
+25  const-syn - exist Uses
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Uses(20, v)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21
+5000
+26  const-wildcard - exist Uses
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Uses(20, _)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21
+5000
+27  const-const - exist Uses
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Uses(20, "Second")
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21
+5000
+28  const-syn - dont exist Uses
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Uses(1, v)
+
+5000
+29  const-wildcard - dont exist Uses
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Uses(1, _)
+
+5000
+30  const-const - dont exist Uses
+assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
+Select s1 such that Uses(1, "x")
+
+5000
+

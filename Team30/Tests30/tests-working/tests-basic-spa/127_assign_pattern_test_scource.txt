@@ -1,0 +1,6 @@
+procedure test {
+  a = b + c + d + e;
+  abc = b + c * d + e + f;
+  a = (b + c) + (d + e);
+  a = (a+b)+(c+d)+(d+e)+(f+g)+(h+i)+(j+k)+(l+m)+(n+0) * (1+2+3+4);
+}

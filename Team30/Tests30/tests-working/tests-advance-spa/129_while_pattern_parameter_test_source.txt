@@ -1,0 +1,16 @@
+procedure ifTest {
+
+  while (a+b+c+d+e == 1) {
+    read abc;
+  }
+
+  while ((x<0)&&(y>0)) {
+    read abc;
+  }
+
+
+  while (1+2+3+4-1 == 0) {
+    print abc;
+  }
+
+}
