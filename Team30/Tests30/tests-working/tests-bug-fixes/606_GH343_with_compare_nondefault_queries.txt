@@ -1,0 +1,5 @@
+1 - Select const with const.value = 1 - With clause rhs const = value
+read r1, r2;
+Select <r1, r2> with r1.varName = r2.varName with r1.stmt# = 1 and r2.stmt# = 2
+1 2
+5000
