@@ -40,6 +40,13 @@ void QueryGrouper::initIndex() {
   for (auto it = selections->begin(); it != selections->end(); it++) {
     groupIndex.insertSelection(it->getName());
   }
+
+  auto constraints = query->getConstraints();
+  for (ConstraintSPtr constraint : constraints) {
+    for (PQLSynonymName syn : constraint->getAffectedSyns()) {
+      groupIndex.insertConstraint(syn);
+    }
+  }
 }
 
 void QueryGrouper::findGroups(vector<QueryGroupPtr>* result) {
@@ -87,9 +94,9 @@ void QueryGrouper::registerSeenSynonym(PQLSynonymName name,
 }
 
 void QueryGrouper::queueClauses(queue<PlanNode> *target,
-                                       PlanNodes *values,
-                                       QueryGroup *result,
-                                       int parentClauseId) {
+                                PlanNodes *values,
+                                QueryGroup *result,
+                                int parentClauseId) {
   if (values == nullptr) {
     return;
   }
@@ -126,7 +133,8 @@ QueryGroupPtr QueryGrouper::makeSelectClause(const PQLSynonymName &name) {
   PQLQuerySynonymProxy* synProxy = query->getVariable(name);
   IEvaluatableSPtr selectClause = make_shared<SelectClause>(*synProxy);
 
-  QueryGroupPtr selectGroup = make_unique<QueryGroup>();
+  QueryGroupPtr selectGroup = make_unique<QueryGroup>(
+      !groupIndex.isConstrained(name));
   selectGroup->addEvaluatable(selectClause);
   return selectGroup;
 }

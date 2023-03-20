@@ -33,6 +33,10 @@ class OverrideConstraint : virtual public Constraint {
     return true;
   }
 
+  vector<PQLSynonymName> getAffectedSyns() override {
+    return vector<PQLSynonymName>{syn.getName()};
+  }
+
   bool validateConstraint() override {
     if (!syn.validateAttribute()) {
       return false;

@@ -19,6 +19,10 @@ void QueryGrouperIndex::insertSelection(const PQLSynonymName &name) {
   selectSynonyms.insert(name);
 }
 
+void QueryGrouperIndex::insertConstraint(const PQLSynonymName &name) {
+  constrainSynonyms.insert(name);
+}
+
 bool QueryGrouperIndex::selectSynonym(const PQLSynonymName &name) {
   if (selectSynonyms.find(name) == selectSynonyms.end()) {
     return false;
@@ -34,4 +38,8 @@ unordered_set<PQLSynonymName>* QueryGrouperIndex::getSelectSynonyms() {
 
 bool QueryGrouperIndex::hasSelectables() {
   return selectSynonyms.size() > 0;
+}
+
+bool QueryGrouperIndex::isConstrained(const PQLSynonymName &name) {
+  return constrainSynonyms.find(name) != constrainSynonyms.end();
 }

@@ -12,6 +12,7 @@ class SynonymConstraint : virtual public Constraint {
       syn1(syn1), syn2(syn2) {}
   bool applyConstraint(SynonymProxyBuilder* varTableProxyBuilder,
                        OverrideTable* overrideTable);
+  vector<PQLSynonymName> getAffectedSyns() override;
   bool validateConstraint() {
     return true;
   }

@@ -13,12 +13,15 @@ class QueryGrouperIndex {
  private:
   unordered_map<PQLSynonymName, PlanNodes> synonymMap;
   unordered_set<PQLSynonymName> selectSynonyms;
+  unordered_set<PQLSynonymName> constrainSynonyms;
 
  public:
   PlanNodes* getUsages(const PQLSynonymName &key);
   void insertUsage(const PQLSynonymName &name, PlanNode value);
   void insertSelection(const PQLSynonymName &name);
+  void insertConstraint(const PQLSynonymName &name);
   bool selectSynonym(const PQLSynonymName &name);
   unordered_set<PQLSynonymName>* getSelectSynonyms();
   bool hasSelectables();
+  bool isConstrained(const PQLSynonymName &name);
 };

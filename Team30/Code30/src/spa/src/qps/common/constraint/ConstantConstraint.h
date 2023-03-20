@@ -17,6 +17,10 @@ class ConstantConstraint : virtual public Constraint {
     return leftArg->isStaticValueEqual(*rightArg);
   }
 
+  vector<PQLSynonymName> getAffectedSyns() override {
+    return vector<PQLSynonymName>{};
+  }
+
   bool validateConstraint() override {
     return leftArg->doesReturnInteger() == rightArg->doesReturnInteger();
   }
