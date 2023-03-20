@@ -133,3 +133,23 @@ assign a;
 Select BOOLEAN pattern a(_, _"g"_) such that Follows*(1, a) 
 FALSE
 5000
+28 - Boolean 2 Clause (Parent* , Pattern) - True
+assign a;
+Select BOOLEAN such that Parent*(12, a) pattern a("b", _)
+TRUE
+5000
+29 - Boolean 2 Clause (Parent* , Pattern) - False
+assign a;
+Select BOOLEAN such that Parent*(12, a) pattern a("g", _)
+FALSE
+5000
+30 - Boolean 2 Clause (Pattern , Parent*) - True
+assign a;
+Select BOOLEAN pattern a("b", _) such that Parent*(12, a)
+TRUE
+5000
+31 - Boolean 2 Clause (Pattern , Parent*) - False
+assign a;
+Select BOOLEAN pattern a("g", _) such that Parent*(12, a) 
+FALSE
+5000
