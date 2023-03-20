@@ -35,3 +35,7 @@ IEvaluatableSPtr QueryGroup::getEvaluatable(int evalId) {
 unordered_set<int> *QueryGroup::getRelated(int evalId) {
   return &edgeList[evalId];
 }
+
+bool QueryGroup::canBeEmpty() {
+  return canEmpty;
+}

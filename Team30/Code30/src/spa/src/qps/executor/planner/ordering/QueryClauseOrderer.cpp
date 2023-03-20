@@ -25,7 +25,8 @@ QueryGroupPlanPtr QueryClauseOrderer::orderClauses(QueryGroup *group) {
     populateQueue(&queuedClauses, &seenClauses, edges);
   }
 
-  return make_unique<QueryGroupPlan>(groupOrdering, group->getSelectables());
+  return make_unique<QueryGroupPlan>(groupOrdering, group->getSelectables(),
+                                     group->canBeEmpty());
 }
 
 void QueryClauseOrderer::populateQueue(queue<ClauseId> *target,

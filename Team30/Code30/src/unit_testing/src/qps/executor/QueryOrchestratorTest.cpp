@@ -55,7 +55,7 @@ TEST_CASE("Queries with Select only") {
 
     auto selectClause = shared_ptr<IEvaluatable>(new SelectClause(proxy));
     auto group = make_unique<QueryGroupPlan>(vector<IEvaluatableSPtr>{selectClause},
-                                             vector<PQLSynonymName>{"s"});
+                                             vector<PQLSynonymName>{"s"}, false);
     vector<QueryGroupPlanPtr> groups;
     groups.push_back(std::move(group));
     auto queryPlan = make_unique<QueryPlan>(std::move(groups));
@@ -87,7 +87,7 @@ TEST_CASE("Queries with Select only") {
     }, synList.get());
     auto selectClause = shared_ptr<SelectClause>(new SelectClause(proxy));
     auto group = make_unique<QueryGroupPlan>(vector<IEvaluatableSPtr>{selectClause},
-                                             vector<PQLSynonymName>{"ent"});
+                                             vector<PQLSynonymName>{"ent"}, false);
     vector<QueryGroupPlanPtr> groups;
     groups.push_back(std::move(group));
     auto queryPlan = make_unique<QueryPlan>(std::move(groups));

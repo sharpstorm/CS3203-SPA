@@ -162,7 +162,7 @@ TEST_CASE("End-to-End BOOLEAN Test") {
 
   // No clause, empty result BOOLEAN
   pipeline.query("call cl; Select BOOLEAN",
-                 {"FALSE"});
+                 {"TRUE"});
 }
 
 TEST_CASE("End-to-End No Clause") {

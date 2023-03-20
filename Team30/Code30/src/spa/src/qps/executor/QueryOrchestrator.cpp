@@ -24,10 +24,13 @@ SynonymResultTable *QueryOrchestrator::execute(
     PQLQueryResult* result = executeGroup(targetGroup, overrideTable);
 
     // If any of the result is empty, return FALSE / EmptyResultTable
-    if (result->isFalse()) {
+    if (result->isFalse() && !targetGroup->canBeEmpty()) {
       delete resultTable;
       delete result;
       return new SynonymResultTable(isBool, false);
+    } else if (result->isFalse() && targetGroup->canBeEmpty()) {
+      delete result;
+      continue;
     }
 
     if (targetGroup->isBooleanResult()) {

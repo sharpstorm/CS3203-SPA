@@ -1,6 +1,7 @@
 #pragma once
 
 #include <utility>
+#include <vector>
 
 #include "Constraint.h"
 #include "qps/clauses/arguments/WithArgument.h"
@@ -15,6 +16,10 @@ class ConstantConstraint : virtual public Constraint {
   bool applyConstraint(SynonymProxyBuilder* variableTable,
                        OverrideTable* overrideTable) override {
     return leftArg->isStaticValueEqual(*rightArg);
+  }
+
+  vector<PQLSynonymName> getAffectedSyns() override {
+    return vector<PQLSynonymName>{};
   }
 
   bool validateConstraint() override {

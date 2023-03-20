@@ -6,3 +6,7 @@ bool SynonymConstraint::applyConstraint
   varTableProxyBuilder->joinSynonyms(syn1, syn2);
   return true;
 }
+
+vector<PQLSynonymName> SynonymConstraint::getAffectedSyns() {
+  return vector<PQLSynonymName>{syn1, syn2};
+}

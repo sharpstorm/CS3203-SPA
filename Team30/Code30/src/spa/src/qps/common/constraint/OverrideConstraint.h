@@ -1,6 +1,8 @@
 #pragma once
 
 #include <string>
+#include <vector>
+
 #include "Constraint.h"
 #include "qps/common/PQLQuerySynonym.h"
 #include "OverrideTransformer.h"
@@ -31,6 +33,10 @@ class OverrideConstraint : virtual public Constraint {
 
     overrideTable->insert(synName, overrideTransformer);
     return true;
+  }
+
+  vector<PQLSynonymName> getAffectedSyns() override {
+    return vector<PQLSynonymName>{syn.getName()};
   }
 
   bool validateConstraint() override {
