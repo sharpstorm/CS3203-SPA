@@ -1,126 +1,126 @@
 1 - correct synonyms
 assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
-Select w pattern w("a", _, _)
+Select w pattern w("a", _)
 1
 5000
 2 - correct synonyms
 assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
-Select w pattern w("b", _, _)
+Select w pattern w("b", _)
 1
 5000
 3 - correct synonyms
 assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
-Select w pattern w("c", _, _)
+Select w pattern w("c", _)
 1
 5000
 4 - correct synonyms
 assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
-Select w pattern w("d", _, _)
+Select w pattern w("d", _)
 1
 5000
 5 - correct synonyms
 assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
-Select w pattern w("e", _, _)
+Select w pattern w("e", _)
 1
 5000
 6 - correct synonyms
 assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
-Select w pattern w("x", _, _)
+Select w pattern w("x", _)
 3
 5000
 7 - correct synonyms
 assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
-Select w pattern w(_, _, _)
+Select w pattern w(_, _)
 1, 3
 5000
 8 - No overlap
 assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
-Select pn pattern w("x", _, _)
+Select pn pattern w("x", _)
 6
 5000
 9 - No overlap
 assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
-Select r pattern w("x", _, _)
+Select r pattern w("x", _)
 2, 4
 5000
 10 - No overlap
 assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
-Select v pattern w("x", _, _)
+Select v pattern w("x", _)
 a, b, c, d, e, abc, x, y
 5000
 11 - No overlap
 assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
-Select const pattern w("x", _, _)
+Select const pattern w("x", _)
 1, 2, 3, 4, 0
 5000
 12 - No overlap
 assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
-Select s1 pattern w("x", _, _)
+Select s1 pattern w("x", _)
 1, 2, 3, 4, 5, 6
 5000
 13 - No overlap
 assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
-Select w pattern w("x", _, _)
+Select w pattern w("x", _)
 3
 5000
 14 -No overlap
 assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
-Select a pattern w("x", _, _)
+Select a pattern w("x", _)
 
 5000
 15 - No overlap
 assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
-Select p pattern w("x", _, _)
+Select p pattern w("x", _)
 ifTest
 5000
 16 - SyntaxError
 assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
-Select p pattern w(1, _, _)
+Select p pattern w(1, _)
 SyntaxError
 5000
 17 - SyntaxError
 assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
-Select p pattern w("x", 1, _)
+Select p pattern w("x", 1)
 SyntaxError
 5000
 18 - SyntaxError wrong spelling
 assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
-Select p patern w("x", 1, _)
+Select p patern w("x", 1)
 SyntaxError
 5000
 18 - SemanticError
 assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
-Select p pattern w(ifs, _, _)
+Select p pattern w(ifs, _)
 SemanticError
 5000
 19 - SemanticError
 assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
-Select p pattern w(a, _, _)
+Select p pattern w(a, _)
 SemanticError
 5000
 20 - SemanticError
 assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
-Select p pattern w(r, _, _)
+Select p pattern w(r, _)
 SemanticError
 5000
 21 - SemanticError
 assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
-Select p pattern w(const, _, _)
+Select p pattern w(const, _)
 SemanticError
 5000
 22 - SemanticError
 assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
-Select p pattern w(s1, _, _)
+Select p pattern w(s1, _)
 SemanticError
 5000
 23 - SemanticError
 assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
-Select p pattern w(p, _, _)
+Select p pattern w(p, _)
 SemanticError
 5000
 24 - correct syn
 assign a; read r; print pn; if ifs; while w; variable v; constant const; stmt s1, s2; procedure p; stmt n1, n2; call c;
-Select w pattern w(v, _, _)
+Select w pattern w(v, _)
 1, 3
 5000
 
