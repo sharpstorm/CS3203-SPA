@@ -1,0 +1,155 @@
+1 - Boolean Follows True
+
+Select BOOLEAN such that Follows(1,2)
+TRUE
+5000
+2 - Boolean Follows False
+
+Select BOOLEAN such that Follows(1,4)
+FALSE
+5000
+3 - Boolean Follows* True
+
+Select BOOLEAN such that Follows*(1,8)
+TRUE
+5000
+4 - Boolean Follows* False
+
+Select BOOLEAN such that Follows*(4,1)
+FALSE
+5000
+5 - Boolean Parent True
+
+Select BOOLEAN such that Parent(17,18)
+TRUE
+5000
+6 - Boolean Parent False 
+stmt s;
+Select BOOLEAN such that Parent(4,5)
+FALSE
+5000
+7 - Boolean Parent True (multi-output)
+stmt s;
+Select BOOLEAN such that Parent(9,s)
+TRUE
+5000
+8 - Boolean Parent* True
+
+Select BOOLEAN such that Parent*(12,14)
+TRUE
+5000
+9 - Boolean Parent* False 
+
+Select BOOLEAN such that Parent*(1,9)
+FALSE
+5000
+10 - Boolean Uses True
+
+Select BOOLEAN such that Uses(14,"c")
+TRUE
+5000
+11 - Boolean Uses False
+
+Select BOOLEAN such that Uses(14,"a")
+FALSE
+5000
+12 - Boolean Modifies True
+
+Select BOOLEAN such that Modifies(3,"c")
+TRUE
+5000
+13 - Boolean Modifies False
+
+Select BOOLEAN such that Modifies(7,"a")
+FALSE
+5000
+14 - Boolean Calls True
+
+Select BOOLEAN such that Calls("x","y")
+TRUE
+5000
+15 - Boolean Calls False
+
+Select BOOLEAN such that Calls("y","x")
+FALSE
+5000
+16 - Boolean Calls* True
+
+Select BOOLEAN such that Calls*("x","z")
+TRUE
+5000
+17 - Boolean Calls* False
+
+Select BOOLEAN such that Calls*("z","x")
+FALSE
+5000
+18 - Boolean Next True
+
+Select BOOLEAN such that Next(18,17)
+TRUE
+5000
+19 - Boolean Next False
+
+Select BOOLEAN such that Next(9,1)
+FALSE
+5000
+20 - Boolean Next* True
+
+Select BOOLEAN such that Next*(1,20)
+TRUE
+5000
+21 - Boolean Next* False
+
+Select BOOLEAN such that Next*(8,1)
+FALSE
+5000
+22 - Boolean Affects True
+
+Select BOOLEAN such that Affects(6,10)
+TRUE
+5000
+23 - Boolean Affects False
+
+Select BOOLEAN such that Affects(5,10)
+FALSE
+5000
+24 - Boolean 2 Clause (Follows* , Pattern) - True
+assign a;
+Select BOOLEAN such that Follows*(1, a) pattern a(_, _"c"_)
+TRUE
+5000
+25 - Boolean 2 Clause (Follows* , Pattern) - False
+assign a;
+Select BOOLEAN such that Follows*(1, a) pattern a(_, _"g"_)
+FALSE
+5000
+26 - Boolean 2 Clause (Pattern , Follows*) - True
+assign a;
+Select BOOLEAN pattern a(_, _"c"_) such that Follows*(1, a)
+TRUE
+5000
+27 - Boolean 2 Clause (Pattern , Follows*) - False
+assign a;
+Select BOOLEAN pattern a(_, _"g"_) such that Follows*(1, a) 
+FALSE
+5000
+28 - Boolean 2 Clause (Parent* , Pattern) - True
+assign a;
+Select BOOLEAN such that Parent*(12, a) pattern a("b", _)
+TRUE
+5000
+29 - Boolean 2 Clause (Parent* , Pattern) - False
+assign a;
+Select BOOLEAN such that Parent*(12, a) pattern a("g", _)
+FALSE
+5000
+30 - Boolean 2 Clause (Pattern , Parent*) - True
+assign a;
+Select BOOLEAN pattern a("b", _) such that Parent*(12, a)
+TRUE
+5000
+31 - Boolean 2 Clause (Pattern , Parent*) - False
+assign a;
+Select BOOLEAN pattern a("g", _) such that Parent*(12, a) 
+FALSE
+5000

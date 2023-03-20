@@ -1,0 +1,43 @@
+procedure x {
+  read a;
+  read b;
+  read c;
+  read d;
+  a = a + 1;
+  b = b + 2;
+  c = c + 3;
+  d = d + 4;
+  if (a > 5) then {
+    a = b + c;
+  } else {
+    a = 0;
+  }
+ 
+  if (b > 5) then {
+    if (b == c) then {
+      b = c + 1;
+    } else {
+      b = 0;
+    }
+  } else {
+    c = 1;
+  }
+  
+  while (d > 0) {
+    d = d + 1;
+  }
+
+  d = d + c;
+  call y;
+}
+
+procedure y {
+  num1 = 0;
+  print num1;
+  call z;
+}
+
+procedure z {
+  num2 = 0;
+  print num2;
+}
