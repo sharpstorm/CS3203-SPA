@@ -29,16 +29,13 @@ void PQLWithParser::parseWithClause(QueryTokenParseState *parserState,
   WithArgumentPtr left =
       PQLAttributeRefExtractor::extract(parserState, builder);
 
-  if (left == nullptr) {
-    return;
-  }
 
   parserState->expect(PQL_TOKEN_EQUALS);
 
   WithArgumentPtr right =
       PQLAttributeRefExtractor::extract(parserState, builder);
 
-  if (right == nullptr) {
+  if (left == nullptr || right == nullptr) {
     return;
   }
 
