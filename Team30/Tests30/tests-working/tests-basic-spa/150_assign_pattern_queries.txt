@@ -1,0 +1,165 @@
+1 - Full Expression Match, Reject Different Subtree
+assign a; variable v;
+Select a pattern a(v, "a + b + c + d")
+3,6
+5000
+2 - Full Expression Match but Partial
+assign a; variable v;
+Select a pattern a(v, _"a + b + c + d"_)
+3,6
+5000
+3 - Exact Match Variable Rejection
+assign a; variable v;
+Select a pattern a(v, "a")
+
+5000
+4 - Exact Match Constant Rejection
+assign a; variable v;
+Select a pattern a(v, "1")
+
+5000
+5 - Partial Match Variable
+assign a; variable v;
+Select a pattern a(v, _"a"_)
+3,4,5,6,7
+5000
+6 - Partial Match Constant
+assign a; variable v;
+Select a pattern a(v, _"1"_)
+8
+5000
+7 - Partial Match Variable
+assign a; variable v;
+Select a pattern a(v, _"c"_)
+3,4,5,6,7,8
+5000
+8 - Exact Match Expression Rejection
+assign a; variable v;
+Select a pattern a(v, "a + b")
+
+5000
+9 - Exact Match Term Rejection
+assign a; variable v;
+Select a pattern a(v, "b * c")
+
+5000
+10 - Partial Match Expression
+assign a; variable v;
+Select a pattern a(v, _"a + b"_)
+3,4,6
+5000
+11 - Partial Match Match Term
+assign a; variable v;
+Select a pattern a(v, _"b * c"_)
+8
+5000
+12 - Partial Match Different Subtrees
+assign a; variable v;
+Select a pattern a(v, _"b + c"_)
+5
+5000
+13 - Partial Match Different Subtrees
+assign a; variable v;
+Select a pattern a(v, _"c + d"_)
+4
+5000
+14 - Partial Match Different Subtrees
+assign a; variable v;
+Select a pattern a(v, _"b + c + d"_)
+5
+5000
+15 - Partial Match Different Subtrees
+assign a; variable v;
+Select a pattern a(v, _"b + (c + d)"_)
+
+5000
+16 - Partial Match Different Subtrees
+assign a; variable v;
+Select a pattern a(v, _"a + b + c"_)
+3,6
+5000
+17 - Partial Match Different Subtrees
+assign a; variable v;
+Select a pattern a(v, _"b * d"_)
+9
+5000
+18 - Partial Match Different Subtrees
+assign a; variable v;
+Select a pattern a(v, _"e * f"_)
+9
+5000
+19 - Partial Match
+assign a; variable v;
+Select a pattern a(v, _"e * f * g"_)
+9
+5000
+20 - Partial Match Different Subtrees
+assign a; variable v;
+Select a pattern a(v, _"f * g"_)
+
+5000
+21 - Partial Match Different Subtrees
+assign a; variable v;
+Select a pattern a(v, _"j + j"_)
+
+5000
+22 - Partial Match
+assign a; variable v;
+Select a pattern a(v, _"e * f * g * j"_)
+9
+5000
+23 - Partial Match Different Subtrees
+assign a; variable v;
+Select a pattern a(v, _"e * (f * g) * j"_)
+
+5000
+24 - Partial Match Different Subtrees
+assign a; variable v;
+Select a pattern a(v, _"2 + b"_)
+
+5000
+25 - Partial Match Different Subtrees
+assign a; variable v;
+Select a pattern a(v, _"2 + b * d"_)
+9
+5000
+26 - Partial Match Different Subtrees
+assign a; variable v;
+Select a pattern a(v, _"(2 + b) * d"_)
+
+5000
+27 - Partial Match Different Subtrees
+assign a; variable v;
+Select a pattern a(v, _"2 + b * d + e * f"_)
+
+5000
+28 - Partial Match Different Subtrees
+assign a; variable v;
+Select a pattern a(v, _"2 + b * d + e * f * g * j"_)
+9
+5000
+29 - Partial Match Different Subtrees
+assign a; variable v;
+Select a pattern a(v, _"2 + b * d + e * f * g * j + j"_)
+9
+5000
+30 - Left Side Arg Wildcard
+assign a; variable v;
+Select a pattern a(_, _)
+3,4,5,6,7,8,9
+5000
+31 - Left Side Arg Constant
+assign a; variable v;
+Select a pattern a("x", _)
+3,4,5,6
+5000
+32 - Left Side Arg Syn
+assign a; variable v;
+Select <a, v> pattern a(v, _)
+3 x, 4 x, 5 x, 6 x, 7 y, 8 y, 9 y
+5000
+33 - Assign clause with restriction
+assign a; variable v;
+Select a pattern a(_, _) with a.stmt# = 5
+5
+5000
