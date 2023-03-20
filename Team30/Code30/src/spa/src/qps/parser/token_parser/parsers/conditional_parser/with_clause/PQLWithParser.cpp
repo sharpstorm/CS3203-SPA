@@ -93,12 +93,14 @@ ConstraintSPtr PQLWithParser::handleOverride(WithArgumentPtr left,
 ConstraintSPtr PQLWithParser::handleTwoSyns(WithArgumentPtr left,
                                             WithArgumentPtr right,
                                             QueryBuilder *builder) {
-  if (left->getSynType() == right->getSynType()) {
+  if (left->getSynType() == right->getSynType()
+      && !isNonDefaultCase(left->getAttrSyn())
+      && !isNonDefaultCase(right->getAttrSyn())) {
     return make_unique<SynonymConstraint>(left->getSynName(),
                                           right->getSynName());
   }
 
-  // Different Synonym Types
+  // Different Synonym Types, or non-default
   WithClausePtr withClause = make_unique<WithClause>(std::move(left),
                                                      std::move(right));
   builder->addWith(std::move(withClause));
