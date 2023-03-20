@@ -1,0 +1,84 @@
+procedure aaWhile {
+  while (x > 1) {
+    call ab;
+    while (x > 3) {
+      call ac;
+      while (x > 5) {
+        call ad;
+        while (x > 7) {
+          call ae;
+          while (x > 9) {
+            call af;
+            while (x > 11) {
+              call ag;
+              while (x > 13) {
+                call ah;
+                while (x > 15) {
+                  call ai;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  if (x > 17) then {
+    call ab;
+    if (x > 19) then {
+      call ac;
+      if (x > 21) then {
+        call ad;
+        if (x > 23) then {
+          call ae;
+          if (x > 25) then {
+            call af;
+          } else {
+            y = x;
+          }
+        } else {
+          y = x;
+        }
+      } else {
+        y = x;
+      }
+    } else {
+      y = x;
+    }
+  } else {
+    y = x;
+  }
+}
+
+procedure ab {
+  ab1 = ba2;
+}
+
+procedure ac {
+  ac1 = ca2;
+}
+
+procedure ad {
+  ad1 = da2;
+}
+
+procedure ae {
+  ae1 = ea2;
+}
+
+procedure af {
+  af1 = fa2;
+}
+
+procedure ag {
+  ag1 = ga2;
+}
+
+procedure ah {
+  ah1 = ha2;
+}
+
+procedure ai {
+  ai1 = ia2;
+}

@@ -1,0 +1,100 @@
+1 - Modifies and Uses Drilling
+
+Select BOOLEAN such that Modifies(1, "ai1") and Uses(1, "ia2")
+TRUE
+5000
+2 - Modifies While Scoping
+while w;
+Select w such that Modifies(w, "ai1")
+1,3,5,7,9,11,13,15
+5000
+3 - Modifies While Scoping
+while w;
+Select w such that Modifies(w, "ah1")
+1,3,5,7,9,11,13
+5000
+4 - Modifies While Scoping
+while w;
+Select w such that Modifies(w, "ag1")
+1,3,5,7,9,11
+5000
+5 - Modifies While Scoping
+while w;
+Select w such that Modifies(w, "ac1")
+1,3
+5000
+6 - Modifies While Pairwise
+while w; variable v;
+Select <w, v> such that Modifies(w, v)
+1 ab1, 1 ac1, 1 ad1, 1 ae1, 1 af1, 1 ag1, 1 ah1, 1 ai1, 3 ac1, 3 ad1, 3 ae1, 3 af1, 3 ag1, 3 ah1, 3 ai1, 5 ad1, 5 ae1, 5 af1, 5 ag1, 5 ah1, 5 ai1, 7 ae1, 7 af1, 7 ag1, 7 ah1, 7 ai1, 9 af1, 9 ag1, 9 ah1, 9 ai1, 11 ag1, 11 ah1, 11 ai1, 13 ah1, 13 ai1, 15 ai1
+5000
+7 - Uses While Scoping
+while w;
+Select w such that Uses(w, "ia2")
+1,3,5,7,9,11,13,15
+5000
+8 - Uses While Scoping
+while w;
+Select w such that Uses(w, "ha2")
+1,3,5,7,9,11,13
+5000
+9 - Uses While Scoping
+while w;
+Select w such that Uses(w, "ga2")
+1,3,5,7,9,11
+5000
+10 - Uses While Scoping
+while w;
+Select w such that Uses(w, "ca2")
+1,3
+5000
+11 - Uses While Pairwise
+while w; variable v;
+Select <w, v> such that Uses(w, v)
+1 x, 3 x, 5 x, 7 x, 9 x, 11 x, 13 x, 15 x, 1 ba2, 1 ca2, 1 da2, 1 ea2, 1 fa2, 1 ga2, 1 ha2, 1 ia2, 3 ca2, 3 da2, 3 ea2, 3 fa2, 3 ga2, 3 ha2, 3 ia2, 5 da2, 5 ea2, 5 fa2, 5 ga2, 5 ha2, 5 ia2, 7 ea2, 7 fa2, 7 ga2, 7 ha2, 7 ia2, 9 fa2, 9 ga2, 9 ha2, 9 ia2, 11 ga2, 11 ha2, 11 ia2, 13 ha2, 13 ia2, 15 ia2
+5000
+12 - Modifies and Uses Drilling
+
+Select BOOLEAN such that Modifies(17, "af1") and Uses(17, "fa2")
+TRUE
+5000
+13 - Modifies If Scoping
+if ifs;
+Select ifs such that Modifies(ifs, "af1")
+17,19,21,23,25
+5000
+14 - Modifies If Scoping
+if ifs;
+Select ifs such that Modifies(ifs, "ae1")
+17,19,21,23
+5000
+15 - Modifies If Scoping
+if ifs;
+Select ifs such that Modifies(ifs, "ab1")
+17
+5000
+16 - Modifies If Pairwise
+if ifs; variable v;
+Select <ifs, v> such that Modifies(ifs, v)
+17 y, 19 y, 21 y, 23 y, 25 y, 17 ab1, 17 ac1, 17 ad1, 17 ae1, 17 af1, 19 ac1, 19 ad1, 19 ae1, 19 af1, 21 ad1, 21 ae1, 21 af1, 23 ae1, 23 af1, 25 af1
+5000
+17 - Uses If Scoping
+if ifs;
+Select ifs such that Uses(ifs, "fa2")
+17,19,21,23,25
+5000
+18 - Uses If Scoping
+if ifs;
+Select ifs such that Uses(ifs, "ea2")
+17,19,21,23
+5000
+19 - Uses If Scoping
+if ifs;
+Select ifs such that Uses(ifs, "ba2")
+17
+5000
+20 - Uses If Pairwise
+if ifs; variable v;
+Select <ifs, v> such that Uses(ifs, v)
+17 x, 19 x, 21 x, 23 x, 25 x, 17 ba2, 17 ca2, 17 da2, 17 ea2, 17 fa2, 19 ca2, 19 da2, 19 ea2, 19 fa2, 21 da2, 21 ea2, 21 fa2, 23 ea2, 23 fa2, 25 fa2
+5000

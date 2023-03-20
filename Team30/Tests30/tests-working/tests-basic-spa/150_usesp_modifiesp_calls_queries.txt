@@ -1,0 +1,130 @@
+1 - ModifiesP Deep Drilling
+
+Select BOOLEAN such that Modifies("aa", "tj1")
+TRUE
+5000
+2 - Modifies Call Deep Drilling
+
+Select BOOLEAN such that Modifies(2, "tj1")
+TRUE
+5000
+3 - UsesP Deep Drilling
+
+Select BOOLEAN such that Uses("aa", "jt2")
+TRUE
+5000
+4 - Uses Call Deep Drilling
+
+Select BOOLEAN such that Uses(2, "jt2")
+TRUE
+5000
+5 - ModifiesP Deep Drilling
+
+Select BOOLEAN such that Modifies("aa", "tj1") and Modifies("aaWhile", "tj1") and Modifies("aaIf", "tj1")
+TRUE
+5000
+6 - Modifies Call Deep Drilling
+
+Select BOOLEAN such that Modifies(2, "tj1") and Modifies(5, "tj1") and Modifies(8, "tj1")
+TRUE
+5000
+7 - UsesP Deep Drilling
+
+Select BOOLEAN such that Uses("aa", "jt2") and Uses("aaWhile", "jt2") and Uses("aaIf", "jt2")
+TRUE
+5000
+8 - Uses Call Deep Drilling
+
+Select BOOLEAN such that Uses(2, "jt2") and Uses(5, "jt2") and Uses(8, "jt2")
+TRUE
+5000
+9 - Modifies Container Deep Drilling
+
+Select BOOLEAN such that Modifies(3, "tj1") and Modifies(6, "tj1")
+TRUE
+5000
+10 - Uses Container Deep Drilling
+
+Select BOOLEAN such that Uses(3, "jt2") and Uses(6, "jt2")
+TRUE
+5000
+11 - ModifiesP Deep Drilling
+variable v;
+Select v such that Modifies("aa", v)
+aa1,ab1,ac1,ad1,ae1,af1,ag1,ah1,ai1,aj1,ba1,bb1,bc1,bd1,be1,bf1,bg1,bh1,bi1,bj1,ca1,cb1,cc1,cd1,ce1,cf1,cg1,ch1,ci1,cj1,da1,db1,dc1,dd1,de1,df1,dg1,dh1,di1,dj1,ea1,eb1,ec1,ed1,ee1,ef1,eg1,eh1,ei1,ej1,fa1,fb1,fc1,fd1,fe1,ff1,fg1,fh1,fi1,fj1,ga1,gb1,gc1,gd1,ge1,gf1,gg1,gh1,gi1,gj1,ha1,hb1,hc1,hd1,he1,hf1,hg1,hh1,hi1,hj1,ia1,ib1,ic1,id1,ie1,if1,ig1,ih1,ii1,ij1,ja1,jb1,jc1,jd1,je1,jf1,jg1,jh1,ji1,jj1,ka1,kb1,kc1,kd1,ke1,kf1,kg1,kh1,ki1,kj1,la1,lb1,lc1,ld1,le1,lf1,lg1,lh1,li1,lj1,ma1,mb1,mc1,md1,me1,mf1,mg1,mh1,mi1,mj1,na1,nb1,nc1,nd1,ne1,nf1,ng1,nh1,ni1,nj1,oa1,ob1,oc1,od1,oe1,of1,og1,oh1,oi1,oj1,pa1,pb1,pc1,pd1,pe1,pf1,pg1,ph1,pi1,pj1,qa1,qb1,qc1,qd1,qe1,qf1,qg1,qh1,qi1,qj1,ra1,rb1,rc1,rd1,re1,rf1,rg1,rh1,ri1,rj1,sa1,sb1,sc1,sd1,se1,sf1,sg1,sh1,si1,sj1,ta1,tb1,tc1,td1,te1,tf1,tg1,th1,ti1,tj1
+5000
+12 - Modifies Calls Deep Drilling
+variable v;
+Select v such that Modifies(2, v)
+ab1,ac1,ad1,ae1,af1,ag1,ah1,ai1,aj1,ba1,bb1,bc1,bd1,be1,bf1,bg1,bh1,bi1,bj1,ca1,cb1,cc1,cd1,ce1,cf1,cg1,ch1,ci1,cj1,da1,db1,dc1,dd1,de1,df1,dg1,dh1,di1,dj1,ea1,eb1,ec1,ed1,ee1,ef1,eg1,eh1,ei1,ej1,fa1,fb1,fc1,fd1,fe1,ff1,fg1,fh1,fi1,fj1,ga1,gb1,gc1,gd1,ge1,gf1,gg1,gh1,gi1,gj1,ha1,hb1,hc1,hd1,he1,hf1,hg1,hh1,hi1,hj1,ia1,ib1,ic1,id1,ie1,if1,ig1,ih1,ii1,ij1,ja1,jb1,jc1,jd1,je1,jf1,jg1,jh1,ji1,jj1,ka1,kb1,kc1,kd1,ke1,kf1,kg1,kh1,ki1,kj1,la1,lb1,lc1,ld1,le1,lf1,lg1,lh1,li1,lj1,ma1,mb1,mc1,md1,me1,mf1,mg1,mh1,mi1,mj1,na1,nb1,nc1,nd1,ne1,nf1,ng1,nh1,ni1,nj1,oa1,ob1,oc1,od1,oe1,of1,og1,oh1,oi1,oj1,pa1,pb1,pc1,pd1,pe1,pf1,pg1,ph1,pi1,pj1,qa1,qb1,qc1,qd1,qe1,qf1,qg1,qh1,qi1,qj1,ra1,rb1,rc1,rd1,re1,rf1,rg1,rh1,ri1,rj1,sa1,sb1,sc1,sd1,se1,sf1,sg1,sh1,si1,sj1,ta1,tb1,tc1,td1,te1,tf1,tg1,th1,ti1,tj1
+5000
+13 - Modifies While Deep Drilling
+variable v;
+Select v such that Modifies(3, v)
+aa1,ab1,ac1,ad1,ae1,af1,ag1,ah1,ai1,aj1,ba1,bb1,bc1,bd1,be1,bf1,bg1,bh1,bi1,bj1,ca1,cb1,cc1,cd1,ce1,cf1,cg1,ch1,ci1,cj1,da1,db1,dc1,dd1,de1,df1,dg1,dh1,di1,dj1,ea1,eb1,ec1,ed1,ee1,ef1,eg1,eh1,ei1,ej1,fa1,fb1,fc1,fd1,fe1,ff1,fg1,fh1,fi1,fj1,ga1,gb1,gc1,gd1,ge1,gf1,gg1,gh1,gi1,gj1,ha1,hb1,hc1,hd1,he1,hf1,hg1,hh1,hi1,hj1,ia1,ib1,ic1,id1,ie1,if1,ig1,ih1,ii1,ij1,ja1,jb1,jc1,jd1,je1,jf1,jg1,jh1,ji1,jj1,ka1,kb1,kc1,kd1,ke1,kf1,kg1,kh1,ki1,kj1,la1,lb1,lc1,ld1,le1,lf1,lg1,lh1,li1,lj1,ma1,mb1,mc1,md1,me1,mf1,mg1,mh1,mi1,mj1,na1,nb1,nc1,nd1,ne1,nf1,ng1,nh1,ni1,nj1,oa1,ob1,oc1,od1,oe1,of1,og1,oh1,oi1,oj1,pa1,pb1,pc1,pd1,pe1,pf1,pg1,ph1,pi1,pj1,qa1,qb1,qc1,qd1,qe1,qf1,qg1,qh1,qi1,qj1,ra1,rb1,rc1,rd1,re1,rf1,rg1,rh1,ri1,rj1,sa1,sb1,sc1,sd1,se1,sf1,sg1,sh1,si1,sj1,ta1,tb1,tc1,td1,te1,tf1,tg1,th1,ti1,tj1
+5000
+14 - Modifies If Deep Drilling
+variable v;
+Select v such that Modifies(6, v)
+x,aa1,ab1,ac1,ad1,ae1,af1,ag1,ah1,ai1,aj1,ba1,bb1,bc1,bd1,be1,bf1,bg1,bh1,bi1,bj1,ca1,cb1,cc1,cd1,ce1,cf1,cg1,ch1,ci1,cj1,da1,db1,dc1,dd1,de1,df1,dg1,dh1,di1,dj1,ea1,eb1,ec1,ed1,ee1,ef1,eg1,eh1,ei1,ej1,fa1,fb1,fc1,fd1,fe1,ff1,fg1,fh1,fi1,fj1,ga1,gb1,gc1,gd1,ge1,gf1,gg1,gh1,gi1,gj1,ha1,hb1,hc1,hd1,he1,hf1,hg1,hh1,hi1,hj1,ia1,ib1,ic1,id1,ie1,if1,ig1,ih1,ii1,ij1,ja1,jb1,jc1,jd1,je1,jf1,jg1,jh1,ji1,jj1,ka1,kb1,kc1,kd1,ke1,kf1,kg1,kh1,ki1,kj1,la1,lb1,lc1,ld1,le1,lf1,lg1,lh1,li1,lj1,ma1,mb1,mc1,md1,me1,mf1,mg1,mh1,mi1,mj1,na1,nb1,nc1,nd1,ne1,nf1,ng1,nh1,ni1,nj1,oa1,ob1,oc1,od1,oe1,of1,og1,oh1,oi1,oj1,pa1,pb1,pc1,pd1,pe1,pf1,pg1,ph1,pi1,pj1,qa1,qb1,qc1,qd1,qe1,qf1,qg1,qh1,qi1,qj1,ra1,rb1,rc1,rd1,re1,rf1,rg1,rh1,ri1,rj1,sa1,sb1,sc1,sd1,se1,sf1,sg1,sh1,si1,sj1,ta1,tb1,tc1,td1,te1,tf1,tg1,th1,ti1,tj1
+5000
+15 - ModifiesP Deep Drilling Procedures
+procedure p;
+Select p such that Modifies(p, "tj1")
+aaWhile,aaIf,aa,ab,ac,ad,ae,af,ag,ah,ai,aj,ba,bb,bc,bd,be,bf,bg,bh,bi,bj,ca,cb,cc,cd,ce,cf,cg,ch,ci,cj,da,db,dc,dd,de,df,dg,dh,di,dj,ea,eb,ec,ed,ee,ef,eg,eh,ei,ej,fa,fb,fc,fd,fe,ff,fg,fh,fi,fj,ga,gb,gc,gd,ge,gf,gg,gh,gi,gj,ha,hb,hc,hd,he,hf,hg,hh,hi,hj,ia,ib,ic,id,ie,if,ig,ih,ii,ij,ja,jb,jc,jd,je,jf,jg,jh,ji,jj,ka,kb,kc,kd,ke,kf,kg,kh,ki,kj,la,lb,lc,ld,le,lf,lg,lh,li,lj,ma,mb,mc,md,me,mf,mg,mh,mi,mj,na,nb,nc,nd,ne,nf,ng,nh,ni,nj,oa,ob,oc,od,oe,of,og,oh,oi,oj,pa,pb,pc,pd,pe,pf,pg,ph,pi,pj,qa,qb,qc,qd,qe,qf,qg,qh,qi,qj,ra,rb,rc,rd,re,rf,rg,rh,ri,rj,sa,sb,sc,sd,se,sf,sg,sh,si,sj,ta,tb,tc,td,te,tf,tg,th,ti,tj
+5000
+16 - ModifiesP Deep Drilling Procedures
+call cl;
+Select cl such that Modifies(cl, "tj1")
+2, 5, 8, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 55, 57, 59, 61, 63, 65, 67, 69, 71, 73, 75, 77, 79, 81, 83, 85, 87, 89, 91, 93, 95, 97, 99, 101, 103, 105, 107, 109, 111, 113, 115, 117, 119, 121, 123, 125, 127, 129, 131, 133, 135, 137, 139, 141, 143, 145, 147, 149, 151, 153, 155, 157, 159, 161, 163, 165, 167, 169, 171, 173, 175, 177, 179, 181, 183, 185, 187, 189, 191, 193, 195, 197, 199, 201, 203, 205, 207, 209, 211, 213, 215, 217, 219, 221, 223, 225, 227, 229, 231, 233, 235, 237, 239, 241, 243, 245, 247, 249, 251, 253, 255, 257, 259, 261, 263, 265, 267, 269, 271, 273, 275, 277, 279, 281, 283, 285, 287, 289, 291, 293, 295, 297, 299, 301, 303, 305, 307, 309, 311, 313, 315, 317, 319, 321, 323, 325, 327, 329, 331, 333, 335, 337, 339, 341, 343, 345, 347, 349, 351, 353, 355, 357, 359, 361, 363, 365, 367, 369, 371, 373, 375, 377, 379, 381, 383, 385, 387, 389, 391, 393, 395, 397, 399, 401, 403, 405
+5000
+17 - Modifies Deep Drilling Container Synonym
+while w;
+Select w such that Modifies(w, "tj1")
+3
+5000
+18 - Modifies Deep Drilling Container Synonym
+if ifs;
+Select ifs such that Modifies(ifs, "tj1")
+6
+5000
+19 - Uses Deep Drilling
+variable v;
+Select v such that Uses("aa", v)
+aa2,ba2,ca2,da2,ea2,fa2,ga2,ha2,ia2,ja2,ab2,bb2,cb2,db2,eb2,fb2,gb2,hb2,ib2,jb2,ac2,bc2,cc2,dc2,ec2,fc2,gc2,hc2,ic2,jc2,ad2,bd2,cd2,dd2,ed2,fd2,gd2,hd2,id2,jd2,ae2,be2,ce2,de2,ee2,fe2,ge2,he2,ie2,je2,af2,bf2,cf2,df2,ef2,ff2,gf2,hf2,if2,jf2,ag2,bg2,cg2,dg2,eg2,fg2,gg2,hg2,ig2,jg2,ah2,bh2,ch2,dh2,eh2,fh2,gh2,hh2,ih2,jh2,ai2,bi2,ci2,di2,ei2,fi2,gi2,hi2,ii2,ji2,aj2,bj2,cj2,dj2,ej2,fj2,gj2,hj2,ij2,jj2,ak2,bk2,ck2,dk2,ek2,fk2,gk2,hk2,ik2,jk2,al2,bl2,cl2,dl2,el2,fl2,gl2,hl2,il2,jl2,am2,bm2,cm2,dm2,em2,fm2,gm2,hm2,im2,jm2,an2,bn2,cn2,dn2,en2,fn2,gn2,hn2,in2,jn2,ao2,bo2,co2,do2,eo2,fo2,go2,ho2,io2,jo2,ap2,bp2,cp2,dp2,ep2,fp2,gp2,hp2,ip2,jp2,aq2,bq2,cq2,dq2,eq2,fq2,gq2,hq2,iq2,jq2,ar2,br2,cr2,dr2,er2,fr2,gr2,hr2,ir2,jr2,as2,bs2,cs2,ds2,es2,fs2,gs2,hs2,is2,js2,at2,bt2,ct2,dt2,et2,ft2,gt2,ht2,it2,jt2
+5000
+20 - Uses Calls Deep Drilling
+variable v;
+Select v such that Uses(2, v)
+ba2,ca2,da2,ea2,fa2,ga2,ha2,ia2,ja2,ab2,bb2,cb2,db2,eb2,fb2,gb2,hb2,ib2,jb2,ac2,bc2,cc2,dc2,ec2,fc2,gc2,hc2,ic2,jc2,ad2,bd2,cd2,dd2,ed2,fd2,gd2,hd2,id2,jd2,ae2,be2,ce2,de2,ee2,fe2,ge2,he2,ie2,je2,af2,bf2,cf2,df2,ef2,ff2,gf2,hf2,if2,jf2,ag2,bg2,cg2,dg2,eg2,fg2,gg2,hg2,ig2,jg2,ah2,bh2,ch2,dh2,eh2,fh2,gh2,hh2,ih2,jh2,ai2,bi2,ci2,di2,ei2,fi2,gi2,hi2,ii2,ji2,aj2,bj2,cj2,dj2,ej2,fj2,gj2,hj2,ij2,jj2,ak2,bk2,ck2,dk2,ek2,fk2,gk2,hk2,ik2,jk2,al2,bl2,cl2,dl2,el2,fl2,gl2,hl2,il2,jl2,am2,bm2,cm2,dm2,em2,fm2,gm2,hm2,im2,jm2,an2,bn2,cn2,dn2,en2,fn2,gn2,hn2,in2,jn2,ao2,bo2,co2,do2,eo2,fo2,go2,ho2,io2,jo2,ap2,bp2,cp2,dp2,ep2,fp2,gp2,hp2,ip2,jp2,aq2,bq2,cq2,dq2,eq2,fq2,gq2,hq2,iq2,jq2,ar2,br2,cr2,dr2,er2,fr2,gr2,hr2,ir2,jr2,as2,bs2,cs2,ds2,es2,fs2,gs2,hs2,is2,js2,at2,bt2,ct2,dt2,et2,ft2,gt2,ht2,it2,jt2
+5000
+21 - Uses While Deep Drilling
+variable v;
+Select v such that Uses(3, v)
+x,aa2,ba2,ca2,da2,ea2,fa2,ga2,ha2,ia2,ja2,ab2,bb2,cb2,db2,eb2,fb2,gb2,hb2,ib2,jb2,ac2,bc2,cc2,dc2,ec2,fc2,gc2,hc2,ic2,jc2,ad2,bd2,cd2,dd2,ed2,fd2,gd2,hd2,id2,jd2,ae2,be2,ce2,de2,ee2,fe2,ge2,he2,ie2,je2,af2,bf2,cf2,df2,ef2,ff2,gf2,hf2,if2,jf2,ag2,bg2,cg2,dg2,eg2,fg2,gg2,hg2,ig2,jg2,ah2,bh2,ch2,dh2,eh2,fh2,gh2,hh2,ih2,jh2,ai2,bi2,ci2,di2,ei2,fi2,gi2,hi2,ii2,ji2,aj2,bj2,cj2,dj2,ej2,fj2,gj2,hj2,ij2,jj2,ak2,bk2,ck2,dk2,ek2,fk2,gk2,hk2,ik2,jk2,al2,bl2,cl2,dl2,el2,fl2,gl2,hl2,il2,jl2,am2,bm2,cm2,dm2,em2,fm2,gm2,hm2,im2,jm2,an2,bn2,cn2,dn2,en2,fn2,gn2,hn2,in2,jn2,ao2,bo2,co2,do2,eo2,fo2,go2,ho2,io2,jo2,ap2,bp2,cp2,dp2,ep2,fp2,gp2,hp2,ip2,jp2,aq2,bq2,cq2,dq2,eq2,fq2,gq2,hq2,iq2,jq2,ar2,br2,cr2,dr2,er2,fr2,gr2,hr2,ir2,jr2,as2,bs2,cs2,ds2,es2,fs2,gs2,hs2,is2,js2,at2,bt2,ct2,dt2,et2,ft2,gt2,ht2,it2,jt2
+5000
+22 - Uses If Deep Drilling
+variable v;
+Select v such that Uses(6, v)
+x,aa2,ba2,ca2,da2,ea2,fa2,ga2,ha2,ia2,ja2,ab2,bb2,cb2,db2,eb2,fb2,gb2,hb2,ib2,jb2,ac2,bc2,cc2,dc2,ec2,fc2,gc2,hc2,ic2,jc2,ad2,bd2,cd2,dd2,ed2,fd2,gd2,hd2,id2,jd2,ae2,be2,ce2,de2,ee2,fe2,ge2,he2,ie2,je2,af2,bf2,cf2,df2,ef2,ff2,gf2,hf2,if2,jf2,ag2,bg2,cg2,dg2,eg2,fg2,gg2,hg2,ig2,jg2,ah2,bh2,ch2,dh2,eh2,fh2,gh2,hh2,ih2,jh2,ai2,bi2,ci2,di2,ei2,fi2,gi2,hi2,ii2,ji2,aj2,bj2,cj2,dj2,ej2,fj2,gj2,hj2,ij2,jj2,ak2,bk2,ck2,dk2,ek2,fk2,gk2,hk2,ik2,jk2,al2,bl2,cl2,dl2,el2,fl2,gl2,hl2,il2,jl2,am2,bm2,cm2,dm2,em2,fm2,gm2,hm2,im2,jm2,an2,bn2,cn2,dn2,en2,fn2,gn2,hn2,in2,jn2,ao2,bo2,co2,do2,eo2,fo2,go2,ho2,io2,jo2,ap2,bp2,cp2,dp2,ep2,fp2,gp2,hp2,ip2,jp2,aq2,bq2,cq2,dq2,eq2,fq2,gq2,hq2,iq2,jq2,ar2,br2,cr2,dr2,er2,fr2,gr2,hr2,ir2,jr2,as2,bs2,cs2,ds2,es2,fs2,gs2,hs2,is2,js2,at2,bt2,ct2,dt2,et2,ft2,gt2,ht2,it2,jt2
+5000
+23 - UsesP Deep Drilling Procedures
+procedure p;
+Select p such that Uses(p, "jt2")
+aaWhile,aaIf,aa,ab,ac,ad,ae,af,ag,ah,ai,aj,ba,bb,bc,bd,be,bf,bg,bh,bi,bj,ca,cb,cc,cd,ce,cf,cg,ch,ci,cj,da,db,dc,dd,de,df,dg,dh,di,dj,ea,eb,ec,ed,ee,ef,eg,eh,ei,ej,fa,fb,fc,fd,fe,ff,fg,fh,fi,fj,ga,gb,gc,gd,ge,gf,gg,gh,gi,gj,ha,hb,hc,hd,he,hf,hg,hh,hi,hj,ia,ib,ic,id,ie,if,ig,ih,ii,ij,ja,jb,jc,jd,je,jf,jg,jh,ji,jj,ka,kb,kc,kd,ke,kf,kg,kh,ki,kj,la,lb,lc,ld,le,lf,lg,lh,li,lj,ma,mb,mc,md,me,mf,mg,mh,mi,mj,na,nb,nc,nd,ne,nf,ng,nh,ni,nj,oa,ob,oc,od,oe,of,og,oh,oi,oj,pa,pb,pc,pd,pe,pf,pg,ph,pi,pj,qa,qb,qc,qd,qe,qf,qg,qh,qi,qj,ra,rb,rc,rd,re,rf,rg,rh,ri,rj,sa,sb,sc,sd,se,sf,sg,sh,si,sj,ta,tb,tc,td,te,tf,tg,th,ti,tj
+5000
+24 - UsesP Deep Drilling Procedures
+call cl;
+Select cl such that Uses(cl, "jt2")
+2, 5, 8, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 55, 57, 59, 61, 63, 65, 67, 69, 71, 73, 75, 77, 79, 81, 83, 85, 87, 89, 91, 93, 95, 97, 99, 101, 103, 105, 107, 109, 111, 113, 115, 117, 119, 121, 123, 125, 127, 129, 131, 133, 135, 137, 139, 141, 143, 145, 147, 149, 151, 153, 155, 157, 159, 161, 163, 165, 167, 169, 171, 173, 175, 177, 179, 181, 183, 185, 187, 189, 191, 193, 195, 197, 199, 201, 203, 205, 207, 209, 211, 213, 215, 217, 219, 221, 223, 225, 227, 229, 231, 233, 235, 237, 239, 241, 243, 245, 247, 249, 251, 253, 255, 257, 259, 261, 263, 265, 267, 269, 271, 273, 275, 277, 279, 281, 283, 285, 287, 289, 291, 293, 295, 297, 299, 301, 303, 305, 307, 309, 311, 313, 315, 317, 319, 321, 323, 325, 327, 329, 331, 333, 335, 337, 339, 341, 343, 345, 347, 349, 351, 353, 355, 357, 359, 361, 363, 365, 367, 369, 371, 373, 375, 377, 379, 381, 383, 385, 387, 389, 391, 393, 395, 397, 399, 401, 403, 405
+5000
+25 - Uses Deep Drilling Container Synonym
+while w;
+Select w such that Uses(w, "jt2")
+3
+5000
+26 - Uses Deep Drilling Container Synonym
+if ifs;
+Select ifs such that Uses(ifs, "jt2")
+6
+5000
