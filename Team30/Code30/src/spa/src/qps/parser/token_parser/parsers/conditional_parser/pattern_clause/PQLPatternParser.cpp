@@ -78,8 +78,8 @@ PatternClausePtr PQLPatternParser::dispatchTwoArg(
   }
 
   PQLQuerySynonymProxy synProxy = *synonym;
-  if (synProxy->isType(PQL_SYN_TYPE_IF) && secondArg->isWildcard()) {
-    return make_unique<IfPatternClause>(synProxy, std::move(firstArg));
+  if (synProxy->isType(PQL_SYN_TYPE_WHILE) && secondArg->isWildcard()) {
+    return make_unique<WhilePatternClause>(synProxy, std::move(firstArg));
   }
 
   if (synProxy->isType(PQL_SYN_TYPE_ASSIGN)) {
@@ -98,11 +98,11 @@ PatternClausePtr PQLPatternParser::dispatchThreeArg(
     throw QPSParserSyntaxError(QPS_PARSER_ERR_UNEXPECTED);
   }
 
-  if (synonym == nullptr || !(*synonym)->isType(PQL_SYN_TYPE_WHILE)) {
+  if (synonym == nullptr || !(*synonym)->isType(PQL_SYN_TYPE_IF)) {
     return nullptr;
   }
 
-  return make_unique<WhilePatternClause>(*synonym, std::move(firstArg));
+  return make_unique<IfPatternClause>(*synonym, std::move(firstArg));
 }
 
 IntermediateExpressionArgumentPtr PQLPatternParser::extractExpression(

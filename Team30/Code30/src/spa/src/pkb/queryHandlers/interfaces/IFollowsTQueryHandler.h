@@ -1,11 +1,11 @@
 #pragma once
 
 #include "common/Types.h"
+#include "pkb/queryHandlers/BaseQueryHandler.h"
 
-class IFollowsTQueryHandler {
+class IFollowsTQueryHandler : virtual public PkbStmtStmtQueryHandler {
  public:
-  virtual ~IFollowsTQueryHandler() {}
-  virtual QueryResult<StmtValue, StmtValue> queryFollowsStar(StmtRef,
-                                                             StmtRef) const = 0;
+  virtual ~IFollowsTQueryHandler() = default;
+  using PkbStmtStmtQueryHandler::query;
 };
 

@@ -2,34 +2,45 @@
 
 #include <string>
 #include <unordered_set>
+#include <vector>
 
-#include "IAssignsQueryHandler.h"
-#include "ICFGsQueryHandler.h"
-#include "ICallsQueryHandler.h"
-#include "ICallsTQueryHandler.h"
-#include "IDesignEntitiesQueryHandler.h"
-#include "IFollowsQueryHandler.h"
-#include "IIfPatternQueryHandler.h"
-#include "IModifiesQueryHandler.h"
-#include "IParentQueryHandler.h"
-#include "IUsesQueryHandler.h"
-#include "IWhilePatternQueryHandler.h"
-#include "IFollowsTQueryHandler.h"
-#include "IParentTQueryHandler.h"
+#include "common/pattern/PatternTrie.h"
 
-class IPkbQueryHandler : public IDesignEntitiesQueryHandler,
-                         public IFollowsQueryHandler,
-                         public IFollowsTQueryHandler,
-                         public IParentQueryHandler,
-                         public IParentTQueryHandler,
-                         public IModifiesQueryHandler,
-                         public IUsesQueryHandler,
-                         public ICallsQueryHandler,
-                         public ICallsTQueryHandler,
-                         public IIfPatternQueryHandler,
-                         public IWhilePatternQueryHandler,
-                         public IAssignsQueryHandler,
-                         public ICFGsQueryHandler {
+using std::string, std::unordered_set, std::vector;
+
+class IPkbQueryHandler {
  public:
   virtual ~IPkbQueryHandler() {}
+  virtual QueryResult<int, int> queryFollows(StmtRef, StmtRef) const = 0;
+  virtual QueryResult<int, int> queryFollowsStar(StmtRef, StmtRef) const = 0;
+  virtual QueryResult<int, int> queryParent(StmtRef, StmtRef) const = 0;
+  virtual QueryResult<int, int> queryParentStar(StmtRef, StmtRef) const = 0;
+  virtual QueryResult<int, string> queryUses(StmtRef, EntityRef) const = 0;
+  virtual QueryResult<string, string> queryUses(EntityRef, EntityRef) const = 0;
+  virtual QueryResult<int, string> queryModifies(StmtRef, EntityRef) const = 0;
+  virtual QueryResult<string, string> queryModifies(
+      EntityRef,
+      EntityRef) const = 0;
+  virtual QueryResult<int, PatternTrie *> queryAssigns(StmtRef) const = 0;
+  virtual QueryResult<string, string> queryCalls(
+      EntityRef, EntityRef) const = 0;
+  virtual QueryResult<string, string> queryCallsStar(
+      EntityRef,
+      EntityRef) const = 0;
+  virtual QueryResult<int, string> queryIfPattern(StmtRef, EntityRef) const = 0;
+  virtual QueryResult<int, string> queryWhilePattern(
+      StmtRef, EntityRef) const = 0;
+  virtual unordered_set<string> getSymbolsOfType(EntityType) const = 0;
+  virtual unordered_set<int> getStatementsOfType(StmtType) const = 0;
+  virtual StmtType getStatementType(int) const = 0;
+  virtual string getVariableByIndex(int) const = 0;
+  virtual string getConstantByIndex(int) const = 0;
+  virtual unordered_set<int> getIndexOfVariable(string) const = 0;
+  virtual unordered_set<int> getIndexOfConstant(string) const = 0;
+  virtual vector<CFG *> queryCFGs(StmtRef) const = 0;
+  virtual bool isStatementOfType(StmtType, int) const = 0;
+  virtual bool isSymbolOfType(EntityType, string) const = 0;
+  virtual string getCalledDeclaration(int) const = 0;
+  virtual string getReadDeclarations(int) const = 0;
+  virtual string getPrintDeclarations(int) const = 0;
 };

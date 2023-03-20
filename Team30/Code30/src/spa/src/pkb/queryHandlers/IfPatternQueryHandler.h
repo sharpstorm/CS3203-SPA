@@ -10,12 +10,8 @@
 
 using std::string;
 
-class IfPatternQueryHandler : private PkbStmtEntQueryHandler,
-    public IIfPatternQueryHandler {
+class IfPatternQueryHandler : public IIfPatternQueryHandler {
  public:
   explicit IfPatternQueryHandler(
       PkbStmtEntQueryInvoker *, IfPatternStorage *);
-
-  QueryResult<StmtValue, EntityValue> queryIfPattern(
-      StmtRef, EntityRef) const override;
 };

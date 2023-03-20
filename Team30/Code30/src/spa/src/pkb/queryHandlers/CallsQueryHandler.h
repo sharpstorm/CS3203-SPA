@@ -6,12 +6,9 @@
 #include "PkbEntEntQueryInvoker.h"
 #include "BaseQueryHandler.h"
 
-class CallsQueryHandler : private PkbEntEntQueryHandler,
-                          public ICallsQueryHandler {
+class CallsQueryHandler : public ICallsQueryHandler {
  public:
-  CallsQueryHandler(PkbEntEntQueryInvoker *,
-                    CallsStorage *);
-
-  QueryResult<EntityValue, EntityValue> queryCalls(EntityRef,
-                                                   EntityRef) const override;
+  CallsQueryHandler(
+      PkbEntEntQueryInvoker *,
+      CallsStorage *);
 };

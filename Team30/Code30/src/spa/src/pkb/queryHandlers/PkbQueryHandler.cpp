@@ -83,25 +83,25 @@ PkbQueryHandler::PkbQueryHandler(PKB *pkb)
 QueryResult<int, int> PkbQueryHandler::queryFollows(
     StmtRef s1,
     StmtRef s2) const {
-  return followsHandler->queryFollows(s1, s2);
+  return followsHandler->query(&s1, &s2);
 }
 
 QueryResult<int, int> PkbQueryHandler::queryFollowsStar(
     StmtRef s1,
     StmtRef s2) const {
-  return followsTHandler->queryFollowsStar(s1, s2);
+  return followsTHandler->query(&s1, &s2);
 }
 
 QueryResult<int, int> PkbQueryHandler::queryParent(
     StmtRef s1,
     StmtRef s2) const {
-  return parentHandler->queryParent(s1, s2);
+  return parentHandler->query(&s1, &s2);
 }
 
 QueryResult<int, int> PkbQueryHandler::queryParentStar(
     StmtRef s1,
     StmtRef s2) const {
-  return parentTHandler->queryParentStar(s1, s2);
+  return parentTHandler->query(&s1, &s2);
 }
 
 std::unordered_set<std::string> PkbQueryHandler::getSymbolsOfType(
@@ -137,24 +137,23 @@ StmtType PkbQueryHandler::getStatementType(int stmtNo) const {
 QueryResult<int, string> PkbQueryHandler::queryUses(
     StmtRef arg1,
     EntityRef arg2) const {
-  return usesHandler->queryUses(arg1, arg2);
+  return usesHandler->query(&arg1, &arg2);
 }
 
 QueryResult<string, string> PkbQueryHandler::queryUses(
     EntityRef arg1,
     EntityRef arg2) const {
-  return usesHandler->queryUses(arg1, arg2);
+  return usesHandler->query(&arg1, &arg2);
 }
-
 QueryResult<int, string> PkbQueryHandler::queryModifies(
     StmtRef arg1,
     EntityRef arg2) const {
-  return modifiesHandler->queryModifies(arg1, arg2);
+  return modifiesHandler->query(&arg1, &arg2);
 }
 
 QueryResult<string, string> PkbQueryHandler::queryModifies(
     EntityRef arg1, EntityRef arg2) const {
-  return modifiesHandler->queryModifies(arg1, arg2);
+  return modifiesHandler->query(&arg1, &arg2);
 }
 
 QueryResult<int, PatternTrie *> PkbQueryHandler::queryAssigns(
@@ -165,23 +164,23 @@ QueryResult<int, PatternTrie *> PkbQueryHandler::queryAssigns(
 QueryResult<string, string> PkbQueryHandler::queryCalls(
     EntityRef arg1,
     EntityRef arg2) const {
-  return callsHandler->queryCalls(arg1, arg2);
+  return callsHandler->query(&arg1, &arg2);
 }
 
 QueryResult<string, string> PkbQueryHandler::queryCallsStar(
     EntityRef arg1, EntityRef arg2) const {
-  return callsTHandler->queryCallsStar(arg1, arg2);
+  return callsTHandler->query(&arg1, &arg2);
 }
 
 QueryResult<int, string> PkbQueryHandler::queryIfPattern(
     StmtRef arg1,
     EntityRef arg2) const {
-  return ifPatternHandler->queryIfPattern(arg1, arg2);
+  return ifPatternHandler->query(&arg1, &arg2);
 }
 
 QueryResult<int, string> PkbQueryHandler::queryWhilePattern(
     StmtRef arg1, EntityRef arg2) const {
-  return whilePatternHandler->queryWhilePattern(arg1, arg2);
+  return whilePatternHandler->query(&arg1, &arg2);
 }
 
 vector<CFG *> PkbQueryHandler::queryCFGs(StmtRef arg1) const {

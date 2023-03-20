@@ -27,8 +27,7 @@ class AbstractAnyEntClause : public AbstractTwoArgClause {
         leftValidator, rightValidator>(table);
   }
 
-  PQLQueryResult* evaluateOn(PkbQueryHandler* pkbQueryHandler,
-                             OverrideTable* overrideTable) override {
+  PQLQueryResult* evaluateOn(const QueryExecutorAgent &agent) override {
     if (left->isWildcard()) {
       throw QPSParserSemanticError(QPS_PARSER_ERR_INVALID_WILDCARD);
     }
@@ -43,7 +42,7 @@ class AbstractAnyEntClause : public AbstractTwoArgClause {
 
     if (isLeftStatement) {
       constexpr SymmetricQueryInvoker<StmtValue, StmtRef> dummyInvoker =
-          [](PkbQueryHandler* pkbQueryHandler, const StmtRef &arg) ->
+          [](const QueryExecutorAgent &agent, const StmtRef &arg) ->
           unordered_set<StmtValue> {
         return unordered_set<StmtValue>{};
       };
@@ -52,11 +51,10 @@ class AbstractAnyEntClause : public AbstractTwoArgClause {
                                               Clause::toStmtRef,
                                               Clause::toEntityRef,
                                               stmtInvoker,
-                                              dummyInvoker>
-                                              (pkbQueryHandler, overrideTable);
+                                              dummyInvoker>(agent);
     } else {
       constexpr SymmetricQueryInvoker<EntityValue, EntityRef> dummyInvoker =
-          [](PkbQueryHandler* pkbQueryHandler, const EntityRef &arg) ->
+          [](const QueryExecutorAgent &agent, const EntityRef &arg) ->
           unordered_set<EntityValue> {
             return unordered_set<EntityValue>{};
           };
@@ -65,8 +63,7 @@ class AbstractAnyEntClause : public AbstractTwoArgClause {
                                               Clause::toEntityRef,
                                               Clause::toEntityRef,
                                               entInvoker,
-                                              dummyInvoker>
-                                              (pkbQueryHandler, overrideTable);
+                                              dummyInvoker>(agent);
     }
   }
 };

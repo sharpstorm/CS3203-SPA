@@ -7,20 +7,15 @@
 #include "PkbEntEntQueryInvoker.h"
 #include "interfaces/IModifiesQueryHandler.h"
 
-class ModifiesQueryHandler
-    : private PkbStmtEntQueryHandler,
-      private PkbEntEntQueryHandler,
-      public IModifiesQueryHandler {
+class ModifiesQueryHandler : public IModifiesQueryHandler {
  public:
-  ModifiesQueryHandler(PkbStmtEntQueryInvoker *,
-                       PkbEntEntQueryInvoker *,
-                       ModifiesStorage *,
-                       ModifiesPStorage *);
-  QueryResult<StmtValue, EntityValue> queryModifies(StmtRef,
-                                                    EntityRef) const override;
-  QueryResult<EntityValue, EntityValue> queryModifies(EntityRef,
-                                                      EntityRef) const override;
-  EntityValue getReadDeclarations(StmtValue) const override;
+  ModifiesQueryHandler(
+      PkbStmtEntQueryInvoker *,
+      PkbEntEntQueryInvoker *,
+      ModifiesStorage *,
+      ModifiesPStorage *);
+
+  EntityValue getReadDeclarations(StmtValue) const;
 
  private:
   const ModifiesStorage *modifiesStorage;

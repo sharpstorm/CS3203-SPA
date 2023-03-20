@@ -1,0 +1,200 @@
+1 - BUG REPORTED
+stmt s;
+Select s.value such that Follows(1,2)
+SemanticError
+5000
+2 - Invalid stmt attribute (procName)
+stmt s;
+Select s.procName such that Follows(1,2)
+SemanticError
+5000
+3 - Invalid stmt attribute (varName)
+stmt s;
+Select s.varName such that Follows(1,2)
+SemanticError
+5000
+4 - Valid stmt attribute (value)
+stmt s;
+Select s.stmt# such that Follows(1,2)
+1,2,3
+5000
+5 - Invalid read attribute (value)
+read r;
+Select r.value such that Follows(1,2)
+SemanticError
+5000
+6 - Invalid read attribute (procName)
+read r;
+Select r.procName such that Follows(1,2)
+SemanticError
+5000
+7 - Valid read attribute (varName)
+read r;
+Select r.varName such that Follows(1,2)
+
+5000
+8 - Valid read attribute (stmt#)
+read r;
+Select r.stmt# such that Follows(1,2)
+
+5000
+9 - Invalid print attribute (value)
+print p;
+Select p.value such that Follows(1,2)
+SemanticError
+5000
+10 - Invalid print attribute (procName)
+print p;
+Select p.procName such that Follows(1,2)
+SemanticError
+5000
+11 - Valid print attribute (varName)
+print p;
+Select p.varName such that Follows(1,2)
+
+5000
+12 - Valid print attribute (stmt#)
+print p;
+Select p.stmt# such that Follows(1,2)
+
+5000
+13 - Invalid call attribute (value)
+call c;
+Select c.value such that Follows(1,2)
+SemanticError
+5000
+14 - Valid call attribute (c.procName)
+call c;
+Select c.procName such that Follows(1,2)
+
+5000
+15 - Invalid call attribute (varName)
+call c;
+Select c.varName such that Follows(1,2)
+SemanticError
+5000
+16 - Valid call attribute (stmt#)
+call c;
+Select c.stmt# such that Follows(1,2)
+
+5000
+17 - Invalid while attribute (value)
+while w;
+Select w.value such that Follows(1,2)
+SemanticError
+5000
+18 - Invalid while attribute (w.procName)
+while w;
+Select w.procName such that Follows(1,2)
+SemanticError
+5000
+19 - Invalid while attribute (varName)
+while w;
+Select w.varName such that Follows(1,2)
+SemanticError
+5000
+20 - Valid while attribute (stmt#)
+while w;
+Select w.stmt# such that Follows(1,2)
+
+5000
+21 - Invalid if attribute (value)
+if ifs;
+Select ifs.value such that Follows(1,2)
+SemanticError
+5000
+22 - Invalid if attribute (ifs.procName)
+if ifs;
+Select ifs.procName such that Follows(1,2)
+SemanticError
+5000
+23 - Invalid if attribute (varName)
+if ifs;
+Select ifs.varName such that Follows(1,2)
+SemanticError
+5000
+24 - Valid if attribute (stmt#)
+if ifs;
+Select ifs.stmt# such that Follows(1,2)
+
+5000
+25 - Invalid assign attribute (value)
+assign a;
+Select a.value such that Follows(1,2)
+SemanticError
+5000
+26 - Invalid assign attribute (procName)
+assign a;
+Select a.procName such that Follows(1,2)
+SemanticError
+5000
+27 - Invalid assign attribute (varName)
+assign a;
+Select a.varName such that Follows(1,2)
+SemanticError
+5000
+28 - Valid assign attribute (stmt#)
+assign a;
+Select a.stmt# such that Follows(1,2)
+1,2,3
+5000
+29 - Invalid procedure attribute (value)
+procedure p;
+Select p.value such that Follows(1,2)
+SemanticError
+5000
+30 - Valid procedure attribute (procName)
+procedure p;
+Select p.procName such that Follows(1,2)
+Example
+5000
+31 - Invalid procedure attribute (varName)
+procedure p;
+Select p.varName such that Follows(1,2)
+SemanticError
+5000
+32 - Invalid procedure attribute (stmt#)
+procedure p;
+Select p.stmt# such that Follows(1,2)
+SemanticError
+5000
+33 - Invalid variable attribute (value)
+variable v;
+Select v.value such that Follows(1,2)
+SemanticError
+5000
+34 - Invalid variable attribute (procName)
+variable v;
+Select v.procName such that Follows(1,2)
+SemanticError
+5000
+35 - Valid variable attribute (varName)
+variable v;
+Select v.varName such that Follows(1,2)
+x,z,i
+5000
+36 - Invalid variable attribute (stmt#)
+variable v;
+Select v.stmt# such that Follows(1,2)
+SemanticError
+5000
+33 - Valid constant attribute (value)
+constant s;
+Select s.value such that Follows(1,2)
+2,3,5
+5000
+34 - Invalid constant attribute (procName)
+constant s;
+Select s.procName such that Follows(1,2)
+SemanticError
+5000
+35 - Invalid constant attribute (varName)
+constant s;
+Select s.varName such that Follows(1,2)
+SemanticError
+5000
+36 - Invalid constant attribute (stmt#)
+constant s;
+Select s.stmt# such that Follows(1,2)
+SemanticError
+5000

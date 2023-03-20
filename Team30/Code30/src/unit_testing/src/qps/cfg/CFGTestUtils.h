@@ -4,7 +4,8 @@
 
 class CFGTestUtils {
  public:
-  static bool dummyTypePredicate(int* state, StmtType type, StmtValue value) {
+  static bool dummyTypePredicate(const int &state, StmtType type,
+                                 StmtValue value) {
     return true;
   }
 };

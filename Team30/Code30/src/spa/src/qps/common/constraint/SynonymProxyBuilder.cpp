@@ -22,14 +22,13 @@ bool SynonymProxyBuilder::resolveOverrideMerging(OverrideTable *overrideTable) {
       continue;
     }
 
-    auto oldTransformer = overrideTable->find(i->first);
-    if (oldTransformer == overrideTable->end()) {
+    if (!overrideTable->contains(i->first)) {
       continue;
     }
+    OverrideTransformer oldTransformer = overrideTable->get(i->first);
 
-    auto newTransformer = overrideTable->find(newName);
-    if (newTransformer == overrideTable->end()) {
-      overrideTable->emplace(newName, oldTransformer->second);
+    if (!overrideTable->contains(newName)) {
+      overrideTable->insert(newName, oldTransformer);
       continue;
     }
     return false;

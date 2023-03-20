@@ -10,6 +10,8 @@ using std::string;
 class PQLSelectParser {
  public:
   void parse(QueryTokenParseState* parserState, QueryBuilder *queryBuilder);
+  static bool isValidAttribute(PQLSynonymType synType,
+                               PQLSynonymAttribute attrType);
 
  private:
   static void parseTuple(QueryTokenParseState* parserState,

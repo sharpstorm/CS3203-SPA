@@ -67,7 +67,7 @@ TEST_CASE("Affects Linear (Const, Const)") {
   auto pkbProvider =
       CFGTestModifiesUsesProvider({ "x", "y", "z", "w" },
                                   { {}, {}, {"x"},  {"y"} });
-  CFGTestAffectsQuerier querier(&cfg, &pkbProvider);
+  CFGTestAffectsQuerier querier(&cfg, pkbProvider);
 
   assertQueryAffectsNotEmpty(&querier, 1, {3});
   assertQueryAffectsNotEmpty(&querier, 2, {4});
@@ -83,7 +83,7 @@ TEST_CASE("Affects Linear (Const, _)") {
   auto pkbProvider =
       CFGTestModifiesUsesProvider({ "x", "y", "z", "w" },
                                   { {}, {}, {"x"}, {"y"} });
-  CFGTestAffectsQuerier querier(&cfg, &pkbProvider);
+  CFGTestAffectsQuerier querier(&cfg, pkbProvider);
 
   auto result = queryAffects(&querier, 1, 0);
   REQUIRE_FALSE(result.isEmpty);
@@ -115,7 +115,7 @@ TEST_CASE("Affects If No Through Path (Const, _)") {
       CFGTestModifiesUsesProvider({ "x", "", "x", "x", "x" },
                                   { {}, {"x"}, {"x"}, {}, {"x"} },
                                   { {2, StmtType::If} });
-  CFGTestAffectsQuerier querier(&cfg, &pkbProvider);
+  CFGTestAffectsQuerier querier(&cfg, pkbProvider);
 
   auto result = queryAffects(&querier, 1, 0);
   REQUIRE_FALSE(result.isEmpty);
@@ -151,7 +151,7 @@ TEST_CASE("Affects If Then Through Path (Const, _)") {
       CFGTestModifiesUsesProvider({ "x", "", "y", "x", "x" },
                                   { {}, {"x"}, {"x"}, {}, {"x"} },
                                   { {2, StmtType::If} });
-  CFGTestAffectsQuerier querier(&cfg, &pkbProvider);
+  CFGTestAffectsQuerier querier(&cfg, pkbProvider);
 
   auto result = queryAffects(&querier, 1, 0);
   REQUIRE_FALSE(result.isEmpty);
@@ -186,7 +186,7 @@ TEST_CASE("Affects If Else Through Path (Const, _)") {
       CFGTestModifiesUsesProvider({ "x", "", "x", "y", "x" },
                                   { {}, {"x"}, {"x"}, {}, {"x"} },
                                   { {2, StmtType::If} });
-  CFGTestAffectsQuerier querier(&cfg, &pkbProvider);
+  CFGTestAffectsQuerier querier(&cfg, pkbProvider);
 
   auto result = queryAffects(&querier, 1, 0);
   REQUIRE_FALSE(result.isEmpty);
@@ -221,7 +221,7 @@ TEST_CASE("Affects If Both Through Path (Const, _)") {
       CFGTestModifiesUsesProvider({ "x", "", "z", "y", "x" },
                                   { {}, {"x"}, {"x"}, {}, {"x"} },
                                   { {2, StmtType::If} });
-  CFGTestAffectsQuerier querier(&cfg, &pkbProvider);
+  CFGTestAffectsQuerier querier(&cfg, pkbProvider);
 
   auto result = queryAffects(&querier, 1, 0);
   REQUIRE_FALSE(result.isEmpty);
@@ -253,7 +253,7 @@ TEST_CASE("Affects While (Const, _)") {
       CFGTestModifiesUsesProvider({ "x", "", "x", "x" },
                                   { {}, {"x"}, {"x"}, {"x"} },
                                   { {2, StmtType::While} });
-  CFGTestAffectsQuerier querier(&cfg, &pkbProvider);
+  CFGTestAffectsQuerier querier(&cfg, pkbProvider);
 
   auto result = queryAffects(&querier, 1, 0);
   REQUIRE_FALSE(result.isEmpty);
@@ -285,7 +285,7 @@ TEST_CASE("Affects If No Through Path (_, Const)") {
       CFGTestModifiesUsesProvider({ "x", "", "x", "x", "x" },
                                   { {}, {"x"}, {"x"}, {}, {"x"} },
                                   { {2, StmtType::If} });
-  CFGTestAffectsQuerier querier(&cfg, &pkbProvider);
+  CFGTestAffectsQuerier querier(&cfg, pkbProvider);
 
   auto result = queryAffects(&querier, 0, 1);
   REQUIRE(result.isEmpty);
@@ -320,7 +320,7 @@ TEST_CASE("Affects If Then Through Path (_, Const)") {
       CFGTestModifiesUsesProvider({ "x", "", "y", "x", "x" },
                                   { {}, {"x"}, {"x"}, {"x"}, {"x"} },
                                   { {2, StmtType::If} });
-  CFGTestAffectsQuerier querier(&cfg, &pkbProvider);
+  CFGTestAffectsQuerier querier(&cfg, pkbProvider);
 
   auto result = queryAffects(&querier, 0, 1);
   REQUIRE(result.isEmpty);
@@ -356,7 +356,7 @@ TEST_CASE("Affects If Else Through Path (_, Const)") {
       CFGTestModifiesUsesProvider({ "x", "", "x", "y", "x" },
                                   { {}, {"x"}, {"x"}, {"x"}, {"x"} },
                                   { {2, StmtType::If} });
-  CFGTestAffectsQuerier querier(&cfg, &pkbProvider);
+  CFGTestAffectsQuerier querier(&cfg, pkbProvider);
 
   auto result = queryAffects(&querier, 0, 1);
   REQUIRE(result.isEmpty);
@@ -392,7 +392,7 @@ TEST_CASE("Affects If Both Through Path (_, Const)") {
       CFGTestModifiesUsesProvider({ "x", "", "z", "y", "x" },
                                   { {}, {"x"}, {"x"}, {"x"}, {"x"} },
                                   { {2, StmtType::If} });
-  CFGTestAffectsQuerier querier(&cfg, &pkbProvider);
+  CFGTestAffectsQuerier querier(&cfg, pkbProvider);
 
   auto result = queryAffects(&querier, 0, 1);
   REQUIRE(result.isEmpty);
@@ -426,7 +426,7 @@ TEST_CASE("Affects While (_, Const)") {
       CFGTestModifiesUsesProvider({ "x", "", "x", "x" },
                                   { {}, {"x"}, {"x"}, {"x"} },
                                   { {2, StmtType::While} });
-  CFGTestAffectsQuerier querier(&cfg, &pkbProvider);
+  CFGTestAffectsQuerier querier(&cfg, pkbProvider);
 
   auto result = queryAffects(&querier, 0, 1);
   REQUIRE(result.isEmpty);
@@ -456,7 +456,7 @@ TEST_CASE("Affects While No Mod in Loop (_, Const)") {
       CFGTestModifiesUsesProvider({ "x", "", "y", "x" },
                                   { {}, {"x"}, {"x"}, {"x"} },
                                   { {2, StmtType::While} });
-  CFGTestAffectsQuerier querier(&cfg, &pkbProvider);
+  CFGTestAffectsQuerier querier(&cfg, pkbProvider);
 
   auto result = queryAffects(&querier, 0, 1);
   REQUIRE(result.isEmpty);
@@ -488,7 +488,7 @@ TEST_CASE("Affects If No Through Path (_, _)") {
       CFGTestModifiesUsesProvider({ "x", "", "x", "x", "x" },
                                   { {}, {"x"}, {"x"}, {}, {"x"} },
                                   { {2, StmtType::If} });
-  CFGTestAffectsQuerier querier(&cfg, &pkbProvider);
+  CFGTestAffectsQuerier querier(&cfg, pkbProvider);
 
   auto result = StmtTransitiveResult();
   queryAffects(&querier, &result, 0, 0);
@@ -516,7 +516,7 @@ TEST_CASE("Affects If Then Through Path (_, _)") {
       CFGTestModifiesUsesProvider({ "x", "", "y", "x", "x" },
                                   { {}, {"x"}, {"x"}, {"x"}, {"x"} },
                                   { {2, StmtType::If} });
-  CFGTestAffectsQuerier querier(&cfg, &pkbProvider);
+  CFGTestAffectsQuerier querier(&cfg, pkbProvider);
 
   auto result = StmtTransitiveResult();
   queryAffects(&querier, &result, 0, 0);

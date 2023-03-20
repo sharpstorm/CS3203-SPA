@@ -278,47 +278,47 @@ TEST_CASE("End-to-End Assign Pattern Test") {
 TEST_CASE("End-to-End If Pattern Test") {
   auto pipeline = TestPipelineProvider();
 
-  pipeline.query("if ifs; Select ifs pattern ifs (\"x\", _)",
+  pipeline.query("if ifs; Select ifs pattern ifs (\"x\", _, _)",
                  {"6"});
 
-  pipeline.query("if ifs; variable v; Select ifs pattern ifs (v, _) with v.varName = \"x\"",
+  pipeline.query("if ifs; variable v; Select ifs pattern ifs (v, _, _) with v.varName = \"x\"",
                  {"6"});
 
-  pipeline.query("if ifs; Select ifs pattern ifs (\"y\", _)",
+  pipeline.query("if ifs; Select ifs pattern ifs (\"y\", _, _)",
                  {});
 
-  pipeline.query("if ifs; variable v; Select ifs pattern ifs (v, _) with v.varName = \"y\"",
+  pipeline.query("if ifs; variable v; Select ifs pattern ifs (v, _, _) with v.varName = \"y\"",
                  {});
 
-  pipeline.query("if ifs; variable v; Select <v, ifs> pattern ifs (v, _)",
+  pipeline.query("if ifs; variable v; Select <v, ifs> pattern ifs (v, _, _)",
                  {"x 6"});
 
-  pipeline.query("if ifs; Select ifs pattern ifs (_, _)",
+  pipeline.query("if ifs; Select ifs pattern ifs (_, _, _)",
                  {"6"});
 }
 
 TEST_CASE("End-to-End While Pattern Test") {
   auto pipeline = TestPipelineProvider();
 
-  pipeline.query("while while; Select while pattern while (\"i\", _, _)",
+  pipeline.query("while while; Select while pattern while (\"i\", _)",
                  {"4"});
 
-  pipeline.query("while while; variable v; Select while pattern while (v, _, _) with v.varName = \"i\"",
+  pipeline.query("while while; variable v; Select while pattern while (v, _) with v.varName = \"i\"",
                  {"4"});
 
-  pipeline.query("while while; Select while pattern while (\"x\", _, _)",
+  pipeline.query("while while; Select while pattern while (\"x\", _)",
                  {});
 
-  pipeline.query("while while; variable v; Select while pattern while (v, _, _) with v.varName =\"x\"",
+  pipeline.query("while while; variable v; Select while pattern while (v, _) with v.varName =\"x\"",
                  {});
 
-  pipeline.query("while while; variable v; Select <v, while> pattern while (v, _, _)",
+  pipeline.query("while while; variable v; Select <v, while> pattern while (v, _)",
                  {"i 4"});
 
-  pipeline.query("while while; Select while pattern while (_, _, _)",
+  pipeline.query("while while; Select while pattern while (_, _)",
                  {"4"});
 
-  pipeline.query("while w; Select w pattern w(_,_,_) such that Parent(w, 5)",
+  pipeline.query("while w; Select w pattern w(_,_) such that Parent(w, 5)",
                  {"4"});
 }
 
@@ -362,7 +362,7 @@ TEST_CASE("End-to-End Next Test") {
                  {
                      "1 2", "2 3", "3 4", "4 5", "4 12",
                      "5 6", "6 7", "6 8", "7 9", "8 9", "9 10",
-                     "10 11", "11 12", "11 4"});
+                     "10 11", "11 4"});
 
   pipeline.query("read r; Select r such that Next*(1, 12)",
                  { "10" });
@@ -593,4 +593,15 @@ TEST_CASE("With Const = Stmt Number Test") {
 
   pipeline.query("stmt s; constant c; Select c with s.stmt# = c.value",
                  {"1", "2", "3", "5"});
+}
+
+TEST_CASE("Affects Typing Test") {
+  auto pipeline = TestPipelineProvider();
+
+  pipeline.query("read r1; Select r1 such that Affects(r1, r1)",
+                 {});
+  pipeline.query("read r1, r2; Select r2 such that Affects(r1, r2) with r1.stmt# = r2.stmt#",
+                 {});
+  pipeline.query("stmt r1, r2; Select r2 such that Affects(r1, r2) with r1.stmt# = r2.stmt#",
+                 {"9", "11"});
 }

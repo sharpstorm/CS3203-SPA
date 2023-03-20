@@ -65,20 +65,7 @@ void CFGExtractor::visitWhile(WhileNode* node) {
 }
 
 void CFGExtractor::leaveWhile(WhileNode* node) {
-  stack<int> temp;
-  int value;
-  while (!clearableLastLines.empty()) {
-    value = clearableLastLines.top();
-    addCFGRelation(value, node->getLineNumber());
-    temp.push(value);
-    clearableLastLines.pop();
-  }
-
-  while (!temp.empty()) {
-    clearableLastLines.push(temp.top());
-    temp.pop();
-  }
-  clearableLastLines.push(node->getLineNumber());
+  advanceStatement(node);
 }
 
 void CFGExtractor::visitAssign(AssignNode *node) {

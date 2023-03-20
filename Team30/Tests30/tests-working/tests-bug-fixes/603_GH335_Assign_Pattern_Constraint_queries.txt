@@ -1,0 +1,5 @@
+1 - Select Pattern with constraint
+assign a;
+Select a with a.stmt# = 1 pattern a (_,_)
+1
+5000

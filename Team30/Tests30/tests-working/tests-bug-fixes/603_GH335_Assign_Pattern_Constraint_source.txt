@@ -1,0 +1,7 @@
+procedure heineken {
+    i = 2;
+    while (i == 0) {
+        i = 3;
+        read x;
+    }
+}

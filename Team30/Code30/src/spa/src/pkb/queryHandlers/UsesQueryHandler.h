@@ -7,19 +7,14 @@
 #include "PkbEntEntQueryInvoker.h"
 #include "interfaces/IUsesQueryHandler.h"
 
-class UsesQueryHandler
-    : private PkbStmtEntQueryHandler,
-      private PkbEntEntQueryHandler,
-      public IUsesQueryHandler {
+class UsesQueryHandler : public IUsesQueryHandler {
  public:
-  UsesQueryHandler(PkbStmtEntQueryInvoker *,
-                   PkbEntEntQueryInvoker *,
-                   UsesStorage *,
-                   UsesPStorage *);
-  QueryResult<StmtValue, EntityValue> queryUses(StmtRef,
-                                                EntityRef) const override;
-  QueryResult<EntityValue, EntityValue> queryUses(EntityRef,
-                                                  EntityRef) const override;
+  UsesQueryHandler(
+      PkbStmtEntQueryInvoker *,
+      PkbEntEntQueryInvoker *,
+      UsesStorage *,
+      UsesPStorage *);
+
   EntityValue getPrintDeclarations(StmtValue) const override;
 
  private:
