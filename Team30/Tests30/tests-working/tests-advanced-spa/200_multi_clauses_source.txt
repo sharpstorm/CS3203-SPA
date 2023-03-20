@@ -1,0 +1,25 @@
+procedure x {
+  x = 2 + a * xx + www * xxx / 123 * yyy;
+  y = 123 * yyy;
+  yyy = x;
+  www = 20;
+  if (www == 2) then {
+    x = 20;
+  } else {
+    y = 20;
+  }
+
+  while (yyy == 20) {
+    z = 10;
+  }
+
+  if (xx == 2) then {
+    x = 20;
+  } else {
+    y = 20;
+  }
+
+  while (www == 20) {
+    z = 10;
+  }
+}

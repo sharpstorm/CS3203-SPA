@@ -1,0 +1,4 @@
+procedure asdf {
+    x = 1;
+    call asdf;
+}

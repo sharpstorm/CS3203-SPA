@@ -1,0 +1,19 @@
+procedure a {
+ if (x == 1) then {
+   call b;
+ } else {
+   x = 2;
+ }
+}
+
+procedure b {
+  call c;
+}
+
+procedure c {
+  call d;
+}
+
+procedure d {
+  call a;
+}

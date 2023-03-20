@@ -1,0 +1,145 @@
+1 - Boolean Syn
+
+Select BOOLEAN
+TRUE
+5000
+2 - Boolean Syn
+stmt BOOLEAN;
+Select BOOLEAN
+1,2,3,4
+5000
+3 - Boolean Syn
+assign BOOLEAN;
+Select BOOLEAN
+1,2,3,4
+5000
+4 - Valid Syn, No Result
+read BOOLEAN;
+Select BOOLEAN
+
+5000
+5 - Misspelt Boolean
+stmt BOOLEAn;
+Select BOOLEAN
+TRUE
+5000
+6 - Misspelt Boolean
+stmt BOOLEAN;
+Select BOOLEAn
+SemanticError
+5000
+7 - Boolean Syn
+stmt BOOLEAN, s1;
+Select BOOLEAN such that Follows(BOOLEAN, s1)
+1,2,3
+5000
+8 - Boolean Syn
+stmt BOOLEAN, s1;
+Select BOOLEAN such that Follows(s1, BOOLEAN)
+2,3,4
+5000
+9 - Boolean Syn
+stmt BOOLEAN, s1;
+Select BOOLEAN such that Follows*(BOOLEAN, s1)
+1,2,3
+5000
+10 - Boolean Syn
+stmt BOOLEAN, s1;
+Select BOOLEAN such that Follows*(s1, BOOLEAN)
+2,3,4
+5000
+11 - Boolean Syn
+stmt BOOLEAN, s1;
+Select BOOLEAN such that Parent(BOOLEAN, s1)
+
+5000
+12 - Boolean Syn
+stmt BOOLEAN, s1;
+Select BOOLEAN such that Parent(s1, BOOLEAN)
+
+5000
+13 - Boolean Syn
+stmt BOOLEAN, s1;
+Select BOOLEAN such that Parent*(BOOLEAN, s1)
+
+5000
+14 - Boolean Syn
+stmt BOOLEAN, s1;
+Select BOOLEAN such that Parent*(s1, BOOLEAN)
+
+5000
+15 - Boolean Syn
+procedure BOOLEAN, p;
+Select BOOLEAN such that Calls(BOOLEAN, p)
+
+5000
+16 - Boolean Syn
+procedure BOOLEAN, s1;
+Select BOOLEAN such that Calls(s1, BOOLEAN)
+
+5000
+17 - Boolean Syn
+procedure BOOLEAN, s1;
+Select BOOLEAN such that Calls*(BOOLEAN, s1)
+
+5000
+18 - Boolean Syn
+procedure BOOLEAN, s1;
+Select BOOLEAN such that Calls*(s1, BOOLEAN)
+
+5000
+19 - Boolean Syn
+stmt BOOLEAN, s1;
+Select BOOLEAN such that Next(BOOLEAN, s1)
+1,2,3
+5000
+20 - Boolean Syn
+stmt BOOLEAN, s1;
+Select BOOLEAN such that Next(s1, BOOLEAN)
+2,3,4
+5000
+21 - Boolean Syn
+stmt BOOLEAN, s1;
+Select BOOLEAN such that Next*(BOOLEAN, s1)
+1,2,3
+5000
+22 - Boolean Syn
+stmt BOOLEAN, s1;
+Select BOOLEAN such that Next*(BOOLEAN, BOOLEAN)
+
+5000
+23 - Boolean Syn
+stmt BOOLEAN;
+Select BOOLEAN such that Modifies(BOOLEAN, _)
+1,2,3,4
+5000
+24 - Boolean Syn
+variable BOOLEAN; stmt s;
+Select BOOLEAN such that Modifies(s, BOOLEAN)
+a,b,c,d
+5000
+25 - Boolean Syn
+stmt BOOLEAN;
+Select BOOLEAN such that Uses(BOOLEAN, _)
+
+5000
+26 - Boolean Syn
+variable BOOLEAN; stmt s;
+Select BOOLEAN such that Uses(s, BOOLEAN)
+
+5000
+27 - Boolean Syn
+variable BOOLEAN; assign a;
+Select BOOLEAN pattern a(BOOLEAN, _) with a.stmt#=3
+c
+5000
+28 - Boolean Syn
+variable BOOLEAN; while w;
+Select BOOLEAN pattern w(BOOLEAN, _)
+
+5000
+29 - Boolean Syn
+variable BOOLEAN; if ifs;
+Select BOOLEAN pattern ifs(BOOLEAN, _, _)
+
+5000

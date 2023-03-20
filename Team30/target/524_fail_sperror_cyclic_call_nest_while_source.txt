@@ -1,0 +1,17 @@
+procedure a {
+ while (x == 1) {
+   call b;
+ }
+}
+
+procedure b {
+  call c;
+}
+
+procedure c {
+  call d;
+}
+
+procedure d {
+  call a;
+}

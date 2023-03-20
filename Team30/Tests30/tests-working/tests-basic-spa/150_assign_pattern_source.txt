@@ -1,0 +1,12 @@
+procedure ProcA {
+  read x;
+  print x;
+  x = a + b + c + d;
+  x = a + b + (c + d);
+  x = a + (b + c + d);
+  x = ((a + b) + c) + d;
+  
+  y = a * b * c * d;
+  y = 1 + b * c;
+  y = 2 + b * d + e * f * g * j + j;
+}
