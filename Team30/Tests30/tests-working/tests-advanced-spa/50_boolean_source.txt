@@ -1,0 +1,7 @@
+procedure x {
+    x = 10000;
+}
+
+procedure y {
+    print x;
+}
