@@ -3,9 +3,9 @@
 #include <vector>
 #include <memory>
 #include <string>
-#include <unordered_map>
 #include <unordered_set>
 #include <utility>
+
 #include "../../common/PQLTypes.h"
 #include "../../common/PQLQuery.h"
 #include "../../common/PQLQuerySynonym.h"
@@ -33,14 +33,14 @@ class QueryBuilder {
   void finalizeSynonymTable();
 
   PQLQuerySynonymProxy* accessSynonym(const PQLSynonymName &name);
-  void addSuchThat(unique_ptr<SuchThatClause> clause);
-  void addPattern(unique_ptr<PatternClause> clause);
-  void addWith(unique_ptr<WithClause> clause);
-  void addWithSelect(unique_ptr<WithSelectClause> clause);
+  void addSuchThat(SuchThatClausePtr clause);
+  void addPattern(PatternClausePtr clause);
+  void addWith(WithClausePtr clause);
+  void addWithSelect(WithSelectClausePtr clause);
   void addConstraint(ConstraintSPtr constraint);
 
   void setError(const string &msg);
-  unique_ptr<PQLQuery> build();
+  PQLQueryPtr build();
 };
 
 typedef unique_ptr<QueryBuilder> QueryBuilderPtr;

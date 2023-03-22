@@ -1,13 +1,12 @@
 #pragma once
 
 #include <string>
-#include <memory>
 #include "../common/PQLQuery.h"
 
-using std::string, std::unique_ptr;
+using std::string;
 
 class IQueryParser {
  public:
   virtual ~IQueryParser() = default;
-  virtual unique_ptr<PQLQuery> parseQuery(string*) = 0;
+  virtual PQLQueryPtr parseQuery(string*) = 0;
 };

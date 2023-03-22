@@ -4,7 +4,7 @@ PQLToken::PQLToken(PQLTokenType type):
     type(type) {
 }
 
-PQLToken::PQLToken(PQLTokenType type, const string &data):
+PQLToken::PQLToken(PQLTokenType type, const TokenData &data):
     type(type), tokenData(data) {
 }
 
@@ -15,23 +15,23 @@ bool PQLToken::operator==(const PQLToken& other) const {
   return type == other.type;
 }
 
-PQLTokenType PQLToken::getType() {
+PQLTokenType PQLToken::getType() const {
   return type;
 }
 
-string PQLToken::getData() {
+TokenData PQLToken::getData() const {
   return tokenData;
 }
 
-bool PQLToken::isType(PQLTokenType target) {
+bool PQLToken::isType(PQLTokenType target) const {
   return type == target;
 }
 
-bool PQLToken::isSynName() {
+bool PQLToken::isSynName() const {
   return ((type & PQL_TOKEN_CATEGORY_MASK)
       & PQL_TOKEN_SYN_MASK) > 0;
 }
 
-bool PQLToken::isCategory(PQLTokenCategory category) {
+bool PQLToken::isCategory(PQLTokenCategory category) const {
   return (type & PQL_TOKEN_CATEGORY_MASK) == category;
 }

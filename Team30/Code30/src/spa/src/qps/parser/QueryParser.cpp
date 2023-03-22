@@ -1,7 +1,4 @@
 #include "QueryParser.h"
-#include <vector>
-
-using std::vector, std::unique_ptr;
 
 QueryParser::QueryParser(ISourceExpressionParser *exprParser):
     exprParser(exprParser) {}
