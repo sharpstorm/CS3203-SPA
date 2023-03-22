@@ -17,38 +17,54 @@ typedef int StmtValue;
 typedef unordered_set<StmtValue> StmtValueSet;
 typedef unordered_set<EntityValue> EntityValueSet;
 
-template<typename Value, typename Type>
-struct IRef {
- public:
-  virtual ~IRef() {}
-  virtual bool isKnown() const = 0;
-  virtual Value getValue() const = 0;
-  virtual Type getType() const = 0;
-  virtual void setType(Type) = 0;
-};
+const StmtValue NO_STMT = 0;
+const char NO_ENT[] = "";
 
-struct StmtRef : public IRef<StmtValue, StmtType> {
-  StmtType type;
-  StmtValue lineNum;
-  StmtRef(StmtType type, StmtValue lineNum) : type(type), lineNum(lineNum) {}
-  bool isKnown() const override { return lineNum != 0; }
-  StmtValue getValue() const override { return lineNum; }
-  StmtType getType() const override { return type; }
-  void setType(StmtType newType) override {
+template<typename Value, typename Type>
+class IRef {
+ private:
+  Type type;
+  Value value;
+
+ protected:
+  IRef(const Type &type, const Value &value): type(type), value(value) {}
+
+ public:
+  virtual ~IRef() = default;
+  virtual bool isKnown() const = 0;
+
+  Value getValue() const {
+    return value;
+  }
+
+  Type getType() const {
+    return type;
+  }
+
+  bool isType(const Type &targetType) const {
+    return type == targetType;
+  }
+
+  void setType(Type newType) {
     type = newType;
   }
 };
 
-struct EntityRef : public IRef<EntityValue, EntityType> {
-  EntityType type;
-  EntityValue name;
-  explicit EntityRef(EntityType type) : type(type) {}
-  EntityRef(EntityType type, EntityValue name) : type(type), name(name) {}
-  bool isKnown() const override { return !name.empty(); }
-  EntityValue getValue() const override { return name; }
-  EntityType getType() const override { return type; }
-  void setType(EntityType newType) override {
-    type = newType;
+class StmtRef : public IRef<StmtValue, StmtType> {
+ public:
+  StmtRef(StmtType type, StmtValue lineNum) : IRef(type, lineNum) {}
+  bool isKnown() const override {
+    return getValue() != NO_STMT;
+  }
+};
+
+class EntityRef : public IRef<EntityValue, EntityType> {
+ public:
+  explicit EntityRef(EntityType type): IRef(type, NO_ENT) {}
+  EntityRef(EntityType type, EntityValue name) : IRef(type, name) {}
+
+  bool isKnown() const override {
+    return getValue() != NO_ENT;
   }
 };
 
