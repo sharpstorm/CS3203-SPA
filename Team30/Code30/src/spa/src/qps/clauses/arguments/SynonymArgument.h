@@ -8,6 +8,9 @@ class SynonymArgument: public ClauseArgument {
  private:
   PQLQuerySynonymProxy synProxy;
 
+  static EntityType convertToEntityType(PQLSynonymType type);
+  static StmtType convertToStmtType(PQLSynonymType type);
+
  public:
   explicit SynonymArgument(const PQLQuerySynonymProxy &synonym);
   bool synonymSatisfies(SynonymPredicate predicate) override;
