@@ -20,7 +20,6 @@ class ClauseArgument {
   virtual bool isWildcard();
 
   virtual PQLSynonymName getName();
-  virtual PQLQuerySynonym* getSyn();
   virtual StmtRef toStmtRef() = 0;
   virtual EntityRef toEntityRef() = 0;
 

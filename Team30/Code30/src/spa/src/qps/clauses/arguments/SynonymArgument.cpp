@@ -26,10 +26,6 @@ EntityRef SynonymArgument::toEntityRef() {
   return EntityRef{ entType, "" };
 }
 
-PQLQuerySynonym *SynonymArgument::getSyn() {
-  return synProxy.get();
-}
-
 EntityType SynonymArgument::convertToEntityType(PQLSynonymType type) {
   switch (type) {
     case PQL_SYN_TYPE_PROCEDURE:
