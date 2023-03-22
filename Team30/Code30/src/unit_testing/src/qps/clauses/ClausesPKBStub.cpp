@@ -12,7 +12,7 @@ class ClausesPKBStub : public StubPKB {
   QueryResult<int, int> queryFollows(StmtRef s1, StmtRef s2) const override {
     auto result = QueryResult<int, int>();
     // Static result but s2 > s1 (Does not hold)
-    if (s1.isKnown() && s2.isKnown() && s2.lineNum > s1.lineNum) {
+    if (s1.isKnown() && s2.isKnown() && s2.getValue() > s1.getValue()) {
       return result;
     }
 
@@ -22,7 +22,7 @@ class ClausesPKBStub : public StubPKB {
 
   QueryResult<int, int> queryFollowsStar(StmtRef s1,
                                          StmtRef s2) const override {
-    if (s1.isKnown() && s2.isKnown() && s2.lineNum > s1.lineNum) {
+    if (s1.isKnown() && s2.isKnown() && s2.getValue() > s1.getValue()) {
       return QueryResult<int, int>();
     }
 
@@ -31,7 +31,7 @@ class ClausesPKBStub : public StubPKB {
 
   QueryResult<int, int> queryParent(StmtRef s1, StmtRef s2) const override {
     auto result = QueryResult<int, int>();
-    if (s1.isKnown() && s2.isKnown() && s2.lineNum > s1.lineNum) {
+    if (s1.isKnown() && s2.isKnown() && s2.getValue() > s1.getValue()) {
       return result;
     }
 
@@ -40,7 +40,7 @@ class ClausesPKBStub : public StubPKB {
   };
 
   QueryResult<int, int> queryParentStar(StmtRef s1, StmtRef s2) const override {
-    if (s1.isKnown() && s2.isKnown() && s2.lineNum > s1.lineNum) {
+    if (s1.isKnown() && s2.isKnown() && s2.getValue() > s1.getValue()) {
       return QueryResult<int, int>();
     }
 
@@ -110,7 +110,7 @@ class ClausesPKBStub : public StubPKB {
                                          EntityRef e2) const override {
     QueryResult<string, string> result;
 
-    if (e1.type == EntityType::None && e2.type == EntityType::None) {
+    if (e1.isType(EntityType::None) && e2.isType(EntityType::None)) {
       // Both wildcards and Static Results
       return result;
     }
@@ -136,7 +136,7 @@ class ClausesPKBStub : public StubPKB {
                                              EntityRef e2) const override {
     QueryResult<string, string> result;
 
-    if (e1.type == EntityType::None && e2.type == EntityType::None) {
+    if (e1.isType(EntityType::None) && e2.isType(EntityType::None)) {
       // Both wildcards and Static Results
       return result;
     }

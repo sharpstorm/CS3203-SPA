@@ -18,10 +18,10 @@ PQLQueryResult *WithSelectClause::evaluateOn(const QueryExecutorAgent &agent) {
   unordered_set<int> pkbResult;
   if (stmtVar.isKnown()) {
     if (agent.isValid(stmtVar)) {
-      pkbResult.insert(stmtVar.lineNum);
+      pkbResult.insert(stmtVar.getValue());
     }
   } else if (!stmtVar.isKnown()) {
-    pkbResult = agent->getStatementsOfType(stmtVar.type);
+    pkbResult = agent->getStatementsOfType(stmtVar.getType());
   }
 
   // read/print.varName, call.procName

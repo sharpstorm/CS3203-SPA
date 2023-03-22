@@ -11,6 +11,7 @@ QueryResult<StmtValue, PatternTrie *> AssignsQueryHandler::queryAssigns(
   if (!stmt.isKnown()) {
     return result;
   }
-  result.add(stmt.lineNum, assignStore->get(stmt.lineNum).get());
+  result.add(stmt.getValue(),
+             assignStore->get(stmt.getValue()).get());
   return result;
 }

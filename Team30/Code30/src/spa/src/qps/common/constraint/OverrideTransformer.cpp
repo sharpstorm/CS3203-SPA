@@ -8,7 +8,7 @@ StmtRef OverrideTransformer::transformArg(StmtRef input) {
   if (stmtRef == NO_STMT_REF) {
     return input;
   }
-  return StmtRef { input.type, stmtRef };
+  return StmtRef { input.getType(), stmtRef };
 }
 
 EntityRef OverrideTransformer::transformArg(EntityRef input) {
@@ -22,7 +22,7 @@ EntityRef OverrideTransformer::transformArg(EntityRef input) {
   if (entRef == NO_ENT_REF) {
     return input;
   }
-  return EntityRef { input.type, entRef };
+  return EntityRef { input.getType(), entRef };
 }
 
 bool OverrideTransformer::returnsInteger() {
