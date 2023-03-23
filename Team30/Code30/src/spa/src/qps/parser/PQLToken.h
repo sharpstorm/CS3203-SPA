@@ -1,8 +1,9 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
-using std::string;
+using std::string, std::vector;
 
 typedef string TokenData;
 
@@ -100,3 +101,5 @@ class PQLToken {
   bool isSynName() const;
   bool operator==(const PQLToken& other) const;
 };
+
+typedef vector<PQLToken> PQLTokenVector;

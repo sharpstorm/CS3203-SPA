@@ -1,14 +1,13 @@
-#include <memory>
 #include "QueryTokenParser.h"
 #include "qps/parser/builder/QueryBuilder.h"
 
 QueryTokenParser::QueryTokenParser(ISourceExpressionParser* exprParser,
-                                   vector<PQLToken>* tokens):
+                                   PQLTokenVector* tokens):
                                    tokens(tokens),
                                    conditionalParser(exprParser) {
 }
 
-unique_ptr<PQLQuery> QueryTokenParser::build() {
+PQLQueryPtr QueryTokenParser::build() {
   QueryTokenParseState state(this->tokens);
   QueryBuilder builder;
 
