@@ -1,10 +1,8 @@
 #include <memory>
 #include "PkbQueryHandler.h"
 #include "ParentQueryHandler.h"
-#include "ParentTQueryHandler.h"
 #include "UsesQueryHandler.h"
 #include "CallsQueryHandler.h"
-#include "CallsTQueryHandler.h"
 #include "IfPatternQueryHandler.h"
 #include "WhilePatternQueryHandler.h"
 #include "AssignsQueryHandler.h"
@@ -29,7 +27,7 @@ PkbQueryHandler::PkbQueryHandler(PKB *pkb)
             stmtStmtQueryInvoker.get(),
             pkb->followsStorage)),
     followsTHandler(
-        new FollowsTQueryHandler(
+        new FollowsQueryHandler(
             stmtStmtQueryInvoker.get(),
             pkb->followsTStorage)),
     parentHandler(
@@ -37,7 +35,7 @@ PkbQueryHandler::PkbQueryHandler(PKB *pkb)
             stmtStmtQueryInvoker.get(),
             pkb->parentStorage)),
     parentTHandler(
-        new ParentTQueryHandler(
+        new ParentQueryHandler(
             stmtStmtQueryInvoker.get(),
             pkb->parentTStorage)),
     modifiesHandler(
@@ -57,7 +55,7 @@ PkbQueryHandler::PkbQueryHandler(PKB *pkb)
             entEntQueryInvoker.get(),
             pkb->callsStorage)),
     callsTHandler(
-        new CallsTQueryHandler(
+        new CallsQueryHandler(
             entEntQueryInvoker.get(),
             pkb->callsTStorage)),
     ifPatternHandler(

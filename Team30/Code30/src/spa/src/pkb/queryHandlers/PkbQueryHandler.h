@@ -9,11 +9,8 @@
 #include "pkb/queryHandlers/interfaces/IPkbQueryHandler.h"
 #include "pkb/storage/PKB.h"
 #include "PkbStmtStmtQueryInvoker.h"
-#include "FollowsTQueryHandler.h"
 #include "FollowsQueryHandler.h"
 #include "ModifiesQueryHandler.h"
-#include "pkb/queryHandlers/interfaces/ICallsTQueryHandler.h"
-#include "pkb/queryHandlers/interfaces/IParentTQueryHandler.h"
 #include "pkb/queryHandlers/interfaces/ICallsQueryHandler.h"
 #include "pkb/queryHandlers/interfaces/IParentQueryHandler.h"
 #include "pkb/queryHandlers/interfaces/IUsesQueryHandler.h"
@@ -68,13 +65,13 @@ class PkbQueryHandler : public IPkbQueryHandler {
 
   unique_ptr<IDesignEntitiesQueryHandler> designEntityHandler;
   unique_ptr<IFollowsQueryHandler> followsHandler;
-  unique_ptr<IFollowsTQueryHandler> followsTHandler;
+  unique_ptr<IFollowsQueryHandler> followsTHandler;
   unique_ptr<IParentQueryHandler> parentHandler;
-  unique_ptr<IParentTQueryHandler> parentTHandler;
+  unique_ptr<IParentQueryHandler> parentTHandler;
   unique_ptr<IModifiesQueryHandler> modifiesHandler;
   unique_ptr<IUsesQueryHandler> usesHandler;
   unique_ptr<ICallsQueryHandler> callsHandler;
-  unique_ptr<ICallsTQueryHandler> callsTHandler;
+  unique_ptr<ICallsQueryHandler> callsTHandler;
 
   unique_ptr<IIfPatternQueryHandler> ifPatternHandler;
   unique_ptr<IWhilePatternQueryHandler> whilePatternHandler;

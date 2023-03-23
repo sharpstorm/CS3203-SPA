@@ -7,7 +7,6 @@
 #include "pkb/queryHandlers/ParentQueryHandler.h"
 #include "pkb/storage/StructureMappingProvider.h"
 #include "StructureMappingProviderStub.h"
-#include "pkb/queryHandlers/ParentTQueryHandler.h"
 
 using std::make_shared;
 using std::make_unique;
@@ -55,8 +54,8 @@ struct parentTest {
           structureProvider.get(),
           factory.get());
   ParentQueryHandler handler = ParentQueryHandler(invoker.get(), store.get());
-  ParentTQueryHandler
-      handlerT = ParentTQueryHandler(invoker.get(), storeT.get());
+  ParentQueryHandler
+      handlerT = ParentQueryHandler(invoker.get(), storeT.get());
 
   QueryResult<StmtValue, StmtValue> query(
       StmtRef leftArg, StmtRef rightArg) {
