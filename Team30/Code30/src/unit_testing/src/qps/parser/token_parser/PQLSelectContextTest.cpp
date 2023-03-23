@@ -77,7 +77,7 @@ TEST_CASE("Test PQL Select Boolean parsing") {
   auto builder = testParsing<PQLSelectParser>(
       make_unique<PQLTestTokenSequenceBuilder>()
           ->addToken(PQL_TOKEN_SELECT)
-          ->synonym("BOOLEAN")
+          ->addToken(PQL_TOKEN_BOOLEAN)
           ->build());
 
   auto query = builder->build();
