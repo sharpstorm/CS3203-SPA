@@ -27,6 +27,11 @@ class PQLWithParser: public IPQLParser {
   static void addWithSelectClause(QueryBuilder* builder,
                                   AttributedSynonym attrSyn,
                                   string identValue);
+
+  static WithArgumentPtr parseWithArg(QueryTokenParseState* state,
+                                      QueryBuilder* builder);
+  static WithArgumentPtr PQLWithParser::processConstant(PQLToken *token);
+
  public:
   void parse(QueryTokenParseState* parserState,
              QueryBuilder* builder) override;

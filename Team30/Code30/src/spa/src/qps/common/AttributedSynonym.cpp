@@ -13,6 +13,10 @@ PQLSynonymAttribute AttributedSynonym::getAttribute() {
 }
 
 bool AttributedSynonym::validateAttribute() {
+  if (attribute == NO_ATTRIBUTE) {
+    return true;
+  }
+
   switch (synProxy->getType()) {
     case PQL_SYN_TYPE_STMT:
     case PQL_SYN_TYPE_ASSIGN:
@@ -31,7 +35,7 @@ bool AttributedSynonym::validateAttribute() {
     case PQL_SYN_TYPE_PROCEDURE:
       return attribute == PROC_NAME;
     default:
-      throw QPSParserSemanticError(QPS_PARSER_ERR_UNKNOWN_SYNONYM);
+      return false;
   }
 }
 

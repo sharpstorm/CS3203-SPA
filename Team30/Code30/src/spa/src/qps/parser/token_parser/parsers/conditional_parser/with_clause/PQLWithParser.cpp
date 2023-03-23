@@ -26,14 +26,9 @@ void PQLWithParser::parse(QueryTokenParseState *parserState,
 
 void PQLWithParser::parseWithClause(QueryTokenParseState *parserState,
                                     QueryBuilder *builder) {
-  WithArgumentPtr left =
-      PQLAttributeRefExtractor::extract(parserState, builder);
-
-
+  WithArgumentPtr left = parseWithArg(parserState, builder);
   parserState->expect(PQL_TOKEN_EQUALS);
-
-  WithArgumentPtr right =
-      PQLAttributeRefExtractor::extract(parserState, builder);
+  WithArgumentPtr right = parseWithArg(parserState, builder);
 
   if (left == nullptr || right == nullptr) {
     return;
@@ -136,3 +131,38 @@ void PQLWithParser::addWithSelectClause(QueryBuilder* builder,
   builder->addWithSelect(std::move(withSelect));
 }
 
+WithArgumentPtr PQLWithParser::parseWithArg(QueryTokenParseState* state,
+                                            QueryBuilder* builder) {
+  PQLToken* token = state->tryExpect(PQL_TOKEN_STRING_LITERAL,
+                                     PQL_TOKEN_INTEGER);
+  if (token != nullptr) {
+    return processConstant(token);
+  }
+
+  AttributedSynonymPtr attrSyn =
+      PQLAttributeRefExtractor::extract(state, builder);
+  if (attrSyn == nullptr) {
+    return nullptr;
+  }
+
+  if (!attrSyn->hasAttribute()) {
+    throw QPSParserSyntaxError(QPS_PARSER_ERR_UNEXPECTED);
+  }
+
+  if (!attrSyn->validateAttribute()) {
+    builder->setError(QPS_PARSER_ERR_INVALID_ATTRIBUTE);
+    return nullptr;
+  }
+
+  return make_unique<WithArgument>(std::move(attrSyn));
+}
+
+WithArgumentPtr PQLWithParser::processConstant(PQLToken *token) {
+  if (token->isType(PQL_TOKEN_STRING_LITERAL)) {
+    return make_unique<WithArgument>(token->getData());
+  } else if (token->isType(PQL_TOKEN_INTEGER)) {
+    int intVal = stoi(token->getData());
+    return make_unique<WithArgument>(intVal);
+  }
+  return nullptr;
+}

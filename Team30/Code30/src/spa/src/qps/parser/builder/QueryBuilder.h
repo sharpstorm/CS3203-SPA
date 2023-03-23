@@ -29,7 +29,8 @@ class QueryBuilder {
   QueryBuilder();
   void addResultSynonym(const AttributedSynonym &syn);
   bool hasSynonym(const PQLSynonymName &name);
-  void addSynonym(const PQLSynonymName &name, const PQLSynonymType &type);
+  void addSynonym(const PQLSynonymName &name,
+                  const PQLSynonymType &type);
   void finalizeSynonymTable();
 
   PQLQuerySynonymProxy* accessSynonym(const PQLSynonymName &name);
