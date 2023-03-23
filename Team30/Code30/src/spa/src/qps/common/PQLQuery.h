@@ -9,8 +9,8 @@
 #include "PQLQuerySynonym.h"
 #include "qps/clauses/Clause.h"
 #include "AttributedSynonym.h"
-#include "qps/common/constraint/Constraint.h"
-#include "qps/common/constraint/OverrideTransformer.h"
+#include "qps/constraints/Constraint.h"
+#include "qps/constraints/OverrideTransformer.h"
 #include "qps/common/VariableTable.h"
 
 using std::string, std::unordered_map, std::vector, std::unique_ptr;

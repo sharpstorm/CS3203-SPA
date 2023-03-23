@@ -4,10 +4,10 @@
 #include "PQLWithParser.h"
 #include "qps/clauses/WithClause.h"
 #include "qps/clauses/arguments/WithArgument.h"
-#include "qps/common/constraint/Constraint.h"
-#include "qps/common/constraint/ConstantConstraint.h"
-#include "qps/common/constraint/OverrideConstraint.h"
-#include "qps/common/constraint/SynonymConstraint.h"
+#include "qps/constraints/Constraint.h"
+#include "qps/constraints/ConstantConstraint.h"
+#include "qps/constraints/OverrideConstraint.h"
+#include "qps/constraints/SynonymConstraint.h"
 #include "qps/parser/token_parser/ref_extractor/PQLAttributeRefExtractor.h"
 
 using std::make_unique, std::make_shared;

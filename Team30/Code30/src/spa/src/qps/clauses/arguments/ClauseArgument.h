@@ -5,7 +5,7 @@
 
 #include "common/Types.h"
 #include "../../common/PQLQuerySynonym.h"
-#include "qps/common/constraint/Constraint.h"
+#include "qps/constraints/Constraint.h"
 
 using std::unique_ptr, std::to_string, std::string;
 

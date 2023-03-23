@@ -5,7 +5,7 @@
 
 #include "QueryGroupPlan.h"
 #include "qps/common/IEvaluatable.h"
-#include "qps/common/constraint/Constraint.h"
+#include "qps/constraints/Constraint.h"
 
 using std::vector, std::unique_ptr;
 

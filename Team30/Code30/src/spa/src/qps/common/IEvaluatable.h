@@ -6,7 +6,7 @@
 
 #include "PQLQueryResult.h"
 #include "pkb/queryHandlers/PkbQueryHandler.h"
-#include "qps/common/constraint/Constraint.h"
+#include "qps/constraints/Constraint.h"
 #include "qps/executor/QueryExecutorAgent.h"
 
 using std::shared_ptr, std::vector, std::string;
