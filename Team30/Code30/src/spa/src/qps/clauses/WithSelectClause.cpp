@@ -1,9 +1,5 @@
-#include <unordered_set>
-
 #include "WithSelectClause.h"
 #include "qps/clauses/arguments/ClauseArgumentFactory.h"
-
-using std::unordered_set;
 
 WithSelectClause::WithSelectClause(AttributedSynonym aSyn, EntityValue enVal) :
     attrSyn(aSyn), entVal(enVal) { }
@@ -15,7 +11,7 @@ PQLQueryResult *WithSelectClause::evaluateOn(const QueryExecutorAgent &agent) {
 
   StmtRef stmtVar = clauseArg->toStmtRef();
   stmtVar = agent.transformArg(clauseArg->getName(), stmtVar);
-  unordered_set<StmtValue> pkbResult;
+  StmtValueSet pkbResult;
 
   if (stmtVar.isKnown() && agent.isValid(stmtVar)) {
     pkbResult.insert(stmtVar.getValue());
@@ -24,7 +20,7 @@ PQLQueryResult *WithSelectClause::evaluateOn(const QueryExecutorAgent &agent) {
   }
 
   // read/print.varName, call.procName
-  unordered_set<StmtValue> foundSet = {};
+  StmtValueSet foundSet = {};
   if (synType == PQL_SYN_TYPE_READ) {
     queryStmtAttributes<WithSelectClause::isReadVarName>(
         agent, pkbResult, &foundSet);
@@ -50,8 +46,8 @@ SynonymList WithSelectClause::getUsedSynonyms() {
 template < WithSelectClausePredicate predicate>
 void WithSelectClause::queryStmtAttributes(
     const QueryExecutorAgent &agent,
-    const unordered_set<StmtValue> &lines,
-    unordered_set<StmtValue> *output) {
+    const StmtValueSet &lines,
+    StmtValueSet *output) {
   for (StmtValue s : lines) {
     if (predicate(agent, s, entVal)) {
       output->insert(s);

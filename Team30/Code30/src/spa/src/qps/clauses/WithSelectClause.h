@@ -18,8 +18,8 @@ class WithSelectClause : public Clause {
 
   template <WithSelectClausePredicate predicate>
   void queryStmtAttributes(const QueryExecutorAgent &agent,
-                           const unordered_set<StmtValue> &lines,
-                           unordered_set<StmtValue>* output);
+                           const StmtValueSet &lines,
+                           StmtValueSet* output);
 
   static inline bool isPrintVarName(const QueryExecutorAgent &agent,
                                     const StmtValue &stmt,
