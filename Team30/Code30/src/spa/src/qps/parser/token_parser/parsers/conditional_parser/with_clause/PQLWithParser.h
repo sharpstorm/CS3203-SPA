@@ -18,14 +18,13 @@ class PQLWithParser: public IPQLParser {
                                        WithArgumentPtr right,
                                        QueryBuilder* builder);
   static ConstraintSPtr handleSameSyn(WithArgumentPtr left,
-                                      WithArgumentPtr right,
-                                      QueryBuilder* builder);
+                                      WithArgumentPtr right);
 
   static ConstraintSPtr parseOverrideConstraint(
       WithArgumentPtr synArg, WithArgumentPtr staticArg);
   static void addWithSelectClause(QueryBuilder* builder,
-                                  AttributedSynonym attrSyn,
-                                  string identValue);
+                                  const AttributedSynonym &attrSyn,
+                                  const string &identValue);
 
   static WithArgumentPtr parseWithArg(QueryTokenParseState* state,
                                       QueryBuilder* builder);

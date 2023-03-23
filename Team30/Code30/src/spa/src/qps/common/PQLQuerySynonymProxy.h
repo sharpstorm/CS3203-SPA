@@ -11,8 +11,8 @@ class PQLQuerySynonymProxy {
   void updatePointer(PQLQuerySynonym* newSyn);
   PQLQuerySynonym* get();
 
-  PQLQuerySynonym* operator->();
-  PQLQuerySynonym& operator*();
+  PQLQuerySynonym* operator->() const;
+  PQLQuerySynonym& operator*() const;
   bool operator==(const PQLQuerySynonymProxy& other) const;
   bool operator!=(const PQLQuerySynonymProxy& other) const;
 };

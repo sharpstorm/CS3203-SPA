@@ -35,8 +35,8 @@ void PQLWithParser::parseWithClause(QueryTokenParseState *parserState,
   }
 
   if (isWithClause(left.get(), right.get())) {
-    WithClausePtr withClause = make_unique<WithClause>(std::move(left),
-                                                       std::move(right));
+    WithClausePtr withClause = make_unique<WithClause>(left->getAttrSyn(),
+                                                       right->getAttrSyn());
     builder->addWith(std::move(withClause));
   } else {
     ConstraintSPtr constraint = parseConstraint(std::move(left),
@@ -52,7 +52,7 @@ ConstraintSPtr PQLWithParser::parseConstraint(
   if (!left->isSyn() && !right->isSyn()) {
     return handleConstant(std::move(left), std::move(right));
   } else if (left->isSyn() && right->isSyn()) {
-    return handleSameSyn(std::move(left), std::move(right), builder);
+    return handleSameSyn(std::move(left), std::move(right));
   } else {
     return handleOverride(std::move(left), std::move(right), builder);
   }
@@ -80,8 +80,7 @@ ConstraintSPtr PQLWithParser::handleOverride(WithArgumentPtr left,
 }
 
 ConstraintSPtr PQLWithParser::handleSameSyn(WithArgumentPtr left,
-                                            WithArgumentPtr right,
-                                            QueryBuilder *builder) {
+                                            WithArgumentPtr right) {
   return make_unique<SynonymConstraint>(left->getSynName(),
                                         right->getSynName());
 }
@@ -98,8 +97,8 @@ ConstraintSPtr PQLWithParser::parseOverrideConstraint(
 }
 
 void PQLWithParser::addWithSelectClause(QueryBuilder* builder,
-                                        AttributedSynonym attrSyn,
-                                        string identValue) {
+                                        const AttributedSynonym &attrSyn,
+                                        const string &identValue) {
   WithSelectClausePtr withSelect = make_unique<WithSelectClause>(
       attrSyn, identValue);
   builder->addWithSelect(std::move(withSelect));

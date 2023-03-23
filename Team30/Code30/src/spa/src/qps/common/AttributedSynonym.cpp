@@ -77,3 +77,7 @@ bool AttributedSynonym::isDefaultAttribute() {
 
   return true;
 }
+
+bool AttributedSynonym::isType(const PQLSynonymType &type) {
+  return synProxy->isType(type);
+}

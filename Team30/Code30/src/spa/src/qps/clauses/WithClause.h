@@ -8,11 +8,11 @@
 using std::unique_ptr;
 
 class WithClause: public Clause {
-  WithArgumentPtr leftArg;
-  WithArgumentPtr rightArg;
+  AttributedSynonym leftArg;
+  AttributedSynonym rightArg;
 
  public:
-  WithClause(WithArgumentPtr left, WithArgumentPtr right);
+  WithClause(const AttributedSynonym &left, const AttributedSynonym &right);
   PQLQueryResult* evaluateOn(const QueryExecutorAgent &agent) override;
   bool validateArgTypes(VariableTable* variables) override;
   SynonymList getUsedSynonyms() override;
