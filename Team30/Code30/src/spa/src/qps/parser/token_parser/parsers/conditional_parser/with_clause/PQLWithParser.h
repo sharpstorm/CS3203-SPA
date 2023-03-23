@@ -17,20 +17,20 @@ class PQLWithParser: public IPQLParser {
   static ConstraintSPtr handleOverride(WithArgumentPtr left,
                                        WithArgumentPtr right,
                                        QueryBuilder* builder);
-  static ConstraintSPtr handleTwoSyns(WithArgumentPtr left,
+  static ConstraintSPtr handleSameSyn(WithArgumentPtr left,
                                       WithArgumentPtr right,
                                       QueryBuilder* builder);
 
   static ConstraintSPtr parseOverrideConstraint(
       WithArgumentPtr synArg, WithArgumentPtr staticArg);
-  static bool isNonDefaultCase(AttributedSynonym attrSyn);
   static void addWithSelectClause(QueryBuilder* builder,
                                   AttributedSynonym attrSyn,
                                   string identValue);
 
   static WithArgumentPtr parseWithArg(QueryTokenParseState* state,
                                       QueryBuilder* builder);
-  static WithArgumentPtr PQLWithParser::processConstant(PQLToken *token);
+  static WithArgumentPtr processConstant(PQLToken *token);
+  static bool isWithClause(WithArgument* left, WithArgument* right);
 
  public:
   void parse(QueryTokenParseState* parserState,

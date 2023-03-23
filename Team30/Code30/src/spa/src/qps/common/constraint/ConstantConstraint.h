@@ -11,18 +11,9 @@ class ConstantConstraint : virtual public Constraint {
   WithArgumentPtr leftArg;
   WithArgumentPtr rightArg;
  public:
-  ConstantConstraint(WithArgumentPtr arg1, WithArgumentPtr arg2)
-      : leftArg(std::move(arg1)), rightArg(std::move(arg2)) {}
+  ConstantConstraint(WithArgumentPtr arg1, WithArgumentPtr arg2);
   bool applyConstraint(SynonymProxyBuilder* variableTable,
-                       OverrideTable* overrideTable) override {
-    return leftArg->isStaticValueEqual(*rightArg);
-  }
-
-  vector<PQLSynonymName> getAffectedSyns() override {
-    return vector<PQLSynonymName>{};
-  }
-
-  bool validateConstraint() override {
-    return leftArg->doesReturnInteger() == rightArg->doesReturnInteger();
-  }
+                       OverrideTable* overrideTable) override;
+  vector<PQLSynonymName> getAffectedSyns() override;
+  bool validateConstraint() override;
 };

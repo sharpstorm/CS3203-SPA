@@ -76,6 +76,10 @@ AttributedSynonym WithArgument::getAttrSyn() {
   return *syn;
 }
 
+bool WithArgument::isDefaultAttribute() {
+  return syn->isDefaultAttribute();
+}
+
 const char WithArgument::NO_ENT_REF[] = "";
 
 

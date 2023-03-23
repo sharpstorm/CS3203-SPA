@@ -65,3 +65,15 @@ PQLQuerySynonym* AttributedSynonym::getSyn() {
 PQLQuerySynonymProxy AttributedSynonym::getSynProxy() {
   return synProxy;
 }
+
+bool AttributedSynonym::isDefaultAttribute() {
+  PQLSynonymType synType = synProxy->getType();
+
+  if (attribute == VAR_NAME) {
+    return synType == PQL_SYN_TYPE_VARIABLE;
+  } else if (attribute == PROC_NAME) {
+    return synType == PQL_SYN_TYPE_PROCEDURE;
+  }
+
+  return true;
+}

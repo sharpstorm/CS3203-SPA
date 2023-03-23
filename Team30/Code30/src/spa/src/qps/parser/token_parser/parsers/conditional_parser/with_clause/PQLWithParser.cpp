@@ -7,8 +7,8 @@
 #include "qps/common/constraint/Constraint.h"
 #include "qps/common/constraint/ConstantConstraint.h"
 #include "qps/common/constraint/OverrideConstraint.h"
-#include "qps/parser/token_parser/ref_extractor/PQLAttributeRefExtractor.h"
 #include "qps/common/constraint/SynonymConstraint.h"
+#include "qps/parser/token_parser/ref_extractor/PQLAttributeRefExtractor.h"
 
 using std::make_unique, std::make_shared;
 
@@ -34,14 +34,13 @@ void PQLWithParser::parseWithClause(QueryTokenParseState *parserState,
     return;
   }
 
-  if (left->isSyn() && right->isSyn() &&
-      left->getSynType() != right->getSynType()) {
-    WithClausePtr withClause =
-        make_unique<WithClause>(std::move(left), std::move(right));
+  if (isWithClause(left.get(), right.get())) {
+    WithClausePtr withClause = make_unique<WithClause>(std::move(left),
+                                                       std::move(right));
     builder->addWith(std::move(withClause));
   } else {
-    ConstraintSPtr constraint = parseConstraint(
-        std::move(left), std::move(right), builder);
+    ConstraintSPtr constraint = parseConstraint(std::move(left),
+                                                std::move(right), builder);
     if (constraint != nullptr) {
       builder->addConstraint(constraint);
     }
@@ -53,17 +52,15 @@ ConstraintSPtr PQLWithParser::parseConstraint(
   if (!left->isSyn() && !right->isSyn()) {
     return handleConstant(std::move(left), std::move(right));
   } else if (left->isSyn() && right->isSyn()) {
-    return handleTwoSyns(std::move(left), std::move(right), builder);
+    return handleSameSyn(std::move(left), std::move(right), builder);
   } else {
-    // Cat 2
     return handleOverride(std::move(left), std::move(right), builder);
   }
 }
 
 ConstraintSPtr PQLWithParser::handleConstant(WithArgumentPtr left,
                                              WithArgumentPtr right) {
-  return make_shared<ConstantConstraint>(
-      std::move(left), std::move(right));
+  return make_shared<ConstantConstraint>(std::move(left), std::move(right));
 }
 
 ConstraintSPtr PQLWithParser::handleOverride(WithArgumentPtr left,
@@ -73,7 +70,7 @@ ConstraintSPtr PQLWithParser::handleOverride(WithArgumentPtr left,
   WithArgumentPtr synArg = isLeftSyn ? std::move(left) : std::move(right);
   WithArgumentPtr constArg = isLeftSyn ? std::move(right) : std::move(left);
 
-  if (isNonDefaultCase(synArg->getAttrSyn())) {
+  if (!synArg->isDefaultAttribute()) {
     addWithSelectClause(builder, synArg->getAttrSyn(),
                         constArg->getIdentValue());
     return nullptr;
@@ -82,21 +79,11 @@ ConstraintSPtr PQLWithParser::handleOverride(WithArgumentPtr left,
   return parseOverrideConstraint(std::move(synArg), std::move(constArg));
 }
 
-ConstraintSPtr PQLWithParser::handleTwoSyns(WithArgumentPtr left,
+ConstraintSPtr PQLWithParser::handleSameSyn(WithArgumentPtr left,
                                             WithArgumentPtr right,
                                             QueryBuilder *builder) {
-  if (left->getSynType() == right->getSynType()
-      && !isNonDefaultCase(left->getAttrSyn())
-      && !isNonDefaultCase(right->getAttrSyn())) {
-    return make_unique<SynonymConstraint>(left->getSynName(),
-                                          right->getSynName());
-  }
-
-  // Different Synonym Types, or non-default
-  WithClausePtr withClause = make_unique<WithClause>(std::move(left),
-                                                     std::move(right));
-  builder->addWith(std::move(withClause));
-  return nullptr;
+  return make_unique<SynonymConstraint>(left->getSynName(),
+                                        right->getSynName());
 }
 
 ConstraintSPtr PQLWithParser::parseOverrideConstraint(
@@ -108,19 +95,6 @@ ConstraintSPtr PQLWithParser::parseOverrideConstraint(
     return make_shared<OverrideConstraint>(
         synArg->getAttrSyn(), staticArg->getIdentValue());
   }
-}
-
-bool PQLWithParser::isNonDefaultCase(AttributedSynonym attrSyn) {
-  PQLSynonymType synType = attrSyn.getType();
-  PQLSynonymAttribute synAttr = attrSyn.getAttribute();
-
-  if (synAttr == VAR_NAME) {
-    return synType == PQL_SYN_TYPE_READ || synType == PQL_SYN_TYPE_PRINT;
-  } else if (synAttr == PROC_NAME) {
-    return synType == PQL_SYN_TYPE_CALL;
-  }
-
-  return false;
 }
 
 void PQLWithParser::addWithSelectClause(QueryBuilder* builder,
@@ -165,4 +139,14 @@ WithArgumentPtr PQLWithParser::processConstant(PQLToken *token) {
     return make_unique<WithArgument>(intVal);
   }
   return nullptr;
+}
+
+bool PQLWithParser::isWithClause(WithArgument *left, WithArgument *right) {
+  if (!left->isSyn() || !right->isSyn()) {
+    return false;
+  }
+
+  bool isDiffType = left->getSynType() != right->getSynType();
+  return isDiffType
+      || !left->isDefaultAttribute() || !right->isDefaultAttribute();
 }
