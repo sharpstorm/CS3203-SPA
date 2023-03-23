@@ -8,7 +8,7 @@ env:
 jobs:
   build-darwin:
     runs-on: [self-hosted, macOS]
-    timeout-minutes: 15
+    timeout-minutes: 20
     strategy:
       fail-fast: true
 
@@ -22,7 +22,7 @@ jobs:
 
       - name: Generate CMake Project
         working-directory: ./Team30/Code30/build
-        run: cmake ../ -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
+        run: cmake ../ -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -G Ninja
       
       - name: Compile SPA
         working-directory: ./Team30/Code30/build
