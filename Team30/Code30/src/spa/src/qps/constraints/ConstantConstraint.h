@@ -6,7 +6,7 @@
 #include "Constraint.h"
 #include "qps/clauses/arguments/WithArgument.h"
 
-class ConstantConstraint : virtual public Constraint {
+class ConstantConstraint : public Constraint {
  private:
   WithArgumentPtr leftArg;
   WithArgumentPtr rightArg;

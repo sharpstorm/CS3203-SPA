@@ -12,7 +12,7 @@
 
 using std::string, std::to_string;
 
-class OverrideConstraint : virtual public Constraint {
+class OverrideConstraint : public Constraint {
  private:
   AttributedSynonym attrSyn;
   OverrideTransformer overrideTransformer;
