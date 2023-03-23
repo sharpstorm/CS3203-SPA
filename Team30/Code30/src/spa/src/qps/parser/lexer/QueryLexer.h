@@ -14,12 +14,12 @@ typedef unique_ptr<PQLTokenStream> PQLTokenStreamPtr;
 
 class QueryLexer {
  public:
-  explicit QueryLexer(const string &query,
+  explicit QueryLexer(const string *query,
                       QueryLexerTokenTable* tokenTable);
   PQLTokenStreamPtr getTokenStream();
 
  private:
-  const string &query;
+  const string *query;
   PQLTokenStreamPtr result;
 
   string buffer;

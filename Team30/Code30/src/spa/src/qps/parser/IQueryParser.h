@@ -8,5 +8,5 @@ using std::string;
 class IQueryParser {
  public:
   virtual ~IQueryParser() = default;
-  virtual PQLQueryPtr parseQuery(const string &query) = 0;
+  virtual PQLQueryPtr parseQuery(const string *query) = 0;
 };
