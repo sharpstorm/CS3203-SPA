@@ -77,7 +77,7 @@ constexpr NextSameSynInvoker abstractNextSameSynInvoker = [](
 
     for (int i = 0; i < cfg->getNodeCount(); i++) {
       int statement = startingStatement + i;
-      if (!typeChecker(agent, arg.type, statement)) {
+      if (!typeChecker(agent, arg.getType(), statement)) {
         continue;
       }
 

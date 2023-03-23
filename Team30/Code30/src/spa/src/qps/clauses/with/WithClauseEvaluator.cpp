@@ -157,7 +157,7 @@ StmtValueSet WithClauseEvaluator::queryForStatement(PQLQuerySynonymProxy syn) {
   stmtRef = agent.transformArg(syn->getName(), stmtRef);
   if (stmtRef.isKnown()) {
     if (agent.isValid(stmtRef)) {
-      return StmtValueSet{ stmtRef.lineNum };
+      return StmtValueSet{ stmtRef.getValue() };
     }
     return StmtValueSet{};
   }
@@ -171,7 +171,7 @@ EntityValueSet WithClauseEvaluator::queryForEntity(PQLQuerySynonymProxy syn) {
   entRef = agent.transformArg(syn->getName(), entRef);
   if (entRef.isKnown()) {
     if (agent.isValid(entRef)) {
-      return EntityValueSet { entRef.name };
+      return EntityValueSet { entRef.getValue() };
     }
     return EntityValueSet{};
   }

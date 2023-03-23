@@ -10,7 +10,7 @@ CFGsQueryHandler::CFGsQueryHandler(
     const IEntityMappingProvider *entityProvider,
     const IStructureMappingProvider *structureProvider)
     : cfgsStorage(cfgsStorage), entityProvider(entityProvider),
-    structureProvider(structureProvider) {}
+      structureProvider(structureProvider) {}
 
 vector<CFG*> CFGsQueryHandler::queryCFGs(StmtRef stmt) const {
   vector<CFG*> result;
@@ -21,7 +21,8 @@ vector<CFG*> CFGsQueryHandler::queryCFGs(StmtRef stmt) const {
       result.push_back(cfgsStorage->get(*it).get());
     }
   } else {
-    string procedureName = structureProvider->getProcedureForLine(stmt.lineNum);
+    string procedureName = structureProvider->getProcedureForLine(
+        stmt.getValue());
     if (procedureName.empty()) {
       return result;
     }

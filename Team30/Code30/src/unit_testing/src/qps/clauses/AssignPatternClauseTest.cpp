@@ -71,13 +71,13 @@ class AssignPatternPKBStub : public StubPKB {
       res.add(3, "a");
       res.add(4, "b");
       res.add(5, "c");
-    } else if (entRef.name == "a") {
+    } else if (entRef.getValue() == "a") {
       res.add(1, "a");
       res.add(3, "a");
-    } else if (entRef.name == "b") {
+    } else if (entRef.getValue() == "b") {
       res.add(2, "b");
       res.add(4, "b");
-    } else if (entRef.name == "c") {
+    } else if (entRef.getValue() == "c") {
       res.add(5, "c");
     }
 
@@ -86,7 +86,7 @@ class AssignPatternPKBStub : public StubPKB {
 
   QueryResult<int, PatternTrie*> queryAssigns(StmtRef ref) const override {
     QueryResult<int, PatternTrie*> res;
-    switch (ref.lineNum) {
+    switch (ref.getValue()) {
       case 1:
         res.add(1, line1.get());
         break;

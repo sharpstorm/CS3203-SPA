@@ -21,9 +21,9 @@ PQLQueryResult *SelectClause::evaluateOn(const QueryExecutorAgent &agent) {
     StmtRef stmtRef = clauseArg->toStmtRef();
     stmtRef = agent.transformArg(synName, stmtRef);
     if (stmtRef.isKnown() && agent.isValid(stmtRef)) {
-      result.insert(stmtRef.lineNum);
+      result.insert(stmtRef.getValue());
     } else if (!stmtRef.isKnown()) {
-      result = agent->getStatementsOfType(stmtRef.type);
+      result = agent->getStatementsOfType(stmtRef.getType());
     }
 
     return Clause::toQueryResult(target->getName(), result);
@@ -33,9 +33,9 @@ PQLQueryResult *SelectClause::evaluateOn(const QueryExecutorAgent &agent) {
   EntityRef entRef = clauseArg->toEntityRef();
   entRef = agent.transformArg(clauseArg->getName(), entRef);
   if (entRef.isKnown() && agent.isValid(entRef)) {
-    result.insert(entRef.name);
+    result.insert(entRef.getValue());
   } else if (!entRef.isKnown()) {
-    result = agent->getSymbolsOfType(entRef.type);
+    result = agent->getSymbolsOfType(entRef.getType());
   }
 
   return Clause::toQueryResult(target->getName(), result);
