@@ -8,7 +8,7 @@ using std::string;
 
 class QueryLexerFactory {
  public:
-  QueryLexerPtr makeLexer(string* query);
+  QueryLexerPtr makeLexer(const string &query);
 
  private:
   QueryLexerTokenTable tokenTable;

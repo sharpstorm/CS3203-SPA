@@ -15,7 +15,7 @@ QueryDriver::~QueryDriver() {
   delete(projector);
 }
 
-UniqueVectorPtr<string> QueryDriver::evaluate(string* query) {
+UniqueVectorPtr<string> QueryDriver::evaluate(const string &query) {
   PQLQueryPtr pqlQuery = parser->parseQuery(query);
   SynonymResultTable* synTable = executor->executeQuery(pqlQuery.get());
   AttributedSynonymList* queryVar = pqlQuery->getResultVariables();

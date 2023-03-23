@@ -4,6 +4,6 @@
 
 using std::make_unique;
 
-QueryLexerPtr QueryLexerFactory::makeLexer(string *query) {
+QueryLexerPtr QueryLexerFactory::makeLexer(const string &query) {
   return make_unique<QueryLexer>(query, &tokenTable);
 }

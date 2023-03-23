@@ -9,7 +9,7 @@ using std::out_of_range, std::string, std::vector;
 
 const int LEXER_BUFFER_SIZE = 2048;
 
-QueryLexer::QueryLexer(string *query, QueryLexerTokenTable* tokenTable):
+QueryLexer::QueryLexer(const string &query, QueryLexerTokenTable* tokenTable):
     query(query),
     tokenTable(tokenTable),
     result(make_unique<PQLTokenStream>()),
@@ -23,8 +23,8 @@ QueryLexer::QueryLexer(string *query, QueryLexerTokenTable* tokenTable):
 }
 
 PQLTokenStreamPtr QueryLexer::getTokenStream() {
-  for (size_t pos = 0; pos < query->length(); pos++) {
-    char c = query->at(pos);
+  for (size_t pos = 0; pos < query.length(); pos++) {
+    char c = query.at(pos);
     processChar(c);
   }
 
