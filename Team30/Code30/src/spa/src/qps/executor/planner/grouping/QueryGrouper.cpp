@@ -7,7 +7,7 @@
 const int UNPROCESSED = -2;
 const int NO_GROUP = -1;
 
-using std::make_shared, std::move;
+using std::make_unique, std::move;
 
 QueryGrouper::QueryGrouper(PQLQuery *query) :
     query(query),
@@ -42,7 +42,7 @@ void QueryGrouper::initIndex() {
   }
 
   auto constraints = query->getConstraints();
-  for (ConstraintSPtr constraint : constraints) {
+  for (Constraint* constraint : constraints) {
     for (PQLSynonymName syn : constraint->getAffectedSyns()) {
       groupIndex.insertConstraint(syn);
     }
@@ -131,10 +131,10 @@ void QueryGrouper::selectAllDeclarations(vector<QueryGroupPtr> *result) {
 
 QueryGroupPtr QueryGrouper::makeSelectClause(const PQLSynonymName &name) {
   PQLQuerySynonymProxy* synProxy = query->getVariable(name);
-  IEvaluatableSPtr selectClause = make_shared<SelectClause>(*synProxy);
+  IEvaluatablePtr selectClause = make_unique<SelectClause>(*synProxy);
 
   QueryGroupPtr selectGroup = make_unique<QueryGroup>(
       !groupIndex.isConstrained(name));
-  selectGroup->addEvaluatable(selectClause);
+  selectGroup->addEvaluatable(std::move(selectClause));
   return selectGroup;
 }

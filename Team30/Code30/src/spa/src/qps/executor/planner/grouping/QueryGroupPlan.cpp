@@ -1,15 +1,17 @@
 #include "QueryGroupPlan.h"
 
 QueryGroupPlan::QueryGroupPlan(
-    vector<IEvaluatableSPtr> conditionalClauses,
+    vector<IEvaluatable*> conditionalClauses,
     vector<PQLSynonymName> selectables,
+    vector<IEvaluatablePtr> ownedEvals,
     bool canEmpty) :
     conditionalClauses(conditionalClauses),
     selectables(selectables),
+    ownedEvals(std::move(ownedEvals)),
     canEmpty(canEmpty)
-    {}
+{}
 
-vector<IEvaluatableSPtr> QueryGroupPlan::getConditionalClauses() {
+vector<IEvaluatable*> QueryGroupPlan::getConditionalClauses() {
   return conditionalClauses;
 }
 

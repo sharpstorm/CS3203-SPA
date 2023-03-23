@@ -51,12 +51,12 @@ SynonymResultTable *QueryOrchestrator::execute(
 // Executes each clause in the QueryGroupPlan
 PQLQueryResult *QueryOrchestrator::executeGroup(
     QueryGroupPlan *plan, OverrideTable* overrideTable) {
-  vector<IEvaluatableSPtr> executables = plan->getConditionalClauses();
+  vector<IEvaluatable*> executables = plan->getConditionalClauses();
   PQLQueryResult* currentResult;
   PQLQueryResult* finalResult = nullptr;
 
   for (int i = 0; i < executables.size(); i++) {
-    currentResult = launcher.execute(executables[i].get(), overrideTable);
+    currentResult = launcher.execute(executables[i], overrideTable);
     if (currentResult->isFalse()) {
       delete currentResult;
       delete finalResult;

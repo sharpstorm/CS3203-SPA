@@ -8,7 +8,7 @@
 #include "qps/clauses/arguments/ClauseArgument.h"
 #include "qps/common/VariableTable.h"
 
-using std::unordered_set, std::shared_ptr;
+using std::unordered_set, std::unique_ptr;
 
 class Clause : public IEvaluatable {
  public:
@@ -66,4 +66,4 @@ class Clause : public IEvaluatable {
   }
 };
 
-typedef shared_ptr<Clause> ClauseSPtr;
+typedef unique_ptr<Clause> ClausePtr;

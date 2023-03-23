@@ -10,7 +10,7 @@
 #include "qps/constraints/SynonymConstraint.h"
 #include "qps/parser/token_parser/ref_extractor/PQLAttributeRefExtractor.h"
 
-using std::make_unique, std::make_shared;
+using std::make_unique;
 
 void PQLWithParser::parse(QueryTokenParseState *parserState,
                           QueryBuilder *builder) {
@@ -39,15 +39,15 @@ void PQLWithParser::parseWithClause(QueryTokenParseState *parserState,
                                                        right->getAttrSyn());
     builder->addWith(std::move(withClause));
   } else {
-    ConstraintSPtr constraint = parseConstraint(std::move(left),
-                                                std::move(right), builder);
+    ConstraintPtr constraint = parseConstraint(std::move(left),
+                                               std::move(right), builder);
     if (constraint != nullptr) {
-      builder->addConstraint(constraint);
+      builder->addConstraint(std::move(constraint));
     }
   }
 }
 
-ConstraintSPtr PQLWithParser::parseConstraint(
+ConstraintPtr PQLWithParser::parseConstraint(
     WithArgumentPtr left, WithArgumentPtr right, QueryBuilder* builder) {
   if (!left->isSyn() && !right->isSyn()) {
     return handleConstant(std::move(left), std::move(right));
@@ -58,14 +58,14 @@ ConstraintSPtr PQLWithParser::parseConstraint(
   }
 }
 
-ConstraintSPtr PQLWithParser::handleConstant(WithArgumentPtr left,
-                                             WithArgumentPtr right) {
-  return make_shared<ConstantConstraint>(std::move(left), std::move(right));
+ConstraintPtr PQLWithParser::handleConstant(WithArgumentPtr left,
+                                            WithArgumentPtr right) {
+  return make_unique<ConstantConstraint>(std::move(left), std::move(right));
 }
 
-ConstraintSPtr PQLWithParser::handleOverride(WithArgumentPtr left,
-                                             WithArgumentPtr right,
-                                             QueryBuilder* builder) {
+ConstraintPtr PQLWithParser::handleOverride(WithArgumentPtr left,
+                                            WithArgumentPtr right,
+                                            QueryBuilder* builder) {
   bool isLeftSyn = left->isSyn();
   WithArgumentPtr synArg = isLeftSyn ? std::move(left) : std::move(right);
   WithArgumentPtr constArg = isLeftSyn ? std::move(right) : std::move(left);
@@ -79,19 +79,19 @@ ConstraintSPtr PQLWithParser::handleOverride(WithArgumentPtr left,
   return parseOverrideConstraint(std::move(synArg), std::move(constArg));
 }
 
-ConstraintSPtr PQLWithParser::handleSameSyn(WithArgumentPtr left,
-                                            WithArgumentPtr right) {
+ConstraintPtr PQLWithParser::handleSameSyn(WithArgumentPtr left,
+                                           WithArgumentPtr right) {
   return make_unique<SynonymConstraint>(left->getSynName(),
                                         right->getSynName());
 }
 
-ConstraintSPtr PQLWithParser::parseOverrideConstraint(
+ConstraintPtr PQLWithParser::parseOverrideConstraint(
     WithArgumentPtr synArg, WithArgumentPtr staticArg) {
   if (staticArg->doesReturnInteger()) {
-    return make_shared<OverrideConstraint>(
+    return make_unique<OverrideConstraint>(
         synArg->getAttrSyn(), staticArg->getIntValue());
   } else {
-    return make_shared<OverrideConstraint>(
+    return make_unique<OverrideConstraint>(
         synArg->getAttrSyn(), staticArg->getIdentValue());
   }
 }
