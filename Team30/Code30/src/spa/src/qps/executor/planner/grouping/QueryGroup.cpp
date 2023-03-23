@@ -1,4 +1,7 @@
 #include "QueryGroup.h"
+
+#include <utility>
+
 #include "QueryGroupPlan.h"
 
 using std::make_unique;

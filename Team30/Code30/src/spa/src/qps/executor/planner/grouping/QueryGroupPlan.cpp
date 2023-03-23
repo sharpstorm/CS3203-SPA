@@ -1,5 +1,7 @@
 #include "QueryGroupPlan.h"
 
+#include <utility>
+
 QueryGroupPlan::QueryGroupPlan(
     vector<IEvaluatable*> conditionalClauses,
     vector<PQLSynonymName> selectables,
