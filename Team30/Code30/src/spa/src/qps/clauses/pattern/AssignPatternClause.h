@@ -9,7 +9,7 @@ class AssignPatternClause: public PatternClause {
   ExpressionArgumentPtr rightArgument;
 
   void checkTries(const QueryExecutorAgent &agent,
-                  QueryResult<StmtValue, EntityValue>* result,
+                  QueryResult<StmtValue, EntityValue>* output,
                   QueryResult<StmtValue, EntityValue>* modifiesResult);
 
  public:

@@ -43,7 +43,7 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
 
 void AssignPatternClause::checkTries(
     const QueryExecutorAgent &agent,
-    QueryResult<StmtValue, EntityValue> *result,
+    QueryResult<StmtValue, EntityValue> *output,
     QueryResult<StmtValue, EntityValue>* modifiesResult) {
   for (auto& it : modifiesResult->pairVals) {
     // Call assigns to retrieve the node
@@ -57,7 +57,7 @@ void AssignPatternClause::checkTries(
     bool isFullMatch = !rightArgument->allowsPartial()
         && lineRoot->isMatchFull(rightArgument->getSequence());
     if (isPartialMatch || isFullMatch) {
-      result->add(it.first, it.second);
+      output->add(it.first, it.second);
     }
   }
 }
