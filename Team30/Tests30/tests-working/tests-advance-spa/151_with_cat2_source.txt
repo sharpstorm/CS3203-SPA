@@ -1,0 +1,31 @@
+procedure Warlock {
+	read a;
+	print a;
+	d = 1;
+	while (a != 0) {
+		read b;
+		print b;
+		call Nevermore;
+		if (b != 0) then {
+			print a;
+		} else {
+			print b;
+		}
+		c = a + b;
+		d = 2;
+	}
+	read e;
+	print e;
+	f = 3;
+}
+
+procedure Nevermore {
+	if (b > 0) then {
+		c = 4 + a;
+		d = c + b;
+		g = 5;
+	} else {
+		read g;
+	}
+	print g;
+}

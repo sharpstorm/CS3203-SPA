@@ -1,0 +1,325 @@
+1 - Stmt Declaration (Follows)
+stmt s, s1;
+Select s1 such that Follows(s, s1) with s.stmt# = 1
+2
+5000
+2 - Stmt Declaration (Follows*)
+stmt s, s1;
+Select s1 such that Follows*(s, s1) with s.stmt# = 1
+2,3,4,13,14,15
+5000
+3 - Stmt Declaration (Parent)
+stmt s, s1;
+Select s1 such that Parent(s, s1) with s.stmt# = 4
+5,6,7,8,11,12
+5000
+4 - Stmt Declaration (Parent*)
+stmt s, s1;
+Select s1 such that Parent*(s, s1) with s.stmt# = 4
+5,6,7,8,9,10,11,12
+5000
+5 - Assign Declaration (Follows)
+assign s, s1;
+Select s1 such that Follows(s, s1) with s.stmt# = 17
+18
+5000
+6 - Assign Declaration (Follows*)
+assign s, s1;
+Select s1 such that Follows*(s, s1) with s.stmt# = 17
+18, 19
+5000
+7 - Assign Declaration (Parent)
+assign s, s1;
+Select s1 such that Parent(s, s1) with s.stmt# = 8
+
+5000
+8 - Assign Declaration (Parent*)
+assign s, s1;
+Select s1 such that Parent*(s, s1) with s.stmt# = 8
+
+5000
+9 - Assign Declaration (Uses)
+assign s; variable v;
+Select v such that Uses(s, v) with s.stmt# = 11
+a, b
+5000 
+10 - Assign Declaration (Modifies)
+assign s; variable v;
+Select v such that Modifies(s,v) with s.stmt# = 11
+c
+5000
+11 - Assign Declaration (Pattern) (Positive Case)
+assign s;
+Select s pattern s (_, _) with s.stmt# = 3
+3
+5000
+12 - Assign Declaration (Pattern) (Negative Case)
+assign s;
+Select s pattern s (_, _) with s.stmt# = 1
+
+5000
+13 - While Declaration (Follows)
+while s; stmt s1;
+Select s1 such that Follows(s, s1) with s.stmt# = 4
+13
+5000
+14 - While Declaration (Follows*)
+while s; stmt s1;
+Select s1 such that Follows*(s, s1) with s.stmt# = 4
+13, 14, 15
+5000
+15 - While Declaration (Parent)
+while s; stmt s1;
+Select s1 such that Parent(s, s1) with s.stmt# = 4
+5,6,7,8,11,12
+5000
+16 - While Declaration (Parent*)
+while s; stmt s1;
+Select s1 such that Parent*(s, s1) with s.stmt# = 4
+5,6,7,8,9,10,11,12
+5000
+17 - While Declaration (Uses)
+while s; variable v;
+Select v such that Uses(s, v) with s.stmt# = 4
+a, b, c, g
+5000 
+18 - While Declaration (Modifies)
+while s; variable v;
+Select v such that Modifies(s,v) with s.stmt# = 4
+b, c, d, g
+5000
+19 - While Declaration (Pattern) (Positive Case)
+while s;
+Select s pattern s (_, _) with s.stmt# = 4
+4
+5000
+20 - While Declaration (Pattern) (Negative Case)
+while s;
+Select s pattern s (_, _) with s.stmt# = 1
+
+5000
+21 - If Declaration (Follows)
+if s; stmt s1;
+Select s1 such that Follows(s, s1) with s.stmt# = 8
+11
+5000
+22 - If Declaration (Follows*)
+if s; stmt s1;
+Select s1 such that Follows*(s, s1) with s.stmt# = 8
+11,12
+5000
+23 - If Declaration (Parent)
+if s; stmt s1;
+Select s1 such that Parent(s, s1) with s.stmt# = 8
+9, 10
+5000
+24 - If Declaration (Parent*)
+if s; stmt s1;
+Select s1 such that Parent*(s, s1) with s.stmt# = 8
+9, 10
+5000
+25 - If Declaration (Uses)
+if s; variable v;
+Select v such that Uses(s, v) with s.stmt# =16 
+a, b, c
+5000 
+26 - If Declaration (Modifies)
+if s; variable v;
+Select v such that Modifies(s,v) with s.stmt# = 16
+c, d, g
+5000
+27 - If Declaration (Pattern) (Positive Case)
+if s;
+Select s pattern s (_, _, _) with s.stmt# = 8
+8
+5000
+28 - If Declaration (Pattern) (Negative Case)
+if s;
+Select s pattern s (_, _, _) with s.stmt# = 1
+
+5000
+29 - Read Declaration (Follows) (Stmt#)
+read s; stmt s1;
+Select s1 such that Follows(s, s1) with s.stmt# = 5
+6
+5000
+30 - Read Declaration (Follows*) (Stmt#)
+read s; stmt s1;
+Select s1 such that Follows*(s, s1) with s.stmt# = 5
+6, 7, 8, 11, 12
+5000
+31 - Read Declaration (Parent) (Stmt#)
+read s; stmt s1;
+Select s1 such that Parent(s, s1) with s.stmt# = 5
+
+5000
+32 - Read Declaration (Parent*) (Stmt#)
+read s; stmt s1;
+Select s1 such that Parent*(s, s1) with s.stmt# = 5
+
+5000
+33 - Read Declaration (Modifies) (Stmt#)
+read s; variable v;
+Select v such that Modifies(s, v) with s.stmt# = 1
+a
+5000 
+34 - Read Declaration (Modifies) (varName)
+read s; variable v;
+Select s such that Modifies(s,v) with s.varName = "a" 
+1
+5000
+35 - Print Declaration (Follows) (Stmt#)
+print s; stmt s1;
+Select s1 such that Follows(s, s1) with s.stmt# = 2
+3
+5000
+36 - Print Declaration (Follows*) (Stmt#)
+print s; stmt s1;
+Select s1 such that Follows*(s, s1) with s.stmt# = 2
+3, 4, 13, 14, 15
+5000
+37 - Print Declaration (Parent) (Stmt#)
+print s; stmt s1;
+Select s1 such that Parent(s, s1) with s.stmt# = 5
+
+5000
+38 - Print Declaration (Parent*) (Stmt#)
+print s; stmt s1;
+Select s1 such that Parent*(s, s1) with s.stmt# = 5
+
+5000
+39 - Print Declaration (Uses) (Stmt#)
+print s; variable v;
+Select v such that Uses(s, v) with s.stmt# = 2
+a
+5000 
+40 - Print Declaration (Uses) (varName)
+print s; variable v;
+Select s such that Uses(s,v) with s.varName = "a" 
+2, 9
+5000
+41 - Call Declaration (Follows) (Stmt#)
+call s; stmt s1;
+Select s1 such that Follows(s, s1) with s.stmt# = 7
+8
+5000
+42 - Call Declaration (Follows*) (Stmt#)
+call s; stmt s1;
+Select s1 such that Follows*(s, s1) with s.stmt# = 7
+8,11, 12
+5000
+43 - Call Declaration (Parent) (Stmt#)
+call s; stmt s1;
+Select s1 such that Parent(s, s1) with s.stmt# = 7
+
+5000
+44 - Call Declaration (Parent*) (Stmt#)
+call s; stmt s1;
+Select s1 such that Parent*(s, s1) with s.stmt# = 7
+
+5000
+45 - Call Declaration (Uses) (Stmt#)
+call s; variable v;
+Select s.procName such that Uses(s, v) with s.stmt# = 7
+Nevermore
+5000 
+46 - Call Declaration (Uses) (procName)
+call s; variable v;
+Select s such that Uses(s,v) with s.procName = "Nevermore" 
+7
+5000
+47 - Call Declaration (Modifies) (Stmt#) (Positive)
+call s; variable v;
+Select v such that Modifies(s, v) with s.stmt# = 7
+c,d,g
+5000 
+48 - Call Declaration (Modifies) (Stmt#) (Negative)
+call s; variable v;
+Select v such that Modifies(s, v) with s.stmt# = 1
+
+5000 
+49 - Call Declaration (Modifies) (procName) 
+call s; variable v;
+Select v such that Modifies(s,v) with s.procName = "Nevermore" 
+c,d,g
+5000
+50 - Variable Declarations (Assign Pattern) (varName)
+assign s; variable v;
+Select s pattern s (v, _) with v.varName = "c"
+11, 17
+5000
+51 - Variable Declarations (Assign Pattern) (varName) (Negative)
+assign s; variable v;
+Select s pattern s (v, _) with v.varName = "e"
+
+5000
+52 - Variable Declarations (While Pattern) (varName)
+while s; variable v;
+Select s pattern s (v, _) with v.varName = "a"
+4
+5000
+53 - Variable Declarations (While Pattern) (varName) (Negative)
+while s; variable v;
+Select s pattern s (v, _) with v.varName = "g"
+
+5000
+54 - Variable Declarations (If Pattern) (varName)
+if s; variable v;
+Select s pattern s (v, _, _) with v.varName = "b"
+8, 16
+5000
+55 - Variable Declarations (If Pattern) (varName) (Negative)
+if s; variable v;
+Select s pattern s (v, _, _) with v.varName = "g"
+
+5000
+56 - Variable Declarations (Uses) (varName)
+stmt s; variable v;
+Select s such that Uses(s, v) with v.varName = "a"
+2,4,7,8,9,11,16,17
+5000
+57 - Variable Declarations (Modifies) (varName)
+stmt s; variable v;
+Select s such that Modifies(s, v) with v.varName = "d"
+3, 12, 18, 7, 4, 16
+5000
+58 - Procedure Declaration (Calls) (procName) (Positive)
+procedure p, q;
+Select q such that Calls(p, q) with p.procName = "Warlock"
+Nevermore
+5000
+59 - Procedure Declaration (Calls) (procName) (Negative)
+procedure p, q;
+Select q such that Calls(p, q) with p.procName = "Nevermore"
+
+5000
+60 - Procedure Declaration (Uses) (procName) (Positive)
+procedure p; variable v;
+Select v such that Uses(p,v) with p.procName = "Warlock"
+a, b, e, g, c
+5000
+61 - Procedure Declaration (Uses) (procName) (Negative)
+procedure p; variable v;
+Select v such that Uses(p,v) with p.procName = "Invalid"
+
+5000
+62 - Procedure Declaration (Modifies) (procName) (Positive)
+procedure p; variable v;
+Select v such that Modifies(p,v) with p.procName = "Warlock"
+a,b,c,d,e,f,g
+5000
+63 - Procedure Declaration (Modifies) (procName) (Negative)
+procedure p; variable v;
+Select v such that Modifies(p,v) with p.procName = "Invalid"
+
+5000
+64 - Constant Declaration (Just Select) (value) (Positive)
+constant c;
+Select c with c.value = 3
+3
+5000
+64 - Constant Declaration (Just Select) (value) (Negative)
+constant c;
+Select c with c.value = 99999 
+
+5000
