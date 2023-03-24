@@ -21,7 +21,7 @@ class AbstractPatternClause: public PatternClause {
       PatternClause(synonym, std::move(leftArg), SYN_TYPE) {
   }
 
-  PQLQueryResult* evaluateOn(const QueryExecutorAgent &agent) {
+  PQLQueryResult* evaluateOn(const QueryExecutorAgent &agent) override {
     StmtRef leftStatement = {StatementType, 0};
     EntityRef leftVar = leftArg->toEntityRef();
     leftStatement = agent.transformArg(synonym->getName(), leftStatement);
