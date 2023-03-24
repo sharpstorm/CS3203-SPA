@@ -149,7 +149,7 @@ queryBool(const StmtValue &arg0, const StmtValue &arg1) {
           int id = symbolIdGetter(state->closure, var);
           if (curState.isSet(id)) {
             EntityValue modifiedVar =
-                modifiesGetter(state->closure,stmtNumber);
+                modifiesGetter(state->closure, stmtNumber);
             curState.set(symbolIdGetter(state->closure, modifiedVar));
             break;
           }
