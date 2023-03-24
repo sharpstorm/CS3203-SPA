@@ -45,5 +45,4 @@ class QueryClauseOrderer {
 
  public:
   QueryGroupPlanPtr orderClauses(QueryGroup* group, OverrideTable* overrides);
-
 };
