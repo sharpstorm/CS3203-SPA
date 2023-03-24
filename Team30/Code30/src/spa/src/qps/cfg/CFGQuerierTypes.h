@@ -15,3 +15,9 @@ using ModifiesGetter = EntityValue(*)(const ClosureType &state,
 template <class ClosureType>
 using UsesGetter = unordered_set<EntityValue>(*)(const ClosureType &state,
                                                  StmtValue value);
+
+template <class ClosureType>
+using CountGetter = int(*)(const ClosureType &state);
+
+template <class ClosureType>
+using SymbolIdGetter = int(*)(const ClosureType &state, const EntityValue &value);

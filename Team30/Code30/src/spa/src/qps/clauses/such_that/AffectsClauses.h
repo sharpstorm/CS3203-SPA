@@ -43,6 +43,18 @@ constexpr UsesGetter<QueryExecutorAgent> usesQuerier =
       return result.secondArgVals;
     };
 
+constexpr CountGetter<QueryExecutorAgent> countQuerier =
+    [](const QueryExecutorAgent &agent) -> int {
+      return agent->getSymbolsOfType(EntityType::None).size();
+    };
+
+constexpr SymbolIdGetter<QueryExecutorAgent> symbolIdQuerier  =
+    [](const QueryExecutorAgent &agent,
+        const EntityValue &value) -> int {
+        return *agent->getIndexOfVariable(value).begin();
+    };
+
+
 
 typedef CFGAffectsQuerier<QueryExecutorAgent, typeChecker,
                           modifiesQuerier, usesQuerier> ConcreteAffectsQuerier;
@@ -84,6 +96,21 @@ constexpr AffectsInvoker affectsInvoker = [](const QueryExecutorAgent &agent,
 constexpr AffectsInvoker affectsTInvoker = [](const QueryExecutorAgent &agent,
                                               const StmtRef &leftArg,
                                               const StmtRef &rightArg){
+  QueryResult<StmtValue, StmtValue> result{};
+
+  if (leftArg.type != StmtType::None && leftArg.type != StmtType::Assign) {
+    return result;
+  }
+  if (rightArg.type != StmtType::None && rightArg.type != StmtType::Assign) {
+    return result;
+  }
+
+  vector<CFG*> cfgs;
+  if (leftArg.isKnown()) {
+    cfgs = agent->queryCFGs(leftArg);
+  } else {
+    cfgs = agent->queryCFGs(rightArg);
+  }
   return QueryResult<StmtValue, StmtValue>{};
 };
 
