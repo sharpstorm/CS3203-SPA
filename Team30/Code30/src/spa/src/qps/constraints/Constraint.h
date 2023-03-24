@@ -7,8 +7,8 @@
 
 #include "qps/common/VariableTable.h"
 #include "OverrideTransformer.h"
-#include "SynonymProxyBuilder.h"
-#include "OverrideTable.h"
+#include "qps/common/constraint/SynonymProxyBuilder.h"
+#include "qps/common/constraint/OverrideTable.h"
 
 class Constraint {
  public:

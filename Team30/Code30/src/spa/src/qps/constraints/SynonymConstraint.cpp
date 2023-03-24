@@ -10,3 +10,7 @@ bool SynonymConstraint::applyConstraint
 vector<PQLSynonymName> SynonymConstraint::getAffectedSyns() {
   return vector<PQLSynonymName>{syn1, syn2};
 }
+
+bool SynonymConstraint::validateConstraint() {
+  return true;
+}

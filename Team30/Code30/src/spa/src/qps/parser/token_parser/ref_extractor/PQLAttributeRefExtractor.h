@@ -4,11 +4,11 @@
 #include "PQLEntityRefExtractor.h"
 #include "qps/clauses/arguments/WithArgument.h"
 
-class PQLAttributeRefExtractor :
-    public PQLStmtRefExtractor, PQLEntityRefExtractor {
+class PQLAttributeRefExtractor: public PQLRefExtractor {
  public:
-  static PQLSynonymAttribute extractAttribute(
-      QueryTokenParseState *parserState);
-  static WithArgumentPtr extract(QueryTokenParseState* state,
-                                          QueryBuilder* builder);
+  static AttributedSynonymPtr extract(QueryTokenParseState* state,
+                                      QueryBuilder* builder);
+
+ private:
+  static PQLSynonymAttribute extractAttribute(QueryTokenParseState* state);
 };

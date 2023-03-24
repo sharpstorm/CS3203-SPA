@@ -1,8 +1,8 @@
 #include "catch.hpp"
 #include "qps/common/PQLQuerySynonym.h"
 #include "qps/common/VariableTable.h"
-#include "qps/common/constraint/Constraint.h"
-#include "qps/common/constraint/SynonymConstraint.h"
+#include "qps/constraints/Constraint.h"
+#include "qps/constraints/SynonymConstraint.h"
 
 TEST_CASE("SynonymConstraint Test") {
   PQLQuerySynonym syn1{PQL_SYN_TYPE_STMT, "s1"};

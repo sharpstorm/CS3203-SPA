@@ -1,12 +1,12 @@
 #include "TestPipelineProvider.h"
-#include "qps/QPSFacade.h"
 #include "../TestUtils.h"
+#include "qps/QueryDriver.h"
 
 TestPipelineProvider::TestPipelineProvider(string source):
     pkb(make_unique<PKB>()),
     pkbWriter(make_unique<PkbWriter>(pkb.get())),
     pkbQH(make_unique<PkbQueryHandler>(pkb.get())),
-    qps(make_unique<QPSFacade>(pkbQH.get(), &spDriver)) {
+    qps(make_unique<QueryDriver>(pkbQH.get(), &spDriver)) {
   spDriver.parseSource(source, pkbWriter.get());
 }
 

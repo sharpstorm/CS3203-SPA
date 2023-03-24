@@ -2,7 +2,7 @@
 #include <utility>
 #include <vector>
 
-#include "qps/common/constraint/Constraint.h"
+#include "qps/constraints/Constraint.h"
 #include "QueryExecutor.h"
 #include "qps/common/IEvaluatable.h"
 

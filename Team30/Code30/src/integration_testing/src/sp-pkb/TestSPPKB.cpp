@@ -1,15 +1,14 @@
 #include "catch.hpp"
 #include <string>
 #include <memory>
-#include <iostream>
+
 #include <unordered_set>
-#include "qps/QPSFacade.h"
 #include "pkb/writers/PkbWriter.h"
 #include "sp/errors/SPError.h"
-#include "sp/SourceParser.h"
 #include "sp/SpDriver.h"
 #include "sp/ast/expression_operand/PlusASTNode.h"
 #include "sp/ast/entity/VariableASTNode.h"
+#include "pkb/queryHandlers/PkbQueryHandler.h"
 
 using std::make_unique, std::make_shared, std::unordered_set, std::to_string;
 

@@ -20,10 +20,6 @@ PQLSynonymName ClauseArgument::getName() {
   return "";
 }
 
-PQLQuerySynonym *ClauseArgument::getSyn() {
-  return nullptr;
-}
-
 bool ClauseArgument::isStatement(PQLQuerySynonym syn) {
   return syn.isStatementType();
 }

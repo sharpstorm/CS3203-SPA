@@ -1,8 +1,11 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
-using std::string;
+using std::string, std::vector;
+
+typedef string TokenData;
 
 enum PQLTokenCategory: uint16_t {
   PQL_PROCESSING_TOKEN = 0x100,
@@ -66,6 +69,7 @@ enum PQLTokenType: uint16_t {
   PQL_TOKEN_PROC_NAME,
   PQL_TOKEN_VAR_NAME,
   PQL_TOKEN_VALUE,
+  PQL_TOKEN_BOOLEAN,
 
   // Relationship Keywords
   PQL_TOKEN_FOLLOWS = PQL_RELATIONSHIP_TOKEN,
@@ -85,16 +89,18 @@ enum PQLTokenType: uint16_t {
 class PQLToken {
  private:
   PQLTokenType type;
-  string tokenData;
+  TokenData tokenData;
 
  public:
   explicit PQLToken(PQLTokenType type);
-  PQLToken(PQLTokenType type, const string &data);
+  PQLToken(PQLTokenType type, const TokenData &data);
 
-  PQLTokenType getType();
-  string getData();
-  bool isType(PQLTokenType);
-  bool isCategory(PQLTokenCategory);
-  bool isSynName();
+  PQLTokenType getType() const;
+  TokenData getData() const;
+  bool isType(PQLTokenType) const;
+  bool isCategory(PQLTokenCategory) const;
+  bool isSynName() const;
   bool operator==(const PQLToken& other) const;
 };
+
+typedef vector<PQLToken> PQLTokenVector;

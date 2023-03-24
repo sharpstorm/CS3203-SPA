@@ -1,8 +1,7 @@
 #include "QueryTokenParseState.h"
 
-QueryTokenParseState::QueryTokenParseState(vector<PQLToken> *tokens):
-    tokenStream(tokens),
-    QueryExpectationAgent(&tokenStream) {
+QueryTokenParseState::QueryTokenParseState(PQLTokenVector *tokens):
+    tokenStream(tokens) {
 }
 
 bool QueryTokenParseState::isTokenStreamEnd() {
@@ -33,4 +32,22 @@ bool QueryTokenParseState::isCurrentTokenCategory(PQLTokenCategory category) {
   }
 
   return curToken->isCategory(category);
+}
+
+PQLSynonymName QueryTokenParseState::expectSynName() {
+  PQLToken* currentToken = tokenStream.getCurrentToken();
+  assertNotNull(currentToken);
+
+  if (!currentToken->isSynName()) {
+    throw QPSParserSyntaxError(QPS_PARSER_ERR_UNEXPECTED);
+  }
+
+  tokenStream.advanceToken();
+  return currentToken->getData();
+}
+
+void QueryTokenParseState::assertNotNull(PQLToken* token) {
+  if (token == nullptr) {
+    throw QPSParserSyntaxError(QPS_PARSER_ERR_EOS);
+  }
 }
