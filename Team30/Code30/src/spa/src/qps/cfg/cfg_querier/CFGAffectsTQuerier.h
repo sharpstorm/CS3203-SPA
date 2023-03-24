@@ -148,7 +148,6 @@ queryBool(const StmtValue &arg0, const StmtValue &arg1) {
         for (EntityValue var : usedVar) {
           int id = symbolIdGetter(state->closure, var);
           if (curState.isSet(id)) {
-            curState.unset(id);
             EntityValue modifiedVar = modifiesGetter(state->closure, stmtNumber);
             curState.set(symbolIdGetter(state->closure, modifiedVar));
             break;
@@ -222,6 +221,8 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
         if (!typePredicate(state->closure, StmtType::Assign, stmtNumber)) {
           return;
         }
+
+
         state->result->add(stmtNumber, state->endingStmt);
       };
 
@@ -298,24 +299,26 @@ queryForward(StmtTransitiveResult* resultOut,
     return;
   }
 
+  EntityValue modifiedVar = modifiesGetter(closure, stmtNumber);
+  QueryFromResultClosure state{ cfg, closure, resultOut,
+                                stmtNumber, modifiedVar };
+
   int countSymbols = countGetter(closure);
   BitField initialState(countSymbols);
-  for (int i = 0; i < countSymbols; i++) {
-    initialState.set(i);
-  }
+  initialState.set(symbolIdGetter(closure, modifiedVar));
 
   constexpr StatefulWalkerSingleCallback<QueryFromResultClosure>
       forwardWalkerCallback =
       [](QueryFromResultClosure *state, CFGNode nextNode)  {
         int stmtNumber = state->cfg->fromCFGNode(nextNode);
 
-        if (typePredicate(state->closure, StmtType::Assign, stmtNumber)) {
-          unordered_set<EntityValue> usedVars = usesGetter(state->closure,
-                                                           stmtNumber);
-          if (usedVars.find(state->target) != usedVars.end()) {
-            state->result->add(state->startingStmt, stmtNumber);
-          }
-        }
+//        if (typePredicate(state->closure, StmtType::Assign, stmtNumber)) {
+//          unordered_set<EntityValue> usedVars = usesGetter(state->closure,
+//                                                           stmtNumber);
+//          if (usedVars.find(state->target) != usedVars.end()) {
+          state->result->add(state->startingStmt, stmtNumber);
+//          }
+//        }
       };
 
 
@@ -330,19 +333,18 @@ queryForward(StmtTransitiveResult* resultOut,
           return curState;
         }
 
-        EntityValue modifiedVar = modifiesGetter(state->closure, stmtNumber);
-        curState.set(symbolIdGetter(state->closure, modifiedVar));
-
         EntitySet usedVar = usesGetter(state->closure, stmtNumber);
         for (EntityValue var : usedVar) {
-          curState.unset(symbolIdGetter(state->closure, var));
+          int id = symbolIdGetter(state->closure, var);
+          if (curState.isSet(id)) {
+            EntityValue modifiedVar = modifiesGetter(state->closure, stmtNumber);
+            curState.set(symbolIdGetter(state->closure, modifiedVar));
+            break;
+          }
         }
+
         return curState;
       };
-
-  EntityValue modifiedVar = modifiesGetter(closure, stmtNumber);
-  QueryFromResultClosure state{ cfg, closure, resultOut,
-                                stmtNumber, modifiedVar };
 
   CFGStatefulWalker statefulWalker(cfg);
   statefulWalker.walkFrom<QueryFromResultClosure,
