@@ -6,9 +6,12 @@
 
 class PatternConverter {
  public:
+  // TODO Take in PKB Querier
   static ExpressionSequencePtr convertASTToPostfix(IAST* tree);
+  // TODO Take in PKB Writer
   static PatternTriePtr convertASTToTrie(IASTNode* tree);
 
  private:
+  // TODO Take in PKB Querier
   static void traversePostfix(IASTNode *node, ExpressionSequence *output);
 };

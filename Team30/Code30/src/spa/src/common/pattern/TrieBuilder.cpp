@@ -25,6 +25,7 @@ TrieBuilder::BuildState TrieBuilder::walkAST(IASTNode* node) {
   nodeCount++;
 
   if (node->getChildCount() == 0) {
+    // Ask for the ID from PKB instead
     SymbolIdent symId = registerLeaf(node->getValue());
     ownedProcessingNodes.push_back(make_unique<ProcessingNode>(nullptr, symId));
     return TrieBuilder::BuildState {
@@ -46,6 +47,7 @@ TrieBuilder::BuildState TrieBuilder::walkAST(IASTNode* node) {
     curPNode = curPNode->next;
   }
 
+  // Ask for the ID from PKB instead
   SymbolIdent newSymId = registerSymbol(node->getValue());
   ownedProcessingNodes.push_back(
       make_unique<ProcessingNode>(nullptr, newSymId));

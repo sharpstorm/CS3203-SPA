@@ -8,6 +8,7 @@
 
 using std::vector, std::string, std::unique_ptr;
 
+// Pass PKBWriter as a lambda
 class TrieBuilder {
  public:
   explicit TrieBuilder(IASTNode* astRoot);

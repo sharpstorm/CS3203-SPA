@@ -26,6 +26,8 @@ PatternClausePtr PQLAssignPatternContext::parse(
   ExpressionArgumentPtr exprArg = make_unique<ExpressionArgument>(
       std::move(sequence), secondArg->allowsPartial());
 
+  // Convert at evaluation stage - Parse entire AST into the pattern clause
+  // Takes in an IASTPter instead of the ExpressionArg
   return make_unique<AssignPatternClause>(
       synonym, std::move(firstArg), std::move(exprArg));
 }
