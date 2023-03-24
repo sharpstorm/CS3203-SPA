@@ -113,8 +113,6 @@ class CFGStatefulWalker {
   void runBackwardDFS(CFGNode start, BitField initialState, T* state) {
     runDFS<T, callback, backwardLinkGetter>(start, initialState, state);
   }
-
-
 };
 
 template <typename T>

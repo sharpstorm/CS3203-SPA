@@ -148,7 +148,8 @@ queryBool(const StmtValue &arg0, const StmtValue &arg1) {
         for (EntityValue var : usedVar) {
           int id = symbolIdGetter(state->closure, var);
           if (curState.isSet(id)) {
-            EntityValue modifiedVar = modifiesGetter(state->closure, stmtNumber);
+            EntityValue modifiedVar =
+                modifiesGetter(state->closure,stmtNumber);
             curState.set(symbolIdGetter(state->closure, modifiedVar));
             break;
           }
@@ -292,7 +293,6 @@ void CFGAffectsTQuerier<ClosureType, typePredicate,
                         countGetter, symbolIdGetter>::
 queryForward(StmtTransitiveResult* resultOut,
              const StmtValue &start) {
-
   int stmtNumber = cfg->fromCFGNode(start);
 
   if (!validateArg(stmtNumber)) {
@@ -337,7 +337,8 @@ queryForward(StmtTransitiveResult* resultOut,
         for (EntityValue var : usedVar) {
           int id = symbolIdGetter(state->closure, var);
           if (curState.isSet(id)) {
-            EntityValue modifiedVar = modifiesGetter(state->closure, stmtNumber);
+            EntityValue modifiedVar =
+                modifiesGetter(state->closure, stmtNumber);
             curState.set(symbolIdGetter(state->closure, modifiedVar));
             break;
           }

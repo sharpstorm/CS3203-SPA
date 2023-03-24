@@ -20,4 +20,5 @@ template <class ClosureType>
 using CountGetter = int(*)(const ClosureType &state);
 
 template <class ClosureType>
-using SymbolIdGetter = int(*)(const ClosureType &state, const EntityValue &value);
+using SymbolIdGetter = int(*)(const ClosureType &state,
+    const EntityValue &value);
