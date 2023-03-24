@@ -12,7 +12,7 @@ class OverrideTransformer {
  public:
   explicit OverrideTransformer(int stmt): stmtRef(stmt), entRef(NO_ENT) {}
   explicit OverrideTransformer(string ent): stmtRef(NO_STMT), entRef(ent) {}
-  bool returnsInteger();
-  StmtRef transformArg(StmtRef input);
-  EntityRef transformArg(EntityRef input);
+  bool returnsInteger() const;
+  StmtRef transformArg(StmtRef input) const;
+  EntityRef transformArg(EntityRef input) const;
 };

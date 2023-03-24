@@ -3,6 +3,7 @@
 
 #include "AssignPatternClause.h"
 #include "qps/clauses/arguments/SynonymArgument.h"
+#include "qps/clauses/ClauseScoring.h"
 
 using std::make_unique;
 
@@ -60,4 +61,12 @@ void AssignPatternClause::checkTries(
       output->add(it.first, it.second);
     }
   }
+}
+
+ComplexityScore AssignPatternClause::getComplexityScore(
+    const OverrideTable &table) {
+  if (table.contains(leftArg->getName())) {
+    return COMPLEXITY_QUERY_CONSTANT;
+  }
+  return COMPLEXITY_QUERY_SYN_ASSIGN;
 }

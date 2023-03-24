@@ -6,6 +6,7 @@
 #include "common/Types.h"
 #include "../../common/PQLQuerySynonym.h"
 #include "qps/constraints/Constraint.h"
+#include "qps/common/IEvaluatable.h"
 
 using std::unique_ptr, std::to_string, std::string;
 
@@ -18,8 +19,10 @@ class ClauseArgument {
 
   virtual bool isNamed();
   virtual bool isWildcard();
+  virtual bool isConstant();
 
   virtual PQLSynonymName getName();
+  virtual ComplexityScore getSynComplexity();
   virtual StmtRef toStmtRef() = 0;
   virtual EntityRef toEntityRef() = 0;
 

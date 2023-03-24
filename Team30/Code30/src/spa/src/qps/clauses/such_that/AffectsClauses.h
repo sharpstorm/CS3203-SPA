@@ -127,6 +127,11 @@ class AffectsClause: public AbstractAffectsClause<
   AffectsClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
   }
+
+  ComplexityScore getComplexityScore(const OverrideTable &table) override {
+    return computeComplexityScore<
+        COMPLEXITY_AFFECTS, COMPLEXITY_AFFECTS, COMPLEXITY_AFFECTS>(table);
+  }
 };
 
 class AffectsTClause: public AbstractAffectsClause<
@@ -135,5 +140,13 @@ class AffectsTClause: public AbstractAffectsClause<
  public:
   AffectsTClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
+  }
+
+  ComplexityScore getComplexityScore(const OverrideTable &table) override {
+    return computeComplexityScore<
+        COMPLEXITY_AFFECTS_T,
+        COMPLEXITY_AFFECTS_T + COMPLEXITY_QUERY_TRANSITIVE,
+        COMPLEXITY_AFFECTS_T + COMPLEXITY_QUERY_TRANSITIVE
+    >(table);
   }
 };

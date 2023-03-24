@@ -22,3 +22,11 @@ bool AbstractTwoArgClause::isSameSynonym() {
   return left->isNamed() && right->isNamed()
       && left->getName() == right->getName();
 }
+
+ComplexityScore AbstractTwoArgClause::computeComplexityScore(
+    const OverrideTable &table) {
+  return computeComplexityScore<
+      COMPLEXITY_MODIFIER_NONE,
+      COMPLEXITY_MODIFIER_NONE,
+      COMPLEXITY_MODIFIER_NONE>(table);
+}

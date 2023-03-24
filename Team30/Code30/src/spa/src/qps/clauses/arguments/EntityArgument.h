@@ -14,4 +14,5 @@ class EntityArgument: public ClauseArgument {
   explicit EntityArgument(const string &ident);
   StmtRef toStmtRef() override;
   EntityRef toEntityRef() override;
+  bool isConstant() override;
 };

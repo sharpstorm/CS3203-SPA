@@ -1,6 +1,7 @@
 #include "OverrideTable.h"
 
-StmtRef OverrideTable::transformArg(const PQLSynonymName &name, StmtRef ref) {
+StmtRef OverrideTable::transformArg(const PQLSynonymName &name,
+                                    StmtRef ref) const {
   if (!contains(name)) {
     return ref;
   }
@@ -9,7 +10,7 @@ StmtRef OverrideTable::transformArg(const PQLSynonymName &name, StmtRef ref) {
 }
 
 EntityRef OverrideTable::transformArg(const PQLSynonymName &name,
-                                      EntityRef ref) {
+                                      EntityRef ref) const {
   if (!contains(name)) {
     return ref;
   }
@@ -17,7 +18,7 @@ EntityRef OverrideTable::transformArg(const PQLSynonymName &name,
   return table.at(name).transformArg(ref);
 }
 
-bool OverrideTable::contains(const PQLSynonymName &name) {
+bool OverrideTable::contains(const PQLSynonymName &name) const {
   return table.find(name) != table.end();
 }
 
@@ -26,6 +27,6 @@ void OverrideTable::insert(const PQLSynonymName &name,
   table.emplace(name, transformer);
 }
 
-OverrideTransformer OverrideTable::get(const PQLSynonymName &name) {
+OverrideTransformer OverrideTable::get(const PQLSynonymName &name) const {
   return table.at(name);
 }

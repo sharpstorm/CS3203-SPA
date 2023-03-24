@@ -104,6 +104,13 @@ class NextClause: public AbstractNextClause<
   NextClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
   }
+
+  ComplexityScore getComplexityScore(const OverrideTable &table) override {
+    return computeComplexityScore<
+        COMPLEXITY_MODIFIER_NONE,
+        COMPLEXITY_MODIFIER_NONE,
+        COMPLEXITY_NEXT>(table);
+  }
 };
 
 class NextTClause: public AbstractNextClause<
@@ -112,5 +119,13 @@ class NextTClause: public AbstractNextClause<
  public:
   NextTClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
+  }
+
+  ComplexityScore getComplexityScore(const OverrideTable &table) override {
+    return computeComplexityScore<
+        COMPLEXITY_NEXT_T,
+        COMPLEXITY_NEXT_T + COMPLEXITY_QUERY_TRANSITIVE,
+        COMPLEXITY_NEXT_T + COMPLEXITY_QUERY_TRANSITIVE
+    >(table);
   }
 };

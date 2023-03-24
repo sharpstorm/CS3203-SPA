@@ -10,3 +10,7 @@ StmtRef EntityArgument::toStmtRef() {
 EntityRef EntityArgument::toEntityRef() {
   return EntityRef{EntityType::None, ident};
 }
+
+bool EntityArgument::isConstant() {
+  return true;
+}

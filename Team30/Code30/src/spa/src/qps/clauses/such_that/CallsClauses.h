@@ -40,6 +40,10 @@ class CallsClause: public AbstractCallsClause<
   CallsClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractEntEntClause(std::move(left), std::move(right)) {
   }
+
+  ComplexityScore getComplexityScore(const OverrideTable &table) override {
+    return computeComplexityScore(table);
+  }
 };
 
 class CallsTClause: public AbstractCallsClause<
@@ -48,5 +52,13 @@ class CallsTClause: public AbstractCallsClause<
  public:
   CallsTClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractEntEntClause(std::move(left), std::move(right)) {
+  }
+
+  ComplexityScore getComplexityScore(const OverrideTable &table) override {
+    return computeComplexityScore<
+        COMPLEXITY_MODIFIER_NONE,
+        COMPLEXITY_QUERY_TRANSITIVE,
+        COMPLEXITY_QUERY_TRANSITIVE
+    >(table);
   }
 };

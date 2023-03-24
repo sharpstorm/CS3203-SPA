@@ -7,6 +7,7 @@
 #include "common/Types.h"
 #include "qps/clauses/PatternClause.h"
 #include "qps/clauses/InvokerTypes.h"
+#include "qps/clauses/ClauseScoring.h"
 
 using PatternQueryInvoker = QueryInvoker<StmtValue, StmtRef,
                                          EntityValue, EntityRef>;
@@ -33,5 +34,13 @@ class AbstractPatternClause: public PatternClause {
     QueryResult<StmtValue, EntityValue> result =
         invoker(agent, leftStatement, leftVar);
     return Clause::toQueryResult(synonym->getName(), leftArg.get(), result);
+  }
+
+ public:
+  ComplexityScore getComplexityScore(const OverrideTable &table) override {
+    if (table.contains(leftArg->getName())) {
+      return COMPLEXITY_QUERY_CONSTANT;
+    }
+    return COMPLEXITY_QUERY_SYN_CONTAINER;
   }
 };

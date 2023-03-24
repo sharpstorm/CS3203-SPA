@@ -7,6 +7,7 @@
 #include "qps/clauses/Clause.h"
 #include "qps/clauses/InvokerTypes.h"
 #include "qps/clauses/SuchThatClause.h"
+#include "qps/clauses/ClauseScoring.h"
 
 using std::unordered_set;
 
@@ -57,6 +58,25 @@ class AbstractTwoArgClause: public SuchThatClause {
     bool isRightValid = right->synonymSatisfies(rightValidator);
     return isLeftValid && isRightValid;
   }
+
+  template <
+      ComplexityScore constantModifier,
+      ComplexityScore oneSynModifier,
+      ComplexityScore twoSynModifier>
+  ComplexityScore computeComplexityScore(const OverrideTable &table) {
+    if (left->isConstant() && right->isConstant()) {
+      return COMPLEXITY_QUERY_CONSTANT + constantModifier;
+    } else if (!left->isConstant() && !right->isConstant()) {
+      return COMPLEXITY_QUERY_LIST_ALL + twoSynModifier +
+          + left->getSynComplexity() + right->getSynComplexity();
+    } else if (left->isConstant()) {
+      return right->getSynComplexity() + oneSynModifier;
+    } else {
+      return left->getSynComplexity() + oneSynModifier;
+    }
+  }
+
+  ComplexityScore computeComplexityScore(const OverrideTable &table);
 
  public:
   AbstractTwoArgClause(ClauseArgumentPtr left, ClauseArgumentPtr right);
