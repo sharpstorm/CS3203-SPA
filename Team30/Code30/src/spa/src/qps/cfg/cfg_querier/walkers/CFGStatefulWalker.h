@@ -82,12 +82,12 @@ class CFGStatefulWalker {
           callback(closure, nextNode);
         }
 
-        BitField difference = visitedNodes[nextNode].differenceWith(newState);
+        BitField difference = visitedNodes[nextNode].projectOnto(newState);
         if (visitedNodes[nextNode].contains(newState)) {
           continue;
         }
         visitedNodes[nextNode] = visitedNodes[nextNode].unionWith(newState);
-        if (!newState.empty() && nextNode != start) {
+        if (!newState.empty()) {
           currentNodes.push_back(nextNode);
           pathStates.push_back(difference);
         }

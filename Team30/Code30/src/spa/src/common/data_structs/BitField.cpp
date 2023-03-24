@@ -106,3 +106,23 @@ BitField BitField::differenceWith(const BitField &other) {
 
   return result;
 }
+
+BitField BitField::projectOnto(const BitField &other) {
+  int maxCapacity = (capacity > other.capacity) ? capacity : other.capacity;
+  int minCapacity = (capacity < other.capacity) ? capacity : other.capacity;
+
+  BitField result(maxCapacity);
+  for (int i = 0; i < minCapacity; i++) {
+    if (other.isSet(i) && !isSet(i)) {
+      result.set(i);
+    }
+  }
+
+  for (int i = minCapacity; i < maxCapacity && i < other.capacity; i++) {
+    if (other.isSet(i)) {
+      result.set(i);
+    }
+  }
+
+  return result;
+}
