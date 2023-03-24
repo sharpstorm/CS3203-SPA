@@ -5,12 +5,14 @@
 #include "qps/common/IEvaluatable.h"
 #include "qps/executor/planner/grouping/QueryGrouper.h"
 
-QueryPlanPtr QueryPlanner::getExecutionPlan(PQLQuery *targetQuery) {
+QueryPlanPtr QueryPlanner::getExecutionPlan(PQLQuery *targetQuery,
+                                            OverrideTable* overrides) {
   vector<QueryGroupPtr> groups = QueryGrouper(targetQuery).groupClauses();
 
   vector<QueryGroupPlanPtr> groupPlans(groups.size());
   for (int i = 0; i < groups.size(); i++) {
-    QueryGroupPlanPtr groupOrder = clauseOrderer.orderClauses(groups[i].get());
+    QueryGroupPlanPtr groupOrder = clauseOrderer.orderClauses(groups[i].get(),
+                                                              overrides);
     groupPlans[i] = std::move(groupOrder);
   }
 

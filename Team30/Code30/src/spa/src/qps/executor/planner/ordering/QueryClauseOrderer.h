@@ -8,16 +8,42 @@
 #include "qps/executor/planner/grouping/QueryGroupPlan.h"
 #include "common/data_structs/BitField.h"
 
-using std::queue, std::vector, std::unordered_set;
+using std::priority_queue, std::vector, std::unordered_set;
 
 typedef int ClauseId;
 
 class QueryClauseOrderer {
- public:
-  QueryGroupPlanPtr orderClauses(QueryGroup* group);
-
  private:
-  void populateQueue(queue<ClauseId>* target,
+  class ComparableClause {
+   private:
+    ComplexityScore complexity;
+    ClauseId clauseId;
+
+   public:
+    ComparableClause(const ComplexityScore &complexity,
+                     const ClauseId &clauseId):
+        complexity(complexity), clauseId(clauseId) {
+    }
+
+    ClauseId getId() {
+      return clauseId;
+    }
+
+    ComplexityScore getComplexity() {
+      return complexity;
+    }
+
+    bool operator<(const ComparableClause& other) const {
+      return complexity > other.complexity;
+    }
+  };
+
+  void populateQueue(priority_queue<ComparableClause>* target,
                      BitField* clauseDone,
-                     unordered_set<ClauseId>* edges);
+                     unordered_set<ClauseId>* edges,
+                     QueryGroup *group);
+
+ public:
+  QueryGroupPlanPtr orderClauses(QueryGroup* group, OverrideTable* overrides);
+
 };

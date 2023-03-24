@@ -14,7 +14,7 @@ using std::unique_ptr, std::queue, std::vector;
 
 class QueryPlanner {
  public:
-  QueryPlanPtr getExecutionPlan(PQLQuery* query);
+  QueryPlanPtr getExecutionPlan(PQLQuery* query, OverrideTable* overrides);
 
  private:
   QueryClauseOrderer clauseOrderer;

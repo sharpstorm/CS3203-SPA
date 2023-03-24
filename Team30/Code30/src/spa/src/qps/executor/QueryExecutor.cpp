@@ -20,7 +20,7 @@ SynonymResultTable *QueryExecutor::executeQuery(PQLQuery* query) {
     return new SynonymResultTable(isBoolResult, false);
   }
 
-  QueryPlanPtr plan = planner.getExecutionPlan(query);
+  QueryPlanPtr plan = planner.getExecutionPlan(query, overrideTable.get());
   // Query just have constraints
   if (plan->isEmpty()) {
     return new SynonymResultTable(isBoolResult, true);
