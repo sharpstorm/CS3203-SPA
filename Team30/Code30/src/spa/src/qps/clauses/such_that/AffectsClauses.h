@@ -98,10 +98,10 @@ constexpr AffectsInvoker affectsTInvoker = [](const QueryExecutorAgent &agent,
                                               const StmtRef &rightArg){
   QueryResult<StmtValue, StmtValue> result{};
 
-  if (leftArg.type != StmtType::None && leftArg.type != StmtType::Assign) {
+  if (!leftArg.isType(StmtType::None) && !leftArg.isType(StmtType::Assign)) {
     return result;
   }
-  if (rightArg.type != StmtType::None && rightArg.type != StmtType::Assign) {
+  if (!rightArg.isType(StmtType::None) && !rightArg.isType(StmtType::Assign)) {
     return result;
   }
 
