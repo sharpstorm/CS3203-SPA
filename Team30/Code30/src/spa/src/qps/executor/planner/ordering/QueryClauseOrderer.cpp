@@ -9,17 +9,18 @@ QueryGroupPlanPtr QueryClauseOrderer::orderClauses(QueryGroup *group,
   int evalCount = group->getEvaluatableCount();
   int currentWeightedMin = INT_MAX;
   vector<IEvaluatable*> groupOrdering;
-  BitField seenClauses(evalCount);
 
   vector<IEvaluatable*> tempOrdering(evalCount);
   for (int i = 0; i < evalCount; i++) {
     int runningWeight = 0;
     int curModifier = evalCount;
     int curIndex = 0;
+    BitField seenClauses(evalCount);
     priority_queue<ComparableClause> queuedClauses;
 
     IEvaluatable* current = group->getEvaluatable(i);
     queuedClauses.push({current->getComplexityScore(overrides), i});
+    seenClauses.set(i);
     while (!queuedClauses.empty()) {
       ComparableClause curClause = queuedClauses.top();
       queuedClauses.pop();
