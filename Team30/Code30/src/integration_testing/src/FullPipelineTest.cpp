@@ -605,3 +605,11 @@ TEST_CASE("Affects Typing Test") {
   pipeline.query("stmt r1, r2; Select r2 such that Affects(r1, r2) with r1.stmt# = r2.stmt#",
                  {"9", "11"});
 }
+
+TEST_CASE("With Override Test") {
+  auto pipeline = TestPipelineProvider();
+
+  pipeline.expectSemanticError("stmt s; Select s with s.value = 2");
+  pipeline.expectSyntaxError("stmt s; Select s with s = 2");
+  pipeline.expectSemanticError("stmt s; Select s.value");
+}

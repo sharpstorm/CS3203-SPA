@@ -27,19 +27,19 @@ EntityRef QueryExecutorAgent::transformArg(const PQLSynonymName name,
 }
 
 bool QueryExecutorAgent::isValid(const StmtRef &ref) const {
-  if (ref.type == StmtType::None) {
+  if (ref.isType(StmtType::None)) {
     return true;
   }
 
   return !ref.isKnown()
-      || pkbQueryHandler->isStatementOfType(ref.type, ref.lineNum);
+      || pkbQueryHandler->isStatementOfType(ref.getType(), ref.getValue());
 }
 
 bool QueryExecutorAgent::isValid(const EntityRef &ref) const {
-  if (ref.type == EntityType::None) {
+  if (ref.isType(EntityType::None)) {
     return true;
   }
 
   return !ref.isKnown() ||
-      pkbQueryHandler->isSymbolOfType(ref.type, ref.name);
+      pkbQueryHandler->isSymbolOfType(ref.getType(), ref.getValue());
 }

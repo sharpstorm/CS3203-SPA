@@ -9,7 +9,7 @@
 #include "VariableTable.h"
 #include "PQLQuerySynonymProxy.h"
 
-using std::unique_ptr, std::vector, std::shared_ptr, std::string;
+using std::unique_ptr, std::vector, std::string;
 
 class AttributedSynonym {
   PQLQuerySynonymProxy synProxy;
@@ -28,8 +28,9 @@ class AttributedSynonym {
   bool returnsInteger();
   bool isStatementType();
   bool hasAttribute();
+
+  bool isDefaultAttribute();
 };
 
-typedef shared_ptr<AttributedSynonym> AttributedSynonymSPtr;
 typedef unique_ptr<AttributedSynonym> AttributedSynonymPtr;
 typedef vector<AttributedSynonym> AttributedSynonymList;

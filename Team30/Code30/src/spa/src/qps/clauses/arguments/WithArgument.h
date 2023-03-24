@@ -30,6 +30,8 @@ class WithArgument {
   int getIntValue();
   string getIdentValue();
   AttributedSynonym getAttrSyn();
+
+  bool isDefaultAttribute();
 };
 
 typedef unique_ptr<WithArgument> WithArgumentPtr;

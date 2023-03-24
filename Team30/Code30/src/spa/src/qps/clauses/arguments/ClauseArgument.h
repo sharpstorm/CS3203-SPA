@@ -5,7 +5,7 @@
 
 #include "common/Types.h"
 #include "../../common/PQLQuerySynonym.h"
-#include "qps/common/constraint/Constraint.h"
+#include "qps/constraints/Constraint.h"
 
 using std::unique_ptr, std::to_string, std::string;
 
@@ -20,7 +20,6 @@ class ClauseArgument {
   virtual bool isWildcard();
 
   virtual PQLSynonymName getName();
-  virtual PQLQuerySynonym* getSyn();
   virtual StmtRef toStmtRef() = 0;
   virtual EntityRef toEntityRef() = 0;
 

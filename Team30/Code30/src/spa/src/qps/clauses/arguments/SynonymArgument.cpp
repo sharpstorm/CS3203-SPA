@@ -1,5 +1,4 @@
 #include "SynonymArgument.h"
-#include "PKBTypeAdapter.h"
 
 SynonymArgument::SynonymArgument(const PQLQuerySynonymProxy &synProxy):
     synProxy(synProxy) {
@@ -18,17 +17,43 @@ PQLSynonymName SynonymArgument::getName() {
 }
 
 StmtRef SynonymArgument::toStmtRef() {
-  StmtType stmtType =
-      PKBTypeAdapter::convertPQLSynonymToStmt(synProxy->getType());
+  StmtType stmtType = convertToStmtType(synProxy->getType());
   return StmtRef{stmtType, 0};
 }
 
 EntityRef SynonymArgument::toEntityRef() {
-  EntityType entType =
-      PKBTypeAdapter::convertPQLSynonymToEntity(synProxy->getType());
+  EntityType entType = convertToEntityType(synProxy->getType());
   return EntityRef{ entType, "" };
 }
 
-PQLQuerySynonym *SynonymArgument::getSyn() {
-  return synProxy.get();
+EntityType SynonymArgument::convertToEntityType(PQLSynonymType type) {
+  switch (type) {
+    case PQL_SYN_TYPE_PROCEDURE:
+      return EntityType::Procedure;
+    case PQL_SYN_TYPE_VARIABLE:
+      return EntityType::Variable;
+    case PQL_SYN_TYPE_CONSTANT:
+      return EntityType::Constant;
+    default:
+      return EntityType::None;
+  }
+}
+
+StmtType SynonymArgument::convertToStmtType(PQLSynonymType type) {
+  switch (type) {
+    case PQL_SYN_TYPE_CALL:
+      return StmtType::Call;
+    case PQL_SYN_TYPE_ASSIGN:
+      return StmtType::Assign;
+    case PQL_SYN_TYPE_IF:
+      return StmtType::If;
+    case PQL_SYN_TYPE_WHILE:
+      return StmtType::While;
+    case PQL_SYN_TYPE_READ:
+      return StmtType::Read;
+    case PQL_SYN_TYPE_PRINT:
+      return StmtType::Print;
+    default:
+      return StmtType::None;
+  }
 }

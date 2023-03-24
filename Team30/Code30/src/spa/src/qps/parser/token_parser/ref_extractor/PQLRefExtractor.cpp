@@ -1,10 +1,12 @@
 #include "PQLRefExtractor.h"
+
 #include "qps/clauses/arguments/ClauseArgumentFactory.h"
 
-ClauseArgumentPtr PQLRefExtractor::extractCommonRef(
-    QueryTokenParseState* state,  QueryBuilder* builder) {
-  if (state->isCurrentTokenType(PQL_TOKEN_UNDERSCORE)) {
-    state->advanceToken();
+ClauseArgumentPtr PQLRefExtractor::extractCommonRef(QueryTokenParseState* state,
+                                                    QueryBuilder* builder) {
+  PQLToken* token = state->tryExpect(PQL_TOKEN_UNDERSCORE);
+
+  if (token != nullptr) {
     return ClauseArgumentFactory::createWildcard();
   }
 
