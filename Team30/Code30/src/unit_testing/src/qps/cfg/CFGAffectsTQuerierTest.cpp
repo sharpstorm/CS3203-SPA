@@ -105,7 +105,9 @@ TEST_CASE("AffectsT Linear (Const, Const)") {
   assertQueryAffectsTNotEmpty(&querier, 1, {2, 3});
   assertQueryAffectsTNotEmpty(&querier, 2, {3});
   assertQueryAffectsTEmpty(&querier, 1, {4});
-
+  assertQueryAffectsTEmpty(&querier, 2, {2,4});
+  assertQueryAffectsTEmpty(&querier, 3, {1,2,4});
+  assertQueryAffectsTEmpty(&querier, 4, {1,2,3});
 }
 
 TEST_CASE("AffectsT If (Const, Const)") {

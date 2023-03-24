@@ -72,7 +72,6 @@ class CFGAffectsTQuerier: public ICFGClauseQuerier,
     const ClosureType &closure;
     StmtTransitiveResult* result;
     StmtValue endingStmt;
-    EntitySymbolMap symbolMap;
   };
 
   CFG* cfg;
@@ -126,7 +125,7 @@ queryBool(const StmtValue &arg0, const StmtValue &arg1) {
 
   constexpr StatefulWalkerSingleCallback<BoolResultClosure>
       forwardWalkerCallback =
-      [](BoolResultClosure *state, CFGNode nextNode)  {
+      [](BoolResultClosure *state, CFGNode nextNode) {
         int stmtNumber = state->cfg->fromCFGNode(nextNode);
         if (stmtNumber == state->targetStmt) {
           state->isValidPathFound = true;
@@ -207,20 +206,11 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
 
   CFGNode nodeTo = cfg->toCFGNode(arg1);
   EntitySet usedVars = usesGetter(closure, arg1);
-  EntitySymbolMap symbolMap;
-  if (usedVars.empty()) {
-    return result;
-  }
 
-  int counter = 0;
-  for (EntityValue val : usedVars) {
-    symbolMap.emplace(val, counter);
-    counter++;
-  }
-
-  BitField initialState(counter);
-  for (int i = 0; i < counter; i++) {
-    initialState.set(i);
+  int countSymbols = countGetter(closure);
+  BitField initialState(countSymbols);
+  for (EntityValue x : usedVars) {
+    initialState.set(symbolIdGetter(closure, x));
   }
 
   constexpr StatefulWalkerSingleCallback<QueryToResultClosure>
@@ -247,23 +237,19 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
         }
 
         EntityValue modifiedVar = modifiesGetter(state->closure, stmtNumber);
-        if (auto it = state->symbolMap.find(modifiedVar);
-            it != state->symbolMap.end()) {
-          curState.unset(it->second);
-        }
-
-        unordered_set<EntityValue> usedVar = usesGetter(state->closure, stmtNumber);
-        for (EntityValue var : usedVar) {
-          if (auto it = state->symbolMap.find(var);
-              it != state->symbolMap.end()) {
-            curState.set(it->second);
+        int symId = symbolIdGetter(state->closure, modifiedVar);
+        if (curState.isSet(symId)) {
+          curState.unset(symId);
+          EntityValueSet usedVars = usesGetter(state->closure, stmtNumber);
+          for (EntityValue var : usedVars) {
+            curState.set(symbolIdGetter(state->closure, var));
           }
         }
 
         return curState;
       };
 
-  QueryToResultClosure state { cfg, closure, &result, arg1, symbolMap };
+  QueryToResultClosure state { cfg, closure, &result, arg1 };
   CFGStatefulWalker statefulWalker(cfg);
 
   statefulWalker.walkTo<QueryToResultClosure,
