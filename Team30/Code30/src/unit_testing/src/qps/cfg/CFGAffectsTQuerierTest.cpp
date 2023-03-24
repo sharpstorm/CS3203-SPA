@@ -85,7 +85,15 @@ CFGTestModifiesUsesProvider whileProvider(
     {{1, StmtType::While}}
 );
 
-CFGTestModifiesUsesProvider ifProvider(
+CFGTestModifiesUsesProvider ifNoneProvider(
+    { "x", "", "y", "y", "z"},
+    {{}, {"x"}, {"x"}, {"x"}, {"x"}},
+    3,
+    {{"x", 0}, {"y", 1}, {"z", 2}},
+    {{2, StmtType::If}}
+);
+
+CFGTestModifiesUsesProvider ifThenProvider(
     { "x", "", "y", "x", "z"},
     {{}, {"x"}, {"x"}, {}, {"y"}},
     3,
@@ -93,13 +101,23 @@ CFGTestModifiesUsesProvider ifProvider(
     {{2, StmtType::If}}
 );
 
+CFGTestModifiesUsesProvider ifElseProvider(
+    { "x", "", "x", "y", "z"},
+    {{}, {"x"}, {}, {"x"}, {"y"}},
+    3,
+    {{"x", 0}, {"y", 1}, {"z", 2}},
+    {{2, StmtType::If}}
+);
+
+CFGTestModifiesUsesProvider ifBothProvider(
+    { "x", "", "y", "y", "z"},
+    {{}, {"x"}, {"x"}, {"x"}, {"y"}},
+    3,
+    {{"x", 0}, {"y", 1}, {"z", 2}},
+    {{2, StmtType::If}}
+);
+
 TEST_CASE("AffectsT Linear (Const, Const)") {
-  /*
-   * 0 | a = 1;
-   * 1 | b = a;
-   * 2 | c = b;
-   * 3 | d = e;
-   */
   auto cfg = TestCFGProvider::getLinearTransitiveCFG();
   CFGTestAffectsTQuerier querier(&cfg, transitiveLinearProvider);
   assertQueryAffectsTNotEmpty(&querier, 1, {2, 3});
@@ -110,141 +128,404 @@ TEST_CASE("AffectsT Linear (Const, Const)") {
   assertQueryAffectsTEmpty(&querier, 4, {1,2,3});
 }
 
-TEST_CASE("AffectsT If (Const, Const)") {
-  /*
-  * 0 |  x = 1;
-  * 1 |  if (x != 1) then {
-  * 2 |    y = x;
-  *   |  } else {
-  * 3 |    x = 2;
-  *   |  }
-  * 4 |  z = y;
-  */
-  auto cfg = TestCFGProvider::getAffectsTIfCFG();
-  CFGTestAffectsTQuerier querier(&cfg, ifProvider);
+TEST_CASE("AffectsT While (Const, Const)") {
+  auto cfg = TestCFGProvider::getAffectsTWhileCFG();
+  CFGTestAffectsTQuerier querier(&cfg, whileProvider);
+  assertQueryAffectsTNotEmpty(&querier, 2, {3, 4, 2});
+  assertQueryAffectsTNotEmpty(&querier, 3, {2, 3, 4});
+  assertQueryAffectsTNotEmpty(&querier, 4, {2, 3, 4});
+}
+
+TEST_CASE("AffectsT If None path (Const, Const)") {
+  auto cfg = TestCFGProvider::getAffectsTIfNoneCFG();
+  CFGTestAffectsTQuerier querier(&cfg, ifNoneProvider);
+  assertQueryAffectsTNotEmpty(&querier, 1, {3, 4, 5});
+}
+
+TEST_CASE("AffectsT If Then path (Const, Const)") {
+  auto cfg = TestCFGProvider::getAffectsTIfThenCFG();
+  CFGTestAffectsTQuerier querier(&cfg, ifThenProvider);
   assertQueryAffectsTNotEmpty(&querier, 1, {3, 5});
   assertQueryAffectsTNotEmpty(&querier, 3, {5});
 }
 
-TEST_CASE("AffectsT While (Const, Const)") {
-  /*
-  * 0 | while (x < 0) {
-  * 1 |  a = b;
-  * 2 |  b = c;
-  * 3 |  c = a;
-  * }
-  * */
-  auto cfg = TestCFGProvider::getAffectsTWhileCFG();
-  CFGTestAffectsTQuerier querier(&cfg, whileProvider);
-  assertQueryAffectsTNotEmpty(&querier, 2, {3, 4});
-  assertQueryAffectsTNotEmpty(&querier, 3, {2, 4});
-  assertQueryAffectsTNotEmpty(&querier, 4, {2, 3});
+TEST_CASE("AffectsT If Else path (Const, Const)") {
+  auto cfg = TestCFGProvider::getAffectsTIfThenCFG();
+  CFGTestAffectsTQuerier querier(&cfg, ifElseProvider);
+  assertQueryAffectsTNotEmpty(&querier, 1, {4, 5});
+  assertQueryAffectsTNotEmpty(&querier, 4, {5});
 }
 
+TEST_CASE("AffectsT If Both path (Const, Const)") {
+  auto cfg = TestCFGProvider::getAffectsTIfBothCFG();
+  CFGTestAffectsTQuerier querier(&cfg, ifBothProvider);
+  assertQueryAffectsTNotEmpty(&querier, 1, {3, 4, 5});
+  assertQueryAffectsTNotEmpty(&querier, 3, {5});
+  assertQueryAffectsTNotEmpty(&querier, 4, {5});
+}
 
 TEST_CASE("AffectsT Linear (Const, _)") {
-/*
-  * 0 | a = 1;
-  * 1 | b = a;
-  * 2 | c = b;
-  * 3 | d = e;
-  * */
-
-
   auto cfg = TestCFGProvider::getLinearTransitiveCFG();
   CFGTestAffectsTQuerier querier(&cfg, transitiveLinearProvider);
 
-
   StmtTransitiveResult  result;
-//  result = queryAffectsT(&querier, 1, 0);
-//  REQUIRE_FALSE(result.isEmpty);
-//  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{2, 3});
+  result = queryAffectsT(&querier, 1, 0);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{2, 3});
 
-//  result = queryAffectsT(&querier, 2, 0);
-//  REQUIRE_FALSE(result.isEmpty);
-//  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{3});
+  result = queryAffectsT(&querier, 2, 0);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{3});
 
   result = queryAffectsT(&querier, 3, 0);
   REQUIRE(result.isEmpty);
 
   result = queryAffectsT(&querier, 4, 0);
   REQUIRE(result.isEmpty);
+
 }
 
 TEST_CASE("AffectsT While (Const, _)") {
   auto cfg = TestCFGProvider::getAffectsTWhileCFG();
   CFGTestAffectsTQuerier querier(&cfg, whileProvider);
+  assertQueryAffectsTNotEmpty(&querier, 2, {3, 4, 2});
+  assertQueryAffectsTNotEmpty(&querier, 3, {2, 3, 4});
+  assertQueryAffectsTNotEmpty(&querier, 4, {2, 3, 4});
 
-  auto result = queryAffectsT(&querier, 1, 0);
+  StmtTransitiveResult result;
+  result = queryAffectsT(&querier, 1, 0);
   REQUIRE(result.isEmpty);
 
   result = queryAffectsT(&querier, 2, 0);
   REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{3, 4});
+  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{2, 3, 4});
 
   result = queryAffectsT(&querier, 3, 0);
   REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{2, 4});
+  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{2, 3, 4});
 
   result = queryAffectsT(&querier, 4, 0);
   REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{2, 3});
+  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{2, 3, 4});
+}
+
+TEST_CASE("AffectsT If None path (Const, _)") {
+  auto cfg = TestCFGProvider::getAffectsTIfNoneCFG();
+  CFGTestAffectsTQuerier querier(&cfg, ifNoneProvider);
+  assertQueryAffectsTNotEmpty(&querier, 1, {3, 4});
+
+  StmtTransitiveResult result;
+  result = queryAffectsT(&querier, 1, 0);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{3, 4, 5});
+
+  result = queryAffectsT(&querier, 2, 0);
+  REQUIRE(result.isEmpty);
+
+  result = queryAffectsT(&querier, 3, 0);
+  REQUIRE(result.isEmpty);
+
+  result = queryAffectsT(&querier, 4, 0);
+  REQUIRE(result.isEmpty);
+
+  result = queryAffectsT(&querier, 5, 0);
+  REQUIRE(result.isEmpty);
+}
+
+TEST_CASE("AffectsT If Then path (Const, _)") {
+  auto cfg = TestCFGProvider::getAffectsTIfThenCFG();
+  CFGTestAffectsTQuerier querier(&cfg, ifThenProvider);
+  assertQueryAffectsTNotEmpty(&querier, 1, {3, 5});
+  assertQueryAffectsTNotEmpty(&querier, 3, {5});
+
+  StmtTransitiveResult result;
+  result = queryAffectsT(&querier, 1, 0);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{3, 5});
+
+  result = queryAffectsT(&querier, 2, 0);
+  REQUIRE(result.isEmpty);
+
+  result = queryAffectsT(&querier, 3, 0);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{5});
+
+  result = queryAffectsT(&querier, 4, 0);
+  REQUIRE(result.isEmpty);
+
+  result = queryAffectsT(&querier, 5, 0);
+  REQUIRE(result.isEmpty);
+}
+
+TEST_CASE("AffectsT If Else path (Const, _)") {
+  auto cfg = TestCFGProvider::getAffectsTIfThenCFG();
+  CFGTestAffectsTQuerier querier(&cfg, ifElseProvider);
+
+  StmtTransitiveResult result;
+  result = queryAffectsT(&querier, 1, 0);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{4, 5});
+
+  result = queryAffectsT(&querier, 2, 0);
+  REQUIRE(result.isEmpty);
+
+  result = queryAffectsT(&querier, 3, 0);
+  REQUIRE(result.isEmpty);
+
+
+  result = queryAffectsT(&querier, 4, 0);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{5});
+
+  result = queryAffectsT(&querier, 5, 0);
+  REQUIRE(result.isEmpty);
+}
+
+TEST_CASE("AffectsT If Both path (Const, _)") {
+  auto cfg = TestCFGProvider::getAffectsTIfBothCFG();
+  CFGTestAffectsTQuerier querier(&cfg, ifBothProvider);
+
+  StmtTransitiveResult result;
+  result = queryAffectsT(&querier, 1, 0);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{3, 4, 5});
+
+  result = queryAffectsT(&querier, 2, 0);
+  REQUIRE(result.isEmpty);
+
+  result = queryAffectsT(&querier, 3, 0);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{5});
+
+
+  result = queryAffectsT(&querier, 4, 0);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{5});
+
+  result = queryAffectsT(&querier, 5, 0);
+  REQUIRE(result.isEmpty);
 }
 
 TEST_CASE("AffectsT Linear (_, Const)") {
-/*
-  * 0 | a = 1;
-  * 1 | b = a;
-  * 2 | c = b;
-  * 3 | d = e;
-  * */
-  CFG cfg(1);
-  cfg.addLink(0, 1);
-  cfg.addLink(1, 2);
-  cfg.addLink(2, CFG_END_NODE);
+  auto cfg = TestCFGProvider::getLinearTransitiveCFG();
+  CFGTestAffectsTQuerier querier(&cfg, transitiveLinearProvider);
 
-  auto pkbProvider =
-      CFGTestModifiesUsesProvider({ "a", "b", "c", "d"},
-                                  { {}, {"a"}, {"b"}, {"e"}},
-                                  4,
-                                  {{"a", 0}, {"b", 1}, {"c", 2}, {"d", 3}, {"e", 4}},
-                                  {});
+  StmtTransitiveResult  result;
+  result = queryAffectsT(&querier, 0, 1);
+  REQUIRE(result.isEmpty);
 
-  CFGTestAffectsTQuerier querier(&cfg, pkbProvider);
+  result = queryAffectsT(&querier, 0, 2);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1});
 
-  auto result = queryAffectsT(&querier, 0, 3);
+  result = queryAffectsT(&querier, 0, 3);
   REQUIRE_FALSE(result.isEmpty);
   REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1, 2});
+
+  result = queryAffectsT(&querier, 0, 4);
+  REQUIRE(result.isEmpty);
+}
+
+TEST_CASE("AffectsT While (_, Const)") {
+  auto cfg = TestCFGProvider::getAffectsTWhileCFG();
+  CFGTestAffectsTQuerier querier(&cfg, whileProvider);
+
+  StmtTransitiveResult result;
+  result = queryAffectsT(&querier, 0, 1);
+  REQUIRE(result.isEmpty);
+
+  result = queryAffectsT(&querier, 0, 2);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{2, 3, 4});
+
+  result = queryAffectsT(&querier, 0, 3);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{2, 3, 4});
+
+  result = queryAffectsT(&querier, 0, 4);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{2, 3, 4});
+}
+
+TEST_CASE("AffectsT If None path (_, Const)") {
+  auto cfg = TestCFGProvider::getAffectsTIfNoneCFG();
+  CFGTestAffectsTQuerier querier(&cfg, ifNoneProvider);
+  assertQueryAffectsTNotEmpty(&querier, 1, {3, 4});
+
+  StmtTransitiveResult result;
+  result = queryAffectsT(&querier, 0, 1);
+  REQUIRE(result.isEmpty);
+
+  result = queryAffectsT(&querier, 0, 2);
+  REQUIRE(result.isEmpty);
+
+  result = queryAffectsT(&querier, 0, 3);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1});
+
+  result = queryAffectsT(&querier, 0, 4);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1});
+
+  result = queryAffectsT(&querier, 0, 5);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1});
+}
+
+TEST_CASE("AffectsT If Then path (_, Const)") {
+  auto cfg = TestCFGProvider::getAffectsTIfThenCFG();
+  CFGTestAffectsTQuerier querier(&cfg, ifThenProvider);
+  assertQueryAffectsTNotEmpty(&querier, 1, {3, 5});
+  assertQueryAffectsTNotEmpty(&querier, 3, {5});
+
+  StmtTransitiveResult result;
+  result = queryAffectsT(&querier, 0, 1);
+  REQUIRE(result.isEmpty);
+
+  result = queryAffectsT(&querier, 0, 2);
+  REQUIRE(result.isEmpty);
+
+  result = queryAffectsT(&querier, 0, 3);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1});
+
+  result = queryAffectsT(&querier, 0, 4);
+  REQUIRE(result.isEmpty);
+
+  result = queryAffectsT(&querier, 0, 5);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1, 3});
+}
+
+TEST_CASE("AffectsT If Else path (_, Const)") {
+  auto cfg = TestCFGProvider::getAffectsTIfThenCFG();
+  CFGTestAffectsTQuerier querier(&cfg, ifElseProvider);
+
+  StmtTransitiveResult result;
+  result = queryAffectsT(&querier, 0, 1);
+  REQUIRE(result.isEmpty);
+
+  result = queryAffectsT(&querier, 0, 2);
+  REQUIRE(result.isEmpty);
+
+  result = queryAffectsT(&querier, 0, 3);
+  REQUIRE(result.isEmpty);
+
+  result = queryAffectsT(&querier, 0, 4);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1});
+
+  result = queryAffectsT(&querier, 0, 5);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1, 4});
+}
+
+TEST_CASE("AffectsT If Both path (_, Const)") {
+  auto cfg = TestCFGProvider::getAffectsTIfBothCFG();
+  CFGTestAffectsTQuerier querier(&cfg, ifBothProvider);
+
+  StmtTransitiveResult result;
+  result = queryAffectsT(&querier, 0, 1);
+  REQUIRE(result.isEmpty);
+
+  result = queryAffectsT(&querier, 0, 2);
+  REQUIRE(result.isEmpty);
+
+  result = queryAffectsT(&querier, 0, 3);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1});
+
+  result = queryAffectsT(&querier, 0, 4);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1});
+
+  result = queryAffectsT(&querier, 0, 5);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1, 3, 4});
 }
 
 TEST_CASE("AffectsT Linear (_, _)") {
-/*
-  * 0 | a = 1;
-  * 1 | b = a;
-  * 2 | c = b;
-  * 3 | d = e;
-  * */
-  CFG cfg(1);
-  cfg.addLink(0, 1);
-  cfg.addLink(1, 2);
-  cfg.addLink(2, 3);
-  cfg.addLink(3, CFG_END_NODE);
-
-  auto pkbProvider =
-      CFGTestModifiesUsesProvider({ "a", "b", "c", "d"},
-                                  { {}, {"a"}, {"b"}, {"e"}},
-                                  5,
-                                  {{"a", 0}, {"b", 1}, {"c", 2}, {"d", 3}, {"e", 4}},
-                                  {});
-
-  CFGTestAffectsTQuerier querier(&cfg, pkbProvider);
+  auto cfg = TestCFGProvider::getLinearTransitiveCFG();
+  CFGTestAffectsTQuerier querier(&cfg, transitiveLinearProvider);
 
   auto result = StmtTransitiveResult();
   queryAffectsT(&querier, &result, 0, 0);
   REQUIRE_FALSE(result.isEmpty);
   REQUIRE(result.pairVals == pair_set<StmtValue, StmtValue> {
       {1, 2},
+      {1, 3},
       {2, 3},
   });
 }
 
+TEST_CASE("AffectsT While (_, _)") {
+  auto cfg = TestCFGProvider::getAffectsTWhileCFG();
+  CFGTestAffectsTQuerier querier(&cfg, whileProvider);
+
+  auto result = StmtTransitiveResult();
+  queryAffectsT(&querier, &result, 0, 0);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.pairVals == pair_set<StmtValue, StmtValue> {
+      {2, 2}, {2, 3}, {2, 4},
+      {3, 2}, {3, 3}, {3, 4},
+      {4, 2}, {4, 3}, {4, 4},
+  });
+}
+
+TEST_CASE("AffectsT If None path (_, _)") {
+  auto cfg = TestCFGProvider::getAffectsTIfNoneCFG();
+  CFGTestAffectsTQuerier querier(&cfg, ifNoneProvider);
+
+  auto result = StmtTransitiveResult();
+  queryAffectsT(&querier, &result, 0, 0);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.pairVals == pair_set<StmtValue, StmtValue> {
+      {1, 3},
+      {1, 4},
+      {1, 5}
+  });
+}
+
+TEST_CASE("AffectsT If Then path (_, _)") {
+  auto cfg = TestCFGProvider::getAffectsTIfThenCFG();
+  CFGTestAffectsTQuerier querier(&cfg, ifThenProvider);
+
+  auto result = StmtTransitiveResult();
+  queryAffectsT(&querier, &result, 0, 0);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.pairVals == pair_set<StmtValue, StmtValue> {
+      {1, 3},
+      {1, 5},
+      {3, 5}
+  });
+}
+
+TEST_CASE("AffectsT If Else path (_, _)") {
+  auto cfg = TestCFGProvider::getAffectsTIfThenCFG();
+  CFGTestAffectsTQuerier querier(&cfg, ifElseProvider);
+
+  auto result = StmtTransitiveResult();
+  queryAffectsT(&querier, &result, 0, 0);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.pairVals == pair_set<StmtValue, StmtValue> {
+      {1, 4},
+      {1, 5},
+      {4, 5}
+  });
+}
+
+TEST_CASE("AffectsT If Both path (_, _)") {
+  auto cfg = TestCFGProvider::getAffectsTIfBothCFG();
+  CFGTestAffectsTQuerier querier(&cfg, ifBothProvider);
+
+  auto result = StmtTransitiveResult();
+  queryAffectsT(&querier, &result, 0, 0);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.pairVals == pair_set<StmtValue, StmtValue> {
+      {1, 3},
+      {1, 4},
+      {1, 5},
+      {3, 5},
+      {4, 5}
+  });
+}

@@ -161,11 +161,11 @@ CFG TestCFGProvider::getAffectsTWhileCFG() {
 * 1 |  if (x != 1) then {
 * 2 |    y = x;
 *   |  } else {
-* 3 |    x = 2;
+* 3 |    y = x;
 *   |  }
-* 4 |  z = y;
+* 4 |  z = x;
 */
-CFG TestCFGProvider::getAffectsTIfCFG() {
+CFG TestCFGProvider::getAffectsTIfNoneCFG() {
   CFG cfg(1);
   cfg.addLink(0, 1);
   cfg.addLink(1, 2);
@@ -175,4 +175,65 @@ CFG TestCFGProvider::getAffectsTIfCFG() {
   cfg.addLink(4, CFG_END_NODE);
   return cfg;
 }
+
+/*
+* 0 |  x = 1;
+* 1 |  if (x != 1) then {
+* 2 |    y = x;
+*   |  } else {
+* 3 |    x = 2;
+*   |  }
+* 4 |  z = y;
+*/
+CFG TestCFGProvider::getAffectsTIfThenCFG() {
+  CFG cfg(1);
+  cfg.addLink(0, 1);
+  cfg.addLink(1, 2);
+  cfg.addLink(1, 3);
+  cfg.addLink(2, 4);
+  cfg.addLink(3, 4);
+  cfg.addLink(4, CFG_END_NODE);
+  return cfg;
+}
+
+/*
+* 0 |  x = 1;
+* 1 |  if (x != 1) then {
+* 2 |    x = 2;
+*   |  } else {
+* 3 |    y = x;
+*   |  }
+* 4 |  z = y;
+*/
+CFG TestCFGProvider::getAffectsTIfElseCFG() {
+  CFG cfg(1);
+  cfg.addLink(0, 1);
+  cfg.addLink(1, 2);
+  cfg.addLink(1, 3);
+  cfg.addLink(2, 4);
+  cfg.addLink(3, 4);
+  cfg.addLink(4, CFG_END_NODE);
+  return cfg;
+}
+
+/*
+* 0 |  x = 1;
+* 1 |  if (x != 1) then {
+* 2 |    y = x;
+*   |  } else {
+* 3 |    y = x;
+*   |  }
+* 4 |  z = y;
+*/
+CFG TestCFGProvider::getAffectsTIfBothCFG() {
+  CFG cfg(1);
+  cfg.addLink(0, 1);
+  cfg.addLink(1, 2);
+  cfg.addLink(1, 3);
+  cfg.addLink(2, 4);
+  cfg.addLink(3, 4);
+  cfg.addLink(4, CFG_END_NODE);
+  return cfg;
+}
+
 

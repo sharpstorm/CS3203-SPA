@@ -11,7 +11,11 @@ class TestCFGProvider {
   static CFG getSimpleMultiCycleCFG();
   static CFG getAffectsIfCFG();
   static CFG getAffectsWhileCFG();
+
   static CFG getLinearTransitiveCFG();
   static CFG getAffectsTWhileCFG();
-  static CFG getAffectsTIfCFG();
+  static CFG getAffectsTIfNoneCFG();
+  static CFG getAffectsTIfThenCFG();
+  static CFG getAffectsTIfElseCFG();
+  static CFG getAffectsTIfBothCFG();
 };
