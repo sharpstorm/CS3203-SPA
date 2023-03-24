@@ -123,3 +123,56 @@ CFG TestCFGProvider::getAffectsWhileCFG() {
   return cfg;
 }
 
+
+/*
+ * 0 | a = 1;
+ * 1 | b = a;
+ * 2 | c = b;
+ * 3 | d = e;
+ */
+CFG TestCFGProvider::getLinearTransitiveCFG() {
+  CFG cfg(1);
+  cfg.addLink(0, 1);
+  cfg.addLink(1, 2);
+  cfg.addLink(2, 3);
+  cfg.addLink(3, CFG_END_NODE);
+  return cfg;
+}
+
+/*
+* 0 | while (x < 0) {
+* 1 |  a = b;
+* 2 |  b = c;
+* 3 |  c = a;
+* }
+* */
+CFG TestCFGProvider::getAffectsTWhileCFG() {
+  CFG cfg(1);
+  cfg.addLink(0, 1);
+  cfg.addLink(1, 2);
+  cfg.addLink(2, 3);
+  cfg.addLink(3, 0);
+  cfg.addLink(0, CFG_END_NODE);
+  return cfg;
+}
+
+/*
+* 0 |  x = 1;
+* 1 |  if (x != 1) then {
+* 2 |    y = x;
+*   |  } else {
+* 3 |    x = 2;
+*   |  }
+* 4 |  z = y;
+*/
+CFG TestCFGProvider::getAffectsTIfCFG() {
+  CFG cfg(1);
+  cfg.addLink(0, 1);
+  cfg.addLink(1, 2);
+  cfg.addLink(1, 3);
+  cfg.addLink(2, 4);
+  cfg.addLink(3, 4);
+  cfg.addLink(4, CFG_END_NODE);
+  return cfg;
+}
+
