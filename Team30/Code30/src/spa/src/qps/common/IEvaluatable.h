@@ -19,7 +19,7 @@ class IEvaluatable {
   virtual ~IEvaluatable() = default;
   virtual PQLQueryResult* evaluateOn(const QueryExecutorAgent &agent) = 0;
   virtual SynonymList getUsedSynonyms() = 0;
-  virtual ComplexityScore getComplexityScore(const OverrideTable &table) = 0;
+  virtual ComplexityScore getComplexityScore(const OverrideTable *table) = 0;
 };
 
 typedef unique_ptr<IEvaluatable> IEvaluatablePtr;

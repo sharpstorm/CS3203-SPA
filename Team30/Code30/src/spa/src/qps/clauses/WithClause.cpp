@@ -25,6 +25,6 @@ SynonymList WithClause::getUsedSynonyms() {
   return {leftArg.getName(), rightArg.getName()};
 }
 
-ComplexityScore WithClause::getComplexityScore(const OverrideTable &table) {
+ComplexityScore WithClause::getComplexityScore(const OverrideTable *table) {
   return COMPLEXITY_WITH;
 }

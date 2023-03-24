@@ -75,6 +75,6 @@ bool WithSelectClause::isCallProcName(const QueryExecutorAgent &agent,
 }
 
 ComplexityScore WithSelectClause::getComplexityScore(
-    const OverrideTable &table) {
+    const OverrideTable *table) {
   return COMPLEXITY_WITH_SELECT;
 }

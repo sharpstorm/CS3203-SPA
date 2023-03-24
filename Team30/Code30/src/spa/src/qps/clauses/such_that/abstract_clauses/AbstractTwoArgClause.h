@@ -63,20 +63,25 @@ class AbstractTwoArgClause: public SuchThatClause {
       ComplexityScore constantModifier,
       ComplexityScore oneSynModifier,
       ComplexityScore twoSynModifier>
-  ComplexityScore computeComplexityScore(const OverrideTable &table) {
-    if (left->isConstant() && right->isConstant()) {
+  ComplexityScore computeComplexityScore(const OverrideTable *table) {
+    bool isLeftConstant = left->isConstant()
+        || table->contains(left->getName());
+    bool isRightConstant = right->isConstant()
+        || table->contains(right->getName());
+
+    if (isLeftConstant && isRightConstant) {
       return COMPLEXITY_QUERY_CONSTANT + constantModifier;
-    } else if (!left->isConstant() && !right->isConstant()) {
+    } else if (!isLeftConstant && !isRightConstant) {
       return COMPLEXITY_QUERY_LIST_ALL + twoSynModifier +
           + left->getSynComplexity() + right->getSynComplexity();
-    } else if (left->isConstant()) {
+    } else if (isLeftConstant) {
       return right->getSynComplexity() + oneSynModifier;
     } else {
       return left->getSynComplexity() + oneSynModifier;
     }
   }
 
-  ComplexityScore computeComplexityScore(const OverrideTable &table);
+  ComplexityScore computeComplexityScore(const OverrideTable *table);
 
  public:
   AbstractTwoArgClause(ClauseArgumentPtr left, ClauseArgumentPtr right);

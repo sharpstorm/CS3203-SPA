@@ -36,7 +36,7 @@ class WithSelectClause : public Clause {
   PQLQueryResult* evaluateOn(const QueryExecutorAgent &agent) override;
   bool validateArgTypes(VariableTable *variables) override;
   SynonymList getUsedSynonyms() override;
-  ComplexityScore getComplexityScore(const OverrideTable &table) override;
+  ComplexityScore getComplexityScore(const OverrideTable *table) override;
 };
 
 typedef unique_ptr<WithSelectClause> WithSelectClausePtr;

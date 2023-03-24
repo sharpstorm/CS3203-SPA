@@ -24,7 +24,7 @@ bool AbstractTwoArgClause::isSameSynonym() {
 }
 
 ComplexityScore AbstractTwoArgClause::computeComplexityScore(
-    const OverrideTable &table) {
+    const OverrideTable *table) {
   return computeComplexityScore<
       COMPLEXITY_MODIFIER_NONE,
       COMPLEXITY_MODIFIER_NONE,

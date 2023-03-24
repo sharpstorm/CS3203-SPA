@@ -37,8 +37,8 @@ class AbstractPatternClause: public PatternClause {
   }
 
  public:
-  ComplexityScore getComplexityScore(const OverrideTable &table) override {
-    if (table.contains(leftArg->getName())) {
+  ComplexityScore getComplexityScore(const OverrideTable *table) override {
+    if (table->contains(leftArg->getName())) {
       return COMPLEXITY_QUERY_CONSTANT;
     }
     return COMPLEXITY_QUERY_SYN_CONTAINER;

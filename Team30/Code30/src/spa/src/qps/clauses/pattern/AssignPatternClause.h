@@ -17,5 +17,5 @@ class AssignPatternClause: public PatternClause {
                       ClauseArgumentPtr leftArg,
                       ExpressionArgumentPtr rightArg);
   PQLQueryResult* evaluateOn(const QueryExecutorAgent &agent) override;
-  ComplexityScore getComplexityScore(const OverrideTable &table) override;
+  ComplexityScore getComplexityScore(const OverrideTable *table) override;
 };

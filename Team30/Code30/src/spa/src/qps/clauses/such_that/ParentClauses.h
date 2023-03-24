@@ -40,7 +40,7 @@ class ParentClause: public AbstractParentClause<parentInvoker,
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
   }
 
-  ComplexityScore getComplexityScore(const OverrideTable &table) override {
+  ComplexityScore getComplexityScore(const OverrideTable *table) override {
     return computeComplexityScore(table);
   }
 };
@@ -52,7 +52,7 @@ class ParentTClause: public AbstractParentClause<parentTInvoker,
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
   }
 
-  ComplexityScore getComplexityScore(const OverrideTable &table) override {
+  ComplexityScore getComplexityScore(const OverrideTable *table) override {
     return computeComplexityScore<
         COMPLEXITY_MODIFIER_NONE,
         COMPLEXITY_QUERY_TRANSITIVE,

@@ -105,7 +105,7 @@ class NextClause: public AbstractNextClause<
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
   }
 
-  ComplexityScore getComplexityScore(const OverrideTable &table) override {
+  ComplexityScore getComplexityScore(const OverrideTable *table) override {
     return computeComplexityScore<
         COMPLEXITY_MODIFIER_NONE,
         COMPLEXITY_MODIFIER_NONE,
@@ -121,7 +121,7 @@ class NextTClause: public AbstractNextClause<
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
   }
 
-  ComplexityScore getComplexityScore(const OverrideTable &table) override {
+  ComplexityScore getComplexityScore(const OverrideTable *table) override {
     return computeComplexityScore<
         COMPLEXITY_NEXT_T,
         COMPLEXITY_NEXT_T + COMPLEXITY_QUERY_TRANSITIVE,

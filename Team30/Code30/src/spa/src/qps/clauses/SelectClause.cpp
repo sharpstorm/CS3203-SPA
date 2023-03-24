@@ -62,6 +62,6 @@ SynonymList SelectClause::getUsedSynonyms() {
   return { target->getName() };
 }
 
-ComplexityScore SelectClause::getComplexityScore(const OverrideTable &table) {
+ComplexityScore SelectClause::getComplexityScore(const OverrideTable *table) {
   return COMPLEXITY_SELECT;
 }

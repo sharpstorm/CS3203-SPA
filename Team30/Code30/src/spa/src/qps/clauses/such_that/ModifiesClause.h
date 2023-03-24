@@ -35,7 +35,7 @@ class ModifiesClause: public AbstractModifiesClause {
       : AbstractAnyEntClause(std::move(left), std::move(right)) {
   }
 
-  ComplexityScore getComplexityScore(const OverrideTable &table) override {
+  ComplexityScore getComplexityScore(const OverrideTable *table) override {
     return computeComplexityScore(table);
   }
 };

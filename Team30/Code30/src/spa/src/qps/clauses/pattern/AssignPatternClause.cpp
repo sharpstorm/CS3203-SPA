@@ -64,8 +64,8 @@ void AssignPatternClause::checkTries(
 }
 
 ComplexityScore AssignPatternClause::getComplexityScore(
-    const OverrideTable &table) {
-  if (table.contains(leftArg->getName())) {
+    const OverrideTable *table) {
+  if (table->contains(leftArg->getName())) {
     return COMPLEXITY_QUERY_CONSTANT;
   }
   return COMPLEXITY_QUERY_SYN_ASSIGN;

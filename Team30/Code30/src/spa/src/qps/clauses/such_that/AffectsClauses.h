@@ -128,7 +128,7 @@ class AffectsClause: public AbstractAffectsClause<
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
   }
 
-  ComplexityScore getComplexityScore(const OverrideTable &table) override {
+  ComplexityScore getComplexityScore(const OverrideTable *table) override {
     return computeComplexityScore<
         COMPLEXITY_AFFECTS, COMPLEXITY_AFFECTS, COMPLEXITY_AFFECTS>(table);
   }
@@ -142,7 +142,7 @@ class AffectsTClause: public AbstractAffectsClause<
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
   }
 
-  ComplexityScore getComplexityScore(const OverrideTable &table) override {
+  ComplexityScore getComplexityScore(const OverrideTable *table) override {
     return computeComplexityScore<
         COMPLEXITY_AFFECTS_T,
         COMPLEXITY_AFFECTS_T + COMPLEXITY_QUERY_TRANSITIVE,
