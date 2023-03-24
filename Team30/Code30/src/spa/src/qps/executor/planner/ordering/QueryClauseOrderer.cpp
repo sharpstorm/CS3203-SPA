@@ -1,7 +1,7 @@
 #include "QueryClauseOrderer.h"
 
-#include <memory>
 #include <limits.h>
+#include <memory>
 
 using std::make_unique;
 
