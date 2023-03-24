@@ -27,7 +27,7 @@ QueryGroupPlanPtr QueryClauseOrderer::orderClauses(QueryGroup *group,
 
       IEvaluatable* evaluatable = group->getEvaluatable(curClause.getId());
       tempOrdering[curIndex] = evaluatable;
-      runningWeight = curModifier * curClause.getComplexity();
+      runningWeight += curModifier * curClause.getComplexity();
       curIndex++;
       curModifier--;
 

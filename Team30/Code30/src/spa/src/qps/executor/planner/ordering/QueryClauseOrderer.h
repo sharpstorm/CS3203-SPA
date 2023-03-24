@@ -36,12 +36,11 @@ class QueryClauseOrderer {
     bool operator<(const ComparableClause& other) const {
       return complexity > other.complexity;
     }
-  };
 
-  void populateQueue(priority_queue<ComparableClause>* target,
-                     BitField* clauseDone,
-                     unordered_set<ClauseId>* edges,
-                     QueryGroup *group);
+    bool operator>(const ComparableClause& other) const {
+      return complexity < other.complexity;
+    }
+  };
 
  public:
   QueryGroupPlanPtr orderClauses(QueryGroup* group, OverrideTable* overrides);
