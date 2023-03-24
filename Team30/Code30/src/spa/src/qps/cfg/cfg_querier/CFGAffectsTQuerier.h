@@ -311,14 +311,7 @@ queryForward(StmtTransitiveResult* resultOut,
       forwardWalkerCallback =
       [](QueryFromResultClosure *state, CFGNode nextNode)  {
         int stmtNumber = state->cfg->fromCFGNode(nextNode);
-
-//        if (typePredicate(state->closure, StmtType::Assign, stmtNumber)) {
-//          unordered_set<EntityValue> usedVars = usesGetter(state->closure,
-//                                                           stmtNumber);
-//          if (usedVars.find(state->target) != usedVars.end()) {
-          state->result->add(state->startingStmt, stmtNumber);
-//          }
-//        }
+        state->result->add(state->startingStmt, stmtNumber);
       };
 
 
