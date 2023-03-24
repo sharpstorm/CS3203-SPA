@@ -47,7 +47,7 @@ TEST_CASE("Test QueryBuilder Success") {
 
   auto result = qb.build();
 
-  REQUIRE(result->getVariableCount() == 10);
+  REQUIRE(result->getVarTable()->size() == 10);
   REQUIRE(result->getEvaluatables().size() == 2);
   REQUIRE(**result->getVariable("a") == PQLQuerySynonym(PQL_SYN_TYPE_STMT, "a"));
   REQUIRE(**result->getVariable("h") == PQLQuerySynonym(PQL_SYN_TYPE_PRINT, "h"));

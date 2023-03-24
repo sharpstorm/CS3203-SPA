@@ -11,10 +11,6 @@ PQLQuery::PQLQuery(VariableTablePtr vars,
                    variables(std::move(vars)), resultVariables(resVar),
                    clauses(std::move(c)), constraints(std::move(con)) { }
 
-int PQLQuery::getVariableCount() {
-  return variables->size();
-}
-
 VariableTable* PQLQuery::getVarTable() {
   return variables.get();
 }
@@ -56,4 +52,8 @@ vector<Constraint*> PQLQuery::getConstraints() {
   }
 
   return ret;
+}
+
+bool PQLQuery::isBooleanResult() {
+  return resultVariables.empty();
 }

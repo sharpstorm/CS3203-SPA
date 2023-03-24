@@ -1,5 +1,4 @@
 #include <memory>
-#include <utility>
 #include <vector>
 
 #include "qps/constraints/Constraint.h"
@@ -13,7 +12,7 @@ QueryExecutor::QueryExecutor(PkbQueryHandler* pkbQH):
 
 SynonymResultTable *QueryExecutor::executeQuery(PQLQuery* query) {
   OverrideTablePtr overrideTable = make_unique<OverrideTable>();
-  bool isBoolResult = query->getResultVariables()->empty();
+  bool isBoolResult = query->isBooleanResult();
 
   bool areConstraintsResolved =
       resolveConstraints(query, overrideTable.get());
