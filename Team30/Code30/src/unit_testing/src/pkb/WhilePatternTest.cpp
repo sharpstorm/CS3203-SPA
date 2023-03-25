@@ -25,22 +25,22 @@ TEST_CASE("WhilePattern unknown while") {
 
   auto res1 = handler.queryWhilePattern({StmtType::While, 0},
                                         {EntityType::None, "a"});
-  REQUIRE(res1.firstArgVals == unordered_set<int>({1, 2}));
-  REQUIRE(res1.secondArgVals == unordered_set<string>({"a"}));
-  REQUIRE(res1.pairVals == pair_set<int, string>({{1, "a"}, {2, "a"}}));
+  REQUIRE(res1.get()->firstArgVals == unordered_set<int>({1, 2}));
+  REQUIRE(res1.get()->secondArgVals == unordered_set<string>({"a"}));
+  REQUIRE(res1.get()->pairVals == pair_set<int, string>({{1, "a"}, {2, "a"}}));
 
   auto res2 = handler.queryWhilePattern({StmtType::While, 0},
                                         {EntityType::Variable, ""});
-  REQUIRE(res2.firstArgVals == unordered_set<int>({1, 2, 3}));
-  REQUIRE(res2.secondArgVals == unordered_set<string>({"a", "b", "c"}));
-  REQUIRE(res2.pairVals == pair_set<int, string>({{1, "a"}, {1, "b"}, {2, "a"},
+  REQUIRE(res2.get()->firstArgVals == unordered_set<int>({1, 2, 3}));
+  REQUIRE(res2.get()->secondArgVals == unordered_set<string>({"a", "b", "c"}));
+  REQUIRE(res2.get()->pairVals == pair_set<int, string>({{1, "a"}, {1, "b"}, {2, "a"},
                                                   {3, "c"}}));
 
   auto res3 = handler.queryWhilePattern({StmtType::While, 0},
                                         {EntityType::None, ""});
-  REQUIRE(res3.firstArgVals == unordered_set<int>({1, 2, 3}));
-  REQUIRE(res3.secondArgVals == unordered_set<string>({"a", "b", "c"}));
-  REQUIRE(res3.pairVals == pair_set<int, string>({{1, "a"}, {1, "b"}, {2, "a"},
+  REQUIRE(res3.get()->firstArgVals == unordered_set<int>({1, 2, 3}));
+  REQUIRE(res3.get()->secondArgVals == unordered_set<string>({"a", "b", "c"}));
+  REQUIRE(res3.get()->pairVals == pair_set<int, string>({{1, "a"}, {1, "b"}, {2, "a"},
                                                   {3, "c"}}));
 }
 
@@ -56,19 +56,19 @@ TEST_CASE("WhilePattern known while") {
 
   auto res1 = handler.queryWhilePattern({StmtType::None, 1},
                                         {EntityType::None, "a"});
-  REQUIRE(res1.firstArgVals == unordered_set<int>({1}));
-  REQUIRE(res1.secondArgVals == unordered_set<string>({"a"}));
-  REQUIRE(res1.pairVals == pair_set<int, string>({{1, "a"}}));
+  REQUIRE(res1.get()->firstArgVals == unordered_set<int>({1}));
+  REQUIRE(res1.get()->secondArgVals == unordered_set<string>({"a"}));
+  REQUIRE(res1.get()->pairVals == pair_set<int, string>({{1, "a"}}));
 
   auto res2 = handler.queryWhilePattern({StmtType::None, 1},
                                         {EntityType::Variable, ""});
-  REQUIRE(res2.firstArgVals == unordered_set<int>({1}));
-  REQUIRE(res2.secondArgVals == unordered_set<string>({"a", "b"}));
-  REQUIRE(res2.pairVals == pair_set<int, string>({{1, "a"}, {1, "b"}}));
+  REQUIRE(res2.get()->firstArgVals == unordered_set<int>({1}));
+  REQUIRE(res2.get()->secondArgVals == unordered_set<string>({"a", "b"}));
+  REQUIRE(res2.get()->pairVals == pair_set<int, string>({{1, "a"}, {1, "b"}}));
 
   auto res3 = handler.queryWhilePattern({StmtType::None, 2},
                                         {EntityType::None, ""});
-  REQUIRE(res3.firstArgVals == unordered_set<int>({2}));
-  REQUIRE(res3.secondArgVals == unordered_set<string>({"a"}));
-  REQUIRE(res3.pairVals == pair_set<int, string>({{2, "a"}}));
+  REQUIRE(res3.get()->firstArgVals == unordered_set<int>({2}));
+  REQUIRE(res3.get()->secondArgVals == unordered_set<string>({"a"}));
+  REQUIRE(res3.get()->pairVals == pair_set<int, string>({{2, "a"}}));
 }

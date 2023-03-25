@@ -5,13 +5,13 @@
 AssignsQueryHandler::AssignsQueryHandler(const AssignStorage *assignStore)
     : assignStore(assignStore) {}
 
-QueryResult<StmtValue, PatternTrie *> AssignsQueryHandler::queryAssigns(
-    StmtRef stmt) const {
+unique_ptr<QueryResult<StmtValue, PatternTrie *>>
+AssignsQueryHandler::queryAssigns(StmtRef stmt) const {
   QueryResult<StmtValue, PatternTrie *> result;
   if (!stmt.isKnown()) {
-    return result;
+    // todo: check whether is nullptr
+    return make_unique<QueryResult<StmtValue, PatternTrie *>>();
   }
-  result.add(stmt.getValue(),
-             assignStore->get(stmt.getValue()).get());
-  return result;
+  result.add(stmt.getValue(), assignStore->get(stmt.getValue()).get());
+  return make_unique<QueryResult<StmtValue, PatternTrie *>>(result);
 }

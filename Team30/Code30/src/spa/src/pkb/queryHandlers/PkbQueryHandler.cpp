@@ -1,106 +1,73 @@
-#include <memory>
 #include "PkbQueryHandler.h"
-#include "ParentQueryHandler.h"
-#include "ParentTQueryHandler.h"
-#include "UsesQueryHandler.h"
+
+#include <memory>
+
+#include "AssignsQueryHandler.h"
+#include "CFGsQueryHandler.h"
 #include "CallsQueryHandler.h"
 #include "CallsTQueryHandler.h"
 #include "IfPatternQueryHandler.h"
+#include "ParentQueryHandler.h"
+#include "ParentTQueryHandler.h"
+#include "UsesQueryHandler.h"
 #include "WhilePatternQueryHandler.h"
-#include "AssignsQueryHandler.h"
-#include "CFGsQueryHandler.h"
 
 using std::make_unique;
 
 PkbQueryHandler::PkbQueryHandler(PKB *pkb)
-    : stmtStmtQueryInvoker(
-    make_unique<PkbStmtStmtQueryInvoker>(
-        pkb->structureProvider, pkb->stmtPredicateFactory)),
-    stmtEntQueryInvoker(
-        make_unique<PkbStmtEntQueryInvoker>(
-            pkb->structureProvider,
-            pkb->stmtPredicateFactory,
-            pkb->entityPredicateFactory)),
-    entEntQueryInvoker(
-        make_unique<PkbEntEntQueryInvoker>(
-            pkb->entityMappingProvider, pkb->entityPredicateFactory)),
-    followsHandler(
-        new FollowsQueryHandler(
-            stmtStmtQueryInvoker.get(),
-            pkb->followsStorage)),
-    followsTHandler(
-        new FollowsTQueryHandler(
-            stmtStmtQueryInvoker.get(),
-            pkb->followsTStorage)),
-    parentHandler(
-        new ParentQueryHandler(
-            stmtStmtQueryInvoker.get(),
-            pkb->parentStorage)),
-    parentTHandler(
-        new ParentTQueryHandler(
-            stmtStmtQueryInvoker.get(),
-            pkb->parentTStorage)),
-    modifiesHandler(
-        new ModifiesQueryHandler(
-            stmtEntQueryInvoker.get(),
-            entEntQueryInvoker.get(),
-            pkb->modifiesStorage,
-            pkb->modifiesPStorage)),
-    usesHandler(
-        new UsesQueryHandler(
-            stmtEntQueryInvoker.get(),
-            entEntQueryInvoker.get(),
-            pkb->usesStorage,
-            pkb->usesPStorage)),
-    callsHandler(
-        new CallsQueryHandler(
-            entEntQueryInvoker.get(),
-            pkb->callsStorage)),
-    callsTHandler(
-        new CallsTQueryHandler(
-            entEntQueryInvoker.get(),
-            pkb->callsTStorage)),
-    ifPatternHandler(
-        new IfPatternQueryHandler(
-            stmtEntQueryInvoker.get(),
-            pkb->ifPatternStorage)),
-    whilePatternHandler(
-        new WhilePatternQueryHandler(
-            stmtEntQueryInvoker.get(),
-            pkb->whilePatternStorage)),
+    : stmtStmtQueryInvoker(make_unique<PkbStmtStmtQueryInvoker>(
+          pkb->structureProvider, pkb->stmtPredicateFactory)),
+      stmtEntQueryInvoker(make_unique<PkbStmtEntQueryInvoker>(
+          pkb->structureProvider, pkb->stmtPredicateFactory,
+          pkb->entityPredicateFactory)),
+      entEntQueryInvoker(make_unique<PkbEntEntQueryInvoker>(
+          pkb->entityMappingProvider, pkb->entityPredicateFactory)),
+      followsHandler(new FollowsQueryHandler(stmtStmtQueryInvoker.get(),
+                                             pkb->followsStorage)),
+      followsTHandler(new FollowsTQueryHandler(stmtStmtQueryInvoker.get(),
+                                               pkb->followsTStorage)),
+      parentHandler(new ParentQueryHandler(stmtStmtQueryInvoker.get(),
+                                           pkb->parentStorage)),
+      parentTHandler(new ParentTQueryHandler(stmtStmtQueryInvoker.get(),
+                                             pkb->parentTStorage)),
+      modifiesHandler(new ModifiesQueryHandler(
+          stmtEntQueryInvoker.get(), entEntQueryInvoker.get(),
+          pkb->modifiesStorage, pkb->modifiesPStorage)),
+      usesHandler(new UsesQueryHandler(stmtEntQueryInvoker.get(),
+                                       entEntQueryInvoker.get(),
+                                       pkb->usesStorage, pkb->usesPStorage)),
+      callsHandler(
+          new CallsQueryHandler(entEntQueryInvoker.get(), pkb->callsStorage)),
+      callsTHandler(
+          new CallsTQueryHandler(entEntQueryInvoker.get(), pkb->callsTStorage)),
+      ifPatternHandler(new IfPatternQueryHandler(stmtEntQueryInvoker.get(),
+                                                 pkb->ifPatternStorage)),
+      whilePatternHandler(new WhilePatternQueryHandler(
+          stmtEntQueryInvoker.get(), pkb->whilePatternStorage)),
 
-    assignHandler(new AssignsQueryHandler(pkb->assignStorage)),
-    cfgsHandler(
-        new CFGsQueryHandler(
-            pkb->cfgStorage,
-            pkb->entityMappingProvider,
-            pkb->structureProvider)),
-    designEntityHandler(
-        new DesignEntitiesQueryHandler(
-            pkb->entityMappingProvider, pkb->structureProvider)) {
-}
+      assignHandler(new AssignsQueryHandler(pkb->assignStorage)),
+      cfgsHandler(new CFGsQueryHandler(
+          pkb->cfgStorage, pkb->entityMappingProvider, pkb->structureProvider)),
+      designEntityHandler(new DesignEntitiesQueryHandler(
+          pkb->entityMappingProvider, pkb->structureProvider)) {}
 
-QueryResult<int, int> PkbQueryHandler::queryFollows(
-    StmtRef s1,
-    StmtRef s2) const {
+unique_ptr<QueryResult<int, int>> PkbQueryHandler::queryFollows(
+    StmtRef s1, StmtRef s2) const {
   return followsHandler->query(&s1, &s2);
 }
 
-QueryResult<int, int> PkbQueryHandler::queryFollowsStar(
-    StmtRef s1,
-    StmtRef s2) const {
+unique_ptr<QueryResult<int, int>> PkbQueryHandler::queryFollowsStar(
+    StmtRef s1, StmtRef s2) const {
   return followsTHandler->query(&s1, &s2);
 }
 
-QueryResult<int, int> PkbQueryHandler::queryParent(
-    StmtRef s1,
-    StmtRef s2) const {
+unique_ptr<QueryResult<int, int>> PkbQueryHandler::queryParent(
+    StmtRef s1, StmtRef s2) const {
   return parentHandler->query(&s1, &s2);
 }
 
-QueryResult<int, int> PkbQueryHandler::queryParentStar(
-    StmtRef s1,
-    StmtRef s2) const {
+unique_ptr<QueryResult<int, int>> PkbQueryHandler::queryParentStar(
+    StmtRef s1, StmtRef s2) const {
   return parentTHandler->query(&s1, &s2);
 }
 
@@ -134,51 +101,46 @@ StmtType PkbQueryHandler::getStatementType(int stmtNo) const {
   return designEntityHandler->getStatementType(stmtNo);
 }
 
-QueryResult<int, string> PkbQueryHandler::queryUses(
-    StmtRef arg1,
-    EntityRef arg2) const {
+unique_ptr<QueryResult<int, string>> PkbQueryHandler::queryUses(
+    StmtRef arg1, EntityRef arg2) const {
   return usesHandler->query(&arg1, &arg2);
 }
 
-QueryResult<string, string> PkbQueryHandler::queryUses(
-    EntityRef arg1,
-    EntityRef arg2) const {
+unique_ptr<QueryResult<string, string>> PkbQueryHandler::queryUses(
+    EntityRef arg1, EntityRef arg2) const {
   return usesHandler->query(&arg1, &arg2);
 }
-QueryResult<int, string> PkbQueryHandler::queryModifies(
-    StmtRef arg1,
-    EntityRef arg2) const {
+unique_ptr<QueryResult<int, string>> PkbQueryHandler::queryModifies(
+    StmtRef arg1, EntityRef arg2) const {
   return modifiesHandler->query(&arg1, &arg2);
 }
 
-QueryResult<string, string> PkbQueryHandler::queryModifies(
+unique_ptr<QueryResult<string, string>> PkbQueryHandler::queryModifies(
     EntityRef arg1, EntityRef arg2) const {
   return modifiesHandler->query(&arg1, &arg2);
 }
 
-QueryResult<int, PatternTrie *> PkbQueryHandler::queryAssigns(
+unique_ptr<QueryResult<int, PatternTrie *>> PkbQueryHandler::queryAssigns(
     StmtRef arg1) const {
   return assignHandler->queryAssigns(arg1);
 }
 
-QueryResult<string, string> PkbQueryHandler::queryCalls(
-    EntityRef arg1,
-    EntityRef arg2) const {
+unique_ptr<QueryResult<string, string>> PkbQueryHandler::queryCalls(
+    EntityRef arg1, EntityRef arg2) const {
   return callsHandler->query(&arg1, &arg2);
 }
 
-QueryResult<string, string> PkbQueryHandler::queryCallsStar(
+unique_ptr<QueryResult<string, string>> PkbQueryHandler::queryCallsStar(
     EntityRef arg1, EntityRef arg2) const {
   return callsTHandler->query(&arg1, &arg2);
 }
 
-QueryResult<int, string> PkbQueryHandler::queryIfPattern(
-    StmtRef arg1,
-    EntityRef arg2) const {
+unique_ptr<QueryResult<int, string>> PkbQueryHandler::queryIfPattern(
+    StmtRef arg1, EntityRef arg2) const {
   return ifPatternHandler->query(&arg1, &arg2);
 }
 
-QueryResult<int, string> PkbQueryHandler::queryWhilePattern(
+unique_ptr<QueryResult<int, string>> PkbQueryHandler::queryWhilePattern(
     StmtRef arg1, EntityRef arg2) const {
   return whilePatternHandler->query(&arg1, &arg2);
 }
@@ -187,15 +149,11 @@ vector<CFG *> PkbQueryHandler::queryCFGs(StmtRef arg1) const {
   return cfgsHandler->queryCFGs(arg1);
 }
 
-bool PkbQueryHandler::isStatementOfType(
-    StmtType stmtType,
-    int stmtNo) const {
+bool PkbQueryHandler::isStatementOfType(StmtType stmtType, int stmtNo) const {
   return designEntityHandler->isStatementOfType(stmtType, stmtNo);
 }
 
-bool PkbQueryHandler::isSymbolOfType(
-    EntityType entityType,
-    string name) const {
+bool PkbQueryHandler::isSymbolOfType(EntityType entityType, string name) const {
   return designEntityHandler->isSymbolOfType(entityType, name);
 }
 
@@ -210,4 +168,3 @@ string PkbQueryHandler::getReadDeclarations(int readStmt) const {
 string PkbQueryHandler::getPrintDeclarations(int printStmt) const {
   return usesHandler->getPrintDeclarations(printStmt);
 }
-

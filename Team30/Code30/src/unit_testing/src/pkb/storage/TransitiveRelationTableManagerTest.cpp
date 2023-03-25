@@ -75,9 +75,9 @@ TEST_CASE(
   };
   auto res = tableManager.query({1, 3}, isValid);
 
-  REQUIRE(res.firstArgVals == unordered_set<int>({1, 3}));
-  REQUIRE(res.secondArgVals == unordered_set<int>({2, 4, 7}));
-  REQUIRE(res.pairVals == pair_set<int, int>({{1, 2}, {1, 7}, {3, 4}}));
+  REQUIRE(res.get()->firstArgVals == unordered_set<int>({1, 3}));
+  REQUIRE(res.get()->secondArgVals == unordered_set<int>({2, 4, 7}));
+  REQUIRE(res.get()->pairVals == pair_set<int, int>({{1, 2}, {1, 7}, {3, 4}}));
 }
 
 TEST_CASE(
@@ -101,9 +101,9 @@ TEST_CASE(
   };
   auto res = tableManager.query(isValid, {1, 3});
 
-  REQUIRE(res.firstArgVals == unordered_set<int>({2, 4, 7}));
-  REQUIRE(res.secondArgVals == unordered_set<int>({1, 3}));
-  REQUIRE(res.pairVals == pair_set<int, int>({{2, 1}, {7, 1}, {4, 3}}));
+  REQUIRE(res.get()->firstArgVals == unordered_set<int>({2, 4, 7}));
+  REQUIRE(res.get()->secondArgVals == unordered_set<int>({1, 3}));
+  REQUIRE(res.get()->pairVals == pair_set<int, int>({{2, 1}, {7, 1}, {4, 3}}));
 }
 
 TEST_CASE(
@@ -126,9 +126,9 @@ TEST_CASE(
   };
   auto res = tableManager.query(1, isValid);
 
-  REQUIRE(res.firstArgVals == unordered_set<int>({1}));
-  REQUIRE(res.secondArgVals == unordered_set<int>({2, 7}));
-  REQUIRE(res.pairVals == pair_set<int, int>({{1, 2}, {1, 7}}));
+  REQUIRE(res.get()->firstArgVals == unordered_set<int>({1}));
+  REQUIRE(res.get()->secondArgVals == unordered_set<int>({2, 7}));
+  REQUIRE(res.get()->pairVals == pair_set<int, int>({{1, 2}, {1, 7}}));
 }
 
 TEST_CASE(
@@ -151,9 +151,9 @@ TEST_CASE(
   };
   auto res = tableManager.query(isValid, 1);
 
-  REQUIRE(res.firstArgVals == unordered_set<int>({2, 7}));
-  REQUIRE(res.secondArgVals == unordered_set<int>({1}));
-  REQUIRE(res.pairVals == pair_set<int, int>({{2, 1}, {7, 1}}));
+  REQUIRE(res.get()->firstArgVals == unordered_set<int>({2, 7}));
+  REQUIRE(res.get()->secondArgVals == unordered_set<int>({1}));
+  REQUIRE(res.get()->pairVals == pair_set<int, int>({{2, 1}, {7, 1}}));
 }
 
 TEST_CASE("TransitiveRelationTableManager cyclic direct") {
@@ -212,5 +212,5 @@ TEST_CASE("TransitiveRelationTableManager called as parent class type") {
   REQUIRE(tableManager->getByFirstArg(1) == unordered_set<int>({2, 3}));
   REQUIRE(tableManager->getBySecondArg(3) == unordered_set<int>({1, 2}));
   auto res = tableManager->query(1, isValid);
-  REQUIRE(res.pairVals == pair_set<int, int>({{1, 2}, {1, 3}}));
+  REQUIRE(res.get()->pairVals == pair_set<int, int>({{1, 2}, {1, 3}}));
 }

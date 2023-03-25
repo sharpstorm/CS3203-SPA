@@ -45,12 +45,12 @@ struct callsTest {
   CallsQueryHandler handler = CallsQueryHandler(invoker.get(), store.get());
   CallsTQueryHandler handlerT = CallsTQueryHandler(invoker.get(), storeT.get());
 
-  QueryResult<EntityValue, EntityValue> query(
+  unique_ptr<QueryResult<EntityValue, EntityValue>> query(
       EntityRef leftArg, EntityRef rightArg) {
     return handler.query(&leftArg, &rightArg);
   }
 
-  QueryResult<EntityValue, EntityValue> queryT(
+  unique_ptr<QueryResult<EntityValue, EntityValue>> queryT(
       EntityRef leftArg, EntityRef rightArg) {
     return handlerT.query(&leftArg, &rightArg);
   }
@@ -67,15 +67,15 @@ TEST_CASE("CallsQueryHandler calls(entityName, entityName)") {
   REQUIRE(test.query(
           {EntityType::Procedure, "main"},
           {EntityType::Procedure, "foo"})
-      .isEmpty == false);
+      .get()->isEmpty == false);
   REQUIRE(test.query(
           {EntityType::Procedure, "foo"},
           {EntityType::Procedure, "goo"})
-      .isEmpty == false);
+      .get()->isEmpty == false);
   REQUIRE(test.query(
           {EntityType::Procedure, "main"},
           {EntityType::Procedure, "goo"})
-      .isEmpty == true);
+      .get()->isEmpty == true);
 }
 
 TEST_CASE("CallsQueryHandler calls(_, entityName)") {
@@ -88,10 +88,10 @@ TEST_CASE("CallsQueryHandler calls(_, entityName)") {
   auto result = test.query(
       {EntityType::None, ""},
       {EntityType::Procedure, "foo"});
-  REQUIRE(result.isEmpty == false);
-  REQUIRE(result.firstArgVals == unordered_set<string>{"main"});
-  REQUIRE(result.secondArgVals == unordered_set<string>{"foo"});
-  REQUIRE(result.pairVals == pair_set<string, string>{{"main", "foo"}});
+  REQUIRE(result.get()->isEmpty == false);
+  REQUIRE(result.get()->firstArgVals == unordered_set<string>{"main"});
+  REQUIRE(result.get()->secondArgVals == unordered_set<string>{"foo"});
+  REQUIRE(result.get()->pairVals == pair_set<string, string>{{"main", "foo"}});
 }
 
 TEST_CASE("CallsQueryHandler calls(entityName, _)") {
@@ -104,10 +104,10 @@ TEST_CASE("CallsQueryHandler calls(entityName, _)") {
   auto result = test.query(
       {EntityType::Procedure, "main"},
       {EntityType::None, ""});
-  REQUIRE(result.isEmpty == false);
-  REQUIRE(result.firstArgVals == unordered_set<string>{"main"});
-  REQUIRE(result.secondArgVals == unordered_set<string>{"woo", "foo"});
-  REQUIRE(result.pairVals ==
+  REQUIRE(result.get()->isEmpty == false);
+  REQUIRE(result.get()->firstArgVals == unordered_set<string>{"main"});
+  REQUIRE(result.get()->secondArgVals == unordered_set<string>{"woo", "foo"});
+  REQUIRE(result.get()->pairVals ==
       pair_set<string, string>{{"main", "foo"}, {"main", "woo"}});
 }
 
@@ -120,10 +120,10 @@ TEST_CASE("CallsQueryHandler calls(_, _)") {
 
   auto result =
       test.query({EntityType::None, ""}, {EntityType::None, ""});
-  REQUIRE(result.isEmpty == false);
-  REQUIRE(result.firstArgVals == unordered_set<string>{"main", "foo"});
-  REQUIRE(result.secondArgVals == unordered_set<string>{"woo", "foo", "goo"});
-  REQUIRE(result.pairVals == pair_set<string, string>{{"main", "foo"},
+  REQUIRE(result.get()->isEmpty == false);
+  REQUIRE(result.get()->firstArgVals == unordered_set<string>{"main", "foo"});
+  REQUIRE(result.get()->secondArgVals == unordered_set<string>{"woo", "foo", "goo"});
+  REQUIRE(result.get()->pairVals == pair_set<string, string>{{"main", "foo"},
                                                       {"main", "woo"},
                                                       {"foo", "goo"}});
 }
@@ -138,15 +138,15 @@ TEST_CASE("CallsQueryHandler callsStar(entityName, entityName)") {
   REQUIRE(test.queryT(
           {EntityType::Procedure, "main"},
           {EntityType::Procedure, "foo"})
-      .isEmpty == false);
+      .get()->isEmpty == false);
   REQUIRE(test.queryT(
           {EntityType::Procedure, "foo"},
           {EntityType::Procedure, "goo"})
-      .isEmpty == false);
+      .get()->isEmpty == false);
   REQUIRE(test.queryT(
           {EntityType::Procedure, "main"},
           {EntityType::Procedure, "goo"})
-      .isEmpty == false);
+      .get()->isEmpty == false);
 }
 
 TEST_CASE("CallsQueryHandler callsStar(_, entityName)") {
@@ -160,10 +160,10 @@ TEST_CASE("CallsQueryHandler callsStar(_, entityName)") {
   auto result = test.queryT(
       {EntityType::None, ""},
       {EntityType::Procedure, "goo"});
-  REQUIRE(result.isEmpty == false);
-  REQUIRE(result.firstArgVals == unordered_set<string>{"foo", "main"});
-  REQUIRE(result.secondArgVals == unordered_set<string>{"goo"});
-  REQUIRE(result.pairVals ==
+  REQUIRE(result.get()->isEmpty == false);
+  REQUIRE(result.get()->firstArgVals == unordered_set<string>{"foo", "main"});
+  REQUIRE(result.get()->secondArgVals == unordered_set<string>{"goo"});
+  REQUIRE(result.get()->pairVals ==
       pair_set<string, string>{{"main", "goo"}, {"foo", "goo"}});
 }
 
@@ -177,10 +177,10 @@ TEST_CASE("CallsQueryHandler callsStar(entityName, _)") {
   auto result = test.queryT(
       {EntityType::Procedure, "main"},
       {EntityType::None, ""});
-  REQUIRE(result.isEmpty == false);
-  REQUIRE(result.firstArgVals == unordered_set<string>{"main"});
-  REQUIRE(result.secondArgVals == unordered_set<string>{"woo", "foo", "goo"});
-  REQUIRE(result.pairVals == pair_set<string, string>{{"main", "foo"},
+  REQUIRE(result.get()->isEmpty == false);
+  REQUIRE(result.get()->firstArgVals == unordered_set<string>{"main"});
+  REQUIRE(result.get()->secondArgVals == unordered_set<string>{"woo", "foo", "goo"});
+  REQUIRE(result.get()->pairVals == pair_set<string, string>{{"main", "foo"},
                                                       {"main", "woo"},
                                                       {"main", "goo"}});
 }
@@ -195,10 +195,10 @@ TEST_CASE("CallsQueryHandler callsStar(_, _)") {
   auto result = test.queryT(
       {EntityType::None, ""},
       {EntityType::None, ""});
-  REQUIRE(result.isEmpty == false);
-  REQUIRE(result.firstArgVals == unordered_set<string>{"main", "foo"});
-  REQUIRE(result.secondArgVals == unordered_set<string>{"woo", "foo", "goo"});
-  REQUIRE(result.pairVals == pair_set<string, string>{{"main", "foo"},
+  REQUIRE(result.get()->isEmpty == false);
+  REQUIRE(result.get()->firstArgVals == unordered_set<string>{"main", "foo"});
+  REQUIRE(result.get()->secondArgVals == unordered_set<string>{"woo", "foo", "goo"});
+  REQUIRE(result.get()->pairVals == pair_set<string, string>{{"main", "foo"},
                                                       {"main", "woo"},
                                                       {"main", "goo"},
                                                       {"foo", "goo"}});

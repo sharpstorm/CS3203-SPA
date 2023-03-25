@@ -24,18 +24,18 @@ TEST_CASE("Follows") {
   writer.addStatement(4, StmtType::Print);
 
   auto result1 = handler.queryFollows({StmtType::None, 1}, {StmtType::None, 2});
-  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.get()->isEmpty == false);
 
   auto result2 = handler.queryFollows({StmtType::None, 1}, {StmtType::None, 3});
-  REQUIRE(result2.isEmpty == true);
+  REQUIRE(result2.get()->isEmpty == true);
 
   auto result3 =
       handler.queryFollows({StmtType::None, 1}, {StmtType::Read, 0});
-  REQUIRE(result3.pairVals == pair_set<int, int>({{1, 2}}));
+  REQUIRE(result3.get()->pairVals == pair_set<int, int>({{1, 2}}));
 
   auto result4 =
       handler.queryFollows({StmtType::Read, 0}, {StmtType::None, 4});
-  REQUIRE(result4.pairVals == pair_set<int, int>({{3, 4}}));
+  REQUIRE(result4.get()->pairVals == pair_set<int, int>({{3, 4}}));
 
 }
 
@@ -54,21 +54,21 @@ TEST_CASE("Follows 2 unknowns") {
 
   auto result1 =
       handler.queryFollows({StmtType::None, 0}, {StmtType::Read, 0});
-  REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.pairVals == pair_set<int, int>({{1, 2}, {2, 3}}));
+  REQUIRE(result1.get()->isEmpty == false);
+  REQUIRE(result1.get()->pairVals == pair_set<int, int>({{1, 2}, {2, 3}}));
 
   auto result2 =
       handler.queryFollows({StmtType::None, 0}, {StmtType::None, 0});
-  REQUIRE(result2.isEmpty == false);
-  REQUIRE(result2.pairVals == pair_set<int, int>({{1, 2}, {2, 3}, {3, 4}}));
+  REQUIRE(result2.get()->isEmpty == false);
+  REQUIRE(result2.get()->pairVals == pair_set<int, int>({{1, 2}, {2, 3}, {3, 4}}));
 
   auto result5 =
       handler.queryFollows({StmtType::Read, 0}, {StmtType::Print, 0});
-  REQUIRE(result5.pairVals == pair_set<int, int>({{3, 4}}));
+  REQUIRE(result5.get()->pairVals == pair_set<int, int>({{3, 4}}));
 
   auto result6 =
       handler.queryFollows({StmtType::None, 0}, {StmtType::None, 4});
-  REQUIRE(result6.pairVals == pair_set<int, int>({{3, 4}}));
+  REQUIRE(result6.get()->pairVals == pair_set<int, int>({{3, 4}}));
 }
 
 TEST_CASE("FollowsStar <= 1 unknown") {
@@ -87,19 +87,19 @@ TEST_CASE("FollowsStar <= 1 unknown") {
 
   auto result1 =
       handler.queryFollowsStar({StmtType::None, 1}, {StmtType::None, 4});
-  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.get()->isEmpty == false);
 
   auto result2 =
       handler.queryFollowsStar({StmtType::None, 3}, {StmtType::None, 1});
-  REQUIRE(result2.isEmpty == true);
+  REQUIRE(result2.get()->isEmpty == true);
 
   auto result3 =
       handler.queryFollowsStar({StmtType::None, 1}, {StmtType::Read, 0});
-  REQUIRE(result3.pairVals == pair_set<int, int>({{1, 2}, {1, 3}}));
+  REQUIRE(result3.get()->pairVals == pair_set<int, int>({{1, 2}, {1, 3}}));
 
   auto result4 =
       handler.queryFollowsStar({StmtType::Read, 0}, {StmtType::None, 4});
-  REQUIRE(result4.pairVals == pair_set<int, int>({{2, 4}, {3, 4}}));
+  REQUIRE(result4.get()->pairVals == pair_set<int, int>({{2, 4}, {3, 4}}));
 }
 
 TEST_CASE("FollowsStar 2 unknowns") {
@@ -118,15 +118,15 @@ TEST_CASE("FollowsStar 2 unknowns") {
 
   auto result1 =
       handler.queryFollowsStar({StmtType::None, 0}, {StmtType::Read, 0});
-  REQUIRE(result1.pairVals == pair_set<int, int>({{1, 2}, {2, 3}, {1, 3}}));
+  REQUIRE(result1.get()->pairVals == pair_set<int, int>({{1, 2}, {2, 3}, {1, 3}}));
 
   auto result2 =
       handler.queryFollowsStar({StmtType::None, 0}, {StmtType::None, 0});
-  REQUIRE(result2.pairVals
+  REQUIRE(result2.get()->pairVals
               == pair_set<int, int>({{1, 2}, {2, 3}, {3, 4}, {1, 3}, {1, 4},
                                      {2, 4}}));
 
   auto result3 =
       handler.queryFollowsStar({StmtType::Read, 0}, {StmtType::Print, 0});
-  REQUIRE(result3.pairVals == pair_set<int, int>({{2, 4}, {3, 4}}));
+  REQUIRE(result3.get()->pairVals == pair_set<int, int>({{2, 4}, {3, 4}}));
 }

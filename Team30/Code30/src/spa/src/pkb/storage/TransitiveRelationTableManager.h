@@ -4,6 +4,8 @@
 
 #include "RelationTableManager.h"
 using pkb::Predicate;
+using std::make_unique;
+using std::unique_ptr;
 
 /**
  * Table manager for transitive relations, R*(arg1, arg2) where args are type T.
@@ -11,12 +13,11 @@ using pkb::Predicate;
  * - R(arg1, arg2) or
  * - R(arg1, a) and R*(a, arg2) for some a
  */
-template<typename T>
+template <typename T>
 class TransitiveRelationTableManager : public RelationTableManager<T, T> {
  public:
-  TransitiveRelationTableManager(
-      IBaseSetTable<T, T> *table,
-      IBaseSetTable<T, T> *reverseTable)
+  TransitiveRelationTableManager(IBaseSetTable<T, T> *table,
+                                 IBaseSetTable<T, T> *reverseTable)
       : RelationTableManager<T, T>(table, reverseTable) {}
 
   /**
@@ -41,9 +42,8 @@ class TransitiveRelationTableManager : public RelationTableManager<T, T> {
    * Find R*(arg1, arg2) where arg1 is in the given arg1Values and arg2
    * satisfies arg2Predicate.
    */
-  QueryResult<T, T> query(
-      unordered_set<T> arg1Values,
-      Predicate<T> arg2Predicate) const override {
+  unique_ptr<QueryResult<T, T>> query(
+      unordered_set<T> arg1Values, Predicate<T> arg2Predicate) const override {
     QueryResult<T, T> result;
     for (auto arg1 : arg1Values) {
       auto arg2Values = getByFirstArg(arg1);
@@ -53,16 +53,15 @@ class TransitiveRelationTableManager : public RelationTableManager<T, T> {
         }
       }
     }
-    return result;
+    return make_unique<QueryResult<T, T>>(result);
   }
 
   /**
    * Find R*(arg1, arg2) where arg2 is in the given arg2Values and arg1
    * satisfies arg1Predicate.
    */
-  QueryResult<T, T> query(
-      Predicate<T> arg1Predicate,
-      unordered_set<T> arg2Values) const override {
+  unique_ptr<QueryResult<T, T>> query(
+      Predicate<T> arg1Predicate, unordered_set<T> arg2Values) const override {
     QueryResult<T, T> result;
     for (auto arg2 : arg2Values) {
       auto arg1Values = getBySecondArg(arg2);
@@ -72,20 +71,22 @@ class TransitiveRelationTableManager : public RelationTableManager<T, T> {
         }
       }
     }
-    return result;
+    return make_unique<QueryResult<T, T>>(result);
   }
 
   /**
    * Find R*(arg1, arg2) given arg1 and arg2 satisfies arg2Predicate.
    */
-  QueryResult<T, T> query(T arg1, Predicate<T> arg2Predicate) const override {
+  unique_ptr<QueryResult<T, T>> query(
+      T arg1, Predicate<T> arg2Predicate) const override {
     return query(unordered_set<T>({arg1}), arg2Predicate);
   }
 
   /**
    * Find R*(arg1, arg2) given arg2 and arg1 satisfies arg1Predicate.
    */
-  QueryResult<T, T> query(Predicate<T> arg1Predicate, T arg2) const override {
+  unique_ptr<QueryResult<T, T>> query(Predicate<T> arg1Predicate,
+                                      T arg2) const override {
     return query(arg1Predicate, unordered_set<T>({arg2}));
   }
 
