@@ -81,6 +81,28 @@ class AbstractTwoArgClause: public SuchThatClause {
     }
   }
 
+  template <
+      ComplexityScore constantModifier,
+      ComplexityScore oneSynModifier,
+      ComplexityScore twoSynModifier>
+  ComplexityScore computeNoSymmetryComplexityScore(const OverrideTable *table) {
+    if (isSameSynonym()) {
+      return COMPLEXITY_QUERY_CONSTANT;
+    }
+
+    return computeComplexityScore<constantModifier,
+                                  oneSynModifier,
+                                  twoSynModifier>(table);
+  }
+
+  ComplexityScore computeNoSymmetryComplexityScore(const OverrideTable *table) {
+    if (isSameSynonym()) {
+      return COMPLEXITY_QUERY_CONSTANT;
+    }
+
+    return computeComplexityScore(table);
+  }
+
   ComplexityScore computeComplexityScore(const OverrideTable *table);
 
  public:

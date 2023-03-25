@@ -42,7 +42,10 @@ class CallsClause: public AbstractCallsClause<
   }
 
   ComplexityScore getComplexityScore(const OverrideTable *table) override {
-    return computeComplexityScore(table);
+    return computeNoSymmetryComplexityScore<
+        COMPLEXITY_MODIFIER_PREFERRED,
+        COMPLEXITY_MODIFIER_NONE,
+        COMPLEXITY_MODIFIER_NONE>(table);
   }
 };
 
@@ -55,8 +58,8 @@ class CallsTClause: public AbstractCallsClause<
   }
 
   ComplexityScore getComplexityScore(const OverrideTable *table) override {
-    return computeComplexityScore<
-        COMPLEXITY_MODIFIER_NONE,
+    return computeNoSymmetryComplexityScore<
+        COMPLEXITY_MODIFIER_PREFERRED,
         COMPLEXITY_QUERY_TRANSITIVE,
         COMPLEXITY_QUERY_TRANSITIVE
     >(table);

@@ -42,7 +42,7 @@ class FollowsClause: public AbstractFollowsClause<
   }
 
   ComplexityScore getComplexityScore(const OverrideTable *table) override {
-    return computeComplexityScore(table);
+    return computeNoSymmetryComplexityScore(table);
   }
 };
 
@@ -55,7 +55,7 @@ class FollowsTClause: public AbstractFollowsClause<
   }
 
   ComplexityScore getComplexityScore(const OverrideTable *table) override {
-    return computeComplexityScore<
+    return computeNoSymmetryComplexityScore<
         COMPLEXITY_MODIFIER_NONE,
         COMPLEXITY_QUERY_TRANSITIVE,
         COMPLEXITY_QUERY_TRANSITIVE

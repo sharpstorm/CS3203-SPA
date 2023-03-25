@@ -41,7 +41,10 @@ class ParentClause: public AbstractParentClause<parentInvoker,
   }
 
   ComplexityScore getComplexityScore(const OverrideTable *table) override {
-    return computeComplexityScore(table);
+    if (isSameSynonym()) {
+      return COMPLEXITY_QUERY_CONSTANT;
+    }
+    return computeNoSymmetryComplexityScore(table);
   }
 };
 
@@ -53,7 +56,10 @@ class ParentTClause: public AbstractParentClause<parentTInvoker,
   }
 
   ComplexityScore getComplexityScore(const OverrideTable *table) override {
-    return computeComplexityScore<
+    if (isSameSynonym()) {
+      return COMPLEXITY_QUERY_CONSTANT;
+    }
+    return computeNoSymmetryComplexityScore<
         COMPLEXITY_MODIFIER_NONE,
         COMPLEXITY_QUERY_TRANSITIVE,
         COMPLEXITY_QUERY_TRANSITIVE

@@ -26,13 +26,13 @@ QueryGroupPlanPtr QueryClauseOrderer::orderClauses(QueryGroup *group,
       ComparableClause curClause = queuedClauses.top();
       queuedClauses.pop();
 
-      IEvaluatable* evaluatable = group->getEvaluatable(curClause.getId());
+      IEvaluatable* evaluatable = group->getEvaluatable(curClause.getData());
       tempOrdering[curIndex] = evaluatable;
-      runningWeight += curModifier * curClause.getComplexity();
+      runningWeight += curModifier * curClause.getMetric();
       curIndex++;
       curModifier--;
 
-      unordered_set<ClauseId>* edges = group->getRelated(curClause.getId());
+      unordered_set<ClauseId>* edges = group->getRelated(curClause.getData());
       for (auto it = edges->begin(); it != edges->end(); it++) {
         ClauseId otherClauseId = *it;
         if (seenClauses.isSet(otherClauseId)) {
@@ -52,5 +52,5 @@ QueryGroupPlanPtr QueryClauseOrderer::orderClauses(QueryGroup *group,
     }
   }
 
-  return group->toPlan(groupOrdering);
+  return group->toPlan(groupOrdering, currentWeightedMin);
 }

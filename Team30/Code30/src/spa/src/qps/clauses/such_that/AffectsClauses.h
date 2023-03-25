@@ -130,7 +130,9 @@ class AffectsClause: public AbstractAffectsClause<
 
   ComplexityScore getComplexityScore(const OverrideTable *table) override {
     return computeComplexityScore<
-        COMPLEXITY_AFFECTS, COMPLEXITY_AFFECTS, COMPLEXITY_AFFECTS>(table);
+        COMPLEXITY_AFFECTS_CONST,
+        COMPLEXITY_AFFECTS,
+        COMPLEXITY_AFFECTS>(table);
   }
 };
 
@@ -144,7 +146,7 @@ class AffectsTClause: public AbstractAffectsClause<
 
   ComplexityScore getComplexityScore(const OverrideTable *table) override {
     return computeComplexityScore<
-        COMPLEXITY_AFFECTS_T,
+        COMPLEXITY_AFFECTS_T_CONST,
         COMPLEXITY_AFFECTS_T + COMPLEXITY_QUERY_TRANSITIVE,
         COMPLEXITY_AFFECTS_T + COMPLEXITY_QUERY_TRANSITIVE
     >(table);

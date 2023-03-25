@@ -106,7 +106,7 @@ class NextClause: public AbstractNextClause<
   }
 
   ComplexityScore getComplexityScore(const OverrideTable *table) override {
-    return computeComplexityScore<
+    return computeNoSymmetryComplexityScore<
         COMPLEXITY_MODIFIER_NONE,
         COMPLEXITY_MODIFIER_NONE,
         COMPLEXITY_NEXT>(table);
@@ -123,7 +123,7 @@ class NextTClause: public AbstractNextClause<
 
   ComplexityScore getComplexityScore(const OverrideTable *table) override {
     return computeComplexityScore<
-        COMPLEXITY_NEXT_T,
+        COMPLEXITY_NEXT_T_CONST,
         COMPLEXITY_NEXT_T + COMPLEXITY_QUERY_TRANSITIVE,
         COMPLEXITY_NEXT_T + COMPLEXITY_QUERY_TRANSITIVE
     >(table);

@@ -7,10 +7,10 @@ using std::map;
 // Super Categories
 const ComplexityScore COMPLEXITY_SELECT = 1;
 
-const ComplexityScore COMPLEXITY_WITH_SELECT = 5;
-const ComplexityScore COMPLEXITY_WITH = 10;
+const ComplexityScore COMPLEXITY_WITH_SELECT = 20;
+const ComplexityScore COMPLEXITY_WITH = 30;
 
-const ComplexityScore COMPLEXITY_QUERY_CONSTANT = 50;
+const ComplexityScore COMPLEXITY_QUERY_CONSTANT = 10;
 
 // Syn Type Expected Size
 const ComplexityScore COMPLEXITY_QUERY_SYN_CONTAINER = 60;
@@ -26,11 +26,15 @@ const ComplexityScore COMPLEXITY_QUERY_SYN_VARIABLE = 90;
 const ComplexityScore COMPLEXITY_QUERY_SYN_CONSTANT = 90;
 
 const ComplexityScore COMPLEXITY_NEXT = 50;
+const ComplexityScore COMPLEXITY_NEXT_T_CONST = 30;
 const ComplexityScore COMPLEXITY_NEXT_T = 400;
+const ComplexityScore COMPLEXITY_AFFECTS_CONST = 70;
 const ComplexityScore COMPLEXITY_AFFECTS = 500;
+const ComplexityScore COMPLEXITY_AFFECTS_T_CONST = 100;
 const ComplexityScore COMPLEXITY_AFFECTS_T = 600;
 
 // Minor Tunings
+const ComplexityScore COMPLEXITY_MODIFIER_PREFERRED = -5;
 const ComplexityScore COMPLEXITY_MODIFIER_NONE = 0;
 const ComplexityScore COMPLEXITY_MODIFIER_SMALL = 5;
 const ComplexityScore COMPLEXITY_MODIFIER_MEDIUM = 10;
