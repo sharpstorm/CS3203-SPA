@@ -20,3 +20,6 @@ void AssignNode::accept(IExtractor* e) {
 string AssignNode::toString() {
   return ":assign";
 }
+void AssignNode::leave(IExtractor *e) {
+  e->leaveAssign(this);
+}
