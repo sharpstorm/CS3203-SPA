@@ -111,11 +111,11 @@ TEST_CASE("ModifiesQueryHandler Modifies(stmtNum, variableName)") {
   test.table->set(2, "x");
   test.table->set(3, "z");
 
-  auto result = test.query({StmtType::None, 1}, {EntityType::None, "x"});
-  REQUIRE(result.get()->isEmpty == false);
-  REQUIRE(result.get()->firstArgVals == unordered_set<int>({1}));
-  REQUIRE(result.get()->secondArgVals == unordered_set<string>({"x"}));
-  REQUIRE(result.get()->pairVals == pair_set<int, string>({{1, "x"}}));
+  auto result = *test.query({StmtType::None, 1}, {EntityType::None, "x"});
+  REQUIRE(result.isEmpty == false);
+  REQUIRE(result.firstArgVals == unordered_set<int>({1}));
+  REQUIRE(result.secondArgVals == unordered_set<string>({"x"}));
+  REQUIRE(result.pairVals == pair_set<int, string>({{1, "x"}}));
 }
 
 // Only arg1 known
@@ -126,13 +126,13 @@ TEST_CASE("ModifiesQueryHandler Modifies(stmtNum, variableType)") {
   test.table->set(2, "x");
   test.table->set(1, "y");
 
-  auto result = test.query(
+  auto result = *test.query(
       {StmtType::None, 1},
       {EntityType::Variable, ""});
-  REQUIRE(result.get()->isEmpty == false);
-  REQUIRE(result.get()->firstArgVals == unordered_set<int>({1}));
-  REQUIRE(result.get()->secondArgVals == unordered_set<string>({"x", "y"}));
-  REQUIRE(result.get()->pairVals == pair_set<int, string>({{1, "x"}, {1, "y"}}));
+  REQUIRE(result.isEmpty == false);
+  REQUIRE(result.firstArgVals == unordered_set<int>({1}));
+  REQUIRE(result.secondArgVals == unordered_set<string>({"x", "y"}));
+  REQUIRE(result.pairVals == pair_set<int, string>({{1, "x"}, {1, "y"}}));
 }
 
 TEST_CASE("ModifiesQueryHandler Modifies(stmtNum, _)") {
@@ -143,11 +143,11 @@ TEST_CASE("ModifiesQueryHandler Modifies(stmtNum, _)") {
   test.table->set(1, "y");
 
   auto result =
-      test.query({StmtType::None, 1}, {EntityType::None, ""});
-  REQUIRE(result.get()->isEmpty == false);
-  REQUIRE(result.get()->firstArgVals == unordered_set<int>({1}));
-  REQUIRE(result.get()->secondArgVals == unordered_set<string>({"x", "y"}));
-  REQUIRE(result.get()->pairVals == pair_set<int, string>({{1, "x"}, {1, "y"}}));
+      *test.query({StmtType::None, 1}, {EntityType::None, ""});
+  REQUIRE(result.isEmpty == false);
+  REQUIRE(result.firstArgVals == unordered_set<int>({1}));
+  REQUIRE(result.secondArgVals == unordered_set<string>({"x", "y"}));
+  REQUIRE(result.pairVals == pair_set<int, string>({{1, "x"}, {1, "y"}}));
 }
 
 TEST_CASE("ModifiesQueryHandler Modifies(stmtNum, constant)") {
@@ -155,10 +155,10 @@ TEST_CASE("ModifiesQueryHandler Modifies(stmtNum, constant)") {
 
   test.table->set(1, "x");
 
-  auto result = test.query(
+  auto result = *test.query(
       {StmtType::None, 1},
       {EntityType::Constant, ""});
-  REQUIRE(result.get()->isEmpty == true);
+  REQUIRE(result.isEmpty == true);
 }
 
 // Only arg2 known
@@ -172,23 +172,23 @@ TEST_CASE("ModifiesQueryHandler Modifies(type, variableName), assign, read") {
   test.reverseTable->set("z", 3);
   test.reverseTable->set("x", 4);
 
-  auto result1 = test.query(
+  auto result1 = *test.query(
       {StmtType::Assign, 0},
       {EntityType::Variable, "x"});
 
-  REQUIRE(result1.get()->isEmpty == false);
-  REQUIRE(result1.get()->firstArgVals == unordered_set<int>({1, 2}));
-  REQUIRE(result1.get()->secondArgVals == unordered_set<string>({"x"}));
-  REQUIRE(result1.get()->pairVals == pair_set<int, string>({{1, "x"}, {2, "x"}}));
+  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.firstArgVals == unordered_set<int>({1, 2}));
+  REQUIRE(result1.secondArgVals == unordered_set<string>({"x"}));
+  REQUIRE(result1.pairVals == pair_set<int, string>({{1, "x"}, {2, "x"}}));
 
-  auto result2 = test.query(
+  auto result2 = *test.query(
       {StmtType::Read, 0},
       {EntityType::Variable, "x"});
 
-  REQUIRE(result2.get()->isEmpty == false);
-  REQUIRE(result2.get()->firstArgVals == unordered_set<int>({4}));
-  REQUIRE(result2.get()->secondArgVals == unordered_set<string>({"x"}));
-  REQUIRE(result2.get()->pairVals == pair_set<int, string>({{4, "x"}}));
+  REQUIRE(result2.isEmpty == false);
+  REQUIRE(result2.firstArgVals == unordered_set<int>({4}));
+  REQUIRE(result2.secondArgVals == unordered_set<string>({"x"}));
+  REQUIRE(result2.pairVals == pair_set<int, string>({{4, "x"}}));
 }
 
 TEST_CASE("ModifiesQueryHandler Modifies(type, variableName), if, while") {
@@ -198,23 +198,23 @@ TEST_CASE("ModifiesQueryHandler Modifies(type, variableName), if, while") {
   test.reverseTable->set("y", 6);
   test.reverseTable->set("y", 7);
 
-  auto result1 = test.query(
+  auto result1 = *test.query(
       {StmtType::If, 0},
       {EntityType::Variable, "y"});
 
-  REQUIRE(result1.get()->isEmpty == false);
-  REQUIRE(result1.get()->firstArgVals == unordered_set<int>({6}));
-  REQUIRE(result1.get()->secondArgVals == unordered_set<string>({"y"}));
-  REQUIRE(result1.get()->pairVals == pair_set<int, string>({{6, "y"}}));
+  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.firstArgVals == unordered_set<int>({6}));
+  REQUIRE(result1.secondArgVals == unordered_set<string>({"y"}));
+  REQUIRE(result1.pairVals == pair_set<int, string>({{6, "y"}}));
 
-  auto result2 = test.query(
+  auto result2 = *test.query(
       {StmtType::While, 0},
       {EntityType::Variable, "y"});
 
-  REQUIRE(result2.get()->isEmpty == false);
-  REQUIRE(result2.get()->firstArgVals == unordered_set<int>({7}));
-  REQUIRE(result2.get()->secondArgVals == unordered_set<string>({"y"}));
-  REQUIRE(result2.get()->pairVals == pair_set<int, string>({{7, "y"}}));
+  REQUIRE(result2.isEmpty == false);
+  REQUIRE(result2.firstArgVals == unordered_set<int>({7}));
+  REQUIRE(result2.secondArgVals == unordered_set<string>({"y"}));
+  REQUIRE(result2.pairVals == pair_set<int, string>({{7, "y"}}));
 }
 
 TEST_CASE("ModifiesQueryHandler Modifies(type, variableName), print") {
@@ -222,11 +222,11 @@ TEST_CASE("ModifiesQueryHandler Modifies(type, variableName), print") {
 
   test.reverseTable->set("x", 5);  // should not happen
 
-  auto result1 = test.query(
+  auto result1 = *test.query(
       {StmtType::Print, 0},
       {EntityType::Variable, "x"});
 
-  REQUIRE(result1.get()->isEmpty == true);
+  REQUIRE(result1.isEmpty == true);
 }
 
 TEST_CASE("ModifiesQueryHandler Modifies(type, variableName), stmt") {
@@ -237,14 +237,14 @@ TEST_CASE("ModifiesQueryHandler Modifies(type, variableName), stmt") {
   test.reverseTable->set("x", 4);
   test.reverseTable->set("x", 6);
 
-  auto result1 = test.query(
+  auto result1 = *test.query(
       {StmtType::None, 0},
       {EntityType::Variable, "x"});
 
-  REQUIRE(result1.get()->isEmpty == false);
-  REQUIRE(result1.get()->firstArgVals == unordered_set<int>({1, 4, 6}));
-  REQUIRE(result1.get()->secondArgVals == unordered_set<string>({"x"}));
-  REQUIRE(result1.get()->pairVals ==
+  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.firstArgVals == unordered_set<int>({1, 4, 6}));
+  REQUIRE(result1.secondArgVals == unordered_set<string>({"x"}));
+  REQUIRE(result1.pairVals ==
       pair_set<int, string>({{1, "x"}, {4, "x"}, {6, "x"}}));
 }
 
@@ -264,14 +264,14 @@ TEST_CASE("ModifiesQueryHandler Modifies(stmtType, varType)") {
   test.reverseTable->set("x", 3);
   test.reverseTable->set("x", 4);
 
-  auto result1 = test.query(
+  auto result1 = *test.query(
       {StmtType::Assign, 0},
       {EntityType::Variable, ""});
 
-  REQUIRE(result1.get()->isEmpty == false);
-  REQUIRE(result1.get()->firstArgVals == unordered_set<int>({1, 2, 3}));
-  REQUIRE(result1.get()->secondArgVals == unordered_set<string>({"x", "y", "z"}));
-  REQUIRE(result1.get()->pairVals ==
+  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.firstArgVals == unordered_set<int>({1, 2, 3}));
+  REQUIRE(result1.secondArgVals == unordered_set<string>({"x", "y", "z"}));
+  REQUIRE(result1.pairVals ==
       pair_set<int, string>({{1, "x"}, {1, "z"}, {2, "y"}, {3, "x"}}));
 }
 
@@ -289,12 +289,12 @@ TEST_CASE("ModifiesQueryHandler Modifies(statement, _)") {
   test.reverseTable->set("y", 6);
 
   auto result1 =
-      test.query({StmtType::None, 0}, {EntityType::None, ""});
+      *test.query({StmtType::None, 0}, {EntityType::None, ""});
 
-  REQUIRE(result1.get()->isEmpty == false);
-  REQUIRE(result1.get()->firstArgVals == unordered_set<int>({1, 4, 6}));
-  REQUIRE(result1.get()->secondArgVals == unordered_set<string>({"x", "y", "z"}));
-  REQUIRE(result1.get()->pairVals ==
+  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.firstArgVals == unordered_set<int>({1, 4, 6}));
+  REQUIRE(result1.secondArgVals == unordered_set<string>({"x", "y", "z"}));
+  REQUIRE(result1.pairVals ==
       pair_set<int, string>({{1, "x"}, {1, "z"}, {4, "x"}, {6, "y"}}));
 }
 
@@ -310,18 +310,18 @@ TEST_CASE("ModifiesQueryHandler call statement") {
 
   // arg1 known
   auto result1 =
-      test.query({StmtType::None, 8}, {EntityType::None, ""});
-  REQUIRE(result1.get()->pairVals == pair_set<int, string>({{8, "x"}, {8, "y"}}));
+      *test.query({StmtType::None, 8}, {EntityType::None, ""});
+  REQUIRE(result1.pairVals == pair_set<int, string>({{8, "x"}, {8, "y"}}));
   // arg2 known
-  auto result2 = test.query(
+  auto result2 = *test.query(
       {StmtType::Call, 0},
       {EntityType::Variable, ""});
 
-  REQUIRE(result2.get()->pairVals == pair_set<int, string>({{8, "x"}, {8, "y"}}));
+  REQUIRE(result2.pairVals == pair_set<int, string>({{8, "x"}, {8, "y"}}));
   // Both args unknown
   auto result3 =
-      test.query({StmtType::None, 0}, {EntityType::None, ""});
-  REQUIRE(result3.get()->pairVals ==
+      *test.query({StmtType::None, 0}, {EntityType::None, ""});
+  REQUIRE(result3.pairVals ==
       pair_set<int, string>({{8, "x"}, {8, "y"}, {1, "z"}}));
 }
 
@@ -334,23 +334,23 @@ TEST_CASE("ModifiesQueryHandler Modifies(procedureName, variableName)") {
   test.pTable->set("main", "y");
   test.pTable->set("foo", "z");
 
-  auto result1 = test.query(
+  auto result1 = *test.query(
       {EntityType::None, "main"},
       {EntityType::None, "x"});
-  REQUIRE(result1.get()->isEmpty == false);
-  REQUIRE(result1.get()->firstArgVals == unordered_set<string>({"main"}));
-  REQUIRE(result1.get()->secondArgVals == unordered_set<string>({"x"}));
-  REQUIRE(result1.get()->pairVals == pair_set<string, string>({{"main", "x"}}));
+  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.firstArgVals == unordered_set<string>({"main"}));
+  REQUIRE(result1.secondArgVals == unordered_set<string>({"x"}));
+  REQUIRE(result1.pairVals == pair_set<string, string>({{"main", "x"}}));
 
-  auto result2 = test.query(
+  auto result2 = *test.query(
       {EntityType::None, "main"},
       {EntityType::None, "z"});
-  REQUIRE(result2.get()->isEmpty == true);
+  REQUIRE(result2.isEmpty == true);
 
-  auto result3 = test.query(
+  auto result3 = *test.query(
       {EntityType::None, "foo"},
       {EntityType::None, "z"});
-  REQUIRE(result3.get()->pairVals == pair_set<string, string>({{"foo", "z"}}));
+  REQUIRE(result3.pairVals == pair_set<string, string>({{"foo", "z"}}));
 }
 
 // Only arg1 known
@@ -361,19 +361,19 @@ TEST_CASE("ModifiesQueryHandler Modifies(procedureName, type)") {
   test.pTable->set("main", "y");
   test.pTable->set("foo", "z");
 
-  auto result1 = test.query(
+  auto result1 = *test.query(
       {EntityType::None, "main"},
       {EntityType::Variable, ""});
-  REQUIRE(result1.get()->isEmpty == false);
-  REQUIRE(result1.get()->firstArgVals == unordered_set<string>({"main"}));
-  REQUIRE(result1.get()->secondArgVals == unordered_set<string>({"x", "y"}));
-  REQUIRE(result1.get()->pairVals ==
+  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.firstArgVals == unordered_set<string>({"main"}));
+  REQUIRE(result1.secondArgVals == unordered_set<string>({"x", "y"}));
+  REQUIRE(result1.pairVals ==
       pair_set<string, string>({{"main", "x"}, {"main", "y"}}));
 
-  auto result2 = test.query(
+  auto result2 = *test.query(
       {EntityType::None, "goo"},
       {EntityType::Variable, ""});
-  REQUIRE(result2.get()->isEmpty == true);
+  REQUIRE(result2.isEmpty == true);
 }
 
 // Only arg2 known
@@ -385,20 +385,20 @@ TEST_CASE("ModifiesQueryHandler Modifies(type, variable)") {
   test.reversePTable->set("y", "main");
   test.reversePTable->set("y", "goo");
 
-  auto result1 = test.query(
+  auto result1 = *test.query(
       {EntityType::Procedure, ""},
       {EntityType::Variable, "x"});
-  REQUIRE(result1.get()->isEmpty == false);
-  REQUIRE(result1.get()->firstArgVals == unordered_set<string>({"main", "foo"}));
-  REQUIRE(result1.get()->secondArgVals == unordered_set<string>({"x"}));
-  REQUIRE(result1.get()->pairVals ==
+  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.firstArgVals == unordered_set<string>({"main", "foo"}));
+  REQUIRE(result1.secondArgVals == unordered_set<string>({"x"}));
+  REQUIRE(result1.pairVals ==
       pair_set<string, string>({{"main", "x"}, {"foo", "x"}}));
 
   // invalid arg1
-  auto result2 = test.query(
+  auto result2 = *test.query(
       {EntityType::None, ""},
       {EntityType::None, "y"});
-  REQUIRE(result2.get()->isEmpty == true);
+  REQUIRE(result2.isEmpty == true);
 }
 
 // Both args unknown
@@ -410,21 +410,21 @@ TEST_CASE("ModifiesQueryHandler Modifies(type, type)") {
   test.pTable->set("foo", "y");
   test.pTable->set("foo", "z");
 
-  auto result1 = test.query(
+  auto result1 = *test.query(
       {EntityType::Procedure, ""},
       {EntityType::None, ""});
-  REQUIRE(result1.get()->isEmpty == false);
-  REQUIRE(result1.get()->firstArgVals == unordered_set<string>({"main", "foo"}));
-  REQUIRE(result1.get()->secondArgVals == unordered_set<string>({"x", "y", "z"}));
-  REQUIRE(result1.get()->pairVals ==
+  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.firstArgVals == unordered_set<string>({"main", "foo"}));
+  REQUIRE(result1.secondArgVals == unordered_set<string>({"x", "y", "z"}));
+  REQUIRE(result1.pairVals ==
       pair_set<string, string>(
           {{"main", "x"}, {"main", "y"}, {"foo", "z"}, {"foo", "y"}}));
 
   // invalid arg1
-  auto result2 = test.query(
+  auto result2 = *test.query(
       {EntityType::None, ""},
       {EntityType::Variable, ""});
-  REQUIRE(result2.get()->isEmpty == true);
+  REQUIRE(result2.isEmpty == true);
 }
 
 TEST_CASE("ModifiesQueryHandler getReadDeclarations(readStmt)") {

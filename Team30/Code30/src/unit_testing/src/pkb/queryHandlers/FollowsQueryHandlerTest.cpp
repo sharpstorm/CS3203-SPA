@@ -98,14 +98,14 @@ TEST_CASE("FollowsQueryHandler follows(stmtNum,stmtType)") {
   test.table->set(2, 3);
   test.table->set(3, 5);
 
-  auto result1 = test.query({StmtType::None, 1}, {StmtType::Assign, 0});
-  REQUIRE(result1.get()->isEmpty == false);
-  REQUIRE(result1.get()->firstArgVals == unordered_set<int>({1}));
-  REQUIRE(result1.get()->secondArgVals == unordered_set<int>({2}));
-  REQUIRE(result1.get()->pairVals == pair_set<int, int>({{1, 2}}));
+  auto result1 = *test.query({StmtType::None, 1}, {StmtType::Assign, 0});
+  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.firstArgVals == unordered_set<int>({1}));
+  REQUIRE(result1.secondArgVals == unordered_set<int>({2}));
+  REQUIRE(result1.pairVals == pair_set<int, int>({{1, 2}}));
 
-  auto result2 = test.query({StmtType::None, 2}, {StmtType::Read, 0});
-  REQUIRE(result2.get()->isEmpty == true);
+  auto result2 = *test.query({StmtType::None, 2}, {StmtType::Read, 0});
+  REQUIRE(result2.isEmpty == true);
 }
 
 TEST_CASE("FollowsQueryHandler follows(stmtType, stmtNum)") {
@@ -115,15 +115,15 @@ TEST_CASE("FollowsQueryHandler follows(stmtType, stmtNum)") {
   test.reverseTable->set(6, 5);
   test.reverseTable->set(8, 6);
 
-  auto result1 = test.query({StmtType::Assign, 0}, {StmtType::None, 5});
-  REQUIRE(result1.get()->isEmpty == false);
-  REQUIRE(result1.get()->firstArgVals == unordered_set<int>({2}));
-  REQUIRE(result1.get()->secondArgVals == unordered_set<int>({5}));
-  REQUIRE(result1.get()->pairVals == pair_set<int, int>({{2, 5}}));
+  auto result1 = *test.query({StmtType::Assign, 0}, {StmtType::None, 5});
+  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.firstArgVals == unordered_set<int>({2}));
+  REQUIRE(result1.secondArgVals == unordered_set<int>({5}));
+  REQUIRE(result1.pairVals == pair_set<int, int>({{2, 5}}));
 
   auto result2 =
-      test.query({StmtType::Read, 0}, {StmtType::None, 8});
-  REQUIRE(result2.get()->isEmpty == true);
+      *test.query({StmtType::Read, 0}, {StmtType::None, 8});
+  REQUIRE(result2.isEmpty == true);
 }
 
 TEST_CASE("FollowsQueryHandler follows(stmtType, stmtType)") {
@@ -133,12 +133,12 @@ TEST_CASE("FollowsQueryHandler follows(stmtType, stmtType)") {
   test.table->set(3, 4);
   test.table->set(5, 6);
 
-  auto result1 = test.query({StmtType::Assign, 0}, {StmtType::Read, 0});
+  auto result1 = *test.query({StmtType::Assign, 0}, {StmtType::Read, 0});
 
-  REQUIRE(result1.get()->isEmpty == false);
-  REQUIRE(result1.get()->firstArgVals == unordered_set<int>({2, 3}));
-  REQUIRE(result1.get()->secondArgVals == unordered_set<int>({5, 4}));
-  REQUIRE(result1.get()->pairVals == pair_set<int, int>({{2, 5}, {3, 4}}));
+  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.firstArgVals == unordered_set<int>({2, 3}));
+  REQUIRE(result1.secondArgVals == unordered_set<int>({5, 4}));
+  REQUIRE(result1.pairVals == pair_set<int, int>({{2, 5}, {3, 4}}));
 }
 
 /* FollowsStar */
@@ -165,16 +165,16 @@ TEST_CASE("FollowsQueryHandler followsStar(stmtNum,stmtType)") {
   test.table->set(11, 12);
   test.table->set(12, 16);
 
-  auto result1 = test.queryT(
+  auto result1 = *test.queryT(
       {StmtType::None, 10},
       {StmtType::While, 0});
-  REQUIRE(result1.get()->isEmpty == false);
-  REQUIRE(result1.get()->firstArgVals == unordered_set<int>({10}));
-  REQUIRE(result1.get()->secondArgVals == unordered_set<int>({12, 16}));
-  REQUIRE(result1.get()->pairVals == pair_set<int, int>({{10, 12}, {10, 16}}));
+  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.firstArgVals == unordered_set<int>({10}));
+  REQUIRE(result1.secondArgVals == unordered_set<int>({12, 16}));
+  REQUIRE(result1.pairVals == pair_set<int, int>({{10, 12}, {10, 16}}));
 
-  auto result2 = test.queryT({StmtType::None, 12}, {StmtType::If, 0});
-  REQUIRE(result2.get()->isEmpty == true);
+  auto result2 = *test.queryT({StmtType::None, 12}, {StmtType::If, 0});
+  REQUIRE(result2.isEmpty == true);
 }
 
 TEST_CASE("FollowsQueryHandler followsStar(stmtType,stmtNum)") {
@@ -184,14 +184,14 @@ TEST_CASE("FollowsQueryHandler followsStar(stmtType,stmtNum)") {
   test.reverseTable->set(13, 12);
   test.reverseTable->set(14, 13);
 
-  auto result1 = test.queryT({StmtType::If, 0}, {StmtType::None, 13});
-  REQUIRE(result1.get()->isEmpty == false);
-  REQUIRE(result1.get()->firstArgVals == unordered_set<int>({11}));
-  REQUIRE(result1.get()->secondArgVals == unordered_set<int>({13}));
-  REQUIRE(result1.get()->pairVals == pair_set<int, int>({{11, 13}}));
+  auto result1 = *test.queryT({StmtType::If, 0}, {StmtType::None, 13});
+  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.firstArgVals == unordered_set<int>({11}));
+  REQUIRE(result1.secondArgVals == unordered_set<int>({13}));
+  REQUIRE(result1.pairVals == pair_set<int, int>({{11, 13}}));
 
-  auto result2 = test.queryT({StmtType::If, 0}, {StmtType::None, 11});
-  REQUIRE(result2.get()->isEmpty == true);
+  auto result2 = *test.queryT({StmtType::If, 0}, {StmtType::None, 11});
+  REQUIRE(result2.isEmpty == true);
 }
 
 TEST_CASE("FollowsQueryHandler followsStar(stmtType,stmtType)") {
@@ -202,25 +202,25 @@ TEST_CASE("FollowsQueryHandler followsStar(stmtType,stmtType)") {
   test.table->set(14, 15);
   test.table->set(15, 16);
 
-  auto result1 = test.queryT({StmtType::If, 0}, {StmtType::While, 0});
-  REQUIRE(result1.get()->isEmpty == false);
-  REQUIRE(result1.get()->firstArgVals == unordered_set<int>({11, 14}));
-  REQUIRE(result1.get()->secondArgVals == unordered_set<int>({12, 16}));
-  REQUIRE(result1.get()->pairVals ==
+  auto result1 = *test.queryT({StmtType::If, 0}, {StmtType::While, 0});
+  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.firstArgVals == unordered_set<int>({11, 14}));
+  REQUIRE(result1.secondArgVals == unordered_set<int>({12, 16}));
+  REQUIRE(result1.pairVals ==
       pair_set<int, int>({{11, 12}, {11, 16}, {14, 16}}));
 
-  auto result2 = test.queryT({StmtType::None, 0}, {StmtType::While, 0});
-  REQUIRE(result2.get()->isEmpty == false);
-  REQUIRE(result2.get()->firstArgVals == unordered_set<int>({11, 12, 14, 15}));
-  REQUIRE(result2.get()->secondArgVals == unordered_set<int>({12, 16}));
-  REQUIRE(result2.get()->pairVals ==
+  auto result2 = *test.queryT({StmtType::None, 0}, {StmtType::While, 0});
+  REQUIRE(result2.isEmpty == false);
+  REQUIRE(result2.firstArgVals == unordered_set<int>({11, 12, 14, 15}));
+  REQUIRE(result2.secondArgVals == unordered_set<int>({12, 16}));
+  REQUIRE(result2.pairVals ==
       pair_set<int, int>({{11, 12}, {11, 16}, {12, 16}, {14, 16}, {15, 16}}));
 
-  auto result3 = test.queryT({StmtType::If, 0}, {StmtType::None, 0});
-  REQUIRE(result3.get()->isEmpty == false);
-  REQUIRE(result3.get()->firstArgVals == unordered_set<int>({11, 14}));
-  REQUIRE(result3.get()->secondArgVals == unordered_set<int>({12, 12, 14, 15, 16}));
-  REQUIRE(result3.get()->pairVals ==
+  auto result3 = *test.queryT({StmtType::If, 0}, {StmtType::None, 0});
+  REQUIRE(result3.isEmpty == false);
+  REQUIRE(result3.firstArgVals == unordered_set<int>({11, 14}));
+  REQUIRE(result3.secondArgVals == unordered_set<int>({12, 12, 14, 15, 16}));
+  REQUIRE(result3.pairVals ==
       pair_set<int, int>(
           {{11, 12}, {11, 14}, {11, 15}, {11, 16}, {14, 15},
            {14, 16}}));

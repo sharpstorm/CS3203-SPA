@@ -20,11 +20,11 @@ TEST_CASE("Assign write and read") {
   PatternTrieSPtr node1 = PatternConverter::convertASTToTrie(astRoot.get());
 
   writer.addAssigns(1, node1);
-  auto result = queryHandler.queryAssigns({StmtType::Assign, 1});
+  auto result = *queryHandler.queryAssigns({StmtType::Assign, 1});
 
-  REQUIRE(result.get()->isEmpty == false);
-  REQUIRE(result.get()->firstArgVals == unordered_set<int>({1}));
-  REQUIRE(*result.get()->secondArgVals.begin() == node1.get());
-  REQUIRE(result.get()->pairVals ==
+  REQUIRE(result.isEmpty == false);
+  REQUIRE(result.firstArgVals == unordered_set<int>({1}));
+  REQUIRE(*result.secondArgVals.begin() == node1.get());
+  REQUIRE(result.pairVals ==
           pair_set<int, PatternTrie *>({{1, node1.get()}}));
 }

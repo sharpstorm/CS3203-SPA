@@ -31,20 +31,20 @@ TEST_CASE("Modifies (StmtRef, EntityRef)") {
   writer.addVariable("z");
 
   auto result1 =
-      handler.queryModifies({StmtType::None, 1}, {EntityType::None, "y"});
-  REQUIRE(result1.get()->pairVals == pair_set<int, string>({{1, "y"}}));
+      *handler.queryModifies({StmtType::None, 1}, {EntityType::None, "y"});
+  REQUIRE(result1.pairVals == pair_set<int, string>({{1, "y"}}));
 
   auto result2 =
-      handler.queryModifies({StmtType::None, 1}, {EntityType::Variable, ""});
-  REQUIRE(result2.get()->pairVals == pair_set<int, string>({{1, "y"}, {1, "x"}}));
+      *handler.queryModifies({StmtType::None, 1}, {EntityType::Variable, ""});
+  REQUIRE(result2.pairVals == pair_set<int, string>({{1, "y"}, {1, "x"}}));
 
   auto result3 =
-      handler.queryModifies({StmtType::Assign, 0}, {EntityType::None, "x"});
-  REQUIRE(result3.get()->pairVals == pair_set<int, string>({{4, "x"}}));
+      *handler.queryModifies({StmtType::Assign, 0}, {EntityType::None, "x"});
+  REQUIRE(result3.pairVals == pair_set<int, string>({{4, "x"}}));
 
   auto result4 =
-      handler.queryModifies({StmtType::None, 0}, {EntityType::Variable, ""});
-  REQUIRE(result4.get()->pairVals
+      *handler.queryModifies({StmtType::None, 0}, {EntityType::Variable, ""});
+  REQUIRE(result4.pairVals
               == pair_set<int, string>({{1, "x"}, {1, "y"}, {2, "x"}, {2, "y"},
                                         {3, "x"}, {4, "x"}, {4, "y"}}));
 }
@@ -85,28 +85,28 @@ TEST_CASE("Modifies (EntityRef, EntityRef)") {
   writer.addProcedure("hoo", 6, 6);
 
   auto result1 =
-      handler.queryModifies({EntityType::Procedure, "foo"},
+      *handler.queryModifies({EntityType::Procedure, "foo"},
                             {EntityType::None, "w"});
-  REQUIRE(result1.get()->pairVals == pair_set<string, string>({{"foo", "w"}}));
+  REQUIRE(result1.pairVals == pair_set<string, string>({{"foo", "w"}}));
 
   auto result2 =
-      handler.queryModifies({EntityType::Procedure, "main"},
+      *handler.queryModifies({EntityType::Procedure, "main"},
                             {EntityType::Variable, ""});
-  REQUIRE(result2.get()->pairVals
+  REQUIRE(result2.pairVals
               == pair_set<string, string>({{"main", "x"},
                                            {"main", "y"},
                                            {"main", "z"}}));
 
   auto result3 =
-      handler.queryModifies({EntityType::Procedure, ""},
+      *handler.queryModifies({EntityType::Procedure, ""},
                             {EntityType::None, "z"});
-  REQUIRE(result3.get()->pairVals
+  REQUIRE(result3.pairVals
               == pair_set<string, string>({{"main", "z"}, {"goo", "z"}}));
 
   auto result4 =
-      handler.queryModifies({EntityType::Procedure, ""},
+      *handler.queryModifies({EntityType::Procedure, ""},
                             {EntityType::Variable, ""});
-  REQUIRE(result4.get()->pairVals
+  REQUIRE(result4.pairVals
               == pair_set<string, string>({{"main", "x"}, {"main", "y"},
                                            {"main", "z"}, {"foo", "w"},
                                            {"goo", "z"}}));
