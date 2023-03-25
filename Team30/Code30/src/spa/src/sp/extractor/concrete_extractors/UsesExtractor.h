@@ -19,15 +19,19 @@ class UsesExtractor : public AbstractExtractor {
   void leaveWhile(WhileNode* node) override;
   void leaveIf(IfNode* node) override;
   void visitProcedure(ProcedureNode* node) override;
+  void visitStmtList(StatementListNode* node) override;
   void visitVariable(VariableASTNode* node) override;
   void leaveAssign(AssignNode* node) override;
+
  private:
   void addUsesRelation(const int &x, const string &var);
   void processNode(const int &lineNumber, const unordered_set<string> &v);
-  void updateUses(const unordered_set<string> &v, const int &lineNumber);
+  void updateUses(const unordered_set<string> &v);
+  void updateUses(const string &v);
   vector<int> statementStartStack;
-  stack<bool> addToPKB;
-  stack<bool> isDisabledFromContainer;
+  vector<bool> addToPKB;
+  vector<bool> isDisabledFromContainer;
+  bool oneShot;
   unordered_set<string> readVars;
   PkbWriter *pkbWriter;
   string procName;
