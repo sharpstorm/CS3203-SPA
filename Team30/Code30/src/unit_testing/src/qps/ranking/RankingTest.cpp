@@ -324,6 +324,35 @@ TEST_CASE("Test Prefer Affects over Affects*") {
       "s1", "s1");
 }
 
+TEST_CASE("Test Prefer Deferred Compute Heavy Clauses") {
+  string query = "stmt s1, s2, s3, s4, s5; constant c; Select BOOLEAN "
+                 "such that Follows(s1, s2) and Affects(s1, s5) "
+                 "and Follows(s2, s3) and Follows(s3, s4) "
+                 "with s5.stmt# = c.value";
+
+  SourceParserStub exprParser;
+  QueryParser parser(&exprParser);
+  QueryPlanner planner;
+
+  PQLQueryPtr pqlQuery = parser.parseQuery(&query);
+  OverrideTablePtr overrideTable = make_unique<OverrideTable>();
+  QueryPlanPtr plan = planner.getExecutionPlan(pqlQuery.get(),
+                                               overrideTable.get());
+
+  REQUIRE(!plan->isEmpty());
+  REQUIRE(plan->getGroupCount() == 1);
+
+  auto group = plan->getGroup(0);
+  REQUIRE(!group->canBeEmpty());
+
+  auto clauses = group->getConditionalClauses();
+  assertIsClass<FollowsClause>(clauses.at(0));
+  assertIsClass<FollowsClause>(clauses.at(1));
+  assertIsClass<FollowsClause>(clauses.at(2));
+  assertIsClass<AffectsClause>(clauses.at(3));
+  assertIsClass<WithClause>(clauses.at(4));
+}
+
 TEST_CASE("Test General Ranking") {
   string query = "print s1, s2; Select BOOLEAN "
                  "such that Follows(s1, s2) and Affects*(s1, s2) and Next*(s1, s2) and Next(s1, s2) "
