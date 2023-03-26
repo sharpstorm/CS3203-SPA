@@ -31,14 +31,14 @@ TEST_CASE("Constant Constraint False") {
   ConstantConstraint constraint(std::move(leftArg), std::move(rightArg));
 
   REQUIRE(constraint.validateConstraint());
-  REQUIRE(constraint.applyConstraint(&builder, &overrides));
+  REQUIRE_FALSE(constraint.applyConstraint(&builder, &overrides));
 
   leftArg = make_unique<WithArgument>("x");
   rightArg = make_unique<WithArgument>("y");
   constraint = ConstantConstraint(std::move(leftArg), std::move(rightArg));
 
   REQUIRE(constraint.validateConstraint());
-  REQUIRE(constraint.applyConstraint(&builder, &overrides));
+  REQUIRE_FALSE(constraint.applyConstraint(&builder, &overrides));
 }
 
 TEST_CASE("Constant Incomparable Constraint") {
