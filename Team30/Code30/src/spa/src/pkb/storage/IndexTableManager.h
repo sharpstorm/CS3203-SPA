@@ -19,7 +19,7 @@ class IndexTableManager {
  public:
   IndexTableManager(IBaseTable<EntityIdx, Value> *table,
                     IBaseTable<Value, EntityIdx> *reverseTable)
-      : table(table), reverseTable(reverseTable), index(0){};
+      : table(table), reverseTable(reverseTable), index(0) {}
 
   EntityIdx insert(Value value) {
     // check if already exists
