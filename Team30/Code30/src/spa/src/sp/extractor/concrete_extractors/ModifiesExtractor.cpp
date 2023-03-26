@@ -1,17 +1,16 @@
 #include "ModifiesExtractor.h"
 #include "sp/ast/entity/ProcedureNode.h"
 
-ModifiesExtractor::ModifiesExtractor(PkbWriter* writer) : pkbWriter(writer) {
+ModifiesExtractor::ModifiesExtractor(PkbWriter* writer) : pkbWriter(writer),
+                                                          curStatement(-1) {
 }
 
 void ModifiesExtractor::visitAssign(AssignNode* node) {
-  string leftVar = node->getChildren()[0]->toString();
-  addNodeModifies(node, leftVar);
+  curStatement = node->getLineNumber();
 }
 
 void ModifiesExtractor::visitRead(ReadNode* node) {
-  string var = node->getChildren()[0]->toString();
-  addNodeModifies(node, var);
+  curStatement = node->getLineNumber();
 }
 
 void ModifiesExtractor::visitWhile(WhileNode* node) {
@@ -34,9 +33,18 @@ void ModifiesExtractor::visitProcedure(ProcedureNode* node) {
   currentProcName = node->getName();
 }
 
-void ModifiesExtractor::addNodeModifies(StatementASTNode *node,
+void ModifiesExtractor::visitVariable(VariableASTNode *node) {
+  if (curStatement < 0) {
+    return;
+  }
+
+  addNodeModifies(curStatement, node->toString());
+  curStatement = -1;
+}
+
+void ModifiesExtractor::addNodeModifies(const int &lineNo,
                                         const string &var) {
-  addModifiesRelation(node->getLineNumber(), var);
+  addModifiesRelation(lineNo, var);
   for (int i : statementStartStack) {
     addModifiesRelation(i, var);
   }

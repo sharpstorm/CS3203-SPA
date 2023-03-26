@@ -29,49 +29,37 @@ TEST_CASE("Uses Extractor - Print statement") {
   string input = "procedure proc {\n"
                  "print a;"
                  "}";
-  Util u;
-  vector<pair<int, string>> v = executeUsesExtractor(input).usesStore;
-  REQUIRE(u.contains(v, 1, "a"));
-  REQUIRE(u.isSize(v, 1));
 
-  vector<pair<string, string>> v2 = executeUsesExtractor(input).usesPStore;
-  REQUIRE(u.contains(v2, "proc", "a"));
+  auto v = executeUsesExtractor(input);
+  REQUIRE(v.hasUses(1, "proc", "a"));
+  REQUIRE(v.getUsesSize() == 1);
+  REQUIRE(v.getUsesPSize() == 1);
 }
 
 TEST_CASE("Uses Extractor - Assign statement 1") {
   string input = "procedure proc {\n"
                  "x = a;"
                  "}";
-  Util u;
-  vector<pair<int, string>> v = executeUsesExtractor(input).usesStore;
-  REQUIRE(u.contains(v, 1, "a"));
-  REQUIRE(u.isSize(v, 1));
 
-  vector<pair<string, string>> v2 = executeUsesExtractor(input).usesPStore;
-  REQUIRE(u.contains(v2, "proc", "a"));
+  auto v = executeUsesExtractor(input);
+  REQUIRE(v.hasUses(1, "proc", "a"));
+  REQUIRE(v.getUsesSize() == 1);
+  REQUIRE(v.getUsesPSize() == 1);
 }
 
 TEST_CASE("Uses Extractor - Assign statement 2") {
   string input = "procedure proc {\n"
                  "x = (a * b / c % d) + e - f ;"
                  "}";
-  Util u;
-  vector<pair<int, string>> v = executeUsesExtractor(input).usesStore;
-  REQUIRE(u.contains(v, 1, "a"));
-  REQUIRE(u.contains(v, 1, "b"));
-  REQUIRE(u.contains(v, 1, "c"));
-  REQUIRE(u.contains(v, 1, "d"));
-  REQUIRE(u.contains(v, 1, "e"));
-  REQUIRE(u.contains(v, 1, "f"));
-  REQUIRE(u.isSize(v, 6));
-
-  vector<pair<string, string>> v2 = executeUsesExtractor(input).usesPStore;
-  REQUIRE(u.contains(v2, "proc", "a"));
-  REQUIRE(u.contains(v2, "proc", "b"));
-  REQUIRE(u.contains(v2, "proc", "c"));
-  REQUIRE(u.contains(v2, "proc", "d"));
-  REQUIRE(u.contains(v2, "proc", "e"));
-  REQUIRE(u.contains(v2, "proc", "f"));
+  auto v = executeUsesExtractor(input);
+  REQUIRE(v.hasUses(1, "proc", "a"));
+  REQUIRE(v.hasUses(1, "proc", "b"));
+  REQUIRE(v.hasUses(1, "proc", "c"));
+  REQUIRE(v.hasUses(1, "proc", "d"));
+  REQUIRE(v.hasUses(1, "proc", "e"));
+  REQUIRE(v.hasUses(1, "proc", "f"));
+  REQUIRE(v.getUsesSize() == 6);
+  REQUIRE(v.getUsesPSize() == 6);
 }
 
 TEST_CASE("Uses Extractor - Single If statement") {
@@ -82,21 +70,16 @@ TEST_CASE("Uses Extractor - Single If statement") {
                  "  e = f;"
                  "}"
                  "}";
-  Util u;
-  vector<pair<int, string>> v = executeUsesExtractor(input).usesStore;
-  REQUIRE(u.contains(v, 1, "a"));
-  REQUIRE(u.contains(v, 1, "b"));
-  REQUIRE(u.contains(v, 1, "d"));
-  REQUIRE(u.contains(v, 1, "f"));
-  REQUIRE(u.contains(v, 2, "d"));
-  REQUIRE(u.contains(v, 3, "f"));
-  REQUIRE(u.isSize(v, 6));
+  auto v = executeUsesExtractor(input);
+  REQUIRE(v.hasUses(1, "proc", "a"));
+  REQUIRE(v.hasUses(1, "proc", "b"));
+  REQUIRE(v.hasUses(1, "proc", "d"));
+  REQUIRE(v.hasUses(1, "proc", "f"));
+  REQUIRE(v.hasUses(2, "d"));
+  REQUIRE(v.hasUses(3, "f"));
 
-  vector<pair<string, string>> v2 = executeUsesExtractor(input).usesPStore;
-  REQUIRE(u.contains(v2, "proc", "a"));
-  REQUIRE(u.contains(v2, "proc", "b"));
-  REQUIRE(u.contains(v2, "proc", "d"));
-  REQUIRE(u.contains(v2, "proc", "f"));
+  REQUIRE(v.getUsesSize() == 6);
+  REQUIRE(v.getUsesPSize() == 4);
 }
 
 TEST_CASE("Uses Extractor - Single While statement") {
@@ -105,18 +88,14 @@ TEST_CASE("Uses Extractor - Single While statement") {
                  "c = d;"
                  "}"
                  "}";
-  Util u;
-  vector<pair<int, string>> v = executeUsesExtractor(input).usesStore;
-  REQUIRE(u.contains(v, 1, "a"));
-  REQUIRE(u.contains(v, 1, "b"));
-  REQUIRE(u.contains(v, 1, "d"));
-  REQUIRE(u.contains(v, 2, "d"));
-  REQUIRE(u.isSize(v, 4));
+  auto v = executeUsesExtractor(input);
+  REQUIRE(v.hasUses(1, "proc", "a"));
+  REQUIRE(v.hasUses(1, "proc", "b"));
+  REQUIRE(v.hasUses(1, "proc", "d"));
+  REQUIRE(v.hasUses(2, "d"));
 
-  vector<pair<string, string>> v2 = executeUsesExtractor(input).usesPStore;
-  REQUIRE(u.contains(v2, "proc", "a"));
-  REQUIRE(u.contains(v2, "proc", "b"));
-  REQUIRE(u.contains(v2, "proc", "d"));
+  REQUIRE(v.getUsesSize() == 4);
+  REQUIRE(v.getUsesPSize() == 3);
 }
 
 TEST_CASE("Uses Extractor - Nested If in While") {
@@ -129,29 +108,23 @@ TEST_CASE("Uses Extractor - Nested If in While") {
                  "    }"
                  "  }"
                  "}";
-  Util u;
-  vector<pair<int, string>> v = executeUsesExtractor(input).usesStore;
-  REQUIRE(u.contains(v, 1, "a"));
-  REQUIRE(u.contains(v, 1, "b"));
-  REQUIRE(u.contains(v, 1, "c"));
-  REQUIRE(u.contains(v, 1, "d"));
-  REQUIRE(u.contains(v, 1, "f"));
-  REQUIRE(u.contains(v, 1, "g"));
-  REQUIRE(u.contains(v, 2, "c"));
-  REQUIRE(u.contains(v, 2, "d"));
-  REQUIRE(u.contains(v, 2, "f"));
-  REQUIRE(u.contains(v, 2, "g"));
-  REQUIRE(u.contains(v, 3, "f"));
-  REQUIRE(u.contains(v, 4, "g"));
-  REQUIRE(u.isSize(v, 12));
+  auto v = executeUsesExtractor(input);
+  REQUIRE(v.hasUses(1, "proc", "a"));
+  REQUIRE(v.hasUses(1, "proc", "b"));
+  REQUIRE(v.hasUses(1, "proc", "c"));
+  REQUIRE(v.hasUses(1, "proc", "d"));
+  REQUIRE(v.hasUses(1, "proc", "f"));
+  REQUIRE(v.hasUses(1, "proc", "g"));
 
-  vector<pair<string, string>> v2 = executeUsesExtractor(input).usesPStore;
-  REQUIRE(u.contains(v2, "proc", "a"));
-  REQUIRE(u.contains(v2, "proc", "b"));
-  REQUIRE(u.contains(v2, "proc", "c"));
-  REQUIRE(u.contains(v2, "proc", "d"));
-  REQUIRE(u.contains(v2, "proc", "f"));
-  REQUIRE(u.contains(v2, "proc", "g"));
+  REQUIRE(v.hasUses(2, "c"));
+  REQUIRE(v.hasUses(2, "d"));
+  REQUIRE(v.hasUses(2, "f"));
+  REQUIRE(v.hasUses(2, "g"));
+  REQUIRE(v.hasUses(3, "f"));
+  REQUIRE(v.hasUses(4, "g"));
+
+  REQUIRE(v.getUsesSize() == 12);
+  REQUIRE(v.getUsesPSize() == 6);
 }
 
 TEST_CASE("Uses Extractor - Nested While in If: then statementList") {
@@ -162,23 +135,19 @@ TEST_CASE("Uses Extractor - Nested While in If: then statementList") {
                  "    }"
                  "  } else { print x; }"
                  "}";
-  Util u;
-  vector<pair<int, string>> v = executeUsesExtractor(input).usesStore;
-  REQUIRE(u.contains(v, 1, "a"));
-  REQUIRE(u.contains(v, 1, "b"));
-  REQUIRE(u.contains(v, 1, "d"));
-  REQUIRE(u.contains(v, 2, "b"));
-  REQUIRE(u.contains(v, 2, "d"));
-  REQUIRE(u.contains(v, 3, "d"));
-  REQUIRE(u.contains(v, 4, "x"));
-  REQUIRE(u.contains(v, 1, "x"));
-  REQUIRE(u.isSize(v, 8));
+  auto v = executeUsesExtractor(input);
+  REQUIRE(v.hasUses(1, "proc", "a"));
+  REQUIRE(v.hasUses(1, "proc", "b"));
+  REQUIRE(v.hasUses(1, "proc", "d"));
+  REQUIRE(v.hasUses(1, "proc", "x"));
 
-  vector<pair<string, string>> v2 = executeUsesExtractor(input).usesPStore;
-  REQUIRE(u.contains(v2, "proc", "a"));
-  REQUIRE(u.contains(v2, "proc", "b"));
-  REQUIRE(u.contains(v2, "proc", "d"));
-  REQUIRE(u.contains(v2, "proc", "x"));
+  REQUIRE(v.hasUses(2, "b"));
+  REQUIRE(v.hasUses(2, "d"));
+  REQUIRE(v.hasUses(3, "d"));
+  REQUIRE(v.hasUses(4, "x"));
+
+  REQUIRE(v.getUsesSize() == 8);
+  REQUIRE(v.getUsesPSize() == 4);
 }
 
 TEST_CASE("Uses Extractor - Nested While in If: else statementList") {
@@ -190,23 +159,19 @@ TEST_CASE("Uses Extractor - Nested While in If: else statementList") {
                  "    }"
                  "  }"
                  "}";
-  Util u;
-  vector<pair<int, string>> v = executeUsesExtractor(input).usesStore;
-  REQUIRE(u.contains(v, 1, "a"));
-  REQUIRE(u.contains(v, 1, "b"));
-  REQUIRE(u.contains(v, 1, "d"));
-  REQUIRE(u.contains(v, 3, "b"));
-  REQUIRE(u.contains(v, 3, "d"));
-  REQUIRE(u.contains(v, 4, "d"));
-  REQUIRE(u.contains(v, 1, "x"));
-  REQUIRE(u.contains(v, 2, "x"));
-  REQUIRE(u.isSize(v, 8));
+  auto v = executeUsesExtractor(input);
+  REQUIRE(v.hasUses(1, "proc", "a"));
+  REQUIRE(v.hasUses(1, "proc", "x"));
+  REQUIRE(v.hasUses(1, "proc", "b"));
+  REQUIRE(v.hasUses(1, "proc", "d"));
 
-  vector<pair<string, string>> v2 = executeUsesExtractor(input).usesPStore;
-  REQUIRE(u.contains(v2, "proc", "a"));
-  REQUIRE(u.contains(v2, "proc", "b"));
-  REQUIRE(u.contains(v2, "proc", "d"));
-  REQUIRE(u.contains(v2, "proc", "x"));
+  REQUIRE(v.hasUses(2, "x"));
+  REQUIRE(v.hasUses(3, "b"));
+  REQUIRE(v.hasUses(3, "d"));
+  REQUIRE(v.hasUses(4, "d"));
+
+  REQUIRE(v.getUsesSize() == 8);
+  REQUIRE(v.getUsesPSize() == 4);
 }
 
 TEST_CASE("Uses Extractor - Nested While in While in While") {
@@ -219,34 +184,29 @@ TEST_CASE("Uses Extractor - Nested While in While in While") {
                  "    }"
                  "  }"
                  "}";
-  Util u;
-  vector<pair<int, string>> v = executeUsesExtractor(input).usesStore;
-  REQUIRE(u.contains(v, 1, "a"));
-  REQUIRE(u.contains(v, 1, "b"));
-  REQUIRE(u.contains(v, 1, "c"));
-  REQUIRE(u.contains(v, 1, "d"));
-  REQUIRE(u.contains(v, 1, "e"));
-  REQUIRE(u.contains(v, 1, "f"));
-  REQUIRE(u.contains(v, 1, "h"));
-  REQUIRE(u.contains(v, 2, "c"));
-  REQUIRE(u.contains(v, 2, "d"));
-  REQUIRE(u.contains(v, 2, "e"));
-  REQUIRE(u.contains(v, 2, "f"));
-  REQUIRE(u.contains(v, 2, "h"));
-  REQUIRE(u.contains(v, 3, "e"));
-  REQUIRE(u.contains(v, 3, "f"));
-  REQUIRE(u.contains(v, 3, "h"));
-  REQUIRE(u.contains(v, 4, "h"));
-  REQUIRE(u.isSize(v, 16));
+  auto v = executeUsesExtractor(input);
+  REQUIRE(v.hasUses(1, "proc", "a"));
+  REQUIRE(v.hasUses(1, "proc", "b"));
+  REQUIRE(v.hasUses(1, "proc", "c"));
+  REQUIRE(v.hasUses(1, "proc", "d"));
+  REQUIRE(v.hasUses(1, "proc", "e"));
+  REQUIRE(v.hasUses(1, "proc", "f"));
+  REQUIRE(v.hasUses(1, "proc", "h"));
 
-  vector<pair<string, string>> v2 = executeUsesExtractor(input).usesPStore;
-  REQUIRE(u.contains(v2, "proc", "a"));
-  REQUIRE(u.contains(v2, "proc", "b"));
-  REQUIRE(u.contains(v2, "proc", "c"));
-  REQUIRE(u.contains(v2, "proc", "d"));
-  REQUIRE(u.contains(v2, "proc", "e"));
-  REQUIRE(u.contains(v2, "proc", "f"));
-  REQUIRE(u.contains(v2, "proc", "h"));
+  REQUIRE(v.hasUses(2, "c"));
+  REQUIRE(v.hasUses(2, "d"));
+  REQUIRE(v.hasUses(2, "e"));
+  REQUIRE(v.hasUses(2, "f"));
+  REQUIRE(v.hasUses(2, "h"));
+
+  REQUIRE(v.hasUses(3, "e"));
+  REQUIRE(v.hasUses(3, "f"));
+  REQUIRE(v.hasUses(3, "h"));
+
+  REQUIRE(v.hasUses(4, "h"));
+
+  REQUIRE(v.getUsesSize() == 16);
+  REQUIRE(v.getUsesPSize() == 7);
 }
 
 TEST_CASE("Uses Extractor - Multi Proc") {
@@ -259,15 +219,11 @@ TEST_CASE("Uses Extractor - Multi Proc") {
                  "procedure proc3 {\n"
                  "c = f;"
                  "}";
-  Util u;
-  vector<pair<int, string>> v = executeUsesExtractor(input).usesStore;
-  REQUIRE(u.contains(v, 1, "d"));
-  REQUIRE(u.contains(v, 2, "e"));
-  REQUIRE(u.contains(v, 3, "f"));
-  REQUIRE(u.isSize(v, 3));
+  auto v = executeUsesExtractor(input);
+  REQUIRE(v.hasUses(1, "proc1", "d"));
+  REQUIRE(v.hasUses(2, "proc2", "e"));
+  REQUIRE(v.hasUses(3, "proc3", "f"));
 
-  vector<pair<string, string>> v2 = executeUsesExtractor(input).usesPStore;
-  REQUIRE(u.contains(v2, "proc1", "d"));
-  REQUIRE(u.contains(v2, "proc2", "e"));
-  REQUIRE(u.contains(v2, "proc3", "f"));
+  REQUIRE(v.getUsesSize() == 3);
+  REQUIRE(v.getUsesPSize() == 3);
 }
