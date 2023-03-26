@@ -27,3 +27,16 @@ bool PQLQuerySynonym::isEntityType() const {
 bool PQLQuerySynonym::isType(PQLSynonymType targetType) const {
   return this->type == targetType;
 }
+
+bool PQLQuerySynonym::isSubtypeOf(const PQLQuerySynonym *other) const {
+  return other->isType(PQL_SYN_TYPE_STMT)
+      && !isType(PQL_SYN_TYPE_STMT)
+      && isStatementType();
+}
+
+bool PQLQuerySynonym::isDistinctSubtypeFrom(
+    const PQLQuerySynonym *other) const {
+  return isStatementType() && other->isStatementType()
+      && !other->isType(type)
+      && !isType(PQL_SYN_TYPE_STMT) && !other->isType(PQL_SYN_TYPE_STMT);
+}
