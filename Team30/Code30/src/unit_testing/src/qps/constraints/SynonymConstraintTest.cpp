@@ -85,7 +85,7 @@ TEST_CASE("Synonym Constraint - Subtype Specialization") {
   }
 }
 
-TEST_CASE("Synonym Constraint - Impossible Chained Specialization") {
+TEST_CASE("Synonym Constraint - Chained Specialization") {
   VariableTable varTable = buildVarTable(
       {
           {"s1", PQL_SYN_TYPE_STMT},
