@@ -100,10 +100,7 @@ constexpr AffectsInvoker affectsInvoker = [](const QueryExecutorAgent &agent,
 constexpr AffectsInvoker affectsTInvoker = [](const QueryExecutorAgent &agent,
                                               const StmtRef &leftArg,
                                               const StmtRef &rightArg){
-<<<<<<< HEAD
-  return make_unique<QueryResult<StmtValue, StmtValue>>();
-=======
-  QueryResult<StmtValue, StmtValue> result{};
+  auto result = make_unique<QueryResult<StmtValue, StmtValue>>();
 
   if (!leftArg.isType(StmtType::None) && !leftArg.isType(StmtType::Assign)) {
     return result;
@@ -118,8 +115,7 @@ constexpr AffectsInvoker affectsTInvoker = [](const QueryExecutorAgent &agent,
   } else {
     cfgs = agent->queryCFGs(rightArg);
   }
-  return QueryResult<StmtValue, StmtValue>{};
->>>>>>> origin/master
+  return result;
 };
 
 constexpr AffectsSameSynInvoker affectsSymmetricInvoker =
