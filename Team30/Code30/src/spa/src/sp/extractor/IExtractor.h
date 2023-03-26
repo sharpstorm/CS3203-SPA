@@ -42,6 +42,7 @@ class ILeafNodeExtractorPart {
   virtual void visitCall(CallNode* node) = 0;
   virtual void visitVariable(VariableASTNode* node) = 0;
   virtual void visitConstant(ConstantASTNode* node) = 0;
+  virtual void leaveAssign(AssignNode* node) = 0;
 };
 
 class IExtractor : virtual public IContainerNodeExtractorPart,
