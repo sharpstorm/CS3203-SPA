@@ -19,6 +19,7 @@ class BitField {
 
   bool empty();
   BitField differenceWith(const BitField &other);
+  BitField projectOnto(const BitField &other);
   BitField unionWith(const BitField &other);
   bool contains(const BitField &other);
 };

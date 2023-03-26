@@ -33,6 +33,10 @@ class CFGStatefulWalker {
   void walkTo(CFGNode end, BitField initialState, T* cbState,
               StatefulWalkerStateTransformer<T> transformer);
 
+  template <typename T, StatefulWalkerSingleCallback<T> callback>
+  void walkFrom(CFGNode end, BitField initialState, T* cbState,
+              StatefulWalkerStateTransformer<T> transformer);
+
  private:
   template <typename T, StatefulDFSCallback<T> callback,
       DFSLinkGetter stepGetter>
@@ -78,17 +82,26 @@ class CFGStatefulWalker {
           callback(closure, nextNode);
         }
 
-        BitField difference = visitedNodes[nextNode].differenceWith(newState);
+        BitField difference = visitedNodes[nextNode].projectOnto(newState);
         if (visitedNodes[nextNode].contains(newState)) {
           continue;
         }
         visitedNodes[nextNode] = visitedNodes[nextNode].unionWith(newState);
-        if (!newState.empty() && nextNode != start) {
+        if (!newState.empty()) {
           currentNodes.push_back(nextNode);
           pathStates.push_back(difference);
         }
       }
     }
+  }
+
+  static CFGLinks* forwardLinkGetter(CFG* cfg, CFGNode node) {
+    return cfg->nextLinksOf(node);
+  }
+
+  template <typename T, StatefulDFSCallback<T> callback>
+  void runForwardDFS(CFGNode start, BitField initialState, T* state) {
+    runDFS<T, callback, forwardLinkGetter>(start, initialState, state);
   }
 
 
@@ -122,6 +135,15 @@ void CFGStatefulWalker::walkTo(CFGNode end, BitField initialState, T* cbState,
                                StatefulWalkerStateTransformer<T> transformer) {
   StatefulNodewiseWalkerState<T> state{ cbState, callback, transformer, cfg };
   runBackwardDFS<StatefulNodewiseWalkerState<T>,
+                 statefulNodewiseWalkerCallback<T>>(
+      end, initialState, &state);
+}
+
+template <typename T, StatefulWalkerSingleCallback<T> callback>
+void CFGStatefulWalker::walkFrom(CFGNode end, BitField initialState, T* cbState,
+                               StatefulWalkerStateTransformer<T> transformer) {
+  StatefulNodewiseWalkerState<T> state{ cbState, callback, transformer, cfg };
+  runForwardDFS<StatefulNodewiseWalkerState<T>,
                  statefulNodewiseWalkerCallback<T>>(
       end, initialState, &state);
 }
