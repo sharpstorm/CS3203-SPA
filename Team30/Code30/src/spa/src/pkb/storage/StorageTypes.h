@@ -11,7 +11,6 @@
 #include "common/pattern/PatternTrie.h"
 #include "pkb/storage/tables/ContiguousSetTable.h"
 #include "pkb/storage/tables/ContiguousTable.h"
-#include "pkb/storage/tables/IntTable.h"
 #include "tables/HashKeySetTable.h"
 #include "tables/HashKeyTable.h"
 
