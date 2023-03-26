@@ -3,8 +3,8 @@
 #include <unordered_set>
 #include <utility>
 
-#include "common/Types.h"
 #include "IProvider.h"
+#include "common/Types.h"
 
 using std::unordered_set;
 
@@ -13,6 +13,6 @@ class IEntityMappingProvider : public IProvider<EntityValue, EntityType> {
   virtual ~IEntityMappingProvider() {}
   virtual EntityValue getVariableByIndex(StmtValue) const = 0;
   virtual EntityValue getConstantByIndex(StmtValue) const = 0;
-  virtual unordered_set<int> getIndexOfVariable(EntityValue) const = 0;
-  virtual unordered_set<int> getIndexOfConstant(EntityValue) const = 0;
+  virtual EntityIdx getIndexOfVariable(EntityValue) const = 0;
+  virtual EntityIdx getIndexOfConstant(EntityValue) const = 0;
 };

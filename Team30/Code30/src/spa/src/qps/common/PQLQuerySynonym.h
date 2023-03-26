@@ -23,6 +23,8 @@ class PQLQuerySynonym {
   bool isStatementType() const;
   bool isEntityType() const;
   bool isType(PQLSynonymType type) const;
+  bool isSubtypeOf(const PQLQuerySynonym *other) const;
+  bool isDistinctSubtypeFrom(const PQLQuerySynonym *other) const;
   bool operator==(const PQLQuerySynonym& other) const;
 };
 

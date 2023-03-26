@@ -5,7 +5,9 @@
 #include "AssignsQueryHandler.h"
 #include "CFGsQueryHandler.h"
 #include "CallsQueryHandler.h"
+#include "FollowsQueryHandler.h"
 #include "IfPatternQueryHandler.h"
+#include "ModifiesQueryHandler.h"
 #include "ParentQueryHandler.h"
 #include "UsesQueryHandler.h"
 #include "WhilePatternQueryHandler.h"
@@ -81,11 +83,11 @@ string PkbQueryHandler::getConstantByIndex(int index) const {
   return designEntityHandler->getConstantByIndex(index);
 }
 
-unordered_set<int> PkbQueryHandler::getIndexOfVariable(string name) const {
+EntityIdx PkbQueryHandler::getIndexOfVariable(string name) const {
   return designEntityHandler->getIndexOfVariable(name);
 }
 
-unordered_set<int> PkbQueryHandler::getIndexOfConstant(string name) const {
+EntityIdx PkbQueryHandler::getIndexOfConstant(string name) const {
   return designEntityHandler->getIndexOfConstant(name);
 }
 

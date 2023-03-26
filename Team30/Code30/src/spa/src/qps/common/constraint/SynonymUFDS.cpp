@@ -61,16 +61,16 @@ bool SynonymUFDS::isSameSet(const PQLSynonymName &syn1,
   return findSet(setA) == findSet(setB);
 }
 
-void SynonymUFDS::mergeSets(const PQLSynonymName &syn1,
+bool SynonymUFDS::tryMergeSets(const PQLSynonymName &syn1,
                             const PQLSynonymName &syn2) {
   int setA = indexOf(syn1);
   int setB = indexOf(syn2);
   if (setA < 0 || setB < 0) {
-    return;
+    return false;
   }
 
   if (isSameSet(syn1, syn2)) {
-    return;
+    return true;
   }
 
   int aParent = findSet(setA);
@@ -84,4 +84,22 @@ void SynonymUFDS::mergeSets(const PQLSynonymName &syn1,
       rank[bParent]++;
     }
   }
+  return mergeSyns(aParent, bParent);
+}
+
+bool SynonymUFDS::mergeSyns(const int &setA, const int &setB) {
+  PQLQuerySynonym* synA = synArr[setA];
+  PQLQuerySynonym* synB = synArr[setB];
+
+  if (synA->isDistinctSubtypeFrom(synB)) {
+    return false;
+  }
+
+  if (synA->isSubtypeOf(synB)) {
+    synArr[setB] = synA;
+  } else {
+    synArr[setA] = synB;
+  }
+
+  return true;
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+
 #include "common/Types.h"
 
 using std::string;
@@ -8,5 +9,5 @@ using std::string;
 class IConstantWriter {
  public:
   virtual ~IConstantWriter() {}
-  virtual void addConstant(string) = 0;
+  virtual EntityIdx addConstant(string) = 0;
 };

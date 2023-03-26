@@ -11,9 +11,8 @@ class VariableWriter : public IVariableWriter {
  public:
   explicit VariableWriter(VariableStorage *variableStorage);
 
-  void addVariable(string variable) override;
+  EntityIdx addVariable(string variable) override;
 
  private:
   VariableStorage *variableStorage;
-  int index;
 };
