@@ -106,15 +106,13 @@ TEST_CASE("ParentQueryHandler parent(stmtNum,stmtType)") {
 TEST_CASE("ParentQueryHandler parent(stmtType, stmtNum)") {
   auto test = parentTest();
 
-  test.reverseTable->set(5, 2);
-  test.reverseTable->set(6, 5);
-  test.reverseTable->set(8, 6);
+  test.reverseTable->set(12, 11);
 
-  auto result1 = test.query({StmtType::Assign, 0}, {StmtType::None, 5});
+  auto result1 = test.query({StmtType::If, 0}, {StmtType::None, 12});
   REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.firstArgVals == unordered_set<int>({2}));
-  REQUIRE(result1.secondArgVals == unordered_set<int>({5}));
-  REQUIRE(result1.pairVals == pair_set<int, int>({{2, 5}}));
+  REQUIRE(result1.firstArgVals == unordered_set<int>({11}));
+  REQUIRE(result1.secondArgVals == unordered_set<int>({12}));
+  REQUIRE(result1.pairVals == pair_set<int, int>({{11, 12}}));
 
   auto result2 = test.query({StmtType::Read, 0}, {StmtType::None, 8});
   REQUIRE(result2.isEmpty == true);
@@ -123,16 +121,16 @@ TEST_CASE("ParentQueryHandler parent(stmtType, stmtNum)") {
 TEST_CASE("ParentQueryHandler parent(stmtType, stmtType)") {
   auto test = parentTest();
 
-  test.table->set(2, 5);
-  test.table->set(3, 4);
-  test.table->set(5, 6);
+  test.table->set(10, 11);
+  test.table->set(11, 12);
+  test.table->set(12, 16);
 
-  auto result1 = test.query({StmtType::Assign, 0}, {StmtType::Read, 0});
+  auto result1 = test.query({StmtType::If, 0}, {StmtType::While, 0});
 
   REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.firstArgVals == unordered_set<int>({2, 3}));
-  REQUIRE(result1.secondArgVals == unordered_set<int>({5, 4}));
-  REQUIRE(result1.pairVals == pair_set<int, int>({{2, 5}, {3, 4}}));
+  REQUIRE(result1.firstArgVals == unordered_set<int>({11}));
+  REQUIRE(result1.secondArgVals == unordered_set<int>({12}));
+  REQUIRE(result1.pairVals == pair_set<int, int>({{11, 12}}));
 }
 
 /* ParentStar */
