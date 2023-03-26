@@ -7,6 +7,7 @@
 #include "arguments/ClauseArgument.h"
 #include "qps/clauses/arguments/ClauseArgumentFactory.h"
 #include "qps/executor/QueryExecutorAgent.h"
+#include "ClauseScoring.h"
 
 using std::pair, std::unordered_set, std::vector, std::string, std::to_string;
 
@@ -59,4 +60,8 @@ bool SelectClause::validateArgTypes(VariableTable *variables) {
 
 SynonymList SelectClause::getUsedSynonyms() {
   return { target->getName() };
+}
+
+ComplexityScore SelectClause::getComplexityScore(const OverrideTable *table) {
+  return COMPLEXITY_SELECT;
 }

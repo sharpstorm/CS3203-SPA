@@ -43,9 +43,11 @@ unordered_set<int> *QueryGroup::getRelated(int evalId) {
   return &edgeList[evalId];
 }
 
-QueryGroupPlanPtr QueryGroup::toPlan(vector<IEvaluatable *> newEvals) {
+QueryGroupPlanPtr QueryGroup::toPlan(vector<IEvaluatable *> newEvals,
+                                     const ComplexityScore &score) {
   return make_unique<QueryGroupPlan>(newEvals,
                                      selectables,
                                      std::move(ownedEvals),
+                                     score,
                                      canEmpty);
 }

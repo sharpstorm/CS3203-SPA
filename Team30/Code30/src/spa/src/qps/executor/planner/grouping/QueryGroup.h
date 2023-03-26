@@ -23,7 +23,8 @@ class QueryGroup {
   IEvaluatable* getEvaluatable(int evalId);
   unordered_set<int>* getRelated(int evalId);
 
-  QueryGroupPlanPtr toPlan(vector<IEvaluatable*> evaluatables);
+  QueryGroupPlanPtr toPlan(vector<IEvaluatable*> evaluatables,
+                           const ComplexityScore &score);
 
  private:
   vector<IEvaluatable*> evaluatables;

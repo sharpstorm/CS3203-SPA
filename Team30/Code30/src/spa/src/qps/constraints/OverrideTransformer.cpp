@@ -4,14 +4,14 @@
 
 using std::to_string;
 
-StmtRef OverrideTransformer::transformArg(StmtRef input) {
+StmtRef OverrideTransformer::transformArg(StmtRef input) const {
   if (stmtRef == NO_STMT) {
     return input;
   }
   return StmtRef { input.getType(), stmtRef };
 }
 
-EntityRef OverrideTransformer::transformArg(EntityRef input) {
+EntityRef OverrideTransformer::transformArg(EntityRef input) const {
   if (input.getType() == EntityType::Constant) {
     if (stmtRef == NO_STMT) {
       return input;
@@ -25,6 +25,6 @@ EntityRef OverrideTransformer::transformArg(EntityRef input) {
   return EntityRef { input.getType(), entRef };
 }
 
-bool OverrideTransformer::returnsInteger() {
+bool OverrideTransformer::returnsInteger() const {
   return stmtRef != NO_STMT;
 }

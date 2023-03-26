@@ -1,5 +1,6 @@
 #include "WithSelectClause.h"
 #include "qps/clauses/arguments/ClauseArgumentFactory.h"
+#include "ClauseScoring.h"
 
 WithSelectClause::WithSelectClause(AttributedSynonym aSyn, EntityValue enVal) :
     attrSyn(aSyn), entVal(enVal) { }
@@ -71,4 +72,9 @@ bool WithSelectClause::isCallProcName(const QueryExecutorAgent &agent,
                                       const StmtValue &stmt,
                                       const EntityValue &value) {
   return agent->getCalledDeclaration(stmt) == value;
+}
+
+ComplexityScore WithSelectClause::getComplexityScore(
+    const OverrideTable *table) {
+  return COMPLEXITY_WITH_SELECT;
 }

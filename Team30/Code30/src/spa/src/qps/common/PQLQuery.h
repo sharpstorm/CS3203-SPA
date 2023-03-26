@@ -27,14 +27,17 @@ class PQLQuery {
            AttributedSynonymList resVars,
            vector<ClausePtr> c,
            vector<ConstraintPtr> con);
-  int getVariableCount();
+
   VariableTable* getVarTable();
   AttributedSynonymList * getResultVariables();
+
   PQLQuerySynonymProxy* getVariable(PQLSynonymName name);
   SynonymList getDeclaredSynonyms();
   vector<IEvaluatable*> getEvaluatables();
   vector<Constraint*> getConstraints();
+
   int getClauseCount();
+  bool isBooleanResult();
 };
 
 typedef unique_ptr<PQLQuery> PQLQueryPtr;

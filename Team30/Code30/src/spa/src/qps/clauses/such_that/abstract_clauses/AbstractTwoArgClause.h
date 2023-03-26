@@ -7,6 +7,7 @@
 #include "qps/clauses/Clause.h"
 #include "qps/clauses/InvokerTypes.h"
 #include "qps/clauses/SuchThatClause.h"
+#include "qps/clauses/ClauseScoring.h"
 
 using std::unordered_set;
 
@@ -57,6 +58,52 @@ class AbstractTwoArgClause: public SuchThatClause {
     bool isRightValid = right->synonymSatisfies(rightValidator);
     return isLeftValid && isRightValid;
   }
+
+  template <
+      ComplexityScore constantModifier,
+      ComplexityScore oneSynModifier,
+      ComplexityScore twoSynModifier>
+  ComplexityScore computeComplexityScore(const OverrideTable *table) {
+    bool isLeftConstant = left->isConstant()
+        || table->contains(left->getName());
+    bool isRightConstant = right->isConstant()
+        || table->contains(right->getName());
+
+    if (isLeftConstant && isRightConstant) {
+      return COMPLEXITY_QUERY_CONSTANT + constantModifier;
+    } else if (!isLeftConstant && !isRightConstant) {
+      return COMPLEXITY_QUERY_LIST_ALL + twoSynModifier +
+          + left->getSynComplexity() + right->getSynComplexity();
+    } else if (isLeftConstant) {
+      return right->getSynComplexity() + oneSynModifier;
+    } else {
+      return left->getSynComplexity() + oneSynModifier;
+    }
+  }
+
+  template <
+      ComplexityScore constantModifier,
+      ComplexityScore oneSynModifier,
+      ComplexityScore twoSynModifier>
+  ComplexityScore computeNoSymmetryComplexityScore(const OverrideTable *table) {
+    if (isSameSynonym()) {
+      return COMPLEXITY_QUERY_CONSTANT;
+    }
+
+    return computeComplexityScore<constantModifier,
+                                  oneSynModifier,
+                                  twoSynModifier>(table);
+  }
+
+  ComplexityScore computeNoSymmetryComplexityScore(const OverrideTable *table) {
+    if (isSameSynonym()) {
+      return COMPLEXITY_QUERY_CONSTANT;
+    }
+
+    return computeComplexityScore(table);
+  }
+
+  ComplexityScore computeComplexityScore(const OverrideTable *table);
 
  public:
   AbstractTwoArgClause(ClauseArgumentPtr left, ClauseArgumentPtr right);

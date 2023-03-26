@@ -18,11 +18,11 @@ class PQLQuerySynonym {
   PQLQuerySynonym(PQLSynonymType type, PQLSynonymName name);
   PQLQuerySynonym(const PQLQuerySynonym &copy) = default;
 
-  PQLSynonymType getType();
-  PQLSynonymName getName();
-  bool isStatementType();
-  bool isEntityType();
-  bool isType(PQLSynonymType type);
+  PQLSynonymType getType() const;
+  PQLSynonymName getName() const;
+  bool isStatementType() const;
+  bool isEntityType() const;
+  bool isType(PQLSynonymType type) const;
   bool operator==(const PQLQuerySynonym& other) const;
 };
 
