@@ -8,7 +8,7 @@
 using pkb::ArgValidator, pkb::ArgTransformer, pkb::defaultValidator,
     pkb::defaultTransformer;
 using std::optional, std::nullopt;
-using std::unique_ptr;
+using std::unique_ptr, std::make_unique;
 
 template <typename LeftValue, typename LeftType, typename RightValue,
           typename RightType>
@@ -25,7 +25,7 @@ class BaseQueryHandler {
       IRef<RightValue, RightType> *rightArg) const {
     if (!leftValidator(leftArg) || !rightValidator(rightArg)) {
       // todo: change to nullptr?
-      return unique_ptr<QueryResult<LeftValue, RightValue>>();
+        return make_unique<QueryResult<LeftValue, RightValue>>();
     }
 
     return queryInvoker->query(store, leftTransformer(leftArg),

@@ -48,7 +48,7 @@ class AbstractTwoArgClause: public SuchThatClause {
     }
 
     auto queryResult = diffSynInvoker(agent, leftArg, rightArg);
-    return Clause::toQueryResult(left.get(), right.get(), queryResult);
+    return Clause::toQueryResult(left.get(), right.get(), queryResult.get());
   }
 
   template <SynonymPredicate leftValidator, SynonymPredicate rightValidator>

@@ -1,14 +1,18 @@
 #pragma once
 
 #include <unordered_set>
+#include <memory>
 
 #include "common/Types.h"
 #include "../executor/QueryExecutorAgent.h"
 
+using std::unique_ptr;
+
 template <
     typename LeftResultType, typename LeftArgType,
     typename RightResultType, typename RightArgType>
-using QueryInvoker = QueryResult<LeftResultType, RightResultType>(*)(
+//using QueryInvoker = QueryResult<LeftResultType, RightResultType>(*)(
+using QueryInvoker = unique_ptr<QueryResult<LeftResultType,RightResultType>>(*)(
     const QueryExecutorAgent &agent,
     const LeftArgType &leftArg,
     const RightArgType &rightArg);

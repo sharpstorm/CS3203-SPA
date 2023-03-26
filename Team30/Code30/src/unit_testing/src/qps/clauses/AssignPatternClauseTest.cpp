@@ -63,44 +63,44 @@ class AssignPatternPKBStub : public StubPKB {
                                                        genVariable("y")).get())) {
   }
 
-  QueryResult<int, string> queryModifies(StmtRef, EntityRef entRef) const override {
-    QueryResult<int, string> res;
+  unique_ptr<QueryResult<int, string>> queryModifies(StmtRef, EntityRef entRef) const override {
+    auto res = make_unique<QueryResult<int,string>>();
     if (!entRef.isKnown()) {
-      res.add(1, "a");
-      res.add(2, "b");
-      res.add(3, "a");
-      res.add(4, "b");
-      res.add(5, "c");
+      res->add(1, "a");
+      res->add(2, "b");
+      res->add(3, "a");
+      res->add(4, "b");
+      res->add(5, "c");
     } else if (entRef.getValue() == "a") {
-      res.add(1, "a");
-      res.add(3, "a");
+      res->add(1, "a");
+      res->add(3, "a");
     } else if (entRef.getValue() == "b") {
-      res.add(2, "b");
-      res.add(4, "b");
+      res->add(2, "b");
+      res->add(4, "b");
     } else if (entRef.getValue() == "c") {
-      res.add(5, "c");
+      res->add(5, "c");
     }
 
     return res;
   }
 
-  QueryResult<int, PatternTrie*> queryAssigns(StmtRef ref) const override {
-    QueryResult<int, PatternTrie*> res;
+  unique_ptr<QueryResult<int, PatternTrie*>> queryAssigns(StmtRef ref) const override {
+    auto res = make_unique<QueryResult<int,PatternTrie*>>();
     switch (ref.getValue()) {
       case 1:
-        res.add(1, line1.get());
+        res->add(1, line1.get());
         break;
       case 2:
-        res.add(2, line2.get());
+        res->add(2, line2.get());
         break;
       case 3:
-        res.add(3, line3.get());
+        res->add(3, line3.get());
         break;
       case 4:
-        res.add(4, line4.get());
+        res->add(4, line4.get());
         break;
       case 5:
-        res.add(5, line5.get());
+        res->add(5, line5.get());
         break;
     }
 

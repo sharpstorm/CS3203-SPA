@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <string>
 #include <utility>
 
@@ -7,6 +8,8 @@
 #include "common/Types.h"
 #include "qps/clauses/PatternClause.h"
 #include "qps/clauses/InvokerTypes.h"
+
+using std::unique_ptr;
 
 using PatternQueryInvoker = QueryInvoker<StmtValue, StmtRef,
                                          EntityValue, EntityRef>;
@@ -30,8 +33,9 @@ class AbstractPatternClause: public PatternClause {
       return new PQLQueryResult();
     }
 
-    QueryResult<StmtValue, EntityValue> result =
+//    QueryResult<StmtValue, EntityValue> result =
+    unique_ptr<QueryResult<StmtValue, EntityValue>> result =
         invoker(agent, leftStatement, leftVar);
-    return Clause::toQueryResult(synonym->getName(), leftArg.get(), result);
+    return Clause::toQueryResult(synonym->getName(), leftArg.get(), result.get());
   }
 };

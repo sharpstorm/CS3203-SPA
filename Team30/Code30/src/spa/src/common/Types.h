@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <string>
 #include <unordered_set>
 #include <utility>
@@ -7,6 +8,7 @@
 using std::pair;
 using std::string;
 using std::unordered_set;
+using std::unique_ptr;
 
 enum class EntityType { None, Procedure, Variable, Constant };
 
@@ -91,3 +93,6 @@ struct QueryResult {
     isEmpty = false;
   }
 };
+
+//template<typename T, typename U>
+//using QueryResultPtr = unique_ptr<QueryResult<T,U>>;
