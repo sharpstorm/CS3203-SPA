@@ -1,8 +1,8 @@
 #include "EntityMappingProvider.h"
 
-EntityMappingProvider::EntityMappingProvider(VariableStorage *variableStorage,
-                                             ConstantStorage *constantStorage,
-                                             ProcedureStorage *procedureStorage)
+EntityMappingProvider::EntityMappingProvider(
+    VariableStorage *variableStorage, ConstantStorage *constantStorage,
+    ProcedureAndCallsStorage *procedureStorage)
     : variableStorage(variableStorage),
       constantStorage(constantStorage),
       procedureStorage(procedureStorage) {}
@@ -14,7 +14,7 @@ unordered_set<string> EntityMappingProvider::getValuesOfType(
   } else if (entityType == EntityType::Constant) {
     return constantStorage->getAllValues();
   } else if (entityType == EntityType::Procedure) {
-    return procedureStorage->getAllValues();
+    return procedureStorage->getProcedures();
   } else {
     // note: EntityType::None is invalid
     return {};
@@ -44,7 +44,7 @@ bool EntityMappingProvider::isValueOfType(EntityType entityType,
   } else if (entityType == EntityType::Constant) {
     return constantStorage->getIdxOfValue(name) != 0;
   } else if (entityType == EntityType::Procedure) {
-    return !procedureStorage->getByValue(name).empty();
+    return procedureStorage->procedureExists(name);
   } else {
     return false;
   }

@@ -1,45 +1,35 @@
 #include "StructureMappingProvider.h"
 
 StructureMappingProvider::StructureMappingProvider(
-    StatementStorage *statementStorage, ProcedureStorage *procedureStorage,
-    CallStmtStorage *callStmtStorage)
+    StatementStorage *statementStorage,
+    ProcedureAndCallsStorage *procAndCallsStorage)
     : statementStorage(statementStorage),
-    procedureStorage(procedureStorage),
-    callStmtStorage(callStmtStorage) {}
+      procAndCallsStorage(procAndCallsStorage) {}
 
 StmtType StructureMappingProvider::getStatementType(int lineNumber) const {
-  return statementStorage->getByKey(lineNumber);
+  return statementStorage->getTypeOfStatement(lineNumber);
 }
 
 std::unordered_set<int> StructureMappingProvider::getValuesOfType(
     StmtType stmtType) const {
   if (stmtType == StmtType::None) {
-    return statementStorage->getAllKeys();
+    return statementStorage->getAllStatements();
   } else {
-    return statementStorage->getByValue(stmtType);
+    return statementStorage->getStatementsOfType(stmtType);
   }
-}
-
-unordered_set<int> StructureMappingProvider::getProcedureLines(
-    std::string procedureName) const {
-  return procedureStorage->getByValue(procedureName);
 }
 
 std::string StructureMappingProvider::getProcedureForLine(
     int lineNumber) const {
-  return procedureStorage->getByKey(lineNumber);
+  return procAndCallsStorage->getProcedureForLine(lineNumber);
 }
 
-std::unordered_set<int> StructureMappingProvider::getCallStmtsOfProcedure(
-    std::string procedureName) const {
-  return callStmtStorage->getByValue(procedureName);
+std::string StructureMappingProvider::getCalledDeclaration(
+    int lineNumber) const {
+  return procAndCallsStorage->getCalledDeclaration(lineNumber);
 }
 
-std::string StructureMappingProvider::getCalledProcedure(int lineNumber) const {
-  return callStmtStorage->getByKey(lineNumber);
-}
-
-bool StructureMappingProvider::isValueOfType(
-    StmtType stmtType, StmtValue lineNumber) const {
-  return statementStorage->getByKey(lineNumber) == stmtType;
+bool StructureMappingProvider::isValueOfType(StmtType stmtType,
+                                             StmtValue lineNumber) const {
+  return statementStorage->getTypeOfStatement(lineNumber) == stmtType;
 }

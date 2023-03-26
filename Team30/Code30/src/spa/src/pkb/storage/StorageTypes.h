@@ -5,6 +5,7 @@
 #include "EntityTableManager.h"
 #include "IndexTableManager.h"
 #include "RelationTableManager.h"
+#include "StatementStorage.h"
 #include "TransitiveRelationTableManager.h"
 #include "common/Types.h"
 #include "common/cfg/CFG.h"
@@ -21,17 +22,13 @@ using VarRevTable = HashKeyTable<EntityValue, EntityIdx>;
 using ConstTable = ContiguousTable<EntityValue>;
 using ConstRevTable = HashKeyTable<EntityValue, EntityIdx>;
 
-using EntityTable = ContiguousTable<EntityValue>;
-using EntityRevTable = HashKeySetTable<EntityValue, StmtValue>;
-using ProcedureStorage = EntityTableManager<StmtValue, EntityValue>;
-
-using StatementStorage = EntityTableManager<StmtValue, StmtType>;
+// stmtNum -> procedure
+using ProcedureStmtTable = ContiguousTable<EntityValue>;
+using ProcedureValues = EntityValueSet;
 using StmtTable = ContiguousTable<StmtType>;
 using StmtRevTable = HashKeySetTable<StmtType, StmtValue>;
 
-using CallStmtStorage = EntityTableManager<StmtValue, EntityValue>;
-using CallStmtTable = HashKeyTable<StmtValue, EntityValue>;
-using CallStmtRevTable = HashKeySetTable<EntityValue, StmtValue>;
+using CallDeclarationTable = HashKeyTable<StmtValue, EntityValue>;
 
 using FollowsStorage = RelationTableManager<StmtValue, StmtValue>;
 using FollowsTStorage = TransitiveRelationTableManager<StmtValue>;

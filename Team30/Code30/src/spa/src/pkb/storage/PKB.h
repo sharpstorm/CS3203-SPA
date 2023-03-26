@@ -4,6 +4,7 @@
 #include <utility>
 
 #include "EntityMappingProvider.h"
+#include "ProcedureAndCallsStorage.h"
 #include "StorageTypes.h"
 #include "StructureMappingProvider.h"
 #include "common/Types.h"
@@ -28,25 +29,22 @@ class PKB {
   ConstantStorage *constantStorage =
       new ConstantStorage(constantTable, constantRevTable, constantValues);
 
-  EntityTable *procedureTable = new EntityTable();
-  EntityRevTable *procedureRevTable = new EntityRevTable();
-  ProcedureStorage *procedureStorage =
-      new ProcedureStorage(procedureTable, procedureRevTable);
+  ProcedureStmtTable *procedureStmtTable = new ProcedureStmtTable();
+  ProcedureValues *procedureValues = new ProcedureValues();
+  CallDeclarationTable *callDeclarationTable = new CallDeclarationTable();
+  ProcedureAndCallsStorage *procAndCallsStorage = new ProcedureAndCallsStorage(
+      procedureStmtTable, callDeclarationTable, procedureValues);
 
   StmtTable *stmtTable = new StmtTable();
   StmtRevTable *stmtRevTable = new StmtRevTable();
+  StmtValueSet *stmtValues = new StmtValueSet();
   StatementStorage *statementStorage =
-      new StatementStorage(stmtTable, stmtRevTable);
+      new StatementStorage(stmtTable, stmtRevTable, stmtValues);
 
-  CallStmtTable *callStmtTable = new CallStmtTable();
-  CallStmtRevTable *callStmtRevTable = new CallStmtRevTable();
-  CallStmtStorage *callStmtStorage =
-      new CallStmtStorage(callStmtTable, callStmtRevTable);
-
-  StructureMappingProvider *structureProvider = new StructureMappingProvider(
-      statementStorage, procedureStorage, callStmtStorage);
+  StructureMappingProvider *structureProvider =
+      new StructureMappingProvider(statementStorage, procAndCallsStorage);
   EntityMappingProvider *entityMappingProvider = new EntityMappingProvider(
-      variableStorage, constantStorage, procedureStorage);
+      variableStorage, constantStorage, procAndCallsStorage);
   StmtPredicateFactory *stmtPredicateFactory =
       new StmtPredicateFactory(structureProvider);
   EntityPredicateFactory *entityPredicateFactory = new EntityPredicateFactory();

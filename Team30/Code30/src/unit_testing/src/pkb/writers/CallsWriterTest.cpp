@@ -3,7 +3,6 @@
 #include <unordered_set>
 
 #include "catch.hpp"
-#include "pkb/storage/tables/HashKeySetTable.h"
 #include "pkb/writers/CallsWriter.h"
 
 using std::make_shared;
@@ -16,11 +15,11 @@ TEST_CASE("CallsWriter addCalls") {
   auto reverseTable = make_shared<CallsRevTable>();
   auto store = make_unique<CallsStorage>(table.get(), reverseTable.get());
 
-  auto stmtTable = make_shared<CallStmtTable>();
-  auto reverseStmtTable = make_shared<CallStmtRevTable>();
-  auto stmtStore = make_unique<CallStmtStorage>(stmtTable.get(),
-                                                reverseStmtTable.get());
-  auto writer = CallsWriter(store.get(), stmtStore.get());
+  auto stmtTable = make_shared<CallDeclarationTable>();
+  auto procedureValues = make_shared<ProcedureValues>();
+  auto procAndCallsStorage = make_shared<ProcedureAndCallsStorage>(
+      nullptr, stmtTable.get(), procedureValues.get());
+  auto writer = CallsWriter(store.get(), procAndCallsStorage.get());
 
   writer.addCalls(2, "main", "called");
 
@@ -30,7 +29,4 @@ TEST_CASE("CallsWriter addCalls") {
 
   // call stmt tables
   REQUIRE(stmtTable->get(2) == "called");
-  REQUIRE(reverseStmtTable->get("called") == unordered_set<int>({2}));
-
 }
-

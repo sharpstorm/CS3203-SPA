@@ -1,9 +1,9 @@
 #pragma once
 
+#include <functional>
 #include <string>
 #include <unordered_set>
 #include <utility>
-#include <functional>
 
 #include "IProvider.h"
 #include "common/Types.h"
@@ -14,8 +14,6 @@ class IStructureMappingProvider : public IProvider<StmtValue, StmtType> {
  public:
   virtual ~IStructureMappingProvider() {}
   virtual StmtType getStatementType(int) const = 0;
-  virtual unordered_set<int> getProcedureLines(string) const = 0;
   virtual string getProcedureForLine(int) const = 0;
-  virtual unordered_set<int> getCallStmtsOfProcedure(string) const = 0;
-  virtual string getCalledProcedure(int) const = 0;
+  virtual string getCalledDeclaration(int) const = 0;
 };
