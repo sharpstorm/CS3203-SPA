@@ -1,8 +1,8 @@
 #include "SynonymProxyBuilder.h"
 
-void SynonymProxyBuilder::joinSynonyms(const PQLSynonymName &syn1,
+bool SynonymProxyBuilder::joinSynonyms(const PQLSynonymName &syn1,
                                        const PQLSynonymName &syn2) {
-  ufds.mergeSets(syn1, syn2);
+  return ufds.tryMergeSets(syn1, syn2);
 }
 
 void SynonymProxyBuilder::SynonymProxyBuilder::build() {

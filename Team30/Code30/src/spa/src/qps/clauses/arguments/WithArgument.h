@@ -22,13 +22,16 @@ class WithArgument {
   bool doesReturnInteger();
 
   PQLSynonymName getSynName();
-  PQLSynonymType getSynType();
+  bool isSynStatement();
+  bool isSameSynTypeAs(const WithArgument *other);
+
   bool isStaticValueEqual(const WithArgument &other);
 
   bool isSyn() const;
-  int getIntValue();
-  string getIdentValue();
-  AttributedSynonym getAttrSyn();
+
+  int toConstInt();
+  string toConstIdent();
+  AttributedSynonym toAttrSyn();
 };
 
 typedef unique_ptr<WithArgument> WithArgumentPtr;

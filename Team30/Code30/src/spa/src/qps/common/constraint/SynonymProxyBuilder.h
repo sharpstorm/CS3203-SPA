@@ -15,7 +15,7 @@ class SynonymProxyBuilder {
  public:
   explicit SynonymProxyBuilder(VariableTable* varTable) :
       variableTable(varTable), ufds(SynonymUFDS(varTable)) {}
-  void joinSynonyms(const PQLSynonymName &syn1,
+  bool joinSynonyms(const PQLSynonymName &syn1,
                     const PQLSynonymName &syn2);
   void build();
   bool resolveOverrideMerging(OverrideTable* overrideTable);
