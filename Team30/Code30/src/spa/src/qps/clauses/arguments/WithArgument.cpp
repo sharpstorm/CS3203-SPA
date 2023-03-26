@@ -28,8 +28,16 @@ PQLSynonymName WithArgument::getSynName() {
   return syn->getName();
 }
 
-PQLSynonymType WithArgument::getSynType() {
-  return syn->getType();
+bool WithArgument::isSynStatement() {
+  return syn->isStatementType();
+}
+
+bool WithArgument::isSameSynTypeAs(const WithArgument *other) {
+  if (!isSyn() || !other->isSyn()) {
+    return false;
+  }
+
+  return syn->getType() == other->syn->getType();
 }
 
 bool WithArgument::isStaticValueEqual(const WithArgument &other) {
@@ -41,15 +49,15 @@ bool WithArgument::isStaticValueEqual(const WithArgument &other) {
   return intValue == other.intValue && identValue == other.identValue;
 }
 
-int WithArgument::getIntValue() {
+int WithArgument::toConstInt() {
   return intValue;
 }
 
-string WithArgument::getIdentValue() {
+string WithArgument::toConstIdent() {
   return identValue;
 }
 
-AttributedSynonym WithArgument::getAttrSyn() {
+AttributedSynonym WithArgument::toAttrSyn() {
   return *syn;
 }
 
