@@ -1,13 +1,14 @@
 #pragma once
 
-#include <unordered_set>
 #include <string>
-#include "pkb/storage/interfaces/IEntityMappingProvider.h"
-#include "pkb/storage/tables/HashKeySetTable.h"
-#include "pkb/storage/tables/ContiguousTable.h"
+#include <unordered_set>
 
-using std::unordered_set;
+#include "pkb/storage/interfaces/IEntityMappingProvider.h"
+#include "pkb/storage/tables/ContiguousTable.h"
+#include "pkb/storage/tables/HashKeySetTable.h"
+
 using std::string;
+using std::unordered_set;
 
 class EntityMappingProviderStub : public IEntityMappingProvider {
  public:
@@ -19,15 +20,15 @@ class EntityMappingProviderStub : public IEntityMappingProvider {
   ContiguousTable<string> constantTable;
   ContiguousTable<string> procedureTable;
 
-  HashKeySetTable<string, int> variableToIndexTable;
-  HashKeySetTable<string, int> constantToIndexTable;
-  HashKeySetTable<string, int> procedureToStmtNumTable;
+  HashKeyTable<string, int> variableToIndexTable;
+  HashKeyTable<string, int> constantToIndexTable;
+  HashKeyTable<string, int> procedureToStmtNumTable;
 
   EntityMappingProviderStub();
   unordered_set<string> getValuesOfType(EntityType) const override;
   bool isValueOfType(EntityType, EntityValue) const override;
   string getVariableByIndex(int) const override;
   string getConstantByIndex(int) const override;
-  unordered_set<int> getIndexOfVariable(string) const override;
-  unordered_set<int> getIndexOfConstant(string) const override;
+  EntityIdx getIndexOfVariable(string) const override;
+  EntityIdx getIndexOfConstant(string) const override;
 };

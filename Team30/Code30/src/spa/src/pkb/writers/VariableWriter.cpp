@@ -1,8 +1,8 @@
 #include "VariableWriter.h"
 
 VariableWriter::VariableWriter(VariableStorage *variableStorage)
-    : variableStorage(variableStorage), index(1) {}
+    : variableStorage(variableStorage) {}
 
-void VariableWriter::addVariable(string variable) {
-  variableStorage->insert(index++, variable);
+EntityIdx VariableWriter::addVariable(string variable) {
+  return variableStorage->insert(variable);
 }

@@ -6,9 +6,11 @@ PKB::~PKB() {
   delete (variableStorage);
   delete (variableTable);
   delete (variableRevTable);
+  delete (variableValues);
   delete (constantStorage);
   delete (constantTable);
   delete (constantRevTable);
+  delete (constantValues);
   delete (procedureStorage);
   delete (procedureTable);
   delete (procedureRevTable);
