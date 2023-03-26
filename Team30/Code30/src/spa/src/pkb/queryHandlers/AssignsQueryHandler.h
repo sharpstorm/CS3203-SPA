@@ -13,7 +13,7 @@ using std::unique_ptr;
 class AssignsQueryHandler : public IAssignsQueryHandler {
  public:
   explicit AssignsQueryHandler(const AssignStorage *);
-  unique_ptr<QueryResult<StmtValue, PatternTrie *>> queryAssigns(
+  QueryResultPtr<StmtValue, PatternTrie *> queryAssigns(
       StmtRef) const override;
 
  private:

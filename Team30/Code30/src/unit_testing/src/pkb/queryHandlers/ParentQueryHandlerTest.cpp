@@ -58,12 +58,12 @@ struct parentTest {
   ParentTQueryHandler handlerT =
       ParentTQueryHandler(invoker.get(), storeT.get());
 
-  unique_ptr<QueryResult<StmtValue, StmtValue>> query(StmtRef leftArg,
+  QueryResultPtr<StmtValue, StmtValue> query(StmtRef leftArg,
                                                       StmtRef rightArg) {
     return handler.query(&leftArg, &rightArg);
   }
 
-  unique_ptr<QueryResult<StmtValue, StmtValue>> queryT(StmtRef leftArg,
+  QueryResultPtr<StmtValue, StmtValue> queryT(StmtRef leftArg,
                                                        StmtRef rightArg) {
     return handlerT.query(&leftArg, &rightArg);
   }

@@ -51,22 +51,22 @@ PkbQueryHandler::PkbQueryHandler(PKB *pkb)
       designEntityHandler(new DesignEntitiesQueryHandler(
           pkb->entityMappingProvider, pkb->structureProvider)) {}
 
-unique_ptr<QueryResult<int, int>> PkbQueryHandler::queryFollows(
+QueryResultPtr<int, int> PkbQueryHandler::queryFollows(
     StmtRef s1, StmtRef s2) const {
   return followsHandler->query(&s1, &s2);
 }
 
-unique_ptr<QueryResult<int, int>> PkbQueryHandler::queryFollowsStar(
+QueryResultPtr<int, int> PkbQueryHandler::queryFollowsStar(
     StmtRef s1, StmtRef s2) const {
   return followsTHandler->query(&s1, &s2);
 }
 
-unique_ptr<QueryResult<int, int>> PkbQueryHandler::queryParent(
+QueryResultPtr<int, int> PkbQueryHandler::queryParent(
     StmtRef s1, StmtRef s2) const {
   return parentHandler->query(&s1, &s2);
 }
 
-unique_ptr<QueryResult<int, int>> PkbQueryHandler::queryParentStar(
+QueryResultPtr<int, int> PkbQueryHandler::queryParentStar(
     StmtRef s1, StmtRef s2) const {
   return parentTHandler->query(&s1, &s2);
 }
@@ -101,46 +101,46 @@ StmtType PkbQueryHandler::getStatementType(int stmtNo) const {
   return designEntityHandler->getStatementType(stmtNo);
 }
 
-unique_ptr<QueryResult<int, string>> PkbQueryHandler::queryUses(
+QueryResultPtr<int, string> PkbQueryHandler::queryUses(
     StmtRef arg1, EntityRef arg2) const {
   return usesHandler->query(&arg1, &arg2);
 }
 
-unique_ptr<QueryResult<string, string>> PkbQueryHandler::queryUses(
+QueryResultPtr<string, string> PkbQueryHandler::queryUses(
     EntityRef arg1, EntityRef arg2) const {
   return usesHandler->query(&arg1, &arg2);
 }
-unique_ptr<QueryResult<int, string>> PkbQueryHandler::queryModifies(
+QueryResultPtr<int, string> PkbQueryHandler::queryModifies(
     StmtRef arg1, EntityRef arg2) const {
   return modifiesHandler->query(&arg1, &arg2);
 }
 
-unique_ptr<QueryResult<string, string>> PkbQueryHandler::queryModifies(
+QueryResultPtr<string, string> PkbQueryHandler::queryModifies(
     EntityRef arg1, EntityRef arg2) const {
   return modifiesHandler->query(&arg1, &arg2);
 }
 
-unique_ptr<QueryResult<int, PatternTrie *>> PkbQueryHandler::queryAssigns(
+QueryResultPtr<int, PatternTrie *> PkbQueryHandler::queryAssigns(
     StmtRef arg1) const {
   return assignHandler->queryAssigns(arg1);
 }
 
-unique_ptr<QueryResult<string, string>> PkbQueryHandler::queryCalls(
+QueryResultPtr<string, string> PkbQueryHandler::queryCalls(
     EntityRef arg1, EntityRef arg2) const {
   return callsHandler->query(&arg1, &arg2);
 }
 
-unique_ptr<QueryResult<string, string>> PkbQueryHandler::queryCallsStar(
+QueryResultPtr<string, string> PkbQueryHandler::queryCallsStar(
     EntityRef arg1, EntityRef arg2) const {
   return callsTHandler->query(&arg1, &arg2);
 }
 
-unique_ptr<QueryResult<int, string>> PkbQueryHandler::queryIfPattern(
+QueryResultPtr<int, string> PkbQueryHandler::queryIfPattern(
     StmtRef arg1, EntityRef arg2) const {
   return ifPatternHandler->query(&arg1, &arg2);
 }
 
-unique_ptr<QueryResult<int, string>> PkbQueryHandler::queryWhilePattern(
+QueryResultPtr<int, string> PkbQueryHandler::queryWhilePattern(
     StmtRef arg1, EntityRef arg2) const {
   return whilePatternHandler->query(&arg1, &arg2);
 }

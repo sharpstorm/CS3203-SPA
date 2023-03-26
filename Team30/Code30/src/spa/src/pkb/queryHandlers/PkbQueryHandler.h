@@ -30,31 +30,31 @@ class PkbQueryHandler : public IPkbQueryHandler {
  public:
   explicit PkbQueryHandler(PKB *pkb);
 
-  unique_ptr<QueryResult<int, int>> queryFollows(StmtRef,
+  QueryResultPtr<int, int> queryFollows(StmtRef,
                                                  StmtRef) const override;
-  unique_ptr<QueryResult<int, int>> queryFollowsStar(StmtRef,
+  QueryResultPtr<int, int> queryFollowsStar(StmtRef,
                                                      StmtRef) const override;
-  unique_ptr<QueryResult<int, int>> queryParent(StmtRef,
+  QueryResultPtr<int, int> queryParent(StmtRef,
                                                 StmtRef) const override;
-  unique_ptr<QueryResult<int, int>> queryParentStar(StmtRef,
+  QueryResultPtr<int, int> queryParentStar(StmtRef,
                                                     StmtRef) const override;
-  unique_ptr<QueryResult<int, string>> queryUses(StmtRef,
+  QueryResultPtr<int, string> queryUses(StmtRef,
                                                  EntityRef) const override;
-  unique_ptr<QueryResult<string, string>> queryUses(EntityRef,
+  QueryResultPtr<string, string> queryUses(EntityRef,
                                                     EntityRef) const override;
-  unique_ptr<QueryResult<int, string>> queryModifies(StmtRef,
+  QueryResultPtr<int, string> queryModifies(StmtRef,
                                                      EntityRef) const override;
-  unique_ptr<QueryResult<string, string>> queryModifies(
+  QueryResultPtr<string, string> queryModifies(
       EntityRef, EntityRef) const override;
-  unique_ptr<QueryResult<int, PatternTrie *>> queryAssigns(
+  QueryResultPtr<int, PatternTrie *> queryAssigns(
       StmtRef) const override;
-  unique_ptr<QueryResult<string, string>> queryCalls(EntityRef,
+  QueryResultPtr<string, string> queryCalls(EntityRef,
                                                      EntityRef) const override;
-  unique_ptr<QueryResult<string, string>> queryCallsStar(
+  QueryResultPtr<string, string> queryCallsStar(
       EntityRef, EntityRef) const override;
-  unique_ptr<QueryResult<int, string>> queryIfPattern(StmtRef,
+  QueryResultPtr<int, string> queryIfPattern(StmtRef,
                                                       EntityRef) const override;
-  unique_ptr<QueryResult<int, string>> queryWhilePattern(
+  QueryResultPtr<int, string> queryWhilePattern(
       StmtRef, EntityRef) const override;
   unordered_set<string> getSymbolsOfType(EntityType) const override;
   unordered_set<int> getStatementsOfType(StmtType) const override;

@@ -1,15 +1,11 @@
 #pragma once
 
-#include <memory>
-
 #include "common/Types.h"
 #include "pkb/predicates/AbstractPredicateFactory.h"
 #include "pkb/storage/RelationTableManager.h"
 #include "pkb/storage/interfaces/IEntityMappingProvider.h"
 #include "pkb/storage/interfaces/IProvider.h"
 #include "pkb/storage/interfaces/IStructureMappingProvider.h"
-
-using std::unique_ptr;
 
 template <typename LeftValue, typename LeftType, typename RightValue,
           typename RightType>
@@ -28,7 +24,7 @@ class BaseQueryInvoker {
         leftPredicateFactory(leftPredicateFactory),
         rightPredicateFactory(rightPredicateFactory) {}
 
-  unique_ptr<QueryResult<LeftValue, RightValue>> query(
+  QueryResultPtr<LeftValue, RightValue> query(
       RelationTableManager<LeftValue, RightValue> *store,
       IRef<LeftValue, LeftType> *arg1,
       IRef<RightValue, RightType> *arg2) const {

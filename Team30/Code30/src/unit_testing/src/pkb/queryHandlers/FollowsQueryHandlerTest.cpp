@@ -58,12 +58,12 @@ struct followsTest {
   FollowsTQueryHandler
       handlerT = FollowsTQueryHandler(invoker.get(), storeT.get());
 
-  unique_ptr<QueryResult<StmtValue, StmtValue>> query(
+  QueryResultPtr<StmtValue, StmtValue> query(
       StmtRef leftArg, StmtRef rightArg) {
     return handler.query(&leftArg, &rightArg);
   }
 
-  unique_ptr<QueryResult<StmtValue, StmtValue>> queryT(
+  QueryResultPtr<StmtValue, StmtValue> queryT(
       StmtRef leftArg, StmtRef rightArg) {
     return handlerT.query(&leftArg, &rightArg);
   }

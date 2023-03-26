@@ -13,31 +13,31 @@ using std::unique_ptr;
 class IPkbQueryHandler {
  public:
   virtual ~IPkbQueryHandler() {}
-  virtual unique_ptr<QueryResult<int, int>> queryFollows(StmtRef,
+  virtual QueryResultPtr<int, int> queryFollows(StmtRef,
                                                          StmtRef) const = 0;
-  virtual unique_ptr<QueryResult<int, int>> queryFollowsStar(StmtRef,
+  virtual QueryResultPtr<int, int> queryFollowsStar(StmtRef,
                                                              StmtRef) const = 0;
-  virtual unique_ptr<QueryResult<int, int>> queryParent(StmtRef,
+  virtual QueryResultPtr<int, int> queryParent(StmtRef,
                                                         StmtRef) const = 0;
-  virtual unique_ptr<QueryResult<int, int>> queryParentStar(StmtRef,
+  virtual QueryResultPtr<int, int> queryParentStar(StmtRef,
                                                             StmtRef) const = 0;
-  virtual unique_ptr<QueryResult<int, string>> queryUses(StmtRef,
+  virtual QueryResultPtr<int, string> queryUses(StmtRef,
                                                          EntityRef) const = 0;
-  virtual unique_ptr<QueryResult<string, string>> queryUses(
+  virtual QueryResultPtr<string, string> queryUses(
       EntityRef, EntityRef) const = 0;
-  virtual unique_ptr<QueryResult<int, string>> queryModifies(
+  virtual QueryResultPtr<int, string> queryModifies(
       StmtRef, EntityRef) const = 0;
-  virtual unique_ptr<QueryResult<string, string>> queryModifies(
+  virtual QueryResultPtr<string, string> queryModifies(
       EntityRef, EntityRef) const = 0;
-  virtual unique_ptr<QueryResult<int, PatternTrie *>> queryAssigns(
+  virtual QueryResultPtr<int, PatternTrie *> queryAssigns(
       StmtRef) const = 0;
-  virtual unique_ptr<QueryResult<string, string>> queryCalls(
+  virtual QueryResultPtr<string, string> queryCalls(
       EntityRef, EntityRef) const = 0;
-  virtual unique_ptr<QueryResult<string, string>> queryCallsStar(
+  virtual QueryResultPtr<string, string> queryCallsStar(
       EntityRef, EntityRef) const = 0;
-  virtual unique_ptr<QueryResult<int, string>> queryIfPattern(
+  virtual QueryResultPtr<int, string> queryIfPattern(
       StmtRef, EntityRef) const = 0;
-  virtual unique_ptr<QueryResult<int, string>> queryWhilePattern(
+  virtual QueryResultPtr<int, string> queryWhilePattern(
       StmtRef, EntityRef) const = 0;
   virtual unordered_set<string> getSymbolsOfType(EntityType) const = 0;
   virtual unordered_set<int> getStatementsOfType(StmtType) const = 0;

@@ -42,7 +42,7 @@ class TransitiveRelationTableManager : public RelationTableManager<T, T> {
    * Find R*(arg1, arg2) where arg1 is in the given arg1Values and arg2
    * satisfies arg2Predicate.
    */
-  unique_ptr<QueryResult<T, T>> query(
+  QueryResultPtr<T, T> query(
       unordered_set<T> arg1Values, Predicate<T> arg2Predicate) const override {
     QueryResult<T, T> result;
     for (auto arg1 : arg1Values) {
@@ -60,7 +60,7 @@ class TransitiveRelationTableManager : public RelationTableManager<T, T> {
    * Find R*(arg1, arg2) where arg2 is in the given arg2Values and arg1
    * satisfies arg1Predicate.
    */
-  unique_ptr<QueryResult<T, T>> query(
+  QueryResultPtr<T, T> query(
       Predicate<T> arg1Predicate, unordered_set<T> arg2Values) const override {
     QueryResult<T, T> result;
     for (auto arg2 : arg2Values) {
@@ -77,7 +77,7 @@ class TransitiveRelationTableManager : public RelationTableManager<T, T> {
   /**
    * Find R*(arg1, arg2) given arg1 and arg2 satisfies arg2Predicate.
    */
-  unique_ptr<QueryResult<T, T>> query(
+  QueryResultPtr<T, T> query(
       T arg1, Predicate<T> arg2Predicate) const override {
     return query(unordered_set<T>({arg1}), arg2Predicate);
   }
@@ -85,7 +85,7 @@ class TransitiveRelationTableManager : public RelationTableManager<T, T> {
   /**
    * Find R*(arg1, arg2) given arg2 and arg1 satisfies arg1Predicate.
    */
-  unique_ptr<QueryResult<T, T>> query(Predicate<T> arg1Predicate,
+  QueryResultPtr<T, T> query(Predicate<T> arg1Predicate,
                                       T arg2) const override {
     return query(arg1Predicate, unordered_set<T>({arg2}));
   }

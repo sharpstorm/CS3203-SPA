@@ -78,12 +78,12 @@ struct usesTest {
                                          entPredFactory.get());
   UsesQueryHandler handler = UsesQueryHandler(
       stmtEntInvoker.get(), entEntInvoker.get(), store.get(), pStore.get());
-  unique_ptr<QueryResult<StmtValue, EntityValue>> query(StmtRef leftArg,
+  QueryResultPtr<StmtValue, EntityValue> query(StmtRef leftArg,
                                                         EntityRef rightArg) {
     return handler.query(&leftArg, &rightArg);
   }
 
-  unique_ptr<QueryResult<EntityValue, EntityValue>> query(EntityRef leftArg,
+  QueryResultPtr<EntityValue, EntityValue> query(EntityRef leftArg,
                                                           EntityRef rightArg) {
     return handler.query(&leftArg, &rightArg);
   }
