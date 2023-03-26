@@ -12,8 +12,13 @@ TEST_CASE("ConstantWriter addConstant") {
   auto store = make_unique<ConstantStorage>(table.get(), reverseTable.get());
   auto writer = ConstantWriter(store.get());
 
-  writer.addConstant("0");
-  writer.addConstant("1");
+  auto idx1 = writer.addConstant("0");
+  auto idx2 = writer.addConstant("1");
+  auto idx3 = writer.addConstant("0");
+
+  REQUIRE(idx1 == 1);
+  REQUIRE(idx2 == 2);
+  REQUIRE(idx3 == 1);
 
   REQUIRE(store->getValueByIdx(1) == "0");
   REQUIRE(store->getValueByIdx(2) == "1");

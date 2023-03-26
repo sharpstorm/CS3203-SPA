@@ -16,8 +16,12 @@ TEST_CASE("VariableWriter addVariable") {
   auto store = make_unique<VariableStorage>(table.get(), reverseTable.get());
   auto writer = VariableWriter(store.get());
 
-  writer.addVariable("x");
-  writer.addVariable("y");
+  auto idx1 = writer.addVariable("x");
+  auto idx2 = writer.addVariable("y");
+  auto idx3 = writer.addVariable("x");
+  REQUIRE(idx1 == 1);
+  REQUIRE(idx2 == 2);
+  REQUIRE(idx3 == 1);
 
   REQUIRE(store->getValueByIdx(1) == "x");
   REQUIRE(store->getValueByIdx(2) == "y");

@@ -22,6 +22,10 @@ class IndexTableManager {
       : table(table), reverseTable(reverseTable), index(0){};
 
   EntityIdx insert(Value value) {
+    // check if already exists
+    if (allValues.find(value) != allValues.end()) {
+      return reverseTable->get(value);
+    }
     index++;
     table->set(index, value);
     reverseTable->set(value, index);
