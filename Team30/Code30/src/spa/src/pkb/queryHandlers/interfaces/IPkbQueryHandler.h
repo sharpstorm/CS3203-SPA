@@ -13,52 +13,26 @@ using std::unique_ptr;
 class IPkbQueryHandler {
  public:
   virtual ~IPkbQueryHandler() {}
-<<<<<<< HEAD
-  virtual QueryResultPtr<int, int> queryFollows(StmtRef,
-                                                         StmtRef) const = 0;
-  virtual QueryResultPtr<int, int> queryFollowsStar(StmtRef,
-                                                             StmtRef) const = 0;
-  virtual QueryResultPtr<int, int> queryParent(StmtRef,
-                                                        StmtRef) const = 0;
-  virtual QueryResultPtr<int, int> queryParentStar(StmtRef,
-                                                            StmtRef) const = 0;
-  virtual QueryResultPtr<int, string> queryUses(StmtRef,
-                                                         EntityRef) const = 0;
-  virtual QueryResultPtr<string, string> queryUses(
-      EntityRef, EntityRef) const = 0;
-  virtual QueryResultPtr<int, string> queryModifies(
-      StmtRef, EntityRef) const = 0;
-  virtual QueryResultPtr<string, string> queryModifies(
-      EntityRef, EntityRef) const = 0;
-  virtual QueryResultPtr<int, PatternTrie *> queryAssigns(
-      StmtRef) const = 0;
-  virtual QueryResultPtr<string, string> queryCalls(
-      EntityRef, EntityRef) const = 0;
-  virtual QueryResultPtr<string, string> queryCallsStar(
-      EntityRef, EntityRef) const = 0;
-  virtual QueryResultPtr<int, string> queryIfPattern(
-      StmtRef, EntityRef) const = 0;
-  virtual QueryResultPtr<int, string> queryWhilePattern(
-      StmtRef, EntityRef) const = 0;
-=======
-  virtual QueryResult<int, int> queryFollows(StmtRef, StmtRef) const = 0;
-  virtual QueryResult<int, int> queryFollowsStar(StmtRef, StmtRef) const = 0;
-  virtual QueryResult<int, int> queryParent(StmtRef, StmtRef) const = 0;
-  virtual QueryResult<int, int> queryParentStar(StmtRef, StmtRef) const = 0;
-  virtual QueryResult<int, string> queryUses(StmtRef, EntityRef) const = 0;
-  virtual QueryResult<string, string> queryUses(EntityRef, EntityRef) const = 0;
-  virtual QueryResult<int, string> queryModifies(StmtRef, EntityRef) const = 0;
-  virtual QueryResult<string, string> queryModifies(EntityRef,
+  virtual QueryResultPtr<int, int> queryFollows(StmtRef, StmtRef) const = 0;
+  virtual QueryResultPtr<int, int> queryFollowsStar(StmtRef, StmtRef) const = 0;
+  virtual QueryResultPtr<int, int> queryParent(StmtRef, StmtRef) const = 0;
+  virtual QueryResultPtr<int, int> queryParentStar(StmtRef, StmtRef) const = 0;
+  virtual QueryResultPtr<int, string> queryUses(StmtRef, EntityRef) const = 0;
+  virtual QueryResultPtr<string, string> queryUses(EntityRef,
+                                                   EntityRef) const = 0;
+  virtual QueryResultPtr<int, string> queryModifies(StmtRef,
                                                     EntityRef) const = 0;
-  virtual QueryResult<int, PatternTrie *> queryAssigns(StmtRef) const = 0;
-  virtual QueryResult<string, string> queryCalls(EntityRef,
-                                                 EntityRef) const = 0;
-  virtual QueryResult<string, string> queryCallsStar(EntityRef,
+  virtual QueryResultPtr<string, string> queryModifies(EntityRef,
+                                                       EntityRef) const = 0;
+  virtual QueryResultPtr<int, PatternTrie *> queryAssigns(StmtRef) const = 0;
+  virtual QueryResultPtr<string, string> queryCalls(EntityRef,
+                                                    EntityRef) const = 0;
+  virtual QueryResultPtr<string, string> queryCallsStar(EntityRef,
+                                                        EntityRef) const = 0;
+  virtual QueryResultPtr<int, string> queryIfPattern(StmtRef,
                                                      EntityRef) const = 0;
-  virtual QueryResult<int, string> queryIfPattern(StmtRef, EntityRef) const = 0;
-  virtual QueryResult<int, string> queryWhilePattern(StmtRef,
-                                                     EntityRef) const = 0;
->>>>>>> origin/master
+  virtual QueryResultPtr<int, string> queryWhilePattern(StmtRef,
+                                                        EntityRef) const = 0;
   virtual unordered_set<string> getSymbolsOfType(EntityType) const = 0;
   virtual unordered_set<int> getStatementsOfType(StmtType) const = 0;
   virtual StmtType getStatementType(int) const = 0;
