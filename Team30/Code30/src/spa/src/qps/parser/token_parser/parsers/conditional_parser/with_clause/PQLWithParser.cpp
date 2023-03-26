@@ -75,8 +75,10 @@ void PQLWithParser::handleTwoSyns(WithArgumentPtr left,
                                   QueryBuilder *builder) {
   bool isSameType = left->isSameSynTypeAs(right.get());
   bool isBothStmt = left->isSynStatement() && right->isSynStatement();
+  bool isBothDefault = left->isDefaultAttribute()
+      && right->isDefaultAttribute();
 
-  if (isSameType || isBothStmt) {
+  if (isSameType || (isBothStmt && isBothDefault)) {
     ConstraintPtr constraint = make_unique<SynonymConstraint>(
         left->getSynName(),
         right->getSynName());
