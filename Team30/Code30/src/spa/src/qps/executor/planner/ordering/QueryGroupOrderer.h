@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "qps/executor/planner/QueryGroupPlan.h"
+#include "qps/executor/planner/grouping/QueryGroupPlan.h"
 
 using std::vector;
 

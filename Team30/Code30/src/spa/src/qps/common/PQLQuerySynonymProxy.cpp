@@ -12,11 +12,11 @@ PQLQuerySynonym *PQLQuerySynonymProxy::get() {
   return *syn;
 }
 
-PQLQuerySynonym &PQLQuerySynonymProxy::operator*() {
+PQLQuerySynonym &PQLQuerySynonymProxy::operator*() const {
   return *(*(this->syn));
 }
 
-PQLQuerySynonym *PQLQuerySynonymProxy::operator->() {
+PQLQuerySynonym *PQLQuerySynonymProxy::operator->() const {
   return *(this->syn);
 }
 

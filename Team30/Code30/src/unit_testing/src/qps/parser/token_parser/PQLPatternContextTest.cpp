@@ -27,10 +27,11 @@ void testPatternParsing(vector<PQLToken> inputs,
   builder.finalizeSynonymTable();
   context.parse(&state, &builder);
 
-  auto clauses = builder.build()->getEvaluatables();
+  auto query = builder.build();
+  auto clauses = query->getEvaluatables();
   REQUIRE(clauses.size() == 1);
 
-  auto fc = dynamic_cast<T*>(clauses.at(0).get());
+  auto fc = dynamic_cast<T*>(clauses.at(0));
   REQUIRE(fc != nullptr);
 }
 

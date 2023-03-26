@@ -19,14 +19,14 @@ class AbstractTwoArgClause: public SuchThatClause {
 
   template <
       typename LeftResultType, typename LeftArgType,
-      typename RightResultType, typename RightArgType,
+      typename RightResultType, typename RightArgType>
+  PQLQueryResult* abstractEvaluateOn(
+      const QueryExecutorAgent &agent,
       ArgumentTransformer<LeftArgType> leftTransformer,
       ArgumentTransformer<RightArgType> rightTransformer,
       QueryInvoker<LeftResultType, LeftArgType,
                    RightResultType, RightArgType> diffSynInvoker,
-      SymmetricQueryInvoker<LeftResultType, LeftArgType> sameSynInvoker>
-
-  PQLQueryResult* evaluateOn(const QueryExecutorAgent &agent) {
+      SymmetricQueryInvoker<LeftResultType, LeftArgType> sameSynInvoker) {
     if (isSameSynonym()) {
       auto ref = leftTransformer(left.get());
       ref = agent.transformArg(left->getName(), ref);

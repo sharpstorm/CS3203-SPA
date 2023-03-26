@@ -21,8 +21,8 @@ class QueryBuilder {
   string errorMsg;
   VariableTablePtr variables;
   vector<AttributedSynonym> resultVariables;
-  vector<ClauseSPtr> clauses;
-  vector<ConstraintSPtr> constraints;
+  vector<ClausePtr> clauses;
+  vector<ConstraintPtr> constraints;
   unordered_set<PQLSynonymName> declaredNames;
 
  public:
@@ -38,7 +38,7 @@ class QueryBuilder {
   void addPattern(PatternClausePtr clause);
   void addWith(WithClausePtr clause);
   void addWithSelect(WithSelectClausePtr clause);
-  void addConstraint(ConstraintSPtr constraint);
+  void addConstraint(ConstraintPtr constraint);
 
   void setError(const string &msg);
   PQLQueryPtr build();

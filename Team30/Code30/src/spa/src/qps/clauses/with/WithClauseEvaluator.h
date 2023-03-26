@@ -16,23 +16,20 @@ using PKBAttributeQuerier =
 typedef vector<int> StmtList;
 typedef unordered_map<EntityValue, StmtList> SynToStmtMap;
 
-template <class T, class U>
-using PairSetPtr = unique_ptr<pair_set<T, U>>;
-
 template <class T, class U, class V>
 using SynStmtMapExtractor = const T*(*)(const U* first, const V* second);
 
 class WithClauseEvaluator {
  public:
   WithClauseEvaluator(const QueryExecutorAgent &agent,
-                      WithArgument* leftArg,
-                      WithArgument* rightArg);
+                      AttributedSynonym* leftArg,
+                      AttributedSynonym* rightArg);
   PQLQueryResult* evaluate();
 
  private:
   const QueryExecutorAgent &agent;
-  WithArgument* leftArg;
-  WithArgument* rightArg;
+  AttributedSynonym* leftArg;
+  AttributedSynonym* rightArg;
 
   PQLQueryResult* result;
 
@@ -42,19 +39,20 @@ class WithClauseEvaluator {
   void evaluateOnIntAttributes();
   void evaluateOnStringAttributes();
 
-  void evaluateOnStmtConst(WithArgument* constant, WithArgument* stmt);
+  void evaluateOnStmtConst(AttributedSynonym* constant,
+                           AttributedSynonym* stmt);
   void evaluateOnStmtStmt();
 
-  bool populateMap(WithArgument* arg, SynToStmtMap *map);
+  bool populateMap(const PQLQuerySynonymProxy &arg, SynToStmtMap *map);
   template <PKBAttributeQuerier querier>
-  void queryPkbForAttribute(SynToStmtMap *map, WithArgument* arg);
+  void queryPkbForAttribute(SynToStmtMap *map, const PQLQuerySynonymProxy &arg);
 
-  StmtValueSet queryForStatement(PQLQuerySynonymProxy syn);
-  EntityValueSet queryForEntity(PQLQuerySynonymProxy syn);
+  StmtValueSet queryForStatement(const PQLQuerySynonymProxy &syn);
+  EntityValueSet queryForEntity(const PQLQuerySynonymProxy &syn);
 
   template <class T>
   void addToResult(const T &pkbResult) {
-    result->add(leftArg->getSynName(), rightArg->getSynName(), pkbResult);
+    result->add(leftArg->getName(), rightArg->getName(), pkbResult);
   }
 
   template <class R1, class R2, class U, class V, class T1, class T2>

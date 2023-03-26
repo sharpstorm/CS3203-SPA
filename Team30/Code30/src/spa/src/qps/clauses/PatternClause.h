@@ -6,7 +6,7 @@
 
 using std::unique_ptr;
 
-class PatternClause: virtual public Clause {
+class PatternClause: public Clause {
  public:
   PatternClause(const PQLQuerySynonymProxy &synonym,
                 ClauseArgumentPtr leftArg,

@@ -5,7 +5,7 @@
 using std::make_unique;
 
 QueryGroupPlanPtr QueryClauseOrderer::orderClauses(QueryGroup *group) {
-  vector<IEvaluatableSPtr> groupOrdering(group->getEvaluatableCount());
+  vector<IEvaluatable*> groupOrdering(group->getEvaluatableCount());
   BitField seenClauses(group->getEvaluatableCount());
 
   int curIndex = 0;
@@ -17,7 +17,7 @@ QueryGroupPlanPtr QueryClauseOrderer::orderClauses(QueryGroup *group) {
     ClauseId evalId = queuedClauses.front();
     queuedClauses.pop();
 
-    IEvaluatableSPtr evaluatable = group->getEvaluatable(evalId);
+    IEvaluatable* evaluatable = group->getEvaluatable(evalId);
     groupOrdering[curIndex] = evaluatable;
     curIndex++;
 
@@ -25,8 +25,7 @@ QueryGroupPlanPtr QueryClauseOrderer::orderClauses(QueryGroup *group) {
     populateQueue(&queuedClauses, &seenClauses, edges);
   }
 
-  return make_unique<QueryGroupPlan>(groupOrdering, group->getSelectables(),
-                                     group->canBeEmpty());
+  return group->toPlan(groupOrdering);
 }
 
 void QueryClauseOrderer::populateQueue(queue<ClauseId> *target,

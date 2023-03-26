@@ -10,22 +10,21 @@
 using std::make_unique, std::string;
 
 class PQLWithParser: public IPQLParser {
-  static ConstraintSPtr parseConstraint(
+  static ConstraintPtr parseConstraint(
       WithArgumentPtr left, WithArgumentPtr right, QueryBuilder* builder);
-  static ConstraintSPtr handleConstant(WithArgumentPtr left,
-                                       WithArgumentPtr right);
-  static ConstraintSPtr handleOverride(WithArgumentPtr left,
-                                       WithArgumentPtr right,
-                                       QueryBuilder* builder);
-  static ConstraintSPtr handleSameSyn(WithArgumentPtr left,
+  static ConstraintPtr handleConstant(WithArgumentPtr left,
+                                      WithArgumentPtr right);
+  static ConstraintPtr handleOverride(WithArgumentPtr left,
                                       WithArgumentPtr right,
                                       QueryBuilder* builder);
+  static ConstraintPtr handleSameSyn(WithArgumentPtr left,
+                                     WithArgumentPtr right);
 
-  static ConstraintSPtr parseOverrideConstraint(
+  static ConstraintPtr parseOverrideConstraint(
       WithArgumentPtr synArg, WithArgumentPtr staticArg);
   static void addWithSelectClause(QueryBuilder* builder,
-                                  AttributedSynonym attrSyn,
-                                  string identValue);
+                                  const AttributedSynonym &attrSyn,
+                                  const string &identValue);
 
   static WithArgumentPtr parseWithArg(QueryTokenParseState* state,
                                       QueryBuilder* builder);

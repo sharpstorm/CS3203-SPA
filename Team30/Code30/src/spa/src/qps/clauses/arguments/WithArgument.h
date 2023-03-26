@@ -4,34 +4,31 @@
 #include <string>
 
 #include "qps/common/AttributedSynonym.h"
+#include "qps/constraints/OverrideTransformer.h"
 
 using std::string, std::unique_ptr;
 
 class WithArgument {
-  static const int NO_STMT_REF = -1;
-  static const char NO_ENT_REF[];
   AttributedSynonymPtr syn;
   int intValue;
   string identValue;
 
  public:
-  explicit WithArgument(int intVal);
-  explicit WithArgument(string identVal);
+  explicit WithArgument(const int &intVal);
+  explicit WithArgument(const string &identVal);
   explicit WithArgument(AttributedSynonymPtr syn);
-  PQLQuerySynonymProxy getSyn();
+
+  bool isDefaultAttribute();
+  bool doesReturnInteger();
+
   PQLSynonymName getSynName();
   PQLSynonymType getSynType();
-  bool isSynType(PQLSynonymType type);
-  PQLSynonymAttribute getAttribute();
   bool isStaticValueEqual(const WithArgument &other);
-  bool doesReturnInteger();
-  bool isAttributeValid();
+
   bool isSyn() const;
   int getIntValue();
   string getIdentValue();
   AttributedSynonym getAttrSyn();
-
-  bool isDefaultAttribute();
 };
 
 typedef unique_ptr<WithArgument> WithArgumentPtr;

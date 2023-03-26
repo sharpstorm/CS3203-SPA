@@ -9,17 +9,19 @@ using std::unique_ptr, std::vector;
 
 class QueryGroupPlan {
  public:
-  QueryGroupPlan(vector<IEvaluatableSPtr> conditionalClauses,
+  QueryGroupPlan(vector<IEvaluatable*> conditionalClauses,
                  vector<PQLSynonymName> selectables,
+                 vector<IEvaluatablePtr> ownedEvals,
                  bool canBeEmpty);
-  vector<IEvaluatableSPtr> getConditionalClauses();
+  vector<IEvaluatable*> getConditionalClauses();
   bool isBooleanResult();
   vector<PQLSynonymName>* getSelectables();
   bool canBeEmpty();
 
  private:
-  vector<IEvaluatableSPtr> conditionalClauses;
+  vector<IEvaluatable*> conditionalClauses;
   vector<PQLSynonymName> selectables;
+  vector<IEvaluatablePtr> ownedEvals;
   bool canEmpty;
 };
 

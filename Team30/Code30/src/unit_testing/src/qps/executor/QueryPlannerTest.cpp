@@ -27,15 +27,17 @@ TEST_CASE("Plan where a clause is using target declaration variable") {
   auto c = make_unique<FollowsClause>(
       ClauseArgumentFactory::create(PQL_RESULT_VAR),
       ClauseArgumentFactory::create(5));
-  vector<shared_ptr<Clause>> clauses;
-  clauses.push_back(move(c));
+  vector<ClausePtr> clauses;
+  clauses.push_back(std::move(c));
 
   auto varMapPtr = make_unique<VariableTable>(PQL_VAR_MAP);
-  auto query = make_unique<PQLQuery>(std::move(varMapPtr), PQL_RESULT_VARS, clauses,
-                                     vector<ConstraintSPtr>());
-  shared_ptr<QueryPlan> queryPlan = QueryPlanner().getExecutionPlan(query.get());
+  auto query = make_unique<PQLQuery>(std::move(varMapPtr),
+                                     PQL_RESULT_VARS,
+                                     std::move(clauses),
+                                     vector<ConstraintPtr>());
+  QueryPlanPtr queryPlan = QueryPlanner().getExecutionPlan(query.get());
   REQUIRE(queryPlan->getGroupCount() == 1);
-  REQUIRE(queryPlan.get()->getGroup(0)->getConditionalClauses().size() == clauses.size());
+  REQUIRE(queryPlan.get()->getGroup(0)->getConditionalClauses().size() == 1);
 }
 
 // Will have select clause
@@ -43,23 +45,25 @@ TEST_CASE("Plan where a clause is not using target declaration variable") {
   auto c = make_unique<FollowsClause>(
       ClauseArgumentFactory::create(PQL_RESULT_VAR2),
       ClauseArgumentFactory::create(5));
-  vector<shared_ptr<Clause>> clauses;
-  clauses.push_back(move(c));
+  vector<ClausePtr> clauses;
+  clauses.push_back(std::move(c));
 
   auto varMapPtr = make_unique<VariableTable>(PQL_VAR_MAP);
-  auto query = make_unique<PQLQuery>(std::move(varMapPtr), PQL_RESULT_VARS,
-                                     clauses, vector<ConstraintSPtr>());
-  shared_ptr<QueryPlan> queryPlan = QueryPlanner().getExecutionPlan(query.get());
+  auto query = make_unique<PQLQuery>(std::move(varMapPtr),
+                                     PQL_RESULT_VARS,
+                                     std::move(clauses),
+                                     vector<ConstraintPtr>());
+  QueryPlanPtr queryPlan = QueryPlanner().getExecutionPlan(query.get());
   REQUIRE(queryPlan->getGroupCount() == 2);
-  REQUIRE(queryPlan.get()->getGroup(0)->getConditionalClauses().size() == clauses.size());
+  REQUIRE(queryPlan.get()->getGroup(0)->getConditionalClauses().size() == 1);
   REQUIRE(queryPlan.get()->getGroup(1)->getConditionalClauses().size() == 1);
 }
 
 TEST_CASE("Plan where query is only Select") {
   auto varMapPtr = make_unique<VariableTable>(PQL_VAR_MAP);
   auto query = make_unique<PQLQuery>(std::move(varMapPtr), PQL_RESULT_VARS,
-                                     vector<ClauseSPtr>(), vector<ConstraintSPtr>());
-  shared_ptr<QueryPlan> queryPlan = QueryPlanner().getExecutionPlan(query.get());
+                                     vector<ClausePtr>(), vector<ConstraintPtr>());
+  QueryPlanPtr queryPlan = QueryPlanner().getExecutionPlan(query.get());
 
   REQUIRE(queryPlan->getGroupCount() == 1);
   REQUIRE(queryPlan.get()->getGroup(0)->getConditionalClauses().size() == 1);

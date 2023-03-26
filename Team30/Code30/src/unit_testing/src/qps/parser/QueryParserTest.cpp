@@ -73,7 +73,7 @@ void requireResultSynonyms(PQLQuery* result, unordered_map<PQLSynonymName, PQLSy
 template <class T>
 void requireClauseExists(PQLQuery* result) {
   REQUIRE(result->getEvaluatables().size() == 1);
-  T* casted = dynamic_cast<T*>(result->getEvaluatables().at(0).get());
+  T* casted = dynamic_cast<T*>(result->getEvaluatables().at(0));
   REQUIRE(casted != nullptr);
 }
 

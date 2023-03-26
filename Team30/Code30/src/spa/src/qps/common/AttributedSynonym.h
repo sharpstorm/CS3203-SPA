@@ -24,6 +24,8 @@ class AttributedSynonym {
   PQLSynonymType getType();
   PQLSynonymName getName();
   PQLSynonymAttribute getAttribute();
+
+  bool isType(const PQLSynonymType &type);
   bool validateAttribute();
   bool returnsInteger();
   bool isStatementType();

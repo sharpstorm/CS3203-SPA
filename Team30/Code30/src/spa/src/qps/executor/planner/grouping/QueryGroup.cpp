@@ -1,10 +1,21 @@
 #include "QueryGroup.h"
 
-int QueryGroup::addEvaluatable(IEvaluatableSPtr evaluatable) {
+#include <utility>
+
+#include "QueryGroupPlan.h"
+
+using std::make_unique;
+
+int QueryGroup::addEvaluatable(IEvaluatable* evaluatable) {
   int id = evaluatables.size();
   evaluatables.push_back(evaluatable);
   edgeList.push_back(unordered_set<int>());
   return id;
+}
+
+int QueryGroup::addEvaluatable(IEvaluatablePtr evaluatable) {
+  ownedEvals.push_back(std::move(evaluatable));
+  return addEvaluatable(ownedEvals.back().get());
 }
 
 void QueryGroup::linkEvaluatables(int id1, int id2) {
@@ -20,15 +31,11 @@ void QueryGroup::addSelectable(PQLSynonymName synonym) {
   selectables.push_back(synonym);
 }
 
-vector<PQLSynonymName> QueryGroup::getSelectables() {
-  return selectables;
-}
-
 int QueryGroup::getEvaluatableCount() {
   return evaluatables.size();
 }
 
-IEvaluatableSPtr QueryGroup::getEvaluatable(int evalId) {
+IEvaluatable* QueryGroup::getEvaluatable(int evalId) {
   return evaluatables[evalId];
 }
 
@@ -36,6 +43,9 @@ unordered_set<int> *QueryGroup::getRelated(int evalId) {
   return &edgeList[evalId];
 }
 
-bool QueryGroup::canBeEmpty() {
-  return canEmpty;
+QueryGroupPlanPtr QueryGroup::toPlan(vector<IEvaluatable *> newEvals) {
+  return make_unique<QueryGroupPlan>(newEvals,
+                                     selectables,
+                                     std::move(ownedEvals),
+                                     canEmpty);
 }

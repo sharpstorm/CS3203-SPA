@@ -8,7 +8,7 @@
 #include "qps/clauses/arguments/ClauseArgument.h"
 #include "qps/common/VariableTable.h"
 
-using std::unordered_set, std::shared_ptr;
+using std::unordered_set, std::unique_ptr;
 
 class Clause : public IEvaluatable {
  public:
@@ -26,7 +26,7 @@ class Clause : public IEvaluatable {
   template<class T, class U>
   static PQLQueryResult *toQueryResult(ClauseArgument* left,
                                        ClauseArgument* right,
-                                       QueryResult<T, U> queryResult) {
+                                       const QueryResult<T, U> &queryResult) {
     PQLQueryResult* pqlQueryResult = new PQLQueryResult();
     if (!left->isNamed() && !right->isNamed()) {
       pqlQueryResult->setIsStaticFalse(queryResult.isEmpty);
@@ -46,7 +46,7 @@ class Clause : public IEvaluatable {
   template<class T, class U>
   static PQLQueryResult *toQueryResult(const PQLSynonymName &left,
                                        ClauseArgument* right,
-                                       QueryResult<T, U> queryResult) {
+                                       const QueryResult<T, U> &queryResult) {
     PQLQueryResult* pqlQueryResult = new PQLQueryResult();
     if (right->isNamed()) {
       pqlQueryResult->add(left, right->getName(), queryResult.pairVals);
@@ -59,11 +59,11 @@ class Clause : public IEvaluatable {
 
   template<class T>
   static PQLQueryResult *toQueryResult(const PQLSynonymName &name,
-                                       unordered_set<T> queryResult) {
+                                       const unordered_set<T> &queryResult) {
     PQLQueryResult* pqlQueryResult = new PQLQueryResult();
     pqlQueryResult->add(name, queryResult);
     return pqlQueryResult;
   }
 };
 
-typedef shared_ptr<Clause> ClauseSPtr;
+typedef unique_ptr<Clause> ClausePtr;

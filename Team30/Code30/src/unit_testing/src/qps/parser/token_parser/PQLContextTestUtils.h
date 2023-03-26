@@ -49,10 +49,11 @@ void testSuchThatParsing(vector<PQLToken> inputs,
   auto clause = context.parse(&state, &builder);
   builder.addSuchThat(std::move(clause));
 
-  auto clauses = builder.build()->getEvaluatables();
+  auto query = builder.build();
+  auto clauses = query->getEvaluatables();
   REQUIRE(clauses.size() == 1);
 
-  auto fc = dynamic_cast<ClauseType*>(clauses.at(0).get());
+  auto fc = dynamic_cast<ClauseType*>(clauses.at(0));
   REQUIRE(fc != nullptr);
 }
 
