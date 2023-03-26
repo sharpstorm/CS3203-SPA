@@ -6,21 +6,21 @@
 #include <vector>
 
 #include "DesignEntitiesQueryHandler.h"
-#include "pkb/queryHandlers/interfaces/IPkbQueryHandler.h"
-#include "pkb/storage/PKB.h"
-#include "PkbStmtStmtQueryInvoker.h"
-#include "FollowsTQueryHandler.h"
 #include "FollowsQueryHandler.h"
+#include "FollowsTQueryHandler.h"
 #include "ModifiesQueryHandler.h"
-#include "pkb/queryHandlers/interfaces/ICallsTQueryHandler.h"
-#include "pkb/queryHandlers/interfaces/IParentTQueryHandler.h"
-#include "pkb/queryHandlers/interfaces/ICallsQueryHandler.h"
-#include "pkb/queryHandlers/interfaces/IParentQueryHandler.h"
-#include "pkb/queryHandlers/interfaces/IUsesQueryHandler.h"
-#include "pkb/queryHandlers/interfaces/IIfPatternQueryHandler.h"
-#include "pkb/queryHandlers/interfaces/IWhilePatternQueryHandler.h"
+#include "PkbStmtStmtQueryInvoker.h"
 #include "pkb/queryHandlers/interfaces/IAssignsQueryHandler.h"
 #include "pkb/queryHandlers/interfaces/ICFGsQueryHandler.h"
+#include "pkb/queryHandlers/interfaces/ICallsQueryHandler.h"
+#include "pkb/queryHandlers/interfaces/ICallsTQueryHandler.h"
+#include "pkb/queryHandlers/interfaces/IIfPatternQueryHandler.h"
+#include "pkb/queryHandlers/interfaces/IParentQueryHandler.h"
+#include "pkb/queryHandlers/interfaces/IParentTQueryHandler.h"
+#include "pkb/queryHandlers/interfaces/IPkbQueryHandler.h"
+#include "pkb/queryHandlers/interfaces/IUsesQueryHandler.h"
+#include "pkb/queryHandlers/interfaces/IWhilePatternQueryHandler.h"
+#include "pkb/storage/PKB.h"
 
 using std::string;
 using std::unique_ptr, std::shared_ptr;
@@ -37,14 +37,12 @@ class PkbQueryHandler : public IPkbQueryHandler {
   QueryResult<int, string> queryUses(StmtRef, EntityRef) const override;
   QueryResult<string, string> queryUses(EntityRef, EntityRef) const override;
   QueryResult<int, string> queryModifies(StmtRef, EntityRef) const override;
-  QueryResult<string, string> queryModifies(
-      EntityRef,
-      EntityRef) const override;
+  QueryResult<string, string> queryModifies(EntityRef,
+                                            EntityRef) const override;
   QueryResult<int, PatternTrie *> queryAssigns(StmtRef) const override;
   QueryResult<string, string> queryCalls(EntityRef, EntityRef) const override;
-  QueryResult<string, string> queryCallsStar(
-      EntityRef,
-      EntityRef) const override;
+  QueryResult<string, string> queryCallsStar(EntityRef,
+                                             EntityRef) const override;
   QueryResult<int, string> queryIfPattern(StmtRef, EntityRef) const override;
   QueryResult<int, string> queryWhilePattern(StmtRef, EntityRef) const override;
   unordered_set<string> getSymbolsOfType(EntityType) const override;
@@ -52,8 +50,8 @@ class PkbQueryHandler : public IPkbQueryHandler {
   StmtType getStatementType(int) const override;
   string getVariableByIndex(int) const override;
   string getConstantByIndex(int) const override;
-  unordered_set<int> getIndexOfVariable(string) const override;
-  unordered_set<int> getIndexOfConstant(string) const override;
+  EntityIdx getIndexOfVariable(string) const override;
+  EntityIdx getIndexOfConstant(string) const override;
   vector<CFG *> queryCFGs(StmtRef) const override;
   bool isStatementOfType(StmtType, int) const override;
   bool isSymbolOfType(EntityType, string) const override;

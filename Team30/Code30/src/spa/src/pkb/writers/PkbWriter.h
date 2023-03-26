@@ -28,8 +28,8 @@ class PkbWriter : public IPkbWriter {
   void addAssigns(int stmtNum, PatternTrieSPtr ast) override;
   void addFollows(int stmtNum, int stmtNum2) override;
   void addParent(int stmtNum, int stmtNum2) override;
-  void addVariable(string name) override;
-  void addConstant(string name) override;
+  EntityIdx addVariable(string name) override;
+  EntityIdx addConstant(string name) override;
   void addProcedure(string name, int start, int end) override;
   void addStatement(int, StmtType) override;
   void addUses(int stmtNum, string variable, string procedure) override;

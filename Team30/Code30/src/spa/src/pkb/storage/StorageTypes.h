@@ -3,20 +3,27 @@
 #include <memory>
 
 #include "EntityTableManager.h"
+#include "IndexTableManager.h"
 #include "RelationTableManager.h"
 #include "TransitiveRelationTableManager.h"
-#include "tables/HashKeyTable.h"
-#include "tables/HashKeySetTable.h"
 #include "common/Types.h"
-#include "common/pattern/PatternTrie.h"
 #include "common/cfg/CFG.h"
-#include "pkb/storage/tables/ContiguousTable.h"
+#include "common/pattern/PatternTrie.h"
 #include "pkb/storage/tables/ContiguousSetTable.h"
+#include "pkb/storage/tables/ContiguousTable.h"
+#include "pkb/storage/tables/IntTable.h"
+#include "tables/HashKeySetTable.h"
+#include "tables/HashKeyTable.h"
 
-using VariableStorage = EntityTableManager<StmtValue, EntityValue>;
+using VariableStorage = IndexTableManager<EntityValue>;
+using ConstantStorage = IndexTableManager<EntityValue>;
+using VarTable = ContiguousTable<EntityValue>;
+using VarRevTable = HashKeyTable<EntityValue, EntityIdx>;
+using ConstTable = ContiguousTable<EntityValue>;
+using ConstRevTable = HashKeyTable<EntityValue, EntityIdx>;
+
 using EntityTable = ContiguousTable<EntityValue>;
 using EntityRevTable = HashKeySetTable<EntityValue, StmtValue>;
-using ConstantStorage = EntityTableManager<StmtValue, EntityValue>;
 using ProcedureStorage = EntityTableManager<StmtValue, EntityValue>;
 
 using StatementStorage = EntityTableManager<StmtValue, StmtType>;
@@ -68,4 +75,3 @@ using WhilePatternRevTable = HashKeySetTable<EntityValue, StmtValue>;
 
 using AssignStorage = HashKeyTable<StmtValue, PatternTrieSPtr>;
 using CFGStorage = HashKeyTable<EntityValue, CFGSPtr>;
-

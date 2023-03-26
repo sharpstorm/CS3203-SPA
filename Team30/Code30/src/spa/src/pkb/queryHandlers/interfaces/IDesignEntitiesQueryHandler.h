@@ -16,8 +16,8 @@ class IDesignEntitiesQueryHandler {
   virtual StmtType getStatementType(int) const = 0;
   virtual string getVariableByIndex(int) const = 0;
   virtual string getConstantByIndex(int) const = 0;
-  virtual unordered_set<int> getIndexOfVariable(string) const = 0;
-  virtual unordered_set<int> getIndexOfConstant(string) const = 0;
+  virtual EntityIdx getIndexOfVariable(string) const = 0;
+  virtual EntityIdx getIndexOfConstant(string) const = 0;
   virtual bool isStatementOfType(StmtType, int) const = 0;
   virtual bool isSymbolOfType(EntityType, string) const = 0;
   virtual string getCalledDeclaration(int) const = 0;

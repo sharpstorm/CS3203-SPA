@@ -1,8 +1,8 @@
 #include "ConstantWriter.h"
 
 ConstantWriter::ConstantWriter(ConstantStorage *constantStorage)
-    : constantStorage(constantStorage), index(1) {}
+    : constantStorage(constantStorage) {}
 
-void ConstantWriter::addConstant(string constant) {
-  constantStorage->insert(index++, constant);
+EntityIdx ConstantWriter::addConstant(string constant) {
+  return constantStorage->insert(constant);
 }
