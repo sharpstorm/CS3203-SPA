@@ -12,11 +12,7 @@ StmtType StructureMappingProvider::getStatementType(int lineNumber) const {
 
 std::unordered_set<int> StructureMappingProvider::getValuesOfType(
     StmtType stmtType) const {
-  if (stmtType == StmtType::None) {
-    return statementStorage->getAllStatements();
-  } else {
-    return statementStorage->getStatementsOfType(stmtType);
-  }
+  return statementStorage->getStatementsOfType(stmtType);
 }
 
 std::string StructureMappingProvider::getProcedureForLine(

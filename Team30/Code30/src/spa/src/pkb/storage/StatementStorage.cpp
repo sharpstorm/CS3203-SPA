@@ -7,8 +7,11 @@ void StatementStorage::insert(StmtValue stmt, StmtType type) {
 }
 
 unordered_set<StmtValue> StatementStorage::getStatementsOfType(
-    StmtType type) const {
-  return reverseTable->get(type);
+    StmtType stmtType) const {
+  if (stmtType == StmtType::None) {
+    return getAllStatements();
+  }
+  return reverseTable->get(stmtType);
 }
 
 unordered_set<StmtValue> StatementStorage::getAllStatements() const {
