@@ -17,13 +17,16 @@ class PKB {
 
   VarTable *variableTable = new VarTable();
   VarRevTable *variableRevTable = new VarRevTable();
+  EntityValueSet *variableValues = new EntityValueSet;
   VariableStorage *variableStorage =
-      new VariableStorage(variableTable, variableRevTable);
+      new VariableStorage(variableTable, variableRevTable, variableValues);
 
   ConstTable *constantTable = new ConstTable();
   ConstRevTable *constantRevTable = new ConstRevTable();
+  EntityValueSet *constantValues = new EntityValueSet;
+
   ConstantStorage *constantStorage =
-      new ConstantStorage(constantTable, constantRevTable);
+      new ConstantStorage(constantTable, constantRevTable, constantValues);
 
   EntityTable *procedureTable = new EntityTable();
   EntityRevTable *procedureRevTable = new EntityRevTable();

@@ -13,23 +13,24 @@ class IndexTableManager {
  private:
   IBaseTable<EntityIdx, Value> *table;
   IBaseTable<Value, EntityIdx> *reverseTable;
-  unordered_set<Value> allValues;
+  unordered_set<Value> *allValues;
   EntityIdx index;
 
  public:
   IndexTableManager(IBaseTable<EntityIdx, Value> *table,
-                    IBaseTable<Value, EntityIdx> *reverseTable)
-      : table(table), reverseTable(reverseTable), index(0) {}
+                    IBaseTable<Value, EntityIdx> *reverseTable,
+                    unordered_set<Value> *values)
+      : table(table), reverseTable(reverseTable), allValues(values), index(0) {}
 
   EntityIdx insert(Value value) {
     // check if already exists
-    if (allValues.find(value) != allValues.end()) {
+    if (allValues->find(value) != allValues->end()) {
       return reverseTable->get(value);
     }
     index++;
     table->set(index, value);
     reverseTable->set(value, index);
-    allValues.insert(value);
+    allValues->insert(value);
     return index;
   }
 
@@ -39,5 +40,7 @@ class IndexTableManager {
     return reverseTable->get(value);
   }
 
-  unordered_set<Value> getAllValues() { return allValues; }
+  unordered_set<Value> getAllValues() {
+    return *allValues;
+  }
 };

@@ -1,17 +1,20 @@
 #include <memory>
 #include <string>
+#include <unordered_set>
 
 #include "catch.hpp"
 #include "pkb/storage/IndexTableManager.h"
 #include "pkb/storage/tables/ContiguousTable.h"
 #include "pkb/storage/tables/HashKeyTable.h"
 
-using std::make_unique, std::string;
+using std::make_unique, std::string, std::unordered_set;
 
 TEST_CASE("IndexTableManager empty") {
   auto table = make_unique<ContiguousTable<string>>();
-  auto reverseTable = make_unique<HashKeyTable<string, EntityIdx>>();
-  IndexTableManager<string> tableManager(table.get(), reverseTable.get());
+  auto reverseTable = make_unique<HashKeyTable<string, int>>();
+  auto values = make_unique<unordered_set<string>>();
+  IndexTableManager<string> tableManager(table.get(), reverseTable.get(),
+                                         values.get());
 
   REQUIRE(tableManager.getValueByIdx(1) == "");
   REQUIRE(tableManager.getIdxOfValue("x") == 0);
@@ -19,8 +22,10 @@ TEST_CASE("IndexTableManager empty") {
 
 TEST_CASE("IndexTableManager <string>") {
   auto table = make_unique<ContiguousTable<string>>();
-  auto reverseTable = make_unique<HashKeyTable<string, EntityIdx>>();
-  IndexTableManager<string> tableManager(table.get(), reverseTable.get());
+  auto reverseTable = make_unique<HashKeyTable<string, int>>();
+  auto values = make_unique<unordered_set<string>>();
+  IndexTableManager<string> tableManager(table.get(), reverseTable.get(),
+                                         values.get());
 
   auto idx1 = tableManager.insert("abc");
   auto idx2 = tableManager.insert("def");
