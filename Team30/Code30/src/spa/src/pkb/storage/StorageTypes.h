@@ -2,7 +2,6 @@
 
 #include <memory>
 
-#include "EntityTableManager.h"
 #include "IndexTableManager.h"
 #include "RelationTableManager.h"
 #include "StatementStorage.h"
