@@ -54,7 +54,7 @@ constexpr CountGetter<QueryExecutorAgent> countQuerier =
 constexpr SymbolIdGetter<QueryExecutorAgent> symbolIdQuerier  =
     [](const QueryExecutorAgent &agent,
         const EntityValue &value) -> int {
-        return *agent->getIndexOfVariable(value).begin();
+      return agent->getIndexOfVariable(value);
     };
 
 
