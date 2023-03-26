@@ -7,8 +7,10 @@
 
 #include "qps/common/VariableTable.h"
 #include "OverrideTransformer.h"
-#include "SynonymProxyBuilder.h"
-#include "OverrideTable.h"
+#include "qps/common/constraint/SynonymProxyBuilder.h"
+#include "qps/common/constraint/OverrideTable.h"
+
+using std::unique_ptr;
 
 class Constraint {
  public:
@@ -19,4 +21,4 @@ class Constraint {
   virtual bool validateConstraint() = 0;
 };
 
-typedef shared_ptr<Constraint> ConstraintSPtr;
+typedef unique_ptr<Constraint> ConstraintPtr;

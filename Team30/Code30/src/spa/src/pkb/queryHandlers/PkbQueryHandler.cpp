@@ -5,10 +5,8 @@
 #include "AssignsQueryHandler.h"
 #include "CFGsQueryHandler.h"
 #include "CallsQueryHandler.h"
-#include "CallsTQueryHandler.h"
 #include "IfPatternQueryHandler.h"
 #include "ParentQueryHandler.h"
-#include "ParentTQueryHandler.h"
 #include "UsesQueryHandler.h"
 #include "WhilePatternQueryHandler.h"
 
@@ -24,12 +22,12 @@ PkbQueryHandler::PkbQueryHandler(PKB *pkb)
           pkb->entityMappingProvider, pkb->entityPredicateFactory)),
       followsHandler(new FollowsQueryHandler(stmtStmtQueryInvoker.get(),
                                              pkb->followsStorage)),
-      followsTHandler(new FollowsTQueryHandler(stmtStmtQueryInvoker.get(),
-                                               pkb->followsTStorage)),
+      followsTHandler(new FollowsQueryHandler(stmtStmtQueryInvoker.get(),
+                                              pkb->followsTStorage)),
       parentHandler(new ParentQueryHandler(stmtStmtQueryInvoker.get(),
                                            pkb->parentStorage)),
-      parentTHandler(new ParentTQueryHandler(stmtStmtQueryInvoker.get(),
-                                             pkb->parentTStorage)),
+      parentTHandler(new ParentQueryHandler(stmtStmtQueryInvoker.get(),
+                                            pkb->parentTStorage)),
       modifiesHandler(new ModifiesQueryHandler(
           stmtEntQueryInvoker.get(), entEntQueryInvoker.get(),
           pkb->modifiesStorage, pkb->modifiesPStorage)),
@@ -39,35 +37,34 @@ PkbQueryHandler::PkbQueryHandler(PKB *pkb)
       callsHandler(
           new CallsQueryHandler(entEntQueryInvoker.get(), pkb->callsStorage)),
       callsTHandler(
-          new CallsTQueryHandler(entEntQueryInvoker.get(), pkb->callsTStorage)),
+          new CallsQueryHandler(entEntQueryInvoker.get(), pkb->callsTStorage)),
       ifPatternHandler(new IfPatternQueryHandler(stmtEntQueryInvoker.get(),
                                                  pkb->ifPatternStorage)),
       whilePatternHandler(new WhilePatternQueryHandler(
           stmtEntQueryInvoker.get(), pkb->whilePatternStorage)),
-
       assignHandler(new AssignsQueryHandler(pkb->assignStorage)),
       cfgsHandler(new CFGsQueryHandler(
           pkb->cfgStorage, pkb->entityMappingProvider, pkb->structureProvider)),
       designEntityHandler(new DesignEntitiesQueryHandler(
           pkb->entityMappingProvider, pkb->structureProvider)) {}
 
-QueryResultPtr<int, int> PkbQueryHandler::queryFollows(
-    StmtRef s1, StmtRef s2) const {
+QueryResultPtr<int, int> PkbQueryHandler::queryFollows(StmtRef s1,
+                                                       StmtRef s2) const {
   return followsHandler->query(&s1, &s2);
 }
 
-QueryResultPtr<int, int> PkbQueryHandler::queryFollowsStar(
-    StmtRef s1, StmtRef s2) const {
+QueryResultPtr<int, int> PkbQueryHandler::queryFollowsStar(StmtRef s1,
+                                                           StmtRef s2) const {
   return followsTHandler->query(&s1, &s2);
 }
 
-QueryResultPtr<int, int> PkbQueryHandler::queryParent(
-    StmtRef s1, StmtRef s2) const {
+QueryResultPtr<int, int> PkbQueryHandler::queryParent(StmtRef s1,
+                                                      StmtRef s2) const {
   return parentHandler->query(&s1, &s2);
 }
 
-QueryResultPtr<int, int> PkbQueryHandler::queryParentStar(
-    StmtRef s1, StmtRef s2) const {
+QueryResultPtr<int, int> PkbQueryHandler::queryParentStar(StmtRef s1,
+                                                          StmtRef s2) const {
   return parentTHandler->query(&s1, &s2);
 }
 
@@ -101,8 +98,8 @@ StmtType PkbQueryHandler::getStatementType(int stmtNo) const {
   return designEntityHandler->getStatementType(stmtNo);
 }
 
-QueryResultPtr<int, string> PkbQueryHandler::queryUses(
-    StmtRef arg1, EntityRef arg2) const {
+QueryResultPtr<int, string> PkbQueryHandler::queryUses(StmtRef arg1,
+                                                       EntityRef arg2) const {
   return usesHandler->query(&arg1, &arg2);
 }
 

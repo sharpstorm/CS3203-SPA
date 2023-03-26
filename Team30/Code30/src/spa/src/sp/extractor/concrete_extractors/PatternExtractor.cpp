@@ -13,11 +13,11 @@ using std::shared_ptr, std::move;
 PatternExtractor::PatternExtractor(PkbWriter* writer) : pkbWriter(writer) {
 }
 
-void PatternExtractor::visitAssign(AssignNode* node) {
+void PatternExtractor::leaveAssign(AssignNode* node) {
   addPattern(node->getLineNumber(), node->getChild(1));
 }
 
-void PatternExtractor::visitWhile(WhileNode* node) {
+void PatternExtractor::leaveWhile(WhileNode* node) {
   ExtractorUtility util;
   unordered_set<string> variableSet;
   util.getExprVariables(&variableSet, node->getChildren()[0]);
@@ -25,7 +25,7 @@ void PatternExtractor::visitWhile(WhileNode* node) {
     pkbWriter->addWhilePattern(node->getLineNumber(), s);
   }
 }
-void PatternExtractor::visitIf(IfNode* node) {
+void PatternExtractor::leaveIf(IfNode* node) {
   ExtractorUtility util;
   unordered_set<string> variableSet;
   util.getExprVariables(&variableSet, node->getChildren()[0]);

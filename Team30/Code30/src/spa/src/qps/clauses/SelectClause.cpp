@@ -7,6 +7,7 @@
 #include "arguments/ClauseArgument.h"
 #include "qps/clauses/arguments/ClauseArgumentFactory.h"
 #include "qps/executor/QueryExecutorAgent.h"
+#include "ClauseScoring.h"
 
 using std::pair, std::unordered_set, std::vector, std::string, std::to_string;
 
@@ -17,28 +18,40 @@ PQLQueryResult *SelectClause::evaluateOn(const QueryExecutorAgent &agent) {
   ClauseArgumentPtr clauseArg = ClauseArgumentFactory::create(target);
   PQLSynonymName synName = target->getName();
   if (target->isStatementType()) {
-    unordered_set<int> result;
     StmtRef stmtRef = clauseArg->toStmtRef();
-    stmtRef = agent.transformArg(synName, stmtRef);
-    if (stmtRef.isKnown() && agent.isValid(stmtRef)) {
-      result.insert(stmtRef.getValue());
-    } else if (!stmtRef.isKnown()) {
-      result = agent->getStatementsOfType(stmtRef.getType());
-    }
-
-    return Clause::toQueryResult(target->getName(), result);
+    return queryPKB<StmtValue, StmtRef, SelectClause::queryStmt>(
+        agent, target->getName(), stmtRef);
   }
 
-  unordered_set<string> result;
   EntityRef entRef = clauseArg->toEntityRef();
-  entRef = agent.transformArg(clauseArg->getName(), entRef);
-  if (entRef.isKnown() && agent.isValid(entRef)) {
-    result.insert(entRef.getValue());
-  } else if (!entRef.isKnown()) {
-    result = agent->getSymbolsOfType(entRef.getType());
+  return queryPKB<EntityValue , EntityRef, SelectClause::queryEntity>(
+      agent, target->getName(), entRef);
+}
+
+template<class ReturnType, class RefType,
+    SelectPKBGetter<ReturnType, RefType> pkbGetter>
+PQLQueryResult *SelectClause::queryPKB(const QueryExecutorAgent &agent,
+                                       const PQLSynonymName &synName,
+                                       RefType ref) {
+  unordered_set<ReturnType> result;
+  ref = agent.transformArg(synName, ref);
+  if (ref.isKnown() && agent.isValid(ref)) {
+    result.insert(ref.getValue());
+  } else if (!ref.isKnown()) {
+    result = pkbGetter(agent, ref);
   }
 
-  return Clause::toQueryResult(target->getName(), result);
+  return Clause::toQueryResult(synName, result);
+}
+
+unordered_set<StmtValue> SelectClause::queryStmt(
+    const QueryExecutorAgent &agent, const StmtRef &ref) {
+  return agent->getStatementsOfType(ref.getType());
+}
+
+unordered_set<EntityValue> SelectClause::queryEntity(
+    const QueryExecutorAgent &agent, const EntityRef &ref) {
+  return agent->getSymbolsOfType(ref.getType());
 }
 
 bool SelectClause::validateArgTypes(VariableTable *variables) {
@@ -46,5 +59,9 @@ bool SelectClause::validateArgTypes(VariableTable *variables) {
 }
 
 SynonymList SelectClause::getUsedSynonyms() {
-  return SynonymList{target->getName()};
+  return { target->getName() };
+}
+
+ComplexityScore SelectClause::getComplexityScore(const OverrideTable *table) {
+  return COMPLEXITY_SELECT;
 }

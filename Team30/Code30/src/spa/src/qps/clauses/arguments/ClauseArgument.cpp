@@ -16,12 +16,16 @@ bool ClauseArgument::isWildcard() {
   return false;
 }
 
+bool ClauseArgument::isConstant() {
+  return false;
+}
+
 PQLSynonymName ClauseArgument::getName() {
   return "";
 }
 
-PQLQuerySynonym *ClauseArgument::getSyn() {
-  return nullptr;
+ComplexityScore ClauseArgument::getSynComplexity() {
+  return 0;
 }
 
 bool ClauseArgument::isStatement(PQLQuerySynonym syn) {

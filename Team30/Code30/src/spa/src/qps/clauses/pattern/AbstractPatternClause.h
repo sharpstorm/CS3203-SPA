@@ -8,6 +8,7 @@
 #include "common/Types.h"
 #include "qps/clauses/PatternClause.h"
 #include "qps/clauses/InvokerTypes.h"
+#include "qps/clauses/ClauseScoring.h"
 
 using std::unique_ptr;
 
@@ -23,7 +24,7 @@ class AbstractPatternClause: public PatternClause {
       PatternClause(synonym, std::move(leftArg), SYN_TYPE) {
   }
 
-  PQLQueryResult* evaluateOn(const QueryExecutorAgent &agent) {
+  PQLQueryResult* evaluateOn(const QueryExecutorAgent &agent) override {
     StmtRef leftStatement = {StatementType, 0};
     EntityRef leftVar = leftArg->toEntityRef();
     PQLSynonymName synName = synonym->getName();
@@ -37,5 +38,13 @@ class AbstractPatternClause: public PatternClause {
     QueryResultPtr<StmtValue, EntityValue> result =
         invoker(agent, leftStatement, leftVar);
     return Clause::toQueryResult(synName, leftArg.get(), result.get());
+  }
+
+ public:
+  ComplexityScore getComplexityScore(const OverrideTable *table) override {
+    if (table->contains(leftArg->getName())) {
+      return COMPLEXITY_QUERY_CONSTANT;
+    }
+    return COMPLEXITY_QUERY_SYN_CONTAINER;
   }
 };

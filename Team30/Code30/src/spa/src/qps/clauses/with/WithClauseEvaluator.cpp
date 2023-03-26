@@ -13,8 +13,8 @@ constexpr SynStmtMapExtractor<StmtList, EntityValue, StmtList> valueExtractor =
     };
 
 WithClauseEvaluator::WithClauseEvaluator(const QueryExecutorAgent &agent,
-                                         WithArgument* leftArg,
-                                         WithArgument* rightArg):
+                                         AttributedSynonym* leftArg,
+                                         AttributedSynonym* rightArg):
     agent(agent),
     leftArg(leftArg),
     rightArg(rightArg),
@@ -25,7 +25,7 @@ PQLQueryResult *WithClauseEvaluator::evaluate() {
     return result;
   }
 
-  if (leftArg->doesReturnInteger()) {
+  if (leftArg->returnsInteger()) {
     evaluateOnIntAttributes();
   } else {
     evaluateOnStringAttributes();
@@ -34,9 +34,9 @@ PQLQueryResult *WithClauseEvaluator::evaluate() {
 }
 
 void WithClauseEvaluator::evaluateOnIntAttributes() {
-  if (leftArg->isSynType(PQL_SYN_TYPE_CONSTANT)) {
+  if (leftArg->isType(PQL_SYN_TYPE_CONSTANT)) {
     evaluateOnStmtConst(leftArg, rightArg);
-  } else if (rightArg->getSynType() == PQL_SYN_TYPE_CONSTANT) {
+  } else if (rightArg->isType(PQL_SYN_TYPE_CONSTANT)) {
     evaluateOnStmtConst(rightArg, leftArg);
   } else {
     evaluateOnStmtStmt();
@@ -44,8 +44,8 @@ void WithClauseEvaluator::evaluateOnIntAttributes() {
 }
 
 void WithClauseEvaluator::evaluateOnStmtStmt() {
-  StmtValueSet set1 = queryForStatement(leftArg->getSyn());
-  StmtValueSet set2 = queryForStatement(rightArg->getSyn());
+  StmtValueSet set1 = queryForStatement(leftArg->getSynProxy());
+  StmtValueSet set2 = queryForStatement(rightArg->getSynProxy());
 
   pair_set<StmtValue, StmtValue> queryResult;
   for (StmtValue i : set1) {
@@ -54,13 +54,13 @@ void WithClauseEvaluator::evaluateOnStmtStmt() {
     }
     queryResult.insert({i, i});
   }
-  result->add(leftArg->getSynName(), rightArg->getSynName(), queryResult);
+  result->add(leftArg->getName(), rightArg->getName(), queryResult);
 }
 
-void WithClauseEvaluator::evaluateOnStmtConst(WithArgument *constant,
-                                              WithArgument *stmt) {
-  StmtValueSet stmtSet = queryForStatement(stmt->getSyn());
-  EntityValueSet constantSet = queryForEntity(constant->getSyn());
+void WithClauseEvaluator::evaluateOnStmtConst(AttributedSynonym *constant,
+                                              AttributedSynonym *stmt) {
+  StmtValueSet stmtSet = queryForStatement(stmt->getSynProxy());
+  EntityValueSet constantSet = queryForEntity(constant->getSynProxy());
   pair_set<StmtValue, EntityValue> queryResult;
   for (StmtValue i : stmtSet) {
     EntityValue stringInt = to_string(i);
@@ -69,16 +69,14 @@ void WithClauseEvaluator::evaluateOnStmtConst(WithArgument *constant,
     }
     queryResult.insert({i, stringInt});
   }
-  result->add(stmt->getSynName(), constant->getSynName(), queryResult);
+  result->add(stmt->getName(), constant->getName(), queryResult);
 }
 
 void WithClauseEvaluator::evaluateOnStringAttributes() {
   SynToStmtMap map1;
   SynToStmtMap map2;
-  bool isLeftDefault =
-      populateMap(leftArg, &map1);
-  bool isRightDefault =
-      populateMap(rightArg, &map2);
+  bool isLeftDefault = populateMap(leftArg->getSynProxy(), &map1);
+  bool isRightDefault = populateMap(rightArg->getSynProxy(), &map2);
 
   if (isLeftDefault && isRightDefault) {
     auto queryResult = crossMaps<EntityValue, EntityValue>
@@ -114,8 +112,9 @@ constexpr PKBAttributeQuerier PrintQuerier =
       return agent->getPrintDeclarations(stmt);
     };
 
-bool WithClauseEvaluator::populateMap(WithArgument *arg, SynToStmtMap *map) {
-  switch (arg->getSynType()) {
+bool WithClauseEvaluator::populateMap(const PQLQuerySynonymProxy &arg,
+                                      SynToStmtMap *map) {
+  switch (arg->getType()) {
     case PQL_SYN_TYPE_CALL:
       queryPkbForAttribute<CallsQuerier>(map, arg);
       return false;
@@ -129,7 +128,7 @@ bool WithClauseEvaluator::populateMap(WithArgument *arg, SynToStmtMap *map) {
       break;
   }
 
-  EntityValueSet entSet = queryForEntity(arg->getSyn());
+  EntityValueSet entSet = queryForEntity(arg);
   for (EntityValue s : entSet) {
     map->emplace(s, StmtList{});
   }
@@ -138,9 +137,9 @@ bool WithClauseEvaluator::populateMap(WithArgument *arg, SynToStmtMap *map) {
 }
 
 template <PKBAttributeQuerier querier>
-void WithClauseEvaluator::queryPkbForAttribute(SynToStmtMap *map,
-                                               WithArgument* arg) {
-  StmtValueSet statements = queryForStatement(arg->getSyn());
+void WithClauseEvaluator::queryPkbForAttribute(
+    SynToStmtMap *map, const PQLQuerySynonymProxy &arg) {
+  StmtValueSet statements = queryForStatement(arg);
   for (int i : statements) {
     EntityValue result = querier(agent, i);
     if (auto search = map->find(result); search != map->end()) {
@@ -151,7 +150,8 @@ void WithClauseEvaluator::queryPkbForAttribute(SynToStmtMap *map,
   }
 }
 
-StmtValueSet WithClauseEvaluator::queryForStatement(PQLQuerySynonymProxy syn) {
+StmtValueSet WithClauseEvaluator::queryForStatement(
+    const PQLQuerySynonymProxy &syn) {
   ClauseArgumentPtr clauseArg = ClauseArgumentFactory::create(syn);
   StmtRef stmtRef = clauseArg->toStmtRef();
   stmtRef = agent.transformArg(syn->getName(), stmtRef);
@@ -165,7 +165,8 @@ StmtValueSet WithClauseEvaluator::queryForStatement(PQLQuerySynonymProxy syn) {
   return agent->getStatementsOfType(stmtRef.getType());
 }
 
-EntityValueSet WithClauseEvaluator::queryForEntity(PQLQuerySynonymProxy syn) {
+EntityValueSet WithClauseEvaluator::queryForEntity(
+    const PQLQuerySynonymProxy &syn) {
   ClauseArgumentPtr clauseArg = ClauseArgumentFactory::create(syn);
   EntityRef entRef = clauseArg->toEntityRef();
   entRef = agent.transformArg(syn->getName(), entRef);
@@ -180,10 +181,10 @@ EntityValueSet WithClauseEvaluator::queryForEntity(PQLQuerySynonymProxy syn) {
 }
 
 bool WithClauseEvaluator::isEmptyResult() {
-  bool leftReturnsInt = leftArg->doesReturnInteger();
-  bool rightReturnsInt = rightArg->doesReturnInteger();
-  bool isLeftIndependent = isIntegerIndependent(leftArg->getSynType());
-  bool isRightIndependent = isIntegerIndependent(rightArg->getSynType());
+  bool leftReturnsInt = leftArg->returnsInteger();
+  bool rightReturnsInt = rightArg->returnsInteger();
+  bool isLeftIndependent = isIntegerIndependent(leftArg->getType());
+  bool isRightIndependent = isIntegerIndependent(rightArg->getType());
 
   return leftReturnsInt && rightReturnsInt
       && !isLeftIndependent && !isRightIndependent;

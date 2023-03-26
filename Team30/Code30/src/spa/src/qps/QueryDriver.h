@@ -2,15 +2,15 @@
 
 #include <string>
 
-#include "IQueryDriver.h"
 #include "qps/executor/IQueryExecutor.h"
 #include "qps/parser/IQueryParser.h"
 #include "qps/projector/ResultProjector.h"
 #include "common/parser/ISourceExpressionParser.h"
+#include "IQPS.h"
 
 using std::string;
 
-class QueryDriver: public IQueryDriver {
+class QueryDriver: public IQPS {
  private:
   IQueryParser* parser;
   IQueryExecutor* executor;
@@ -19,5 +19,5 @@ class QueryDriver: public IQueryDriver {
   explicit QueryDriver(PkbQueryHandler* pkbQH,
                        ISourceExpressionParser* exprParser);
   ~QueryDriver();
-  UniqueVectorPtr<string> evaluate(string* query);
+  UniqueVectorPtr<string> evaluate(const string &query) override;
 };

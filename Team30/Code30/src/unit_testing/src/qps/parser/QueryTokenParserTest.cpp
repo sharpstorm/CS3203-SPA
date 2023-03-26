@@ -38,7 +38,7 @@ unique_ptr<PQLQuery> testPQLParsing(vector<PQLToken> testcase, vector<PQLQuerySy
     FAIL("Failed with unknown exception");
   }
 
-  REQUIRE(result->getVariableCount() == expectedVariables.size());
+  REQUIRE(result->getVarTable()->size() == expectedVariables.size());
   for (int i = 0; i < expectedVariables.size(); i++) {
     auto expectedVar = expectedVariables.at(i);
     auto var = result->getVariable(expectedVar.getName());
@@ -136,7 +136,7 @@ TEST_CASE("Test QPS Parser Follows Query") {
   });
   REQUIRE(query->getEvaluatables().size() == 1);
 
-  FollowsClause* fc = dynamic_cast<FollowsClause*>(query->getEvaluatables().at(0).get());
+  FollowsClause* fc = dynamic_cast<FollowsClause*>(query->getEvaluatables().at(0));
   REQUIRE(fc != nullptr);
 
   query = testPQLParsing(vector<PQLToken>{
@@ -161,7 +161,7 @@ TEST_CASE("Test QPS Parser Follows Query") {
   });
   REQUIRE(query->getEvaluatables().size() == 1);
 
-  fc = dynamic_cast<FollowsClause*>(query->getEvaluatables().at(0).get());
+  fc = dynamic_cast<FollowsClause*>(query->getEvaluatables().at(0));
   REQUIRE(fc != nullptr);
 }
 
@@ -186,7 +186,7 @@ TEST_CASE("Test QPS Parser Parent Query") {
   });
   REQUIRE(query->getEvaluatables().size() == 1);
 
-  ParentClause* fc = dynamic_cast<ParentClause*>(query->getEvaluatables().at(0).get());
+  ParentClause* fc = dynamic_cast<ParentClause*>(query->getEvaluatables().at(0));
   REQUIRE(fc != nullptr);
 
   query = testPQLParsing(vector<PQLToken>{
@@ -212,6 +212,6 @@ TEST_CASE("Test QPS Parser Parent Query") {
   });
   REQUIRE(query->getEvaluatables().size() == 1);
 
-  fc = dynamic_cast<ParentClause*>(query->getEvaluatables().at(0).get());
+  fc = dynamic_cast<ParentClause*>(query->getEvaluatables().at(0));
   REQUIRE(fc != nullptr);
 }

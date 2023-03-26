@@ -2,11 +2,12 @@
 
 #include <memory>
 #include <unordered_set>
-#include "qps/QPSFacade.h"
 #include "pkb/writers/PkbWriter.h"
 #include "qps/errors/QPSParserSyntaxError.h"
 #include "sp/SpDriver.h"
 #include "TestUtils.h"
+#include "pkb/queryHandlers/PkbQueryHandler.h"
+#include "qps/QueryDriver.h"
 
 using std::make_unique, std::make_shared, std::unordered_set, std::to_string;
 
@@ -16,7 +17,7 @@ TEST_CASE("Multiple Procedures End-to-End") {
   auto pkbQH = make_unique<PkbQueryHandler>(pkb.get());
 
   SpDriver spDriver;
-  unique_ptr<IQPS> qps = make_unique<QPSFacade>(pkbQH.get(), &spDriver);
+  unique_ptr<IQPS> qps = make_unique<QueryDriver>(pkbQH.get(), &spDriver);
   string simpleSrc =  "procedure Bumblebee {\n"
                       "read x; \n"
                       "call Megatron; \n"

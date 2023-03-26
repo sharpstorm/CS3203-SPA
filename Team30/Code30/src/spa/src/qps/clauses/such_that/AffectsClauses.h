@@ -46,6 +46,18 @@ constexpr UsesGetter<QueryExecutorAgent> usesQuerier =
       return result->secondArgVals;
     };
 
+constexpr CountGetter<QueryExecutorAgent> countQuerier =
+    [](const QueryExecutorAgent &agent) -> int {
+      return agent->getSymbolsOfType(EntityType::None).size();
+    };
+
+constexpr SymbolIdGetter<QueryExecutorAgent> symbolIdQuerier  =
+    [](const QueryExecutorAgent &agent,
+        const EntityValue &value) -> int {
+        return *agent->getIndexOfVariable(value).begin();
+    };
+
+
 
 typedef CFGAffectsQuerier<QueryExecutorAgent, typeChecker,
                           modifiesQuerier, usesQuerier> ConcreteAffectsQuerier;
@@ -88,7 +100,26 @@ constexpr AffectsInvoker affectsInvoker = [](const QueryExecutorAgent &agent,
 constexpr AffectsInvoker affectsTInvoker = [](const QueryExecutorAgent &agent,
                                               const StmtRef &leftArg,
                                               const StmtRef &rightArg){
+<<<<<<< HEAD
   return make_unique<QueryResult<StmtValue, StmtValue>>();
+=======
+  QueryResult<StmtValue, StmtValue> result{};
+
+  if (!leftArg.isType(StmtType::None) && !leftArg.isType(StmtType::Assign)) {
+    return result;
+  }
+  if (!rightArg.isType(StmtType::None) && !rightArg.isType(StmtType::Assign)) {
+    return result;
+  }
+
+  vector<CFG*> cfgs;
+  if (leftArg.isKnown()) {
+    cfgs = agent->queryCFGs(leftArg);
+  } else {
+    cfgs = agent->queryCFGs(rightArg);
+  }
+  return QueryResult<StmtValue, StmtValue>{};
+>>>>>>> origin/master
 };
 
 constexpr AffectsSameSynInvoker affectsSymmetricInvoker =
@@ -131,6 +162,13 @@ class AffectsClause: public AbstractAffectsClause<
   AffectsClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
   }
+
+  ComplexityScore getComplexityScore(const OverrideTable *table) override {
+    return computeComplexityScore<
+        COMPLEXITY_AFFECTS_CONST,
+        COMPLEXITY_AFFECTS,
+        COMPLEXITY_AFFECTS>(table);
+  }
 };
 
 class AffectsTClause: public AbstractAffectsClause<
@@ -139,5 +177,13 @@ class AffectsTClause: public AbstractAffectsClause<
  public:
   AffectsTClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
+  }
+
+  ComplexityScore getComplexityScore(const OverrideTable *table) override {
+    return computeComplexityScore<
+        COMPLEXITY_AFFECTS_T_CONST,
+        COMPLEXITY_AFFECTS_T + COMPLEXITY_QUERY_TRANSITIVE,
+        COMPLEXITY_AFFECTS_T + COMPLEXITY_QUERY_TRANSITIVE
+    >(table);
   }
 };

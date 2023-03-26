@@ -2,12 +2,12 @@
 
 #include <memory>
 #include <unordered_set>
-#include "qps/QPSFacade.h"
 #include "pkb/writers/PkbWriter.h"
 #include "qps/errors/QPSError.h"
 #include "../TestUtils.h"
 #include "sp/ast/entity/VariableASTNode.h"
 #include "sp/ast/AST.h"
+#include "qps/QueryDriver.h"
 
 using std::make_unique, std::unordered_set, std::to_string;
 
@@ -82,7 +82,7 @@ TEST_CASE("Test QP Query Basic Follows") {
   auto pkb = initPkb();
   auto pkbQH_ptr = make_unique<PkbQueryHandler>(pkb.get());
   SourceParserStub sp;
-  unique_ptr<IQPS> qps = make_unique<QPSFacade>(pkbQH_ptr.get(), &sp);
+  unique_ptr<IQPS> qps = make_unique<QueryDriver>(pkbQH_ptr.get(), &sp);
 
   launchQuery(qps.get(), "stmt s1, s2; Select s1 such that Follows(s1, s2)",
               unordered_set<string>{ "1", "2", "3", "4" });
@@ -129,7 +129,7 @@ TEST_CASE("Test QP Query Basic Follows*") {
   auto pkb = initPkb();
   auto pkbQH = make_unique<PkbQueryHandler>(pkb.get());
   SourceParserStub sp;
-  unique_ptr<IQPS> qps = make_unique<QPSFacade>(pkbQH.get(), &sp);
+  unique_ptr<IQPS> qps = make_unique<QueryDriver>(pkbQH.get(), &sp);
 
   launchQuery(qps.get(), "stmt s1, s2; Select s2 such that Follows*(1, s2)",
               unordered_set<string>{ "2", "3", "4", "5" });
@@ -141,7 +141,7 @@ TEST_CASE("Test QP Query Basic Parent") {
   auto pkb = initPkb();
   auto pkbQH = make_unique<PkbQueryHandler>(pkb.get());
   SourceParserStub sp;
-  unique_ptr<IQPS> qps = make_unique<QPSFacade>(pkbQH.get(), &sp);
+  unique_ptr<IQPS> qps = make_unique<QueryDriver>(pkbQH.get(), &sp);
 
   launchQuery(qps.get(), "stmt s1, s2; Select s2 such that Parent(s1, s2)",
               unordered_set<string>{ "7", "8", "9" });
@@ -157,7 +157,7 @@ TEST_CASE("Test QP Query Basic Parent*") {
   auto pkb = initPkb();
   auto pkbQH = make_unique<PkbQueryHandler>(pkb.get());
   SourceParserStub sp;
-  unique_ptr<IQPS> qps = make_unique<QPSFacade>(pkbQH.get(), &sp);
+  unique_ptr<IQPS> qps = make_unique<QueryDriver>(pkbQH.get(), &sp);
 
   launchQuery(qps.get(), "stmt s1, s2; Select s2 such that Parent*(6, s2)",
               unordered_set<string>{ "7", "8", "9" });
@@ -169,7 +169,7 @@ TEST_CASE("Test QP Query Basic Uses") {
   auto pkb = initPkb();
   auto pkbQH = make_unique<PkbQueryHandler>(pkb.get());
   SourceParserStub sp;
-  unique_ptr<IQPS> qps = make_unique<QPSFacade>(pkbQH.get(), &sp);
+  unique_ptr<IQPS> qps = make_unique<QueryDriver>(pkbQH.get(), &sp);
 
   launchQuery(qps.get(), "variable v; Select v such that Uses(4, \"x\")",
               unordered_set<string>({"x", "y", "z"}));
@@ -198,7 +198,7 @@ TEST_CASE("Test QP Query Basic Modifies") {
   auto pkb = initPkb();
   auto pkbQH = make_unique<PkbQueryHandler>(pkb.get());
   SourceParserStub sp;
-  unique_ptr<IQPS> qps = make_unique<QPSFacade>(pkbQH.get(), &sp);
+  unique_ptr<IQPS> qps = make_unique<QueryDriver>(pkbQH.get(), &sp);
 
   launchQuery(qps.get(), "assign a; variable v; Select v such that Modifies(1, \"x\")",
               unordered_set<string>({"x", "y", "z"}));

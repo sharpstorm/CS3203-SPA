@@ -47,7 +47,7 @@ void expectPQLSyntaxError(string testCase) {
 }
 
 void requireSynonyms(PQLQuery* result, vector<PQLQuerySynonym> expectedVariables) {
-  REQUIRE(result->getVariableCount() == expectedVariables.size());
+  REQUIRE(result->getVarTable()->size() == expectedVariables.size());
   for (int i = 0; i < expectedVariables.size(); i++) {
     auto expectedVar = expectedVariables.at(i);
     auto var = result->getVariable(expectedVar.getName());
@@ -73,7 +73,7 @@ void requireResultSynonyms(PQLQuery* result, unordered_map<PQLSynonymName, PQLSy
 template <class T>
 void requireClauseExists(PQLQuery* result) {
   REQUIRE(result->getEvaluatables().size() == 1);
-  T* casted = dynamic_cast<T*>(result->getEvaluatables().at(0).get());
+  T* casted = dynamic_cast<T*>(result->getEvaluatables().at(0));
   REQUIRE(casted != nullptr);
 }
 

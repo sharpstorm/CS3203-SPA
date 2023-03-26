@@ -1,6 +1,5 @@
 #include <utility>
 #include <memory>
-#include <unordered_set>
 
 #include "QueryBuilder.h"
 #include "qps/errors/QPSParserSemanticError.h"
@@ -49,27 +48,27 @@ PQLQuerySynonymProxy* QueryBuilder::accessSynonym(const PQLSynonymName &name) {
   return (variables->find(name));
 }
 
-void QueryBuilder::addSuchThat(unique_ptr<SuchThatClause> clause) {
+void QueryBuilder::addSuchThat(SuchThatClausePtr clause) {
   clauses.push_back(std::move(clause));
 }
 
-void QueryBuilder::addPattern(unique_ptr<PatternClause> clause) {
+void QueryBuilder::addPattern(PatternClausePtr clause) {
   clauses.push_back(std::move(clause));
 }
 
-void QueryBuilder::addWith(unique_ptr<WithClause> clause) {
+void QueryBuilder::addWith(WithClausePtr clause) {
   clauses.push_back(std::move(clause));
 }
 
-void QueryBuilder::addConstraint(ConstraintSPtr constraint) {
-  constraints.push_back(constraint);
+void QueryBuilder::addConstraint(ConstraintPtr constraint) {
+  constraints.push_back(std::move(constraint));
 }
 
-void QueryBuilder::addWithSelect(unique_ptr<WithSelectClause> clause) {
+void QueryBuilder::addWithSelect(WithSelectClausePtr clause) {
   clauses.push_back(std::move(clause));
 }
 
-unique_ptr<PQLQuery> QueryBuilder::build() {
+PQLQueryPtr QueryBuilder::build() {
   if (!errorMsg.empty()) {
     throw QPSParserSemanticError(errorMsg);
   }
@@ -88,8 +87,6 @@ unique_ptr<PQLQuery> QueryBuilder::build() {
     }
   }
 
-  unique_ptr<PQLQuery> created(
-      new PQLQuery(
-          std::move(variables), resultVariables, clauses, constraints));
-  return created;
+  return make_unique<PQLQuery>(std::move(variables), resultVariables,
+                               std::move(clauses), std::move(constraints));
 }

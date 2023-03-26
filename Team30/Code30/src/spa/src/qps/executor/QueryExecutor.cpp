@@ -1,8 +1,7 @@
 #include <memory>
-#include <utility>
 #include <vector>
 
-#include "qps/common/constraint/Constraint.h"
+#include "qps/constraints/Constraint.h"
 #include "QueryExecutor.h"
 #include "qps/common/IEvaluatable.h"
 
@@ -13,7 +12,7 @@ QueryExecutor::QueryExecutor(PkbQueryHandler* pkbQH):
 
 SynonymResultTable *QueryExecutor::executeQuery(PQLQuery* query) {
   OverrideTablePtr overrideTable = make_unique<OverrideTable>();
-  bool isBoolResult = query->getResultVariables()->empty();
+  bool isBoolResult = query->isBooleanResult();
 
   bool areConstraintsResolved =
       resolveConstraints(query, overrideTable.get());
@@ -21,7 +20,7 @@ SynonymResultTable *QueryExecutor::executeQuery(PQLQuery* query) {
     return new SynonymResultTable(isBoolResult, false);
   }
 
-  QueryPlanPtr plan = planner.getExecutionPlan(query);
+  QueryPlanPtr plan = planner.getExecutionPlan(query, overrideTable.get());
   // Query just have constraints
   if (plan->isEmpty()) {
     return new SynonymResultTable(isBoolResult, true);

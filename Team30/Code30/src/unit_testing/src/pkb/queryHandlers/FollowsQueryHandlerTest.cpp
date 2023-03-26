@@ -7,7 +7,6 @@
 #include "pkb/queryHandlers/FollowsQueryHandler.h"
 #include "pkb/storage/StructureMappingProvider.h"
 #include "StructureMappingProviderStub.h"
-#include "pkb/queryHandlers/FollowsTQueryHandler.h"
 
 using std::make_shared;
 using std::make_unique;
@@ -55,8 +54,8 @@ struct followsTest {
           structureProvider.get(),
           factory.get());
   FollowsQueryHandler handler = FollowsQueryHandler(invoker.get(), store.get());
-  FollowsTQueryHandler
-      handlerT = FollowsTQueryHandler(invoker.get(), storeT.get());
+  FollowsQueryHandler
+      handlerT = FollowsQueryHandler(invoker.get(), storeT.get());
 
   QueryResultPtr<StmtValue, StmtValue> query(
       StmtRef leftArg, StmtRef rightArg) {

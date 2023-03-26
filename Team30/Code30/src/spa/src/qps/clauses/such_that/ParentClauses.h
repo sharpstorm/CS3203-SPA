@@ -39,6 +39,13 @@ class ParentClause: public AbstractParentClause<parentInvoker,
   ParentClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
   }
+
+  ComplexityScore getComplexityScore(const OverrideTable *table) override {
+    if (isSameSynonym()) {
+      return COMPLEXITY_QUERY_CONSTANT;
+    }
+    return computeNoSymmetryComplexityScore(table);
+  }
 };
 
 class ParentTClause: public AbstractParentClause<parentTInvoker,
@@ -46,5 +53,16 @@ class ParentTClause: public AbstractParentClause<parentTInvoker,
  public:
   ParentTClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
+  }
+
+  ComplexityScore getComplexityScore(const OverrideTable *table) override {
+    if (isSameSynonym()) {
+      return COMPLEXITY_QUERY_CONSTANT;
+    }
+    return computeNoSymmetryComplexityScore<
+        COMPLEXITY_MODIFIER_NONE,
+        COMPLEXITY_QUERY_TRANSITIVE,
+        COMPLEXITY_QUERY_TRANSITIVE
+    >(table);
   }
 };

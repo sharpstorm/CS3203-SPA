@@ -40,6 +40,10 @@ class FollowsClause: public AbstractFollowsClause<
   FollowsClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
   }
+
+  ComplexityScore getComplexityScore(const OverrideTable *table) override {
+    return computeNoSymmetryComplexityScore(table);
+  }
 };
 
 class FollowsTClause: public AbstractFollowsClause<
@@ -48,5 +52,13 @@ class FollowsTClause: public AbstractFollowsClause<
  public:
   FollowsTClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
+  }
+
+  ComplexityScore getComplexityScore(const OverrideTable *table) override {
+    return computeNoSymmetryComplexityScore<
+        COMPLEXITY_MODIFIER_NONE,
+        COMPLEXITY_QUERY_TRANSITIVE,
+        COMPLEXITY_QUERY_TRANSITIVE
+    >(table);
   }
 };

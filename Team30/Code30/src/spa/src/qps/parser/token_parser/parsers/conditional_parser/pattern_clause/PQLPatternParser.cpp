@@ -53,12 +53,12 @@ PatternClausePtr PQLPatternParser::extractRemainingArgs(
 
   if (nextToken->isType(PQL_TOKEN_BRACKET_CLOSE)) {
     return dispatchTwoArg(synonym, std::move(firstArg),
-                            std::move(exprArg));
+                          std::move(exprArg));
   } else {
     parserState->expect(PQL_TOKEN_UNDERSCORE);
     parserState->expect(PQL_TOKEN_BRACKET_CLOSE);
     return dispatchThreeArg(synonym, std::move(firstArg),
-                              std::move(exprArg));
+                            std::move(exprArg));
   }
 }
 
@@ -80,9 +80,7 @@ PatternClausePtr PQLPatternParser::dispatchTwoArg(
   PQLQuerySynonymProxy synProxy = *synonym;
   if (synProxy->isType(PQL_SYN_TYPE_WHILE) && secondArg->isWildcard()) {
     return make_unique<WhilePatternClause>(synProxy, std::move(firstArg));
-  }
-
-  if (synProxy->isType(PQL_SYN_TYPE_ASSIGN)) {
+  } else if (synProxy->isType(PQL_SYN_TYPE_ASSIGN)) {
     return assignContextParser.parse(synProxy, std::move(firstArg),
                                      std::move(secondArg));
   }

@@ -3,12 +3,12 @@
 #include <stdlib.h>
 
 #include "TestWrapper.h"
-#include "qps/QPSFacade.h"
 #include "sp/SpFacade.h"
 #include "qps/errors/QPSLexerError.h"
 #include "qps/errors/QPSParserSyntaxError.h"
 #include "qps/errors/QPSParserSemanticError.h"
 #include "sp/errors/SPError.h"
+#include "qps/QueryDriver.h"
 
 using std::unique_ptr, std::vector, std::make_shared, std::make_unique;
 
@@ -30,7 +30,7 @@ TestWrapper::TestWrapper() {
   pkbQueryHandler = make_unique<PkbQueryHandler>(pkb.get());
 
   unique_ptr<SpFacade> spFacade = make_unique<SpFacade>();
-  qps = make_unique<QPSFacade>(pkbQueryHandler.get(), spFacade.get());
+  qps = make_unique<QueryDriver>(pkbQueryHandler.get(), spFacade.get());
   sp = std::move(spFacade);
 }
 
