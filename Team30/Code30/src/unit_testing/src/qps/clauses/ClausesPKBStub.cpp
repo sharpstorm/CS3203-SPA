@@ -10,7 +10,7 @@ class ClausesPKBStub : public StubPKB {
   ClausesPKBStub(PKB *in) : StubPKB(in) {
   }
 
-  unique_ptr<QueryResult<int, int>> queryFollows(StmtRef s1, StmtRef s2) const override {
+  QueryResultPtr<int, int> queryFollows(StmtRef s1, StmtRef s2) const override {
     auto result = make_unique<QueryResult<int, int>>();
     // Static result but s2 > s1 (Does not hold)
     if (s1.isKnown() && s2.isKnown() && s2.getValue() > s1.getValue()) {
@@ -21,7 +21,7 @@ class ClausesPKBStub : public StubPKB {
     return result;
   };
 
-  unique_ptr<QueryResult<int, int>> queryFollowsStar(StmtRef s1,
+  QueryResultPtr<int, int> queryFollowsStar(StmtRef s1,
                                          StmtRef s2) const override {
     if (s1.isKnown() && s2.isKnown() && s2.getValue() > s1.getValue()) {
       return make_unique<QueryResult<int, int>>();
@@ -30,7 +30,7 @@ class ClausesPKBStub : public StubPKB {
     return createFollowsTResult();
   };
 
-  unique_ptr<QueryResult<int, int>> queryParent(StmtRef s1, StmtRef s2) const override {
+  QueryResultPtr<int, int> queryParent(StmtRef s1, StmtRef s2) const override {
     auto result = make_unique<QueryResult<int, int>>();
     if (s1.isKnown() && s2.isKnown() && s2.getValue() > s1.getValue()) {
       return result;
@@ -40,7 +40,7 @@ class ClausesPKBStub : public StubPKB {
     return result;
   };
 
-  unique_ptr<QueryResult<int, int>> queryParentStar(StmtRef s1, StmtRef s2) const override {
+  QueryResultPtr<int, int> queryParentStar(StmtRef s1, StmtRef s2) const override {
     if (s1.isKnown() && s2.isKnown() && s2.getValue() > s1.getValue()) {
       return make_unique<QueryResult<int, int>>();
     }
@@ -48,7 +48,7 @@ class ClausesPKBStub : public StubPKB {
     return createParentTResult();
   };
 
-  unique_ptr<QueryResult<int, string>> queryUses(StmtRef sRef,
+  QueryResultPtr<int, string> queryUses(StmtRef sRef,
                                      EntityRef eRef) const override {
     auto result = make_unique<QueryResult<int, string>>();
     if (sRef.isKnown() && eRef.isKnown()) {
@@ -74,11 +74,11 @@ class ClausesPKBStub : public StubPKB {
     return result;
   };
 
-  unique_ptr<QueryResult<string, string>> queryUses(EntityRef, EntityRef) const override {
+  QueryResultPtr<string, string> queryUses(EntityRef, EntityRef) const override {
     return make_unique<QueryResult<string, string>>();
   };
 
-  unique_ptr<QueryResult<int, string>> queryModifies(StmtRef sRef,
+  QueryResultPtr<int, string> queryModifies(StmtRef sRef,
                                          EntityRef eRef) const override {
     auto result = make_unique<QueryResult<int, string>>();
     if (sRef.isKnown() && eRef.isKnown()) {
@@ -102,12 +102,12 @@ class ClausesPKBStub : public StubPKB {
     return result;
   }
 
-  unique_ptr<QueryResult<string, string>> queryModifies(EntityRef,
+  QueryResultPtr<string, string> queryModifies(EntityRef,
                                             EntityRef) const override {
     return make_unique<QueryResult<string, string>>();
   };
 
-  unique_ptr<QueryResult<string, string>> queryCalls(EntityRef e1,
+  QueryResultPtr<string, string> queryCalls(EntityRef e1,
                                          EntityRef e2) const override {
     auto result = make_unique<QueryResult<string, string>>();
 
@@ -133,7 +133,7 @@ class ClausesPKBStub : public StubPKB {
     return result;
   };
 
-  unique_ptr<QueryResult<string, string>> queryCallsStar(EntityRef e1,
+  QueryResultPtr<string, string> queryCallsStar(EntityRef e1,
                                              EntityRef e2) const override {
     auto result = make_unique<QueryResult<string,string>>();
 
@@ -170,7 +170,7 @@ class ClausesPKBStub : public StubPKB {
   };
 
   // Utility functions
-  static unique_ptr<QueryResult<int, int>> createFollowsTResult() {
+  static QueryResultPtr<int, int> createFollowsTResult() {
     auto result = make_unique<QueryResult<int, int>>();
     result->add(1, 2);
     result->add(1, 3);
@@ -181,7 +181,7 @@ class ClausesPKBStub : public StubPKB {
     return result;
   }
 
-  static unique_ptr<QueryResult<int, int>> createParentTResult() {
+  static QueryResultPtr<int, int> createParentTResult() {
     auto result = make_unique<QueryResult<int, int>>();
     result->add(6, 7);
     result->add(6, 8);

@@ -26,16 +26,16 @@ class AbstractPatternClause: public PatternClause {
   PQLQueryResult* evaluateOn(const QueryExecutorAgent &agent) {
     StmtRef leftStatement = {StatementType, 0};
     EntityRef leftVar = leftArg->toEntityRef();
-    leftStatement = agent.transformArg(synonym->getName(), leftStatement);
+    PQLSynonymName synName = synonym->getName();
+    leftStatement = agent.transformArg(synName, leftStatement);
     leftVar = agent.transformArg(leftArg->getName(), leftVar);
 
     if (!agent.isValid(leftStatement) || !agent.isValid(leftVar)) {
       return new PQLQueryResult();
     }
 
-//    QueryResult<StmtValue, EntityValue> result =
-    unique_ptr<QueryResult<StmtValue, EntityValue>> result =
+    QueryResultPtr<StmtValue, EntityValue> result =
         invoker(agent, leftStatement, leftVar);
-    return Clause::toQueryResult(synonym->getName(), leftArg.get(), result.get());
+    return Clause::toQueryResult(synName, leftArg.get(), result.get());
   }
 };

@@ -24,8 +24,7 @@ using AbstractAffectsClause = AbstractStmtStmtClause<
 constexpr ModifiesGetter<QueryExecutorAgent> modifiesQuerier =
     [](const QueryExecutorAgent &agent,
        StmtValue stmtNumber) -> EntityValue {
-//      QueryResult<StmtValue, EntityValue> result =
-      unique_ptr<QueryResult<StmtValue ,EntityValue>> result =
+      QueryResultPtr<StmtValue, EntityValue> result =
           agent->queryModifies(StmtRef{StmtType::None, stmtNumber},
                                EntityRef{EntityType::None, ""});
       if (result->isEmpty) {
@@ -41,8 +40,7 @@ constexpr ModifiesGetter<QueryExecutorAgent> modifiesQuerier =
 constexpr UsesGetter<QueryExecutorAgent> usesQuerier =
     [](const QueryExecutorAgent &agent,
        StmtValue stmtNumber) -> unordered_set<EntityValue> {
-//      QueryResult<StmtValue, EntityValue> result =
-      unique_ptr<QueryResult<StmtValue ,EntityValue>> result =
+      QueryResultPtr<StmtValue, EntityValue> result =
           agent->queryUses(StmtRef{StmtType::None, stmtNumber},
                            EntityRef{EntityType::None, ""});
       return result->secondArgVals;
@@ -55,7 +53,6 @@ typedef CFGAffectsQuerier<QueryExecutorAgent, typeChecker,
 constexpr AffectsInvoker affectsInvoker = [](const QueryExecutorAgent &agent,
                                              const StmtRef &leftArg,
                                              const StmtRef &rightArg){
-//  QueryResult<StmtValue, StmtValue> result{};
   auto result = make_unique<QueryResult<StmtValue, StmtValue>>();
   if (!leftArg.isType(StmtType::None) && !leftArg.isType(StmtType::Assign)) {
     return result;
@@ -77,7 +74,8 @@ constexpr AffectsInvoker affectsInvoker = [](const QueryExecutorAgent &agent,
 
   if (leftArg.isKnown() || rightArg.isKnown()) {
     ConcreteAffectsQuerier querier(cfgs[0], agent);
-    return make_unique<QueryResult<StmtValue, StmtValue>>(querier.queryArgs(leftArg, rightArg));
+    return make_unique<QueryResult<StmtValue, StmtValue>>(
+        querier.queryArgs(leftArg, rightArg));
   }
 
   for (auto it = cfgs.begin(); it != cfgs.end(); it++) {
@@ -90,7 +88,6 @@ constexpr AffectsInvoker affectsInvoker = [](const QueryExecutorAgent &agent,
 constexpr AffectsInvoker affectsTInvoker = [](const QueryExecutorAgent &agent,
                                               const StmtRef &leftArg,
                                               const StmtRef &rightArg){
-//  return QueryResult<StmtValue, StmtValue>{};
   return make_unique<QueryResult<StmtValue, StmtValue>>();
 };
 

@@ -11,8 +11,7 @@ using std::unique_ptr;
 template <
     typename LeftResultType, typename LeftArgType,
     typename RightResultType, typename RightArgType>
-//using QueryInvoker = QueryResult<LeftResultType, RightResultType>(*)(
-using QueryInvoker = unique_ptr<QueryResult<LeftResultType,RightResultType>>(*)(
+using QueryInvoker = QueryResultPtr<LeftResultType, RightResultType>(*)(
     const QueryExecutorAgent &agent,
     const LeftArgType &leftArg,
     const RightArgType &rightArg);

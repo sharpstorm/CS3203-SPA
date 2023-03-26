@@ -94,5 +94,5 @@ struct QueryResult {
   }
 };
 
-//template<typename T, typename U>
-//using QueryResultPtr = unique_ptr<QueryResult<T,U>>;
+template<typename T, typename U>
+using QueryResultPtr = unique_ptr<QueryResult<T, U>>;

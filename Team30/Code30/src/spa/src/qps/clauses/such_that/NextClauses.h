@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <utility>
 #include <vector>
 #include <unordered_set>
@@ -40,7 +41,6 @@ constexpr NextInvoker abstractNextInvoker = [](const QueryExecutorAgent &agent,
                                                const StmtRef &leftArg,
                                                const StmtRef &rightArg){
   vector<CFG*> cfgs;
-//  QueryResult<StmtValue, StmtValue> result{};
   auto result = make_unique<QueryResult<StmtValue, StmtValue>>();
 
   if (leftArg.isKnown()) {
@@ -55,13 +55,13 @@ constexpr NextInvoker abstractNextInvoker = [](const QueryExecutorAgent &agent,
 
   if (leftArg.isKnown() || rightArg.isKnown()) {
     T querier(cfgs[0], agent);
-    return make_unique<QueryResult<StmtValue, StmtValue>>(querier.queryArgs(leftArg, rightArg));
+    return make_unique<QueryResult<StmtValue, StmtValue>>(
+        querier.queryArgs(leftArg, rightArg));
   }
 
 
   for (auto it = cfgs.begin(); it != cfgs.end(); it++) {
     T querier(*it, agent);
-//    querier.queryArgs(leftArg, rightArg, &result);
     querier.queryArgs(leftArg, rightArg, result.get());
   }
   return result;

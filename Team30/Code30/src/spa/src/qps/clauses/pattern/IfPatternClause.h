@@ -12,7 +12,7 @@ constexpr PatternQueryInvoker ifPatternInvoker =
     [](const QueryExecutorAgent &agent,
        const StmtRef &stmtRef,
        const EntityRef &entityRef)
-        -> unique_ptr<QueryResult<StmtValue, EntityValue>> {
+        -> QueryResultPtr<StmtValue, EntityValue> {
       return agent->queryIfPattern(stmtRef, entityRef);
     };
 

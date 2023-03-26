@@ -63,7 +63,7 @@ class AssignPatternPKBStub : public StubPKB {
                                                        genVariable("y")).get())) {
   }
 
-  unique_ptr<QueryResult<int, string>> queryModifies(StmtRef, EntityRef entRef) const override {
+  QueryResultPtr<int, string> queryModifies(StmtRef, EntityRef entRef) const override {
     auto res = make_unique<QueryResult<int,string>>();
     if (!entRef.isKnown()) {
       res->add(1, "a");
@@ -84,7 +84,7 @@ class AssignPatternPKBStub : public StubPKB {
     return res;
   }
 
-  unique_ptr<QueryResult<int, PatternTrie*>> queryAssigns(StmtRef ref) const override {
+  QueryResultPtr<int, PatternTrie*> queryAssigns(StmtRef ref) const override {
     auto res = make_unique<QueryResult<int,PatternTrie*>>();
     switch (ref.getValue()) {
       case 1:

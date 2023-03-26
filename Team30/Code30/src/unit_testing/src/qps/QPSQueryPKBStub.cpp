@@ -8,23 +8,23 @@ class QPSQueryPKBStub : public StubPKB {
   QPSQueryPKBStub(PKB *in) : StubPKB(in) {
   }
 
-  unique_ptr<QueryResult<int, int>> queryFollows(StmtRef s1, StmtRef s2) const override {
+  QueryResultPtr<int, int> queryFollows(StmtRef s1, StmtRef s2) const override {
     auto result = make_unique<QueryResult<int, int>>();
     result->add(1, 2);
     return result;
   };
-  unique_ptr<QueryResult<int, int>> queryFollowsStar(StmtRef s1,
+  QueryResultPtr<int, int> queryFollowsStar(StmtRef s1,
                                          StmtRef s2) const override {
     auto result = make_unique<QueryResult<int, int>>();
     result->add(1, 2);
     return result;
   };
-  unique_ptr<QueryResult<int, int>> queryParent(StmtRef s1, StmtRef s2) const override {
+  QueryResultPtr<int, int> queryParent(StmtRef s1, StmtRef s2) const override {
     auto result = make_unique<QueryResult<int, int>>();
     result->add(1, 2);
     return result;
   };
-  unique_ptr<QueryResult<int, int>> queryParentStar(StmtRef s1, StmtRef s2) const override {
+  QueryResultPtr<int, int> queryParentStar(StmtRef s1, StmtRef s2) const override {
     auto result = make_unique<QueryResult<int, int>>();
     result->add(1, 2);
     return result;
