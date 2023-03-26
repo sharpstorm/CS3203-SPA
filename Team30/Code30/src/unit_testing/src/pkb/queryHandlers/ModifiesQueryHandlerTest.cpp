@@ -91,12 +91,12 @@ struct modifiesTest {
       store.get(),
       pStore.get());
 
-  unique_ptr<QueryResult<StmtValue, EntityValue>> query(
+  QueryResultPtr<StmtValue, EntityValue> query(
       StmtRef leftArg, EntityRef rightArg) {
     return handler.query(&leftArg, &rightArg);
   }
 
-  unique_ptr<QueryResult<EntityValue, EntityValue>> query(
+  QueryResultPtr<EntityValue, EntityValue> query(
       EntityRef leftArg, EntityRef rightArg) {
     return handler.query(&leftArg, &rightArg);
   }

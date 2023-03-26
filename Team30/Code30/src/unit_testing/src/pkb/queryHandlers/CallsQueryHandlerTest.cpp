@@ -43,12 +43,12 @@ struct callsTest {
   CallsQueryHandler handler = CallsQueryHandler(invoker.get(), store.get());
   CallsTQueryHandler handlerT = CallsTQueryHandler(invoker.get(), storeT.get());
 
-  unique_ptr<QueryResult<EntityValue, EntityValue>> query(EntityRef leftArg,
+  QueryResultPtr<EntityValue, EntityValue> query(EntityRef leftArg,
                                                           EntityRef rightArg) {
     return handler.query(&leftArg, &rightArg);
   }
 
-  unique_ptr<QueryResult<EntityValue, EntityValue>> queryT(EntityRef leftArg,
+  QueryResultPtr<EntityValue, EntityValue> queryT(EntityRef leftArg,
                                                            EntityRef rightArg) {
     return handlerT.query(&leftArg, &rightArg);
   }

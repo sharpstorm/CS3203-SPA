@@ -56,7 +56,7 @@ struct ifPatternTest {
     reverseTable->set("c", 3);
   }
 
-  unique_ptr<QueryResult<StmtValue, EntityValue>> query(StmtRef leftArg,
+  QueryResultPtr<StmtValue, EntityValue> query(StmtRef leftArg,
                                                         EntityRef rightArg) {
     return handler.query(&leftArg, &rightArg);
   }
