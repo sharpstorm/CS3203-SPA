@@ -115,6 +115,22 @@ constexpr AffectsInvoker affectsTInvoker = [](const QueryExecutorAgent &agent,
   } else {
     cfgs = agent->queryCFGs(rightArg);
   }
+
+  if (cfgs.empty()) {
+    return result;
+  }
+
+  if (leftArg.isKnown() || rightArg.isKnown()) {
+    ConcreteAffectsQuerier querier(cfgs[0], agent);
+    return make_unique<QueryResult<StmtValue, StmtValue>>(
+        querier.queryArgs(leftArg, rightArg));
+  }
+
+  for (auto it = cfgs.begin(); it != cfgs.end(); it++) {
+    ConcreteAffectsQuerier querier(*it, agent);
+    querier.queryArgs(leftArg, rightArg, result.get());
+  }
+
   return result;
 };
 
