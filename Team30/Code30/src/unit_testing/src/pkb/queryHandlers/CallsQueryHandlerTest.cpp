@@ -8,7 +8,6 @@
 #include "common/Types.h"
 #include "pkb/queryHandlers/CallsQueryHandler.h"
 #include "pkb/storage/StructureMappingProvider.h"
-#include "pkb/queryHandlers/CallsTQueryHandler.h"
 
 using std::make_shared;
 using std::make_unique;
@@ -43,7 +42,7 @@ struct callsTest {
           entityProvider.get(),
           factory.get());
   CallsQueryHandler handler = CallsQueryHandler(invoker.get(), store.get());
-  CallsTQueryHandler handlerT = CallsTQueryHandler(invoker.get(), storeT.get());
+  CallsQueryHandler handlerT = CallsQueryHandler(invoker.get(), storeT.get());
 
   QueryResult<EntityValue, EntityValue> query(
       EntityRef leftArg, EntityRef rightArg) {

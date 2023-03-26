@@ -5,10 +5,10 @@
 #include "AssignsQueryHandler.h"
 #include "CFGsQueryHandler.h"
 #include "CallsQueryHandler.h"
-#include "CallsTQueryHandler.h"
+#include "FollowsQueryHandler.h"
 #include "IfPatternQueryHandler.h"
+#include "ModifiesQueryHandler.h"
 #include "ParentQueryHandler.h"
-#include "ParentTQueryHandler.h"
 #include "UsesQueryHandler.h"
 #include "WhilePatternQueryHandler.h"
 
@@ -24,12 +24,12 @@ PkbQueryHandler::PkbQueryHandler(PKB *pkb)
           pkb->entityMappingProvider, pkb->entityPredicateFactory)),
       followsHandler(new FollowsQueryHandler(stmtStmtQueryInvoker.get(),
                                              pkb->followsStorage)),
-      followsTHandler(new FollowsTQueryHandler(stmtStmtQueryInvoker.get(),
-                                               pkb->followsTStorage)),
+      followsTHandler(new FollowsQueryHandler(stmtStmtQueryInvoker.get(),
+                                              pkb->followsTStorage)),
       parentHandler(new ParentQueryHandler(stmtStmtQueryInvoker.get(),
                                            pkb->parentStorage)),
-      parentTHandler(new ParentTQueryHandler(stmtStmtQueryInvoker.get(),
-                                             pkb->parentTStorage)),
+      parentTHandler(new ParentQueryHandler(stmtStmtQueryInvoker.get(),
+                                            pkb->parentTStorage)),
       modifiesHandler(new ModifiesQueryHandler(
           stmtEntQueryInvoker.get(), entEntQueryInvoker.get(),
           pkb->modifiesStorage, pkb->modifiesPStorage)),
@@ -39,7 +39,7 @@ PkbQueryHandler::PkbQueryHandler(PKB *pkb)
       callsHandler(
           new CallsQueryHandler(entEntQueryInvoker.get(), pkb->callsStorage)),
       callsTHandler(
-          new CallsTQueryHandler(entEntQueryInvoker.get(), pkb->callsTStorage)),
+          new CallsQueryHandler(entEntQueryInvoker.get(), pkb->callsTStorage)),
       ifPatternHandler(new IfPatternQueryHandler(stmtEntQueryInvoker.get(),
                                                  pkb->ifPatternStorage)),
       whilePatternHandler(new WhilePatternQueryHandler(
