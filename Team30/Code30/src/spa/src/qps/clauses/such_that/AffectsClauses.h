@@ -24,46 +24,43 @@ using AbstractAffectsClause = AbstractStmtStmtClause<
 
 constexpr ModifiesGetter<QueryExecutorAgent> modifiesQuerier =
     [](const QueryExecutorAgent &agent,
-       StmtValue stmtNumber) -> EntityValue {
+       StmtValue stmtNumber) -> EntityIdx {
       QueryResultPtr<StmtValue, EntityValue> result =
           agent->queryModifies(StmtRef{StmtType::None, stmtNumber},
                                EntityRef{EntityType::None, ""});
       if (result->isEmpty) {
-        return "";
+        return NO_ENT_INDEX;
       }
       for (auto it : result->secondArgVals) {
-        return it;
+        return agent->getIndexOfVariable(it);
       }
 
-      return "";
+      return NO_ENT_INDEX;
     };
 
 constexpr UsesGetter<QueryExecutorAgent> usesQuerier =
-    [](const QueryExecutorAgent &agent,
-       StmtValue stmtNumber) -> unordered_set<EntityValue> {
+    [](const QueryExecutorAgent &agent, StmtValue stmtNumber) -> EntityIdxSet {
       QueryResultPtr<StmtValue, EntityValue> result =
           agent->queryUses(StmtRef{StmtType::None, stmtNumber},
                            EntityRef{EntityType::None, ""});
-      return result->secondArgVals;
+      EntityIdxSet ret;
+      for (EntityValue v : result->secondArgVals) {
+        ret.insert(agent->getIndexOfVariable(v));
+      }
+      ret.erase(NO_ENT_INDEX);
+      return ret;
     };
 
 constexpr CountGetter<QueryExecutorAgent> countQuerier =
     [](const QueryExecutorAgent &agent) -> int {
-      return agent->getSymbolsOfType(EntityType::Variable).size();
-    };
-
-constexpr SymbolIdGetter<QueryExecutorAgent> symbolIdQuerier  =
-    [](const QueryExecutorAgent &agent,
-       const EntityValue &value) -> int {
-      return agent->getIndexOfVariable(value);
+      return agent->getSymbolsOfType(EntityType::Variable).size() + 1;
     };
 
 typedef CFGAffectsQuerier<QueryExecutorAgent, typeChecker,
                           modifiesQuerier, usesQuerier> ConcreteAffectsQuerier;
 
 typedef CFGAffectsTQuerier<QueryExecutorAgent, typeChecker,
-                           modifiesQuerier, usesQuerier,
-                           countQuerier, symbolIdQuerier>
+                           modifiesQuerier, usesQuerier, countQuerier>
     ConcreteAffectsTQuerier;
 
 template <class QuerierT>

@@ -1,7 +1,6 @@
 #pragma once
 
-#include <unordered_set>
-#include <unordered_map>
+#include <map>
 
 #include "ICFGClauseQuerier.h"
 #include "common/cfg/CFG.h"
@@ -10,10 +9,9 @@
 #include "qps/cfg/CFGQuerierTypes.h"
 #include "qps/cfg/cfg_querier/walkers/CFGStatefulWalker.h"
 
-using std::unordered_set, std::unordered_map;
+using std::map;
 
-typedef unordered_set<EntityValue> EntitySet;
-typedef unordered_map<EntityValue, int> EntitySymbolMap;
+typedef map<EntityIdx, int> EntitySymbolMap;
 
 template <
     class ClosureType,
@@ -49,7 +47,7 @@ class CFGAffectsQuerier: public ICFGClauseQuerier,
   struct BoolResultClosure {
     CFG* cfg;
     const ClosureType &closure;
-    EntityValue target;
+    EntityIdx target;
     StmtValue targetStmt;
     bool isValidPathFound;
   };
@@ -59,7 +57,7 @@ class CFGAffectsQuerier: public ICFGClauseQuerier,
     const ClosureType &closure;
     StmtTransitiveResult* result;
     StmtValue startingStmt;
-    EntityValue target;
+    EntityIdx target;
   };
 
   struct QueryToResultClosure {
@@ -106,8 +104,8 @@ queryBool(const StmtValue &arg0, const StmtValue &arg1) {
 
   CFGNode nodeFrom = cfg->toCFGNode(arg0);
 
-  EntityValue modifiedVar = modifiesGetter(closure, arg0);
-  unordered_set<EntityValue> targetVars = usesGetter(closure, arg1);
+  EntityIdx modifiedVar = modifiesGetter(closure, arg0);
+  EntityIdxSet targetVars = usesGetter(closure, arg1);
   if (targetVars.find(modifiedVar) == targetVars.end()) {
     return result;
   }
@@ -122,7 +120,7 @@ queryBool(const StmtValue &arg0, const StmtValue &arg1) {
         }
 
         if (CFGAffectsQuerier::isContainer<ClosureType,
-                        typePredicate>(state->closure, stmtNumber)) {
+                                           typePredicate>(state->closure, stmtNumber)) {
           return true;
         }
         return modifiesGetter(state->closure, stmtNumber) != state->target;
@@ -164,15 +162,15 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
   }
 
   CFGNode nodeTo = cfg->toCFGNode(arg1);
-  EntitySet usedVars = usesGetter(closure, arg1);
+  EntityIdxSet usedVars = usesGetter(closure, arg1);
   EntitySymbolMap symbolMap;
   if (usedVars.empty()) {
     return result;
   }
 
   int counter = 0;
-  for (EntityValue val : usedVars) {
-    symbolMap.emplace(val, counter);
+  for (EntityIdx idx : usedVars) {
+    symbolMap.emplace(idx, counter);
     counter++;
   }
 
@@ -183,20 +181,9 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
 
   constexpr StatefulWalkerSingleCallback<QueryToResultClosure>
       backwardWalkerCallback =
-      [](QueryToResultClosure *state, CFGNode nextNode) {
-        int stmtNumber = 0;
-        stmtNumber = state->cfg->fromCFGNode(nextNode);
-
-        if (!typePredicate(state->closure, StmtType::Assign, stmtNumber)) {
-          return;
-        }
-        state->result->add(stmtNumber, state->endingStmt);
-      };
-
-  constexpr StatefulWalkerStateTransformer<QueryToResultClosure>
-      backwardWalkerTransformer =
       [](QueryToResultClosure *state, CFGNode nextNode, BitField curState)
           -> BitField {
+        bool isAffected = false;
         int stmtNumber = state->cfg->fromCFGNode(nextNode);
 
         if (isContainer<ClosureType,
@@ -204,10 +191,17 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
           return curState;
         }
 
-        EntityValue modifiedVar = modifiesGetter(state->closure, stmtNumber);
+        EntityIdx modifiedVar = modifiesGetter(state->closure, stmtNumber);
         if (auto it = state->symbolMap.find(modifiedVar);
             it != state->symbolMap.end()) {
           curState.unset(it->second);
+          isAffected = typePredicate(state->closure,
+                                     StmtType::Assign,
+                                     stmtNumber);
+        }
+
+        if (isAffected) {
+          state->result->add(stmtNumber, state->endingStmt);
         }
 
         return curState;
@@ -219,8 +213,7 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
   statefulWalker.walkTo<QueryToResultClosure,
                         backwardWalkerCallback>(nodeTo,
                                                 initialState,
-                                                &state,
-                                                backwardWalkerTransformer);
+                                                &state);
   return result;
 }
 
@@ -253,15 +246,14 @@ queryForward(StmtTransitiveResult* resultOut,
     return;
   }
 
-  constexpr WalkerSingleCallback<QueryFromResultClosure>
-      forwardWalkerCallback =
+  constexpr WalkerSingleCallback<QueryFromResultClosure> forwardWalkerCallback =
       [](QueryFromResultClosure *state, CFGNode nextNode) -> bool {
         int stmtNumber = 0;
         stmtNumber = state->cfg->fromCFGNode(nextNode);
 
         if (typePredicate(state->closure, StmtType::Assign, stmtNumber)) {
-          unordered_set<EntityValue> usedVars = usesGetter(state->closure,
-                                                           stmtNumber);
+          EntityIdxSet usedVars = usesGetter(state->closure,
+                                             stmtNumber);
           if (usedVars.find(state->target) != usedVars.end()) {
             state->result->add(state->startingStmt, stmtNumber);
           }
@@ -274,7 +266,7 @@ queryForward(StmtTransitiveResult* resultOut,
         return modifiesGetter(state->closure, stmtNumber) != state->target;
       };
 
-  EntityValue modifiedVar = modifiesGetter(closure, stmtNumber);
+  EntityIdx modifiedVar = modifiesGetter(closure, stmtNumber);
   QueryFromResultClosure state{ cfg, closure, resultOut,
                                 stmtNumber, modifiedVar };
   walker.walkFrom<QueryFromResultClosure, forwardWalkerCallback>(start,

@@ -3,20 +3,17 @@
 CFGTestModifiesUsesProvider::CFGTestModifiesUsesProvider(
     vector<EntityValue> modifies,
     vector<unordered_set<EntityValue>> uses):
-    modifies(modifies), uses(uses) {}
+    modifies(modifies), uses(uses) {
+  fillSymbolTable();
+}
 
 CFGTestModifiesUsesProvider::CFGTestModifiesUsesProvider(
     vector<EntityValue> modifies,
     vector<unordered_set<EntityValue>> uses,
     unordered_map<StmtValue, StmtType> typeExclusions):
-    modifies(modifies), uses(uses), typeExclusions(typeExclusions) {}
-
-CFGTestModifiesUsesProvider::CFGTestModifiesUsesProvider(
-    vector<EntityValue> modifies,
-    vector<unordered_set<EntityValue>> uses,
-    int symbolCount, unordered_map<EntityValue, int> symbolTable,
-    unordered_map<StmtValue, StmtType> typeExclusions) :
-    modifies(modifies), uses(uses), symbolCount(symbolCount), symbolTable(symbolTable), typeExclusions(typeExclusions) {}
+    modifies(modifies), uses(uses), typeExclusions(typeExclusions) {
+  fillSymbolTable();
+}
 
 bool CFGTestModifiesUsesProvider::typePredicate(const CFGTestModifiesUsesProvider &state,
                                                 StmtType type,
@@ -28,30 +25,71 @@ bool CFGTestModifiesUsesProvider::typePredicate(const CFGTestModifiesUsesProvide
   return it->second == type;
 }
 
-EntityValue CFGTestModifiesUsesProvider::getModifies(const CFGTestModifiesUsesProvider &state,
-                                                     StmtValue value) {
+EntityIdx CFGTestModifiesUsesProvider::getModifies(const CFGTestModifiesUsesProvider &state,
+                                                   StmtValue value) {
   if (value < 1 || value > state.modifies.size()) {
-    return "";
+    return NO_ENT_INDEX;
   }
 
-  return state.modifies[value - 1];
+  auto entity = state.modifies[value - 1];
+  return getSymbolId(state, entity);
 }
 
-unordered_set<EntityValue> CFGTestModifiesUsesProvider::getUses(
+EntityIdxSet CFGTestModifiesUsesProvider::getUses(
     const CFGTestModifiesUsesProvider &state,
     StmtValue value) {
   if (value < 1 || value > state.uses.size()) {
     return {};
   }
 
-  return state.uses[value - 1];
+  auto entSet = state.uses[value - 1];
+  EntityIdxSet ret;
+  for (auto item : entSet) {
+    ret.insert(getSymbolId(state, item));
+  }
+  ret.erase(NO_ENT_INDEX);
+
+  return ret;
 }
 
 int CFGTestModifiesUsesProvider::getCount(const CFGTestModifiesUsesProvider &state) {
-  return state.symbolCount;
+  return state.symbolTable.size() + 1;
 }
 
-int CFGTestModifiesUsesProvider::getSymbolId(const CFGTestModifiesUsesProvider &state,
-                                             const EntityValue &value) {
+EntityIdx CFGTestModifiesUsesProvider::getSymbolId(const CFGTestModifiesUsesProvider &state,
+                                                   const EntityValue &value) {
+  if (value == NO_ENT) {
+    return NO_ENT_INDEX;
+  }
+  if (state.symbolTable.find(value) == state.symbolTable.end()) {
+    return NO_ENT_INDEX;
+  }
   return state.symbolTable.at(value);
+}
+
+void CFGTestModifiesUsesProvider::fillSymbolTable() {
+  int counter = 1;
+
+  for (auto x : modifies) {
+    if (x == NO_ENT) {
+      continue;
+    }
+
+    if (symbolTable.find(x) == symbolTable.end()) {
+      symbolTable.emplace(x, counter);
+      counter++;
+    }
+  }
+
+  for (auto x : uses) {
+    for (auto y : x) {
+      if (y == NO_ENT) {
+        continue;
+      }
+      if (symbolTable.find(y) == symbolTable.end()) {
+        symbolTable.emplace(y, counter);
+        counter++;
+      }
+    }
+  }
 }

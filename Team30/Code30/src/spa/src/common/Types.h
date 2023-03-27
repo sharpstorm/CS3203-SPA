@@ -23,6 +23,7 @@ typedef unordered_set<EntityIdx> EntityIdxSet;
 
 const StmtValue NO_STMT = 0;
 const char NO_ENT[] = "";
+const EntityIdx NO_ENT_INDEX = 0;
 
 template <typename Value, typename Type>
 class IRef {

@@ -439,7 +439,7 @@ TEST_CASE("With Clause Tests - Cat 2 (attrRef = static)") {
   pipeline.query("read r; Select BOOLEAN with r.varName = \"g\"", {"FALSE"});
   pipeline.query("assign a1;read r; Select r.varName with r.varName = \"x\" such that Modifies(r,_)", {"x"});
   pipeline.query("assign a1;read r; Select r.varName with r.stmt# = 10 such that Modifies(r,_)", {"x"});
-  
+
   pipeline.query("stmt s1, s2; Select s1 with s1.stmt# = s2.stmt#", {"1","2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"});
 
 }
@@ -588,8 +588,10 @@ TEST_CASE("End-to-End Affects Test") {
                   "5 7", "5 8", "5 9", "7 9", "9 8", "9 9", "11 9", "11 11"});
   pipeline.query("assign a1, a2; Select BOOLEAN such that Affects*(1,5)", {"TRUE"});
   pipeline.query("assign a1, a2; Select <a1, a2> such that Affects*(a1, a2)", {
-  "9 8", "1 5", "1 12", "5 8", "11 11", "9 9", "2 8",
-  "3 9", "2 9", "3 11", "5 7", "11 9", "5 9", "7 9"
+      "1 5", "1 7", "1 8", "1 9", "1 12",
+      "2 8", "2 9", "3 8", "3 9", "3 11",
+      "5 7", "5 8", "5 9", "7 8", "7 9",
+      "9 8", "9 9", "11 8", "11 9", "11 11"
   });
 }
 
