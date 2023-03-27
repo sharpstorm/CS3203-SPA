@@ -119,8 +119,8 @@ queryBool(const StmtValue &arg0, const StmtValue &arg1) {
           throw CFGHaltWalkerException();
         }
 
-        if (CFGAffectsQuerier::isContainer<ClosureType,
-                                           typePredicate>(state->closure, stmtNumber)) {
+        if (CFGAffectsQuerier::isContainer<ClosureType, typePredicate>(
+            state->closure, stmtNumber)) {
           return true;
         }
         return modifiesGetter(state->closure, stmtNumber) != state->target;
@@ -246,8 +246,8 @@ queryForward(StmtTransitiveResult* resultOut,
     return;
   }
 
-  constexpr WalkerSingleCallback<QueryFromResultClosure> forwardWalkerCallback =
-      [](QueryFromResultClosure *state, CFGNode nextNode) -> bool {
+  constexpr WalkerSingleCallback<QueryFromResultClosure> forwardWalkerCallback
+      = [](QueryFromResultClosure *state, CFGNode nextNode) -> bool {
         int stmtNumber = 0;
         stmtNumber = state->cfg->fromCFGNode(nextNode);
 
