@@ -29,27 +29,39 @@ def parseSource(args):
         if af[i] == ';' or af[i] == '{' or af[i] == '}':
             buffer = buffer.replace('\n', '')
             buffer = buffer.replace('\t', ' ')
-            result.append(buffer + af[i])
+            elseStripped = buffer.replace(' ', '')
+            if elseStripped == 'else':
+                result[-1] += ' ' + (buffer + af[i]).strip()
+            else:
+                result.append((buffer + af[i]).strip())
             buffer = ''
         else:
             buffer += af[i]
 
     counter = 1
-    for x in result:
+    level = 0
+    for x in result:    
         y = x.replace('{', '')
         y = y.replace(';', '')
         y = y.replace('}', '')
         y = y.replace(' ', '')
 
+        if x.endswith('}') or x.startswith('}'):
+            level -= 1
+
+        indent = ' '*(level * 2)
         if y.startswith('procedure'):
             print(f'    |  {x}')
         elif y == 'else':
-            print(f'    |  {x}')
+            print(f'    |  {indent}{x}')
         elif y == '':
-            print(f'    |  {x}')
+            print(f'    |  {indent}{x}')
         else:
-            print(f'{counter:3d} |  {x}')
+            print(f'{counter:3d} |  {indent}{x}')
             counter += 1
+        
+        if x.endswith('{'):
+            level += 1
 
 
 def main():
