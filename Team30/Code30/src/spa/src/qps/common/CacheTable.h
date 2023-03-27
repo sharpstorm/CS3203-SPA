@@ -14,4 +14,7 @@ class CacheTable {
  public:
   void addToFullTableAt(int idx, int value);
   void addToPartialTableAt(int idx, int value);
+  bool inFullTable(int idx, int value);
+  bool inPartialTable(int idx, int value);
+  bool valueInTable(vector<StmtValue> values, int value);
 };

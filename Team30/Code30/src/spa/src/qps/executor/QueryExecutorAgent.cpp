@@ -43,3 +43,17 @@ bool QueryExecutorAgent::isValid(const EntityRef &ref) const {
   return !ref.isKnown() ||
       pkbQueryHandler->isSymbolOfType(ref.getType(), ref.getValue());
 }
+void QueryExecutorAgent::addToNextTCache(QueryResult<StmtValue,
+                                                     StmtValue> *result) {
+  cacheAgent.addToNextTCache(result);
+}
+
+void QueryExecutorAgent::addToAffectsCache(QueryResult<StmtValue,
+                                                       StmtValue> *result) {
+  cacheAgent.addToAffectsCache(result);
+}
+
+void QueryExecutorAgent::addToAffectsTCache(QueryResult<StmtValue,
+                                                        StmtValue> *result) {
+  cacheAgent.addToAffectsTCache(result);
+}
