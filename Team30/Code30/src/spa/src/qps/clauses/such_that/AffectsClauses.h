@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <utility>
 #include <unordered_set>
 #include <utility>
 #include <vector>
@@ -20,35 +21,39 @@ using AbstractAffectsClause =
                            ClauseArgument::isStatement>;
 
 constexpr ModifiesGetter<QueryExecutorAgent> modifiesQuerier =
-    [](const QueryExecutorAgent &agent, StmtValue stmtNumber) -> EntityValue {
-  QueryResultPtr<StmtValue, EntityValue> result = agent->queryModifies(
-      StmtRef{StmtType::None, stmtNumber}, EntityRef{EntityType::None, ""});
-  if (result->isEmpty) {
-    return "";
-  }
-  for (auto it : result->secondArgVals) {
-    return it;
-  }
+    [](const QueryExecutorAgent &agent,
+       StmtValue stmtNumber) -> EntityValue {
+      QueryResultPtr<StmtValue, EntityValue> result =
+          agent->queryModifies(StmtRef{StmtType::None, stmtNumber},
+                               EntityRef{EntityType::None, ""});
+      if (result->isEmpty) {
+        return "";
+      }
+      for (auto it : result->secondArgVals) {
+        return it;
+      }
   return "";
 };
 
 constexpr UsesGetter<QueryExecutorAgent> usesQuerier =
     [](const QueryExecutorAgent &agent,
        StmtValue stmtNumber) -> unordered_set<EntityValue> {
-  QueryResultPtr<StmtValue, EntityValue> result = agent->queryUses(
-      StmtRef{StmtType::None, stmtNumber}, EntityRef{EntityType::None, ""});
-  return result->secondArgVals;
-};
+      QueryResultPtr<StmtValue, EntityValue> result =
+          agent->queryUses(StmtRef{StmtType::None, stmtNumber},
+                           EntityRef{EntityType::None, ""});
+      return result->secondArgVals;
+    };
 
 constexpr CountGetter<QueryExecutorAgent> countQuerier =
     [](const QueryExecutorAgent &agent) -> int {
   return agent->getSymbolsOfType(EntityType::None).size();
 };
 
-constexpr SymbolIdGetter<QueryExecutorAgent> symbolIdQuerier =
-    [](const QueryExecutorAgent &agent, const EntityValue &value) -> int {
-  return agent->getIndexOfVariable(value);
-};
+constexpr SymbolIdGetter<QueryExecutorAgent> symbolIdQuerier  =
+    [](const QueryExecutorAgent &agent,
+        const EntityValue &value) -> int {
+      return agent->getIndexOfVariable(value);
+    };
 
 typedef CFGAffectsQuerier<QueryExecutorAgent, typeChecker, modifiesQuerier,
                           usesQuerier>
@@ -56,7 +61,7 @@ typedef CFGAffectsQuerier<QueryExecutorAgent, typeChecker, modifiesQuerier,
 
 constexpr AffectsInvoker affectsInvoker = [](const QueryExecutorAgent &agent,
                                              const StmtRef &leftArg,
-                                             const StmtRef &rightArg) {
+                                             const StmtRef &rightArg){
   auto result = make_unique<QueryResult<StmtValue, StmtValue>>();
   if (!leftArg.isType(StmtType::None) && !leftArg.isType(StmtType::Assign)) {
     return result;
@@ -91,7 +96,7 @@ constexpr AffectsInvoker affectsInvoker = [](const QueryExecutorAgent &agent,
 
 constexpr AffectsInvoker affectsTInvoker = [](const QueryExecutorAgent &agent,
                                               const StmtRef &leftArg,
-                                              const StmtRef &rightArg) {
+                                              const StmtRef &rightArg){
   auto result = make_unique<QueryResult<StmtValue, StmtValue>>();
 
   if (!leftArg.isType(StmtType::None) && !leftArg.isType(StmtType::Assign)) {
