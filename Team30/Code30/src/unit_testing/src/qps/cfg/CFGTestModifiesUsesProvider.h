@@ -16,27 +16,24 @@ class CFGTestModifiesUsesProvider {
                               vector<unordered_set<EntityValue>> uses,
                               unordered_map<StmtValue, StmtType> typeExclusions);
 
-  CFGTestModifiesUsesProvider(vector<EntityValue> modifies,
-                              vector<unordered_set<EntityValue>> uses,
-                              int symbolCount, unordered_map<EntityValue, int> symbolTable,
-                              unordered_map<StmtValue, StmtType> typeExclusions);
-
-  static EntityValue getModifies(const CFGTestModifiesUsesProvider &state,
-                                          StmtValue value);
-  static unordered_set<EntityValue> getUses(const CFGTestModifiesUsesProvider &state,
-                                                     StmtValue value);
+  static EntityIdx getModifies(const CFGTestModifiesUsesProvider &state,
+                               StmtValue value);
+  static EntityIdxSet getUses(const CFGTestModifiesUsesProvider &state,
+                              StmtValue value);
 
   static int getCount(const CFGTestModifiesUsesProvider &state);
 
-  static int getSymbolId(const CFGTestModifiesUsesProvider &state, const EntityValue &value);
-
-  static bool typePredicate(const CFGTestModifiesUsesProvider &state, StmtType type,
+  static bool typePredicate(const CFGTestModifiesUsesProvider &state,
+                            StmtType type,
                             StmtValue value);
 
  private:
-  int symbolCount;
-  unordered_map<EntityValue, int> symbolTable;
+  unordered_map<EntityValue, EntityIdx> symbolTable;
   vector<EntityValue> modifies;
   vector<unordered_set<EntityValue>> uses;
   unordered_map<StmtValue, StmtType> typeExclusions;
+
+  void fillSymbolTable();
+  static int getSymbolId(const CFGTestModifiesUsesProvider &state,
+                         const EntityValue &value);
 };

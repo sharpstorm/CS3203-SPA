@@ -1,8 +1,5 @@
 #pragma once
 
-#include <unordered_set>
-#include <unordered_map>
-
 #include "ICFGClauseQuerier.h"
 #include "common/cfg/CFG.h"
 #include "qps/cfg/cfg_querier/walkers/CFGWalker.h"
@@ -11,26 +8,19 @@
 #include "qps/cfg/cfg_querier/walkers/CFGStatefulWalker.h"
 #include "qps/cfg/cfg_querier/CFGQuerier.h"
 
-using std::unordered_set, std::unordered_map;
-
-typedef unordered_set<EntityValue> EntitySet;
-typedef unordered_map<EntityValue, int> EntitySymbolMap;
-
 template <
     class ClosureType,
     StmtTypePredicate<ClosureType> typePredicate,
     ModifiesGetter<ClosureType> modifiesGetter,
     UsesGetter<ClosureType> usesGetter,
-    CountGetter<ClosureType> countGetter,
-    SymbolIdGetter<ClosureType> symbolIdGetter>
+    CountGetter<ClosureType> countGetter>
 class CFGAffectsTQuerier: public ICFGClauseQuerier,
                           public CFGQuerier<
                               CFGAffectsTQuerier<ClosureType,
                                                  typePredicate,
                                                  modifiesGetter,
                                                  usesGetter,
-                                                 countGetter,
-                                                 symbolIdGetter>> {
+                                                 countGetter>> {
  public:
   explicit CFGAffectsTQuerier(CFG* cfg, const ClosureType &closure);
 
@@ -44,17 +34,11 @@ class CFGAffectsTQuerier: public ICFGClauseQuerier,
                 const StmtType &type0,
                 const StmtType &type1) final;
 
-  template <class T, StmtTypePredicate<T> typeChecker>
-  static constexpr bool isContainer(const T &closure, const int &stmtNumber) {
-    return (typeChecker(closure, StmtType::While, stmtNumber)
-        || typeChecker(closure, StmtType::If, stmtNumber));
-  }
-
  private:
   struct BoolResultClosure {
     CFG* cfg;
     const ClosureType &closure;
-    EntityValue target;
+    EntityIdx target;
     StmtValue targetStmt;
     bool isValidPathFound;
   };
@@ -64,7 +48,7 @@ class CFGAffectsTQuerier: public ICFGClauseQuerier,
     const ClosureType &closure;
     StmtTransitiveResult* result;
     StmtValue startingStmt;
-    EntityValue target;
+    EntityIdx target;
   };
 
   struct QueryToResultClosure {
@@ -82,6 +66,17 @@ class CFGAffectsTQuerier: public ICFGClauseQuerier,
 
   void queryForward(StmtTransitiveResult* resultOut,
                     const StmtValue &start);
+
+  template <class T, StmtTypePredicate<T> typeChecker>
+  static constexpr bool isContainer(const T &closure, const int &stmtNumber) {
+    return (typeChecker(closure, StmtType::While, stmtNumber)
+        || typeChecker(closure, StmtType::If, stmtNumber));
+  }
+
+  template <class T, StmtTypePredicate<T> typeChecker>
+  static constexpr bool isAssign(const T &closure, const int &stmtNumber) {
+    return typeChecker(closure, StmtType::Assign, stmtNumber);
+  }
 };
 
 template <
@@ -89,11 +84,10 @@ template <
     StmtTypePredicate<ClosureType> typePredicate,
     ModifiesGetter<ClosureType> modifiesGetter,
     UsesGetter<ClosureType> usesGetter,
-    CountGetter<ClosureType> countGetter,
-    SymbolIdGetter<ClosureType> symbolIdGetter>
+    CountGetter<ClosureType> countGetter>
 CFGAffectsTQuerier<ClosureType, typePredicate,
                    modifiesGetter, usesGetter,
-                   countGetter, symbolIdGetter>::CFGAffectsTQuerier(
+                   countGetter>::CFGAffectsTQuerier(
     CFG *cfg, const ClosureType &closure): cfg(cfg), walker(cfg),
                                            closure(closure) {}
 
@@ -102,12 +96,11 @@ template <
     StmtTypePredicate<ClosureType> typePredicate,
     ModifiesGetter<ClosureType> modifiesGetter,
     UsesGetter<ClosureType> usesGetter,
-    CountGetter<ClosureType> countGetter,
-    SymbolIdGetter<ClosureType> symbolIdGetter>
+    CountGetter<ClosureType> countGetter>
 StmtTransitiveResult CFGAffectsTQuerier<ClosureType, typePredicate,
                                         modifiesGetter, usesGetter,
-                                        countGetter, symbolIdGetter>::
-queryBool(const StmtValue &arg0, const StmtValue &arg1) {
+                                        countGetter>::queryBool(
+    const StmtValue &arg0, const StmtValue &arg1) {
   StmtTransitiveResult result;
   CFGNode nodeFrom = cfg->toCFGNode(arg0);
 
@@ -116,44 +109,49 @@ queryBool(const StmtValue &arg0, const StmtValue &arg1) {
     return result;
   }
 
-  EntityValue modifiedVar = modifiesGetter(closure, arg0);
+  EntityIdx modifiedVar = modifiesGetter(closure, arg0);
   BoolResultClosure state{ cfg, closure, modifiedVar, arg1, false };
 
   int countSymbols = countGetter(closure);
   BitField initialState(countSymbols);
-  initialState.set(symbolIdGetter(closure, modifiedVar));
+  initialState.set(modifiedVar);
 
   constexpr StatefulWalkerSingleCallback<BoolResultClosure>
       forwardWalkerCallback =
-      [](BoolResultClosure *state, CFGNode nextNode) {
+      [](BoolResultClosure *state, CFGNode nextNode, BitField curState)
+          -> BitField {
         int stmtNumber = state->cfg->fromCFGNode(nextNode);
+        if (isContainer<ClosureType, typePredicate>(state->closure,
+                                                    stmtNumber)) {
+          return curState;
+        }
+
+        EntityIdx modifiedVar = modifiesGetter(state->closure, stmtNumber);
+        if (modifiedVar == NO_ENT_INDEX) {
+          // Only case with no modifications are print & containers
+          return curState;
+        }
+
+        bool isUsed = false;
+        EntityIdxSet usedVars = usesGetter(state->closure, stmtNumber);
+        for (EntityIdx varId : usedVars) {
+          if (curState.isSet(varId)) {
+            isUsed = true;
+            break;
+          }
+        }
+
+        curState.unset(modifiedVar);
+        if (!isUsed) {
+          return curState;
+        }
+        curState.set(modifiedVar);
+
         if (stmtNumber == state->targetStmt) {
           state->isValidPathFound = true;
           throw CFGHaltWalkerException();
         }
-      };
 
-  constexpr StatefulWalkerStateTransformer<BoolResultClosure>
-      forwardWalkerTransformer =
-      [](BoolResultClosure *state, CFGNode nextNode, BitField curState)
-          -> BitField {
-        int stmtNumber = state->cfg->fromCFGNode(nextNode);
-
-        if (isContainer<ClosureType,
-                        typePredicate>(state->closure, stmtNumber)) {
-          return curState;
-        }
-
-        EntitySet usedVar = usesGetter(state->closure, stmtNumber);
-        for (EntityValue var : usedVar) {
-          int id = symbolIdGetter(state->closure, var);
-          if (curState.isSet(id)) {
-            EntityValue modifiedVar =
-                modifiesGetter(state->closure, stmtNumber);
-            curState.set(symbolIdGetter(state->closure, modifiedVar));
-            break;
-          }
-        }
         return curState;
       };
 
@@ -161,8 +159,7 @@ queryBool(const StmtValue &arg0, const StmtValue &arg1) {
   statefulWalker.walkFrom<BoolResultClosure,
                           forwardWalkerCallback>(nodeFrom,
                                                  initialState,
-                                                 &state,
-                                                 forwardWalkerTransformer);
+                                                 &state);
   if (state.isValidPathFound) {
     result.add(arg0, arg1);
   }
@@ -174,13 +171,11 @@ template <
     StmtTypePredicate<ClosureType> typePredicate,
     ModifiesGetter<ClosureType> modifiesGetter,
     UsesGetter<ClosureType> usesGetter,
-    CountGetter<ClosureType> countGetter,
-    SymbolIdGetter<ClosureType> symbolIdGetter
->
+    CountGetter<ClosureType> countGetter>
 StmtTransitiveResult CFGAffectsTQuerier<ClosureType, typePredicate,
                                         modifiesGetter, usesGetter,
-                                        countGetter, symbolIdGetter>::
-queryFrom(const StmtValue &arg0, const StmtType &type1) {
+                                        countGetter>::queryFrom(
+    const StmtValue &arg0, const StmtType &type1) {
   StmtTransitiveResult result;
 
   CFGNode nodeFrom = cfg->toCFGNode(arg0);
@@ -193,11 +188,10 @@ template <
     StmtTypePredicate<ClosureType> typePredicate,
     ModifiesGetter<ClosureType> modifiesGetter,
     UsesGetter<ClosureType> usesGetter,
-    CountGetter<ClosureType> countGetter,
-    SymbolIdGetter<ClosureType> symbolIdGetter>
+    CountGetter<ClosureType> countGetter>
 StmtTransitiveResult CFGAffectsTQuerier<ClosureType, typePredicate,
                                         modifiesGetter, usesGetter,
-                                        countGetter, symbolIdGetter>::
+                                        countGetter>::
 queryTo(const StmtType &type0, const StmtValue &arg1) {
   StmtTransitiveResult result;
   if (!validateArg(arg1)) {
@@ -205,47 +199,39 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
   }
 
   CFGNode nodeTo = cfg->toCFGNode(arg1);
-  EntitySet usedVars = usesGetter(closure, arg1);
+  EntityIdxSet usedVars = usesGetter(closure, arg1);
 
   int countSymbols = countGetter(closure);
   BitField initialState(countSymbols);
-  for (EntityValue x : usedVars) {
-    initialState.set(symbolIdGetter(closure, x));
+  for (EntityIdx x : usedVars) {
+    initialState.set(x);
   }
 
   constexpr StatefulWalkerSingleCallback<QueryToResultClosure>
       backwardWalkerCallback =
-      [](QueryToResultClosure *state, CFGNode nextNode) {
-        int stmtNumber = 0;
-        stmtNumber = state->cfg->fromCFGNode(nextNode);
-
-        if (!typePredicate(state->closure, StmtType::Assign, stmtNumber)) {
-          return;
-        }
-
-
-        state->result->add(stmtNumber, state->endingStmt);
-      };
-
-  constexpr StatefulWalkerStateTransformer<QueryToResultClosure>
-      backwardWalkerTransformer =
       [](QueryToResultClosure *state, CFGNode nextNode, BitField curState)
           -> BitField {
         int stmtNumber = state->cfg->fromCFGNode(nextNode);
+        bool isAffected = false;
 
         if (isContainer<ClosureType,
                         typePredicate>(state->closure, stmtNumber)) {
           return curState;
         }
 
-        EntityValue modifiedVar = modifiesGetter(state->closure, stmtNumber);
-        int symId = symbolIdGetter(state->closure, modifiedVar);
-        if (curState.isSet(symId)) {
-          curState.unset(symId);
-          EntityValueSet usedVars = usesGetter(state->closure, stmtNumber);
-          for (EntityValue var : usedVars) {
-            curState.set(symbolIdGetter(state->closure, var));
+        EntityIdx modifiedEntId = modifiesGetter(state->closure, stmtNumber);
+        if (curState.isSet(modifiedEntId)) {
+          curState.unset(modifiedEntId);
+          EntityIdxSet usedVars = usesGetter(state->closure, stmtNumber);
+          for (EntityIdx var : usedVars) {
+            curState.set(var);
           }
+          isAffected = isAssign<ClosureType, typePredicate>(state->closure,
+                                                            stmtNumber);
+        }
+
+        if (isAffected) {
+          state->result->add(stmtNumber, state->endingStmt);
         }
 
         return curState;
@@ -257,8 +243,7 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
   statefulWalker.walkTo<QueryToResultClosure,
                         backwardWalkerCallback>(nodeTo,
                                                 initialState,
-                                                &state,
-                                                backwardWalkerTransformer);
+                                                &state);
   return result;
 }
 
@@ -267,14 +252,12 @@ template <
     StmtTypePredicate<ClosureType> typePredicate,
     ModifiesGetter<ClosureType> modifiesGetter,
     UsesGetter<ClosureType> usesGetter,
-    CountGetter<ClosureType> countGetter,
-    SymbolIdGetter<ClosureType> symbolIdGetter>
+    CountGetter<ClosureType> countGetter>
 void CFGAffectsTQuerier<ClosureType, typePredicate,
                         modifiesGetter, usesGetter,
-                        countGetter, symbolIdGetter>::
-queryAll(StmtTransitiveResult* resultOut,
-         const StmtType &type0,
-         const StmtType &type1) {
+                        countGetter>::queryAll(StmtTransitiveResult* resultOut,
+                                               const StmtType &type0,
+                                               const StmtType &type1) {
   for (int start = 0; start < cfg->getNodeCount(); start++) {
     queryForward(resultOut, start);
   }
@@ -285,58 +268,56 @@ template <
     StmtTypePredicate<ClosureType> typePredicate,
     ModifiesGetter<ClosureType> modifiesGetter,
     UsesGetter<ClosureType> usesGetter,
-    CountGetter<ClosureType> countGetter,
-    SymbolIdGetter<ClosureType> symbolIdGetter>
-
+    CountGetter<ClosureType> countGetter>
 void CFGAffectsTQuerier<ClosureType, typePredicate,
                         modifiesGetter, usesGetter,
-                        countGetter, symbolIdGetter>::
-queryForward(StmtTransitiveResult* resultOut,
-             const StmtValue &start) {
+                        countGetter>::queryForward(
+    StmtTransitiveResult* resultOut, const StmtValue &start) {
   int stmtNumber = cfg->fromCFGNode(start);
 
   if (!validateArg(stmtNumber)) {
     return;
   }
 
-  EntityValue modifiedVar = modifiesGetter(closure, stmtNumber);
+  EntityIdx modifiedVar = modifiesGetter(closure, stmtNumber);
   QueryFromResultClosure state{ cfg, closure, resultOut,
                                 stmtNumber, modifiedVar };
 
   int countSymbols = countGetter(closure);
   BitField initialState(countSymbols);
-  initialState.set(symbolIdGetter(closure, modifiedVar));
+  initialState.set(modifiedVar);
 
   constexpr StatefulWalkerSingleCallback<QueryFromResultClosure>
       forwardWalkerCallback =
-      [](QueryFromResultClosure *state, CFGNode nextNode)  {
-        int stmtNumber = state->cfg->fromCFGNode(nextNode);
-        state->result->add(state->startingStmt, stmtNumber);
-      };
-
-
-  constexpr StatefulWalkerStateTransformer<QueryFromResultClosure>
-      forwardWalkerTransformer =
       [](QueryFromResultClosure *state, CFGNode nextNode, BitField curState)
           -> BitField {
         int stmtNumber = state->cfg->fromCFGNode(nextNode);
-
         if (isContainer<ClosureType,
                         typePredicate>(state->closure, stmtNumber)) {
           return curState;
         }
 
-        EntitySet usedVar = usesGetter(state->closure, stmtNumber);
-        for (EntityValue var : usedVar) {
-          int id = symbolIdGetter(state->closure, var);
-          if (curState.isSet(id)) {
-            EntityValue modifiedVar =
-                modifiesGetter(state->closure, stmtNumber);
-            curState.set(symbolIdGetter(state->closure, modifiedVar));
+        EntityIdx modifiedVar = modifiesGetter(state->closure, stmtNumber);
+        if (modifiedVar == NO_ENT_INDEX) {
+          // Only case with no modifications are print & containers
+          return curState;
+        }
+
+        bool isUsed = false;
+        EntityIdxSet usedVars = usesGetter(state->closure, stmtNumber);
+        for (EntityIdx varId : usedVars) {
+          if (curState.isSet(varId)) {
+            isUsed = true;
             break;
           }
         }
 
+        curState.unset(modifiedVar);
+        if (!isUsed) {
+          return curState;
+        }
+        curState.set(modifiedVar);
+        state->result->add(state->startingStmt, stmtNumber);
         return curState;
       };
 
@@ -344,8 +325,7 @@ queryForward(StmtTransitiveResult* resultOut,
   statefulWalker.walkFrom<QueryFromResultClosure,
                           forwardWalkerCallback>(start,
                                                  initialState,
-                                                 &state,
-                                                 forwardWalkerTransformer);
+                                                 &state);
 }
 
 template <
@@ -353,12 +333,10 @@ template <
     StmtTypePredicate<ClosureType> typePredicate,
     ModifiesGetter<ClosureType> modifiesGetter,
     UsesGetter<ClosureType> usesGetter,
-    CountGetter<ClosureType> countGetter,
-    SymbolIdGetter<ClosureType> symbolIdGetter>
+    CountGetter<ClosureType> countGetter>
 bool CFGAffectsTQuerier<ClosureType, typePredicate,
                         modifiesGetter, usesGetter,
-                        countGetter, symbolIdGetter>::
-validateArg(const StmtValue &arg) {
+                        countGetter>::validateArg(const StmtValue &arg) {
   return cfg->containsStatement(arg)
       && typePredicate(closure, StmtType::Assign, arg);
 }
