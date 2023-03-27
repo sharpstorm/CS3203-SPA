@@ -27,7 +27,7 @@ class QueryExecutorAgent {
   void addToAffectsCache(QueryResult<StmtValue, StmtValue>* result);
   void addToAffectsTCache(QueryResult<StmtValue, StmtValue>* result);
 
-  bool isInNextTCache();
-  bool isInAffectsCache();
-  bool isInAffectsTCache();
+  bool inNextTCache();
+  bool inAffectsCache();
+  bool inAffectsTCache();
 };
