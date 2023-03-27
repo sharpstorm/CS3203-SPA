@@ -49,15 +49,15 @@ def parseSource(args):
         if x.endswith('}') or x.startswith('}'):
             level -= 1
 
-        indent = ' '*(level * 2)
+        indent = '.'*(level * 2)
         if y.startswith('procedure'):
-            print(f'    |  {x}')
+            print(f'    | {x}')
         elif y == 'else':
-            print(f'    |  {indent}{x}')
+            print(f'    | {indent} {x}')
         elif y == '':
-            print(f'    |  {indent}{x}')
+            print(f'    | {indent} {x}')
         else:
-            print(f'{counter:3d} |  {indent}{x}')
+            print(f'{counter:3d} | {indent} {x}')
             counter += 1
         
         if x.endswith('{'):
