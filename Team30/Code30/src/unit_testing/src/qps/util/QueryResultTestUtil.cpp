@@ -29,7 +29,7 @@ class TestQueryResultBuilder {
     }
 
     for (int i = 0; i < toInsert.size(); i++) {
-      result->putTableRow(move(toInsert.at(i)));
+      result->putTableRow(std::move(toInsert.at(i)));
     }
 
     return result;
