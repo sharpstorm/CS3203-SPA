@@ -12,6 +12,6 @@ class CacheTable {
   vector<vector<StmtValue>> partialTable;
 
  public:
-  void addToFullTable(const vector<StmtValue>& tableEntry);
-  void addToPartialTable(const vector<StmtValue>& tableEntry);
+  void addToFullTableAt(int idx, int value);
+  void addToPartialTableAt(int idx, int value);
 };

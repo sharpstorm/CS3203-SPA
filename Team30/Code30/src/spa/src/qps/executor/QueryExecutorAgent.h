@@ -20,6 +20,9 @@ class QueryExecutorAgent {
   OverrideTable* overrideTable;
   CacheAgent cacheAgent;
 
+  void addToNextTCache(QueryResult<StmtValue, StmtValue>* result);
+  void addToAffectsCache(QueryResult<StmtValue, StmtValue>* result);
+  void addToAffectsTCache(QueryResult<StmtValue, StmtValue>* result);
   static bool isValidRef(StmtRef stmtRef, PkbQueryHandler* handler);
   static bool isValidRef(EntityRef entRef, PkbQueryHandler* handler);
 };

@@ -12,7 +12,7 @@ class CacheAgent {
   CacheTable affectsTCache;
 
  public:
-  void addToNextTCache(unordered_set<StmtValue> entries);
-  void addToAffectsCache(unordered_set<StmtValue> entries);
-  void addToAffectsTCache(unordered_set<StmtValue> entries);
+  void addToNextTCache(QueryResult<StmtValue, StmtValue>* entries);
+  void addToAffectsCache(QueryResult<StmtValue, StmtValue>* entries);
+  void addToAffectsTCache(QueryResult<StmtValue, StmtValue>* entries);
 };
