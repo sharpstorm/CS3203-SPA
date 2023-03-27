@@ -19,7 +19,7 @@ procedure permOne {
     } else { 
 		y = x + z;
 	}
-	x = x + z;
+	x = y + z;
 }
 
 procedure permTwo {
@@ -67,7 +67,7 @@ procedure permThree {
     } else { 
 		y = x + z;
 	}
-	x = x + z;
+	x = y + z;
 }
 
 procedure permFour {
@@ -115,7 +115,7 @@ procedure permFive {
     } else { 
 		y = x + z;
 	}
-	x = x + z;
+	x = y + z;
 }
 
 procedure permSix {
@@ -163,7 +163,7 @@ procedure permSeven {
     } else { 
 		y = x + z;
 	}
-	x = x + z;
+	x = y + z;
 }
 
 procedure permEight {
@@ -211,7 +211,7 @@ procedure permNine {
     } else { 
 		y = x + z;
 	}
-	x = x + z;
+	x = y + z;
 }
 
 procedure permTen {
@@ -259,7 +259,7 @@ procedure permEleven {
     } else { 
 		y = x + z;
 	}
-	x = x + z;
+	x = y + z;
 }
 
 procedure permTwelve {
@@ -307,7 +307,7 @@ procedure permThirteen {
     } else { 
 		y = x + z;
 	}
-	x = x + z;
+	x = y + z;
 }
 
 procedure permFourteen {
@@ -355,7 +355,7 @@ procedure permFifteen {
     } else { 
 		y = x + z;
 	}
-	x = x + z;
+	x = y + z;
 }
 
 procedure permSixteen {
@@ -403,7 +403,7 @@ procedure permSeventeen {
     } else { 
 		y = x + z;
 	}
-	x = x + z;
+	x = y + z;
 }
 
 procedure permEighteen {
@@ -451,7 +451,7 @@ procedure permNinteen {
     } else { 
 		y = x + z;
 	}
-	x = x + z;
+	x = y + z;
 }
 
 procedure permTwenty {
@@ -499,7 +499,7 @@ procedure permTwentyone {
     } else { 
 		y = x + z;
 	}
-	x = x + z;
+	x = y + z;
 }
 
 procedure permTwentytwo {
@@ -547,7 +547,7 @@ procedure permTwentythree {
     } else { 
 		y = x + z;
 	}
-	x = x + z;
+	x = y + z;
 }
 
 procedure permTwentyFour {
@@ -595,7 +595,7 @@ procedure permTwentyfive {
     } else { 
 		y = x + z;
 	}
-	x = x + z;
+	x = y + z;
 }
 
 procedure permTwentysix {
@@ -643,7 +643,7 @@ procedure permTwentyseven {
     } else { 
 		y = x + z;
 	}
-	x = x + z;
+	x = y + z;
 }
 
 procedure permTwentyeight {
@@ -691,7 +691,7 @@ procedure permTwentynine {
     } else { 
 		y = x + z;
 	}
-	x = x + z;
+	x = y + z;
 }
 
 procedure permThirty {
@@ -739,7 +739,7 @@ procedure permThirtyone {
     } else { 
 		y = x + z;
 	}
-	x = x + z;
+	x = y + z;
 }
 
 procedure permThirtytwo {
