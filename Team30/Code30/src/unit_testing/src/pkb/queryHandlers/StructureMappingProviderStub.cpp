@@ -2,7 +2,7 @@
 
 #include "pkb/PkbTypes.h"
 
-StructureMappingProviderStub::StructureMappingProviderStub() {};
+StructureMappingProviderStub::StructureMappingProviderStub(){};
 
 StmtType StructureMappingProviderStub::getStatementType(int stmt) const {
   return stmtNumToType.get(stmt);
@@ -16,25 +16,15 @@ unordered_set<int> StructureMappingProviderStub::getValuesOfType(
   return stmtTypeToNum.get(stmtType);
 }
 
-unordered_set<int> StructureMappingProviderStub::getProcedureLines(
-    string procedure) const {
-  return procedureToStmtNum.get(procedure);
-}
-
 string StructureMappingProviderStub::getProcedureForLine(int stmt) const {
   return stmtNumToProcedure.get(stmt);
 }
 
-string StructureMappingProviderStub::getCalledProcedure(int stmt) const {
+string StructureMappingProviderStub::getCalledDeclaration(int stmt) const {
   return stmtNumToCalledProcedure.get(stmt);
 }
 
-unordered_set<int> StructureMappingProviderStub::getCallStmtsOfProcedure(
-    string procedureName) const {
-  return CalledProcedureToStmtNum.get(procedureName);
-}
-
-bool StructureMappingProviderStub::isValueOfType(
-    StmtType type, StmtValue num) const {
+bool StructureMappingProviderStub::isValueOfType(StmtType type,
+                                                 StmtValue num) const {
   return stmtNumToType.get(num) == type;
 }

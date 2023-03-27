@@ -11,15 +11,11 @@ PKB::~PKB() {
   delete (constantTable);
   delete (constantRevTable);
   delete (constantValues);
-  delete (procedureStorage);
-  delete (procedureTable);
-  delete (procedureRevTable);
-  delete (statementStorage);
+  delete (procedureStmtTable);
   delete (stmtTable);
   delete (stmtRevTable);
-  delete (callStmtStorage);
-  delete (callStmtTable);
-  delete (callStmtRevTable);
+  delete (callDeclarationTable);
+  delete (procAndCallsStorage);
 
   delete (structureProvider);
   delete (entityMappingProvider);

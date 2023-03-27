@@ -4,6 +4,7 @@
 #include <unordered_set>
 #include <utility>
 
+#include "ProcedureAndCallsStorage.h"
 #include "StorageTypes.h"
 #include "common/Types.h"
 #include "interfaces/IEntityMappingProvider.h"
@@ -14,7 +15,7 @@ using std::unordered_set;
 class EntityMappingProvider : public IEntityMappingProvider {
  public:
   explicit EntityMappingProvider(VariableStorage *, ConstantStorage *,
-                                 ProcedureStorage *);
+                                 ProcedureAndCallsStorage *);
   unordered_set<string> getValuesOfType(EntityType) const override;
   string getVariableByIndex(int) const override;
   string getConstantByIndex(int) const override;
@@ -25,5 +26,5 @@ class EntityMappingProvider : public IEntityMappingProvider {
  private:
   VariableStorage *variableStorage;
   ConstantStorage *constantStorage;
-  ProcedureStorage *procedureStorage;
+  ProcedureAndCallsStorage *procedureStorage;
 };

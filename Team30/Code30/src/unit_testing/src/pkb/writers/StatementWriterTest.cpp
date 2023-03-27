@@ -14,7 +14,9 @@ using std::unordered_set;
 TEST_CASE("StatementWriter addStatement") {
   auto table = make_shared<StmtTable>();
   auto reverseTable = make_shared<StmtRevTable>();
-  auto store = make_unique<StatementStorage>(table.get(), reverseTable.get());
+  auto stmtValues = make_shared<StmtValueSet>();
+  auto store = make_unique<StatementStorage>(table.get(), reverseTable.get(),
+                                             stmtValues.get());
   auto writer = StatementWriter(store.get());
 
   writer.addStatement(1, StmtType::Assign);

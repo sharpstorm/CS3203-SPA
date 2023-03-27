@@ -47,5 +47,5 @@ bool DesignEntitiesQueryHandler::isSymbolOfType(EntityType entityType,
 }
 
 string DesignEntitiesQueryHandler::getCalledDeclaration(int callStmt) const {
-  return structureMappingProvider->getCalledProcedure(callStmt);
+  return structureMappingProvider->getCalledDeclaration(callStmt);
 }
