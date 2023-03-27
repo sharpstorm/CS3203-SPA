@@ -618,3 +618,12 @@ TEST_CASE("With Override Test") {
   pipeline.expectSyntaxError("stmt s; Select s with s = 2");
   pipeline.expectSemanticError("stmt s; Select s.value");
 }
+
+TEST_CASE("AffectsT Test") {
+  auto pipeline = TestPipelineProvider();
+
+  pipeline.query("Select BOOLEAN such that Affects(1, 9)",
+                 { "FALSE" });
+  pipeline.query("Select BOOLEAN such that Affects*(1, 9)",
+                 { "TRUE" });
+}
