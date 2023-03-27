@@ -43,7 +43,7 @@ jobs:
         shell: bash
         working-directory: ./Team30
         run: |
-          python3 Tests30/auto-autotester.py ./Code30/build/src/autotester/autotester.exe ./Tests30/tests-working/
+          python3 Tests30/auto-autotester.py ./Code30/build/src/autotester/${BUILD_TYPE}/autotester.exe ./Tests30/tests-working/
 
   build-darwin:
     runs-on: macos-latest
