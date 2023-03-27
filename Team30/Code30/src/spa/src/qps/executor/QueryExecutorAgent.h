@@ -2,6 +2,8 @@
 
 #include "pkb/queryHandlers/PkbQueryHandler.h"
 #include "qps/common/constraint/OverrideTable.h"
+#include "qps/common/CacheTable.h"
+#include "CacheAgent.h"
 
 class QueryExecutorAgent {
  public:
@@ -16,6 +18,7 @@ class QueryExecutorAgent {
  private:
   PkbQueryHandler* pkbQueryHandler;
   OverrideTable* overrideTable;
+  CacheAgent cacheAgent;
 
   static bool isValidRef(StmtRef stmtRef, PkbQueryHandler* handler);
   static bool isValidRef(EntityRef entRef, PkbQueryHandler* handler);
