@@ -37,9 +37,13 @@ jobs:
         shell: bash
         working-directory: ./Team30/Code30/build
         run: |
-          cmake --build . --target unit_testing --config ${BUILD_TYPE} -j 4
-          cmake --build . --target integration_testing --config ${BUILD_TYPE} -j 4
           cmake --build . --target autotester --config ${BUILD_TYPE} -j 4
+
+      - name: Test Auto Autotester
+        shell: bash
+        working-directory: ./Team30
+        run: |
+          python3 Tests30/auto-autotester.py ./Code30/build/src/autotester/autotester.exe ./Tests30/tests-working/
 
   build-darwin:
     runs-on: macos-latest
@@ -63,9 +67,12 @@ jobs:
       - name: Compile SPA
         working-directory: ./Team30/Code30/build
         run: |
-          cmake --build . --target unit_testing --config ${BUILD_TYPE} -j 4
-          cmake --build . --target integration_testing --config ${BUILD_TYPE} -j 4
           cmake --build . --target autotester --config ${BUILD_TYPE} -j 4
+
+      - name: Test Auto Autotester
+        working-directory: ./Team30
+        run: |
+          python3 Tests30/auto-autotester.py ./Code30/build/src/autotester/autotester ./Tests30/tests-working/
 
   build-linux:
     runs-on: ubuntu-latest
@@ -108,8 +115,6 @@ jobs:
       - name: Compile SPA
         working-directory: ./Team30/Code30/build
         run: |
-          cmake --build . --target unit_testing --config Release -j 4
-          cmake --build . --target integration_testing --config Release -j 4
           cmake --build . --target autotester --config Release -j 4
 
       - name: Save Build Cache
@@ -118,12 +123,7 @@ jobs:
           key: master-scheduled-build-cache
           path: ./Team30/Code30/build/build-cache
 
-      - name: Test Unit Testing
-        working-directory: ./Team30/Code30/build
+      - name: Test Auto Autotester
+        working-directory: ./Team30
         run: |
-          ./src/unit_testing/unit_testing -r console -d yes --order lex
-
-      - name: Test Integration Testing
-        working-directory: ./Team30/Code30/build
-        run: |
-          ./src/integration_testing/integration_testing -r console -d yes --order lex
+          python3 Tests30/auto-autotester.py ./Code30/build/src/autotester/autotester ./Tests30/tests-working/
