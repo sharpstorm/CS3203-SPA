@@ -1518,3 +1518,1523 @@ stmt s;
 Select s such that Affects(304, s)
 304
 5000
+305 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(1, s)
+
+5000
+306 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(2, s)
+
+5000
+307 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(3, s)
+
+5000
+308 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(4, s)
+
+5000
+309 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(5, s)
+5,7,9,10,11,12
+5000
+310 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(6, s)
+
+5000
+311 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(7, s)
+5,7,9,10,11,12
+5000
+312 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(8, s)
+
+5000
+313 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(9, s)
+5,7,9,10,11,12
+5000
+314 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(10, s)
+5,7,9,10,11,12
+5000
+315 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(11, s)
+5,7,9,10,11,12
+5000
+316 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(12, s)
+
+5000
+317 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(13, s)
+
+5000
+318 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(14, s)
+
+5000
+319 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(15, s)
+
+5000
+320 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(16, s)
+
+5000
+321 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(17, s)
+17,19,21,22,23
+5000
+322 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(18, s)
+
+5000
+323 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(19, s)
+17,19,21,22,23
+5000
+324 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(20, s)
+
+5000
+325 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(21, s)
+17,19,21,22,23
+5000
+326 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(22, s)
+17,19,21,22,23
+5000
+327 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(23, s)
+17,19,21,22,23
+5000
+328 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(24, s)
+
+5000
+329 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(25, s)
+
+5000
+330 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(26, s)
+
+5000
+331 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(27, s)
+
+5000
+332 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(28, s)
+30
+5000
+333 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(29, s)
+
+5000
+334 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(30, s)
+30
+5000
+335 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(31, s)
+
+5000
+336 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(32, s)
+28,30,32,34
+5000
+337 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(33, s)
+28,30,32,33,34
+5000
+338 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(34, s)
+
+5000
+339 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(35, s)
+
+5000
+340 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(36, s)
+
+5000
+341 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(37, s)
+
+5000
+342 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(38, s)
+
+5000
+343 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(39, s)
+41
+5000
+344 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(40, s)
+
+5000
+345 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(41, s)
+41
+5000
+346 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(42, s)
+
+5000
+347 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(43, s)
+39,41,43
+5000
+348 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(44, s)
+39,41,43,44
+5000
+349 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(45, s)
+
+5000
+350 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(46, s)
+
+5000
+351 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(47, s)
+
+5000
+352 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(48, s)
+
+5000
+353 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(49, s)
+49,51,53,54,55
+5000
+354 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(50, s)
+
+5000
+355 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(51, s)
+49,51,53,54,55
+5000
+356 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(52, s)
+
+5000
+357 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(53, s)
+49,51,53,54,55
+5000
+358 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(54, s)
+49,51,53,54,55
+5000
+359 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(55, s)
+
+5000
+360 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(56, s)
+
+5000
+361 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(57, s)
+
+5000
+362 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(58, s)
+
+5000
+363 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(59, s)
+
+5000
+364 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(60, s)
+60,62,64,65
+5000
+365 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(61, s)
+
+5000
+366 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(62, s)
+60,62,64,65
+5000
+367 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(63, s)
+
+5000
+368 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(64, s)
+60,62,64,65
+5000
+369 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(65, s)
+60,62,64,65
+5000
+370 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(66, s)
+
+5000
+371 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(67, s)
+
+5000
+372 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(68, s)
+
+5000
+373 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(69, s)
+
+5000
+374 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(70, s)
+72
+5000
+375 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(71, s)
+
+5000
+376 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(72, s)
+72
+5000
+377 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(73, s)
+
+5000
+378 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(74, s)
+70,72,74,75
+5000
+379 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(75, s)
+
+5000
+380 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(76, s)
+
+5000
+381 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(77, s)
+
+5000
+382 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(78, s)
+
+5000
+383 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(79, s)
+
+5000
+384 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(80, s)
+82
+5000
+385 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(81, s)
+
+5000
+386 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(82, s)
+82
+5000
+387 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(83, s)
+
+5000
+388 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(84, s)
+80,82,84
+5000
+389 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(85, s)
+
+5000
+390 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(86, s)
+
+5000
+391 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(87, s)
+
+5000
+392 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(88, s)
+
+5000
+393 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(89, s)
+89,92,93,94,95
+5000
+394 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(90, s)
+
+5000
+395 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(91, s)
+
+5000
+396 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(92, s)
+89,92,93,94,95
+5000
+397 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(93, s)
+89,92,93,94,95
+5000
+398 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(94, s)
+89,92,93,94,95
+5000
+399 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(95, s)
+
+5000
+400 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(96, s)
+
+5000
+401 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(97, s)
+
+5000
+402 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(98, s)
+
+5000
+403 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(99, s)
+
+5000
+404 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(100, s)
+100,103,104,105
+5000
+405 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(101, s)
+
+5000
+406 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(102, s)
+
+5000
+407 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(103, s)
+100,103,104,105
+5000
+408 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(104, s)
+100,103,104,105
+5000
+409 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(105, s)
+100,103,104,105
+5000
+410 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(106, s)
+
+5000
+411 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(107, s)
+
+5000
+412 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(108, s)
+
+5000
+413 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(109, s)
+
+5000
+414 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(110, s)
+
+5000
+415 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(111, s)
+
+5000
+416 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(112, s)
+
+5000
+417 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(113, s)
+110,113,115
+5000
+418 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(114, s)
+110,113,114,115
+5000
+419 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(115, s)
+
+5000
+420 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(116, s)
+
+5000
+421 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(117, s)
+
+5000
+422 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(118, s)
+
+5000
+423 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(119, s)
+
+5000
+424 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(120, s)
+
+5000
+425 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(121, s)
+
+5000
+426 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(122, s)
+
+5000
+427 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(123, s)
+120,123
+5000
+428 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(124, s)
+120,123,124
+5000
+429 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(125, s)
+
+5000
+430 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(126, s)
+
+5000
+431 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(127, s)
+
+5000
+432 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(128, s)
+
+5000
+433 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(129, s)
+129,132,133,134,135
+5000
+434 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(130, s)
+
+5000
+435 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(131, s)
+
+5000
+436 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(132, s)
+129,132,133,134,135
+5000
+437 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(133, s)
+129,132,133,134,135
+5000
+438 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(134, s)
+129,132,133,134,135
+5000
+439 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(135, s)
+
+5000
+440 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(136, s)
+
+5000
+441 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(137, s)
+
+5000
+442 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(138, s)
+
+5000
+443 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(139, s)
+
+5000
+444 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(140, s)
+140,143,144,145
+5000
+445 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(141, s)
+
+5000
+446 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(142, s)
+
+5000
+447 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(143, s)
+140,143,144,145
+5000
+448 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(144, s)
+140,143,144,145
+5000
+449 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(145, s)
+140,143,144,145
+5000
+450 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(146, s)
+
+5000
+451 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(147, s)
+
+5000
+452 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(148, s)
+
+5000
+453 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(149, s)
+
+5000
+454 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(150, s)
+
+5000
+455 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(151, s)
+
+5000
+456 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(152, s)
+
+5000
+457 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(153, s)
+150,153,155
+5000
+458 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(154, s)
+150,153,154,155
+5000
+459 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(155, s)
+
+5000
+460 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(156, s)
+
+5000
+461 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(157, s)
+
+5000
+462 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(158, s)
+
+5000
+463 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(159, s)
+
+5000
+464 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(160, s)
+
+5000
+465 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(161, s)
+
+5000
+466 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(162, s)
+
+5000
+467 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(163, s)
+160,163
+5000
+468 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(164, s)
+160,163,164
+5000
+469 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(165, s)
+
+5000
+470 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(166, s)
+
+5000
+471 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(167, s)
+
+5000
+472 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(168, s)
+
+5000
+473 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(169, s)
+
+5000
+474 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(170, s)
+170,172,173,174
+5000
+475 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(171, s)
+
+5000
+476 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(172, s)
+172,173,174
+5000
+477 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(173, s)
+172,173,174
+5000
+478 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(174, s)
+
+5000
+479 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(175, s)
+
+5000
+480 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(176, s)
+
+5000
+481 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(177, s)
+
+5000
+482 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(178, s)
+
+5000
+483 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(179, s)
+
+5000
+484 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(180, s)
+180,182,183
+5000
+485 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(181, s)
+
+5000
+486 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(182, s)
+182,183
+5000
+487 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(183, s)
+182,183
+5000
+488 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(184, s)
+
+5000
+489 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(185, s)
+
+5000
+490 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(186, s)
+
+5000
+491 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(187, s)
+
+5000
+492 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(188, s)
+
+5000
+493 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(189, s)
+189
+5000
+494 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(190, s)
+
+5000
+495 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(191, s)
+191,192
+5000
+496 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(192, s)
+
+5000
+497 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(193, s)
+
+5000
+498 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(194, s)
+
+5000
+499 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(195, s)
+
+5000
+500 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(196, s)
+
+5000
+501 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(197, s)
+
+5000
+502 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(198, s)
+198
+5000
+503 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(199, s)
+
+5000
+504 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(200, s)
+200
+5000
+505 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(201, s)
+
+5000
+506 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(202, s)
+
+5000
+507 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(203, s)
+
+5000
+508 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(204, s)
+
+5000
+509 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(205, s)
+
+5000
+510 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(206, s)
+206,208,209,210
+5000
+511 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(207, s)
+
+5000
+512 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(208, s)
+208,209,210
+5000
+513 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(209, s)
+208,209,210
+5000
+514 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(210, s)
+
+5000
+515 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(211, s)
+
+5000
+516 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(212, s)
+
+5000
+517 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(213, s)
+
+5000
+518 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(214, s)
+
+5000
+519 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(215, s)
+
+5000
+520 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(216, s)
+216,218,219
+5000
+521 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(217, s)
+
+5000
+522 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(218, s)
+218,219
+5000
+523 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(219, s)
+218,219
+5000
+524 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(220, s)
+
+5000
+525 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(221, s)
+
+5000
+526 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(222, s)
+
+5000
+527 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(223, s)
+
+5000
+528 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(224, s)
+
+5000
+529 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(225, s)
+225
+5000
+530 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(226, s)
+
+5000
+531 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(227, s)
+227,228
+5000
+532 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(228, s)
+
+5000
+533 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(229, s)
+
+5000
+534 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(230, s)
+
+5000
+535 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(231, s)
+
+5000
+536 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(232, s)
+
+5000
+537 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(233, s)
+
+5000
+538 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(234, s)
+234
+5000
+539 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(235, s)
+
+5000
+540 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(236, s)
+236
+5000
+541 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(237, s)
+
+5000
+542 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(238, s)
+
+5000
+543 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(239, s)
+
+5000
+544 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(240, s)
+
+5000
+545 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(241, s)
+
+5000
+546 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(242, s)
+
+5000
+547 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(243, s)
+243,244,245,246
+5000
+548 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(244, s)
+243,244,245,246
+5000
+549 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(245, s)
+243,244,245,246
+5000
+550 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(246, s)
+
+5000
+551 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(247, s)
+
+5000
+552 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(248, s)
+
+5000
+553 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(249, s)
+
+5000
+554 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(250, s)
+
+5000
+555 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(251, s)
+
+5000
+556 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(252, s)
+
+5000
+557 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(253, s)
+253,254,255
+5000
+558 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(254, s)
+253,254,255
+5000
+559 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(255, s)
+253,254,255
+5000
+560 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(256, s)
+
+5000
+561 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(257, s)
+
+5000
+562 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(258, s)
+
+5000
+563 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(259, s)
+
+5000
+564 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(260, s)
+
+5000
+565 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(261, s)
+
+5000
+566 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(262, s)
+262,264
+5000
+567 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(263, s)
+262,263,264
+5000
+568 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(264, s)
+
+5000
+569 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(265, s)
+
+5000
+570 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(266, s)
+
+5000
+571 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(267, s)
+
+5000
+572 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(268, s)
+
+5000
+573 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(269, s)
+
+5000
+574 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(270, s)
+
+5000
+575 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(271, s)
+271
+5000
+576 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(272, s)
+271,272
+5000
+577 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(273, s)
+
+5000
+578 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(274, s)
+
+5000
+579 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(275, s)
+
+5000
+580 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(276, s)
+
+5000
+581 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(277, s)
+
+5000
+582 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(278, s)
+
+5000
+583 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(279, s)
+279,280,281
+5000
+584 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(280, s)
+279,280,281
+5000
+585 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(281, s)
+
+5000
+586 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(282, s)
+
+5000
+587 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(283, s)
+
+5000
+588 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(284, s)
+
+5000
+589 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(285, s)
+
+5000
+590 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(286, s)
+
+5000
+591 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(287, s)
+
+5000
+592 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(288, s)
+288,289
+5000
+593 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(289, s)
+288,289
+5000
+594 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(290, s)
+
+5000
+595 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(291, s)
+
+5000
+596 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(292, s)
+
+5000
+597 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(293, s)
+
+5000
+598 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(294, s)
+
+5000
+599 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(295, s)
+
+5000
+600 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(296, s)
+296,297
+5000
+601 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(297, s)
+
+5000
+602 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(298, s)
+
+5000
+603 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(299, s)
+
+5000
+604 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(300, s)
+
+5000
+605 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(301, s)
+
+5000
+606 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(302, s)
+
+5000
+607 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(303, s)
+
+5000
+608 - Select Statements Affects* (Integer, Statement) Statements (Integer) (Statement)
+stmt s;
+Select s such that Affects*(304, s)
+304
+5000
