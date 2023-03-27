@@ -13,8 +13,7 @@ class StatementStorage {
  public:
   StatementStorage(IBaseTable<StmtValue, StmtType>* table,
                    IBaseSetTable<StmtType, StmtValue>* reverseTable,
-                   StmtValueSet* values)
-      : table(table), reverseTable(reverseTable), allStatements(values){};
+                   StmtValueSet* values);
 
   void insert(StmtValue stmt, StmtType type);
 
