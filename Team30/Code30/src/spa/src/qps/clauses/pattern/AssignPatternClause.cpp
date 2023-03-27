@@ -26,20 +26,21 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
     return new PQLQueryResult();
   }
 
-  QueryResult<StmtValue, EntityValue> modifiesResult = agent
+//  QueryResult<StmtValue, EntityValue> modifiesResult = agent
+    auto modifiesResult = agent
       ->queryModifies(leftStatement, rightVariable);
 
   if (rightArgument->isWildcard()) {
     return Clause::toQueryResult(synonym->getName(), leftArg.get(),
-                                 modifiesResult);
+                                 modifiesResult.get());
   }
 
-  QueryResult<StmtValue, EntityValue> assignResult;
-  checkTries(agent, &assignResult, &modifiesResult);
+  auto assignResult = make_unique<QueryResult<StmtValue, EntityValue>>();
+  checkTries(agent, assignResult.get(), modifiesResult.get());
 
   // Convert to PQLQueryResult
   return Clause::toQueryResult(synonym->getName(), leftArg.get(),
-                               assignResult);
+                               assignResult.get());
 }
 
 void AssignPatternClause::checkTries(
@@ -49,10 +50,10 @@ void AssignPatternClause::checkTries(
   for (auto& it : modifiesResult->pairVals) {
     // Call assigns to retrieve the node
     StmtRef assignRef = {StmtType::Assign, it.first};
-    QueryResult<StmtValue, PatternTrie*> nodes =
+    auto nodes =
         agent->queryAssigns(assignRef);
 
-    PatternTrie* lineRoot = *nodes.secondArgVals.begin();
+    PatternTrie* lineRoot = *nodes->secondArgVals.begin();
     bool isPartialMatch = rightArgument->allowsPartial()
         && lineRoot->isMatchPartial(rightArgument->getSequence());
     bool isFullMatch = !rightArgument->allowsPartial()

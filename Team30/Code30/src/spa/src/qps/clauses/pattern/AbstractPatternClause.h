@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <string>
 #include <utility>
 
@@ -8,6 +9,8 @@
 #include "qps/clauses/PatternClause.h"
 #include "qps/clauses/InvokerTypes.h"
 #include "qps/clauses/ClauseScoring.h"
+
+using std::unique_ptr;
 
 using PatternQueryInvoker = QueryInvoker<StmtValue, StmtRef,
                                          EntityValue, EntityRef>;
@@ -24,16 +27,17 @@ class AbstractPatternClause: public PatternClause {
   PQLQueryResult* evaluateOn(const QueryExecutorAgent &agent) override {
     StmtRef leftStatement = {StatementType, 0};
     EntityRef leftVar = leftArg->toEntityRef();
-    leftStatement = agent.transformArg(synonym->getName(), leftStatement);
+    PQLSynonymName synName = synonym->getName();
+    leftStatement = agent.transformArg(synName, leftStatement);
     leftVar = agent.transformArg(leftArg->getName(), leftVar);
 
     if (!agent.isValid(leftStatement) || !agent.isValid(leftVar)) {
       return new PQLQueryResult();
     }
 
-    QueryResult<StmtValue, EntityValue> result =
+    QueryResultPtr<StmtValue, EntityValue> result =
         invoker(agent, leftStatement, leftVar);
-    return Clause::toQueryResult(synonym->getName(), leftArg.get(), result);
+    return Clause::toQueryResult(synName, leftArg.get(), result.get());
   }
 
  public:

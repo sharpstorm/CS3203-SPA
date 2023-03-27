@@ -1,39 +1,34 @@
 #pragma once
 
+#include <memory>
 #include <optional>
+
 #include "BaseQueryInvoker.h"
 
-using std::optional, std::nullopt;
 using pkb::ArgValidator, pkb::ArgTransformer, pkb::defaultValidator,
     pkb::defaultTransformer;
+using std::optional, std::nullopt;
+using std::make_unique;
 
-template<typename LeftValue,
-    typename LeftType,
-    typename RightValue,
-    typename RightType>
+template <typename LeftValue, typename LeftType, typename RightValue,
+          typename RightType>
 class BaseQueryHandler {
  public:
-  explicit BaseQueryHandler(
-      BaseQueryInvoker<LeftValue,
-                       LeftType,
-                       RightValue,
-                       RightType> *queryInvoker,
-      RelationTableManager<LeftValue, RightValue> *store)
-      : queryInvoker(queryInvoker),
-      store(store) {}
+  explicit BaseQueryHandler(BaseQueryInvoker<LeftValue, LeftType, RightValue,
+                                             RightType> *queryInvoker,
+                            RelationTableManager<LeftValue, RightValue> *store)
+      : queryInvoker(queryInvoker), store(store) {}
   BaseQueryHandler() {}
 
-  QueryResult<LeftValue, RightValue> query(
+  QueryResultPtr<LeftValue, RightValue> query(
       IRef<LeftValue, LeftType> *leftArg,
       IRef<RightValue, RightType> *rightArg) const {
     if (!leftValidator(leftArg) || !rightValidator(rightArg)) {
-      return QueryResult<LeftValue, RightValue>();
+        return make_unique<QueryResult<LeftValue, RightValue>>();
     }
 
-    return queryInvoker->query(
-        store,
-        leftTransformer(leftArg),
-        rightTransformer(rightArg));
+    return queryInvoker->query(store, leftTransformer(leftArg),
+                               rightTransformer(rightArg));
   }
 
  protected:
@@ -55,10 +50,10 @@ class BaseQueryHandler {
 
  private:
   BaseQueryInvoker<LeftValue, LeftType, RightValue, RightType> *queryInvoker;
-  ArgValidator<LeftValue, LeftType>
-      leftValidator = defaultValidator<LeftValue, LeftType>;
-  ArgValidator<RightValue, RightType>
-      rightValidator = defaultValidator<RightValue, RightType>;
+  ArgValidator<LeftValue, LeftType> leftValidator =
+      defaultValidator<LeftValue, LeftType>;
+  ArgValidator<RightValue, RightType> rightValidator =
+      defaultValidator<RightValue, RightType>;
   ArgTransformer<LeftValue, LeftType> leftTransformer =
       defaultTransformer<LeftValue, LeftType>;
   ArgTransformer<RightValue, RightType> rightTransformer =
@@ -66,17 +61,11 @@ class BaseQueryHandler {
   RelationTableManager<LeftValue, RightValue> *store;
 };
 
-using PkbStmtStmtQueryHandler = BaseQueryHandler<StmtValue,
-                                                 StmtType,
-                                                 StmtValue,
-                                                 StmtType>;
+using PkbStmtStmtQueryHandler =
+    BaseQueryHandler<StmtValue, StmtType, StmtValue, StmtType>;
 
-using PkbStmtEntQueryHandler = BaseQueryHandler<StmtValue,
-                                                StmtType,
-                                                EntityValue,
-                                                EntityType>;
+using PkbStmtEntQueryHandler =
+    BaseQueryHandler<StmtValue, StmtType, EntityValue, EntityType>;
 
-using PkbEntEntQueryHandler = BaseQueryHandler<EntityValue,
-                                               EntityType,
-                                               EntityValue,
-                                               EntityType>;
+using PkbEntEntQueryHandler =
+    BaseQueryHandler<EntityValue, EntityType, EntityValue, EntityType>;

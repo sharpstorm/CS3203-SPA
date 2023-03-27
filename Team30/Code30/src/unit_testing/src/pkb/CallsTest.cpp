@@ -20,19 +20,19 @@ TEST_CASE("Calls & callsStar 2 knowns") {
   writer.addCalls(3, "main", "woo");
   writer.addCalls(4, "foo", "goo");
 
-  auto result1 = handler.queryCalls({EntityType::Procedure, "main"},
+  auto result1 = *handler.queryCalls({EntityType::Procedure, "main"},
                                     {EntityType::Procedure, "foo"});
   REQUIRE(result1.isEmpty == false);
 
-  auto result2 = handler.queryCalls({EntityType::Procedure, "main"},
+  auto result2 = *handler.queryCalls({EntityType::Procedure, "main"},
                                     {EntityType::Procedure, "goo"});
   REQUIRE(result2.isEmpty == true);
 
-  auto result3 = handler.queryCallsStar({EntityType::Procedure, "main"},
+  auto result3 = *handler.queryCallsStar({EntityType::Procedure, "main"},
                                         {EntityType::Procedure, "foo"});
   REQUIRE(result3.isEmpty == false);
 
-  auto result4 = handler.queryCallsStar({EntityType::Procedure, "main"},
+  auto result4 = *handler.queryCallsStar({EntityType::Procedure, "main"},
                                         {EntityType::Procedure, "goo"});
   REQUIRE(result4.isEmpty == false);
 }
@@ -46,14 +46,14 @@ TEST_CASE("Calls & CallsStar 1 unknown") {
   writer.addCalls(3, "main", "woo");
   writer.addCalls(4, "foo", "goo");
 
-  auto result1 = handler.queryCalls({EntityType::None, ""},
+  auto result1 = *handler.queryCalls({EntityType::None, ""},
                                     {EntityType::Procedure, "foo"});
   REQUIRE(result1.isEmpty == false);
   REQUIRE(result1.firstArgVals == unordered_set<string>{"main"});
   REQUIRE(result1.secondArgVals == unordered_set<string>{"foo"});
   REQUIRE(result1.pairVals == pair_set<string, string>{{"main", "foo"}});
 
-  auto result2 = handler.queryCalls({EntityType::Procedure, "main"},
+  auto result2 = *handler.queryCalls({EntityType::Procedure, "main"},
                                     {EntityType::None, ""});
   REQUIRE(result2.isEmpty == false);
   REQUIRE(result2.firstArgVals == unordered_set<string>{"main"});
@@ -61,7 +61,7 @@ TEST_CASE("Calls & CallsStar 1 unknown") {
   REQUIRE(result2.pairVals ==
           pair_set<string, string>{{"main", "foo"}, {"main", "woo"}});
 
-  auto result3 = handler.queryCallsStar({EntityType::None, ""},
+  auto result3 = *handler.queryCallsStar({EntityType::None, ""},
                                         {EntityType::Procedure, "goo"});
   REQUIRE(result3.isEmpty == false);
   REQUIRE(result3.firstArgVals == unordered_set<string>{"foo", "main"});
@@ -69,7 +69,7 @@ TEST_CASE("Calls & CallsStar 1 unknown") {
   REQUIRE(result3.pairVals ==
           pair_set<string, string>{{"main", "goo"}, {"foo", "goo"}});
 
-  auto result4 = handler.queryCallsStar({EntityType::Procedure, "main"},
+  auto result4 = *handler.queryCallsStar({EntityType::Procedure, "main"},
                                         {EntityType::None, ""});
   REQUIRE(result4.isEmpty == false);
   REQUIRE(result4.firstArgVals == unordered_set<string>{"main"});
@@ -93,7 +93,7 @@ TEST_CASE("Calls & CallsStar 2 unknowns") {
   writer.addProcedure("goo", 7, 8);
 
   auto result1 =
-      handler.queryCalls({EntityType::None, ""}, {EntityType::None, ""});
+      *handler.queryCalls({EntityType::None, ""}, {EntityType::None, ""});
   REQUIRE(result1.isEmpty == false);
   REQUIRE(result1.firstArgVals == unordered_set<string>{"main", "foo"});
   REQUIRE(result1.secondArgVals == unordered_set<string>{"woo", "foo", "goo"});
@@ -102,7 +102,7 @@ TEST_CASE("Calls & CallsStar 2 unknowns") {
                                                        {"foo", "goo"}});
 
   auto result2 =
-      handler.queryCallsStar({EntityType::None, ""}, {EntityType::None, ""});
+      *handler.queryCallsStar({EntityType::None, ""}, {EntityType::None, ""});
   REQUIRE(result2.isEmpty == false);
   REQUIRE(result2.firstArgVals == unordered_set<string>{"main", "foo"});
   REQUIRE(result2.secondArgVals == unordered_set<string>{"woo", "foo", "goo"});
