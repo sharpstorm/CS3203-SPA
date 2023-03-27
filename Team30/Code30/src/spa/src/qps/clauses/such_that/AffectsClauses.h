@@ -49,7 +49,7 @@ constexpr UsesGetter<QueryExecutorAgent> usesQuerier =
 
 constexpr CountGetter<QueryExecutorAgent> countQuerier =
     [](const QueryExecutorAgent &agent) -> int {
-      return agent->getSymbolsOfType(EntityType::None).size();
+      return agent->getSymbolsOfType(EntityType::Variable).size();
     };
 
 constexpr SymbolIdGetter<QueryExecutorAgent> symbolIdQuerier  =
@@ -148,7 +148,7 @@ constexpr AffectsSameSynInvoker affectsTSymmetricInvoker =
 
 
 class AffectsClause: public AbstractAffectsClause<
-    abstractAffectsInvoker<ConcreteAffectsQuerier>,
+    affectsInvoker,
     affectsSymmetricInvoker> {
  public:
   AffectsClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
@@ -165,7 +165,7 @@ class AffectsClause: public AbstractAffectsClause<
 
 class AffectsTClause: public AbstractAffectsClause<
     affectsTInvoker,
-    affectsSymmetricInvoker> {
+    affectsTSymmetricInvoker> {
  public:
   AffectsTClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
