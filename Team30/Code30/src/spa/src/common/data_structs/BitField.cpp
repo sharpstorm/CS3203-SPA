@@ -2,8 +2,8 @@
 
 BitField::BitField(): BitField(0) {}
 
-BitField::BitField(int capacity):
-    data((capacity / 32) + (((capacity % 32) > 0) ? 1 : 0)),
+BitField::BitField(const int &capacity):
+    data((capacity / UNIT_SIZE) + (((capacity % UNIT_SIZE) > 0) ? 1 : 0)),
     capacity(capacity) {
   for (int i = 0; i < data.size(); i++) {
     data[i] = 0;
@@ -15,8 +15,8 @@ void BitField::set(int bit) {
     return;
   }
 
-  int byteOffset = bit / 32;
-  int bitOffset = bit % 32;
+  int byteOffset = bit / UNIT_SIZE;
+  int bitOffset = bit % UNIT_SIZE;
 
   data[byteOffset] |= (0x1) << bitOffset;
 }
@@ -26,8 +26,8 @@ void BitField::unset(int bit) {
     return;
   }
 
-  int byteOffset = bit / 32;
-  int bitOffset = bit % 32;
+  int byteOffset = bit / UNIT_SIZE;
+  int bitOffset = bit % UNIT_SIZE;
 
   int setMask = (0x1) << bitOffset;
   data[byteOffset] &= (~setMask);
@@ -38,8 +38,8 @@ bool BitField::isSet(int bit) const {
     return false;
   }
 
-  int byteOffset = bit / 32;
-  int bitOffset = bit % 32;
+  int byteOffset = bit / UNIT_SIZE;
+  int bitOffset = bit % UNIT_SIZE;
   int mask = (0x1) << bitOffset;
 
   return (data[byteOffset] & mask) == mask;
@@ -66,7 +66,7 @@ BitField BitField::unionWith(const BitField &other) {
     result.data[i] = data[i] | other.data.at(i);
   }
 
-  for (int i = minSize * 32; i < maxCapacity; i++) {
+  for (int i = minSize * UNIT_SIZE; i < maxCapacity; i++) {
     if (biggerField->isSet(i)) {
       result.set(i);
     }
@@ -100,7 +100,7 @@ BitField BitField::differenceWith(const BitField &other) {
     result.data[i] = data[i] ^ other.data.at(i);
   }
 
-  for (int i = minSize * 32; i < maxCapacity; i++) {
+  for (int i = minSize * UNIT_SIZE; i < maxCapacity; i++) {
     result.set(i);
   }
 
