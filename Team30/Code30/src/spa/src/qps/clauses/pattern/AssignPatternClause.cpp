@@ -35,7 +35,6 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
                                  modifiesResult.get());
   }
 
-//  QueryResult<StmtValue, EntityValue> assignResult;
   auto assignResult = make_unique<QueryResult<StmtValue, EntityValue>>();
   checkTries(agent, assignResult.get(), modifiesResult.get());
 
