@@ -18,7 +18,7 @@ class PKB {
 
   VarTable *variableTable = new VarTable();
   VarRevTable *variableRevTable = new VarRevTable();
-  EntitySet *variableValues = new EntitySet ;
+  EntitySet *variableValues = new EntitySet;
   VariableStorage *variableStorage =
       new VariableStorage(variableTable, variableRevTable, variableValues);
 
