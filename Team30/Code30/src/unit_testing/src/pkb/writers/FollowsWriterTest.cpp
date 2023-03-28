@@ -16,8 +16,10 @@ TEST_CASE("FollowsWriter addFollows") {
 
   writer.addFollows(1, 3);
   writer.addFollows(3, 4);
+  writer.addFollows(1, 4);
 
-  REQUIRE(table->get(1) == set<int>({3}));
-  REQUIRE(reverseTable->get(3) == set<int>({1}));
+  REQUIRE(table->get(1) == set<int>({3, 4}));
   REQUIRE(table->get(3) == set<int>({4}));
+  REQUIRE(reverseTable->get(3) == set<int>({1}));
+  REQUIRE(reverseTable->get(4) == set<int>({1, 3}));
 }
