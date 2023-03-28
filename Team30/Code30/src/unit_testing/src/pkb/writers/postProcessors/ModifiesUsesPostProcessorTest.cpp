@@ -1,5 +1,5 @@
 #include <memory>
-#include <unordered_set>
+#include <set>
 
 #include "catch.hpp"
 #include "pkb/writers/postProcessors/ModifiesUsesPostProcessor.h"
@@ -59,29 +59,29 @@ TEST_CASE("ModifiesUsesPostProcessorTest assert initial modifiesPStorage") {
   auto test = MUPostProcessorTestInit();
 
   auto m1 = test.pkb->modifiesPStorage->getByFirstArg("main");
-  REQUIRE(m1 == unordered_set<string>({"x"}));
+  REQUIRE(m1 == set<string>({"x"}));
   auto m2 = test.pkb->modifiesPStorage->getByFirstArg("foo");
-  REQUIRE(m2 == unordered_set<string>({"z"}));
+  REQUIRE(m2 == set<string>({"z"}));
   auto m3 = test.pkb->modifiesPStorage->getByFirstArg("goo");
-  REQUIRE(m3 == unordered_set<string>({"w"}));
+  REQUIRE(m3 == set<string>({"w"}));
   auto m4 = test.pkb->modifiesPStorage->getByFirstArg("hoo");
-  REQUIRE(m4 == unordered_set<string>({}));
+  REQUIRE(m4 == set<string>({}));
 
   auto rm1 = test.pkb->modifiesPStorage->getBySecondArg("x");
-  REQUIRE(rm1 == unordered_set<string>({"main"}));
+  REQUIRE(rm1 == set<string>({"main"}));
   auto rm2 = test.pkb->modifiesPStorage->getBySecondArg("z");
-  REQUIRE(rm2 == unordered_set<string>({"foo"}));
+  REQUIRE(rm2 == set<string>({"foo"}));
   auto rm3 = test.pkb->modifiesPStorage->getBySecondArg("w");
-  REQUIRE(rm3 == unordered_set<string>({"goo"}));
+  REQUIRE(rm3 == set<string>({"goo"}));
 
   int calls[] = {3, 5, 8};
   for (int i : calls) {
     REQUIRE(test.pkb->modifiesStorage->getByFirstArg(i).size() == 0);
   }
   REQUIRE(
-      test.pkb->modifiesStorage->getBySecondArg("x") == unordered_set({1, 2}));
-  REQUIRE(test.pkb->modifiesStorage->getBySecondArg("z") == unordered_set({4}));
-  REQUIRE(test.pkb->modifiesStorage->getBySecondArg("w") == unordered_set({6}));
+      test.pkb->modifiesStorage->getBySecondArg("x") == set({1, 2}));
+  REQUIRE(test.pkb->modifiesStorage->getBySecondArg("z") == set({4}));
+  REQUIRE(test.pkb->modifiesStorage->getBySecondArg("w") == set({6}));
 }
 
 TEST_CASE("ModifiesUsesPostProcessorTest assert initial modifiesStorage") {
@@ -92,29 +92,29 @@ TEST_CASE("ModifiesUsesPostProcessorTest assert initial modifiesStorage") {
     REQUIRE(test.pkb->modifiesStorage->getByFirstArg(i).size() == 0);
   }
   REQUIRE(
-      test.pkb->modifiesStorage->getBySecondArg("x") == unordered_set({1, 2}));
-  REQUIRE(test.pkb->modifiesStorage->getBySecondArg("z") == unordered_set({4}));
-  REQUIRE(test.pkb->modifiesStorage->getBySecondArg("w") == unordered_set({6}));
+      test.pkb->modifiesStorage->getBySecondArg("x") == set({1, 2}));
+  REQUIRE(test.pkb->modifiesStorage->getBySecondArg("z") == set({4}));
+  REQUIRE(test.pkb->modifiesStorage->getBySecondArg("w") == set({6}));
 }
 
 TEST_CASE("ModifiesUsesPostProcessorTest assert initial usesPStorage") {
   auto test = MUPostProcessorTestInit();
 
   auto u1 = test.pkb->usesPStorage->getByFirstArg("main");
-  REQUIRE(u1 == unordered_set<string>({"y"}));
+  REQUIRE(u1 == set<string>({"y"}));
   auto u2 = test.pkb->usesPStorage->getByFirstArg("foo");
-  REQUIRE(u2 == unordered_set<string>({}));
+  REQUIRE(u2 == set<string>({}));
   auto u3 = test.pkb->usesPStorage->getByFirstArg("goo");
-  REQUIRE(u3 == unordered_set<string>({"x", "z"}));
+  REQUIRE(u3 == set<string>({"x", "z"}));
   auto u4 = test.pkb->usesPStorage->getByFirstArg("hoo");
-  REQUIRE(u4 == unordered_set<string>({}));
+  REQUIRE(u4 == set<string>({}));
 
   auto ru1 = test.pkb->usesPStorage->getBySecondArg("x");
-  REQUIRE(ru1 == unordered_set<string>({"goo"}));
+  REQUIRE(ru1 == set<string>({"goo"}));
   auto ru2 = test.pkb->usesPStorage->getBySecondArg("y");
-  REQUIRE(ru2 == unordered_set<string>({"main"}));
+  REQUIRE(ru2 == set<string>({"main"}));
   auto ru3 = test.pkb->usesPStorage->getBySecondArg("z");
-  REQUIRE(ru3 == unordered_set<string>({"goo"}));
+  REQUIRE(ru3 == set<string>({"goo"}));
 }
 
 TEST_CASE("ModifiesUsesPostProcessorTest assert initial usesStorage") {
@@ -125,9 +125,9 @@ TEST_CASE("ModifiesUsesPostProcessorTest assert initial usesStorage") {
     REQUIRE(test.pkb->usesStorage->getByFirstArg(i).size() == 0);
   }
   REQUIRE(
-      test.pkb->usesStorage->getBySecondArg("y") == unordered_set({1}));
-  REQUIRE(test.pkb->usesStorage->getBySecondArg("x") == unordered_set({6}));
-  REQUIRE(test.pkb->usesStorage->getBySecondArg("z") == unordered_set({7}));
+      test.pkb->usesStorage->getBySecondArg("y") == set({1}));
+  REQUIRE(test.pkb->usesStorage->getBySecondArg("x") == set({6}));
+  REQUIRE(test.pkb->usesStorage->getBySecondArg("z") == set({7}));
 }
 
 TEST_CASE(
@@ -136,20 +136,20 @@ TEST_CASE(
   test.processor.process();
 
   auto m1 = test.pkb->modifiesPStorage->getByFirstArg("main");
-  REQUIRE(m1 == unordered_set<string>({"x", "z", "w"}));
+  REQUIRE(m1 == set<string>({"x", "z", "w"}));
   auto m2 = test.pkb->modifiesPStorage->getByFirstArg("foo");
-  REQUIRE(m2 == unordered_set<string>({"z", "w"}));
+  REQUIRE(m2 == set<string>({"z", "w"}));
   auto m3 = test.pkb->modifiesPStorage->getByFirstArg("goo");
-  REQUIRE(m3 == unordered_set<string>({"w"}));
+  REQUIRE(m3 == set<string>({"w"}));
   auto m4 = test.pkb->modifiesPStorage->getByFirstArg("hoo");
-  REQUIRE(m4 == unordered_set<string>({"w"}));
+  REQUIRE(m4 == set<string>({"w"}));
 
   auto rm1 = test.pkb->modifiesPStorage->getBySecondArg("x");
-  REQUIRE(rm1 == unordered_set<string>({"main"}));
+  REQUIRE(rm1 == set<string>({"main"}));
   auto rm2 = test.pkb->modifiesPStorage->getBySecondArg("z");
-  REQUIRE(rm2 == unordered_set<string>({"foo", "main"}));
+  REQUIRE(rm2 == set<string>({"foo", "main"}));
   auto rm3 = test.pkb->modifiesPStorage->getBySecondArg("w");
-  REQUIRE(rm3 == unordered_set<string>({"goo", "hoo", "main", "foo"}));
+  REQUIRE(rm3 == set<string>({"goo", "hoo", "main", "foo"}));
 }
 
 TEST_CASE(
@@ -158,21 +158,21 @@ TEST_CASE(
   test.processor.process();
 
   auto c1 = test.pkb->modifiesStorage->getByFirstArg(3);
-  REQUIRE(c1 == unordered_set<string>({"w", "z"}));
+  REQUIRE(c1 == set<string>({"w", "z"}));
   auto c2 = test.pkb->modifiesStorage->getByFirstArg(5);
-  REQUIRE(c2 == unordered_set<string>({"w"}));
+  REQUIRE(c2 == set<string>({"w"}));
   auto c3 = test.pkb->modifiesStorage->getByFirstArg(8);
-  REQUIRE(c3 == unordered_set<string>({"w"}));
+  REQUIRE(c3 == set<string>({"w"}));
   // while container
   auto c4 = test.pkb->modifiesStorage->getByFirstArg(1);
-  REQUIRE(c4 == unordered_set<string>({"x", "w", "z"}));
+  REQUIRE(c4 == set<string>({"x", "w", "z"}));
 
   auto cr1 = test.pkb->modifiesStorage->getBySecondArg("x");
-  REQUIRE(cr1 == unordered_set({1, 2}));
+  REQUIRE(cr1 == set({1, 2}));
   auto cr2 = test.pkb->modifiesStorage->getBySecondArg("z");
-  REQUIRE(cr2 == unordered_set({1, 4, 3}));
+  REQUIRE(cr2 == set({1, 4, 3}));
   auto cr3 = test.pkb->modifiesStorage->getBySecondArg("w");
-  REQUIRE(cr3 == unordered_set({1, 6, 3, 5, 8}));
+  REQUIRE(cr3 == set({1, 6, 3, 5, 8}));
 }
 
 TEST_CASE("ModifiesUsesPostProcessorTest check post-processed usesPStorage") {
@@ -180,20 +180,20 @@ TEST_CASE("ModifiesUsesPostProcessorTest check post-processed usesPStorage") {
   test.processor.process();
 
   auto u1 = test.pkb->usesPStorage->getByFirstArg("main");
-  REQUIRE(u1 == unordered_set<string>({"y", "x", "z"}));
+  REQUIRE(u1 == set<string>({"y", "x", "z"}));
   auto u2 = test.pkb->usesPStorage->getByFirstArg("foo");
-  REQUIRE(u2 == unordered_set<string>({"x", "z"}));
+  REQUIRE(u2 == set<string>({"x", "z"}));
   auto u3 = test.pkb->usesPStorage->getByFirstArg("goo");
-  REQUIRE(u3 == unordered_set<string>({"x", "z"}));
+  REQUIRE(u3 == set<string>({"x", "z"}));
   auto u4 = test.pkb->usesPStorage->getByFirstArg("hoo");
-  REQUIRE(u4 == unordered_set<string>({"x", "z"}));
+  REQUIRE(u4 == set<string>({"x", "z"}));
 
   auto ru1 = test.pkb->usesPStorage->getBySecondArg("x");
-  REQUIRE(ru1 == unordered_set<string>({"goo", "main", "foo", "hoo"}));
+  REQUIRE(ru1 == set<string>({"goo", "main", "foo", "hoo"}));
   auto ru2 = test.pkb->usesPStorage->getBySecondArg("y");
-  REQUIRE(ru2 == unordered_set<string>({"main"}));
+  REQUIRE(ru2 == set<string>({"main"}));
   auto ru3 = test.pkb->usesPStorage->getBySecondArg("z");
-  REQUIRE(ru3 == unordered_set<string>({"goo", "main", "foo", "hoo"}));
+  REQUIRE(ru3 == set<string>({"goo", "main", "foo", "hoo"}));
 }
 
 TEST_CASE("ModifiesUsesPostProcessorTest check post-processed usesStorage") {
@@ -201,21 +201,21 @@ TEST_CASE("ModifiesUsesPostProcessorTest check post-processed usesStorage") {
   test.processor.process();
 
   auto c1 = test.pkb->usesStorage->getByFirstArg(3);
-  REQUIRE(c1 == unordered_set<string>({"x", "z"}));
+  REQUIRE(c1 == set<string>({"x", "z"}));
   auto c2 = test.pkb->usesStorage->getByFirstArg(5);
-  REQUIRE(c2 == unordered_set<string>({"x", "z"}));
+  REQUIRE(c2 == set<string>({"x", "z"}));
   auto c3 = test.pkb->usesStorage->getByFirstArg(8);
-  REQUIRE(c3 == unordered_set<string>({"x", "z"}));
+  REQUIRE(c3 == set<string>({"x", "z"}));
   // while container
   auto c4 = test.pkb->usesStorage->getByFirstArg(1);
-  REQUIRE(c4 == unordered_set<string>({"y", "x", "z"}));
+  REQUIRE(c4 == set<string>({"y", "x", "z"}));
 
   auto cr1 = test.pkb->usesStorage->getBySecondArg("y");
-  REQUIRE(cr1 == unordered_set({1}));
+  REQUIRE(cr1 == set({1}));
   auto cr2 = test.pkb->usesStorage->getBySecondArg("x");
-  REQUIRE(cr2 == unordered_set({1, 6, 3, 5, 8}));
+  REQUIRE(cr2 == set({1, 6, 3, 5, 8}));
   auto cr3 = test.pkb->usesStorage->getBySecondArg("z");
-  REQUIRE(cr3 == unordered_set({1, 7, 3, 5, 8}));
+  REQUIRE(cr3 == set({1, 7, 3, 5, 8}));
 }
 
 
@@ -261,16 +261,16 @@ TEST_CASE("ModifiesUsesPostProcessorTest check modifies for ontainer stmts") {
   test.processor.process();
 
   auto c1 = test.pkb->modifiesStorage->getByFirstArg(1);
-  REQUIRE(c1 == unordered_set<string>({"x", "z"}));
+  REQUIRE(c1 == set<string>({"x", "z"}));
   auto c2 = test.pkb->modifiesStorage->getByFirstArg(2);
-  REQUIRE(c2 == unordered_set<string>({"x", "z"}));
+  REQUIRE(c2 == set<string>({"x", "z"}));
   auto c3 = test.pkb->modifiesStorage->getByFirstArg(4);
-  REQUIRE(c3 == unordered_set<string>({"z"}));
+  REQUIRE(c3 == set<string>({"z"}));
 
   auto cr1 = test.pkb->modifiesStorage->getBySecondArg("x");
-  REQUIRE(cr1 == unordered_set({1, 2, 3}));
+  REQUIRE(cr1 == set({1, 2, 3}));
   auto cr2 = test.pkb->modifiesStorage->getBySecondArg("z");
-  REQUIRE(cr2 == unordered_set({1, 2, 4, 5}));
+  REQUIRE(cr2 == set({1, 2, 4, 5}));
 }
 
 TEST_CASE("ModifiesUsesPostProcessorTest check uses for ontainer stmts") {
@@ -278,14 +278,14 @@ TEST_CASE("ModifiesUsesPostProcessorTest check uses for ontainer stmts") {
   test.processor.process();
 
   auto c1 = test.pkb->usesStorage->getByFirstArg(1);
-  REQUIRE(c1 == unordered_set<string>({"z"}));
+  REQUIRE(c1 == set<string>({"z"}));
   auto c2 = test.pkb->usesStorage->getByFirstArg(2);
-  REQUIRE(c2 == unordered_set<string>({"y", "z"}));
+  REQUIRE(c2 == set<string>({"y", "z"}));
   auto c3 = test.pkb->usesStorage->getByFirstArg(4);
-  REQUIRE(c3 == unordered_set<string>({"z"}));
+  REQUIRE(c3 == set<string>({"z"}));
 
   auto cr1 = test.pkb->usesStorage->getBySecondArg("y");
-  REQUIRE(cr1 == unordered_set({2}));
+  REQUIRE(cr1 == set({2}));
   auto cr2 = test.pkb->usesStorage->getBySecondArg("z");
-  REQUIRE(cr2 == unordered_set({1, 2, 4, 6}));
+  REQUIRE(cr2 == set({1, 2, 4, 6}));
 }

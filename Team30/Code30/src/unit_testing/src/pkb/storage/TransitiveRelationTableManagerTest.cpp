@@ -1,7 +1,7 @@
 
 #include <memory>
 #include <string>
-#include <unordered_set>
+#include <set>
 #include <utility>
 
 #include "catch.hpp"
@@ -13,7 +13,7 @@
 using std::make_pair;
 using std::make_shared;
 using std::string;
-using std::unordered_set;
+using std::set;
 
 TEST_CASE("TransitiveRelationTableManager getByFirstArg") {
   auto table = make_shared<ContiguousSetTable<int>>();
@@ -28,10 +28,10 @@ TEST_CASE("TransitiveRelationTableManager getByFirstArg") {
   tableManager.insert(3, 4);
   tableManager.insert(5, 6);
 
-  REQUIRE(tableManager.getByFirstArg(6) == unordered_set<int>({}));
-  REQUIRE(tableManager.getByFirstArg(5) == unordered_set<int>({6}));
+  REQUIRE(tableManager.getByFirstArg(6) == set<int>({}));
+  REQUIRE(tableManager.getByFirstArg(5) == set<int>({6}));
   REQUIRE(tableManager.getByFirstArg(1) ==
-      unordered_set<int>({2, 3, 4, 5, 6}));
+      set<int>({2, 3, 4, 5, 6}));
 }
 
 TEST_CASE("TransitiveRelationTableManager getBySecondArg") {
@@ -47,10 +47,10 @@ TEST_CASE("TransitiveRelationTableManager getBySecondArg") {
   tableManager.insert(4, 3);
   tableManager.insert(6, 5);
 
-  REQUIRE(tableManager.getBySecondArg(6) == unordered_set<int>({}));
-  REQUIRE(tableManager.getBySecondArg(5) == unordered_set<int>({6}));
+  REQUIRE(tableManager.getBySecondArg(6) == set<int>({}));
+  REQUIRE(tableManager.getBySecondArg(5) == set<int>({6}));
   REQUIRE(tableManager.getBySecondArg(1) ==
-      unordered_set<int>({2, 3, 4, 5, 6}));
+      set<int>({2, 3, 4, 5, 6}));
 }
 
 TEST_CASE(
@@ -165,7 +165,7 @@ TEST_CASE("TransitiveRelationTableManager cyclic direct") {
 
   tableManager.insert(1, 1);
 
-  REQUIRE(tableManager.getByFirstArg(1) == unordered_set<int>({1}));
+  REQUIRE(tableManager.getByFirstArg(1) == set<int>({1}));
 }
 
 TEST_CASE("TransitiveRelationTableManager cyclic indirect 1") {
@@ -178,7 +178,7 @@ TEST_CASE("TransitiveRelationTableManager cyclic indirect 1") {
   tableManager.insert(1, 2);
   tableManager.insert(2, 1);
 
-  REQUIRE(tableManager.getByFirstArg(1) == unordered_set<int>({1, 2}));
+  REQUIRE(tableManager.getByFirstArg(1) == set<int>({1, 2}));
 }
 
 TEST_CASE("TransitiveRelationTableManager cyclic indirect 2") {
@@ -192,7 +192,7 @@ TEST_CASE("TransitiveRelationTableManager cyclic indirect 2") {
   tableManager.insert(2, 3);
   tableManager.insert(3, 1);
 
-  REQUIRE(tableManager.getByFirstArg(1) == unordered_set<int>({1, 2, 3}));
+  REQUIRE(tableManager.getByFirstArg(1) == set<int>({1, 2, 3}));
 }
 
 TEST_CASE("TransitiveRelationTableManager called as parent class type") {
@@ -209,8 +209,8 @@ TEST_CASE("TransitiveRelationTableManager called as parent class type") {
   Predicate<int> isValid = [](int const &s) {
     return true;
   };
-  REQUIRE(tableManager->getByFirstArg(1) == unordered_set<int>({2, 3}));
-  REQUIRE(tableManager->getBySecondArg(3) == unordered_set<int>({1, 2}));
+  REQUIRE(tableManager->getByFirstArg(1) == set<int>({2, 3}));
+  REQUIRE(tableManager->getBySecondArg(3) == set<int>({1, 2}));
   auto res = tableManager->query(1, isValid);
   REQUIRE(res.get()->pairVals == pair_set<int, int>({{1, 2}, {1, 3}}));
 }

@@ -1,20 +1,20 @@
 #pragma once
 
-#include <unordered_set>
+#include <set>
 #include <cassert>
 #include "IBaseSetTable.h"
 #include "ContiguousTable.h"
 
-using std::unordered_set;
+using std::set;
 
 template<typename V>
 class ContiguousSetTable : public IBaseSetTable<int, V>,
-                           public ContiguousTable<unordered_set<V>> {
+                           public ContiguousTable<set<V>> {
  public:
-  explicit ContiguousSetTable(int size = 1) : ContiguousTable<unordered_set<V>>(
+  explicit ContiguousSetTable(int size = 1) : ContiguousTable<set<V>>(
       size) {}
 
-  void set(int key, V value) override {
+  void insert(int key, V value) override {
     assert(key != 0);
     assert(value != V());
 
@@ -22,9 +22,11 @@ class ContiguousSetTable : public IBaseSetTable<int, V>,
     this->table[key].insert(value);
   }
 
-  unordered_set<V> get(int key) const override {
+  const set<V>& get(int key) const override {
     assert(key != 0);
 
-    return ContiguousTable<unordered_set<V>>::get(key);
+    return ContiguousTable<set<V>>::get(key);
   }
+  void begin() const override {}
+  void end() const override {}
 };

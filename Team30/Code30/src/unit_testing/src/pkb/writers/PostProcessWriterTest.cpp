@@ -38,10 +38,10 @@ TEST_CASE("PostProcessWriter post process modifies relation") {
   writer.runPostProcessor();
 
   auto result1 = pkb->modifiesStorage->getByFirstArg(1);
-  REQUIRE(result1 == unordered_set<string>({"x"}));
+  REQUIRE(result1 == set<string>({"x"}));
 
   auto result2 = pkb->modifiesPStorage->getByFirstArg("main");
-  REQUIRE(result2 == unordered_set<string>({"x"}));
+  REQUIRE(result2 == set<string>({"x"}));
 }
 
 TEST_CASE("PostProcessWriter post process uses relation") {
@@ -56,8 +56,8 @@ TEST_CASE("PostProcessWriter post process uses relation") {
   writer.runPostProcessor();
 
   auto result1 = pkb->usesStorage->getByFirstArg(1);
-  REQUIRE(result1 == unordered_set<string>({"x"}));
+  REQUIRE(result1 == set<string>({"x"}));
 
   auto result2 = pkb->usesPStorage->getByFirstArg("main");
-  REQUIRE(result2 == unordered_set<string>({"x"}));
+  REQUIRE(result2 == set<string>({"x"}));
 }

@@ -2,23 +2,24 @@
 
 StatementStorage::StatementStorage(
     IBaseTable<StmtValue, StmtType> *table,
-    IBaseSetTable<StmtType, StmtValue> *reverseTable, StmtValueSet *values)
+    IBaseSetTable<StmtType, StmtValue> *reverseTable, StmtSet *values)
     : table(table), reverseTable(reverseTable), allStatements(values) {}
 
 void StatementStorage::insert(StmtValue stmt, StmtType type) {
-  table->set(stmt, type);
-  reverseTable->set(type, stmt);
+  table->insert(stmt, type);
+  reverseTable->insert(type, stmt);
   allStatements->insert(stmt);
 }
 
-StmtValueSet StatementStorage::getStatementsOfType(StmtType stmtType) const {
+const StmtSet & StatementStorage::getStatementsOfType(
+    StmtType stmtType) const {
   if (stmtType == StmtType::None) {
     return getAllStatements();
   }
   return reverseTable->get(stmtType);
 }
 
-StmtValueSet StatementStorage::getAllStatements() const {
+const StmtSet& StatementStorage::getAllStatements() const {
   return *allStatements;
 }
 

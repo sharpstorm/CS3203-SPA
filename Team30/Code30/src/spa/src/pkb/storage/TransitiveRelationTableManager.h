@@ -1,7 +1,6 @@
 #pragma once
 #include <memory>
-#include <unordered_set>
-
+#include <set>
 #include "RelationTableManager.h"
 using pkb::Predicate;
 using std::make_unique;
@@ -23,8 +22,8 @@ class TransitiveRelationTableManager : public RelationTableManager<T, T> {
   /**
    * Get set of arg2 where R*(arg1, arg2) is true, given arg1.
    */
-  unordered_set<T> getByFirstArg(T arg1) const override {
-    auto result = unordered_set<T>({});
+  set<T> getByFirstArg(T arg1) const override {
+    auto result = set<T>({});
     getByFirstArgTHelper(arg1, &result);
     return result;
   }
@@ -32,8 +31,8 @@ class TransitiveRelationTableManager : public RelationTableManager<T, T> {
   /**
    * Get set of arg1 where R*(arg1, arg2) is true, given arg2.
    */
-  unordered_set<T> getBySecondArg(T arg2) const override {
-    auto result = unordered_set<T>({});
+  set<T> getBySecondArg(T arg2) const override {
+    auto result = set<T>({});
     getBySecondArgTHelper(arg2, &result);
     return result;
   }
@@ -43,7 +42,7 @@ class TransitiveRelationTableManager : public RelationTableManager<T, T> {
    * satisfies arg2Predicate.
    */
   QueryResultPtr<T, T> query(
-      unordered_set<T> arg1Values, Predicate<T> arg2Predicate) const override {
+      set<T> arg1Values, Predicate<T> arg2Predicate) const override {
     QueryResult<T, T> result;
     for (auto arg1 : arg1Values) {
       auto arg2Values = getByFirstArg(arg1);
@@ -61,7 +60,7 @@ class TransitiveRelationTableManager : public RelationTableManager<T, T> {
    * satisfies arg1Predicate.
    */
   QueryResultPtr<T, T> query(
-      Predicate<T> arg1Predicate, unordered_set<T> arg2Values) const override {
+      Predicate<T> arg1Predicate, set<T> arg2Values) const override {
     QueryResult<T, T> result;
     for (auto arg2 : arg2Values) {
       auto arg1Values = getBySecondArg(arg2);
@@ -79,7 +78,7 @@ class TransitiveRelationTableManager : public RelationTableManager<T, T> {
    */
   QueryResultPtr<T, T> query(
       T arg1, Predicate<T> arg2Predicate) const override {
-    return query(unordered_set<T>({arg1}), arg2Predicate);
+    return query(set<T>({arg1}), arg2Predicate);
   }
 
   /**
@@ -87,11 +86,11 @@ class TransitiveRelationTableManager : public RelationTableManager<T, T> {
    */
   QueryResultPtr<T, T> query(Predicate<T> arg1Predicate,
                                       T arg2) const override {
-    return query(arg1Predicate, unordered_set<T>({arg2}));
+    return query(arg1Predicate, set<T>({arg2}));
   }
 
  private:
-  void getByFirstArgTHelper(T arg1, unordered_set<T> *allResults) const {
+  void getByFirstArgTHelper(T arg1, set<T> *allResults) const {
     auto result = this->table->get(arg1);
     for (auto r : result) {
       if (allResults->find(r) != allResults->end()) {
@@ -103,7 +102,7 @@ class TransitiveRelationTableManager : public RelationTableManager<T, T> {
     return;
   }
 
-  void getBySecondArgTHelper(T arg2, unordered_set<T> *allResults) const {
+  void getBySecondArgTHelper(T arg2, set<T> *allResults) const {
     auto result = this->reverseTable->get(arg2);
     for (auto r : result) {
       if (allResults->find(r) != allResults->end()) {

@@ -17,23 +17,23 @@ using std::unordered_set;
 static unique_ptr<StructureMappingProviderStub>
 setUpStructureMappingProvider() {
   auto provider = make_unique<StructureMappingProviderStub>();
-  provider->stmtNumToType.set(1, StmtType::Assign);
-  provider->stmtNumToType.set(2, StmtType::Assign);
-  provider->stmtNumToType.set(3, StmtType::Assign);
-  provider->stmtNumToType.set(4, StmtType::Print);
-  provider->stmtNumToType.set(5, StmtType::Read);
-  provider->stmtNumToType.set(6, StmtType::If);
-  provider->stmtNumToType.set(7, StmtType::While);
-  provider->stmtNumToType.set(8, StmtType::Call);
+  provider->stmtNumToType.insert(1, StmtType::Assign);
+  provider->stmtNumToType.insert(2, StmtType::Assign);
+  provider->stmtNumToType.insert(3, StmtType::Assign);
+  provider->stmtNumToType.insert(4, StmtType::Print);
+  provider->stmtNumToType.insert(5, StmtType::Read);
+  provider->stmtNumToType.insert(6, StmtType::If);
+  provider->stmtNumToType.insert(7, StmtType::While);
+  provider->stmtNumToType.insert(8, StmtType::Call);
 
-  provider->stmtTypeToNum.set(StmtType::Assign, 1);
-  provider->stmtTypeToNum.set(StmtType::Assign, 2);
-  provider->stmtTypeToNum.set(StmtType::Assign, 3);
-  provider->stmtTypeToNum.set(StmtType::Print, 4);
-  provider->stmtTypeToNum.set(StmtType::Read, 5);
-  provider->stmtTypeToNum.set(StmtType::If, 6);
-  provider->stmtTypeToNum.set(StmtType::While, 7);
-  provider->stmtTypeToNum.set(StmtType::Call, 8);
+  provider->stmtTypeToNum.insert(StmtType::Assign, 1);
+  provider->stmtTypeToNum.insert(StmtType::Assign, 2);
+  provider->stmtTypeToNum.insert(StmtType::Assign, 3);
+  provider->stmtTypeToNum.insert(StmtType::Print, 4);
+  provider->stmtTypeToNum.insert(StmtType::Read, 5);
+  provider->stmtTypeToNum.insert(StmtType::If, 6);
+  provider->stmtTypeToNum.insert(StmtType::While, 7);
+  provider->stmtTypeToNum.insert(StmtType::Call, 8);
 
   provider->allStmts = {1, 2, 3, 4, 5, 6, 7, 8};
   return provider;
@@ -41,13 +41,13 @@ setUpStructureMappingProvider() {
 
 static unique_ptr<EntityMappingProviderStub> setUpEntityMappingProvider() {
   auto provider = make_unique<EntityMappingProviderStub>();
-  provider->variableTable.set(1, "x");
-  provider->variableTable.set(2, "y");
-  provider->variableTable.set(3, "z");
-  provider->variableTable.set(4, "w");
-  provider->procedureTable.set(1, "main");
-  provider->procedureTable.set(2, "foo");
-  provider->procedureTable.set(3, "goo");
+  provider->variableTable.insert(1, "x");
+  provider->variableTable.insert(2, "y");
+  provider->variableTable.insert(3, "z");
+  provider->variableTable.insert(4, "w");
+  provider->procedureTable.insert(1, "main");
+  provider->procedureTable.insert(2, "foo");
+  provider->procedureTable.insert(3, "goo");
   provider->allVariables = {"x", "y", "z", "w"};
   provider->allProcedures = {"main", "foo", "goo"};
   return provider;
@@ -94,9 +94,9 @@ struct usesTest {
 // Both args known
 TEST_CASE("UsesQueryHandler Uses(stmtNum, variableName)") {
   auto test = usesTest();
-  test.table->set(1, "x");
-  test.table->set(2, "x");
-  test.table->set(3, "z");
+  test.table->insert(1, "x");
+  test.table->insert(2, "x");
+  test.table->insert(3, "z");
 
   auto result = *test.query({StmtType::None, 1}, {EntityType::None, "x"});
   REQUIRE(result.isEmpty == false);
@@ -109,9 +109,9 @@ TEST_CASE("UsesQueryHandler Uses(stmtNum, variableName)") {
 TEST_CASE("UsesQueryHandler Uses(stmtNum, variableType)") {
   auto test = usesTest();
 
-  test.table->set(1, "x");
-  test.table->set(2, "x");
-  test.table->set(1, "y");
+  test.table->insert(1, "x");
+  test.table->insert(2, "x");
+  test.table->insert(1, "y");
 
   auto result = *test.query({StmtType::None, 1}, {EntityType::Variable, ""});
   REQUIRE(result.isEmpty == false);
@@ -123,9 +123,9 @@ TEST_CASE("UsesQueryHandler Uses(stmtNum, variableType)") {
 TEST_CASE("UsesQueryHandler Uses(stmtNum, _)") {
   auto test = usesTest();
 
-  test.table->set(1, "x");
-  test.table->set(2, "x");
-  test.table->set(1, "y");
+  test.table->insert(1, "x");
+  test.table->insert(2, "x");
+  test.table->insert(1, "y");
 
   auto result = *test.query({StmtType::None, 1}, {EntityType::None, ""});
   REQUIRE(result.isEmpty == false);
@@ -137,7 +137,7 @@ TEST_CASE("UsesQueryHandler Uses(stmtNum, _)") {
 TEST_CASE("UsesQueryHandler Uses(stmtNum, constant)") {
   auto test = usesTest();
 
-  test.table->set(1, "x");
+  test.table->insert(1, "x");
 
   auto result = *test.query({StmtType::None, 1}, {EntityType::Constant, ""});
   REQUIRE(result.isEmpty == true);
@@ -148,11 +148,11 @@ TEST_CASE("UsesQueryHandler Uses(stmtNum, constant)") {
 TEST_CASE("UsesQueryHandler Uses(type, variableName), assign, print") {
   auto test = usesTest();
 
-  test.reverseTable->set("x", 1);
-  test.reverseTable->set("x", 2);
-  test.reverseTable->set("y", 2);
-  test.reverseTable->set("z", 3);
-  test.reverseTable->set("x", 4);
+  test.reverseTable->insert("x", 1);
+  test.reverseTable->insert("x", 2);
+  test.reverseTable->insert("y", 2);
+  test.reverseTable->insert("z", 3);
+  test.reverseTable->insert("x", 4);
 
   auto result1 =
       *test.query({StmtType::Assign, 0}, {EntityType::Variable, "x"});
@@ -173,9 +173,9 @@ TEST_CASE("UsesQueryHandler Uses(type, variableName), assign, print") {
 TEST_CASE("UsesQueryHandler Uses(type, variableName), if, while") {
   auto test = usesTest();
 
-  test.reverseTable->set("x", 6);
-  test.reverseTable->set("y", 6);
-  test.reverseTable->set("y", 7);
+  test.reverseTable->insert("x", 6);
+  test.reverseTable->insert("y", 6);
+  test.reverseTable->insert("y", 7);
 
   auto result1 = *test.query({StmtType::If, 0}, {EntityType::Variable, "y"});
 
@@ -195,7 +195,7 @@ TEST_CASE("UsesQueryHandler Uses(type, variableName), if, while") {
 TEST_CASE("UsesQueryHandler Uses(type, variableName), read") {
   auto test = usesTest();
 
-  test.reverseTable->set("x", 5);  // should not happen
+  test.reverseTable->insert("x", 5);  // should not happen
 
   auto result1 = *test.query({StmtType::Read, 0}, {EntityType::Variable, "x"});
 
@@ -205,10 +205,10 @@ TEST_CASE("UsesQueryHandler Uses(type, variableName), read") {
 TEST_CASE("UsesQueryHandler Uses(type, variableName), stmt") {
   auto test = usesTest();
 
-  test.reverseTable->set("x", 1);
-  test.reverseTable->set("y", 2);
-  test.reverseTable->set("x", 4);
-  test.reverseTable->set("x", 6);
+  test.reverseTable->insert("x", 1);
+  test.reverseTable->insert("y", 2);
+  test.reverseTable->insert("x", 4);
+  test.reverseTable->insert("x", 6);
 
   auto result1 = *test.query({StmtType::None, 0}, {EntityType::Variable, "x"});
 
@@ -224,16 +224,16 @@ TEST_CASE("UsesQueryHandler Uses(type, variableName), stmt") {
 TEST_CASE("UsesQueryHandler Uses(stmtType, varType)") {
   auto test = usesTest();
 
-  test.table->set(1, "x");
-  test.table->set(1, "z");
-  test.table->set(2, "y");
-  test.table->set(3, "x");
-  test.table->set(4, "x");
+  test.table->insert(1, "x");
+  test.table->insert(1, "z");
+  test.table->insert(2, "y");
+  test.table->insert(3, "x");
+  test.table->insert(4, "x");
 
-  test.reverseTable->set("x", 1);
-  test.reverseTable->set("y", 2);
-  test.reverseTable->set("x", 3);
-  test.reverseTable->set("x", 4);
+  test.reverseTable->insert("x", 1);
+  test.reverseTable->insert("y", 2);
+  test.reverseTable->insert("x", 3);
+  test.reverseTable->insert("x", 4);
 
   auto result1 = *test.query({StmtType::Assign, 0}, {EntityType::Variable, ""});
 
@@ -247,15 +247,15 @@ TEST_CASE("UsesQueryHandler Uses(stmtType, varType)") {
 TEST_CASE("UsesQueryHandler Uses(statement, _)") {
   auto test = usesTest();
 
-  test.table->set(1, "x");
-  test.table->set(1, "z");
-  test.table->set(4, "x");
-  test.table->set(6, "y");
+  test.table->insert(1, "x");
+  test.table->insert(1, "z");
+  test.table->insert(4, "x");
+  test.table->insert(6, "y");
 
-  test.reverseTable->set("x", 1);
-  test.reverseTable->set("z", 1);
-  test.reverseTable->set("x", 4);
-  test.reverseTable->set("y", 6);
+  test.reverseTable->insert("x", 1);
+  test.reverseTable->insert("z", 1);
+  test.reverseTable->insert("x", 4);
+  test.reverseTable->insert("y", 6);
 
   auto result1 = *test.query({StmtType::None, 0}, {EntityType::None, ""});
 
@@ -269,12 +269,12 @@ TEST_CASE("UsesQueryHandler Uses(statement, _)") {
 TEST_CASE("UsesQueryHandler call statement") {
   auto test = usesTest();
 
-  test.table->set(8, "x");
-  test.table->set(8, "y");
-  test.table->set(1, "z");
-  test.reverseTable->set("x", 8);
-  test.reverseTable->set("y", 8);
-  test.reverseTable->set("z", 1);
+  test.table->insert(8, "x");
+  test.table->insert(8, "y");
+  test.table->insert(1, "z");
+  test.reverseTable->insert("x", 8);
+  test.reverseTable->insert("y", 8);
+  test.reverseTable->insert("z", 1);
 
   // arg1 known
   auto result1 = *test.query({StmtType::None, 8}, {EntityType::None, ""});
@@ -294,9 +294,9 @@ TEST_CASE("UsesQueryHandler call statement") {
 TEST_CASE("UsesQueryHandler Uses(procedureName, variableName)") {
   auto test = usesTest();
 
-  test.pTable->set("main", "x");
-  test.pTable->set("main", "y");
-  test.pTable->set("foo", "z");
+  test.pTable->insert("main", "x");
+  test.pTable->insert("main", "y");
+  test.pTable->insert("foo", "z");
 
   auto result1 =
       *test.query({EntityType::None, "main"}, {EntityType::None, "x"});
@@ -318,9 +318,9 @@ TEST_CASE("UsesQueryHandler Uses(procedureName, variableName)") {
 TEST_CASE("UsesQueryHandler Uses(procedureName, type)") {
   auto test = usesTest();
 
-  test.pTable->set("main", "x");
-  test.pTable->set("main", "y");
-  test.pTable->set("foo", "z");
+  test.pTable->insert("main", "x");
+  test.pTable->insert("main", "y");
+  test.pTable->insert("foo", "z");
 
   auto result1 =
       *test.query({EntityType::None, "main"}, {EntityType::Variable, ""});
@@ -339,10 +339,10 @@ TEST_CASE("UsesQueryHandler Uses(procedureName, type)") {
 TEST_CASE("UsesQueryHandler Uses(type, variable)") {
   auto test = usesTest();
 
-  test.reversePTable->set("x", "main");
-  test.reversePTable->set("x", "foo");
-  test.reversePTable->set("y", "main");
-  test.reversePTable->set("y", "goo");
+  test.reversePTable->insert("x", "main");
+  test.reversePTable->insert("x", "foo");
+  test.reversePTable->insert("y", "main");
+  test.reversePTable->insert("y", "goo");
 
   auto result1 =
       *test.query({EntityType::Procedure, ""}, {EntityType::Variable, "x"});
@@ -361,10 +361,10 @@ TEST_CASE("UsesQueryHandler Uses(type, variable)") {
 TEST_CASE("UsesQueryHandler Uses(type, type)") {
   auto test = usesTest();
 
-  test.pTable->set("main", "x");
-  test.pTable->set("main", "y");
-  test.pTable->set("foo", "y");
-  test.pTable->set("foo", "z");
+  test.pTable->insert("main", "x");
+  test.pTable->insert("main", "y");
+  test.pTable->insert("foo", "y");
+  test.pTable->insert("foo", "z");
 
   auto result1 =
       *test.query({EntityType::Procedure, ""}, {EntityType::None, ""});
@@ -384,11 +384,11 @@ TEST_CASE("UsesQueryHandler Uses(type, type)") {
 // printDeclaration
 TEST_CASE("UsesQueryHandler getPrintDeclarations(printStmt)") {
   auto test = usesTest();
-  test.table->set(1, "x");
-  test.table->set(2, "x");
-  test.table->set(3, "z");
-  test.table->set(4, "y");
-  test.table->set(5, "test");
+  test.table->insert(1, "x");
+  test.table->insert(2, "x");
+  test.table->insert(3, "z");
+  test.table->insert(4, "y");
+  test.table->insert(5, "test");
 
   REQUIRE(test.handler.getPrintDeclarations(5) == "test");
 }
