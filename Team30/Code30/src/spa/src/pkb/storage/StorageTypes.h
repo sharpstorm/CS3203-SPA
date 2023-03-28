@@ -2,6 +2,8 @@
 
 #include <memory>
 
+#include "FollowsTTableManager.h"
+#include "FollowsTableManager.h"
 #include "IndexTableManager.h"
 #include "RelationTableManager.h"
 #include "StatementStorage.h"
@@ -29,10 +31,10 @@ using StmtRevTable = HashKeySetTable<StmtType, StmtValue>;
 
 using CallDeclarationTable = HashKeyTable<StmtValue, EntityValue>;
 
-using FollowsStorage = RelationTableManager<StmtValue, StmtValue>;
-using FollowsTStorage = TransitiveRelationTableManager<StmtValue>;
-using FollowsTable = ContiguousSetTable<StmtValue>;
-using FollowsRevTable = ContiguousSetTable<StmtValue>;
+using FollowsStorage = FollowsTableManager;
+using FollowsTStorage = FollowsTTableManager;
+using FollowsTable = IntSetTable<StmtValue>;
+using FollowsRevTable = IntSetTable<StmtValue>;
 
 using ParentStorage = RelationTableManager<StmtValue, StmtValue>;
 using ParentTStorage = TransitiveRelationTableManager<StmtValue>;

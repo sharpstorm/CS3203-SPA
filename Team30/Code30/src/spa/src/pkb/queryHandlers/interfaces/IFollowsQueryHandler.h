@@ -3,8 +3,10 @@
 #include "common/Types.h"
 #include "pkb/queryHandlers/BaseQueryHandler.h"
 
-class IFollowsQueryHandler : virtual public PkbStmtStmtQueryHandler {
+class IFollowsQueryHandler {
  public:
   virtual ~IFollowsQueryHandler() = default;
-  using PkbStmtStmtQueryHandler::query;
+
+  virtual QueryResultPtr<StmtValue, StmtValue> query(StmtRef*,
+                                                     StmtRef*) const = 0;
 };
