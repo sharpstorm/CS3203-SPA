@@ -6,8 +6,8 @@
 
 using std::vector;
 
-WhileNode::WhileNode(int lineNumber) :
-    StatementASTNode(ASTNODE_WHILE, "", lineNumber) {
+WhileNode::WhileNode(LineNumber line) :
+    StatementASTNode(ASTNODE_WHILE, "", line) {
   // index [0] = conditional expression
   // index [1] = statement list
   children.push_back(nullptr);

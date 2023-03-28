@@ -8,7 +8,7 @@ using std::string;
 
 class AssignNode : public StatementASTNode {
  public:
-  explicit AssignNode(int lineNumber);
+  explicit AssignNode(LineNumber line);
   ~AssignNode() = default;
 
   string toString() override;

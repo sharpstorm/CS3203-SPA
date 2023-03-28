@@ -5,7 +5,8 @@
 
 using std::vector;
 
-IfNode::IfNode(int lineNumber) : StatementASTNode(ASTNODE_IF, "", lineNumber) {
+IfNode::IfNode(LineNumber line) :
+    StatementASTNode(ASTNODE_IF, "", line) {
   // index [0] = conditional expression
   // index [1] = Then StmtLst
   // index [2] = Else StmtLst

@@ -5,8 +5,8 @@
 
 using std::vector;
 
-AssignNode::AssignNode(int lineNumber) :
-    StatementASTNode(ASTNODE_ASSIGN, "", lineNumber) {
+AssignNode::AssignNode(LineNumber line) :
+    StatementASTNode(ASTNODE_ASSIGN, "", line) {
   // index [0] = assignee
   // index [1] = expression
   children.push_back(nullptr);

@@ -2,8 +2,8 @@
 
 #include "sp/ast/ASTNode.h"
 
-PrintNode::PrintNode(int lineNumber) :
-    StatementASTNode(ASTNODE_PRINT, "", lineNumber) {
+PrintNode::PrintNode(LineNumber line) :
+    StatementASTNode(ASTNODE_PRINT, "", line) {
   children.push_back(nullptr);
 }
 

@@ -8,7 +8,7 @@ using std::string;
 
 class ReadNode : public StatementASTNode {
  public:
-  explicit ReadNode(int lineNumber);
+  explicit ReadNode(LineNumber line);
   ~ReadNode() = default;
 
   string toString() override;

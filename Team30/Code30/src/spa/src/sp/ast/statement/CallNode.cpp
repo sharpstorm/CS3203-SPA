@@ -1,7 +1,7 @@
 #include "CallNode.h"
 
-CallNode::CallNode(int lineNumber, string pName) :
-    StatementASTNode(ASTNODE_CALL, "", lineNumber), procName(pName) {
+CallNode::CallNode(LineNumber line, string pName) :
+    StatementASTNode(ASTNODE_CALL, "", line), procName(pName) {
 }
 
 void CallNode::accept(IExtractor* e) {
