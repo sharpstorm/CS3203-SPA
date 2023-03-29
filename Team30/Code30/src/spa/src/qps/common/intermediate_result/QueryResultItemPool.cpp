@@ -1,6 +1,7 @@
 #include "QueryResultItemPool.h"
 
 #include <memory>
+#include <utility>
 
 using std::make_unique;
 
@@ -35,15 +36,15 @@ vector<QueryResultItemPtr> QueryResultItemPool::releaseOwned() {
 }
 
 OrphanedResultItemPoolPtr QueryResultItemPool::adoptPool(
-    QueryResultItemPool &other) {
+    QueryResultItemPool *other) {
   QueryResultItemMapping translationMap;
   QueryResultItemSet adoptedPtrs;
-  adoptStmts(other, adoptedPtrs, translationMap);
-  adoptEntities(other, adoptedPtrs, translationMap);
+  adoptStmts(other, &adoptedPtrs, &translationMap);
+  adoptEntities(other, &adoptedPtrs, &translationMap);
 
   OrphanedResultItemPoolPtr orphanedPtrs =
       make_unique<OrphanedResultItemPool>(translationMap);
-  vector<QueryResultItemPtr> otherItems = other.releaseOwned();
+  vector<QueryResultItemPtr> otherItems = other->releaseOwned();
   for (QueryResultItemPtr &it : otherItems) {
     if (adoptedPtrs.find(it.get()) != adoptedPtrs.end()) {
       ownedItems.push_back(std::move(it));
@@ -55,31 +56,31 @@ OrphanedResultItemPoolPtr QueryResultItemPool::adoptPool(
   return std::move(orphanedPtrs);
 }
 
-void QueryResultItemPool::adoptStmts(const QueryResultItemPool &other,
-                                     QueryResultItemSet &adoptedSet,
-                                     QueryResultItemMapping &translationMap) {
-  for (const auto &it : other.stmtLookup) {
+void QueryResultItemPool::adoptStmts(const QueryResultItemPool *other,
+                                     QueryResultItemSet *adoptedSet,
+                                     QueryResultItemMapping *translationMap) {
+  for (const auto &it : other->stmtLookup) {
     auto mySamePtr = stmtLookup.find(it.first);
     if (mySamePtr != stmtLookup.end()) {
-      translationMap.emplace(it.second, mySamePtr->second);
+      translationMap->emplace(it.second, mySamePtr->second);
       continue;
     }
     stmtLookup.emplace(it.first, it.second);
-    adoptedSet.insert(it.second);
+    adoptedSet->insert(it.second);
   }
 }
 
 void QueryResultItemPool::adoptEntities(
-    const QueryResultItemPool &other,
-    QueryResultItemSet &adoptedSet,
-    QueryResultItemMapping &translationMap) {
-  for (const auto &it : other.entLookup) {
+    const QueryResultItemPool *other,
+    QueryResultItemSet *adoptedSet,
+    QueryResultItemMapping *translationMap) {
+  for (const auto &it : other->entLookup) {
     auto mySamePtr = entLookup.find(it.first);
     if (mySamePtr != entLookup.end()) {
-      translationMap.emplace(it.second, mySamePtr->second);
+      translationMap->emplace(it.second, mySamePtr->second);
       continue;
     }
     entLookup.emplace(it.first, it.second);
-    adoptedSet.insert(it.second);
+    adoptedSet->insert(it.second);
   }
 }

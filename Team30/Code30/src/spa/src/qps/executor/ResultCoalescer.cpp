@@ -1,9 +1,10 @@
 #include <utility>
+#include <unordered_set>
 
 #include "ResultCoalescer.h"
 #include "common/SetUtils.h"
 
-using std::make_unique;
+using std::make_unique, std::unordered_set;
 
 ResultCoalescer::ResultCoalescer(PQLQueryResult *setA,
                                  PQLQueryResult *setB) :

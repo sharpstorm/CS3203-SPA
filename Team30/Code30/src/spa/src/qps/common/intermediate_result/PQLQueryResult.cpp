@@ -8,12 +8,12 @@ PQLQueryResult::PQLQueryResult():
 
 OrphanedResultItemPoolPtr PQLQueryResult::adoptOwnedItems(
     PQLQueryResult *other) {
-  return ownedItemPool.adoptPool(other->ownedItemPool);
+  return ownedItemPool.adoptPool(&other->ownedItemPool);
 }
 
 OrphanedResultItemPoolPtr PQLQueryResult::releaseOwnedItemsTo(
     QueryResultItemPool *other) {
-  return other->adoptPool(ownedItemPool);
+  return other->adoptPool(&ownedItemPool);
 }
 
 bool PQLQueryResult::isEmpty() const {
