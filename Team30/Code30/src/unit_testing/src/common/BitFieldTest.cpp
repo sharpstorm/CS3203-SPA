@@ -1,3 +1,5 @@
+// #define CATCH_CONFIG_ENABLE_BENCHMARKING
+
 #include "catch.hpp"
 #include "common/data_structs/BitField.h"
 
@@ -123,3 +125,22 @@ TEST_CASE("Bit Field Union Onto") {
   requireBitfieldLength(&result, 32);
 }
 
+#ifdef CATCH_CONFIG_ENABLE_BENCHMARKING
+
+TEST_CASE("Benchmark bitfield performance") {
+  BitField bfA(500);
+  BitField bfB(500);
+
+  populateBitfield(&bfA, 400);
+  populateBitfield(&bfB, 350, 500);
+
+  BENCHMARK("Bench Bitfield Projection") -> void {
+      auto result = bfA.projectOnto(bfB);
+    };
+
+  BENCHMARK("Bench Bitfield Union") -> void {
+      auto result = bfA.unionWith(bfB);
+    };
+}
+
+#endif
