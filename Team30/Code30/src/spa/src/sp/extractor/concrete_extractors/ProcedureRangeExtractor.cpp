@@ -41,7 +41,7 @@ void ProcedureRangeExtractor::visitWhile(WhileNode* node) {
 }
 
 void ProcedureRangeExtractor::
-addProcedureRange(const string &procName, int start, int end) {
+addProcedureRange(const string &procName, LineNumber start, LineNumber end) {
   try {
     pkbWriter->addProcedure(procName, start, end);
   } catch (PKBError e) {

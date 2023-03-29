@@ -65,19 +65,19 @@ void UsesExtractor::updateUses(const unordered_set<string> &v) {
 }
 
 void UsesExtractor::updateUses(const string &v) {
-  for (int i : statementStartStack) {
+  for (LineNumber i : statementStartStack) {
     addUsesRelation(i, v);
   }
 }
 
-void UsesExtractor::processNode(const int &lineNumber,
+void UsesExtractor::processNode(const LineNumber &lineNumber,
                                 const unordered_set<string> &v) {
   for (const string &s : v) {
     addUsesRelation(lineNumber, s);
   }
 }
 
-void UsesExtractor::addUsesRelation(const int &x, const string &var) {
+void UsesExtractor::addUsesRelation(const LineNumber &x, const string &var) {
   pkbWriter->addUses(x, var, procName);
 }
 

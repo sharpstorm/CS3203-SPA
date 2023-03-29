@@ -14,5 +14,5 @@ class StatementNumberExtractor : public AbstractExtractor {
   const int getStatementNumber();
 
  private:
-  int statementNumber;
+  LineNumber statementNumber;
 };

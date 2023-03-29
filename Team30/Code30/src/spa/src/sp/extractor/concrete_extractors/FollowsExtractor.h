@@ -8,6 +8,6 @@ class FollowsExtractor : public AbstractExtractor {
   void visitStmtList(StatementListNode* node) override;
 
  private:
-  void addFollowsRelation(int x, int y);
+  void addFollowsRelation(LineNumber x, LineNumber y);
   PkbWriter* pkbWriter;
 };

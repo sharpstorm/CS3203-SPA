@@ -42,14 +42,14 @@ void ModifiesExtractor::visitVariable(VariableASTNode *node) {
   curStatement = -1;
 }
 
-void ModifiesExtractor::addNodeModifies(const int &lineNo,
+void ModifiesExtractor::addNodeModifies(const LineNumber &lineNo,
                                         const string &var) {
   addModifiesRelation(lineNo, var);
-  for (int i : statementStartStack) {
+  for (LineNumber i : statementStartStack) {
     addModifiesRelation(i, var);
   }
 }
 
-void ModifiesExtractor::addModifiesRelation(int x, string var) {
+void ModifiesExtractor::addModifiesRelation(LineNumber x, string var) {
   pkbWriter->addModifies(x, var, currentProcName);
 }

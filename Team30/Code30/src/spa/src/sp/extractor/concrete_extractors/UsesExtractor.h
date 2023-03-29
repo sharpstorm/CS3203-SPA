@@ -24,11 +24,11 @@ class UsesExtractor : public AbstractExtractor {
   void leaveAssign(AssignNode* node) override;
 
  private:
-  void addUsesRelation(const int &x, const string &var);
-  void processNode(const int &lineNumber, const unordered_set<string> &v);
+  void addUsesRelation(const LineNumber &x, const string &var);
+  void processNode(const LineNumber &lineNumber, const unordered_set<string> &v);
   void updateUses(const unordered_set<string> &v);
   void updateUses(const string &v);
-  vector<int> statementStartStack;
+  vector<LineNumber> statementStartStack;
   vector<bool> addToPKB;
   vector<bool> isDisabledFromContainer;
   bool oneShot;

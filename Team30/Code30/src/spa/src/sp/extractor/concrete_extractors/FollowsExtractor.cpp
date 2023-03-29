@@ -24,6 +24,6 @@ void FollowsExtractor::visitStmtList(StatementListNode* node) {
   }
 }
 
-void FollowsExtractor::addFollowsRelation(int x, int y) {
+void FollowsExtractor::addFollowsRelation(LineNumber x, LineNumber y) {
   pkbWriter->addFollows(x, y);
 }
