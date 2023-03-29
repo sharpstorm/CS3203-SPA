@@ -1,0 +1,10 @@
+1 - a path
+
+Select BOOLEAN such that Affects(1, 4)
+FALSE
+5000
+2 - b path
+
+Select BOOLEAN such that Affects(2, 5)
+FALSE
+5000
