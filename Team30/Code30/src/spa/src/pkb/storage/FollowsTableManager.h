@@ -40,22 +40,24 @@ class FollowsTableManager {
    * Get set of arg2 where R(arg1, arg2) is true, given arg1 value.
    */
   virtual set<StmtValue> getByFirstArg(StmtValue arg1) const {
-    auto values = table->get(arg1);
-    if (values.empty()) {
-      return IntSetTable<StmtValue>::getEmptyValue();
+    auto value = table->getFirstValue(arg1);
+    if (value == 0) {
+      return {};
+    } else {
+      return { value };
     }
-    return {*(values.begin())};
   }
 
   /**
    * Get set of arg1 where R(arg1, arg2) is true, given arg2 value.
    */
   virtual set<StmtValue> getBySecondArg(StmtValue arg2) const {
-    auto values = reverseTable->get(arg2);
-    if (values.empty()) {
-      return IntSetTable<StmtValue>::getEmptyValue();
+    auto value = reverseTable->getLastValue(arg2);
+    if (value == 0) {
+      return {};
+    } else {
+      return { value };
     }
-    return {*(values.rbegin())};
   }
 
   /**

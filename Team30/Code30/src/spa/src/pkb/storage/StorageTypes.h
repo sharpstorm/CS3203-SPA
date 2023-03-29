@@ -5,6 +5,7 @@
 #include "FollowsTTableManager.h"
 #include "FollowsTableManager.h"
 #include "IndexTableManager.h"
+#include "ParentTTableManager.h"
 #include "RelationTableManager.h"
 #include "StatementStorage.h"
 #include "TransitiveRelationTableManager.h"
@@ -32,14 +33,14 @@ using StmtRevTable = HashKeySetTable<StmtType, StmtValue>;
 using CallDeclarationTable = HashKeyTable<StmtValue, EntityValue>;
 
 using FollowsStorage = FollowsTableManager;
-using FollowsTStorage = FollowsTTableManager;
+using FollowsTStorage = FollowsTTableManager;  // will change to RTM
 using FollowsTable = IntSetTable<StmtValue>;
 using FollowsRevTable = IntSetTable<StmtValue>;
 
-using ParentStorage = RelationTableManager<StmtValue, StmtValue>;
-using ParentTStorage = TransitiveRelationTableManager<StmtValue>;
-using ParentTable = ContiguousSetTable<StmtValue>;
-using ParentRevTable = ContiguousSetTable<StmtValue>;
+using ParentStorage = FollowsTableManager;  // will change to RTM
+using ParentTStorage = ParentTTableManager;
+using ParentTable = IntSetTable<StmtValue>;
+using ParentRevTable = IntSetTable<StmtValue>;
 
 using ModifiesStorage = RelationTableManager<StmtValue, EntityValue>;
 using ModifiesTable = HashKeySetTable<StmtValue, EntityValue>;

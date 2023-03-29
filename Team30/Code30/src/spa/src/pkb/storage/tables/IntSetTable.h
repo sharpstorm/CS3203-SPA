@@ -10,6 +10,8 @@ using std::set;
 
 template <typename V>
 class IntSetTable : public IntTable<set<V>> {
+ private:
+  static inline const V emptyValue = V();
  public:
   using IntTable<set<V>>::IntTable;
 
@@ -18,5 +20,21 @@ class IntSetTable : public IntTable<set<V>> {
     assert(value != V());
 
     this->table[key].insert(value);
+  }
+
+  const V& getFirstValue(StmtValue key) const {
+    auto values = IntTable::get(key);
+    if (values.empty()) {
+      return IntSetTable::emptyValue;
+    }
+    return *(values.begin());
+  }
+
+  const V& getLastValue(StmtValue key) const {
+    auto values = IntTable::get(key);
+    if (values.empty()) {
+      return IntSetTable::emptyValue;
+    }
+    return *(values.rbegin());
   }
 };

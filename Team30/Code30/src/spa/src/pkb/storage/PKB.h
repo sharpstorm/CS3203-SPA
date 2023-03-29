@@ -60,7 +60,7 @@ class PKB {
   ParentRevTable *parentRevTable = new ParentRevTable();
   ParentStorage *parentStorage = new ParentStorage(parentTable, parentRevTable);
   ParentTStorage *parentTStorage =
-      new ParentTStorage(parentTable, parentRevTable);
+      new ParentTStorage(parentTable, parentRevTable, followsTable);
 
   ModifiesTable *modifiesTable = new ModifiesTable();
   ModifiesRevTable *modifiesRevTable = new ModifiesRevTable();
