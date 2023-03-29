@@ -9,10 +9,10 @@ using std::make_unique;
 using std::unique_ptr;
 
 /**
- * Table manager for transitive relations, R*(left, right) where args are type T.
- * R*(left, right) is true if
- * - R(left, right) or
- * - R(left, a) and R*(a, right) for some a
+ * Table manager for transitive relations, R*(arg1, arg2) where args are type T.
+ * R*(arg1, arg2) is true if
+ * - R(arg1, arg2) or
+ * - R(arg1, a) and R*(a, arg2) for some a
  */
 template <typename T>
 class TransitiveRelationTableManager : public RelationTableManager<T, T> {
@@ -22,35 +22,35 @@ class TransitiveRelationTableManager : public RelationTableManager<T, T> {
       : RelationTableManager<T, T>(table, reverseTable) {}
 
   /**
-   * Get set of right where R*(left, right) is true, given left.
+   * Get set of arg2 where R*(arg1, arg2) is true, given arg1.
    */
-  set<T> getByFirstArg(T left) const override {
+  set<T> getByFirstArg(T arg1) const override {
     auto result = set<T>({});
-    getByFirstArgTHelper(left, &result);
+    getByFirstArgTHelper(arg1, &result);
     return result;
   }
 
   /**
-   * Get set of left where R*(left, right) is true, given right.
+   * Get set of arg1 where R*(arg1, arg2) is true, given arg2.
    */
-  set<T> getBySecondArg(T right) const override {
+  set<T> getBySecondArg(T arg2) const override {
     auto result = set<T>({});
-    getBySecondArgTHelper(right, &result);
+    getBySecondArgTHelper(arg2, &result);
     return result;
   }
 
   /**s
-   * Find R*(left, right) where left is in the given leftValues and right
-   * satisfies rightPredicate.
+   * Find R*(arg1, arg2) where arg1 is in the given arg1Values and arg2
+   * satisfies arg2Predicate.
    */
   QueryResultPtr<T, T> query(
-      set<T> leftValues, Predicate<T> rightPredicate,
+      set<T> arg1Values, Predicate<T> arg2Predicate,
       QueryResultBuilder<T, T> *resultBuilder) const override {
-    for (auto left : leftValues) {
-      auto rightValues = getByFirstArg(left);
-      for (auto right : rightValues) {
-        if (rightPredicate(right)) {
-          resultBuilder->add(left, right);
+    for (auto arg1 : arg1Values) {
+      auto arg2Values = getByFirstArg(arg1);
+      for (auto arg2 : arg2Values) {
+        if (arg2Predicate(arg2)) {
+          resultBuilder->add(arg1, arg2);
         }
       }
     }
@@ -58,17 +58,17 @@ class TransitiveRelationTableManager : public RelationTableManager<T, T> {
   }
 
   /**
-   * Find R*(left, right) where right is in the given rightValues and left
-   * satisfies leftPredicate.
+   * Find R*(arg1, arg2) where arg2 is in the given arg2Values and arg1
+   * satisfies arg1Predicate.
    */
   QueryResultPtr<T, T> query(
-      Predicate<T> leftPredicate, set<T> rightValues,
+      Predicate<T> arg1Predicate, set<T> arg2Values,
       QueryResultBuilder<T, T> *resultBuilder) const override {
-    for (auto right : rightValues) {
-      auto leftValues = getBySecondArg(right);
-      for (auto left : leftValues) {
-        if (leftPredicate(left)) {
-          resultBuilder->add(left, right);
+    for (auto arg2 : arg2Values) {
+      auto arg1Values = getBySecondArg(arg2);
+      for (auto arg1 : arg1Values) {
+        if (arg1Predicate(arg1)) {
+          resultBuilder->add(arg1, arg2);
         }
       }
     }
@@ -76,26 +76,26 @@ class TransitiveRelationTableManager : public RelationTableManager<T, T> {
   }
 
   /**
-   * Find R*(left, right) given left and right satisfies rightPredicate.
+   * Find R*(arg1, arg2) given arg1 and arg2 satisfies arg2Predicate.
    */
   QueryResultPtr<T, T> query(
-      T left, Predicate<T> rightPredicate,
+      T arg1, Predicate<T> arg2Predicate,
       QueryResultBuilder<T, T> *resultBuilder) const override {
-    return query(set<T>({left}), rightPredicate, resultBuilder);
+    return query(set<T>({arg1}), arg2Predicate, resultBuilder);
   }
 
   /**
-   * Find R*(left, right) given right and left satisfies leftPredicate.
+   * Find R*(arg1, arg2) given arg2 and arg1 satisfies arg1Predicate.
    */
   QueryResultPtr<T, T> query(
-      Predicate<T> leftPredicate, T right,
+      Predicate<T> arg1Predicate, T arg2,
       QueryResultBuilder<T, T> *resultBuilder) const override {
-    return query(leftPredicate, set<T>({right}), resultBuilder);
+    return query(arg1Predicate, set<T>({arg2}), resultBuilder);
   }
 
  private:
-  void getByFirstArgTHelper(T left, set<T> *allResults) const {
-    auto result = this->table->get(left);
+  void getByFirstArgTHelper(T arg1, set<T> *allResults) const {
+    auto result = this->table->get(arg1);
     for (auto r : result) {
       if (allResults->find(r) != allResults->end()) {
         continue;
@@ -106,8 +106,8 @@ class TransitiveRelationTableManager : public RelationTableManager<T, T> {
     return;
   }
 
-  void getBySecondArgTHelper(T right, set<T> *allResults) const {
-    auto result = this->reverseTable->get(right);
+  void getBySecondArgTHelper(T arg2, set<T> *allResults) const {
+    auto result = this->reverseTable->get(arg2);
     for (auto r : result) {
       if (allResults->find(r) != allResults->end()) {
         continue;

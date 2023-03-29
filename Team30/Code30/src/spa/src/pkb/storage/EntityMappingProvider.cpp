@@ -7,6 +7,7 @@ EntityMappingProvider::EntityMappingProvider(
       constantStorage(constantStorage),
       procedureStorage(procedureStorage) {}
 
+EntitySet emptySet = {};
 const EntitySet& EntityMappingProvider::getValuesOfType(
     EntityType entityType) const {
   if (entityType == EntityType::Variable) {
@@ -17,7 +18,7 @@ const EntitySet& EntityMappingProvider::getValuesOfType(
     return procedureStorage->getProcedures();
   } else {
     // note: EntityType::None is invalid
-    return {};
+    return emptySet;
   }
 }
 

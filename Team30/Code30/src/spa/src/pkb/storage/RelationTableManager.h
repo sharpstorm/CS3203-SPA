@@ -14,7 +14,7 @@ using std::shared_ptr;
 using std::unique_ptr;
 
 /**
- * Table manager for relation, R(left, right), where args are type K and V
+ * Table manager for relation, R(arg1, arg2), where args are type K and V
  * respectively. Stores mapping of K -> Set<V> and V-> Set<K>. Provides insert
  * and query functionalities.
  */
@@ -30,35 +30,35 @@ class RelationTableManager {
                        IBaseSetTable<V, K> *reverseTable)
       : table(table), reverseTable(reverseTable) {}
 
-  void insert(K left, V right) {
-    table->insert(left, right);
-    reverseTable->insert(right, left);
+  void insert(K arg1, V arg2) {
+    table->insert(arg1, arg2);
+    reverseTable->insert(arg2, arg1);
   }
 
   /**
-   * Get set of right where R(left, right) is true, given left value.
+   * Get set of arg2 where R(arg1, arg2) is true, given arg1 value.
    */
-  virtual set<V> getByFirstArg(K left) const { return table->get(left); }
+  virtual set<V> getByFirstArg(K arg1) const { return table->get(arg1); }
 
   /**
-   * Get set of left where R(left, right) is true, given right value.
+   * Get set of arg1 where R(arg1, arg2) is true, given arg2 value.
    */
-  virtual set<K> getBySecondArg(V right) const {
-    return reverseTable->get(right);
+  virtual set<K> getBySecondArg(V arg2) const {
+    return reverseTable->get(arg2);
   }
 
   /**
-   * Find R(left, right) where left is in the given leftValues and right satisfies
-   * rightPredicate.
+   * Find R(arg1, arg2) where arg1 is in the given arg1Values and arg2 satisfies
+   * arg2Predicate.
    */
   virtual QueryResultPtr<K, V> query(
-      set<K> leftValues, Predicate<V> rightPredicate,
+      set<K> arg1Values, Predicate<V> arg2Predicate,
       QueryResultBuilder<K, V> *resultBuilder) const {
-    for (auto left : leftValues) {
-      auto rightValues = getByFirstArg(left);
-      for (auto right : rightValues) {
-        if (rightPredicate(right)) {
-          resultBuilder->add(left, right);
+    for (auto arg1 : arg1Values) {
+      auto arg2Values = getByFirstArg(arg1);
+      for (auto arg2 : arg2Values) {
+        if (arg2Predicate(arg2)) {
+          resultBuilder->add(arg1, arg2);
         }
       }
     }
@@ -67,17 +67,17 @@ class RelationTableManager {
   }
 
   /**
-   * Find R(left, right) where right is in the given rightValues and left satisfies
-   * leftPredicate.
+   * Find R(arg1, arg2) where arg2 is in the given arg2Values and arg1 satisfies
+   * arg1Predicate.
    */
   virtual QueryResultPtr<K, V> query(
-      Predicate<K> leftPredicate, set<V> rightValues,
+      Predicate<K> arg1Predicate, set<V> arg2Values,
       QueryResultBuilder<K, V> *resultBuilder) const {
-    for (auto right : rightValues) {
-      auto leftValues = getBySecondArg(right);
-      for (auto left : leftValues) {
-        if (leftPredicate(left)) {
-          resultBuilder->add(left, right);
+    for (auto arg2 : arg2Values) {
+      auto arg1Values = getBySecondArg(arg2);
+      for (auto arg1 : arg1Values) {
+        if (arg1Predicate(arg1)) {
+          resultBuilder->add(arg1, arg2);
         }
       }
     }
@@ -85,20 +85,20 @@ class RelationTableManager {
   }
 
   /**
-   * Find R(left, right) given left and right satisfies rightPredicate.
+   * Find R(arg1, arg2) given arg1 and arg2 satisfies arg2Predicate.
    */
   virtual QueryResultPtr<K, V> query(
-      K left, Predicate<V> rightPredicate,
+      K arg1, Predicate<V> arg2Predicate,
       QueryResultBuilder<K, V> *resultBuilder) const {
-    return query(set<K>({left}), rightPredicate, resultBuilder);
+    return query(set<K>({arg1}), arg2Predicate, resultBuilder);
   }
 
   /**
-   * Find R(left, right) given right and left satisfies leftPredicate.
+   * Find R(arg1, arg2) given arg2 and arg1 satisfies arg1Predicate.
    */
   virtual QueryResultPtr<K, V> query(
-      Predicate<K> leftPredicate, V right,
+      Predicate<K> arg1Predicate, V arg2,
       QueryResultBuilder<K, V> *resultBuilder) const {
-    return query(leftPredicate, set<V>({right}), resultBuilder);
+    return query(arg1Predicate, set<V>({arg2}), resultBuilder);
   }
 };
