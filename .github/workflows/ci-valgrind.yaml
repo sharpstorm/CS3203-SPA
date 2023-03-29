@@ -98,7 +98,7 @@ jobs:
         if: github.event.inputs.tooling == 'callgrind'
         working-directory: ./Team30/Code30/build
         run: |
-          python3 gprof2dot.py --format=callgrind --output=callgrind.out.dot callgrind.out.[0-9]*
+          gprof2dot --format=callgrind --output=callgrind.out.dot callgrind.out.[0-9]*
           dot -T png callgrind.out.dot -o callgrind.out.png
           dot -T svg callgrind.out.dot -o callgrind.out.svg
 
