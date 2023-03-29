@@ -54,12 +54,8 @@ void PQLQueryResult::putTableRow(const vector<QueryResultItem*> &row) {
   ResultTableRow newRowNum = combinedTable.size();
   for (int i = 0; i < colMaps.size(); i++) {
     ColMap* map = colMaps.at(i).get();
-    const QueryResultItem &item = *row.at(i);
-    if (map->find(item) != map->end()) {
-      map->at(item).insert(newRowNum);
-    } else {
-      map->emplace(item, RowSet{newRowNum});
-    }
+    const QueryResultItem *item = row.at(i);
+    (*map)[*item].insert(newRowNum);
   }
 
   combinedTable.push_back(row);
