@@ -94,6 +94,14 @@ jobs:
         working-directory: ./Team30/Code30/build
         run: valgrind --tool=callgrind ${{ github.event.inputs.valgrindflags }} ./src/${{ github.event.inputs.target }}/${{ github.event.inputs.target }} ${{ github.event.inputs.executeflags }}
 
+      - name: Generate Flame Graph
+        if: github.event.inputs.tooling == 'callgrind'
+        working-directory: ./Team30/Code30/build
+        run: |
+          gprof2dot --format=callgrind --output=callgrind.out.dot callgrind.out.[0-9]*
+          dot -T png callgrind.out.dot -o callgrind.out.png
+          dot -T svg callgrind.out.dot -o callgrind.out.svg
+
       - name: Upload Callgrind Result
         if: github.event.inputs.tooling == 'callgrind'
         uses: actions/upload-artifact@v3
