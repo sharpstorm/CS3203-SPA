@@ -25,8 +25,7 @@ class BitField {
   int capacity;
 
   BitField(const int &capacity, const vector<uint32_t> &source);
-  BitField projectOnto();
-  int getMaskFor(const int &size);
+  int getMaskFor(const int &size) const;
 
  public:
   BitField();
@@ -38,11 +37,10 @@ class BitField {
   bool isSet(int bit) const;
   int getCapacity() const;
 
-  bool empty();
-  BitField differenceWith(const BitField &other);
-  BitField projectOnto(const BitField &other);
-  BitField unionWith(const BitField &other);
-  bool contains(const BitField &other);
+  bool empty() const;
+  BitField projectOnto(const BitField &other) const;
+  BitField unionWith(const BitField &other) const;
+  bool contains(const BitField &other) const;
 
   static BitField copyOf(const BitField *source);
 };

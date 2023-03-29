@@ -3,8 +3,10 @@
 #include <vector>
 #include <memory>
 #include <unordered_set>
+#include <set>
 
-using std::vector, std::unique_ptr, std::make_unique, std::unordered_set;
+using std::vector, std::unique_ptr, std::make_unique, std::unordered_set,
+    std::set;
 
 template<typename T>
 using UniqueVectorPtr = unique_ptr<vector<T>>;
@@ -16,7 +18,13 @@ template<class T>
 using IntersectSet = unordered_set<T>;
 
 template<class T>
+using BSTIntersectSet = set<T>;
+
+template<class T>
 using IntersectSetPtr = unique_ptr<IntersectSet<T>>;
+
+template<class T>
+using BSTIntersectSetPtr = unique_ptr<BSTIntersectSet<T>>;
 
 template <class T>
 class AbstractIterator {

@@ -7,24 +7,39 @@
 using std::make_unique, std::unordered_set;
 
 class SetUtils {
- public:
+ private:
   template<class T>
-  static IntersectSetPtr<T> intersectSet(IntersectSet<T> *s1,
-                                         IntersectSet<T> *s2) {
+  static unique_ptr<T> intersectSetInternal(T *s1, T *s2) {
     if (s1 == nullptr) {
       return nullptr;
     } else if (s2 == nullptr) {
       return nullptr;
     }
 
-    auto result = make_unique<IntersectSet<T>>();
-    for (auto it = s1->begin(); it != s1->end(); it++) {
-      if (s2->find(*it) != s2->end()) {
+    auto result = make_unique<T>();
+    bool isS1Smaller = s1->size() < s2->size();
+    T *smaller = isS1Smaller ? s1 : s2;
+    T *bigger = isS1Smaller ? s2 : s1;
+    for (auto it = smaller->begin(); it != smaller->end(); it++) {
+      if (bigger->find(*it) != bigger->end()) {
         result->insert(*it);
       }
     }
 
     return result;
+  }
+
+ public:
+  template<class T>
+  static IntersectSetPtr<T> intersectSet(IntersectSet<T> *s1,
+                                         IntersectSet<T> *s2) {
+    return intersectSetInternal(s1, s2);
+  }
+
+  template<class T>
+  static BSTIntersectSetPtr<T> intersectSet(BSTIntersectSet<T> *s1,
+                                            BSTIntersectSet<T> *s2) {
+    return intersectSetInternal(s1, s2);
   }
 
   template<class T>

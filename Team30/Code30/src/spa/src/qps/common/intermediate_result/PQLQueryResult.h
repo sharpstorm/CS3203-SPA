@@ -14,14 +14,14 @@
 #include "QueryResultItemPool.h"
 
 using std::pair, std::string, std::unordered_map, std::unordered_set,
-    std::vector, std::move, std::make_unique, std::unique_ptr;
+    std::vector, std::move, std::make_unique, std::unique_ptr, std::set;
 
 typedef int ResultTableCol;
 typedef int ResultTableRow;
 typedef vector<QueryResultItem*> QueryResultTableRow;
 typedef vector<QueryResultTableRow> QueryResultTable;
 
-typedef unordered_set<ResultTableRow> RowSet;
+typedef set<ResultTableRow> RowSet;
 
 typedef QueryResultItemMap<RowSet> ColMap;
 typedef unique_ptr<ColMap> ColMapPtr;

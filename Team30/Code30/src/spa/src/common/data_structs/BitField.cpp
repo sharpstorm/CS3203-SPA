@@ -65,8 +65,8 @@ bool BitField::isSet(int bit) const {
   return (data[byteOffset] & mask) == mask;
 }
 
-bool BitField::empty() {
-  for (int x : data) {
+bool BitField::empty() const {
+  for (const int &x : data) {
     if (x != 0) {
       return false;
     }
@@ -74,7 +74,7 @@ bool BitField::empty() {
   return true;
 }
 
-BitField BitField::unionWith(const BitField &other) {
+BitField BitField::unionWith(const BitField &other) const {
   int mySize = capacity;
   int otherSize = other.capacity;
   const BitField *biggerField = (mySize > otherSize) ? this : &other;
@@ -94,7 +94,7 @@ BitField BitField::unionWith(const BitField &other) {
   return result;
 }
 
-bool BitField::contains(const BitField &other) {
+bool BitField::contains(const BitField &other) const {
   int mySize = data.size();
   int otherSize = other.data.size();
   if (otherSize > mySize) {
@@ -109,25 +109,7 @@ bool BitField::contains(const BitField &other) {
   return true;
 }
 
-BitField BitField::differenceWith(const BitField &other) {
-  int mySize = data.size();
-  int otherSize = other.data.size();
-  int minSize = (mySize < otherSize) ? mySize : otherSize;
-  int maxCapacity = (capacity > other.capacity) ? capacity : other.capacity;
-
-  BitField result(maxCapacity);
-  for (int i = 0; i < minSize; i++) {
-    result.data[i] = data[i] ^ other.data.at(i);
-  }
-
-  for (int i = minSize * UNIT_SIZE; i < maxCapacity; i++) {
-    result.set(i);
-  }
-
-  return result;
-}
-
-BitField BitField::projectOnto(const BitField &other) {
+BitField BitField::projectOnto(const BitField &other) const {
   const int minCap = (capacity < other.capacity) ? capacity : other.capacity;
 
   BitField result = copyOf(&other);
@@ -151,8 +133,8 @@ BitField BitField::copyOf(const BitField *source) {
   return BitField(source->capacity, source->data);
 }
 
-int BitField::getMaskFor(const int &size) {
-  if (size >= 32) {
+int BitField::getMaskFor(const int &size) const {
+  if (size >= UNIT_SIZE) {
     return FULL_MASK_LOWER_32;
   }
   switch (size / 8) {

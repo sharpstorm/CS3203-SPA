@@ -86,8 +86,8 @@ void ResultCoalescer::mergeSynonymList(IntersectState *intersectState) {
 ResultCoalescer::IntersectResult ResultCoalescer::findIntersect(
     QueryResultTableRow *currentRow,
     IntersectState *state) {
-  IntersectSetPtr<ResultTableRow> leftSet = nullptr;
-  IntersectSetPtr<ResultTableRow> rightSet = nullptr;
+  BSTIntersectSetPtr<ResultTableRow> leftSet = nullptr;
+  BSTIntersectSetPtr<ResultTableRow> rightSet = nullptr;
   for (int j = 0; j < state->leftCommons.size(); j++) {
     ResultTableCol leftCol = state->leftCommons.at(j);
     ResultTableCol rightCol = state->rightCommons.at(j);

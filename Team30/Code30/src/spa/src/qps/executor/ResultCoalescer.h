@@ -32,8 +32,8 @@ class ResultCoalescer {
   };
 
   struct IntersectResult {
-    IntersectSetPtr<ResultTableRow> leftSet;
-    IntersectSetPtr<ResultTableRow> rightSet;
+    BSTIntersectSetPtr<ResultTableRow> leftSet;
+    BSTIntersectSetPtr<ResultTableRow> rightSet;
 
     bool isEmpty() {
       return leftSet->empty() || rightSet->empty();

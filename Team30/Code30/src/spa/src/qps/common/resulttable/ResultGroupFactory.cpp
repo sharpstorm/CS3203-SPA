@@ -38,8 +38,8 @@ IntersectSet<ResultTableRow> ResultGroupFactory::getUniqueRows(
     if (ignoreRows.find(i) != ignoreRows.end()) {
       continue;
     }
-    IntersectSetPtr<ResultTableRow> currentIgnoreRows =
-        make_unique<IntersectSet<ResultTableRow>>();
+    BSTIntersectSetPtr<ResultTableRow> currentIgnoreRows =
+        make_unique<BSTIntersectSet<ResultTableRow>>();
 
     rowsToTake.insert(i);
     for (const PQLSynonymName& syn : *syns) {
