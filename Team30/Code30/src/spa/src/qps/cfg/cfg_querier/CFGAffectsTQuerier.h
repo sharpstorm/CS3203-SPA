@@ -142,9 +142,8 @@ StmtTransitiveResult CFGAffectsTQuerier<ClosureType, typePredicate,
           }
         }
 
-        if (!isUsed || !typePredicate(state->closure,
-                                      StmtType::Assign,
-                                      stmtNumber)) {
+        if (!isUsed || !isAssign<ClosureType, typePredicate>(
+            state->closure, stmtNumber)) {
           curState.unset(modifiedVars);
           return curState;
         }
@@ -223,16 +222,21 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
         }
 
         EntityIdxSet modifiedVars = modifiesGetter(state->closure, stmtNumber);
+        bool isStmtAssign = isAssign<ClosureType, typePredicate>(
+            state->closure,
+            stmtNumber);
         for (const EntityIdx &item : modifiedVars) {
           if (!curState.isSet(item)) {
             continue;
           }
           curState.unset(item);
+          if (!isStmtAssign) {
+            continue;
+          }
+
           EntityIdxSet usedVars = usesGetter(state->closure, stmtNumber);
           curState.set(usedVars);
-          isAffected = isAffected || isAssign<ClosureType, typePredicate>(
-              state->closure,
-              stmtNumber);
+          isAffected = true;
         }
 
         if (isAffected) {
@@ -319,9 +323,8 @@ void CFGAffectsTQuerier<ClosureType, typePredicate,
           }
         }
 
-        if (!isUsed || !typePredicate(state->closure,
-                                      StmtType::Assign,
-                                      stmtNumber)) {
+        if (!isUsed || !isAssign<ClosureType, typePredicate>(state->closure,
+                                                             stmtNumber)) {
           curState.unset(modifiedVars);
           return curState;
         }
@@ -347,5 +350,5 @@ bool CFGAffectsTQuerier<ClosureType, typePredicate,
                         modifiesGetter, usesGetter,
                         countGetter>::validateArg(const StmtValue &arg) {
   return cfg->containsStatement(arg)
-      && typePredicate(closure, StmtType::Assign, arg);
+      && isAssign<ClosureType, typePredicate>(closure, arg);
 }
