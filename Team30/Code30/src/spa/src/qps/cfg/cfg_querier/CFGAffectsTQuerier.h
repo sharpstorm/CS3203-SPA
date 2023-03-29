@@ -149,6 +149,7 @@ StmtTransitiveResult CFGAffectsTQuerier<ClosureType, typePredicate,
           return curState;
         }
 
+        curState.set(modifiedVars);
         if (stmtNumber == state->targetStmt) {
           state->isValidPathFound = true;
           throw CFGHaltWalkerException();
@@ -318,11 +319,13 @@ void CFGAffectsTQuerier<ClosureType, typePredicate,
           }
         }
 
-        if (!isUsed) {
+        if (!isUsed || !typePredicate(state->closure,
+                                      StmtType::Assign,
+                                      stmtNumber)) {
           curState.unset(modifiedVars);
           return curState;
         }
-
+        curState.set(modifiedVars);
         state->result->add(state->startingStmt, stmtNumber);
         return curState;
       };
