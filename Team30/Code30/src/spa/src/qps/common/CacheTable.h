@@ -1,20 +1,28 @@
 #pragma once
 
+#include <memory>
+#include <set>
+#include <utility>
 #include <vector>
-#include<utility>
 
 #include "common/Types.h"
 
-using std::vector;
+using std::vector, std::set, std::unique_ptr;
+
+typedef vector<StmtValue> CacheRow;
 
 class CacheTable {
-  vector<vector<StmtValue>> fullTable;
-  vector<vector<StmtValue>> partialTable;
+  vector<CacheRow> forwardMatrix;
+  vector<CacheRow> reverseMatrix;
+  set<StmtValue> fullForward;
+  set<StmtValue> fullReverse;
+  CacheRow* queryFrom(StmtValue stmt);
+  CacheRow* queryTo(StmtValue stmt);
 
  public:
-  void addToFullTableAt(int idx, int value);
-  void addToPartialTableAt(int idx, int value);
-  bool inFullTable(int idx, int value);
-  bool inPartialTable(int idx, int value);
-  bool valueInTable(vector<StmtValue> values, int value);
+  void addEntry(StmtValue leftStmt, StmtValue rightStmt);
+  CacheRow* queryFull(StmtValue leftStmt, StmtValue rightStmt);
+  CacheRow* queryPartial(StmtValue leftStmt, StmtValue rightStmt);
+  void promoteFrom(StmtValue stmt);
+  void promoteTo(StmtValue stmt);
 };

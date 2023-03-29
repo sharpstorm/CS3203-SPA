@@ -1,36 +1,92 @@
 #include "CacheTable.h"
 
-void CacheTable::addToFullTableAt(int idx, int value) {
-  fullTable.at(idx).push_back(value);
-}
-
-void CacheTable::addToPartialTableAt(int idx, int value) {
-  partialTable.at(idx).push_back(value);
-}
-bool CacheTable::inFullTable(int idx, int value) {
-  if (idx > fullTable.size()) {
-    return false;
-  }
-
-  vector<StmtValue> values = fullTable.at(idx);
-  return valueInTable(values, value);
-}
-
-bool CacheTable::inPartialTable(int idx, int value) {
-  if (idx > partialTable.size()) {
-    return false;
-  }
-
-  vector<StmtValue> values = partialTable.at(idx);
-  return valueInTable(values, value);
-}
-
-bool CacheTable::valueInTable(vector<StmtValue> values, int value) {
-  for (auto v : values) {
-    if (v == value) {
-      return true;
+void CacheTable::addEntry(StmtValue leftStmt, StmtValue rightStmt) {
+  // Insertion to fwd matrix
+  if (leftStmt >= forwardMatrix.size()) {
+    for (size_t i = forwardMatrix.size(); i < leftStmt; i++) {
+      forwardMatrix.emplace_back();
     }
   }
 
-  return false;
+  forwardMatrix[leftStmt - 1].push_back(rightStmt);
+
+  // Insertion to reverse matrix
+  if (rightStmt >= reverseMatrix.size()) {
+    for (size_t i = reverseMatrix.size(); i < rightStmt; i++) {
+      reverseMatrix.emplace_back();
+    }
+  }
+
+  reverseMatrix[rightStmt - 1].push_back(leftStmt);
+}
+
+CacheRow *CacheTable::queryFull(StmtValue leftStmt, StmtValue rightStmt) {
+  if (leftStmt > forwardMatrix.size() || rightStmt > reverseMatrix.size()) {
+    return nullptr;
+  }
+
+  if (leftStmt != 0) {
+    if (fullForward.find(leftStmt) != fullForward.end()) {
+      return &forwardMatrix[leftStmt - 1];
+    }
+  }
+
+  if (rightStmt != 0) {
+    if (fullReverse.find(rightStmt) != fullReverse.end()) {
+      return &reverseMatrix[rightStmt - 1];
+    }
+  }
+
+  return nullptr;
+}
+
+void CacheTable::promoteFrom(StmtValue stmt) {
+  fullForward.insert(stmt);
+}
+
+void CacheTable::promoteTo(StmtValue stmt) {
+  fullReverse.insert(stmt);
+}
+
+CacheRow *CacheTable::queryFrom(StmtValue stmt) {
+  if (stmt > forwardMatrix.size()) {
+    return nullptr;
+  }
+
+  CacheRow* cacheRow = &forwardMatrix[stmt - 1];
+  if (!cacheRow->empty()) {
+    promoteFrom(stmt);
+  }
+
+  return cacheRow;
+}
+
+CacheRow *CacheTable::queryTo(StmtValue stmt) {
+  if (stmt > reverseMatrix.size()) {
+    return nullptr;
+  }
+
+  CacheRow* cacheRow = &reverseMatrix[stmt - 1];
+  if (!cacheRow->empty()) {
+    promoteTo(stmt);
+  }
+
+  return cacheRow;
+}
+
+CacheRow *CacheTable::queryPartial(StmtValue leftStmt, StmtValue rightStmt) {
+  if (leftStmt != 0 && rightStmt != 0) {
+    CacheRow* row = &forwardMatrix[leftStmt];
+    if (row->empty()) {
+      return nullptr;
+    } else {
+      return row;
+    }
+  }
+
+  if (leftStmt == 0) {
+    return queryTo(rightStmt);
+  }
+
+  return queryFrom(leftStmt);
 }

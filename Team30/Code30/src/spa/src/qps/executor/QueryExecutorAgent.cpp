@@ -57,3 +57,18 @@ void QueryExecutorAgent::addToAffectsTCache(QueryResult<StmtValue,
                                                         StmtValue> *result) {
   cacheAgent.addToAffectsTCache(result);
 }
+
+StmtStmtQueryResult QueryExecutorAgent::queryNextTCache(
+    StmtRef left, StmtRef right) {
+  return cacheAgent.queryNextTCache(left, right);
+}
+
+StmtStmtQueryResult QueryExecutorAgent::queryAffectsCache(
+    StmtRef left, StmtRef right) {
+  return cacheAgent.queryAffectsCache(left, right);
+}
+
+StmtStmtQueryResult QueryExecutorAgent::queryAffectsTCache(
+    StmtRef left, StmtRef right) {
+  return cacheAgent.queryAffectsTCache(left, right);
+}
