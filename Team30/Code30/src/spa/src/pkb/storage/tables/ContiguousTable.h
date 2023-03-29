@@ -37,9 +37,6 @@ class ContiguousTable : public IBaseTable<int, V> {
     return emptyValue;
   }
 
-  void begin() const override {}
-  void end() const override {}
-
   static const V& getEmptyValue() {
     return emptyValue;
   }

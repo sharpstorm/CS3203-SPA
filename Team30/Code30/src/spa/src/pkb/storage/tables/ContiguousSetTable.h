@@ -27,6 +27,4 @@ class ContiguousSetTable : public IBaseSetTable<int, V>,
 
     return ContiguousTable<set<V>>::get(key);
   }
-  void begin() const override {}
-  void end() const override {}
 };

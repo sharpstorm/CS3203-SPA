@@ -26,6 +26,4 @@ class HashKeySetTable : public IBaseSetTable<K, V>,
 
     return HashKeyTable<K, set<V>>::get(key);
   }
-  void begin() const override {}
-  void end() const override {}
 };
