@@ -1,19 +1,27 @@
 #pragma once
 
 #include <string>
-#include <unordered_set>
+#include <set>
 #include <memory>
 #include <vector>
 
 #include "common/UtilityTypes.h"
-#include "qps/common/PQLQueryResult.h"
+#include "qps/common/intermediate_result/PQLQueryResult.h"
 
-using std::string, std::unordered_set, std::unique_ptr, std::vector;
+using std::string, std::set, std::unique_ptr, std::vector;
 
 class ResultCoalescer {
+ private:
+  PQLQueryResult *setA;
+  PQLQueryResult *setB;
+  PQLQueryResult *output;
+
+  OrphanedResultItemPoolPtr orphanMap;
+
+
  public:
-  PQLQueryResult* merge(PQLQueryResult* setA,
-                        PQLQueryResult* setB);
+  ResultCoalescer(PQLQueryResult *setA, PQLQueryResult *setB);
+  PQLQueryResult* merge();
 
  private:
   struct IntersectState {
@@ -24,32 +32,26 @@ class ResultCoalescer {
   };
 
   struct IntersectResult {
-    IntersectSetPtr<int> leftSet;
-    IntersectSetPtr<int> rightSet;
+    IntersectSetPtr<ResultTableRow> leftSet;
+    IntersectSetPtr<ResultTableRow> rightSet;
+
+    bool isEmpty() {
+      return leftSet->empty() || rightSet->empty();
+    }
   };
 
-  struct InternalMergeState {
-    PQLQueryResult *setA;
-    PQLQueryResult *setB;
-    PQLQueryResult* output;
-  };
+  void mergeResults();
+  void mergeSynonymList(IntersectState *intersectState);
 
-  void mergeResult(InternalMergeState* state);
+  IntersectResult findIntersect(QueryResultTableRow *currentRow,
+                                IntersectState *state);
 
-  void mergeSynonymList(InternalMergeState* mergeState,
-                        IntersectState *intersectState);
+  void crossProduct(set<ResultTableRow> *ignoreSet,
+                    IntersectState *intersectState,
+                    IntersectResult *intersection);
 
-  IntersectResult findIntersect(InternalMergeState* mergeState,
-                                QueryResultTableRow* currentRow,
-                                IntersectState* state);
-
-  void crossProduct(InternalMergeState* mergeState,
-                    unordered_set<int>* ignoreSet,
-                    IntersectState* intersectState,
-                    IntersectResult* intersection);
-
-  void mergeRow(QueryResultTableRow* rowA,
-                QueryResultTableRow* rowB,
-                QueryResultTableRow* outputRow,
-                IntersectState* state);
+  void mergeRow(QueryResultTableRow *rowA,
+                QueryResultTableRow *rowB,
+                QueryResultTableRow *outputRow,
+                IntersectState *state);
 };

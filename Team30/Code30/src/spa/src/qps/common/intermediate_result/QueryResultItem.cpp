@@ -10,20 +10,18 @@ bool QueryResultItem::operator!=(const QueryResultItem &other) const {
   return !(*this == other);
 }
 
-string QueryResultItem::project() {
-  if (stmtRef != NO_STMT_REF) {
+ProjectedValue QueryResultItem::project() const {
+  if (stmtRef != NO_STMT) {
     return to_string(stmtRef);
   }
 
-  if (entRef != NO_ENT_REF) {
+  if (entRef != NO_ENT) {
     return entRef;
   }
 
   return "";
 }
 
-const char QueryResultItem::NO_ENT_REF[] = "";
-
-int QueryResultItem::toStmtValue() {
+StmtValue QueryResultItem::toStmtValue() const {
   return stmtRef;
 }

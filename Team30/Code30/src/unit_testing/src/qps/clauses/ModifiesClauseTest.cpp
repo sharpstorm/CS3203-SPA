@@ -51,7 +51,7 @@ TEST_CASE("Modifies Querying") {
       make_unique<SynonymArgument>(synA),
       make_unique<WildcardArgument>());
   expected = TestQueryResultBuilder::buildExpected(ExpectedParams{
-      {"a", QueryResultItemVector{QueryResultItem(1), QueryResultItem(2), QueryResultItem(3), QueryResultItem(6), QueryResultItem(7), QueryResultItem(8) }}
+      {"a", QueryResultItemVector{TestResultItem(1), TestResultItem(2), TestResultItem(3), TestResultItem(6), TestResultItem(7), TestResultItem(8) }}
   });
   actual = PQLQueryResultPtr(modifiesClause.evaluateOn(agent));
   REQUIRE(*expected == *actual);
@@ -62,7 +62,7 @@ TEST_CASE("Modifies Querying") {
       make_unique<EntityArgument>("count"));
 
   expected = TestQueryResultBuilder::buildExpected(ExpectedParams{
-      {"a", QueryResultItemVector{QueryResultItem(1), QueryResultItem(6)}}
+      {"a", QueryResultItemVector{TestResultItem(1), TestResultItem(6)}}
   });
   actual = PQLQueryResultPtr(modifiesClause.evaluateOn(agent));
   REQUIRE(*actual == *expected);
@@ -72,7 +72,7 @@ TEST_CASE("Modifies Querying") {
       make_unique<StmtArgument>(8),
       make_unique<SynonymArgument>(synV));
   expected = TestQueryResultBuilder::buildExpected(ExpectedParams{
-      {"v", QueryResultItemVector{QueryResultItem("cenY")}}
+      {"v", QueryResultItemVector{TestResultItem("cenY")}}
   });
   actual = PQLQueryResultPtr(modifiesClause.evaluateOn(agent));
   REQUIRE(*actual == *expected);
@@ -84,20 +84,20 @@ TEST_CASE("Modifies Querying") {
 
   expected = TestQueryResultBuilder::buildExpected(ExpectedParams{
       {"a", QueryResultItemVector{
-          QueryResultItem(1),
-          QueryResultItem(2),
-          QueryResultItem(3),
-          QueryResultItem(6),
-          QueryResultItem(7),
-          QueryResultItem(8)
+          TestResultItem(1),
+          TestResultItem(2),
+          TestResultItem(3),
+          TestResultItem(6),
+          TestResultItem(7),
+          TestResultItem(8)
       }},
       {"v", QueryResultItemVector {
-          QueryResultItem("count"),
-          QueryResultItem("cenX"),
-          QueryResultItem("cenY"),
-          QueryResultItem("count"),
-          QueryResultItem("cenX"),
-          QueryResultItem("cenY")
+          TestResultItem("count"),
+          TestResultItem("cenX"),
+          TestResultItem("cenY"),
+          TestResultItem("count"),
+          TestResultItem("cenX"),
+          TestResultItem("cenY")
       }}
   });
   actual = PQLQueryResultPtr(modifiesClause.evaluateOn(agent));

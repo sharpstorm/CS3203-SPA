@@ -12,35 +12,35 @@ using std::shared_ptr, std::make_unique, std::unique_ptr;
 
 const ExpectedParams FOLLOWST_LEFT_LINES{
     {"a1", QueryResultItemVector {
-        QueryResultItem(1),
-        QueryResultItem(2),
-        QueryResultItem(3)
+        TestResultItem(1),
+        TestResultItem(2),
+        TestResultItem(3)
     }}
 };
 const ExpectedParams FOLLOWST_RIGHT_LINES{
     {"a2", QueryResultItemVector{
-        QueryResultItem(2),
-        QueryResultItem(3),
-        QueryResultItem(4)
+        TestResultItem(2),
+        TestResultItem(3),
+        TestResultItem(4)
     }}
 };
 
 const ExpectedParams FOLLOWST_PAIRS{
     {"a1", QueryResultItemVector{
-        QueryResultItem(1),
-        QueryResultItem(1),
-        QueryResultItem(1),
-        QueryResultItem(2),
-        QueryResultItem(2),
-        QueryResultItem(3)
+        TestResultItem(1),
+        TestResultItem(1),
+        TestResultItem(1),
+        TestResultItem(2),
+        TestResultItem(2),
+        TestResultItem(3)
     }},
     {"a2", QueryResultItemVector{
-        QueryResultItem(2),
-        QueryResultItem(3),
-        QueryResultItem(4),
-        QueryResultItem(3),
-        QueryResultItem(4),
-        QueryResultItem(4)
+        TestResultItem(2),
+        TestResultItem(3),
+        TestResultItem(4),
+        TestResultItem(3),
+        TestResultItem(4),
+        TestResultItem(4)
     }}
 };
 

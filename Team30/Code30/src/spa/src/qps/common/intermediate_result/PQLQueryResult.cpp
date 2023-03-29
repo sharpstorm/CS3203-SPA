@@ -6,7 +6,17 @@ PQLQueryResult::PQLQueryResult():
     isStaticFalse(false),
     isStaticResult(false) {}
 
-bool PQLQueryResult::isEmpty() {
+OrphanedResultItemPoolPtr PQLQueryResult::adoptOwnedItems(
+    PQLQueryResult *other) {
+  return ownedItemPool.adoptPool(other->ownedItemPool);
+}
+
+OrphanedResultItemPoolPtr PQLQueryResult::releaseOwnedItemsTo(
+    QueryResultItemPool *other) {
+  return other->adoptPool(ownedItemPool);
+}
+
+bool PQLQueryResult::isEmpty() const {
   return combinedTable.size() == 0;
 }
 
@@ -32,19 +42,19 @@ ResultTableCol PQLQueryResult::getSynonymCol(const PQLSynonymName &name) {
 }
 
 void PQLQueryResult::putSynonym(const PQLSynonymName &name) {
-  resultIndex[name] = colMap.size();
-  colMap.push_back(make_unique<ColMapItem>());
+  resultIndex[name] = colMaps.size();
+  colMaps.push_back(make_unique<ColMap>());
 }
 
 QueryResultTableRow *PQLQueryResult::getTableRowAt(int rowIndex) {
   return &combinedTable.at(rowIndex);
 }
 
-void PQLQueryResult::putTableRow(vector<QueryResultItemPtr> row) {
-  int newRowNum = combinedTable.size();
-  for (int i = 0; i < colMap.size(); i++) {
-    ColMapItem* map = colMap.at(i).get();
-    QueryResultItem item = *row.at(i);
+void PQLQueryResult::putTableRow(const vector<QueryResultItem*> &row) {
+  ResultTableRow newRowNum = combinedTable.size();
+  for (int i = 0; i < colMaps.size(); i++) {
+    ColMap* map = colMaps.at(i).get();
+    const QueryResultItem &item = *row.at(i);
     if (map->find(item) != map->end()) {
       map->at(item).insert(newRowNum);
     } else {
@@ -52,7 +62,7 @@ void PQLQueryResult::putTableRow(vector<QueryResultItemPtr> row) {
     }
   }
 
-  combinedTable.push_back(std::move(row));
+  combinedTable.push_back(row);
 }
 
 int PQLQueryResult::getRowCount() {
@@ -60,12 +70,12 @@ int PQLQueryResult::getRowCount() {
 }
 
 RowSetPtr PQLQueryResult::getRowsWithValue(ResultTableCol column,
-                                         QueryResultItem* value) {
-  ColMapItem* item = colMap.at(column).get();
-  if (item->find(*value) == item->end()) {
+                                           QueryResultItem* value) {
+  ColMap* colMap = colMaps.at(column).get();
+  if (colMap->find(*value) == colMap->end()) {
     return nullptr;
   }
-  return make_unique<RowSet>(item->at(*value));
+  return make_unique<RowSet>(colMap->at(*value));
 }
 
 bool PQLQueryResult::operator==(const PQLQueryResult &pqr) const {
@@ -107,8 +117,8 @@ bool PQLQueryResult::matchRow(const PQLQueryResult &other,
     int otherIndex = it.second;
     int thisIndex = resultIndex.at(it.first);
 
-    if (*combinedTable[myRowIndex][thisIndex].get() !=
-        *other.combinedTable[otherRowIndex][otherIndex].get()) {
+    if (*combinedTable[myRowIndex][thisIndex] !=
+        *other.combinedTable[otherRowIndex][otherIndex]) {
       return false;
     }
   }
