@@ -1,3 +1,4 @@
+// #define CATCH_CONFIG_ENABLE_BENCHMARKING
 #include "catch.hpp"
 
 #include "qps/executor/ResultCoalescer.h"
@@ -131,3 +132,44 @@ TEST_CASE("Test QueryResult Coalesce - 2 same synonym") {
 
   REQUIRE(resultSet == expected);
 }
+
+#ifdef CATCH_CONFIG_ENABLE_BENCHMARKING
+TEST_CASE("Benchmark Coalesce - 3x100 cross 3x1000 -> 5x100") {
+  auto colA1 = QueryResultItemVector{};
+  auto colA2 = QueryResultItemVector{};
+  auto colA3 = QueryResultItemVector{};
+
+  for (int i = 1; i <= 100; i++) {
+    colA1.push_back(QueryResultItem(i));
+    colA2.push_back(QueryResultItem("a" + i));
+    colA3.push_back(QueryResultItem("x" + i));
+  }
+
+  auto colB1 = QueryResultItemVector{};
+  auto colB2 = QueryResultItemVector{};
+  auto colB3 = QueryResultItemVector{};
+  for (int i = 1000; i >= 1; i--) {
+    colB1.push_back(QueryResultItem(i));
+    colB2.push_back(QueryResultItem("a" + i));
+    colB3.push_back(QueryResultItem("x" + i));
+  }
+
+  ResultCoalescer coalescer;
+  BENCHMARK("Benchmark 100 coalesce") -> void {
+      auto resultA = TestQueryResultBuilder::buildExpected(ExpectedParams{
+          {"a1", colA1 },
+          {"a2", colA2 },
+          {"common", colA3 },
+      });
+
+      auto resultB = TestQueryResultBuilder::buildExpected(ExpectedParams{
+          {"b1", colB1 },
+          {"b2", colB2 },
+          {"common", colB3 },
+      });
+      auto result = PQLQueryResultPtr(coalescer.merge(resultA.get(), resultB.get()));
+      resultA.release();
+      resultB.release();
+    };
+}
+#endif
