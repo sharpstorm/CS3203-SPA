@@ -2,6 +2,7 @@
 
 #include "common/Types.h"
 #include "pkb/predicates/AbstractPredicateFactory.h"
+#include "pkb/queryHandlers/QueryResultBuilder.h"
 #include "pkb/storage/RelationTableManager.h"
 #include "pkb/storage/interfaces/IEntityMappingProvider.h"
 #include "pkb/storage/interfaces/IProvider.h"
@@ -28,15 +29,21 @@ class BaseQueryInvoker {
       RelationTableManager<LeftValue, RightValue> *store,
       IRef<LeftValue, LeftType> *arg1,
       IRef<RightValue, RightType> *arg2) const {
+    auto resultBuilder = QueryResultBuilder<LeftValue, RightValue>();
+    resultBuilder.setLeftVals(true);
+    resultBuilder.setRightVals(true);
+    resultBuilder.setPairVals(true);
     if (arg1->isKnown()) {
       return store->query(arg1->getValue(),
-                          rightPredicateFactory->getPredicate(arg2));
+                          rightPredicateFactory->getPredicate(arg2),
+                          &resultBuilder);
     } else if (arg2->isKnown()) {
       return store->query(leftPredicateFactory->getPredicate(arg1),
-                          arg2->getValue());
+                          arg2->getValue(), &resultBuilder);
     } else {
       return store->query(leftProvider->getValuesOfType(arg1->getType()),
-                          rightPredicateFactory->getPredicate(arg2));
+                          rightPredicateFactory->getPredicate(arg2),
+                          &resultBuilder);
     }
   }
 };

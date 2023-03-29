@@ -1,26 +1,26 @@
 
 #include <memory>
-#include <string>
 #include <set>
+#include <string>
 #include <utility>
 
 #include "catch.hpp"
 #include "pkb/PkbTypes.h"
+#include "pkb/queryHandlers/QueryResultBuilder.h"
 #include "pkb/storage/StructureMappingProvider.h"
 #include "pkb/storage/TransitiveRelationTableManager.h"
 #include "pkb/storage/tables/ContiguousSetTable.h"
 
 using std::make_pair;
 using std::make_shared;
-using std::string;
 using std::set;
+using std::string;
 
 TEST_CASE("TransitiveRelationTableManager getByFirstArg") {
   auto table = make_shared<ContiguousSetTable<int>>();
   auto reverseTable = make_shared<ContiguousSetTable<int>>();
-  TransitiveRelationTableManager<int> tableManager(
-      table.get(),
-      reverseTable.get());
+  TransitiveRelationTableManager<int> tableManager(table.get(),
+                                                   reverseTable.get());
 
   tableManager.insert(1, 2);
   tableManager.insert(1, 3);
@@ -30,16 +30,14 @@ TEST_CASE("TransitiveRelationTableManager getByFirstArg") {
 
   REQUIRE(tableManager.getByFirstArg(6) == set<int>({}));
   REQUIRE(tableManager.getByFirstArg(5) == set<int>({6}));
-  REQUIRE(tableManager.getByFirstArg(1) ==
-      set<int>({2, 3, 4, 5, 6}));
+  REQUIRE(tableManager.getByFirstArg(1) == set<int>({2, 3, 4, 5, 6}));
 }
 
 TEST_CASE("TransitiveRelationTableManager getBySecondArg") {
   auto table = make_shared<ContiguousSetTable<int>>();
   auto reverseTable = make_shared<ContiguousSetTable<int>>();
-  TransitiveRelationTableManager<int> tableManager(
-      table.get(),
-      reverseTable.get());
+  TransitiveRelationTableManager<int> tableManager(table.get(),
+                                                   reverseTable.get());
 
   tableManager.insert(2, 1);
   tableManager.insert(3, 1);
@@ -49,8 +47,7 @@ TEST_CASE("TransitiveRelationTableManager getBySecondArg") {
 
   REQUIRE(tableManager.getBySecondArg(6) == set<int>({}));
   REQUIRE(tableManager.getBySecondArg(5) == set<int>({6}));
-  REQUIRE(tableManager.getBySecondArg(1) ==
-      set<int>({2, 3, 4, 5, 6}));
+  REQUIRE(tableManager.getBySecondArg(1) == set<int>({2, 3, 4, 5, 6}));
 }
 
 TEST_CASE(
@@ -59,9 +56,8 @@ TEST_CASE(
   auto table = make_shared<ContiguousSetTable<int>>();
   auto reverseTable = make_shared<ContiguousSetTable<int>>();
 
-  TransitiveRelationTableManager<int> tableManager(
-      table.get(),
-      reverseTable.get());
+  TransitiveRelationTableManager<int> tableManager(table.get(),
+                                                   reverseTable.get());
 
   tableManager.insert(1, 2);
   tableManager.insert(1, 6);
@@ -73,7 +69,11 @@ TEST_CASE(
   Predicate<int> isValid = [validValues](int const &s) {
     return validValues.find(s) != validValues.end();
   };
-  auto res = tableManager.query({1, 3}, isValid);
+  auto resultBuilder = QueryResultBuilder<int, int>();
+  resultBuilder.setLeftVals(true);
+  resultBuilder.setRightVals(true);
+  resultBuilder.setPairVals(true);
+  auto res = tableManager.query({1, 3}, isValid, &resultBuilder);
 
   REQUIRE(res.get()->firstArgVals == unordered_set<int>({1, 3}));
   REQUIRE(res.get()->secondArgVals == unordered_set<int>({2, 4, 7}));
@@ -85,9 +85,8 @@ TEST_CASE(
     "predicate") {
   auto table = make_shared<ContiguousSetTable<int>>();
   auto reverseTable = make_shared<ContiguousSetTable<int>>();
-  TransitiveRelationTableManager<int> tableManager(
-      table.get(),
-      reverseTable.get());
+  TransitiveRelationTableManager<int> tableManager(table.get(),
+                                                   reverseTable.get());
 
   tableManager.insert(2, 1);
   tableManager.insert(6, 1);
@@ -99,7 +98,11 @@ TEST_CASE(
   Predicate<int> isValid = [validValues](int const &s) {
     return validValues.find(s) != validValues.end();
   };
-  auto res = tableManager.query(isValid, {1, 3});
+  auto resultBuilder = QueryResultBuilder<int, int>();
+  resultBuilder.setLeftVals(true);
+  resultBuilder.setRightVals(true);
+  resultBuilder.setPairVals(true);
+  auto res = tableManager.query(isValid, {1, 3}, &resultBuilder);
 
   REQUIRE(res.get()->firstArgVals == unordered_set<int>({2, 4, 7}));
   REQUIRE(res.get()->secondArgVals == unordered_set<int>({1, 3}));
@@ -110,9 +113,8 @@ TEST_CASE(
     "TransitiveRelationTableManager query known arg1 with arg2 predicate") {
   auto table = make_shared<ContiguousSetTable<int>>();
   auto reverseTable = make_shared<ContiguousSetTable<int>>();
-  TransitiveRelationTableManager<int> tableManager(
-      table.get(),
-      reverseTable.get());
+  TransitiveRelationTableManager<int> tableManager(table.get(),
+                                                   reverseTable.get());
 
   tableManager.insert(1, 2);
   tableManager.insert(1, 6);
@@ -124,7 +126,11 @@ TEST_CASE(
   Predicate<int> isValid = [validValues](int const &s) {
     return validValues.find(s) != validValues.end();
   };
-  auto res = tableManager.query(1, isValid);
+  auto resultBuilder = QueryResultBuilder<int, int>();
+  resultBuilder.setLeftVals(true);
+  resultBuilder.setRightVals(true);
+  resultBuilder.setPairVals(true);
+  auto res = tableManager.query(1, isValid, &resultBuilder);
 
   REQUIRE(res.get()->firstArgVals == unordered_set<int>({1}));
   REQUIRE(res.get()->secondArgVals == unordered_set<int>({2, 7}));
@@ -135,9 +141,8 @@ TEST_CASE(
     "TransitiveRelationTableManager query known arg2 with arg1 predicate") {
   auto table = make_shared<ContiguousSetTable<int>>();
   auto reverseTable = make_shared<ContiguousSetTable<int>>();
-  TransitiveRelationTableManager<int> tableManager(
-      table.get(),
-      reverseTable.get());
+  TransitiveRelationTableManager<int> tableManager(table.get(),
+                                                   reverseTable.get());
 
   tableManager.insert(2, 1);
   tableManager.insert(6, 1);
@@ -149,7 +154,11 @@ TEST_CASE(
   Predicate<int> isValid = [validValues](int const &s) {
     return validValues.find(s) != validValues.end();
   };
-  auto res = tableManager.query(isValid, 1);
+  auto resultBuilder = QueryResultBuilder<int, int>();
+  resultBuilder.setLeftVals(true);
+  resultBuilder.setRightVals(true);
+  resultBuilder.setPairVals(true);
+  auto res = tableManager.query(isValid, 1, &resultBuilder);
 
   REQUIRE(res.get()->firstArgVals == unordered_set<int>({2, 7}));
   REQUIRE(res.get()->secondArgVals == unordered_set<int>({1}));
@@ -159,9 +168,8 @@ TEST_CASE(
 TEST_CASE("TransitiveRelationTableManager cyclic direct") {
   auto table = make_shared<ContiguousSetTable<int>>();
   auto reverseTable = make_shared<ContiguousSetTable<int>>();
-  TransitiveRelationTableManager<int> tableManager(
-      table.get(),
-      reverseTable.get());
+  TransitiveRelationTableManager<int> tableManager(table.get(),
+                                                   reverseTable.get());
 
   tableManager.insert(1, 1);
 
@@ -171,9 +179,8 @@ TEST_CASE("TransitiveRelationTableManager cyclic direct") {
 TEST_CASE("TransitiveRelationTableManager cyclic indirect 1") {
   auto table = make_shared<ContiguousSetTable<int>>();
   auto reverseTable = make_shared<ContiguousSetTable<int>>();
-  TransitiveRelationTableManager<int> tableManager(
-      table.get(),
-      reverseTable.get());
+  TransitiveRelationTableManager<int> tableManager(table.get(),
+                                                   reverseTable.get());
 
   tableManager.insert(1, 2);
   tableManager.insert(2, 1);
@@ -184,9 +191,8 @@ TEST_CASE("TransitiveRelationTableManager cyclic indirect 1") {
 TEST_CASE("TransitiveRelationTableManager cyclic indirect 2") {
   auto table = make_shared<ContiguousSetTable<int>>();
   auto reverseTable = make_shared<ContiguousSetTable<int>>();
-  TransitiveRelationTableManager<int> tableManager(
-      table.get(),
-      reverseTable.get());
+  TransitiveRelationTableManager<int> tableManager(table.get(),
+                                                   reverseTable.get());
 
   tableManager.insert(1, 2);
   tableManager.insert(2, 3);
@@ -198,19 +204,20 @@ TEST_CASE("TransitiveRelationTableManager cyclic indirect 2") {
 TEST_CASE("TransitiveRelationTableManager called as parent class type") {
   auto table = make_shared<ContiguousSetTable<int>>();
   auto reverseTable = make_shared<ContiguousSetTable<int>>();
-  unique_ptr<RelationTableManager<int, int>>
-      tableManager = make_unique<TransitiveRelationTableManager<int>>(
-      table.get(),
-      reverseTable.get());
+  unique_ptr<RelationTableManager<int, int>> tableManager =
+      make_unique<TransitiveRelationTableManager<int>>(table.get(),
+                                                       reverseTable.get());
 
   tableManager->insert(1, 2);
   tableManager->insert(2, 3);
 
-  Predicate<int> isValid = [](int const &s) {
-    return true;
-  };
+  Predicate<int> isValid = [](int const &s) { return true; };
   REQUIRE(tableManager->getByFirstArg(1) == set<int>({2, 3}));
   REQUIRE(tableManager->getBySecondArg(3) == set<int>({1, 2}));
-  auto res = tableManager->query(1, isValid);
+  auto resultBuilder = QueryResultBuilder<int, int>();
+  resultBuilder.setLeftVals(true);
+  resultBuilder.setRightVals(true);
+  resultBuilder.setPairVals(true);
+  auto res = tableManager->query(1, isValid, &resultBuilder);
   REQUIRE(res.get()->pairVals == pair_set<int, int>({{1, 2}, {1, 3}}));
 }
