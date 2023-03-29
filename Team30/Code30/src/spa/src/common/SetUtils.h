@@ -1,9 +1,10 @@
 #pragma once
 
 #include <memory>
+#include <unordered_set>
 #include "UtilityTypes.h"
 
-using std::make_unique;
+using std::make_unique, std::unordered_set;
 
 class SetUtils {
  public:
@@ -41,5 +42,4 @@ class SetUtils {
                        const T &target) {
     return input.find(target) != input.end();
   }
-
 };
