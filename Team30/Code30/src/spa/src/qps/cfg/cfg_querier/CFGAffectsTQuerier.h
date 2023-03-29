@@ -7,6 +7,7 @@
 #include "qps/cfg/CFGQuerierTypes.h"
 #include "qps/cfg/cfg_querier/walkers/CFGStatefulWalker.h"
 #include "qps/cfg/cfg_querier/CFGQuerier.h"
+#include "common/SetUtils.h"
 
 template <
     class ClosureType,
@@ -109,7 +110,8 @@ StmtTransitiveResult CFGAffectsTQuerier<ClosureType, typePredicate,
     return result;
   }
 
-  EntityIdx modifiedVar = modifiesGetter(closure, arg0);
+  EntityIdxSet modifiedVars = modifiesGetter(closure, arg0);
+  EntityIdx modifiedVar = SetUtils::firstItemOfSet(modifiedVars, NO_ENT_INDEX);
   BoolResultClosure state{ cfg, closure, modifiedVar, arg1, false };
 
   int countSymbols = countGetter(closure);
@@ -126,8 +128,8 @@ StmtTransitiveResult CFGAffectsTQuerier<ClosureType, typePredicate,
           return curState;
         }
 
-        EntityIdx modifiedVar = modifiesGetter(state->closure, stmtNumber);
-        if (modifiedVar == NO_ENT_INDEX) {
+        EntityIdxSet modifiedVars = modifiesGetter(state->closure, stmtNumber);
+        if (modifiedVars.empty()) {
           // Only case with no modifications are print & containers
           return curState;
         }
@@ -141,11 +143,12 @@ StmtTransitiveResult CFGAffectsTQuerier<ClosureType, typePredicate,
           }
         }
 
-        curState.unset(modifiedVar);
-        if (!isUsed) {
+        if (!isUsed || !typePredicate(state->closure,
+                                      StmtType::Assign,
+                                      stmtNumber)) {
+          curState.unset(modifiedVars);
           return curState;
         }
-        curState.set(modifiedVar);
 
         if (stmtNumber == state->targetStmt) {
           state->isValidPathFound = true;
@@ -219,15 +222,17 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
           return curState;
         }
 
-        EntityIdx modifiedEntId = modifiesGetter(state->closure, stmtNumber);
-        if (curState.isSet(modifiedEntId)) {
-          curState.unset(modifiedEntId);
-          EntityIdxSet usedVars = usesGetter(state->closure, stmtNumber);
-          for (EntityIdx var : usedVars) {
-            curState.set(var);
+        EntityIdxSet modifiedVars = modifiesGetter(state->closure, stmtNumber);
+        for (const EntityIdx &item : modifiedVars) {
+          if (!curState.isSet(item)) {
+            continue;
           }
-          isAffected = isAssign<ClosureType, typePredicate>(state->closure,
-                                                            stmtNumber);
+          curState.unset(item);
+          EntityIdxSet usedVars = usesGetter(state->closure, stmtNumber);
+          curState.set(usedVars);
+          isAffected = isAffected || isAssign<ClosureType, typePredicate>(
+              state->closure,
+              stmtNumber);
         }
 
         if (isAffected) {
@@ -279,7 +284,8 @@ void CFGAffectsTQuerier<ClosureType, typePredicate,
     return;
   }
 
-  EntityIdx modifiedVar = modifiesGetter(closure, stmtNumber);
+  EntityIdxSet modifiedVars = modifiesGetter(closure, stmtNumber);
+  EntityIdx modifiedVar = SetUtils::firstItemOfSet(modifiedVars, NO_ENT_INDEX);
   QueryFromResultClosure state{ cfg, closure, resultOut,
                                 stmtNumber, modifiedVar };
 
@@ -297,9 +303,10 @@ void CFGAffectsTQuerier<ClosureType, typePredicate,
           return curState;
         }
 
-        EntityIdx modifiedVar = modifiesGetter(state->closure, stmtNumber);
-        if (modifiedVar == NO_ENT_INDEX) {
-          // Only case with no modifications are print & containers
+        EntityIdxSet modifiedVars = modifiesGetter(state->closure, stmtNumber);
+        if (modifiedVars.empty()) {
+          // Only case with no modifications are print, containers & calls
+          // Cannot be affected assignment
           return curState;
         }
 
@@ -312,11 +319,11 @@ void CFGAffectsTQuerier<ClosureType, typePredicate,
           }
         }
 
-        curState.unset(modifiedVar);
         if (!isUsed) {
+          curState.unset(modifiedVars);
           return curState;
         }
-        curState.set(modifiedVar);
+
         state->result->add(state->startingStmt, stmtNumber);
         return curState;
       };

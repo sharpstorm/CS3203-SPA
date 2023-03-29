@@ -24,18 +24,16 @@ using AbstractAffectsClause = AbstractStmtStmtClause<
 
 constexpr ModifiesGetter<QueryExecutorAgent> modifiesQuerier =
     [](const QueryExecutorAgent &agent,
-       StmtValue stmtNumber) -> EntityIdx {
+       StmtValue stmtNumber) -> EntityIdxSet {
       QueryResultPtr<StmtValue, EntityValue> result =
           agent->queryModifies(StmtRef{StmtType::None, stmtNumber},
                                EntityRef{EntityType::None, ""});
-      if (result->isEmpty) {
-        return NO_ENT_INDEX;
+      EntityIdxSet ret;
+      for (EntityValue v : result->secondArgVals) {
+        ret.insert(agent->getIndexOfVariable(v));
       }
-      for (auto it : result->secondArgVals) {
-        return agent->getIndexOfVariable(it);
-      }
-
-      return NO_ENT_INDEX;
+      ret.erase(NO_ENT_INDEX);
+      return ret;
     };
 
 constexpr UsesGetter<QueryExecutorAgent> usesQuerier =

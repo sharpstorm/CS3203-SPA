@@ -8,6 +8,7 @@
 #include "CFGQuerier.h"
 #include "qps/cfg/CFGQuerierTypes.h"
 #include "qps/cfg/cfg_querier/walkers/CFGStatefulWalker.h"
+#include "common/SetUtils.h"
 
 using std::map;
 
@@ -104,7 +105,8 @@ queryBool(const StmtValue &arg0, const StmtValue &arg1) {
 
   CFGNode nodeFrom = cfg->toCFGNode(arg0);
 
-  EntityIdx modifiedVar = modifiesGetter(closure, arg0);
+  EntityIdxSet modifiedVars = modifiesGetter(closure, arg0);
+  EntityIdx modifiedVar = SetUtils::firstItemOfSet(modifiedVars, NO_ENT_INDEX);
   EntityIdxSet targetVars = usesGetter(closure, arg1);
   if (targetVars.find(modifiedVar) == targetVars.end()) {
     return result;
@@ -123,7 +125,9 @@ queryBool(const StmtValue &arg0, const StmtValue &arg1) {
             state->closure, stmtNumber)) {
           return true;
         }
-        return modifiesGetter(state->closure, stmtNumber) != state->target;
+        return !SetUtils::setContains(
+            modifiesGetter(state->closure, stmtNumber),
+            state->target);
       };
 
   walker.walkFrom<BoolResultClosure, callback>(nodeFrom, &state);
@@ -191,13 +195,17 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
           return curState;
         }
 
-        EntityIdx modifiedVar = modifiesGetter(state->closure, stmtNumber);
-        if (auto it = state->symbolMap.find(modifiedVar);
-            it != state->symbolMap.end()) {
+        EntityIdxSet modifiedVars = modifiesGetter(state->closure, stmtNumber);
+        for (const EntityIdx &item : modifiedVars) {
+          auto it = state->symbolMap.find(item);
+          if (it == state->symbolMap.end()) {
+            continue;
+          }
+
           curState.unset(it->second);
-          isAffected = typePredicate(state->closure,
-                                     StmtType::Assign,
-                                     stmtNumber);
+          isAffected = isAffected || typePredicate(state->closure,
+                                                   StmtType::Assign,
+                                                   stmtNumber);
         }
 
         if (isAffected) {
@@ -263,10 +271,14 @@ queryForward(StmtTransitiveResult* resultOut,
                         typePredicate>(state->closure, stmtNumber)) {
           return true;
         }
-        return modifiesGetter(state->closure, stmtNumber) != state->target;
+
+        return !SetUtils::setContains(
+            modifiesGetter(state->closure, stmtNumber),
+            state->target);
       };
 
-  EntityIdx modifiedVar = modifiesGetter(closure, stmtNumber);
+  EntityIdxSet modifiedVars = modifiesGetter(closure, stmtNumber);
+  EntityIdx modifiedVar = SetUtils::firstItemOfSet(modifiedVars, NO_ENT_INDEX);
   QueryFromResultClosure state{ cfg, closure, resultOut,
                                 stmtNumber, modifiedVar };
   walker.walkFrom<QueryFromResultClosure, forwardWalkerCallback>(start,

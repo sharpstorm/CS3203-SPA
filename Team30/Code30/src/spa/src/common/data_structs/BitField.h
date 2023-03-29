@@ -2,8 +2,9 @@
 
 #include <vector>
 #include <cstdint>
+#include <unordered_set>
 
-using std::vector;
+using std::vector, std::unordered_set;
 
 class BitField {
  private:
@@ -15,7 +16,9 @@ class BitField {
   BitField();
   explicit BitField(const int &capacity);
   void set(int bit);
+  void set(const unordered_set<int> &bits);
   void unset(int bit);
+  void unset(const unordered_set<int> &bits);
   bool isSet(int bit) const;
 
   bool empty();
