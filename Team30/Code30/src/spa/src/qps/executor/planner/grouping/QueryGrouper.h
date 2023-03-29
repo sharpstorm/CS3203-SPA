@@ -4,7 +4,7 @@
 #include <queue>
 #include <unordered_set>
 
-#include "qps/executor/planner/QueryGroupPlan.h"
+#include "QueryGroupPlan.h"
 #include "qps/common/PQLQuery.h"
 #include "QueryGrouperIndex.h"
 #include "QueryGroup.h"
@@ -19,7 +19,7 @@ class QueryGrouper {
  private:
   PQLQuery* query;
   QueryGrouperIndex groupIndex;
-  vector<IEvaluatableSPtr> evaluatables;
+  vector<IEvaluatable*> evaluatables;
   vector<int> groupClauseIdTable;
   unordered_set<PQLSynonymName> seenSynonyms;
 

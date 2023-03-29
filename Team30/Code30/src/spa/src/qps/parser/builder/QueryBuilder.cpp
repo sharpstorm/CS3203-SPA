@@ -60,8 +60,8 @@ void QueryBuilder::addWith(WithClausePtr clause) {
   clauses.push_back(std::move(clause));
 }
 
-void QueryBuilder::addConstraint(ConstraintSPtr constraint) {
-  constraints.push_back(constraint);
+void QueryBuilder::addConstraint(ConstraintPtr constraint) {
+  constraints.push_back(std::move(constraint));
 }
 
 void QueryBuilder::addWithSelect(WithSelectClausePtr clause) {
@@ -88,5 +88,5 @@ PQLQueryPtr QueryBuilder::build() {
   }
 
   return make_unique<PQLQuery>(std::move(variables), resultVariables,
-                               clauses, constraints);
+                               std::move(clauses), std::move(constraints));
 }

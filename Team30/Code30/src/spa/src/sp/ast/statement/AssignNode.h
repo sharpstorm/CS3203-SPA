@@ -13,4 +13,5 @@ class AssignNode : public StatementASTNode {
 
   string toString() override;
   void accept(IExtractor* e) override;
+  void leave(IExtractor* e) override;
 };

@@ -8,25 +8,25 @@ class QPSQueryPKBStub : public StubPKB {
   QPSQueryPKBStub(PKB *in) : StubPKB(in) {
   }
 
-  QueryResult<int, int> queryFollows(StmtRef s1, StmtRef s2) const override {
-    auto result = QueryResult<int, int>();
-    result.add(1, 2);
+  QueryResultPtr<int, int> queryFollows(StmtRef s1, StmtRef s2) const override {
+    auto result = make_unique<QueryResult<int, int>>();
+    result->add(1, 2);
     return result;
   };
-  QueryResult<int, int> queryFollowsStar(StmtRef s1,
+  QueryResultPtr<int, int> queryFollowsStar(StmtRef s1,
                                          StmtRef s2) const override {
-    auto result = QueryResult<int, int>();
-    result.add(1, 2);
+    auto result = make_unique<QueryResult<int, int>>();
+    result->add(1, 2);
     return result;
   };
-  QueryResult<int, int> queryParent(StmtRef s1, StmtRef s2) const override {
-    auto result = QueryResult<int, int>();
-    result.add(1, 2);
+  QueryResultPtr<int, int> queryParent(StmtRef s1, StmtRef s2) const override {
+    auto result = make_unique<QueryResult<int, int>>();
+    result->add(1, 2);
     return result;
   };
-  QueryResult<int, int> queryParentStar(StmtRef s1, StmtRef s2) const override {
-    auto result = QueryResult<int, int>();
-    result.add(1, 2);
+  QueryResultPtr<int, int> queryParentStar(StmtRef s1, StmtRef s2) const override {
+    auto result = make_unique<QueryResult<int, int>>();
+    result->add(1, 2);
     return result;
   };
   unordered_set<string> getSymbolsOfType(EntityType) const override {

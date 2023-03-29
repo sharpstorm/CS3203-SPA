@@ -87,9 +87,10 @@ PQLQueryResult* testWithClause(PQLSynonymType leftType, PQLSynonymName leftName,
   PQLQuerySynonymProxy leftSyn(&leftSynPtr);
   PQLQuerySynonymProxy rightSyn(&rightSynPtr);
 
-  auto leftArg = make_unique<WithArgument>(std::move(makeWithArg(leftSyn, leftAttr)));
-  auto rightArg = make_unique<WithArgument>(std::move(makeWithArg(rightSyn, rightAttr)));
-  auto clause = WithClause(std::move(leftArg), std::move(rightArg));
+  auto leftAttSyn = makeWithArg(leftSyn, leftAttr);
+  auto rightAttrSyn = makeWithArg(rightSyn, rightAttr);
+
+  auto clause = WithClause(*leftAttSyn, *rightAttrSyn);
 
   PKB pkb;
   WithStubPkb stubHandler(&pkb);

@@ -1,20 +1,19 @@
 #include "PkbWriter.h"
 
 #include "AssignsWriter.h"
+#include "CFGsWriter.h"
 #include "CallsWriter.h"
 #include "ConstantWriter.h"
 #include "FollowsWriter.h"
+#include "IfPatternWriter.h"
 #include "ModifiesWriter.h"
 #include "ParentWriter.h"
 #include "PostProcessWriter.h"
 #include "ProcedureWriter.h"
 #include "StatementWriter.h"
 #include "UsesWriter.h"
-#include "PostProcessWriter.h"
-#include "IfPatternWriter.h"
-#include "WhilePatternWriter.h"
 #include "VariableWriter.h"
-#include "CFGsWriter.h"
+#include "WhilePatternWriter.h"
 
 PkbWriter::PkbWriter(PKB *pkb)
     : followsWriter(new FollowsWriter(pkb->followsStorage)),
@@ -23,11 +22,11 @@ PkbWriter::PkbWriter(PKB *pkb)
       modifiesWriter(
           new ModifiesWriter(pkb->modifiesStorage, pkb->modifiesPStorage)),
       statementWriter(new StatementWriter(pkb->statementStorage)),
-      procedureWriter(new ProcedureWriter(pkb->procedureStorage)),
+      procedureWriter(new ProcedureWriter(pkb->procAndCallsStorage)),
       assignsWriter(new AssignsWriter(pkb->assignStorage)),
       ifPatternWriter(new IfPatternWriter(pkb->ifPatternStorage)),
       whilePatternWriter(new WhilePatternWriter(pkb->whilePatternStorage)),
-      callsWriter(new CallsWriter(pkb->callsStorage, pkb->callStmtStorage)),
+      callsWriter(new CallsWriter(pkb->callsStorage, pkb->procAndCallsStorage)),
       postProcessWriter(new PostProcessWriter(pkb)),
       variableWriter(new VariableWriter(pkb->variableStorage)),
       constantWriter(new ConstantWriter(pkb->constantStorage)),
@@ -75,16 +74,14 @@ void PkbWriter::addWhilePattern(int stmtNum, string variable) {
   whilePatternWriter->addWhilePattern(stmtNum, variable);
 }
 
-void PkbWriter::runPostProcessor() {
-  postProcessWriter->runPostProcessor();
+void PkbWriter::runPostProcessor() { postProcessWriter->runPostProcessor(); }
+
+EntityIdx PkbWriter::addVariable(string name) {
+  return variableWriter->addVariable(name);
 }
 
-void PkbWriter::addVariable(string name) {
-  variableWriter->addVariable(name);
-}
-
-void PkbWriter::addConstant(string name) {
-  constantWriter->addConstant(name);
+EntityIdx PkbWriter::addConstant(string name) {
+  return constantWriter->addConstant(name);
 }
 
 void PkbWriter::addCFGs(string name, CFGSPtr cfg) {

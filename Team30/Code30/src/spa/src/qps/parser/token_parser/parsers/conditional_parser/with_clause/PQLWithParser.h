@@ -10,27 +10,31 @@
 using std::make_unique, std::string;
 
 class PQLWithParser: public IPQLParser {
-  static ConstraintSPtr parseConstraint(
-      WithArgumentPtr left, WithArgumentPtr right, QueryBuilder* builder);
-  static ConstraintSPtr handleConstant(WithArgumentPtr left,
-                                       WithArgumentPtr right);
-  static ConstraintSPtr handleOverride(WithArgumentPtr left,
-                                       WithArgumentPtr right,
-                                       QueryBuilder* builder);
-  static ConstraintSPtr handleSameSyn(WithArgumentPtr left,
-                                      WithArgumentPtr right,
-                                      QueryBuilder* builder);
+  static bool parseClause(WithArgumentPtr left,
+                          WithArgumentPtr right,
+                          QueryBuilder* builder);
 
-  static ConstraintSPtr parseOverrideConstraint(
+  static bool parseConstraint(WithArgumentPtr left,
+                              WithArgumentPtr right,
+                              QueryBuilder* builder);
+
+  static void handleConstant(WithArgumentPtr left,
+                             WithArgumentPtr right,
+                             QueryBuilder* builder);
+
+  static void handleOverride(WithArgumentPtr left,
+                             WithArgumentPtr right,
+                             QueryBuilder* builder);
+  static void handleTwoSyns(WithArgumentPtr left,
+                            WithArgumentPtr right,
+                            QueryBuilder* builder);
+
+  static ConstraintPtr parseOverrideConstraint(
       WithArgumentPtr synArg, WithArgumentPtr staticArg);
-  static void addWithSelectClause(QueryBuilder* builder,
-                                  AttributedSynonym attrSyn,
-                                  string identValue);
 
   static WithArgumentPtr parseWithArg(QueryTokenParseState* state,
                                       QueryBuilder* builder);
   static WithArgumentPtr processConstant(PQLToken *token);
-  static bool isWithClause(WithArgument* left, WithArgument* right);
 
  public:
   void parse(QueryTokenParseState* parserState,

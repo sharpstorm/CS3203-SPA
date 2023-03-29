@@ -6,18 +6,16 @@ PKB::~PKB() {
   delete (variableStorage);
   delete (variableTable);
   delete (variableRevTable);
+  delete (variableValues);
   delete (constantStorage);
   delete (constantTable);
   delete (constantRevTable);
-  delete (procedureStorage);
-  delete (procedureTable);
-  delete (procedureRevTable);
-  delete (statementStorage);
+  delete (constantValues);
+  delete (procedureStmtTable);
   delete (stmtTable);
   delete (stmtRevTable);
-  delete (callStmtStorage);
-  delete (callStmtTable);
-  delete (callStmtRevTable);
+  delete (callDeclarationTable);
+  delete (procAndCallsStorage);
 
   delete (structureProvider);
   delete (entityMappingProvider);

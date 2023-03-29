@@ -1,10 +1,10 @@
 #include "CallsWriter.h"
 
-CallsWriter::CallsWriter(CallsStorage *callsStore,
-                         CallStmtStorage *callStmtStore)
-    : callStorage(callsStore), callStmtStorage(callStmtStore) {}
+CallsWriter::CallsWriter(CallsStorage* callStorage,
+                         ProcedureAndCallsStorage* procAndCallsStorage)
+    : callStorage(callStorage), procAndCallsStorage(procAndCallsStorage) {}
 
-void CallsWriter::addCalls(int arg1, string arg2, string arg3) {
-  callStorage->insert(arg2, arg3);
-  callStmtStorage->insert(arg1, arg3);
+void CallsWriter::addCalls(int stmt, string currProc, string calledProc) {
+  callStorage->insert(currProc, calledProc);
+  procAndCallsStorage->addCallDeclaration(stmt, calledProc);
 }

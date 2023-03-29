@@ -3,6 +3,7 @@
 
 #include "AssignPatternClause.h"
 #include "qps/clauses/arguments/SynonymArgument.h"
+#include "qps/clauses/ClauseScoring.h"
 
 using std::make_unique;
 
@@ -25,39 +26,48 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
     return new PQLQueryResult();
   }
 
-  QueryResult<StmtValue, EntityValue> modifiesResult = agent
+//  QueryResult<StmtValue, EntityValue> modifiesResult = agent
+    auto modifiesResult = agent
       ->queryModifies(leftStatement, rightVariable);
 
   if (rightArgument->isWildcard()) {
     return Clause::toQueryResult(synonym->getName(), leftArg.get(),
-                                 modifiesResult);
+                                 modifiesResult.get());
   }
 
-  QueryResult<StmtValue, EntityValue> assignResult;
-  checkTries(agent, &assignResult, &modifiesResult);
+  auto assignResult = make_unique<QueryResult<StmtValue, EntityValue>>();
+  checkTries(agent, assignResult.get(), modifiesResult.get());
 
   // Convert to PQLQueryResult
   return Clause::toQueryResult(synonym->getName(), leftArg.get(),
-                               assignResult);
+                               assignResult.get());
 }
 
 void AssignPatternClause::checkTries(
     const QueryExecutorAgent &agent,
-    QueryResult<StmtValue, EntityValue> *result,
+    QueryResult<StmtValue, EntityValue> *output,
     QueryResult<StmtValue, EntityValue>* modifiesResult) {
   for (auto& it : modifiesResult->pairVals) {
     // Call assigns to retrieve the node
     StmtRef assignRef = {StmtType::Assign, it.first};
-    QueryResult<StmtValue, PatternTrie*> nodes =
+    auto nodes =
         agent->queryAssigns(assignRef);
 
-    PatternTrie* lineRoot = *nodes.secondArgVals.begin();
+    PatternTrie* lineRoot = *nodes->secondArgVals.begin();
     bool isPartialMatch = rightArgument->allowsPartial()
         && lineRoot->isMatchPartial(rightArgument->getSequence());
     bool isFullMatch = !rightArgument->allowsPartial()
         && lineRoot->isMatchFull(rightArgument->getSequence());
     if (isPartialMatch || isFullMatch) {
-      result->add(it.first, it.second);
+      output->add(it.first, it.second);
     }
   }
+}
+
+ComplexityScore AssignPatternClause::getComplexityScore(
+    const OverrideTable *table) {
+  if (table->contains(leftArg->getName())) {
+    return COMPLEXITY_QUERY_CONSTANT;
+  }
+  return COMPLEXITY_QUERY_SYN_ASSIGN;
 }

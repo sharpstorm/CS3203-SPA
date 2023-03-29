@@ -10,11 +10,8 @@
 using std::vector, std::queue;
 
 template <typename T>
-using StatefulWalkerSingleCallback = void(*)(T* ptr, CFGNode node);
-
-template <typename T>
-using StatefulWalkerStateTransformer = BitField(*)(T* ptr, CFGNode node,
-                                                   BitField currentState);
+using StatefulWalkerSingleCallback = BitField(*)(T* ptr, CFGNode node,
+                                                 BitField currentState);
 
 template <typename T>
 using StatefulDFSCallback = StatefulWalkerSingleCallback<T>;
@@ -30,8 +27,10 @@ class CFGStatefulWalker {
   }
 
   template <typename T, StatefulWalkerSingleCallback<T> callback>
-  void walkTo(CFGNode end, BitField initialState, T* cbState,
-              StatefulWalkerStateTransformer<T> transformer);
+  void walkTo(CFGNode end, BitField initialState, T* cbState);
+
+  template <typename T, StatefulWalkerSingleCallback<T> callback>
+  void walkFrom(CFGNode end, BitField initialState, T* cbState);
 
  private:
   template <typename T, StatefulDFSCallback<T> callback,
@@ -72,23 +71,27 @@ class CFGStatefulWalker {
           continue;
         }
 
-        BitField newState = closure->transformer(closure->callbackState,
-                                                 nextNode, curState);
-        if (!curState.differenceWith(newState).empty()) {
-          callback(closure, nextNode);
-        }
-
-        BitField difference = visitedNodes[nextNode].differenceWith(newState);
+        BitField newState = callback(closure, nextNode, curState);
+        BitField difference = visitedNodes[nextNode].projectOnto(newState);
         if (visitedNodes[nextNode].contains(newState)) {
           continue;
         }
         visitedNodes[nextNode] = visitedNodes[nextNode].unionWith(newState);
-        if (!newState.empty() && nextNode != start) {
+        if (!newState.empty()) {
           currentNodes.push_back(nextNode);
           pathStates.push_back(difference);
         }
       }
     }
+  }
+
+  static CFGLinks* forwardLinkGetter(CFG* cfg, CFGNode node) {
+    return cfg->nextLinksOf(node);
+  }
+
+  template <typename T, StatefulDFSCallback<T> callback>
+  void runForwardDFS(CFGNode start, BitField initialState, T* state) {
+    runDFS<T, callback, forwardLinkGetter>(start, initialState, state);
   }
 
 
@@ -106,22 +109,33 @@ template <typename T>
 struct StatefulNodewiseWalkerState {
   T* callbackState;
   StatefulWalkerSingleCallback<T> callback;
-  StatefulWalkerStateTransformer<T> transformer;
   CFG* cfg;
 };
 
 template <typename T>
-void statefulNodewiseWalkerCallback(
+BitField statefulNodewiseWalkerCallback(
     StatefulNodewiseWalkerState<T>* state,
-    CFGNode node) {
-  state->callback(state->callbackState, node);
+    CFGNode node,
+    BitField currentState) {
+  return state->callback(state->callbackState, node, currentState);
 }
 
 template <typename T, StatefulWalkerSingleCallback<T> callback>
-void CFGStatefulWalker::walkTo(CFGNode end, BitField initialState, T* cbState,
-                               StatefulWalkerStateTransformer<T> transformer) {
-  StatefulNodewiseWalkerState<T> state{ cbState, callback, transformer, cfg };
+void CFGStatefulWalker::walkTo(CFGNode end,
+                               BitField initialState,
+                               T* cbState) {
+  StatefulNodewiseWalkerState<T> state{ cbState, callback, cfg };
   runBackwardDFS<StatefulNodewiseWalkerState<T>,
                  statefulNodewiseWalkerCallback<T>>(
+      end, initialState, &state);
+}
+
+template <typename T, StatefulWalkerSingleCallback<T> callback>
+void CFGStatefulWalker::walkFrom(CFGNode end,
+                                 BitField initialState,
+                                 T* cbState) {
+  StatefulNodewiseWalkerState<T> state{ cbState, callback, cfg };
+  runForwardDFS<StatefulNodewiseWalkerState<T>,
+                statefulNodewiseWalkerCallback<T>>(
       end, initialState, &state);
 }

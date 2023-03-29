@@ -19,11 +19,9 @@ class StructureMappingProviderStub : public IStructureMappingProvider {
   HashKeyTable<int, StmtType> stmtNumToType;
   unordered_set<int> allStmts;
 
-  HashKeySetTable<string, int> procedureToStmtNum;
   HashKeyTable<int, string> stmtNumToProcedure;
 
   HashKeyTable<int, string> stmtNumToCalledProcedure;
-  HashKeySetTable<string, int> CalledProcedureToStmtNum;
 
   StructureMappingProviderStub();
 
@@ -33,11 +31,7 @@ class StructureMappingProviderStub : public IStructureMappingProvider {
 
   bool isValueOfType(StmtType, StmtValue) const override;
 
-  unordered_set<int> getProcedureLines(string procedure) const override;
-
   string getProcedureForLine(int stmt) const override;
 
-  unordered_set<int> getCallStmtsOfProcedure(string) const override;
-
-  string getCalledProcedure(int) const override;
+  string getCalledDeclaration(int) const override;
 };

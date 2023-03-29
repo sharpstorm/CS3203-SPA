@@ -4,7 +4,7 @@
 
 #include "Constraint.h"
 
-class SynonymConstraint : virtual public Constraint {
+class SynonymConstraint : public Constraint {
  private:
   PQLSynonymName syn1;
   PQLSynonymName syn2;

@@ -1,15 +1,18 @@
 #pragma once
 
+#include <memory>
 #include <utility>
 
 #include "qps/common/PQLQuerySynonym.h"
 #include "AbstractPatternClause.h"
 
+using std::unique_ptr;
+
 constexpr PatternQueryInvoker whilePatternInvoker =
     [](const QueryExecutorAgent &agent,
        const StmtRef &stmtRef,
        const EntityRef &entityRef)
-        -> QueryResult<StmtValue, EntityValue> {
+        -> QueryResultPtr<StmtValue, EntityValue> {
       return agent->queryWhilePattern(stmtRef, entityRef);
     };
 

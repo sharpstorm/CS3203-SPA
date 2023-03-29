@@ -22,11 +22,10 @@ class AbstractEntEntClause: public AbstractTwoArgClause {
   }
 
   PQLQueryResult* evaluateOn(const QueryExecutorAgent &agent) override {
-    return AbstractTwoArgClause::evaluateOn<EntityValue, EntityRef,
-                                            EntityValue, EntityRef,
-                                            Clause::toEntityRef,
-                                            Clause::toEntityRef,
-                                            invoker,
-                                            symmetricInvoker>(agent);
+    return AbstractTwoArgClause::abstractEvaluateOn(agent,
+                                                    Clause::toEntityRef,
+                                                    Clause::toEntityRef,
+                                                    invoker,
+                                                    symmetricInvoker);
   }
 };

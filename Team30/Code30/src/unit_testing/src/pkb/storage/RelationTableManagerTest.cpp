@@ -52,9 +52,9 @@ TEST_CASE("RelationTableManager query known arg1 values with arg2 predicate") {
 
   auto res = tableManager.query({1, 2, 4}, isValid);
 
-  REQUIRE(res.firstArgVals == unordered_set<int>({1, 4}));
-  REQUIRE(res.secondArgVals == unordered_set<string>({"a", "e"}));
-  REQUIRE(res.pairVals == pair_set<int, string>({{1, "a"}, {4, "e"}}));
+  REQUIRE(res.get()->firstArgVals == unordered_set<int>({1, 4}));
+  REQUIRE(res.get()->secondArgVals == unordered_set<string>({"a", "e"}));
+  REQUIRE(res.get()->pairVals == pair_set<int, string>({{1, "a"}, {4, "e"}}));
 }
 
 TEST_CASE("RelationTableManager query known arg2 values with arg1 predicate") {
@@ -77,9 +77,9 @@ TEST_CASE("RelationTableManager query known arg2 values with arg1 predicate") {
 
   auto res = tableManager.query(isValid, {"a", "b", "f"});
 
-  REQUIRE(res.firstArgVals == unordered_set<int>({2, 4}));
-  REQUIRE(res.secondArgVals == unordered_set<string>({"a", "b"}));
-  REQUIRE(res.pairVals == pair_set<int, string>({{4, "a"}, {2, "b"}}));
+  REQUIRE(res.get()->firstArgVals == unordered_set<int>({2, 4}));
+  REQUIRE(res.get()->secondArgVals == unordered_set<string>({"a", "b"}));
+  REQUIRE(res.get()->pairVals == pair_set<int, string>({{4, "a"}, {2, "b"}}));
 }
 
 TEST_CASE("RelationTableManager query known arg1 with arg2 predicate") {
@@ -99,9 +99,9 @@ TEST_CASE("RelationTableManager query known arg1 with arg2 predicate") {
   };
   auto res = tableManager.query(2, isValid);
 
-  REQUIRE(res.firstArgVals == unordered_set<int>({2}));
-  REQUIRE(res.secondArgVals == unordered_set<string>({"b"}));
-  REQUIRE(res.pairVals == pair_set<int, string>({{2, "b"}}));
+  REQUIRE(res.get()->firstArgVals == unordered_set<int>({2}));
+  REQUIRE(res.get()->secondArgVals == unordered_set<string>({"b"}));
+  REQUIRE(res.get()->pairVals == pair_set<int, string>({{2, "b"}}));
 }
 
 TEST_CASE("RelationTableManager query known arg2 with arg1 predicate") {
@@ -121,7 +121,7 @@ TEST_CASE("RelationTableManager query known arg2 with arg1 predicate") {
   };
   auto res = tableManager.query(isValid, "a");
 
-  REQUIRE(res.firstArgVals == unordered_set<int>({4}));
-  REQUIRE(res.secondArgVals == unordered_set<string>({"a"}));
-  REQUIRE(res.pairVals == unordered_set<pair<int, string>>({{4, "a"}}));
+  REQUIRE(res.get()->firstArgVals == unordered_set<int>({4}));
+  REQUIRE(res.get()->secondArgVals == unordered_set<string>({"a"}));
+  REQUIRE(res.get()->pairVals == unordered_set<pair<int, string>>({{4, "a"}}));
 }

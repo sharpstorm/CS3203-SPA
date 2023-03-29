@@ -19,8 +19,7 @@ bool QueryPlan::isEmpty() {
 
 bool QueryPlan::isBooleanQuery() {
   for (auto& group : clauseGroups) {
-    vector<PQLSynonymName>* selectables = group->getSelectables();
-    if (!selectables->empty()) {
+    if (!group->isBooleanResult()) {
       return false;
     }
   }

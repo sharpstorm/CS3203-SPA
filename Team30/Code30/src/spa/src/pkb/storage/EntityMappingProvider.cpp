@@ -1,12 +1,11 @@
 #include "EntityMappingProvider.h"
 
 EntityMappingProvider::EntityMappingProvider(
-    VariableStorage *variableStorage,
-    ConstantStorage *constantStorage,
-    ProcedureStorage *procedureStorage)
+    VariableStorage *variableStorage, ConstantStorage *constantStorage,
+    ProcedureAndCallsStorage *procedureStorage)
     : variableStorage(variableStorage),
-    constantStorage(constantStorage),
-    procedureStorage(procedureStorage) {}
+      constantStorage(constantStorage),
+      procedureStorage(procedureStorage) {}
 
 unordered_set<string> EntityMappingProvider::getValuesOfType(
     EntityType entityType) const {
@@ -15,7 +14,7 @@ unordered_set<string> EntityMappingProvider::getValuesOfType(
   } else if (entityType == EntityType::Constant) {
     return constantStorage->getAllValues();
   } else if (entityType == EntityType::Procedure) {
-    return procedureStorage->getAllValues();
+    return procedureStorage->getProcedures();
   } else {
     // note: EntityType::None is invalid
     return {};
@@ -23,31 +22,29 @@ unordered_set<string> EntityMappingProvider::getValuesOfType(
 }
 
 string EntityMappingProvider::getVariableByIndex(int index) const {
-  return variableStorage->getByKey(index);
+  return variableStorage->getValueByIdx(index);
 }
 
 string EntityMappingProvider::getConstantByIndex(int index) const {
-  return constantStorage->getByKey(index);
+  return constantStorage->getValueByIdx(index);
 }
 
-unordered_set<int> EntityMappingProvider::getIndexOfVariable(
-    string name) const {
-  return variableStorage->getByValue(name);
+EntityIdx EntityMappingProvider::getIndexOfVariable(string name) const {
+  return variableStorage->getIdxOfValue(name);
 }
 
-unordered_set<int> EntityMappingProvider::getIndexOfConstant(
-    string name) const {
-  return constantStorage->getByValue(name);
+EntityIdx EntityMappingProvider::getIndexOfConstant(string name) const {
+  return constantStorage->getIdxOfValue(name);
 }
 
-bool EntityMappingProvider::isValueOfType(
-    EntityType entityType, EntityValue name) const {
+bool EntityMappingProvider::isValueOfType(EntityType entityType,
+                                          EntityValue name) const {
   if (entityType == EntityType::Variable) {
-    return !variableStorage->getByValue(name).empty();
+    return variableStorage->getIdxOfValue(name) != 0;
   } else if (entityType == EntityType::Constant) {
-    return !constantStorage->getByValue(name).empty();
+    return constantStorage->getIdxOfValue(name) != 0;
   } else if (entityType == EntityType::Procedure) {
-    return !procedureStorage->getByValue(name).empty();
+    return procedureStorage->procedureExists(name);
   } else {
     return false;
   }

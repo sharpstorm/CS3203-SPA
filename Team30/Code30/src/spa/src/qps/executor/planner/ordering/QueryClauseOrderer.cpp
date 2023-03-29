@@ -1,44 +1,56 @@
 #include "QueryClauseOrderer.h"
 
+#include <limits.h>
 #include <memory>
 
 using std::make_unique;
 
-QueryGroupPlanPtr QueryClauseOrderer::orderClauses(QueryGroup *group) {
-  vector<IEvaluatableSPtr> groupOrdering(group->getEvaluatableCount());
-  BitField seenClauses(group->getEvaluatableCount());
+QueryGroupPlanPtr QueryClauseOrderer::orderClauses(QueryGroup *group,
+                                                   OverrideTable* overrides) {
+  int evalCount = group->getEvaluatableCount();
+  int currentWeightedMin = INT_MAX;
+  vector<IEvaluatable*> groupOrdering;
 
-  int curIndex = 0;
-  queue<ClauseId> queuedClauses;
-  queuedClauses.push(0);
-  seenClauses.set(0);
+  vector<IEvaluatable*> tempOrdering(evalCount);
+  for (int i = 0; i < evalCount; i++) {
+    int runningWeight = 0;
+    int curModifier = evalCount;
+    int curIndex = 0;
+    BitField seenClauses(evalCount);
+    priority_queue<ComparableClause> queuedClauses;
 
-  while (!queuedClauses.empty()) {
-    ClauseId evalId = queuedClauses.front();
-    queuedClauses.pop();
+    IEvaluatable* current = group->getEvaluatable(i);
+    queuedClauses.push({current->getComplexityScore(overrides), i});
+    seenClauses.set(i);
+    while (!queuedClauses.empty()) {
+      ComparableClause curClause = queuedClauses.top();
+      queuedClauses.pop();
 
-    IEvaluatableSPtr evaluatable = group->getEvaluatable(evalId);
-    groupOrdering[curIndex] = evaluatable;
-    curIndex++;
+      IEvaluatable* evaluatable = group->getEvaluatable(curClause.getData());
+      tempOrdering[curIndex] = evaluatable;
+      runningWeight += curModifier * curClause.getMetric();
+      curIndex++;
+      curModifier--;
 
-    unordered_set<ClauseId>* edges = group->getRelated(evalId);
-    populateQueue(&queuedClauses, &seenClauses, edges);
-  }
+      unordered_set<ClauseId>* edges = group->getRelated(curClause.getData());
+      for (auto it = edges->begin(); it != edges->end(); it++) {
+        ClauseId otherClauseId = *it;
+        if (seenClauses.isSet(otherClauseId)) {
+          continue;
+        }
 
-  return make_unique<QueryGroupPlan>(groupOrdering, group->getSelectables(),
-                                     group->canBeEmpty());
-}
-
-void QueryClauseOrderer::populateQueue(queue<ClauseId> *target,
-                                       BitField *clauseDone,
-                                       unordered_set<ClauseId> *edges) {
-  for (auto it = edges->begin(); it != edges->end(); it++) {
-    ClauseId otherClauseId = *it;
-    if (clauseDone->isSet(otherClauseId)) {
-      continue;
+        IEvaluatable* otherEval = group->getEvaluatable(otherClauseId);
+        seenClauses.set(otherClauseId);
+        queuedClauses.push(
+            {otherEval->getComplexityScore(overrides), otherClauseId});
+      }
     }
 
-    clauseDone->set(otherClauseId);
-    target->push(otherClauseId);
+    if (runningWeight < currentWeightedMin) {
+      groupOrdering = tempOrdering;
+      currentWeightedMin = runningWeight;
+    }
   }
+
+  return group->toPlan(groupOrdering, currentWeightedMin);
 }

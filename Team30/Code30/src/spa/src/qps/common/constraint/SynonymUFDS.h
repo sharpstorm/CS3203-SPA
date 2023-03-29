@@ -20,8 +20,8 @@ class SynonymUFDS {
   explicit SynonymUFDS(VariableTable* varTable);
 
   int findSet(int set);
-  void mergeSets(const PQLSynonymName &syn1,
-                 const PQLSynonymName &syn2);
+  bool tryMergeSets(const PQLSynonymName &syn1,
+                    const PQLSynonymName &syn2);
   bool isSameSet(const PQLSynonymName &syn1,
                  const PQLSynonymName &syn2);
   vector<int> getParents();
@@ -29,5 +29,7 @@ class SynonymUFDS {
 
  private:
   int indexOf(const PQLSynonymName &syn);
+  bool mergeSyns(const int &setA,
+                 const int &setB);
 };
 

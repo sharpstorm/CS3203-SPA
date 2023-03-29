@@ -47,6 +47,7 @@ class AbstractLeafNodeExtractorPart: virtual public ILeafNodeExtractorPart {
   void visitCall(CallNode* node) override {}
   void visitVariable(VariableASTNode* node) override {}
   void visitConstant(ConstantASTNode* node) override {}
+  void leaveAssign(AssignNode* node) override {}
 };
 
 class AbstractExtractor : public IExtractor,

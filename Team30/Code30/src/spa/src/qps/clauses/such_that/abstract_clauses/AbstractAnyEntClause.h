@@ -41,29 +41,26 @@ class AbstractAnyEntClause : public AbstractTwoArgClause {
     }
 
     if (isLeftStatement) {
-      constexpr SymmetricQueryInvoker<StmtValue, StmtRef> dummyInvoker =
-          [](const QueryExecutorAgent &agent, const StmtRef &arg) ->
-          unordered_set<StmtValue> {
-        return unordered_set<StmtValue>{};
-      };
-      return AbstractTwoArgClause::evaluateOn<StmtValue, StmtRef,
-                                              EntityValue, EntityRef,
-                                              Clause::toStmtRef,
-                                              Clause::toEntityRef,
-                                              stmtInvoker,
-                                              dummyInvoker>(agent);
+      return AbstractTwoArgClause::abstractEvaluateOn(
+          agent,
+          Clause::toStmtRef,
+          Clause::toEntityRef,
+          stmtInvoker,
+          AbstractAnyEntClause::dummySymmetricInvoker<StmtValue, StmtRef>);
     } else {
-      constexpr SymmetricQueryInvoker<EntityValue, EntityRef> dummyInvoker =
-          [](const QueryExecutorAgent &agent, const EntityRef &arg) ->
-          unordered_set<EntityValue> {
-            return unordered_set<EntityValue>{};
-          };
-      return AbstractTwoArgClause::evaluateOn<EntityValue, EntityRef,
-                                              EntityValue, EntityRef,
-                                              Clause::toEntityRef,
-                                              Clause::toEntityRef,
-                                              entInvoker,
-                                              dummyInvoker>(agent);
+      return AbstractTwoArgClause::abstractEvaluateOn(
+          agent,
+          Clause::toEntityRef,
+          Clause::toEntityRef,
+          entInvoker,
+          AbstractAnyEntClause::dummySymmetricInvoker<EntityValue, EntityRef>);
     }
+  }
+
+ private:
+  template <class ValueType, class RefType>
+  static unordered_set<ValueType> dummySymmetricInvoker(
+      const QueryExecutorAgent &agent, const RefType &arg) {
+    return {};
   }
 };

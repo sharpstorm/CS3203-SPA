@@ -38,18 +38,18 @@ TEST_CASE("SynonymUFDS Test") {
   REQUIRE(*ufds.getSetValue("e") == syn5);
 
 
-  ufds.mergeSets("a", "b");
+  ufds.tryMergeSets("a", "b");
   REQUIRE(ufds.getSetValue("a") == ufds.getSetValue("b"));
 
-  ufds.mergeSets("c", "d");
+  ufds.tryMergeSets("c", "d");
   REQUIRE(ufds.getSetValue("c") == ufds.getSetValue("d"));
 
-  ufds.mergeSets("d", "e");
+  ufds.tryMergeSets("d", "e");
   REQUIRE(ufds.getSetValue("c") == ufds.getSetValue("d"));
   REQUIRE(ufds.getSetValue("c") == ufds.getSetValue("e"));
   REQUIRE(ufds.getSetValue("d") == ufds.getSetValue("e"));
 
-  ufds.mergeSets("a", "e");
+  ufds.tryMergeSets("a", "e");
   REQUIRE(ufds.getSetValue("a") == ufds.getSetValue("b"));
   REQUIRE(ufds.getSetValue("a") == ufds.getSetValue("c"));
   REQUIRE(ufds.getSetValue("a") == ufds.getSetValue("d"));

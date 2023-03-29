@@ -10,4 +10,5 @@ class StmtArgument: public ClauseArgument {
   explicit StmtArgument(int stmtNumber);
   StmtRef toStmtRef() override;
   EntityRef toEntityRef() override;
+  bool isConstant() override;
 };

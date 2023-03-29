@@ -1,6 +1,6 @@
 #include "EntityMappingProviderStub.h"
 
-EntityMappingProviderStub::EntityMappingProviderStub() {};
+EntityMappingProviderStub::EntityMappingProviderStub(){};
 
 unordered_set<string> EntityMappingProviderStub::getValuesOfType(
     EntityType type) const {
@@ -23,24 +23,22 @@ string EntityMappingProviderStub::getConstantByIndex(int index) const {
   return constantTable.get(index);
 }
 
-unordered_set<int> EntityMappingProviderStub::getIndexOfVariable(
-    string name) const {
+EntityIdx EntityMappingProviderStub::getIndexOfVariable(string name) const {
   return variableToIndexTable.get(name);
 }
 
-unordered_set<int> EntityMappingProviderStub::getIndexOfConstant(
-    string name) const {
+EntityIdx EntityMappingProviderStub::getIndexOfConstant(string name) const {
   return constantToIndexTable.get(name);
 }
 
-bool EntityMappingProviderStub::isValueOfType(
-    EntityType type, string value) const {
+bool EntityMappingProviderStub::isValueOfType(EntityType type,
+                                              string value) const {
   if (type == EntityType::Variable) {
-    return !variableToIndexTable.get(value).empty();
+    return variableToIndexTable.get(value) != 0;
   } else if (type == EntityType::Constant) {
-    return !variableToIndexTable.get(value).empty();
+    return variableToIndexTable.get(value) != 0;
   } else if (type == EntityType::Procedure) {
-    return !variableToIndexTable.get(value).empty();
+    return variableToIndexTable.get(value) != 0;
   } else {
     return false;
   }

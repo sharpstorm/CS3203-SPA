@@ -4,7 +4,7 @@ DesignEntitiesQueryHandler::DesignEntitiesQueryHandler(
     const IEntityMappingProvider *entityMappingProvider,
     const IStructureMappingProvider *structureMappingProvider)
     : entityMappingProvider(entityMappingProvider),
-    structureMappingProvider(structureMappingProvider) {}
+      structureMappingProvider(structureMappingProvider) {}
 
 std::unordered_set<std::string> DesignEntitiesQueryHandler::getSymbolsOfType(
     EntityType entityType) const {
@@ -28,28 +28,24 @@ string DesignEntitiesQueryHandler::getConstantByIndex(int index) const {
   return entityMappingProvider->getConstantByIndex(index);
 }
 
-unordered_set<int> DesignEntitiesQueryHandler::getIndexOfVariable(
-    string name) const {
+EntityIdx DesignEntitiesQueryHandler::getIndexOfVariable(string name) const {
   return entityMappingProvider->getIndexOfVariable(name);
 }
 
-unordered_set<int> DesignEntitiesQueryHandler::getIndexOfConstant(
-    string name) const {
+EntityIdx DesignEntitiesQueryHandler::getIndexOfConstant(string name) const {
   return entityMappingProvider->getIndexOfConstant(name);
 }
 
-bool DesignEntitiesQueryHandler::isStatementOfType(
-    StmtType stmtType,
-    int stmtNo) const {
+bool DesignEntitiesQueryHandler::isStatementOfType(StmtType stmtType,
+                                                   int stmtNo) const {
   return structureMappingProvider->isValueOfType(stmtType, stmtNo);
 }
 
-bool DesignEntitiesQueryHandler::isSymbolOfType(
-    EntityType entityType,
-    string name) const {
+bool DesignEntitiesQueryHandler::isSymbolOfType(EntityType entityType,
+                                                string name) const {
   return entityMappingProvider->isValueOfType(entityType, name);
 }
 
 string DesignEntitiesQueryHandler::getCalledDeclaration(int callStmt) const {
-  return structureMappingProvider->getCalledProcedure(callStmt);
+  return structureMappingProvider->getCalledDeclaration(callStmt);
 }

@@ -47,14 +47,14 @@ TEST_CASE("Test QueryBuilder Success") {
 
   auto result = qb.build();
 
-  REQUIRE(result->getVariableCount() == 10);
+  REQUIRE(result->getVarTable()->size() == 10);
   REQUIRE(result->getEvaluatables().size() == 2);
   REQUIRE(**result->getVariable("a") == PQLQuerySynonym(PQL_SYN_TYPE_STMT, "a"));
   REQUIRE(**result->getVariable("h") == PQLQuerySynonym(PQL_SYN_TYPE_PRINT, "h"));
 
-  auto fc = dynamic_cast<FollowsClause*>(result->getEvaluatables().at(0).get());
+  auto fc = dynamic_cast<FollowsClause*>(result->getEvaluatables().at(0));
   REQUIRE(fc != nullptr);
-  auto pc = dynamic_cast<ParentClause*>(result->getEvaluatables().at(1).get());
+  auto pc = dynamic_cast<ParentClause*>(result->getEvaluatables().at(1));
   REQUIRE(pc != nullptr);
 }
 

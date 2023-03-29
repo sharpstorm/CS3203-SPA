@@ -3,8 +3,6 @@
 #include <unordered_set>
 
 #include "catch.hpp"
-#include "pkb/storage/tables/ContiguousTable.h"
-#include "pkb/storage/tables/HashKeySetTable.h"
 #include "pkb/writers/VariableWriter.h"
 
 using std::make_shared;
@@ -13,16 +11,22 @@ using std::string;
 using std::unordered_set;
 
 TEST_CASE("VariableWriter addVariable") {
-  auto table = make_shared<EntityTable>();
-  auto reverseTable = make_shared<EntityRevTable>();
-  auto store = make_unique<VariableStorage>(table.get(), reverseTable.get());
+  auto table = make_shared<VarTable>();
+  auto reverseTable = make_shared<VarRevTable>();
+  auto values = make_shared<EntityValueSet>();
+  auto store = make_unique<VariableStorage>(table.get(), reverseTable.get(),
+                                            values.get());
   auto writer = VariableWriter(store.get());
 
-  writer.addVariable("x");
-  writer.addVariable("y");
+  auto idx1 = writer.addVariable("x");
+  auto idx2 = writer.addVariable("y");
+  auto idx3 = writer.addVariable("x");
+  REQUIRE(idx1 == 1);
+  REQUIRE(idx2 == 2);
+  REQUIRE(idx3 == 1);
 
-  REQUIRE(store->getByKey(1) == "x");
-  REQUIRE(store->getByKey(2) == "y");
-  REQUIRE(store->getByValue("x") == unordered_set<int>({1}));
-  REQUIRE(store->getByValue("y") == unordered_set<int>({2}));
+  REQUIRE(store->getValueByIdx(1) == "x");
+  REQUIRE(store->getValueByIdx(2) == "y");
+  REQUIRE(store->getIdxOfValue("x") == 1);
+  REQUIRE(store->getIdxOfValue("y") == 2);
 }

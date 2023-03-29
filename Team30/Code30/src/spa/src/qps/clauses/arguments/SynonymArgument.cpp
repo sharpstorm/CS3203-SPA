@@ -1,4 +1,5 @@
 #include "SynonymArgument.h"
+#include "qps/clauses/ClauseScoring.h"
 
 SynonymArgument::SynonymArgument(const PQLQuerySynonymProxy &synProxy):
     synProxy(synProxy) {
@@ -14,6 +15,10 @@ bool SynonymArgument::isNamed() {
 
 PQLSynonymName SynonymArgument::getName() {
   return synProxy->getName();
+}
+
+ComplexityScore SynonymArgument::getSynComplexity() {
+  return COMPLEXITY_SYN_LOOKUP.at(synProxy->getType());
 }
 
 StmtRef SynonymArgument::toStmtRef() {

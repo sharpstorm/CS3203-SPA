@@ -13,14 +13,16 @@ class ModifiesExtractor : public AbstractExtractor {
   void visitRead(ReadNode* node) override;
   void visitWhile(WhileNode* node) override;
   void leaveWhile(WhileNode* node) override;
+  void visitVariable(VariableASTNode* node) override;
   void visitIf(IfNode* node) override;
   void leaveIf(IfNode* node) override;
   void visitProcedure(ProcedureNode* node) override;
 
  private:
-  void addNodeModifies(StatementASTNode* node, const string &var);
+  void addNodeModifies(const int &lineNo, const string &var);
   void addModifiesRelation(int x, string var);
   vector<int> statementStartStack;
   PkbWriter *pkbWriter;
   string currentProcName;
+  int curStatement;
 };

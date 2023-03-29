@@ -16,6 +16,7 @@ class SynonymArgument: public ClauseArgument {
   bool synonymSatisfies(SynonymPredicate predicate) override;
   bool isNamed() override;
   PQLSynonymName getName() override;
+  ComplexityScore getSynComplexity() override;
   StmtRef toStmtRef() override;
   EntityRef toEntityRef() override;
 };

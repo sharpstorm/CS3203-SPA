@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "qps/common/IEvaluatable.h"
+#include "QueryGroupPlan.h"
 
 using std::unique_ptr, std::vector, std::unordered_set;
 
@@ -12,21 +13,24 @@ class QueryGroup {
  public:
   QueryGroup(): canEmpty(false) {}
   explicit QueryGroup(bool canEmpty): canEmpty(canEmpty) {}
-  int addEvaluatable(IEvaluatableSPtr evaluatable);
+
+  int addEvaluatable(IEvaluatable* evaluatable);
+  int addEvaluatable(IEvaluatablePtr evaluatable);
   void linkEvaluatables(int id1, int id2);
   void addSelectable(PQLSynonymName synonym);
 
-  vector<PQLSynonymName> getSelectables();
-
   int getEvaluatableCount();
-  IEvaluatableSPtr getEvaluatable(int evalId);
+  IEvaluatable* getEvaluatable(int evalId);
   unordered_set<int>* getRelated(int evalId);
-  bool canBeEmpty();
+
+  QueryGroupPlanPtr toPlan(vector<IEvaluatable*> evaluatables,
+                           const ComplexityScore &score);
 
  private:
-  vector<IEvaluatableSPtr> evaluatables;
+  vector<IEvaluatable*> evaluatables;
   vector<unordered_set<int>> edgeList;
   vector<PQLSynonymName> selectables;
+  vector<IEvaluatablePtr> ownedEvals;
 
   bool canEmpty;
 };

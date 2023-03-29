@@ -4,52 +4,49 @@
 #include <utility>
 
 #include "EntityMappingProvider.h"
+#include "ProcedureAndCallsStorage.h"
 #include "StorageTypes.h"
 #include "StructureMappingProvider.h"
 #include "common/Types.h"
-#include "pkb/predicates/StmtPredicateFactory.h"
 #include "pkb/predicates/EntityPredicateFactory.h"
+#include "pkb/predicates/StmtPredicateFactory.h"
 
 class PKB {
  public:
   PKB();
   ~PKB();
 
-  EntityTable *variableTable = new EntityTable();
-  EntityRevTable *variableRevTable = new EntityRevTable();
+  VarTable *variableTable = new VarTable();
+  VarRevTable *variableRevTable = new VarRevTable();
+  EntityValueSet *variableValues = new EntityValueSet;
   VariableStorage *variableStorage =
-      new VariableStorage(variableTable, variableRevTable);
+      new VariableStorage(variableTable, variableRevTable, variableValues);
 
-  EntityTable *constantTable = new EntityTable();
-  EntityRevTable *constantRevTable = new EntityRevTable();
+  ConstTable *constantTable = new ConstTable();
+  ConstRevTable *constantRevTable = new ConstRevTable();
+  EntityValueSet *constantValues = new EntityValueSet;
+
   ConstantStorage *constantStorage =
-      new ConstantStorage(constantTable, constantRevTable);
+      new ConstantStorage(constantTable, constantRevTable, constantValues);
 
-  EntityTable *procedureTable = new EntityTable();
-  EntityRevTable *procedureRevTable = new EntityRevTable();
-  ProcedureStorage *procedureStorage =
-      new ProcedureStorage(procedureTable, procedureRevTable);
+  ProcedureStmtTable *procedureStmtTable = new ProcedureStmtTable();
+  ProcedureValues *procedureValues = new ProcedureValues();
+  CallDeclarationTable *callDeclarationTable = new CallDeclarationTable();
+  ProcedureAndCallsStorage *procAndCallsStorage = new ProcedureAndCallsStorage(
+      procedureStmtTable, callDeclarationTable, procedureValues);
 
   StmtTable *stmtTable = new StmtTable();
   StmtRevTable *stmtRevTable = new StmtRevTable();
+  StmtValueSet *stmtValues = new StmtValueSet();
   StatementStorage *statementStorage =
-      new StatementStorage(stmtTable, stmtRevTable);
+      new StatementStorage(stmtTable, stmtRevTable, stmtValues);
 
-  CallStmtTable *callStmtTable = new CallStmtTable();
-  CallStmtRevTable *callStmtRevTable = new CallStmtRevTable();
-  CallStmtStorage *callStmtStorage =
-      new CallStmtStorage(callStmtTable, callStmtRevTable);
-
-  StructureMappingProvider *structureProvider = new StructureMappingProvider(
-      statementStorage,
-      procedureStorage,
-      callStmtStorage);
+  StructureMappingProvider *structureProvider =
+      new StructureMappingProvider(statementStorage, procAndCallsStorage);
   EntityMappingProvider *entityMappingProvider = new EntityMappingProvider(
-      variableStorage,
-      constantStorage,
-      procedureStorage);
-  StmtPredicateFactory *stmtPredicateFactory
-      = new StmtPredicateFactory(structureProvider);
+      variableStorage, constantStorage, procAndCallsStorage);
+  StmtPredicateFactory *stmtPredicateFactory =
+      new StmtPredicateFactory(structureProvider);
   EntityPredicateFactory *entityPredicateFactory = new EntityPredicateFactory();
 
   FollowsTable *followsTable = new FollowsTable();
@@ -61,8 +58,7 @@ class PKB {
 
   ParentTable *parentTable = new ParentTable();
   ParentRevTable *parentRevTable = new ParentRevTable();
-  ParentStorage *parentStorage =
-      new ParentStorage(parentTable, parentRevTable);
+  ParentStorage *parentStorage = new ParentStorage(parentTable, parentRevTable);
   ParentTStorage *parentTStorage =
       new ParentTStorage(parentTable, parentRevTable);
 
@@ -78,20 +74,16 @@ class PKB {
 
   UsesTable *usesTable = new UsesTable();
   UsesRevTable *usesRevTable = new UsesRevTable();
-  UsesStorage *usesStorage =
-      new UsesStorage(usesTable, usesRevTable);
+  UsesStorage *usesStorage = new UsesStorage(usesTable, usesRevTable);
 
   UsesPTable *usesPTable = new UsesPTable();
   UsesPRevTable *usesPRevTable = new UsesPRevTable();
-  UsesPStorage *usesPStorage =
-      new UsesPStorage(usesPTable, usesPRevTable);
+  UsesPStorage *usesPStorage = new UsesPStorage(usesPTable, usesPRevTable);
 
   CallsTable *callsTable = new CallsTable();
   CallsRevTable *callsRevTable = new CallsRevTable();
-  CallsStorage *callsStorage =
-      new CallsStorage(callsTable, callsRevTable);
-  CallsTStorage *callsTStorage =
-      new CallsTStorage(callsTable, callsRevTable);
+  CallsStorage *callsStorage = new CallsStorage(callsTable, callsRevTable);
+  CallsTStorage *callsTStorage = new CallsTStorage(callsTable, callsRevTable);
 
   IfPatternTable *ifPatternTable = new IfPatternTable();
   IfPatternRevTable *ifPatternRevTable = new IfPatternRevTable();

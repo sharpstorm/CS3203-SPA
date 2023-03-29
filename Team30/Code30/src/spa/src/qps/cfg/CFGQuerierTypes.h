@@ -9,9 +9,12 @@ using StmtTypePredicate = bool(*)(const ClosureType &state,
                                   StmtType type, StmtValue value);
 
 template <class ClosureType>
-using ModifiesGetter = EntityValue(*)(const ClosureType &state,
-                                      StmtValue value);
+using ModifiesGetter = EntityIdx(*)(const ClosureType &state,
+                                    StmtValue value);
 
 template <class ClosureType>
-using UsesGetter = unordered_set<EntityValue>(*)(const ClosureType &state,
-                                                 StmtValue value);
+using UsesGetter = EntityIdxSet(*)(const ClosureType &state,
+                                   StmtValue value);
+
+template <class ClosureType>
+using CountGetter = int(*)(const ClosureType &state);

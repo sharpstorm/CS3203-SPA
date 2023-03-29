@@ -3,7 +3,7 @@
 #include <vector>
 #include <memory>
 
-#include "QueryGroupPlan.h"
+#include "qps/executor/planner/grouping/QueryGroupPlan.h"
 #include "qps/common/IEvaluatable.h"
 #include "qps/constraints/Constraint.h"
 
@@ -19,7 +19,6 @@ class QueryPlan {
 
  private:
   vector<QueryGroupPlanPtr> clauseGroups;
-  vector<ConstraintSPtr> constraints;
 };
 
 typedef unique_ptr<QueryPlan> QueryPlanPtr;
