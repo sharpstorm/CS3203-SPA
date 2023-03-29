@@ -16,8 +16,8 @@ TEST_CASE("ProcedureAndCallsStorage addProcedure") {
   store.addProcedure(1, 3, "procA");
   store.addProcedure(4, 4, "procB");
 
-  REQUIRE(store.getProcedures() == EntityValueSet({"procA", "procB"}));
-  REQUIRE(*procedureValues == EntityValueSet({"procA", "procB"}));
+  REQUIRE(store.getProcedures() == EntitySet({"procA", "procB"}));
+  REQUIRE(*procedureValues == EntitySet({"procA", "procB"}));
   REQUIRE(store.getProcedureForLine(1) == "procA");
   REQUIRE(store.getProcedureForLine(2) == "procA");
   REQUIRE(store.getProcedureForLine(3) == "procA");

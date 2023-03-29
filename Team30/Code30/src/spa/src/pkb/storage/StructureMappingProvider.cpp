@@ -1,8 +1,8 @@
 #include "StructureMappingProvider.h"
 
 StructureMappingProvider::StructureMappingProvider(
-    StatementStorage *statementStorage,
-    ProcedureAndCallsStorage *procAndCallsStorage)
+    StatementStorage* statementStorage,
+    ProcedureAndCallsStorage* procAndCallsStorage)
     : statementStorage(statementStorage),
       procAndCallsStorage(procAndCallsStorage) {}
 
@@ -10,17 +10,17 @@ StmtType StructureMappingProvider::getStatementType(int lineNumber) const {
   return statementStorage->getTypeOfStatement(lineNumber);
 }
 
-std::unordered_set<int> StructureMappingProvider::getValuesOfType(
+const StmtSet& StructureMappingProvider::getValuesOfType(
     StmtType stmtType) const {
   return statementStorage->getStatementsOfType(stmtType);
 }
 
-std::string StructureMappingProvider::getProcedureForLine(
+string StructureMappingProvider::getProcedureForLine(
     int lineNumber) const {
   return procAndCallsStorage->getProcedureForLine(lineNumber);
 }
 
-std::string StructureMappingProvider::getCalledDeclaration(
+string StructureMappingProvider::getCalledDeclaration(
     int lineNumber) const {
   return procAndCallsStorage->getCalledDeclaration(lineNumber);
 }

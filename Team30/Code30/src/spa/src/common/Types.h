@@ -2,12 +2,13 @@
 
 #include <memory>
 #include <string>
+#include <set>
 #include <unordered_set>
 #include <utility>
 
 using std::pair;
 using std::string;
-using std::unordered_set;
+using std::set, std::unordered_set;
 using std::unique_ptr;
 
 enum class EntityType { None, Procedure, Variable, Constant };
@@ -20,6 +21,8 @@ typedef int EntityIdx;
 typedef unordered_set<StmtValue> StmtValueSet;
 typedef unordered_set<EntityValue> EntityValueSet;
 typedef unordered_set<EntityIdx> EntityIdxSet;
+typedef set<StmtValue> StmtSet;
+typedef set<EntityValue> EntitySet;
 
 const StmtValue NO_STMT = 0;
 const char NO_ENT[] = "";

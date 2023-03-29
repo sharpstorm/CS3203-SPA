@@ -4,5 +4,5 @@ AssignsWriter::AssignsWriter(AssignStorage *assignStorage)
     : assignStorage(assignStorage) {}
 
 void AssignsWriter::addAssigns(int stmtNum, PatternTrieSPtr astNode) {
-  assignStorage->set(stmtNum, astNode);
+  assignStorage->insert(stmtNum, astNode);
 }

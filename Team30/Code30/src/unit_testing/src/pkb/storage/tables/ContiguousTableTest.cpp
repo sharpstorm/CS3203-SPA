@@ -8,9 +8,9 @@ using std::string;
 
 TEST_CASE("ContinuousTable set to key beyond table initial size") {
   ContiguousTable<string> table(1);
-  table.set(1, "a");
-  table.set(2, "b");
-  table.set(3, "c");
+  table.insert(1, "a");
+  table.insert(2, "b");
+  table.insert(3, "c");
 
   REQUIRE(table.get(1) == "a");
   REQUIRE(table.get(2) == "b");
@@ -26,7 +26,7 @@ TEST_CASE("ContinuousTable get unset key") {
 
 TEST_CASE("ContinuousTable store set of values") {
   ContiguousTable<std::unordered_set<string>> table(5);
-  table.set(1, {"a"});
+  table.insert(1, {"a"});
 
   REQUIRE(table.get(1) == std::unordered_set<string>({"a"}));
   REQUIRE(table.get(10) == std::unordered_set<string>({}));

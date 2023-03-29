@@ -1,20 +1,20 @@
 #pragma once
 
 #include <string>
-#include <unordered_set>
+#include <set>
 
 #include "pkb/storage/interfaces/IEntityMappingProvider.h"
 #include "pkb/storage/tables/ContiguousTable.h"
 #include "pkb/storage/tables/HashKeySetTable.h"
 
 using std::string;
-using std::unordered_set;
+using std::set;
 
 class EntityMappingProviderStub : public IEntityMappingProvider {
  public:
-  unordered_set<string> allVariables;
-  unordered_set<string> allConstants;
-  unordered_set<string> allProcedures;
+  EntitySet allVariables;
+  EntitySet allConstants;
+  EntitySet allProcedures;
 
   ContiguousTable<string> variableTable;
   ContiguousTable<string> constantTable;
@@ -25,7 +25,7 @@ class EntityMappingProviderStub : public IEntityMappingProvider {
   HashKeyTable<string, int> procedureToStmtNumTable;
 
   EntityMappingProviderStub();
-  unordered_set<string> getValuesOfType(EntityType) const override;
+  const EntitySet & getValuesOfType(EntityType) const override;
   bool isValueOfType(EntityType, EntityValue) const override;
   string getVariableByIndex(int) const override;
   string getConstantByIndex(int) const override;
