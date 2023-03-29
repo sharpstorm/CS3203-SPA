@@ -29,6 +29,12 @@ void BitField::set(int bit) {
   data[byteOffset] |= (0x1) << bitOffset;
 }
 
+void BitField::set(const unordered_set<int> &bits) {
+  for (const int &bit : bits) {
+    set(bit);
+  }
+}
+
 void BitField::unset(int bit) {
   if (bit >= capacity) {
     return;
@@ -39,6 +45,12 @@ void BitField::unset(int bit) {
 
   int setMask = (0x1) << bitOffset;
   data[byteOffset] &= (~setMask);
+}
+
+void BitField::unset(const unordered_set<int> &bits) {
+  for (const int &item : bits) {
+    unset(item);
+  }
 }
 
 bool BitField::isSet(int bit) const {

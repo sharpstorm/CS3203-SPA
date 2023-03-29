@@ -69,37 +69,37 @@ void assertQueryAffectsTNotEmpty(CFGAffectsTQuerier<T, U, MG, UG, CG>* querier,
 }
 
 CFGTestModifiesUsesProvider transitiveLinearProvider(
-    { "a", "b", "c", "d"},
+    { {"a"}, {"b"}, {"c"}, {"d"}},
     {{}, {"a"}, {"b"}, {"e"}},
     {}
 );
 
 CFGTestModifiesUsesProvider whileProvider(
-    { "", "a", "b", "c"},
+    { {}, {"a"}, {"b"}, {"c"}},
     {{}, {"b"}, {"c"}, {"a"}},
     {{1, StmtType::While}}
 );
 
 CFGTestModifiesUsesProvider ifNoneProvider(
-    { "x", "", "y", "y", "z"},
+    { {"x"}, {}, {"y"}, {"y"}, {"z"}},
     {{}, {"x"}, {"x"}, {"x"}, {"x"}},
     {{2, StmtType::If}}
 );
 
 CFGTestModifiesUsesProvider ifThenProvider(
-    { "x", "", "y", "x", "z"},
+    { {"x"}, {}, {"y"}, {"x"}, {"z"}},
     {{}, {"x"}, {"x"}, {}, {"y"}},
     {{2, StmtType::If}}
 );
 
 CFGTestModifiesUsesProvider ifElseProvider(
-    { "x", "", "x", "y", "z"},
+    { {"x"}, {}, {"x"}, {"y"}, {"z"}},
     {{}, {"x"}, {}, {"x"}, {"y"}},
     {{2, StmtType::If}}
 );
 
 CFGTestModifiesUsesProvider ifBothProvider(
-    { "x", "", "y", "y", "z"},
+    { {"x"}, {}, {"y"}, {"y"}, {"z"}},
     {{}, {"x"}, {"x"}, {"x"}, {"y"}},
     {{2, StmtType::If}}
 );

@@ -1,0 +1,13 @@
+procedure proc1 {
+  a = 1;
+  b = 2;
+  call proc2;
+  c = a;
+  c = b;
+}
+
+procedure proc2 {
+  a = b;
+  b = c;
+}
+

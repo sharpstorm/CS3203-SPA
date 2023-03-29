@@ -1,15 +1,16 @@
 #pragma once
 
 #include <memory>
+#include <unordered_set>
 #include "UtilityTypes.h"
 
-using std::make_unique;
+using std::make_unique, std::unordered_set;
 
 class SetUtils {
  public:
   template<class T>
-  static IntersectSetPtr<T> intersectSet(IntersectSet<T>* s1,
-                                                   IntersectSet<T>* s2) {
+  static IntersectSetPtr<T> intersectSet(IntersectSet<T> *s1,
+                                         IntersectSet<T> *s2) {
     if (s1 == nullptr) {
       return nullptr;
     } else if (s2 == nullptr) {
@@ -24,5 +25,21 @@ class SetUtils {
     }
 
     return result;
+  }
+
+  template<class T>
+  static T firstItemOfSet(const unordered_set<T> &input,
+                          const T &zeroValue) {
+    for (const T &item : input) {
+      return item;
+    }
+
+    return zeroValue;
+  }
+
+  template<class T>
+  static T setContains(const unordered_set<T> &input,
+                       const T &target) {
+    return input.find(target) != input.end();
   }
 };
