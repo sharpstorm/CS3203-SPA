@@ -2,7 +2,7 @@
 
 EntityMappingProviderStub::EntityMappingProviderStub(){};
 
-unordered_set<string> EntityMappingProviderStub::getValuesOfType(
+const set<string>& EntityMappingProviderStub::getValuesOfType(
     EntityType type) const {
   if (type == EntityType::Variable) {
     return allVariables;

@@ -16,23 +16,23 @@ using std::unique_ptr;
 
 static std::unique_ptr<StructureMappingProviderStub> setUpStructureMappingProvider() {
   auto provider = make_unique<StructureMappingProviderStub>();
-  provider->stmtNumToType.set(2, StmtType::Assign);
-  provider->stmtNumToType.set(3, StmtType::Assign);
-  provider->stmtNumToType.set(4, StmtType::Read);
-  provider->stmtNumToType.set(5, StmtType::Read);
-  provider->stmtNumToType.set(11, StmtType::If);
-  provider->stmtNumToType.set(14, StmtType::If);
-  provider->stmtNumToType.set(12, StmtType::While);
-  provider->stmtNumToType.set(16, StmtType::While);
+  provider->stmtNumToType.insert(2, StmtType::Assign);
+  provider->stmtNumToType.insert(3, StmtType::Assign);
+  provider->stmtNumToType.insert(4, StmtType::Read);
+  provider->stmtNumToType.insert(5, StmtType::Read);
+  provider->stmtNumToType.insert(11, StmtType::If);
+  provider->stmtNumToType.insert(14, StmtType::If);
+  provider->stmtNumToType.insert(12, StmtType::While);
+  provider->stmtNumToType.insert(16, StmtType::While);
 
-  provider->stmtTypeToNum.set(StmtType::Assign, 2);
-  provider->stmtTypeToNum.set(StmtType::Assign, 3);
-  provider->stmtTypeToNum.set(StmtType::Read, 4);
-  provider->stmtTypeToNum.set(StmtType::Read, 5);
-  provider->stmtTypeToNum.set(StmtType::If, 11);
-  provider->stmtTypeToNum.set(StmtType::If, 14);
-  provider->stmtTypeToNum.set(StmtType::While, 12);
-  provider->stmtTypeToNum.set(StmtType::While, 16);
+  provider->stmtTypeToNum.insert(StmtType::Assign, 2);
+  provider->stmtTypeToNum.insert(StmtType::Assign, 3);
+  provider->stmtTypeToNum.insert(StmtType::Read, 4);
+  provider->stmtTypeToNum.insert(StmtType::Read, 5);
+  provider->stmtTypeToNum.insert(StmtType::If, 11);
+  provider->stmtTypeToNum.insert(StmtType::If, 14);
+  provider->stmtTypeToNum.insert(StmtType::While, 12);
+  provider->stmtTypeToNum.insert(StmtType::While, 16);
 
   provider->allStmts = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
   return provider;
@@ -73,8 +73,8 @@ struct followsTest {
 TEST_CASE("FollowsQueryHandler follows(stmtNum,stmtNum)") {
   auto test = followsTest();
 
-  test.table->set(1, 2);
-  test.table->set(2, 4);
+  test.table->insert(1, 2);
+  test.table->insert(2, 4);
 
   REQUIRE(test.query(
       {StmtType::None, 1},
@@ -93,9 +93,9 @@ TEST_CASE("FollowsQueryHandler follows(stmtNum,stmtNum)") {
 TEST_CASE("FollowsQueryHandler follows(stmtNum,stmtType)") {
   auto test = followsTest();
 
-  test.table->set(1, 2);
-  test.table->set(2, 3);
-  test.table->set(3, 5);
+  test.table->insert(1, 2);
+  test.table->insert(2, 3);
+  test.table->insert(3, 5);
 
   auto result1 = *test.query({StmtType::None, 1}, {StmtType::Assign, 0});
   REQUIRE(result1.isEmpty == false);
@@ -110,9 +110,9 @@ TEST_CASE("FollowsQueryHandler follows(stmtNum,stmtType)") {
 TEST_CASE("FollowsQueryHandler follows(stmtType, stmtNum)") {
   auto test = followsTest();
 
-  test.reverseTable->set(5, 2);
-  test.reverseTable->set(6, 5);
-  test.reverseTable->set(8, 6);
+  test.reverseTable->insert(5, 2);
+  test.reverseTable->insert(6, 5);
+  test.reverseTable->insert(8, 6);
 
   auto result1 = *test.query({StmtType::Assign, 0}, {StmtType::None, 5});
   REQUIRE(result1.isEmpty == false);
@@ -128,9 +128,9 @@ TEST_CASE("FollowsQueryHandler follows(stmtType, stmtNum)") {
 TEST_CASE("FollowsQueryHandler follows(stmtType, stmtType)") {
   auto test = followsTest();
 
-  test.table->set(2, 5);
-  test.table->set(3, 4);
-  test.table->set(5, 6);
+  test.table->insert(2, 5);
+  test.table->insert(3, 4);
+  test.table->insert(5, 6);
 
   auto result1 = *test.query({StmtType::Assign, 0}, {StmtType::Read, 0});
 
@@ -144,8 +144,8 @@ TEST_CASE("FollowsQueryHandler follows(stmtType, stmtType)") {
 TEST_CASE("FollowsQueryHandler followsStar(stmtNum,stmtNum)") {
   auto test = followsTest();
 
-  test.table->set(1, 2);
-  test.table->set(2, 5);
+  test.table->insert(1, 2);
+  test.table->insert(2, 5);
 
   REQUIRE(test.queryT({StmtType::None, 1}, {StmtType::None, 2})
       .get()->isEmpty == false);
@@ -160,9 +160,9 @@ TEST_CASE("FollowsQueryHandler followsStar(stmtNum,stmtNum)") {
 TEST_CASE("FollowsQueryHandler followsStar(stmtNum,stmtType)") {
   auto test = followsTest();
 
-  test.table->set(10, 11);
-  test.table->set(11, 12);
-  test.table->set(12, 16);
+  test.table->insert(10, 11);
+  test.table->insert(11, 12);
+  test.table->insert(12, 16);
 
   auto result1 = *test.queryT(
       {StmtType::None, 10},
@@ -179,9 +179,9 @@ TEST_CASE("FollowsQueryHandler followsStar(stmtNum,stmtType)") {
 TEST_CASE("FollowsQueryHandler followsStar(stmtType,stmtNum)") {
   auto test = followsTest();
 
-  test.reverseTable->set(12, 11);
-  test.reverseTable->set(13, 12);
-  test.reverseTable->set(14, 13);
+  test.reverseTable->insert(12, 11);
+  test.reverseTable->insert(13, 12);
+  test.reverseTable->insert(14, 13);
 
   auto result1 = *test.queryT({StmtType::If, 0}, {StmtType::None, 13});
   REQUIRE(result1.isEmpty == false);
@@ -196,10 +196,10 @@ TEST_CASE("FollowsQueryHandler followsStar(stmtType,stmtNum)") {
 TEST_CASE("FollowsQueryHandler followsStar(stmtType,stmtType)") {
   auto test = followsTest();
 
-  test.table->set(11, 12);
-  test.table->set(12, 14);
-  test.table->set(14, 15);
-  test.table->set(15, 16);
+  test.table->insert(11, 12);
+  test.table->insert(12, 14);
+  test.table->insert(14, 15);
+  test.table->insert(15, 16);
 
   auto result1 = *test.queryT({StmtType::If, 0}, {StmtType::While, 0});
   REQUIRE(result1.isEmpty == false);

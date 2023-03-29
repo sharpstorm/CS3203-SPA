@@ -1,11 +1,11 @@
 #include <memory>
-#include <unordered_set>
+#include <set>
 #include <string>
 
 #include "catch.hpp"
 #include "pkb/writers/WhilePatternWriter.h"
 
-using std::make_shared, std::make_unique, std::unordered_set, std::string;
+using std::make_shared, std::make_unique, std::set, std::string;
 
 TEST_CASE("WhilePatternWriterTest addWhilePattern") {
   auto table = make_shared<WhilePatternTable>();
@@ -19,8 +19,8 @@ TEST_CASE("WhilePatternWriterTest addWhilePattern") {
   writer.addWhilePattern(2, "x");
   writer.addWhilePattern(3, "z");
 
-  REQUIRE(table->get(1) == unordered_set<string>({"x", "y"}));
-  REQUIRE(table->get(3) == unordered_set<string>({"z"}));
-  REQUIRE(reverseTable->get("x") == unordered_set<int>({1, 2}));
-  REQUIRE(reverseTable->get("z") == unordered_set<int>({3}));
+  REQUIRE(table->get(1) == set<string>({"x", "y"}));
+  REQUIRE(table->get(3) == set<string>({"z"}));
+  REQUIRE(reverseTable->get("x") == set<int>({1, 2}));
+  REQUIRE(reverseTable->get("z") == set<int>({3}));
 }

@@ -33,13 +33,13 @@ void ProcedureAndCallsStorage::insertFromTo(StmtValue startNum,
                                             StmtValue endNum,
                                             EntityValue procedure) {
   for (int i = startNum; i < endNum + 1; ++i) {
-    procedureStmtTable->set(i, procedure);
+    procedureStmtTable->insert(i, procedure);
   }
 }
 
 void ProcedureAndCallsStorage::addCallDeclaration(StmtValue stmt,
                                                   EntityValue calledProcedure) {
-  callDeclarationTable->set(stmt, calledProcedure);
+  callDeclarationTable->insert(stmt, calledProcedure);
   if (!procedureExists(calledProcedure)) {
     undefinedProcedures.insert(calledProcedure);
   }
@@ -55,6 +55,6 @@ EntityValue ProcedureAndCallsStorage::getCalledDeclaration(
   return callDeclarationTable->get(stmt);
 }
 
-EntityValueSet ProcedureAndCallsStorage::getProcedures() const {
+const EntitySet& ProcedureAndCallsStorage::getProcedures() const {
   return *procedureValues;
 }

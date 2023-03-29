@@ -1,6 +1,6 @@
 #include <memory>
 #include <string>
-#include <unordered_set>
+#include <set>
 
 #include "catch.hpp"
 #include "pkb/writers/CallsWriter.h"
@@ -8,7 +8,7 @@
 using std::make_shared;
 using std::make_unique;
 using std::string;
-using std::unordered_set;
+using std::set;
 
 TEST_CASE("CallsWriter addCalls") {
   auto table = make_shared<CallsTable>();
@@ -24,8 +24,8 @@ TEST_CASE("CallsWriter addCalls") {
   writer.addCalls(2, "main", "called");
 
   // call table
-  REQUIRE(table->get("main") == unordered_set<string>({"called"}));
-  REQUIRE(reverseTable->get("called") == unordered_set<string>({"main"}));
+  REQUIRE(table->get("main") == set<string>({"called"}));
+  REQUIRE(reverseTable->get("called") == set<string>({"main"}));
 
   // call stmt tables
   REQUIRE(stmtTable->get(2) == "called");

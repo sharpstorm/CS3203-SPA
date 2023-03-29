@@ -10,24 +10,29 @@ template<typename K, typename V>
 class HashKeyTable : public IBaseTable<K, V> {
  protected:
   unordered_map<K, V> table;
+  static inline const V emptyValue = V();
 
  public:
   HashKeyTable() : table() {}
 
-  void set(K key, V value) override {
+  void insert(K key, V value) override {
     assert(key != K());
     assert(value != V());
 
     table[key] = value;
   }
 
-  V get(K key) const override {
+  const V& get(K key) const override {
     assert(key != K());
 
     auto iter = table.find(key);
     if (iter != table.end()) {
       return iter->second;
     }
-    return V();
+    return emptyValue;
+  }
+
+  static const V& getEmptyValue() {
+    return emptyValue;
   }
 };
