@@ -1,4 +1,4 @@
-#define CATCH_CONFIG_ENABLE_BENCHMARKING
+// #define CATCH_CONFIG_ENABLE_BENCHMARKING
 #include "catch.hpp"
 
 #include "qps/executor/ResultCoalescer.h"
