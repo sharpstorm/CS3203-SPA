@@ -48,25 +48,4 @@ class FollowsTableManager : public RelationTableManager<StmtValue, StmtValue> {
       return {*values.rbegin()};
     }
   }
-
-  /**
-   * Query by iterating rows of table.
-   */
-  //  virtual QueryResultPtr<StmtValue, StmtValue> query(
-  //      Predicate<StmtValue> rightPredicate) const {
-  //    QueryResult<StmtValue, StmtValue> result;
-  //
-  //    for (auto itr = table->begin(); itr != table->end(); ++itr) {
-  //      auto leftVal = itr->first;
-  //      auto rightValues = itr->second;
-  //      if (rightValues.empty()) {
-  //        continue;
-  //      }
-  //      auto firstVal = *(rightValues.begin());
-  //      if (rightPredicate(firstVal)) {
-  //        result.add(leftVal, firstVal);
-  //      }
-  //    }
-  //    return make_unique<QueryResult<StmtValue, StmtValue>>(result);
-  //  }
 };
