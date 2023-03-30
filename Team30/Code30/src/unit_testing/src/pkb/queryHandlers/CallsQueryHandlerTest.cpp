@@ -31,8 +31,10 @@ struct callsTest {
   shared_ptr<CallsRevTable> reverseTable = make_shared<CallsRevTable>();
   unique_ptr<CallsStorage> store =
       make_unique<CallsStorage>(table.get(), reverseTable.get());
+  shared_ptr<CallsTTable> tTable = make_shared<CallsTTable>();
+  shared_ptr<CallsTRevTable> tReverseTable = make_shared<CallsTRevTable>();
   unique_ptr<CallsTStorage> storeT =
-      make_unique<CallsTStorage>(table.get(), reverseTable.get());
+      make_unique<CallsTStorage>(tTable.get(), tReverseTable.get());
   unique_ptr<EntityMappingProviderStub> entityProvider =
       setUpEntityMappingProvider();
   unique_ptr<EntityPredicateFactory> factory =
@@ -43,12 +45,12 @@ struct callsTest {
   CallsQueryHandler handlerT = CallsQueryHandler(invoker.get(), storeT.get());
 
   QueryResultPtr<EntityValue, EntityValue> query(EntityRef leftArg,
-                                                          EntityRef rightArg) {
+                                                 EntityRef rightArg) {
     return handler.query(&leftArg, &rightArg);
   }
 
   QueryResultPtr<EntityValue, EntityValue> queryT(EntityRef leftArg,
-                                                           EntityRef rightArg) {
+                                                  EntityRef rightArg) {
     return handlerT.query(&leftArg, &rightArg);
   }
 };
@@ -126,8 +128,9 @@ TEST_CASE("CallsQueryHandler calls(_, _)") {
 TEST_CASE("CallsQueryHandler callsStar(entityName, entityName)") {
   auto test = callsTest();
 
-  test.table->insert("main", "foo");
-  test.table->insert("foo", "goo");
+  test.tTable->insert("main", "foo");
+  test.tTable->insert("foo", "goo");
+  test.tTable->insert("main", "goo");
 
   REQUIRE(test.queryT({EntityType::Procedure, "main"},
                       {EntityType::Procedure, "foo"})
@@ -146,10 +149,12 @@ TEST_CASE("CallsQueryHandler callsStar(entityName, entityName)") {
 TEST_CASE("CallsQueryHandler callsStar(_, entityName)") {
   auto test = callsTest();
 
-  test.table->insert("main", "foo");
-  test.table->insert("foo", "goo");
-  test.reverseTable->insert("foo", "main");
-  test.reverseTable->insert("goo", "foo");
+  test.tTable->insert("main", "foo");
+  test.tTable->insert("foo", "goo");
+  test.tTable->insert("main", "goo");
+  test.tReverseTable->insert("foo", "main");
+  test.tReverseTable->insert("goo", "foo");
+  test.tReverseTable->insert("goo", "main");
 
   auto result =
       *test.queryT({EntityType::None, ""}, {EntityType::Procedure, "goo"});
@@ -163,9 +168,10 @@ TEST_CASE("CallsQueryHandler callsStar(_, entityName)") {
 TEST_CASE("CallsQueryHandler callsStar(entityName, _)") {
   auto test = callsTest();
 
-  test.table->insert("main", "foo");
-  test.table->insert("main", "woo");
-  test.table->insert("foo", "goo");
+  test.tTable->insert("main", "foo");
+  test.tTable->insert("main", "woo");
+  test.tTable->insert("foo", "goo");
+  test.tTable->insert("main", "goo");
 
   auto result =
       *test.queryT({EntityType::Procedure, "main"}, {EntityType::None, ""});
@@ -180,9 +186,10 @@ TEST_CASE("CallsQueryHandler callsStar(entityName, _)") {
 TEST_CASE("CallsQueryHandler callsStar(_, _)") {
   auto test = callsTest();
 
-  test.table->insert("main", "foo");
-  test.table->insert("main", "woo");
-  test.table->insert("foo", "goo");
+  test.tTable->insert("main", "foo");
+  test.tTable->insert("main", "woo");
+  test.tTable->insert("foo", "goo");
+  test.tTable->insert("main", "goo");
 
   auto result = *test.queryT({EntityType::None, ""}, {EntityType::None, ""});
   REQUIRE(result.isEmpty == false);

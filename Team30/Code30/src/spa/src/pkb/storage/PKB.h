@@ -85,7 +85,9 @@ class PKB {
   CallsTable *callsTable = new CallsTable();
   CallsRevTable *callsRevTable = new CallsRevTable();
   CallsStorage *callsStorage = new CallsStorage(callsTable, callsRevTable);
-  CallsTStorage *callsTStorage = new CallsTStorage(callsTable, callsRevTable);
+  CallsTTable *callsTTable = new CallsTTable();
+  CallsTRevTable *callsTRevTable = new CallsTRevTable();
+  CallsTStorage *callsTStorage = new CallsTStorage(callsTTable, callsTRevTable);
 
   IfPatternTable *ifPatternTable = new IfPatternTable();
   IfPatternRevTable *ifPatternRevTable = new IfPatternRevTable();

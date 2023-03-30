@@ -3,7 +3,6 @@
 #include "IPostProcessor.h"
 #include "pkb/storage/PKB.h"
 #include "pkb/storage/StorageTypes.h"
-#include "pkb/writers/interfaces/IPkbWriter.h"
 
 class ParentTPostProcessor : public IPostProcessor {
  public:
@@ -14,5 +13,5 @@ class ParentTPostProcessor : public IPostProcessor {
  private:
   PKB *pkb;
 
-  void dfsParentRevTable(StmtValue, StmtSet &) const;
+  void dfsParentRevTable(StmtValue, StmtValueSet &) const;
 };

@@ -13,26 +13,19 @@ void ParentTPostProcessor::process() {
   pkb::Function<StmtValue, StmtSet> func = [&lastChildren, parentTStorage](
                                                const StmtValue& key,
                                                const StmtSet& values) {
-    // note: row values should not be empty, so firstChild and lastChild
-    // shld be valid get last sibling of firstChild
+    // at most two last children with same parent
+    // for while, the two last children at the same stmt
+    // 1. last sibling of first child (last stmt in if clause)
     auto firstChild = *(values.begin());
-    //    auto siblings = followsTable->get(firstChild);
-    //    StmtValue lastSibling;
-    //    if (siblings.empty()) {
-    //      // may not have last sibling. last sibling is first child
-    //      lastSibling = firstChild;
-    //    } else {
-    //      lastSibling = *siblings.rbegin();
-    //    }
     StmtValue lastSibling = parentTStorage->getLastSibling(firstChild);
     lastChildren.insert(lastSibling);
-    // get last child of parent
+    // 2. last child of parent (last stmt in else clause)
     auto lastChild = *(values.rbegin());
     lastChildren.insert(lastChild);
   };
   parentTable->forEach(func, nullptr);
   for (auto child : lastChildren) {
-    StmtSet ascendants = StmtSet();
+    StmtValueSet ascendants = StmtValueSet();
     dfsParentRevTable(child, ascendants);
     for (auto p : ascendants) {
       pkb->parentTStorage->insert(p, child);
@@ -41,9 +34,12 @@ void ParentTPostProcessor::process() {
 }
 
 void ParentTPostProcessor::dfsParentRevTable(StmtValue child,
-                                             StmtSet& ascendants) const {
+                                             StmtValueSet& ascendants) const {
   auto result = pkb->parentRevTable->get(child);
   for (auto r : result) {
+    if (ascendants.find(r) != ascendants.end()) {
+      continue;
+    }
     ascendants.insert(r);
     dfsParentRevTable(r, ascendants);
   }

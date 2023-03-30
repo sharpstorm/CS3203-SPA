@@ -24,6 +24,9 @@ TEST_CASE("ParentTPostProcessor") {
   writer.addFollows(2, 7);
   writer.addFollows(4, 5);
 
+  REQUIRE(pkb->parentTTable->size() == 0);
+  REQUIRE(pkb->parentTRevTable->size() == 0);
+
   processor.process();
 
   // check ParentTTable

@@ -60,9 +60,11 @@ using UsesPTable = HashKeySetTable<EntityValue, EntityValue>;
 using UsesPRevTable = HashKeySetTable<EntityValue, EntityValue>;
 
 using CallsStorage = RelationTableManager<EntityValue, EntityValue>;
-using CallsTStorage = TransitiveRelationTableManager<EntityValue>;
 using CallsTable = HashKeySetTable<EntityValue, EntityValue>;
 using CallsRevTable = HashKeySetTable<EntityValue, EntityValue>;
+using CallsTStorage = RelationTableManager<EntityValue, EntityValue>;
+using CallsTTable = HashKeySetTable<EntityValue, EntityValue>;
+using CallsTRevTable = HashKeySetTable<EntityValue, EntityValue>;
 
 using IfPatternStorage = RelationTableManager<StmtValue, EntityValue>;
 using IfPatternTable = HashKeySetTable<StmtValue, EntityValue>;
