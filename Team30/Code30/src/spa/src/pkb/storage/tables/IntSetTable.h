@@ -9,32 +9,25 @@
 using std::set;
 
 template <typename V>
-class IntSetTable : public IntTable<set<V>> {
- private:
-  static inline const V emptyValue = V();
+class IntSetTable : public IBaseSetTable<int, V>, public IntTable<set<V>> {
  public:
   using IntTable<set<V>>::IntTable;
 
-  void insert(int key, V value) {
+  void insert(int key, V value) override {
     assert(key != 0);
     assert(value != V());
 
     this->table[key].insert(value);
   }
 
-  const V& getFirstValue(StmtValue key) const {
-    auto values = IntTable::get(key);
-    if (values.empty()) {
-      return IntSetTable::emptyValue;
-    }
-    return *(values.begin());
+  const set<V>& get(int key) const override {
+    return IntTable<set<V>>::get(key);
   }
 
-  const V& getLastValue(StmtValue key) const {
-    auto values = IntTable::get(key);
-    if (values.empty()) {
-      return IntSetTable::emptyValue;
-    }
-    return *(values.rbegin());
+  void forEach(pkb::Function<int, set<V>> function,
+               pkb::Terminator<int, set<V>> terminator) const override {
+    return IntTable<set<V>>::forEach(function, terminator);
   }
+
+  int size() const override { return IntTable<set<V>>::size(); };
 };

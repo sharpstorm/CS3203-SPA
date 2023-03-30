@@ -25,6 +25,15 @@ class ParentTTableManager {
   IntSetTable<StmtValue> *reverseTable;
   IntSetTable<StmtValue> *followsTable;
 
+  StmtValue getLastSibling(StmtValue stmt) const {
+    const StmtSet &values = followsTable->get(stmt);
+    if (values.empty()) {
+      return stmt;
+    } else {
+      return *values.rbegin();
+    }
+  }
+
  public:
   ParentTTableManager(IntTable<StmtValue> *table,
                       IntSetTable<StmtValue> *reverseTable,
@@ -41,8 +50,8 @@ class ParentTTableManager {
   /**
    * Get set of arg2 where R(arg1, arg2) is true, given arg1 value.
    */
-  const set<StmtValue> getByFirstArg(StmtValue arg1) const {
-    return {table->get(arg1)};
+  const StmtValue getByFirstArg(StmtValue arg1) const {
+    return table->get(arg1);
   }
 
   /**
@@ -50,10 +59,7 @@ class ParentTTableManager {
    */
   const set<StmtValue> getBySecondArg(StmtValue arg2) const {
     // find max sibling
-    auto maxSibling = followsTable->getFirstValue(arg2);
-    if (maxSibling == 0) {
-      maxSibling = arg2;
-    }
+    auto maxSibling = getLastSibling(arg2);
     return reverseTable->get(maxSibling);
   }
 
@@ -61,8 +67,7 @@ class ParentTTableManager {
   QueryResultPtr<StmtValue, StmtValue> query(StmtValue arg1,
                                              StmtValue arg2) const {
     QueryResult<StmtValue, StmtValue> result;
-    auto maxChild =
-        *(getByFirstArg(arg1).begin());  // guaranteed not to be empty
+    auto maxChild = getByFirstArg(arg1);
     if (arg1 < arg2 && arg2 <= maxChild) {
       result.add(arg1, arg2);
     }
@@ -87,11 +92,14 @@ class ParentTTableManager {
 
   // const, syn
   QueryResultPtr<StmtValue, StmtValue> query(
-      unordered_set<StmtValue> arg1Values,
-      set<StmtValue> &rightValues) const {  // change to set<StmtValue>&
+      const set<StmtValue> &arg1Values,
+      const set<StmtValue> &rightValues) const {  // change to set<StmtValue>&
     QueryResult<StmtValue, StmtValue> result;
     for (auto arg1 : arg1Values) {
-      auto maxChild = *(getByFirstArg(arg1).begin());
+      auto maxChild = getByFirstArg(arg1);
+      if (maxChild == 0) {
+        continue;
+      }
       auto itLower = rightValues.lower_bound(arg1 + 1);
       auto itUpper = rightValues.upper_bound(maxChild);
 

@@ -29,6 +29,7 @@ struct followsTest {
     writer.addStatement(4, StmtType::Print);
   }
 };
+
 TEST_CASE("Follows") {
   auto test = followsTest();
 

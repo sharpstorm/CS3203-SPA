@@ -25,6 +25,8 @@ class StructureMappingProviderStub : public IStructureMappingProvider {
 
   StructureMappingProviderStub();
 
+  void insert(StmtValue stmt, StmtType);
+
   StmtType getStatementType(int stmt) const override;
 
   const StmtSet& getValuesOfType(StmtType stmtType) const override;

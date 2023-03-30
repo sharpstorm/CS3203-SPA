@@ -55,10 +55,9 @@ struct followsQHTest {
   unique_ptr<PkbStmtStmtQueryInvoker> invoker =
       make_unique<PkbStmtStmtQueryInvoker>(structureProvider.get(),
                                            factory.get());
-  FollowsQueryHandler handler =
-      FollowsQueryHandler(store.get(), structureProvider.get(), factory.get());
+  FollowsQueryHandler handler = FollowsQueryHandler(invoker.get(), store.get());
   FollowsQueryHandler handlerT =
-      FollowsQueryHandler(storeT.get(), structureProvider.get(), factory.get());
+      FollowsQueryHandler(invoker.get(), storeT.get());
 
   QueryResultPtr<StmtValue, StmtValue> query(StmtRef leftArg,
                                              StmtRef rightArg) {

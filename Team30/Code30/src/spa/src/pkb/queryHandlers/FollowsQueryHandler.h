@@ -8,13 +8,6 @@
 
 class FollowsQueryHandler : public IFollowsQueryHandler {
  public:
-  FollowsQueryHandler(FollowsStorage*, IStructureMappingProvider*,
-                      StmtPredicateFactory*);
-
-  QueryResultPtr<StmtValue, StmtValue> query(StmtRef*, StmtRef*) const override;
-
- private:
-  FollowsStorage* store;
-  IStructureMappingProvider* provider;
-  StmtPredicateFactory* factory;
+  FollowsQueryHandler(PkbStmtStmtQueryInvoker *invoker,
+                      RelationTableManager<StmtValue, StmtValue> *storage);
 };

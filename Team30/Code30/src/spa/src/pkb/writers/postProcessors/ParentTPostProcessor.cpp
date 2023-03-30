@@ -9,32 +9,42 @@ ParentTPostProcessor::ParentTPostProcessor(PKB* pkb) : pkb(pkb) {}
 void ParentTPostProcessor::process() {
   auto parentTable = pkb->parentTable;
   StmtValueSet lastChildren;
-  for (auto it = parentTable->begin(); it != parentTable->end(); it++) {
-    // note: row values should not be empty, so firstChild and lastChild shld be
-    // valid get last sibling of firstChild
-    auto firstChild = *(it->second.begin());
-    auto lastSibling = *(pkb->followsTable->get(firstChild).end());
-    // may not have last sibling. last sibling is first child
-    if (lastSibling == 0) {
+  auto followsTable = pkb->followsTable;
+  pkb::Function<StmtValue, StmtSet> func = [&lastChildren, followsTable](
+                                               const StmtValue& key,
+                                               const StmtSet& values) {
+    // note: row values should not be empty, so firstChild and lastChild
+    // shld be valid get last sibling of firstChild
+    auto firstChild = *(values.begin());
+    auto siblings = followsTable->get(firstChild);
+    StmtValue lastSibling;
+    if (siblings.empty()) {
+      // may not have last sibling. last sibling is first child
       lastSibling = firstChild;
+    } else {
+      lastSibling = *siblings.rbegin();
     }
     lastChildren.insert(lastSibling);
     // get last child of parent
-    auto lastChild = *(it->second.rbegin());
+    auto lastChild = *(values.rbegin());
     lastChildren.insert(lastChild);
-  }
+  };
+  parentTable->forEach(func, nullptr);
   for (auto child : lastChildren) {
-    vector<StmtValue> ascendants;
+    StmtSet ascendants = StmtSet();
     dfsParentRevTable(child, ascendants);
-    pkb->parentTStorage();
+    for (auto p : ascendants) {
+      pkb->parentTStorage->insert(p, child);
+    }
   }
+
 }
 
-void ParentTPostProcessor::dfsParentRevTable(
-    StmtValue child, vector<StmtValue>& ascendants) const {
+void ParentTPostProcessor::dfsParentRevTable(StmtValue child,
+                                             StmtSet& ascendants) const {
   auto result = pkb->parentRevTable->get(child);
   for (auto r : result) {
-    ascendants.push_back(r);
+    ascendants.insert(r);
     dfsParentRevTable(r, ascendants);
   }
 }

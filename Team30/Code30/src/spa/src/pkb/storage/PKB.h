@@ -58,9 +58,11 @@ class PKB {
 
   ParentTable *parentTable = new ParentTable();
   ParentRevTable *parentRevTable = new ParentRevTable();
+  ParentTTable *parentTTable = new ParentTTable();
+  ParentTRevTable *parentTRevTable = new ParentTRevTable();
   ParentStorage *parentStorage = new ParentStorage(parentTable, parentRevTable);
   ParentTStorage *parentTStorage =
-      new ParentTStorage(parentTable, parentRevTable, followsTable);
+      new ParentTStorage(parentTTable, parentTRevTable, followsTable);
 
   ModifiesTable *modifiesTable = new ModifiesTable();
   ModifiesRevTable *modifiesRevTable = new ModifiesRevTable();

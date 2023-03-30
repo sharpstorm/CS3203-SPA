@@ -14,6 +14,5 @@ class ParentTPostProcessor : public IPostProcessor {
  private:
   PKB *pkb;
 
-  void ParentTPostProcessor::dfsParentRevTable(StmtValue,
-                                               vector<StmtValue> &) const;
+  void dfsParentRevTable(StmtValue, StmtSet &) const;
 };

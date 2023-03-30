@@ -8,7 +8,7 @@
 using std::map;
 
 template <typename V>
-class IntTable {
+class IntTable : public IBaseTable<int, V> {
  protected:
   map<int, V> table;
   static inline const V emptyValue = V();
@@ -16,14 +16,14 @@ class IntTable {
  public:
   IntTable() : table() {}
 
-  virtual void insert(int key, V value) {
+  void insert(int key, V value) override {
     assert(key != 0);
     assert(value != V());
 
     table[key] = value;
   }
 
-  virtual const V& get(int key) const {
+  const V& get(int key) const override {
     assert(key != 0);
 
     if (table.find(key) != table.end()) {
@@ -32,13 +32,19 @@ class IntTable {
     return emptyValue;
   }
 
-  virtual typename map<int, V>::const_iterator begin() const {
-    return table.begin();
-  }
-
-  virtual typename map<int, V>::const_iterator end() const {
-    return table.end();
-  }
-
   static const V& getEmptyValue() { return emptyValue; }
+
+  void forEach(pkb::Function<int, V> function,
+               pkb::Terminator<int, V> terminator) const override {
+    for (auto it = table.begin(); it != table.end(); it++) {
+      const int& key = it->first;
+      const V& values = it->second;
+      if (terminator != nullptr && terminator(key, values)) {
+        return;
+      }
+      function(key, values);
+    }
+  }
+
+  int size() const override { return table.size(); };
 };
