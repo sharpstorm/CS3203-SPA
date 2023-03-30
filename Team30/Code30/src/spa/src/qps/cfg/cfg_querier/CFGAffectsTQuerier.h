@@ -1,5 +1,8 @@
 #pragma once
 
+#include <vector>
+#include <unordered_set>
+
 #include "ICFGClauseQuerier.h"
 #include "common/cfg/CFG.h"
 #include "qps/cfg/cfg_querier/walkers/CFGWalker.h"
@@ -77,8 +80,8 @@ queryBool(const StmtValue &arg0, const StmtValue &arg1) {
     StmtValue curStmt = dfsStack.back();
     dfsStack.pop_back();
 
-    StmtTransitiveResult affectsResult = affectsQuerier.queryFrom(curStmt,
-                                                                  StmtType::Assign);
+    StmtTransitiveResult affectsResult = affectsQuerier
+        .queryFrom(curStmt, StmtType::Assign);
     for (const StmtValue &stmt : affectsResult.secondArgVals) {
       CFGNode nextNode = cfg->toCFGNode(stmt);
       if (seen.isSet(nextNode)) {
@@ -155,7 +158,7 @@ void CFGAffectsTQuerier<ClosureType, typePredicate,
 queryAll(StmtTransitiveResult *resultOut,
          const StmtType &type0,
          const StmtType &type1) {
-  vector<unordered_set<int>> resultStmts;
+  vector<unordered_set<StmtValue>> resultStmts;
   for (int start = 0; start < cfg->getNodeCount(); start++) {
     auto result = affectsQuerier.queryFrom(cfg->fromCFGNode(start), type1);
     resultStmts.push_back(result.secondArgVals);
