@@ -1,6 +1,9 @@
 #include "ParentTQueryHandler.h"
 
+#include <memory>
+
 #include "ArgValidators.h"
+using std::make_unique;
 
 ParentTQueryHandler::ParentTQueryHandler(ParentTStorage *storage,
                                          IStructureMappingProvider *provider,

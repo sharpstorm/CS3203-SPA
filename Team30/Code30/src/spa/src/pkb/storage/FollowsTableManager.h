@@ -1,7 +1,6 @@
 #pragma once
 
 #include <memory>
-#include <unordered_set>
 
 #include "RelationTableManager.h"
 #include "common/Types.h"
@@ -9,10 +8,7 @@
 #include "pkb/storage/tables/IntSetTable.h"
 
 using pkb::Predicate;
-using std::make_unique;
-using std::shared_ptr;
-using std::unique_ptr;
-using std::unordered_set;
+using std::make_unique, std::unique_ptr;
 
 /**
  * Table manager for relation, R(arg1, arg2), where args are type K and V
@@ -28,7 +24,7 @@ class FollowsTableManager : public RelationTableManager<StmtValue, StmtValue> {
   /**
    * Get set of arg2 where R(arg1, arg2) is true, given arg1 value.
    */
-  set<StmtValue> getByFirstArg(StmtValue arg1) const override {
+  StmtSet getByFirstArg(StmtValue arg1) const override {
     auto values = table->get(arg1);
     if (values.empty()) {
       return {};
@@ -40,7 +36,7 @@ class FollowsTableManager : public RelationTableManager<StmtValue, StmtValue> {
   /**
    * Get set of arg1 where R(arg1, arg2) is true, given arg2 value.
    */
-  set<StmtValue> getBySecondArg(StmtValue arg2) const override {
+  StmtSet getBySecondArg(StmtValue arg2) const override {
     auto values = reverseTable->get(arg2);
     if (values.empty()) {
       return {};

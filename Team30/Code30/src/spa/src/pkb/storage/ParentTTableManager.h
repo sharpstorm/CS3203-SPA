@@ -1,7 +1,6 @@
 #pragma once
 
 #include <memory>
-#include <unordered_set>
 
 #include "FollowsTableManager.h"
 #include "RelationTableManager.h"
@@ -12,19 +11,15 @@
 #include "tables/IBaseSetTable.h"
 
 using pkb::Predicate;
-using std::make_unique;
-using std::shared_ptr;
-using std::unique_ptr;
-using std::unordered_set;
+using std::make_unique, std::unique_ptr;
 
 class ParentTTableManager {
  private:
-  // parent -> max_child
+  // parent* -> max_child
   IntTable<StmtValue> *table;
-  // max_child -> parents*
+  // max_child of block -> parents*
   IntSetTable<StmtValue> *reverseTable;
   IntSetTable<StmtValue> *followsTable;
-
 
  public:
   ParentTTableManager(IntTable<StmtValue> *table,
@@ -58,7 +53,7 @@ class ParentTTableManager {
   /**
    * Get set of arg1 where R(arg1, arg2) is true, given arg2 value.
    */
-  const set<StmtValue> getBySecondArg(StmtValue arg2) const {
+  const StmtSet getBySecondArg(StmtValue arg2) const {
     // find max sibling
     auto maxSibling = getLastSibling(arg2);
     return reverseTable->get(maxSibling);
@@ -76,9 +71,8 @@ class ParentTTableManager {
   }
 
   // syn, const
-  QueryResultPtr<StmtValue, StmtValue> query(
-      Predicate<StmtValue> arg1Predicate,
-      unordered_set<StmtValue> arg2Values) const {
+  QueryResultPtr<StmtValue, StmtValue> query(Predicate<StmtValue> arg1Predicate,
+                                             StmtValueSet arg2Values) const {
     QueryResult<StmtValue, StmtValue> result;
     for (auto arg2 : arg2Values) {
       auto arg1Values = getBySecondArg(arg2);
@@ -93,8 +87,8 @@ class ParentTTableManager {
 
   // const, syn
   QueryResultPtr<StmtValue, StmtValue> query(
-      const set<StmtValue> &arg1Values,
-      const set<StmtValue> &rightValues) const {  // change to set<StmtValue>&
+      const StmtSet &arg1Values,
+      const StmtSet &rightValues) const {  // change to set<StmtValue>&
     QueryResult<StmtValue, StmtValue> result;
     for (auto arg1 : arg1Values) {
       auto maxChild = getByFirstArg(arg1);
@@ -114,6 +108,6 @@ class ParentTTableManager {
 
   virtual QueryResultPtr<StmtValue, StmtValue> query(
       Predicate<StmtValue> arg1Predicate, StmtValue arg2) const {
-    return query(arg1Predicate, unordered_set<StmtValue>({arg2}));
+    return query(arg1Predicate, StmtValueSet({arg2}));
   }
 };

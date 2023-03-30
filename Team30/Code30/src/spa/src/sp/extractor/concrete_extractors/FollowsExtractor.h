@@ -1,9 +1,12 @@
 #pragma once
 
+#include <memory>
 #include <stack>
+#include <vector>
+
 #include "sp/extractor/AbstractExtractor.h"
 
-using std::stack;
+using std::stack, std::vector, std::shared_ptr;
 
 typedef int LineNumber;
 typedef vector<LineNumber> LineNumbers;
