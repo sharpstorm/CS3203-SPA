@@ -9,7 +9,7 @@ ResultProjector::ResultProjector(PkbQueryHandler *handler):
     pkbQueryHandler(handler) { }
 
 UniqueVectorPtr<string> ResultProjector::project(
-    SynonymResultTable *queryResult,
+    ProjectorResultTable *queryResult,
     AttributedSynonymList*resultVariables) {
   UniqueVectorPtr<string> result =
       make_unique<vector<string>>(vector<string>{});
@@ -27,7 +27,7 @@ UniqueVectorPtr<string> ResultProjector::project(
   }
 
   // Cross product
-  ResultGroup* finalGroup = queryResult->getResultGroup(0);
+  ProjectorResultGroup* finalGroup = queryResult->getResultGroup(0);
   for (int i=1; i < queryResult->getResultGroupCount(); i++) {
     // TODO(KwanHW): So far no mem leaks, look here if there is
     finalGroup = finalGroup->crossProduct(queryResult->getResultGroup(i));

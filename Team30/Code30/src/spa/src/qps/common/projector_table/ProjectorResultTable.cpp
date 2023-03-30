@@ -1,35 +1,35 @@
 #include <memory>
 #include <utility>
 
-#include "SynonymResultTable.h"
+#include "ProjectorResultTable.h"
 
 using std::make_unique;
 
-SynonymResultTable::SynonymResultTable(bool isBooleanResult,
-                                       bool booleanResult) :
+ProjectorResultTable::ProjectorResultTable(bool isBooleanResult,
+                                           bool booleanResult) :
     isBooleanResult(isBooleanResult),
     booleanResult(booleanResult) { }
 
-void SynonymResultTable::addResultGroup(ResultGroupPtr rg) {
+void ProjectorResultTable::addResultGroup(ResultGroupPtr rg) {
   groupResults.push_back(std::move(rg));
 }
 
-bool SynonymResultTable::getIsBooleanResult() {
+bool ProjectorResultTable::getIsBooleanResult() {
   return isBooleanResult;
 }
 
-bool SynonymResultTable::getBooleanResult() {
+bool ProjectorResultTable::getBooleanResult() {
   return booleanResult;
 }
 
-int SynonymResultTable::getResultGroupCount() {
+int ProjectorResultTable::getResultGroupCount() {
   return groupResults.size();
 }
-ResultGroup* SynonymResultTable::getResultGroup(int idx) {
+ProjectorResultGroup* ProjectorResultTable::getResultGroup(int idx) {
   return groupResults.at(idx).get();
 }
 
-bool SynonymResultTable::operator==(const SynonymResultTable &srt) const {
+bool ProjectorResultTable::operator==(const ProjectorResultTable &srt) const {
   if (booleanResult != srt.booleanResult ||
       groupResults.size() != srt.groupResults.size()) {
     return false;

@@ -4,26 +4,26 @@
 #include <memory>
 #include <unordered_map>
 #include <unordered_set>
-#include "ResultGroup.h"
+#include "ProjectorResultGroup.h"
 #include "common/SetUtils.h"
 #include "qps/common/intermediate_result/PQLQueryResult.h"
 #include "qps/constraints/Constraint.h"
 
 using std::unordered_map, std::unordered_set, std::unique_ptr;
 
-class SynonymResultTable {
+class ProjectorResultTable {
   vector<ResultGroupPtr> groupResults;
   bool isBooleanResult;
   bool booleanResult;
 
  public:
-  SynonymResultTable(bool isBooleanResult,
-                     bool booleanResult);
-  ~SynonymResultTable() = default;
+  ProjectorResultTable(bool isBooleanResult,
+                       bool booleanResult);
+  ~ProjectorResultTable() = default;
   void addResultGroup(ResultGroupPtr rg);
   bool getIsBooleanResult();
   bool getBooleanResult();
   int getResultGroupCount();
-  ResultGroup* getResultGroup(int idx);
-  bool operator ==(const SynonymResultTable &srt) const;
+  ProjectorResultGroup* getResultGroup(int idx);
+  bool operator ==(const ProjectorResultTable &srt) const;
 };

@@ -2,40 +2,40 @@
 #include <memory>
 #include <string>
 
-#include "ResultGroup.h"
+#include "ProjectorResultGroup.h"
 
 using std::make_unique, std::to_string;
 
-void ResultGroup::addRow(QueryResultTableRow row) {
+void ProjectorResultGroup::addRow(QueryResultTableRow row) {
   groupTable.push_back(std::move(row));
 }
 
-void ResultGroup::addSynonym(PQLSynonymName name) {
+void ProjectorResultGroup::addSynonym(PQLSynonymName name) {
   int curIndex = colIdx.size();
   colMap.emplace(name, curIndex);
   colIdx.push_back(name);
 }
 
-void ResultGroup::addColMap(vector<PQLSynonymName> map) {
+void ProjectorResultGroup::addColMap(vector<PQLSynonymName> map) {
   for (const PQLSynonymName& syn : map) {
     addSynonym(syn);
   }
 }
 
-vector<PQLSynonymName>* ResultGroup::getColIndexes() {
+vector<PQLSynonymName>* ProjectorResultGroup::getColIndexes() {
   return &colIdx;
 }
 
-int ResultGroup::getTableRows() {
+int ProjectorResultGroup::getTableRows() {
   return groupTable.size();
 }
 
-QueryResultTableRow* ResultGroup::getRowAt(int idx) {
+QueryResultTableRow* ProjectorResultGroup::getRowAt(int idx) {
   return &groupTable.at(idx);
 }
 
-ResultGroup* ResultGroup::crossProduct(ResultGroup* other) {
-  ResultGroup* output = new ResultGroup();
+ProjectorResultGroup* ProjectorResultGroup::crossProduct(ProjectorResultGroup* other) {
+  ProjectorResultGroup* output = new ProjectorResultGroup();
   output->addColMap(colIdx);
   output->addColMap(*other->getColIndexes());
 
@@ -60,9 +60,9 @@ ResultGroup* ResultGroup::crossProduct(ResultGroup* other) {
   return output;
 }
 
-void ResultGroup::project(AttributedSynonymList *synList,
-                            PkbQueryHandler* handler,
-                            vector<string>* result) {
+void ProjectorResultGroup::project(AttributedSynonymList *synList,
+                                   PkbQueryHandler* handler,
+                                   vector<string>* result) {
   // Iterate through each row
   for (int i=0; i < getTableRows(); i++) {
     QueryResultTableRow* row = getRowAt(i);
@@ -89,7 +89,7 @@ void ResultGroup::project(AttributedSynonymList *synList,
   }
 }
 
-bool ResultGroup::operator==(const ResultGroup &rg) const {
+bool ProjectorResultGroup::operator==(const ProjectorResultGroup &rg) const {
   if (colMap.size() != rg.colMap.size() ||
       groupTable.size() != groupTable.size()) {
     return false;
@@ -132,9 +132,9 @@ bool ResultGroup::operator==(const ResultGroup &rg) const {
   return true;
 }
 
-string ResultGroup::projectNonDefaultAttribute(PkbQueryHandler *handler,
-                                               QueryResultItem *item,
-                                               AttributedSynonym syn) {
+string ProjectorResultGroup::projectNonDefaultAttribute(PkbQueryHandler *handler,
+                                                        QueryResultItem *item,
+                                                        AttributedSynonym syn) {
   if (syn.getType() == PQL_SYN_TYPE_READ) {
     // read.varName
     return handler->getReadDeclarations(item->toStmtValue());
@@ -147,12 +147,12 @@ string ResultGroup::projectNonDefaultAttribute(PkbQueryHandler *handler,
   return handler->getCalledDeclaration(item->toStmtValue());
 }
 
-bool ResultGroup::isNonDefaultCase(AttributedSynonym syn) {
+bool ProjectorResultGroup::isNonDefaultCase(AttributedSynonym syn) {
   bool isTypeConstant = syn.getType() == PQL_SYN_TYPE_CONSTANT;
   return syn.hasAttribute() && !isTypeConstant &&
           syn.isStatementType() != syn.returnsInteger();
 }
 
-QueryResultItemPool *ResultGroup::getOwnedPool() {
+QueryResultItemPool *ProjectorResultGroup::getOwnedPool() {
   return &ownedItems;
 }

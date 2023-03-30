@@ -10,7 +10,7 @@
 
 using std::unordered_map, std::unique_ptr, std::string, std::vector;
 
-class ResultGroup {
+class ProjectorResultGroup {
   QueryResultTable groupTable;
   unordered_map<PQLSynonymName, ResultTableCol> colMap;
   vector<PQLSynonymName> colIdx;
@@ -22,21 +22,21 @@ class ResultGroup {
   static bool isNonDefaultCase(AttributedSynonym syn);
 
  public:
-  ResultGroup() = default;
-  virtual ~ResultGroup() = default;
+  ProjectorResultGroup() = default;
+  virtual ~ProjectorResultGroup() = default;
   void addRow(QueryResultTableRow row);
   void addSynonym(PQLSynonymName name);
   void addColMap(vector<PQLSynonymName> map);
   int getTableRows();
   QueryResultTableRow* getRowAt(int idx);
   vector<PQLSynonymName>* getColIndexes();
-  ResultGroup* crossProduct(ResultGroup* other);
+  ProjectorResultGroup* crossProduct(ProjectorResultGroup* other);
   void project(AttributedSynonymList* synList,
                PkbQueryHandler* handler,
                vector<string>* result);
   QueryResultItemPool* getOwnedPool();
 
-  bool operator ==(const ResultGroup &rg) const;
+  bool operator ==(const ProjectorResultGroup &rg) const;
 };
 
-typedef unique_ptr<ResultGroup> ResultGroupPtr;
+typedef unique_ptr<ProjectorResultGroup> ResultGroupPtr;

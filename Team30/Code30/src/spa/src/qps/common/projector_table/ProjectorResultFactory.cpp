@@ -2,14 +2,14 @@
 #include <memory>
 
 #include "common/SetUtils.h"
-#include "ResultGroupFactory.h"
+#include "ProjectorResultFactory.h"
 
 using std::move;
 
-ResultGroupPtr ResultGroupFactory::extractResults(
+ResultGroupPtr ProjectorResultFactory::extractResults(
     PQLQueryResult *result, vector<PQLSynonymName> *syns) {
-  ResultGroupPtr resultGroup = make_unique<ResultGroup>();
-  // Add synonyms to the new ResultGroup
+  ResultGroupPtr resultGroup = make_unique<ProjectorResultGroup>();
+  // Add synonyms to the new ProjectorResultGroup
   for (const PQLSynonymName& name : *syns) {
     resultGroup->addSynonym(name);
   }
@@ -29,7 +29,7 @@ ResultGroupPtr ResultGroupFactory::extractResults(
   return resultGroup;
 }
 
-IntersectSet<ResultTableRow> ResultGroupFactory::getUniqueRows(
+IntersectSet<ResultTableRow> ProjectorResultFactory::getUniqueRows(
     PQLQueryResult *result, vector<PQLSynonymName> *syns) {
   IntersectSet<ResultTableRow> rowsToTake;
   IntersectSet<ResultTableRow> ignoreRows;

@@ -3,8 +3,8 @@
 #include <utility>
 
 #include "qps/common/intermediate_result/PQLQueryResult.h"
-#include "qps/common/resulttable/ResultGroupFactory.h"
-#include "qps/common/resulttable/SynonymResultTable.h"
+#include "qps/common/projector_table/ProjectorResultTable.h"
+#include "qps/common/projector_table/ProjectorResultFactory.h"
 
 using std::vector, std::move, std::make_unique, std::unique_ptr;
 
@@ -72,15 +72,15 @@ class TestQueryResultBuilder {
     return result;
   }
 
-  static unique_ptr<SynonymResultTable> buildExpectedTable(const ExpectedParams &expectedParams, AttributedSynonymList* syns) {
-    auto result = make_unique<SynonymResultTable>(syns->empty(), true);
+  static unique_ptr<ProjectorResultTable> buildExpectedTable(const ExpectedParams &expectedParams, AttributedSynonymList* syns) {
+    auto result = make_unique<ProjectorResultTable>(syns->empty(), true);
     vector<PQLSynonymName>* names = new vector<PQLSynonymName>();
     for (auto it : *syns) {
       names->push_back(it.getName());
     }
 
     auto queryResult = buildExpected(expectedParams);
-    ResultGroupPtr rg = ResultGroupFactory::extractResults(queryResult.get() , names);
+    ResultGroupPtr rg = ProjectorResultFactory::extractResults(queryResult.get() , names);
     result->addResultGroup(std::move(rg));
     delete names;
     return result;

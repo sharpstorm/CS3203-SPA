@@ -37,7 +37,7 @@ TEST_CASE("Project when result is static") {
   PKB pkbStore;
   unique_ptr<PkbQueryHandler> pkbQH = make_unique<PkbQueryHandler>(&pkbStore);
   unique_ptr<ResultProjector> projector = make_unique<ResultProjector>(pkbQH.get());
-  SynonymResultTable result(false, true);
+  ProjectorResultTable result(false, true);
   UniqueVectorPtr<string> projectedResult = projector->project(&result, &TARGET_RESULT_VARS);
   REQUIRE(projectedResult->empty());
 }
@@ -46,7 +46,7 @@ TEST_CASE("Projecting Statements") {
   PKB pkbStore;
   unique_ptr<PkbQueryHandler> pkbQH = make_unique<PkbQueryHandler>(&pkbStore);
   unique_ptr<ResultProjector> projector = make_unique<ResultProjector>(pkbQH.get());
-  unique_ptr<SynonymResultTable> result;
+  unique_ptr<ProjectorResultTable> result;
   UniqueVectorPtr<string> actual;
   UniqueVectorPtr<string> expected;
 
@@ -66,7 +66,7 @@ TEST_CASE("Projecting Entities") {
   PKB pkbStore;
   unique_ptr<PkbQueryHandler> pkbQH = make_unique<PkbQueryHandler>(&pkbStore);
   unique_ptr<ResultProjector> projector = make_unique<ResultProjector>(pkbQH.get());
-  unique_ptr<SynonymResultTable> result;
+  unique_ptr<ProjectorResultTable> result;
   UniqueVectorPtr<string> actual;
   UniqueVectorPtr<string> expected;
 
