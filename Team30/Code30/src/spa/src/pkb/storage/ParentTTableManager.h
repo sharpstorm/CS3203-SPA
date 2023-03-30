@@ -25,14 +25,6 @@ class ParentTTableManager {
   IntSetTable<StmtValue> *reverseTable;
   IntSetTable<StmtValue> *followsTable;
 
-  StmtValue getLastSibling(StmtValue stmt) const {
-    const StmtSet &values = followsTable->get(stmt);
-    if (values.empty()) {
-      return stmt;
-    } else {
-      return *values.rbegin();
-    }
-  }
 
  public:
   ParentTTableManager(IntTable<StmtValue> *table,
@@ -52,6 +44,15 @@ class ParentTTableManager {
    */
   const StmtValue getByFirstArg(StmtValue arg1) const {
     return table->get(arg1);
+  }
+
+  StmtValue getLastSibling(StmtValue stmt) const {
+    const StmtSet &values = followsTable->get(stmt);
+    if (values.empty()) {
+      return stmt;
+    } else {
+      return *values.rbegin();
+    }
   }
 
   /**

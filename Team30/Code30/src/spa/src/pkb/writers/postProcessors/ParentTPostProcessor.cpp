@@ -9,21 +9,22 @@ ParentTPostProcessor::ParentTPostProcessor(PKB* pkb) : pkb(pkb) {}
 void ParentTPostProcessor::process() {
   auto parentTable = pkb->parentTable;
   StmtValueSet lastChildren;
-  auto followsTable = pkb->followsTable;
-  pkb::Function<StmtValue, StmtSet> func = [&lastChildren, followsTable](
+  auto parentTStorage = pkb->parentTStorage;
+  pkb::Function<StmtValue, StmtSet> func = [&lastChildren, parentTStorage](
                                                const StmtValue& key,
                                                const StmtSet& values) {
     // note: row values should not be empty, so firstChild and lastChild
     // shld be valid get last sibling of firstChild
     auto firstChild = *(values.begin());
-    auto siblings = followsTable->get(firstChild);
-    StmtValue lastSibling;
-    if (siblings.empty()) {
-      // may not have last sibling. last sibling is first child
-      lastSibling = firstChild;
-    } else {
-      lastSibling = *siblings.rbegin();
-    }
+    //    auto siblings = followsTable->get(firstChild);
+    //    StmtValue lastSibling;
+    //    if (siblings.empty()) {
+    //      // may not have last sibling. last sibling is first child
+    //      lastSibling = firstChild;
+    //    } else {
+    //      lastSibling = *siblings.rbegin();
+    //    }
+    StmtValue lastSibling = parentTStorage->getLastSibling(firstChild);
     lastChildren.insert(lastSibling);
     // get last child of parent
     auto lastChild = *(values.rbegin());
@@ -37,7 +38,6 @@ void ParentTPostProcessor::process() {
       pkb->parentTStorage->insert(p, child);
     }
   }
-
 }
 
 void ParentTPostProcessor::dfsParentRevTable(StmtValue child,

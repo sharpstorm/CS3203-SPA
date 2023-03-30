@@ -12,8 +12,8 @@ PostProcessWriter::PostProcessWriter(PKB *pkb) {
   validators.push_back(make_unique<NonExistentProceduresValidator>(pkb));
   validators.push_back(make_unique<CyclicProceduresValidator>(pkb));
 
-  processors.push_back(make_unique<ModifiesUsesPostProcessor>(pkb));
   processors.push_back(make_unique<ParentTPostProcessor>(pkb));
+  processors.push_back(make_unique<ModifiesUsesPostProcessor>(pkb));
 }
 
 void PostProcessWriter::runPostProcessor() {
