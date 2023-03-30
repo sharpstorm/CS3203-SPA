@@ -98,6 +98,6 @@ procedure affectsTProc {
     dr = ds;
     ds = dt;
     dt = du;
-    du = dv;
+    du = aa;
   }
 }
