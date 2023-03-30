@@ -7,7 +7,6 @@
 #include "ParentTTableManager.h"
 #include "RelationTableManager.h"
 #include "StatementStorage.h"
-#include "TransitiveRelationTableManager.h"
 #include "common/Types.h"
 #include "common/cfg/CFG.h"
 #include "common/pattern/PatternTrie.h"
