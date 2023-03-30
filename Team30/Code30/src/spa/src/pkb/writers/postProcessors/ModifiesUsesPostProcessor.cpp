@@ -38,7 +38,7 @@ void ModifiesUsesPostProcessor::populateCallStmtAndContainers() {
     auto procedure = pkb->callDeclarationTable->get(stmt);
     auto modifiesVars = pkb->modifiesPStorage->getByFirstArg(procedure);
     auto usesVars = pkb->usesPStorage->getByFirstArg(procedure);
-    // get container stmts
+    // get container stmts by last sibling
     auto allStmts = pkb->parentTStorage->getBySecondArg(stmt);
     allStmts.insert(stmt);
     for (const auto &s : allStmts) {

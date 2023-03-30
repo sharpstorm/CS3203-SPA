@@ -2,37 +2,34 @@
 #include <set>
 
 #include "catch.hpp"
-#include "pkb/writers/postProcessors/ModifiesUsesPostProcessor.h"
 #include "pkb/writers/PkbWriter.h"
+#include "pkb/writers/postProcessors/ModifiesUsesPostProcessor.h"
 
 using std::make_unique;
 
-//procedure main {
-//1  while(y < 1) {
-//2    read x;
-//3    call foo;
-//  }
-//}
-//procedure foo {
-//4  z = 1;
-//5  call goo;
-//}
-//procedure goo {
-//6  w = x;
-//7  print z;
-//}
-//procedure hoo {
-//8  call goo;
-//}
+// procedure main {
+// 1  while(y < 1) {
+// 2    read x;
+// 3    call foo;
+//   }
+// }
+// procedure foo {
+// 4  z = 1;
+// 5  call goo;
+// }
+// procedure goo {
+// 6  w = x;
+// 7  print z;
+// }
+// procedure hoo {
+// 8  call goo;
+// }
 
 struct MUPostProcessorTestInit {
   unique_ptr<PKB> pkb;
   PkbWriter writer;
-  ModifiesUsesPostProcessor processor;
   MUPostProcessorTestInit()
-      : pkb(make_unique<PKB>()),
-      writer(PkbWriter(pkb.get())),
-      processor(ModifiesUsesPostProcessor(pkb.get())) {
+      : pkb(make_unique<PKB>()), writer(PkbWriter(pkb.get())) {
     writer.addParent(1, 2);
     writer.addParent(1, 3);
     writer.addModifies(1, "x", "main");
@@ -78,8 +75,7 @@ TEST_CASE("ModifiesUsesPostProcessorTest assert initial modifiesPStorage") {
   for (int i : calls) {
     REQUIRE(test.pkb->modifiesStorage->getByFirstArg(i).size() == 0);
   }
-  REQUIRE(
-      test.pkb->modifiesStorage->getBySecondArg("x") == set({1, 2}));
+  REQUIRE(test.pkb->modifiesStorage->getBySecondArg("x") == set({1, 2}));
   REQUIRE(test.pkb->modifiesStorage->getBySecondArg("z") == set({4}));
   REQUIRE(test.pkb->modifiesStorage->getBySecondArg("w") == set({6}));
 }
@@ -91,8 +87,7 @@ TEST_CASE("ModifiesUsesPostProcessorTest assert initial modifiesStorage") {
   for (int i : calls) {
     REQUIRE(test.pkb->modifiesStorage->getByFirstArg(i).size() == 0);
   }
-  REQUIRE(
-      test.pkb->modifiesStorage->getBySecondArg("x") == set({1, 2}));
+  REQUIRE(test.pkb->modifiesStorage->getBySecondArg("x") == set({1, 2}));
   REQUIRE(test.pkb->modifiesStorage->getBySecondArg("z") == set({4}));
   REQUIRE(test.pkb->modifiesStorage->getBySecondArg("w") == set({6}));
 }
@@ -124,8 +119,7 @@ TEST_CASE("ModifiesUsesPostProcessorTest assert initial usesStorage") {
   for (int i : calls) {
     REQUIRE(test.pkb->usesStorage->getByFirstArg(i).size() == 0);
   }
-  REQUIRE(
-      test.pkb->usesStorage->getBySecondArg("y") == set({1}));
+  REQUIRE(test.pkb->usesStorage->getBySecondArg("y") == set({1}));
   REQUIRE(test.pkb->usesStorage->getBySecondArg("x") == set({6}));
   REQUIRE(test.pkb->usesStorage->getBySecondArg("z") == set({7}));
 }
@@ -133,7 +127,7 @@ TEST_CASE("ModifiesUsesPostProcessorTest assert initial usesStorage") {
 TEST_CASE(
     "ModifiesUsesPostProcessorTest check post-processed modifiesPStorage") {
   auto test = MUPostProcessorTestInit();
-  test.processor.process();
+  test.writer.runPostProcessor();
 
   auto m1 = test.pkb->modifiesPStorage->getByFirstArg("main");
   REQUIRE(m1 == set<string>({"x", "z", "w"}));
@@ -155,7 +149,7 @@ TEST_CASE(
 TEST_CASE(
     "ModifiesUsesPostProcessorTest check post-processed modifiesStorage") {
   auto test = MUPostProcessorTestInit();
-  test.processor.process();
+  test.writer.runPostProcessor();
 
   auto c1 = test.pkb->modifiesStorage->getByFirstArg(3);
   REQUIRE(c1 == set<string>({"w", "z"}));
@@ -177,7 +171,7 @@ TEST_CASE(
 
 TEST_CASE("ModifiesUsesPostProcessorTest check post-processed usesPStorage") {
   auto test = MUPostProcessorTestInit();
-  test.processor.process();
+  test.writer.runPostProcessor();
 
   auto u1 = test.pkb->usesPStorage->getByFirstArg("main");
   REQUIRE(u1 == set<string>({"y", "x", "z"}));
@@ -198,7 +192,7 @@ TEST_CASE("ModifiesUsesPostProcessorTest check post-processed usesPStorage") {
 
 TEST_CASE("ModifiesUsesPostProcessorTest check post-processed usesStorage") {
   auto test = MUPostProcessorTestInit();
-  test.processor.process();
+  test.writer.runPostProcessor();
 
   auto c1 = test.pkb->usesStorage->getByFirstArg(3);
   REQUIRE(c1 == set<string>({"x", "z"}));
@@ -218,28 +212,24 @@ TEST_CASE("ModifiesUsesPostProcessorTest check post-processed usesStorage") {
   REQUIRE(cr3 == set({1, 7, 3, 5, 8}));
 }
 
-
-//procedure main {
-//1  while(0 < 1) {
-//2    if (y == 2) {
-//3	      read x;
-//4       call foo;
-//     }
-//  }
-//}
-//procedure foo {
-//5  z = 1;
-//6  print z;
-//}
+// procedure main {
+// 1  while(0 < 1) {
+// 2    if (y == 2) {
+// 3	      read x;
+// 4       call foo;
+//      }
+//   }
+// }
+// procedure foo {
+// 5  z = 1;
+// 6  print z;
+// }
 
 struct MUPostProcessorTest2 {
   unique_ptr<PKB> pkb;
   PkbWriter writer;
-  ModifiesUsesPostProcessor processor;
   MUPostProcessorTest2()
-      : pkb(make_unique<PKB>()),
-      writer(PkbWriter(pkb.get())),
-      processor(ModifiesUsesPostProcessor(pkb.get())) {
+      : pkb(make_unique<PKB>()), writer(PkbWriter(pkb.get())) {
     writer.addParent(1, 2);
     writer.addParent(2, 3);
     writer.addParent(2, 4);
@@ -258,7 +248,7 @@ struct MUPostProcessorTest2 {
 
 TEST_CASE("ModifiesUsesPostProcessorTest check modifies for ontainer stmts") {
   auto test = MUPostProcessorTest2();
-  test.processor.process();
+  test.writer.runPostProcessor();
 
   auto c1 = test.pkb->modifiesStorage->getByFirstArg(1);
   REQUIRE(c1 == set<string>({"x", "z"}));
@@ -275,7 +265,7 @@ TEST_CASE("ModifiesUsesPostProcessorTest check modifies for ontainer stmts") {
 
 TEST_CASE("ModifiesUsesPostProcessorTest check uses for ontainer stmts") {
   auto test = MUPostProcessorTest2();
-  test.processor.process();
+  test.writer.runPostProcessor();
 
   auto c1 = test.pkb->usesStorage->getByFirstArg(1);
   REQUIRE(c1 == set<string>({"z"}));

@@ -58,9 +58,11 @@ class PKB {
 
   ParentTable *parentTable = new ParentTable();
   ParentRevTable *parentRevTable = new ParentRevTable();
+  ParentTTable *parentTTable = new ParentTTable();
+  ParentTRevTable *parentTRevTable = new ParentTRevTable();
   ParentStorage *parentStorage = new ParentStorage(parentTable, parentRevTable);
   ParentTStorage *parentTStorage =
-      new ParentTStorage(parentTable, parentRevTable);
+      new ParentTStorage(parentTTable, parentTRevTable, followsTable);
 
   ModifiesTable *modifiesTable = new ModifiesTable();
   ModifiesRevTable *modifiesRevTable = new ModifiesRevTable();
@@ -83,7 +85,9 @@ class PKB {
   CallsTable *callsTable = new CallsTable();
   CallsRevTable *callsRevTable = new CallsRevTable();
   CallsStorage *callsStorage = new CallsStorage(callsTable, callsRevTable);
-  CallsTStorage *callsTStorage = new CallsTStorage(callsTable, callsRevTable);
+  CallsTTable *callsTTable = new CallsTTable();
+  CallsTRevTable *callsTRevTable = new CallsTRevTable();
+  CallsTStorage *callsTStorage = new CallsTStorage(callsTTable, callsTRevTable);
 
   IfPatternTable *ifPatternTable = new IfPatternTable();
   IfPatternRevTable *ifPatternRevTable = new IfPatternRevTable();

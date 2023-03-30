@@ -1,38 +1,32 @@
 #pragma once
 
 #include <cassert>
-#include <vector>
+#include <map>
 
 #include "IBaseTable.h"
 
-using std::vector;
+using std::map;
 
 template <typename V>
-class ContiguousTable : public IBaseTable<int, V> {
+class IntTable : public IBaseTable<int, V> {
  protected:
-  vector<V> table;
+  map<int, V> table;
   static inline const V emptyValue = V();
-  void resizeIfExceed(int key) {
-    if (key >= table.size()) {
-      table.resize(key * 2);
-    }
-  }
 
  public:
-  explicit ContiguousTable(int size = 1) : table(size) {}
+  IntTable() : table() {}
 
   void insert(int key, V value) override {
     assert(key != 0);
     assert(value != V());
 
-    resizeIfExceed(key);
     table[key] = value;
   }
 
   const V& get(int key) const override {
     assert(key != 0);
 
-    if (key < table.size()) {
+    if (table.find(key) != table.end()) {
       return table.at(key);
     }
     return emptyValue;
@@ -42,13 +36,13 @@ class ContiguousTable : public IBaseTable<int, V> {
 
   void forEach(pkb::Function<int, V> function,
                pkb::Terminator<int, V> terminator) const override {
-    int key = 1;
-    for (auto const& values : table) {
+    for (auto it = table.begin(); it != table.end(); it++) {
+      const int& key = it->first;
+      const V& values = it->second;
       if (terminator != nullptr && terminator(key, values)) {
         return;
       }
       function(key, values);
-      key++;
     }
   }
 

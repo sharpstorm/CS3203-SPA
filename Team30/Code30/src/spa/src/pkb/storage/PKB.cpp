@@ -31,6 +31,8 @@ PKB::~PKB() {
   delete (parentTStorage);
   delete (parentTable);
   delete (parentRevTable);
+  delete (parentTTable);
+  delete (parentTRevTable);
 
   delete (modifiesStorage);
   delete (modifiesTable);
@@ -50,6 +52,8 @@ PKB::~PKB() {
   delete (callsTStorage);
   delete (callsTable);
   delete (callsRevTable);
+  delete (callsTTable);
+  delete (callsTRevTable);
 
   delete (ifPatternStorage);
   delete (ifPatternTable);

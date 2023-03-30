@@ -1,9 +1,10 @@
 #include "FollowsExtractor.h"
 
 #include <vector>
+#include <memory>
 #include "StatementNumberExtractor.h"
 
-using std::vector;
+using std::vector, std::make_shared;
 
 FollowsExtractor::FollowsExtractor(PkbWriter* writer) : pkbWriter(writer) {
 }
@@ -12,18 +13,46 @@ void FollowsExtractor::visitStmtList(StatementListNode* node) {
   if (node->getChildren().empty()) {
     return;
   }
-  vector<ASTNode*> children = node->getChildren();
-  StatementNumberExtractor statementNoExtractor;
-
-  for (int i = 0; i < children.size() - 1; i++) {
-    children[i]->accept(&statementNoExtractor);
-    int lineNoLeft = statementNoExtractor.getStatementNumber();
-    children[i + 1]->accept(&statementNoExtractor);
-    int lineNoRight = statementNoExtractor.getStatementNumber();
-    addFollowsRelation(lineNoLeft, lineNoRight);
-  }
+  stmtLstCache.push(make_shared<LineNumbers>());
 }
 
-void FollowsExtractor::addFollowsRelation(int x, int y) {
+void FollowsExtractor::visitRead(ReadNode* node) {
+  processStatement(node);
+}
+
+void FollowsExtractor::visitPrint(PrintNode *node) {
+  processStatement(node);
+}
+
+void FollowsExtractor::visitWhile(WhileNode *node) {
+  processStatement(node);
+}
+
+void FollowsExtractor::visitIf(IfNode *node) {
+  processStatement(node);
+}
+
+void FollowsExtractor::visitAssign(AssignNode *node) {
+  processStatement(node);
+}
+
+void FollowsExtractor::visitCall(CallNode *node) {
+  processStatement(node);
+}
+
+void FollowsExtractor::leaveStmtList(StatementListNode *node) {
+  stmtLstCache.pop();
+}
+
+void FollowsExtractor::processStatement(StatementASTNode *node) {
+  StatementNumberExtractor statementNoExtractor;
+  node->accept(&statementNoExtractor);
+  for (LineNumber line : *stmtLstCache.top()) {
+    addFollowsRelation(line, statementNoExtractor.getStatementNumber());
+  }
+  stmtLstCache.top()->push_back(statementNoExtractor.getStatementNumber());
+}
+
+void FollowsExtractor::addFollowsRelation(LineNumber x, LineNumber y) {
   pkbWriter->addFollows(x, y);
 }

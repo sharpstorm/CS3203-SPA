@@ -28,3 +28,8 @@ bool StructureMappingProviderStub::isValueOfType(StmtType type,
                                                  StmtValue num) const {
   return stmtNumToType.get(num) == type;
 }
+
+void StructureMappingProviderStub::insert(StmtValue stmt, StmtType type) {
+  stmtTypeToNum.insert(type, stmt);
+  stmtNumToType.insert(stmt, type);
+}
