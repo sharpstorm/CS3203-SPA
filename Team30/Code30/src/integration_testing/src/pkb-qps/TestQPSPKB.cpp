@@ -44,6 +44,7 @@ unique_ptr<PKB> initPkb() {
   auto pkbWriter = make_unique<PkbWriter>(pkb.get());
 
   pkbWriter->addProcedure("ANYA", 1, 5);
+  pkbWriter->addProcedure("example", 6, 9);
   pkbWriter->addStatement(1, StmtType::Assign);
   pkbWriter->addStatement(2, StmtType::Assign);
   pkbWriter->addStatement(3, StmtType::Assign);
@@ -59,8 +60,14 @@ unique_ptr<PKB> initPkb() {
   pkbWriter->addVariable("z");
 
   pkbWriter->addFollows(1, 2);
+  pkbWriter->addFollows(1, 3);
+  pkbWriter->addFollows(1, 4);
+  pkbWriter->addFollows(1, 5);
   pkbWriter->addFollows(2, 3);
+  pkbWriter->addFollows(2, 4);
+  pkbWriter->addFollows(2, 5);
   pkbWriter->addFollows(3, 4);
+  pkbWriter->addFollows(3, 5);
   pkbWriter->addFollows(4, 5);
 
   pkbWriter->addParent(6, 7);
@@ -74,6 +81,7 @@ unique_ptr<PKB> initPkb() {
   pkbWriter->addModifies(3, "z", "example");
   pkbWriter->addModifies(4, "x", "example");
   pkbWriter->addModifies(5, "z", "example");
+  pkbWriter->runPostProcessor();
 
   return pkb;
 }
