@@ -8,13 +8,13 @@
 using std::make_unique;
 
 ExpressionSequencePtr PatternConverter::convertASTToPostfix(
-    IAST* tree, PkbQueryHandler* handler) {
+    IAST* tree, QueryExecutorAgent agent) {
   if (tree == nullptr || tree->getRoot() == nullptr) {
     return nullptr;
   }
 
   ExpressionSequencePtr result = make_unique<ExpressionSequence>();
-  traversePostfix(tree->getRoot(), result.get(), handler);
+  traversePostfix(tree->getRoot(), result.get(), agent);
   return std::move(result);
 }
 
@@ -25,23 +25,20 @@ convertASTToTrie(IASTNode* tree, PkbWriter* pkbWriter) {
 
 void PatternConverter::traversePostfix(IASTNode *node,
                                        ExpressionSequence *output,
-                                       PkbQueryHandler* handler) {
+                                       QueryExecutorAgent agent) {
   for (int i = 0; i < node->getChildCount(); i++) {
-    traversePostfix(node->getChild(i), output, handler);
+    traversePostfix(node->getChild(i), output, agent);
   }
 
-//  output->push_back(node->getValue());
-  output->push_back(indexFromNode(node, handler));
+  output->push_back(indexFromNode(node, agent));
 }
 uint16_t PatternConverter::indexFromNode(IASTNode *node,
-                                         PkbQueryHandler* handler) {
+                                         QueryExecutorAgent agent) {
   switch (node->getType()) {
     case ASTNODE_VARIABLE:
-      return handler->getIndexOfVariable(node->getValue());
+      return agent->getIndexOfVariable(node->getValue());
     case ASTNODE_CONSTANT:
-      return handler->getIndexOfConstant(node->getValue()) | TRIE_CONST_MASK;
-//      EntityIdx idx = handler->getIndexOfConstant(node->getValue());
-//      return idx | TRIE_CONST_MASK;
+      return agent->getIndexOfConstant(node->getValue()) | TRIE_CONST_MASK;
     case ASTNODE_PLUS:
       return TRIE_PLUS;
     case ASTNODE_MINUS:

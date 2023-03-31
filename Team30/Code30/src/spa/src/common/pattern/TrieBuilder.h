@@ -37,7 +37,7 @@ class TrieBuilder {
   vector<ProcessingNodePtr> ownedProcessingNodes;
   PkbWriter* pkbWriter;
 
-  SymbolIdent registerSymbol(const string &symbol);
-  SymbolIdent registerLeaf(const string &symbol);
+  SymbolIdent registerSymbol(IASTNode* node);
+  SymbolIdent registerLeaf(IASTNode* node);
   BuildState walkAST(IASTNode* node);
 };

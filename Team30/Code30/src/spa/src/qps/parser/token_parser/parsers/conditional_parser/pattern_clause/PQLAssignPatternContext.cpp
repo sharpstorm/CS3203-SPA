@@ -20,10 +20,8 @@ PatternClausePtr PQLAssignPatternContext::parse(
     IntermediateExpressionArgumentPtr secondArg) {
 
   if (secondArg->isWildcard()) {
-    IASTPtr wildcardRoot = make_unique<AST>(make_unique<StatementListNode>());
     return make_unique<AssignPatternClause>(
-    // TODO (KwanHW): To confirm if this is ok
-    synonym, std::move(firstArg), std::move(wildcardRoot), true);
+        synonym, std::move(firstArg), IASTPtr(), true);
   }
 
   IASTPtr sequence = buildPostfix(secondArg.get());

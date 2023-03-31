@@ -24,7 +24,7 @@ TrieBuilder::BuildState TrieBuilder::walkAST(IASTNode* node) {
   nodeCount++;
 
   if (node->getChildCount() == 0) {
-    SymbolIdent symId = registerLeaf(node->getValue());
+    SymbolIdent symId = registerLeaf(node);
     ownedProcessingNodes.push_back(make_unique<ProcessingNode>(nullptr, symId));
     return TrieBuilder::BuildState {
         rootNode->traverse(symId),
@@ -45,8 +45,7 @@ TrieBuilder::BuildState TrieBuilder::walkAST(IASTNode* node) {
     curPNode = curPNode->next;
   }
 
-  // Ask for the ID from PKB instead
-  SymbolIdent newSymId = registerSymbol(node->getValue());
+  SymbolIdent newSymId = registerSymbol(node);
   ownedProcessingNodes.push_back(
       make_unique<ProcessingNode>(nullptr, newSymId));
   ProcessingNode* newPNode = ownedProcessingNodes.back().get();
@@ -62,11 +61,11 @@ TrieBuilder::BuildState TrieBuilder::walkAST(IASTNode* node) {
   };
 }
 
-SymbolIdent TrieBuilder::registerLeaf(const string &symbol) {
-  SymbolIdent symId = registerSymbol(symbol);
+SymbolIdent TrieBuilder::registerLeaf(IASTNode* node) {
+  SymbolIdent symId = registerSymbol(node);
 
   // Newly registered
-  if (symId == symbolIdCounter - 1) {
+  if (!rootNode->hasChild(symId)) {
     PatternTrieNode* newNode = rootNode->addNext(symId);
     newNode->addEnd();
   }
@@ -75,6 +74,23 @@ SymbolIdent TrieBuilder::registerLeaf(const string &symbol) {
 }
 
 
-SymbolIdent TrieBuilder::registerSymbol(const string &symbol) {
-  return pkbWriter->addVariable(symbol);
+SymbolIdent TrieBuilder::registerSymbol(IASTNode* node) {
+  switch (node->getType()) {
+    case ASTNODE_CONSTANT:
+      return pkbWriter->addConstant(node->getValue()) | TRIE_CONST_MASK;
+    case ASTNODE_VARIABLE:
+      return pkbWriter->addVariable(node->getValue());
+    case ASTNODE_PLUS:
+      return TRIE_PLUS;
+    case ASTNODE_MINUS:
+      return TRIE_MINUS;
+    case ASTNODE_TIMES:
+      return TRIE_TIMES;
+    case ASTNODE_DIV:
+      return TRIE_DIV;
+    case ASTNODE_MOD:
+      return TRIE_MOD;
+    default:
+      return TRIE_INVALID_SYMBOL;
+  }
 }

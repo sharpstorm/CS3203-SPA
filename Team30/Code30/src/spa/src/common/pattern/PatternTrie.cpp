@@ -10,7 +10,6 @@ PatternTrie::PatternTrie(PatternTrieNodePtr trieRoot,
     root(std::move(trieRoot)),
     longestPathCount(longestPathCount) {}
 
-// TODO Use uint16
 bool PatternTrie::isMatchFull(ExpressionSequence *sequence) {
   if (root == nullptr) {
     return false;
@@ -23,7 +22,6 @@ bool PatternTrie::isMatchFull(ExpressionSequence *sequence) {
   return isValidPostfix(sequence);
 }
 
-// TODO Use uint16
 bool PatternTrie::isMatchPartial(ExpressionSequence *sequence) {
   if (root == nullptr) {
     return false;
@@ -32,27 +30,14 @@ bool PatternTrie::isMatchPartial(ExpressionSequence *sequence) {
   return isValidPostfix(sequence);
 }
 
-// TODO Use uint16
 bool PatternTrie::isValidPostfix(ExpressionSequence *sequence) {
   PatternTrieNode* curNode = root.get();
   for (int i = 0; i < sequence->size(); i++) {
-    // Ask PKB for value
-
-    SymbolIdent symbol = lookupSymbol(sequence->at(i));
-    curNode = curNode->traverse(symbol);
+    curNode = curNode->traverse(sequence->at(i));
     if (curNode == nullptr) {
       return false;
     }
   }
 
   return curNode->isEnd();
-}
-
-SymbolIdent PatternTrie::lookupSymbol(const string &symbol) {
-  auto result = symbolTable->find(symbol);
-  if (result == symbolTable->end()) {
-    return TRIE_INVALID_SYMBOL;
-  }
-
-  return result->second;
 }

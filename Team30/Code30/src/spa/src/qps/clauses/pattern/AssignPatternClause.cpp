@@ -21,16 +21,7 @@ AssignPatternClause::AssignPatternClause(
 
 PQLQueryResult *AssignPatternClause::evaluateOn(
     const QueryExecutorAgent &agent) {
-  // TODO (KwanHW):Refactor to a method?
-  ExpressionSequencePtr exprSeq = PatternConverter::convertASTToPostfix(
-      rightArgument.get());
-
-  if (exprSeq == nullptr) {
-    throw QPSParserSyntaxError(QPS_PARSER_ERR_INVALID_PATTERN);
-  }
-
-  ExpressionArgumentPtr expr = make_unique<ExpressionArgument>(
-      std::move(exprSeq), allowsPartial);
+  ExpressionArgumentPtr expr = toExpressionArg(agent);
 
   StmtRef leftStatement = {StmtType::Assign, 0};
   EntityRef rightVariable = leftArg->toEntityRef();
@@ -86,4 +77,24 @@ ComplexityScore AssignPatternClause::getComplexityScore(
     return COMPLEXITY_QUERY_CONSTANT;
   }
   return COMPLEXITY_QUERY_SYN_ASSIGN;
+}
+
+ExpressionArgumentPtr AssignPatternClause::toExpressionArg(
+    const QueryExecutorAgent &agent) {
+  // Wildcard case
+  if (rightArgument.get() == nullptr) {
+    return make_unique<ExpressionArgument>();
+  }
+
+  ExpressionSequencePtr exprSeq = PatternConverter::convertASTToPostfix(
+      rightArgument.get(), agent);
+
+  if (exprSeq == nullptr) {
+    throw QPSParserSyntaxError(QPS_PARSER_ERR_INVALID_PATTERN);
+  }
+
+  ExpressionArgumentPtr expr = make_unique<ExpressionArgument>(
+      std::move(exprSeq), allowsPartial);
+
+  return expr;
 }

@@ -13,6 +13,7 @@ class AssignPatternClause: public PatternClause {
                   QueryResult<StmtValue, EntityValue>* output,
                   QueryResult<StmtValue, EntityValue>* modifiesResult,
                   ExpressionArgument* exprArg);
+  ExpressionArgumentPtr toExpressionArg(const QueryExecutorAgent& agent);
 
  public:
   AssignPatternClause(const PQLQuerySynonymProxy &assignSynonym,
