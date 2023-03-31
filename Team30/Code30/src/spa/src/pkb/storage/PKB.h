@@ -18,13 +18,13 @@ class PKB {
 
   VarTable *variableTable = new VarTable();
   VarRevTable *variableRevTable = new VarRevTable();
-  EntityValueSet *variableValues = new EntityValueSet;
+  EntitySet *variableValues = new EntitySet;
   VariableStorage *variableStorage =
       new VariableStorage(variableTable, variableRevTable, variableValues);
 
   ConstTable *constantTable = new ConstTable();
   ConstRevTable *constantRevTable = new ConstRevTable();
-  EntityValueSet *constantValues = new EntityValueSet;
+  EntitySet *constantValues = new EntitySet;
 
   ConstantStorage *constantStorage =
       new ConstantStorage(constantTable, constantRevTable, constantValues);
@@ -37,7 +37,7 @@ class PKB {
 
   StmtTable *stmtTable = new StmtTable();
   StmtRevTable *stmtRevTable = new StmtRevTable();
-  StmtValueSet *stmtValues = new StmtValueSet();
+  StmtSet *stmtValues = new StmtSet();
   StatementStorage *statementStorage =
       new StatementStorage(stmtTable, stmtRevTable, stmtValues);
 
@@ -58,9 +58,11 @@ class PKB {
 
   ParentTable *parentTable = new ParentTable();
   ParentRevTable *parentRevTable = new ParentRevTable();
+  ParentTTable *parentTTable = new ParentTTable();
+  ParentTRevTable *parentTRevTable = new ParentTRevTable();
   ParentStorage *parentStorage = new ParentStorage(parentTable, parentRevTable);
   ParentTStorage *parentTStorage =
-      new ParentTStorage(parentTable, parentRevTable);
+      new ParentTStorage(parentTTable, parentTRevTable, followsTable);
 
   ModifiesTable *modifiesTable = new ModifiesTable();
   ModifiesRevTable *modifiesRevTable = new ModifiesRevTable();
@@ -83,7 +85,9 @@ class PKB {
   CallsTable *callsTable = new CallsTable();
   CallsRevTable *callsRevTable = new CallsRevTable();
   CallsStorage *callsStorage = new CallsStorage(callsTable, callsRevTable);
-  CallsTStorage *callsTStorage = new CallsTStorage(callsTable, callsRevTable);
+  CallsTTable *callsTTable = new CallsTTable();
+  CallsTRevTable *callsTRevTable = new CallsTRevTable();
+  CallsTStorage *callsTStorage = new CallsTStorage(callsTTable, callsTRevTable);
 
   IfPatternTable *ifPatternTable = new IfPatternTable();
   IfPatternRevTable *ifPatternRevTable = new IfPatternRevTable();

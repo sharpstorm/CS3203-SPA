@@ -33,7 +33,7 @@ TEST_CASE("AssignQueryHandler Assigns(stmtRef)") {
   auto root = make_unique<VariableASTNode>("a");
   PatternTriePtr trie = PatternConverter::convertASTToTrie(root.get(), writer.get());
   auto sTrie = shared_ptr<PatternTrie>(std::move(trie));
-  test.store->set(1, sTrie);
+  test.store->insert(1, sTrie);
 
   auto result = *test.handler.queryAssigns({StmtType::Assign, 1});
   REQUIRE(result.isEmpty == false);

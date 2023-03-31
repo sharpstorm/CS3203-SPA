@@ -56,7 +56,7 @@ TEST_CASE("ParentClause Querying") {
       );
   expected = TestQueryResultBuilder::buildExpected(ExpectedParams{
       {"a1", QueryResultItemVector{
-        QueryResultItem(6)
+        TestResultItem(6)
       }}
   });
 
@@ -69,7 +69,7 @@ TEST_CASE("ParentClause Querying") {
       make_unique<SynonymArgument>(synA2));
   expected = TestQueryResultBuilder::buildExpected(ExpectedParams{
       {"a2", QueryResultItemVector{
-          QueryResultItem(7)
+          TestResultItem(7)
       }}
   });
 
@@ -82,10 +82,10 @@ TEST_CASE("ParentClause Querying") {
       make_unique<SynonymArgument>(synA2));
   expected = TestQueryResultBuilder::buildExpected(ExpectedParams{
       {"a1", QueryResultItemVector{
-          QueryResultItem(6)
+          TestResultItem(6)
       }},
       {"a2", QueryResultItemVector{
-          QueryResultItem(7)
+          TestResultItem(7)
       }}
   });
   actual = PQLQueryResultPtr(parentClause.evaluateOn(agent));

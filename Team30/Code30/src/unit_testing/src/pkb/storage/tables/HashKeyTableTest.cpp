@@ -9,8 +9,8 @@ using std::string;
 
 TEST_CASE("HashKeyTable with different key value types") {
   HashKeyTable<string, int> table;
-  table.set("x", 1);
-  table.set("y", 4);
+  table.insert("x", 1);
+  table.insert("y", 4);
 
   REQUIRE(table.get("x") == 1);
   REQUIRE(table.get("y") == 4);

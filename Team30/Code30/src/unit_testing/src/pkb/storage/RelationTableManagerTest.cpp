@@ -1,7 +1,7 @@
 
 #include <memory>
 #include <string>
-#include <unordered_set>
+#include <set>
 #include <utility>
 
 #include "catch.hpp"
@@ -15,7 +15,7 @@
 using std::make_shared;
 using std::pair;
 using std::string;
-using std::unordered_set;
+using std::set;
 
 TEST_CASE("RelationTableManager insert and getByArg1, getByArg2") {
   auto table = make_shared<ContiguousSetTable<string>>();
@@ -28,8 +28,8 @@ TEST_CASE("RelationTableManager insert and getByArg1, getByArg2") {
   tableManager.insert(1, "c");
   tableManager.insert(4, "b");
 
-  REQUIRE(tableManager.getByFirstArg(1) == unordered_set<string>({"a", "c"}));
-  REQUIRE(tableManager.getBySecondArg("b") == unordered_set<int>({2, 4}));
+  REQUIRE(tableManager.getByFirstArg(1) == set<string>({"a", "c"}));
+  REQUIRE(tableManager.getBySecondArg("b") == set<int>({2, 4}));
 
 }
 

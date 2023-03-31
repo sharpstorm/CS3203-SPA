@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "qps/common/IEvaluatable.h"
-#include "qps/common/PQLQueryResult.h"
+#include "qps/common/intermediate_result/PQLQueryResult.h"
 #include "qps/clauses/arguments/ClauseArgument.h"
 #include "qps/common/VariableTable.h"
 

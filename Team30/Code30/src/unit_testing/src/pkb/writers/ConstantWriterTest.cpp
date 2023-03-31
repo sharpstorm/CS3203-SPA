@@ -9,7 +9,7 @@ using std::make_unique;
 TEST_CASE("ConstantWriter addConstant") {
   auto table = make_shared<ConstTable>();
   auto reverseTable = make_shared<ConstRevTable>();
-  auto values = make_shared<EntityValueSet>();
+  auto values = make_shared<EntitySet>();
   auto store = make_unique<ConstantStorage>(table.get(), reverseTable.get(),
                                             values.get());
   auto writer = ConstantWriter(store.get());

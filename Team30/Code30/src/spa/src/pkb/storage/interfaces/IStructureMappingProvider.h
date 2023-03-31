@@ -2,13 +2,13 @@
 
 #include <functional>
 #include <string>
-#include <unordered_set>
+#include <set>
 #include <utility>
 
 #include "IProvider.h"
 #include "common/Types.h"
 
-using std::string, std::unordered_set, std::pair, std::function;
+using std::string, std::set, std::pair, std::function;
 
 class IStructureMappingProvider : public IProvider<StmtValue, StmtType> {
  public:

@@ -7,7 +7,7 @@ EntityMappingProvider::EntityMappingProvider(
       constantStorage(constantStorage),
       procedureStorage(procedureStorage) {}
 
-unordered_set<string> EntityMappingProvider::getValuesOfType(
+const EntitySet &EntityMappingProvider::getValuesOfType(
     EntityType entityType) const {
   if (entityType == EntityType::Variable) {
     return variableStorage->getAllValues();
@@ -17,15 +17,15 @@ unordered_set<string> EntityMappingProvider::getValuesOfType(
     return procedureStorage->getProcedures();
   } else {
     // note: EntityType::None is invalid
-    return {};
+    return ContiguousSetTable<EntityValue>::getEmptyValue();
   }
 }
 
-string EntityMappingProvider::getVariableByIndex(int index) const {
+EntityValue EntityMappingProvider::getVariableByIndex(int index) const {
   return variableStorage->getValueByIdx(index);
 }
 
-string EntityMappingProvider::getConstantByIndex(int index) const {
+EntityValue EntityMappingProvider::getConstantByIndex(int index) const {
   return constantStorage->getValueByIdx(index);
 }
 

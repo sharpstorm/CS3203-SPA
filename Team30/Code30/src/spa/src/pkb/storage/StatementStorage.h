@@ -8,18 +8,18 @@ class StatementStorage {
  private:
   IBaseTable<StmtValue, StmtType>* table;
   IBaseSetTable<StmtType, StmtValue>* reverseTable;
-  StmtValueSet* allStatements;
+  StmtSet* allStatements;
 
  public:
   StatementStorage(IBaseTable<StmtValue, StmtType>* table,
                    IBaseSetTable<StmtType, StmtValue>* reverseTable,
-                   StmtValueSet* values);
+                   StmtSet* values);
 
   void insert(StmtValue stmt, StmtType type);
 
-  StmtValueSet getStatementsOfType(StmtType type) const;
+  const StmtSet& getStatementsOfType(StmtType type) const;
 
-  StmtValueSet getAllStatements() const;
+  const StmtSet& getAllStatements() const;
 
   StmtType getTypeOfStatement(StmtValue stmt) const;
 };

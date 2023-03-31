@@ -1,20 +1,20 @@
 #pragma once
 
-#include <unordered_set>
 #include <cassert>
-#include "IBaseSetTable.h"
+#include <set>
+
 #include "ContiguousTable.h"
+#include "IBaseSetTable.h"
 
-using std::unordered_set;
+using std::set;
 
-template<typename V>
+template <typename V>
 class ContiguousSetTable : public IBaseSetTable<int, V>,
-                           public ContiguousTable<unordered_set<V>> {
+                           public ContiguousTable<set<V>> {
  public:
-  explicit ContiguousSetTable(int size = 1) : ContiguousTable<unordered_set<V>>(
-      size) {}
+  explicit ContiguousSetTable(int size = 1) : ContiguousTable<set<V>>(size) {}
 
-  void set(int key, V value) override {
+  void insert(int key, V value) override {
     assert(key != 0);
     assert(value != V());
 
@@ -22,9 +22,16 @@ class ContiguousSetTable : public IBaseSetTable<int, V>,
     this->table[key].insert(value);
   }
 
-  unordered_set<V> get(int key) const override {
-    assert(key != 0);
-
-    return ContiguousTable<unordered_set<V>>::get(key);
+  const set<V>& get(int key) const override {
+    return ContiguousTable<set<V>>::get(key);
   }
+
+  void forEach(pkb::Function<int, set<V>> function,
+               pkb::Terminator<int, set<V>> terminator) const override {
+    return ContiguousTable<set<V>>::forEach(function, terminator);
+  }
+
+  int size() const override {
+    return ContiguousTable<set<V>>::size();
+  };
 };

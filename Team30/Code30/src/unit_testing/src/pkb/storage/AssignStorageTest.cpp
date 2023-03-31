@@ -1,4 +1,4 @@
-#include <unordered_set>
+#include <set>
 #include <memory>
 #include <utility>
 
@@ -8,7 +8,7 @@
 #include "pkb/storage/StorageTypes.h"
 #include "common/pattern/PatternConverter.h"
 
-using std::unordered_set, std::make_unique, std::shared_ptr;
+using std::set, std::make_unique, std::shared_ptr;
 
 TEST_CASE("AssignStorage addAssign") {
   PKB pkb;
@@ -23,7 +23,7 @@ TEST_CASE("AssignStorage addAssign") {
   auto trie = PatternConverter::convertASTToTrie(node3.get(), writer.get());
   auto sTrie = shared_ptr<PatternTrie>(std::move(trie));
   AssignStorage store = AssignStorage();
-  store.set(1, sTrie);
+  store.insert(1, sTrie);
 
   REQUIRE(store.get(1).get() == sTrie.get());
 }

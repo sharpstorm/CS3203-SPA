@@ -13,7 +13,7 @@ using std::unordered_set;
 TEST_CASE("VariableWriter addVariable") {
   auto table = make_shared<VarTable>();
   auto reverseTable = make_shared<VarRevTable>();
-  auto values = make_shared<EntityValueSet>();
+  auto values = make_shared<EntitySet>();
   auto store = make_unique<VariableStorage>(table.get(), reverseTable.get(),
                                             values.get());
   auto writer = VariableWriter(store.get());

@@ -52,7 +52,7 @@ TEST_CASE("FollowsClause Querying") {
 
   expected = TestQueryResultBuilder::buildExpected(ExpectedParams{
       {"a1", QueryResultItemVector{
-        QueryResultItem(1)
+        TestResultItem(1)
       }}
   });
   actual = PQLQueryResultPtr(followsClause.evaluateOn(agent));
@@ -64,7 +64,7 @@ TEST_CASE("FollowsClause Querying") {
       make_unique<SynonymArgument>(synA2));
   expected = TestQueryResultBuilder::buildExpected(ExpectedParams{
       {"a2", QueryResultItemVector{
-          QueryResultItem(2)
+          TestResultItem(2)
       }}
   });
   actual = PQLQueryResultPtr(followsClause.evaluateOn(agent));
@@ -76,10 +76,10 @@ TEST_CASE("FollowsClause Querying") {
       make_unique<SynonymArgument>(synA2));
   expected = TestQueryResultBuilder::buildExpected(ExpectedParams{
       {"a1", QueryResultItemVector{
-          QueryResultItem(1)
+          TestResultItem(1)
       }},
       {"a2", QueryResultItemVector{
-          QueryResultItem(2)
+          TestResultItem(2)
       }}
   });
   actual = PQLQueryResultPtr(followsClause.evaluateOn(agent));

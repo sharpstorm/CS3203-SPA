@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <unordered_set>
+#include <set>
 #include <utility>
 
 #include "ProcedureAndCallsStorage.h"
@@ -9,14 +9,17 @@
 #include "common/Types.h"
 #include "interfaces/IStructureMappingProvider.h"
 
+using std::set;
+using std::string;
+
 class StructureMappingProvider : public IStructureMappingProvider {
  public:
   StructureMappingProvider(StatementStorage *, ProcedureAndCallsStorage *);
   StmtType getStatementType(int) const override;
-  std::unordered_set<int> getValuesOfType(StmtType) const override;
+  const StmtSet& getValuesOfType(StmtType) const override;
   bool isValueOfType(StmtType, StmtValue) const override;
-  std::string getProcedureForLine(int) const override;
-  std::string getCalledDeclaration(int) const override;
+  string getProcedureForLine(int) const override;
+  string getCalledDeclaration(int) const override;
 
  private:
   StatementStorage *statementStorage;

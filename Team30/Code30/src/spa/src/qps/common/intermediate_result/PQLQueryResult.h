@@ -5,41 +5,52 @@
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <set>
 #include <vector>
 
-#include "PQLTypes.h"
-#include "PQLQuerySynonym.h"
+#include "qps/common/PQLTypes.h"
+#include "qps/common/PQLQuerySynonym.h"
 #include "pkb/queryHandlers/PkbQueryHandler.h"
 #include "QueryResultItem.h"
+#include "QueryResultItemPool.h"
 
 using std::pair, std::string, std::unordered_map, std::unordered_set,
-    std::vector, std::move, std::make_unique, std::unique_ptr;
+    std::vector, std::move, std::make_unique, std::unique_ptr, std::set;
 
-typedef vector<QueryResultItemPtr> QueryResultTableRow;
-typedef vector<QueryResultTableRow> QueryResultTable;
 typedef int ResultTableCol;
-typedef unordered_set<int> RowSet;
+typedef int ResultTableRow;
+typedef vector<QueryResultItem*> QueryResultTableRow;
+typedef vector<QueryResultTableRow> QueryResultTable;
 
-typedef QueryResultItemMap<RowSet> ColMapItem;
-typedef unique_ptr<ColMapItem> ColMapItemPtr;
+typedef set<ResultTableRow> RowSet;
+
+typedef QueryResultItemMap<RowSet> ColMap;
+typedef unique_ptr<ColMap> ColMapPtr;
 typedef unique_ptr<RowSet> RowSetPtr;
 
 class PQLQueryResult {
  private:
   unordered_map<PQLSynonymName, ResultTableCol> resultIndex;
   QueryResultTable combinedTable;
-  vector<ColMapItemPtr> colMap;
+  vector<ColMapPtr> colMaps;
 
   bool isStaticResult;
   bool isStaticFalse;
-  bool isEmpty();
+
+  bool isEmpty() const;
   bool matchRow(const PQLQueryResult &other,
                 const int &myRowIndex,
                 const int &otherRowIndex) const;
 
+ protected:
+  QueryResultItemPool ownedItemPool;
+
  public:
   PQLQueryResult();
   virtual ~PQLQueryResult() = default;
+
+  OrphanedResultItemPoolPtr adoptOwnedItems(PQLQueryResult* other);
+  OrphanedResultItemPoolPtr releaseOwnedItemsTo(QueryResultItemPool *other);
 
   template<class T, class U>
   void add(const PQLSynonymName &leftName,
@@ -58,28 +69,26 @@ class PQLQueryResult {
   void putSynonym(const PQLSynonymName &name);
 
   QueryResultTableRow* getTableRowAt(int rowIndex);
-  void putTableRow(vector<QueryResultItemPtr> row);
+  void putTableRow(const vector<QueryResultItem*> &row);
   int getRowCount();
-  RowSetPtr getRowsWithValue(ResultTableCol column, QueryResultItem* value);
+  RowSetPtr getRowsWithValue(ResultTableCol column,
+                             QueryResultItem* value);
 
   bool operator ==(const PQLQueryResult &pqr) const;
 
-  static const int NO_COL = -1;
+  static const ResultTableCol NO_COL = -1;
 };
 
 typedef unique_ptr<PQLQueryResult> PQLQueryResultPtr;
 
 template<class T>
-void PQLQueryResult::add(
-    const PQLSynonymName &name,
-    const unordered_set<T> &data) {
+void PQLQueryResult::add(const PQLSynonymName &name,
+                         const unordered_set<T> &data) {
   putSynonym(name);
-  ColMapItem* map = colMap.at(colMap.size() - 1).get();
-
-  for (T item : data) {
-    QueryResultTableRow row{};
-    row.push_back(make_unique<QueryResultItem>(item));
-    putTableRow(std::move(row));
+  for (const T &item : data) {
+    QueryResultItem* entry = ownedItemPool.getItem(item);
+    QueryResultTableRow row{entry};
+    putTableRow(row);
   }
 }
 
@@ -90,10 +99,10 @@ void PQLQueryResult::add(const PQLSynonymName &leftName,
   putSynonym(leftName);
   putSynonym(rightName);
 
-  for (pair<T, U> pair : data) {
-    QueryResultTableRow row{};
-    row.push_back(make_unique<QueryResultItem>(pair.first));
-    row.push_back(make_unique<QueryResultItem>(pair.second));
-    putTableRow(std::move(row));
+  for (const pair<T, U> &pair : data) {
+    QueryResultItem* leftEntry = ownedItemPool.getItem(pair.first);
+    QueryResultItem* rightEntry = ownedItemPool.getItem(pair.second);
+    QueryResultTableRow row{leftEntry, rightEntry};
+    putTableRow(row);
   }
 }

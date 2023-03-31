@@ -9,15 +9,15 @@ using std::vector, std::unordered_set, std::unordered_map;
 
 class CFGTestModifiesUsesProvider {
  public:
-  CFGTestModifiesUsesProvider(vector<EntityValue> modifies,
+  CFGTestModifiesUsesProvider(vector<unordered_set<EntityValue>> modifies,
                               vector<unordered_set<EntityValue>> uses);
 
-  CFGTestModifiesUsesProvider(vector<EntityValue> modifies,
+  CFGTestModifiesUsesProvider(vector<unordered_set<EntityValue>> modifies,
                               vector<unordered_set<EntityValue>> uses,
                               unordered_map<StmtValue, StmtType> typeExclusions);
 
-  static EntityIdx getModifies(const CFGTestModifiesUsesProvider &state,
-                               StmtValue value);
+  static EntityIdxSet getModifies(const CFGTestModifiesUsesProvider &state,
+                                  StmtValue value);
   static EntityIdxSet getUses(const CFGTestModifiesUsesProvider &state,
                               StmtValue value);
 
@@ -29,7 +29,7 @@ class CFGTestModifiesUsesProvider {
 
  private:
   unordered_map<EntityValue, EntityIdx> symbolTable;
-  vector<EntityValue> modifies;
+  vector<unordered_set<EntityValue>> modifies;
   vector<unordered_set<EntityValue>> uses;
   unordered_map<StmtValue, StmtType> typeExclusions;
 

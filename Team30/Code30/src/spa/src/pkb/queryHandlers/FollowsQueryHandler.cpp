@@ -2,5 +2,5 @@
 
 FollowsQueryHandler::FollowsQueryHandler(
     PkbStmtStmtQueryInvoker *invoker,
-    FollowsStorage *storage) :
-    PkbStmtStmtQueryHandler(invoker, storage) {}
+    RelationTableManager<StmtValue, StmtValue> *storage)
+    : PkbStmtStmtQueryHandler(invoker, storage) {}

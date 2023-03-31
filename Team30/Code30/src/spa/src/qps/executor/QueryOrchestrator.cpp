@@ -70,7 +70,7 @@ PQLQueryResult *QueryOrchestrator::executeGroup(
       continue;
     }
 
-    finalResult = coalescer.merge(currentResult, finalResult);
+    finalResult = ResultCoalescer(currentResult, finalResult).merge();
     if (finalResult->isFalse()) {
       delete finalResult;
       return new PQLQueryResult();

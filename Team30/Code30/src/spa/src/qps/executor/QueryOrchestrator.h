@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "../common/PQLQuery.h"
-#include "../common/PQLQueryResult.h"
+#include "qps/common/intermediate_result/PQLQueryResult.h"
 #include "../common/IEvaluatable.h"
 #include "ResultCoalescer.h"
 #include "common/UtilityTypes.h"
@@ -21,7 +21,6 @@ class QueryOrchestrator {
 
  private:
   QueryLauncher launcher;
-  ResultCoalescer coalescer;
 
   PQLQueryResult* executeGroup(QueryGroupPlan* plan, OverrideTable* table);
 };
