@@ -48,49 +48,49 @@ bool QueryExecutorAgent::isValid(const EntityRef &ref) const {
       pkbQueryHandler->isSymbolOfType(ref.getType(), ref.getValue());
 }
 
-void QueryExecutorAgent::addToNextTCache(StmtStmtQueryResult* result) {
-  for (auto it : result->pairVals) {
-    nextTCache.addEntry(it.first, it.second);
-  }
-}
-
-void QueryExecutorAgent::addToAffectsCache(StmtStmtQueryResult* result) {
-  for (auto it : result->pairVals) {
-    affectsCache.addEntry(it.first, it.second);
-  }
-}
-
-StmtStmtQueryResultPtr QueryExecutorAgent::queryNextTCache(
-    const StmtRef& left, const StmtRef& right) {
-  StmtValue leftVal = left.getValue();
-  StmtValue rightVal = right.getValue();
-
-  CacheRow* result = nextTCache.queryFull(leftVal, rightVal);
-
-  if (result != nullptr && !result->empty()) {
-    return toQueryResult(left, right, result);
-  }
-
-  result = nextTCache.queryPartial(leftVal, rightVal);
-
-  return toQueryResult(left, right, result);
-}
-
-StmtStmtQueryResultPtr QueryExecutorAgent::queryAffectsCache(
-    const StmtRef& left, const StmtRef& right) {
-  StmtValue leftVal = left.getValue();
-  StmtValue rightVal = right.getValue();
-
-  CacheRow* result = affectsCache.queryFull(leftVal, rightVal);
-
-  if (result != nullptr && !result->empty()) {
-    return toQueryResult(left, right, result);
-  }
-
-  result = affectsCache.queryPartial(leftVal, rightVal);
-
-  return toQueryResult(left, right, result);
-}
+//void QueryExecutorAgent::addToNextTCache(StmtStmtQueryResult* result) {
+//  for (auto it : result->pairVals) {
+//    nextTCache.addEntry(it.first, it.second);
+//  }
+//}
+//
+//void QueryExecutorAgent::addToAffectsCache(StmtStmtQueryResult* result) {
+//  for (auto it : result->pairVals) {
+//    affectsCache.addEntry(it.first, it.second);
+//  }
+//}
+//
+//StmtStmtQueryResultPtr QueryExecutorAgent::queryNextTCache(
+//    const StmtRef& left, const StmtRef& right) {
+//  StmtValue leftVal = left.getValue();
+//  StmtValue rightVal = right.getValue();
+//
+//  CacheRow* result = nextTCache.queryFull(leftVal, rightVal);
+//
+//  if (result != nullptr && !result->empty()) {
+//    return toQueryResult(left, right, result);
+//  }
+//
+//  result = nextTCache.queryPartial(leftVal, rightVal);
+//
+//  return toQueryResult(left, right, result);
+//}
+//
+//StmtStmtQueryResultPtr QueryExecutorAgent::queryAffectsCache(
+//    const StmtRef& left, const StmtRef& right) {
+//  StmtValue leftVal = left.getValue();
+//  StmtValue rightVal = right.getValue();
+//
+//  CacheRow* result = affectsCache.queryFull(leftVal, rightVal);
+//
+//  if (result != nullptr && !result->empty()) {
+//    return toQueryResult(left, right, result);
+//  }
+//
+//  result = affectsCache.queryPartial(leftVal, rightVal);
+//
+//  return toQueryResult(left, right, result);
+//}
 
 StmtStmtQueryResultPtr QueryExecutorAgent::toQueryResult(const StmtRef& left,
                                                          const StmtRef& right,
@@ -124,12 +124,10 @@ StmtStmtQueryResultPtr QueryExecutorAgent::toQueryResult(const StmtRef& left,
   return result;
 }
 
-bool QueryExecutorAgent::entryExistsNextT(const StmtRef& left,
-                                          const StmtRef& right) {
-  return nextTCache.entryExists(left.getValue(), right.getValue());
+CacheTable QueryExecutorAgent::getNextTCache() {
+  return nextTCache;
 }
 
-bool QueryExecutorAgent::entryExistsAffects(const StmtRef& left,
-                                            const StmtRef& right) {
-  return affectsCache.entryExists(left.getValue(), right.getValue());
+CacheTable QueryExecutorAgent::getAffectsCache() {
+  return affectsCache;
 }

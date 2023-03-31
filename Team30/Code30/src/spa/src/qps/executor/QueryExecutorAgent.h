@@ -32,6 +32,8 @@ class QueryExecutorAgent {
   static bool isValidRef(StmtRef stmtRef, PkbQueryHandler* handler);
   static bool isValidRef(EntityRef entRef, PkbQueryHandler* handler);
 
+  CacheTable getNextTCache();
+  CacheTable getAffectsCache();
   void addToNextTCache(StmtStmtQueryResult* result);
   void addToAffectsCache(StmtStmtQueryResult* result);
 
