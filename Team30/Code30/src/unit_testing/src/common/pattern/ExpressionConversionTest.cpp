@@ -4,34 +4,59 @@
 #include "common/pattern/PatternConverter.h"
 #include "TestASTProvider.h"
 
-using std::make_shared, std::make_unique;
+using std::make_shared, std::make_unique, std::unique_ptr;
 
 TEST_CASE("ExpressionSequence Conversion - Balanced") {
-//  TestASTProvider treeProvider;
-//  auto expr = PatternConverter::convertASTToPostfix(
-//      treeProvider.balancedTree.get());
-//
-//  // x * y + x * z;
+  PKB pkb;
+  pkb.variableStorage->insert("x");
+  pkb.variableStorage->insert("y");
+  pkb.variableStorage->insert("z");
+  unique_ptr<PkbQueryHandler> handler = make_unique<PkbQueryHandler>(&pkb);
+  unique_ptr<OverrideTable> table = make_unique<OverrideTable>();
+  QueryExecutorAgent agent = QueryExecutorAgent(handler.get(), table.get());
+
+  TestASTProvider treeProvider;
+  auto expr = PatternConverter::convertASTToPostfix(
+      treeProvider.balancedTree.get(), agent);
+
+  // x * y + x * z;
 //  ExpressionSequence expected{ "x", "y", "*", "x", "z", "*", "+" };
-//  REQUIRE(*expr == expected);
+  ExpressionSequence expected{ 1, 2, TRIE_TIMES, 1, 3, TRIE_TIMES, TRIE_PLUS };
+  REQUIRE(*expr == expected);
 }
 
 TEST_CASE("ExpressionSequence Conversion - Right Heavy") {
-//  TestASTProvider treeProvider;
-//  auto expr = PatternConverter::convertASTToPostfix(
-//      treeProvider.rightHeavyTree.get());
-//
-//  // x + y * z;
-//  ExpressionSequence expected{ "x", "y", "z", "*", "+" };
-//  REQUIRE(*expr == expected);
+  PKB pkb;
+  pkb.variableStorage->insert("x");
+  pkb.variableStorage->insert("y");
+  pkb.variableStorage->insert("z");
+  unique_ptr<PkbQueryHandler> handler = make_unique<PkbQueryHandler>(&pkb);
+  unique_ptr<OverrideTable> table = make_unique<OverrideTable>();
+  QueryExecutorAgent agent = QueryExecutorAgent(handler.get(), table.get());
+
+  TestASTProvider treeProvider;
+  auto expr = PatternConverter::convertASTToPostfix(
+      treeProvider.rightHeavyTree.get(), agent);
+
+  // x + y * z;
+  ExpressionSequence expected{ 1, 2, 3, TRIE_TIMES, TRIE_PLUS };
+  REQUIRE(*expr == expected);
 }
 
 TEST_CASE("ExpressionSequence Conversion - Left Heavy") {
-//  TestASTProvider treeProvider;
-//  auto expr = PatternConverter::convertASTToPostfix(
-//      treeProvider.leftHeavyTree.get());
-//
-//  // x * y + z;
-//  ExpressionSequence expected{ "x", "y", "*", "z", "+" };
-//  REQUIRE(*expr == expected);
+  PKB pkb;
+  pkb.variableStorage->insert("x");
+  pkb.variableStorage->insert("y");
+  pkb.variableStorage->insert("z");
+  unique_ptr<PkbQueryHandler> handler = make_unique<PkbQueryHandler>(&pkb);
+  unique_ptr<OverrideTable> table = make_unique<OverrideTable>();
+  QueryExecutorAgent agent = QueryExecutorAgent(handler.get(), table.get());
+
+  TestASTProvider treeProvider;
+  auto expr = PatternConverter::convertASTToPostfix(
+      treeProvider.leftHeavyTree.get(), agent);
+
+  // x * y + z;
+  ExpressionSequence expected{ 1, 2, TRIE_TIMES, 3, TRIE_PLUS };
+  REQUIRE(*expr == expected);
 }
