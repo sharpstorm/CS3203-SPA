@@ -53,11 +53,11 @@ void QueryExecutorAgent::addToAffectsCache(StmtStmtQueryResult* result) {
 }
 
 StmtStmtQueryResultPtr QueryExecutorAgent::queryNextTCache(
-    StmtRef left, StmtRef right) {
+    const StmtRef& left, const StmtRef& right) {
   return cacheAgent.queryNextTCache(left, right);
 }
 
 StmtStmtQueryResultPtr QueryExecutorAgent::queryAffectsCache(
-    StmtRef left, StmtRef right) {
+    const StmtRef& left, const StmtRef& right) {
   return cacheAgent.queryAffectsCache(left, right);
 }

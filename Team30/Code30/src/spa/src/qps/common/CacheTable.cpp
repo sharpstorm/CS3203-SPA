@@ -21,7 +21,8 @@ void CacheTable::addEntry(StmtValue leftStmt, StmtValue rightStmt) {
 }
 
 CacheRow *CacheTable::queryFull(StmtValue leftStmt, StmtValue rightStmt) {
-  if (leftStmt > forwardMatrix.size() || rightStmt > reverseMatrix.size()) {
+  if (!isValidIndex(leftStmt, forwardMatrix.size()) ||
+      !isValidIndex(rightStmt, reverseMatrix.size())) {
     return nullptr;
   }
 

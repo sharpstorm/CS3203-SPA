@@ -23,5 +23,5 @@ class CacheAgent {
   StmtStmtQueryResultPtr queryNextTCache(const StmtRef& left,
                                          const StmtRef& right);
   StmtStmtQueryResultPtr queryAffectsCache(const StmtRef& left,
-                                                  const StmtRef& right);
+                                           const StmtRef& right);
 };
