@@ -52,9 +52,9 @@ TEST_CASE("Projecting Statements") {
 
   result = TestQueryResultBuilder::buildExpectedTable(ExpectedParams{
       {"a", QueryResultItemVector{
-        QueryResultItem(1),
-        QueryResultItem(2),
-        QueryResultItem(3),
+        TestResultItem(1),
+        TestResultItem(2),
+        TestResultItem(3),
       }}
   }, &TARGET_RESULT_VARS);
   expected = UniqueVectorPtr<string>(new vector<string>({"1", "2", "3"}));
@@ -72,8 +72,8 @@ TEST_CASE("Projecting Entities") {
 
   result = TestQueryResultBuilder::buildExpectedTable(ExpectedParams{
       {"v", QueryResultItemVector{
-          QueryResultItem("x"),
-          QueryResultItem("y")
+          TestResultItem("x"),
+          TestResultItem("y")
       }}
   }, &TARGET_ENTITY_VARS);
   expected = UniqueVectorPtr<string>(new vector<string>({"x", "y"}));

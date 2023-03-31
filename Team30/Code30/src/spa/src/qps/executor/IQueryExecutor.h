@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../common/PQLQueryResult.h"
+#include "qps/common/intermediate_result/PQLQueryResult.h"
 #include "../common/PQLQuery.h"
 #include "qps/common/resulttable/SynonymResultTable.h"
 

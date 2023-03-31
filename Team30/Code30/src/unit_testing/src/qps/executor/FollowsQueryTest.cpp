@@ -2,7 +2,7 @@
 
 #include "pkb/queryHandlers/interfaces/IFollowsQueryHandler.h"
 #include "pkb/queryHandlers/PkbQueryHandler.h"
-#include "qps/common/PQLQueryResult.h"
+#include "qps/common/intermediate_result/PQLQueryResult.h"
 #include "qps/executor/IQueryExecutor.h"
 #include "qps/common/resulttable/SynonymResultTable.h"
 #include "qps/executor/QueryExecutor.h"
