@@ -4,18 +4,34 @@
 #include "AssignPatternClause.h"
 #include "qps/clauses/arguments/SynonymArgument.h"
 #include "qps/clauses/ClauseScoring.h"
+#include "common/pattern/PatternConverter.h"
+#include "qps/errors/QPSParserSyntaxError.h"
 
 using std::make_unique;
 
 AssignPatternClause::AssignPatternClause(
     const PQLQuerySynonymProxy &assignSynonym,
     ClauseArgumentPtr leftArg,
-    ExpressionArgumentPtr rightArg):
+//    ExpressionArgumentPtr rightArg):
+    IASTPtr rightArg,
+    bool allow):
     PatternClause(assignSynonym, std::move(leftArg), PQL_SYN_TYPE_ASSIGN),
-    rightArgument(std::move(rightArg)) {}
+    rightArgument(std::move(rightArg)),
+    allowsPartial(allow) {}
 
 PQLQueryResult *AssignPatternClause::evaluateOn(
     const QueryExecutorAgent &agent) {
+  // TODO (KwanHW):Refactor to a method?
+  ExpressionSequencePtr exprSeq = PatternConverter::convertASTToPostfix(
+      rightArgument.get());
+
+  if (exprSeq == nullptr) {
+    throw QPSParserSyntaxError(QPS_PARSER_ERR_INVALID_PATTERN);
+  }
+
+  ExpressionArgumentPtr expr = make_unique<ExpressionArgument>(
+      std::move(exprSeq), allowsPartial);
+
   StmtRef leftStatement = {StmtType::Assign, 0};
   EntityRef rightVariable = leftArg->toEntityRef();
 
@@ -26,17 +42,16 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
     return new PQLQueryResult();
   }
 
-//  QueryResult<StmtValue, EntityValue> modifiesResult = agent
-    auto modifiesResult = agent
+  auto modifiesResult = agent
       ->queryModifies(leftStatement, rightVariable);
 
-  if (rightArgument->isWildcard()) {
+  if (expr->isWildcard()) {
     return Clause::toQueryResult(synonym->getName(), leftArg.get(),
                                  modifiesResult.get());
   }
 
   auto assignResult = make_unique<QueryResult<StmtValue, EntityValue>>();
-  checkTries(agent, assignResult.get(), modifiesResult.get());
+  checkTries(agent, assignResult.get(), modifiesResult.get(), expr.get());
 
   // Convert to PQLQueryResult
   return Clause::toQueryResult(synonym->getName(), leftArg.get(),
@@ -46,7 +61,8 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
 void AssignPatternClause::checkTries(
     const QueryExecutorAgent &agent,
     QueryResult<StmtValue, EntityValue> *output,
-    QueryResult<StmtValue, EntityValue>* modifiesResult) {
+    QueryResult<StmtValue, EntityValue>* modifiesResult,
+    ExpressionArgument* exprArg) {
   for (auto& it : modifiesResult->pairVals) {
     // Call assigns to retrieve the node
     StmtRef assignRef = {StmtType::Assign, it.first};
@@ -54,10 +70,10 @@ void AssignPatternClause::checkTries(
         agent->queryAssigns(assignRef);
 
     PatternTrie* lineRoot = *nodes->secondArgVals.begin();
-    bool isPartialMatch = rightArgument->allowsPartial()
-        && lineRoot->isMatchPartial(rightArgument->getSequence());
-    bool isFullMatch = !rightArgument->allowsPartial()
-        && lineRoot->isMatchFull(rightArgument->getSequence());
+    bool isPartialMatch = exprArg->allowsPartial()
+        && lineRoot->isMatchPartial(exprArg->getSequence());
+    bool isFullMatch = !exprArg->allowsPartial()
+        && lineRoot->isMatchFull(exprArg->getSequence());
     if (isPartialMatch || isFullMatch) {
       output->add(it.first, it.second);
     }
