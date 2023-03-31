@@ -16,12 +16,6 @@ void CacheAgent::addToAffectsCache(StmtStmtQueryResult* entries) {
   }
 }
 
-void CacheAgent::addToAffectsTCache(StmtStmtQueryResult* entries) {
-  for (auto it : entries->pairVals) {
-    affectsTCache.addEntry(it.first, it.second);
-  }
-}
-
 StmtStmtQueryResultPtr CacheAgent::queryNextTCache(const StmtRef& left,
                                                    const StmtRef& right) {
   StmtValue leftVal = left.getValue();
@@ -40,11 +34,6 @@ StmtStmtQueryResultPtr CacheAgent::queryNextTCache(const StmtRef& left,
 
 StmtStmtQueryResultPtr CacheAgent::queryAffectsCache(const StmtRef& left,
                                                      const StmtRef& right) {
-  return make_unique<StmtStmtQueryResult>();
-}
-
-StmtStmtQueryResultPtr CacheAgent::queryAffectsTCache(const StmtRef& left,
-                                                      const StmtRef& right) {
   return make_unique<StmtStmtQueryResult>();
 }
 

@@ -23,11 +23,9 @@ class QueryExecutorAgent {
   static bool isValidRef(StmtRef stmtRef, PkbQueryHandler* handler);
   static bool isValidRef(EntityRef entRef, PkbQueryHandler* handler);
 
-  void addToNextTCache(QueryResult<StmtValue, StmtValue>* result);
-  void addToAffectsCache(QueryResult<StmtValue, StmtValue>* result);
-  void addToAffectsTCache(QueryResult<StmtValue, StmtValue>* result);
+  void addToNextTCache(StmtStmtQueryResult* result);
+  void addToAffectsCache(StmtStmtQueryResult* result);
 
   StmtStmtQueryResultPtr queryNextTCache(StmtRef left, StmtRef right);
   StmtStmtQueryResultPtr queryAffectsCache(StmtRef left, StmtRef right);
-  StmtStmtQueryResultPtr queryAffectsTCache(StmtRef left, StmtRef right);
 };

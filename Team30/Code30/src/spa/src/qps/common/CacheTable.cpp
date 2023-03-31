@@ -45,38 +45,29 @@ void CacheTable::promoteTo(StmtValue stmt) {
 }
 
 CacheRow *CacheTable::queryFrom(StmtValue stmt) {
-  if (stmt > forwardMatrix.size()) {
+  if (!isValidIndex(stmt, forwardMatrix.size())) {
     return nullptr;
   }
 
-  CacheRow* cacheRow = &forwardMatrix[stmt - 1];
-  if (!cacheRow->empty()) {
-    promoteFrom(stmt);
-  }
-
-  return cacheRow;
+  return  &forwardMatrix[stmt - 1];
 }
 
 CacheRow *CacheTable::queryTo(StmtValue stmt) {
-  if (stmt > reverseMatrix.size()) {
+  if (!isValidIndex(stmt, reverseMatrix.size())) {
     return nullptr;
   }
 
-  CacheRow* cacheRow = &reverseMatrix[stmt - 1];
-  if (!cacheRow->empty()) {
-    promoteTo(stmt);
-  }
-
-  return cacheRow;
+  return &reverseMatrix[stmt - 1];
 }
 
 CacheRow *CacheTable::queryPartial(StmtValue leftStmt, StmtValue rightStmt) {
-  if (leftStmt > forwardMatrix.size() || rightStmt > reverseMatrix.size()) {
+  if (!isValidIndex(leftStmt, forwardMatrix.size()) ||
+      !isValidIndex(rightStmt, reverseMatrix.size())) {
     return nullptr;
   }
 
   if (leftStmt != 0 && rightStmt != 0) {
-    CacheRow* row = &forwardMatrix[leftStmt];
+    CacheRow* row = &forwardMatrix[leftStmt - 1];
     for (auto r : *row) {
       if (r == rightStmt) {
         return row;
@@ -91,4 +82,8 @@ CacheRow *CacheTable::queryPartial(StmtValue leftStmt, StmtValue rightStmt) {
   }
 
   return queryFrom(leftStmt);
+}
+
+bool CacheTable::isValidIndex(StmtValue stmt, size_t size) {
+  return 0 < stmt && stmt < size;
 }
