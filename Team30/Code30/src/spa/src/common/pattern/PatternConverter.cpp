@@ -1,5 +1,6 @@
 #include "PatternConverter.h"
 #include "TrieBuilder.h"
+#include "pkb/writers/PkbWriter.h"
 
 #include <memory>
 #include <utility>
@@ -16,8 +17,9 @@ ExpressionSequencePtr PatternConverter::convertASTToPostfix(IAST* tree) {
   return std::move(result);
 }
 
-PatternTriePtr PatternConverter::convertASTToTrie(IASTNode* tree) {
-  return TrieBuilder(tree).build();
+PatternTriePtr PatternConverter::
+convertASTToTrie(IASTNode* tree, PkbWriter* pkbWriter) {
+  return TrieBuilder(tree, pkbWriter).build();
 }
 
 void PatternConverter::traversePostfix(IASTNode *node,

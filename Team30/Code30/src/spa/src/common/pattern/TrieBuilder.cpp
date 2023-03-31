@@ -5,19 +5,18 @@
 
 using std::make_unique;
 
-TrieBuilder::TrieBuilder(IASTNode* astRoot):
+TrieBuilder::TrieBuilder(IASTNode* astRoot, PkbWriter* pkbWriter):
     astRoot(astRoot),
-    symTable(make_unique<TrieSymbolTable>()),
     rootNode(make_unique<PatternTrieNode>()),
     nodeCount(0),
-    symbolIdCounter(0) {
+    symbolIdCounter(0),
+    pkbWriter(pkbWriter) {
 }
 
 PatternTriePtr TrieBuilder::build() {
   walkAST(astRoot);
 
   return make_unique<PatternTrie>(std::move(rootNode),
-                                  std::move(symTable),
                                   nodeCount);
 }
 
@@ -25,7 +24,6 @@ TrieBuilder::BuildState TrieBuilder::walkAST(IASTNode* node) {
   nodeCount++;
 
   if (node->getChildCount() == 0) {
-    // Ask for the ID from PKB instead
     SymbolIdent symId = registerLeaf(node->getValue());
     ownedProcessingNodes.push_back(make_unique<ProcessingNode>(nullptr, symId));
     return TrieBuilder::BuildState {
@@ -76,15 +74,7 @@ SymbolIdent TrieBuilder::registerLeaf(const string &symbol) {
   return symId;
 }
 
+
 SymbolIdent TrieBuilder::registerSymbol(const string &symbol) {
-  auto it = symTable->find(symbol);
-  if (it != symTable->end()) {
-    return it->second;
-  }
-
-  SymbolIdent symId = symbolIdCounter;
-  symbolIdCounter++;
-
-  symTable->emplace(symbol, symId);
-  return symId;
+  return pkbWriter->addVariable(symbol);
 }
