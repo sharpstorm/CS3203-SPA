@@ -24,4 +24,5 @@ class CacheTable {
   CacheRow *queryPartial(StmtValue leftStmt, StmtValue rightStmt);
   void promoteFrom(StmtValue stmt);
   void promoteTo(StmtValue stmt);
+  bool entryExists(StmtValue left, StmtValue right);
 };

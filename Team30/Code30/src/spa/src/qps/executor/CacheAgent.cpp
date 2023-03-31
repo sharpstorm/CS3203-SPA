@@ -79,3 +79,6 @@ StmtStmtQueryResultPtr CacheAgent::toQueryResult(const StmtRef& left,
 
   return result;
 }
+bool CacheAgent::entryExistsNextT(StmtRef left, StmtRef right) {
+  return false;
+}

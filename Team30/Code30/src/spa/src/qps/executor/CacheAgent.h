@@ -24,4 +24,6 @@ class CacheAgent {
                                          const StmtRef& right);
   StmtStmtQueryResultPtr queryAffectsCache(const StmtRef& left,
                                            const StmtRef& right);
+  bool entryExistsNextT(StmtRef left, StmtRef right);
+  bool entryExistsAffects(StmtRef left, StmtRef right);
 };
