@@ -70,9 +70,7 @@ TEST_CASE(
     return validValues.find(s) != validValues.end();
   };
   auto resultBuilder = QueryResultBuilder<int, int>();
-  resultBuilder.setLeftVals(true);
-  resultBuilder.setRightVals(true);
-  resultBuilder.setPairVals(true);
+  resultBuilder.setAllVals();
   auto res = tableManager.query({1, 3}, isValid, &resultBuilder);
 
   REQUIRE(res.get()->firstArgVals == unordered_set<int>({1, 3}));
@@ -99,9 +97,7 @@ TEST_CASE(
     return validValues.find(s) != validValues.end();
   };
   auto resultBuilder = QueryResultBuilder<int, int>();
-  resultBuilder.setLeftVals(true);
-  resultBuilder.setRightVals(true);
-  resultBuilder.setPairVals(true);
+  resultBuilder.setAllVals();
   auto res = tableManager.query(isValid, {1, 3}, &resultBuilder);
 
   REQUIRE(res.get()->firstArgVals == unordered_set<int>({2, 4, 7}));
@@ -127,9 +123,7 @@ TEST_CASE(
     return validValues.find(s) != validValues.end();
   };
   auto resultBuilder = QueryResultBuilder<int, int>();
-  resultBuilder.setLeftVals(true);
-  resultBuilder.setRightVals(true);
-  resultBuilder.setPairVals(true);
+  resultBuilder.setAllVals();
   auto res = tableManager.query(1, isValid, &resultBuilder);
 
   REQUIRE(res.get()->firstArgVals == unordered_set<int>({1}));
@@ -155,9 +149,7 @@ TEST_CASE(
     return validValues.find(s) != validValues.end();
   };
   auto resultBuilder = QueryResultBuilder<int, int>();
-  resultBuilder.setLeftVals(true);
-  resultBuilder.setRightVals(true);
-  resultBuilder.setPairVals(true);
+  resultBuilder.setAllVals();
   auto res = tableManager.query(isValid, 1, &resultBuilder);
 
   REQUIRE(res.get()->firstArgVals == unordered_set<int>({2, 7}));
@@ -215,9 +207,7 @@ TEST_CASE("TransitiveRelationTableManager called as parent class type") {
   REQUIRE(tableManager->getByFirstArg(1) == set<int>({2, 3}));
   REQUIRE(tableManager->getBySecondArg(3) == set<int>({1, 2}));
   auto resultBuilder = QueryResultBuilder<int, int>();
-  resultBuilder.setLeftVals(true);
-  resultBuilder.setRightVals(true);
-  resultBuilder.setPairVals(true);
+  resultBuilder.setAllVals();
   auto res = tableManager->query(1, isValid, &resultBuilder);
   REQUIRE(res.get()->pairVals == pair_set<int, int>({{1, 2}, {1, 3}}));
 }

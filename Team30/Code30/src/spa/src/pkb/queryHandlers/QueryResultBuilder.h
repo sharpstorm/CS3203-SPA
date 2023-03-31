@@ -11,9 +11,9 @@ template <typename L, typename R>
 class QueryResultBuilder {
  private:
   QueryResult<L, R> result;
-  bool isLeftVals;
-  bool isRightVals;
-  bool isPairVals;
+  bool isLeftVals = false;
+  bool isRightVals = false;
+  bool isPairVals = false;
 
  public:
   QueryResultBuilder() {}
@@ -31,11 +31,17 @@ class QueryResultBuilder {
     result.isEmpty = false;
   }
 
-  void setLeftVals(bool leftVal) { isLeftVals = leftVal; }
+  void setLeftVals() { isLeftVals = true; }
 
-  void setRightVals(bool rightVal) { isRightVals = rightVal; }
+  void setRightVals() { isRightVals = true; }
 
-  void setPairVals(bool pairVal) { isPairVals = pairVal; }
+  void setPairVals() { isPairVals = true; }
+
+  void setAllVals() {
+    isLeftVals = true;
+    isRightVals = true;
+    isPairVals = true;
+  }
 
   QueryResultPtr<L, R> getResult() {
     return make_unique<QueryResult<L, R>>(result);

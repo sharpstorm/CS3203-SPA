@@ -27,12 +27,21 @@ class BaseQueryInvoker {
 
   QueryResultPtr<LeftValue, RightValue> query(
       RelationTableManager<LeftValue, RightValue> *store,
-      IRef<LeftValue, LeftType> *arg1,
-      IRef<RightValue, RightType> *arg2) const {
+      IRef<LeftValue, LeftType> *arg1, IRef<RightValue, RightType> *arg2,
+      bool returnAllResult) const {
     auto resultBuilder = QueryResultBuilder<LeftValue, RightValue>();
-    resultBuilder.setLeftVals(true);
-    resultBuilder.setRightVals(true);
-    resultBuilder.setPairVals(true);
+    if (returnAllResult) {
+      resultBuilder.setAllVals();
+    } else {
+      if (!arg1->isKnown() && !arg2->isKnown()) {
+        resultBuilder.setPairVals();
+      } else if (arg1->isKnown() && !arg2->isKnown()) {
+        resultBuilder.setRightVals();
+      } else if (!arg1->isKnown() && arg2->isKnown()) {
+        resultBuilder.setLeftVals();
+      }
+    }
+
     if (arg1->isKnown()) {
       return store->query(arg1->getValue(),
                           rightPredicateFactory->getPredicate(arg2),

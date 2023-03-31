@@ -51,9 +51,7 @@ TEST_CASE("RelationTableManager query known arg1 values with arg2 predicate") {
   };
 
   auto resultBuilder = QueryResultBuilder<int, string>();
-  resultBuilder.setLeftVals(true);
-  resultBuilder.setRightVals(true);
-  resultBuilder.setPairVals(true);
+  resultBuilder.setAllVals();
   auto res = tableManager.query({1, 2, 4}, isValid, &resultBuilder);
 
   REQUIRE(res.get()->firstArgVals == unordered_set<int>({1, 4}));
@@ -78,9 +76,7 @@ TEST_CASE("RelationTableManager query known arg2 values with arg1 predicate") {
     return validValues.find(s) != validValues.end();
   };
   auto resultBuilder = QueryResultBuilder<int, string>();
-  resultBuilder.setLeftVals(true);
-  resultBuilder.setRightVals(true);
-  resultBuilder.setPairVals(true);
+  resultBuilder.setAllVals();
   auto res = tableManager.query(isValid, {"a", "b", "f"}, &resultBuilder);
 
   REQUIRE(res.get()->firstArgVals == unordered_set<int>({2, 4}));
@@ -103,9 +99,7 @@ TEST_CASE("RelationTableManager query known arg1 with arg2 predicate") {
     return validValues.find(s) != validValues.end();
   };
   auto resultBuilder = QueryResultBuilder<int, string>();
-  resultBuilder.setLeftVals(true);
-  resultBuilder.setRightVals(true);
-  resultBuilder.setPairVals(true);
+  resultBuilder.setAllVals();
   auto res = tableManager.query(2, isValid, &resultBuilder);
 
   REQUIRE(res.get()->firstArgVals == unordered_set<int>({2}));
@@ -128,9 +122,7 @@ TEST_CASE("RelationTableManager query known arg2 with arg1 predicate") {
     return validValues.find(s) != validValues.end();
   };
   auto resultBuilder = QueryResultBuilder<int, string>();
-  resultBuilder.setLeftVals(true);
-  resultBuilder.setRightVals(true);
-  resultBuilder.setPairVals(true);
+  resultBuilder.setAllVals();
   auto res = tableManager.query(isValid, "a", &resultBuilder);
 
   REQUIRE(res.get()->firstArgVals == unordered_set<int>({4}));
