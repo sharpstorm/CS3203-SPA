@@ -90,7 +90,7 @@ bool CacheTable::isValidIndex(StmtValue stmt, size_t size) {
 }
 
 bool CacheTable::entryExists(StmtValue left, StmtValue right) {
-  if (!entryExists(left, forwardMatrix.size())) {
+  if (!isValidIndex(left, forwardMatrix.size())) {
     return false;
   }
 
