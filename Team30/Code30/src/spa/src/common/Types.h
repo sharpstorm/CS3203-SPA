@@ -1,19 +1,19 @@
 #pragma once
 
 #include <memory>
-#include <string>
 #include <set>
+#include <string>
 #include <unordered_set>
 #include <utility>
 
 using std::pair;
-using std::string;
 using std::set, std::unordered_set;
+using std::string;
 using std::unique_ptr;
 
-enum class EntityType { None, Procedure, Variable, Constant };
+enum class EntityType { None, Procedure, Variable, Constant, Wildcard };
 
-enum class StmtType { None, Read, Print, Assign, Call, While, If };
+enum class StmtType { None, Read, Print, Assign, Call, While, If, Wildcard };
 
 typedef string EntityValue;
 typedef int StmtValue;
@@ -88,5 +88,5 @@ struct QueryResult {
   }
 };
 
-template<typename T, typename U>
+template <typename T, typename U>
 using QueryResultPtr = unique_ptr<QueryResult<T, U>>;
