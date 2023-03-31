@@ -25,6 +25,9 @@ PatternClausePtr PQLAssignPatternContext::parse(
   }
 
   IASTPtr sequence = buildPostfix(secondArg.get());
+  if (sequence == nullptr) {
+    throw QPSParserSyntaxError(QPS_PARSER_ERR_INVALID_PATTERN);
+  }
 
   // Convert at evaluation stage - Parse entire AST into the pattern clause
   // Takes in an IASTPter instead of the ExpressionArg

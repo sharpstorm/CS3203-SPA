@@ -89,10 +89,6 @@ ExpressionArgumentPtr AssignPatternClause::toExpressionArg(
   ExpressionSequencePtr exprSeq = PatternConverter::convertASTToPostfix(
       rightArgument.get(), agent);
 
-  if (exprSeq == nullptr) {
-    throw QPSParserSyntaxError(QPS_PARSER_ERR_INVALID_PATTERN);
-  }
-
   ExpressionArgumentPtr expr = make_unique<ExpressionArgument>(
       std::move(exprSeq), allowsPartial);
 
