@@ -22,6 +22,6 @@ class CacheAgent {
   void addToAffectsCache(StmtStmtQueryResult* entries);
   StmtStmtQueryResultPtr queryNextTCache(const StmtRef& left,
                                          const StmtRef& right);
-  static StmtStmtQueryResultPtr queryAffectsCache(const StmtRef& left,
+  StmtStmtQueryResultPtr queryAffectsCache(const StmtRef& left,
                                                   const StmtRef& right);
 };

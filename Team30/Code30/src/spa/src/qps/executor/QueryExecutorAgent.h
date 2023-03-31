@@ -1,9 +1,9 @@
 #pragma once
 
+#include "CacheAgent.h"
 #include "pkb/queryHandlers/PkbQueryHandler.h"
 #include "qps/common/constraint/OverrideTable.h"
 #include "qps/common/CacheTable.h"
-#include "CacheAgent.h"
 
 class QueryExecutorAgent {
  public:

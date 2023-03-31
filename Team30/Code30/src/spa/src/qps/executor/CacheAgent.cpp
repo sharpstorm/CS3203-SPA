@@ -34,7 +34,18 @@ StmtStmtQueryResultPtr CacheAgent::queryNextTCache(const StmtRef& left,
 
 StmtStmtQueryResultPtr CacheAgent::queryAffectsCache(const StmtRef& left,
                                                      const StmtRef& right) {
-  return make_unique<StmtStmtQueryResult>();
+  StmtValue leftVal = left.getValue();
+  StmtValue rightVal = right.getValue();
+
+  CacheRow* result = affectsCache.queryFull(leftVal, rightVal);
+
+  if (result != nullptr && !result->empty()) {
+    return toQueryResult(left, right, result);
+  }
+
+  result = affectsCache.queryPartial(leftVal, rightVal);
+
+  return toQueryResult(left, right, result);
 }
 
 StmtStmtQueryResultPtr CacheAgent::toQueryResult(const StmtRef& left,
