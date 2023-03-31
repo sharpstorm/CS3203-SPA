@@ -1,4 +1,8 @@
+#include <memory>
+
 #include "QueryExecutorAgent.h"
+
+using std::make_unique;
 
 QueryExecutorAgent::QueryExecutorAgent(PkbQueryHandler *pkb,
                                        OverrideTable *table):

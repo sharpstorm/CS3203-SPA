@@ -1,12 +1,15 @@
 #pragma once
 
-#include "CacheAgent.h"
+#include <memory>
+
 #include "pkb/queryHandlers/PkbQueryHandler.h"
 #include "qps/common/constraint/OverrideTable.h"
 #include "qps/common/CacheTable.h"
 
 typedef QueryResult<StmtValue, StmtValue> StmtStmtQueryResult;
 typedef unique_ptr<StmtStmtQueryResult> StmtStmtQueryResultPtr;
+
+using std::unique_ptr;
 
 class QueryExecutorAgent {
  public:
