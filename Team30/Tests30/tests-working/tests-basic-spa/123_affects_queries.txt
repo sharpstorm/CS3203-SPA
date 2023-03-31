@@ -183,68 +183,68 @@ stmt s; print pn;
 Select s such that Affects(pn, s)
 
 5000
-38 - Select NEGATIVE Affects (Print, Statement) Empty (Synonym) (Synonym)
+38 - Select Constant Affects (Statement, Statement) All constants (Synonym) (Synonym)
+constant c; stmt s;
+Select c such that Affects(s, s)
+0, 10, 1, 5, 3
+5000
+39 - Select NEGATIVE Affects (Print, Statement) Empty (Synonym) (Synonym)
 stmt s; print pn;
 Select pn such that Affects(pn, s)
 
 5000
-39 - Select NEGATIVE Affects (Procedure, Procedure) Error (Synonym) (Synonym)
+40 - Select NEGATIVE Affects (Procedure, Procedure) Error (Synonym) (Synonym)
 procedure p; stmt s;
 Select s such that Affects(p, p)
 SemanticError
 5000
-40 - Select NEGATIVE Affects (Procedure, Procedure) Error (Synonym) (Synonym)
+41 - Select NEGATIVE Affects (Procedure, Procedure) Error (Synonym) (Synonym)
 procedure p; stmt s;
 Select p such that Affects(p, p)
 SemanticError
 5000
-41 - Select NEGATIVE Affects (Constant, Constant) Error (Synonym) (Synonym)
+42 - Select NEGATIVE Affects (Constant, Constant) Error (Synonym) (Synonym)
 constant c;
 Select c such that Affects(c, c)
 SemanticError
 5000
-42 - Select NEGATIVE Affects (Variable, Variable) Error (Synonym) (Synonym)
+43 - Select NEGATIVE Affects (Variable, Variable) Error (Synonym) (Synonym)
 variable v; stmt s;
 Select s such that Affects(v, v)
 SemanticError
 5000
-43 - Select NEGATIVE Affects (Variable, Variable) Error (Synonym) (Synonym)
+44 - Select NEGATIVE Affects (Variable, Variable) Error (Synonym) (Synonym)
 variable v; stmt s;
 Select v such that Affects(v, v)
 SemanticError
 5000
-44 - Select NEGATIVE Affects (Read, Read) Empty (Synonym) (Synonym)
+45 - Select NEGATIVE Affects (Read, Read) Empty (Synonym) (Synonym)
 read r1; stmt s;
 Select s such that Affects(r1, r1)
 
 5000
-45 - Select NEGATIVE Affects (Read, Read) Empty(Synonym) (Synonym)
+46 - Select NEGATIVE Affects (Read, Read) Empty (Synonym) (Synonym)
 read r1;
 Select r1 such that Affects(r1, r1)
 
 5000
-46 - Select NEGATIVE Affects (While, While) Empty (Synonym) (Synonym)
+47 - Select NEGATIVE Affects (While, While) Empty (Synonym) (Synonym)
 while w; stmt s;
 Select s such that Affects(w, w)
 
 5000
-47 - Select NEGATIVE Affects (While, While) Empty (Synonym) (Synonym)
+48 - Select NEGATIVE Affects (While, While) Empty (Synonym) (Synonym)
 while w;
 Select w such that Affects(w, w)
 
 5000
-48 - Select NEGATIVE Affects (Constant, Statement) Error (Synonym) (Synonym)
+49 - Select NEGATIVE Affects (Constant, Statement) Error (Synonym) (Synonym)
 constant c; stmt s;
 Select s such that Affects(s, c)
 SemanticError
 5000
-49 - Select NEGATIVE Affects (Statement, Constant) Error (Synonym) (Synonym)
+50 - Select NEGATIVE Affects (Statement, Constant) Error (Synonym) (Synonym)
 constant c; stmt s;
 Select s such that Affects(c, s)
 SemanticError
-5000
-50 - Select Constant Affects (Statement, Statement) All constants (Synonym) (Synonym)
-constant c; stmt s;
-Select c such that Affects(s, s)
-0, 10, 1, 5, 3
 5000

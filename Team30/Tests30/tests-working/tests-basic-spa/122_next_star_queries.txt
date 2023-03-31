@@ -178,48 +178,48 @@ stmt s; print pn;
 Select pn such that Next*(pn, s)
 6,7,13,16,19
 5000
-37 - Select NEGATIVE Next* (Procedure, Procedure) Error (Synonym) (Synonym)
-procedure p; stmt s;
-Select s such that Next*(p, p)
-SemanticError
-5000
-38 - Select NEGATIVE Next* (Procedure, Procedure) Error (Synonym) (Synonym)
-procedure p; stmt s;
-Select p such that Next*(p, p)
-SemanticError
-5000
-39 - Select NEGATIVE Next* (Constant, Constant) Error (Synonym) (Synonym)
-constant c; stmt s;
-Select c such that Next*(c, c)
-SemanticError
-5000
-40 - Select NEGATIVE Next* (Variable, Variable) Error (Synonym) (Synonym)
-variable v; stmt s;
-Select s such that Next*(v, v)
-SemanticError
-5000
-41 - Select NEGATIVE Next* (Variable, Variable) Error (Synonym) (Synonym)
-variable v; stmt s;
-Select v such that Next*(v, v)
-SemanticError
-5000
-42 - Select Statement Next* (Read, Read) Empty (Synonym) (Synonym)
+37 - Select Statement Next* (Read, Read) Empty (Synonym) (Synonym)
 read r1; stmt s;
 Select s such that Next*(r1, r1)
 
 5000
-43 - Select Statement Next* (Read, Read) Empty (Synonym) (Synonym)
+38 - Select Statement Next* (Read, Read) Empty (Synonym) (Synonym)
 read r1; stmt s;
 Select r1 such that Next*(r1, r1)
 
 5000
-44 - Select Statement Next* (While, While) All Statements (Synonym) (Synonym)
+39 - Select Statement Next* (While, While) All Statements (Synonym) (Synonym)
 while w; stmt s;
 Select s such that Next*(w, w)
 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22
 5000
-45 - Select While Statement Next* (While, While) Self-Cyclical (Synonym) (Synonym)
+40 - Select While Statement Next* (While, While) Self-Cyclical (Synonym) (Synonym)
 while w; stmt s;
 Select w such that Next*(w, w)
 9,10,11
+5000
+41 - Select NEGATIVE Next* (Procedure, Procedure) Error (Synonym) (Synonym)
+procedure p; stmt s;
+Select s such that Next*(p, p)
+SemanticError
+5000
+42 - Select NEGATIVE Next* (Procedure, Procedure) Error (Synonym) (Synonym)
+procedure p; stmt s;
+Select p such that Next*(p, p)
+SemanticError
+5000
+43 - Select NEGATIVE Next* (Constant, Constant) Error (Synonym) (Synonym)
+constant c; stmt s;
+Select c such that Next*(c, c)
+SemanticError
+5000
+44 - Select NEGATIVE Next* (Variable, Variable) Error (Synonym) (Synonym)
+variable v; stmt s;
+Select s such that Next*(v, v)
+SemanticError
+5000
+45 - Select NEGATIVE Next* (Variable, Variable) Error (Synonym) (Synonym)
+variable v; stmt s;
+Select v such that Next*(v, v)
+SemanticError
 5000
