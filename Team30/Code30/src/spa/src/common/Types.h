@@ -40,6 +40,7 @@ class IRef {
  public:
   virtual ~IRef() = default;
   virtual bool isKnown() const = 0;
+  virtual bool isWildcard() const = 0;
 
   Value getValue() const { return value; }
 
@@ -54,6 +55,7 @@ class StmtRef : public IRef<StmtValue, StmtType> {
  public:
   StmtRef(StmtType type, StmtValue lineNum) : IRef(type, lineNum) {}
   bool isKnown() const override { return getValue() != NO_STMT; }
+  bool isWildcard() const override { return getType() == StmtType::Wildcard; }
 };
 
 class EntityRef : public IRef<EntityValue, EntityType> {
@@ -62,6 +64,7 @@ class EntityRef : public IRef<EntityValue, EntityType> {
   EntityRef(EntityType type, EntityValue name) : IRef(type, name) {}
 
   bool isKnown() const override { return getValue() != NO_ENT; }
+  bool isWildcard() const override { return getType() == EntityType::Wildcard; }
 };
 
 template <class T1, class T2>
