@@ -27,7 +27,7 @@ class QueryExecutorAgent {
   void addToAffectsCache(QueryResult<StmtValue, StmtValue>* result);
   void addToAffectsTCache(QueryResult<StmtValue, StmtValue>* result);
 
-  StmtStmtQueryResult queryNextTCache(StmtRef left, StmtRef right);
-  StmtStmtQueryResult queryAffectsCache(StmtRef left, StmtRef right);
-  StmtStmtQueryResult queryAffectsTCache(StmtRef left, StmtRef right);
+  StmtStmtQueryResultPtr queryNextTCache(StmtRef left, StmtRef right);
+  StmtStmtQueryResultPtr queryAffectsCache(StmtRef left, StmtRef right);
+  StmtStmtQueryResultPtr queryAffectsTCache(StmtRef left, StmtRef right);
 };

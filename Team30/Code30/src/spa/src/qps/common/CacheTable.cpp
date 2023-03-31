@@ -25,16 +25,12 @@ CacheRow *CacheTable::queryFull(StmtValue leftStmt, StmtValue rightStmt) {
     return nullptr;
   }
 
-  if (leftStmt != 0) {
-    if (fullForward.find(leftStmt) != fullForward.end()) {
+  if (leftStmt != 0 && fullForward.find(leftStmt) != fullForward.end()) {
       return &forwardMatrix[leftStmt - 1];
-    }
   }
 
-  if (rightStmt != 0) {
-    if (fullReverse.find(rightStmt) != fullReverse.end()) {
+  if (rightStmt != 0 && fullReverse.find(rightStmt) != fullReverse.end()) {
       return &reverseMatrix[rightStmt - 1];
-    }
   }
 
   return nullptr;
@@ -75,13 +71,19 @@ CacheRow *CacheTable::queryTo(StmtValue stmt) {
 }
 
 CacheRow *CacheTable::queryPartial(StmtValue leftStmt, StmtValue rightStmt) {
+  if (leftStmt > forwardMatrix.size() || rightStmt > reverseMatrix.size()) {
+    return nullptr;
+  }
+
   if (leftStmt != 0 && rightStmt != 0) {
     CacheRow* row = &forwardMatrix[leftStmt];
-    if (row->empty()) {
-      return nullptr;
-    } else {
-      return row;
+    for (auto r : *row) {
+      if (r == rightStmt) {
+        return row;
+      }
     }
+
+    return nullptr;
   }
 
   if (leftStmt == 0) {

@@ -43,6 +43,7 @@ bool QueryExecutorAgent::isValid(const EntityRef &ref) const {
   return !ref.isKnown() ||
       pkbQueryHandler->isSymbolOfType(ref.getType(), ref.getValue());
 }
+
 void QueryExecutorAgent::addToNextTCache(QueryResult<StmtValue,
                                                      StmtValue> *result) {
   cacheAgent.addToNextTCache(result);
@@ -58,17 +59,17 @@ void QueryExecutorAgent::addToAffectsTCache(QueryResult<StmtValue,
   cacheAgent.addToAffectsTCache(result);
 }
 
-StmtStmtQueryResult QueryExecutorAgent::queryNextTCache(
+StmtStmtQueryResultPtr QueryExecutorAgent::queryNextTCache(
     StmtRef left, StmtRef right) {
   return cacheAgent.queryNextTCache(left, right);
 }
 
-StmtStmtQueryResult QueryExecutorAgent::queryAffectsCache(
+StmtStmtQueryResultPtr QueryExecutorAgent::queryAffectsCache(
     StmtRef left, StmtRef right) {
   return cacheAgent.queryAffectsCache(left, right);
 }
 
-StmtStmtQueryResult QueryExecutorAgent::queryAffectsTCache(
+StmtStmtQueryResultPtr QueryExecutorAgent::queryAffectsTCache(
     StmtRef left, StmtRef right) {
   return cacheAgent.queryAffectsTCache(left, right);
 }

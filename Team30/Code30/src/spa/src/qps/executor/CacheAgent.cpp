@@ -1,8 +1,8 @@
-#include <utility>
+#include <memory>
 
 #include "CacheAgent.h"
 
-using std::unordered_set;
+using std::make_unique;
 
 void CacheAgent::addToNextTCache(StmtStmtQueryResult* entries) {
   for (auto it : entries->pairVals) {
@@ -22,7 +22,8 @@ void CacheAgent::addToAffectsTCache(StmtStmtQueryResult* entries) {
   }
 }
 
-StmtStmtQueryResult CacheAgent::queryNextTCache(StmtRef left, StmtRef right) {
+StmtStmtQueryResultPtr CacheAgent::queryNextTCache(const StmtRef& left,
+                                                   const StmtRef& right) {
   StmtValue leftVal = left.getValue();
   StmtValue rightVal = right.getValue();
 
@@ -34,45 +35,45 @@ StmtStmtQueryResult CacheAgent::queryNextTCache(StmtRef left, StmtRef right) {
 
   result = nextTCache.queryPartial(leftVal, rightVal);
 
-  if (result != nullptr && !result->empty()) {
-    return toQueryResult(left, right, result);
-  }
-
-  return {};
+  return toQueryResult(left, right, result);
 }
 
-StmtStmtQueryResult CacheAgent::queryAffectsCache(StmtRef left, StmtRef right) {
-  return {};
+StmtStmtQueryResultPtr CacheAgent::queryAffectsCache(const StmtRef& left,
+                                                     const StmtRef& right) {
+  return make_unique<StmtStmtQueryResult>();
 }
 
-StmtStmtQueryResult CacheAgent::queryAffectsTCache(StmtRef left,
-                                                   StmtRef right) {
-  return {};
+StmtStmtQueryResultPtr CacheAgent::queryAffectsTCache(const StmtRef& left,
+                                                      const StmtRef& right) {
+  return make_unique<StmtStmtQueryResult>();
 }
 
-StmtStmtQueryResult CacheAgent::toQueryResult(StmtRef left,
-                                              StmtRef right,
-                                              CacheRow *row) {
-  StmtStmtQueryResult result;
+StmtStmtQueryResultPtr CacheAgent::toQueryResult(const StmtRef& left,
+                                                 const StmtRef& right,
+                                                 CacheRow *row) {
+  StmtStmtQueryResultPtr result = make_unique<StmtStmtQueryResult>();
 
-  if (row->empty()) {
+  if (row == nullptr || row->empty()) {
     return result;
   }
 
+  // (static, static)
   if (left.isKnown() && right.isKnown()) {
-    result.add(left.getValue(), right.getValue());
+    result->add(left.getValue(), right.getValue());
     return result;
   }
 
+  // (syn, static)
   if (!left.isKnown()) {
     for (auto r : *row) {
-      result.add(r, right.getValue());
+      result->add(r, right.getValue());
     }
   }
 
+  // (static, syn)
   if (!right.isKnown()) {
     for (auto r : *row) {
-      result.add(left.getValue(), r);
+      result->add(left.getValue(), r);
     }
   }
 
