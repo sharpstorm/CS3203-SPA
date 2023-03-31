@@ -1,7 +1,7 @@
 #include "catch.hpp"
 #include <unordered_set>
 
-#include "qps/common/PQLQueryResult.h"
+#include "qps/common/intermediate_result/PQLQueryResult.h"
 #include "../util/QueryResultTestUtil.cpp"
 
 using std::unordered_set;

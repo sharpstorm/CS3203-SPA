@@ -1,0 +1,5 @@
+1 - AffectsT 500 Line Benchmark
+stmt s1, s2;
+Select BOOLEAN such that Affects*(s1, s2)
+TRUE
+5000
