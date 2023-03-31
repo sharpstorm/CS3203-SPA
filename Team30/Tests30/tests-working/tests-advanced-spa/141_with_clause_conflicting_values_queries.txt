@@ -1,0 +1,100 @@
+1 - Statement Declaration Conflict (Select) Empty
+stmt s;
+Select s with s.stmt# = 2 with s.stmt# = 3
+
+5000
+2 - Statement Declaration Right and Wrong Conflict (Select) Empty
+stmt s;
+Select s with s.stmt# = 2 with s.stmt# = 3 with s.stmt# = 2
+
+5000
+3 - Statement Declaration Out of Bounds Conflict (Select) Empty
+stmt s;
+Select s with s.stmt# = 15 with s.stmt# = 3
+
+5000
+4 - Read Declaration Conflict (Select) Empty
+read r;
+Select r with r.stmt# = 4 with r.stmt# = 3
+
+5000
+5 - Print Declaration with Print at both stmt positions (Select) Empty
+print p;
+Select p with p.stmt# = 5 with p.stmt# = 8
+
+5000
+6 - Call Declaration Conflict (Select) Empty
+call c;
+Select c with c.stmt# = 1 with c.stmt# = 12
+
+5000
+7 - While Declaration Conflict (Select) Empty
+while w;
+Select w with w.stmt# = 10 with w.stmt# = 7
+
+5000
+8 - If Declaration Conflict (Select) Empty
+if i;
+Select i with i.stmt# = 7 with i.stmt# = 9
+
+5000
+9 - Assign Declaration with Assign at both stmt positions (Select) Empty
+assign a;
+Select a with a.stmt# = 2 with a.stmt# = 3
+
+5000
+10 - Constant Declaration Conflict (Select) Empty
+constant c;
+Select c with c.value = 12 with c.value = 3
+
+5000
+11 - Procedure Declaration Conflict (Select) Empty
+procedure p;
+Select p with p.procName = "Conflicts" with p.procName = "Called"
+
+5000
+12 - Call Declaration Name Conflict (Select) Empty
+call c;
+Select c with c.procName = "Called" with c.procName = "Invalid"
+
+5000
+13 - Variable Declaration Name Conflict (Select) Empty
+variable v;
+Select v with v.varName = "var" with v.varName = "notVar"
+
+5000
+14 - Read Declaration Variable Name Conflict (Select) Empty
+read r;
+Select r with r.varName = "something" with r.varName = "test"
+
+5000
+15 - Print Declaration Name Conflict (Select) Empty
+print p;
+Select p with p.varName = "var" with p.varName = "notVar"
+
+5000
+16 - Stmt Declaration Numeric Conflic (Select) Empty
+stmt s;
+Select s with 5 = s.stmt# with s.stmt# = 6
+
+5000
+17 - Assign Declaration Stmt# Conflict (Follows) Empty
+assign a1, a2;
+Select a1 with a1.stmt# = 2 such that Follows(a1, a2) with a1.stmt# = 3
+
+5000
+18 - Read Declaration Name Equivalence Conflict (Follows) Empty
+read r; print p;
+Select r with r.varName = p.varName such that Follows(r, p) with p.varName = "something" with r.varName = "var"
+
+5000
+19 - Statement Declaration Name Conflict (Follows*) Empty
+print p;
+Select p with p.varName = "notVar" such that Follows*(_, p) with p.varName = "something"
+
+5000
+20 - Statement Declaration Name and Stmt# Conflict (Follows*) Empty
+print p;
+Select p with p.varName = "var" with p.stmt# = 12 such that Follows*(_, p) with p.stmt# = 6 with p.varName = "something"
+
+5000
