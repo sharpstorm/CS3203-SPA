@@ -34,13 +34,6 @@ class QueryExecutorAgent {
 
   CacheTable getNextTCache();
   CacheTable getAffectsCache();
-  void addToNextTCache(StmtStmtQueryResult* result);
-  void addToAffectsCache(StmtStmtQueryResult* result);
-
-  StmtStmtQueryResultPtr queryNextTCache(const StmtRef& left,
-                                         const StmtRef& right);
-  StmtStmtQueryResultPtr queryAffectsCache(const StmtRef& left,
-                                           const StmtRef& right);
   static StmtStmtQueryResultPtr toQueryResult(const StmtRef& left,
                                        const StmtRef& right,
                                        CacheRow* row);
