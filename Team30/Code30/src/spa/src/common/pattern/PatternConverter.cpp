@@ -1,9 +1,10 @@
 #include "PatternConverter.h"
-#include "TrieBuilder.h"
-#include "pkb/writers/PkbWriter.h"
 
 #include <memory>
 #include <utility>
+
+#include "TrieBuilder.h"
+#include "pkb/writers/PkbWriter.h"
 
 using std::make_unique;
 

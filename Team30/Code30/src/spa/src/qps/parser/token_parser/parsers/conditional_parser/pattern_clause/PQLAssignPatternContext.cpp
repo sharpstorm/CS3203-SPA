@@ -32,7 +32,10 @@ PatternClausePtr PQLAssignPatternContext::parse(
   // Convert at evaluation stage - Parse entire AST into the pattern clause
   // Takes in an IASTPter instead of the ExpressionArg
   return make_unique<AssignPatternClause>(
-  synonym, std::move(firstArg), std::move(sequence), secondArg->allowsPartial());
+      synonym,
+      std::move(firstArg),
+      std::move(sequence),
+      secondArg->allowsPartial());
 }
 
 IASTPtr PQLAssignPatternContext::buildPostfix(
