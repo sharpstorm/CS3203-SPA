@@ -621,6 +621,15 @@ TEST_CASE("With Override Test") {
   pipeline.expectSemanticError("stmt s; Select s.value");
 }
 
+TEST_CASE("Next Test") {
+  auto pipeline = TestPipelineProvider();
+
+  pipeline.query("stmt s; Select s such that Next(6, s)",
+                 { "7", "8" });
+  pipeline.query("stmt s; Select s such that Next(s, 8)",
+                 { "6" });
+}
+
 TEST_CASE("AffectsT Test") {
   auto pipeline = TestPipelineProvider();
 
