@@ -118,7 +118,7 @@ queryFrom(const StmtValue &arg0, const StmtType &type1) {
   CacheTable* cacheTable = closure.getNextTCache();
   auto row = cacheTable->queryFull(arg0, 0);
   if (row != nullptr) {
-    for(int i : *row) {
+    for(const StmtValue &i : *row) {
       result.add(arg0, i);
     }
     return result;
