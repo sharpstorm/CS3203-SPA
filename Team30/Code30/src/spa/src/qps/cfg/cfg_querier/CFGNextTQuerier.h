@@ -27,11 +27,11 @@ class CFGNextTQuerier: public ICFGClauseQuerier,
  private:
   CFG* cfg;
   CFGWalker walker;
-  ClosureType closure;
+  const ClosureType &closure;
 
   struct ResultClosure {
     CFG* cfg;
-    ClosureType closure;
+    const ClosureType &closure;
     StmtTransitiveResult* result;
     StmtType arg0Type;
     StmtType arg1Type;

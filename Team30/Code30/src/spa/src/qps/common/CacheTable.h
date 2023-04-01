@@ -19,6 +19,7 @@ class CacheTable {
 
  public:
   bool isValidIndex(StmtValue stmt, size_t size);
+  bool isValidArg(StmtValue stmt, size_t size);
   void addEntry(StmtValue leftStmt, StmtValue rightStmt);
   CacheRow *queryFull(StmtValue leftStmt, StmtValue rightStmt);
   CacheRow *queryPartial(StmtValue leftStmt, StmtValue rightStmt);

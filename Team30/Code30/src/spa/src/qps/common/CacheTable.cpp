@@ -21,8 +21,8 @@ void CacheTable::addEntry(StmtValue leftStmt, StmtValue rightStmt) {
 }
 
 CacheRow *CacheTable::queryFull(StmtValue leftStmt, StmtValue rightStmt) {
-  if (!isValidIndex(leftStmt, forwardMatrix.size()) ||
-      !isValidIndex(rightStmt, reverseMatrix.size())) {
+  if (!isValidArg(leftStmt, forwardMatrix.size()) ||
+      !isValidArg(rightStmt, reverseMatrix.size())) {
     return nullptr;
   }
 
@@ -62,8 +62,8 @@ CacheRow *CacheTable::queryTo(StmtValue stmt) {
 }
 
 CacheRow *CacheTable::queryPartial(StmtValue leftStmt, StmtValue rightStmt) {
-  if (!isValidIndex(leftStmt, forwardMatrix.size()) ||
-      !isValidIndex(rightStmt, reverseMatrix.size())) {
+  if (!isValidArg(leftStmt, forwardMatrix.size()) ||
+      !isValidArg(rightStmt, reverseMatrix.size())) {
     return nullptr;
   }
 
@@ -86,7 +86,11 @@ CacheRow *CacheTable::queryPartial(StmtValue leftStmt, StmtValue rightStmt) {
 }
 
 bool CacheTable::isValidIndex(StmtValue stmt, size_t size) {
-  return 0 < stmt && stmt < size;
+  return 0 < stmt && stmt <= size;
+}
+
+bool CacheTable::isValidArg(StmtValue stmt, size_t size) {
+  return 0 == stmt || isValidIndex(stmt, size);
 }
 
 bool CacheTable::entryExists(StmtValue left, StmtValue right) {

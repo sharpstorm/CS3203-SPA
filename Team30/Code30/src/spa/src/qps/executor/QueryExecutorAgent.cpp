@@ -5,8 +5,9 @@
 using std::make_unique;
 
 QueryExecutorAgent::QueryExecutorAgent(PkbQueryHandler *pkb,
-                                       OverrideTable *table):
-    pkbQueryHandler(pkb), overrideTable(table) {}
+                                       OverrideTable *table,
+                                       QueryCache *cache):
+    pkbQueryHandler(pkb), overrideTable(table), cache(cache) {}
 
 PkbQueryHandler *QueryExecutorAgent::operator->() const {
   return this->pkbQueryHandler;
@@ -80,10 +81,10 @@ StmtStmtQueryResultPtr QueryExecutorAgent::toQueryResult(const StmtRef& left,
   return result;
 }
 
-CacheTable* QueryExecutorAgent::getNextTCache() {
-  return &nextTCache;
+CacheTable* QueryExecutorAgent::getNextTCache() const {
+  return cache->getNextTCache();
 }
 
-CacheTable* QueryExecutorAgent::getAffectsCache() {
-  return &affectsCache;
+CacheTable* QueryExecutorAgent::getAffectsCache() const {
+  return cache->getAffectsCache();
 }

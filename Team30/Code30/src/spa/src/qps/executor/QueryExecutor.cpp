@@ -11,22 +11,23 @@ QueryExecutor::QueryExecutor(PkbQueryHandler* pkbQH):
     orchestrator(QueryOrchestrator(QueryLauncher(pkbQH))) { }
 
 SynonymResultTable *QueryExecutor::executeQuery(PQLQuery* query) {
-  OverrideTablePtr overrideTable = make_unique<OverrideTable>();
+  OverrideTable overrideTable;
+
   bool isBoolResult = query->isBooleanResult();
 
   bool areConstraintsResolved =
-      resolveConstraints(query, overrideTable.get());
+      resolveConstraints(query, &overrideTable);
   if (!areConstraintsResolved) {
     return new SynonymResultTable(isBoolResult, false);
   }
 
-  QueryPlanPtr plan = planner.getExecutionPlan(query, overrideTable.get());
+  QueryPlanPtr plan = planner.getExecutionPlan(query, &overrideTable);
   // Query just have constraints
   if (plan->isEmpty()) {
     return new SynonymResultTable(isBoolResult, true);
   }
 
-  return orchestrator.execute(plan.get(), overrideTable.get());
+  return orchestrator.execute(plan.get(), &overrideTable);
 }
 
 bool QueryExecutor::resolveConstraints(PQLQuery* query,
