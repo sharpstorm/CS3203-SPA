@@ -635,6 +635,8 @@ TEST_CASE("Repeated Override Test") {
 
   pipeline.query("stmt s; Select s with s.stmt# = 2 and s.stmt# = 2",
                  {"2"});
+  pipeline.query("stmt s1, s2; Select <s1, s2> with s1.stmt# = 2 and s2.stmt# = 2 and s1.stmt# = s2.stmt#",
+                 {"2 2"});
   pipeline.query("stmt s; Select s with s.stmt# = 2 and s.stmt# = 2 and s.stmt# = 3",
                  {});
   pipeline.query("variable v; Select v with v.varName=\"x\" and v.varName=\"x\"",
