@@ -50,7 +50,9 @@ class BaseQueryInvoker {
           leftProvider->getValuesOfType(arg1->getType()));
     }
 
-    if (arg1->isKnown()) {
+    if (arg1->isKnown() && arg2->isKnown()) {
+      return store->query(arg1->getValue(), arg2->getValue());
+    } else if (arg1->isKnown()) {
       return store->query(arg1->getValue(),
                           rightPredicateFactory->getPredicate(arg2));
     } else if (arg2->isKnown()) {
