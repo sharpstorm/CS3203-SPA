@@ -124,10 +124,10 @@ StmtStmtQueryResultPtr QueryExecutorAgent::toQueryResult(const StmtRef& left,
   return result;
 }
 
-CacheTable QueryExecutorAgent::getNextTCache() {
-  return nextTCache;
+CacheTable* QueryExecutorAgent::getNextTCache() {
+  return &nextTCache;
 }
 
-CacheTable QueryExecutorAgent::getAffectsCache() {
-  return affectsCache;
+CacheTable* QueryExecutorAgent::getAffectsCache() {
+  return &affectsCache;
 }

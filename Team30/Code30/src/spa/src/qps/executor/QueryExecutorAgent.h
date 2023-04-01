@@ -20,6 +20,8 @@ class QueryExecutorAgent {
   bool isValid(const EntityRef &ref) const;
   bool entryExistsNextT(const StmtRef& left, const StmtRef& right);
   bool entryExistsAffects(const StmtRef& left, const StmtRef& right);
+  CacheTable* getNextTCache();
+  CacheTable* getAffectsCache();
 
   PkbQueryHandler* operator->() const;
 
@@ -32,8 +34,6 @@ class QueryExecutorAgent {
   static bool isValidRef(StmtRef stmtRef, PkbQueryHandler* handler);
   static bool isValidRef(EntityRef entRef, PkbQueryHandler* handler);
 
-  CacheTable getNextTCache();
-  CacheTable getAffectsCache();
   void addToNextTCache(StmtStmtQueryResult* result);
   void addToAffectsCache(StmtStmtQueryResult* result);
 

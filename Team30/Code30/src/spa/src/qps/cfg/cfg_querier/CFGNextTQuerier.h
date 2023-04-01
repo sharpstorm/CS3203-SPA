@@ -5,6 +5,7 @@
 #include "qps/cfg/cfg_querier/walkers/CFGWalker.h"
 #include "CFGQuerier.h"
 #include "qps/cfg/CFGQuerierTypes.h"
+#include "qps/common/CacheTable.h"
 
 template <class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
 class CFGNextTQuerier: public ICFGClauseQuerier,
@@ -26,14 +27,16 @@ class CFGNextTQuerier: public ICFGClauseQuerier,
  private:
   CFG* cfg;
   CFGWalker walker;
-  const ClosureType &closure;
+  ClosureType closure;
 
   struct ResultClosure {
     CFG* cfg;
-    const ClosureType &closure;
+    ClosureType closure;
     StmtTransitiveResult* result;
     StmtType arg0Type;
     StmtType arg1Type;
+    StmtValue start;
+    StmtValue end;
   };
 };
 
@@ -52,6 +55,29 @@ queryBool(const StmtValue &arg0, const StmtValue &arg1) {
     return result;
   }
 
+  CacheTable* cacheTable = closure.getNextTCache();
+
+  if (cacheTable->queryPartial(arg0, arg1) != nullptr) {
+    result.add(arg0, arg1);
+    return result;
+  }
+
+  auto row  = cacheTable->queryFull(arg0, 0);
+  if (cacheTable->queryFull(arg0, 0) != nullptr) {
+    if (std::find(row->begin(), row->end(), arg1) != row->end()) {
+      result.add(arg0, arg1);
+      return result;
+    };
+  }
+
+  row  = cacheTable->queryFull(0, arg1);
+  if (cacheTable->queryFull(0, arg1) != nullptr) {
+    if (std::find(row->begin(), row->end(), arg0) != row->end()) {
+      result.add(arg0, arg1);
+      return result;
+    };
+  }
+
   CFGNode nodeStart = cfg->toCFGNode(arg0);
   CFGNode nodeEnd = cfg->toCFGNode(arg1);
 
@@ -66,7 +92,8 @@ template <class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
 StmtTransitiveResult CFGNextTQuerier<ClosureType, typePredicate>::
 queryFrom(const StmtValue &arg0, const StmtType &type1) {
   StmtTransitiveResult result;
-  ResultClosure state{ cfg, closure, &result, StmtType::None, type1 };
+  ResultClosure state{ cfg, closure, &result, StmtType::None, type1, arg0, 0};
+
 
   if (!cfg->containsStatement(arg0)) {
     return result;
@@ -75,16 +102,31 @@ queryFrom(const StmtValue &arg0, const StmtType &type1) {
   constexpr WalkerSingleCallback<ResultClosure> callback =
       [](ResultClosure *state, CFGNode node) {
         int stmtNumber = state->cfg->fromCFGNode(node);
+
+        state->closure.getNextTCache()->addEntry(state->start, stmtNumber);
+
         if (!typePredicate(state->closure, state->arg1Type, stmtNumber)) {
           return true;
         }
         state->result->add(0, stmtNumber);
+
         return true;
       };
 
   CFGNode nodeStart = cfg->toCFGNode(arg0);
+
+  CacheTable* cacheTable = closure.getNextTCache();
+  auto row = cacheTable->queryFull(arg0, 0);
+  if (row != nullptr) {
+    for(int i : *row) {
+      result.add(arg0, i);
+    }
+    return result;
+  }
+
   walker.walkFrom<ResultClosure, callback>(nodeStart, &state);
 
+  cacheTable->promoteFrom(arg0);
   return result;
 }
 
@@ -101,6 +143,9 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
   constexpr WalkerSingleCallback<ResultClosure> callback =
       [](ResultClosure *state, CFGNode node) -> bool {
         int stmtNumber = state->cfg->fromCFGNode(node);
+
+
+
         if (!typePredicate(state->closure, state->arg0Type, stmtNumber)) {
           return true;
         }
@@ -110,7 +155,6 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
 
   CFGNode nodeEnd = cfg->toCFGNode(arg1);
   walker.walkTo<ResultClosure, callback>(nodeEnd, &state);
-
   return result;
 }
 
@@ -125,6 +169,7 @@ queryAll(StmtTransitiveResult* resultOut,
       [](ResultClosure *state, CFGNode nodeLeft, CFGNode nodeRight) {
         int fromStmtNumber = state->cfg->fromCFGNode(nodeLeft);
         int toStmtNumber = state->cfg->fromCFGNode(nodeRight);
+  
         if (!typePredicate(state->closure, state->arg0Type, fromStmtNumber)
             || !typePredicate(state->closure, state->arg1Type, toStmtNumber)) {
           return true;
@@ -132,5 +177,6 @@ queryAll(StmtTransitiveResult* resultOut,
         state->result->add(fromStmtNumber, toStmtNumber);
         return true;
       };
+
   walker.walkAll<ResultClosure, callback>(&state);
 }
