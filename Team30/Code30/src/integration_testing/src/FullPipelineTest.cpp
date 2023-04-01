@@ -629,3 +629,16 @@ TEST_CASE("AffectsT Test") {
   pipeline.query("Select BOOLEAN such that Affects*(1, 9)",
                  { "TRUE" });
 }
+
+TEST_CASE("Repeated Override Test") {
+  auto pipeline = TestPipelineProvider();
+
+  pipeline.query("stmt s; Select s with s.stmt# = 2 and s.stmt# = 2",
+                 {"2"});
+  pipeline.query("stmt s; Select s with s.stmt# = 2 and s.stmt# = 2 and s.stmt# = 3",
+                 {});
+  pipeline.query("variable v; Select v with v.varName=\"x\" and v.varName=\"x\"",
+                 {"x"});
+  pipeline.query("variable v; Select v with v.varName=\"x\" and v.varName=\"x\" and v.varName=\"y\"",
+                 {});
+}
