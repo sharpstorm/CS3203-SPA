@@ -51,6 +51,8 @@ constexpr StmtRefValidator whileLeftArgValidator =
 
 constexpr StmtRefValidator parentLeftArgValidator =
     [](const IRef<StmtValue, StmtType> *arg) {
-      return arg->getType() == StmtType::While ||
-             arg->getType() == StmtType::If || arg->getType() == StmtType::None;
+      return arg->isType(StmtType::While) ||
+             arg->isType(StmtType::If) ||
+             arg->isType(StmtType::None) ||
+             arg->isType(StmtType::Wildcard);
     };

@@ -59,6 +59,19 @@ TEST_CASE("Parent 2 unknowns)") {
 
   auto result2 = *handler.queryParent({StmtType::None, 0}, {StmtType::None, 0});
   REQUIRE(result2.pairVals == pair_set<int, int>({{1, 2}, {2, 3}, {3, 5}}));
+
+  // wildcard
+  auto result3 =
+      *handler.queryParent({StmtType::Wildcard, 0}, {StmtType::None, 0});
+  REQUIRE(result3.pairVals == pair_set<int, int>({{1, 2}, {2, 3}, {3, 5}}));
+
+  auto result4 =
+      *handler.queryParent({StmtType::Wildcard, 0}, {StmtType::None, 5});
+  REQUIRE(result4.pairVals == pair_set<int, int>({{3, 5}}));
+
+  auto result5 =
+      *handler.queryParent({StmtType::Wildcard, 0}, {StmtType::While, 0});
+  REQUIRE(result5.pairVals == pair_set<int, int>({{1, 2}, {2, 3}}));
 }
 
 TEST_CASE("ParentStar <= 1 unknowns") {
@@ -142,4 +155,24 @@ TEST_CASE("ParentStar 2 unknowns") {
                                                   {2, 3},
                                                   {2, 4},
                                                   {6, 7}}));
+  // wildcard
+  auto result3 =
+      *handler.queryParentStar({StmtType::Wildcard, 0}, {StmtType::None, 0});
+  REQUIRE(result3.pairVals == pair_set<int, int>({{1, 2},
+                                                  {1, 3},
+                                                  {1, 4},
+                                                  {1, 5},
+                                                  {1, 6},
+                                                  {1, 7},
+                                                  {2, 3},
+                                                  {2, 4},
+                                                  {6, 7}}));
+
+  auto result4 =
+      *handler.queryParentStar({StmtType::Wildcard, 0}, {StmtType::None, 4});
+  REQUIRE(result4.pairVals == pair_set<int, int>({{1, 4}, {2, 4}}));
+
+  auto result5 =
+      *handler.queryParentStar({StmtType::Wildcard, 0}, {StmtType::If, 0});
+  REQUIRE(result5.pairVals == pair_set<int, int>({{1, 2}}));
 }
