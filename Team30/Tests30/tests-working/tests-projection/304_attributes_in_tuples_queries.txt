@@ -103,3 +103,13 @@ assign a; print p;
 Select <a.stmt#, p.varName, p> such that Follows(a, p)
 12 test 13
 5000
+22 - Tuple <assign, print name> Declaration (Follows) Error
+assign a; print p;
+Select <a.stmt#, p.procName> such that Follows(a, p)
+SemanticError
+5000
+23 - Tuple <assign, print name> Declaration (Follows) Error
+assign a; print p;
+Select <a.value, p.varName> such that Follows(a, p)
+SemanticError
+5000
