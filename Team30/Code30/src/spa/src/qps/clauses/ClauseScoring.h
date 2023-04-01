@@ -27,11 +27,11 @@ const ComplexityScore COMPLEXITY_QUERY_SYN_CONSTANT = 90;
 
 const ComplexityScore COMPLEXITY_NEXT = 50;
 const ComplexityScore COMPLEXITY_NEXT_T_CONST = 30;
-const ComplexityScore COMPLEXITY_NEXT_T = 400;
+const ComplexityScore COMPLEXITY_NEXT_T = 600;
 const ComplexityScore COMPLEXITY_AFFECTS_CONST = 70;
-const ComplexityScore COMPLEXITY_AFFECTS = 500;
+const ComplexityScore COMPLEXITY_AFFECTS = 400;
 const ComplexityScore COMPLEXITY_AFFECTS_T_CONST = 100;
-const ComplexityScore COMPLEXITY_AFFECTS_T = 600;
+const ComplexityScore COMPLEXITY_AFFECTS_T = 700;
 
 // Minor Tunings
 const ComplexityScore COMPLEXITY_MODIFIER_PREFERRED = -5;
@@ -40,8 +40,8 @@ const ComplexityScore COMPLEXITY_MODIFIER_SMALL = 5;
 const ComplexityScore COMPLEXITY_MODIFIER_MEDIUM = 10;
 const ComplexityScore COMPLEXITY_MODIFIER_LARGE = 30;
 
-const ComplexityScore COMPLEXITY_QUERY_TRANSITIVE = 20;
-const ComplexityScore COMPLEXITY_QUERY_LIST_ALL = 20;
+const ComplexityScore COMPLEXITY_QUERY_TRANSITIVE = 50;
+const ComplexityScore COMPLEXITY_QUERY_LIST_ALL = 30;
 
 const map<PQLSynonymType, ComplexityScore> COMPLEXITY_SYN_LOOKUP = {
     {PQL_SYN_TYPE_PROCEDURE, COMPLEXITY_QUERY_SYN_PROCEDURE},

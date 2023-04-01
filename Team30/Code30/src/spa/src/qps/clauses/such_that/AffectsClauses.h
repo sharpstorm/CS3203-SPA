@@ -49,16 +49,11 @@ constexpr UsesGetter<QueryExecutorAgent> usesQuerier =
       return ret;
     };
 
-constexpr CountGetter<QueryExecutorAgent> countQuerier =
-    [](const QueryExecutorAgent &agent) -> int {
-      return agent->getSymbolsOfType(EntityType::Variable).size() + 1;
-    };
-
 typedef CFGAffectsQuerier<QueryExecutorAgent, typeChecker,
                           modifiesQuerier, usesQuerier> ConcreteAffectsQuerier;
 
 typedef CFGAffectsTQuerier<QueryExecutorAgent, typeChecker,
-                           modifiesQuerier, usesQuerier, countQuerier>
+                           modifiesQuerier, usesQuerier>
     ConcreteAffectsTQuerier;
 
 template<class QuerierT>

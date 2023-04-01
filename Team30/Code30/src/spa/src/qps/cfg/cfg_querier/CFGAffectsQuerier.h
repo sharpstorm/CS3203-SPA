@@ -173,7 +173,7 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
   }
 
   int counter = 0;
-  for (EntityIdx idx : usedVars) {
+  for (const EntityIdx &idx : usedVars) {
     symbolMap.emplace(idx, counter);
     counter++;
   }
@@ -202,6 +202,9 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
             continue;
           }
 
+          if (!curState.isSet(it->second)) {
+            continue;
+          }
           curState.unset(it->second);
           isAffected = isAffected || typePredicate(state->closure,
                                                    StmtType::Assign,
