@@ -9,6 +9,7 @@
 #include "qps/cfg/CFGQuerierTypes.h"
 #include "qps/cfg/cfg_querier/walkers/CFGStatefulWalker.h"
 #include "common/SetUtils.h"
+#include "qps/common/CacheTable.h"
 
 using std::map;
 
@@ -148,6 +149,16 @@ queryFrom(const StmtValue &arg0, const StmtType &type1) {
   StmtTransitiveResult result;
 
   CFGNode nodeFrom = cfg->toCFGNode(arg0);
+
+  CacheTable* cacheTable = closure.getAffectsCache();
+  auto row = cacheTable->queryFull(arg0, 0);
+  if (row != nullptr) {
+    for(const StmtValue &i : *row) {
+      result.add(arg0, i);
+    }
+    return result;
+  }
+
   queryForward(&result, nodeFrom);
   return result;
 }
@@ -266,6 +277,7 @@ queryForward(StmtTransitiveResult *resultOut,
           EntityIdxSet usedVars = usesGetter(state->closure,
                                              stmtNumber);
           if (usedVars.find(state->target) != usedVars.end()) {
+            state->closure.getAffectsCache()->addEntry(state->startingStmt, stmtNumber);
             state->result->add(state->startingStmt, stmtNumber);
           }
         }
@@ -286,6 +298,8 @@ queryForward(StmtTransitiveResult *resultOut,
                                stmtNumber, modifiedVar};
   walker.walkFrom<QueryFromResultClosure, forwardWalkerCallback>(start,
                                                                  &state);
+  CacheTable* cacheTable = closure.getAffectsCache();
+  cacheTable->promoteFrom(stmtNumber);
 }
 
 template<
