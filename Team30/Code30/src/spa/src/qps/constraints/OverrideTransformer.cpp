@@ -28,3 +28,7 @@ EntityRef OverrideTransformer::transformArg(EntityRef input) const {
 bool OverrideTransformer::returnsInteger() const {
   return stmtRef != NO_STMT;
 }
+
+bool OverrideTransformer::operator==(const OverrideTransformer &other) const {
+  return stmtRef == other.stmtRef && entRef == other.entRef;
+}

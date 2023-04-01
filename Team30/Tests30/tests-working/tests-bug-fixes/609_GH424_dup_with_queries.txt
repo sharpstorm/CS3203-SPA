@@ -1,0 +1,10 @@
+1 - Duplicated stmt
+stmt s;
+Select s with 5 = s.stmt# with s.stmt# = 5
+5
+5000
+2 - Duplicated stmt
+stmt s1,s2;
+Select <s1, s2> with 5 = s1.stmt# with s2.stmt# = 5 and s1.stmt# = s2.stmt# and s2.stmt# = s1.stmt#
+5 5
+5000
