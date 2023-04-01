@@ -57,7 +57,7 @@ struct ifPatternTest {
   }
 
   QueryResultPtr<StmtValue, EntityValue> query(StmtRef leftArg,
-                                                        EntityRef rightArg) {
+                                               EntityRef rightArg) {
     return handler.query(&leftArg, &rightArg);
   }
 };
@@ -84,7 +84,7 @@ TEST_CASE("IfPatternQueryHandler ifs(varname,_,_)") {
 TEST_CASE("IfPatternQueryHandler ifs(v,_,_) or ifs(_,_,_)") {
   auto test = ifPatternTest();
 
-  auto res1 = *test.query({StmtType::If, 0}, {EntityType::None, ""});
+  auto res1 = *test.query({StmtType::If, 0}, {EntityType::Wildcard, ""});
   REQUIRE(res1.firstArgVals == unordered_set<int>({1, 2, 3}));
   REQUIRE(res1.secondArgVals == unordered_set<string>({"a", "b", "c"}));
   REQUIRE(res1.pairVals ==
@@ -118,7 +118,7 @@ TEST_CASE("IfPatternQueryHandler ifs(varname,_,_) with ifs.stmt# ") {
 TEST_CASE("IfPatternQueryHandler ifs(v,_,_) / ifs(_,_,_) with ifs.stmt# ") {
   auto test = ifPatternTest();
 
-  auto res1 = *test.query({StmtType::None, 1}, {EntityType::None, ""});
+  auto res1 = *test.query({StmtType::None, 1}, {EntityType::Wildcard, ""});
   REQUIRE(res1.firstArgVals == unordered_set<int>({1}));
   REQUIRE(res1.secondArgVals == unordered_set<string>({"a", "b"}));
   REQUIRE(res1.pairVals == pair_set<int, string>({{1, "a"}, {1, "b"}}));

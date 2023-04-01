@@ -58,7 +58,7 @@ struct whilePatternTest {
   }
 
   QueryResultPtr<StmtValue, EntityValue> query(StmtRef leftArg,
-                                                        EntityRef rightArg) {
+                                               EntityRef rightArg) {
     return handler.query(&leftArg, &rightArg);
   }
 };
@@ -85,7 +85,7 @@ TEST_CASE("WhilePatternQueryHandler whiles(varname,_)") {
 TEST_CASE("WhilePatternQueryHandler w(v,_) or w(_,_)") {
   auto test = whilePatternTest();
 
-  auto res1 = *test.query({StmtType::While, 0}, {EntityType::None, ""});
+  auto res1 = *test.query({StmtType::While, 0}, {EntityType::Wildcard, ""});
   REQUIRE(res1.firstArgVals == unordered_set<int>({1, 2, 3}));
   REQUIRE(res1.secondArgVals == unordered_set<string>({"a", "b", "c"}));
   REQUIRE(res1.pairVals ==
@@ -119,7 +119,7 @@ TEST_CASE("WhilePatternQueryHandler w(varname,_) with w.stmt# ") {
 TEST_CASE("WhilePatternQueryHandler w(v,_) / w(_,_) with w.stmt# ") {
   auto test = whilePatternTest();
 
-  auto res1 = *test.query({StmtType::None, 1}, {EntityType::None, ""});
+  auto res1 = *test.query({StmtType::None, 1}, {EntityType::Wildcard, ""});
   REQUIRE(res1.firstArgVals == unordered_set<int>({1}));
   REQUIRE(res1.secondArgVals == unordered_set<string>({"a", "b"}));
   REQUIRE(res1.pairVals == pair_set<int, string>({{1, "a"}, {1, "b"}}));

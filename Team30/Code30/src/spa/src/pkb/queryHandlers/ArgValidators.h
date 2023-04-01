@@ -18,8 +18,9 @@ constexpr StmtRefValidator usesLeftArgValidator =
 // for modifies and uses
 constexpr EntityRefValidator varRightArgValidator =
     [](const IRef<EntityValue, EntityType> *arg) {
-      return arg->getType() == EntityType::None ||
-             arg->getType() == EntityType::Variable;
+      return arg->isType(EntityType::None) && arg->isKnown() ||
+             arg->isType(EntityType::Variable) ||
+             arg->isType(EntityType::Wildcard);
     };
 
 // for modifiesP and usesP
@@ -31,8 +32,9 @@ constexpr EntityRefValidator procLeftArgValidator =
 
 constexpr EntityRefValidator callsArgValidator =
     [](const IRef<EntityValue, EntityType> *arg) {
-      return arg->getType() == EntityType::None ||
-             arg->getType() == EntityType::Procedure;
+      return (arg->isType(EntityType::None) && arg->isKnown()) ||
+             arg->isType(EntityType::Procedure) ||
+             arg->isType(EntityType::Wildcard);
     };
 
 constexpr StmtRefValidator ifLeftArgValidator =

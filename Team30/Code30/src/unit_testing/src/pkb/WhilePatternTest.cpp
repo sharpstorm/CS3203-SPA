@@ -37,7 +37,7 @@ TEST_CASE("WhilePattern unknown while") {
                                                   {3, "c"}}));
 
   auto res3 = *handler.queryWhilePattern({StmtType::While, 0},
-                                        {EntityType::None, ""});
+                                        {EntityType::Wildcard, ""});
   REQUIRE(res3.firstArgVals == unordered_set<int>({1, 2, 3}));
   REQUIRE(res3.secondArgVals == unordered_set<string>({"a", "b", "c"}));
   REQUIRE(res3.pairVals == pair_set<int, string>({{1, "a"}, {1, "b"}, {2, "a"},
@@ -67,7 +67,7 @@ TEST_CASE("WhilePattern known while") {
   REQUIRE(res2.pairVals == pair_set<int, string>({{1, "a"}, {1, "b"}}));
 
   auto res3 = *handler.queryWhilePattern({StmtType::None, 2},
-                                        {EntityType::None, ""});
+                                        {EntityType::Wildcard, ""});
   REQUIRE(res3.firstArgVals == unordered_set<int>({2}));
   REQUIRE(res3.secondArgVals == unordered_set<string>({"a"}));
   REQUIRE(res3.pairVals == pair_set<int, string>({{2, "a"}}));
