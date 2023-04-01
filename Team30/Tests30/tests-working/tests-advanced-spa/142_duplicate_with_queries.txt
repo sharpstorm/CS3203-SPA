@@ -1,0 +1,150 @@
+1 - Duplicate with (cat 2) (Default Case) (Positive) (WIP)
+stmt s1,s2;
+Select s2 such that Follows(s1,s2) with s1.stmt# = 2 with s1.stmt# = 2
+3
+5000
+2 - Duplicate with (cat 2) (Default Case) (Negative)
+stmt s1,s2;
+Select s2 such that Follows(s1,s2) with s1.stmt# = 13  with s1.stmt# = 13 
+
+5000
+3 - Duplicate with (cat 2) (Non-Default Case - read) (Positive)
+read r; variable v;
+Select r such that Modifies(r, v) with r.varName = "x" with r.varName = "x"
+1
+5000
+4 - Duplicate with (cat 2) (Non-Default Case - read) (Negative)
+read r; variable v;
+Select r such that Modifies(r, v) with r.varName = "z" with r.varName = "z"
+
+5000
+5 - Duplicate with (cat 2) (Non-Default Case - print) (Positive)
+print p; variable v;
+Select p such that Uses(p, v) with p.varName = "b" with p.varName = "b"
+13, 15
+5000
+6 - Duplicate with (cat 2) (Non-Default Case - print) (Negative)
+print p; variable v;
+Select p such that Uses(p, v) with p.varName = "z" with p.varName = "z"
+
+5000
+7 - Duplicate with (cat 2) (Non-Default Case - call) (Positive)
+call c; variable v;
+Select v such that Uses(c, v) with c.procName = "WraithKing" with c.procName = "WraithKing"
+x, b
+5000
+8 - Duplicate with (cat 2) (Non-Default Case - call) (Negative)
+call c; variable v;
+Select v such that Uses(c, v) with c.procName = "Pudge" with c.procName = "Pudge"
+
+5000
+9 - Duplicate with (cat 3) (Default Case) (Positive)
+stmt s1, s2;
+Select s2 such that Next*(s1, s2) with s1.stmt# = s2.stmt# with s1.stmt# = s2.stmt#
+6,7,8,9
+5000
+10 - Duplicate with (cat 3) (Default Case) (Negative)
+stmt s1, s2;
+Select s2 such that Follows(s1, s2) with s1.stmt# = s2.stmt# with s1.stmt# = s2.stmt#
+
+5000
+11 - Duplicate with (cat 3) (Non-Default Case - read) (Positive)
+read r1, r2; variable v;
+Select r2 such that Modifies(r1, "x") with r1.varName = r2.varName with r1.varName = r2.varName
+1
+5000
+12 - Duplicate with (cat 3) (Non-Default Case - read) (Negative)
+read r1, r2; variable v;
+Select r2 such that Parent(r1, r2) with r1.varName = r2.varName with r1.varName = r2.varName
+
+5000
+13 - Duplicate (cat 3) (Non-Default - print) (Positive)
+print p1, p2; variable v;
+Select p2 such that Uses(p1, v) with p1.varName = p2.varName with p1.varName = p2.varName
+2, 13, 15
+5000
+14 - Duplicate (cat 3) (Non-Default - print) (Negative)
+stmt s; print p1, p2;
+Select p2 such that Parent(p1, s) with p1.varName = p2.varName with p1.varName = p2.varName
+
+5000
+15 - Duplicate (cat 3) (Non-Default - call) (Positive)
+call c1, c2;
+Select c2 such that Modifies(c1, "a") with c1.procName = c2.procName with c1.procName = c2.procName
+7
+5000
+16 - Duplicate (cat 3) (Non-Default - call) (Negative)
+call c1,c2;
+Select c2 such that Modifies(c1, "z") with c1.procName = c2.procName with c1.procName = c2.procName
+
+5000
+17 - Duplicate (cat 4) (Default) (Positive)
+constant c; assign a; stmt s;
+Select a such that Follows(a, s) with a.stmt# = c.value with a.stmt# = c.value
+4,5
+5000
+18 - Duplicate (cat 4) (Default) (Negative)
+constant c; call cl; stmt s;
+Select cl such that Follows(cl, s) with cl.stmt# = c.value with cl.stmt# = c.value
+
+5000
+19 - Duplicate (cat 4) (Non-Default - read) (Positive) (WIP)
+read r; variable v; assign a;
+Select r such that Modifies(a,v) with r.varName = v.varName with r.varName = v.varName
+14
+5000
+20 - Duplicate (cat 4) (Non-Default - read) (Negative) (WIP)
+rear r; call cl; variable v;
+Select r such that Modifies(r, _) pattern w (v,_) with r.varName = v.varName with r.varName = v.varName
+
+5000
+21 - Duplicate (cat 4) (Non-Default - print) (Positive) (WIP)
+print p; variable v; assign a;
+Select p such that Uses(p, _) and Modifies(a, v) with p.varName = v.varName with p.varName = v.varName
+13
+5000
+22 - Duplicate (cat 4) (Non-Default - print) (Negative)
+print p; while w; variable v;
+Select p such that Uses(p, _) pattern w (v, _) with p.varName = v.varName with p.varName = v.varName
+
+5000
+23 - Duplicate (cat 2 and 3) (Default) (Positive) (WIP)
+assign a1, a2; 
+Select a2 such that Next*(a1, a2) with a1.stmt# = 8 with a1.stmt# = a2.stmt# with a1.stmt# = 8 with a1.stmt# = a2.stmt#
+8
+5000
+24 - Duplicate (cat 2 and 3) (Default) (Negative)
+assign a1, a2;
+Select a2 such that Follows(a1, a2) with a1.stmt# = 4 with a1.stmt# = a2.stmt# with a1.stmt# = 4 with a1.stmt# = a2.stmt#
+
+5000
+25 - Duplicate (cat 2 and 3) (Non-Default read) (Positive)
+read r1, r2; variable v;
+Select r2 such that Modifies(r1, _) with r1.varName = "x" with r1.varName = r2.varName with r1.varName = "x" with r1.varName = r2.varName
+1
+5000
+26 - Duplicate (cat 2 and 3) (Non-Default read) (Negative)
+read r1, r2; variable v;
+Select r2 such that Modifies(r1, _) with r1.varName = "z" with r1.varName = r2.varName with r1.varName = "z" with r1.varName = r2.varName
+
+5000
+27 - Duplicate (cat 2 and 3) (Non-Default print) (Positive)
+print p1,p2; variable v;
+Select p2 such that Uses(p1, _) with p1.varName = "x" with p1.varName = p2.varName with p1.varName = "x" with p1.varName = p2.varName
+2
+5000
+28 - Duplicate (cat 2 and 3) (Non-Default print) (Negative)
+print p1, p2; variable v;
+Select p2 such that Uses(p1, _) with p1.varName = "y" with p1.varName = p2.varName with p1.varName = "y" with p1.varName = p2.varName
+
+5000
+29 - Duplicate (cat 2 and 3) (Non-Default call) (Positive)
+call c1, c2; variable v;
+Select c2 such that Uses(c1, v) with c1.procName = "WraithKing" with c1.procName = c2.procName with c1.procName = "WraithKing" with c1.procName = c2.procName
+7
+5000
+30 - Duplicate (cat 2 and 3) (Non-Default call) (Negative)
+call c1, c2; variable v;
+Select c2 such that Uses(c1, v) with c1.procName = "SandKing" with c1.procName = c2.procName with c1.procName = "SandKing" with c1.procName = c2.procName
+7
+5000
