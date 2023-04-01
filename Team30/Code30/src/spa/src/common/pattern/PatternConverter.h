@@ -13,7 +13,7 @@ class PatternConverter {
   static PatternTriePtr convertASTToTrie(IASTNode* tree, PkbWriter* pkbWriter);
 
  private:
-  static uint16_t indexFromNode(IASTNode* node, QueryExecutorAgent agent);
+  static SymbolIdent indexFromNode(IASTNode* node, QueryExecutorAgent agent);
   static void traversePostfix(IASTNode *node,
                               ExpressionSequence *output,
                               QueryExecutorAgent agent);

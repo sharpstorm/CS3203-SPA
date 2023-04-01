@@ -33,7 +33,8 @@ void PatternConverter::traversePostfix(IASTNode *node,
 
   output->push_back(indexFromNode(node, agent));
 }
-uint16_t PatternConverter::indexFromNode(IASTNode *node,
+
+SymbolIdent PatternConverter::indexFromNode(IASTNode *node,
                                          QueryExecutorAgent agent) {
   switch (node->getType()) {
     case ASTNODE_VARIABLE:

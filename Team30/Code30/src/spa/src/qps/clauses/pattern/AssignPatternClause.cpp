@@ -12,7 +12,6 @@ using std::make_unique;
 AssignPatternClause::AssignPatternClause(
     const PQLQuerySynonymProxy &assignSynonym,
     ClauseArgumentPtr leftArg,
-//    ExpressionArgumentPtr rightArg):
     IASTPtr rightArg,
     bool allow):
     PatternClause(assignSynonym, std::move(leftArg), PQL_SYN_TYPE_ASSIGN),
