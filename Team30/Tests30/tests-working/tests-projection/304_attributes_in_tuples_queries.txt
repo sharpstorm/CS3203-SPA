@@ -20,8 +20,8 @@ Select <r.stmt#,r.varName>
 5000
 5 - Tuple Read Declaration  (Select) Statement Variable Pair
 read r;
-Select <r.stmt#,r.varName> 
-4 something
+Select <r.varName,r.stmt#> 
+something 4
 5000
 6 - Tuple <Stmt, Variable name> Declaration  (Select) Statement VariableName Pair
 stmt s; variable v;

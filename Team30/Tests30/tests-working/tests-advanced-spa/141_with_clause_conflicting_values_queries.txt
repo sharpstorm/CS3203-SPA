@@ -98,3 +98,8 @@ print p;
 Select p with p.varName = "var" with p.stmt# = 12 such that Follows*(_, p) with p.stmt# = 6 with p.varName = "something"
 
 5000
+21 - NEGATIVE Statement Declaration Transitive Conflict (Follows*) Empty
+print p; variable v1, v2;
+Select p such that Follows*(_, _) with p.varName = "something" with p.varName = v1.varName with v1.varName = v2.varName with v2.varName = "notVar"
+
+5000

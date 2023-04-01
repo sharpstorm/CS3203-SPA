@@ -1,0 +1,206 @@
+<?xml-stylesheet type="text/xsl" href="analysis.xsl"?>
+<test_results>
+<info>
+<name>Tests30</name><parsing_time_taken>3.000000</parsing_time_taken>
+</info>
+<queries>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Tuple Statement Declaration (Select) All Statement Numbers With 1">1</id><querystr><![CDATA[stmt s1; Select <s1.stmt#,s1.stmt#> with s1.stmt# = 1]]></querystr>
+<stuans>1 1</stuans>
+<correct>1 1</correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Tuple Statement Declaration  (Select) All Statement Numbers with only 1">2</id><querystr><![CDATA[stmt s1,s2; Select <s1.stmt#,s2.stmt#> with s1.stmt# = 1]]></querystr>
+<stuans>1 1,1 2,1 3,1 4,1 5,1 6,1 7,1 8,1 9,1 10,1 11,1 12,1 13</stuans>
+<correct>1 1,1 2,1 3,1 4,1 5,1 6,1 7,1 8,1 9,1 10,1 11,1 12,1 13</correct>
+<time_taken>11.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="2" CondNum="3" RelNum="0" comment="Tuple Statement Declaration  (Select) All Statement Numbers with only 8,5">3</id><querystr><![CDATA[stmt s1,s2; Select <s1.stmt#,s2.stmt#> with s1.stmt# = 8 with s2.stmt# = 5]]></querystr>
+<stuans>8 5</stuans>
+<correct>8 5</correct>
+<time_taken>9.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Tuple Statement Declaration  (Select) Statement Number Equivalence">4</id><querystr><![CDATA[stmt s1,s2; Select <s1.stmt#,s2.stmt#> with s1.stmt# = s2.stmt#]]></querystr>
+<stuans>1 1,2 2,3 3,4 4,5 5,6 6,7 7,8 8,9 9,10 10,11 11,12 12,13 13</stuans>
+<correct>1 1,2 2,3 3,4 4,5 5,6 6,7 7,8 8,9 9,10 10,11 11,12 12,13 13</correct>
+<time_taken>12.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Tuple Print Declaration  (Select) Statement Variable Pair with Name">5</id><querystr><![CDATA[print p; Select <p.stmt#,p.varName> with p.varName = "notVar"]]></querystr>
+<stuans>8 notVar</stuans>
+<correct>8 notVar</correct>
+<time_taken>5.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="2" CondNum="3" RelNum="0" comment="Tuple Print Declaration (Select) Statement Variable Pair with Num and Name EMPTY">6</id><querystr><![CDATA[print p; Select <p.stmt#,p.varName> with p.varName = "notVar" with p.stmt# = 5]]></querystr>
+<stuans></stuans>
+<correct></correct>
+<time_taken>9.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="2" CondNum="3" RelNum="0" comment="Tuple Read Declaration  (Select) Statement Variable Pair with Num and Name">7</id><querystr><![CDATA[read r; Select <r.stmt#,r.varName> with r.stmt# = 4 with r.varName = "something"]]></querystr>
+<stuans>4 something</stuans>
+<correct>4 something</correct>
+<time_taken>7.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Tuple <Stmt, Variable name> Declaration  (Select) Statement VariableName Pair with Name">8</id><querystr><![CDATA[stmt s; variable v; Select <s.stmt#,v.varName> with v.varName = "something"]]></querystr>
+<stuans>1 something,2 something,3 something,4 something,5 something,6 something,7 something,8 something,9 something,10 something,11 something,12 something,13 something</stuans>
+<correct>1 something,2 something,3 something,4 something,5 something,6 something,7 something,8 something,9 something,10 something,11 something,12 something,13 something</correct>
+<time_taken>8.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Tuple Call Declaration  (Select) Statement Name Pair with invalid Name">9</id><querystr><![CDATA[call c; Select <c.stmt#,c.procName> with c.procName = "invalid"]]></querystr>
+<stuans></stuans>
+<correct></correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Tuple Call Declaration  (Select) Statement Name Pair with call and procedure name equivalence">10</id><querystr><![CDATA[call c; procedure p; Select <c.stmt#,p.procName> with c.procName = p.procName]]></querystr>
+<stuans>1 Called</stuans>
+<correct>1 Called</correct>
+<time_taken>9.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="2" CondNum="3" RelNum="0" comment="Tuple Call Declaration  (Select) Statement Name Pair with call and procedure name equivalence and invalid call">11</id><querystr><![CDATA[call c; procedure p; Select <c.stmt#, c.procName, p.procName> with c.procName = p.procName with c.procName = "Attributes"]]></querystr>
+<stuans></stuans>
+<correct></correct>
+<time_taken>5.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Tuple <Stmt, Procedure name> Declaration  (Select) StatementNum = procName check ERROR">12</id><querystr><![CDATA[stmt s; procedure p; Select <s,p.procName> with s.stmt# = p.procName]]></querystr>
+<stuans>SemanticError</stuans>
+<correct>SemanticError</correct>
+<time_taken>6.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="2" CondNum="3" RelNum="0" comment="Tuple Assign Declaration  (Select) All Assign Statement Numbers with Equivalence and with 3">13</id><querystr><![CDATA[assign a1, a2; Select <a1.stmt#,a2.stmt#> with a1.stmt# = a2.stmt# with a2.stmt# = 3]]></querystr>
+<stuans>3 3</stuans>
+<correct>3 3</correct>
+<time_taken>12.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Tuple Constant Declaration  (Select) All Constants with 3">14</id><querystr><![CDATA[constant c1, c2; Select <c1.value,c2.value> with c1.value = 3]]></querystr>
+<stuans>3 0,3 1,3 3,3 12</stuans>
+<correct>3 0,3 1,3 3,3 12</correct>
+<time_taken>11.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="2" CondNum="3" RelNum="0" comment="Tuple Constant Declaration  (Select) All Constants with Equivalence with 12">15</id><querystr><![CDATA[constant c1, c2; Select <c1.value,c1.value> with c1.value = c2.value with c2.value = 12]]></querystr>
+<stuans>12 12</stuans>
+<correct>12 12</correct>
+<time_taken>9.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="2" CondNum="3" RelNum="0" comment="Tuple <if, while> Declaration  (Select) If While Pair with Invalid Equivalence and with 7">16</id><querystr><![CDATA[if i;while w; Select <i.stmt#,w.stmt#> with i.stmt# = w.stmt# with i.stmt# = 7]]></querystr>
+<stuans></stuans>
+<correct></correct>
+<time_taken>5.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" Follows="1" SuchThat="1" With="1" CondNum="4" RelNum="1" comment="Tuple <stmt, stmt> Declaration (Follows) Normal Procedure with Equivalence EMPTY">17</id><querystr><![CDATA[stmt s1, s2; Select <s1.stmt#, s2.stmt#> such that Follows(s1, s2) with s1.stmt# = s2.stmt#]]></querystr>
+<stuans></stuans>
+<correct></correct>
+<time_taken>7.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" Followsstar="1" SuchThat="1" With="1" CondNum="4" RelNum="1" comment="Tuple <stmt, stmt> Declaration (Follows*) Normal Procedure with s1 = 1">18</id><querystr><![CDATA[stmt s1, s2; Select <s1.stmt#, s2.stmt#> such that Follows*(s1, s2) with s1.stmt# = 1]]></querystr>
+<stuans>1 2,1 10,1 3,1 4,1 5,1 6,1 7</stuans>
+<correct>1 2,1 3,1 4,1 5,1 6,1 7,1 10</correct>
+<time_taken>12.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" Followsstar="1" SuchThat="1" With="1" CondNum="4" RelNum="1" comment="Tuple <read, stmt> Declaration (Follows*) Normal Procedure with Variable">19</id><querystr><![CDATA[stmt s; read r; Select <r, s.stmt#> such that Follows*(r, s) with r.varName = "something"]]></querystr>
+<stuans>4 5,4 6,4 7,4 10</stuans>
+<correct>4 5,4 6,4 7,4 10</correct>
+<time_taken>9.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" Followsstar="1" SuchThat="1" With="2" CondNum="5" RelNum="1" comment="NEGATIVE Tuple <read, stmt> Declaration (Follows*) Normal Procedure with Conflict">20</id><querystr><![CDATA[stmt s; read r; Select <r, s.stmt#> with r.varName = "var" such that Follows*(r, s) with r.varName = "something"]]></querystr>
+<stuans></stuans>
+<correct></correct>
+<time_taken>7.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" Nextstar="1" SuchThat="1" With="1" CondNum="4" RelNum="1" comment="Tuple <print, print> Declaration (Next*) From Print Name to Print lineNum with Name">21</id><querystr><![CDATA[print p1, p2; Select <p1.varName, p2.stmt#> such that Next*(p1, p2) with p2.varName = "notVar"]]></querystr>
+<stuans>something 8</stuans>
+<correct>something 8</correct>
+<time_taken>7.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" Next="1" SuchThat="1" With="2" CondNum="5" RelNum="1" comment="Tuple <if, stmt> Declaration (Next) From If to If Body with same Equivalence">22</id><querystr><![CDATA[if i; stmt s; Select <i.stmt#, s.stmt#> such that Next(i, s) with i.stmt# = i.stmt# with s.stmt# = s.stmt#]]></querystr>
+<stuans>7 8,7 9</stuans>
+<correct>7 8,7 9</correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" Next="1" SuchThat="1" With="1" CondNum="4" RelNum="1" comment="Tuple <if, print name> Declaration (Next) From If to If Body with Equivalence EMPTY">23</id><querystr><![CDATA[if i; print p; Select <i.stmt#, p.varName> such that Next(i, p) with p.stmt# = i.stmt#]]></querystr>
+<stuans></stuans>
+<correct></correct>
+<time_taken>7.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" Next="1" SuchThat="1" With="1" CondNum="4" RelNum="1" comment="Tuple <if, print name, print num> Declaration (Next) From If to If Body">24</id><querystr><![CDATA[if i; print p; Select <i.stmt#, p.varName, p.stmt#> such that Next(i, p) with p.stmt# = 9]]></querystr>
+<stuans>7 notVar 7</stuans>
+<correct>7 var 9</correct>
+<time_taken>6.000000</time_taken>
+<failed>
+<missing>7 var 9</missing>
+<additional>7 notVar 7</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnTuple="1" Follows="1" SuchThat="1" With="1" CondNum="4" RelNum="1" comment="Tuple <assign, print name> Declaration (Follows) Statements with 12">25</id><querystr><![CDATA[assign a; print p; Select <a.stmt#, p.varName> such that Follows(a, p) with a.stmt# = 12]]></querystr>
+<stuans>12 test</stuans>
+<correct>12 test</correct>
+<time_taken>10.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" Follows="1" SuchThat="1" With="1" CondNum="4" RelNum="1" comment="Tuple <assign, print name> Declaration (Follows) Error">26</id><querystr><![CDATA[assign a; print p; Select <a.stmt#, p.varName> such that Follows(a, p) with p.procName = "something"]]></querystr>
+<stuans>SemanticError</stuans>
+<correct>SemanticError</correct>
+<time_taken>6.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" Follows="1" SuchThat="1" With="1" CondNum="4" RelNum="1" comment="Tuple <assign, print name> Declaration (Follows) Error">27</id><querystr><![CDATA[assign a; print p; Select <a.stmt#, p.varName> such that Follows(a, p) with a.value = 12]]></querystr>
+<stuans>SemanticError</stuans>
+<correct>SemanticError</correct>
+<time_taken>5.000000</time_taken>
+<passed/>
+</query>
+</queries>
+</test_results>
