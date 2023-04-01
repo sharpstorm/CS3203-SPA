@@ -1,0 +1,105 @@
+1 - Tuple Statement Declaration  (Select) All Statement Numbers 
+stmt s1;
+Select <s1.stmt#,s1.stmt#> 
+1 1,2 2,3 3,4 4,5 5,6 6,7 7,8 8,9 9,10 10,11 11,12 12,13 13
+5000
+2 - Tuple Statement Declaration  (Select) All Statement Numbers Permutations
+stmt s1,s2;
+Select <s1.stmt#,s2.stmt#> 
+1 1,1 2,1 3,1 4,1 5,1 6,1 7,1 8,1 9,1 10,1 11,1 12,1 13,2 1,2 2,2 3,2 4,2 5,2 6,2 7,2 8,2 9,2 10,2 11,2 12,2 13,3 1,3 2,3 3,3 4,3 5,3 6,3 7,3 8,3 9,3 10,3 11,3 12,3 13,4 1,4 2,4 3,4 4,4 5,4 6,4 7,4 8,4 9,4 10,4 11,4 12,4 13,5 1,5 2,5 3,5 4,5 5,5 6,5 7,5 8,5 9,5 10,5 11,5 12,5 13,6 1,6 2,6 3,6 4,6 5,6 6,6 7,6 8,6 9,6 10,6 11,6 12,6 13,7 1,7 2,7 3,7 4,7 5,7 6,7 7,7 8,7 9,7 10,7 11,7 12,7 13,8 1,8 2,8 3,8 4,8 5,8 6,8 7,8 8,8 9,8 10,8 11,8 12,8 13,9 1,9 2,9 3,9 4,9 5,9 6,9 7,9 8,9 9,9 10,9 11,9 12,9 13,10 1,10 2,10 3,10 4,10 5,10 6,10 7,10 8,10 9,10 10,10 11,10 12,10 13,11 1,11 2,11 3,11 4,11 5,11 6,11 7,11 8,11 9,11 10,11 11,11 12,11 13,12 1,12 2,12 3,12 4,12 5,12 6,12 7,12 8,12 9,12 10,12 11,12 12,12 13,13 1,13 2,13 3,13 4,13 5,13 6,13 7,13 8,13 9,13 10,13 11,13 12,13 13
+5000
+3 - Tuple Print Declaration  (Select) Statement Variable Pair
+print p;
+Select <p.stmt#,p.varName> 
+5 something,8 notVar,9 var,13 test
+5000
+4 - Tuple Read Declaration  (Select) Statement Variable Pair
+read r;
+Select <r.stmt#,r.varName> 
+4 something
+5000
+5 - Tuple Read Declaration  (Select) Statement Variable Pair
+read r;
+Select <r.stmt#,r.varName> 
+4 something
+5000
+6 - Tuple <Stmt, Variable name> Declaration  (Select) Statement VariableName Pair
+stmt s; variable v;
+Select <s.stmt#,v.varName> 
+1 something,2 something,3 something,4 something,5 something,6 something,7 something,8 something,9 something,10 something,11 something,12 something,13 something,1 var,2 var,3 var,4 var,5 var,6 var,7 var,8 var,9 var,10 var,11 var,12 var,13 var,1 notVar,2 notVar,3 notVar,4 notVar,5 notVar,6 notVar,7 notVar,8 notVar,9 notVar,10 notVar,11 notVar,12 notVar,13 notVar,1 test,2 test,3 test,4 test,5 test,6 test,7 test,8 test,9 test,10 test,11 test,12 test,13 test
+5000
+7 - Tuple Call Declaration  (Select) Statement Name Pair
+call c;
+Select <c.stmt#,c.procName> 
+1 Called
+5000
+8 - Tuple <Stmt, Procedure name> Declaration  (Select) Statement ProcName Pair
+stmt s; procedure p;
+Select <s.stmt#,p.procName> 
+1 Attributes,2 Attributes,3 Attributes,4 Attributes,5 Attributes,6 Attributes,7 Attributes,8 Attributes,9 Attributes,10 Attributes,11 Attributes,12 Attributes,13 Attributes,1 Called,2 Called,3 Called,4 Called,5 Called,6 Called,7 Called,8 Called,9 Called,10 Called,11 Called,12 Called,13 Called
+5000
+9 - Tuple Assign Declaration  (Select) All Assign Statement Numbers
+assign a1, a2;
+Select <a1.stmt#,a2.stmt#> 
+2 2,2 3,2 6,2 11,2 12,3 2,3 3,3 6,3 11,3 12,6 2,6 3,6 6,6 11,6 12,11 2,11 3,11 6,11 11,11 12,12 2,12 3,12 6,12 11,12 12
+5000
+10 - Tuple Constant Declaration  (Select) All Constants
+constant c1;
+Select <c1.value,c1.value> 
+0 0,1 1,3 3,12 12
+5000
+11 - Tuple <if, while> Declaration  (Select) If While Pair
+if i;while w;
+Select <i.stmt#,w.stmt#> 
+7 10
+5000
+12 - Tuple <stmt, stmt> Declaration (Follows) Normal Procedure
+stmt s1, s2;
+Select <s1.stmt#, s2.stmt#> such that Follows(s1, s2)
+1 2,2 3,3 4,4 5,5 6,6 7,7 10,12 13
+5000
+13 - Tuple <stmt, print name> Declaration (Follows) To Print Name
+stmt s; print p;
+Select <s.stmt#, p.varName> such that Follows(s, p)
+4 something, 12 test
+5000
+14 - Tuple <stmt, print, print name> Declaration (Follows) To Print lineNum and Name
+stmt s; print p;
+Select <s.stmt#, p.stmt#, p.varName> such that Follows(s, p)
+4 5 something, 12 13 test
+5000
+15 - Tuple <print, print> Declaration (Next*) From Print Name to Print lineNum
+print p1, p2;
+Select <p1.varName, p2.stmt#> such that Next*(p1, p2)
+something 8,something 9
+5000
+16 - Tuple <if, stmt> Declaration (Next) From If to If Body
+if i; stmt s;
+Select <i.stmt#, s.stmt#> such that Next(i, s)
+7 8, 7 9
+5000
+17 - Tuple <if, print name> Declaration (Next) From If to If Body
+if i; print p;
+Select <i.stmt#, p.varName> such that Next(i, p)
+7 notVar, 7 var
+5000
+18 - Tuple <if, print name, print num> Declaration (Next) From If to If Body
+if i; print p;
+Select <i.stmt#, p.varName, p.stmt#> such that Next(i, p)
+7 notVar 8, 7 var 9
+5000
+19 - Tuple <assign, print name> Declaration (Follows) Statements
+assign a; print p;
+Select <a.stmt#, p.varName> such that Follows(a, p)
+12 test
+5000
+20 - Tuple <assign, print name, print num> Declaration (Follows) Statements
+assign a; print p;
+Select <a.stmt#, p.varName, p.stmt#> such that Follows(a, p)
+12 test 13
+5000
+21 - Tuple <assign, print name, print> Declaration (Follows) without Attribute
+assign a; print p;
+Select <a.stmt#, p.varName, p> such that Follows(a, p)
+12 test 13
+5000
