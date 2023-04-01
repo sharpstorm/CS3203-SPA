@@ -1,0 +1,5 @@
+1 - Test Bug Fix
+if i; print p;
+Select <i.stmt#, p.varName, p.stmt#> such that Next(i, p) with p.stmt# = 9
+7 var 9
+5000
