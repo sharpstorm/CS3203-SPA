@@ -9,6 +9,7 @@
 #include "CFGQuerier.h"
 #include "qps/cfg/CFGQuerierTypes.h"
 #include "qps/cfg/cfg_querier/walkers/CFGStatefulWalker.h"
+#include "qps/common/CacheTable.h"
 
 using std::unordered_set, std::unordered_map;
 
@@ -145,7 +146,18 @@ StmtTransitiveResult CFGAffectsQuerier<ClosureType, typePredicate,
 queryFrom(const StmtValue &arg0, const StmtType &type1) {
   StmtTransitiveResult result;
 
+
   CFGNode nodeFrom = cfg->toCFGNode(arg0);
+
+  CacheTable* cacheTable = closure.getAffectsCache();
+  auto row = cacheTable->queryFull(arg0, 0);
+  if (row != nullptr) {
+    for(const StmtValue &i : *row) {
+      result.add(arg0, i);
+    }
+    return result;
+  }
+
   queryForward(&result, nodeFrom);
   return result;
 }
@@ -234,8 +246,20 @@ void CFGAffectsQuerier<ClosureType, typePredicate,
 queryAll(StmtTransitiveResult* resultOut,
          const StmtType &type0,
          const StmtType &type1) {
+
+  CacheTable* cacheTable = closure.getAffectsCache();
   for (int start = 0; start < cfg->getNodeCount(); start++) {
+
+    auto row = cacheTable->queryFull(start, 0);
+    if (row != nullptr) {
+      for(const StmtValue &i : *row) {
+        resultOut->add(start, i);
+      }
+      continue;
+    }
+
     queryForward(resultOut, start);
+
   }
 }
 
@@ -259,10 +283,12 @@ queryForward(StmtTransitiveResult* resultOut,
         int stmtNumber = 0;
         stmtNumber = state->cfg->fromCFGNode(nextNode);
 
+
         if (typePredicate(state->closure, StmtType::Assign, stmtNumber)) {
           unordered_set<EntityValue> usedVars = usesGetter(state->closure,
                                                            stmtNumber);
           if (usedVars.find(state->target) != usedVars.end()) {
+            state->closure.getAffectsCache()->addEntry(state->startingStmt, stmtNumber);
             state->result->add(state->startingStmt, stmtNumber);
           }
         }
@@ -279,6 +305,8 @@ queryForward(StmtTransitiveResult* resultOut,
                                 stmtNumber, modifiedVar };
   walker.walkFrom<QueryFromResultClosure, forwardWalkerCallback>(start,
                                                                  &state);
+  CacheTable* cacheTable = closure.getAffectsCache();
+  cacheTable->promoteFrom(stmtNumber);
 }
 
 template <
