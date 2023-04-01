@@ -108,7 +108,7 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
     if (!typePredicate(closure, type0, stmtNumber)) {
       continue;
     }
-    result.add(cfg->fromCFGNode(node), stmtNumber);
+    result.add(stmtNumber, arg1);
   }
 
   return result;
