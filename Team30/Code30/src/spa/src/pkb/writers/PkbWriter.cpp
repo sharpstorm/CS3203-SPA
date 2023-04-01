@@ -22,11 +22,11 @@ PkbWriter::PkbWriter(PKB *pkb)
       modifiesWriter(
           new ModifiesWriter(pkb->modifiesStorage, pkb->modifiesPStorage)),
       statementWriter(new StatementWriter(pkb->statementStorage)),
-      procedureWriter(new ProcedureWriter(pkb->procedureStorage)),
+      procedureWriter(new ProcedureWriter(pkb->procAndCallsStorage)),
       assignsWriter(new AssignsWriter(pkb->assignStorage)),
       ifPatternWriter(new IfPatternWriter(pkb->ifPatternStorage)),
       whilePatternWriter(new WhilePatternWriter(pkb->whilePatternStorage)),
-      callsWriter(new CallsWriter(pkb->callsStorage, pkb->callStmtStorage)),
+      callsWriter(new CallsWriter(pkb->callsStorage, pkb->procAndCallsStorage)),
       postProcessWriter(new PostProcessWriter(pkb)),
       variableWriter(new VariableWriter(pkb->variableStorage)),
       constantWriter(new ConstantWriter(pkb->constantStorage)),

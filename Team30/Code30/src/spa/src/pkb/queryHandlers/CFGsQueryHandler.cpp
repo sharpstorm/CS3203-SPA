@@ -1,7 +1,7 @@
 #include "CFGsQueryHandler.h"
 
 #include <string>
-#include <unordered_set>
+#include <set>
 
 using std::string;
 
@@ -15,7 +15,7 @@ CFGsQueryHandler::CFGsQueryHandler(
 vector<CFG*> CFGsQueryHandler::queryCFGs(StmtRef stmt) const {
   vector<CFG*> result;
   if (!stmt.isKnown()) {
-    unordered_set<string> procedures = entityProvider
+    set<string> procedures = entityProvider
         ->getValuesOfType(EntityType::Procedure);
     for (auto it = procedures.begin(); it != procedures.end(); it++) {
       result.push_back(cfgsStorage->get(*it).get());

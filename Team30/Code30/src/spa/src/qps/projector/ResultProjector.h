@@ -3,7 +3,7 @@
 #include <string>
 #include "common/UtilityTypes.h"
 
-#include "qps/common/PQLQueryResult.h"
+#include "qps/common/intermediate_result/PQLQueryResult.h"
 #include "qps/common/PQLQuerySynonym.h"
 #include "qps/common/resulttable/SynonymResultTable.h"
 #include "qps/common/AttributedSynonym.h"

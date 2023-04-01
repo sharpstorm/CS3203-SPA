@@ -46,11 +46,11 @@ ResultGroup* ResultGroup::crossProduct(ResultGroup* other) {
 
       QueryResultTableRow rowToAdd{};
       for (const auto & k : *leftRow) {
-        rowToAdd.push_back(make_unique<QueryResultItem>(*k));
+        rowToAdd.push_back(k);
       }
 
       for (const auto & k : *rightRow) {
-        rowToAdd.push_back(make_unique<QueryResultItem>(*k));
+        rowToAdd.push_back(k);
       }
 
       output->addRow(std::move(rowToAdd));
@@ -71,7 +71,7 @@ void ResultGroup::project(AttributedSynonymList *synList,
     for (int j=0; j < synList->size(); j++) {
       AttributedSynonym syn = synList->at(j);
       ResultTableCol col = colMap.at(syn.getName());
-      QueryResultItem* queryItem = row->at(col).get();
+      QueryResultItem* queryItem = row->at(col);
 
       // Special case attribution read/print.varName and call.procName
       if (isNonDefaultCase(syn)) {
@@ -114,8 +114,7 @@ bool ResultGroup::operator==(const ResultGroup &rg) const {
         int otherIdx = it.second;
         int thisIdx = colMap.at(it.first);
 
-        if (*groupTable[i][thisIdx].get() ==
-            *rg.groupTable[j][otherIdx].get()) {
+        if (*groupTable[i][thisIdx] == *rg.groupTable[j][otherIdx]) {
           isFound = true;
           break;
         }
@@ -152,4 +151,8 @@ bool ResultGroup::isNonDefaultCase(AttributedSynonym syn) {
   bool isTypeConstant = syn.getType() == PQL_SYN_TYPE_CONSTANT;
   return syn.hasAttribute() && !isTypeConstant &&
           syn.isStatementType() != syn.returnsInteger();
+}
+
+QueryResultItemPool *ResultGroup::getOwnedPool() {
+  return &ownedItems;
 }

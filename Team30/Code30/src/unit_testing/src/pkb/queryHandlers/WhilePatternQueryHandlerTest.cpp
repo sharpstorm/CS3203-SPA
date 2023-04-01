@@ -13,17 +13,17 @@ using std::unordered_set, std::shared_ptr, std::unique_ptr, std::make_unique,
 static unique_ptr<StructureMappingProviderStub>
 setUpStructureMappingProvider() {
   auto provider = make_unique<StructureMappingProviderStub>();
-  provider->stmtNumToType.set(1, StmtType::While);
-  provider->stmtNumToType.set(2, StmtType::While);
-  provider->stmtNumToType.set(3, StmtType::While);
-  provider->stmtNumToType.set(4, StmtType::While);
-  provider->stmtNumToType.set(5, StmtType::If);
+  provider->stmtNumToType.insert(1, StmtType::While);
+  provider->stmtNumToType.insert(2, StmtType::While);
+  provider->stmtNumToType.insert(3, StmtType::While);
+  provider->stmtNumToType.insert(4, StmtType::While);
+  provider->stmtNumToType.insert(5, StmtType::If);
 
-  provider->stmtTypeToNum.set(StmtType::While, 1);
-  provider->stmtTypeToNum.set(StmtType::While, 2);
-  provider->stmtTypeToNum.set(StmtType::While, 3);
-  provider->stmtTypeToNum.set(StmtType::While, 4);
-  provider->stmtTypeToNum.set(StmtType::If, 5);
+  provider->stmtTypeToNum.insert(StmtType::While, 1);
+  provider->stmtTypeToNum.insert(StmtType::While, 2);
+  provider->stmtTypeToNum.insert(StmtType::While, 3);
+  provider->stmtTypeToNum.insert(StmtType::While, 4);
+  provider->stmtTypeToNum.insert(StmtType::If, 5);
 
   provider->allStmts = {1, 2, 3, 4, 5};
   return provider;
@@ -47,14 +47,14 @@ struct whilePatternTest {
   WhilePatternQueryHandler handler =
       WhilePatternQueryHandler(stmtEntInvoker.get(), store.get());
   whilePatternTest() {
-    table->set(1, "a");
-    table->set(2, "a");
-    table->set(1, "b");
-    table->set(3, "c");
-    reverseTable->set("a", 1);
-    reverseTable->set("a", 2);
-    reverseTable->set("b", 1);
-    reverseTable->set("c", 3);
+    table->insert(1, "a");
+    table->insert(2, "a");
+    table->insert(1, "b");
+    table->insert(3, "c");
+    reverseTable->insert("a", 1);
+    reverseTable->insert("a", 2);
+    reverseTable->insert("b", 1);
+    reverseTable->insert("c", 3);
   }
 
   QueryResultPtr<StmtValue, EntityValue> query(StmtRef leftArg,

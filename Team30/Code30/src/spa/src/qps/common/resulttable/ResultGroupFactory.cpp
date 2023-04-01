@@ -8,44 +8,45 @@ using std::move;
 
 ResultGroupPtr ResultGroupFactory::extractResults(
     PQLQueryResult *result, vector<PQLSynonymName> *syns) {
-  ResultGroup* resultGroup = new ResultGroup();
+  ResultGroupPtr resultGroup = make_unique<ResultGroup>();
   // Add synonyms to the new ResultGroup
   for (const PQLSynonymName& name : *syns) {
     resultGroup->addSynonym(name);
   }
 
-  IntersectSet<int> rowsToTake = getUniqueRows(result, syns);
+  IntersectSet<ResultTableRow> rowsToTake = getUniqueRows(result, syns);
 
-  for (int rowIdx : rowsToTake) {
+  for (ResultTableRow rowIdx : rowsToTake) {
     QueryResultTableRow* tableRow = result->getTableRowAt(rowIdx);
     QueryResultTableRow newRow{};
     for (const PQLSynonymName& syn : *syns) {
       ResultTableCol tableCol = result->getSynonymCol(syn);
-      newRow.push_back(std::move(tableRow->at(tableCol)));
+      newRow.push_back(tableRow->at(tableCol));
     }
-
-    resultGroup->addRow(std::move(newRow));
+    resultGroup->addRow(newRow);
   }
-return ResultGroupPtr(resultGroup);
+  result->releaseOwnedItemsTo(resultGroup->getOwnedPool());
+  return resultGroup;
 }
 
-IntersectSet<int> ResultGroupFactory::getUniqueRows(
+IntersectSet<ResultTableRow> ResultGroupFactory::getUniqueRows(
     PQLQueryResult *result, vector<PQLSynonymName> *syns) {
-  IntersectSet<int> rowsToTake;
-  IntersectSet<int> ignoreRows;
+  IntersectSet<ResultTableRow> rowsToTake;
+  IntersectSet<ResultTableRow> ignoreRows;
   int rowCounts = result->getRowCount();
   for (int i = 0; i < rowCounts; i++) {
     if (ignoreRows.find(i) != ignoreRows.end()) {
       continue;
     }
-    IntersectSetPtr<int> currentIgnoreRows = make_unique<IntersectSet<int>>();
+    BSTIntersectSetPtr<ResultTableRow> currentIgnoreRows =
+        make_unique<BSTIntersectSet<ResultTableRow>>();
 
     rowsToTake.insert(i);
     for (const PQLSynonymName& syn : *syns) {
       ResultTableCol colIdx = result->getSynonymCol(syn);
       QueryResultTableRow* currRow = result->getTableRowAt(i);
       RowSetPtr rows = result->getRowsWithValue(colIdx,
-                                              currRow->at(colIdx).get());
+                                                currRow->at(colIdx));
       if (currentIgnoreRows->empty()) {
         currentIgnoreRows->insert(rows->begin(), rows->end());
       } else {

@@ -2,11 +2,11 @@ procedure permOne {
     read x;
     read y;
     read z;
-    if (x > 0) {
+    if (x > 0) then {
 		x = y + z;
-		if (y > 0){
+		if (y > 0) then {
 			x = x + 1;
-			if (z > 0) {
+			if (z > 0) then {
 				z = z - y;
 			} else {
 				z = z - y;
@@ -19,18 +19,18 @@ procedure permOne {
     } else { 
 		y = x + z;
 	}
-	x = x + z;
+	x = y + z;
 }
 
 procedure permTwo {
     read x;
     read y;
     read z;
-    if (x > 0) {
+    if (x > 0) then {
 		x = y + z;
-		if (y > 0){
+		if (y > 0) then {
 			x = x + 1;
-			if (z > 0) {
+			if (z > 0) then {
 				z = z - y;
 			} else {
 				z = z - y;
@@ -50,11 +50,11 @@ procedure permThree {
     read x;
     read y;
     read z;
-    if (x > 0) {
+    if (x > 0) then {
 		x = y + z;
-		if (y > 0){
+		if (y > 0) then {
 			x = x + 1;
-			if (z > 0) {
+			if (z > 0) then {
 				z = z - y;
 			} else {
 				z = z - y;
@@ -67,18 +67,18 @@ procedure permThree {
     } else { 
 		y = x + z;
 	}
-	x = x + z;
+	x = y + z;
 }
 
 procedure permFour {
     read x;
     read y;
     read z;
-    if (x > 0) {
+    if (x > 0) then {
 		x = y + z;
-		if (y > 0){
+		if (y > 0) then {
 			x = x + 1;
-			if (z > 0) {
+			if (z > 0) then {
 				z = z - y;
 			} else {
 				z = z - y;
@@ -98,11 +98,11 @@ procedure permFive {
     read x;
     read y;
     read z;
-    if (x > 0) {
+    if (x > 0) then {
 		x = y + z;
-		if (y > 0){
+		if (y > 0) then {
 			x = x + 1;
-			if (z > 0) {
+			if (z > 0) then {
 				z = z - y;
 			} else {
 				z = z - y;
@@ -115,18 +115,18 @@ procedure permFive {
     } else { 
 		y = x + z;
 	}
-	x = x + z;
+	x = y + z;
 }
 
 procedure permSix {
     read x;
     read y;
     read z;
-    if (x > 0) {
+    if (x > 0) then {
 		x = y + z;
-		if (y > 0){
+		if (y > 0) then {
 			x = x + 1;
-			if (z > 0) {
+			if (z > 0) then {
 				z = z - y;
 			} else {
 				z = z - y;
@@ -146,11 +146,11 @@ procedure permSeven {
     read x;
     read y;
     read z;
-    if (x > 0) {
+    if (x > 0) then {
 		x = y + z;
-		if (y > 0){
+		if (y > 0) then {
 			x = x + 1;
-			if (z > 0) {
+			if (z > 0) then {
 				z = z - y;
 			} else {
 				z = z - y;
@@ -163,18 +163,18 @@ procedure permSeven {
     } else { 
 		y = x + z;
 	}
-	x = x + z;
+	x = y + z;
 }
 
 procedure permEight {
     read x;
     read y;
     read z;
-    if (x > 0) {
+    if (x > 0) then {
 		x = y + z;
-		if (y > 0){
+		if (y > 0) then {
 			x = x + 1;
-			if (z > 0) {
+			if (z > 0) then {
 				z = z - y;
 			} else {
 				z = z - y;
@@ -194,11 +194,11 @@ procedure permNine {
     read x;
     read y;
     read z;
-    if (x > 0) {
+    if (x > 0) then {
 		x = y + z;
-		if (y > 0){
+		if (y > 0) then {
 			
-			if (z > 0) {
+			if (z > 0) then {
 				z = z - y;
 			} else {
 				z = z - y;
@@ -211,18 +211,18 @@ procedure permNine {
     } else { 
 		y = x + z;
 	}
-	x = x + z;
+	x = y + z;
 }
 
 procedure permTen {
     read x;
     read y;
     read z;
-    if (x > 0) {
+    if (x > 0) then {
 		x = y + z;
-		if (y > 0){
+		if (y > 0) then {
 			
-			if (z > 0) {
+			if (z > 0) then {
 				z = z - y;
 			} else {
 				z = z - y;
@@ -242,11 +242,11 @@ procedure permEleven {
     read x;
     read y;
     read z;
-    if (x > 0) {
+    if (x > 0) then {
 		x = y + z;
-		if (y > 0){
+		if (y > 0) then {
 			
-			if (z > 0) {
+			if (z > 0) then {
 				z = z - y;
 			} else {
 				z = z - y;
@@ -259,18 +259,18 @@ procedure permEleven {
     } else { 
 		y = x + z;
 	}
-	x = x + z;
+	x = y + z;
 }
 
 procedure permTwelve {
     read x;
     read y;
     read z;
-    if (x > 0) {
+    if (x > 0) then {
 		x = y + z;
-		if (y > 0){
+		if (y > 0) then {
 			
-			if (z > 0) {
+			if (z > 0) then {
 				z = z - y;
 			} else {
 				z = z - y;
@@ -290,11 +290,11 @@ procedure permThirteen {
     read x;
     read y;
     read z;
-    if (x > 0) {
+    if (x > 0) then {
 		x = y + z;
-		if (y > 0){
+		if (y > 0) then {
 			
-			if (z > 0) {
+			if (z > 0) then {
 				z = z - y;
 			} else {
 				z = z - y;
@@ -307,18 +307,18 @@ procedure permThirteen {
     } else { 
 		y = x + z;
 	}
-	x = x + z;
+	x = y + z;
 }
 
 procedure permFourteen {
     read x;
     read y;
     read z;
-    if (x > 0) {
+    if (x > 0) then {
 		x = y + z;
-		if (y > 0){
+		if (y > 0) then {
 			
-			if (z > 0) {
+			if (z > 0) then {
 				z = z - y;
 			} else {
 				z = z - y;
@@ -338,11 +338,11 @@ procedure permFifteen {
     read x;
     read y;
     read z;
-    if (x > 0) {
+    if (x > 0) then {
 		x = y + z;
-		if (y > 0){
+		if (y > 0) then {
 			
-			if (z > 0) {
+			if (z > 0) then {
 				z = z - y;
 			} else {
 				z = z - y;
@@ -355,18 +355,18 @@ procedure permFifteen {
     } else { 
 		y = x + z;
 	}
-	x = x + z;
+	x = y + z;
 }
 
 procedure permSixteen {
     read x;
     read y;
     read z;
-    if (x > 0) {
+    if (x > 0) then {
 		x = y + z;
-		if (y > 0){
+		if (y > 0) then {
 			
-			if (z > 0) {
+			if (z > 0) then {
 				z = z - y;
 			} else {
 				z = z - y;
@@ -386,11 +386,11 @@ procedure permSeventeen {
     read x;
     read y;
     read z;
-    if (x > 0) {
+    if (x > 0) then {
 		
-		if (y > 0){
+		if (y > 0) then {
 			x = x + 1;
-			if (z > 0) {
+			if (z > 0) then {
 				z = z - y;
 			} else {
 				z = z - y;
@@ -403,18 +403,18 @@ procedure permSeventeen {
     } else { 
 		y = x + z;
 	}
-	x = x + z;
+	x = y + z;
 }
 
 procedure permEighteen {
     read x;
     read y;
     read z;
-    if (x > 0) {
+    if (x > 0) then {
 		
-		if (y > 0){
+		if (y > 0) then {
 			x = x + 1;
-			if (z > 0) {
+			if (z > 0) then {
 				z = z - y;
 			} else {
 				z = z - y;
@@ -434,11 +434,11 @@ procedure permNinteen {
     read x;
     read y;
     read z;
-    if (x > 0) {
+    if (x > 0) then {
 		
-		if (y > 0){
+		if (y > 0) then {
 			x = x + 1;
-			if (z > 0) {
+			if (z > 0) then {
 				z = z - y;
 			} else {
 				z = z - y;
@@ -451,18 +451,18 @@ procedure permNinteen {
     } else { 
 		y = x + z;
 	}
-	x = x + z;
+	x = y + z;
 }
 
 procedure permTwenty {
     read x;
     read y;
     read z;
-    if (x > 0) {
+    if (x > 0) then {
 		
-		if (y > 0){
+		if (y > 0) then {
 			x = x + 1;
-			if (z > 0) {
+			if (z > 0) then {
 				z = z - y;
 			} else {
 				z = z - y;
@@ -482,11 +482,11 @@ procedure permTwentyone {
     read x;
     read y;
     read z;
-    if (x > 0) {
+    if (x > 0) then {
 		
-		if (y > 0){
+		if (y > 0) then {
 			x = x + 1;
-			if (z > 0) {
+			if (z > 0) then {
 				z = z - y;
 			} else {
 				z = z - y;
@@ -499,18 +499,18 @@ procedure permTwentyone {
     } else { 
 		y = x + z;
 	}
-	x = x + z;
+	x = y + z;
 }
 
 procedure permTwentytwo {
     read x;
     read y;
     read z;
-    if (x > 0) {
+    if (x > 0) then {
 		
-		if (y > 0){
+		if (y > 0) then {
 			x = x + 1;
-			if (z > 0) {
+			if (z > 0) then {
 				z = z - y;
 			} else {
 				z = z - y;
@@ -530,11 +530,11 @@ procedure permTwentythree {
     read x;
     read y;
     read z;
-    if (x > 0) {
+    if (x > 0) then {
 		
-		if (y > 0){
+		if (y > 0) then {
 			x = x + 1;
-			if (z > 0) {
+			if (z > 0) then {
 				z = z - y;
 			} else {
 				z = z - y;
@@ -547,18 +547,18 @@ procedure permTwentythree {
     } else { 
 		y = x + z;
 	}
-	x = x + z;
+	x = y + z;
 }
 
 procedure permTwentyFour {
     read x;
     read y;
     read z;
-    if (x > 0) {
+    if (x > 0) then {
 		
-		if (y > 0){
+		if (y > 0) then {
 			x = x + 1;
-			if (z > 0) {
+			if (z > 0) then {
 				z = z - y;
 			} else {
 				z = z - y;
@@ -578,11 +578,11 @@ procedure permTwentyfive {
     read x;
     read y;
     read z;
-    if (x > 0) {
+    if (x > 0) then {
 		
-		if (y > 0){
+		if (y > 0) then {
 			
-			if (z > 0) {
+			if (z > 0) then {
 				z = z - y;
 			} else {
 				z = z - y;
@@ -595,18 +595,18 @@ procedure permTwentyfive {
     } else { 
 		y = x + z;
 	}
-	x = x + z;
+	x = y + z;
 }
 
 procedure permTwentysix {
     read x;
     read y;
     read z;
-    if (x > 0) {
+    if (x > 0) then {
 		
-		if (y > 0){
+		if (y > 0) then {
 			
-			if (z > 0) {
+			if (z > 0) then {
 				z = z - y;
 			} else {
 				z = z - y;
@@ -626,11 +626,11 @@ procedure permTwentyseven {
     read x;
     read y;
     read z;
-    if (x > 0) {
+    if (x > 0) then {
 		
-		if (y > 0){
+		if (y > 0) then {
 			
-			if (z > 0) {
+			if (z > 0) then {
 				z = z - y;
 			} else {
 				z = z - y;
@@ -643,18 +643,18 @@ procedure permTwentyseven {
     } else { 
 		y = x + z;
 	}
-	x = x + z;
+	x = y + z;
 }
 
 procedure permTwentyeight {
     read x;
     read y;
     read z;
-    if (x > 0) {
+    if (x > 0) then {
 		
-		if (y > 0){
+		if (y > 0) then {
 			
-			if (z > 0) {
+			if (z > 0) then {
 				z = z - y;
 			} else {
 				z = z - y;
@@ -674,11 +674,11 @@ procedure permTwentynine {
     read x;
     read y;
     read z;
-    if (x > 0) {
+    if (x > 0) then {
 		
-		if (y > 0){
+		if (y > 0) then {
 			
-			if (z > 0) {
+			if (z > 0) then {
 				z = z - y;
 			} else {
 				z = z - y;
@@ -691,18 +691,18 @@ procedure permTwentynine {
     } else { 
 		y = x + z;
 	}
-	x = x + z;
+	x = y + z;
 }
 
 procedure permThirty {
     read x;
     read y;
     read z;
-    if (x > 0) {
+    if (x > 0) then {
 		
-		if (y > 0){
+		if (y > 0) then {
 			
-			if (z > 0) {
+			if (z > 0) then {
 				z = z - y;
 			} else {
 				z = z - y;
@@ -722,11 +722,11 @@ procedure permThirtyone {
     read x;
     read y;
     read z;
-    if (x > 0) {
+    if (x > 0) then {
 		
-		if (y > 0){
+		if (y > 0) then {
 			
-			if (z > 0) {
+			if (z > 0) then {
 				z = z - y;
 			} else {
 				z = z - y;
@@ -739,18 +739,18 @@ procedure permThirtyone {
     } else { 
 		y = x + z;
 	}
-	x = x + z;
+	x = y + z;
 }
 
 procedure permThirtytwo {
     read x;
     read y;
     read z;
-    if (x > 0) {
+    if (x > 0) then {
 		
-		if (y > 0){
+		if (y > 0) then {
 			
-			if (z > 0) {
+			if (z > 0) then {
 				z = z - y;
 			} else {
 				z = z - y;

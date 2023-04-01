@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "PQLQueryResult.h"
+#include "qps/common/intermediate_result/PQLQueryResult.h"
 #include "pkb/queryHandlers/PkbQueryHandler.h"
 #include "qps/constraints/Constraint.h"
 #include "qps/executor/QueryExecutorAgent.h"
