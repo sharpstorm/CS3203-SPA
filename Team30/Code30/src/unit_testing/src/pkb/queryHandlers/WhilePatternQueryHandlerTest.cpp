@@ -2,6 +2,7 @@
 #include <string>
 #include <unordered_set>
 
+#include "EntityMappingProviderStub.h"
 #include "StructureMappingProviderStub.h"
 #include "catch.hpp"
 #include "pkb/queryHandlers/WhilePatternQueryHandler.h"
@@ -29,6 +30,15 @@ setUpStructureMappingProvider() {
   return provider;
 }
 
+static unique_ptr<EntityMappingProviderStub> setUpEntityMappingProvider() {
+  auto provider = make_unique<EntityMappingProviderStub>();
+  provider->variableTable.insert(1, "a");
+  provider->variableTable.insert(2, "b");
+  provider->variableTable.insert(3, "c");
+  provider->allVariables = {"a", "b", "c"};
+  return provider;
+}
+
 struct whilePatternTest {
   shared_ptr<WhilePatternTable> table = make_shared<WhilePatternTable>();
   shared_ptr<WhilePatternRevTable> reverseTable =
@@ -41,9 +51,12 @@ struct whilePatternTest {
       make_unique<StmtPredicateFactory>(structureProvider.get());
   unique_ptr<EntityPredicateFactory> entPredFactory =
       make_unique<EntityPredicateFactory>();
+  unique_ptr<EntityMappingProviderStub> entityProvider =
+      setUpEntityMappingProvider();
   unique_ptr<PkbStmtEntQueryInvoker> stmtEntInvoker =
       make_unique<PkbStmtEntQueryInvoker>(
-          structureProvider.get(), stmtPredFactory.get(), entPredFactory.get());
+          structureProvider.get(), entityProvider.get(), stmtPredFactory.get(),
+          entPredFactory.get());
   WhilePatternQueryHandler handler =
       WhilePatternQueryHandler(stmtEntInvoker.get(), store.get());
   whilePatternTest() {
@@ -87,9 +100,6 @@ TEST_CASE("WhilePatternQueryHandler w(v,_) or w(_,_)") {
 
   auto res1 = *test.query({StmtType::While, 0}, {EntityType::Wildcard, ""});
   REQUIRE(res1.firstArgVals == unordered_set<int>({1, 2, 3}));
-  REQUIRE(res1.secondArgVals == unordered_set<string>({"a", "b", "c"}));
-  REQUIRE(res1.pairVals ==
-          pair_set<int, string>({{1, "a"}, {1, "b"}, {2, "a"}, {3, "c"}}));
 
   auto res2 = *test.query({StmtType::While, 0}, {EntityType::Variable, ""});
   REQUIRE(res2.firstArgVals == unordered_set<int>({1, 2, 3}));
@@ -120,9 +130,7 @@ TEST_CASE("WhilePatternQueryHandler w(v,_) / w(_,_) with w.stmt# ") {
   auto test = whilePatternTest();
 
   auto res1 = *test.query({StmtType::None, 1}, {EntityType::Wildcard, ""});
-  REQUIRE(res1.firstArgVals == unordered_set<int>({1}));
-  REQUIRE(res1.secondArgVals == unordered_set<string>({"a", "b"}));
-  REQUIRE(res1.pairVals == pair_set<int, string>({{1, "a"}, {1, "b"}}));
+  REQUIRE(res1.isEmpty == false);
 
   auto res2 = *test.query({StmtType::None, 3}, {EntityType::Variable, ""});
   REQUIRE(res2.firstArgVals == unordered_set<int>({3}));

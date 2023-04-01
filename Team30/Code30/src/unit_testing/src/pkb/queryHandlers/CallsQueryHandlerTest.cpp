@@ -77,6 +77,23 @@ TEST_CASE("CallsQueryHandler calls(entityName, entityName)") {
               ->isEmpty == true);
 }
 
+TEST_CASE(
+    "CallsQueryHandler calls(procedure, entityName) / calls(entityName, "
+    "procedure)") {
+  auto test = callsTest();
+
+  test.store->insert("main", "foo");
+  test.store->insert("main", "goo");
+  test.store->insert("foo", "goo");
+
+  auto result =
+      *test.query({EntityType::None, "main"}, {EntityType::Procedure, ""});
+  REQUIRE(result.secondArgVals == unordered_set<string>({"foo", "goo"}));
+  auto result2 =
+      *test.query({EntityType::Procedure, ""}, {EntityType::None, "goo"});
+  REQUIRE(result2.firstArgVals == unordered_set<string>({"foo", "main"}));
+}
+
 TEST_CASE("CallsQueryHandler calls(_, entityName)") {
   auto test = callsTest();
 
@@ -87,9 +104,9 @@ TEST_CASE("CallsQueryHandler calls(_, entityName)") {
   auto result =
       *test.query({EntityType::Wildcard, ""}, {EntityType::Procedure, "foo"});
   REQUIRE(result.isEmpty == false);
-  REQUIRE(result.firstArgVals == unordered_set<string>{"main"});
-  REQUIRE(result.secondArgVals == unordered_set<string>{"foo"});
-  REQUIRE(result.pairVals == pair_set<string, string>{{"main", "foo"}});
+  auto result2 =
+      *test.query({EntityType::Wildcard, ""}, {EntityType::Procedure, "main"});
+  REQUIRE(result2.isEmpty == true);
 }
 
 TEST_CASE("CallsQueryHandler calls(entityName, _)") {
@@ -102,10 +119,26 @@ TEST_CASE("CallsQueryHandler calls(entityName, _)") {
   auto result =
       *test.query({EntityType::Procedure, "main"}, {EntityType::Wildcard, ""});
   REQUIRE(result.isEmpty == false);
-  REQUIRE(result.firstArgVals == unordered_set<string>{"main"});
-  REQUIRE(result.secondArgVals == unordered_set<string>{"woo", "foo"});
-  REQUIRE(result.pairVals ==
-          pair_set<string, string>{{"main", "foo"}, {"main", "woo"}});
+  auto result2 =
+      *test.query({EntityType::Procedure, "goo"}, {EntityType::Wildcard, ""});
+  REQUIRE(result2.isEmpty == true);
+}
+
+TEST_CASE("CallsQueryHandler calls(_, procedure) / calls(procedure,_)") {
+  auto test = callsTest();
+
+  test.store->insert("main", "foo");
+  test.store->insert("foo", "goo");
+
+  auto result =
+      *test.query({EntityType::Wildcard, ""}, {EntityType::Procedure, ""});
+  REQUIRE(result.isEmpty == false);
+  REQUIRE(result.secondArgVals == unordered_set<string>({"foo", "goo"}));
+
+  auto result2 =
+      *test.query({EntityType::Procedure, ""}, {EntityType::Wildcard, ""});
+  REQUIRE(result2.isEmpty == false);
+  REQUIRE(result2.firstArgVals == unordered_set<string>({"main", "foo"}));
 }
 
 TEST_CASE("CallsQueryHandler calls(_, _)") {
@@ -118,11 +151,14 @@ TEST_CASE("CallsQueryHandler calls(_, _)") {
   auto result =
       *test.query({EntityType::Wildcard, ""}, {EntityType::Wildcard, ""});
   REQUIRE(result.isEmpty == false);
-  REQUIRE(result.firstArgVals == unordered_set<string>{"main", "foo"});
-  REQUIRE(result.secondArgVals == unordered_set<string>{"woo", "foo", "goo"});
-  REQUIRE(result.pairVals == pair_set<string, string>{{"main", "foo"},
-                                                      {"main", "woo"},
-                                                      {"foo", "goo"}});
+}
+
+TEST_CASE("CallsQueryHandler calls(_, _) no results") {
+  auto test = callsTest();
+
+  auto result =
+      *test.query({EntityType::Wildcard, ""}, {EntityType::Wildcard, ""});
+  REQUIRE(result.isEmpty == true);
 }
 
 /* Call Star */
@@ -147,6 +183,23 @@ TEST_CASE("CallsQueryHandler callsStar(entityName, entityName)") {
               ->isEmpty == false);
 }
 
+TEST_CASE(
+    "CallsQueryHandler callsStar(procedure, entityName) / calls(entityName, "
+    "procedure)") {
+  auto test = callsTest();
+
+  test.storeT->insert("main", "foo");
+  test.storeT->insert("main", "goo");
+  test.storeT->insert("foo", "goo");
+
+  auto result =
+      *test.queryT({EntityType::None, "main"}, {EntityType::Procedure, ""});
+  REQUIRE(result.secondArgVals == unordered_set<string>({"foo", "goo"}));
+  auto result2 =
+      *test.queryT({EntityType::Procedure, ""}, {EntityType::None, "goo"});
+  REQUIRE(result2.firstArgVals == unordered_set<string>({"foo", "main"}));
+}
+
 TEST_CASE("CallsQueryHandler callsStar(_, entityName)") {
   auto test = callsTest();
 
@@ -160,10 +213,9 @@ TEST_CASE("CallsQueryHandler callsStar(_, entityName)") {
   auto result =
       *test.queryT({EntityType::Wildcard, ""}, {EntityType::Procedure, "goo"});
   REQUIRE(result.isEmpty == false);
-  REQUIRE(result.firstArgVals == unordered_set<string>{"foo", "main"});
-  REQUIRE(result.secondArgVals == unordered_set<string>{"goo"});
-  REQUIRE(result.pairVals ==
-          pair_set<string, string>{{"main", "goo"}, {"foo", "goo"}});
+  auto result2 =
+      *test.queryT({EntityType::Wildcard, ""}, {EntityType::Procedure, "main"});
+  REQUIRE(result2.isEmpty == true);
 }
 
 TEST_CASE("CallsQueryHandler callsStar(entityName, _)") {
@@ -177,11 +229,26 @@ TEST_CASE("CallsQueryHandler callsStar(entityName, _)") {
   auto result =
       *test.queryT({EntityType::Procedure, "main"}, {EntityType::Wildcard, ""});
   REQUIRE(result.isEmpty == false);
-  REQUIRE(result.firstArgVals == unordered_set<string>{"main"});
-  REQUIRE(result.secondArgVals == unordered_set<string>{"woo", "foo", "goo"});
-  REQUIRE(result.pairVals == pair_set<string, string>{{"main", "foo"},
-                                                      {"main", "woo"},
-                                                      {"main", "goo"}});
+  auto result2 =
+      *test.queryT({EntityType::Procedure, "goo"}, {EntityType::Wildcard, ""});
+  REQUIRE(result2.isEmpty == true);
+}
+
+TEST_CASE("CallsQueryHandler Calls*(_, procedure) / Calls*(procedure,_)") {
+  auto test = callsTest();
+
+  test.store->insert("main", "foo");
+  test.store->insert("foo", "goo");
+
+  auto result =
+      *test.query({EntityType::Wildcard, ""}, {EntityType::Procedure, ""});
+  REQUIRE(result.isEmpty == false);
+  REQUIRE(result.secondArgVals == unordered_set<string>({"foo", "goo"}));
+
+  auto result2 =
+      *test.query({EntityType::Procedure, ""}, {EntityType::Wildcard, ""});
+  REQUIRE(result2.isEmpty == false);
+  REQUIRE(result2.firstArgVals == unordered_set<string>({"main", "foo"}));
 }
 
 TEST_CASE("CallsQueryHandler callsStar(_, _)") {
@@ -195,10 +262,12 @@ TEST_CASE("CallsQueryHandler callsStar(_, _)") {
   auto result =
       *test.queryT({EntityType::Wildcard, ""}, {EntityType::Wildcard, ""});
   REQUIRE(result.isEmpty == false);
-  REQUIRE(result.firstArgVals == unordered_set<string>{"main", "foo"});
-  REQUIRE(result.secondArgVals == unordered_set<string>{"woo", "foo", "goo"});
-  REQUIRE(result.pairVals == pair_set<string, string>{{"main", "foo"},
-                                                      {"main", "woo"},
-                                                      {"main", "goo"},
-                                                      {"foo", "goo"}});
+}
+
+TEST_CASE("CallsQueryHandler callsStar(_, _) no result") {
+  auto test = callsTest();
+
+  auto result =
+      *test.queryT({EntityType::Wildcard, ""}, {EntityType::Wildcard, ""});
+  REQUIRE(result.isEmpty == true);
 }

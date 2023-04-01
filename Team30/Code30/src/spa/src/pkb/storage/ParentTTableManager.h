@@ -110,4 +110,47 @@ class ParentTTableManager {
       Predicate<StmtValue> arg1Predicate, StmtValue arg2) const {
     return query(arg1Predicate, StmtValueSet({arg2}));
   }
+
+  /**
+   * Return non-empty result if at least one such relation
+   */
+  virtual QueryResultPtr<StmtValue, StmtValue> hasRelation() const {
+    QueryResult<StmtValue, StmtValue> result;
+    if (table->size() != 0) {
+      result.isEmpty = false;
+    }
+    return make_unique<QueryResult<StmtValue, StmtValue>>(result);
+  }
+
+  /**
+   * Right side wildcard.
+   */
+  virtual QueryResultPtr<StmtValue, StmtValue> rightWildcardQuery(
+      const set<StmtValue> &leftArgValues) const {
+    QueryResult<StmtValue, StmtValue> result;
+    for (auto leftArg : leftArgValues) {
+      auto rightArg = getByFirstArg(leftArg);
+      if (rightArg != 0) {
+        result.firstArgVals.insert(leftArg);
+        result.isEmpty = false;
+      }
+    }
+    return make_unique<QueryResult<StmtValue, StmtValue>>(result);
+  }
+
+  /**
+   * Left side wildcard.
+   */
+  virtual QueryResultPtr<StmtValue, StmtValue> leftWildcardQuery(
+      const set<StmtValue> &rightArgValues) const {
+    QueryResult<StmtValue, StmtValue> result;
+    for (auto rightArg : rightArgValues) {
+      auto leftArg = getBySecondArg(rightArg);
+      if (leftArg.size() > 0) {
+        result.secondArgVals.insert(rightArg);
+        result.isEmpty = false;
+      }
+    }
+    return make_unique<QueryResult<StmtValue, StmtValue>>(result);
+  }
 };

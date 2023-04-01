@@ -8,5 +8,5 @@ CallsQueryHandler::CallsQueryHandler(PkbEntEntQueryInvoker *invoker,
     : PkbEntEntQueryHandler(invoker, storage) {
   PkbEntEntQueryHandler::setLeftValidator(callsArgValidator);
   PkbEntEntQueryHandler::setRightValidator(callsArgValidator);
-  PkbEntEntQueryHandler::setLeftTransformer(procArgTransformer);
+  //  PkbEntEntQueryHandler::setLeftTransformer(procArgTransformer);
 }

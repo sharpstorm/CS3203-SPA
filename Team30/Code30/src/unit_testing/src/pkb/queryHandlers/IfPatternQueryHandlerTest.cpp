@@ -2,6 +2,7 @@
 #include <string>
 #include <unordered_set>
 
+#include "EntityMappingProviderStub.h"
 #include "StructureMappingProviderStub.h"
 #include "catch.hpp"
 #include "pkb/queryHandlers/IfPatternQueryHandler.h"
@@ -29,6 +30,15 @@ setUpStructureMappingProvider() {
   return provider;
 }
 
+static unique_ptr<EntityMappingProviderStub> setUpEntityMappingProvider() {
+  auto provider = make_unique<EntityMappingProviderStub>();
+  provider->variableTable.insert(1, "a");
+  provider->variableTable.insert(2, "b");
+  provider->variableTable.insert(3, "c");
+  provider->allVariables = {"a", "b", "c"};
+  return provider;
+}
+
 struct ifPatternTest {
   shared_ptr<IfPatternTable> table = make_shared<IfPatternTable>();
   shared_ptr<IfPatternRevTable> reverseTable = make_shared<IfPatternRevTable>();
@@ -36,13 +46,16 @@ struct ifPatternTest {
       make_unique<IfPatternStorage>(table.get(), reverseTable.get());
   unique_ptr<StructureMappingProviderStub> structureProvider =
       setUpStructureMappingProvider();
+  unique_ptr<EntityMappingProviderStub> entityProvider =
+      setUpEntityMappingProvider();
   unique_ptr<StmtPredicateFactory> stmtPredFactory =
       make_unique<StmtPredicateFactory>(structureProvider.get());
   unique_ptr<EntityPredicateFactory> entPredFactory =
       make_unique<EntityPredicateFactory>();
   unique_ptr<PkbStmtEntQueryInvoker> stmtEntInvoker =
       make_unique<PkbStmtEntQueryInvoker>(
-          structureProvider.get(), stmtPredFactory.get(), entPredFactory.get());
+          structureProvider.get(), entityProvider.get(), stmtPredFactory.get(),
+          entPredFactory.get());
   IfPatternQueryHandler handler =
       IfPatternQueryHandler(stmtEntInvoker.get(), store.get());
   ifPatternTest() {
@@ -86,9 +99,6 @@ TEST_CASE("IfPatternQueryHandler ifs(v,_,_) or ifs(_,_,_)") {
 
   auto res1 = *test.query({StmtType::If, 0}, {EntityType::Wildcard, ""});
   REQUIRE(res1.firstArgVals == unordered_set<int>({1, 2, 3}));
-  REQUIRE(res1.secondArgVals == unordered_set<string>({"a", "b", "c"}));
-  REQUIRE(res1.pairVals ==
-          pair_set<int, string>({{1, "a"}, {1, "b"}, {2, "a"}, {3, "c"}}));
 
   auto res2 = *test.query({StmtType::If, 0}, {EntityType::Variable, ""});
   REQUIRE(res2.firstArgVals == unordered_set<int>({1, 2, 3}));
@@ -119,9 +129,7 @@ TEST_CASE("IfPatternQueryHandler ifs(v,_,_) / ifs(_,_,_) with ifs.stmt# ") {
   auto test = ifPatternTest();
 
   auto res1 = *test.query({StmtType::None, 1}, {EntityType::Wildcard, ""});
-  REQUIRE(res1.firstArgVals == unordered_set<int>({1}));
-  REQUIRE(res1.secondArgVals == unordered_set<string>({"a", "b"}));
-  REQUIRE(res1.pairVals == pair_set<int, string>({{1, "a"}, {1, "b"}}));
+  REQUIRE(res1.isEmpty == false);
 
   auto res2 = *test.query({StmtType::None, 3}, {EntityType::Variable, ""});
   REQUIRE(res2.firstArgVals == unordered_set<int>({3}));

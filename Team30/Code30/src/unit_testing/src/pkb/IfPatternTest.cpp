@@ -39,9 +39,6 @@ TEST_CASE("IfPattern unknown if") {
   auto res3 =
       *handler.queryIfPattern({StmtType::If, 0}, {EntityType::Wildcard, ""});
   REQUIRE(res3.firstArgVals == unordered_set<int>({1, 2, 3}));
-  REQUIRE(res3.secondArgVals == unordered_set<string>({"a", "b", "c"}));
-  REQUIRE(res3.pairVals ==
-          pair_set<int, string>({{1, "a"}, {1, "b"}, {2, "a"}, {3, "c"}}));
 }
 
 TEST_CASE("IfPattern known if") {
@@ -68,7 +65,5 @@ TEST_CASE("IfPattern known if") {
 
   auto res3 =
       *handler.queryIfPattern({StmtType::None, 2}, {EntityType::Wildcard, ""});
-  REQUIRE(res3.firstArgVals == unordered_set<int>({2}));
-  REQUIRE(res3.secondArgVals == unordered_set<string>({"a"}));
-  REQUIRE(res3.pairVals == pair_set<int, string>({{2, "a"}}));
+  REQUIRE(res3.isEmpty == false);
 }

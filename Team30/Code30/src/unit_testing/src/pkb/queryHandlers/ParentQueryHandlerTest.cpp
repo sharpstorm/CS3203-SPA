@@ -118,29 +118,38 @@ TEST_CASE("ParentQueryHandler parent(stmtType, stmtType)") {
 TEST_CASE("ParentQueryHandler parent(_, stmtType)") {
   auto test = parentTest();
 
-  test.table->insert(10, 11);
-  test.table->insert(11, 12);
-  test.table->insert(12, 16);
+  test.store->insert(10, 11);
+  test.store->insert(11, 12);
+  test.store->insert(12, 16);
 
   auto result1 = *test.query({StmtType::Wildcard, 0}, {StmtType::None, 0});
   REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.firstArgVals == unordered_set<int>({10, 11, 12}));
   REQUIRE(result1.secondArgVals == unordered_set<int>({11, 12, 16}));
-  REQUIRE(result1.pairVals ==
-          pair_set<int, int>({{10, 11}, {11, 12}, {12, 16}}));
 }
 
 TEST_CASE("ParentQueryHandler parent(_, stmtNum)") {
   auto test = parentTest();
 
-  test.table->insert(10, 11);
-  test.reverseTable->insert(11, 10);
+  test.store->insert(10, 11);
 
   auto result1 = *test.query({StmtType::Wildcard, 0}, {StmtType::None, 11});
   REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.firstArgVals == unordered_set<int>({10}));
-  REQUIRE(result1.secondArgVals == unordered_set<int>({11}));
-  REQUIRE(result1.pairVals == pair_set<int, int>({{10, 11}}));
+}
+
+TEST_CASE("ParentQueryHandler parent(_, _)") {
+  auto test = parentTest();
+
+  test.store->insert(10, 11);
+
+  auto result1 = *test.query({StmtType::Wildcard, 0}, {StmtType::Wildcard, 0});
+  REQUIRE(result1.isEmpty == false);
+}
+
+TEST_CASE("ParentQueryHandler parent(_, _) no results") {
+  auto test = parentTest();
+
+  auto result1 = *test.query({StmtType::Wildcard, 0}, {StmtType::Wildcard, 0});
+  REQUIRE(result1.isEmpty == true);
 }
 
 struct parentTTest {
@@ -339,26 +348,17 @@ TEST_CASE("ParentQueryHandler parentStar(_,stmtType)") {
   auto test = parentTTest();
   // 1(->2(->3(->4,5|6)),7),8
   auto result1 = *test.queryT({StmtType::Wildcard, 0}, {StmtType::If, 0});
-  REQUIRE(result1.pairVals == pair_set<int, int>({{1, 3}, {2, 3}}));
+  REQUIRE(result1.secondArgVals == unordered_set<int>({3}));
 
   auto result2 = *test.queryT({StmtType::Wildcard, 0}, {StmtType::None, 0});
-  REQUIRE(result2.pairVals == pair_set<int, int>({{1, 2},
-                                                  {1, 3},
-                                                  {1, 4},
-                                                  {1, 5},
-                                                  {1, 6},
-                                                  {1, 7},
-                                                  {2, 3},
-                                                  {2, 4},
-                                                  {2, 5},
-                                                  {2, 6},
-                                                  {3, 4},
-                                                  {3, 5},
-                                                  {3, 6}}));
+  REQUIRE(result2.secondArgVals == unordered_set<int>({2, 3, 4, 5, 6, 7}));
 }
 
 TEST_CASE("ParentQueryHandler parentStar(_,stmtNum)") {
   auto test = parentTTest();
   auto result1 = *test.queryT({StmtType::Wildcard, 0}, {StmtType::None, 5});
-  REQUIRE(result1.pairVals == pair_set<int, int>({{1, 5}, {2, 5}, {3, 5}}));
+  REQUIRE(result1.isEmpty == false);
+
+  auto result2 = *test.queryT({StmtType::Wildcard, 0}, {StmtType::None, 1});
+  REQUIRE(result2.isEmpty == true);
 }
