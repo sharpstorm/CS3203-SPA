@@ -296,14 +296,14 @@ TEST_CASE("Test Prefer Follows* over Next*") {
       "s1", "s1");
 }
 
-TEST_CASE("Test Prefer Next* over Affects") {
-  executeClauseCompare<NextTClause, AffectsClause>(
+TEST_CASE("Test Prefer Affects over Next*") {
+  executeClauseCompare<AffectsClause, NextTClause>(
       "stmt s1, s2; Select BOOLEAN "
       "such that Affects(s1, s2) and Next*(s1, s2)",
       {},
       "s1", "s1");
 
-  executeClauseCompare<NextTClause, AffectsClause>(
+  executeClauseCompare<AffectsClause, NextTClause>(
       "stmt s1, s2; Select BOOLEAN "
       "such that Next*(s1, s2) and Affects(s1, s2)",
       {},
