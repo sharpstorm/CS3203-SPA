@@ -15,7 +15,6 @@ UsesQueryHandler::UsesQueryHandler(
   PkbEntEntQueryHandler::setLeftValidator(procLeftArgValidator);
   PkbEntEntQueryHandler::setRightValidator(varRightArgValidator);
   PkbEntEntQueryHandler::setLeftTransformer(procArgTransformer);
-  PkbStmtEntQueryHandler::setIsPattern(true);
 }
 
 EntityValue UsesQueryHandler::getPrintDeclarations(StmtValue printStmt) const {

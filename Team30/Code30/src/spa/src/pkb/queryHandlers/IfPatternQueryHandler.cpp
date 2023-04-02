@@ -7,5 +7,4 @@ IfPatternQueryHandler::IfPatternQueryHandler(
     : PkbStmtEntQueryHandler(invoker, storage) {
   PkbStmtEntQueryHandler::setLeftValidator(ifLeftArgValidator);
   PkbStmtEntQueryHandler::setRightValidator(varRightArgValidator);
-  PkbStmtEntQueryHandler::setIsPattern(true);
 }

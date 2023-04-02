@@ -15,7 +15,6 @@ ModifiesQueryHandler::ModifiesQueryHandler(PkbStmtEntQueryInvoker *invoker,
   PkbEntEntQueryHandler::setLeftValidator(procLeftArgValidator);
   PkbEntEntQueryHandler::setRightValidator(varRightArgValidator);
   PkbEntEntQueryHandler::setLeftTransformer(procArgTransformer);
-  PkbStmtEntQueryHandler::setIsPattern(true);
 }
 
 EntityValue ModifiesQueryHandler::getReadDeclarations(

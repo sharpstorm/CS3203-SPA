@@ -28,7 +28,7 @@ class BaseQueryHandler {
     }
 
     return queryInvoker->query(store, leftTransformer(leftArg),
-                               rightTransformer(rightArg), isPattern);
+                               rightTransformer(rightArg));
   }
 
  protected:
@@ -48,10 +48,6 @@ class BaseQueryHandler {
     rightTransformer = transformer;
   }
 
-  void setIsPattern(bool currIsPattern) {
-    isPattern = currIsPattern;
-  }
-
  private:
   BaseQueryInvoker<LeftValue, LeftType, RightValue, RightType> *queryInvoker;
   ArgValidator<LeftValue, LeftType> leftValidator =
@@ -63,7 +59,6 @@ class BaseQueryHandler {
   ArgTransformer<RightValue, RightType> rightTransformer =
       defaultTransformer<RightValue, RightType>;
   RelationTableManager<LeftValue, RightValue> *store;
-  bool isPattern = false;
 };
 
 using PkbStmtStmtQueryHandler =
