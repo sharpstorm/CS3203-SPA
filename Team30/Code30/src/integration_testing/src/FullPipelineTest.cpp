@@ -635,6 +635,8 @@ TEST_CASE("Next Test") {
 TEST_CASE("AffectsT Test") {
   auto pipeline = TestPipelineProvider();
 
+  pipeline.query("stmt s; Select s such that Affects*(_,_)",
+                 {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"});
   pipeline.query("Select BOOLEAN such that Affects(1, 9)",
                  { "FALSE" });
   pipeline.query("Select BOOLEAN such that Affects*(1, 9)",
