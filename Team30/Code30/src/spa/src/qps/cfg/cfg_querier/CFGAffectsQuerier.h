@@ -101,7 +101,6 @@ queryBool(const StmtValue &arg0, const StmtValue &arg1) {
   StmtTransitiveResult result;
 
   if (!validateArg(arg0) || !validateArg(arg1)) {
-
     return result;
   }
 
@@ -175,7 +174,7 @@ queryFrom(const StmtValue &arg0, const StmtType &type1) {
   CacheTable* cacheTable = closure.getAffectsCache();
   auto row = cacheTable->queryFull(arg0, 0);
   if (row != nullptr) {
-    for(const StmtValue &i : *row) {
+    for (const StmtValue &i : *row) {
       result.add(arg0, i);
     }
     return result;
@@ -254,7 +253,8 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
 
         if (isAffected) {
           state->result->add(stmtNumber, state->endingStmt);
-          state->closure.getAffectsCache()->addEntry(stmtNumber, state->endingStmt);
+          state->closure.getAffectsCache()->
+              addEntry(stmtNumber,state->endingStmt);
         }
 
         return curState;
@@ -319,7 +319,8 @@ queryForward(StmtTransitiveResult *resultOut,
           EntityIdxSet usedVars = usesGetter(state->closure,
                                              stmtNumber);
           if (usedVars.find(state->target) != usedVars.end()) {
-            state->closure.getAffectsCache()->addEntry(state->startingStmt, stmtNumber);
+            state->closure.getAffectsCache()->
+                addEntry(state->startingStmt, stmtNumber);
             state->result->add(state->startingStmt, stmtNumber);
           }
         }
