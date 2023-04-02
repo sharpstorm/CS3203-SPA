@@ -181,6 +181,8 @@ TEST_CASE("End-to-End No Clause") {
 TEST_CASE("End-to-End Follows Clause Test") {
   auto pipeline = TestPipelineProvider();
 
+  pipeline.query("Select BOOLEAN such that Follows*(_,_)", {"TRUE"});
+
   pipeline.query("stmt s; Select s such that Follows*(1, s) and Follows*(s, 3)",
                  {"2"});
 
