@@ -4,7 +4,7 @@
 
 using std::set;
 
-template<typename V, typename T>
+template <typename V, typename T>
 class IProvider {
  public:
   virtual ~IProvider() {}

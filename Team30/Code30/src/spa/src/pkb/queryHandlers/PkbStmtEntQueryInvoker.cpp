@@ -2,10 +2,8 @@
 
 PkbStmtEntQueryInvoker::PkbStmtEntQueryInvoker(
     IStructureMappingProvider *structureMappingProvider,
+    IEntityMappingProvider *entityMappingProvider,
     StmtPredicateFactory *leftPredicateFactory,
     EntityPredicateFactory *rightPredicateFactory)
-    : BaseQueryInvoker(
-    structureMappingProvider,
-    leftPredicateFactory,
-    rightPredicateFactory) {}
-
+    : BaseQueryInvoker(structureMappingProvider, entityMappingProvider,
+                       leftPredicateFactory, rightPredicateFactory) {}

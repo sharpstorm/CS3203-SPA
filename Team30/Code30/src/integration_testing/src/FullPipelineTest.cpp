@@ -181,6 +181,8 @@ TEST_CASE("End-to-End No Clause") {
 TEST_CASE("End-to-End Follows Clause Test") {
   auto pipeline = TestPipelineProvider();
 
+  pipeline.query("Select BOOLEAN such that Follows*(_,_)", {"TRUE"});
+
   pipeline.query("stmt s; Select s such that Follows*(1, s) and Follows*(s, 3)",
                  {"2"});
 
@@ -633,6 +635,8 @@ TEST_CASE("Next Test") {
 TEST_CASE("AffectsT Test") {
   auto pipeline = TestPipelineProvider();
 
+  pipeline.query("stmt s; Select s such that Affects*(_,_)",
+                 {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"});
   pipeline.query("Select BOOLEAN such that Affects(1, 9)",
                  { "FALSE" });
   pipeline.query("Select BOOLEAN such that Affects*(1, 9)",

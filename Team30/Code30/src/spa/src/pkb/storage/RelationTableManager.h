@@ -101,4 +101,47 @@ class RelationTableManager {
       QueryResultBuilder<K, V> *resultBuilder) const {
     return query(arg1Predicate, set<V>({arg2}), resultBuilder);
   }
+
+  /**
+   * Return non-empty result if at least one such relation
+   */
+  virtual QueryResultPtr<K, V> hasRelation() const {
+    QueryResult<K, V> result;
+    if (table->size() != 0) {
+      result.isEmpty = false;
+    }
+    return make_unique<QueryResult<K, V>>(result);
+  }
+
+  /**
+   * Right side wildcard.
+   */
+  virtual QueryResultPtr<K, V> rightWildcardQuery(
+      const set<K> &arg1Values) const {
+    QueryResult<K, V> result;
+    for (auto arg1 : arg1Values) {
+      auto arg2Values = getByFirstArg(arg1);
+      if (arg2Values.size() > 0) {
+        result.firstArgVals.insert(arg1);
+        result.isEmpty = false;
+      }
+    }
+    return make_unique<QueryResult<K, V>>(result);
+  }
+
+  /**
+   * Left side wildcard.
+   */
+  virtual QueryResultPtr<K, V> leftWildcardQuery(
+      const set<V> &arg2Values) const {
+    QueryResult<K, V> result;
+    for (auto arg2 : arg2Values) {
+      auto arg1Values = getBySecondArg(arg2);
+      if (arg1Values.size() > 0) {
+        result.secondArgVals.insert(arg2);
+        result.isEmpty = false;
+      }
+    }
+    return make_unique<QueryResult<K, V>>(result);
+  }
 };

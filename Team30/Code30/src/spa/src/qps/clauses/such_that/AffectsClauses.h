@@ -27,7 +27,7 @@ constexpr ModifiesGetter<QueryExecutorAgent> modifiesQuerier =
        StmtValue stmtNumber) -> EntityIdxSet {
       QueryResultPtr<StmtValue, EntityValue> result =
           agent->queryModifies(StmtRef{StmtType::None, stmtNumber},
-                               EntityRef{EntityType::None, ""});
+                               EntityRef{EntityType::Variable, ""});
       EntityIdxSet ret;
       for (EntityValue v : result->secondArgVals) {
         ret.insert(agent->getIndexOfVariable(v));
@@ -40,7 +40,7 @@ constexpr UsesGetter<QueryExecutorAgent> usesQuerier =
     [](const QueryExecutorAgent &agent, StmtValue stmtNumber) -> EntityIdxSet {
       QueryResultPtr<StmtValue, EntityValue> result =
           agent->queryUses(StmtRef{StmtType::None, stmtNumber},
-                           EntityRef{EntityType::None, ""});
+                           EntityRef{EntityType::Variable, ""});
       EntityIdxSet ret;
       for (EntityValue v : result->secondArgVals) {
         ret.insert(agent->getIndexOfVariable(v));
@@ -62,10 +62,14 @@ constexpr AffectsInvoker abstractAffectsInvoker = [](
     const StmtRef &leftArg,
     const StmtRef &rightArg) {
   auto result = make_unique<QueryResult<StmtValue, StmtValue>>();
-  if (!leftArg.isType(StmtType::None) && !leftArg.isType(StmtType::Assign)) {
+  if (!leftArg.isType(StmtType::None) &&
+      !leftArg.isType(StmtType::Assign) &&
+      !leftArg.isType(StmtType::Wildcard)) {
     return result;
   }
-  if (!rightArg.isType(StmtType::None) && !rightArg.isType(StmtType::Assign)) {
+  if (!rightArg.isType(StmtType::None) &&
+      !rightArg.isType(StmtType::Assign) &&
+      !rightArg.isType(StmtType::Wildcard)) {
     return result;
   }
 
