@@ -171,9 +171,7 @@ StmtTransitiveResult CFGAffectsQuerier<ClosureType, typePredicate,
                                        modifiesGetter, usesGetter>::
 queryFrom(const StmtValue &arg0, const StmtType &type1) {
   StmtTransitiveResult result;
-
   CFGNode nodeFrom = cfg->toCFGNode(arg0);
-
   CacheTable* cacheTable = closure.getAffectsCache();
   auto row = cacheTable->queryFull(arg0, 0);
   if (row != nullptr) {
@@ -182,7 +180,6 @@ queryFrom(const StmtValue &arg0, const StmtType &type1) {
     }
     return result;
   }
-
   queryForward(&result, nodeFrom);
   return result;
 }
@@ -271,9 +268,7 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
                                                 initialState,
                                                 &state);
 
-  cacheTable = closure.getAffectsCache();
-
-  cacheTable->promoteTo(cfg->fromCFGNode(arg1));
+  closure.getAffectsCache()->promoteTo(cfg->fromCFGNode(arg1));
   return result;
 }
 
@@ -345,8 +340,7 @@ queryForward(StmtTransitiveResult *resultOut,
                                stmtNumber, modifiedVar};
   walker.walkFrom<QueryFromResultClosure, forwardWalkerCallback>(start,
                                                                  &state);
-  CacheTable* cacheTable = closure.getAffectsCache();
-  cacheTable->promoteFrom(stmtNumber);
+  closure.getAffectsCache()->promoteFrom(stmtNumber);
 }
 
 template<
