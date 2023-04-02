@@ -1,0 +1,100 @@
+1 - Boolean Declaration - Normal Usage (Affects) True 
+
+Select BOOLEAN such that Affects(1, 2)
+TRUE
+5000
+2 - Boolean Declaration - Print (Affects) True
+
+Select BOOLEAN such that Affects(1, 4)
+TRUE
+5000
+3 - Boolean Declaration - Read (Affects) False
+
+Select BOOLEAN such that Affects(1, 6)
+FALSE
+5000
+4 - Boolean Declaration - Read (Affects*) False
+
+Select BOOLEAN such that Affects*(1, 6)
+FALSE
+5000
+5 - Boolean Declaration - Call [with Read] (Affects) False
+
+Select BOOLEAN such that Affects(6, 8)
+FALSE
+5000
+6 - Boolean Declaration - Call [with Read] (Affects) False
+
+Select BOOLEAN such that Affects(6, 8)
+FALSE
+5000
+7 - Boolean Declaration - Call [with Write] (Affects) False
+
+Select BOOLEAN such that Affects(8, 10)
+FALSE
+5000
+8 - Boolean Declaration - Call [with Write without Change] (Affects) True
+
+Select BOOLEAN such that Affects(10, 12)
+TRUE
+5000
+9 - Boolean Declaration - Call [with Read Write] (Affects) False
+
+Select BOOLEAN such that Affects(13, 15)
+FALSE
+5000
+10 - Boolean Declaration - Call [within WriteOnlyNoChange] (Affects) False
+
+Select BOOLEAN such that Affects(10, 23)
+FALSE
+5000
+11 - Boolean Declaration - Call [within Readwrite] (Affects*) False
+
+Select BOOLEAN such that Affects*(10, 26)
+FALSE
+5000
+12 - Boolean Declaration - Basic While (Affects) True
+
+Select BOOLEAN such that Affects(18, 19)
+TRUE
+5000
+13 - Boolean Declaration - Read in While (Affects) False
+
+Select BOOLEAN such that Affects(18, 21)
+FALSE
+5000
+14 - Boolean Declaration - Read in While Unaffected (Affects) True
+
+Select BOOLEAN such that Affects(19, 21)
+TRUE
+5000
+15 - Boolean Declaration - Read in While (Affects*) True
+
+Select BOOLEAN such that Affects*(18, 21)
+TRUE
+5000
+16 - Boolean Declaration - Read in While (Affects*) False
+
+Select BOOLEAN such that Affects*(21, 19)
+FALSE
+5000
+17 - Boolean Declaration - Read in While (Affects*) False
+
+Select BOOLEAN such that Affects*(19, 18)
+FALSE
+5000
+18 - Boolean Declaration - Read in While (Affects*) False
+
+Select BOOLEAN such that Affects*(21, 21)
+FALSE
+5000
+19 - Statement Declaration - Affecting (Affects) Statements
+stmt s;
+Select s such that Affects(s, _)
+1, 10, 18, 19
+5000
+20 - Statement Declaration - Affected by (Affects) Statements
+stmt s;
+Select s such that Affects(_, s)
+2, 4, 12, 19, 21
+5000
