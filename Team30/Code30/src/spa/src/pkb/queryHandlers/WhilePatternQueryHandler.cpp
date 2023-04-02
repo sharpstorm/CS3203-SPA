@@ -7,6 +7,7 @@ WhilePatternQueryHandler::WhilePatternQueryHandler(
     : PkbStmtEntQueryHandler(invoker, storage) {
   PkbStmtEntQueryHandler::setLeftValidator(whileLeftArgValidator);
   PkbStmtEntQueryHandler::setRightValidator(varRightArgValidator);
+  PkbStmtEntQueryHandler::setIsPattern(true);
 }
 
 

@@ -33,9 +33,12 @@ class BaseQueryInvoker {
 
   QueryResultPtr<LeftValue, RightValue> query(
       RelationTableManager<LeftValue, RightValue> *store,
-      IRef<LeftValue, LeftType> *arg1,
-      IRef<RightValue, RightType> *arg2) const {
+      IRef<LeftValue, LeftType> *arg1, IRef<RightValue, RightType> *arg2,
+      bool isPattern) const {
     auto resultBuilder = QueryResultBuilder<LeftValue, RightValue>();
+    if (isPattern) {
+      resultBuilder.setAllVals();
+    }
 
     if (arg1->isWildcard() && arg2->isWildcard()) {
       return store->hasRelation(&resultBuilder);
@@ -57,9 +60,8 @@ class BaseQueryInvoker {
           leftProvider->getValuesOfType(arg1->getType()), &resultBuilder);
     }
 
-//    if (arg1->isKnown() && arg2->isKnown()) {
-//      TODO: implement
-//    }
+    //    if (arg1->isKnown() && arg2->isKnown()) {
+    //    }
 
     if (arg1->isKnown()) {
       resultBuilder.setRightVals();
