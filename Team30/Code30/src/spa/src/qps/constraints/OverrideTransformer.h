@@ -15,4 +15,6 @@ class OverrideTransformer {
   bool returnsInteger() const;
   StmtRef transformArg(StmtRef input) const;
   EntityRef transformArg(EntityRef input) const;
+
+  bool operator ==(const OverrideTransformer &other) const;
 };

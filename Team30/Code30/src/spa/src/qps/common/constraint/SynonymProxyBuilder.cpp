@@ -22,15 +22,22 @@ bool SynonymProxyBuilder::resolveOverrideMerging(OverrideTable *overrideTable) {
       continue;
     }
 
+    // There is no transformer to carry over
     if (!overrideTable->contains(i->first)) {
       continue;
     }
     OverrideTransformer oldTransformer = overrideTable->get(i->first);
 
+    // There is no new transformer to merge into
     if (!overrideTable->contains(newName)) {
       overrideTable->insert(newName, oldTransformer);
       continue;
     }
+
+    if (overrideTable->get(newName) == oldTransformer) {
+      continue;
+    }
+
     return false;
   }
 

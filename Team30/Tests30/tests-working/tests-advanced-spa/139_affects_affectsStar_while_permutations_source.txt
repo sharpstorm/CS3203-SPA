@@ -13,7 +13,7 @@ procedure permOne {
 		}
 		y = x + z;
     }
-	x = x + z;
+	x = y + z;
 }
 
 procedure permTwo {
@@ -49,7 +49,7 @@ procedure permThree {
 		}
 	
     }
-	x = x + z;
+	x = y + z;
 }
 
 procedure permFour {
@@ -85,7 +85,7 @@ procedure permFive {
 		}
 		y = x + z;
     }
-	x = x + z;
+	x = y + z;
 }
 
 procedure permSix {
@@ -121,7 +121,7 @@ procedure permSeven {
 		}
 
     }
-	x = x + z;
+	x = y + z;
 }
 
 procedure permEight {
@@ -157,7 +157,7 @@ procedure permNine {
 		}
 		y = x + z;
     }
-	x = x + z;
+	x = y + z;
 }
 
 procedure permTen {
@@ -193,7 +193,7 @@ procedure permEleven {
 		}
 
     }
-	x = x + z;
+	x = y + z;
 }
 
 procedure permTwelve {
@@ -229,7 +229,7 @@ procedure permThirteen {
 		}
 		y = x + z;
     }
-	x = x + z;
+	x = y + z;
 }
 
 procedure permFourteen {
@@ -265,7 +265,7 @@ procedure permFifteen {
 		}
 
     }
-	x = x + z;
+	x = y + z;
 }
 
 procedure permSixteen {
@@ -301,7 +301,7 @@ procedure permSeventeen {
 		}
 		y = x + z;
     }
-	x = x + z;
+	x = y + z;
 }
 
 procedure permEighteen {
@@ -337,7 +337,7 @@ procedure permNinteen {
 		}
 		
     }
-	x = x + z;
+	x = y + z;
 }
 
 procedure permTwenty {
@@ -373,7 +373,7 @@ procedure permTwentyone {
 		}
 		y = x + z;
     }
-	x = x + z;
+	x = y + z;
 }
 
 procedure permTwentytwo {
@@ -409,7 +409,7 @@ procedure permTwentythree {
 		}
 		
     }
-	x = x + z;
+	x = y + z;
 }
 
 procedure permTwentyFour {
@@ -445,7 +445,7 @@ procedure permTwentyfive {
 		}
 		y = x + z;
     }
-	x = x + z;
+	x = y + z;
 }
 
 procedure permTwentysix {
@@ -481,7 +481,7 @@ procedure permTwentyseven {
 		}
 		
     }
-	x = x + z;
+	x = y + z;
 }
 
 procedure permTwentyeight {
@@ -517,7 +517,7 @@ procedure permTwentynine {
 		}
 		y = x + z;
     }
-	x = x + z;
+	x = y + z;
 }
 
 procedure permThirty {
@@ -553,7 +553,7 @@ procedure permThirtyone {
 		}
 		
     }
-	x = x + z;
+	x = y + z;
 }
 
 procedure permThirtytwo {

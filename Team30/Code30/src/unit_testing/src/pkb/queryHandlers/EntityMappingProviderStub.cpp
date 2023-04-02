@@ -1,8 +1,10 @@
 #include "EntityMappingProviderStub.h"
 
+#include "pkb/storage/tables/ContiguousSetTable.h"
+
 EntityMappingProviderStub::EntityMappingProviderStub(){};
 
-const set<string>& EntityMappingProviderStub::getValuesOfType(
+const EntitySet& EntityMappingProviderStub::getValuesOfType(
     EntityType type) const {
   if (type == EntityType::Variable) {
     return allVariables;
@@ -11,7 +13,7 @@ const set<string>& EntityMappingProviderStub::getValuesOfType(
   } else if (type == EntityType::Procedure) {
     return allProcedures;
   } else {  // when type = Entity::None
-    return {};
+    return ContiguousSetTable<EntityValue>::getEmptyValue();
   }
 }
 

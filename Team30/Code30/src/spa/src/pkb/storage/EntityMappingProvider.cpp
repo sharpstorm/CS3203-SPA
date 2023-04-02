@@ -7,7 +7,7 @@ EntityMappingProvider::EntityMappingProvider(
       constantStorage(constantStorage),
       procedureStorage(procedureStorage) {}
 
-const EntitySet& EntityMappingProvider::getValuesOfType(
+const EntitySet &EntityMappingProvider::getValuesOfType(
     EntityType entityType) const {
   if (entityType == EntityType::Variable) {
     return variableStorage->getAllValues();
@@ -16,8 +16,8 @@ const EntitySet& EntityMappingProvider::getValuesOfType(
   } else if (entityType == EntityType::Procedure) {
     return procedureStorage->getProcedures();
   } else {
-    // note: EntityType::None is invalid
-    return {};
+    // note: EntityType::None or Wildcard is invalid
+    return ContiguousSetTable<EntityValue>::getEmptyValue();
   }
 }
 

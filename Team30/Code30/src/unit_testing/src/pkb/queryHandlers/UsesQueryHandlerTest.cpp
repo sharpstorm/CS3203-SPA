@@ -72,19 +72,20 @@ struct usesTest {
       make_unique<EntityPredicateFactory>();
   unique_ptr<PkbStmtEntQueryInvoker> stmtEntInvoker =
       make_unique<PkbStmtEntQueryInvoker>(
-          structureProvider.get(), stmtPredFactory.get(), entPredFactory.get());
+          structureProvider.get(), entityProvider.get(), stmtPredFactory.get(),
+          entPredFactory.get());
   unique_ptr<PkbEntEntQueryInvoker> entEntInvoker =
       make_unique<PkbEntEntQueryInvoker>(entityProvider.get(),
                                          entPredFactory.get());
   UsesQueryHandler handler = UsesQueryHandler(
       stmtEntInvoker.get(), entEntInvoker.get(), store.get(), pStore.get());
   QueryResultPtr<StmtValue, EntityValue> query(StmtRef leftArg,
-                                                        EntityRef rightArg) {
+                                               EntityRef rightArg) {
     return handler.query(&leftArg, &rightArg);
   }
 
   QueryResultPtr<EntityValue, EntityValue> query(EntityRef leftArg,
-                                                          EntityRef rightArg) {
+                                                 EntityRef rightArg) {
     return handler.query(&leftArg, &rightArg);
   }
 };
@@ -127,11 +128,8 @@ TEST_CASE("UsesQueryHandler Uses(stmtNum, _)") {
   test.table->insert(2, "x");
   test.table->insert(1, "y");
 
-  auto result = *test.query({StmtType::None, 1}, {EntityType::None, ""});
+  auto result = *test.query({StmtType::None, 1}, {EntityType::Wildcard, ""});
   REQUIRE(result.isEmpty == false);
-  REQUIRE(result.firstArgVals == unordered_set<int>({1}));
-  REQUIRE(result.secondArgVals == unordered_set<string>({"x", "y"}));
-  REQUIRE(result.pairVals == pair_set<int, string>({{1, "x"}, {1, "y"}}));
 }
 
 TEST_CASE("UsesQueryHandler Uses(stmtNum, constant)") {
@@ -257,13 +255,10 @@ TEST_CASE("UsesQueryHandler Uses(statement, _)") {
   test.reverseTable->insert("x", 4);
   test.reverseTable->insert("y", 6);
 
-  auto result1 = *test.query({StmtType::None, 0}, {EntityType::None, ""});
+  auto result1 = *test.query({StmtType::None, 0}, {EntityType::Wildcard, ""});
 
   REQUIRE(result1.isEmpty == false);
   REQUIRE(result1.firstArgVals == unordered_set<int>({1, 4, 6}));
-  REQUIRE(result1.secondArgVals == unordered_set<string>({"x", "y", "z"}));
-  REQUIRE(result1.pairVals ==
-          pair_set<int, string>({{1, "x"}, {1, "z"}, {4, "x"}, {6, "y"}}));
 }
 
 TEST_CASE("UsesQueryHandler call statement") {
@@ -277,16 +272,15 @@ TEST_CASE("UsesQueryHandler call statement") {
   test.reverseTable->insert("z", 1);
 
   // arg1 known
-  auto result1 = *test.query({StmtType::None, 8}, {EntityType::None, ""});
-  REQUIRE(result1.pairVals == pair_set<int, string>({{8, "x"}, {8, "y"}}));
+  auto result1 = *test.query({StmtType::None, 8}, {EntityType::Wildcard, ""});
+  REQUIRE(result1.isEmpty == false);
   // arg2 known
   auto result2 = *test.query({StmtType::Call, 0}, {EntityType::Variable, ""});
 
   REQUIRE(result2.pairVals == pair_set<int, string>({{8, "x"}, {8, "y"}}));
   // Both args unknown
-  auto result3 = *test.query({StmtType::None, 0}, {EntityType::None, ""});
-  REQUIRE(result3.pairVals ==
-          pair_set<int, string>({{8, "x"}, {8, "y"}, {1, "z"}}));
+  auto result3 = *test.query({StmtType::None, 0}, {EntityType::Wildcard, ""});
+  REQUIRE(result3.firstArgVals == unordered_set<int>({1, 8}));
 }
 
 /** Uses(EntityRef, EntityRef) */
@@ -353,7 +347,8 @@ TEST_CASE("UsesQueryHandler Uses(type, variable)") {
           pair_set<string, string>({{"main", "x"}, {"foo", "x"}}));
 
   // invalid arg1
-  auto result2 = *test.query({EntityType::None, ""}, {EntityType::None, "y"});
+  auto result2 =
+      *test.query({EntityType::Wildcard, ""}, {EntityType::None, "y"});
   REQUIRE(result2.isEmpty == true);
 }
 
@@ -367,17 +362,13 @@ TEST_CASE("UsesQueryHandler Uses(type, type)") {
   test.pTable->insert("foo", "z");
 
   auto result1 =
-      *test.query({EntityType::Procedure, ""}, {EntityType::None, ""});
+      *test.query({EntityType::Procedure, ""}, {EntityType::Wildcard, ""});
   REQUIRE(result1.isEmpty == false);
   REQUIRE(result1.firstArgVals == unordered_set<string>({"main", "foo"}));
-  REQUIRE(result1.secondArgVals == unordered_set<string>({"x", "y", "z"}));
-  REQUIRE(result1.pairVals ==
-          pair_set<string, string>(
-              {{"main", "x"}, {"main", "y"}, {"foo", "z"}, {"foo", "y"}}));
 
   // invalid arg1
   auto result2 =
-      *test.query({EntityType::None, ""}, {EntityType::Variable, ""});
+      *test.query({EntityType::Wildcard, ""}, {EntityType::Variable, ""});
   REQUIRE(result2.isEmpty == true);
 }
 

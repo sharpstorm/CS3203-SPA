@@ -10,7 +10,7 @@ StmtType StructureMappingProviderStub::getStatementType(int stmt) const {
 
 const StmtSet& StructureMappingProviderStub::getValuesOfType(
     StmtType stmtType) const {
-  if (stmtType == StmtType::None) {
+  if (stmtType == StmtType::None || stmtType == StmtType::Wildcard) {
     return allStmts;
   }
   return stmtTypeToNum.get(stmtType);
@@ -27,4 +27,9 @@ string StructureMappingProviderStub::getCalledDeclaration(int stmt) const {
 bool StructureMappingProviderStub::isValueOfType(StmtType type,
                                                  StmtValue num) const {
   return stmtNumToType.get(num) == type;
+}
+
+void StructureMappingProviderStub::insert(StmtValue stmt, StmtType type) {
+  stmtTypeToNum.insert(type, stmt);
+  stmtNumToType.insert(stmt, type);
 }
