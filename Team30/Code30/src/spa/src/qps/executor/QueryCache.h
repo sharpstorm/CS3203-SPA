@@ -10,3 +10,5 @@ class QueryCache {
   CacheTable *getNextTCache();
   CacheTable *getAffectsCache();
 };
+
+typedef unique_ptr<QueryCache> QueryCachePtr;

@@ -128,7 +128,8 @@ TEST_CASE("Assign Pattern Constant-Exact") {
   PQLQuerySynonym* assignSynPtr = &assignSynRaw;
   PQLQuerySynonymProxy assignSyn(&assignSynPtr);
   OverrideTablePtr override = make_unique<OverrideTable>();
-  QueryExecutorAgent agent(pkb.get(), override.get());
+  QueryCachePtr cache = make_unique<QueryCache>();
+  QueryExecutorAgent agent(pkb.get(), override.get(), cache.get());
 
   makeExpressionArgument("x", false);
   // Constant-Variable-Exact
@@ -164,7 +165,8 @@ TEST_CASE("Assign Pattern Constant-Wildcard") {
   PQLQuerySynonym* assignSynPtr = &assignSynRaw;
   PQLQuerySynonymProxy assignSyn(&assignSynPtr);
   OverrideTablePtr override = make_unique<OverrideTable>();
-  QueryExecutorAgent agent(pkb.get(), override.get());
+  QueryCachePtr cache = make_unique<QueryCache>();
+  QueryExecutorAgent agent(pkb.get(), override.get(), cache.get());
 
   // Constant-Wildcard
   PatternClausePtr patternClause = make_unique<AssignPatternClause>(
@@ -214,7 +216,8 @@ TEST_CASE("Assign Pattern Variable-Exact") {
   PQLQuerySynonymProxy varSyn(&varSynPtr);
 
   OverrideTablePtr table = make_unique<OverrideTable>();
-  QueryExecutorAgent agent(pkb.get(), table.get());
+  QueryCachePtr cache = make_unique<QueryCache>();
+  QueryExecutorAgent agent(pkb.get(), table.get(), cache.get());;
 
   // Variable-Integer-Exact
   PatternClausePtr patternClause = make_unique<AssignPatternClause>(
@@ -275,7 +278,8 @@ TEST_CASE("Assign Pattern Variable-Partial") {
   PQLQuerySynonymProxy varSyn(&varSynPtr);
 
   OverrideTablePtr table = make_unique<OverrideTable>();
-  QueryExecutorAgent agent(pkb.get(), table.get());
+  QueryCachePtr cache = make_unique<QueryCache>();
+  QueryExecutorAgent agent(pkb.get(), table.get(), cache.get());
 
   // Variable-Integer-Partial
   PatternClausePtr patternClause = make_unique<AssignPatternClause>(
