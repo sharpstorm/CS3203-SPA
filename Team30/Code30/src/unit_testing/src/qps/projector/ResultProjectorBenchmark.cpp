@@ -61,7 +61,8 @@ TEST_CASE("Benchmark Projection - 2x200 cross 2x200 cross 2x200 -> 4x1mil rows")
   ResultProjector projector(&pkbQH);
 
   BENCHMARK("Benchmark 1 mil rows") -> void {
-      auto projectedResult = projector.project(result.get(), &targetVars);
+      QPSOutputList output;
+      projector.project(result.get(), &targetVars, &output);
     };
 }
 #endif

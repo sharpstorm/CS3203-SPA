@@ -8,22 +8,20 @@ using std::to_string, std::vector, std::make_unique;
 ResultProjector::ResultProjector(PkbQueryHandler *handler):
     pkbQueryHandler(handler) { }
 
-UniqueVectorPtr<string> ResultProjector::project(
-    ProjectorResultTable *queryResult,
-    AttributedSynonymList*resultVariables) {
-  UniqueVectorPtr<string> result =
-      make_unique<vector<string>>(vector<string>{});
-
+void ResultProjector::project(ProjectorResultTable *queryResult,
+                              AttributedSynonymList*resultVariables,
+                              QPSOutputList *output) {
   // Check if a BOOLEAN type result
   if (queryResult->getIsBooleanResult()) {
     string boolResult = queryResult->getBooleanResult() ? "TRUE" : "FALSE";
-    return make_unique<vector<string>>(vector<string>({boolResult}));
+    output->push_back(boolResult);
+    return;
   }
 
   int groupCount = queryResult->getResultGroupCount();
   // Empty table
   if (groupCount == 0) {
-    return result;
+    return;
   }
 
   // Cross product
@@ -34,6 +32,5 @@ UniqueVectorPtr<string> ResultProjector::project(
   }
 
   // Map and project to tuple
-  finalGroup->project(resultVariables, pkbQueryHandler, result.get());
-  return result;
+  finalGroup->project(resultVariables, pkbQueryHandler, output);
 }

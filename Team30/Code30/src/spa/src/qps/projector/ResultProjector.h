@@ -14,6 +14,7 @@ class ResultProjector {
   PkbQueryHandler* pkbQueryHandler;
  public:
   explicit ResultProjector(PkbQueryHandler* handler);
-  UniqueVectorPtr<string> project(ProjectorResultTable* queryResult,
-                                  AttributedSynonymList* resultVariables);
+  void project(ProjectorResultTable* queryResult,
+               AttributedSynonymList* resultVariables,
+               QPSOutputList *output);
 };

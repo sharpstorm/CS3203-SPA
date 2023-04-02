@@ -15,10 +15,11 @@ string ERROR_MESSAGE = "Error";
 
 vector<string> EXPECTED_ERROR = vector<string>({ERROR_MESSAGE});
 
-void testResultProjection(vector<string>* expected, vector<string>* actual) {
+void testResultProjection(vector<string>* expected, QPSOutputList *actual) {
   sort(expected->begin(), expected->end());
-  sort(actual->begin(), actual->end());
-  REQUIRE(*expected == *actual);
+  vector<ProjectedValue> tempResult(actual->begin(), actual->end());
+  sort(tempResult.begin(), tempResult.end());
+  REQUIRE(*expected == tempResult);
 }
 
 SynonymHolder DECLARED_SYNS(
@@ -36,8 +37,9 @@ TEST_CASE("Project when result is static") {
   unique_ptr<PkbQueryHandler> pkbQH = make_unique<PkbQueryHandler>(&pkbStore);
   unique_ptr<ResultProjector> projector = make_unique<ResultProjector>(pkbQH.get());
   ProjectorResultTable result(false, true);
-  UniqueVectorPtr<string> projectedResult = projector->project(&result, &TARGET_RESULT_VARS);
-  REQUIRE(projectedResult->empty());
+  QPSOutputList projectedResult;
+  projector->project(&result, &TARGET_RESULT_VARS, &projectedResult);
+  REQUIRE(projectedResult.empty());
 }
 
 TEST_CASE("Projecting Statements") {
@@ -45,7 +47,7 @@ TEST_CASE("Projecting Statements") {
   unique_ptr<PkbQueryHandler> pkbQH = make_unique<PkbQueryHandler>(&pkbStore);
   unique_ptr<ResultProjector> projector = make_unique<ResultProjector>(pkbQH.get());
   unique_ptr<ProjectorResultTable> result;
-  UniqueVectorPtr<string> actual;
+  QPSOutputList actual;
   UniqueVectorPtr<string> expected;
 
   result = TestQueryResultBuilder::buildExpectedTable(ExpectedParams{
@@ -56,8 +58,8 @@ TEST_CASE("Projecting Statements") {
       }}
   }, &TARGET_RESULT_VARS);
   expected = UniqueVectorPtr<string>(new vector<string>({"1", "2", "3"}));
-  actual = projector->project(result.get(), &TARGET_RESULT_VARS);
-  testResultProjection(expected.get(), actual.get());
+  projector->project(result.get(), &TARGET_RESULT_VARS, &actual);
+  testResultProjection(expected.get(), &actual);
 }
 
 TEST_CASE("Projecting Entities") {
@@ -65,7 +67,7 @@ TEST_CASE("Projecting Entities") {
   unique_ptr<PkbQueryHandler> pkbQH = make_unique<PkbQueryHandler>(&pkbStore);
   unique_ptr<ResultProjector> projector = make_unique<ResultProjector>(pkbQH.get());
   unique_ptr<ProjectorResultTable> result;
-  UniqueVectorPtr<string> actual;
+  QPSOutputList actual;
   UniqueVectorPtr<string> expected;
 
   result = TestQueryResultBuilder::buildExpectedTable(ExpectedParams{
@@ -75,6 +77,6 @@ TEST_CASE("Projecting Entities") {
       }}
   }, &TARGET_ENTITY_VARS);
   expected = UniqueVectorPtr<string>(new vector<string>({"x", "y"}));
-  actual = projector->project(result.get(), &TARGET_ENTITY_VARS);
-  testResultProjection(expected.get(), actual.get());
+  projector->project(result.get(), &TARGET_ENTITY_VARS, &actual);
+  testResultProjection(expected.get(), &actual);
 }

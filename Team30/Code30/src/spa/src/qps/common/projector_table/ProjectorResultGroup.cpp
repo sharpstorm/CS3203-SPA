@@ -62,7 +62,7 @@ ProjectorResultGroup* ProjectorResultGroup::crossProduct(ProjectorResultGroup* o
 
 void ProjectorResultGroup::project(AttributedSynonymList *synList,
                                    PkbQueryHandler* handler,
-                                   vector<string>* result) {
+                                   QPSOutputList* result) {
   // Iterate through each row
   for (int i=0; i < getTableRows(); i++) {
     QueryResultTableRow* row = getRowAt(i);
@@ -150,7 +150,7 @@ string ProjectorResultGroup::projectNonDefaultAttribute(PkbQueryHandler *handler
 bool ProjectorResultGroup::isNonDefaultCase(AttributedSynonym syn) {
   bool isTypeConstant = syn.getType() == PQL_SYN_TYPE_CONSTANT;
   return syn.hasAttribute() && !isTypeConstant &&
-          syn.isStatementType() != syn.returnsInteger();
+      syn.isStatementType() != syn.returnsInteger();
 }
 
 QueryResultItemPool *ProjectorResultGroup::getOwnedPool() {

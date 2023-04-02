@@ -33,7 +33,7 @@ class ProjectorResultGroup {
   ProjectorResultGroup* crossProduct(ProjectorResultGroup* other);
   void project(AttributedSynonymList* synList,
                PkbQueryHandler* handler,
-               vector<string>* result);
+               QPSOutputList* output);
   QueryResultItemPool* getOwnedPool();
 
   bool operator ==(const ProjectorResultGroup &rg) const;
