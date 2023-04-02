@@ -3,6 +3,7 @@
 #include <memory>
 #include <set>
 
+#include "IStorage.h"
 #include "common/Types.h"
 #include "pkb/PkbTypes.h"
 #include "tables/IBaseSetTable.h"
@@ -19,7 +20,7 @@ using std::unique_ptr;
  */
 
 template <typename K, typename V>
-class RelationTableManager {
+class RelationTableManager : public IStorage<K, V> {
  protected:
   IBaseSetTable<K, V> *table;         // maps K -> set<V>
   IBaseSetTable<V, K> *reverseTable;  // maps V -> set<K>

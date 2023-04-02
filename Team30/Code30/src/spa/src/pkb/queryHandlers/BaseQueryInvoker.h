@@ -31,8 +31,7 @@ class BaseQueryInvoker {
         rightPredicateFactory(rightPredicateFactory) {}
 
   QueryResultPtr<LeftValue, RightValue> query(
-      RelationTableManager<LeftValue, RightValue> *store,
-      IRef<LeftValue, LeftType> *arg1,
+      IStorage<LeftValue, RightValue> *store, IRef<LeftValue, LeftType> *arg1,
       IRef<RightValue, RightType> *arg2) const {
     if (arg1->isWildcard() && arg2->isWildcard()) {
       return store->hasRelation();

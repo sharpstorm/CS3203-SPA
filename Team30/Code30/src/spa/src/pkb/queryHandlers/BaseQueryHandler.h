@@ -4,10 +4,10 @@
 #include <optional>
 
 #include "BaseQueryInvoker.h"
+#include "pkb/storage/IStorage.h"
 
 using pkb::ArgValidator, pkb::ArgTransformer, pkb::defaultValidator,
     pkb::defaultTransformer;
-using std::optional, std::nullopt;
 using std::make_unique;
 
 template <typename LeftValue, typename LeftType, typename RightValue,
@@ -16,7 +16,7 @@ class BaseQueryHandler {
  public:
   explicit BaseQueryHandler(BaseQueryInvoker<LeftValue, LeftType, RightValue,
                                              RightType> *queryInvoker,
-                            RelationTableManager<LeftValue, RightValue> *store)
+                            IStorage<LeftValue, RightValue> *store)
       : queryInvoker(queryInvoker), store(store) {}
   BaseQueryHandler() {}
 
@@ -24,7 +24,7 @@ class BaseQueryHandler {
       IRef<LeftValue, LeftType> *leftArg,
       IRef<RightValue, RightType> *rightArg) const {
     if (!leftValidator(leftArg) || !rightValidator(rightArg)) {
-        return make_unique<QueryResult<LeftValue, RightValue>>();
+      return make_unique<QueryResult<LeftValue, RightValue>>();
     }
 
     return queryInvoker->query(store, leftTransformer(leftArg),
@@ -58,7 +58,7 @@ class BaseQueryHandler {
       defaultTransformer<LeftValue, LeftType>;
   ArgTransformer<RightValue, RightType> rightTransformer =
       defaultTransformer<RightValue, RightType>;
-  RelationTableManager<LeftValue, RightValue> *store;
+  IStorage<LeftValue, RightValue> *store;
 };
 
 using PkbStmtStmtQueryHandler =

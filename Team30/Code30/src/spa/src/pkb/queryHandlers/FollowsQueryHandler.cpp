@@ -1,6 +1,5 @@
 #include "FollowsQueryHandler.h"
 
-FollowsQueryHandler::FollowsQueryHandler(
-    PkbStmtStmtQueryInvoker *invoker,
-    RelationTableManager<StmtValue, StmtValue> *storage)
+FollowsQueryHandler::FollowsQueryHandler(PkbStmtStmtQueryInvoker *invoker,
+                                         FollowsTableManager *storage)
     : PkbStmtStmtQueryHandler(invoker, storage) {}
