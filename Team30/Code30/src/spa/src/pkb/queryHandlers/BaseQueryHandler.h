@@ -28,7 +28,7 @@ class BaseQueryHandler {
     }
 
     return queryInvoker->query(store, leftTransformer(leftArg),
-                               rightTransformer(rightArg), returnAllResult);
+                               rightTransformer(rightArg));
   }
 
  protected:
@@ -48,8 +48,6 @@ class BaseQueryHandler {
     rightTransformer = transformer;
   }
 
-  void setReturnAllResult() { returnAllResult = true; }
-
  private:
   BaseQueryInvoker<LeftValue, LeftType, RightValue, RightType> *queryInvoker;
   ArgValidator<LeftValue, LeftType> leftValidator =
@@ -61,7 +59,6 @@ class BaseQueryHandler {
   ArgTransformer<RightValue, RightType> rightTransformer =
       defaultTransformer<RightValue, RightType>;
   RelationTableManager<LeftValue, RightValue> *store;
-  bool returnAllResult;
 };
 
 using PkbStmtStmtQueryHandler =

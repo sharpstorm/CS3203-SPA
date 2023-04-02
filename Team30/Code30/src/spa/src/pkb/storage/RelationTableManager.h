@@ -105,43 +105,39 @@ class RelationTableManager {
   /**
    * Return non-empty result if at least one such relation
    */
-  virtual QueryResultPtr<K, V> hasRelation() const {
-    QueryResult<K, V> result;
+  virtual QueryResultPtr<K, V> hasRelation(
+      QueryResultBuilder<K, V> *resultBuilder) const {
     if (table->size() != 0) {
-      result.isEmpty = false;
+      resultBuilder->setIsNotEmpty();
     }
-    return make_unique<QueryResult<K, V>>(result);
+    return resultBuilder->getResult();
   }
 
   /**
    * Right side wildcard.
    */
   virtual QueryResultPtr<K, V> rightWildcardQuery(
-      const set<K> &arg1Values) const {
-    QueryResult<K, V> result;
+      const set<K> &arg1Values, QueryResultBuilder<K, V> *resultBuilder) const {
     for (auto arg1 : arg1Values) {
       auto arg2Values = getByFirstArg(arg1);
       if (arg2Values.size() > 0) {
-        result.firstArgVals.insert(arg1);
-        result.isEmpty = false;
+        resultBuilder->addLeft(arg1);
       }
     }
-    return make_unique<QueryResult<K, V>>(result);
+    return resultBuilder->getResult();
   }
 
   /**
    * Left side wildcard.
    */
   virtual QueryResultPtr<K, V> leftWildcardQuery(
-      const set<V> &arg2Values) const {
-    QueryResult<K, V> result;
+      const set<V> &arg2Values, QueryResultBuilder<K, V> *resultBuilder) const {
     for (auto arg2 : arg2Values) {
       auto arg1Values = getBySecondArg(arg2);
       if (arg1Values.size() > 0) {
-        result.secondArgVals.insert(arg2);
-        result.isEmpty = false;
+        resultBuilder->addRight(arg2);
       }
     }
-    return make_unique<QueryResult<K, V>>(result);
+    return resultBuilder->getResult();
   }
 };
