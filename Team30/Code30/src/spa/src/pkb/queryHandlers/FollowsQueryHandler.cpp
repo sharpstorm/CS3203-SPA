@@ -3,4 +3,6 @@
 FollowsQueryHandler::FollowsQueryHandler(
     PkbStmtStmtQueryInvoker *invoker,
     RelationTableManager<StmtValue, StmtValue> *storage)
-    : PkbStmtStmtQueryHandler(invoker, storage) {}
+    : PkbStmtStmtQueryHandler(invoker, storage) {
+  PkbStmtStmtQueryHandler::setIsPattern(true);
+}
