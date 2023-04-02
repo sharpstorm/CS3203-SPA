@@ -1,6 +1,8 @@
 #pragma once
 
+#include <memory>
 #include "qps/common/CacheTable.h"
+
 class QueryCache {
  private:
   CacheTable nextTCache;
