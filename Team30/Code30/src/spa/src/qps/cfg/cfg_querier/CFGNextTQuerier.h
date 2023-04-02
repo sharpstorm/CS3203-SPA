@@ -5,7 +5,6 @@
 #include "qps/cfg/cfg_querier/walkers/CFGWalker.h"
 #include "CFGQuerier.h"
 #include "qps/cfg/CFGQuerierTypes.h"
-#include "qps/common/CacheTable.h"
 
 template <class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
 class CFGNextTQuerier: public ICFGClauseQuerier,
@@ -35,8 +34,6 @@ class CFGNextTQuerier: public ICFGClauseQuerier,
     StmtTransitiveResult* result;
     StmtType arg0Type;
     StmtType arg1Type;
-    StmtValue start;
-    StmtValue end;
   };
 };
 
@@ -69,8 +66,7 @@ template <class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
 StmtTransitiveResult CFGNextTQuerier<ClosureType, typePredicate>::
 queryFrom(const StmtValue &arg0, const StmtType &type1) {
   StmtTransitiveResult result;
-  ResultClosure state{ cfg, closure, &result, StmtType::None, type1, arg0, 0};
-
+  ResultClosure state{ cfg, closure, &result, StmtType::None, type1 };
 
   if (!cfg->containsStatement(arg0)) {
     return result;
@@ -83,12 +79,12 @@ queryFrom(const StmtValue &arg0, const StmtType &type1) {
           return true;
         }
         state->result->add(0, stmtNumber);
-
         return true;
       };
 
   CFGNode nodeStart = cfg->toCFGNode(arg0);
   walker.walkFrom<ResultClosure, callback>(nodeStart, &state);
+
   return result;
 }
 
@@ -105,7 +101,6 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
   constexpr WalkerSingleCallback<ResultClosure> callback =
       [](ResultClosure *state, CFGNode node) -> bool {
         int stmtNumber = state->cfg->fromCFGNode(node);
-
         if (!typePredicate(state->closure, state->arg0Type, stmtNumber)) {
           return true;
         }
@@ -115,6 +110,7 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
 
   CFGNode nodeEnd = cfg->toCFGNode(arg1);
   walker.walkTo<ResultClosure, callback>(nodeEnd, &state);
+
   return result;
 }
 
@@ -136,6 +132,5 @@ queryAll(StmtTransitiveResult* resultOut,
         state->result->add(fromStmtNumber, toStmtNumber);
         return true;
       };
-
   walker.walkAll<ResultClosure, callback>(&state);
 }
