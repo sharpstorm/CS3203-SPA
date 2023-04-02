@@ -272,7 +272,8 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
                                                 &state);
 
   cacheTable = closure.getAffectsCache();
-  cacheTable->promoteTo(arg1);
+
+  cacheTable->promoteTo(cfg->fromCFGNode(arg1));
   return result;
 }
 
@@ -288,6 +289,7 @@ queryAll(StmtTransitiveResult *resultOut,
          const StmtType &type1) {
   CacheTable* cacheTable = closure.getAffectsCache();
   for (int start = 0; start < cfg->getNodeCount(); start++) {
+    CFGNode nodeFrom = cfg->toCFGNode(start);
     auto row = cacheTable->queryFull(start, 0);
     if (row != nullptr) {
       for (const StmtValue &i : *row) {
@@ -295,7 +297,7 @@ queryAll(StmtTransitiveResult *resultOut,
       }
       continue;
     }
-    queryForward(resultOut, start);
+    queryForward(resultOut, nodeFrom);
   }
 }
 
