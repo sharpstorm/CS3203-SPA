@@ -1,16 +1,14 @@
 #pragma once
 
 #include <vector>
-#include <memory>
-#include <unordered_map>
-#include <unordered_set>
+
 #include "ProjectorResultGroup.h"
 #include "common/SetUtils.h"
 #include "qps/common/intermediate_result/PQLQueryResult.h"
 #include "qps/constraints/Constraint.h"
 #include "qps/projector/ProjectorInstruction.h"
 
-using std::unordered_map, std::unordered_set, std::unique_ptr;
+using std::vector;
 
 class ProjectorResultTable {
   typedef vector<int> RowIndexes;
@@ -22,7 +20,7 @@ class ProjectorResultTable {
   void populateIndexes(RowIndexes *indexes, const int &outputRow) const;
   void projectForRow(const ProjectorIndex &index,
                      const RowIndexes *row,
-                     string &outputCache) const;
+                     ProjectedValue *outputCache) const;
   int getFinalRowCount() const;
 
  public:

@@ -20,7 +20,7 @@ int ProjectorResultGroup::getRowCount() const {
   return groupTable.size();
 }
 
-const QueryResultTableRow* ProjectorResultGroup::getRowAt(int idx) const {
+const QueryResultTableRow *ProjectorResultGroup::getRowAt(int idx) const {
   return &groupTable.at(idx);
 }
 
@@ -30,13 +30,13 @@ bool ProjectorResultGroup::operator==(const ProjectorResultGroup &rg) const {
     return false;
   }
 
-  for (const auto& it : colMap) {
+  for (const auto &it : colMap) {
     if (rg.colMap.find(it.first) == rg.colMap.end()) {
       return false;
     }
   }
 
-  for (int i= 0; i < groupTable.size(); i++) {
+  for (int i = 0; i < groupTable.size(); i++) {
     bool isFound = false;
     for (int j = 0; j < rg.groupTable.size(); j++) {
       // Differing column lengths
@@ -71,7 +71,8 @@ QueryResultItemPool *ProjectorResultGroup::getOwnedPool() {
   return &ownedItems;
 }
 
-ResultTableCol ProjectorResultGroup::getSynonymCol(const PQLSynonymName &name) const {
+ResultTableCol ProjectorResultGroup::getSynonymCol(const PQLSynonymName &name)
+const {
   auto it = colMap.find(name);
   if (it == colMap.end()) {
     return NO_COL;

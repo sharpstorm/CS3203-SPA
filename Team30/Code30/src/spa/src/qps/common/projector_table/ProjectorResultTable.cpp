@@ -1,9 +1,6 @@
-#include <memory>
 #include <utility>
 
 #include "ProjectorResultTable.h"
-
-using std::make_unique;
 
 ProjectorResultTable::ProjectorResultTable(bool isBooleanResult,
                                            bool booleanResult) :
@@ -84,7 +81,7 @@ void ProjectorResultTable::projectTo(QPSOutputList *output,
   rowOut.reserve(1024);
   for (int i = 0; i < finalRowCount; i++) {
     populateIndexes(&rowIndexes, i);
-    projectForRow(index, &rowIndexes, rowOut);
+    projectForRow(index, &rowIndexes, &rowOut);
     output->push_back(rowOut);
   }
 }
@@ -101,20 +98,20 @@ void ProjectorResultTable::populateIndexes(RowIndexes *indexes,
 
 void ProjectorResultTable::projectForRow(const ProjectorIndex &index,
                                          const RowIndexes *row,
-                                         string &outputCache) const {
+                                         string *outputCache) const {
   int groupRow;
-  outputCache.clear();
+  outputCache->clear();
   for (int indexPos = 0; indexPos < index.size(); indexPos++) {
     const ProjectorInstruction &inst = index.at(indexPos);
     groupRow = row->at(inst.getGroupId());
     QueryResultItem* item = groupResults.at(inst.getGroupId())
         ->getRowAt(groupRow)
         ->at(inst.getTableCol());
-    outputCache += inst.project(item);
+    *outputCache += inst.project(item);
 
     if (indexPos >= index.size() - 1) {
       continue;
     }
-    outputCache += " ";
+    *outputCache += " ";
   }
 }

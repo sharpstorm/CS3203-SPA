@@ -1,14 +1,14 @@
 #pragma once
 
 #include <memory>
-#include <string>
 #include <unordered_map>
 #include <vector>
+
 #include "qps/common/intermediate_result/PQLQueryResult.h"
 #include "qps/common/AttributedSynonym.h"
 #include "qps/constraints/Constraint.h"
 
-using std::unordered_map, std::unique_ptr, std::string, std::vector;
+using std::unordered_map, std::unique_ptr, std::vector;
 
 class ProjectorResultGroup {
   QueryResultTable groupTable;
