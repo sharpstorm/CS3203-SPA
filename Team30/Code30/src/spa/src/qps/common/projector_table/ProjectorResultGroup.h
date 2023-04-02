@@ -16,27 +16,19 @@ class ProjectorResultGroup {
   vector<PQLSynonymName> colIdx;
   QueryResultItemPool ownedItems;
 
-  static string projectNonDefaultAttribute(PkbQueryHandler* handler,
-                                           QueryResultItem* item,
-                                           AttributedSynonym syn);
-  static bool isNonDefaultCase(AttributedSynonym syn);
-
  public:
   ProjectorResultGroup() = default;
   virtual ~ProjectorResultGroup() = default;
   void addRow(QueryResultTableRow row);
   void addSynonym(PQLSynonymName name);
-  void addColMap(vector<PQLSynonymName> map);
-  int getTableRows();
-  QueryResultTableRow* getRowAt(int idx);
-  vector<PQLSynonymName>* getColIndexes();
-  ProjectorResultGroup* crossProduct(ProjectorResultGroup* other);
-  void project(AttributedSynonymList* synList,
-               PkbQueryHandler* handler,
-               QPSOutputList* output);
+  int getRowCount() const;
+  const QueryResultTableRow* getRowAt(int idx) const;
   QueryResultItemPool* getOwnedPool();
+  ResultTableCol getSynonymCol(const PQLSynonymName &name) const;
 
   bool operator ==(const ProjectorResultGroup &rg) const;
+
+  static const ResultTableCol NO_COL = -1;
 };
 
 typedef unique_ptr<ProjectorResultGroup> ResultGroupPtr;

@@ -16,77 +16,12 @@ void ProjectorResultGroup::addSynonym(PQLSynonymName name) {
   colIdx.push_back(name);
 }
 
-void ProjectorResultGroup::addColMap(vector<PQLSynonymName> map) {
-  for (const PQLSynonymName& syn : map) {
-    addSynonym(syn);
-  }
-}
-
-vector<PQLSynonymName>* ProjectorResultGroup::getColIndexes() {
-  return &colIdx;
-}
-
-int ProjectorResultGroup::getTableRows() {
+int ProjectorResultGroup::getRowCount() const {
   return groupTable.size();
 }
 
-QueryResultTableRow* ProjectorResultGroup::getRowAt(int idx) {
+const QueryResultTableRow* ProjectorResultGroup::getRowAt(int idx) const {
   return &groupTable.at(idx);
-}
-
-ProjectorResultGroup* ProjectorResultGroup::crossProduct(ProjectorResultGroup* other) {
-  ProjectorResultGroup* output = new ProjectorResultGroup();
-  output->addColMap(colIdx);
-  output->addColMap(*other->getColIndexes());
-
-  for (int i=0; i < getTableRows(); i++) {
-    QueryResultTableRow* leftRow = getRowAt(i);
-    for (int j=0; j < other->getTableRows(); j++) {
-      QueryResultTableRow* rightRow = other->getRowAt(j);
-
-      QueryResultTableRow rowToAdd{};
-      for (const auto & k : *leftRow) {
-        rowToAdd.push_back(k);
-      }
-
-      for (const auto & k : *rightRow) {
-        rowToAdd.push_back(k);
-      }
-
-      output->addRow(std::move(rowToAdd));
-    }
-  }
-
-  return output;
-}
-
-void ProjectorResultGroup::project(AttributedSynonymList *synList,
-                                   PkbQueryHandler* handler,
-                                   QPSOutputList* result) {
-  // Iterate through each row
-  for (int i=0; i < getTableRows(); i++) {
-    QueryResultTableRow* row = getRowAt(i);
-    string rowString;
-
-    for (int j=0; j < synList->size(); j++) {
-      AttributedSynonym syn = synList->at(j);
-      ResultTableCol col = colMap.at(syn.getName());
-      QueryResultItem* queryItem = row->at(col);
-
-      // Special case attribution read/print.varName and call.procName
-      if (isNonDefaultCase(syn)) {
-        rowString += projectNonDefaultAttribute(handler, queryItem, syn);
-      } else {
-        rowString += queryItem->project();
-      }
-
-      if (j < synList->size() - 1) {
-        rowString += " ";
-      }
-    }
-
-    result->push_back(rowString);
-  }
 }
 
 bool ProjectorResultGroup::operator==(const ProjectorResultGroup &rg) const {
@@ -132,27 +67,14 @@ bool ProjectorResultGroup::operator==(const ProjectorResultGroup &rg) const {
   return true;
 }
 
-string ProjectorResultGroup::projectNonDefaultAttribute(PkbQueryHandler *handler,
-                                                        QueryResultItem *item,
-                                                        AttributedSynonym syn) {
-  if (syn.getType() == PQL_SYN_TYPE_READ) {
-    // read.varName
-    return handler->getReadDeclarations(item->toStmtValue());
-  } else if (syn.getType() == PQL_SYN_TYPE_PRINT) {
-    // print.varName
-    return  handler->getPrintDeclarations(item->toStmtValue());
-  }
-
-  // call.procName
-  return handler->getCalledDeclaration(item->toStmtValue());
-}
-
-bool ProjectorResultGroup::isNonDefaultCase(AttributedSynonym syn) {
-  bool isTypeConstant = syn.getType() == PQL_SYN_TYPE_CONSTANT;
-  return syn.hasAttribute() && !isTypeConstant &&
-      syn.isStatementType() != syn.returnsInteger();
-}
-
 QueryResultItemPool *ProjectorResultGroup::getOwnedPool() {
   return &ownedItems;
+}
+
+ResultTableCol ProjectorResultGroup::getSynonymCol(const PQLSynonymName &name) const {
+  auto it = colMap.find(name);
+  if (it == colMap.end()) {
+    return NO_COL;
+  }
+  return it->second;
 }

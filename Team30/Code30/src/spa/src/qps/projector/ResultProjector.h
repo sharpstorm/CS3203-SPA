@@ -10,8 +10,13 @@
 
 using std::string, std::vector;
 
+static const char STATIC_TRUE[] = "TRUE";
+static const char STATIC_FALSE[] = "FALSE";
+
 class ResultProjector {
+ private:
   PkbQueryHandler* pkbQueryHandler;
+
  public:
   explicit ResultProjector(PkbQueryHandler* handler);
   void project(ProjectorResultTable* queryResult,
