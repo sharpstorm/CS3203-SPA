@@ -55,29 +55,6 @@ queryBool(const StmtValue &arg0, const StmtValue &arg1) {
     return result;
   }
 
-  CacheTable* cacheTable = closure.getNextTCache();
-
-  if (cacheTable->queryPartial(arg0, arg1) != nullptr) {
-    result.add(arg0, arg1);
-    return result;
-  }
-
-  auto row  = cacheTable->queryFull(arg0, 0);
-  if (cacheTable->queryFull(arg0, 0) != nullptr) {
-    if (std::find(row->begin(), row->end(), arg1) != row->end()) {
-      result.add(arg0, arg1);
-      return result;
-    };
-  }
-
-  row  = cacheTable->queryFull(0, arg1);
-  if (cacheTable->queryFull(0, arg1) != nullptr) {
-    if (std::find(row->begin(), row->end(), arg0) != row->end()) {
-      result.add(arg0, arg1);
-      return result;
-    };
-  }
-
   CFGNode nodeStart = cfg->toCFGNode(arg0);
   CFGNode nodeEnd = cfg->toCFGNode(arg1);
 
@@ -102,9 +79,7 @@ queryFrom(const StmtValue &arg0, const StmtType &type1) {
   constexpr WalkerSingleCallback<ResultClosure> callback =
       [](ResultClosure *state, CFGNode node) {
         int stmtNumber = state->cfg->fromCFGNode(node);
-
-        state->closure.getNextTCache()->addEntry(state->start, stmtNumber);
-
+        
         if (!typePredicate(state->closure, state->arg1Type, stmtNumber)) {
           return true;
         }
@@ -114,19 +89,7 @@ queryFrom(const StmtValue &arg0, const StmtType &type1) {
       };
 
   CFGNode nodeStart = cfg->toCFGNode(arg0);
-
-  CacheTable* cacheTable = closure.getNextTCache();
-  auto row = cacheTable->queryFull(arg0, 0);
-  if (row != nullptr) {
-    for(const StmtValue &i : *row) {
-      result.add(arg0, i);
-    }
-    return result;
-  }
-
   walker.walkFrom<ResultClosure, callback>(nodeStart, &state);
-
-  cacheTable->promoteFrom(arg0);
   return result;
 }
 
@@ -143,8 +106,6 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
   constexpr WalkerSingleCallback<ResultClosure> callback =
       [](ResultClosure *state, CFGNode node) -> bool {
         int stmtNumber = state->cfg->fromCFGNode(node);
-
-
 
         if (!typePredicate(state->closure, state->arg0Type, stmtNumber)) {
           return true;
