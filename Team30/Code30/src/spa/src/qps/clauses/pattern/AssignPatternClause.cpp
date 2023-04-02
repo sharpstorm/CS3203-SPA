@@ -10,7 +10,7 @@ using std::make_unique;
 AssignPatternClause::AssignPatternClause(
     const PQLQuerySynonymProxy &assignSynonym,
     ClauseArgumentPtr leftArg,
-    ExpressionArgumentPtr rightArg):
+    ExpressionArgumentPtr rightArg) :
     PatternClause(assignSynonym, std::move(leftArg), PQL_SYN_TYPE_ASSIGN),
     rightArgument(std::move(rightArg)) {}
 
@@ -26,9 +26,9 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
     return new PQLQueryResult();
   }
 
-//  QueryResult<StmtValue, EntityValue> modifiesResult = agent
-    auto modifiesResult = agent
-      ->queryModifies(leftStatement, rightVariable);
+  // Override wildcards, types are ignored for known
+  rightVariable.setType(EntityType::Variable);
+  auto modifiesResult = agent->queryModifies(leftStatement, rightVariable);
 
   if (rightArgument->isWildcard()) {
     return Clause::toQueryResult(synonym->getName(), leftArg.get(),
@@ -46,22 +46,24 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
 void AssignPatternClause::checkTries(
     const QueryExecutorAgent &agent,
     QueryResult<StmtValue, EntityValue> *output,
-    QueryResult<StmtValue, EntityValue>* modifiesResult) {
-  for (auto& it : modifiesResult->pairVals) {
+    QueryResult<StmtValue, EntityValue> *modifiesResult) {
+  for (auto &it : modifiesResult->pairVals) {
     // Call assigns to retrieve the node
     StmtRef assignRef = {StmtType::Assign, it.first};
-    auto nodes =
-        agent->queryAssigns(assignRef);
-
-    PatternTrie* lineRoot = *nodes->secondArgVals.begin();
-    bool isPartialMatch = rightArgument->allowsPartial()
-        && lineRoot->isMatchPartial(rightArgument->getSequence());
-    bool isFullMatch = !rightArgument->allowsPartial()
-        && lineRoot->isMatchFull(rightArgument->getSequence());
-    if (isPartialMatch || isFullMatch) {
+    auto nodes = agent->queryAssigns(assignRef);
+    PatternTrie *lineRoot = *nodes->secondArgVals.begin();
+    if (isTrieMatch(lineRoot)) {
       output->add(it.first, it.second);
     }
   }
+}
+
+bool AssignPatternClause::isTrieMatch(PatternTrie *lineRoot) {
+  bool isPartialMatch = rightArgument->allowsPartial()
+      && lineRoot->isMatchPartial(rightArgument->getSequence());
+  bool isFullMatch = !rightArgument->allowsPartial()
+      && lineRoot->isMatchFull(rightArgument->getSequence());
+  return isPartialMatch || isFullMatch;
 }
 
 ComplexityScore AssignPatternClause::getComplexityScore(
