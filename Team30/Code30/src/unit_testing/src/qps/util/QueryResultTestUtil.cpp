@@ -85,4 +85,21 @@ class TestQueryResultBuilder {
     delete names;
     return result;
   }
+
+  template <class ...ExpectedParams>
+  static unique_ptr<ProjectorResultTable> buildExpectedTable(AttributedSynonymList* syns,
+                                                             const ExpectedParams&... expectedParams) {
+    auto result = make_unique<ProjectorResultTable>(syns->empty(), true);
+    ([&]
+    {
+      auto queryResult = buildExpected(expectedParams);
+      vector<PQLSynonymName> names;
+      for (auto x : expectedParams) {
+        names.push_back(x.first);
+      }
+      ResultGroupPtr rg = ProjectorResultFactory::extractResults(queryResult.get() , &names);
+      result->addResultGroup(std::move(rg));
+    } (), ...);
+    return result;
+  }
 };

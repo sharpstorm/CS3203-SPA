@@ -7,7 +7,7 @@
 
 #include "qps/projector/ResultProjector.h"
 #include "../util/QueryResultTestUtil.cpp"
-
+#include "../util/SynonymHolder.h"
 
 using std::sort, std::unordered_set, std::vector, std::make_unique, std::unique_ptr;
 
@@ -21,15 +21,13 @@ void testResultProjection(vector<string>* expected, vector<string>* actual) {
   REQUIRE(*expected == *actual);
 }
 
-PQLQuerySynonym TARGET_RESULT_RAW{PQL_SYN_TYPE_ASSIGN, "a"};
-PQLQuerySynonym TARGET_ENTITY_RAW{PQL_SYN_TYPE_VARIABLE, "v"};
-PQLQuerySynonym* TARGET_RESULT_PTR = &TARGET_RESULT_RAW;
-PQLQuerySynonym* TARGET_ENTITY_PTR = &TARGET_ENTITY_RAW;
-PQLQuerySynonymProxy TARGET_RESULT_VAR(&TARGET_RESULT_PTR);
-PQLQuerySynonymProxy TARGET_ENTITY_VAR(&TARGET_ENTITY_PTR);
-
-AttributedSynonym ATTR_TARGET_RESULT_VAR(TARGET_RESULT_VAR);
-AttributedSynonym ATTR_TARGET_ENTITY_VAR(TARGET_ENTITY_VAR);
+SynonymHolder DECLARED_SYNS(
+    {
+        {PQL_SYN_TYPE_ASSIGN, "a"},
+        {PQL_SYN_TYPE_VARIABLE, "v"}
+    });
+AttributedSynonym ATTR_TARGET_RESULT_VAR(DECLARED_SYNS.getProxy("a"));
+AttributedSynonym ATTR_TARGET_ENTITY_VAR(DECLARED_SYNS.getProxy("v"));
 AttributedSynonymList TARGET_RESULT_VARS{ATTR_TARGET_RESULT_VAR};
 AttributedSynonymList TARGET_ENTITY_VARS{ATTR_TARGET_ENTITY_VAR};
 
@@ -52,9 +50,9 @@ TEST_CASE("Projecting Statements") {
 
   result = TestQueryResultBuilder::buildExpectedTable(ExpectedParams{
       {"a", QueryResultItemVector{
-        TestResultItem(1),
-        TestResultItem(2),
-        TestResultItem(3),
+          TestResultItem(1),
+          TestResultItem(2),
+          TestResultItem(3),
       }}
   }, &TARGET_RESULT_VARS);
   expected = UniqueVectorPtr<string>(new vector<string>({"1", "2", "3"}));
