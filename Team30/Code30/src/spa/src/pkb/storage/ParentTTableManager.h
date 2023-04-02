@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <set>
 
 #include "FollowsTableManager.h"
 #include "RelationTableManager.h"
@@ -11,7 +12,7 @@
 #include "tables/IBaseSetTable.h"
 
 using pkb::Predicate;
-using std::make_unique, std::unique_ptr;
+using std::make_unique, std::unique_ptr, std::set;
 
 class ParentTTableManager {
  private:
