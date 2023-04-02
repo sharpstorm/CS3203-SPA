@@ -47,9 +47,9 @@ TEST_CASE("Queries with Select only") {
     auto synList = make_unique<AttributedSynonymList>(AttributedSynonymList({attrSyn}));
     expectedResult = TestQueryResultBuilder::buildExpectedTable(ExpectedParams{
         {"s", QueryResultItemVector{
-            QueryResultItem(1),
-            QueryResultItem(2),
-            QueryResultItem(3)
+            TestResultItem(1),
+            TestResultItem(2),
+            TestResultItem(3)
         }}
     }, synList.get());
 
@@ -82,9 +82,9 @@ TEST_CASE("Queries with Select only") {
     auto synList = make_unique<AttributedSynonymList>(AttributedSynonymList({attrSyn}));
     expectedResult = TestQueryResultBuilder::buildExpectedTable(ExpectedParams{
         {"ent", QueryResultItemVector{
-            QueryResultItem("x"),
-            QueryResultItem("y"),
-            QueryResultItem("z")
+            TestResultItem("x"),
+            TestResultItem("y"),
+            TestResultItem("z")
         }}
     }, synList.get());
     SelectClause selectClause(proxy);

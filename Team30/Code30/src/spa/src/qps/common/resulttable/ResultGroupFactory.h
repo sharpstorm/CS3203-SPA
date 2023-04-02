@@ -5,7 +5,7 @@
 
 #include "ResultGroup.h"
 #include "common/UtilityTypes.h"
-#include "qps/common/PQLQueryResult.h"
+#include "qps/common/intermediate_result/PQLQueryResult.h"
 
 using std::unique_ptr, std::vector;
 

@@ -33,3 +33,5 @@ enum PQLSynonymAttribute {
 
 const int PQL_SYN_STMT_MASK = PQL_SYN_TYPE_STMT;
 typedef string PQLSynonymName;
+
+typedef string ProjectedValue;

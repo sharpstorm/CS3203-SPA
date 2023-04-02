@@ -49,14 +49,14 @@ TEST_CASE("CallsTClause Querying") {
       make_unique<SynonymArgument>(synP),
       make_unique<SynonymArgument>(synQ));
   expected = TestQueryResultBuilder::buildExpected(ExpectedParams{
-      {"p", QueryResultItemVector{QueryResultItem("Bumblebee"),
-                                  QueryResultItem("Bumblebee"),
-                                  QueryResultItem("Bumblebee"),
-                                  QueryResultItem("Ironhide")}},
-      {"q", QueryResultItemVector{QueryResultItem("Megatron"),
-                                  QueryResultItem("Ironhide"),
-                                  QueryResultItem("Barricade"),
-                                  QueryResultItem("Barricade")}}
+      {"p", QueryResultItemVector{TestResultItem("Bumblebee"),
+                                  TestResultItem("Bumblebee"),
+                                  TestResultItem("Bumblebee"),
+                                  TestResultItem("Ironhide")}},
+      {"q", QueryResultItemVector{TestResultItem("Megatron"),
+                                  TestResultItem("Ironhide"),
+                                  TestResultItem("Barricade"),
+                                  TestResultItem("Barricade")}}
   });
   actual = PQLQueryResultPtr(callsClause.evaluateOn(agent));
   REQUIRE(*expected == *actual);
@@ -75,7 +75,7 @@ TEST_CASE("CallsTClause Querying") {
       make_unique<SynonymArgument>(synP),
       make_unique<EntityArgument>("Barricade"));
   expected = TestQueryResultBuilder::buildExpected(ExpectedParams{
-      {"p", QueryResultItemVector{QueryResultItem("Ironhide")}}
+      {"p", QueryResultItemVector{TestResultItem("Ironhide")}}
   });
   actual = PQLQueryResultPtr(callsClause.evaluateOn(agent));
   REQUIRE(*expected == *actual);
@@ -85,7 +85,7 @@ TEST_CASE("CallsTClause Querying") {
       make_unique<SynonymArgument>(synP),
       make_unique<WildcardArgument>());
   expected = TestQueryResultBuilder::buildExpected(ExpectedParams{
-      {"p", QueryResultItemVector{QueryResultItem("Bumblebee"), QueryResultItem("Ironhide")}}
+      {"p", QueryResultItemVector{TestResultItem("Bumblebee"), TestResultItem("Ironhide")}}
   });
   actual = PQLQueryResultPtr(callsClause.evaluateOn(agent));
   REQUIRE(*expected == *actual);
@@ -97,9 +97,9 @@ TEST_CASE("CallsTClause Querying") {
       make_unique<SynonymArgument>(synQ)
   );
   expected = TestQueryResultBuilder::buildExpected(ExpectedParams{
-      {"q", QueryResultItemVector{QueryResultItem("Megatron"),
-                                  QueryResultItem("Ironhide"),
-                                  QueryResultItem("Barricade")}}
+      {"q", QueryResultItemVector{TestResultItem("Megatron"),
+                                  TestResultItem("Ironhide"),
+                                  TestResultItem("Barricade")}}
   });
   actual = PQLQueryResultPtr(callsClause.evaluateOn(agent));
   REQUIRE(*expected == *actual);
@@ -110,9 +110,9 @@ TEST_CASE("CallsTClause Querying") {
       make_unique<SynonymArgument>(synQ)
   );
   expected = TestQueryResultBuilder::buildExpected(ExpectedParams{
-      {"q", QueryResultItemVector{QueryResultItem("Megatron"),
-                                  QueryResultItem("Ironhide"),
-                                  QueryResultItem("Barricade")}}
+      {"q", QueryResultItemVector{TestResultItem("Megatron"),
+                                  TestResultItem("Ironhide"),
+                                  TestResultItem("Barricade")}}
   });
   actual = PQLQueryResultPtr(callsClause.evaluateOn(agent));
   REQUIRE(*expected == *actual);

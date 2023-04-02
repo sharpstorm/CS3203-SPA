@@ -4,7 +4,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include "qps/common/PQLQueryResult.h"
+#include "qps/common/intermediate_result/PQLQueryResult.h"
 #include "qps/common/AttributedSynonym.h"
 #include "qps/constraints/Constraint.h"
 
@@ -14,6 +14,8 @@ class ResultGroup {
   QueryResultTable groupTable;
   unordered_map<PQLSynonymName, ResultTableCol> colMap;
   vector<PQLSynonymName> colIdx;
+  QueryResultItemPool ownedItems;
+
   static string projectNonDefaultAttribute(PkbQueryHandler* handler,
                                            QueryResultItem* item,
                                            AttributedSynonym syn);
@@ -32,6 +34,8 @@ class ResultGroup {
   void project(AttributedSynonymList* synList,
                PkbQueryHandler* handler,
                vector<string>* result);
+  QueryResultItemPool* getOwnedPool();
+
   bool operator ==(const ResultGroup &rg) const;
 };
 
