@@ -268,7 +268,7 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
                                                 initialState,
                                                 &state);
 
-  closure.getAffectsCache()->promoteTo(cfg->fromCFGNode(arg1));
+  closure.getAffectsCache()->promoteTo(arg1);
   return result;
 }
 
