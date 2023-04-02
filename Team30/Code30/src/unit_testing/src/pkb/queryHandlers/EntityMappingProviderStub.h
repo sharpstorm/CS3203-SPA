@@ -1,14 +1,14 @@
 #pragma once
 
-#include <string>
 #include <set>
+#include <string>
 
 #include "pkb/storage/interfaces/IEntityMappingProvider.h"
 #include "pkb/storage/tables/ContiguousTable.h"
 #include "pkb/storage/tables/HashKeySetTable.h"
 
-using std::string;
 using std::set;
+using std::string;
 
 class EntityMappingProviderStub : public IEntityMappingProvider {
  public:
@@ -25,7 +25,7 @@ class EntityMappingProviderStub : public IEntityMappingProvider {
   HashKeyTable<string, int> procedureToStmtNumTable;
 
   EntityMappingProviderStub();
-  const EntitySet & getValuesOfType(EntityType) const override;
+  const EntitySet& getValuesOfType(EntityType) const override;
   bool isValueOfType(EntityType, EntityValue) const override;
   string getVariableByIndex(int) const override;
   string getConstantByIndex(int) const override;

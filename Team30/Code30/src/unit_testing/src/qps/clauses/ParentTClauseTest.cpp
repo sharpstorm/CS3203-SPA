@@ -11,27 +11,27 @@
 
 const ExpectedParams PARENTT_LEFT_LINES{
     {"a1", QueryResultItemVector {
-        QueryResultItem(6)
+        TestResultItem(6)
     }}
 };
 const ExpectedParams PARENTT_RIGHT_LINES{
     {"a2", QueryResultItemVector{
-        QueryResultItem(7),
-        QueryResultItem(8),
-        QueryResultItem(9)
+        TestResultItem(7),
+        TestResultItem(8),
+        TestResultItem(9)
     }}
 };
 
 const ExpectedParams PARENTT_PAIRS{
     {"a1", QueryResultItemVector{
-        QueryResultItem(6),
-        QueryResultItem(6),
-        QueryResultItem(6)
+        TestResultItem(6),
+        TestResultItem(6),
+        TestResultItem(6)
     }},
     {"a2", QueryResultItemVector{
-        QueryResultItem(7),
-        QueryResultItem(8),
-        QueryResultItem(9)
+        TestResultItem(7),
+        TestResultItem(8),
+        TestResultItem(9)
     }}
 };
 

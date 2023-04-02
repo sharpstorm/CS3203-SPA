@@ -15,7 +15,7 @@ using std::unique_ptr, std::make_unique;
 typedef StmtStmtInvoker AffectsInvoker;
 typedef StmtInvoker AffectsSameSynInvoker;
 
-template <AffectsInvoker invoker, AffectsSameSynInvoker sameSynInvoker>
+template<AffectsInvoker invoker, AffectsSameSynInvoker sameSynInvoker>
 using AbstractAffectsClause = AbstractStmtStmtClause<
     invoker,
     sameSynInvoker,
@@ -24,18 +24,16 @@ using AbstractAffectsClause = AbstractStmtStmtClause<
 
 constexpr ModifiesGetter<QueryExecutorAgent> modifiesQuerier =
     [](const QueryExecutorAgent &agent,
-       StmtValue stmtNumber) -> EntityIdx {
+       StmtValue stmtNumber) -> EntityIdxSet {
       QueryResultPtr<StmtValue, EntityValue> result =
           agent->queryModifies(StmtRef{StmtType::None, stmtNumber},
                                EntityRef{EntityType::None, ""});
-      if (result->isEmpty) {
-        return NO_ENT_INDEX;
+      EntityIdxSet ret;
+      for (EntityValue v : result->secondArgVals) {
+        ret.insert(agent->getIndexOfVariable(v));
       }
-      for (auto it : result->secondArgVals) {
-        return agent->getIndexOfVariable(it);
-      }
-
-      return NO_ENT_INDEX;
+      ret.erase(NO_ENT_INDEX);
+      return ret;
     };
 
 constexpr UsesGetter<QueryExecutorAgent> usesQuerier =
@@ -51,23 +49,18 @@ constexpr UsesGetter<QueryExecutorAgent> usesQuerier =
       return ret;
     };
 
-constexpr CountGetter<QueryExecutorAgent> countQuerier =
-    [](const QueryExecutorAgent &agent) -> int {
-      return agent->getSymbolsOfType(EntityType::Variable).size() + 1;
-    };
-
 typedef CFGAffectsQuerier<QueryExecutorAgent, typeChecker,
                           modifiesQuerier, usesQuerier> ConcreteAffectsQuerier;
 
 typedef CFGAffectsTQuerier<QueryExecutorAgent, typeChecker,
-                           modifiesQuerier, usesQuerier, countQuerier>
+                           modifiesQuerier, usesQuerier>
     ConcreteAffectsTQuerier;
 
-template <class QuerierT>
+template<class QuerierT>
 constexpr AffectsInvoker abstractAffectsInvoker = [](
     const QueryExecutorAgent &agent,
     const StmtRef &leftArg,
-    const StmtRef &rightArg){
+    const StmtRef &rightArg) {
   auto result = make_unique<QueryResult<StmtValue, StmtValue>>();
   if (!leftArg.isType(StmtType::None) && !leftArg.isType(StmtType::Assign)) {
     return result;
@@ -76,7 +69,7 @@ constexpr AffectsInvoker abstractAffectsInvoker = [](
     return result;
   }
 
-  vector<CFG*> cfgs;
+  vector<CFG *> cfgs;
   if (leftArg.isKnown()) {
     cfgs = agent->queryCFGs(leftArg);
   } else {
@@ -100,21 +93,21 @@ constexpr AffectsInvoker abstractAffectsInvoker = [](
   return result;
 };
 
-template <class QuerierT>
+template<class QuerierT>
 constexpr AffectsSameSynInvoker abstractAffectsSymmetricInvoker =
     [](const QueryExecutorAgent &agent,
-       const StmtRef &arg){
+       const StmtRef &arg) {
       unordered_set<StmtValue> result;
 
       if (!arg.isType(StmtType::None) && !arg.isType(StmtType::Assign)) {
         return result;
       }
 
-      vector<CFG*> cfgs = agent->queryCFGs(
+      vector<CFG *> cfgs = agent->queryCFGs(
           StmtRef{StmtType::None, 0});
 
       for (auto it = cfgs.begin(); it != cfgs.end(); it++) {
-        CFG* cfg = *it;
+        CFG *cfg = *it;
         QuerierT querier(cfg, agent);
         int startingStatement = cfg->getStartingStmtNumber();
 
@@ -143,8 +136,7 @@ constexpr AffectsSameSynInvoker affectsSymmetricInvoker =
 constexpr AffectsSameSynInvoker affectsTSymmetricInvoker =
     abstractAffectsSymmetricInvoker<ConcreteAffectsTQuerier>;
 
-
-class AffectsClause: public AbstractAffectsClause<
+class AffectsClause : public AbstractAffectsClause<
     affectsInvoker,
     affectsSymmetricInvoker> {
  public:
@@ -160,7 +152,7 @@ class AffectsClause: public AbstractAffectsClause<
   }
 };
 
-class AffectsTClause: public AbstractAffectsClause<
+class AffectsTClause : public AbstractAffectsClause<
     affectsTInvoker,
     affectsTSymmetricInvoker> {
  public:

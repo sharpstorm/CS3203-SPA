@@ -2,10 +2,11 @@
 
 #include <memory>
 
+#include "FollowsTableManager.h"
 #include "IndexTableManager.h"
+#include "ParentTTableManager.h"
 #include "RelationTableManager.h"
 #include "StatementStorage.h"
-#include "TransitiveRelationTableManager.h"
 #include "common/Types.h"
 #include "common/cfg/CFG.h"
 #include "common/pattern/PatternTrie.h"
@@ -29,15 +30,17 @@ using StmtRevTable = HashKeySetTable<StmtType, StmtValue>;
 
 using CallDeclarationTable = HashKeyTable<StmtValue, EntityValue>;
 
-using FollowsStorage = RelationTableManager<StmtValue, StmtValue>;
-using FollowsTStorage = TransitiveRelationTableManager<StmtValue>;
-using FollowsTable = ContiguousSetTable<StmtValue>;
-using FollowsRevTable = ContiguousSetTable<StmtValue>;
+using FollowsStorage = FollowsTableManager;
+using FollowsTStorage = RelationTableManager<StmtValue, StmtValue>;
+using FollowsTable = IntSetTable<StmtValue>;
+using FollowsRevTable = IntSetTable<StmtValue>;
 
 using ParentStorage = RelationTableManager<StmtValue, StmtValue>;
-using ParentTStorage = TransitiveRelationTableManager<StmtValue>;
-using ParentTable = ContiguousSetTable<StmtValue>;
-using ParentRevTable = ContiguousSetTable<StmtValue>;
+using ParentTStorage = ParentTTableManager;
+using ParentTable = IntSetTable<StmtValue>;
+using ParentRevTable = IntSetTable<StmtValue>;
+using ParentTTable = IntTable<StmtValue>;
+using ParentTRevTable = IntSetTable<StmtValue>;
 
 using ModifiesStorage = RelationTableManager<StmtValue, EntityValue>;
 using ModifiesTable = HashKeySetTable<StmtValue, EntityValue>;
@@ -56,9 +59,11 @@ using UsesPTable = HashKeySetTable<EntityValue, EntityValue>;
 using UsesPRevTable = HashKeySetTable<EntityValue, EntityValue>;
 
 using CallsStorage = RelationTableManager<EntityValue, EntityValue>;
-using CallsTStorage = TransitiveRelationTableManager<EntityValue>;
 using CallsTable = HashKeySetTable<EntityValue, EntityValue>;
 using CallsRevTable = HashKeySetTable<EntityValue, EntityValue>;
+using CallsTStorage = RelationTableManager<EntityValue, EntityValue>;
+using CallsTTable = HashKeySetTable<EntityValue, EntityValue>;
+using CallsTRevTable = HashKeySetTable<EntityValue, EntityValue>;
 
 using IfPatternStorage = RelationTableManager<StmtValue, EntityValue>;
 using IfPatternTable = HashKeySetTable<StmtValue, EntityValue>;

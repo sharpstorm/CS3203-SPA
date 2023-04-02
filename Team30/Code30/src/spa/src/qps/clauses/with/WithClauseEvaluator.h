@@ -6,7 +6,7 @@
 
 #include "pkb/queryHandlers/PkbQueryHandler.h"
 #include "qps/common/constraint/OverrideTable.h"
-#include "qps/common/PQLQueryResult.h"
+#include "qps/common/intermediate_result/PQLQueryResult.h"
 #include "qps/clauses/arguments/WithArgument.h"
 #include "qps/executor/QueryExecutorAgent.h"
 

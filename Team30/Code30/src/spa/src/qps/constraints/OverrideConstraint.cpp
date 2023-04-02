@@ -31,7 +31,7 @@ bool OverrideConstraint::applyConstraint(SynonymProxyBuilder *variableTable,
   PQLSynonymName synName = attrSyn.getName();
 
   if (overrideTable->contains(synName)) {
-    return false;
+    return overrideTable->get(synName) == overrideTransformer;
   }
 
   overrideTable->insert(synName, overrideTransformer);

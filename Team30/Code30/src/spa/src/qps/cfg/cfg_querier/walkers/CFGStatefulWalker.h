@@ -72,15 +72,15 @@ class CFGStatefulWalker {
         }
 
         BitField newState = callback(closure, nextNode, curState);
-        BitField difference = visitedNodes[nextNode].projectOnto(newState);
         if (visitedNodes[nextNode].contains(newState)) {
           continue;
         }
-        visitedNodes[nextNode] = visitedNodes[nextNode].unionWith(newState);
         if (!newState.empty()) {
+          BitField difference = visitedNodes[nextNode].projectOnto(newState);
           currentNodes.push_back(nextNode);
           pathStates.push_back(difference);
         }
+        visitedNodes[nextNode] = visitedNodes[nextNode].unionWith(newState);
       }
     }
   }

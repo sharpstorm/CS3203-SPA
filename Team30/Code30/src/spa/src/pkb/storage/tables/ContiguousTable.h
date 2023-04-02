@@ -1,12 +1,13 @@
 #pragma once
 
-#include <vector>
 #include <cassert>
+#include <vector>
+
 #include "IBaseTable.h"
 
 using std::vector;
 
-template<typename V>
+template <typename V>
 class ContiguousTable : public IBaseTable<int, V> {
  protected:
   vector<V> table;
@@ -37,7 +38,19 @@ class ContiguousTable : public IBaseTable<int, V> {
     return emptyValue;
   }
 
-  static const V& getEmptyValue() {
-    return emptyValue;
+  static const V& getEmptyValue() { return emptyValue; }
+
+  void forEach(pkb::Function<int, V> function,
+               pkb::Terminator<int, V> terminator) const override {
+    int key = 1;
+    for (auto const& values : table) {
+      if (terminator != nullptr && terminator(key, values)) {
+        return;
+      }
+      function(key, values);
+      key++;
+    }
   }
+
+  int size() const override { return table.size(); };
 };

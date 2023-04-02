@@ -7,11 +7,10 @@
 typedef CFGAffectsTQuerier<CFGTestModifiesUsesProvider,
                            CFGTestModifiesUsesProvider::typePredicate,
                            CFGTestModifiesUsesProvider::getModifies,
-                           CFGTestModifiesUsesProvider::getUses,
-                           CFGTestModifiesUsesProvider::getCount> CFGTestAffectsTQuerier;
+                           CFGTestModifiesUsesProvider::getUses> CFGTestAffectsTQuerier;
 
-template <typename T, StmtTypePredicate<T> U, ModifiesGetter<T> MG, UsesGetter<T> UG, CountGetter<T> CG>
-StmtTransitiveResult queryAffectsT(CFGAffectsTQuerier<T, U, MG, UG, CG>* querier,
+template <typename T, StmtTypePredicate<T> U, ModifiesGetter<T> MG, UsesGetter<T> UG>
+StmtTransitiveResult queryAffectsT(CFGAffectsTQuerier<T, U, MG, UG>* querier,
                                    int left, int right) {
   return querier->queryArgs(
       StmtRef{StmtType::None, left},
@@ -19,9 +18,8 @@ StmtTransitiveResult queryAffectsT(CFGAffectsTQuerier<T, U, MG, UG, CG>* querier
   );
 }
 
-template <typename T, StmtTypePredicate<T> U, ModifiesGetter<T> MG, UsesGetter<T> UG,
-    CountGetter<T> CG>
-void queryAffectsT(CFGAffectsTQuerier<T, U, MG, UG, CG>* querier,
+template <typename T, StmtTypePredicate<T> U, ModifiesGetter<T> MG, UsesGetter<T> UG>
+void queryAffectsT(CFGAffectsTQuerier<T, U, MG, UG>* querier,
                    StmtTransitiveResult* output,
                    int left, int right) {
   querier->queryArgs(
@@ -31,26 +29,23 @@ void queryAffectsT(CFGAffectsTQuerier<T, U, MG, UG, CG>* querier,
   );
 }
 
-template <typename T, StmtTypePredicate<T> U, ModifiesGetter<T> MG, UsesGetter<T> UG,
-    CountGetter<T> CG>
-StmtTransitiveResult queryAffectsT(CFGAffectsTQuerier<T, U, MG, UG, CG>* querier,
+template <typename T, StmtTypePredicate<T> U, ModifiesGetter<T> MG, UsesGetter<T> UG>
+StmtTransitiveResult queryAffectsT(CFGAffectsTQuerier<T, U, MG, UG>* querier,
                                    StmtRef left,
                                    StmtRef right) {
   return querier->queryArgs(left, right);
 }
 
-template <typename T, StmtTypePredicate<T> U, ModifiesGetter<T> MG, UsesGetter<T> UG,
-    CountGetter<T> CG>
-void queryAffectsT(CFGAffectsTQuerier<T, U, MG, UG, CG>* querier,
+template <typename T, StmtTypePredicate<T> U, ModifiesGetter<T> MG, UsesGetter<T> UG>
+void queryAffectsT(CFGAffectsTQuerier<T, U, MG, UG>* querier,
                    StmtTransitiveResult* output,
                    StmtRef left,
                    StmtRef right) {
   querier->queryArgs(left, right, output);
 }
 
-template <typename T, StmtTypePredicate<T> U, ModifiesGetter<T> MG, UsesGetter<T> UG,
-    CountGetter<T> CG>
-void assertQueryAffectsTEmpty(CFGAffectsTQuerier<T, U, MG, UG, CG>* querier,
+template <typename T, StmtTypePredicate<T> U, ModifiesGetter<T> MG, UsesGetter<T> UG>
+void assertQueryAffectsTEmpty(CFGAffectsTQuerier<T, U, MG, UG>* querier,
                               int left,
                               unordered_set<int> rights) {
   for (auto it = rights.begin(); it != rights.end(); it++) {
@@ -58,9 +53,8 @@ void assertQueryAffectsTEmpty(CFGAffectsTQuerier<T, U, MG, UG, CG>* querier,
   }
 }
 
-template <typename T, StmtTypePredicate<T> U, ModifiesGetter<T> MG, UsesGetter<T> UG,
-    CountGetter<T> CG>
-void assertQueryAffectsTNotEmpty(CFGAffectsTQuerier<T, U, MG, UG, CG>* querier,
+template <typename T, StmtTypePredicate<T> U, ModifiesGetter<T> MG, UsesGetter<T> UG>
+void assertQueryAffectsTNotEmpty(CFGAffectsTQuerier<T, U, MG, UG>* querier,
                                  int left,
                                  unordered_set<int> rights) {
   for (auto it = rights.begin(); it != rights.end(); it++) {
@@ -69,37 +63,37 @@ void assertQueryAffectsTNotEmpty(CFGAffectsTQuerier<T, U, MG, UG, CG>* querier,
 }
 
 CFGTestModifiesUsesProvider transitiveLinearProvider(
-    { "a", "b", "c", "d"},
+    { {"a"}, {"b"}, {"c"}, {"d"}},
     {{}, {"a"}, {"b"}, {"e"}},
     {}
 );
 
 CFGTestModifiesUsesProvider whileProvider(
-    { "", "a", "b", "c"},
+    { {}, {"a"}, {"b"}, {"c"}},
     {{}, {"b"}, {"c"}, {"a"}},
     {{1, StmtType::While}}
 );
 
 CFGTestModifiesUsesProvider ifNoneProvider(
-    { "x", "", "y", "y", "z"},
+    { {"x"}, {}, {"y"}, {"y"}, {"z"}},
     {{}, {"x"}, {"x"}, {"x"}, {"x"}},
     {{2, StmtType::If}}
 );
 
 CFGTestModifiesUsesProvider ifThenProvider(
-    { "x", "", "y", "x", "z"},
+    { {"x"}, {}, {"y"}, {"x"}, {"z"}},
     {{}, {"x"}, {"x"}, {}, {"y"}},
     {{2, StmtType::If}}
 );
 
 CFGTestModifiesUsesProvider ifElseProvider(
-    { "x", "", "x", "y", "z"},
+    { {"x"}, {}, {"x"}, {"y"}, {"z"}},
     {{}, {"x"}, {}, {"x"}, {"y"}},
     {{2, StmtType::If}}
 );
 
 CFGTestModifiesUsesProvider ifBothProvider(
-    { "x", "", "y", "y", "z"},
+    { {"x"}, {}, {"y"}, {"y"}, {"z"}},
     {{}, {"x"}, {"x"}, {"x"}, {"y"}},
     {{2, StmtType::If}}
 );

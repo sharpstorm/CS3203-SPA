@@ -1,14 +1,14 @@
 #include "CFGTestModifiesUsesProvider.h"
 
 CFGTestModifiesUsesProvider::CFGTestModifiesUsesProvider(
-    vector<EntityValue> modifies,
+    vector<unordered_set<EntityValue>> modifies,
     vector<unordered_set<EntityValue>> uses):
     modifies(modifies), uses(uses) {
   fillSymbolTable();
 }
 
 CFGTestModifiesUsesProvider::CFGTestModifiesUsesProvider(
-    vector<EntityValue> modifies,
+    vector<unordered_set<EntityValue>> modifies,
     vector<unordered_set<EntityValue>> uses,
     unordered_map<StmtValue, StmtType> typeExclusions):
     modifies(modifies), uses(uses), typeExclusions(typeExclusions) {
@@ -25,14 +25,20 @@ bool CFGTestModifiesUsesProvider::typePredicate(const CFGTestModifiesUsesProvide
   return it->second == type;
 }
 
-EntityIdx CFGTestModifiesUsesProvider::getModifies(const CFGTestModifiesUsesProvider &state,
-                                                   StmtValue value) {
+EntityIdxSet CFGTestModifiesUsesProvider::getModifies(const CFGTestModifiesUsesProvider &state,
+                                                      StmtValue value) {
   if (value < 1 || value > state.modifies.size()) {
-    return NO_ENT_INDEX;
+    return {};
   }
 
-  auto entity = state.modifies[value - 1];
-  return getSymbolId(state, entity);
+  auto entSet = state.modifies[value - 1];
+  EntityIdxSet ret;
+  for (auto item : entSet) {
+    ret.insert(getSymbolId(state, item));
+  }
+  ret.erase(NO_ENT_INDEX);
+
+  return ret;
 }
 
 EntityIdxSet CFGTestModifiesUsesProvider::getUses(
@@ -71,13 +77,15 @@ void CFGTestModifiesUsesProvider::fillSymbolTable() {
   int counter = 1;
 
   for (auto x : modifies) {
-    if (x == NO_ENT) {
-      continue;
-    }
+    for (auto y : x) {
+      if (y == NO_ENT) {
+        continue;
+      }
 
-    if (symbolTable.find(x) == symbolTable.end()) {
-      symbolTable.emplace(x, counter);
-      counter++;
+      if (symbolTable.find(y) == symbolTable.end()) {
+        symbolTable.emplace(y, counter);
+        counter++;
+      }
     }
   }
 
