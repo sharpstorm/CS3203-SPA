@@ -56,20 +56,22 @@ typedef CFGAffectsTQuerier<QueryExecutorAgent, typeChecker,
                            modifiesQuerier, usesQuerier>
     ConcreteAffectsTQuerier;
 
+constexpr auto validateAffectsType = [](const StmtRef &ref) {
+  return ref.isAnyType(StmtType::None,
+                       StmtType::Assign,
+                       StmtType::Wildcard);
+};
+
 template<class QuerierT>
 constexpr AffectsInvoker abstractAffectsInvoker = [](
     const QueryExecutorAgent &agent,
     const StmtRef &leftArg,
     const StmtRef &rightArg) {
   auto result = make_unique<QueryResult<StmtValue, StmtValue>>();
-  if (!leftArg.isType(StmtType::None) &&
-      !leftArg.isType(StmtType::Assign) &&
-      !leftArg.isType(StmtType::Wildcard)) {
+  if (!validateAffectsType(leftArg)) {
     return result;
   }
-  if (!rightArg.isType(StmtType::None) &&
-      !rightArg.isType(StmtType::Assign) &&
-      !rightArg.isType(StmtType::Wildcard)) {
+  if (!validateAffectsType(rightArg)) {
     return result;
   }
 

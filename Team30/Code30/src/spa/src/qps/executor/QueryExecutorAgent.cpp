@@ -27,7 +27,7 @@ EntityRef QueryExecutorAgent::transformArg(const PQLSynonymName name,
 }
 
 bool QueryExecutorAgent::isValid(const StmtRef &ref) const {
-  if (ref.isType(StmtType::None)) {
+  if (ref.isType(StmtType::None) || ref.isType(StmtType::Wildcard)) {
     return true;
   }
 
@@ -36,7 +36,7 @@ bool QueryExecutorAgent::isValid(const StmtRef &ref) const {
 }
 
 bool QueryExecutorAgent::isValid(const EntityRef &ref) const {
-  if (ref.isType(EntityType::None)) {
+  if (ref.isType(EntityType::None) || ref.isType(EntityType::Wildcard)) {
     return true;
   }
 
