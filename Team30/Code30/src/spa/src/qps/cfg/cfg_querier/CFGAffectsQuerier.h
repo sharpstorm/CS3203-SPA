@@ -254,7 +254,7 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
         if (isAffected) {
           state->result->add(stmtNumber, state->endingStmt);
           state->closure.getAffectsCache()->
-              addEntry(stmtNumber,state->endingStmt);
+              addEntry(stmtNumber, state->endingStmt);
         }
 
         return curState;

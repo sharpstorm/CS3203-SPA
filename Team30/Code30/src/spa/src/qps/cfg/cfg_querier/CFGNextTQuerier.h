@@ -79,7 +79,6 @@ queryFrom(const StmtValue &arg0, const StmtType &type1) {
   constexpr WalkerSingleCallback<ResultClosure> callback =
       [](ResultClosure *state, CFGNode node) {
         int stmtNumber = state->cfg->fromCFGNode(node);
-        
         if (!typePredicate(state->closure, state->arg1Type, stmtNumber)) {
           return true;
         }
@@ -130,7 +129,6 @@ queryAll(StmtTransitiveResult* resultOut,
       [](ResultClosure *state, CFGNode nodeLeft, CFGNode nodeRight) {
         int fromStmtNumber = state->cfg->fromCFGNode(nodeLeft);
         int toStmtNumber = state->cfg->fromCFGNode(nodeRight);
-  
         if (!typePredicate(state->closure, state->arg0Type, fromStmtNumber)
             || !typePredicate(state->closure, state->arg1Type, toStmtNumber)) {
           return true;
