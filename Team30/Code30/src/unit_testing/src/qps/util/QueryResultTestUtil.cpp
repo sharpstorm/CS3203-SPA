@@ -72,17 +72,29 @@ class TestQueryResultBuilder {
     return result;
   }
 
-  static unique_ptr<SynonymResultTable> buildExpectedTable(const ExpectedParams &expectedParams, AttributedSynonymList* syns) {
-    auto result = make_unique<SynonymResultTable>(syns->empty(), true);
-    vector<PQLSynonymName>* names = new vector<PQLSynonymName>();
+  static ResultGroupPtr buildResultGroup(const ExpectedParams &expectedParams, AttributedSynonymList* syns) {
+    auto names = make_unique<vector<PQLSynonymName>>();
     for (auto it : *syns) {
       names->push_back(it.getName());
     }
 
     auto queryResult = buildExpected(expectedParams);
-    ResultGroupPtr rg = ResultGroupFactory::extractResults(queryResult.get() , names);
-    result->addResultGroup(std::move(rg));
-    delete names;
+    return ResultGroupFactory::extractResults(queryResult.get(), names.get());
+  }
+
+  static unique_ptr<SynonymResultTable> buildExpectedTable(const ExpectedParams &expectedParams, AttributedSynonymList* syns) {
+    auto result = make_unique<SynonymResultTable>(syns->empty(), true);
+    result->addResultGroup(std::move(buildResultGroup(expectedParams, syns)));
+    return result;
+  }
+
+  static unique_ptr<SynonymResultTable> buildExpectedTable(vector<ExpectedParams> expectedParams,
+                                                           vector<AttributedSynonymList*> synList) {
+    auto result = make_unique<SynonymResultTable>(false, true);
+    for (size_t i = 0; i < expectedParams.size(); i++) {
+      AttributedSynonymList* syns = synList[i];
+      result->addResultGroup(std::move(buildResultGroup(expectedParams[i], syns)));
+    }
     return result;
   }
 };
