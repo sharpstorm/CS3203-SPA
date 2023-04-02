@@ -49,42 +49,6 @@ bool QueryExecutorAgent::isValid(const EntityRef &ref) const {
       pkbQueryHandler->isSymbolOfType(ref.getType(), ref.getValue());
 }
 
-StmtStmtQueryResultPtr QueryExecutorAgent::toQueryResult(const StmtRef& left,
-                                                         const StmtRef& right,
-                                                         CacheRow *row) {
-  StmtStmtQueryResultPtr result = make_unique<StmtStmtQueryResult>();
-
-  if (row == nullptr || row->empty()) {
-    return result;
-  }
-
-  // (static, static)
-  if (left.isKnown() && right.isKnown()) {
-    result->add(left.getValue(), right.getValue());
-    return result;
-  }
-
-  // (syn, static)
-  if (!left.isKnown()) {
-    for (auto r : *row) {
-      result->add(r, right.getValue());
-    }
-  }
-
-  // (static, syn)
-  if (!right.isKnown()) {
-    for (auto r : *row) {
-      result->add(left.getValue(), r);
-    }
-  }
-
-  return result;
-}
-
-CacheTable* QueryExecutorAgent::getNextTCache() const {
-  return cache->getNextTCache();
-}
-
 CacheTable* QueryExecutorAgent::getAffectsCache() const {
   return cache->getAffectsCache();
 }

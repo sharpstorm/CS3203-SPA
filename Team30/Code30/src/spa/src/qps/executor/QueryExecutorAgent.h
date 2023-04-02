@@ -20,9 +20,6 @@ class QueryExecutorAgent {
   EntityRef transformArg(const PQLSynonymName name, const EntityRef &ref) const;
   bool isValid(const StmtRef &ref) const;
   bool isValid(const EntityRef &ref) const;
-  bool entryExistsNextT(const StmtRef& left, const StmtRef& right);
-  bool entryExistsAffects(const StmtRef& left, const StmtRef& right);
-  CacheTable* getNextTCache() const;
   CacheTable* getAffectsCache() const;
 
   PkbQueryHandler* operator->() const;
@@ -31,18 +28,4 @@ class QueryExecutorAgent {
   PkbQueryHandler* pkbQueryHandler;
   OverrideTable* overrideTable;
   QueryCache *cache;
-
-  static bool isValidRef(StmtRef stmtRef, PkbQueryHandler* handler);
-  static bool isValidRef(EntityRef entRef, PkbQueryHandler* handler);
-
-  void addToNextTCache(StmtStmtQueryResult* result);
-  void addToAffectsCache(StmtStmtQueryResult* result);
-
-  StmtStmtQueryResultPtr queryNextTCache(const StmtRef& left,
-                                         const StmtRef& right);
-  StmtStmtQueryResultPtr queryAffectsCache(const StmtRef& left,
-                                           const StmtRef& right);
-  static StmtStmtQueryResultPtr toQueryResult(const StmtRef& left,
-                                       const StmtRef& right,
-                                       CacheRow* row);
 };

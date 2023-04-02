@@ -92,19 +92,3 @@ bool CacheTable::isValidIndex(StmtValue stmt, size_t size) {
 bool CacheTable::isValidArg(StmtValue stmt, size_t size) {
   return 0 == stmt || isValidIndex(stmt, size);
 }
-
-bool CacheTable::entryExists(StmtValue left, StmtValue right) {
-  if (!isValidIndex(left, forwardMatrix.size())) {
-    return false;
-  }
-
-  CacheRow* row = &forwardMatrix[left - 1];
-
-  for (auto r : *row) {
-    if (r == right) {
-      return true;
-    }
-  }
-
-  return false;
-}
