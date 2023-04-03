@@ -15,6 +15,7 @@
 #include "qps/clauses/arguments/SynonymArgument.h"
 #include "qps/clauses/arguments/WildcardArgument.h"
 #include "common/pattern/PatternConverter.h"
+#include "sp/ast/AST.h"
 
 using std::shared_ptr, std::make_shared, std::make_unique, std::unique_ptr, std::to_string;
 
@@ -48,19 +49,20 @@ class AssignPatternPKBStub : public StubPKB {
   PatternTriePtr line3;
   PatternTriePtr line4;
   PatternTriePtr line5;
+  PkbWriter* writer;
 
  public:
-  AssignPatternPKBStub(PKB* in):
+  AssignPatternPKBStub(PKB* in, PkbWriter* wr):
       StubPKB(in),
-      line1(PatternConverter::convertASTToTrie(genInteger(1).get())),
-      line2(PatternConverter::convertASTToTrie(genVariable("x").get())),
+      line1(PatternConverter::convertASTToTrie(genInteger(1).get(), wr)),
+      line2(PatternConverter::convertASTToTrie(genVariable("x").get(), wr)),
       line3(PatternConverter::convertASTToTrie(
           genPlus(std::move(genInteger(1)),
-                  std::move(genInteger(2))).get())),
+                  std::move(genInteger(2))).get(), wr)),
       line4(PatternConverter::convertASTToTrie(
-          genPlus(genVariable("y"), genVariable("x")).get())),
+          genPlus(genVariable("y"), genVariable("x")).get(), wr)),
       line5(PatternConverter::convertASTToTrie(genPlus(genPlus(genInteger(2),genVariable("z")),
-                                                       genVariable("y")).get())) {
+                                                       genVariable("y")).get(), wr)) {
   }
 
   QueryResultPtr<int, string> queryModifies(StmtRef, EntityRef entRef) const override {
@@ -108,19 +110,24 @@ class AssignPatternPKBStub : public StubPKB {
   }
 };
 
-ExpressionArgumentPtr makeExpressionArgument(string value, bool isPartial) {
-  if (value.empty()) {
-    return make_unique<ExpressionArgument>();
-  }
+ExpressionArgumentPtr makeExpressionArgument(uint16_t value, bool isPartial) {
+//  if (value.empty()) {
+//    return make_unique<ExpressionArgument>();
+//  }
 
   auto exprList = make_unique<ExpressionSequence>();
   exprList->push_back(value);
   return make_unique<ExpressionArgument>(std::move(exprList), isPartial);
 }
 
+IASTPtr makeIASTNode(ASTNodePtr node) {
+  return make_unique<AST>(std::move(node));
+}
+
 TEST_CASE("Assign Pattern Constant-Exact") {
   PKB pkbStore;
-  auto pkb = make_unique<AssignPatternPKBStub>(&pkbStore);
+  auto writer = make_unique<PkbWriter>(&pkbStore);
+  auto pkb = make_unique<AssignPatternPKBStub>(&pkbStore, writer.get());
 
   PQLQueryResultPtr expected;
   PQLQueryResultPtr actual;
@@ -131,12 +138,13 @@ TEST_CASE("Assign Pattern Constant-Exact") {
   QueryCachePtr cache = make_unique<QueryCache>();
   QueryExecutorAgent agent(pkb.get(), override.get(), cache.get());
 
-  makeExpressionArgument("x", false);
   // Constant-Variable-Exact
+  ASTNodePtr node = make_unique<VariableASTNode>("x");
   PatternClausePtr patternClause = make_unique<AssignPatternClause>(
       assignSyn,
       make_unique<EntityArgument>("b"),
-      makeExpressionArgument("x", false));
+      makeIASTNode(std::move(node)),
+      false);
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{ 2 });
@@ -144,10 +152,12 @@ TEST_CASE("Assign Pattern Constant-Exact") {
   REQUIRE(*expected == *actual);
 
   // Constant-Integer-Exact
+  node = make_unique<ConstantASTNode>("1");
   patternClause = make_unique<AssignPatternClause>(
       assignSyn,
       make_unique<EntityArgument>("a"),
-      makeExpressionArgument("1", false));
+      makeIASTNode(std::move(node)),
+      false);
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{ 1 });
@@ -157,7 +167,8 @@ TEST_CASE("Assign Pattern Constant-Exact") {
 
 TEST_CASE("Assign Pattern Constant-Wildcard") {
   PKB pkbStore;
-  shared_ptr<PkbQueryHandler> pkb = make_shared<AssignPatternPKBStub>(&pkbStore);
+  auto writer = make_unique<PkbWriter>(&pkbStore);
+  auto pkb = make_unique<AssignPatternPKBStub>(&pkbStore, writer.get());
 
   PQLQueryResultPtr expected;
   PQLQueryResultPtr actual;
@@ -172,7 +183,8 @@ TEST_CASE("Assign Pattern Constant-Wildcard") {
   PatternClausePtr patternClause = make_unique<AssignPatternClause>(
       assignSyn,
       make_unique<EntityArgument>("b"),
-      makeExpressionArgument("", true));
+      IASTPtr(),
+      true);
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{2, 4});
@@ -180,10 +192,12 @@ TEST_CASE("Assign Pattern Constant-Wildcard") {
   REQUIRE(*expected == *actual);
 
   // Constant-Variable-Wildcard
+  ASTNodePtr node = make_unique<VariableASTNode>("x");
   patternClause = make_unique<AssignPatternClause>(
       assignSyn,
       make_unique<EntityArgument>("b"),
-      makeExpressionArgument("x", true));
+      makeIASTNode(std::move(node)),
+      true);
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{2, 4});
@@ -191,10 +205,12 @@ TEST_CASE("Assign Pattern Constant-Wildcard") {
   REQUIRE(*expected == *actual);
 
   // Constant-Integer-Wildcard
+  node = make_unique<ConstantASTNode>("1");
   patternClause = make_unique<AssignPatternClause>(
       assignSyn,
       make_unique<EntityArgument>("a"),
-      makeExpressionArgument("1", true));
+      makeIASTNode(std::move(node)),
+      true);
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{1, 3});
@@ -204,7 +220,8 @@ TEST_CASE("Assign Pattern Constant-Wildcard") {
 
 TEST_CASE("Assign Pattern Variable-Exact") {
   PKB pkbStore;
-  shared_ptr<PkbQueryHandler> pkb = make_shared<AssignPatternPKBStub>(&pkbStore);
+  auto writer = make_unique<PkbWriter>(&pkbStore);
+  auto pkb = make_unique<AssignPatternPKBStub>(&pkbStore, writer.get());
 
   PQLQueryResultPtr expected;
   PQLQueryResultPtr actual;
@@ -220,10 +237,12 @@ TEST_CASE("Assign Pattern Variable-Exact") {
   QueryExecutorAgent agent(pkb.get(), table.get(), cache.get());;
 
   // Variable-Integer-Exact
+  ASTNodePtr node = make_unique<ConstantASTNode>("1");
   PatternClausePtr patternClause = make_unique<AssignPatternClause>(
       assignSyn,
       make_unique<SynonymArgument>(varSyn),
-      makeExpressionArgument("1", false));
+      makeIASTNode(std::move(node)),
+      false);
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", "v", pair_set<int, string>{{ 1, "a" }});
@@ -231,10 +250,12 @@ TEST_CASE("Assign Pattern Variable-Exact") {
   REQUIRE(*expected == *actual);
 
   // Constant-Variable-Exact
+  node = make_unique<VariableASTNode>("x");
   patternClause = make_unique<AssignPatternClause>(
       assignSyn,
       make_unique<SynonymArgument>(varSyn),
-      makeExpressionArgument("x", false));
+      makeIASTNode(std::move(node)),
+      false);
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", "v", pair_set<int, string>{{ 2, "b" }});
@@ -242,10 +263,12 @@ TEST_CASE("Assign Pattern Variable-Exact") {
   REQUIRE(*expected == *actual);
 
   // Variable-Integer-Exact
+  node = make_unique<ConstantASTNode>("1");
   patternClause = make_unique<AssignPatternClause>(
       assignSyn,
       make_unique<WildcardArgument>(),
-      makeExpressionArgument("1", false));
+      makeIASTNode(std::move(node)),
+      false);
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{ 1 });
@@ -253,10 +276,12 @@ TEST_CASE("Assign Pattern Variable-Exact") {
   REQUIRE(*expected == *actual);
 
   // Constant-Variable-Exact
+  node = make_unique<VariableASTNode>("x");
   patternClause = make_unique<AssignPatternClause>(
       assignSyn,
       make_unique<WildcardArgument>(),
-      makeExpressionArgument("x", false));
+      makeIASTNode(std::move(node)),
+      false);
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{ 2 });
@@ -266,7 +291,8 @@ TEST_CASE("Assign Pattern Variable-Exact") {
 
 TEST_CASE("Assign Pattern Variable-Partial") {
   PKB pkbStore;
-  shared_ptr<PkbQueryHandler> pkb = make_shared<AssignPatternPKBStub>(&pkbStore);
+  auto writer = make_unique<PkbWriter>(&pkbStore);
+  auto pkb = make_unique<AssignPatternPKBStub>(&pkbStore, writer.get());
 
   PQLQueryResultPtr expected;
   PQLQueryResultPtr actual;
@@ -282,10 +308,12 @@ TEST_CASE("Assign Pattern Variable-Partial") {
   QueryExecutorAgent agent(pkb.get(), table.get(), cache.get());
 
   // Variable-Integer-Partial
+  ASTNodePtr node = make_unique<ConstantASTNode>("1");
   PatternClausePtr patternClause = make_unique<AssignPatternClause>(
       assignSyn,
       make_unique<SynonymArgument>(varSyn),
-      makeExpressionArgument("1", true));
+      makeIASTNode(std::move(node)),
+      true);
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", "v", pair_set<int, string>{
@@ -296,10 +324,12 @@ TEST_CASE("Assign Pattern Variable-Partial") {
   REQUIRE(*expected == *actual);
 
   // Constant-Variable-Partial
+  node = make_unique<VariableASTNode>("x");
   patternClause = make_unique<AssignPatternClause>(
       assignSyn,
       make_unique<SynonymArgument>(varSyn),
-      makeExpressionArgument("x", true));
+      makeIASTNode(std::move(node)),
+      true);
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", "v", pair_set<int, string>{
@@ -310,10 +340,12 @@ TEST_CASE("Assign Pattern Variable-Partial") {
   REQUIRE(*expected == *actual);
 
   // Variable-Integer-Partial
+  node = make_unique<ConstantASTNode>("2");
   patternClause = make_unique<AssignPatternClause>(
       assignSyn,
       make_unique<WildcardArgument>(),
-      makeExpressionArgument("2", true));
+      makeIASTNode(std::move(node)),
+      true);
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{ 3, 5 });
@@ -321,10 +353,12 @@ TEST_CASE("Assign Pattern Variable-Partial") {
   REQUIRE(*expected == *actual);
 
   // Constant-Variable-Partial
+  node = make_unique<VariableASTNode>("y");
   patternClause = make_unique<AssignPatternClause>(
       assignSyn,
       make_unique<WildcardArgument>(),
-      makeExpressionArgument("y", true));
+      makeIASTNode(std::move(node)),
+      true);
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", unordered_set<int>{ 4, 5 });
