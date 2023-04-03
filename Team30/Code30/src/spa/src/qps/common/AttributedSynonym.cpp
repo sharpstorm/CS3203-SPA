@@ -1,12 +1,12 @@
 #include "AttributedSynonym.h"
 #include "qps/errors/QPSParserSemanticError.h"
 
-AttributedSynonym::AttributedSynonym(PQLQuerySynonymProxy synProxy) :
-    synProxy(synProxy), attribute(NO_ATTRIBUTE) { }
+AttributedSynonym::AttributedSynonym(const PQLQuerySynonymProxy &synProxy) :
+    synProxy(synProxy), attribute(NO_ATTRIBUTE) {}
 
-AttributedSynonym::AttributedSynonym(PQLQuerySynonymProxy synProxy,
-                                     PQLSynonymAttribute attr) :
-    synProxy(synProxy), attribute(attr) { }
+AttributedSynonym::AttributedSynonym(const PQLQuerySynonymProxy &synProxy,
+                                     const PQLSynonymAttribute &attr) :
+    synProxy(synProxy), attribute(attr) {}
 
 PQLSynonymAttribute AttributedSynonym::getAttribute() const {
   return attribute;
@@ -21,21 +21,16 @@ bool AttributedSynonym::validateAttribute() const {
     case PQL_SYN_TYPE_STMT:
     case PQL_SYN_TYPE_ASSIGN:
     case PQL_SYN_TYPE_IF:
-    case PQL_SYN_TYPE_WHILE:
-      return attribute == STMT_NUM;
+    case PQL_SYN_TYPE_WHILE:return attribute == STMT_NUM;
     case PQL_SYN_TYPE_READ:
     case PQL_SYN_TYPE_PRINT:
       return attribute == STMT_NUM || attribute == VAR_NAME;
     case PQL_SYN_TYPE_CALL:
       return attribute == STMT_NUM || attribute == PROC_NAME;
-    case PQL_SYN_TYPE_CONSTANT:
-      return attribute == CONST_VALUE;
-    case PQL_SYN_TYPE_VARIABLE:
-      return attribute == VAR_NAME;
-    case PQL_SYN_TYPE_PROCEDURE:
-      return attribute == PROC_NAME;
-    default:
-      return false;
+    case PQL_SYN_TYPE_CONSTANT:return attribute == CONST_VALUE;
+    case PQL_SYN_TYPE_VARIABLE:return attribute == VAR_NAME;
+    case PQL_SYN_TYPE_PROCEDURE:return attribute == PROC_NAME;
+    default:return false;
   }
 }
 
@@ -56,10 +51,6 @@ bool AttributedSynonym::isStatementType() const {
 
 bool AttributedSynonym::hasAttribute() const {
   return attribute != NO_ATTRIBUTE;
-}
-
-PQLQuerySynonym* AttributedSynonym::getSyn() const {
-  return synProxy.get();
 }
 
 PQLQuerySynonymProxy AttributedSynonym::getSynProxy() const {

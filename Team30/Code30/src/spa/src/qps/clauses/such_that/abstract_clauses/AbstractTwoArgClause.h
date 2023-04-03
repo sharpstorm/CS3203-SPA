@@ -107,5 +107,5 @@ class AbstractTwoArgClause: public SuchThatClause {
 
  public:
   AbstractTwoArgClause(ClauseArgumentPtr left, ClauseArgumentPtr right);
-  SynonymList getUsedSynonyms() override;
+  PQLSynonymNameList getUsedSynonyms() override;
 };

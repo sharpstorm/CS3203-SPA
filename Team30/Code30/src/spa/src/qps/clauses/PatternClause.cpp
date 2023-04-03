@@ -8,8 +8,8 @@ PatternClause::PatternClause(
     PQLSynonymType synType):
     synonym(synonym), leftArg(std::move(leftArg)), synType(synType) {}
 
-SynonymList PatternClause::getUsedSynonyms() {
-  SynonymList result{ synonym->getName() };
+PQLSynonymNameList PatternClause::getUsedSynonyms() {
+  PQLSynonymNameList result{ synonym->getName() };
   if (leftArg->isNamed()) {
     result.push_back(leftArg->getName());
   }

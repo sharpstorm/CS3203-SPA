@@ -40,7 +40,7 @@ bool WithSelectClause::validateArgTypes(VariableTable *variables) {
   return true;
 }
 
-SynonymList WithSelectClause::getUsedSynonyms() {
+PQLSynonymNameList WithSelectClause::getUsedSynonyms() {
   return { attrSyn.getName() };
 }
 

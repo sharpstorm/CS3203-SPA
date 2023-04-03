@@ -11,7 +11,7 @@ class PatternClause: public Clause {
   PatternClause(const PQLQuerySynonymProxy &synonym,
                 ClauseArgumentPtr leftArg,
                 PQLSynonymType synType);
-  SynonymList getUsedSynonyms() override;
+  PQLSynonymNameList getUsedSynonyms() override;
   bool validateArgTypes(VariableTable *variables) override;
 
  protected:

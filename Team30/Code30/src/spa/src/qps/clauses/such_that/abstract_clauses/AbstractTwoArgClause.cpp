@@ -7,8 +7,8 @@ AbstractTwoArgClause::AbstractTwoArgClause(
     ClauseArgumentPtr right):
     left(std::move(left)), right(std::move(right)) {}
 
-SynonymList AbstractTwoArgClause::getUsedSynonyms() {
-  SynonymList result;
+PQLSynonymNameList AbstractTwoArgClause::getUsedSynonyms() {
+  PQLSynonymNameList result;
   if (left->isNamed()) {
     result.push_back(left->getName());
   }

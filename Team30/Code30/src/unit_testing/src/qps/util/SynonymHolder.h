@@ -1,12 +1,13 @@
 #pragma once
 
 #include <memory>
+#include <unordered_map>
 
 #include "qps/common/PQLQuerySynonym.h"
 #include "qps/common/PQLQuerySynonymProxy.h"
 #include "qps/common/AttributedSynonym.h"
 
-using std::unique_ptr, std::make_unique;
+using std::unique_ptr, std::make_unique, std::unordered_map;
 
 class SynonymHolder {
  private:

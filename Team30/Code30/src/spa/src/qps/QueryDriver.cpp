@@ -19,7 +19,7 @@ void QueryDriver::evaluate(const string &query,
                            QPSOutputList *output) {
   PQLQueryPtr pqlQuery = parser->parseQuery(&query);
   ProjectorResultTable* synTable = executor->executeQuery(pqlQuery.get());
-  AttributedSynonymList* queryVar = pqlQuery->getResultVariables();
+  const AttributedSynonymList* queryVar = pqlQuery->getResultVariables();
   projector->project(synTable, queryVar, output);
   delete(synTable);
 }

@@ -5,7 +5,7 @@
 using std::pair;
 
 PQLQuery::PQLQuery(VariableTablePtr vars,
-                   AttributedSynonymList resVar,
+                   const AttributedSynonymList &resVar,
                    vector<ClausePtr> c,
                    vector<ConstraintPtr> con):
                    variables(std::move(vars)), resultVariables(resVar),
@@ -15,7 +15,7 @@ VariableTable* PQLQuery::getVarTable() {
   return variables.get();
 }
 
-AttributedSynonymList* PQLQuery::getResultVariables() {
+const AttributedSynonymList* PQLQuery::getResultVariables() const {
   return &resultVariables;
 }
 
@@ -23,8 +23,8 @@ PQLQuerySynonymProxy* PQLQuery::getVariable(PQLSynonymName name) {
   return variables->find(name);
 }
 
-SynonymList PQLQuery::getDeclaredSynonyms() {
-  SynonymList result;
+const PQLSynonymNameList PQLQuery::getDeclaredSynonyms() const {
+  PQLSynonymNameList result;
   for (auto i : variables->getReferredSynonyms()) {
     result.push_back(i);
   }
@@ -32,7 +32,7 @@ SynonymList PQLQuery::getDeclaredSynonyms() {
   return result;
 }
 
-vector<IEvaluatable*> PQLQuery::getEvaluatables() {
+const vector<IEvaluatable*> PQLQuery::getEvaluatables() const {
   vector<IEvaluatable*> evals;
   for (const ClausePtr &ie : clauses) {
       evals.push_back(ie.get());
@@ -41,11 +41,11 @@ vector<IEvaluatable*> PQLQuery::getEvaluatables() {
   return evals;
 }
 
-int PQLQuery::getClauseCount() {
+int PQLQuery::getClauseCount() const {
   return clauses.size();
 }
 
-vector<Constraint*> PQLQuery::getConstraints() {
+const vector<Constraint*> PQLQuery::getConstraints() const {
   vector<Constraint*> ret;
   for (const ConstraintPtr &c : constraints) {
     ret.push_back(c.get());
@@ -54,6 +54,6 @@ vector<Constraint*> PQLQuery::getConstraints() {
   return ret;
 }
 
-bool PQLQuery::isBooleanResult() {
+bool PQLQuery::isBooleanResult() const {
   return resultVariables.empty();
 }

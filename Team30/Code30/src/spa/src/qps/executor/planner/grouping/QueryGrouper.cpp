@@ -36,7 +36,7 @@ void QueryGrouper::initIndex() {
     }
   }
 
-  AttributedSynonymList* selections = query->getResultVariables();
+  const AttributedSynonymList* selections = query->getResultVariables();
   for (auto it = selections->begin(); it != selections->end(); it++) {
     groupIndex.insertSelection(it->getName());
   }
@@ -72,7 +72,7 @@ QueryGroup *QueryGrouper::BFSFindDependents(int start) {
     int clauseId = result->addEvaluatable(evaluatables[node]);
     groupClauseIdTable[node] = clauseId;
 
-    SynonymList synonyms = evaluatables[node]->getUsedSynonyms();
+    PQLSynonymNameList synonyms = evaluatables[node]->getUsedSynonyms();
     for (PQLSynonymName name : synonyms) {
       registerSeenSynonym(name, result);
       queueClauses(&pendingNodes, groupIndex.getUsages(name),

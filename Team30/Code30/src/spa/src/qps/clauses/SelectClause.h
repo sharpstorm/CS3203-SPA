@@ -31,6 +31,6 @@ class SelectClause : public Clause {
   explicit SelectClause(const PQLQuerySynonymProxy &target);
   PQLQueryResult* evaluateOn(const QueryExecutorAgent &agent) override;
   bool validateArgTypes(VariableTable *variables) override;
-  SynonymList getUsedSynonyms() override;
+  PQLSynonymNameList getUsedSynonyms() override;
   ComplexityScore getComplexityScore(const OverrideTable *table) override;
 };

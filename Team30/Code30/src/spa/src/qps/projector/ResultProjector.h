@@ -19,7 +19,7 @@ class ResultProjector {
 
  public:
   explicit ResultProjector(PkbQueryHandler* handler);
-  void project(ProjectorResultTable* queryResult,
-               AttributedSynonymList* resultVariables,
+  void project(const ProjectorResultTable* queryResult,
+               const AttributedSynonymList* resultVariables,
                QPSOutputList *output);
 };

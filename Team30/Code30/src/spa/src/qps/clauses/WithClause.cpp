@@ -21,7 +21,7 @@ bool WithClause::validateArgTypes(VariableTable *variables) {
   return leftRetInt == rightRetInt;
 }
 
-SynonymList WithClause::getUsedSynonyms() {
+PQLSynonymNameList WithClause::getUsedSynonyms() {
   return {leftArg.getName(), rightArg.getName()};
 }
 
