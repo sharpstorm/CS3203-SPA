@@ -1,0 +1,24 @@
+procedure SandKing {
+	read x;
+	print x;
+	if (x > 4) then {
+		y = 5;
+		z = x + 6;
+		while (z != 0) {
+			call WraithKing;
+			z = z - 1;
+			y = z + x;
+		}
+	} else {
+		x = 2;
+	}
+	a = 3;
+	b = x + a;
+	print b;
+}
+
+procedure WraithKing {
+	read a;
+	print b;
+	a = x + b;
+}

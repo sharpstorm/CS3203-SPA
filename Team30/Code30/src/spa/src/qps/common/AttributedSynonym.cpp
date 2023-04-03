@@ -8,11 +8,11 @@ AttributedSynonym::AttributedSynonym(PQLQuerySynonymProxy synProxy,
                                      PQLSynonymAttribute attr) :
     synProxy(synProxy), attribute(attr) { }
 
-PQLSynonymAttribute AttributedSynonym::getAttribute() {
+PQLSynonymAttribute AttributedSynonym::getAttribute() const {
   return attribute;
 }
 
-bool AttributedSynonym::validateAttribute() {
+bool AttributedSynonym::validateAttribute() const {
   if (attribute == NO_ATTRIBUTE) {
     return true;
   }
@@ -39,34 +39,34 @@ bool AttributedSynonym::validateAttribute() {
   }
 }
 
-PQLSynonymType AttributedSynonym::getType() {
+PQLSynonymType AttributedSynonym::getType() const {
   return synProxy->getType();
 }
 
-PQLSynonymName AttributedSynonym::getName() {
+PQLSynonymName AttributedSynonym::getName() const {
   return synProxy->getName();
 }
-bool AttributedSynonym::returnsInteger() {
+bool AttributedSynonym::returnsInteger() const {
   return (attribute & INT_RETURN_MASK) > 0;
 }
 
-bool AttributedSynonym::isStatementType() {
+bool AttributedSynonym::isStatementType() const {
   return synProxy->isStatementType();
 }
 
-bool AttributedSynonym::hasAttribute() {
+bool AttributedSynonym::hasAttribute() const {
   return attribute != NO_ATTRIBUTE;
 }
 
-PQLQuerySynonym* AttributedSynonym::getSyn() {
+PQLQuerySynonym* AttributedSynonym::getSyn() const {
   return synProxy.get();
 }
 
-PQLQuerySynonymProxy AttributedSynonym::getSynProxy() {
+PQLQuerySynonymProxy AttributedSynonym::getSynProxy() const {
   return synProxy;
 }
 
-bool AttributedSynonym::isDefaultAttribute() {
+bool AttributedSynonym::isDefaultAttribute() const {
   PQLSynonymType synType = synProxy->getType();
 
   if (attribute == VAR_NAME) {
@@ -78,6 +78,6 @@ bool AttributedSynonym::isDefaultAttribute() {
   return true;
 }
 
-bool AttributedSynonym::isType(const PQLSynonymType &type) {
+bool AttributedSynonym::isType(const PQLSynonymType &type) const {
   return synProxy->isType(type);
 }

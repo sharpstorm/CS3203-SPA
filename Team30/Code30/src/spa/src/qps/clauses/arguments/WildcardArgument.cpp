@@ -1,11 +1,11 @@
 #include "WildcardArgument.h"
 
 StmtRef WildcardArgument::toStmtRef() {
-  return StmtRef{StmtType::None, 0};
+  return StmtRef{StmtType::Wildcard, 0};
 }
 
 EntityRef WildcardArgument::toEntityRef() {
-  return EntityRef{EntityType::None, ""};
+  return EntityRef{EntityType::Wildcard, ""};
 }
 
 bool WildcardArgument::isWildcard() {

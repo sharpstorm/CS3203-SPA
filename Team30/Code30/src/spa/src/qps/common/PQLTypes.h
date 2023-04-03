@@ -1,8 +1,9 @@
 #pragma once
 
 #include <string>
+#include <list>
 
-using std::string;
+using std::string, std::list;
 
 enum PQLSynonymType {
   PQL_SYN_TYPE_VARIABLE,
@@ -35,3 +36,4 @@ const int PQL_SYN_STMT_MASK = PQL_SYN_TYPE_STMT;
 typedef string PQLSynonymName;
 
 typedef string ProjectedValue;
+typedef list<ProjectedValue> QPSOutputList;

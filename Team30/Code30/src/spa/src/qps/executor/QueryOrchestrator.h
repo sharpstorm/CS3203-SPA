@@ -9,7 +9,7 @@
 #include "ResultCoalescer.h"
 #include "common/UtilityTypes.h"
 #include "QueryLauncher.h"
-#include "qps/common/resulttable/SynonymResultTable.h"
+#include "qps/common/projector_table/ProjectorResultTable.h"
 #include "qps/executor/planner/QueryPlan.h"
 #include "QueryCache.h"
 
@@ -18,7 +18,7 @@ using std::vector, std::unique_ptr;
 class QueryOrchestrator {
  public:
   explicit QueryOrchestrator(QueryLauncher launcher);
-  SynonymResultTable* execute(QueryPlan* plan, OverrideTable* table);
+  ProjectorResultTable* execute(QueryPlan* plan, OverrideTable* table);
 
  private:
   QueryLauncher launcher;

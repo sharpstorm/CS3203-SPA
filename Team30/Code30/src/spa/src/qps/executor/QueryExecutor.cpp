@@ -10,24 +10,23 @@ using std::vector, std::unique_ptr, std::make_unique;
 QueryExecutor::QueryExecutor(PkbQueryHandler* pkbQH):
     orchestrator(QueryOrchestrator(QueryLauncher(pkbQH))) { }
 
-SynonymResultTable *QueryExecutor::executeQuery(PQLQuery* query) {
-  OverrideTable overrideTable;
-
+ProjectorResultTable *QueryExecutor::executeQuery(PQLQuery* query) {
+  OverrideTablePtr overrideTable = make_unique<OverrideTable>();
   bool isBoolResult = query->isBooleanResult();
 
   bool areConstraintsResolved =
-      resolveConstraints(query, &overrideTable);
+      resolveConstraints(query, overrideTable.get());
   if (!areConstraintsResolved) {
-    return new SynonymResultTable(isBoolResult, false);
+    return new ProjectorResultTable(isBoolResult, false);
   }
 
-  QueryPlanPtr plan = planner.getExecutionPlan(query, &overrideTable);
+  QueryPlanPtr plan = planner.getExecutionPlan(query, overrideTable.get());
   // Query just have constraints
   if (plan->isEmpty()) {
-    return new SynonymResultTable(isBoolResult, true);
+    return new ProjectorResultTable(isBoolResult, true);
   }
 
-  return orchestrator.execute(plan.get(), &overrideTable);
+  return orchestrator.execute(plan.get(), overrideTable.get());
 }
 
 bool QueryExecutor::resolveConstraints(PQLQuery* query,

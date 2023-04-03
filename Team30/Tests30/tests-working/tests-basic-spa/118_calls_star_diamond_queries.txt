@@ -13,42 +13,42 @@ FALSE
 Select BOOLEAN such that Calls*("Invalid", "Second")
 FALSE
 5000
-4 - Select Procedure Calls*(Procedure, String) True (Synonym) (String)
+4 - Select Procedure Calls*(Procedure, String) Procedures (Synonym) (String)
 procedure p;
 Select p such that Calls*(p, "Fourth")
 First, Second, Third
 5000
-5 - Select Procedure Calls*(Procedure, String) None (Synonym) (String) 
+5 - Select Procedure Calls*(Procedure, String) Empty (Synonym) (String) 
 procedure p;
 Select p such that Calls*(p, "First")
 
 5000
-6 - Select Procedure Calls*(String, Procedure) True (String) (Synonym)
+6 - Select Procedure Calls*(String, Procedure) Procedures (String) (Synonym)
 procedure p;
 Select p such that Calls*("First", p)
 Second, Third, Fourth
 5000
-7 - Select Procedure Calls*(String, Procedure) None (Synonym) (String)
+7 - Select Procedure Calls*(String, Procedure) Empty (Synonym) (String)
 procedure p;
 Select p such that Calls*("Fourth", p)
 
 5000
-8 - Select Procedure Calls*(Procedure, Procedure) True (Synonym) (Synonym)
+8 - Select Procedure Calls*(Procedure, Procedure) Procedures (Synonym) (Synonym)
 procedure p, q;
 Select p such that Calls*(p, q)
 First, Second, Third
 5000
-9 - Select Procedure Calls*(Procedure, Wildcard) True (Synonym) (Wildcard)
+9 - Select Procedure Calls*(Procedure, Wildcard) Procedures (Synonym) (Wildcard)
 procedure p;
 Select p such that Calls*(p, _)
 First, Second, Third
 5000
-10 - Select Procdure Calls*(Wildcard, Procedure) None (Wildcard) (Synonym)
+10 - Select Procdure Calls*(Wildcard, Procedure) Procedures (Wildcard) (Synonym)
 procedure p;
 Select p such that Calls*(_, p)
 Second, Third, Fourth
 5000
-11 - Select WildCard Calls*(Wildcard, Wildcard) True (Wildcard) (Wildcard)
+11 - Select WildCard Calls*(Wildcard, Wildcard) Procedures (Wildcard) (Wildcard)
 procedure p;
 Select p such that Calls*(_, _)
 First, Second, Third, Fourth
@@ -58,7 +58,7 @@ First, Second, Third, Fourth
 Select BOOLEAN such that Calls*("First", _)
 TRUE
 5000
-13 - Select BOOLEAN Calls*(Strings, Wildcard) False(String) (Wildcard)
+13 - Select BOOLEAN Calls*(Strings, Wildcard) False (String) (Wildcard)
 
 Select BOOLEAN such that Calls*("Fourth", _)
 FALSE
@@ -73,7 +73,7 @@ TRUE
 Select BOOLEAN such that Calls*(_, "First")
 FALSE
 5000
-16 - Select Procedure Calls*(Wildcard, String) None (String) (String)
+16 - Select Procedure Calls*(Wildcard, String) Empty (String) (String)
 procedure p;
 Select p such that Calls*(_, "Invalid")
 
@@ -88,7 +88,7 @@ procedure p; read r1;
 Select p such that Calls*(r1, p)
 SemanticError
 5000
-19 - Select NEGATIVE Calls* (Procedure, Procedure) None (Synonym) (Synonym)
+19 - Select NEGATIVE Calls* (Procedure, Procedure) Empty (Synonym) (Synonym)
 procedure p;
 Select p such that Calls*(p, p)
 

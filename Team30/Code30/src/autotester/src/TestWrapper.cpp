@@ -53,25 +53,22 @@ void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
 // call your evaluator to evaluate the query here
   UniqueVectorPtr<string> queryResult;
   try {
-    queryResult = qps->evaluate(query);
+    qps->evaluate(query, &results);
   } catch (QPSLexerError QPSParserSyntaxError) {
+    results.clear();
     results.push_back("SyntaxError");
     return;
   } catch (QPSParserSyntaxError) {
+    results.clear();
     results.push_back("SyntaxError");
     return;
   } catch (QPSParserSemanticError) {
+    results.clear();
     results.push_back("SemanticError");
     return;
   } catch (std::exception) {
     return;
   } catch (...) {
     return;
-  }
-
-  // store the answers to the query in the results list (it is initially empty)
-  // each result must be a string.
-  for (auto qr : *queryResult) {
-    results.push_back(qr);
   }
 }

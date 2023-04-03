@@ -2,13 +2,13 @@
 
 #include "common/Types.h"
 #include "pkb/PkbTypes.h"
+#include "pkb/storage/interfaces/IEntityMappingProvider.h"
 #include "pkb/storage/interfaces/IProvider.h"
 #include "pkb/storage/interfaces/IStructureMappingProvider.h"
-#include "pkb/storage/interfaces/IEntityMappingProvider.h"
 
 using pkb::Predicate;
 
-template<typename Value, typename Type>
+template <typename Value, typename Type>
 class AbstractPredicateFactory {
  public:
   ~AbstractPredicateFactory() {}
@@ -18,7 +18,7 @@ class AbstractPredicateFactory {
   Predicate<Value> getPredicate(IRef<Value, Type> *ref) const {
     if (ref->isKnown()) {
       return [ref](Value const s) { return s == ref->getValue(); };
-    } else if (ref->getType() == Type()) {
+    } else if (ref->isType(Type()) || ref->isWildcard()) {
       return [](Value const s) { return true; };
     }
     return handleType(ref);

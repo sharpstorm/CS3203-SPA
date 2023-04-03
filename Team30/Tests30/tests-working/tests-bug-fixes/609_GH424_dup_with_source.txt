@@ -1,0 +1,23 @@
+procedure Conflicts {
+	call Called;
+	var = 12;
+	notVar = 12;
+	read something;
+	print something;
+	notVar = 12 - 3;
+	
+	if (notVar ==0) then {
+		print notVar;
+	} else {
+		print var;
+	}
+	
+	while (var > 0) {
+		var = var + 1;
+	}
+}
+
+procedure Called {
+	test = 0;
+	print test;
+}

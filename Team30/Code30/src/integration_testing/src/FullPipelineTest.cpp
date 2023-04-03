@@ -181,6 +181,8 @@ TEST_CASE("End-to-End No Clause") {
 TEST_CASE("End-to-End Follows Clause Test") {
   auto pipeline = TestPipelineProvider();
 
+  pipeline.query("Select BOOLEAN such that Follows*(_,_)", {"TRUE"});
+
   pipeline.query("stmt s; Select s such that Follows*(1, s) and Follows*(s, 3)",
                  {"2"});
 
@@ -621,11 +623,37 @@ TEST_CASE("With Override Test") {
   pipeline.expectSemanticError("stmt s; Select s.value");
 }
 
+TEST_CASE("Next Test") {
+  auto pipeline = TestPipelineProvider();
+
+  pipeline.query("stmt s; Select s such that Next(6, s)",
+                 { "7", "8" });
+  pipeline.query("stmt s; Select s such that Next(s, 8)",
+                 { "6" });
+}
+
 TEST_CASE("AffectsT Test") {
   auto pipeline = TestPipelineProvider();
 
+  pipeline.query("stmt s; Select s such that Affects*(_,_)",
+                 {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"});
   pipeline.query("Select BOOLEAN such that Affects(1, 9)",
                  { "FALSE" });
   pipeline.query("Select BOOLEAN such that Affects*(1, 9)",
                  { "TRUE" });
+}
+
+TEST_CASE("Repeated Override Test") {
+  auto pipeline = TestPipelineProvider();
+
+  pipeline.query("stmt s; Select s with s.stmt# = 2 and s.stmt# = 2",
+                 {"2"});
+  pipeline.query("stmt s1, s2; Select <s1, s2> with s1.stmt# = 2 and s2.stmt# = 2 and s1.stmt# = s2.stmt#",
+                 {"2 2"});
+  pipeline.query("stmt s; Select s with s.stmt# = 2 and s.stmt# = 2 and s.stmt# = 3",
+                 {});
+  pipeline.query("variable v; Select v with v.varName=\"x\" and v.varName=\"x\"",
+                 {"x"});
+  pipeline.query("variable v; Select v with v.varName=\"x\" and v.varName=\"x\" and v.varName=\"y\"",
+                 {});
 }
