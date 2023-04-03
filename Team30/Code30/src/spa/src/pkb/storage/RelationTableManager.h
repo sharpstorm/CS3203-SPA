@@ -109,6 +109,8 @@ class RelationTableManager {
       QueryResultBuilder<K, V> *resultBuilder) const {
     if (table->size() != 0) {
       resultBuilder->setIsNotEmpty();
+    } else {
+      resultBuilder->setIsEmpty();
     }
     return resultBuilder->getResult();
   }

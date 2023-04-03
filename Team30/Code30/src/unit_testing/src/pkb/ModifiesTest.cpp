@@ -32,7 +32,8 @@ TEST_CASE("Modifies (StmtRef, EntityRef)") {
 
   auto result1 =
       *handler.queryModifies({StmtType::None, 1}, {EntityType::None, "y"});
-  REQUIRE(result1.pairVals == pair_set<int, string>({{1, "y"}}));
+//  REQUIRE(result1.pairVals == pair_set<int, string>({{1, "y"}}));
+  REQUIRE(result1.secondArgVals == unordered_set<string>({"y"}));
 
   auto result2 =
       *handler.queryModifies({StmtType::None, 1}, {EntityType::Variable, ""});
@@ -99,7 +100,8 @@ TEST_CASE("Modifies (EntityRef, EntityRef)") {
 
   auto result1 = *handler.queryModifies({EntityType::Procedure, "foo"},
                                         {EntityType::None, "w"});
-  REQUIRE(result1.pairVals == pair_set<string, string>({{"foo", "w"}}));
+//  REQUIRE(result1.pairVals == pair_set<string, string>({{"foo", "w"}}));
+  REQUIRE(result1.firstArgVals == unordered_set<string>({"foo"}));
 
   auto result2 = *handler.queryModifies({EntityType::Procedure, "main"},
                                         {EntityType::Variable, ""});

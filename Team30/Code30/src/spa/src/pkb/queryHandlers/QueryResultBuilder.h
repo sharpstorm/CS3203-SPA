@@ -28,6 +28,7 @@ class QueryResultBuilder {
     if (isPairVals) {
       addPair(leftVal, rightVal);
     }
+    setIsNotEmpty();
   }
 
   void setLeftVals() { isLeftVals = true; }

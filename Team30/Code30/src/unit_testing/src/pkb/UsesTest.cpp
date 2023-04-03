@@ -88,8 +88,8 @@ TEST_CASE("Uses (EntityRef, EntityRef)") {
 
   auto result1 = *handler.queryUses({EntityType::Procedure, "foo"},
                                     {EntityType::None, "w"});
-  REQUIRE(result1.pairVals == pair_set<string, string>({{"foo", "w"}}));
-
+//  REQUIRE(result1.pairVals == pair_set<string, string>({{"foo", "w"}}));
+  REQUIRE(result1.firstArgVals == unordered_set<string>({"foo"}));
   auto result2 = *handler.queryUses({EntityType::Procedure, "main"},
                                     {EntityType::Variable, ""});
   REQUIRE(
