@@ -22,7 +22,3 @@ void IfNode::accept(IExtractor* e) {
 void IfNode::leave(IExtractor* e) {
   e->leaveIf(this);
 }
-
-string IfNode::toString() {
-  return ":if";
-}

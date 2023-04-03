@@ -11,6 +11,5 @@ class ReadNode : public StatementASTNode {
   explicit ReadNode(LineNumber line);
   ~ReadNode() = default;
 
-  string toString() override;
   void accept(IExtractor* e) override;
 };

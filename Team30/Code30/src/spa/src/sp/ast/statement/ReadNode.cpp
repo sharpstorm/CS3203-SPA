@@ -13,7 +13,3 @@ ReadNode::ReadNode(LineNumber line) :
 void ReadNode::accept(IExtractor* e) {
   e->visitRead(this);
 }
-
-string ReadNode::toString() {
-  return ":read";
-}

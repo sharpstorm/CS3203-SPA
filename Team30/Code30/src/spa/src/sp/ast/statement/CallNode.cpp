@@ -11,7 +11,3 @@ void CallNode::accept(IExtractor* e) {
 string CallNode::getName() {
   return procName;
 }
-
-string CallNode::toString() {
-  return ":call";
-}

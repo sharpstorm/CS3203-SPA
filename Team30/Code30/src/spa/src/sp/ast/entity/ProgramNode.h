@@ -10,5 +10,4 @@ using std::string;
 class ProgramNode : public ASTNode {
  public:
   ProgramNode();
-  string toString() override;
 };

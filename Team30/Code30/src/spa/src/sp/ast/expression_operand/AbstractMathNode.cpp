@@ -1,16 +1,10 @@
 #include "AbstractExpressionNode.h"
 
-AbstractExpressionNode::AbstractExpressionNode(ASTNodeType type,
-                                               string identifier,
-                                               string symbol):
-    BinaryASTNode(type), identifier(identifier), symbolicRepr(symbol) {}
+AbstractExpressionNode::AbstractExpressionNode(ASTNodeType type):
+    BinaryASTNode(type) {}
 
 void AbstractExpressionNode::accept(IExtractor* e) {
   e->visitExpression(this);
-}
-
-string AbstractExpressionNode::toString() {
-  return identifier;
 }
 
 string AbstractExpressionNode::getValue() {

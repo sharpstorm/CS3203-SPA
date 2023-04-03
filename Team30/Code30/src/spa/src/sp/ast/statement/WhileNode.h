@@ -12,7 +12,6 @@ class WhileNode : public StatementASTNode {
   explicit WhileNode(LineNumber line);
   ~WhileNode() = default;
 
-  string toString() override;
   void accept(IExtractor* e) override;
   void leave(IExtractor* e) override;
 };

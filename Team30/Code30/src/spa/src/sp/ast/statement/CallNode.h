@@ -13,7 +13,6 @@ class CallNode : public StatementASTNode {
   ~CallNode() = default;
 
   string getName();
-  string toString() override;
   void accept(IExtractor* e) override;
 
  private:

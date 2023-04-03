@@ -10,7 +10,3 @@ PrintNode::PrintNode(LineNumber line) :
 void PrintNode::accept(IExtractor* e) {
   e->visitPrint(this);
 }
-
-string PrintNode::toString() {
-  return ":print";
-}

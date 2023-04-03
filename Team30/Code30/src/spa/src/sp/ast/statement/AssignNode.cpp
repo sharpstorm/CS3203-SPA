@@ -17,9 +17,6 @@ void AssignNode::accept(IExtractor* e) {
   e->visitAssign(this);
 }
 
-string AssignNode::toString() {
-  return ":assign";
-}
 void AssignNode::leave(IExtractor *e) {
   e->leaveAssign(this);
 }

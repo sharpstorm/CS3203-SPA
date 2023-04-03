@@ -11,7 +11,6 @@ class IfNode : public StatementASTNode {
   explicit IfNode(LineNumber line);
   ~IfNode() = default;
 
-  string toString() override;
   void accept(IExtractor* e) override;
   void leave(IExtractor* e) override;
 };

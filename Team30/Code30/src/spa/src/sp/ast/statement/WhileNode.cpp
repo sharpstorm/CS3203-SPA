@@ -21,11 +21,3 @@ void WhileNode::accept(IExtractor* e) {
 void WhileNode::leave(IExtractor* e) {
   e->leaveWhile(this);
 }
-
-string WhileNode::toString() {
-  string ss = ":while";
-  ss += children[0] == nullptr ? "none" : children[0]->toString() + "\n";
-  ss += "StmtLst\n";
-  ss += children[1] == nullptr ? "none" : children[1]->toString() + "\n";
-  return ss;
-}

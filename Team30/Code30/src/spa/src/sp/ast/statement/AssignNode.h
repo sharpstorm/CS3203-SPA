@@ -11,7 +11,6 @@ class AssignNode : public StatementASTNode {
   explicit AssignNode(LineNumber line);
   ~AssignNode() = default;
 
-  string toString() override;
   void accept(IExtractor* e) override;
   void leave(IExtractor* e) override;
 };

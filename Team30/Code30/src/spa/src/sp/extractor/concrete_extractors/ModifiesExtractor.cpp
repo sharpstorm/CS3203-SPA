@@ -38,7 +38,7 @@ void ModifiesExtractor::visitVariable(VariableASTNode *node) {
     return;
   }
 
-  addNodeModifies(curStatement, node->toString());
+  addNodeModifies(curStatement, node->getValue());
   curStatement = -1;
 }
 
