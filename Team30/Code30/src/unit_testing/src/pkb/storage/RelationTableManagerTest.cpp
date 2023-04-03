@@ -129,3 +129,26 @@ TEST_CASE("RelationTableManager query known arg2 with arg1 predicate") {
   REQUIRE(res.get()->secondArgVals == unordered_set<string>({"a"}));
   REQUIRE(res.get()->pairVals == unordered_set<pair<int, string>>({{4, "a"}}));
 }
+
+TEST_CASE("RelationTableManager query both known args") {
+  auto table = make_shared<ContiguousSetTable<string>>();
+  auto reverseTable = make_shared<HashKeySetTable<string, int>>();
+  RelationTableManager<int, string> tableManager(
+      table.get(),
+      reverseTable.get());
+
+  tableManager.insert(1, "a");
+  tableManager.insert(1, "b");
+  tableManager.insert(1, "c");
+  tableManager.insert(2, "a");
+
+  auto res1 = tableManager.query(1, "b");
+  REQUIRE(res1.get()->isEmpty == false);
+  REQUIRE(res1.get()->pairVals == unordered_set<pair<int, string>>({{1, "b"}}));
+
+  auto res2 = tableManager.query(2, "b");
+  REQUIRE(res2.get()->isEmpty == true);
+
+  auto res3 = tableManager.query(3, "a");
+  REQUIRE(res3.get()->isEmpty == true);
+}

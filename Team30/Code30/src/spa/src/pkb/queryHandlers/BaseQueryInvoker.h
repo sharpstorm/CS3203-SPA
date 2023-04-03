@@ -66,17 +66,16 @@ class BaseQueryInvoker {
     }
 
     // query
-    if (arg1->isKnown()) {
-      resultBuilder.setRightVals();
+    if (arg1->isKnown() && arg2->isKnown()) {
+      return store->query(arg1->getValue(), arg2->getValue());
+    } else if (arg1->isKnown()) {
       return store->query(arg1->getValue(),
                           rightPredicateFactory->getPredicate(arg2),
                           &resultBuilder);
     } else if (arg2->isKnown()) {
-      resultBuilder.setLeftVals();
       return store->query(leftPredicateFactory->getPredicate(arg1),
                           arg2->getValue(), &resultBuilder);
     } else {
-      resultBuilder.setPairVals();
       return store->query(leftProvider->getValuesOfType(arg1->getType()),
                           rightPredicateFactory->getPredicate(arg2),
                           &resultBuilder);
