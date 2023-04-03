@@ -4,5 +4,5 @@
 
 class PlusASTNode: public AbstractExpressionNode {
  public:
-  PlusASTNode() : AbstractExpressionNode(ASTNODE_PLUS) {}
+  PlusASTNode() : AbstractExpressionNode(ASTNODE_PLUS, "+") {}
 };

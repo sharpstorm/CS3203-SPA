@@ -4,5 +4,5 @@
 
 class TimesASTNode: public AbstractExpressionNode {
  public:
-  TimesASTNode() : AbstractExpressionNode(ASTNODE_TIMES) {}
+  TimesASTNode() : AbstractExpressionNode(ASTNODE_TIMES, "*") {}
 };

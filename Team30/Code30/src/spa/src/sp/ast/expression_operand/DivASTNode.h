@@ -4,5 +4,5 @@
 
 class DivASTNode: public AbstractExpressionNode {
  public:
-  DivASTNode() : AbstractExpressionNode(ASTNODE_DIV) {}
+  DivASTNode() : AbstractExpressionNode(ASTNODE_DIV, "/") {}
 };

@@ -13,7 +13,7 @@ class AbstractExpressionNode: public BinaryASTNode {
   string getValue() override;
 
  protected:
-  AbstractExpressionNode(ASTNodeType type);
+  AbstractExpressionNode(ASTNodeType type, string symbol);
 
  private:
   string identifier;
