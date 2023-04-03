@@ -50,14 +50,14 @@ class RelationTableManager {
   /**
    * Find R(arg1, arg2) where arg1 and arg2 are given values.
    */
-  virtual QueryResultPtr<K, V> query(K arg1, V arg2) const {
-    QueryResult<K, V> result;
+  virtual QueryResultPtr<K, V> query(
+      K arg1, V arg2, QueryResultBuilder<K, V> *resultBuilder) const {
     auto arg2Values = getByFirstArg(arg1);
     if (arg2Values.find(arg2) != arg2Values.end()) {
-      result.add(arg1, arg2);
+      resultBuilder->add(arg1, arg2);
     }
 
-    return make_unique<QueryResult<K, V>>(result);
+    return resultBuilder->getResult();
   }
 
   /**

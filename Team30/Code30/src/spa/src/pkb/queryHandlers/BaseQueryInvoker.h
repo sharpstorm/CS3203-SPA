@@ -67,7 +67,7 @@ class BaseQueryInvoker {
 
     // query
     if (arg1->isKnown() && arg2->isKnown()) {
-      return store->query(arg1->getValue(), arg2->getValue());
+      return store->query(arg1->getValue(), arg2->getValue(), &resultBuilder);
     } else if (arg1->isKnown()) {
       return store->query(arg1->getValue(),
                           rightPredicateFactory->getPredicate(arg2),
