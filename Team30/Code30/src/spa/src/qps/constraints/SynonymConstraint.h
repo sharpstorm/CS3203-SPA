@@ -1,7 +1,5 @@
 #pragma once
 
-#include <vector>
-
 #include "Constraint.h"
 
 class SynonymConstraint : public Constraint {
@@ -9,11 +7,9 @@ class SynonymConstraint : public Constraint {
   PQLSynonymName syn1;
   PQLSynonymName syn2;
  public:
-  SynonymConstraint(const PQLSynonymName &syn1,
-                    const PQLSynonymName &syn2) :
-      syn1(syn1), syn2(syn2) {}
-  bool applyConstraint(SynonymProxyBuilder* varTableProxyBuilder,
-                       OverrideTable* overrideTable) override;
-  vector<PQLSynonymName> getAffectedSyns() override;
-  bool validateConstraint() override;
+  SynonymConstraint(const PQLSynonymName &syn1, const PQLSynonymName &syn2);
+  bool applyConstraint(SynonymProxyBuilder *varTableProxyBuilder,
+                       OverrideTable *overrideTable) override;
+  const PQLSynonymNameList getAffectedSyns() const override;
+  bool validateConstraint() const override;
 };

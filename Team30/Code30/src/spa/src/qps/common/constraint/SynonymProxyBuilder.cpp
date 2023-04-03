@@ -11,7 +11,7 @@ bool SynonymProxyBuilder::joinSynonyms(const PQLSynonymName &syn1,
 void SynonymProxyBuilder::SynonymProxyBuilder::build() {
   ProxyMap *proxyMap = variableTable->getProxyMap();
   for (auto it = proxyMap->begin(); it != proxyMap->end(); it++) {
-    PQLQuerySynonym *newPtr = ufds.getSetValue(it->first);
+    PQLQuerySynonym *newPtr = ufds.getSynFor(it->first);
     it->second.updatePointer(newPtr);
   }
 }
@@ -19,7 +19,7 @@ void SynonymProxyBuilder::SynonymProxyBuilder::build() {
 bool SynonymProxyBuilder::resolveOverrideMerging(OverrideTable *overrideTable) {
   ProxyMap *proxyMap = variableTable->getProxyMap();
   for (auto i = proxyMap->begin(); i != proxyMap->end(); i++) {
-    PQLQuerySynonym *mappedSynonym = ufds.getSetValue(i->first);
+    PQLQuerySynonym *mappedSynonym = ufds.getSynFor(i->first);
     PQLSynonymName newName = mappedSynonym->getName();
     if (i->first == newName) {
       continue;

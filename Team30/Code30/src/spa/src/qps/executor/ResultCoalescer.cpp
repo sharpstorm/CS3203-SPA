@@ -84,8 +84,8 @@ void ResultCoalescer::mergeSynonymList(IntersectState *intersectState) {
 }
 
 ResultCoalescer::IntersectResult ResultCoalescer::findIntersect(
-    QueryResultTableRow *currentRow,
-    IntersectState *state) {
+    const QueryResultTableRow *currentRow,
+    const IntersectState *state) const {
   RowSetPtr leftSet = nullptr;
   RowSetPtr rightSet = nullptr;
   for (int j = 0; j < state->leftCommons.size(); j++) {
@@ -112,8 +112,8 @@ ResultCoalescer::IntersectResult ResultCoalescer::findIntersect(
 }
 
 void ResultCoalescer::crossProduct(set<ResultTableRow> *ignoreSet,
-                                   IntersectState *intersectState,
-                                   IntersectResult *intersection) {
+                                   const IntersectState *intersectState,
+                                   const IntersectResult *intersection) {
   if (intersection->isEmpty()) {
     return;
   }
@@ -135,10 +135,10 @@ void ResultCoalescer::crossProduct(set<ResultTableRow> *ignoreSet,
   }
 }
 
-void ResultCoalescer::mergeRow(QueryResultTableRow *rowA,
-                               QueryResultTableRow *rowB,
+void ResultCoalescer::mergeRow(const QueryResultTableRow *rowA,
+                               const QueryResultTableRow *rowB,
                                QueryResultTableRow *outputRow,
-                               IntersectState *state) {
+                               const IntersectState *state) const {
   for (int j = 0; j < state->leftColsToCopy.size(); j++) {
     ResultTableCol copyCol = state->leftColsToCopy.at(j);
     outputRow->push_back(orphanMap->getMappingFor(rowA->at(copyCol)));

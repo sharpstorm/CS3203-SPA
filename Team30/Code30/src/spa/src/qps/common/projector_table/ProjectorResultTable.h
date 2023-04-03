@@ -11,7 +11,7 @@
 using std::vector;
 
 class ProjectorResultTable {
-  typedef vector<int> RowIndexes;
+  typedef vector<ProjectorResultRow> RowIndexes;
 
   vector<ResultGroupPtr> groupResults;
   bool isBooleanResult;
@@ -35,5 +35,5 @@ class ProjectorResultTable {
                                       const PkbQueryHandler *pkbHandler) const;
   void projectTo(QPSOutputList *output, const ProjectorIndex &index) const;
 
-  bool operator ==(const ProjectorResultTable &srt) const;
+  bool operator==(const ProjectorResultTable &srt) const;
 };

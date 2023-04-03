@@ -20,25 +20,26 @@ bool PQLQueryResult::isEmpty() const {
   return combinedTable.size() == 0;
 }
 
-void PQLQueryResult::setIsStaticFalse(bool staticRes) {
+void PQLQueryResult::setIsStaticFalse(const bool &staticRes) {
   isStaticResult = true;
   isStaticFalse = staticRes;
 }
 
-bool PQLQueryResult::isFalse() {
+bool PQLQueryResult::isFalse() const {
   return (isStaticResult && isStaticFalse)
       || (!isStaticResult && isEmpty());
 }
 
-unordered_map<PQLSynonymName, ResultTableCol> *PQLQueryResult::getSynonyms() {
+const SynonymColMap *PQLQueryResult::getSynonyms() const {
   return &resultIndex;
 }
 
-ResultTableCol PQLQueryResult::getSynonymCol(const PQLSynonymName &name) {
-  if (resultIndex.find(name) == resultIndex.end()) {
+ResultTableCol PQLQueryResult::getSynonymCol(const PQLSynonymName &name) const {
+  const auto it = resultIndex.find(name);
+  if (it == resultIndex.end()) {
     return NO_COL;
   }
-  return resultIndex[name];
+  return it->second;
 }
 
 void PQLQueryResult::putSynonym(const PQLSynonymName &name) {
@@ -46,13 +47,14 @@ void PQLQueryResult::putSynonym(const PQLSynonymName &name) {
   colMaps.push_back(make_unique<ColMap>());
 }
 
-QueryResultTableRow *PQLQueryResult::getTableRowAt(int rowIndex) {
+const QueryResultTableRow *PQLQueryResult::getTableRowAt(
+    const ResultTableRow &rowIndex) const {
   return &combinedTable.at(rowIndex);
 }
 
 void PQLQueryResult::putTableRow(const vector<QueryResultItem *> &row) {
   ResultTableRow newRowNum = combinedTable.size();
-  for (int i = 0; i < colMaps.size(); i++) {
+  for (size_t i = 0; i < colMaps.size(); i++) {
     ColMap *map = colMaps.at(i).get();
     const QueryResultItem *item = row.at(i);
     auto set = &(*map)[*item];
@@ -62,17 +64,18 @@ void PQLQueryResult::putTableRow(const vector<QueryResultItem *> &row) {
   combinedTable.push_back(row);
 }
 
-int PQLQueryResult::getRowCount() {
+int PQLQueryResult::getRowCount() const {
   return combinedTable.size();
 }
 
-RowSetPtr PQLQueryResult::getRowsWithValue(ResultTableCol column,
-                                           QueryResultItem *value) {
+RowSetPtr PQLQueryResult::getRowsWithValue(const ResultTableCol &column,
+                                           QueryResultItem *value) const {
   ColMap *colMap = colMaps.at(column).get();
-  if (colMap->find(*value) == colMap->end()) {
+  const auto &it = colMap->find(*value);
+  if (it == colMap->end()) {
     return nullptr;
   }
-  return make_unique<RowSet>(colMap->at(*value));
+  return make_unique<RowSet>(it->second);
 }
 
 bool PQLQueryResult::operator==(const PQLQueryResult &pqr) const {
@@ -81,15 +84,15 @@ bool PQLQueryResult::operator==(const PQLQueryResult &pqr) const {
     return false;
   }
 
-  for (auto it : pqr.resultIndex) {
+  for (const auto &it : pqr.resultIndex) {
     if (resultIndex.find(it.first) == resultIndex.end()) {
       return false;
     }
   }
 
-  for (int i = 0; i < pqr.combinedTable.size(); i++) {
+  for (size_t i = 0; i < pqr.combinedTable.size(); i++) {
     bool isFound = false;
-    for (int j = 0; j < combinedTable.size(); j++) {
+    for (size_t j = 0; j < combinedTable.size(); j++) {
       if (combinedTable[j].size() != pqr.combinedTable[i].size()) {
         return false;
       }
@@ -108,9 +111,9 @@ bool PQLQueryResult::operator==(const PQLQueryResult &pqr) const {
 }
 
 bool PQLQueryResult::matchRow(const PQLQueryResult &other,
-                              const int &myRowIndex,
-                              const int &otherRowIndex) const {
-  for (auto it : other.resultIndex) {
+                              const ResultTableRow &myRowIndex,
+                              const ResultTableRow &otherRowIndex) const {
+  for (const auto &it : other.resultIndex) {
     int otherIndex = it.second;
     int thisIndex = resultIndex.at(it.first);
 

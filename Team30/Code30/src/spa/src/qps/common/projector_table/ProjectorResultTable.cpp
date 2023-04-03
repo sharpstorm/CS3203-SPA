@@ -104,7 +104,7 @@ void ProjectorResultTable::projectForRow(const ProjectorIndex &index,
   for (int indexPos = 0; indexPos < index.size(); indexPos++) {
     const ProjectorInstruction &inst = index.at(indexPos);
     groupRow = row->at(inst.getGroupId());
-    QueryResultItem* item = groupResults.at(inst.getGroupId())
+    QueryResultItem *item = groupResults.at(inst.getGroupId())
         ->getRowAt(groupRow)
         ->at(inst.getTableCol());
     *outputCache += inst.project(item);

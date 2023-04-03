@@ -21,7 +21,3 @@ ProjectedValue QueryResultItem::project() const {
 
   return "";
 }
-
-StmtValue QueryResultItem::toStmtValue() const {
-  return stmtRef;
-}
