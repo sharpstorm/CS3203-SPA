@@ -1,0 +1,125 @@
+1 - nested while and with constant
+while w1, w2, w3;
+Select w1 such that Parent(w1, w2) and Parent(w2, w3) with w3.stmt# =  99
+97
+5000
+2 - mested while
+while w1, w2, w3;
+Select w1 such that Parent(w1, w2) and Parent(w2, w3) such that Uses(w3, "goal6")
+94, 95, 96, 97
+5000
+3 - Pattern syntax error due to operand at the end
+while w1, w2, w3; assign a1, a2;
+Select a1 pattern a1(_,_"carry + mid + offlane + softSupport +"_)
+SyntaxError
+5000
+4 - Find assigments statements assigning to heroes using variable Techies
+while w1, w2, w3; assign a1, a2; variable v1, v2; stmt s1, s2, s3;
+Select a1 pattern a1(v1,_) with v1.varName = "heroes" such that Uses(a1, v2) with v2.varName = "Techies" 
+63
+5000
+5 - Select proc that is called by the proc that is used by the first statement 
+while w1, w2, w3; assign a1, a2; variable v1, v2; stmt s1, s2, s3; procedure p1, p2;
+Select p2.procName such that Uses(s1, v1) with s1.stmt# = 1 such that Modifies(p1, v2) with p1.procName = v1.varName such that Calls(p1, p2) with p1.procName = v1.varName
+explodeThrone
+5000
+6 - Select if and while with pattern
+while w1, w2, w3; assign a1, a2; variable v1, v2; stmt s1, s2, s3; procedure p1, p2; if if1, if2, if3;
+Select <w1, if1> pattern w1("xyx",_) pattern if1("x",_,_)
+6 21
+5000
+7 - Select assigns followed by while
+while w1, w2, w3; assign a1, a2; variable v1, v2; stmt s1, s2, s3; procedure p1, p2; if if1, if2, if3;
+Select s1 such that Follows(s1, s2) with s1.stmt# = a1.stmt# and s2.stmt# = w1.stmt#
+51,57,71,93
+5000
+8 - Procedure - variable
+while w1, w2, w3; assign a1, a2; variable v1, v2; stmt s1, s2, s3; procedure p1, p2; if if1, if2, if3;
+Select <p1, v2> such that Calls*(p1, p2) with v2.varName = p2.procName
+test Dota,test RocketLeague
+5000
+9 - Pattern partial match
+while w1, w2, w3; assign a1, a2;
+Select a1 pattern a1(_,_"carry + mid + offlane + softSupport"_)
+45, 62
+5000
+10 - Pattern partial match with random spaces
+while w1, w2, w3; assign a1, a2;
+Select a1 pattern a1(_, _ "     carry  + mid + offlane   + softSupport                               " _ )
+45, 62
+5000
+11 - Pattern exact match
+while w1, w2, w3; assign a1, a2;
+Select a1 pattern a1(_, "carry + mid - offlane * softSupport / hardSupport")
+68
+5000
+12 - 12
+while w1, w2, w3; assign a1, a2; variable v1, v2, v3, v4; stmt s1, s2, s3; procedure p1, p2; if if1, if2, if3;
+Select s1 such that Uses(s1, v1) and Modifies(s1, v1) pattern a1(v2,_) with s1.stmt# = a1.stmt# and v2.varName = "score"
+100
+5000
+13 - 13
+while w1, w2, w3; assign a1, a2; variable v1, v2, v3, v4; stmt s1, s2, s3; procedure p1, p2; if if1, if2, if3;
+Select s2 such that Uses(s2, v3) and Modifies(s2, v3) pattern a1(v4,_) with s2.stmt# = a2.stmt# and v3.varName = "throneCount"
+70
+5000
+14 - 14
+while w1, w2, w3; assign a1, a2; variable v1, v2, v3, v4; stmt s1, s2, s3; procedure p1, p2; if if1, if2, if3;
+Select <s1,s2> such that Uses(s1, v1) and Modifies(s1, v1) pattern a1(v2,_) with s1.stmt# = a1.stmt# and v2.varName = "score" such that Uses(s2, v3) and Modifies(s2, v3) pattern a1(v4,_) with s2.stmt# = a2.stmt# and v3.varName = "throneCount"
+100 70
+5000
+15 - Call
+procedure p1, p2, p3;
+Select p3 such that Calls(p1, p2) and Calls(p2, p3)
+explodeThrone
+5000
+16 - Call*
+procedure p1, p2, p3;
+Select p3 such that Calls*(p1, p2) and Calls*(p2, p3)
+explodeThrone
+5000
+17 - Select while following a1 
+while w1, w2, w3; assign a1, a2; variable v1, v2, v3, v4; stmt s1, s2, s3; procedure p1, p2; if if1, if2, if3;
+Select w1 such that Follows(a1, w1) pattern a1(v1, _) with v1.varName = "heroes"
+
+5000
+18 - Select while following a1 
+while w1, w2, w3; assign a1, a2; variable v1, v2, v3, v4; stmt s1, s2, s3; procedure p1, p2; if if1, if2, if3; print pn1, pn2; read r1, r2;
+Select <pn1, r1> such that Uses(pn1, v1) and Modifies(r1, v1)
+60 61,66 67
+5000
+19 - Affects
+while w1, w2, w3; assign a1, a2; variable v1, v2, v3, v4; stmt s1, s2, s3; procedure p1, p2; if if1, if2, if3; print pn1, pn2; read r1, r2;
+Select a1 such that Affects(a1, a2)
+10,100,11,12,13,15,16,17,18,19,47,48,49,50,51,55,56,57,59,64,65,8,9
+5000
+20 - Affects
+while w1, w2, w3; assign a1, a2, a3, a4, a5; variable v1, v2, v3, v4; stmt s1, s2, s3; procedure p1, p2; if if1, if2, if3; print pn1, pn2; read r1, r2;
+Select a1 such that Affects(a1, a2) and Affects(a2, a3) and Affects(a3, a4) and Affects(a4, a5)
+100,11,12,13,15,16,17,18,19,55,56,57,59
+5000
+21 - Affects and next
+while w1, w2, w3; assign a1, a2, a3, a4, a5; variable v1, v2, v3, v4; stmt s1, s2, s3; procedure p1, p2; if if1, if2, if3; print pn1, pn2; read r1, r2;
+Select s1 such that Next(s1,s2) with s1.stmt# = a1.stmt# such that Affects(s1, s2)
+
+5000
+22 - empty case
+while w1, w2, w3; assign a1, a2, a3, a4, a5; variable v1, v2, v3, v4; stmt s1, s2, s3; procedure p1, p2; if if1, if2, if3; print pn1, pn2; read r1, r2;
+Select s1 such that Next(s1, s2) and Follows(s1, s2) and Parent(s1, s2)
+
+5000
+22 - empty case
+while w1, w2, w3; assign a1, a2, a3, a4, a5; variable v1, v2, v3, v4; stmt s1, s2, s3; procedure p1, p2; if if1, if2, if3; print pn1, pn2; read r1, r2;
+Select s1 such that Next*(s1, s2) and Follows*(s1, s2) and Uses(s1, "PhantomAssasin")
+3,46,47,64
+5000
+23 - Bool - ifs followed by assign
+while w1, w2, w3; assign a1, a2, a3, a4, a5; variable v1, v2, v3, v4; stmt s1, s2, s3; procedure p1, p2; if if1, if2, if3; print pn1, pn2; read r1, r2;
+Select BOOLEAN pattern if1("x", _, _) such that Next(s1, s2) with s1.stmt# = a1.stmt# and s2.stmt# = if1.stmt#
+TRUE
+5000
+24 - Bool - ifs followed by assign negative
+while w1, w2, w3; assign a1, a2, a3, a4, a5; variable v1, v2, v3, v4; stmt s1, s2, s3; procedure p1, p2; if if1, if2, if3; print pn1, pn2; read r1, r2;
+Select BOOLEAN pattern if1("xxxx", _, _) such that Next(s1, s2) with s1.stmt# = a1.stmt# and s2.stmt# = if1.stmt#
+FALSE
+5000
