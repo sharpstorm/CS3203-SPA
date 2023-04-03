@@ -25,8 +25,8 @@ TEST_CASE("Queries with Select only") {
   unique_ptr<PQLQuery> query;
   PQLQuerySynonym targetVariable;
   vector<shared_ptr<Clause>> emptyClause;
-  unique_ptr<SynonymResultTable> expectedResult;
-  unique_ptr<SynonymResultTable> actualResult;
+  unique_ptr<ProjectorResultTable> expectedResult;
+  unique_ptr<ProjectorResultTable> actualResult;
 
   // Statement
   // TODO(KwanHW): To implement once calls are supported
@@ -47,9 +47,9 @@ TEST_CASE("Queries with Select only") {
     auto synList = make_unique<AttributedSynonymList>(AttributedSynonymList({attrSyn}));
     expectedResult = TestQueryResultBuilder::buildExpectedTable(ExpectedParams{
         {"s", QueryResultItemVector{
-            QueryResultItem(1),
-            QueryResultItem(2),
-            QueryResultItem(3)
+            TestResultItem(1),
+            TestResultItem(2),
+            TestResultItem(3)
         }}
     }, synList.get());
 
@@ -63,7 +63,7 @@ TEST_CASE("Queries with Select only") {
     auto queryPlan = make_unique<QueryPlan>(std::move(groups));
     auto targetSyns = make_unique<AttributedSynonymList>(AttributedSynonymList ({attrSyn}));
     OverrideTablePtr overrideTable = make_unique<OverrideTable>();
-    actualResult = unique_ptr<SynonymResultTable>(orchestrator.execute(queryPlan.get(), overrideTable.get()));
+    actualResult = unique_ptr<ProjectorResultTable>(orchestrator.execute(queryPlan.get(), overrideTable.get()));
     REQUIRE(*expectedResult == *actualResult);
   }
 
@@ -82,9 +82,9 @@ TEST_CASE("Queries with Select only") {
     auto synList = make_unique<AttributedSynonymList>(AttributedSynonymList({attrSyn}));
     expectedResult = TestQueryResultBuilder::buildExpectedTable(ExpectedParams{
         {"ent", QueryResultItemVector{
-            QueryResultItem("x"),
-            QueryResultItem("y"),
-            QueryResultItem("z")
+            TestResultItem("x"),
+            TestResultItem("y"),
+            TestResultItem("z")
         }}
     }, synList.get());
     SelectClause selectClause(proxy);
@@ -97,7 +97,7 @@ TEST_CASE("Queries with Select only") {
     auto queryPlan = make_unique<QueryPlan>(std::move(groups));
     auto targetSyns = make_unique<AttributedSynonymList>(AttributedSynonymList ({attrSyn}));
     OverrideTablePtr overrideTable = make_unique<OverrideTable>();
-    actualResult = unique_ptr<SynonymResultTable>(orchestrator.execute(queryPlan.get(), overrideTable.get()));
+    actualResult = unique_ptr<ProjectorResultTable>(orchestrator.execute(queryPlan.get(), overrideTable.get()));
     REQUIRE(*expectedResult == *actualResult);
   }
 }

@@ -27,7 +27,7 @@ constexpr StmtTypePredicate<QueryExecutorAgent> typeChecker =
     [](const QueryExecutorAgent &agent,
        StmtType type,
        StmtValue stmtNumber) -> bool{
-      if (type == StmtType::None) {
+      if (type == StmtType::None || type == StmtType::Wildcard) {
         return true;
       }
       return agent->getStatementType(stmtNumber) == type;

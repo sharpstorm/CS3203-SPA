@@ -181,6 +181,8 @@ TEST_CASE("End-to-End No Clause") {
 TEST_CASE("End-to-End Follows Clause Test") {
   auto pipeline = TestPipelineProvider();
 
+  pipeline.query("Select BOOLEAN such that Follows*(_,_)", {"TRUE"});
+
   pipeline.query("stmt s; Select s such that Follows*(1, s) and Follows*(s, 3)",
                  {"2"});
 
@@ -439,7 +441,7 @@ TEST_CASE("With Clause Tests - Cat 2 (attrRef = static)") {
   pipeline.query("read r; Select BOOLEAN with r.varName = \"g\"", {"FALSE"});
   pipeline.query("assign a1;read r; Select r.varName with r.varName = \"x\" such that Modifies(r,_)", {"x"});
   pipeline.query("assign a1;read r; Select r.varName with r.stmt# = 10 such that Modifies(r,_)", {"x"});
-  
+
   pipeline.query("stmt s1, s2; Select s1 with s1.stmt# = s2.stmt#", {"1","2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"});
 
 }
@@ -588,8 +590,10 @@ TEST_CASE("End-to-End Affects Test") {
                   "5 7", "5 8", "5 9", "7 9", "9 8", "9 9", "11 9", "11 11"});
   pipeline.query("assign a1, a2; Select BOOLEAN such that Affects*(1,5)", {"TRUE"});
   pipeline.query("assign a1, a2; Select <a1, a2> such that Affects*(a1, a2)", {
-  "9 8", "1 5", "1 12", "5 8", "11 11", "9 9", "2 8",
-  "3 9", "2 9", "3 11", "5 7", "11 9", "5 9", "7 9"
+      "1 5", "1 7", "1 8", "1 9", "1 12",
+      "2 8", "2 9", "3 8", "3 9", "3 11",
+      "5 7", "5 8", "5 9", "7 8", "7 9",
+      "9 8", "9 9", "11 8", "11 9", "11 11"
   });
 }
 
@@ -617,4 +621,39 @@ TEST_CASE("With Override Test") {
   pipeline.expectSemanticError("stmt s; Select s with s.value = 2");
   pipeline.expectSyntaxError("stmt s; Select s with s = 2");
   pipeline.expectSemanticError("stmt s; Select s.value");
+}
+
+TEST_CASE("Next Test") {
+  auto pipeline = TestPipelineProvider();
+
+  pipeline.query("stmt s; Select s such that Next(6, s)",
+                 { "7", "8" });
+  pipeline.query("stmt s; Select s such that Next(s, 8)",
+                 { "6" });
+}
+
+TEST_CASE("AffectsT Test") {
+  auto pipeline = TestPipelineProvider();
+
+  pipeline.query("stmt s; Select s such that Affects*(_,_)",
+                 {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"});
+  pipeline.query("Select BOOLEAN such that Affects(1, 9)",
+                 { "FALSE" });
+  pipeline.query("Select BOOLEAN such that Affects*(1, 9)",
+                 { "TRUE" });
+}
+
+TEST_CASE("Repeated Override Test") {
+  auto pipeline = TestPipelineProvider();
+
+  pipeline.query("stmt s; Select s with s.stmt# = 2 and s.stmt# = 2",
+                 {"2"});
+  pipeline.query("stmt s1, s2; Select <s1, s2> with s1.stmt# = 2 and s2.stmt# = 2 and s1.stmt# = s2.stmt#",
+                 {"2 2"});
+  pipeline.query("stmt s; Select s with s.stmt# = 2 and s.stmt# = 2 and s.stmt# = 3",
+                 {});
+  pipeline.query("variable v; Select v with v.varName=\"x\" and v.varName=\"x\"",
+                 {"x"});
+  pipeline.query("variable v; Select v with v.varName=\"x\" and v.varName=\"x\" and v.varName=\"y\"",
+                 {});
 }

@@ -1,18 +1,19 @@
 #pragma once
 
 #include <memory>
+#include <set>
 #include <string>
 #include <unordered_set>
 #include <utility>
 
 using std::pair;
+using std::set, std::unordered_set;
 using std::string;
-using std::unordered_set;
 using std::unique_ptr;
 
-enum class EntityType { None, Procedure, Variable, Constant };
+enum class EntityType { None, Procedure, Variable, Constant, Wildcard };
 
-enum class StmtType { None, Read, Print, Assign, Call, While, If };
+enum class StmtType { None, Read, Print, Assign, Call, While, If, Wildcard };
 
 typedef string EntityValue;
 typedef int StmtValue;
@@ -20,11 +21,14 @@ typedef int EntityIdx;
 typedef unordered_set<StmtValue> StmtValueSet;
 typedef unordered_set<EntityValue> EntityValueSet;
 typedef unordered_set<EntityIdx> EntityIdxSet;
+typedef set<StmtValue> StmtSet;
+typedef set<EntityValue> EntitySet;
 
 const StmtValue NO_STMT = 0;
 const char NO_ENT[] = "";
+const EntityIdx NO_ENT_INDEX = 0;
 
-template <typename Value, typename Type>
+template<typename Value, typename Type>
 class IRef {
  private:
   Type type;
@@ -36,12 +40,18 @@ class IRef {
  public:
   virtual ~IRef() = default;
   virtual bool isKnown() const = 0;
+  bool isWildcard() const { return type == Type::Wildcard; }
 
   Value getValue() const { return value; }
 
   Type getType() const { return type; }
 
   bool isType(const Type &targetType) const { return type == targetType; }
+
+  template <class ...T>
+  bool isAnyType(const T&... types) const {
+    return (isType(types) || ... || false);
+  }
 
   void setType(Type newType) { type = newType; }
 };
@@ -60,16 +70,16 @@ class EntityRef : public IRef<EntityValue, EntityType> {
   bool isKnown() const override { return getValue() != NO_ENT; }
 };
 
-template <class T1, class T2>
+template<class T1, class T2>
 struct std::hash<pair<T1, T2>> {
   std::size_t operator()(const pair<T1, T2> &pair) const {
     return std::hash<T1>()(pair.first) ^ std::hash<T2>()(pair.second);
   }
 };
-template <typename K, typename V>
+template<typename K, typename V>
 using pair_set = unordered_set<pair<K, V>>;
 
-template <typename T, typename U>
+template<typename T, typename U>
 struct QueryResult {
   unordered_set<T> firstArgVals;
   unordered_set<U> secondArgVals;

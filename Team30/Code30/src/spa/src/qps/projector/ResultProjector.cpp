@@ -5,35 +5,27 @@
 
 using std::to_string, std::vector, std::make_unique;
 
-ResultProjector::ResultProjector(PkbQueryHandler *handler):
-    pkbQueryHandler(handler) { }
+ResultProjector::ResultProjector(PkbQueryHandler *handler) :
+    pkbQueryHandler(handler) {}
 
-UniqueVectorPtr<string> ResultProjector::project(
-    SynonymResultTable *queryResult,
-    AttributedSynonymList*resultVariables) {
-  UniqueVectorPtr<string> result =
-      make_unique<vector<string>>(vector<string>{});
-
+void ResultProjector::project(ProjectorResultTable *queryResult,
+                              AttributedSynonymList *resultVariables,
+                              QPSOutputList *output) {
   // Check if a BOOLEAN type result
   if (queryResult->getIsBooleanResult()) {
-    string boolResult = queryResult->getBooleanResult() ? "TRUE" : "FALSE";
-    return make_unique<vector<string>>(vector<string>({boolResult}));
+    string boolResult = queryResult->getBooleanResult()
+                        ? STATIC_TRUE : STATIC_FALSE;
+    output->push_back(boolResult);
+    return;
   }
 
   int groupCount = queryResult->getResultGroupCount();
   // Empty table
   if (groupCount == 0) {
-    return result;
+    return;
   }
 
-  // Cross product
-  ResultGroup* finalGroup = queryResult->getResultGroup(0);
-  for (int i=1; i < queryResult->getResultGroupCount(); i++) {
-    // TODO(KwanHW): So far no mem leaks, look here if there is
-    finalGroup = finalGroup->crossProduct(queryResult->getResultGroup(i));
-  }
-
-  // Map and project to tuple
-  finalGroup->project(resultVariables, pkbQueryHandler, result.get());
-  return result;
+  ProjectorIndex projectionIndex = queryResult
+      ->buildProjectionIndex(resultVariables, pkbQueryHandler);
+  queryResult->projectTo(output, projectionIndex);
 }

@@ -1,31 +1,31 @@
 #include "EntityMappingProvider.h"
 
-EntityMappingProvider::EntityMappingProvider(VariableStorage *variableStorage,
-                                             ConstantStorage *constantStorage,
-                                             ProcedureStorage *procedureStorage)
+EntityMappingProvider::EntityMappingProvider(
+    VariableStorage *variableStorage, ConstantStorage *constantStorage,
+    ProcedureAndCallsStorage *procedureStorage)
     : variableStorage(variableStorage),
       constantStorage(constantStorage),
       procedureStorage(procedureStorage) {}
 
-unordered_set<string> EntityMappingProvider::getValuesOfType(
+const EntitySet &EntityMappingProvider::getValuesOfType(
     EntityType entityType) const {
   if (entityType == EntityType::Variable) {
     return variableStorage->getAllValues();
   } else if (entityType == EntityType::Constant) {
     return constantStorage->getAllValues();
   } else if (entityType == EntityType::Procedure) {
-    return procedureStorage->getAllValues();
+    return procedureStorage->getProcedures();
   } else {
-    // note: EntityType::None is invalid
-    return {};
+    // note: EntityType::None or Wildcard is invalid
+    return ContiguousSetTable<EntityValue>::getEmptyValue();
   }
 }
 
-string EntityMappingProvider::getVariableByIndex(int index) const {
+EntityValue EntityMappingProvider::getVariableByIndex(int index) const {
   return variableStorage->getValueByIdx(index);
 }
 
-string EntityMappingProvider::getConstantByIndex(int index) const {
+EntityValue EntityMappingProvider::getConstantByIndex(int index) const {
   return constantStorage->getValueByIdx(index);
 }
 
@@ -44,7 +44,7 @@ bool EntityMappingProvider::isValueOfType(EntityType entityType,
   } else if (entityType == EntityType::Constant) {
     return constantStorage->getIdxOfValue(name) != 0;
   } else if (entityType == EntityType::Procedure) {
-    return !procedureStorage->getByValue(name).empty();
+    return procedureStorage->procedureExists(name);
   } else {
     return false;
   }

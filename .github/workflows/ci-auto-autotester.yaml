@@ -74,13 +74,13 @@ jobs:
       - name: Run Auto Autotester
         working-directory: ./Team30
         if: github.event.inputs.genoutput != 'true'
-        run: python3 Tests30/auto-autotester.py ./Code30/build/src/autotester/autotester ./Tests30/tests-working/
+        run: python3 Tests30/auto-autotester.py ./Code30/build/src/autotester/autotester ./Tests30/tests-working/ -r
 
       - name: Run Auto Autotester
         working-directory: ./Team30
-        if: github.event.inputs.genoutput == 'true'
+        if: github.event.inputs.genoutput == 'true' && always()
         run: |
-          python3 Tests30/auto-autotester.py ./Code30/build/src/autotester/autotester ./Tests30/tests-working/ -of output_temp
+          python3 Tests30/auto-autotester.py ./Code30/build/src/autotester/autotester ./Tests30/tests-working/ -of output_temp -r
           cp ./Code30/tests/analysis.xsl output_temp
 
       - name: Upload Autotester Result

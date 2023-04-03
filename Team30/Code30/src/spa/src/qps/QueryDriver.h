@@ -19,5 +19,6 @@ class QueryDriver: public IQPS {
   explicit QueryDriver(PkbQueryHandler* pkbQH,
                        ISourceExpressionParser* exprParser);
   ~QueryDriver();
-  UniqueVectorPtr<string> evaluate(const string &query) override;
+  void evaluate(const string &query,
+                QPSOutputList *output) override;
 };

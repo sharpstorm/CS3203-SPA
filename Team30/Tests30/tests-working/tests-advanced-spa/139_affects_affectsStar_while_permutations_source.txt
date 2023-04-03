@@ -1,0 +1,575 @@
+procedure permOne {
+    read x;
+    read y;
+    read z;
+    while (x > 0) {
+		x = y + z;
+		while (y > 0){
+			x = x + 1;
+			while (z > 0) {
+				z = z - y;
+			}
+			y = y + 1;
+		}
+		y = x + z;
+    }
+	x = y + z;
+}
+
+procedure permTwo {
+    read x;
+    read y;
+    read z;
+    while (x > 0) {
+		x = y + z;
+		while (y > 0){
+			x = x + 1;
+			while (z > 0) {
+				z = z - y;
+			}
+			y = y + 1;
+		}
+		y = x + z;
+    }
+	
+}
+
+procedure permThree {
+    read x;
+    read y;
+    read z;
+    while (x > 0) {
+		x = y + z;
+		while (y > 0){
+			x = x + 1;
+			while (z > 0) {
+				z = z - y;
+			}
+			y = y + 1;
+		}
+	
+    }
+	x = y + z;
+}
+
+procedure permFour {
+    read x;
+    read y;
+    read z;
+    while (x > 0) {
+		x = y + z;
+		while (y > 0){
+			x = x + 1;
+			while (z > 0) {
+				z = z - y;
+			}
+			y = y + 1;
+		}
+
+    }
+	
+}
+
+procedure permFive {
+    read x;
+    read y;
+    read z;
+    while (x > 0) {
+		x = y + z;
+		while (y > 0){
+			x = x + 1;
+			while (z > 0) {
+				z = z - y;
+			}
+			
+		}
+		y = x + z;
+    }
+	x = y + z;
+}
+
+procedure permSix {
+    read x;
+    read y;
+    read z;
+    while (x > 0) {
+		x = y + z;
+		while (y > 0){
+			x = x + 1;
+			while (z > 0) {
+				z = z - y;
+			}
+			
+		}
+		y = x + z;
+    }
+	
+}
+
+procedure permSeven {
+    read x;
+    read y;
+    read z;
+    while (x > 0) {
+		x = y + z;
+		while (y > 0){
+			x = x + 1;
+			while (z > 0) {
+				z = z - y;
+			}
+			
+		}
+
+    }
+	x = y + z;
+}
+
+procedure permEight {
+    read x;
+    read y;
+    read z;
+    while (x > 0) {
+		x = y + z;
+		while (y > 0){
+			x = x + 1;
+			while (z > 0) {
+				z = z - y;
+			}
+			
+		}
+
+    }
+	
+}
+
+procedure permNine {
+    read x;
+    read y;
+    read z;
+    while (x > 0) {
+		x = y + z;
+		while (y > 0){
+			
+			while (z > 0) {
+				z = z - y;
+			}
+			y = y + 1;
+		}
+		y = x + z;
+    }
+	x = y + z;
+}
+
+procedure permTen {
+    read x;
+    read y;
+    read z;
+    while (x > 0) {
+		x = y + z;
+		while (y > 0){
+			
+			while (z > 0) {
+				z = z - y;
+			}
+			y = y + 1;
+		}
+		y = x + z;
+    }
+	
+}
+
+procedure permEleven {
+    read x;
+    read y;
+    read z;
+    while (x > 0) {
+		x = y + z;
+		while (y > 0){
+			
+			while (z > 0) {
+				z = z - y;
+			}
+			y = y + 1;
+		}
+
+    }
+	x = y + z;
+}
+
+procedure permTwelve {
+    read x;
+    read y;
+    read z;
+    while (x > 0) {
+		x = y + z;
+		while (y > 0){
+			
+			while (z > 0) {
+				z = z - y;
+			}
+			y = y + 1;
+		}
+
+    }
+	
+}
+
+procedure permThirteen {
+    read x;
+    read y;
+    read z;
+    while (x > 0) {
+		x = y + z;
+		while (y > 0){
+			
+			while (z > 0) {
+				z = z - y;
+			}
+			y = y + 1;
+		}
+		y = x + z;
+    }
+	x = y + z;
+}
+
+procedure permFourteen {
+    read x;
+    read y;
+    read z;
+    while (x > 0) {
+		x = y + z;
+		while (y > 0){
+			
+			while (z > 0) {
+				z = z - y;
+			}
+			y = y + 1;
+		}
+		y = x + z;
+    }
+	
+}
+
+procedure permFifteen {
+    read x;
+    read y;
+    read z;
+    while (x > 0) {
+		x = y + z;
+		while (y > 0){
+			
+			while (z > 0) {
+				z = z - y;
+			}
+			y = y + 1;
+		}
+
+    }
+	x = y + z;
+}
+
+procedure permSixteen {
+    read x;
+    read y;
+    read z;
+    while (x > 0) {
+		x = y + z;
+		while (y > 0){
+			
+			while (z > 0) {
+				z = z - y;
+			}
+			y = y + 1;
+		}
+
+    }
+	
+}
+
+procedure permSeventeen {
+    read x;
+    read y;
+    read z;
+    while (x > 0) {
+		
+		while (y > 0){
+			x = x + 1;
+			while (z > 0) {
+				z = z - y;
+			}
+			
+		}
+		y = x + z;
+    }
+	x = y + z;
+}
+
+procedure permEighteen {
+    read x;
+    read y;
+    read z;
+    while (x > 0) {
+		
+		while (y > 0){
+			x = x + 1;
+			while (z > 0) {
+				z = z - y;
+			}
+			
+		}
+		y = x + z;
+    }
+	
+}
+
+procedure permNinteen {
+    read x;
+    read y;
+    read z;
+    while (x > 0) {
+		
+		while (y > 0){
+			x = x + 1;
+			while (z > 0) {
+				z = z - y;
+			}
+			
+		}
+		
+    }
+	x = y + z;
+}
+
+procedure permTwenty {
+    read x;
+    read y;
+    read z;
+    while (x > 0) {
+		
+		while (y > 0){
+			x = x + 1;
+			while (z > 0) {
+				z = z - y;
+			}
+			
+		}
+		
+    }
+	
+}
+
+procedure permTwentyone {
+    read x;
+    read y;
+    read z;
+    while (x > 0) {
+		
+		while (y > 0){
+			x = x + 1;
+			while (z > 0) {
+				z = z - y;
+			}
+			
+		}
+		y = x + z;
+    }
+	x = y + z;
+}
+
+procedure permTwentytwo {
+    read x;
+    read y;
+    read z;
+    while (x > 0) {
+		
+		while (y > 0){
+			x = x + 1;
+			while (z > 0) {
+				z = z - y;
+			}
+			
+		}
+		y = x + z;
+    }
+	
+}
+
+procedure permTwentythree {
+    read x;
+    read y;
+    read z;
+    while (x > 0) {
+		
+		while (y > 0){
+			x = x + 1;
+			while (z > 0) {
+				z = z - y;
+			}
+			
+		}
+		
+    }
+	x = y + z;
+}
+
+procedure permTwentyFour {
+    read x;
+    read y;
+    read z;
+    while (x > 0) {
+		
+		while (y > 0){
+			x = x + 1;
+			while (z > 0) {
+				z = z - y;
+			}
+			
+		}
+		
+    }
+	
+}
+
+procedure permTwentyfive {
+    read x;
+    read y;
+    read z;
+    while (x > 0) {
+		
+		while (y > 0){
+			
+			while (z > 0) {
+				z = z - y;
+			}
+			y = y + 1;
+		}
+		y = x + z;
+    }
+	x = y + z;
+}
+
+procedure permTwentysix {
+    read x;
+    read y;
+    read z;
+    while (x > 0) {
+		
+		while (y > 0){
+			
+			while (z > 0) {
+				z = z - y;
+			}
+			y = y + 1;
+		}
+		y = x + z;
+    }
+	
+}
+
+procedure permTwentyseven {
+    read x;
+    read y;
+    read z;
+    while (x > 0) {
+		
+		while (y > 0){
+			
+			while (z > 0) {
+				z = z - y;
+			}
+			y = y + 1;
+		}
+		
+    }
+	x = y + z;
+}
+
+procedure permTwentyeight {
+    read x;
+    read y;
+    read z;
+    while (x > 0) {
+		
+		while (y > 0){
+			
+			while (z > 0) {
+				z = z - y;
+			}
+			y = y + 1;
+		}
+		
+    }
+	
+}
+
+procedure permTwentynine {
+    read x;
+    read y;
+    read z;
+    while (x > 0) {
+		
+		while (y > 0){
+			
+			while (z > 0) {
+				z = z - y;
+			}
+			
+		}
+		y = x + z;
+    }
+	x = y + z;
+}
+
+procedure permThirty {
+    read x;
+    read y;
+    read z;
+    while (x > 0) {
+		
+		while (y > 0){
+			
+			while (z > 0) {
+				z = z - y;
+			}
+			
+		}
+		y = x + z;
+    }
+	
+}
+
+procedure permThirtyone {
+    read x;
+    read y;
+    read z;
+    while (x > 0) {
+		
+		while (y > 0){
+			
+			while (z > 0) {
+				z = z - y;
+			}
+			
+		}
+		
+    }
+	x = y + z;
+}
+
+procedure permThirtytwo {
+    read x;
+    read y;
+    read z;
+    while (x > 0) {
+		
+		while (y > 0){
+			
+			while (z > 0) {
+				z = z - y;
+			}
+			
+		}
+		
+    }
+	
+}

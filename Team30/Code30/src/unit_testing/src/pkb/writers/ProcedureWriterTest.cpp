@@ -3,9 +3,8 @@
 #include <unordered_set>
 
 #include "catch.hpp"
-#include "pkb/storage/tables/HashKeySetTable.h"
-#include "pkb/writers/ProcedureWriter.h"
 #include "pkb/errors/PKBError.h"
+#include "pkb/writers/ProcedureWriter.h"
 
 using std::make_shared;
 using std::make_unique;
@@ -13,9 +12,11 @@ using std::string;
 using std::unordered_set;
 
 TEST_CASE("ProcedureWriter addProcedure") {
-  auto table = make_shared<EntityTable>();
-  auto reverseTable = make_shared<EntityRevTable>();
-  auto store = make_unique<ProcedureStorage>(table.get(), reverseTable.get());
+  auto table = make_shared<ProcedureStmtTable>();
+  auto procedureValues = make_shared<ProcedureValues>();
+  auto callDeclarationTable = make_shared<CallDeclarationTable>();
+  auto store = make_shared<ProcedureAndCallsStorage>(
+      table.get(), callDeclarationTable.get(), procedureValues.get());
   auto writer = ProcedureWriter(store.get());
 
   writer.addProcedure("test1", 1, 3);
@@ -27,14 +28,14 @@ TEST_CASE("ProcedureWriter addProcedure") {
   REQUIRE(table->get(4) == "test2");
   REQUIRE(table->get(5) == "test2");
   REQUIRE(table->get(6) == "test2");
-  REQUIRE(reverseTable->get("test1") == unordered_set<int>({1, 2, 3}));
-  REQUIRE(reverseTable->get("test2") == unordered_set<int>({4, 5, 6}));
 }
 
 TEST_CASE("ProcedureWriter add duplicate procedure") {
-  auto table = make_shared<EntityTable>();
-  auto reverseTable = make_shared<EntityRevTable>();
-  auto store = make_unique<ProcedureStorage>(table.get(), reverseTable.get());
+  auto table = make_shared<ProcedureStmtTable>();
+  auto procedureValues = make_shared<ProcedureValues>();
+  auto callDeclarationTable = make_shared<CallDeclarationTable>();
+  auto store = make_shared<ProcedureAndCallsStorage>(
+      table.get(), callDeclarationTable.get(), procedureValues.get());
   auto writer = ProcedureWriter(store.get());
 
   writer.addProcedure("test1", 1, 3);

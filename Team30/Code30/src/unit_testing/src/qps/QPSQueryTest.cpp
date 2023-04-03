@@ -10,6 +10,7 @@ TEST_CASE("QPS Execute Query") {
   SourceParserStub exprParser;
   auto pkb = make_unique<QPSQueryPKBStub>(&pkbStore);
   auto qps = make_unique<QueryDriver>(pkb.get(), &exprParser);
+  QPSOutputList result;
 
-  qps->evaluate("stmt s1, s2; Select s1 such that Follows(s1, s2)");
+  qps->evaluate("stmt s1, s2; Select s1 such that Follows(s1, s2)", &result);
 }

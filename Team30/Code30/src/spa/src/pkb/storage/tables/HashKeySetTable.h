@@ -1,29 +1,37 @@
 #pragma once
 
-#include <unordered_map>
-#include <unordered_set>
 #include <cassert>
-#include "IBaseSetTable.h"
+#include <set>
+#include <unordered_map>
+
 #include "HashKeyTable.h"
+#include "IBaseSetTable.h"
 
-using std::unordered_set, std::unordered_map;
+using std::set;
 
-template<typename K, typename V>
+template <typename K, typename V>
 class HashKeySetTable : public IBaseSetTable<K, V>,
-                        public HashKeyTable<K, unordered_set<V>> {
+                        public HashKeyTable<K, set<V>> {
  public:
-  HashKeySetTable() : HashKeyTable<K, unordered_set<V>>() {}
+  HashKeySetTable() : HashKeyTable<K, set<V>>() {}
 
-  void set(K key, V value) override {
+  void insert(K key, V value) override {
     assert(key != K());
     assert(value != V());
 
     this->table[key].insert(value);
   }
 
-  unordered_set<V> get(K key) const override {
-    assert(key != K());
-
-    return HashKeyTable<K, unordered_set<V>>::get(key);
+  const set<V>& get(K key) const override {
+    return HashKeyTable<K, set<V>>::get(key);
   }
+
+  void forEach(pkb::Function<K, set<V>> function,
+               pkb::Terminator<K, set<V>> terminator) const override {
+    return HashKeyTable<K, set<V>>::forEach(function, terminator);
+  }
+
+  int size() const override {
+    return HashKeyTable<K, set<V>>::size();
+  };
 };

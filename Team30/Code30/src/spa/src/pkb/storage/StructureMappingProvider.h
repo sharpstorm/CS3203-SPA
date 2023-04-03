@@ -1,28 +1,27 @@
 #pragma once
 
 #include <string>
-#include <unordered_set>
+#include <set>
 #include <utility>
 
+#include "ProcedureAndCallsStorage.h"
 #include "StorageTypes.h"
 #include "common/Types.h"
 #include "interfaces/IStructureMappingProvider.h"
 
+using std::set;
+using std::string;
+
 class StructureMappingProvider : public IStructureMappingProvider {
  public:
-  StructureMappingProvider(
-      StatementStorage *, ProcedureStorage *,
-      CallStmtStorage *);
+  StructureMappingProvider(StatementStorage *, ProcedureAndCallsStorage *);
   StmtType getStatementType(int) const override;
-  std::unordered_set<int> getValuesOfType(StmtType) const override;
+  const StmtSet& getValuesOfType(StmtType) const override;
   bool isValueOfType(StmtType, StmtValue) const override;
-  unordered_set<int> getProcedureLines(std::string) const override;
-  std::string getProcedureForLine(int) const override;
-  std::unordered_set<int> getCallStmtsOfProcedure(std::string) const override;
-  std::string getCalledProcedure(int) const override;
+  string getProcedureForLine(int) const override;
+  string getCalledDeclaration(int) const override;
 
  private:
   StatementStorage *statementStorage;
-  ProcedureStorage *procedureStorage;
-  CallStmtStorage *callStmtStorage;
+  ProcedureAndCallsStorage *procAndCallsStorage;
 };

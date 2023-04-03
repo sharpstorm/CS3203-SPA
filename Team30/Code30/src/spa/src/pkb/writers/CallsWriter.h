@@ -2,6 +2,7 @@
 
 #include <string>
 
+#include "pkb/storage/ProcedureAndCallsStorage.h"
 #include "pkb/storage/StorageTypes.h"
 #include "pkb/writers/interfaces/ICallsWriter.h"
 
@@ -9,12 +10,11 @@ using std::string;
 
 class CallsWriter : public ICallsWriter {
  public:
-  explicit CallsWriter(CallsStorage *callsStore,
-                       CallStmtStorage *callStmtStore);
+  explicit CallsWriter(CallsStorage *, ProcedureAndCallsStorage *);
 
-  void addCalls(int arg1, string arg2, string arg3) override;
+  void addCalls(int stmt, string currProc, string calledProc) override;
 
  private:
   CallsStorage *callStorage;
-  CallStmtStorage *callStmtStorage;
+  ProcedureAndCallsStorage *procAndCallsStorage;
 };

@@ -3,17 +3,23 @@
 #include <string>
 #include "common/UtilityTypes.h"
 
-#include "qps/common/PQLQueryResult.h"
+#include "qps/common/intermediate_result/PQLQueryResult.h"
 #include "qps/common/PQLQuerySynonym.h"
-#include "qps/common/resulttable/SynonymResultTable.h"
+#include "qps/common/projector_table/ProjectorResultTable.h"
 #include "qps/common/AttributedSynonym.h"
 
 using std::string, std::vector;
 
+static const char STATIC_TRUE[] = "TRUE";
+static const char STATIC_FALSE[] = "FALSE";
+
 class ResultProjector {
+ private:
   PkbQueryHandler* pkbQueryHandler;
+
  public:
   explicit ResultProjector(PkbQueryHandler* handler);
-  UniqueVectorPtr<string> project(SynonymResultTable* queryResult,
-                                  AttributedSynonymList* resultVariables);
+  void project(ProjectorResultTable* queryResult,
+               AttributedSynonymList* resultVariables,
+               QPSOutputList *output);
 };

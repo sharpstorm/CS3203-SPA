@@ -8,7 +8,7 @@ void PQLQuerySynonymProxy::updatePointer(PQLQuerySynonym *newSyn) {
   *syn = newSyn;
 }
 
-PQLQuerySynonym *PQLQuerySynonymProxy::get() {
+PQLQuerySynonym *PQLQuerySynonymProxy::get() const {
   return *syn;
 }
 

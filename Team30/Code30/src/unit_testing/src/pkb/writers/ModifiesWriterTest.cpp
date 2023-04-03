@@ -1,11 +1,11 @@
 #include <memory>
-#include <unordered_set>
+#include <set>
 #include <string>
 
 #include "catch.hpp"
 #include "pkb/writers/ModifiesWriter.h"
 
-using std::make_shared, std::make_unique, std::unordered_set, std::string;
+using std::make_shared, std::make_unique, std::set, std::string;
 
 TEST_CASE("ModifiesWriter addModifies") {
   auto table = make_shared<ModifiesTable>();
@@ -23,12 +23,12 @@ TEST_CASE("ModifiesWriter addModifies") {
   writer.addModifies(3, "y", "main");
   writer.addModifies(4, "y", "foo");
 
-  REQUIRE(table->get(1) == unordered_set<string>({"x", "y"}));
-  REQUIRE(table->get(3) == unordered_set<string>({"y"}));
-  REQUIRE(reverseTable->get("y") == unordered_set<int>({1, 3, 4}));
-  REQUIRE(reverseTable->get("x") == unordered_set<int>({1}));
+  REQUIRE(table->get(1) == set<string>({"x", "y"}));
+  REQUIRE(table->get(3) == set<string>({"y"}));
+  REQUIRE(reverseTable->get("y") == set<int>({1, 3, 4}));
+  REQUIRE(reverseTable->get("x") == set<int>({1}));
 
-  REQUIRE(pTable->get("main") == unordered_set<string>({"x", "y"}));
-  REQUIRE(reversePTable->get("x") == unordered_set<string>({"main"}));
-  REQUIRE(reversePTable->get("y") == unordered_set<string>({"main", "foo"}));
+  REQUIRE(pTable->get("main") == set<string>({"x", "y"}));
+  REQUIRE(reversePTable->get("x") == set<string>({"main"}));
+  REQUIRE(reversePTable->get("y") == set<string>({"main", "foo"}));
 }

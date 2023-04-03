@@ -8,13 +8,14 @@
 #include "abstract_clauses/AbstractStmtStmtClause.h"
 #include "qps/clauses/SuchThatClause.h"
 #include "qps/cfg/cfg_querier/CFGAffectsQuerier.h"
+#include "qps/cfg/cfg_querier/CFGAffectsTQuerier.h"
 
 using std::unique_ptr, std::make_unique;
 
 typedef StmtStmtInvoker AffectsInvoker;
 typedef StmtInvoker AffectsSameSynInvoker;
 
-template <AffectsInvoker invoker, AffectsSameSynInvoker sameSynInvoker>
+template<AffectsInvoker invoker, AffectsSameSynInvoker sameSynInvoker>
 using AbstractAffectsClause = AbstractStmtStmtClause<
     invoker,
     sameSynInvoker,
@@ -23,57 +24,58 @@ using AbstractAffectsClause = AbstractStmtStmtClause<
 
 constexpr ModifiesGetter<QueryExecutorAgent> modifiesQuerier =
     [](const QueryExecutorAgent &agent,
-       StmtValue stmtNumber) -> EntityValue {
+       StmtValue stmtNumber) -> EntityIdxSet {
       QueryResultPtr<StmtValue, EntityValue> result =
           agent->queryModifies(StmtRef{StmtType::None, stmtNumber},
-                               EntityRef{EntityType::None, ""});
-      if (result->isEmpty) {
-        return "";
+                               EntityRef{EntityType::Variable, ""});
+      EntityIdxSet ret;
+      for (EntityValue v : result->secondArgVals) {
+        ret.insert(agent->getIndexOfVariable(v));
       }
-      for (auto it : result->secondArgVals) {
-        return it;
-      }
-
-      return "";
+      ret.erase(NO_ENT_INDEX);
+      return ret;
     };
 
 constexpr UsesGetter<QueryExecutorAgent> usesQuerier =
-    [](const QueryExecutorAgent &agent,
-       StmtValue stmtNumber) -> unordered_set<EntityValue> {
+    [](const QueryExecutorAgent &agent, StmtValue stmtNumber) -> EntityIdxSet {
       QueryResultPtr<StmtValue, EntityValue> result =
           agent->queryUses(StmtRef{StmtType::None, stmtNumber},
-                           EntityRef{EntityType::None, ""});
-      return result->secondArgVals;
+                           EntityRef{EntityType::Variable, ""});
+      EntityIdxSet ret;
+      for (EntityValue v : result->secondArgVals) {
+        ret.insert(agent->getIndexOfVariable(v));
+      }
+      ret.erase(NO_ENT_INDEX);
+      return ret;
     };
-
-constexpr CountGetter<QueryExecutorAgent> countQuerier =
-    [](const QueryExecutorAgent &agent) -> int {
-      return agent->getSymbolsOfType(EntityType::None).size();
-    };
-
-constexpr SymbolIdGetter<QueryExecutorAgent> symbolIdQuerier  =
-    [](const QueryExecutorAgent &agent,
-        const EntityValue &value) -> int {
-      return agent->getIndexOfVariable(value);
-    };
-
-
 
 typedef CFGAffectsQuerier<QueryExecutorAgent, typeChecker,
                           modifiesQuerier, usesQuerier> ConcreteAffectsQuerier;
 
-constexpr AffectsInvoker affectsInvoker = [](const QueryExecutorAgent &agent,
-                                             const StmtRef &leftArg,
-                                             const StmtRef &rightArg){
+typedef CFGAffectsTQuerier<QueryExecutorAgent, typeChecker,
+                           modifiesQuerier, usesQuerier>
+    ConcreteAffectsTQuerier;
+
+constexpr auto validateAffectsType = [](const StmtRef &ref) {
+  return ref.isAnyType(StmtType::None,
+                       StmtType::Assign,
+                       StmtType::Wildcard);
+};
+
+template<class QuerierT>
+constexpr AffectsInvoker abstractAffectsInvoker = [](
+    const QueryExecutorAgent &agent,
+    const StmtRef &leftArg,
+    const StmtRef &rightArg) {
   auto result = make_unique<QueryResult<StmtValue, StmtValue>>();
-  if (!leftArg.isType(StmtType::None) && !leftArg.isType(StmtType::Assign)) {
+  if (!validateAffectsType(leftArg)) {
     return result;
   }
-  if (!rightArg.isType(StmtType::None) && !rightArg.isType(StmtType::Assign)) {
+  if (!validateAffectsType(rightArg)) {
     return result;
   }
 
-  vector<CFG*> cfgs;
+  vector<CFG *> cfgs;
   if (leftArg.isKnown()) {
     cfgs = agent->queryCFGs(leftArg);
   } else {
@@ -85,70 +87,34 @@ constexpr AffectsInvoker affectsInvoker = [](const QueryExecutorAgent &agent,
   }
 
   if (leftArg.isKnown() || rightArg.isKnown()) {
-    ConcreteAffectsQuerier querier(cfgs[0], agent);
+    QuerierT querier(cfgs[0], agent);
     return make_unique<QueryResult<StmtValue, StmtValue>>(
         querier.queryArgs(leftArg, rightArg));
   }
 
   for (auto it = cfgs.begin(); it != cfgs.end(); it++) {
-    ConcreteAffectsQuerier querier(*it, agent);
+    QuerierT querier(*it, agent);
     querier.queryArgs(leftArg, rightArg, result.get());
   }
   return result;
 };
 
-constexpr AffectsInvoker affectsTInvoker = [](const QueryExecutorAgent &agent,
-                                              const StmtRef &leftArg,
-                                              const StmtRef &rightArg){
-  auto result = make_unique<QueryResult<StmtValue, StmtValue>>();
-
-  if (!leftArg.isType(StmtType::None) && !leftArg.isType(StmtType::Assign)) {
-    return result;
-  }
-  if (!rightArg.isType(StmtType::None) && !rightArg.isType(StmtType::Assign)) {
-    return result;
-  }
-
-  vector<CFG*> cfgs;
-  if (leftArg.isKnown()) {
-    cfgs = agent->queryCFGs(leftArg);
-  } else {
-    cfgs = agent->queryCFGs(rightArg);
-  }
-
-  if (cfgs.empty()) {
-    return result;
-  }
-
-  if (leftArg.isKnown() || rightArg.isKnown()) {
-    ConcreteAffectsQuerier querier(cfgs[0], agent);
-    return make_unique<QueryResult<StmtValue, StmtValue>>(
-        querier.queryArgs(leftArg, rightArg));
-  }
-
-  for (auto it = cfgs.begin(); it != cfgs.end(); it++) {
-    ConcreteAffectsQuerier querier(*it, agent);
-    querier.queryArgs(leftArg, rightArg, result.get());
-  }
-
-  return result;
-};
-
-constexpr AffectsSameSynInvoker affectsSymmetricInvoker =
+template<class QuerierT>
+constexpr AffectsSameSynInvoker abstractAffectsSymmetricInvoker =
     [](const QueryExecutorAgent &agent,
-       const StmtRef &arg){
+       const StmtRef &arg) {
       unordered_set<StmtValue> result;
 
       if (!arg.isType(StmtType::None) && !arg.isType(StmtType::Assign)) {
         return result;
       }
 
-      vector<CFG*> cfgs = agent->queryCFGs(
+      vector<CFG *> cfgs = agent->queryCFGs(
           StmtRef{StmtType::None, 0});
 
       for (auto it = cfgs.begin(); it != cfgs.end(); it++) {
-        CFG* cfg = *it;
-        ConcreteAffectsQuerier querier(cfg, agent);
+        CFG *cfg = *it;
+        QuerierT querier(cfg, agent);
         int startingStatement = cfg->getStartingStmtNumber();
 
         for (int i = 0; i < cfg->getNodeCount(); i++) {
@@ -167,7 +133,16 @@ constexpr AffectsSameSynInvoker affectsSymmetricInvoker =
       return result;
     };
 
-class AffectsClause: public AbstractAffectsClause<
+constexpr AffectsInvoker affectsInvoker =
+    abstractAffectsInvoker<ConcreteAffectsQuerier>;
+constexpr AffectsInvoker affectsTInvoker =
+    abstractAffectsInvoker<ConcreteAffectsTQuerier>;
+constexpr AffectsSameSynInvoker affectsSymmetricInvoker =
+    abstractAffectsSymmetricInvoker<ConcreteAffectsQuerier>;
+constexpr AffectsSameSynInvoker affectsTSymmetricInvoker =
+    abstractAffectsSymmetricInvoker<ConcreteAffectsTQuerier>;
+
+class AffectsClause : public AbstractAffectsClause<
     affectsInvoker,
     affectsSymmetricInvoker> {
  public:
@@ -183,9 +158,9 @@ class AffectsClause: public AbstractAffectsClause<
   }
 };
 
-class AffectsTClause: public AbstractAffectsClause<
+class AffectsTClause : public AbstractAffectsClause<
     affectsTInvoker,
-    affectsSymmetricInvoker> {
+    affectsTSymmetricInvoker> {
  public:
   AffectsTClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {

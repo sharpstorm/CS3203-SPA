@@ -54,6 +54,14 @@ TEST_CASE("Uses (StmtRef, EntityRef)") {
                                   {4, "y"},
                               }));
 
+    auto result5 =
+        *handler.queryUses({StmtType::None, 1}, {EntityType::Wildcard, ""});
+    REQUIRE(result5.isEmpty == false);
+
+    auto result6 =
+        *handler.queryUses({StmtType::None, 0}, {EntityType::Wildcard, ""});
+    REQUIRE(result6.isEmpty == false);
+    REQUIRE(result6.firstArgVals == unordered_set<int>({1, 2, 3, 4}));
   // print Declaration
   REQUIRE(handler.getPrintDeclarations(3) == "x");
 }
@@ -100,4 +108,11 @@ TEST_CASE("Uses (EntityRef, EntityRef)") {
                                                         {"main", "z"},
                                                         {"foo", "w"},
                                                         {"goo", "z"}}));
+  auto result5 = *handler.queryUses({EntityType::Procedure, ""},
+                                        {EntityType::Wildcard, ""});
+  REQUIRE(result5.firstArgVals ==
+          unordered_set<string>({"main", "foo", "goo"}));
+  auto result6 = *handler.queryUses({EntityType::Procedure, "foo"},
+                                        {EntityType::Wildcard, ""});
+  REQUIRE(result6.isEmpty == false);
 }

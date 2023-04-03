@@ -1,0 +1,767 @@
+procedure permOne {
+    read x;
+    read y;
+    read z;
+    if (x > 0) then {
+		x = y + z;
+		if (y > 0) then {
+			x = x + 1;
+			if (z > 0) then {
+				z = z - y;
+			} else {
+				z = z - y;
+			}
+			y = y + 1;
+		} else { 
+			y = y + 1;
+		}
+		y = x + z;
+    } else { 
+		y = x + z;
+	}
+	x = y + z;
+}
+
+procedure permTwo {
+    read x;
+    read y;
+    read z;
+    if (x > 0) then {
+		x = y + z;
+		if (y > 0) then {
+			x = x + 1;
+			if (z > 0) then {
+				z = z - y;
+			} else {
+				z = z - y;
+			}
+			y = y + 1;
+		} else { 
+			y = y + 1;
+		}
+		y = x + z;
+    } else { 
+		y = x + z;
+	}
+	
+}
+
+procedure permThree {
+    read x;
+    read y;
+    read z;
+    if (x > 0) then {
+		x = y + z;
+		if (y > 0) then {
+			x = x + 1;
+			if (z > 0) then {
+				z = z - y;
+			} else {
+				z = z - y;
+			}
+			y = y + 1;
+		} else { 
+			y = y + 1;
+		}
+	
+    } else { 
+		y = x + z;
+	}
+	x = y + z;
+}
+
+procedure permFour {
+    read x;
+    read y;
+    read z;
+    if (x > 0) then {
+		x = y + z;
+		if (y > 0) then {
+			x = x + 1;
+			if (z > 0) then {
+				z = z - y;
+			} else {
+				z = z - y;
+			}
+			y = y + 1;
+		} else { 
+			y = y + 1;
+		}
+
+    } else { 
+		y = x + z;
+	}
+	
+}
+
+procedure permFive {
+    read x;
+    read y;
+    read z;
+    if (x > 0) then {
+		x = y + z;
+		if (y > 0) then {
+			x = x + 1;
+			if (z > 0) then {
+				z = z - y;
+			} else {
+				z = z - y;
+			}
+			
+		} else { 
+			y = y + 1;
+		}
+		y = x + z;
+    } else { 
+		y = x + z;
+	}
+	x = y + z;
+}
+
+procedure permSix {
+    read x;
+    read y;
+    read z;
+    if (x > 0) then {
+		x = y + z;
+		if (y > 0) then {
+			x = x + 1;
+			if (z > 0) then {
+				z = z - y;
+			} else {
+				z = z - y;
+			}
+			
+		} else { 
+			y = y + 1;
+		}
+		y = x + z;
+    } else { 
+		y = x + z;
+	}
+	
+}
+
+procedure permSeven {
+    read x;
+    read y;
+    read z;
+    if (x > 0) then {
+		x = y + z;
+		if (y > 0) then {
+			x = x + 1;
+			if (z > 0) then {
+				z = z - y;
+			} else {
+				z = z - y;
+			}
+			
+		} else { 
+			y = y + 1;
+		}
+
+    } else { 
+		y = x + z;
+	}
+	x = y + z;
+}
+
+procedure permEight {
+    read x;
+    read y;
+    read z;
+    if (x > 0) then {
+		x = y + z;
+		if (y > 0) then {
+			x = x + 1;
+			if (z > 0) then {
+				z = z - y;
+			} else {
+				z = z - y;
+			}
+			
+		} else { 
+			y = y + 1;
+		}
+
+    } else { 
+		y = x + z;
+	}
+	
+}
+
+procedure permNine {
+    read x;
+    read y;
+    read z;
+    if (x > 0) then {
+		x = y + z;
+		if (y > 0) then {
+			
+			if (z > 0) then {
+				z = z - y;
+			} else {
+				z = z - y;
+			}
+			y = y + 1;
+		} else { 
+			y = y + 1;
+		}
+		y = x + z;
+    } else { 
+		y = x + z;
+	}
+	x = y + z;
+}
+
+procedure permTen {
+    read x;
+    read y;
+    read z;
+    if (x > 0) then {
+		x = y + z;
+		if (y > 0) then {
+			
+			if (z > 0) then {
+				z = z - y;
+			} else {
+				z = z - y;
+			}
+			y = y + 1;
+		} else { 
+			y = y + 1;
+		}
+		y = x + z;
+    } else { 
+		y = x + z;
+	}
+	
+}
+
+procedure permEleven {
+    read x;
+    read y;
+    read z;
+    if (x > 0) then {
+		x = y + z;
+		if (y > 0) then {
+			
+			if (z > 0) then {
+				z = z - y;
+			} else {
+				z = z - y;
+			}
+			y = y + 1;
+		} else { 
+			y = y + 1;
+		}
+
+    } else { 
+		y = x + z;
+	}
+	x = y + z;
+}
+
+procedure permTwelve {
+    read x;
+    read y;
+    read z;
+    if (x > 0) then {
+		x = y + z;
+		if (y > 0) then {
+			
+			if (z > 0) then {
+				z = z - y;
+			} else {
+				z = z - y;
+			}
+			y = y + 1;
+		} else { 
+			y = y + 1;
+		}
+
+    } else { 
+		y = x + z;
+	}
+	
+}
+
+procedure permThirteen {
+    read x;
+    read y;
+    read z;
+    if (x > 0) then {
+		x = y + z;
+		if (y > 0) then {
+			
+			if (z > 0) then {
+				z = z - y;
+			} else {
+				z = z - y;
+			}
+			y = y + 1;
+		} else { 
+			y = y + 1;
+		}
+		y = x + z;
+    } else { 
+		y = x + z;
+	}
+	x = y + z;
+}
+
+procedure permFourteen {
+    read x;
+    read y;
+    read z;
+    if (x > 0) then {
+		x = y + z;
+		if (y > 0) then {
+			
+			if (z > 0) then {
+				z = z - y;
+			} else {
+				z = z - y;
+			}
+			y = y + 1;
+		} else { 
+			y = y + 1;
+		}
+		y = x + z;
+    } else { 
+		y = x + z;
+	}
+	
+}
+
+procedure permFifteen {
+    read x;
+    read y;
+    read z;
+    if (x > 0) then {
+		x = y + z;
+		if (y > 0) then {
+			
+			if (z > 0) then {
+				z = z - y;
+			} else {
+				z = z - y;
+			}
+			y = y + 1;
+		} else { 
+			y = y + 1;
+		}
+
+    } else { 
+		y = x + z;
+	}
+	x = y + z;
+}
+
+procedure permSixteen {
+    read x;
+    read y;
+    read z;
+    if (x > 0) then {
+		x = y + z;
+		if (y > 0) then {
+			
+			if (z > 0) then {
+				z = z - y;
+			} else {
+				z = z - y;
+			}
+			y = y + 1;
+		} else { 
+			y = y + 1;
+		}
+
+    } else { 
+		y = x + z;
+	}
+	
+}
+
+procedure permSeventeen {
+    read x;
+    read y;
+    read z;
+    if (x > 0) then {
+		
+		if (y > 0) then {
+			x = x + 1;
+			if (z > 0) then {
+				z = z - y;
+			} else {
+				z = z - y;
+			}
+			
+		} else { 
+			y = y + 1;
+		}
+		y = x + z;
+    } else { 
+		y = x + z;
+	}
+	x = y + z;
+}
+
+procedure permEighteen {
+    read x;
+    read y;
+    read z;
+    if (x > 0) then {
+		
+		if (y > 0) then {
+			x = x + 1;
+			if (z > 0) then {
+				z = z - y;
+			} else {
+				z = z - y;
+			}
+			
+		} else { 
+			y = y + 1;
+		}
+		y = x + z;
+    } else { 
+		y = x + z;
+	}
+	
+}
+
+procedure permNinteen {
+    read x;
+    read y;
+    read z;
+    if (x > 0) then {
+		
+		if (y > 0) then {
+			x = x + 1;
+			if (z > 0) then {
+				z = z - y;
+			} else {
+				z = z - y;
+			}
+			
+		} else { 
+			y = y + 1;
+		}
+		
+    } else { 
+		y = x + z;
+	}
+	x = y + z;
+}
+
+procedure permTwenty {
+    read x;
+    read y;
+    read z;
+    if (x > 0) then {
+		
+		if (y > 0) then {
+			x = x + 1;
+			if (z > 0) then {
+				z = z - y;
+			} else {
+				z = z - y;
+			}
+			
+		} else { 
+			y = y + 1;
+		}
+		
+    } else { 
+		y = x + z;
+	}
+	
+}
+
+procedure permTwentyone {
+    read x;
+    read y;
+    read z;
+    if (x > 0) then {
+		
+		if (y > 0) then {
+			x = x + 1;
+			if (z > 0) then {
+				z = z - y;
+			} else {
+				z = z - y;
+			}
+			
+		} else { 
+			y = y + 1;
+		}
+		y = x + z;
+    } else { 
+		y = x + z;
+	}
+	x = y + z;
+}
+
+procedure permTwentytwo {
+    read x;
+    read y;
+    read z;
+    if (x > 0) then {
+		
+		if (y > 0) then {
+			x = x + 1;
+			if (z > 0) then {
+				z = z - y;
+			} else {
+				z = z - y;
+			}
+			
+		} else { 
+			y = y + 1;
+		}
+		y = x + z;
+    } else { 
+		y = x + z;
+	}
+	
+}
+
+procedure permTwentythree {
+    read x;
+    read y;
+    read z;
+    if (x > 0) then {
+		
+		if (y > 0) then {
+			x = x + 1;
+			if (z > 0) then {
+				z = z - y;
+			} else {
+				z = z - y;
+			}
+			
+		} else { 
+			y = y + 1;
+		}
+		
+    } else { 
+		y = x + z;
+	}
+	x = y + z;
+}
+
+procedure permTwentyFour {
+    read x;
+    read y;
+    read z;
+    if (x > 0) then {
+		
+		if (y > 0) then {
+			x = x + 1;
+			if (z > 0) then {
+				z = z - y;
+			} else {
+				z = z - y;
+			}
+			
+		} else { 
+			y = y + 1;
+		}
+		
+    } else { 
+		y = x + z;
+	}
+	
+}
+
+procedure permTwentyfive {
+    read x;
+    read y;
+    read z;
+    if (x > 0) then {
+		
+		if (y > 0) then {
+			
+			if (z > 0) then {
+				z = z - y;
+			} else {
+				z = z - y;
+			}
+			y = y + 1;
+		} else { 
+			y = y + 1;
+		}
+		y = x + z;
+    } else { 
+		y = x + z;
+	}
+	x = y + z;
+}
+
+procedure permTwentysix {
+    read x;
+    read y;
+    read z;
+    if (x > 0) then {
+		
+		if (y > 0) then {
+			
+			if (z > 0) then {
+				z = z - y;
+			} else {
+				z = z - y;
+			}
+			y = y + 1;
+		} else { 
+			y = y + 1;
+		}
+		y = x + z;
+    } else { 
+		y = x + z;
+	}
+	
+}
+
+procedure permTwentyseven {
+    read x;
+    read y;
+    read z;
+    if (x > 0) then {
+		
+		if (y > 0) then {
+			
+			if (z > 0) then {
+				z = z - y;
+			} else {
+				z = z - y;
+			}
+			y = y + 1;
+		} else { 
+			y = y + 1;
+		}
+		
+    } else { 
+		y = x + z;
+	}
+	x = y + z;
+}
+
+procedure permTwentyeight {
+    read x;
+    read y;
+    read z;
+    if (x > 0) then {
+		
+		if (y > 0) then {
+			
+			if (z > 0) then {
+				z = z - y;
+			} else {
+				z = z - y;
+			}
+			y = y + 1;
+		} else { 
+			y = y + 1;
+		}
+		
+    } else { 
+		y = x + z;
+	}
+	
+}
+
+procedure permTwentynine {
+    read x;
+    read y;
+    read z;
+    if (x > 0) then {
+		
+		if (y > 0) then {
+			
+			if (z > 0) then {
+				z = z - y;
+			} else {
+				z = z - y;
+			}
+			
+		} else { 
+			y = y + 1;
+		}
+		y = x + z;
+    } else { 
+		y = x + z;
+	}
+	x = y + z;
+}
+
+procedure permThirty {
+    read x;
+    read y;
+    read z;
+    if (x > 0) then {
+		
+		if (y > 0) then {
+			
+			if (z > 0) then {
+				z = z - y;
+			} else {
+				z = z - y;
+			}
+			
+		} else { 
+			y = y + 1;
+		}
+		y = x + z;
+    } else { 
+		y = x + z;
+	}
+	
+}
+
+procedure permThirtyone {
+    read x;
+    read y;
+    read z;
+    if (x > 0) then {
+		
+		if (y > 0) then {
+			
+			if (z > 0) then {
+				z = z - y;
+			} else {
+				z = z - y;
+			}
+			
+		} else { 
+			y = y + 1;
+		}
+		
+    } else { 
+		y = x + z;
+	}
+	x = y + z;
+}
+
+procedure permThirtytwo {
+    read x;
+    read y;
+    read z;
+    if (x > 0) then {
+		
+		if (y > 0) then {
+			
+			if (z > 0) then {
+				z = z - y;
+			} else {
+				z = z - y;
+			}
+			
+		} else { 
+			y = y + 1;
+		}
+		
+    } else { 
+		y = x + z;
+	}
+	
+}

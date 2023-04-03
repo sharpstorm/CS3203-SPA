@@ -8,6 +8,7 @@ class AssignPatternClause: public PatternClause {
  private:
   ExpressionArgumentPtr rightArgument;
 
+  bool isTrieMatch(PatternTrie* lineRoot);
   void checkTries(const QueryExecutorAgent &agent,
                   QueryResult<StmtValue, EntityValue>* output,
                   QueryResult<StmtValue, EntityValue>* modifiesResult);

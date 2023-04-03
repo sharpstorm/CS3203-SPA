@@ -11,15 +11,11 @@ PKB::~PKB() {
   delete (constantTable);
   delete (constantRevTable);
   delete (constantValues);
-  delete (procedureStorage);
-  delete (procedureTable);
-  delete (procedureRevTable);
-  delete (statementStorage);
+  delete (procedureStmtTable);
   delete (stmtTable);
   delete (stmtRevTable);
-  delete (callStmtStorage);
-  delete (callStmtTable);
-  delete (callStmtRevTable);
+  delete (callDeclarationTable);
+  delete (procAndCallsStorage);
 
   delete (structureProvider);
   delete (entityMappingProvider);
@@ -35,6 +31,8 @@ PKB::~PKB() {
   delete (parentTStorage);
   delete (parentTable);
   delete (parentRevTable);
+  delete (parentTTable);
+  delete (parentTRevTable);
 
   delete (modifiesStorage);
   delete (modifiesTable);
@@ -54,6 +52,8 @@ PKB::~PKB() {
   delete (callsTStorage);
   delete (callsTable);
   delete (callsRevTable);
+  delete (callsTTable);
+  delete (callsTRevTable);
 
   delete (ifPatternStorage);
   delete (ifPatternTable);

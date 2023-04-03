@@ -2,9 +2,9 @@
 
 #include "pkb/queryHandlers/interfaces/IFollowsQueryHandler.h"
 #include "pkb/queryHandlers/PkbQueryHandler.h"
-#include "qps/common/PQLQueryResult.h"
+#include "qps/common/intermediate_result/PQLQueryResult.h"
 #include "qps/executor/IQueryExecutor.h"
-#include "qps/common/resulttable/SynonymResultTable.h"
+#include "qps/common/projector_table/ProjectorResultTable.h"
 #include "qps/executor/QueryExecutor.h"
 #include "qps/parser/builder/QueryBuilder.h"
 #include "qps/clauses/arguments/ClauseArgumentFactory.h"
@@ -35,6 +35,6 @@ TEST_CASE("Test QPS Follows Query") {
   auto query = builder.build();
 
   auto executor = unique_ptr<IQueryExecutor>(new QueryExecutor(pkb.get()));
-  SynonymResultTable* result = executor->executeQuery(query.get());
+  ProjectorResultTable* result = executor->executeQuery(query.get());
   delete(result);
 }

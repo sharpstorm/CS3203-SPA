@@ -51,9 +51,9 @@ TEST_CASE("Uses querying") {
       make_unique<WildcardArgument>());
   expected = TestQueryResultBuilder::buildExpected(ExpectedParams{
       {"a", QueryResultItemVector{
-        QueryResultItem(6),
-        QueryResultItem(7),
-        QueryResultItem(8)
+        TestResultItem(6),
+        TestResultItem(7),
+        TestResultItem(8)
       }},
   });
   actual = PQLQueryResultPtr(usesClause.evaluateOn(agent));
@@ -65,9 +65,9 @@ TEST_CASE("Uses querying") {
       make_unique<EntityArgument>("x"));
   expected = TestQueryResultBuilder::buildExpected(ExpectedParams{
       {"a", QueryResultItemVector{
-        QueryResultItem(6),
-        QueryResultItem(7),
-        QueryResultItem(8)
+        TestResultItem(6),
+        TestResultItem(7),
+        TestResultItem(8)
       }},
   });
   actual = PQLQueryResultPtr(usesClause.evaluateOn(agent));
@@ -78,7 +78,7 @@ TEST_CASE("Uses querying") {
       make_unique<StmtArgument>(6),
       make_unique<SynonymArgument>(synV));
   expected = TestQueryResultBuilder::buildExpected((ExpectedParams{
-      {"v", QueryResultItemVector {QueryResultItem("count")}}
+      {"v", QueryResultItemVector {TestResultItem("count")}}
   }));
   actual = PQLQueryResultPtr(usesClause.evaluateOn(agent));
   REQUIRE(*expected == *actual);
@@ -88,22 +88,22 @@ TEST_CASE("Uses querying") {
       make_unique<SynonymArgument>(synA),
       make_unique<SynonymArgument>(synV));
 //  expected = TestQueryResultBuilder::buildExpected(ExpectedParams{
-//      {"a", QueryResultItemVector{QueryResultItem(6), QueryResultItem(7), QueryResultItem(8)}},
-//      {"v", QueryResultItemVector{ QueryResultItem("count"), QueryResultItem("cenX"), QueryResultItem("cenY"), QueryResultItem("x"), QueryResultItem("y")}}});
+//      {"a", QueryResultItemVector{TestResultItem(6), TestResultItem(7), TestResultItem(8)}},
+//      {"v", QueryResultItemVector{ TestResultItem("count"), TestResultItem("cenX"), TestResultItem("cenY"), TestResultItem("x"), TestResultItem("y")}}});
   expected = TestQueryResultBuilder::buildExpected(ExpectedParams{
       {"a", QueryResultItemVector{
-          QueryResultItem(6),
-          QueryResultItem(7),
-          QueryResultItem(8),
-          QueryResultItem(7),
-          QueryResultItem(8)
+          TestResultItem(6),
+          TestResultItem(7),
+          TestResultItem(8),
+          TestResultItem(7),
+          TestResultItem(8)
       }},
       {"v", QueryResultItemVector {
-          QueryResultItem("count"),
-          QueryResultItem("cenX"),
-          QueryResultItem("cenY"),
-          QueryResultItem("x"),
-          QueryResultItem("y")
+          TestResultItem("count"),
+          TestResultItem("cenX"),
+          TestResultItem("cenY"),
+          TestResultItem("x"),
+          TestResultItem("y")
       }}
   });
   actual = PQLQueryResultPtr(usesClause.evaluateOn(agent));
