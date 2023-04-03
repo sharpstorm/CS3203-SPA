@@ -9,10 +9,20 @@ UsesExtractor::UsesExtractor(PkbWriter* writer) : pkbWriter(writer),
                                                   oneShot(false) {
 }
 
+void UsesExtractor::leave() {
+  addToPKB.pop_back();
+  isDisabledFromContainer.pop_back();
+  statementStartStack.pop_back();
+}
+
+void UsesExtractor::visit(bool addToPkb, bool isDisabled, LineNumber lineNumber) {
+  addToPKB.push_back(addToPkb);
+  isDisabledFromContainer.push_back(isDisabled);
+  statementStartStack.push_back(lineNumber);
+}
+
 void UsesExtractor::visitAssign(AssignNode* node) {
-  addToPKB.push_back(false);
-  isDisabledFromContainer.push_back(false);
-  statementStartStack.push_back(node->getLineNumber());
+  visit(false, false, node->getLineNumber());
 }
 
 void UsesExtractor::visitPrint(PrintNode* node) {
@@ -21,15 +31,11 @@ void UsesExtractor::visitPrint(PrintNode* node) {
 }
 
 void UsesExtractor::visitWhile(WhileNode* node) {
-  addToPKB.push_back(true);
-  isDisabledFromContainer.push_back(false);
-  statementStartStack.push_back(node->getLineNumber());
+  visit(true, false, node->getLineNumber());
 }
 
 void UsesExtractor::visitIf(IfNode* node) {
-  addToPKB.push_back(true);
-  isDisabledFromContainer.push_back(false);
-  statementStartStack.push_back(node->getLineNumber());
+  visit(true, false, node->getLineNumber());
 }
 
 void UsesExtractor::visitStmtList(StatementListNode *node) {
@@ -43,15 +49,11 @@ void UsesExtractor::visitStmtList(StatementListNode *node) {
 }
 
 void UsesExtractor::leaveIf(IfNode* node) {
-  addToPKB.pop_back();
-  isDisabledFromContainer.pop_back();
-  statementStartStack.pop_back();
+  leave();
 }
 
 void UsesExtractor::leaveWhile(WhileNode* node) {
-  addToPKB.pop_back();
-  isDisabledFromContainer.pop_back();
-  statementStartStack.pop_back();
+  leave();
 }
 
 void UsesExtractor::visitProcedure(ProcedureNode* node) {
@@ -82,8 +84,6 @@ void UsesExtractor::addUsesRelation(const LineNumber &x, const string &var) {
 }
 
 void UsesExtractor::visitVariable(VariableASTNode *node) {
-  // Maybe we might need the isDisabledForContainer
-  // LHS will encounter this first and set it to true
   if (!addToPKB.empty() && !addToPKB.back()) {
     addToPKB.pop_back();
     addToPKB.push_back(true);
@@ -108,8 +108,6 @@ void UsesExtractor::visitVariable(VariableASTNode *node) {
 
 void UsesExtractor::leaveAssign(AssignNode *node) {
   updateUses(readVars);
-  addToPKB.pop_back();
-  isDisabledFromContainer.pop_back();
-  statementStartStack.pop_back();
+  leave();
   readVars.clear();
 }

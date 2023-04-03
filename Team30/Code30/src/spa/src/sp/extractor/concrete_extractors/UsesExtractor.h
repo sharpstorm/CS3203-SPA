@@ -28,6 +28,9 @@ class UsesExtractor : public AbstractExtractor {
   void processNode(const LineNumber &lineNumber, const unordered_set<string> &v);
   void updateUses(const unordered_set<string> &v);
   void updateUses(const string &v);
+  void leave();
+  void visit(bool addToPkb, bool isDisabled, LineNumber lineNumber);
+
   vector<LineNumber> statementStartStack;
   vector<bool> addToPKB;
   vector<bool> isDisabledFromContainer;
