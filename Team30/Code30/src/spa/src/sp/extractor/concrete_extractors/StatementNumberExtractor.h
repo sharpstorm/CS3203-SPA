@@ -14,5 +14,6 @@ class StatementNumberExtractor : public AbstractExtractor {
   const int getStatementNumber();
 
  private:
+  void updateLineNumber(StatementASTNode* node);
   LineNumber statementNumber;
 };

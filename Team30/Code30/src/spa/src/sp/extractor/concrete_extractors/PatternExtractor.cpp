@@ -7,10 +7,24 @@
 
 #include "common/pattern/PatternConverter.h"
 #include "ExtractorUtility.h"
+#include "sp/errors/SPError.h"
 
 using std::shared_ptr, std::move;
 
 PatternExtractor::PatternExtractor(PkbWriter* writer) : pkbWriter(writer) {
+}
+
+void PatternExtractor::leave(ASTNodeType type, StatementASTNode *node) {
+  ExtractorUtility util;
+  unordered_set<string> variableSet;
+  util.getExprVariables(&variableSet, node->getChildren()[0]);
+  for (string s : variableSet) {
+    if (type == ASTNODE_WHILE) {
+      pkbWriter->addWhilePattern(node->getLineNumber(), s);
+      continue;
+    }
+    pkbWriter->addIfPattern(node->getLineNumber(), s);
+  }
 }
 
 void PatternExtractor::leaveAssign(AssignNode* node) {
@@ -18,20 +32,10 @@ void PatternExtractor::leaveAssign(AssignNode* node) {
 }
 
 void PatternExtractor::leaveWhile(WhileNode* node) {
-  ExtractorUtility util;
-  unordered_set<string> variableSet;
-  util.getExprVariables(&variableSet, node->getChildren()[0]);
-  for (string s : variableSet) {
-    pkbWriter->addWhilePattern(node->getLineNumber(), s);
-  }
+  leave(ASTNODE_WHILE, node);
 }
 void PatternExtractor::leaveIf(IfNode* node) {
-  ExtractorUtility util;
-  unordered_set<string> variableSet;
-  util.getExprVariables(&variableSet, node->getChildren()[0]);
-  for (string s : variableSet) {
-    pkbWriter->addIfPattern(node->getLineNumber(), s);
-  }
+  leave(ASTNODE_IF, node);
 }
 
 void PatternExtractor::addPattern(LineNumber x, IASTNode* node) {

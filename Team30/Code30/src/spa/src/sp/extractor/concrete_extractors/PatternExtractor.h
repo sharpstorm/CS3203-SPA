@@ -16,5 +16,6 @@ class PatternExtractor : public AbstractExtractor {
   void leaveIf(IfNode* node) override;
  private:
   void addPattern(LineNumber x, IASTNode* node);
+  void leave(ASTNodeType type, StatementASTNode *node);
   PkbWriter* pkbWriter;
 };

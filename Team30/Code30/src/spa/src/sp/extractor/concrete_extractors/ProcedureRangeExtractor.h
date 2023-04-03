@@ -20,6 +20,8 @@ class ProcedureRangeExtractor : public AbstractExtractor {
   void visitCall(CallNode* node) override;
  private:
   void addProcedureRange(const string &name, LineNumber start, LineNumber end);
+  void updateCache(StatementASTNode* node);
+
   PkbWriter* pkbWriter;
   int lineNumberCache;
 };
