@@ -55,11 +55,13 @@ class BaseQueryInvoker {
     }
 
     // set result field
-    if (arg1->isKnown() && arg2->isKnown()) {
+    auto skipLeftResult = arg1->isKnown();
+    auto skipRightResult = arg2->isKnown();
+    if (skipLeftResult && skipRightResult) {
       resultBuilder.setIsEmpty();
-    } else if (arg1->isKnown() && arg1->isType(LeftType::None)) {
+    } else if (skipLeftResult && !skipRightResult) {
       resultBuilder.setRightVals();
-    } else if (arg2->isKnown() && arg2->isType(RightType::None)) {
+    } else if (!skipLeftResult && skipRightResult) {
       resultBuilder.setLeftVals();
     } else {
       resultBuilder.setPairVals();
