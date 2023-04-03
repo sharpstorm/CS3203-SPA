@@ -23,9 +23,9 @@ FALSE
 Select BOOLEAN such that Affects(6, 8)
 FALSE
 5000
-6 - Boolean Declaration - Call [with Read] (Affects) False
+6 - Boolean Declaration - Call [with Read] (Affects*) False
 
-Select BOOLEAN such that Affects(6, 8)
+Select BOOLEAN such that Affects*(6, 8)
 FALSE
 5000
 7 - Boolean Declaration - Call [with Write] (Affects) False
