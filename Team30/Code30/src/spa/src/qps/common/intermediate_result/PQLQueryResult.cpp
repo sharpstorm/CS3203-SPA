@@ -2,7 +2,7 @@
 
 using std::make_unique;
 
-PQLQueryResult::PQLQueryResult():
+PQLQueryResult::PQLQueryResult() :
     isStaticFalse(false),
     isStaticResult(false) {}
 
@@ -50,13 +50,13 @@ QueryResultTableRow *PQLQueryResult::getTableRowAt(int rowIndex) {
   return &combinedTable.at(rowIndex);
 }
 
-void PQLQueryResult::putTableRow(const vector<QueryResultItem*> &row) {
+void PQLQueryResult::putTableRow(const vector<QueryResultItem *> &row) {
   ResultTableRow newRowNum = combinedTable.size();
   for (int i = 0; i < colMaps.size(); i++) {
-    ColMap* map = colMaps.at(i).get();
+    ColMap *map = colMaps.at(i).get();
     const QueryResultItem *item = row.at(i);
     auto set = &(*map)[*item];
-    set->insert(set->end(), newRowNum);
+    set->insert(newRowNum);
   }
 
   combinedTable.push_back(row);
@@ -67,8 +67,8 @@ int PQLQueryResult::getRowCount() {
 }
 
 RowSetPtr PQLQueryResult::getRowsWithValue(ResultTableCol column,
-                                           QueryResultItem* value) {
-  ColMap* colMap = colMaps.at(column).get();
+                                           QueryResultItem *value) {
+  ColMap *colMap = colMaps.at(column).get();
   if (colMap->find(*value) == colMap->end()) {
     return nullptr;
   }

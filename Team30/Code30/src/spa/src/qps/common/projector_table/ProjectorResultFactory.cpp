@@ -10,16 +10,16 @@ ResultGroupPtr ProjectorResultFactory::extractResults(
     PQLQueryResult *result, vector<PQLSynonymName> *syns) {
   ResultGroupPtr resultGroup = make_unique<ProjectorResultGroup>();
   // Add synonyms to the new ProjectorResultGroup
-  for (const PQLSynonymName& name : *syns) {
+  for (const PQLSynonymName &name : *syns) {
     resultGroup->addSynonym(name);
   }
 
   IntersectSet<ResultTableRow> rowsToTake = getUniqueRows(result, syns);
 
   for (ResultTableRow rowIdx : rowsToTake) {
-    QueryResultTableRow* tableRow = result->getTableRowAt(rowIdx);
+    QueryResultTableRow *tableRow = result->getTableRowAt(rowIdx);
     QueryResultTableRow newRow{};
-    for (const PQLSynonymName& syn : *syns) {
+    for (const PQLSynonymName &syn : *syns) {
       ResultTableCol tableCol = result->getSynonymCol(syn);
       newRow.push_back(tableRow->at(tableCol));
     }
@@ -38,17 +38,16 @@ IntersectSet<ResultTableRow> ProjectorResultFactory::getUniqueRows(
     if (ignoreRows.find(i) != ignoreRows.end()) {
       continue;
     }
-    BSTIntersectSetPtr<ResultTableRow> currentIgnoreRows =
-        make_unique<BSTIntersectSet<ResultTableRow>>();
+    RowSetPtr currentIgnoreRows = make_unique<RowSet>();
 
     rowsToTake.insert(i);
-    for (const PQLSynonymName& syn : *syns) {
+    for (const PQLSynonymName &syn : *syns) {
       ResultTableCol colIdx = result->getSynonymCol(syn);
-      QueryResultTableRow* currRow = result->getTableRowAt(i);
+      QueryResultTableRow *currRow = result->getTableRowAt(i);
       RowSetPtr rows = result->getRowsWithValue(colIdx,
                                                 currRow->at(colIdx));
       if (currentIgnoreRows->empty()) {
-        currentIgnoreRows->insert(rows->begin(), rows->end());
+        currentIgnoreRows = std::move(rows);
       } else {
         currentIgnoreRows = SetUtils::intersectSet(currentIgnoreRows.get(),
                                                    rows.get());
