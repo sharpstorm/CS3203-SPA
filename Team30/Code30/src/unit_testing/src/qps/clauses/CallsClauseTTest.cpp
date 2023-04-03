@@ -25,7 +25,8 @@ TEST_CASE("CallsTClause Querying") {
   PQLQueryResultPtr expected;
   PQLQueryResultPtr actual;
   OverrideTablePtr override = make_unique<OverrideTable>();
-  QueryExecutorAgent agent(pkb.get(), override.get());
+  QueryCachePtr cache = make_unique<QueryCache>();
+  QueryExecutorAgent agent(pkb.get(), override.get(), cache.get());
 
   // Static results - False result
   CallsTClause callsClause = CallsTClause(

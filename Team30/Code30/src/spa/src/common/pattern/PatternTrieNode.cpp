@@ -32,3 +32,7 @@ PatternTrieNode *PatternTrieNode::traverse(uint16_t nodeId) {
 bool PatternTrieNode::isEnd() {
   return next.find(TRIE_END_NODE) != next.end();
 }
+
+bool PatternTrieNode::hasChild(SymbolIdent id) {
+  return next.find(id) != next.end();
+}

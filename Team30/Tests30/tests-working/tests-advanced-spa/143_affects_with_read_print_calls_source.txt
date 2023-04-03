@@ -1,0 +1,42 @@
+procedure main {
+	x = 0;
+	j = x;
+	print x;
+	y = x;
+	read x;
+	z = x;
+	call readOnly;
+	a = z + 1;
+	call writeOnly;
+	b = a + 2;
+	call writeOnlyNoChange;
+	c = b;
+	d = 0;
+	call readWrite;
+	e = d;
+	
+	while (x > 0) {
+		read g;
+		f = 0;
+		g = f;
+		read f;
+		g = g + f;
+	}
+}
+
+procedure readOnly {
+	read z;
+}
+
+procedure writeOnlyNoChange {
+	g = a + b;
+}
+
+procedure writeOnly {
+	a = 0;
+}
+
+procedure readWrite {
+	read b;
+	d = c + b;
+}

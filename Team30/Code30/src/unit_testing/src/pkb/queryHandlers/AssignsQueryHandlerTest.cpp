@@ -25,11 +25,13 @@ struct assignTestInit {
 
 // assign stmt
 TEST_CASE("AssignQueryHandler Assigns(stmtRef)") {
+  PKB pkb;
+  unique_ptr<PkbWriter> writer = make_unique<PkbWriter>(&pkb);
   auto test = assignTestInit();
   // x = a
 
   auto root = make_unique<VariableASTNode>("a");
-  PatternTriePtr trie = PatternConverter::convertASTToTrie(root.get());
+  PatternTriePtr trie = PatternConverter::convertASTToTrie(root.get(), writer.get());
   auto sTrie = shared_ptr<PatternTrie>(std::move(trie));
   test.store->insert(1, sTrie);
 

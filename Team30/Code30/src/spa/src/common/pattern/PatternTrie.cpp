@@ -6,10 +6,8 @@
 using std::to_string;
 
 PatternTrie::PatternTrie(PatternTrieNodePtr trieRoot,
-                         TrieSymbolTablePtr symbolTable,
                          int longestPathCount):
     root(std::move(trieRoot)),
-    symbolTable(std::move(symbolTable)),
     longestPathCount(longestPathCount) {}
 
 bool PatternTrie::isMatchFull(ExpressionSequence *sequence) {
@@ -35,21 +33,11 @@ bool PatternTrie::isMatchPartial(ExpressionSequence *sequence) {
 bool PatternTrie::isValidPostfix(ExpressionSequence *sequence) {
   PatternTrieNode* curNode = root.get();
   for (int i = 0; i < sequence->size(); i++) {
-    SymbolIdent symbol = lookupSymbol(sequence->at(i));
-    curNode = curNode->traverse(symbol);
+    curNode = curNode->traverse(sequence->at(i));
     if (curNode == nullptr) {
       return false;
     }
   }
 
   return curNode->isEnd();
-}
-
-SymbolIdent PatternTrie::lookupSymbol(const string &symbol) {
-  auto result = symbolTable->find(symbol);
-  if (result == symbolTable->end()) {
-    return TRIE_INVALID_SYMBOL;
-  }
-
-  return result->second;
 }
