@@ -52,23 +52,25 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
 void AssignPatternClause::checkTries(
     const QueryExecutorAgent &agent,
     QueryResult<StmtValue, EntityValue> *output,
-    QueryResult<StmtValue, EntityValue> *modifiesResult) {
+    QueryResult<StmtValue, EntityValue> *modifiesResult,
+    ExpressionArgument* expr) {
   for (auto &it : modifiesResult->pairVals) {
     // Call assigns to retrieve the node
     StmtRef assignRef = {StmtType::Assign, it.first};
     auto nodes = agent->queryAssigns(assignRef);
     PatternTrie *lineRoot = *nodes->secondArgVals.begin();
-    if (isTrieMatch(lineRoot)) {
+    if (isTrieMatch(lineRoot, expr)) {
       output->add(it.first, it.second);
     }
   }
 }
 
-bool AssignPatternClause::isTrieMatch(PatternTrie *lineRoot) {
-  bool isPartialMatch = rightArgument->allowsPartial()
-      && lineRoot->isMatchPartial(rightArgument->getSequence());
-  bool isFullMatch = !rightArgument->allowsPartial()
-      && lineRoot->isMatchFull(rightArgument->getSequence());
+bool AssignPatternClause::isTrieMatch(PatternTrie *lineRoot,
+                                      ExpressionArgument* expr) {
+  bool isPartialMatch = expr->allowsPartial()
+      && lineRoot->isMatchPartial(expr->getSequence());
+  bool isFullMatch = !expr->allowsPartial()
+      && lineRoot->isMatchFull(expr->getSequence());
   return isPartialMatch || isFullMatch;
 }
 
