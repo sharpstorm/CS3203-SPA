@@ -18,10 +18,9 @@ class ResultCoalescer {
 
   OrphanedResultItemPoolPtr orphanMap;
 
-
  public:
   ResultCoalescer(PQLQueryResult *setA, PQLQueryResult *setB);
-  PQLQueryResult* merge();
+  PQLQueryResult *merge();
 
  private:
   struct IntersectState {
@@ -32,8 +31,8 @@ class ResultCoalescer {
   };
 
   struct IntersectResult {
-    BSTIntersectSetPtr<ResultTableRow> leftSet;
-    BSTIntersectSetPtr<ResultTableRow> rightSet;
+    RowSetPtr leftSet;
+    RowSetPtr rightSet;
 
     bool isEmpty() {
       return leftSet->empty() || rightSet->empty();

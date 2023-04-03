@@ -3,6 +3,7 @@
 #include <memory>
 #include <unordered_set>
 #include "UtilityTypes.h"
+#include "common/data_structs/AppendSet.h"
 
 using std::make_unique, std::unordered_set;
 
@@ -37,8 +38,8 @@ class SetUtils {
   }
 
   template<class T>
-  static BSTIntersectSetPtr<T> intersectSet(BSTIntersectSet<T> *s1,
-                                            BSTIntersectSet<T> *s2) {
+  static AppendOnlySetPtr<T> intersectSet(AppendSet<T> *s1,
+                                          AppendSet<T> *s2) {
     return intersectSetInternal(s1, s2);
   }
 
