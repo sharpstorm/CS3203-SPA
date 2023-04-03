@@ -13,9 +13,9 @@ class SourceParseState {
   explicit SourceParseState(vector<SourceToken>* tokens);
   void advanceToken();
   SourceToken* getCurrToken();
-
   SourceToken* peekNextToken();
   bool nextTokenIsOfType(SourceTokenType type);
+
   bool isEnd();
   int getCurrPosition();
   void restorePosition(int pos);
@@ -25,7 +25,6 @@ class SourceParseState {
   ASTNodePtr consumeCache();
 
   LineNumber getLineNumber();
-  void advanceLine();
 
   template<typename... SourceTokenType>
   bool currTokenIsOfType(SourceTokenType... type);
