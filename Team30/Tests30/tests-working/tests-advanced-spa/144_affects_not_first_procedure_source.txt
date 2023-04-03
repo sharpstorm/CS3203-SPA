@@ -1,0 +1,11 @@
+procedure AllPick {
+	call CaptainsMode;
+}
+
+procedure CaptainsMode {
+	a = b;
+	b = a;
+	a = c;
+	c = a;
+	b = a;
+}

@@ -1,0 +1,10 @@
+1 - Affects
+assign a1, a2;
+Select a2 such that Affects(a1, a2)
+3, 5, 6
+5000
+2 - AffectsT
+assign a1, a2;
+Select a2 such that Affects*(a1, a2)
+3, 5, 6
+5000
