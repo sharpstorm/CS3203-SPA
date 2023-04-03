@@ -115,6 +115,43 @@ TEST_CASE("ParentQueryHandler parent(stmtType, stmtType)") {
   REQUIRE(result1.pairVals == pair_set<int, int>({{11, 12}}));
 }
 
+TEST_CASE("ParentQueryHandler parent(_, stmtType)") {
+  auto test = parentTest();
+
+  test.store->insert(10, 11);
+  test.store->insert(11, 12);
+  test.store->insert(12, 16);
+
+  auto result1 = *test.query({StmtType::Wildcard, 0}, {StmtType::None, 0});
+  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.secondArgVals == unordered_set<int>({11, 12, 16}));
+}
+
+TEST_CASE("ParentQueryHandler parent(_, stmtNum)") {
+  auto test = parentTest();
+
+  test.store->insert(10, 11);
+
+  auto result1 = *test.query({StmtType::Wildcard, 0}, {StmtType::None, 11});
+  REQUIRE(result1.isEmpty == false);
+}
+
+TEST_CASE("ParentQueryHandler parent(_, _)") {
+  auto test = parentTest();
+
+  test.store->insert(10, 11);
+
+  auto result1 = *test.query({StmtType::Wildcard, 0}, {StmtType::Wildcard, 0});
+  REQUIRE(result1.isEmpty == false);
+}
+
+TEST_CASE("ParentQueryHandler parent(_, _) no results") {
+  auto test = parentTest();
+
+  auto result1 = *test.query({StmtType::Wildcard, 0}, {StmtType::Wildcard, 0});
+  REQUIRE(result1.isEmpty == true);
+}
+
 struct parentTTest {
   shared_ptr<ParentTTable> table = make_shared<ParentTTable>();
   shared_ptr<ParentTRevTable> reverseTable = make_shared<ParentTRevTable>();
@@ -275,29 +312,6 @@ TEST_CASE("ParentQueryHandler parentStar(stmtType,stmtNum)") {
 TEST_CASE("ParentQueryHandler parentStar(stmtType,stmtType)") {
   auto test = parentTTest();
 
-  // 1(->2(->3(->4,5|6)),7),8
-  test.storeT->insert(1, 7);
-  test.storeT->insert(1, 6);
-  test.storeT->insert(1, 5);
-  test.storeT->insert(1, 3);
-  test.storeT->insert(2, 3);
-  test.storeT->insert(2, 5);
-  test.storeT->insert(2, 6);
-  test.storeT->insert(3, 5);
-  test.storeT->insert(3, 6);
-  test.followsTable->insert(1, 8);
-  test.followsTable->insert(2, 7);
-  test.followsTable->insert(4, 5);
-  test.structureProvider->insert(1, StmtType::While);
-  test.structureProvider->insert(2, StmtType::While);
-  test.structureProvider->insert(3, StmtType::If);
-  test.structureProvider->insert(4, StmtType::Assign);
-  test.structureProvider->insert(5, StmtType::Read);
-  test.structureProvider->insert(6, StmtType::Assign);
-  test.structureProvider->insert(7, StmtType::Assign);
-  test.structureProvider->insert(8, StmtType::Assign);
-  test.structureProvider->allStmts = {1, 2, 3, 4, 5, 6, 7, 8};
-
   auto result1 = *test.queryT({StmtType::While, 0}, {StmtType::If, 0});
   REQUIRE(result1.pairVals == pair_set<int, int>({{1, 3}, {2, 3}}));
   auto result2 = *test.queryT({StmtType::While, 0}, {StmtType::While, 0});
@@ -328,4 +342,23 @@ TEST_CASE("ParentQueryHandler parentStar(stmtType,stmtType)") {
   REQUIRE(result7.pairVals == pair_set<int, int>({}));
   auto result8 = *test.queryT({StmtType::None, 0}, {StmtType::Print, 0});
   REQUIRE(result8.pairVals == pair_set<int, int>({}));
+}
+
+TEST_CASE("ParentQueryHandler parentStar(_,stmtType)") {
+  auto test = parentTTest();
+  // 1(->2(->3(->4,5|6)),7),8
+  auto result1 = *test.queryT({StmtType::Wildcard, 0}, {StmtType::If, 0});
+  REQUIRE(result1.secondArgVals == unordered_set<int>({3}));
+
+  auto result2 = *test.queryT({StmtType::Wildcard, 0}, {StmtType::None, 0});
+  REQUIRE(result2.secondArgVals == unordered_set<int>({2, 3, 4, 5, 6, 7}));
+}
+
+TEST_CASE("ParentQueryHandler parentStar(_,stmtNum)") {
+  auto test = parentTTest();
+  auto result1 = *test.queryT({StmtType::Wildcard, 0}, {StmtType::None, 5});
+  REQUIRE(result1.isEmpty == false);
+
+  auto result2 = *test.queryT({StmtType::Wildcard, 0}, {StmtType::None, 1});
+  REQUIRE(result2.isEmpty == true);
 }

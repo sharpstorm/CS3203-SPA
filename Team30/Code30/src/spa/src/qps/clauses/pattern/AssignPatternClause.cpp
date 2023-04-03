@@ -32,8 +32,9 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
     return new PQLQueryResult();
   }
 
-  auto modifiesResult = agent
-      ->queryModifies(leftStatement, rightVariable);
+  // Override wildcards, types are ignored for known
+  rightVariable.setType(EntityType::Variable);
+  auto modifiesResult = agent->queryModifies(leftStatement, rightVariable);
 
   if (expr->isWildcard()) {
     return Clause::toQueryResult(synonym->getName(), leftArg.get(),
@@ -51,23 +52,24 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
 void AssignPatternClause::checkTries(
     const QueryExecutorAgent &agent,
     QueryResult<StmtValue, EntityValue> *output,
-    QueryResult<StmtValue, EntityValue>* modifiesResult,
-    ExpressionArgument* exprArg) {
-  for (auto& it : modifiesResult->pairVals) {
+    QueryResult<StmtValue, EntityValue> *modifiesResult) {
+  for (auto &it : modifiesResult->pairVals) {
     // Call assigns to retrieve the node
     StmtRef assignRef = {StmtType::Assign, it.first};
-    auto nodes =
-        agent->queryAssigns(assignRef);
-
-    PatternTrie* lineRoot = *nodes->secondArgVals.begin();
-    bool isPartialMatch = exprArg->allowsPartial()
-        && lineRoot->isMatchPartial(exprArg->getSequence());
-    bool isFullMatch = !exprArg->allowsPartial()
-        && lineRoot->isMatchFull(exprArg->getSequence());
-    if (isPartialMatch || isFullMatch) {
+    auto nodes = agent->queryAssigns(assignRef);
+    PatternTrie *lineRoot = *nodes->secondArgVals.begin();
+    if (isTrieMatch(lineRoot)) {
       output->add(it.first, it.second);
     }
   }
+}
+
+bool AssignPatternClause::isTrieMatch(PatternTrie *lineRoot) {
+  bool isPartialMatch = rightArgument->allowsPartial()
+      && lineRoot->isMatchPartial(rightArgument->getSequence());
+  bool isFullMatch = !rightArgument->allowsPartial()
+      && lineRoot->isMatchFull(rightArgument->getSequence());
+  return isPartialMatch || isFullMatch;
 }
 
 ComplexityScore AssignPatternClause::getComplexityScore(

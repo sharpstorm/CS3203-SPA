@@ -72,6 +72,42 @@ TEST_CASE("Follows 2 unknowns") {
   REQUIRE(result6.pairVals == pair_set<int, int>({{3, 4}}));
 }
 
+
+TEST_CASE("Follows wildcard rightArg") {
+  auto test = followsTest();
+
+  auto result1 = *test.handler.queryFollows({StmtType::Wildcard, 0},
+                                                {StmtType::None, 3});
+  REQUIRE(result1.isEmpty == false);
+  auto result2 = *test.handler.queryFollows({StmtType::Wildcard, 0},
+                                                {StmtType::None, 1});
+  REQUIRE(result2.isEmpty == true);
+  auto result3 = *test.handler.queryFollows({StmtType::Wildcard, 0},
+                                                {StmtType::None, 0});
+  REQUIRE(result3.secondArgVals == unordered_set<int>({2, 3, 4}));
+  auto result4 = *test.handler.queryFollows({StmtType::Wildcard, 0},
+                                                {StmtType::Read, 0});
+  REQUIRE(result4.secondArgVals == unordered_set<int>({2, 3}));
+}
+
+TEST_CASE("Follows wildcard leftArg") {
+  auto test = followsTest();
+
+  auto result1 = *test.handler.queryFollows({StmtType::None, 2},
+                                                {StmtType::Wildcard, 0});
+  REQUIRE(result1.isEmpty == false);
+  auto result2 = *test.handler.queryFollows({StmtType::None, 4},
+                                                {StmtType::Wildcard, 0});
+  REQUIRE(result2.isEmpty == true);
+  auto result3 = *test.handler.queryFollows({StmtType::None, 0},
+                                                {StmtType::Wildcard, 0});
+  REQUIRE(result3.firstArgVals == unordered_set<int>({1, 2, 3}));
+  auto result4 = *test.handler.queryFollows({StmtType::Read, 0},
+                                                {StmtType::Wildcard, 0});
+  REQUIRE(result4.firstArgVals == unordered_set<int>({2, 3}));
+}
+
+
 TEST_CASE("FollowsStar <= 1 unknown") {
   auto test = followsTest();
 
@@ -107,4 +143,38 @@ TEST_CASE("FollowsStar 2 unknowns") {
   auto result3 =
       *test.handler.queryFollowsStar({StmtType::Read, 0}, {StmtType::Print, 0});
   REQUIRE(result3.pairVals == pair_set<int, int>({{2, 4}, {3, 4}}));
+}
+
+TEST_CASE("FollowsStar wildcard rightArg") {
+  auto test = followsTest();
+
+  auto result1 = *test.handler.queryFollowsStar({StmtType::Wildcard, 0},
+                                                {StmtType::None, 3});
+  REQUIRE(result1.isEmpty == false);
+  auto result2 = *test.handler.queryFollowsStar({StmtType::Wildcard, 0},
+                                                {StmtType::None, 1});
+  REQUIRE(result2.isEmpty == true);
+  auto result3 = *test.handler.queryFollowsStar({StmtType::Wildcard, 0},
+                                                {StmtType::None, 0});
+  REQUIRE(result3.secondArgVals == unordered_set<int>({2, 3, 4}));
+  auto result4 = *test.handler.queryFollowsStar({StmtType::Wildcard, 0},
+                                                {StmtType::Read, 0});
+  REQUIRE(result4.secondArgVals == unordered_set<int>({2, 3}));
+}
+
+TEST_CASE("FollowsStar wildcard leftArg") {
+  auto test = followsTest();
+
+  auto result1 = *test.handler.queryFollowsStar({StmtType::None, 2},
+                                                {StmtType::Wildcard, 0});
+  REQUIRE(result1.isEmpty == false);
+  auto result2 = *test.handler.queryFollowsStar({StmtType::None, 4},
+                                                {StmtType::Wildcard, 0});
+  REQUIRE(result2.isEmpty == true);
+  auto result3 = *test.handler.queryFollowsStar({StmtType::None, 0},
+                                                {StmtType::Wildcard, 0});
+  REQUIRE(result3.firstArgVals == unordered_set<int>({1, 2, 3}));
+  auto result4 = *test.handler.queryFollowsStar({StmtType::Read, 0},
+                                                {StmtType::Wildcard, 0});
+  REQUIRE(result4.firstArgVals == unordered_set<int>({2, 3}));
 }

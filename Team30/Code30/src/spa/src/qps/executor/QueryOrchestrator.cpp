@@ -2,7 +2,7 @@
 #include <memory>
 
 #include "QueryOrchestrator.h"
-#include "qps/common/resulttable/ResultGroupFactory.h"
+#include "qps/common/projector_table/ProjectorResultFactory.h"
 
 using std::make_unique;
 
@@ -11,14 +11,14 @@ QueryOrchestrator::QueryOrchestrator(QueryLauncher launcher) :
 }
 
 // Executes every group in the QueryPlan
-SynonymResultTable *QueryOrchestrator::execute(
+ProjectorResultTable *QueryOrchestrator::execute(
     QueryPlan *plan, OverrideTable* overrideTable) {
   bool isBool = plan->isBooleanQuery();
   if (plan->isEmpty()) {
-    return new SynonymResultTable(isBool, false);
+    return new ProjectorResultTable(isBool, false);
   }
 
-  SynonymResultTable* resultTable = new SynonymResultTable(isBool, true);
+  ProjectorResultTable* resultTable = new ProjectorResultTable(isBool, true);
   for (int i = 0; i < plan->getGroupCount(); i++) {
     QueryGroupPlan* targetGroup = plan->getGroup(i);
     PQLQueryResult* result = executeGroup(targetGroup, overrideTable);
@@ -27,7 +27,7 @@ SynonymResultTable *QueryOrchestrator::execute(
     if (result->isFalse() && !targetGroup->canBeEmpty()) {
       delete resultTable;
       delete result;
-      return new SynonymResultTable(isBool, false);
+      return new ProjectorResultTable(isBool, false);
     } else if (result->isFalse() && targetGroup->canBeEmpty()) {
       delete result;
       continue;
@@ -40,7 +40,7 @@ SynonymResultTable *QueryOrchestrator::execute(
 
     vector<PQLSynonymName>* selectables = targetGroup->getSelectables();
     ResultGroupPtr resultGroup =
-        ResultGroupFactory::extractResults(result, selectables);
+        ProjectorResultFactory::extractResults(result, selectables);
     resultTable->addResultGroup(std::move(resultGroup));
     delete result;
   }

@@ -16,7 +16,7 @@ const EntitySet &EntityMappingProvider::getValuesOfType(
   } else if (entityType == EntityType::Procedure) {
     return procedureStorage->getProcedures();
   } else {
-    // note: EntityType::None is invalid
+    // note: EntityType::None or Wildcard is invalid
     return ContiguousSetTable<EntityValue>::getEmptyValue();
   }
 }

@@ -11,7 +11,7 @@ class QueryExecutor: public IQueryExecutor {
 
  public:
   explicit QueryExecutor(PkbQueryHandler* pkbQH);
-  SynonymResultTable* executeQuery(PQLQuery* query);
+  ProjectorResultTable* executeQuery(PQLQuery* query);
 
  private:
   bool resolveConstraints(PQLQuery* query, OverrideTable* overrideTable);

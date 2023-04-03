@@ -11,15 +11,14 @@ void StatementStorage::insert(StmtValue stmt, StmtType type) {
   allStatements->insert(stmt);
 }
 
-const StmtSet & StatementStorage::getStatementsOfType(
-    StmtType stmtType) const {
-  if (stmtType == StmtType::None) {
+const StmtSet &StatementStorage::getStatementsOfType(StmtType stmtType) const {
+  if (stmtType == StmtType::None || stmtType == StmtType::Wildcard) {
     return getAllStatements();
   }
   return reverseTable->get(stmtType);
 }
 
-const StmtSet& StatementStorage::getAllStatements() const {
+const StmtSet &StatementStorage::getAllStatements() const {
   return *allStatements;
 }
 
