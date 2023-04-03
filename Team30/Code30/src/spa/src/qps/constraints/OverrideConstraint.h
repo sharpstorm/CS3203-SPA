@@ -6,8 +6,6 @@
 #include "qps/errors/QPSParserSemanticError.h"
 #include "qps/common/AttributedSynonym.h"
 
-using std::string, std::to_string;
-
 class OverrideConstraint : public Constraint {
  private:
   AttributedSynonym attrSyn;
