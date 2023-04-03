@@ -29,7 +29,8 @@ TEST_CASE("ParentClause Querying") {
   PQLQueryResultPtr actual;
 
   OverrideTablePtr override = make_unique<OverrideTable>();
-  QueryExecutorAgent agent(pkb.get(), override.get());
+  QueryCachePtr cache = make_unique<QueryCache>();
+  QueryExecutorAgent agent(pkb.get(), override.get(), cache.get());
   // Static results
   // When stmtNumLeft < stmtNumRight E.g. Parent(6,7)
   ParentClause parentClause = ParentClause(

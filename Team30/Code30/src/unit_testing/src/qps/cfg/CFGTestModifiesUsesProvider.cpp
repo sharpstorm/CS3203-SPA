@@ -2,16 +2,18 @@
 
 CFGTestModifiesUsesProvider::CFGTestModifiesUsesProvider(
     vector<unordered_set<EntityValue>> modifies,
-    vector<unordered_set<EntityValue>> uses):
-    modifies(modifies), uses(uses) {
+    vector<unordered_set<EntityValue>> uses,
+    QueryCache* cache):
+    modifies(modifies), uses(uses), cache(cache) {
   fillSymbolTable();
 }
 
 CFGTestModifiesUsesProvider::CFGTestModifiesUsesProvider(
     vector<unordered_set<EntityValue>> modifies,
     vector<unordered_set<EntityValue>> uses,
-    unordered_map<StmtValue, StmtType> typeExclusions):
-    modifies(modifies), uses(uses), typeExclusions(typeExclusions) {
+    unordered_map<StmtValue, StmtType> typeExclusions,
+    QueryCache* cache):
+    modifies(modifies), uses(uses), typeExclusions(typeExclusions), cache(cache) {
   fillSymbolTable();
 }
 
@@ -60,6 +62,10 @@ EntityIdxSet CFGTestModifiesUsesProvider::getUses(
 
 int CFGTestModifiesUsesProvider::getCount(const CFGTestModifiesUsesProvider &state) {
   return state.symbolTable.size() + 1;
+}
+
+CacheTable* CFGTestModifiesUsesProvider::getAffectsCache() const {
+  return cache->getAffectsCache();
 }
 
 EntityIdx CFGTestModifiesUsesProvider::getSymbolId(const CFGTestModifiesUsesProvider &state,

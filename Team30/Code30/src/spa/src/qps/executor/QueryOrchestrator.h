@@ -11,6 +11,7 @@
 #include "QueryLauncher.h"
 #include "qps/common/projector_table/ProjectorResultTable.h"
 #include "qps/executor/planner/QueryPlan.h"
+#include "QueryCache.h"
 
 using std::vector, std::unique_ptr;
 
@@ -22,5 +23,6 @@ class QueryOrchestrator {
  private:
   QueryLauncher launcher;
 
-  PQLQueryResult* executeGroup(QueryGroupPlan* plan, OverrideTable* table);
+  PQLQueryResult* executeGroup(QueryGroupPlan* plan, OverrideTable* table,
+                               QueryCache *cache);
 };

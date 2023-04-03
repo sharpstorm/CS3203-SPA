@@ -4,17 +4,21 @@
 #include <unordered_set>
 #include <unordered_map>
 #include "common/Types.h"
+#include "qps/common/CacheTable.h"
+#include "qps/executor/QueryCache.h"
 
 using std::vector, std::unordered_set, std::unordered_map;
 
 class CFGTestModifiesUsesProvider {
  public:
   CFGTestModifiesUsesProvider(vector<unordered_set<EntityValue>> modifies,
-                              vector<unordered_set<EntityValue>> uses);
+                              vector<unordered_set<EntityValue>> uses,
+                              QueryCache* cache);
 
   CFGTestModifiesUsesProvider(vector<unordered_set<EntityValue>> modifies,
                               vector<unordered_set<EntityValue>> uses,
-                              unordered_map<StmtValue, StmtType> typeExclusions);
+                              unordered_map<StmtValue, StmtType> typeExclusions,
+                              QueryCache* cache);
 
   static EntityIdxSet getModifies(const CFGTestModifiesUsesProvider &state,
                                   StmtValue value);
@@ -27,11 +31,15 @@ class CFGTestModifiesUsesProvider {
                             StmtType type,
                             StmtValue value);
 
+  CacheTable* getAffectsCache() const;
+
  private:
   unordered_map<EntityValue, EntityIdx> symbolTable;
   vector<unordered_set<EntityValue>> modifies;
   vector<unordered_set<EntityValue>> uses;
   unordered_map<StmtValue, StmtType> typeExclusions;
+
+  QueryCache *cache;
 
   void fillSymbolTable();
   static int getSymbolId(const CFGTestModifiesUsesProvider &state,
