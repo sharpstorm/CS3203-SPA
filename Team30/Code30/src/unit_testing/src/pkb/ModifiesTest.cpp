@@ -37,12 +37,12 @@ TEST_CASE("Modifies (StmtRef, EntityRef)") {
 
   auto result2 =
       *handler.queryModifies({StmtType::None, 1}, {EntityType::Variable, ""});
-  REQUIRE(result2.pairVals == pair_set<int, string>({{1, "y"}, {1, "x"}}));
-
+//  REQUIRE(result2.pairVals == pair_set<int, string>({{1, "y"}, {1, "x"}}));
+  REQUIRE(result2.secondArgVals == unordered_set<string>({"y", "x"}));
   auto result3 =
       *handler.queryModifies({StmtType::Assign, 0}, {EntityType::None, "x"});
-  REQUIRE(result3.pairVals == pair_set<int, string>({{4, "x"}}));
-
+//  REQUIRE(result3.pairVals == pair_set<int, string>({{4, "x"}}));
+  REQUIRE(result3.firstArgVals == unordered_set<int>({4}));
   auto result4 =
       *handler.queryModifies({StmtType::None, 0}, {EntityType::Variable, ""});
   REQUIRE(result4.pairVals == pair_set<int, string>({{1, "x"},
@@ -101,7 +101,7 @@ TEST_CASE("Modifies (EntityRef, EntityRef)") {
   auto result1 = *handler.queryModifies({EntityType::Procedure, "foo"},
                                         {EntityType::None, "w"});
 //  REQUIRE(result1.pairVals == pair_set<string, string>({{"foo", "w"}}));
-  REQUIRE(result1.firstArgVals == unordered_set<string>({"foo"}));
+  REQUIRE(result1.secondArgVals == unordered_set<string>({"w"}));
 
   auto result2 = *handler.queryModifies({EntityType::Procedure, "main"},
                                         {EntityType::Variable, ""});
@@ -111,8 +111,9 @@ TEST_CASE("Modifies (EntityRef, EntityRef)") {
 
   auto result3 = *handler.queryModifies({EntityType::Procedure, ""},
                                         {EntityType::None, "z"});
-  REQUIRE(result3.pairVals ==
-          pair_set<string, string>({{"main", "z"}, {"goo", "z"}}));
+//  REQUIRE(result3.pairVals ==
+//          pair_set<string, string>({{"main", "z"}, {"goo", "z"}}));
+  REQUIRE(result3.firstArgVals == unordered_set<string>({"main", "goo"}));
 
   auto result4 = *handler.queryModifies({EntityType::Procedure, ""},
                                         {EntityType::Variable, ""});
