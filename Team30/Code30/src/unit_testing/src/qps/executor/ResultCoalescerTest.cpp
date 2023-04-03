@@ -1,4 +1,5 @@
-// #define CATCH_CONFIG_ENABLE_BENCHMARKING
+// #define ACTIVATE_BENCHMARK
+#include "../../BenchmarkControl.h"
 #include "catch.hpp"
 
 #include "qps/executor/ResultCoalescer.h"
@@ -133,7 +134,7 @@ TEST_CASE("Test QueryResult Coalesce - 2 same synonym") {
   REQUIRE(resultSet == expected);
 }
 
-#ifdef CATCH_CONFIG_ENABLE_BENCHMARKING
+#ifdef ACTIVATE_BENCHMARK
 TEST_CASE("Benchmark Coalesce - 3x100 cross 3x1000 -> 5x100") {
   auto colA1 = QueryResultItemVector{};
   auto colA2 = QueryResultItemVector{};

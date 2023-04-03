@@ -9,7 +9,7 @@ class PQLQuerySynonymProxy {
  public:
   explicit PQLQuerySynonymProxy(PQLQuerySynonym** syn);
   void updatePointer(PQLQuerySynonym* newSyn);
-  PQLQuerySynonym* get();
+  PQLQuerySynonym* get() const;
 
   PQLQuerySynonym* operator->() const;
   PQLQuerySynonym& operator*() const;
