@@ -6,6 +6,7 @@
 #include "qps/clauses/ClauseScoring.h"
 #include "common/pattern/PatternConverter.h"
 #include "qps/errors/QPSParserSyntaxError.h"
+#include "qps/common/intermediate_result/PQLQueryResultBuilder.h"
 
 using std::make_unique;
 
@@ -34,19 +35,23 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
 
   // Override wildcards, types are ignored for known
   rightVariable.setType(EntityType::Variable);
-  auto modifiesResult = agent->queryModifies(leftStatement, rightVariable);
+  QueryResultPtr<StmtValue, EntityValue> modifiesResult = agent->queryModifies(leftStatement, rightVariable);
+
+  PQLQueryResultBuilder<StmtValue, EntityValue> builder;
+  builder.setLeftName(synonym->getName());
+  builder.setRightName(leftArg.get());
+  builder.setLeftRef(leftStatement);
+  builder.setRightRef(rightVariable);
 
   if (expr->isWildcard()) {
-    return Clause::toQueryResult(synonym->getName(), leftArg.get(),
-                                 modifiesResult.get());
+    return builder.build(modifiesResult.get());
   }
 
   auto assignResult = make_unique<QueryResult<StmtValue, EntityValue>>();
   checkTries(agent, assignResult.get(), modifiesResult.get(), expr.get());
 
   // Convert to PQLQueryResult
-  return Clause::toQueryResult(synonym->getName(), leftArg.get(),
-                               assignResult.get());
+  return builder.build(assignResult.get());
 }
 
 void AssignPatternClause::checkTries(

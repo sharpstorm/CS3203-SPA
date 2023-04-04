@@ -79,11 +79,18 @@ struct std::hash<pair<T1, T2>> {
 template<typename K, typename V>
 using pair_set = unordered_set<pair<K, V>>;
 
+template<typename T>
+using QueryResultSet = unordered_set<T>;
+
 template<typename T, typename U>
-struct QueryResult {
-  unordered_set<T> firstArgVals;
-  unordered_set<U> secondArgVals;
-  pair_set<T, U> pairVals;
+using QueryResultPairSet = pair_set<T, U>;
+
+template<typename T, typename U>
+class QueryResult {
+ public:
+  QueryResultSet<T> firstArgVals;
+  QueryResultSet<U> secondArgVals;
+  QueryResultPairSet<T, U> pairVals;
   bool isEmpty = true;
 
   void add(T first, U second) {
