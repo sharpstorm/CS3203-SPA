@@ -7,7 +7,7 @@
 const int UNPROCESSED = -2;
 const int NO_GROUP = -1;
 
-using std::make_unique, std::move;
+using std::make_unique;
 
 QueryGrouper::QueryGrouper(PQLQuery *query) :
     query(query),
@@ -119,7 +119,7 @@ void QueryGrouper::findIndependentSelects(vector<QueryGroupPtr> *result) {
     PQLSynonymName name = *it;
     QueryGroupPtr selectGroup = makeSelectClause(name);
     selectGroup->addSelectable(name);
-    result->push_back(move(selectGroup));
+    result->push_back(std::move(selectGroup));
   }
 }
 

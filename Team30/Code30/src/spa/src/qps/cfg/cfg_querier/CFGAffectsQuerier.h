@@ -283,16 +283,16 @@ queryAll(StmtTransitiveResult *resultOut,
          const StmtType &type0,
          const StmtType &type1) {
   CacheTable* cacheTable = closure.getAffectsCache();
-  for (int start = 0; start < cfg->getNodeCount(); start++) {
-    CFGNode nodeFrom = cfg->toCFGNode(start);
-    auto row = cacheTable->queryFull(start, 0);
+  for (CFGNode start = 0; start < cfg->getNodeCount(); start++) {
+    StmtValue stmtNumber = cfg->fromCFGNode(start);
+    auto row = cacheTable->queryFull(stmtNumber, 0);
     if (row != nullptr) {
       for (const StmtValue &i : *row) {
-        resultOut->add(start, i);
+        resultOut->add(stmtNumber, i);
       }
       continue;
     }
-    queryForward(resultOut, nodeFrom);
+    queryForward(resultOut, start);
   }
 }
 

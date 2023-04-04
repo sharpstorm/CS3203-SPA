@@ -13,7 +13,8 @@ TEST_CASE("ExpressionSequence Conversion - Balanced") {
   pkb.variableStorage->insert("z");
   unique_ptr<PkbQueryHandler> handler = make_unique<PkbQueryHandler>(&pkb);
   unique_ptr<OverrideTable> table = make_unique<OverrideTable>();
-  QueryExecutorAgent agent = QueryExecutorAgent(handler.get(), table.get());
+  unique_ptr<QueryCache> cache = make_unique<QueryCache>();
+  QueryExecutorAgent agent = QueryExecutorAgent(handler.get(), table.get(), cache.get());
 
   TestASTProvider treeProvider;
   auto expr = PatternConverter::convertASTToPostfix(
@@ -32,7 +33,8 @@ TEST_CASE("ExpressionSequence Conversion - Right Heavy") {
   pkb.variableStorage->insert("z");
   unique_ptr<PkbQueryHandler> handler = make_unique<PkbQueryHandler>(&pkb);
   unique_ptr<OverrideTable> table = make_unique<OverrideTable>();
-  QueryExecutorAgent agent = QueryExecutorAgent(handler.get(), table.get());
+  unique_ptr<QueryCache> cache = make_unique<QueryCache>();
+  QueryExecutorAgent agent = QueryExecutorAgent(handler.get(), table.get(), cache.get());
 
   TestASTProvider treeProvider;
   auto expr = PatternConverter::convertASTToPostfix(
@@ -50,7 +52,8 @@ TEST_CASE("ExpressionSequence Conversion - Left Heavy") {
   pkb.variableStorage->insert("z");
   unique_ptr<PkbQueryHandler> handler = make_unique<PkbQueryHandler>(&pkb);
   unique_ptr<OverrideTable> table = make_unique<OverrideTable>();
-  QueryExecutorAgent agent = QueryExecutorAgent(handler.get(), table.get());
+  unique_ptr<QueryCache> cache = make_unique<QueryCache>();
+  QueryExecutorAgent agent = QueryExecutorAgent(handler.get(), table.get(), cache.get());
 
   TestASTProvider treeProvider;
   auto expr = PatternConverter::convertASTToPostfix(
