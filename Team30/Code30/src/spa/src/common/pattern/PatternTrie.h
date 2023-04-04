@@ -14,14 +14,14 @@ class PatternTrie {
  public:
   explicit PatternTrie(PatternTrieNodePtr trieRoot,
                        int longestPathCount);
-  bool isMatchFull(ExpressionSequence* sequence);
-  bool isMatchPartial(ExpressionSequence* sequence);
+  bool isMatchFull(const ExpressionSequence* sequence) const;
+  bool isMatchPartial(const ExpressionSequence* sequence) const;
 
  private:
   PatternTrieNodePtr root;
   int longestPathCount;
 
-  bool isValidPostfix(ExpressionSequence *sequence);
+  bool isValidPostfix(const ExpressionSequence *sequence) const;
 };
 
 typedef unique_ptr<PatternTrie> PatternTriePtr;

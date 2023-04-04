@@ -1,18 +1,14 @@
 #pragma once
 
-#include <string>
-
 #include "ClauseArgument.h"
 
-using std::string;
-
-class EntityArgument: public ClauseArgument {
+class EntityArgument : public ClauseArgument {
  private:
-  string ident;
+  EntityValue ident;
 
  public:
-  explicit EntityArgument(const string &ident);
-  StmtRef toStmtRef() override;
-  EntityRef toEntityRef() override;
-  bool isConstant() override;
+  explicit EntityArgument(const EntityValue &ident);
+  StmtRef toStmtRef() const override;
+  EntityRef toEntityRef() const override;
+  bool isConstant() const override;
 };

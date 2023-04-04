@@ -2,13 +2,13 @@
 
 #include "ClauseArgument.h"
 
-class StmtArgument: public ClauseArgument {
+class StmtArgument : public ClauseArgument {
  private:
-  int stmtNumber;
+  StmtValue stmtNumber;
 
  public:
-  explicit StmtArgument(int stmtNumber);
-  StmtRef toStmtRef() override;
-  EntityRef toEntityRef() override;
-  bool isConstant() override;
+  explicit StmtArgument(const StmtValue &stmtNumber);
+  StmtRef toStmtRef() const override;
+  EntityRef toEntityRef() const override;
+  bool isConstant() const override;
 };

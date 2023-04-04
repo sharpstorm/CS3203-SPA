@@ -10,9 +10,9 @@ class ExpressionArgument {
  public:
   ExpressionArgument();
   ExpressionArgument(ExpressionSequencePtr expression, bool isPartial);
-  bool isWildcard();
-  const bool allowsPartial();
-  ExpressionSequence* getSequence();
+  bool isWildcard() const;
+  const bool allowsPartial() const;
+  const ExpressionSequence *getSequence() const;
 
  private:
   ExpressionSequencePtr expressionSequence;

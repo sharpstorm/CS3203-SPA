@@ -1,5 +1,7 @@
 #include "ClauseArgumentFactory.h"
 
+#include <memory>
+
 #include "StmtArgument.h"
 #include "EntityArgument.h"
 #include "SynonymArgument.h"
@@ -7,11 +9,11 @@
 
 using std::make_unique;
 
-ClauseArgumentPtr ClauseArgumentFactory::create(const int &stmt) {
+ClauseArgumentPtr ClauseArgumentFactory::create(const StmtValue &stmt) {
   return make_unique<StmtArgument>(stmt);
 }
 
-ClauseArgumentPtr ClauseArgumentFactory::create(const string &ident) {
+ClauseArgumentPtr ClauseArgumentFactory::create(const EntityValue &ident) {
   return make_unique<EntityArgument>(ident);
 }
 

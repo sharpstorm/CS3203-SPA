@@ -1,40 +1,39 @@
 #pragma once
 
 #include <memory>
-#include <string>
 
 #include "common/Types.h"
 #include "../../common/PQLQuerySynonym.h"
 #include "qps/constraints/Constraint.h"
 #include "qps/common/IEvaluatable.h"
 
-using std::unique_ptr, std::to_string, std::string;
+using std::unique_ptr;
 
-typedef bool (*SynonymPredicate)(PQLQuerySynonym syn);
+typedef bool (*SynonymPredicate)(const PQLQuerySynonym &syn);
 
 class ClauseArgument {
  public:
   virtual ~ClauseArgument() = default;
-  virtual bool synonymSatisfies(SynonymPredicate predicate);
+  virtual bool synonymSatisfies(SynonymPredicate predicate) const;
 
-  virtual bool isNamed();
-  virtual bool isWildcard();
-  virtual bool isConstant();
+  virtual bool isNamed() const;
+  virtual bool isWildcard() const;
+  virtual bool isConstant() const;
 
-  virtual PQLSynonymName getName();
-  virtual ComplexityScore getSynComplexity();
-  virtual StmtRef toStmtRef() = 0;
-  virtual EntityRef toEntityRef() = 0;
+  virtual PQLSynonymName getName() const;
+  virtual ComplexityScore getSynComplexity() const;
+  virtual StmtRef toStmtRef() const = 0;
+  virtual EntityRef toEntityRef() const = 0;
 
-  static bool isStatement(PQLQuerySynonym syn);
+  static bool isStatement(const PQLQuerySynonym &syn);
 
   template<PQLSynonymType TYPE>
-  static bool isType(PQLQuerySynonym syn) {
+  static bool isType(const PQLQuerySynonym &syn) {
     return syn.isType(TYPE);
   }
 
   template<SynonymPredicate condA, SynonymPredicate condB>
-  static bool isEither(PQLQuerySynonym syn) {
+  static bool isEither(const PQLQuerySynonym &syn) {
     return condA(syn) || condB(syn);
   }
 };

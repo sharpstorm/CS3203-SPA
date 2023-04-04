@@ -1,37 +1,35 @@
 #pragma once
 
 #include <memory>
-#include <string>
 
 #include "qps/common/AttributedSynonym.h"
 #include "qps/constraints/OverrideTransformer.h"
 
-using std::string, std::unique_ptr;
+using std::unique_ptr;
 
 class WithArgument {
   AttributedSynonymPtr syn;
-  int intValue;
-  string identValue;
+  StmtValue intValue;
+  EntityValue identValue;
 
  public:
-  explicit WithArgument(const int &intVal);
-  explicit WithArgument(const string &identVal);
+  explicit WithArgument(const StmtValue &intVal);
+  explicit WithArgument(const EntityValue &identVal);
   explicit WithArgument(AttributedSynonymPtr syn);
 
-  bool isDefaultAttribute();
-  bool doesReturnInteger();
+  bool isDefaultAttribute() const;
+  bool doesReturnInteger() const;
 
-  PQLSynonymName getSynName();
-  bool isSynStatement();
-  bool isSameSynTypeAs(const WithArgument *other);
-
-  bool isStaticValueEqual(const WithArgument &other);
+  PQLSynonymName getSynName() const;
+  bool isSynStatement() const;
+  bool isSameSynTypeAs(const WithArgument *other) const;
+  bool isStaticValueEqual(const WithArgument &other) const;
 
   bool isSyn() const;
 
-  int toConstInt();
-  string toConstIdent();
-  AttributedSynonym toAttrSyn();
+  StmtValue toConstInt() const;
+  EntityValue toConstIdent() const;
+  AttributedSynonym toAttrSyn() const;
 };
 
 typedef unique_ptr<WithArgument> WithArgumentPtr;

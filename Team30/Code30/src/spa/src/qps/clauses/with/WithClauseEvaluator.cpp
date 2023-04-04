@@ -1,6 +1,11 @@
 #include "WithClauseEvaluator.h"
+
+#include <string>
+
 #include "qps/clauses/arguments/ClauseArgumentFactory.h"
 #include "qps/clauses/Clause.h"
+
+using std::to_string;
 
 constexpr SynStmtMapExtractor<EntityValue, EntityValue, StmtList> keyExtractor =
     [](const EntityValue* first, const StmtList* second) -> const EntityValue* {
