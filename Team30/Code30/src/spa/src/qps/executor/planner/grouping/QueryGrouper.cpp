@@ -9,7 +9,7 @@ const int NO_GROUP = -1;
 
 using std::make_unique;
 
-QueryGrouper::QueryGrouper(PQLQuery *query) :
+QueryGrouper::QueryGrouper(const PQLQuery *query) :
     query(query),
     evaluatables(query->getEvaluatables()),
     groupClauseIdTable(query->getClauseCount()) {}
@@ -36,32 +36,32 @@ void QueryGrouper::initIndex() {
     }
   }
 
-  const AttributedSynonymList* selections = query->getResultVariables();
+  const AttributedSynonymList *selections = query->getResultVariables();
   for (auto it = selections->begin(); it != selections->end(); it++) {
     groupIndex.insertSelection(it->getName());
   }
 
   auto constraints = query->getConstraints();
-  for (Constraint* constraint : constraints) {
+  for (Constraint *constraint : constraints) {
     for (PQLSynonymName syn : constraint->getAffectedSyns()) {
       groupIndex.insertConstraint(syn);
     }
   }
 }
 
-void QueryGrouper::findGroups(vector<QueryGroupPtr>* result) {
+void QueryGrouper::findGroups(vector<QueryGroupPtr> *result) {
   for (int i = 0; i < groupClauseIdTable.size(); i++) {
     if (groupClauseIdTable[i] != UNPROCESSED) {
       continue;
     }
 
-    QueryGroup* group = BFSFindDependents(i);
+    QueryGroup *group = BFSFindDependents(i);
     result->push_back(QueryGroupPtr(group));
   }
 }
 
-QueryGroup *QueryGrouper::BFSFindDependents(int start) {
-  QueryGroup* result = new QueryGroup();
+QueryGroup *QueryGrouper::BFSFindDependents(const int &start) {
+  QueryGroup *result = new QueryGroup();
   queue<int> pendingNodes;
   pendingNodes.push(start);
 
@@ -83,7 +83,7 @@ QueryGroup *QueryGrouper::BFSFindDependents(int start) {
   return result;
 }
 
-void QueryGrouper::registerSeenSynonym(PQLSynonymName name,
+void QueryGrouper::registerSeenSynonym(const PQLSynonymName &name,
                                        QueryGroup *result) {
   if (seenSynonyms.find(name) == seenSynonyms.end()) {
     seenSynonyms.insert(name);
@@ -96,7 +96,7 @@ void QueryGrouper::registerSeenSynonym(PQLSynonymName name,
 void QueryGrouper::queueClauses(queue<PlanNode> *target,
                                 PlanNodes *values,
                                 QueryGroup *result,
-                                int parentClauseId) {
+                                const int &parentClauseId) {
   if (values == nullptr) {
     return;
   }
@@ -114,7 +114,7 @@ void QueryGrouper::queueClauses(queue<PlanNode> *target,
 }
 
 void QueryGrouper::findIndependentSelects(vector<QueryGroupPtr> *result) {
-  unordered_set<PQLSynonymName>* unselected = groupIndex.getSelectSynonyms();
+  PQLSynonymNameSet *unselected = groupIndex.getSelectSynonyms();
   for (auto it = unselected->begin(); it != unselected->end(); it++) {
     PQLSynonymName name = *it;
     QueryGroupPtr selectGroup = makeSelectClause(name);
@@ -130,7 +130,7 @@ void QueryGrouper::selectAllDeclarations(vector<QueryGroupPtr> *result) {
 }
 
 QueryGroupPtr QueryGrouper::makeSelectClause(const PQLSynonymName &name) {
-  PQLQuerySynonymProxy* synProxy = query->getVariable(name);
+  PQLQuerySynonymProxy *synProxy = query->getVariable(name);
   IEvaluatablePtr selectClause = make_unique<SelectClause>(*synProxy);
 
   QueryGroupPtr selectGroup = make_unique<QueryGroup>(

@@ -4,7 +4,7 @@
 #include <algorithm>
 
 vector<QueryGroupPlanPtr> QueryGroupOrderer::orderGroups(
-    vector<QueryGroupPlanPtr> unordered) {
+    vector<QueryGroupPlanPtr> unordered) const {
   vector<ComparableGroup> groups;
 
   for (size_t i = 0; i < unordered.size(); i++) {

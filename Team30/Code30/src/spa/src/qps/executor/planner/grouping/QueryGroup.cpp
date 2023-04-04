@@ -6,19 +6,20 @@
 
 using std::make_unique;
 
-int QueryGroup::addEvaluatable(IEvaluatable* evaluatable) {
+GroupClauseIndex QueryGroup::addEvaluatable(IEvaluatable *evaluatable) {
   int id = evaluatables.size();
   evaluatables.push_back(evaluatable);
-  edgeList.push_back(unordered_set<int>());
+  edgeList.push_back(unordered_set<GroupClauseIndex>());
   return id;
 }
 
-int QueryGroup::addEvaluatable(IEvaluatablePtr evaluatable) {
+GroupClauseIndex QueryGroup::addEvaluatable(IEvaluatablePtr evaluatable) {
   ownedEvals.push_back(std::move(evaluatable));
   return addEvaluatable(ownedEvals.back().get());
 }
 
-void QueryGroup::linkEvaluatables(int id1, int id2) {
+void QueryGroup::linkEvaluatables(const GroupClauseIndex &id1,
+                                  const GroupClauseIndex &id2) {
   if (id1 == id2) {
     return;
   }
@@ -27,19 +28,20 @@ void QueryGroup::linkEvaluatables(int id1, int id2) {
   edgeList.at(id2).insert(id1);
 }
 
-void QueryGroup::addSelectable(PQLSynonymName synonym) {
+void QueryGroup::addSelectable(const PQLSynonymName &synonym) {
   selectables.push_back(synonym);
 }
 
-int QueryGroup::getEvaluatableCount() {
+int QueryGroup::getEvaluatableCount() const {
   return evaluatables.size();
 }
 
-IEvaluatable* QueryGroup::getEvaluatable(int evalId) {
+IEvaluatable *QueryGroup::getEvaluatable(GroupClauseIndex evalId) const {
   return evaluatables[evalId];
 }
 
-unordered_set<int> *QueryGroup::getRelated(int evalId) {
+const unordered_set<GroupClauseIndex> *QueryGroup::getRelated(
+    const GroupClauseIndex &evalId) const {
   return &edgeList[evalId];
 }
 

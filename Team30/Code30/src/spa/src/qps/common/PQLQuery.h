@@ -24,10 +24,10 @@ class PQLQuery {
            vector<ClausePtr> c,
            vector<ConstraintPtr> con);
 
-  VariableTable *getVarTable();
+  VariableTable *getVarTable() const;
   const AttributedSynonymList *getResultVariables() const;
 
-  PQLQuerySynonymProxy *getVariable(PQLSynonymName name);
+  PQLQuerySynonymProxy *getVariable(const PQLSynonymName &name) const;
   const PQLSynonymNameList getDeclaredSynonyms() const;
   const vector<IEvaluatable *> getEvaluatables() const;
   const vector<Constraint *> getConstraints() const;

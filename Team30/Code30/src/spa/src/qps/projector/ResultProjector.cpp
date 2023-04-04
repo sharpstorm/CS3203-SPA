@@ -5,7 +5,7 @@
 
 using std::to_string, std::vector, std::make_unique;
 
-ResultProjector::ResultProjector(PkbQueryHandler *handler) :
+ResultProjector::ResultProjector(const PkbQueryHandler *handler) :
     pkbQueryHandler(handler) {}
 
 void ResultProjector::project(const ProjectorResultTable *queryResult,

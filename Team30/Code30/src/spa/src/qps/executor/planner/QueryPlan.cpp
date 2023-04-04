@@ -2,23 +2,24 @@
 
 #include <utility>
 
-QueryPlan::QueryPlan(vector<QueryGroupPlanPtr> groups):
+QueryPlan::QueryPlan(vector<QueryGroupPlanPtr> groups) :
     clauseGroups(std::move(groups)) {}
 
-int QueryPlan::getGroupCount() {
+int QueryPlan::getGroupCount() const {
   return clauseGroups.size();
 }
 
-QueryGroupPlan *QueryPlan::getGroup(int groupId) {
+const QueryGroupPlan *QueryPlan::getGroup(const QueryPlanGroupId &groupId)
+const {
   return clauseGroups.at(groupId).get();
 }
 
-bool QueryPlan::isEmpty() {
+bool QueryPlan::isEmpty() const {
   return clauseGroups.empty();
 }
 
-bool QueryPlan::isBooleanQuery() {
-  for (auto& group : clauseGroups) {
+bool QueryPlan::isBooleanQuery() const {
+  for (const auto &group : clauseGroups) {
     if (!group->isBooleanResult()) {
       return false;
     }

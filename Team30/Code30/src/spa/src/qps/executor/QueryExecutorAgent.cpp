@@ -4,12 +4,12 @@
 
 using std::make_unique;
 
-QueryExecutorAgent::QueryExecutorAgent(PkbQueryHandler *pkb,
-                                       OverrideTable *table,
+QueryExecutorAgent::QueryExecutorAgent(const PkbQueryHandler *pkb,
+                                       const OverrideTable *table,
                                        QueryCache *cache):
     pkbQueryHandler(pkb), overrideTable(table), cache(cache) {}
 
-PkbQueryHandler *QueryExecutorAgent::operator->() const {
+const PkbQueryHandler *QueryExecutorAgent::operator->() const {
   return this->pkbQueryHandler;
 }
 

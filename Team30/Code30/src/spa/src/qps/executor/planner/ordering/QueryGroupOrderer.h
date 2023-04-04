@@ -12,5 +12,6 @@ typedef ComparableContainer<ComplexityScore, GroupId> ComparableGroup;
 
 class QueryGroupOrderer {
  public:
-  vector<QueryGroupPlanPtr> orderGroups(vector<QueryGroupPlanPtr> unordered);
+  vector<QueryGroupPlanPtr> orderGroups(
+      vector<QueryGroupPlanPtr> unordered) const;
 };

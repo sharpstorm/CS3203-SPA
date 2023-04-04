@@ -3,7 +3,7 @@
 #include "executor/QueryExecutor.h"
 #include "common/PQLQuerySynonym.h"
 
-QueryDriver::QueryDriver(PkbQueryHandler* pkbQH,
+QueryDriver::QueryDriver(const PkbQueryHandler* pkbQH,
                          ISourceExpressionParser* exprParser):
     parser(new QueryParser(exprParser)),
     executor(new QueryExecutor(pkbQH)),

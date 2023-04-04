@@ -11,8 +11,8 @@ using std::unique_ptr, std::vector;
 
 class ProjectorResultFactory {
   static IntersectSet<ProjectorResultRow> getUniqueRows(
-      PQLQueryResult* result, PQLSynonymNameList* syns);
+      PQLQueryResult* result, const PQLSynonymNameList* syns);
  public:
   static ResultGroupPtr extractResults(PQLQueryResult* result,
-                                       PQLSynonymNameList* syns);
+                                       const PQLSynonymNameList* syns);
 };

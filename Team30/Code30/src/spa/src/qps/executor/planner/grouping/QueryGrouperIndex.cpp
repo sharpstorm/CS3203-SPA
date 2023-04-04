@@ -36,10 +36,10 @@ unordered_set<PQLSynonymName>* QueryGrouperIndex::getSelectSynonyms() {
   return &selectSynonyms;
 }
 
-bool QueryGrouperIndex::hasSelectables() {
+bool QueryGrouperIndex::hasSelectables() const {
   return selectSynonyms.size() > 0;
 }
 
-bool QueryGrouperIndex::isConstrained(const PQLSynonymName &name) {
+bool QueryGrouperIndex::isConstrained(const PQLSynonymName &name) const {
   return constrainSynonyms.find(name) != constrainSynonyms.end();
 }

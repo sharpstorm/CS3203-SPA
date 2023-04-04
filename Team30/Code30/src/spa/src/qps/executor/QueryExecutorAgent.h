@@ -14,7 +14,8 @@ using std::unique_ptr;
 
 class QueryExecutorAgent {
  public:
-  QueryExecutorAgent(PkbQueryHandler* pkb, OverrideTable* table,
+  QueryExecutorAgent(const PkbQueryHandler* pkb,
+                     const OverrideTable* table,
                      QueryCache *cache);
   StmtRef transformArg(const PQLSynonymName name, const StmtRef &ref) const;
   EntityRef transformArg(const PQLSynonymName name, const EntityRef &ref) const;
@@ -22,10 +23,10 @@ class QueryExecutorAgent {
   bool isValid(const EntityRef &ref) const;
   CacheTable* getAffectsCache() const;
 
-  PkbQueryHandler* operator->() const;
+  const PkbQueryHandler* operator->() const;
 
  private:
-  PkbQueryHandler* pkbQueryHandler;
-  OverrideTable* overrideTable;
+  const PkbQueryHandler* pkbQueryHandler;
+  const OverrideTable* overrideTable;
   QueryCache *cache;
 };

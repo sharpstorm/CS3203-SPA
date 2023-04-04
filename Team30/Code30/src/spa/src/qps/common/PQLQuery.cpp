@@ -11,7 +11,7 @@ PQLQuery::PQLQuery(VariableTablePtr vars,
                    variables(std::move(vars)), resultVariables(resVar),
                    clauses(std::move(c)), constraints(std::move(con)) { }
 
-VariableTable* PQLQuery::getVarTable() {
+VariableTable* PQLQuery::getVarTable() const {
   return variables.get();
 }
 
@@ -19,7 +19,7 @@ const AttributedSynonymList* PQLQuery::getResultVariables() const {
   return &resultVariables;
 }
 
-PQLQuerySynonymProxy* PQLQuery::getVariable(PQLSynonymName name) {
+PQLQuerySynonymProxy* PQLQuery::getVariable(const PQLSynonymName &name) const {
   return variables->find(name);
 }
 

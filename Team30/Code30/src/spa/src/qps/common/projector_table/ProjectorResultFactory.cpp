@@ -7,7 +7,7 @@
 using std::move;
 
 ResultGroupPtr ProjectorResultFactory::extractResults(
-    PQLQueryResult *result, PQLSynonymNameList *syns) {
+    PQLQueryResult *result, const PQLSynonymNameList *syns) {
   ResultGroupPtr resultGroup = make_unique<ProjectorResultGroup>();
   // Add synonyms to the new ProjectorResultGroup
   for (const PQLSynonymName &name : *syns) {
@@ -30,7 +30,7 @@ ResultGroupPtr ProjectorResultFactory::extractResults(
 }
 
 IntersectSet<ResultTableRow> ProjectorResultFactory::getUniqueRows(
-    PQLQueryResult *result, PQLSynonymNameList *syns) {
+    PQLQueryResult *result, const PQLSynonymNameList *syns) {
   IntersectSet<ResultTableRow> rowsToTake;
   IntersectSet<ResultTableRow> ignoreRows;
   int rowCounts = result->getRowCount();
