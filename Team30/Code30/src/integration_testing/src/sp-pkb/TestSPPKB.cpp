@@ -125,11 +125,11 @@ TEST_CASE("Test Writer Pattern") {
   PatternTrie* trie = *queryHandler.
           queryAssigns(StmtRef{StmtType::None, 2})
       ->secondArgVals.begin();
-  ExpressionSequence expected{"num1"};
+  ExpressionSequence expected{1};
   REQUIRE(trie->isMatchPartial(&expected));
-  expected = {"num2"};
+  expected = {3};
   REQUIRE(trie->isMatchPartial(&expected));
-  expected = {"num3"};
+  expected = {4};
   REQUIRE(trie->isMatchPartial(&expected));
 }
 

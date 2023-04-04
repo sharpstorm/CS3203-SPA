@@ -9,6 +9,7 @@
 #include "qps/cfg/CFGQuerierTypes.h"
 #include "qps/cfg/cfg_querier/walkers/CFGStatefulWalker.h"
 #include "common/SetUtils.h"
+#include "qps/common/CacheTable.h"
 
 using std::map;
 
@@ -103,6 +104,28 @@ queryBool(const StmtValue &arg0, const StmtValue &arg1) {
     return result;
   }
 
+  CacheTable* cacheTable = closure.getAffectsCache();
+  if (cacheTable->queryPartial(arg0, arg1) != nullptr) {
+    result.add(arg0, arg1);
+    return result;
+  }
+
+  auto row = cacheTable->queryFull(arg0, 0);
+  if (row != nullptr) {
+    if (std::find(row->begin(), row->end(), arg1) != row->end()) {
+      result.add(arg0, arg1);
+      return result;
+    }
+  }
+
+  row = cacheTable->queryFull(0, arg1);
+  if (row != nullptr) {
+    if (std::find(row->begin(), row->end(), arg0) != row->end()) {
+      result.add(arg0, arg1);
+      return result;
+    }
+  }
+
   CFGNode nodeFrom = cfg->toCFGNode(arg0);
 
   EntityIdxSet modifiedVars = modifiesGetter(closure, arg0);
@@ -132,6 +155,7 @@ queryBool(const StmtValue &arg0, const StmtValue &arg1) {
 
   walker.walkFrom<BoolResultClosure, callback>(nodeFrom, &state);
   if (state.isValidPathFound) {
+    cacheTable->addEntry(arg0, arg1);
     result.add(arg0, arg1);
   }
   return result;
@@ -146,8 +170,15 @@ StmtTransitiveResult CFGAffectsQuerier<ClosureType, typePredicate,
                                        modifiesGetter, usesGetter>::
 queryFrom(const StmtValue &arg0, const StmtType &type1) {
   StmtTransitiveResult result;
-
   CFGNode nodeFrom = cfg->toCFGNode(arg0);
+  CacheTable* cacheTable = closure.getAffectsCache();
+  auto row = cacheTable->queryFull(arg0, 0);
+  if (row != nullptr) {
+    for (const StmtValue &i : *row) {
+      result.add(arg0, i);
+    }
+    return result;
+  }
   queryForward(&result, nodeFrom);
   return result;
 }
@@ -162,6 +193,15 @@ StmtTransitiveResult CFGAffectsQuerier<ClosureType, typePredicate,
 queryTo(const StmtType &type0, const StmtValue &arg1) {
   StmtTransitiveResult result;
   if (!validateArg(arg1)) {
+    return result;
+  }
+
+  CacheTable* cacheTable = closure.getAffectsCache();
+  auto row = cacheTable->queryFull(0, arg1);
+  if (row != nullptr) {
+    for (const StmtValue &i : *row) {
+      result.add(i, arg1);
+    }
     return result;
   }
 
@@ -213,6 +253,8 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
 
         if (isAffected) {
           state->result->add(stmtNumber, state->endingStmt);
+          state->closure.getAffectsCache()->
+              addEntry(stmtNumber, state->endingStmt);
         }
 
         return curState;
@@ -225,6 +267,8 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
                         backwardWalkerCallback>(nodeTo,
                                                 initialState,
                                                 &state);
+
+  closure.getAffectsCache()->promoteTo(arg1);
   return result;
 }
 
@@ -238,7 +282,16 @@ void CFGAffectsQuerier<ClosureType, typePredicate,
 queryAll(StmtTransitiveResult *resultOut,
          const StmtType &type0,
          const StmtType &type1) {
-  for (int start = 0; start < cfg->getNodeCount(); start++) {
+  CacheTable* cacheTable = closure.getAffectsCache();
+  for (CFGNode start = 0; start < cfg->getNodeCount(); start++) {
+    StmtValue stmtNumber = cfg->fromCFGNode(start);
+    auto row = cacheTable->queryFull(stmtNumber, 0);
+    if (row != nullptr) {
+      for (const StmtValue &i : *row) {
+        resultOut->add(stmtNumber, i);
+      }
+      continue;
+    }
     queryForward(resultOut, start);
   }
 }
@@ -266,6 +319,8 @@ queryForward(StmtTransitiveResult *resultOut,
           EntityIdxSet usedVars = usesGetter(state->closure,
                                              stmtNumber);
           if (usedVars.find(state->target) != usedVars.end()) {
+            state->closure.getAffectsCache()->
+                addEntry(state->startingStmt, stmtNumber);
             state->result->add(state->startingStmt, stmtNumber);
           }
         }
@@ -286,6 +341,7 @@ queryForward(StmtTransitiveResult *resultOut,
                                stmtNumber, modifiedVar};
   walker.walkFrom<QueryFromResultClosure, forwardWalkerCallback>(start,
                                                                  &state);
+  closure.getAffectsCache()->promoteFrom(stmtNumber);
 }
 
 template<
