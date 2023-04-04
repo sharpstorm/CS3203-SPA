@@ -1,7 +1,6 @@
 #pragma once
 
 #include <utility>
-#include <unordered_set>
 
 #include "abstract_clauses/AbstractStmtStmtClause.h"
 #include "qps/clauses/SuchThatClause.h"
@@ -9,7 +8,7 @@
 typedef StmtStmtInvoker FollowsInvoker;
 typedef StmtInvoker FollowsSameSynInvoker;
 
-template <FollowsInvoker invoker, FollowsSameSynInvoker sameSynInvoker>
+template<FollowsInvoker invoker, FollowsSameSynInvoker sameSynInvoker>
 using AbstractFollowsClause = AbstractStmtStmtClause<
     invoker,
     sameSynInvoker,
@@ -24,16 +23,16 @@ constexpr FollowsInvoker followsInvoker = [](const QueryExecutorAgent &agent,
 
 constexpr FollowsInvoker followsTInvoker = [](const QueryExecutorAgent &agent,
                                               const StmtRef &leftArg,
-                                              const StmtRef &rightArg){
+                                              const StmtRef &rightArg) {
   return agent->queryFollowsStar(leftArg, rightArg);
 };
 
 constexpr FollowsSameSynInvoker followsSymmetricInvoker =
-    [](const QueryExecutorAgent &agent, const StmtRef &arg){
-      return unordered_set<StmtValue>{};
+    [](const QueryExecutorAgent &agent, const StmtRef &arg) {
+      return StmtValueSet{};
     };
 
-class FollowsClause: public AbstractFollowsClause<
+class FollowsClause : public AbstractFollowsClause<
     followsInvoker,
     followsSymmetricInvoker> {
  public:
@@ -41,12 +40,13 @@ class FollowsClause: public AbstractFollowsClause<
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
   }
 
-  ComplexityScore getComplexityScore(const OverrideTable *table) override {
+  ComplexityScore getComplexityScore(const OverrideTable *table)
+  const override {
     return computeNoSymmetryComplexityScore(table);
   }
 };
 
-class FollowsTClause: public AbstractFollowsClause<
+class FollowsTClause : public AbstractFollowsClause<
     followsTInvoker,
     followsSymmetricInvoker> {
  public:
@@ -54,7 +54,8 @@ class FollowsTClause: public AbstractFollowsClause<
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
   }
 
-  ComplexityScore getComplexityScore(const OverrideTable *table) override {
+  ComplexityScore getComplexityScore(const OverrideTable *table)
+  const override {
     return computeNoSymmetryComplexityScore<
         COMPLEXITY_MODIFIER_NONE,
         COMPLEXITY_QUERY_TRANSITIVE,

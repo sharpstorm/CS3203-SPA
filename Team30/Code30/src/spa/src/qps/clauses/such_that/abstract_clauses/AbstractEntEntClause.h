@@ -5,23 +5,23 @@
 #include "AbstractTwoArgClause.h"
 #include "qps/clauses/InvokerTypes.h"
 
-template <
+template<
     EntEntInvoker invoker,
     EntInvoker symmetricInvoker,
     SynonymPredicate leftValidator,
     SynonymPredicate rightValidator>
-class AbstractEntEntClause: public AbstractTwoArgClause {
+class AbstractEntEntClause : public AbstractTwoArgClause {
  public:
   AbstractEntEntClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractTwoArgClause(std::move(left), std::move(right)) {
   }
 
-  bool validateArgTypes(VariableTable *table) override {
+  bool validateArgTypes(const VariableTable *table) const override {
     return AbstractTwoArgClause::validateArgTypes<
         leftValidator, rightValidator>(table);
   }
 
-  PQLQueryResult* evaluateOn(const QueryExecutorAgent &agent) override {
+  PQLQueryResult *evaluateOn(const QueryExecutorAgent &agent) const override {
     return AbstractTwoArgClause::abstractEvaluateOn(agent,
                                                     Clause::toEntityRef,
                                                     Clause::toEntityRef,

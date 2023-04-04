@@ -13,13 +13,13 @@ AssignPatternClause::AssignPatternClause(
     const PQLQuerySynonymProxy &assignSynonym,
     ClauseArgumentPtr leftArg,
     IASTPtr rightArg,
-    bool allow):
+    bool allowsPartial) :
     PatternClause(assignSynonym, std::move(leftArg), PQL_SYN_TYPE_ASSIGN),
     rightArgument(std::move(rightArg)),
-    allowsPartial(allow) {}
+    allowsPartial(allowsPartial) {}
 
 PQLQueryResult *AssignPatternClause::evaluateOn(
-    const QueryExecutorAgent &agent) {
+    const QueryExecutorAgent &agent) const {
   ExpressionArgumentPtr expr = toExpressionArg(agent);
 
   StmtRef leftStatement = {StmtType::Assign, 0};
@@ -53,8 +53,8 @@ void AssignPatternClause::checkTries(
     const QueryExecutorAgent &agent,
     QueryResult<StmtValue, EntityValue> *output,
     QueryResult<StmtValue, EntityValue> *modifiesResult,
-    ExpressionArgument* expr) {
-  for (auto &it : modifiesResult->pairVals) {
+    ExpressionArgument *expr) const {
+  for (const auto &it : modifiesResult->pairVals) {
     // Call assigns to retrieve the node
     StmtRef assignRef = {StmtType::Assign, it.first};
     auto nodes = agent->queryAssigns(assignRef);
@@ -66,7 +66,7 @@ void AssignPatternClause::checkTries(
 }
 
 bool AssignPatternClause::isTrieMatch(PatternTrie *lineRoot,
-                                      ExpressionArgument* expr) {
+                                      ExpressionArgument *expr) const {
   bool isPartialMatch = expr->allowsPartial()
       && lineRoot->isMatchPartial(expr->getSequence());
   bool isFullMatch = !expr->allowsPartial()
@@ -75,7 +75,7 @@ bool AssignPatternClause::isTrieMatch(PatternTrie *lineRoot,
 }
 
 ComplexityScore AssignPatternClause::getComplexityScore(
-    const OverrideTable *table) {
+    const OverrideTable *table) const {
   if (table->contains(leftArg->getName())) {
     return COMPLEXITY_QUERY_CONSTANT;
   }
@@ -83,7 +83,7 @@ ComplexityScore AssignPatternClause::getComplexityScore(
 }
 
 ExpressionArgumentPtr AssignPatternClause::toExpressionArg(
-    const QueryExecutorAgent &agent) {
+    const QueryExecutorAgent &agent) const {
   // Wildcard case
   if (rightArgument.get() == nullptr) {
     return make_unique<ExpressionArgument>();

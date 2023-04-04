@@ -3,7 +3,6 @@
 #include <memory>
 #include <utility>
 #include <vector>
-#include <unordered_set>
 
 #include "abstract_clauses/AbstractStmtStmtClause.h"
 #include "qps/clauses/SuchThatClause.h"
@@ -16,7 +15,7 @@ using std::make_unique;
 typedef StmtStmtInvoker NextInvoker;
 typedef StmtInvoker NextSameSynInvoker;
 
-template <NextInvoker invoker, NextSameSynInvoker sameSynInvoker>
+template<NextInvoker invoker, NextSameSynInvoker sameSynInvoker>
 using AbstractNextClause = AbstractStmtStmtClause<
     invoker,
     sameSynInvoker,
@@ -26,7 +25,7 @@ using AbstractNextClause = AbstractStmtStmtClause<
 constexpr StmtTypePredicate<QueryExecutorAgent> typeChecker =
     [](const QueryExecutorAgent &agent,
        StmtType type,
-       StmtValue stmtNumber) -> bool{
+       StmtValue stmtNumber) -> bool {
       if (type == StmtType::None || type == StmtType::Wildcard) {
         return true;
       }
@@ -36,11 +35,11 @@ constexpr StmtTypePredicate<QueryExecutorAgent> typeChecker =
 typedef CFGNextQuerier<QueryExecutorAgent, typeChecker> ConcreteNextQuerier;
 typedef CFGNextTQuerier<QueryExecutorAgent, typeChecker> ConcreteNextTQuerier;
 
-template <class T>
+template<class T>
 constexpr NextInvoker abstractNextInvoker = [](const QueryExecutorAgent &agent,
                                                const StmtRef &leftArg,
-                                               const StmtRef &rightArg){
-  vector<CFG*> cfgs;
+                                               const StmtRef &rightArg) {
+  vector<CFG *> cfgs;
   auto result = make_unique<QueryResult<StmtValue, StmtValue>>();
 
   if (leftArg.isKnown()) {
@@ -59,7 +58,6 @@ constexpr NextInvoker abstractNextInvoker = [](const QueryExecutorAgent &agent,
         querier.queryArgs(leftArg, rightArg));
   }
 
-
   for (auto it = cfgs.begin(); it != cfgs.end(); it++) {
     T querier(*it, agent);
     querier.queryArgs(leftArg, rightArg, result.get());
@@ -67,20 +65,19 @@ constexpr NextInvoker abstractNextInvoker = [](const QueryExecutorAgent &agent,
   return result;
 };
 
-template <class T>
+template<class T>
 constexpr NextSameSynInvoker abstractNextSameSynInvoker = [](
-    const QueryExecutorAgent &agent, const StmtRef &arg) ->
-    unordered_set<StmtValue> {
-  vector<CFG*> cfgs = agent->queryCFGs(StmtRef{StmtType::None, 0});
-  unordered_set<StmtValue> result;
+    const QueryExecutorAgent &agent, const StmtRef &arg) -> StmtValueSet {
+  vector<CFG *> cfgs = agent->queryCFGs(StmtRef{StmtType::None, 0});
+  StmtValueSet result;
 
   for (auto it = cfgs.begin(); it != cfgs.end(); it++) {
-    CFG* cfg = *it;
+    CFG *cfg = *it;
     T querier(cfg, agent);
-    int startingStatement = cfg->getStartingStmtNumber();
+    StmtValue startingStatement = cfg->getStartingStmtNumber();
 
     for (int i = 0; i < cfg->getNodeCount(); i++) {
-      int statement = startingStatement + i;
+      StmtValue statement = startingStatement + i;
       if (!typeChecker(agent, arg.getType(), statement)) {
         continue;
       }
@@ -101,7 +98,7 @@ constexpr NextSameSynInvoker nextSameSynInvoker =
 constexpr NextSameSynInvoker nextTSameSynInvoker =
     abstractNextSameSynInvoker<ConcreteNextTQuerier>;
 
-class NextClause: public AbstractNextClause<
+class NextClause : public AbstractNextClause<
     nextInvoker,
     nextSameSynInvoker> {
  public:
@@ -109,7 +106,8 @@ class NextClause: public AbstractNextClause<
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
   }
 
-  ComplexityScore getComplexityScore(const OverrideTable *table) override {
+  ComplexityScore getComplexityScore(const OverrideTable *table)
+  const override {
     return computeNoSymmetryComplexityScore<
         COMPLEXITY_MODIFIER_NONE,
         COMPLEXITY_MODIFIER_NONE,
@@ -117,7 +115,7 @@ class NextClause: public AbstractNextClause<
   }
 };
 
-class NextTClause: public AbstractNextClause<
+class NextTClause : public AbstractNextClause<
     nextTInvoker,
     nextTSameSynInvoker> {
  public:
@@ -125,7 +123,8 @@ class NextTClause: public AbstractNextClause<
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
   }
 
-  ComplexityScore getComplexityScore(const OverrideTable *table) override {
+  ComplexityScore getComplexityScore(const OverrideTable *table)
+  const override {
     return computeComplexityScore<
         COMPLEXITY_NEXT_T_CONST,
         COMPLEXITY_NEXT_T + COMPLEXITY_QUERY_TRANSITIVE,

@@ -11,14 +11,14 @@ typedef EntEntInvoker ModifiesPInvoker;
 constexpr ModifiesSInvoker modifiesSInvoker = [](
     const QueryExecutorAgent &agent,
     const StmtRef &leftArg,
-    const EntityRef &rightArg){
+    const EntityRef &rightArg) {
   return agent->queryModifies(leftArg, rightArg);
 };
 
 constexpr ModifiesPInvoker modifiesPInvoker = [](
     const QueryExecutorAgent &agent,
     const EntityRef &leftArg,
-    const EntityRef &rightArg){
+    const EntityRef &rightArg) {
   return agent->queryModifies(leftArg, rightArg);
 };
 
@@ -29,13 +29,14 @@ typedef AbstractAnyEntClause<
                              ClauseArgument::isType<PQL_SYN_TYPE_PROCEDURE>>,
     ClauseArgument::isType<PQL_SYN_TYPE_VARIABLE>> AbstractModifiesClause;
 
-class ModifiesClause: public AbstractModifiesClause {
+class ModifiesClause : public AbstractModifiesClause {
  public:
   ModifiesClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractAnyEntClause(std::move(left), std::move(right)) {
   }
 
-  ComplexityScore getComplexityScore(const OverrideTable *table) override {
+  ComplexityScore getComplexityScore(const OverrideTable *table)
+  const override {
     return computeComplexityScore(table);
   }
 };

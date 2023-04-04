@@ -1,7 +1,5 @@
 #pragma once
 
-#include <unordered_set>
-
 #include "qps/clauses/arguments/ClauseArgument.h"
 #include "common/Types.h"
 #include "qps/clauses/Clause.h"
@@ -9,28 +7,26 @@
 #include "qps/clauses/SuchThatClause.h"
 #include "qps/clauses/ClauseScoring.h"
 
-using std::unordered_set;
-
-class AbstractTwoArgClause: public SuchThatClause {
+class AbstractTwoArgClause : public SuchThatClause {
  protected:
   ClauseArgumentPtr left;
   ClauseArgumentPtr right;
 
-  bool isSameSynonym();
+  bool isSameSynonym() const;
 
-  template <
+  template<
       typename LeftResultType, typename LeftArgType,
       typename RightResultType, typename RightArgType>
-  PQLQueryResult* abstractEvaluateOn(
+  PQLQueryResult *abstractEvaluateOn(
       const QueryExecutorAgent &agent,
       ArgumentTransformer<LeftArgType> leftTransformer,
       ArgumentTransformer<RightArgType> rightTransformer,
       QueryInvoker<LeftResultType, LeftArgType,
                    RightResultType, RightArgType> diffSynInvoker,
-      SymmetricQueryInvoker<LeftResultType, LeftArgType> sameSynInvoker) {
+      SymmetricQueryInvoker<LeftResultType, LeftArgType> sameSynInvoker) const {
     if (isSameSynonym()) {
-      auto ref = leftTransformer(left.get());
-      ref = agent.transformArg(left->getName(), ref);
+      auto baseRef = leftTransformer(left.get());
+      auto ref = agent.transformArg(left->getName(), baseRef);
       if (!agent.isValid(ref)) {
         return new PQLQueryResult();
       }
@@ -42,28 +38,30 @@ class AbstractTwoArgClause: public SuchThatClause {
     LeftArgType leftArg = leftTransformer(left.get());
     RightArgType rightArg = rightTransformer(right.get());
 
-    leftArg = agent.transformArg(left->getName(), leftArg);
-    rightArg = agent.transformArg(right->getName(), rightArg);
-    if (!agent.isValid(leftArg) || !agent.isValid(rightArg)) {
+    LeftArgType leftTransformed = agent.transformArg(left->getName(),
+                                                     leftArg);
+    RightArgType rightTransformed = agent.transformArg(right->getName(),
+                                                       rightArg);
+    if (!agent.isValid(leftTransformed) || !agent.isValid(rightTransformed)) {
       return new PQLQueryResult();
     }
 
-    auto queryResult = diffSynInvoker(agent, leftArg, rightArg);
+    auto queryResult = diffSynInvoker(agent, leftTransformed, rightTransformed);
     return Clause::toQueryResult(left.get(), right.get(), queryResult.get());
   }
 
-  template <SynonymPredicate leftValidator, SynonymPredicate rightValidator>
-  bool validateArgTypes(VariableTable *variables) {
+  template<SynonymPredicate leftValidator, SynonymPredicate rightValidator>
+  bool validateArgTypes(const VariableTable *variables) const {
     bool isLeftValid = left->synonymSatisfies(leftValidator);
     bool isRightValid = right->synonymSatisfies(rightValidator);
     return isLeftValid && isRightValid;
   }
 
-  template <
+  template<
       ComplexityScore constantModifier,
       ComplexityScore oneSynModifier,
       ComplexityScore twoSynModifier>
-  ComplexityScore computeComplexityScore(const OverrideTable *table) {
+  ComplexityScore computeComplexityScore(const OverrideTable *table) const {
     bool isLeftConstant = left->isConstant()
         || table->contains(left->getName());
     bool isRightConstant = right->isConstant()
@@ -73,7 +71,7 @@ class AbstractTwoArgClause: public SuchThatClause {
       return COMPLEXITY_QUERY_CONSTANT + constantModifier;
     } else if (!isLeftConstant && !isRightConstant) {
       return COMPLEXITY_QUERY_LIST_ALL + twoSynModifier +
-          + left->getSynComplexity() + right->getSynComplexity();
+          +left->getSynComplexity() + right->getSynComplexity();
     } else if (isLeftConstant) {
       return right->getSynComplexity() + oneSynModifier;
     } else {
@@ -81,11 +79,12 @@ class AbstractTwoArgClause: public SuchThatClause {
     }
   }
 
-  template <
+  template<
       ComplexityScore constantModifier,
       ComplexityScore oneSynModifier,
       ComplexityScore twoSynModifier>
-  ComplexityScore computeNoSymmetryComplexityScore(const OverrideTable *table) {
+  ComplexityScore computeNoSymmetryComplexityScore(const OverrideTable *table)
+  const {
     if (isSameSynonym()) {
       return COMPLEXITY_QUERY_CONSTANT;
     }
@@ -95,7 +94,8 @@ class AbstractTwoArgClause: public SuchThatClause {
                                   twoSynModifier>(table);
   }
 
-  ComplexityScore computeNoSymmetryComplexityScore(const OverrideTable *table) {
+  ComplexityScore computeNoSymmetryComplexityScore(const OverrideTable *table)
+  const {
     if (isSameSynonym()) {
       return COMPLEXITY_QUERY_CONSTANT;
     }
@@ -103,9 +103,9 @@ class AbstractTwoArgClause: public SuchThatClause {
     return computeComplexityScore(table);
   }
 
-  ComplexityScore computeComplexityScore(const OverrideTable *table);
+  ComplexityScore computeComplexityScore(const OverrideTable *table) const;
 
  public:
   AbstractTwoArgClause(ClauseArgumentPtr left, ClauseArgumentPtr right);
-  PQLSynonymNameList getUsedSynonyms() override;
+  const PQLSynonymNameList getUsedSynonyms() const override;
 };

@@ -10,13 +10,13 @@ typedef EntEntInvoker UsesPInvoker;
 
 constexpr UsesSInvoker usesSInvoker = [](const QueryExecutorAgent &agent,
                                          const StmtRef &leftArg,
-                                         const EntityRef &rightArg){
+                                         const EntityRef &rightArg) {
   return agent->queryUses(leftArg, rightArg);
 };
 
 constexpr UsesPInvoker usesPInvoker = [](const QueryExecutorAgent &agent,
                                          const EntityRef &leftArg,
-                                         const EntityRef &rightArg){
+                                         const EntityRef &rightArg) {
   return agent->queryUses(leftArg, rightArg);
 };
 
@@ -27,13 +27,14 @@ typedef AbstractAnyEntClause<
                              ClauseArgument::isType<PQL_SYN_TYPE_PROCEDURE>>,
     ClauseArgument::isType<PQL_SYN_TYPE_VARIABLE>> AbstractUsesClause;
 
-class UsesClause: public AbstractUsesClause {
+class UsesClause : public AbstractUsesClause {
  public:
   UsesClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
-  : AbstractAnyEntClause(std::move(left), std::move(right)) {
+      : AbstractAnyEntClause(std::move(left), std::move(right)) {
   }
 
-  ComplexityScore getComplexityScore(const OverrideTable *table) override {
+  ComplexityScore getComplexityScore(const OverrideTable *table)
+  const override {
     return computeComplexityScore(table);
   }
 };

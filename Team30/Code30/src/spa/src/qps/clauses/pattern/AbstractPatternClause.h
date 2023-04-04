@@ -1,7 +1,6 @@
 #pragma once
 
 #include <memory>
-#include <string>
 #include <utility>
 
 #include "qps/common/PQLTypes.h"
@@ -15,19 +14,19 @@ using std::unique_ptr;
 using PatternQueryInvoker = QueryInvoker<StmtValue, StmtRef,
                                          EntityValue, EntityRef>;
 
-template <PQLSynonymType SYN_TYPE, StmtType StatementType,
+template<PQLSynonymType SYN_TYPE, StmtType StatementType,
     PatternQueryInvoker invoker>
-class AbstractPatternClause: public PatternClause {
+class AbstractPatternClause : public PatternClause {
  protected:
   AbstractPatternClause(const PQLQuerySynonymProxy &synonym,
-                        ClauseArgumentPtr leftArg):
+                        ClauseArgumentPtr leftArg) :
       PatternClause(synonym, std::move(leftArg), SYN_TYPE) {
   }
 
-  PQLQueryResult* evaluateOn(const QueryExecutorAgent &agent) override {
+  PQLQueryResult *evaluateOn(const QueryExecutorAgent &agent) const override {
     StmtRef leftStatement = {StatementType, 0};
     EntityRef leftVar = leftArg->toEntityRef();
-    PQLSynonymName synName = synonym->getName();
+    const PQLSynonymName &synName = synonym->getName();
     leftStatement = agent.transformArg(synName, leftStatement);
     leftVar = agent.transformArg(leftArg->getName(), leftVar);
 
@@ -41,7 +40,8 @@ class AbstractPatternClause: public PatternClause {
   }
 
  public:
-  ComplexityScore getComplexityScore(const OverrideTable *table) override {
+  ComplexityScore getComplexityScore(const OverrideTable *table)
+  const override {
     if (table->contains(leftArg->getName())) {
       return COMPLEXITY_QUERY_CONSTANT;
     }

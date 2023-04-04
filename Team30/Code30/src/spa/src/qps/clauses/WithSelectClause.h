@@ -1,25 +1,27 @@
 #pragma once
 
 #include <memory>
-#include <string>
 
 #include "Clause.h"
 #include "qps/common/AttributedSynonym.h"
 
-using std::unique_ptr, std::string;
+using std::unique_ptr;
 
-using WithSelectClausePredicate = bool(*)(const QueryExecutorAgent &agent,
-                                          const StmtValue &stmt,
-                                          const EntityValue &value);
+using WithSelectClausePredicate = bool (*)(const QueryExecutorAgent &agent,
+                                           const StmtValue &stmt,
+                                           const EntityValue &value);
 
 class WithSelectClause : public Clause {
   AttributedSynonym attrSyn;
   EntityValue entVal;
 
-  template <WithSelectClausePredicate predicate>
+  template<WithSelectClausePredicate predicate>
   void queryStmtAttributes(const QueryExecutorAgent &agent,
                            const StmtValueSet &lines,
-                           StmtValueSet* output);
+                           StmtValueSet *output) const;
+  void projectAttribute(StmtValueSet *output,
+                        const StmtValueSet &targets,
+                        const QueryExecutorAgent &agent) const;
 
   static inline bool isPrintVarName(const QueryExecutorAgent &agent,
                                     const StmtValue &stmt,
@@ -32,11 +34,11 @@ class WithSelectClause : public Clause {
                                     const EntityValue &value);
 
  public:
-  WithSelectClause(AttributedSynonym aSyn, EntityValue entV);
-  PQLQueryResult* evaluateOn(const QueryExecutorAgent &agent) override;
-  bool validateArgTypes(VariableTable *variables) override;
-  PQLSynonymNameList getUsedSynonyms() override;
-  ComplexityScore getComplexityScore(const OverrideTable *table) override;
+  WithSelectClause(const AttributedSynonym &aSyn, const EntityValue &entV);
+  PQLQueryResult *evaluateOn(const QueryExecutorAgent &agent) const override;
+  bool validateArgTypes(const VariableTable *variables) const override;
+  const PQLSynonymNameList getUsedSynonyms() const override;
+  ComplexityScore getComplexityScore(const OverrideTable *table) const override;
 };
 
 typedef unique_ptr<WithSelectClause> WithSelectClausePtr;

@@ -12,22 +12,22 @@ using std::unordered_set, std::unique_ptr;
 
 class Clause : public IEvaluatable {
  public:
-  virtual bool validateArgTypes(VariableTable* variables) = 0;
+  virtual bool validateArgTypes(const VariableTable *variables) const = 0;
 
  protected:
-  static EntityRef toEntityRef(ClauseArgument* arg) {
+  static EntityRef toEntityRef(ClauseArgument *arg) {
     return arg->toEntityRef();
   }
 
-  static StmtRef toStmtRef(ClauseArgument* arg) {
+  static StmtRef toStmtRef(ClauseArgument *arg) {
     return arg->toStmtRef();
   }
 
   template<class T, class U>
-  static PQLQueryResult *toQueryResult(ClauseArgument* left,
-                                       ClauseArgument* right,
-                                       QueryResult<T, U>* queryResult) {
-    PQLQueryResult* pqlQueryResult = new PQLQueryResult();
+  static PQLQueryResult *toQueryResult(ClauseArgument *left,
+                                       ClauseArgument *right,
+                                       QueryResult<T, U> *queryResult) {
+    PQLQueryResult *pqlQueryResult = new PQLQueryResult();
     if (!left->isNamed() && !right->isNamed()) {
       pqlQueryResult->setIsStaticFalse(queryResult->isEmpty);
       return pqlQueryResult;
@@ -45,9 +45,9 @@ class Clause : public IEvaluatable {
 
   template<class T, class U>
   static PQLQueryResult *toQueryResult(const PQLSynonymName &left,
-                                       ClauseArgument* right,
-                                       QueryResult<T, U>* queryResult) {
-    PQLQueryResult* pqlQueryResult = new PQLQueryResult();
+                                       ClauseArgument *right,
+                                       QueryResult<T, U> *queryResult) {
+    PQLQueryResult *pqlQueryResult = new PQLQueryResult();
     if (right->isNamed()) {
       pqlQueryResult->add(left, right->getName(), queryResult->pairVals);
     } else {
@@ -60,7 +60,7 @@ class Clause : public IEvaluatable {
   template<class T>
   static PQLQueryResult *toQueryResult(const PQLSynonymName &name,
                                        const unordered_set<T> &queryResult) {
-    PQLQueryResult* pqlQueryResult = new PQLQueryResult();
+    PQLQueryResult *pqlQueryResult = new PQLQueryResult();
     pqlQueryResult->add(name, queryResult);
     return pqlQueryResult;
   }

@@ -1,22 +1,16 @@
-#include <unordered_set>
-#include <utility>
-#include <vector>
-#include <string>
-
 #include "SelectClause.h"
 #include "arguments/ClauseArgument.h"
 #include "qps/clauses/arguments/ClauseArgumentFactory.h"
 #include "qps/executor/QueryExecutorAgent.h"
 #include "ClauseScoring.h"
 
-using std::pair, std::unordered_set, std::vector, std::string, std::to_string;
-
 SelectClause::SelectClause(const PQLQuerySynonymProxy &target):
     target(target) {}
 
-PQLQueryResult *SelectClause::evaluateOn(const QueryExecutorAgent &agent) {
+PQLQueryResult *SelectClause::evaluateOn(
+    const QueryExecutorAgent &agent) const {
   ClauseArgumentPtr clauseArg = ClauseArgumentFactory::create(target);
-  PQLSynonymName synName = target->getName();
+  const PQLSynonymName synName = target->getName();
   if (target->isStatementType()) {
     StmtRef stmtRef = clauseArg->toStmtRef();
     return queryPKB<StmtValue, StmtRef, SelectClause::queryStmt>(
@@ -32,36 +26,37 @@ template<class ReturnType, class RefType,
     SelectPKBGetter<ReturnType, RefType> pkbGetter>
 PQLQueryResult *SelectClause::queryPKB(const QueryExecutorAgent &agent,
                                        const PQLSynonymName &synName,
-                                       RefType ref) {
-  unordered_set<ReturnType> result;
-  ref = agent.transformArg(synName, ref);
-  if (ref.isKnown() && agent.isValid(ref)) {
-    result.insert(ref.getValue());
-  } else if (!ref.isKnown()) {
-    result = pkbGetter(agent, ref);
+                                       const RefType &ref) const {
+  QueryResultSet<ReturnType> result;
+  RefType transformed = agent.transformArg(synName, ref);
+  if (transformed.isKnown() && agent.isValid(transformed)) {
+    result.insert(transformed.getValue());
+  } else if (!transformed.isKnown()) {
+    result = pkbGetter(agent, transformed);
   }
 
   return Clause::toQueryResult(synName, result);
 }
 
-unordered_set<StmtValue> SelectClause::queryStmt(
-    const QueryExecutorAgent &agent, const StmtRef &ref) {
+StmtValueSet SelectClause::queryStmt(const QueryExecutorAgent &agent,
+                                     const StmtRef &ref) {
   return agent->getStatementsOfType(ref.getType());
 }
 
-unordered_set<EntityValue> SelectClause::queryEntity(
-    const QueryExecutorAgent &agent, const EntityRef &ref) {
+EntityValueSet SelectClause::queryEntity(const QueryExecutorAgent &agent,
+                                         const EntityRef &ref) {
   return agent->getSymbolsOfType(ref.getType());
 }
 
-bool SelectClause::validateArgTypes(VariableTable *variables) {
+bool SelectClause::validateArgTypes(const VariableTable *variables) const {
   return !target->isType(PQL_SYN_TYPE_PROCEDURE);
 }
 
-PQLSynonymNameList SelectClause::getUsedSynonyms() {
+const PQLSynonymNameList SelectClause::getUsedSynonyms() const {
   return { target->getName() };
 }
 
-ComplexityScore SelectClause::getComplexityScore(const OverrideTable *table) {
+ComplexityScore SelectClause::getComplexityScore(
+    const OverrideTable *table) const {
   return COMPLEXITY_SELECT;
 }

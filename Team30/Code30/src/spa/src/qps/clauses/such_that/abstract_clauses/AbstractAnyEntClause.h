@@ -1,13 +1,12 @@
 #pragma once
 
 #include <utility>
-#include <unordered_set>
 
 #include "qps/errors/QPSParserSemanticError.h"
 #include "qps/clauses/InvokerTypes.h"
 #include "AbstractTwoArgClause.h"
 
-template <
+template<
     EntEntInvoker entInvoker,
     StmtEntInvoker stmtInvoker,
     SynonymPredicate leftValidator,
@@ -18,7 +17,7 @@ class AbstractAnyEntClause : public AbstractTwoArgClause {
       : AbstractTwoArgClause(std::move(left), std::move(right)) {
   }
 
-  bool validateArgTypes(VariableTable *table) override {
+  bool validateArgTypes(const VariableTable *table) const override {
     if (left->isWildcard()) {
       return false;
     }
@@ -27,7 +26,7 @@ class AbstractAnyEntClause : public AbstractTwoArgClause {
         leftValidator, rightValidator>(table);
   }
 
-  PQLQueryResult* evaluateOn(const QueryExecutorAgent &agent) override {
+  PQLQueryResult *evaluateOn(const QueryExecutorAgent &agent) const override {
     if (left->isWildcard()) {
       throw QPSParserSemanticError(QPS_PARSER_ERR_INVALID_WILDCARD);
     }
@@ -58,8 +57,8 @@ class AbstractAnyEntClause : public AbstractTwoArgClause {
   }
 
  private:
-  template <class ValueType, class RefType>
-  static unordered_set<ValueType> dummySymmetricInvoker(
+  template<class ValueType, class RefType>
+  static QueryResultSet<ValueType> dummySymmetricInvoker(
       const QueryExecutorAgent &agent, const RefType &arg) {
     return {};
   }
