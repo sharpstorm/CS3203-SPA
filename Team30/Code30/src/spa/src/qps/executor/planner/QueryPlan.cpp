@@ -9,7 +9,7 @@ int QueryPlan::getGroupCount() const {
   return clauseGroups.size();
 }
 
-const QueryGroupPlan *QueryPlan::getGroup(const QueryPlanGroupId &groupId)
+const QueryGroupPlan *QueryPlan::getGroup(const QueryPlanGroupId groupId)
 const {
   return clauseGroups.at(groupId).get();
 }

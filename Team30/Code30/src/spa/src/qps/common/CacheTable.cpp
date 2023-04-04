@@ -89,11 +89,11 @@ const CacheRow *CacheTable::queryPartial(const StmtValue &leftStmt,
 }
 
 bool CacheTable::isValidIndex(const StmtValue &stmt,
-                              const size_t &size) const {
+                              const size_t size) const {
   return 0 < stmt && stmt <= size;
 }
 
 bool CacheTable::isValidArg(const StmtValue &stmt,
-                            const size_t &size) const {
+                            const size_t size) const {
   return 0 == stmt || isValidIndex(stmt, size);
 }

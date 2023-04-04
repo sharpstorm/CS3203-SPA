@@ -28,7 +28,7 @@ class ProjectorResultGroup {
   void addRow(const QueryResultTableRow &row);
   void addSynonym(const PQLSynonymName &name);
   int getRowCount() const;
-  const QueryResultTableRow *getRowAt(const ProjectorResultRow &idx) const;
+  const QueryResultTableRow *getRowAt(const ProjectorResultRow idx) const;
   QueryResultItemPool *getOwnedPool();
   ResultTableCol getSynonymCol(const PQLSynonymName &name) const;
 

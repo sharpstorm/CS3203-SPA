@@ -14,19 +14,19 @@ using std::unique_ptr;
 
 class QueryExecutorAgent {
  public:
-  QueryExecutorAgent(const PkbQueryHandler* pkb,
-                     const OverrideTable* table,
+  QueryExecutorAgent(const PkbQueryHandler *pkb,
+                     const OverrideTable *table,
                      QueryCache *cache);
   StmtRef transformArg(const PQLSynonymName name, const StmtRef &ref) const;
   EntityRef transformArg(const PQLSynonymName name, const EntityRef &ref) const;
   bool isValid(const StmtRef &ref) const;
   bool isValid(const EntityRef &ref) const;
-  CacheTable* getAffectsCache() const;
+  CacheTable *getAffectsCache() const;
 
-  const PkbQueryHandler* operator->() const;
+  const PkbQueryHandler *operator->() const;
 
  private:
-  const PkbQueryHandler* pkbQueryHandler;
-  const OverrideTable* overrideTable;
+  const PkbQueryHandler *pkbQueryHandler;
+  const OverrideTable *overrideTable;
   QueryCache *cache;
 };

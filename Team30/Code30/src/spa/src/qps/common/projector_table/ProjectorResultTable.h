@@ -17,7 +17,7 @@ class ProjectorResultTable {
   bool isBooleanResult;
   bool booleanResult;
 
-  void populateIndexes(RowIndexes *indexes, const int &outputRow) const;
+  void populateIndexes(RowIndexes *indexes, const int outputRow) const;
   void projectForRow(const ProjectorIndex &index,
                      const RowIndexes *row,
                      ProjectedValue *outputCache) const;

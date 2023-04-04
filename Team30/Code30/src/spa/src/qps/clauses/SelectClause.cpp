@@ -4,7 +4,7 @@
 #include "qps/executor/QueryExecutorAgent.h"
 #include "ClauseScoring.h"
 
-SelectClause::SelectClause(const PQLQuerySynonymProxy &target):
+SelectClause::SelectClause(const PQLQuerySynonymProxy &target) :
     target(target) {}
 
 PQLQueryResult *SelectClause::evaluateOn(
@@ -18,7 +18,7 @@ PQLQueryResult *SelectClause::evaluateOn(
   }
 
   EntityRef entRef = clauseArg->toEntityRef();
-  return queryPKB<EntityValue , EntityRef, SelectClause::queryEntity>(
+  return queryPKB<EntityValue, EntityRef, SelectClause::queryEntity>(
       agent, target->getName(), entRef);
 }
 
@@ -53,7 +53,7 @@ bool SelectClause::validateArgTypes(const VariableTable *variables) const {
 }
 
 const PQLSynonymNameList SelectClause::getUsedSynonyms() const {
-  return { target->getName() };
+  return {target->getName()};
 }
 
 ComplexityScore SelectClause::getComplexityScore(

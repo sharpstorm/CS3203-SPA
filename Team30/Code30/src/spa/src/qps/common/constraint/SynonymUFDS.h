@@ -31,7 +31,7 @@ class SynonymUFDS {
   PQLQuerySynonym *getSynFor(const PQLSynonymName &set);
 
  private:
-  UFDSSet findSet(const UFDSSet &set);
+  UFDSSet findSet(const UFDSSet set);
   UFDSSet indexOf(const PQLSynonymName &syn) const;
-  bool mergeSyns(const UFDSSet &setA, const UFDSSet &setB);
+  bool mergeSyns(const UFDSSet setA, const UFDSSet setB);
 };

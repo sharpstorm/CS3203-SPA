@@ -40,8 +40,8 @@ class PQLQueryResult {
 
   bool isEmpty() const;
   bool matchRow(const PQLQueryResult &other,
-                const ResultTableRow &myRowIndex,
-                const ResultTableRow &otherRowIndex) const;
+                const ResultTableRow myRowIndex,
+                const ResultTableRow otherRowIndex) const;
 
  protected:
   QueryResultItemPool ownedItemPool;
@@ -69,11 +69,10 @@ class PQLQueryResult {
   ResultTableCol getSynonymCol(const PQLSynonymName &name) const;
   void putSynonym(const PQLSynonymName &name);
 
-  const QueryResultTableRow *getTableRowAt(
-      const ResultTableRow &rowIndex) const;
+  const QueryResultTableRow *getTableRowAt(const ResultTableRow rowIndex) const;
   void putTableRow(const QueryResultTableRow &row);
   int getRowCount() const;
-  RowSetPtr getRowsWithValue(const ResultTableCol &column,
+  RowSetPtr getRowsWithValue(const ResultTableCol column,
                              QueryResultItem *value) const;
 
   bool operator==(const PQLQueryResult &pqr) const;

@@ -6,7 +6,7 @@ using std::make_unique;
 
 QueryExecutorAgent::QueryExecutorAgent(const PkbQueryHandler *pkb,
                                        const OverrideTable *table,
-                                       QueryCache *cache):
+                                       QueryCache *cache) :
     pkbQueryHandler(pkb), overrideTable(table), cache(cache) {}
 
 const PkbQueryHandler *QueryExecutorAgent::operator->() const {
@@ -49,6 +49,6 @@ bool QueryExecutorAgent::isValid(const EntityRef &ref) const {
       pkbQueryHandler->isSymbolOfType(ref.getType(), ref.getValue());
 }
 
-CacheTable* QueryExecutorAgent::getAffectsCache() const {
+CacheTable *QueryExecutorAgent::getAffectsCache() const {
   return cache->getAffectsCache();
 }

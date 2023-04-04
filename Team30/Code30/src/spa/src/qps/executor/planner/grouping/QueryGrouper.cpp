@@ -60,7 +60,7 @@ void QueryGrouper::findGroups(vector<QueryGroupPtr> *result) {
   }
 }
 
-QueryGroup *QueryGrouper::BFSFindDependents(const int &start) {
+QueryGroup *QueryGrouper::BFSFindDependents(const int start) {
   QueryGroup *result = new QueryGroup();
   queue<int> pendingNodes;
   pendingNodes.push(start);
@@ -96,7 +96,7 @@ void QueryGrouper::registerSeenSynonym(const PQLSynonymName &name,
 void QueryGrouper::queueClauses(queue<PlanNode> *target,
                                 PlanNodes *values,
                                 QueryGroup *result,
-                                const int &parentClauseId) {
+                                const int parentClauseId) {
   if (values == nullptr) {
     return;
   }

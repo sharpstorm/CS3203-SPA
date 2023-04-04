@@ -6,10 +6,10 @@
 #include "QueryCache.h"
 
 class QueryLauncher {
-  const PkbQueryHandler* pkbQueryHandler;
+  const PkbQueryHandler *pkbQueryHandler;
  public:
-  explicit QueryLauncher(const PkbQueryHandler* pkbQH);
-  PQLQueryResult* execute(const IEvaluatable* evaluatable,
-                          const OverrideTable * table,
+  explicit QueryLauncher(const PkbQueryHandler *pkbQH);
+  PQLQueryResult *execute(const IEvaluatable *evaluatable,
+                          const OverrideTable *table,
                           QueryCache *cache) const;
 };

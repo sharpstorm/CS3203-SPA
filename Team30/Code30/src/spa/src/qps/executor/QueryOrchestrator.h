@@ -18,13 +18,13 @@ using std::vector, std::unique_ptr;
 class QueryOrchestrator {
  public:
   explicit QueryOrchestrator(QueryLauncher launcher);
-  ProjectorResultTable* execute(const QueryPlan* plan,
-                                const OverrideTable* table) const;
+  ProjectorResultTable *execute(const QueryPlan *plan,
+                                const OverrideTable *table) const;
 
  private:
   QueryLauncher launcher;
 
-  PQLQueryResult* executeGroup(const QueryGroupPlan* plan,
-                               const OverrideTable* table,
+  PQLQueryResult *executeGroup(const QueryGroupPlan *plan,
+                               const OverrideTable *table,
                                QueryCache *cache) const;
 };

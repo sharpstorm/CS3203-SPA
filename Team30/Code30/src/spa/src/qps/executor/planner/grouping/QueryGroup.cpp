@@ -18,8 +18,8 @@ GroupClauseIndex QueryGroup::addEvaluatable(IEvaluatablePtr evaluatable) {
   return addEvaluatable(ownedEvals.back().get());
 }
 
-void QueryGroup::linkEvaluatables(const GroupClauseIndex &id1,
-                                  const GroupClauseIndex &id2) {
+void QueryGroup::linkEvaluatables(const GroupClauseIndex id1,
+                                  const GroupClauseIndex id2) {
   if (id1 == id2) {
     return;
   }
@@ -41,7 +41,7 @@ IEvaluatable *QueryGroup::getEvaluatable(GroupClauseIndex evalId) const {
 }
 
 const unordered_set<GroupClauseIndex> *QueryGroup::getRelated(
-    const GroupClauseIndex &evalId) const {
+    const GroupClauseIndex evalId) const {
   return &edgeList[evalId];
 }
 

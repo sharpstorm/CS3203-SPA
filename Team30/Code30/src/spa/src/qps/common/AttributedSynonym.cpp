@@ -69,6 +69,6 @@ bool AttributedSynonym::isDefaultAttribute() const {
   return true;
 }
 
-bool AttributedSynonym::isType(const PQLSynonymType &type) const {
+bool AttributedSynonym::isType(const PQLSynonymType type) const {
   return synProxy->isType(type);
 }

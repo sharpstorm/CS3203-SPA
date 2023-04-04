@@ -22,7 +22,7 @@ class AttributedSynonym {
   PQLSynonymName getName() const;
   PQLSynonymAttribute getAttribute() const;
 
-  bool isType(const PQLSynonymType &type) const;
+  bool isType(const PQLSynonymType type) const;
   bool validateAttribute() const;
   bool returnsInteger() const;
   bool isStatementType() const;

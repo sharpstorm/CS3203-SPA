@@ -17,8 +17,8 @@ class CacheTable {
 
   const CacheRow *queryFrom(const StmtValue &stmt) const;
   const CacheRow *queryTo(const StmtValue &stmt) const;
-  bool isValidIndex(const StmtValue &stmt, const size_t &size) const;
-  bool isValidArg(const StmtValue &stmt, const size_t &size) const;
+  bool isValidIndex(const StmtValue &stmt, const size_t size) const;
+  bool isValidArg(const StmtValue &stmt, const size_t size) const;
 
  public:
   void addEntry(const StmtValue &leftStmt, const StmtValue &rightStmt);

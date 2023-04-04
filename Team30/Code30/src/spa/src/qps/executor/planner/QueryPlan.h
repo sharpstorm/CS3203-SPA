@@ -15,7 +15,7 @@ class QueryPlan {
  public:
   explicit QueryPlan(vector<QueryGroupPlanPtr> groups);
   int getGroupCount() const;
-  const QueryGroupPlan *getGroup(const QueryPlanGroupId &groupId) const;
+  const QueryGroupPlan *getGroup(const QueryPlanGroupId groupId) const;
   bool isEmpty() const;
   bool isBooleanQuery() const;
 

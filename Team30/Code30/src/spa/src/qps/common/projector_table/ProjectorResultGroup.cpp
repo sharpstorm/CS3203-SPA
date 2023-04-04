@@ -20,7 +20,7 @@ int ProjectorResultGroup::getRowCount() const {
 }
 
 const QueryResultTableRow *ProjectorResultGroup::getRowAt(
-    const ProjectorResultRow &idx) const {
+    const ProjectorResultRow idx) const {
   return &groupTable.at(idx);
 }
 

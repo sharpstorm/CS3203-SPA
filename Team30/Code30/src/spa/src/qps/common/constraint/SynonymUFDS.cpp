@@ -41,7 +41,7 @@ PQLQuerySynonym* SynonymUFDS::getSynFor(const PQLSynonymName &syn) {
   return synArr[parent];
 }
 
-UFDSSet SynonymUFDS::findSet(const UFDSSet &node) {
+UFDSSet SynonymUFDS::findSet(const UFDSSet node) {
   if (parent[node] == node) {
     return node;
   }
@@ -87,7 +87,7 @@ bool SynonymUFDS::tryMergeSets(const PQLSynonymName &syn1,
   return mergeSyns(aParent, bParent);
 }
 
-bool SynonymUFDS::mergeSyns(const UFDSSet &setA, const UFDSSet &setB) {
+bool SynonymUFDS::mergeSyns(const UFDSSet setA, const UFDSSet setB) {
   PQLQuerySynonym* synA = synArr[setA];
   PQLQuerySynonym* synB = synArr[setB];
 

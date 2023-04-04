@@ -87,7 +87,7 @@ void ProjectorResultTable::projectTo(QPSOutputList *output,
 }
 
 void ProjectorResultTable::populateIndexes(RowIndexes *indexes,
-                                           const int &outputRow) const {
+                                           const int outputRow) const {
   int workingRow = outputRow;
   for (int i = 0; i < groupResults.size(); i++) {
     int groupSize = groupResults.at(i)->getRowCount();

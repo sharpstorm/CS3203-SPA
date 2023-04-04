@@ -18,14 +18,14 @@ class QueryGroup {
 
   GroupClauseIndex addEvaluatable(IEvaluatable *evaluatable);
   GroupClauseIndex addEvaluatable(IEvaluatablePtr evaluatable);
-  void linkEvaluatables(const GroupClauseIndex &id1,
-                        const GroupClauseIndex &id2);
+  void linkEvaluatables(const GroupClauseIndex id1,
+                        const GroupClauseIndex id2);
   void addSelectable(const PQLSynonymName &synonym);
 
   int getEvaluatableCount() const;
   IEvaluatable *getEvaluatable(GroupClauseIndex evalId) const;
   const unordered_set<GroupClauseIndex> *getRelated(
-      const GroupClauseIndex &evalId) const;
+      const GroupClauseIndex evalId) const;
 
   QueryGroupPlanPtr toPlan(vector<IEvaluatable *> evaluatables,
                            const ComplexityScore &score);

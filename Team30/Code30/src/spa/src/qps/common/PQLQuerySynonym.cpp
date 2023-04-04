@@ -1,6 +1,6 @@
 #include "PQLQuerySynonym.h"
 
-PQLQuerySynonym::PQLQuerySynonym(const PQLSynonymType &type,
+PQLQuerySynonym::PQLQuerySynonym(const PQLSynonymType type,
                                  const PQLSynonymName &name) :
     type(type), name(name) {
 }

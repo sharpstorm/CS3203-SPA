@@ -48,7 +48,7 @@ void PQLQueryResult::putSynonym(const PQLSynonymName &name) {
 }
 
 const QueryResultTableRow *PQLQueryResult::getTableRowAt(
-    const ResultTableRow &rowIndex) const {
+    ResultTableRow rowIndex) const {
   return &combinedTable.at(rowIndex);
 }
 
@@ -68,7 +68,7 @@ int PQLQueryResult::getRowCount() const {
   return combinedTable.size();
 }
 
-RowSetPtr PQLQueryResult::getRowsWithValue(const ResultTableCol &column,
+RowSetPtr PQLQueryResult::getRowsWithValue(const ResultTableCol column,
                                            QueryResultItem *value) const {
   ColMap *colMap = colMaps.at(column).get();
   const auto &it = colMap->find(*value);
@@ -111,8 +111,8 @@ bool PQLQueryResult::operator==(const PQLQueryResult &pqr) const {
 }
 
 bool PQLQueryResult::matchRow(const PQLQueryResult &other,
-                              const ResultTableRow &myRowIndex,
-                              const ResultTableRow &otherRowIndex) const {
+                              ResultTableRow myRowIndex,
+                              ResultTableRow otherRowIndex) const {
   for (const auto &it : other.resultIndex) {
     int otherIndex = it.second;
     int thisIndex = resultIndex.at(it.first);

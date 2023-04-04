@@ -28,8 +28,8 @@ class QueryGrouper {
   void selectAllDeclarations(vector<QueryGroupPtr> *result);
   QueryGroupPtr makeSelectClause(const PQLSynonymName &name);
 
-  QueryGroup *BFSFindDependents(const int &start);
+  QueryGroup *BFSFindDependents(const int start);
   void queueClauses(queue<PlanNode> *target, PlanNodes *values,
-                    QueryGroup *result, const int &parentClauseId);
+                    QueryGroup *result, const int parentClauseId);
   void registerSeenSynonym(const PQLSynonymName &name, QueryGroup *result);
 };
