@@ -3,11 +3,11 @@
 #include "PQLRefExtractor.h"
 #include "../../../clauses/arguments/ClauseArgument.h"
 
-class PQLEntityRefExtractor: public PQLRefExtractor {
+class PQLEntityRefExtractor : public PQLRefExtractor {
  public:
-  static ClauseArgumentPtr extract(QueryTokenParseState* state,
-                                   QueryBuilder* builder);
+  static ClauseArgumentPtr extract(QueryTokenParseState *state,
+                                   QueryBuilder *builder);
 
  protected:
-  static ClauseArgumentPtr extractEntity(QueryTokenParseState* state);
+  static ClauseArgumentPtr extractEntity(QueryTokenParseState *state);
 };

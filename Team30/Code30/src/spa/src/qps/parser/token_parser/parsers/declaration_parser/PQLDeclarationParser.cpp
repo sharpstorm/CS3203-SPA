@@ -2,7 +2,7 @@
 
 void PQLDeclarationParser::parse(QueryTokenParseState *parserState,
                                  QueryBuilder *queryBuilder) {
-  IPQLDeclarationContext* context = getContext(
+  IPQLDeclarationContext *context = getContext(
       parserState->getCurrentTokenType());
   while (context != nullptr) {
     parserState->advanceToken();

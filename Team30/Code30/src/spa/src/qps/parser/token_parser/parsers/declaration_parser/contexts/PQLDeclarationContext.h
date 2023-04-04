@@ -23,7 +23,7 @@ void PQLDeclarationContext<PQL_SYN_TYPE>::parse(
   PQLSynonymName currentName = parserState->expectSynName();
   builder->addSynonym(currentName, PQL_SYN_TYPE);
 
-  PQLToken* currentToken = parserState->expect(PQL_TOKEN_COMMA,
+  const PQLToken* currentToken = parserState->expect(PQL_TOKEN_COMMA,
                                                PQL_TOKEN_SEMICOLON);
   while (!currentToken->isType(PQL_TOKEN_SEMICOLON)) {
     currentName = parserState->expectSynName();

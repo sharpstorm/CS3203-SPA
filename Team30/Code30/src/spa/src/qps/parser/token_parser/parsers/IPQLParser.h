@@ -6,6 +6,6 @@
 class IPQLParser {
  public:
   virtual ~IPQLParser() = default;
-  virtual void parse(QueryTokenParseState* parserState,
+  virtual void parse(QueryTokenParseState *parserState,
                      QueryBuilder *queryBuilder) = 0;
 };

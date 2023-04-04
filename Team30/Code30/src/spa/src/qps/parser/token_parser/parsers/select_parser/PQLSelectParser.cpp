@@ -25,8 +25,8 @@ void PQLSelectParser::parseTuple(QueryTokenParseState *parserState,
   parserState->expect(PQL_TOKEN_TUPLE_OPEN);
   parseSynonym(parserState, queryBuilder);
 
-  PQLToken* nextToken = parserState->expect(PQL_TOKEN_TUPLE_CLOSE,
-                                            PQL_TOKEN_COMMA);
+  const PQLToken *nextToken = parserState->expect(PQL_TOKEN_TUPLE_CLOSE,
+                                                  PQL_TOKEN_COMMA);
   while (!nextToken->isType(PQL_TOKEN_TUPLE_CLOSE)) {
     parseSynonym(parserState, queryBuilder);
     nextToken = parserState->expect(PQL_TOKEN_TUPLE_CLOSE, PQL_TOKEN_COMMA);

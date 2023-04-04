@@ -6,11 +6,11 @@ class QueryTokenStream {
  private:
   int currentIndex;
   int totalTokenSize;
-  PQLTokenVector* tokens;
+  PQLTokenVector *tokens;
 
  public:
-  explicit QueryTokenStream(PQLTokenVector* tokens);
-  const bool isTokenStreamEnd();
+  explicit QueryTokenStream(PQLTokenVector *tokens);
+  const bool isTokenStreamEnd() const;
   void advanceToken();
-  PQLToken* getCurrentToken();
+  const PQLToken *getCurrentToken() const;
 };

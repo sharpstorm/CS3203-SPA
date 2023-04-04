@@ -1,6 +1,6 @@
 #include "QueryParser.h"
 
-QueryParser::QueryParser(ISourceExpressionParser *exprParser):
+QueryParser::QueryParser(ISourceExpressionParser *exprParser) :
     exprParser(exprParser) {}
 
 PQLQueryPtr QueryParser::parseQuery(const string *query) {

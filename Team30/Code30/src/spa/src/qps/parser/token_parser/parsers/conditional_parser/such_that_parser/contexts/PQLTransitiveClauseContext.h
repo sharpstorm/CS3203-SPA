@@ -7,7 +7,7 @@ template<class Clause, class ClauseT, class LeftArgExtractor,
 class PQLTransitiveClauseContext : public AbstractSuchThatClauseContext {
  public:
   SuchThatClausePtr parse(QueryTokenParseState *parserState,
-                                    QueryBuilder* builder) override {
+                          QueryBuilder *builder) override {
     bool isTransitive = parseTransitiveQualifier(parserState);
 
     if (isTransitive) {

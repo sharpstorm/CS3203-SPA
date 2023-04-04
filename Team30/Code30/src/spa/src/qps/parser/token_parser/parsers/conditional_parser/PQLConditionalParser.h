@@ -5,14 +5,14 @@
 #include "such_that_parser/PQLSuchThatParser.h"
 #include "with_clause/PQLWithParser.h"
 
-class PQLConditionalParser: public IPQLParser {
+class PQLConditionalParser : public IPQLParser {
  public:
-  explicit PQLConditionalParser(ISourceExpressionParser* exprParser);
-  void parse(QueryTokenParseState* parserState,
+  explicit PQLConditionalParser(ISourceExpressionParser *exprParser);
+  void parse(QueryTokenParseState *parserState,
              QueryBuilder *queryBuilder) override;
 
  private:
-  IPQLParser* getParseContext(PQLTokenType type);
+  IPQLParser *getParseContext(PQLTokenType type);
 
   PQLPatternParser patternParser;
   PQLSuchThatParser suchThatParser;

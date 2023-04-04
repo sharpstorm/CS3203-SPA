@@ -28,12 +28,12 @@ class QueryBuilder {
  public:
   QueryBuilder();
   void addResultSynonym(const AttributedSynonym &syn);
-  bool hasSynonym(const PQLSynonymName &name);
+  bool hasSynonym(const PQLSynonymName &name) const;
   void addSynonym(const PQLSynonymName &name,
                   const PQLSynonymType &type);
   void finalizeSynonymTable();
 
-  PQLQuerySynonymProxy* accessSynonym(const PQLSynonymName &name);
+  PQLQuerySynonymProxy *accessSynonym(const PQLSynonymName &name);
   void addSuchThat(SuchThatClausePtr clause);
   void addPattern(PatternClausePtr clause);
   void addWith(WithClausePtr clause);

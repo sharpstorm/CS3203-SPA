@@ -6,13 +6,13 @@
 
 class PQLAssignPatternContext {
  public:
-  explicit PQLAssignPatternContext(ISourceExpressionParser* exprParser);
+  explicit PQLAssignPatternContext(ISourceExpressionParser *exprParser);
   PatternClausePtr parse(PQLQuerySynonymProxy synonym,
                          ClauseArgumentPtr firstArg,
                          IntermediateExpressionArgumentPtr secondArg);
 
  private:
-  ISourceExpressionParser* exprParser;
+  ISourceExpressionParser *exprParser;
 
-  IASTPtr buildPostfix(IntermediateExpressionArgument* arg);
+  IASTPtr buildPostfix(IntermediateExpressionArgument *arg);
 };

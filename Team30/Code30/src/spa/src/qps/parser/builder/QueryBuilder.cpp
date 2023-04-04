@@ -31,7 +31,7 @@ void QueryBuilder::addSynonym(const PQLSynonymName &name,
   declaredNames.insert(name);
 }
 
-bool QueryBuilder::hasSynonym(const PQLSynonymName &name) {
+bool QueryBuilder::hasSynonym(const PQLSynonymName &name) const {
   return declaredNames.find(name) != declaredNames.end();
 }
 

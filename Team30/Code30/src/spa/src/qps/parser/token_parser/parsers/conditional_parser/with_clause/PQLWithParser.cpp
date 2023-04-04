@@ -16,7 +16,7 @@ void PQLWithParser::parse(QueryTokenParseState *parserState,
                           QueryBuilder *builder) {
   parserState->expect(PQL_TOKEN_WITH);
   unique_ptr<PQLToken> dummyAnd = make_unique<PQLToken>(PQL_TOKEN_AND);
-  PQLToken* andToken = dummyAnd.get();
+  const PQLToken *andToken = dummyAnd.get();
 
   while (andToken != nullptr) {
     parseWithClause(parserState, builder);
@@ -45,7 +45,7 @@ void PQLWithParser::parseWithClause(QueryTokenParseState *parserState,
 
 void PQLWithParser::handleConstant(WithArgumentPtr left,
                                    WithArgumentPtr right,
-                                   QueryBuilder* builder) {
+                                   QueryBuilder *builder) {
   ConstraintPtr constraint = make_unique<ConstantConstraint>(std::move(left),
                                                              std::move(right));
   builder->addConstraint(std::move(constraint));
@@ -53,7 +53,7 @@ void PQLWithParser::handleConstant(WithArgumentPtr left,
 
 void PQLWithParser::handleOverride(WithArgumentPtr left,
                                    WithArgumentPtr right,
-                                   QueryBuilder* builder) {
+                                   QueryBuilder *builder) {
   bool isLeftSyn = left->isSyn();
   WithArgumentPtr synArg = isLeftSyn ? std::move(left) : std::move(right);
   WithArgumentPtr constArg = isLeftSyn ? std::move(right) : std::move(left);
@@ -102,10 +102,10 @@ ConstraintPtr PQLWithParser::parseOverrideConstraint(
   }
 }
 
-WithArgumentPtr PQLWithParser::parseWithArg(QueryTokenParseState* state,
-                                            QueryBuilder* builder) {
-  PQLToken* token = state->tryExpect(PQL_TOKEN_STRING_LITERAL,
-                                     PQL_TOKEN_INTEGER);
+WithArgumentPtr PQLWithParser::parseWithArg(QueryTokenParseState *state,
+                                            QueryBuilder *builder) {
+  const PQLToken *token = state->tryExpect(PQL_TOKEN_STRING_LITERAL,
+                                           PQL_TOKEN_INTEGER);
   if (token != nullptr) {
     return processConstant(token);
   }
@@ -128,7 +128,7 @@ WithArgumentPtr PQLWithParser::parseWithArg(QueryTokenParseState* state,
   return make_unique<WithArgument>(std::move(attrSyn));
 }
 
-WithArgumentPtr PQLWithParser::processConstant(PQLToken *token) {
+WithArgumentPtr PQLWithParser::processConstant(const PQLToken *token) {
   if (token->isType(PQL_TOKEN_STRING_LITERAL)) {
     return make_unique<WithArgument>(token->getData());
   } else if (token->isType(PQL_TOKEN_INTEGER)) {

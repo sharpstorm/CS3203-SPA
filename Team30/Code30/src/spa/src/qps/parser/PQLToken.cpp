@@ -1,14 +1,14 @@
 #include "PQLToken.h"
 
-PQLToken::PQLToken(PQLTokenType type):
+PQLToken::PQLToken(PQLTokenType type) :
     type(type) {
 }
 
-PQLToken::PQLToken(PQLTokenType type, const TokenData &data):
+PQLToken::PQLToken(PQLTokenType type, const TokenData &data) :
     type(type), tokenData(data) {
 }
 
-bool PQLToken::operator==(const PQLToken& other) const {
+bool PQLToken::operator==(const PQLToken &other) const {
   if ((type & PQL_DATA_TOKEN_MASK) > 0) {
     return type == other.type && tokenData == other.tokenData;
   }

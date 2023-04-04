@@ -151,13 +151,13 @@ void QueryLexer::clearState() {
   hasSeenChar = false;
 }
 
-void QueryLexer::validateIntegerToken(const string &buffer) {
+void QueryLexer::validateIntegerToken(const string &buffer) const {
   if (buffer.length() > 1 && QueryLexerTokenTable::isZero(buffer.at(0))) {
     throw QPSLexerError(QPS_LEXER_ERR_INTEGER_ZERO);
   }
 }
 
-void QueryLexer::validateIdentifier(const string &buffer) {
+void QueryLexer::validateIdentifier(const string &buffer) const {
   if (QueryLexerTokenTable::isDigit(buffer.at(0))) {
     throw QPSLexerError(QPS_LEXER_ERR_STRING_DIGIT);
   }

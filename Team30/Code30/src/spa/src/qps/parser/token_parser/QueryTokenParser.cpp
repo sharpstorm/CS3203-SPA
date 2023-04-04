@@ -1,10 +1,10 @@
 #include "QueryTokenParser.h"
 #include "qps/parser/builder/QueryBuilder.h"
 
-QueryTokenParser::QueryTokenParser(ISourceExpressionParser* exprParser,
-                                   PQLTokenVector* tokens):
-                                   tokens(tokens),
-                                   conditionalParser(exprParser) {
+QueryTokenParser::QueryTokenParser(ISourceExpressionParser *exprParser,
+                                   PQLTokenVector *tokens) :
+    tokens(tokens),
+    conditionalParser(exprParser) {
 }
 
 PQLQueryPtr QueryTokenParser::build() {

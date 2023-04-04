@@ -13,14 +13,14 @@ using std::string;
 
 class QueryTokenParser {
  private:
-  PQLTokenVector* tokens;
+  PQLTokenVector *tokens;
 
   PQLSelectParser selectParser;
   PQLDeclarationParser declarationParser;
   PQLConditionalParser conditionalParser;
 
  public:
-  explicit QueryTokenParser(ISourceExpressionParser* exprParser,
-                            PQLTokenVector* tokens);
+  explicit QueryTokenParser(ISourceExpressionParser *exprParser,
+                            PQLTokenVector *tokens);
   PQLQueryPtr build();
 };
