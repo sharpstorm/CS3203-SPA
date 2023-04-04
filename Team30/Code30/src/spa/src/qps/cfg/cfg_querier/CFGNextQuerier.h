@@ -6,12 +6,12 @@
 #include "CFGQuerier.h"
 #include "qps/cfg/CFGQuerierTypes.h"
 
-template <class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
-class CFGNextQuerier: public ICFGClauseQuerier,
-                      public CFGQuerier<
-                          CFGNextQuerier<ClosureType, typePredicate>>{
+template<class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
+class CFGNextQuerier : public ICFGClauseQuerier,
+                       public CFGQuerier<
+                           CFGNextQuerier<ClosureType, typePredicate>> {
  public:
-  explicit CFGNextQuerier(CFG* cfg, const ClosureType &closure);
+  explicit CFGNextQuerier(CFG *cfg, const ClosureType &closure);
 
   StmtTransitiveResult queryBool(const StmtValue &arg0,
                                  const StmtValue &arg1) final;
@@ -19,20 +19,20 @@ class CFGNextQuerier: public ICFGClauseQuerier,
                                  const StmtType &type1) final;
   StmtTransitiveResult queryTo(const StmtType &type0,
                                const StmtValue &arg1) final;
-  void queryAll(StmtTransitiveResult* resultOut,
+  void queryAll(StmtTransitiveResult *resultOut,
                 const StmtType &type0,
                 const StmtType &type1) final;
 
  private:
-  CFG* cfg;
+  CFG *cfg;
   const ClosureType &closure;
 };
 
-template <class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
+template<class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
 CFGNextQuerier<ClosureType, typePredicate>::CFGNextQuerier(
     CFG *cfg, const ClosureType &closure): cfg(cfg), closure(closure) {}
 
-template <class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
+template<class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
 StmtTransitiveResult CFGNextQuerier<ClosureType, typePredicate>::
 queryBool(const StmtValue &arg0, const StmtValue &arg1) {
   StmtTransitiveResult result;
@@ -45,7 +45,7 @@ queryBool(const StmtValue &arg0, const StmtValue &arg1) {
   CFGNode nodeFrom = cfg->toCFGNode(arg0);
   CFGNode nodeTo = cfg->toCFGNode(arg1);
 
-  CFGLinks* links = cfg->nextLinksOf(nodeFrom);
+  CFGLinks *links = cfg->nextLinksOf(nodeFrom);
   if (links == nullptr) {
     return result;
   }
@@ -60,7 +60,7 @@ queryBool(const StmtValue &arg0, const StmtValue &arg1) {
   return result;
 }
 
-template <class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
+template<class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
 StmtTransitiveResult CFGNextQuerier<ClosureType, typePredicate>::
 queryFrom(const StmtValue &arg0, const StmtType &type1) {
   StmtTransitiveResult result;
@@ -70,7 +70,7 @@ queryFrom(const StmtValue &arg0, const StmtType &type1) {
   }
 
   CFGNode nodeFrom = cfg->toCFGNode(arg0);
-  CFGLinks* links = cfg->nextLinksOf(nodeFrom);
+  CFGLinks *links = cfg->nextLinksOf(nodeFrom);
   for (auto it = links->begin(); it != links->end(); it++) {
     CFGNode node = *it;
     if (node == CFG_END_NODE) {
@@ -87,7 +87,7 @@ queryFrom(const StmtValue &arg0, const StmtType &type1) {
   return result;
 }
 
-template <class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
+template<class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
 StmtTransitiveResult CFGNextQuerier<ClosureType, typePredicate>::
 queryTo(const StmtType &type0, const StmtValue &arg1) {
   StmtTransitiveResult result;
@@ -97,7 +97,7 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
   }
 
   CFGNode nodeTo = cfg->toCFGNode(arg1);
-  CFGLinks* links = cfg->reverseLinksOf(nodeTo);
+  CFGLinks *links = cfg->reverseLinksOf(nodeTo);
   for (auto it = links->begin(); it != links->end(); it++) {
     CFGNode node = *it;
     if (node == CFG_END_NODE) {
@@ -114,9 +114,9 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
   return result;
 }
 
-template <class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
+template<class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
 void CFGNextQuerier<ClosureType, typePredicate>::
-queryAll(StmtTransitiveResult* resultOut,
+queryAll(StmtTransitiveResult *resultOut,
          const StmtType &type0,
          const StmtType &type1) {
   for (CFGNode nodeFrom = 0; nodeFrom < cfg->getNodeCount(); nodeFrom++) {
@@ -125,7 +125,7 @@ queryAll(StmtTransitiveResult* resultOut,
       continue;
     }
 
-    CFGLinks* links = cfg->nextLinksOf(nodeFrom);
+    CFGLinks *links = cfg->nextLinksOf(nodeFrom);
     for (auto it = links->begin(); it != links->end(); it++) {
       CFGNode nodeTo = *it;
       if (nodeTo == CFG_END_NODE) {

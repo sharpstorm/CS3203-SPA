@@ -40,7 +40,8 @@ class CFGAffectsQuerier : public ICFGClauseQuerier,
                 const StmtType &type1) final;
 
   template<class T, StmtTypePredicate<T> typeChecker>
-  static constexpr bool isContainer(const T &closure, const int &stmtNumber) {
+  static constexpr bool isContainer(const T &closure,
+                                    const StmtValue &stmtNumber) {
     return (typeChecker(closure, StmtType::While, stmtNumber)
         || typeChecker(closure, StmtType::If, stmtNumber));
   }
@@ -138,7 +139,7 @@ queryBool(const StmtValue &arg0, const StmtValue &arg1) {
   BoolResultClosure state{cfg, closure, modifiedVar, arg1, false};
   constexpr WalkerSingleCallback<BoolResultClosure> callback =
       [](BoolResultClosure *state, CFGNode nextNode) -> bool {
-        int stmtNumber = state->cfg->fromCFGNode(nextNode);
+        StmtValue stmtNumber = state->cfg->fromCFGNode(nextNode);
         if (stmtNumber == state->targetStmt) {
           state->isValidPathFound = true;
           throw CFGHaltWalkerException();
@@ -228,7 +229,7 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
       [](QueryToResultClosure *state, CFGNode nextNode, BitField curState)
           -> BitField {
         bool isAffected = false;
-        int stmtNumber = state->cfg->fromCFGNode(nextNode);
+        StmtValue stmtNumber = state->cfg->fromCFGNode(nextNode);
 
         if (isContainer<ClosureType,
                         typePredicate>(state->closure, stmtNumber)) {
@@ -305,14 +306,14 @@ void CFGAffectsQuerier<ClosureType, typePredicate,
                        modifiesGetter, usesGetter>::
 queryForward(StmtTransitiveResult *resultOut,
              const StmtValue &start) {
-  int stmtNumber = cfg->fromCFGNode(start);
+  StmtValue stmtNumber = cfg->fromCFGNode(start);
   if (!validateArg(stmtNumber)) {
     return;
   }
 
   constexpr WalkerSingleCallback<QueryFromResultClosure> forwardWalkerCallback
       = [](QueryFromResultClosure *state, CFGNode nextNode) -> bool {
-        int stmtNumber = 0;
+        StmtValue stmtNumber = 0;
         stmtNumber = state->cfg->fromCFGNode(nextNode);
 
         if (typePredicate(state->closure, StmtType::Assign, stmtNumber)) {

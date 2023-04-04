@@ -17,7 +17,7 @@ class ICFGClauseQuerier {
                                          const StmtType &type1) = 0;
   virtual StmtTransitiveResult queryTo(const StmtType &type0,
                                        const StmtValue &arg1) = 0;
-  virtual void queryAll(StmtTransitiveResult* resultOut,
+  virtual void queryAll(StmtTransitiveResult *resultOut,
                         const StmtType &type0,
                         const StmtType &type1) = 0;
 };
