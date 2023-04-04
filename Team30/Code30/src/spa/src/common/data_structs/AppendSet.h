@@ -59,7 +59,10 @@ void AppendSet<T>::insert(const T &item) {
   items.push_back(item);
   size_t newSize = items.size();
   size_t i = 1;
-  for (; item < items[newSize - 1 - i] && i < newSize; i++) {
+  for (; i < newSize; i++) {
+    if (item >= items[newSize - 1 - i]) {
+      break;
+    }
     items[newSize - i] = items[newSize - 1 - i];
   }
   items[newSize - i] = item;
