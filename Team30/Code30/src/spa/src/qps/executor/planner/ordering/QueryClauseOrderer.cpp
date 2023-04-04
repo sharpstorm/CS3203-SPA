@@ -35,7 +35,8 @@ QueryGroupPlanPtr QueryClauseOrderer::orderClauses(
       curIndex++;
       curModifier--;
 
-      const unordered_set<ClauseId>* edges = group->getRelated(curClause.getData());
+      const unordered_set<ClauseId>* edges = group
+          ->getRelated(curClause.getData());
       for (auto it = edges->begin(); it != edges->end(); it++) {
         ClauseId otherClauseId = *it;
         if (seenClauses.isSet(otherClauseId)) {
