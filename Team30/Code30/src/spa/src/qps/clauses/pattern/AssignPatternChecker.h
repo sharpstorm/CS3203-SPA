@@ -23,7 +23,6 @@ class AssignPatternChecker {
  private:
   bool checkTrie(const QueryExecutorAgent &agent,
                  const StmtValue &stmtNumber) const;
-  bool AssignPatternChecker::isTrieMatch(PatternTrie *lineRoot) const;
 
   void checkBoolean(const QueryResult<StmtValue, EntityValue> *modifiesResult,
                     QueryResult<StmtValue, EntityValue> *assignResult,
