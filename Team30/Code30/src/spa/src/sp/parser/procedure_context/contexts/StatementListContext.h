@@ -4,9 +4,9 @@
 #include "../ProcedureContextType.h"
 #include "../IProcedureContextProvider.h"
 
-class StatementListContext: public RecursiveProcedureParseContext {
+class StatementListContext : public RecursiveProcedureParseContext {
  public:
-  explicit StatementListContext(IProcedureContextProvider* provider):
+  explicit StatementListContext(IProcedureContextProvider *provider) :
       RecursiveParseContext(provider) {}
-  ASTNodePtr generateSubtree(SourceParseState* state) override;
+  ASTNodePtr generateSubtree(SourceParseState *state) const override;
 };

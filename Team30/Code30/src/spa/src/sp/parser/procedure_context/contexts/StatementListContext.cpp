@@ -6,8 +6,8 @@
 
 using std::make_unique;
 
-ASTNodePtr StatementListContext::generateSubtree(
-    SourceParseState *state) {
+ASTNodePtr StatementListContext::generateSubtree(SourceParseState *state)
+const {
   ASTNodePtr node = make_unique<StatementListNode>();
 
   state->expect(SIMPLE_TOKEN_BRACKET_CURLY_LEFT);

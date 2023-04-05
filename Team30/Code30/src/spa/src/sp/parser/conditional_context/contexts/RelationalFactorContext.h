@@ -6,7 +6,7 @@
 class RelationalFactorContext: public SourceParseContext {
  public:
   explicit RelationalFactorContext(IExpressionParser* exprParser);
-  ASTNodePtr generateSubtree(SourceParseState* state) override;
+  ASTNodePtr generateSubtree(SourceParseState* state) const override;
 
  private:
   IExpressionParser* exprParser;

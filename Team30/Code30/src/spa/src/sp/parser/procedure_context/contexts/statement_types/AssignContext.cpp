@@ -7,7 +7,7 @@
 
 using std::make_unique;
 
-ASTNodePtr AssignContext::generateSubtree(SourceParseState* state) {
+ASTNodePtr AssignContext::generateSubtree(SourceParseState *state) const {
   // Parse assignee
   ASTNodePtr name = contextProvider->parseVariable(state);
 

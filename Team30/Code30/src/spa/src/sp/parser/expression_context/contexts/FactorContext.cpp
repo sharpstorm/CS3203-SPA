@@ -1,8 +1,8 @@
 #include "FactorContext.h"
 
-ASTNodePtr FactorContext::generateSubtree(SourceParseState *state) {
+ASTNodePtr FactorContext::generateSubtree(SourceParseState *state) const {
   ASTNodePtr node;
-  SourceToken* currToken = state->getCurrToken();
+  SourceToken *currToken = state->getCurrToken();
   if (currToken == nullptr) {
     throw SPError(SPERR_END_OF_STREAM);
   }
@@ -11,7 +11,7 @@ ASTNodePtr FactorContext::generateSubtree(SourceParseState *state) {
     return entityParser->parseVariable(state);
   }
 
-  switch (state->getCurrToken()->getType()) {
+  switch (currToken->getType()) {
     case SIMPLE_TOKEN_INTEGER:
       return entityParser->parseConstant(state);
     case SIMPLE_TOKEN_BRACKET_ROUND_LEFT:

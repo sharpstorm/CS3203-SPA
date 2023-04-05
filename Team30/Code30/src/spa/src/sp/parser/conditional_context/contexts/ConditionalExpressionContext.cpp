@@ -10,20 +10,20 @@
 using std::make_unique;
 
 ASTNodePtr ConditionalExpressionContext::generateSubtree(
-    SourceParseState *state) {
+    SourceParseState *state) const {
   ASTNodePtr newNode;
-  SourceToken* token = state->getCurrToken();
-  if (token == nullptr) {
+  if (state->isEnd()) {
     throw SPError(SPERR_END_OF_STREAM);
   }
 
-  int curState = state->getCurrPosition();
+  auto stateSnapshot = state->savePosition();
   try {
     return processRelationalExpression(state);
-  } catch(const SPError& error) {
-    state->restorePosition(curState);
+  } catch (const SPError &error) {
+    state->restorePosition(stateSnapshot);
   }
 
+  SourceToken *token = state->getCurrToken();
   switch (token->getType()) {
     case SIMPLE_TOKEN_NOT:
       newNode = processNotCondition(state);
@@ -46,7 +46,7 @@ generateConditionalNode(ASTNodePtr leftNode) {
 }
 
 ASTNodePtr ConditionalExpressionContext::
-processNotCondition(SourceParseState* state) {
+processNotCondition(SourceParseState *state) const {
   // Expect '!' -> '('
   state->expect(SIMPLE_TOKEN_NOT);
   state->expect(SIMPLE_TOKEN_BRACKET_ROUND_LEFT);
@@ -61,7 +61,7 @@ processNotCondition(SourceParseState* state) {
 
 ASTNodePtr
 ConditionalExpressionContext::
-processBiCondition(SourceParseState* state) {
+processBiCondition(SourceParseState *state) const {
   // Expect '('
   state->expect(SIMPLE_TOKEN_BRACKET_ROUND_LEFT);
 
@@ -92,7 +92,7 @@ processBiCondition(SourceParseState* state) {
 }
 
 ASTNodePtr ConditionalExpressionContext::
-processRelationalExpression(SourceParseState* state) {
+processRelationalExpression(SourceParseState *state) const {
   return contextProvider
       ->generateSubtree(ConditionalContextType::REL_CONTEXT, state);
 }

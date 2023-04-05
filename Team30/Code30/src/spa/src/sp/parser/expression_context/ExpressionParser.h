@@ -14,9 +14,9 @@ typedef SubContextParser<ExpressionContextType,
                          ExpressionContextType::EXPR_CONTEXT>
     IExpressionParser;
 
-class ExpressionParser: public IExpressionParser {
+class ExpressionParser : public IExpressionParser {
  public:
-  explicit ExpressionParser(IEntityParser* entityParser):
+  explicit ExpressionParser(IEntityParser *entityParser) :
       SubContextParser(make_unique<ExpressionContextProvider>(entityParser)) {}
 };
 

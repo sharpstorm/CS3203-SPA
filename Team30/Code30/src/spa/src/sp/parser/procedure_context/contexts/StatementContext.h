@@ -4,13 +4,13 @@
 #include "../ProcedureContextType.h"
 #include "../IProcedureContextProvider.h"
 
-class StatementContext: public RecursiveProcedureParseContext {
+class StatementContext : public RecursiveProcedureParseContext {
  public:
-  explicit StatementContext(IProcedureContextProvider * provider):
+  explicit StatementContext(IProcedureContextProvider *provider) :
       RecursiveProcedureParseContext(provider) {}
-  ASTNodePtr generateSubtree(SourceParseState* state) override;
+  ASTNodePtr generateSubtree(SourceParseState *state) const override;
 
  private:
-  template <ProcedureContextType CONTEXT_TYPE>
-  ASTNodePtr invokeSubcontext(SourceParseState *state);
+  template<ProcedureContextType CONTEXT_TYPE>
+  ASTNodePtr invokeSubcontext(SourceParseState *state) const;
 };

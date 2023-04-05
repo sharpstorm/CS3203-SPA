@@ -7,10 +7,10 @@
 
 using std::make_unique;
 
-ExpressionContext::ExpressionContext(IExpressionContextProvider *provider):
+ExpressionContext::ExpressionContext(IExpressionContextProvider *provider) :
     RecursiveParseContext(provider) {}
 
-ASTNodePtr ExpressionContext::generateSubtree(SourceParseState *state) {
+ASTNodePtr ExpressionContext::generateSubtree(SourceParseState *state) const {
   ASTNodePtr leftExpr;
   if (!state->hasCached()) {
     // Expect term
@@ -38,8 +38,9 @@ ASTNodePtr ExpressionContext::generateSubtree(SourceParseState *state) {
   return middleNode;
 }
 
-BinaryASTNodePtr ExpressionContext::generateOperand(SourceParseState *state) {
-  SourceToken* curToken = state->tryExpect(SIMPLE_TOKEN_PLUS,
+BinaryASTNodePtr ExpressionContext::generateOperand(
+    SourceParseState *state) const {
+  SourceToken *curToken = state->tryExpect(SIMPLE_TOKEN_PLUS,
                                            SIMPLE_TOKEN_MINUS);
   if (curToken == nullptr) {
     return nullptr;

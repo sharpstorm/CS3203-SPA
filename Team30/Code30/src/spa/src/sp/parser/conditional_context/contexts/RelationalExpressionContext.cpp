@@ -13,11 +13,11 @@
 using std::make_unique, std::move;
 
 ASTNodePtr
-RelationalExpressionContext::generateSubtree(SourceParseState *state) {
+RelationalExpressionContext::generateSubtree(SourceParseState *state) const {
   ASTNodePtr leftNode = contextProvider
       ->generateSubtree(ConditionalContextType::REL_FACTOR_CONTEXT, state);
 
-  SourceToken* token = state->expect(SIMPLE_TOKEN_GT,
+  SourceToken *token = state->expect(SIMPLE_TOKEN_GT,
                                      SIMPLE_TOKEN_GTE,
                                      SIMPLE_TOKEN_LT,
                                      SIMPLE_TOKEN_LTE,
@@ -33,7 +33,7 @@ RelationalExpressionContext::generateSubtree(SourceParseState *state) {
 }
 
 BinaryASTNodePtr RelationalExpressionContext::generateRelationalNode(
-    SourceTokenType type, ASTNodePtr leftNode) {
+    SourceTokenType type, ASTNodePtr leftNode) const {
   BinaryASTNodePtr node;
   switch (type) {
     case SIMPLE_TOKEN_GT:

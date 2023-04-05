@@ -9,8 +9,8 @@ class TermContext: public RecursiveExpressionParseContext {
  public:
   explicit TermContext(IExpressionContextProvider* provider):
       RecursiveParseContext(provider) {}
-  ASTNodePtr generateSubtree(SourceParseState* state) override;
+  ASTNodePtr generateSubtree(SourceParseState* state) const override;
 
  private:
-  BinaryASTNodePtr generateOperand(SourceParseState *state);
+  BinaryASTNodePtr generateOperand(SourceParseState *state) const;
 };

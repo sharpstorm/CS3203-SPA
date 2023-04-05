@@ -1,34 +1,43 @@
 #pragma once
-#include <vector>
+
 #include "sp/common/SourceToken.h"
 #include "sp/ast/ASTNode.h"
 #include "sp/errors/SPError.h"
-
-using std::vector;
-
-typedef int LineNumber;
+#include "../SPTypes.h"
 
 class SourceParseState {
- public:
-  explicit SourceParseState(vector<SourceToken>* tokens);
-  void advanceToken();
-  SourceToken* getCurrToken();
-  SourceToken* peekNextToken();
-  bool nextTokenIsOfType(SourceTokenType type);
+  typedef int SPParserCursor;
 
-  bool isEnd();
-  int getCurrPosition();
-  void restorePosition(int pos);
+ public:
+  class SourceParseStateSnapshot {
+   private:
+    LineNumber lineNo;
+    friend SourceParseState;
+
+   public:
+    explicit SourceParseStateSnapshot(const LineNumber &lineNo) :
+        lineNo(lineNo) {}
+  };
+
+  explicit SourceParseState(SourceTokenStream *tokens);
+
+  SourceToken *getCurrToken() const;
+  bool nextTokenIsOfType(SourceTokenType type) const;
+  bool isEnd() const;
+
+  void advanceToken();
+  SourceParseStateSnapshot savePosition();
+  void restorePosition(const SourceParseStateSnapshot &snapshot);
 
   void cacheNode(ASTNodePtr node);
-  bool hasCached();
+  bool hasCached() const;
   ASTNodePtr consumeCache();
 
-  LineNumber getLineNumber();
+  LineNumber getLineNumber() const;
   void advanceLine();
 
   template<typename... SourceTokenType>
-  bool currTokenIsOfType(SourceTokenType... type);
+  bool currTokenIsOfType(SourceTokenType... type) const;
 
   template<typename... SourceTokenType>
   SourceToken *expect(SourceTokenType... tokenType);
@@ -36,30 +45,31 @@ class SourceParseState {
   template<typename... SourceTokenType>
   SourceToken *tryExpect(SourceTokenType... tokenType);
 
-  SourceToken* expectVarchar();
+  SourceToken *expectVarchar();
 
  private:
-  int curIndex;
+  SPParserCursor curIndex;
   int tokenLength;
   LineNumber lineNumber;
-  vector<SourceToken>* tokens;
+  SourceTokenStream *tokens;
   ASTNodePtr curCache;
+
+  SourceToken *peekNextToken() const;
 };
 
 template<typename... SourceTokenType>
-SourceToken* SourceParseState::expect(SourceTokenType... tokenType) {
-  if (currTokenIsOfType(tokenType...)) {
-    SourceToken* currentToken = getCurrToken();
-    advanceToken();
-    return currentToken;
+SourceToken *SourceParseState::expect(SourceTokenType... tokenType) {
+  SourceToken *currentToken = tryExpect(tokenType...);
+  if (currentToken == nullptr) {
+    throw SPError(SPERR_UNEXPECTED_TOKEN);
   }
-  throw SPError(SPERR_UNEXPECTED_TOKEN);
+  return currentToken;
 }
 
 template<typename... SourceTokenType>
-SourceToken* SourceParseState::tryExpect(SourceTokenType... tokenType) {
+SourceToken *SourceParseState::tryExpect(SourceTokenType... tokenType) {
   if (currTokenIsOfType(tokenType...)) {
-    SourceToken* currentToken = getCurrToken();
+    SourceToken *currentToken = getCurrToken();
     advanceToken();
     return currentToken;
   }
@@ -67,8 +77,8 @@ SourceToken* SourceParseState::tryExpect(SourceTokenType... tokenType) {
 }
 
 template<typename... SourceTokenType>
-bool SourceParseState::currTokenIsOfType(SourceTokenType... type) {
-  SourceToken* token = getCurrToken();
+bool SourceParseState::currTokenIsOfType(SourceTokenType... type) const {
+  SourceToken *token = getCurrToken();
   if (token == nullptr) {
     return false;
   }

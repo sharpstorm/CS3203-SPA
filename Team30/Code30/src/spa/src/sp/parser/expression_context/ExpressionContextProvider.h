@@ -10,14 +10,14 @@
 
 class ExpressionContextProvider : public IExpressionContextProvider {
  public:
-  explicit ExpressionContextProvider(IEntityParser* entityParser);
+  explicit ExpressionContextProvider(IEntityParser *entityParser);
   ASTNodePtr generateSubtree(ExpressionContextType type,
-                                      SourceParseState* state) override;
+                             SourceParseState *state) const override;
 
  private:
   ExpressionContext exprContext;
   FactorContext factorContext;
   TermContext termContext;
 
-  SourceParseContext* getContext(ExpressionContextType type);
+  const SourceParseContext *getContext(ExpressionContextType type) const;
 };

@@ -1,19 +1,19 @@
 #include "ConditionalContextProvider.h"
 
 ConditionalContextProvider::ConditionalContextProvider(
-    IExpressionParser *exprParser): condContext(this),
-                                    relContext(this),
-                                    relFactorContext(exprParser) {
+    IExpressionParser *exprParser) : condContext(this),
+                                     relContext(this),
+                                     relFactorContext(exprParser) {
 }
 
 ASTNodePtr ConditionalContextProvider::generateSubtree(
     ConditionalContextType type,
-    SourceParseState *state) {
+    SourceParseState *state) const {
   return getContext(type)->generateSubtree(state);
 }
 
-SourceParseContext
-*ConditionalContextProvider::getContext(ConditionalContextType type) {
+const SourceParseContext *ConditionalContextProvider::getContext(
+    ConditionalContextType type) const {
   switch (type) {
     case ConditionalContextType::COND_CONTEXT:
       return &condContext;

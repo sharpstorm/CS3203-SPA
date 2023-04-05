@@ -6,7 +6,7 @@
 
 using std::make_unique;
 
-SourceTokenParser::SourceTokenParser():
+SourceTokenParser::SourceTokenParser() :
     entityParser(make_unique<EntityParser>()),
     exprParser(make_unique<ExpressionParser>(entityParser.get())),
     condParser(make_unique<ConditionalParser>(exprParser.get())),
@@ -15,7 +15,7 @@ SourceTokenParser::SourceTokenParser():
                                                  condParser.get())) {
 }
 
-ASTPtr SourceTokenParser::parseProgram(vector<SourceToken> *tokens) {
+ASTPtr SourceTokenParser::parseProgram(SourceTokenStream *tokens) const {
   SourceParseState state(tokens);
   ASTNodePtr programNode = make_unique<ProgramNode>();
   programNode->addChild(std::move(procedureParser->parse(&state)));
@@ -25,7 +25,7 @@ ASTPtr SourceTokenParser::parseProgram(vector<SourceToken> *tokens) {
   return make_unique<AST>(std::move(programNode));
 }
 
-ASTPtr SourceTokenParser::parseExpression(vector<SourceToken> *tokens) {
+ASTPtr SourceTokenParser::parseExpression(SourceTokenStream *tokens) const {
   SourceParseState state(tokens);
   return make_unique<AST>(std::move(exprParser->parse(&state)));
 }

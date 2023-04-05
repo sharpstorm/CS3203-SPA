@@ -6,12 +6,12 @@
 
 using std::make_unique;
 
-ASTNodePtr ProcedureContext::generateSubtree(SourceParseState* state) {
+ASTNodePtr ProcedureContext::generateSubtree(SourceParseState *state) const {
   // Procedure Node
   state->expect(SIMPLE_TOKEN_KEYWORD_PROCEDURE);
 
   // Name
-  SourceToken* nameToken = state->expectVarchar();
+  SourceToken *nameToken = state->expectVarchar();
   ASTNodePtr procedureNode = make_unique<ProcedureNode>(nameToken->getValue());
 
   // Statement List

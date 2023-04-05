@@ -10,8 +10,8 @@ using std::shared_ptr;
 class ExpressionContext: public RecursiveExpressionParseContext {
  public:
   explicit ExpressionContext(IExpressionContextProvider* provider);
-  ASTNodePtr generateSubtree(SourceParseState* state) override;
+  ASTNodePtr generateSubtree(SourceParseState* state) const override;
 
  private:
-  BinaryASTNodePtr generateOperand(SourceParseState *state);
+  BinaryASTNodePtr generateOperand(SourceParseState *state) const;
 };
