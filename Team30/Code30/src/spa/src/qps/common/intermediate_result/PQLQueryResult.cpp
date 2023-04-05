@@ -35,7 +35,7 @@ const SynonymColMap *PQLQueryResult::getSynonyms() const {
 }
 
 ResultTableCol PQLQueryResult::getSynonymCol(const PQLSynonymName &name) const {
-  const auto it = resultIndex.find(name);
+  const auto &it = resultIndex.find(name);
   if (it == resultIndex.end()) {
     return NO_COL;
   }

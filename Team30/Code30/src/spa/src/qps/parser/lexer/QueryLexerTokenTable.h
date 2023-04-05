@@ -8,9 +8,13 @@
 
 using std::string, std::unordered_map;
 
+typedef string QueryKeyword;
+typedef QueryKeyword QueryKeywordCandidate;
+typedef int QueryCharacter;
+
 class QueryLexerTokenTable {
- public:
-  unordered_map<string, PQLTokenType> keywordMap = {
+ private:
+  unordered_map<QueryKeyword, PQLTokenType> keywordMap = {
       {PQL_KEYWORD_SELECT, PQL_TOKEN_SELECT},
       {PQL_KEYWORD_STMT, PQL_TOKEN_STMT},
       {PQL_KEYWORD_READ, PQL_TOKEN_READ},
@@ -40,8 +44,13 @@ class QueryLexerTokenTable {
       {PQL_KEYWORD_BOOLEAN, PQL_TOKEN_BOOLEAN}
   };
   PQLTokenType tokens[256];
+
+ public:
   QueryLexerTokenTable();
-  static bool isDigit(char c);
-  static bool isZero(char c);
-  static bool isCharacter(char c);
+  PQLTokenType lookupToken(const QueryCharacter &c) const;
+  PQLTokenType lookupKeyword(const QueryKeywordCandidate &keyword) const;
+
+  static bool isDigit(const char c);
+  static bool isZero(const char c);
+  static bool isCharacter(const char c);
 };

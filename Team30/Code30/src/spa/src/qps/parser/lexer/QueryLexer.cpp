@@ -37,7 +37,7 @@ PQLTokenStreamPtr QueryLexer::getTokenStream() {
 }
 
 void QueryLexer::processChar(const char &c) {
-  PQLTokenType tokenType = tokenTable->tokens[c];
+  PQLTokenType tokenType = tokenTable->lookupToken(c);
 
   switch (tokenType) {
     case PQL_TOKEN_INVALID:
@@ -133,17 +133,18 @@ void QueryLexer::appendSymbolToken(const PQLTokenType &type,
 
 PQLTokenType QueryLexer::resolveStringToken(const string &buffer,
                                             const bool &hasSeenChar) {
-  try {
-    return tokenTable->keywordMap.at(buffer);
-  } catch (out_of_range&) {
-    if (!hasSeenChar) {
-      validateIntegerToken(buffer);
-      return PQL_TOKEN_INTEGER;
-    }
-
-    validateIdentifier(buffer);
-    return PQL_TOKEN_STRING;
+  PQLTokenType tokenType = tokenTable->lookupKeyword(buffer);
+  if (tokenType != PQL_TOKEN_NULL) {
+    return tokenType;
   }
+
+  if (!hasSeenChar) {
+    validateIntegerToken(buffer);
+    return PQL_TOKEN_INTEGER;
+  }
+
+  validateIdentifier(buffer);
+  return PQL_TOKEN_STRING;
 }
 
 void QueryLexer::clearState() {
