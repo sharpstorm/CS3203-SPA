@@ -99,6 +99,21 @@ class QueryResult {
     pairVals.insert(std::make_pair(first, second));
     isEmpty = false;
   }
+
+  void addPair(const T &first, const U &second) {
+    isEmpty = false;
+    pairVals.insert(std::make_pair(first, second));
+  }
+
+  void addLeft(const T &first) {
+    isEmpty = false;
+    firstArgVals.insert(first);
+  }
+
+  void addRight(const U &second) {
+    isEmpty = false;
+    secondArgVals.insert(second);
+  }
 };
 
 template<typename T, typename U>
