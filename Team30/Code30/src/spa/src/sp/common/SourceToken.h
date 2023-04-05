@@ -77,6 +77,7 @@ class SourceToken {
   TokenValue value;
 
  public:
+  explicit SourceToken(const SourceTokenType type);
   SourceToken(const SourceTokenType type, const TokenValue &value);
   SourceTokenType getType() const;
   TokenValue getValue() const;

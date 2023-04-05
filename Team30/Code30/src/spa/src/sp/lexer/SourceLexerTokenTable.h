@@ -1,8 +1,8 @@
 #pragma once
 
 #include <unordered_map>
-#include <string>
 #include "../common/SourceToken.h"
+#include "SPLexerTypes.h"
 
 const char SOURCE_KEYWORD_PROCEDURE[] = "procedure";
 const char SOURCE_KEYWORD_READ[] = "read";
@@ -13,10 +13,7 @@ const char SOURCE_KEYWORD_IF[] = "if";
 const char SOURCE_KEYWORD_THEN[] = "then";
 const char SOURCE_KEYWORD_ELSE[] = "else";
 
-using std::unordered_map, std::string;
-
-typedef string SourceKeyword;
-typedef SourceKeyword SourceKeywordCandidate;
+using std::unordered_map;
 
 class SourceLexerTokenTable {
  private:
@@ -34,7 +31,7 @@ class SourceLexerTokenTable {
 
  public:
   SourceLexerTokenTable();
-  SourceTokenType lookupToken(const char &c) const;
+  SourceTokenType lookupToken(const LexerCharacter &c) const;
   SourceTokenType lookupKeyword(const SourceKeywordCandidate &keyword) const;
   static bool isDigit(const char &c);
   static bool isZero(const char &c);

@@ -1,7 +1,7 @@
 #include "SourceLexerTokenTable.h"
 #include "common/lexer/AsciiCharacters.h"
 
-SourceLexerTokenTable::SourceLexerTokenTable() {
+SourceLexerTokenTable::SourceLexerTokenTable(): tokens() {
   for (int i = 0; i < 256; i++) {
     tokens[i] = SIMPLE_TOKEN_INVALID;
   }
@@ -43,7 +43,8 @@ SourceLexerTokenTable::SourceLexerTokenTable() {
   }
 }
 
-SourceTokenType SourceLexerTokenTable::lookupToken(const char &c) const {
+SourceTokenType SourceLexerTokenTable::lookupToken(
+    const LexerCharacter &c) const {
   return tokens[c];
 }
 

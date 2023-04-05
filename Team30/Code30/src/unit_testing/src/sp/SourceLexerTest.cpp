@@ -2,17 +2,18 @@
 #include <vector>
 #include "sp/lexer/SourceLexer.h"
 #include "sp/common/SourceToken.h"
+#include "sp/lexer/SourceLexerFactory.h"
 
 using std::vector;
 
 TEST_CASE("Test Source Lexer General") {
-  SourceLexer lexer;
+  SourceLexerFactory lexerFactory;
 
   string input = "procedure q {\n"
                  "while(i!=0) {\n"
                  "  x = x + 2;\n"
                  "}}";
-  SourceTokenStreamPtr result = lexer.tokenize(input);
+  SourceTokenStreamPtr result = lexerFactory.makeLexer(&input).tokenize();
   vector<SourceToken> expected = vector<SourceToken>{
     SourceToken(SIMPLE_TOKEN_KEYWORD_PROCEDURE, ""),
     SourceToken(SIMPLE_TOKEN_VARIABLE, "q"),
@@ -39,13 +40,13 @@ TEST_CASE("Test Source Lexer General") {
 }
 
 TEST_CASE("Test Source Condition") {
-  SourceLexer lexer;
+  SourceLexerFactory lexerFactory;
 
   string input = "procedure q {\n"
                  "while(i != 0 && !(i == 0) && i < 0 || i <= 0 || i >= 0 && i > 0) {\n"
                  "  helloIamAverylongLongUnder100CharacterString = aaaa + 2;\n"
                  "}}";
-  SourceTokenStreamPtr result = lexer.tokenize(input);
+  SourceTokenStreamPtr result = lexerFactory.makeLexer(&input).tokenize();
   vector<SourceToken> expected = vector<SourceToken>{
       SourceToken(SIMPLE_TOKEN_KEYWORD_PROCEDURE, ""),
       SourceToken(SIMPLE_TOKEN_VARIABLE, "q"),

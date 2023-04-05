@@ -1,8 +1,8 @@
 #pragma once
 
 #include "ISourceParser.h"
-#include "sp/lexer/SourceLexer.h"
 #include "sp/parser/SourceTokenParser.h"
+#include "sp/lexer/SourceLexerFactory.h"
 
 class SourceParser : public ISourceParser {
  public:
@@ -10,6 +10,6 @@ class SourceParser : public ISourceParser {
   ASTPtr parseExpression(const SourceExpression &expression) override;
 
  private:
-  SourceLexer sourceLexer;
+  SourceLexerFactory lexerFactory;
   SourceTokenParser sourceTokenParser;
 };
