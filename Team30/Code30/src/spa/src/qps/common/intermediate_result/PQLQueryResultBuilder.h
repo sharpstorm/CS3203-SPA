@@ -121,7 +121,7 @@ PQLQueryResult *PQLQueryResultBuilder<T, U>::build(
 template<class T, class U>
 void PQLQueryResultBuilder<T, U>::populateTwoNamed(
     const QueryResult<T, U> *queryResult) {
-  if (isLeftKnown && isRightKnown) {
+  if (isLeftKnown && isRightKnown && !queryResult->isEmpty) {
     pair_set<T, U> dummySet;
     dummySet.insert(pair<T, U>{leftValue, rightValue});
     inProgress->add(leftName, rightName, dummySet);
@@ -139,7 +139,7 @@ void PQLQueryResultBuilder<T, U>::populateTwoNamed(
 template<class T, class U>
 void PQLQueryResultBuilder<T, U>::populateLeftNamed(
     const QueryResultSet<T> &result) {
-  if (isLeftKnown) {
+  if (isLeftKnown && !result.empty()) {
     inProgress->add(leftName, QueryResultSet<T>{leftValue});
     return;
   }
@@ -149,7 +149,7 @@ void PQLQueryResultBuilder<T, U>::populateLeftNamed(
 template<class T, class U>
 void PQLQueryResultBuilder<T, U>::populateRightNamed(
     const QueryResultSet<U> &result) {
-  if (isRightKnown) {
+  if (isRightKnown && !result.empty()) {
     inProgress->add(rightName, QueryResultSet<U>{rightValue});
     return;
   }
