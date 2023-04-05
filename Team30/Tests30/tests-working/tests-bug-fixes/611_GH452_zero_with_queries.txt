@@ -1,0 +1,15 @@
+1 - BUG REPORTED
+constant c;
+Select c with c.value = 0
+0
+5000
+2 - BUG REPORTED
+stmt s;
+Select s with s.stmt# = 0
+
+5000
+3 - BUG REPORTED
+assign a;
+Select a with a.stmt# = 0
+
+5000
