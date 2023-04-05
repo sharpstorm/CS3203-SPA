@@ -12,7 +12,7 @@ TEST_CASE("Test Source Lexer General") {
                  "while(i!=0) {\n"
                  "  x = x + 2;\n"
                  "}}";
-  SourceTokenStreamPtr result = lexer.tokenize(&input);
+  SourceTokenStreamPtr result = lexer.tokenize(input);
   vector<SourceToken> expected = vector<SourceToken>{
     SourceToken(SIMPLE_TOKEN_KEYWORD_PROCEDURE, ""),
     SourceToken(SIMPLE_TOKEN_VARIABLE, "q"),
@@ -45,7 +45,7 @@ TEST_CASE("Test Source Condition") {
                  "while(i != 0 && !(i == 0) && i < 0 || i <= 0 || i >= 0 && i > 0) {\n"
                  "  helloIamAverylongLongUnder100CharacterString = aaaa + 2;\n"
                  "}}";
-  SourceTokenStreamPtr result = lexer.tokenize(&input);
+  SourceTokenStreamPtr result = lexer.tokenize(input);
   vector<SourceToken> expected = vector<SourceToken>{
       SourceToken(SIMPLE_TOKEN_KEYWORD_PROCEDURE, ""),
       SourceToken(SIMPLE_TOKEN_VARIABLE, "q"),

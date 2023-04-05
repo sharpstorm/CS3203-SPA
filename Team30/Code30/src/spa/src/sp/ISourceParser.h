@@ -1,12 +1,10 @@
 #pragma once
 
-#include <string>
 #include "sp/ast/AST.h"
-
-using std::string;
+#include "SPTypes.h"
 
 class ISourceParser {
  public:
-  virtual ASTPtr parseSource(string input) = 0;
-  virtual ASTPtr parseExpression(string expr) = 0;
+  virtual ASTPtr parseSource(const FileData &input) = 0;
+  virtual ASTPtr parseExpression(const SourceExpression &expr) = 0;
 };

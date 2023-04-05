@@ -43,10 +43,23 @@ SourceLexerTokenTable::SourceLexerTokenTable() {
   }
 }
 
-bool SourceLexerTokenTable::isDigit(char c) {
+SourceTokenType SourceLexerTokenTable::lookupToken(const char &c) const {
+  return tokens[c];
+}
+
+SourceTokenType SourceLexerTokenTable::lookupKeyword(
+    const SourceKeywordCandidate &keyword) const {
+  const auto &it = keywordMap.find(keyword);
+  if (it == keywordMap.end()) {
+    return SIMPLE_TOKEN_NULL;
+  }
+  return it->second;
+}
+
+bool SourceLexerTokenTable::isDigit(const char &c) {
   return c >= ASCII_0 && c <= ASCII_9;
 }
 
-bool SourceLexerTokenTable::isZero(char c) {
+bool SourceLexerTokenTable::isZero(const char &c) {
   return c == ASCII_0;
 }

@@ -1,25 +1,26 @@
-#include <stdexcept>
 #include "SourceLexer.h"
+
+#include <memory>
 
 #include "../errors/SPError.h"
 
-using std::out_of_range, std::make_unique;
+using std::make_unique;
 
 const int SOURCE_LEXER_BUFFER_SIZE = 1024;
 
 SourceLexer::SourceLexer() = default;
 
-SourceTokenStreamPtr SourceLexer::tokenize(string* programLines) {
+SourceTokenStreamPtr SourceLexer::tokenize(const FileData &programLines) {
   SourceTokenStreamPtr resultVector = make_unique<SourceTokenStream>();
 
   bool hasSeenChar = false;
-  string buffer;
+  LexerBuffer buffer;
   buffer.reserve(SOURCE_LEXER_BUFFER_SIZE);
 
-  for (int pos = 0; pos < programLines->length(); pos++) {
+  for (LexerCursor pos = 0; pos < programLines.length(); pos++) {
     SourceTokenType deferredPush = SIMPLE_TOKEN_NULL;
-    char c = programLines->at(pos);
-    SourceTokenType tokenType = tokenTable.tokens[c];
+    char c = programLines.at(pos);
+    SourceTokenType tokenType = tokenTable.lookupToken(c);
 
     switch (tokenType) {
       case SIMPLE_TOKEN_INVALID:
@@ -33,7 +34,7 @@ SourceTokenStreamPtr SourceLexer::tokenize(string* programLines) {
       case SIMPLE_TOKEN_EQUAL_PARTIAL:
       case SIMPLE_TOKEN_LT_PARTIAL:
       case SIMPLE_TOKEN_GT_PARTIAL:
-        deferredPush = parsePartialSymbol(tokenType, programLines, &pos);
+        deferredPush = parsePartialSymbol(tokenType, &programLines, &pos);
         break;
 
       case SIMPLE_TOKEN_CHARACTER:
@@ -43,8 +44,7 @@ SourceTokenStreamPtr SourceLexer::tokenize(string* programLines) {
         buffer.push_back(c);
         continue;
 
-      default:
-        break;
+      default:break;
     }
 
     flushBuffer(resultVector.get(), buffer, hasSeenChar);
@@ -63,8 +63,9 @@ SourceTokenStreamPtr SourceLexer::tokenize(string* programLines) {
   return resultVector;
 }
 
-void SourceLexer::flushBuffer(SourceTokenStream *result, string buffer,
-                              const bool &hasSeenChar) {
+void SourceLexer::flushBuffer(SourceTokenStream *result,
+                              const LexerBuffer &buffer,
+                              const bool hasSeenChar) {
   if (buffer.length() > 0) {
     result->push_back(resolveStringToken(buffer, hasSeenChar));
   }
@@ -72,8 +73,8 @@ void SourceLexer::flushBuffer(SourceTokenStream *result, string buffer,
 
 SourceTokenType SourceLexer::parsePartialSymbol(
     const SourceTokenType &tokenType,
-    string* buffer,
-    int *posPtr) {
+    const string *buffer,
+    LexerCursor *posPtr) {
   switch (tokenType) {
     case SIMPLE_TOKEN_OR_PARTIAL:
       // || only
@@ -104,14 +105,14 @@ SourceTokenType SourceLexer::parsePartialSymbol(
       // >= or >
       return tryGreedySymbolRead<SIMPLE_TOKEN_GTE, SIMPLE_TOKEN_GT>(
           buffer, posPtr, SIMPLE_TOKEN_EQUAL_PARTIAL);
-    default:
-      return SIMPLE_TOKEN_NULL;
+    default:return SIMPLE_TOKEN_NULL;
   }
 }
 
 template<SourceTokenType twoCharType, SourceTokenType singleCharType>
-SourceTokenType SourceLexer::tryGreedySymbolRead(string *buffer,
-    int* posPtr, SourceTokenType expectedType) {
+SourceTokenType SourceLexer::tryGreedySymbolRead(const LexerBuffer *buffer,
+                                                 LexerCursor *posPtr,
+                                                 SourceTokenType expectedType) {
   if (isNextOfType(buffer, *posPtr, expectedType)) {
     (*posPtr)++;
     return twoCharType;
@@ -121,8 +122,9 @@ SourceTokenType SourceLexer::tryGreedySymbolRead(string *buffer,
 }
 
 template<SourceTokenType twoCharType>
-SourceTokenType SourceLexer::twoSymbolAssert(string *buffer,
-    int *posPtr, SourceTokenType expectedType) {
+SourceTokenType SourceLexer::twoSymbolAssert(const LexerBuffer *buffer,
+                                             LexerCursor *posPtr,
+                                             SourceTokenType expectedType) {
   if (!isNextOfType(buffer, *posPtr, expectedType)) {
     throw SPError(SPERR_UNKNOWN_TOKEN);
   }
@@ -130,41 +132,43 @@ SourceTokenType SourceLexer::twoSymbolAssert(string *buffer,
   return twoCharType;
 }
 
-bool SourceLexer::isNextOfType(string* buffer, int curPos,
+bool SourceLexer::isNextOfType(const LexerBuffer *buffer,
+                               const LexerCursor curPos,
                                SourceTokenType expectedType) {
-  int peek = peekNextChar(buffer, curPos);
-  return (peek >= 0 && tokenTable.tokens[peek] == expectedType);
+  LexerCharacter peek = peekNextChar(buffer, curPos);
+  return (peek >= 0 && tokenTable.lookupToken(peek) == expectedType);
 }
 
-int SourceLexer::peekNextChar(string* buffer, int curPos) {
+SourceLexer::LexerCharacter SourceLexer::peekNextChar(
+    const LexerBuffer *buffer, const LexerCursor curPos) {
   if (curPos + 1 < buffer->length()) {
     return buffer->at(curPos + 1);
   }
   return -1;
 }
 
-SourceToken SourceLexer::resolveStringToken(string buffer,
-                                            const bool &hasSeenChar) {
-  try {
-    SourceTokenType token = tokenTable.keywordMap.at(buffer);
+SourceToken SourceLexer::resolveStringToken(const LexerBuffer &buffer,
+                                            const bool hasSeenChar) {
+  SourceTokenType token = tokenTable.lookupKeyword(buffer);
+  if (token != SIMPLE_TOKEN_NULL) {
     return SourceToken(token, buffer);
-  } catch (out_of_range&) {
-    if (!hasSeenChar) {
-      return validateIntegerToken(&buffer);
-    }
-
-    return validateIdentifier(&buffer);
   }
+
+  if (!hasSeenChar) {
+    return validateIntegerToken(&buffer);
+  }
+
+  return validateIdentifier(&buffer);
 }
 
-SourceToken SourceLexer::validateIntegerToken(string* buffer) {
+SourceToken SourceLexer::validateIntegerToken(const LexerBuffer *buffer) {
   if (buffer->length() > 1 && tokenTable.isZero(buffer->at(0))) {
     throw SPError(SPERR_INTEGER_STARTS_WITH_ZERO);
   }
   return SourceToken(SIMPLE_TOKEN_INTEGER, *buffer);
 }
 
-SourceToken SourceLexer::validateIdentifier(string *buffer) {
+SourceToken SourceLexer::validateIdentifier(const LexerBuffer *buffer) {
   if (tokenTable.isDigit(buffer->at(0))) {
     throw SPError(SPERR_TOKEN_STARTS_WITH_DIGIT);
   }

@@ -19,8 +19,8 @@ class SPError : public std::exception {
   string errMsg;
 
  public:
-  explicit SPError(const string message): errMsg(message) {}
-  const char* what() const noexcept override {
+  explicit SPError(const string message) : errMsg(message) {}
+  const char *what() const noexcept override {
     return errMsg.c_str();
   }
 };
