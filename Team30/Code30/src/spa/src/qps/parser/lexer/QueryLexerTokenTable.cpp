@@ -45,7 +45,7 @@ QueryLexerTokenTable::QueryLexerTokenTable(): tokens() {
 }
 
 PQLTokenType QueryLexerTokenTable::lookupToken(const QueryCharacter &c) const {
-
+  return tokens[c];
 }
 
 PQLTokenType QueryLexerTokenTable::lookupKeyword(

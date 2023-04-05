@@ -13,7 +13,7 @@ typedef QueryKeyword QueryKeywordCandidate;
 typedef int QueryCharacter;
 
 class QueryLexerTokenTable {
- private:
+ protected:
   unordered_map<QueryKeyword, PQLTokenType> keywordMap = {
       {PQL_KEYWORD_SELECT, PQL_TOKEN_SELECT},
       {PQL_KEYWORD_STMT, PQL_TOKEN_STMT},
