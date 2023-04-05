@@ -6,11 +6,13 @@
 
 #include "ContiguousTable.h"
 #include "IBaseSetTable.h"
+#include "pkb/storage/iterators/VectorIterator.h"
 
 using std::vector;
 
 template <typename V>
-class ContiguousVectorTable : public ContiguousTable<vector<V>> {
+class ContiguousVectorTable : public IBaseSetTable<int, V>,
+                              public ContiguousTable<vector<V>> {
  public:
   explicit ContiguousVectorTable(int size = 1)
       : ContiguousTable<vector<V>>(size) {}
@@ -32,11 +34,23 @@ class ContiguousVectorTable : public ContiguousTable<vector<V>> {
     return ContiguousTable<vector<V>>::get(key);
   }
 
-  void forEach(pkb::Function<int, vector<V>>& function) const {
-    return ContiguousTable<vector<V>>::forEach(function);
+  int size() const override { return ContiguousTable<vector<V>>::size(); };
+
+  bool isEmpty() const override {
+    return ContiguousTable<vector<V>>::isEmpty();
   }
 
-  int size() const override { return ContiguousTable<vector<V>>::size(); };
+  bool contains(int key, V value) const override {
+    auto values = get(key);
+    return std::binary_search(values.begin(), values.end(), value);
+  }
+
+  bool containsKey(int key) const override { return !get(key).empty(); }
+
+  unique_ptr<IBaseIterator<V>> getValueIterator(int key) {
+    return make_unique<VectorIterator<V>>(
+        &ContiguousTable<vector<V>>::get(key));
+  }
 
   V getFirstValue(int key) const {
     auto values = get(key);
@@ -56,10 +70,4 @@ class ContiguousVectorTable : public ContiguousTable<vector<V>> {
     }
   }
 
-  bool contains(int key, V value) const {
-    auto values = get(key);
-    return std::binary_search(values.begin(), values.end(), value);
-  }
-
-  bool containsKey(int key) const { return !get(key).empty(); }
 };

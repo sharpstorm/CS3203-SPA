@@ -5,6 +5,7 @@
 
 #include "IBaseSetTable.h"
 #include "IntTable.h"
+#include "pkb/storage/iterators/SetIterator.h"
 
 using std::set;
 
@@ -24,10 +25,17 @@ class IntSetTable : public IBaseSetTable<int, V>, public IntTable<set<V>> {
     return IntTable<set<V>>::get(key);
   }
 
-  void forEach(pkb::Function<int, set<V>> function,
-               pkb::Terminator<int, set<V>> terminator) const override {
-    return IntTable<set<V>>::forEach(function, terminator);
-  }
-
   int size() const override { return IntTable<set<V>>::size(); };
+
+  bool isEmpty() const override { return IntTable<set<V>>::isEmpty(); }
+
+  bool contains(int key, V value) const override {
+    return get(key).count(value);
+  };
+
+  bool containsKey(int key) const override { return !get(key).empty(); }
+
+  unique_ptr<IBaseIterator<V>> getValueIterator(int key) {
+    return make_unique<SetIterator<V>>(&IntTable<set<V>>::get(key));
+  }
 };

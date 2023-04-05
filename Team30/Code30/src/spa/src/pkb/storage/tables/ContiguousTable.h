@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "IBaseTable.h"
+#include "pkb/storage/iterators/ContiguousTableIterator.h"
 
 using std::vector;
 
@@ -40,17 +41,11 @@ class ContiguousTable : public IBaseTable<int, V> {
 
   static const V& getEmptyValue() { return emptyValue; }
 
-  void forEach(pkb::Function<int, V> function,
-               pkb::Terminator<int, V> terminator) const override {
-    int key = 1;
-    for (auto const& values : table) {
-      if (terminator != nullptr && terminator(key, values)) {
-        return;
-      }
-      function(key, values);
-      key++;
-    }
-  }
-
   int size() const override { return table.size(); };
+
+  bool isEmpty() const override { return table.empty(); }
+
+  unique_ptr<IBaseTableIterator<int, V>> getTableIterator() override {
+    return make_unique<ContiguousTableIterator<V>>(table);
+  }
 };

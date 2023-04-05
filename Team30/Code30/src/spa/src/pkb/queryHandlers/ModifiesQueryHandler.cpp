@@ -20,10 +20,11 @@ ModifiesQueryHandler::ModifiesQueryHandler(
 EntityValue ModifiesQueryHandler::getReadDeclarations(
     StmtValue readStmt) const {
   // assumes input is read stmt
-  auto values = modifiesStorage->getByFirstArg(readStmt);
-  if (values.empty()) {
+  auto values = modifiesStorage->getRightValIter(readStmt);
+  EntityValue result;
+  if ((result = values->getNext()).empty()) {
     return "";
   } else {
-    return *values.begin();
+    return result;
   }
 }

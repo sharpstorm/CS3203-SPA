@@ -4,6 +4,7 @@
 #include <map>
 
 #include "IBaseTable.h"
+#include "pkb/storage/iterators/MapIterator.h"
 
 using std::map;
 
@@ -34,17 +35,11 @@ class IntTable : public IBaseTable<int, V> {
 
   static const V& getEmptyValue() { return emptyValue; }
 
-  void forEach(pkb::Function<int, V> function,
-               pkb::Terminator<int, V> terminator) const override {
-    for (auto it = table.begin(); it != table.end(); it++) {
-      const int& key = it->first;
-      const V& values = it->second;
-      if (terminator != nullptr && terminator(key, values)) {
-        return;
-      }
-      function(key, values);
-    }
-  }
-
   int size() const override { return table.size(); };
+
+  bool isEmpty() const override { return table.empty(); }
+
+  unique_ptr<IBaseTableIterator<int, V>> getTableIterator() override {
+    return make_unique<MapIterator<int, V>>(table);
+  }
 };

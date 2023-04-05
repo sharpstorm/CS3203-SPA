@@ -28,9 +28,8 @@ TEST_CASE("RelationTableManager insert and getByArg1, getByArg2") {
   tableManager.insert(1, "c");
   tableManager.insert(4, "b");
 
-  REQUIRE(tableManager.getByFirstArg(1) == set<string>({"a", "c"}));
-  REQUIRE(tableManager.getBySecondArg("b") == set<int>({2, 4}));
-
+  REQUIRE(table->get(1) == set<string>({"a", "c"}));
+  REQUIRE(reverseTable->get("b") == set<int>({2, 4}));
 }
 
 TEST_CASE("RelationTableManager query known arg1 values with arg2 predicate") {

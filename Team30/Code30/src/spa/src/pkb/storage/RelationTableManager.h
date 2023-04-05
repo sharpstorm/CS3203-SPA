@@ -35,16 +35,12 @@ class RelationTableManager : public IStorage<K, V> {
     reverseTable->insert(arg2, arg1);
   }
 
-  /**
-   * Get set of arg2 where R(arg1, arg2) is true, given arg1 value.
-   */
-  virtual set<V> getByFirstArg(K arg1) const { return table->get(arg1); }
+  virtual unique_ptr<IBaseIterator<V>> getRightValIter(K leftArg) const {
+    return table->getValueIterator(leftArg);
+  }
 
-  /**
-   * Get set of arg1 where R(arg1, arg2) is true, given arg2 value.
-   */
-  virtual set<K> getBySecondArg(V arg2) const {
-    return reverseTable->get(arg2);
+  virtual unique_ptr<IBaseIterator<K>> getLeftValIter(V rightArg) const {
+    return reverseTable->getValueIterator(rightArg);
   }
 
   /**
@@ -52,8 +48,7 @@ class RelationTableManager : public IStorage<K, V> {
    */
   virtual QueryResultPtr<K, V> query(K arg1, V arg2) const {
     QueryResult<K, V> result;
-    auto arg2Values = getByFirstArg(arg1);
-    if (arg2Values.find(arg2) != arg2Values.end()) {
+    if (table->contains(arg1, arg2)) {
       result.add(arg1, arg2);
     }
 
@@ -68,8 +63,9 @@ class RelationTableManager : public IStorage<K, V> {
                                      Predicate<V> arg2Predicate) const {
     QueryResult<K, V> result;
     for (auto arg1 : arg1Values) {
-      auto arg2Values = getByFirstArg(arg1);
-      for (auto arg2 : arg2Values) {
+      auto it = getRightValIter(arg1);
+      V arg2;
+      while ((arg2 = it->getNext()) != V()) {
         if (arg2Predicate(arg2)) {
           result.add(arg1, arg2);
         }
@@ -87,8 +83,9 @@ class RelationTableManager : public IStorage<K, V> {
                                      set<V> arg2Values) const {
     QueryResult<K, V> result;
     for (auto arg2 : arg2Values) {
-      auto arg1Values = getBySecondArg(arg2);
-      for (auto arg1 : arg1Values) {
+      auto it = getLeftValIter(arg2);
+      K arg1;
+      while ((arg1 = it->getNext()) != K()) {
         if (arg1Predicate(arg1)) {
           result.add(arg1, arg2);
         }
@@ -116,7 +113,7 @@ class RelationTableManager : public IStorage<K, V> {
    */
   virtual QueryResultPtr<K, V> hasRelation() const {
     QueryResult<K, V> result;
-    if (table->size() != 0) {
+    if (!table->isEmpty()) {
       result.isEmpty = false;
     }
     return make_unique<QueryResult<K, V>>(result);
@@ -129,8 +126,7 @@ class RelationTableManager : public IStorage<K, V> {
       const set<K> &arg1Values) const {
     QueryResult<K, V> result;
     for (auto arg1 : arg1Values) {
-      auto arg2Values = getByFirstArg(arg1);
-      if (arg2Values.size() > 0) {
+      if (table->containsKey(arg1)) {
         result.firstArgVals.insert(arg1);
         result.isEmpty = false;
       }
@@ -145,8 +141,7 @@ class RelationTableManager : public IStorage<K, V> {
       const set<V> &arg2Values) const {
     QueryResult<K, V> result;
     for (auto arg2 : arg2Values) {
-      auto arg1Values = getBySecondArg(arg2);
-      if (arg1Values.size() > 0) {
+      if (reverseTable->containsKey(arg2)) {
         result.secondArgVals.insert(arg2);
         result.isEmpty = false;
       }

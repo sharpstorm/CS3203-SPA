@@ -5,6 +5,7 @@
 
 #include "IBaseTable.h"
 #include "pkb/PkbTypes.h"
+#include "pkb/storage/iterators/UnorderedMapIterator.h"
 
 using std::unordered_map;
 
@@ -34,23 +35,13 @@ class HashKeyTable : public IBaseTable<K, V> {
     return emptyValue;
   }
 
-  static const V& getEmptyValue() {
-    return emptyValue;
-  }
+  static const V& getEmptyValue() { return emptyValue; }
 
-  void forEach(pkb::Function<K, V> function,
-               pkb::Terminator<K, V> terminator) const override {
-    for (auto it = table.begin(); it != table.end(); it++) {
-      const K& key = it->first;
-      const V& values = it->second;
-      if (terminator != nullptr && terminator(key, values)) {
-        return;
-      }
-      function(key, values);
-    }
-  }
+  int size() const override { return table.size(); };
 
-  int size() const override {
-    return table.size();
-  };
+  bool isEmpty() const override { return table.empty(); }
+
+  unique_ptr<IBaseTableIterator<K, V>> getTableIterator() override {
+    return make_unique<UnorderedMapIterator<K, V>>(table);
+  }
 };

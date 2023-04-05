@@ -38,8 +38,9 @@ class FollowsTTableManager : public FollowsTableManager {
       Predicate<StmtValue> arg2Predicate) const override {
     QueryResult<StmtValue, StmtValue> result;
     for (auto arg1 : arg1Values) {
-      auto arg2Values = table->get(arg1);
-      for (auto arg2 : arg2Values) {
+      auto it = table->getValueIterator(arg1);
+      StmtValue arg2;
+      while ((arg2 = it->getNext()) != 0) {
         if (arg2Predicate(arg2)) {
           result.add(arg1, arg2);
         }
