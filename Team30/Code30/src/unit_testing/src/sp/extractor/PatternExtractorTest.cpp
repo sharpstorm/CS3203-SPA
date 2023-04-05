@@ -7,8 +7,6 @@
 #include "../StubWriter.cpp"
 #include "../Util.cpp"
 #include "sp/ast/expression_operand/PlusASTNode.h"
-#include "sp/ast/expression_operand/MinusASTNode.h"
-#include "sp/ast/expression_operand/TimesASTNode.h"
 
 using std::vector, std::string, std::pair, std::make_unique;
 
@@ -30,7 +28,7 @@ TEST_CASE("Pattern Extractor - Simple Assign") {
                  "a = b;"
                  "}";
   auto v = executePatternExtractor(input).patternStore;
-  ExpressionSequence expected{"b"};
+  ExpressionSequence expected{1};
   REQUIRE(v[0].second->isMatchFull(&expected));
 }
 
@@ -39,9 +37,9 @@ TEST_CASE("Pattern Extractor - Simple Plus") {
                  "a = b + c;"
                  "}";
   auto v = executePatternExtractor(input).patternStore;
-  ExpressionSequence expected{"b"};
+  ExpressionSequence expected{1};
   REQUIRE(v[0].second->isMatchPartial(&expected));
-  expected = {"c"};
+  expected = {2};
   REQUIRE(v[0].second->isMatchPartial(&expected));
 }
 
@@ -50,13 +48,13 @@ TEST_CASE("Pattern Extractor - Longer expression") {
                  "a = b + c * d - e;"
                  "}";
   auto v = executePatternExtractor(input).patternStore;
-  ExpressionSequence expected{"b"};
+  ExpressionSequence expected{1};
   REQUIRE(v[0].second->isMatchPartial(&expected));
-  expected = {"c"};
+  expected = {2};
   REQUIRE(v[0].second->isMatchPartial(&expected));
-  expected = {"d"};
+  expected = {3};
   REQUIRE(v[0].second->isMatchPartial(&expected));
-  expected = {"e"};
+  expected = {4};
   REQUIRE(v[0].second->isMatchPartial(&expected));
 }
 

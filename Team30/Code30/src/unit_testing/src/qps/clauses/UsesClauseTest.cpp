@@ -26,7 +26,8 @@ TEST_CASE("Uses querying") {
   PQLQueryResultPtr expected;
   PQLQueryResultPtr actual;
   OverrideTablePtr override = make_unique<OverrideTable>();
-  QueryExecutorAgent agent(pkb.get(), override.get());
+  QueryCachePtr cache = make_unique<QueryCache>();
+  QueryExecutorAgent agent(pkb.get(), override.get(), cache.get());
   
   // Static Results
   UsesClause usesClause = UsesClause(

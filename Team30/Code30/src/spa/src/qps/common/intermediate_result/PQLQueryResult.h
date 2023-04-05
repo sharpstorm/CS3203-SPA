@@ -13,16 +13,17 @@
 #include "pkb/queryHandlers/PkbQueryHandler.h"
 #include "QueryResultItem.h"
 #include "QueryResultItemPool.h"
+#include "common/data_structs/AppendSet.h"
 
 using std::pair, std::string, std::unordered_map, std::unordered_set,
     std::vector, std::move, std::make_unique, std::unique_ptr, std::set;
 
 typedef int ResultTableCol;
 typedef int ResultTableRow;
-typedef vector<QueryResultItem*> QueryResultTableRow;
+typedef vector<QueryResultItem *> QueryResultTableRow;
 typedef vector<QueryResultTableRow> QueryResultTable;
 
-typedef set<ResultTableRow> RowSet;
+typedef AppendSet<ResultTableRow> RowSet;
 
 typedef QueryResultItemMap<RowSet> ColMap;
 typedef unique_ptr<ColMap> ColMapPtr;
@@ -49,7 +50,7 @@ class PQLQueryResult {
   PQLQueryResult();
   virtual ~PQLQueryResult() = default;
 
-  OrphanedResultItemPoolPtr adoptOwnedItems(PQLQueryResult* other);
+  OrphanedResultItemPoolPtr adoptOwnedItems(PQLQueryResult *other);
   OrphanedResultItemPoolPtr releaseOwnedItemsTo(QueryResultItemPool *other);
 
   template<class T, class U>
@@ -64,17 +65,17 @@ class PQLQueryResult {
   bool isFalse();
   void setIsStaticFalse(bool staticRes);
 
-  unordered_map<PQLSynonymName, ResultTableCol>* getSynonyms();
+  unordered_map<PQLSynonymName, ResultTableCol> *getSynonyms();
   ResultTableCol getSynonymCol(const PQLSynonymName &name);
   void putSynonym(const PQLSynonymName &name);
 
-  QueryResultTableRow* getTableRowAt(int rowIndex);
-  void putTableRow(const vector<QueryResultItem*> &row);
+  QueryResultTableRow *getTableRowAt(int rowIndex);
+  void putTableRow(const vector<QueryResultItem *> &row);
   int getRowCount();
   RowSetPtr getRowsWithValue(ResultTableCol column,
-                             QueryResultItem* value);
+                             QueryResultItem *value);
 
-  bool operator ==(const PQLQueryResult &pqr) const;
+  bool operator==(const PQLQueryResult &pqr) const;
 
   static const ResultTableCol NO_COL = -1;
 };
@@ -86,7 +87,7 @@ void PQLQueryResult::add(const PQLSynonymName &name,
                          const unordered_set<T> &data) {
   putSynonym(name);
   for (const T &item : data) {
-    QueryResultItem* entry = ownedItemPool.getItem(item);
+    QueryResultItem *entry = ownedItemPool.getItem(item);
     QueryResultTableRow row{entry};
     putTableRow(row);
   }
@@ -100,8 +101,8 @@ void PQLQueryResult::add(const PQLSynonymName &leftName,
   putSynonym(rightName);
 
   for (const pair<T, U> &pair : data) {
-    QueryResultItem* leftEntry = ownedItemPool.getItem(pair.first);
-    QueryResultItem* rightEntry = ownedItemPool.getItem(pair.second);
+    QueryResultItem *leftEntry = ownedItemPool.getItem(pair.first);
+    QueryResultItem *rightEntry = ownedItemPool.getItem(pair.second);
     QueryResultTableRow row{leftEntry, rightEntry};
     putTableRow(row);
   }

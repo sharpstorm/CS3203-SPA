@@ -18,10 +18,11 @@ ProjectorResultTable *QueryOrchestrator::execute(
     return new ProjectorResultTable(isBool, false);
   }
 
+  QueryCache cache;
   ProjectorResultTable* resultTable = new ProjectorResultTable(isBool, true);
   for (int i = 0; i < plan->getGroupCount(); i++) {
     QueryGroupPlan* targetGroup = plan->getGroup(i);
-    PQLQueryResult* result = executeGroup(targetGroup, overrideTable);
+    PQLQueryResult* result = executeGroup(targetGroup, overrideTable, &cache);
 
     // If any of the result is empty, return FALSE / EmptyResultTable
     if (result->isFalse() && !targetGroup->canBeEmpty()) {
@@ -50,13 +51,14 @@ ProjectorResultTable *QueryOrchestrator::execute(
 
 // Executes each clause in the QueryGroupPlan
 PQLQueryResult *QueryOrchestrator::executeGroup(
-    QueryGroupPlan *plan, OverrideTable* overrideTable) {
+    QueryGroupPlan *plan, OverrideTable* overrideTable,
+    QueryCache *cache) {
   vector<IEvaluatable*> executables = plan->getConditionalClauses();
   PQLQueryResult* currentResult;
   PQLQueryResult* finalResult = nullptr;
 
   for (int i = 0; i < executables.size(); i++) {
-    currentResult = launcher.execute(executables[i], overrideTable);
+    currentResult = launcher.execute(executables[i], overrideTable, cache);
     if (currentResult->isFalse()) {
       delete currentResult;
       delete finalResult;

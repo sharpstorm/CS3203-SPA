@@ -27,7 +27,8 @@ TEST_CASE("Modifies Querying") {
   PQLQueryResultPtr actual;
 
   OverrideTablePtr override = make_unique<OverrideTable>();
-  QueryExecutorAgent agent(pkb.get(), override.get());
+  QueryCachePtr cache = make_unique<QueryCache>();
+  QueryExecutorAgent agent(pkb.get(), override.get(), cache.get());
   // Static Results
   ModifiesClause modifiesClause = ModifiesClause(
       make_unique<StmtArgument>(1),
