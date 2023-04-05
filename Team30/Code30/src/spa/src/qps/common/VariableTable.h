@@ -19,7 +19,7 @@ class VariableTable {
   vector<PQLQuerySynonym*> rawProxy;
  public:
   VariableTable();
-  explicit VariableTable(unordered_map<string, PQLQuerySynonym> map);
+  explicit VariableTable(unordered_map<PQLSynonymName, PQLQuerySynonym> map);
   int size();
   void add(const PQLSynonymName &name, PQLQuerySynonym syn);
   void finalizeTable();
