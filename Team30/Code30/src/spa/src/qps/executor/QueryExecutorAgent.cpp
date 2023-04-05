@@ -1,8 +1,13 @@
+#include <memory>
+
 #include "QueryExecutorAgent.h"
 
+using std::make_unique;
+
 QueryExecutorAgent::QueryExecutorAgent(PkbQueryHandler *pkb,
-                                       OverrideTable *table):
-    pkbQueryHandler(pkb), overrideTable(table) {}
+                                       OverrideTable *table,
+                                       QueryCache *cache):
+    pkbQueryHandler(pkb), overrideTable(table), cache(cache) {}
 
 PkbQueryHandler *QueryExecutorAgent::operator->() const {
   return this->pkbQueryHandler;
@@ -27,7 +32,7 @@ EntityRef QueryExecutorAgent::transformArg(const PQLSynonymName name,
 }
 
 bool QueryExecutorAgent::isValid(const StmtRef &ref) const {
-  if (ref.isType(StmtType::None)) {
+  if (ref.isType(StmtType::None) || ref.isType(StmtType::Wildcard)) {
     return true;
   }
 
@@ -36,10 +41,14 @@ bool QueryExecutorAgent::isValid(const StmtRef &ref) const {
 }
 
 bool QueryExecutorAgent::isValid(const EntityRef &ref) const {
-  if (ref.isType(EntityType::None)) {
+  if (ref.isType(EntityType::None) || ref.isType(EntityType::Wildcard)) {
     return true;
   }
 
   return !ref.isKnown() ||
       pkbQueryHandler->isSymbolOfType(ref.getType(), ref.getValue());
+}
+
+CacheTable* QueryExecutorAgent::getAffectsCache() const {
+  return cache->getAffectsCache();
 }

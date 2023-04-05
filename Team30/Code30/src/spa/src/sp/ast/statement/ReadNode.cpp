@@ -5,15 +5,11 @@
 
 using std::vector;
 
-ReadNode::ReadNode(int lineNumber) :
-    StatementASTNode(ASTNODE_READ, "", lineNumber) {
+ReadNode::ReadNode(LineNumber line) :
+    StatementASTNode(ASTNODE_READ, "", line) {
   children.push_back(nullptr);
 }
 
 void ReadNode::accept(IExtractor* e) {
   e->visitRead(this);
-}
-
-string ReadNode::toString() {
-  return ":read";
 }

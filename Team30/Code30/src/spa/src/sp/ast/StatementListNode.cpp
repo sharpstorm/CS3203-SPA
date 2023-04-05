@@ -15,11 +15,3 @@ void StatementListNode::accept(IExtractor* e) {
 void StatementListNode::leave(IExtractor* e) {
   e->leaveStmtList(this);
 }
-
-string StatementListNode::toString() {
-  string ss = "StmtLst: \n";
-  for (const ASTNodePtr &node : children) {
-    ss += node->toString() + "\n";
-  }
-  return ss;
-}

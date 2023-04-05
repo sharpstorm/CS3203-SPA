@@ -10,23 +10,17 @@
 
 using std::unique_ptr, std::shared_ptr, std::unordered_map, std::string;
 
-typedef unordered_map<string, SymbolIdent> TrieSymbolTable;
-typedef unique_ptr<TrieSymbolTable> TrieSymbolTablePtr;
-
 class PatternTrie {
  public:
   explicit PatternTrie(PatternTrieNodePtr trieRoot,
-                       TrieSymbolTablePtr symbolTable,
                        int longestPathCount);
   bool isMatchFull(ExpressionSequence* sequence);
   bool isMatchPartial(ExpressionSequence* sequence);
 
  private:
   PatternTrieNodePtr root;
-  TrieSymbolTablePtr symbolTable;
   int longestPathCount;
 
-  SymbolIdent lookupSymbol(const string &symbol);
   bool isValidPostfix(ExpressionSequence *sequence);
 };
 

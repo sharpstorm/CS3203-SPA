@@ -19,19 +19,19 @@ class AttributedSynonym {
   explicit AttributedSynonym(PQLQuerySynonymProxy synProxy);
   AttributedSynonym(PQLQuerySynonymProxy synProxy, PQLSynonymAttribute attr);
 
-  PQLQuerySynonymProxy getSynProxy();
-  PQLQuerySynonym* getSyn();
-  PQLSynonymType getType();
-  PQLSynonymName getName();
-  PQLSynonymAttribute getAttribute();
+  PQLQuerySynonymProxy getSynProxy() const;
+  PQLQuerySynonym* getSyn() const;
+  PQLSynonymType getType() const;
+  PQLSynonymName getName() const;
+  PQLSynonymAttribute getAttribute() const;
 
-  bool isType(const PQLSynonymType &type);
-  bool validateAttribute();
-  bool returnsInteger();
-  bool isStatementType();
-  bool hasAttribute();
+  bool isType(const PQLSynonymType &type) const;
+  bool validateAttribute() const;
+  bool returnsInteger() const;
+  bool isStatementType() const;
+  bool hasAttribute() const;
 
-  bool isDefaultAttribute();
+  bool isDefaultAttribute() const;
 };
 
 typedef unique_ptr<AttributedSynonym> AttributedSynonymPtr;

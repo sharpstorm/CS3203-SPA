@@ -12,28 +12,22 @@ template<typename T>
 using UniqueVectorPtr = unique_ptr<vector<T>>;
 
 template<typename T>
-using VectorPtr = vector<T>*;
+using VectorPtr = vector<T> *;
 
 template<class T>
 using IntersectSet = unordered_set<T>;
 
 template<class T>
-using BSTIntersectSet = set<T>;
-
-template<class T>
 using IntersectSetPtr = unique_ptr<IntersectSet<T>>;
 
 template<class T>
-using BSTIntersectSetPtr = unique_ptr<BSTIntersectSet<T>>;
-
-template <class T>
 class AbstractIterator {
  public:
   using iterator_category = std::forward_iterator_tag;
   using value_type = T;
   using difference_type = T;
-  using pointer = const T*;
-  using reference = const T&;
+  using pointer = const T *;
+  using reference = const T &;
 
   explicit AbstractIterator(pointer ptr) : curPos(ptr) {}
 
@@ -45,7 +39,7 @@ class AbstractIterator {
     return curPos;
   }
 
-  AbstractIterator& operator++() {
+  AbstractIterator &operator++() {
     curPos++;
     return *this;
   }
@@ -56,11 +50,11 @@ class AbstractIterator {
     return tmp;
   }
 
-  bool operator== (const AbstractIterator& other) {
+  bool operator==(const AbstractIterator &other) {
     return curPos == other.curPos;
   }
 
-  bool operator!= (const AbstractIterator& other) {
+  bool operator!=(const AbstractIterator &other) {
     return curPos != other.curPos;
   }
 

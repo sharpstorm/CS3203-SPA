@@ -3,5 +3,5 @@
 
 class NotASTNode: public AbstractConditionalNode {
  public:
-  NotASTNode() : AbstractConditionalNode(ASTNODE_NOT, ":not") {}
+  NotASTNode() : AbstractConditionalNode(ASTNODE_NOT) {}
 };

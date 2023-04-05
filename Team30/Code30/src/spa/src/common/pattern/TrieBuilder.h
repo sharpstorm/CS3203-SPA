@@ -5,12 +5,13 @@
 #include <memory>
 
 #include "PatternTrie.h"
+#include "pkb/writers/PkbWriter.h"
 
 using std::vector, std::string, std::unique_ptr;
 
 class TrieBuilder {
  public:
-  explicit TrieBuilder(IASTNode* astRoot);
+  explicit TrieBuilder(IASTNode* astRoot, PkbWriter* pkbWriter);
   PatternTriePtr build();
 
  private:
@@ -30,13 +31,13 @@ class TrieBuilder {
   };
 
   IASTNode* astRoot;
-  TrieSymbolTablePtr symTable;
   PatternTrieNodePtr rootNode;
   int nodeCount;
   SymbolIdent symbolIdCounter;
   vector<ProcessingNodePtr> ownedProcessingNodes;
+  PkbWriter* pkbWriter;
 
-  SymbolIdent registerSymbol(const string &symbol);
-  SymbolIdent registerLeaf(const string &symbol);
+  SymbolIdent registerSymbol(IASTNode* node);
+  SymbolIdent registerLeaf(IASTNode* node);
   BuildState walkAST(IASTNode* node);
 };

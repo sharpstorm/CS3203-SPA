@@ -19,8 +19,8 @@ PkbQueryHandler::PkbQueryHandler(PKB *pkb)
     : stmtStmtQueryInvoker(make_unique<PkbStmtStmtQueryInvoker>(
           pkb->structureProvider, pkb->stmtPredicateFactory)),
       stmtEntQueryInvoker(make_unique<PkbStmtEntQueryInvoker>(
-          pkb->structureProvider, pkb->stmtPredicateFactory,
-          pkb->entityPredicateFactory)),
+          pkb->structureProvider, pkb->entityMappingProvider,
+          pkb->stmtPredicateFactory, pkb->entityPredicateFactory)),
       entEntQueryInvoker(make_unique<PkbEntEntQueryInvoker>(
           pkb->entityMappingProvider, pkb->entityPredicateFactory)),
       followsHandler(new FollowsQueryHandler(stmtStmtQueryInvoker.get(),

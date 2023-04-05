@@ -17,25 +17,28 @@ void PatternExtractor::leaveAssign(AssignNode* node) {
   addPattern(node->getLineNumber(), node->getChild(1));
 }
 
-void PatternExtractor::leaveWhile(WhileNode* node) {
+void PatternExtractor::leave(ASTNodeType type, StatementASTNode* node) {
   ExtractorUtility util;
   unordered_set<string> variableSet;
   util.getExprVariables(&variableSet, node->getChildren()[0]);
   for (string s : variableSet) {
+    if (type == ASTNODE_IF) {
+      pkbWriter->addIfPattern(node->getLineNumber(), s);
+      continue;
+    }
     pkbWriter->addWhilePattern(node->getLineNumber(), s);
   }
 }
+
+void PatternExtractor::leaveWhile(WhileNode* node) {
+  leave(ASTNODE_WHILE, node);
+}
 void PatternExtractor::leaveIf(IfNode* node) {
-  ExtractorUtility util;
-  unordered_set<string> variableSet;
-  util.getExprVariables(&variableSet, node->getChildren()[0]);
-  for (string s : variableSet) {
-    pkbWriter->addIfPattern(node->getLineNumber(), s);
-  }
+  leave(ASTNODE_IF, node);
 }
 
 void PatternExtractor::addPattern(int x, IASTNode* node) {
-  PatternTriePtr trie = PatternConverter::convertASTToTrie(node);
+  PatternTriePtr trie = PatternConverter::convertASTToTrie(node, pkbWriter);
   PatternTrieSPtr sharedPtr = shared_ptr<PatternTrie>(std::move(trie));
   pkbWriter->addAssigns(x, sharedPtr);
 }

@@ -5,6 +5,8 @@
 #include "qps/clauses/pattern/AssignPatternClause.h"
 #include "qps/errors/QPSParserSyntaxError.h"
 #include "common/pattern/PatternConverter.h"
+#include "sp/ast/StatementListNode.h"
+#include "sp/ast/AST.h"
 
 using std::make_unique;
 
@@ -19,31 +21,30 @@ PatternClausePtr PQLAssignPatternContext::parse(
 
   if (secondArg->isWildcard()) {
     return make_unique<AssignPatternClause>(
-        synonym, std::move(firstArg), make_unique<ExpressionArgument>());
+        synonym, std::move(firstArg), IASTPtr(), true);
   }
 
-  ExpressionSequencePtr sequence = buildPostfix(secondArg.get());
-  ExpressionArgumentPtr exprArg = make_unique<ExpressionArgument>(
-      std::move(sequence), secondArg->allowsPartial());
+  IASTPtr sequence = buildPostfix(secondArg.get());
+  if (sequence == nullptr) {
+    throw QPSParserSyntaxError(QPS_PARSER_ERR_INVALID_PATTERN);
+  }
 
+  // Convert at evaluation stage - Parse entire AST into the pattern clause
+  // Takes in an IASTPter instead of the ExpressionArg
   return make_unique<AssignPatternClause>(
-      synonym, std::move(firstArg), std::move(exprArg));
+      synonym,
+      std::move(firstArg),
+      std::move(sequence),
+      secondArg->allowsPartial());
 }
 
-ExpressionSequencePtr PQLAssignPatternContext::buildPostfix(
+IASTPtr PQLAssignPatternContext::buildPostfix(
     IntermediateExpressionArgument* arg) {
   IASTPtr astTree;
   try {
     astTree = std::move(arg->parse(exprParser));
+    return astTree;
   } catch (...) {
     throw QPSParserSyntaxError(QPS_PARSER_ERR_INVALID_PATTERN);
   }
-
-  ExpressionSequencePtr expr = PatternConverter::convertASTToPostfix(
-      astTree.get());
-  if (expr == nullptr) {
-    throw QPSParserSyntaxError(QPS_PARSER_ERR_INVALID_PATTERN);
-  }
-
-  return std::move(expr);
 }

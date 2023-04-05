@@ -26,7 +26,8 @@ TEST_CASE("AbstractEntEntClause Querying") {
   PQLQueryResultPtr actual;
 
   OverrideTablePtr override = make_unique<OverrideTable>();
-  QueryExecutorAgent agent(pkb.get(), override.get());
+  QueryCachePtr cache = make_unique<QueryCache>();
+  QueryExecutorAgent agent(pkb.get(), override.get(), cache.get());
 
   // Static results - False result
   CallsClause callsClause = CallsClause(

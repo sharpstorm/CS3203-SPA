@@ -1,3 +1,4 @@
+#include <vector>
 #include "ProcedureRangeExtractor.h"
 #include "StatementNumberExtractor.h"
 #include "pkb/errors/PKBError.h"
@@ -7,29 +8,34 @@ ProcedureRangeExtractor::ProcedureRangeExtractor(PkbWriter* writer)
     : pkbWriter(writer), lineNumberCache(0) {
 }
 
+void ProcedureRangeExtractor::updateCache(StatementASTNode *node) {
+  lineNumberCache = node->getLineNumber();
+}
+
 void ProcedureRangeExtractor::visitProcedure(ProcedureNode* node) {
   StatementNumberExtractor statementNoExtractor;
-  ASTNode* stmtLst = node->getChildren()[0];
-  stmtLst->getChildren().front()->accept(&statementNoExtractor);
-  int start = statementNoExtractor.getStatementNumber();
-  stmtLst->getChildren().back()->accept(this);
-  addProcedureRange(node->getName(), start, lineNumberCache);
+  vector<ASTNode*> statements = node->getChildren()[0]->getChildren();
+  statements.front()->accept(&statementNoExtractor);
+  statements.back()->accept(this);
+  addProcedureRange(node->getName(),
+                    statementNoExtractor.getStatementNumber(),
+                    lineNumberCache);
 }
 
 void ProcedureRangeExtractor::visitRead(ReadNode* node) {
-  lineNumberCache = node->getLineNumber();
+  updateCache(node);
 }
 
 void ProcedureRangeExtractor::visitPrint(PrintNode* node) {
-  lineNumberCache = node->getLineNumber();
+  updateCache(node);
 }
 
 void ProcedureRangeExtractor::visitAssign(AssignNode* node) {
-  lineNumberCache = node->getLineNumber();
+  updateCache(node);
 }
 
 void ProcedureRangeExtractor::visitCall(CallNode* node) {
-  lineNumberCache = node->getLineNumber();
+  updateCache(node);
 }
 
 void ProcedureRangeExtractor::visitIf(IfNode* node) {
@@ -41,7 +47,7 @@ void ProcedureRangeExtractor::visitWhile(WhileNode* node) {
 }
 
 void ProcedureRangeExtractor::
-addProcedureRange(const string &procName, int start, int end) {
+addProcedureRange(const string &procName, LineNumber start, LineNumber end) {
   try {
     pkbWriter->addProcedure(procName, start, end);
   } catch (PKBError e) {

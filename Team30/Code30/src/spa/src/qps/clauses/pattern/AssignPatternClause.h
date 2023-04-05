@@ -6,16 +6,21 @@
 
 class AssignPatternClause: public PatternClause {
  private:
-  ExpressionArgumentPtr rightArgument;
+  IASTPtr rightArgument;
+  bool allowsPartial;
 
+  bool isTrieMatch(PatternTrie* lineRoot, ExpressionArgument* expr);
   void checkTries(const QueryExecutorAgent &agent,
                   QueryResult<StmtValue, EntityValue>* output,
-                  QueryResult<StmtValue, EntityValue>* modifiesResult);
+                  QueryResult<StmtValue, EntityValue>* modifiesResult,
+                  ExpressionArgument* exprArg);
+  ExpressionArgumentPtr toExpressionArg(const QueryExecutorAgent& agent);
 
  public:
   AssignPatternClause(const PQLQuerySynonymProxy &assignSynonym,
                       ClauseArgumentPtr leftArg,
-                      ExpressionArgumentPtr rightArg);
+                      IASTPtr rightArg,
+                      bool allowsPartial);
   PQLQueryResult* evaluateOn(const QueryExecutorAgent &agent) override;
   ComplexityScore getComplexityScore(const OverrideTable *table) override;
 };

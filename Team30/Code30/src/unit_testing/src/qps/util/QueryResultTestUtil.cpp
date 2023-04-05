@@ -3,8 +3,8 @@
 #include <utility>
 
 #include "qps/common/intermediate_result/PQLQueryResult.h"
-#include "qps/common/resulttable/ResultGroupFactory.h"
-#include "qps/common/resulttable/SynonymResultTable.h"
+#include "qps/common/projector_table/ProjectorResultTable.h"
+#include "qps/common/projector_table/ProjectorResultFactory.h"
 
 using std::vector, std::move, std::make_unique, std::unique_ptr;
 
@@ -72,29 +72,34 @@ class TestQueryResultBuilder {
     return result;
   }
 
-  static ResultGroupPtr buildResultGroup(const ExpectedParams &expectedParams, AttributedSynonymList* syns) {
-    auto names = make_unique<vector<PQLSynonymName>>();
+  static unique_ptr<ProjectorResultTable> buildExpectedTable(const ExpectedParams &expectedParams, AttributedSynonymList* syns) {
+    auto result = make_unique<ProjectorResultTable>(syns->empty(), true);
+    vector<PQLSynonymName>* names = new vector<PQLSynonymName>();
     for (auto it : *syns) {
       names->push_back(it.getName());
     }
 
     auto queryResult = buildExpected(expectedParams);
-    return ResultGroupFactory::extractResults(queryResult.get(), names.get());
-  }
-
-  static unique_ptr<SynonymResultTable> buildExpectedTable(const ExpectedParams &expectedParams, AttributedSynonymList* syns) {
-    auto result = make_unique<SynonymResultTable>(syns->empty(), true);
-    result->addResultGroup(std::move(buildResultGroup(expectedParams, syns)));
+    ResultGroupPtr rg = ProjectorResultFactory::extractResults(queryResult.get() , names);
+    result->addResultGroup(std::move(rg));
+    delete names;
     return result;
   }
 
-  static unique_ptr<SynonymResultTable> buildExpectedTable(vector<ExpectedParams> expectedParams,
-                                                           vector<AttributedSynonymList*> synList) {
-    auto result = make_unique<SynonymResultTable>(false, true);
-    for (size_t i = 0; i < expectedParams.size(); i++) {
-      AttributedSynonymList* syns = synList[i];
-      result->addResultGroup(std::move(buildResultGroup(expectedParams[i], syns)));
-    }
+  template <class ...ExpectedParams>
+  static unique_ptr<ProjectorResultTable> buildExpectedTable(AttributedSynonymList* syns,
+                                                             const ExpectedParams&... expectedParams) {
+    auto result = make_unique<ProjectorResultTable>(syns->empty(), true);
+    ([&]
+    {
+      auto queryResult = buildExpected(expectedParams);
+      vector<PQLSynonymName> names;
+      for (auto x : expectedParams) {
+        names.push_back(x.first);
+      }
+      ResultGroupPtr rg = ProjectorResultFactory::extractResults(queryResult.get() , &names);
+      result->addResultGroup(std::move(rg));
+    } (), ...);
     return result;
   }
 };

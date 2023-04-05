@@ -20,10 +20,6 @@ bool SourceToken::operator==(const SourceToken &other) const {
   return type == other.type;
 }
 
-bool SourceToken::isCategory(SourceTokenCategory target) {
-  return isCategory(type, target);
-}
-
 bool SourceToken::isCategory(SourceTokenType type,
                                     SourceTokenCategory target) {
   return (type & SIMPLE_TOKEN_CATEGORY_MASK) == target;

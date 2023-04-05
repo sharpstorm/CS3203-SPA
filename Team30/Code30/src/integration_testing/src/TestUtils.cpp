@@ -11,9 +11,9 @@ void assertSetEquality(unordered_set<string> a, unordered_set<string> b) {
 void launchQuery(IQPS* qps, string query, unordered_set<string> answer) {
   INFO("-----------------------------------------------\n");
   INFO("Query: " << query << "\n");
-  UniqueVectorPtr<string> result = nullptr;
+  QPSOutputList result;
   try {
-    result = qps->evaluate(query);
+    qps->evaluate(query, &result);
   } catch (const QPSParserSemanticError& ex) {
     FAIL("SEMANTIC ERROR");
   } catch (const QPSParserSyntaxError& ex) {
@@ -21,12 +21,16 @@ void launchQuery(IQPS* qps, string query, unordered_set<string> answer) {
   }
 
   INFO("-----------------------------------------------\n")
-  INFO("Result Size: " + to_string(result->size()) + "\n")
+  INFO("Result Size: " + to_string(result.size()) + "\n")
   string projectedResult = "";
   unordered_set<string> resultSet = unordered_set<string>();
-  for (int i = 0; i < result->size(); i++) {
-    projectedResult += result->at(i) + (i == result->size() - 1 ? "" : "  |  ");
-    resultSet.insert(result->at(i));
+
+  for (const ProjectedValue &item : result) {
+    projectedResult += item;
+    if (item != result.back()) {
+      projectedResult += "  |  ";
+    }
+    resultSet.insert(item);
   }
 
   INFO(projectedResult + "\n");
@@ -37,9 +41,9 @@ void launchQuery(IQPS* qps, string query, unordered_set<string> answer) {
 void launchSyntaxErrorQuery(IQPS* qps, string query) {
   INFO("-----------------------------------------------\n");
   INFO("Query: " << query << "\n");
-  UniqueVectorPtr<string> result = nullptr;
+  QPSOutputList result;
   try {
-    result = qps->evaluate(query);
+    qps->evaluate(query, &result);
   } catch (const QPSParserSemanticError& ex) {
     FAIL("SEMANTIC ERROR");
   } catch (const QPSParserSyntaxError& ex) {
@@ -52,9 +56,9 @@ void launchSyntaxErrorQuery(IQPS* qps, string query) {
 void launchSemanticErrorQuery(IQPS* qps, string query) {
   INFO("-----------------------------------------------\n");
   INFO("Query: " << query << "\n");
-  UniqueVectorPtr<string> result = nullptr;
+  QPSOutputList result;
   try {
-    result = qps->evaluate(query);
+    qps->evaluate(query, &result);
   } catch (const QPSParserSemanticError& ex) {
     return;
   } catch (const QPSParserSyntaxError& ex) {

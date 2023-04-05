@@ -1,0 +1,141 @@
+procedure test {
+  print Dota;
+  print RocketLeague;
+  call Dota;
+  call RocketLeague;
+  if ((((a>b) && (c<d)) || ((e==f) || (g!=h))) || ((i<=j) && (k>=l))) then {
+    while (xyx + 1 == 3) {
+      aa = ab;
+      ab = ac;
+      ac = ad;
+      ad = ae;
+      ae = af;
+      af = ag;
+      ag = ah;
+      read ah;
+      ah = ai;
+      ai = aj;
+      aj = ak;
+      ak = al;
+      al = am;
+      x = (((((((1 + 2) / 3 * 4) - (5 * 6) / 7 % 8) - 222 + 120) / 456 % 8)));
+      if ((x + y >= 10) && ((x % y <= 0) || (10 == 10))) then {
+        read a;
+      } else {
+        read b;
+      }
+    }
+    read a123;
+    read a1234;
+    read a12345;
+    read a123456;
+    read a1234567;
+    a12345678 = b1234567;
+  } else {
+      am = an;
+      an = ao;
+      ao = ap;
+      print c45;
+      ap = aq;
+      aq = ar;
+      ar = as;
+      as = at;
+      at = au;
+      au = av;
+      av = aw;
+      aw = ax;
+      ax = ay;
+      read ay;
+      ay = az;
+  }
+}
+
+procedure Dota {
+  teamPosition = carry + mid + offlane + softSupport + hardSupport;
+  heroes = PhantomAssasin + Puck + DragonKnight + EarthShaker + CrystalMaiden;
+  carry = PhantomAssasin;
+  mid = Puck;
+  offlane = DragonKnight;
+  softSupport = EarthShaker;
+  hardSupport = CrystalMaiden;
+  while (heroes + teamPosition == 1) {
+    if (currentGameTimer >= endTime) then {
+      call explodeThrone;
+    } else {
+      currentGameTimer = currentGameTimer + 1;
+      CrystalMaiden = nerfed;
+      nerfed = reduceMovementSpeed;
+      while (CrystalMaiden != dead) {
+        CrystalMaiden = CrystalMaiden - 1;
+      }
+    }
+  }
+  print teamPosition;
+  read teamPosition;
+  teamPosition = carry + mid + offlane + softSupport + hardSupport;
+  heroes = Ursa + Techies + Viper + ElderTitan + Io;
+  carry = PhantomAssasin;
+  mid = Puck;
+  print heroes;
+  read heroes;
+  teamPosition = carry + mid - offlane * softSupport / hardSupport;
+  heroes = PhantomAssasin % Puck % DragonKnight % EarthShaker % CrystalMaiden;
+}
+
+procedure explodeThrone {
+  throneCount = throneCount - 1;
+}
+
+procedure RocketLeague {
+  numberOfCars = ((((((1 + 1) + (1) + (1 + 1 + 1 + 1)))))) * cars + cars / cars;
+  while(numberOfCars > 1) {
+    if (numberOfCars > 2) then {
+      game = on;
+    } else {
+      game = off;
+    }
+    if (numberOfCars > 3) then {
+      game = on;
+    } else {
+      game = off;
+    }
+    if (numberOfCars > 4) then {
+      game = on;
+    } else {
+      game = off;
+    }
+    if (numberOfCars > 5) then {
+      game = on;
+    } else {
+      game = off;
+    }
+    if (numberOfCars > 6) then {
+      game = on;
+    } else {
+      game = off;
+    }
+    if (numberOfCars > 7) then {
+      game = on;
+    } else {
+      game = off;
+    }
+    if (numberOfCars > 8) then {
+      game = on;
+    } else {
+      game = off;
+      while (goal1 > 1) {
+        while (goal2 > 2) {
+          while (goal3 > 3) {
+            while (goal4 > 4) {
+              while (goal5 > 5) {
+                while (goal6 > 6) {
+                  score = score + score;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

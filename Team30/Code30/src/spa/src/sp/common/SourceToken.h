@@ -76,7 +76,6 @@ class SourceToken {
   SourceToken(SourceTokenType type, string value);
   SourceTokenType getType();
   string getValue();
-  bool isCategory(SourceTokenCategory target);
   bool isVarchar();
   static bool isCategory(SourceTokenType type, SourceTokenCategory target);
   bool operator==(const SourceToken& other) const;

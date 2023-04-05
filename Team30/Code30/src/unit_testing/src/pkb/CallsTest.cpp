@@ -41,7 +41,7 @@ TEST_CASE("Calls & callsStar 2 knowns") {
   REQUIRE(result4.isEmpty == false);
 }
 
-TEST_CASE("Calls & CallsStar 1 unknown") {
+TEST_CASE("Calls & CallsStar wildcard") {
   auto pkb = make_unique<PKB>();
   auto writer = PkbWriter(pkb.get());
   auto handler = PkbQueryHandler(pkb.get());
@@ -55,37 +55,28 @@ TEST_CASE("Calls & CallsStar 1 unknown") {
   writer.addCalls(4, "foo", "goo");
   writer.runPostProcessor();
 
-  auto result1 = *handler.queryCalls({EntityType::None, ""},
+  auto result1 = *handler.queryCalls({EntityType::Wildcard, ""},
                                      {EntityType::Procedure, "foo"});
   REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.firstArgVals == unordered_set<string>{"main"});
-  REQUIRE(result1.secondArgVals == unordered_set<string>{"foo"});
-  REQUIRE(result1.pairVals == pair_set<string, string>{{"main", "foo"}});
 
   auto result2 = *handler.queryCalls({EntityType::Procedure, "main"},
-                                     {EntityType::None, ""});
+                                     {EntityType::Wildcard, ""});
   REQUIRE(result2.isEmpty == false);
-  REQUIRE(result2.firstArgVals == unordered_set<string>{"main"});
-  REQUIRE(result2.secondArgVals == unordered_set<string>{"woo", "foo"});
-  REQUIRE(result2.pairVals ==
-          pair_set<string, string>{{"main", "foo"}, {"main", "woo"}});
 
-  auto result3 = *handler.queryCallsStar({EntityType::None, ""},
+  auto result3 = *handler.queryCallsStar({EntityType::Wildcard, ""},
                                          {EntityType::Procedure, "goo"});
   REQUIRE(result3.isEmpty == false);
-  REQUIRE(result3.firstArgVals == unordered_set<string>{"foo", "main"});
-  REQUIRE(result3.secondArgVals == unordered_set<string>{"goo"});
-  REQUIRE(result3.pairVals ==
-          pair_set<string, string>{{"main", "goo"}, {"foo", "goo"}});
 
   auto result4 = *handler.queryCallsStar({EntityType::Procedure, "main"},
-                                         {EntityType::None, ""});
+                                         {EntityType::Wildcard, ""});
   REQUIRE(result4.isEmpty == false);
-  REQUIRE(result4.firstArgVals == unordered_set<string>{"main"});
-  REQUIRE(result4.secondArgVals == unordered_set<string>{"woo", "foo", "goo"});
-  REQUIRE(result4.pairVals == pair_set<string, string>{{"main", "foo"},
-                                                       {"main", "woo"},
-                                                       {"main", "goo"}});
+  auto result5 = *handler.queryCallsStar({EntityType::Wildcard, ""},
+                                         {EntityType::Procedure, "main"});
+  REQUIRE(result5.isEmpty == true);
+
+  auto result6 = *handler.queryCallsStar({EntityType::Procedure, "goo"},
+                                         {EntityType::Wildcard, ""});
+  REQUIRE(result6.isEmpty == true);
 }
 
 TEST_CASE("Calls & CallsStar 2 unknowns") {
@@ -102,22 +93,23 @@ TEST_CASE("Calls & CallsStar 2 unknowns") {
   writer.addProcedure("goo", 7, 8);
   writer.runPostProcessor();
 
-  auto result1 =
-      *handler.queryCalls({EntityType::None, ""}, {EntityType::None, ""});
+  auto result1 = *handler.queryCalls({EntityType::Wildcard, ""},
+                                     {EntityType::Wildcard, ""});
   REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.firstArgVals == unordered_set<string>{"main", "foo"});
-  REQUIRE(result1.secondArgVals == unordered_set<string>{"woo", "foo", "goo"});
-  REQUIRE(result1.pairVals == pair_set<string, string>{{"main", "foo"},
-                                                       {"main", "woo"},
-                                                       {"foo", "goo"}});
+}
 
-  auto result2 =
-      *handler.queryCallsStar({EntityType::None, ""}, {EntityType::None, ""});
-  REQUIRE(result2.isEmpty == false);
-  REQUIRE(result2.firstArgVals == unordered_set<string>{"main", "foo"});
-  REQUIRE(result2.secondArgVals == unordered_set<string>{"woo", "foo", "goo"});
-  REQUIRE(result2.pairVals == pair_set<string, string>{{"main", "foo"},
-                                                       {"main", "woo"},
-                                                       {"main", "goo"},
-                                                       {"foo", "goo"}});
+TEST_CASE("Calls & CallsStar 2 unknowns no results") {
+  auto pkb = make_unique<PKB>();
+  auto writer = PkbWriter(pkb.get());
+  auto handler = PkbQueryHandler(pkb.get());
+
+  writer.addProcedure("main", 1, 2);
+  writer.addProcedure("foo", 3, 4);
+  writer.addProcedure("woo", 5, 6);
+  writer.addProcedure("goo", 7, 8);
+  writer.runPostProcessor();
+
+  auto result1 = *handler.queryCalls({EntityType::Wildcard, ""},
+                                     {EntityType::Wildcard, ""});
+  REQUIRE(result1.isEmpty == true);
 }

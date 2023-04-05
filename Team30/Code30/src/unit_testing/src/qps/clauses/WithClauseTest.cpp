@@ -95,7 +95,8 @@ PQLQueryResult* testWithClause(PQLSynonymType leftType, PQLSynonymName leftName,
   PKB pkb;
   WithStubPkb stubHandler(&pkb);
   OverrideTable table;
-  QueryExecutorAgent agent(&stubHandler, &table);
+  QueryCachePtr cache = make_unique<QueryCache>();
+  QueryExecutorAgent agent(&stubHandler, &table, cache.get());
   auto result = clause.evaluateOn(agent);
   return result;
 }
