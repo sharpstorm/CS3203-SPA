@@ -3,5 +3,5 @@
 
 class GtASTNode: public AbstractConditionalNode {
  public:
-  GtASTNode() : AbstractConditionalNode(ASTNODE_GT, ":gt") {}
+  GtASTNode() : AbstractConditionalNode(ASTNODE_GT) {}
 };
