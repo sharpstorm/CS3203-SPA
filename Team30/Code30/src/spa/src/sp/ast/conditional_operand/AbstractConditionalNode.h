@@ -12,7 +12,7 @@ class AbstractConditionalNode: public BinaryASTNode {
   void accept(IExtractor* e) override;
 
  protected:
-  AbstractConditionalNode(ASTNodeType type) :
+  explicit AbstractConditionalNode(ASTNodeType type) :
       BinaryASTNode(type) {}
 
  private:
