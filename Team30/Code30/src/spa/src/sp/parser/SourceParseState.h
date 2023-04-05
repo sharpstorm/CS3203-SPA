@@ -25,6 +25,7 @@ class SourceParseState {
   ASTNodePtr consumeCache();
 
   LineNumber getLineNumber();
+  void advanceLine();
 
   template<typename... SourceTokenType>
   bool currTokenIsOfType(SourceTokenType... type);

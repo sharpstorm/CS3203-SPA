@@ -65,7 +65,11 @@ ASTNodePtr SourceParseState::consumeCache() {
 }
 
 LineNumber SourceParseState::getLineNumber() {
-  return ++lineNumber;
+  return lineNumber;
+}
+
+void SourceParseState::advanceLine() {
+  lineNumber += 1;
 }
 
 SourceToken *SourceParseState::expectVarchar() {
