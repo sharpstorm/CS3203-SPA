@@ -105,7 +105,8 @@ void CFGExtractor::addCFGToPKB(CFGSPtr cfg) {
   pkbWriter->addCFGs(procedureNameCache, cfg);
 }
 
-void CFGExtractor::flushStack(stack<LineNumber> *source, stack<LineNumber> *target) {
+void CFGExtractor::flushStack(stack<LineNumber> *source,
+                              stack<LineNumber> *target) {
   stack<int> temp;
   while (!source->empty()) {
     temp.push(source->top());

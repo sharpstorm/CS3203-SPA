@@ -25,7 +25,8 @@ class UsesExtractor : public AbstractExtractor {
 
  private:
   void addUsesRelation(const LineNumber &x, const string &var);
-  void processNode(const LineNumber &lineNumber, const unordered_set<string> &v);
+  void processNode(const LineNumber &lineNumber,
+                   const unordered_set<string> &v);
   void updateUses(const unordered_set<string> &v);
   void updateUses(const string &v);
   void leave();

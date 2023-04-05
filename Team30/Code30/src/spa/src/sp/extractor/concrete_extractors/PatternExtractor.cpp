@@ -28,7 +28,7 @@ void PatternExtractor::leave(ASTNodeType type, StatementASTNode* node) {
     }
     pkbWriter->addWhilePattern(node->getLineNumber(), s);
   }
-};
+}
 
 void PatternExtractor::leaveWhile(WhileNode* node) {
   leave(ASTNODE_WHILE, node);

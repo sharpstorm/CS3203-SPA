@@ -15,7 +15,8 @@ void UsesExtractor::leave() {
   statementStartStack.pop_back();
 }
 
-void UsesExtractor::visit(bool addToPkb, bool isDisabled, LineNumber lineNumber) {
+void UsesExtractor::visit(bool addToPkb, bool isDisabled,
+                          LineNumber lineNumber) {
   addToPKB.push_back(addToPkb);
   isDisabledFromContainer.push_back(isDisabled);
   statementStartStack.push_back(lineNumber);

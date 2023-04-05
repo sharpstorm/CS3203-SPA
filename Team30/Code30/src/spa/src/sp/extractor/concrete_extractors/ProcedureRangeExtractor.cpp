@@ -1,3 +1,4 @@
+#include <vector>
 #include "ProcedureRangeExtractor.h"
 #include "StatementNumberExtractor.h"
 #include "pkb/errors/PKBError.h"
