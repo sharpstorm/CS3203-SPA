@@ -5,5 +5,5 @@
 class ISp {
  public:
   virtual ~ISp() = default;
-  virtual void parseSource(const FilePath &input, PkbWriter* pkbWriter) = 0;
+  virtual void parseSource(const FilePath &input, PkbWriter *pkbWriter) = 0;
 };

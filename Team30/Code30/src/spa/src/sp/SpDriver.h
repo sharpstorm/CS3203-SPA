@@ -6,7 +6,7 @@
 
 class SpDriver : public ISourceExpressionParser {
  public:
-  void parseSource(const FileData &input, PkbWriter* pkbWriter);
+  void parseSource(const FileData &input, PkbWriter *pkbWriter);
   IASTPtr parseExpression(const SourceExpression &expression) override;
 
  private:

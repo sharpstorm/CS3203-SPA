@@ -3,7 +3,7 @@
 #include "SpDriver.h"
 #include "FileReader.h"
 
-void SpFacade::parseSource(const FilePath &fileName, PkbWriter* pkbWriter) {
+void SpFacade::parseSource(const FilePath &fileName, PkbWriter *pkbWriter) {
   FileDataPtr fileData = FileReader::readFromFile(fileName);
   spDriver.parseSource(*fileData, pkbWriter);
 }
