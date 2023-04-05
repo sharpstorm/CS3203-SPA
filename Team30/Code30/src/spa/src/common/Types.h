@@ -18,6 +18,7 @@ enum class StmtType { None, Read, Print, Assign, Call, While, If, Wildcard };
 typedef string EntityValue;
 typedef int StmtValue;
 typedef int EntityIdx;
+typedef int IntegerValue;
 typedef unordered_set<StmtValue> StmtValueSet;
 typedef unordered_set<EntityValue> EntityValueSet;
 typedef unordered_set<EntityIdx> EntityIdxSet;
@@ -25,6 +26,7 @@ typedef set<StmtValue> StmtSet;
 typedef set<EntityValue> EntitySet;
 
 const StmtValue NO_STMT = 0;
+const IntegerValue NO_INT_VAL = -1;
 const char NO_ENT[] = "";
 const EntityIdx NO_ENT_INDEX = 0;
 

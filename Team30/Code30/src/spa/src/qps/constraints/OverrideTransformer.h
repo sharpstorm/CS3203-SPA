@@ -11,7 +11,7 @@ class OverrideTransformer {
   string entRef;
  public:
   explicit OverrideTransformer(int stmt): stmtRef(stmt), entRef(NO_ENT) {}
-  explicit OverrideTransformer(string ent): stmtRef(NO_STMT), entRef(ent) {}
+  explicit OverrideTransformer(string ent): stmtRef(NO_INT_VAL), entRef(ent) {}
   bool returnsInteger() const;
   StmtRef transformArg(StmtRef input) const;
   EntityRef transformArg(EntityRef input) const;
