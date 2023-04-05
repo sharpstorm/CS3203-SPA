@@ -1,7 +1,12 @@
 #pragma once
 
+#include <memory>
+#include <utility>
+
 #include "PQLQueryResult.h"
 #include "qps/clauses/arguments/ClauseArgument.h"
+
+using std::make_unique, std::pair;
 
 template<class T, class U>
 class PQLQueryResultBuilder {
