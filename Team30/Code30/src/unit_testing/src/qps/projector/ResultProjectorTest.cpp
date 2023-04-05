@@ -30,7 +30,9 @@ SynonymHolder DECLARED_SYNS(
         {PQL_SYN_TYPE_VARIABLE, "v2"}
     });
 AttributedSynonym ATTR_TARGET_RESULT_VAR(DECLARED_SYNS.getProxy("a"));
+AttributedSynonym ATTR_TARGET_RESULT_VAR2(DECLARED_SYNS.getProxy("a2"));
 AttributedSynonym ATTR_TARGET_ENTITY_VAR(DECLARED_SYNS.getProxy("v"));
+AttributedSynonym ATTR_TARGET_ENTITY_VAR2(DECLARED_SYNS.getProxy("v2"));
 AttributedSynonymList TARGET_RESULT_VARS{ATTR_TARGET_RESULT_VAR};
 AttributedSynonymList TARGET_ENTITY_VARS{ATTR_TARGET_ENTITY_VAR};
 
@@ -42,20 +44,21 @@ TEST_CASE("Projection on BOOLEAN") {
   PKB pkbStore;
   unique_ptr<PkbQueryHandler> pkbQH = make_unique<PkbQueryHandler>(&pkbStore);
   unique_ptr<ResultProjector> projector = make_unique<ResultProjector>(pkbQH.get());
-  UniqueVectorPtr<string> actual;
+  QPSOutputList actual;
   UniqueVectorPtr<string> expected;
-  unique_ptr<SynonymResultTable> result;
+  unique_ptr<ProjectorResultTable> result;
   vector<AttributedSynonym> emptyAttr = vector<AttributedSynonym>();
 
-  result = make_unique<SynonymResultTable>(true, true);
+  result = make_unique<ProjectorResultTable>(true, true);
   expected = UniqueVectorPtr<string>(new vector<string>({"TRUE"}));
-  actual = projector->project(result.get(), &emptyAttr);
-  testResultProjection(expected.get(), actual.get());
+  projector->project(result.get(), &emptyAttr, &actual);
+  testResultProjection(expected.get(), &actual);
 
-  result = make_unique<SynonymResultTable>(true, false);
+  actual = list<ProjectedValue>();
+  result = make_unique<ProjectorResultTable>(true, false);
   expected = UniqueVectorPtr<string>(new vector<string>({"FALSE"}));
-  actual = projector->project(result.get(), &emptyAttr);
-  testResultProjection(expected.get(), actual.get());
+  projector->project(result.get(), &emptyAttr, &actual);
+  testResultProjection(expected.get(), &actual);
 }
 
 TEST_CASE("Project when result is static") {
@@ -111,8 +114,8 @@ TEST_CASE("Projecting Tuples - Same Types - Same Group") {
   PKB pkbStore;
   unique_ptr<PkbQueryHandler> pkbQH = make_unique<PkbQueryHandler>(&pkbStore);
   unique_ptr<ResultProjector> projector = make_unique<ResultProjector>(pkbQH.get());
-  unique_ptr<SynonymResultTable> result;
-  UniqueVectorPtr<string> actual;
+  unique_ptr<ProjectorResultTable> result;
+  QPSOutputList actual;
   UniqueVectorPtr<string> expected;
 
   result = TestQueryResultBuilder::buildExpectedTable(ExpectedParams{
@@ -121,9 +124,10 @@ TEST_CASE("Projecting Tuples - Same Types - Same Group") {
       {"v2", QueryResultItemVector{TestResultItem("x"), TestResultItem("y")}}
   }, &TARGET_TUPLE_ENT_VAR);
   expected = UniqueVectorPtr<string>(new vector<string>({"x x", "y y"}));
-  actual = projector->project(result.get(), &TARGET_TUPLE_ENT_VAR);
-  testResultProjection(expected.get(), actual.get());
+  projector->project(result.get(), &TARGET_TUPLE_ENT_VAR, &actual);
+  testResultProjection(expected.get(), &actual);
 
+  actual = list<ProjectedValue>();
   result = TestQueryResultBuilder::buildExpectedTable(ExpectedParams{
       {"a", QueryResultItemVector{
           TestResultItem(1), TestResultItem(2), TestResultItem(3),
@@ -131,16 +135,16 @@ TEST_CASE("Projecting Tuples - Same Types - Same Group") {
            TestResultItem(1), TestResultItem(2), TestResultItem(3)}}
   }, &TARGET_TUPLE_STMT_VAR);
   expected = UniqueVectorPtr<string>(new vector<string>({"1 1", "2 2", "3 3"}));
-  actual = projector->project(result.get(), &TARGET_TUPLE_STMT_VAR);
-  testResultProjection(expected.get(), actual.get());
+  projector->project(result.get(), &TARGET_TUPLE_STMT_VAR, &actual);
+  testResultProjection(expected.get(), &actual);
 }
 
 TEST_CASE("Projecting Tuples - Different Types - Same Group") {
   PKB pkbStore;
   unique_ptr<PkbQueryHandler> pkbQH = make_unique<PkbQueryHandler>(&pkbStore);
   unique_ptr<ResultProjector> projector = make_unique<ResultProjector>(pkbQH.get());
-  unique_ptr<SynonymResultTable> result;
-  UniqueVectorPtr<string> actual;
+  unique_ptr<ProjectorResultTable> result;
+  QPSOutputList actual;
   UniqueVectorPtr<string> expected;
 
   result = TestQueryResultBuilder::buildExpectedTable(ExpectedParams{
@@ -150,16 +154,16 @@ TEST_CASE("Projecting Tuples - Different Types - Same Group") {
           TestResultItem(1), TestResultItem(2), TestResultItem(3)}}
   }, &TARGET_TUPLE_DIFF_TYPE);
   expected = UniqueVectorPtr<string>(new vector<string>({"1 x","2 y", "3 z"}));
-  actual = projector->project(result.get(), &TARGET_TUPLE_DIFF_TYPE);
-  testResultProjection(expected.get(), actual.get());
+  projector->project(result.get(), &TARGET_TUPLE_DIFF_TYPE, &actual);
+  testResultProjection(expected.get(), &actual);
 }
 
 TEST_CASE("Projecting Tuples - Different Group") {
   PKB pkbStore;
   unique_ptr<PkbQueryHandler> pkbQH = make_unique<PkbQueryHandler>(&pkbStore);
   unique_ptr<ResultProjector> projector = make_unique<ResultProjector>(pkbQH.get());
-  unique_ptr<SynonymResultTable> result;
-  UniqueVectorPtr<string> actual;
+  unique_ptr<ProjectorResultTable> result;
+  QPSOutputList actual;
   UniqueVectorPtr<string> expected;
 
   vector<ExpectedParams> expectedGroups({
@@ -168,12 +172,12 @@ TEST_CASE("Projecting Tuples - Different Group") {
     ExpectedParams{{"a", QueryResultItemVector{
       TestResultItem(1), TestResultItem(2), TestResultItem(3)}}}
   });
-  vector<AttributedSynonymList*> synList({&TARGET_ENTITY_VARS, &TARGET_RESULT_VARS});
+//  vector<AttributedSynonymList*> synList({&TARGET_ENTITY_VARS, &TARGET_RESULT_VARS});
 
-  result = TestQueryResultBuilder::buildExpectedTable(expectedGroups, synList);
+  result = TestQueryResultBuilder::buildExpectedTable(expectedGroups);
   expected = UniqueVectorPtr<string>(new vector<string>({"1 x", "2 x", "3 x",
                                                          "1 y", "2 y", "3 y",
                                                          "1 z", "2 z", "3 z"}));
-  actual = projector->project(result.get(), &TARGET_TUPLE_DIFF_TYPE);
-  testResultProjection(expected.get(), actual.get());
+  projector->project(result.get(), &TARGET_TUPLE_DIFF_TYPE, &actual);
+  testResultProjection(expected.get(), &actual);
 }
