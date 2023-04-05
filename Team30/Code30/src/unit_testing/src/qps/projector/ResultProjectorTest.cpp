@@ -8,6 +8,7 @@
 #include "qps/projector/ResultProjector.h"
 #include "../util/QueryResultTestUtil.cpp"
 #include "../util/SynonymHolder.h"
+#include "ProjectorPKBStub.cpp"
 
 using std::sort, std::unordered_set, std::vector, std::make_unique, std::unique_ptr;
 
@@ -22,12 +23,28 @@ void testResultProjection(vector<string>* expected, QPSOutputList *actual) {
   REQUIRE(*expected == tempResult);
 }
 
+void testAttributeProjection(ResultProjector* projector,
+                             AttributedSynonym* syn,
+                             ExpectedParams* params,
+                             vector<string>* expected) {
+  QPSOutputList actual;
+  AttributedSynonymList synList = AttributedSynonymList({*syn});
+  auto result = TestQueryResultBuilder::buildExpectedTable(*params, &synList);
+  projector->project(result.get(), &synList, &actual);
+  testResultProjection(expected, &actual);
+}
+
 SynonymHolder DECLARED_SYNS(
     {
         {PQL_SYN_TYPE_ASSIGN, "a"},
         {PQL_SYN_TYPE_VARIABLE, "v"},
         {PQL_SYN_TYPE_ASSIGN, "a2"},
-        {PQL_SYN_TYPE_VARIABLE, "v2"}
+        {PQL_SYN_TYPE_VARIABLE, "v2"},
+        {PQL_SYN_TYPE_CALL, "cl"},
+        {PQL_SYN_TYPE_PROCEDURE, "p"},
+        {PQL_SYN_TYPE_CONSTANT, "c"},
+        {PQL_SYN_TYPE_PRINT, "pn"},
+        {PQL_SYN_TYPE_READ, "r"}
     });
 AttributedSynonym ATTR_TARGET_RESULT_VAR(DECLARED_SYNS.getProxy("a"));
 AttributedSynonym ATTR_TARGET_RESULT_VAR2(DECLARED_SYNS.getProxy("a2"));
@@ -108,6 +125,52 @@ TEST_CASE("Projecting Entities") {
   expected = UniqueVectorPtr<string>(new vector<string>({"x", "y"}));
   projector->project(result.get(), &TARGET_ENTITY_VARS, &actual);
   testResultProjection(expected.get(), &actual);
+}
+
+TEST_CASE("Projecting Attributes") {
+  PKB pkbStore;
+  unique_ptr<PkbQueryHandler> pkbQH = make_unique<ProjectorPKBStub>(&pkbStore);
+  unique_ptr<ResultProjector> projector = make_unique<ResultProjector>(pkbQH.get());
+  UniqueVectorPtr<string> expected;
+
+  // stmt#
+  AttributedSynonym syn = AttributedSynonym(DECLARED_SYNS.getProxy("a"), STMT_NUM);
+  auto params = ExpectedParams{{"a", QueryResultItemVector{TestResultItem(1), TestResultItem(2)}}};
+  expected = UniqueVectorPtr<string>(new vector<string>({"1", "2"}));
+  testAttributeProjection(projector.get(), &syn, &params, expected.get());
+
+  // varName
+  syn = AttributedSynonym(DECLARED_SYNS.getProxy("v"), VAR_NAME);
+  params =ExpectedParams{{"v", QueryResultItemVector{TestResultItem("x"), TestResultItem("y")}}};
+  expected = UniqueVectorPtr<string>(new vector<string>({"x", "y"}));
+  testAttributeProjection(projector.get(), &syn, &params, expected.get());
+
+  syn = AttributedSynonym(DECLARED_SYNS.getProxy("r"), VAR_NAME);
+  params = ExpectedParams{{"r", QueryResultItemVector{TestResultItem(1), TestResultItem(2)}}};
+  expected = UniqueVectorPtr<string>(new vector<string>({"readVar", "readVar"}));
+  testAttributeProjection(projector.get(), &syn, &params, expected.get());
+
+  syn = AttributedSynonym(DECLARED_SYNS.getProxy("pn"), VAR_NAME);
+  params = ExpectedParams{{"pn", QueryResultItemVector{TestResultItem(1), TestResultItem(2)}}};
+  expected = UniqueVectorPtr<string>(new vector<string>({"printVar", "printVar"}));
+  testAttributeProjection(projector.get(), &syn, &params, expected.get());
+
+  // procName
+  syn = AttributedSynonym(DECLARED_SYNS.getProxy("p"), PROC_NAME);
+  params = ExpectedParams{{"p", QueryResultItemVector{TestResultItem("x"), TestResultItem("y")}}};
+  expected = UniqueVectorPtr<string>(new vector<string>({"x", "y"}));
+  testAttributeProjection(projector.get(), &syn, &params, expected.get());
+
+  syn = AttributedSynonym(DECLARED_SYNS.getProxy("cl"), PROC_NAME);
+  params = ExpectedParams{{"cl", QueryResultItemVector{TestResultItem(1), TestResultItem(2)}}};
+  expected = UniqueVectorPtr<string>(new vector<string>({"callProc", "callProc"}));
+  testAttributeProjection(projector.get(), &syn, &params, expected.get());
+
+  // value
+  syn = AttributedSynonym(DECLARED_SYNS.getProxy("c"), CONST_VALUE);
+  params = ExpectedParams{{"c", QueryResultItemVector{TestResultItem(1), TestResultItem(2)}}};
+  expected = UniqueVectorPtr<string>(new vector<string>({"1", "2"}));
+  testAttributeProjection(projector.get(), &syn, &params, expected.get());
 }
 
 TEST_CASE("Projecting Tuples - Same Types - Same Group") {
