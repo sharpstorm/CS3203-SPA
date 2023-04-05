@@ -2,7 +2,6 @@
 
 #include <memory>
 
-#include "FollowsTTableManager.h"
 #include "FollowsTableManager.h"
 #include "IndexTableManager.h"
 #include "ParentTTableManager.h"
@@ -32,7 +31,7 @@ using StmtRevTable = HashKeySetTable<StmtType, StmtValue>;
 using CallDeclarationTable = HashKeyTable<StmtValue, EntityValue>;
 
 using FollowsStorage = FollowsTableManager;
-using FollowsTStorage = FollowsTTableManager;
+using FollowsTStorage = RelationTableManager<StmtValue, StmtValue>;
 using FollowsTable = ContiguousVectorTable<StmtValue>;
 using FollowsRevTable = ContiguousVectorTable<StmtValue>;
 
