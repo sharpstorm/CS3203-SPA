@@ -4,7 +4,6 @@
 #include "../common/SourceToken.h"
 #include "SourceLexerTokenTable.h"
 #include "../SPTypes.h"
-#include "SPLexerTypes.h"
 
 using std::string;
 
