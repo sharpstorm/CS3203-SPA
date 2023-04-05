@@ -28,11 +28,18 @@ void SourceParseState::restorePosition(const SourceParseStateSnapshot &pos) {
   curIndex = pos.lineNo;
 }
 
-SourceToken *SourceParseState::getCurrToken() const {
-  if (curIndex >= tokenLength) {
-    return nullptr;
+SourceTokenType SourceParseState::getCurrTokenType() const {
+  if (isEnd()) {
+    return SIMPLE_TOKEN_NULL;
   }
-  return &tokens->at(curIndex);
+  return getCurrToken()->getType();
+}
+
+bool SourceParseState::isCurrTokenVarchar() const {
+  if (isEnd()) {
+    return false;
+  }
+  return getCurrToken()->isVarchar();
 }
 
 SourceToken *SourceParseState::peekNextToken() const {
@@ -73,15 +80,18 @@ void SourceParseState::advanceLine() {
 }
 
 SourceToken *SourceParseState::expectVarchar() {
-  SourceToken *currentToken = getCurrToken();
-
-  if (currentToken == nullptr) {
+  if (isEnd()) {
     throw SPError(SPERR_END_OF_STREAM);
   }
 
+  SourceToken *currentToken = getCurrToken();
   if (currentToken->isVarchar()) {
     advanceToken();
     return currentToken;
   }
   throw SPError(SPERR_UNEXPECTED_TOKEN);
+}
+
+SourceToken *SourceParseState::getCurrToken() const {
+  return &tokens->at(curIndex);
 }

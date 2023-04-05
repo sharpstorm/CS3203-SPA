@@ -46,7 +46,11 @@ BinaryASTNodePtr ExpressionContext::generateOperand(
     return nullptr;
   }
 
-  switch (curToken->getType()) {
+  return makeNode(curToken);
+}
+
+BinaryASTNodePtr ExpressionContext::makeNode(const SourceToken *token) const {
+  switch (token->getType()) {
     case SIMPLE_TOKEN_PLUS:
       return make_unique<PlusASTNode>();
     case SIMPLE_TOKEN_MINUS:

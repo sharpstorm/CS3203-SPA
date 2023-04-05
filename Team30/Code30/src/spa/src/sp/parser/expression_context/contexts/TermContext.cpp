@@ -46,7 +46,11 @@ BinaryASTNodePtr TermContext::generateOperand(SourceParseState *state) const {
     return nullptr;
   }
 
-  switch (curToken->getType()) {
+  return makeNode(curToken);
+}
+
+BinaryASTNodePtr TermContext::makeNode(const SourceToken *token) const {
+  switch (token->getType()) {
     case SIMPLE_TOKEN_TIMES:
       return make_unique<TimesASTNode>();
     case SIMPLE_TOKEN_DIV:

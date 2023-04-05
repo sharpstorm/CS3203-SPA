@@ -21,11 +21,13 @@ class SourceParseState {
 
   explicit SourceParseState(SourceTokenStream *tokens);
 
-  SourceToken *getCurrToken() const;
+  SourceTokenType getCurrTokenType() const;
+  bool isCurrTokenVarchar() const;
+  template<typename... SourceTokenType>
+  bool currTokenIsOfType(SourceTokenType... type) const;
   bool nextTokenIsOfType(SourceTokenType type) const;
-  bool isEnd() const;
 
-  void advanceToken();
+  bool isEnd() const;
   SourceParseStateSnapshot savePosition();
   void restorePosition(const SourceParseStateSnapshot &snapshot);
 
@@ -37,14 +39,13 @@ class SourceParseState {
   void advanceLine();
 
   template<typename... SourceTokenType>
-  bool currTokenIsOfType(SourceTokenType... type) const;
-
-  template<typename... SourceTokenType>
   SourceToken *expect(SourceTokenType... tokenType);
+
+  template<typename... TokenType>
+  SourceTokenType expectType(TokenType... tokenType);
 
   template<typename... SourceTokenType>
   SourceToken *tryExpect(SourceTokenType... tokenType);
-
   SourceToken *expectVarchar();
 
  private:
@@ -55,6 +56,8 @@ class SourceParseState {
   ASTNodePtr curCache;
 
   SourceToken *peekNextToken() const;
+  SourceToken *getCurrToken() const;
+  void advanceToken();
 };
 
 template<typename... SourceTokenType>
@@ -64,6 +67,15 @@ SourceToken *SourceParseState::expect(SourceTokenType... tokenType) {
     throw SPError(SPERR_UNEXPECTED_TOKEN);
   }
   return currentToken;
+}
+
+template<typename... TokenType>
+SourceTokenType SourceParseState::expectType(TokenType... tokenType) {
+  SourceToken *currentToken = tryExpect(tokenType...);
+  if (currentToken == nullptr) {
+    throw SPError(SPERR_UNEXPECTED_TOKEN);
+  }
+  return currentToken->getType();
 }
 
 template<typename... SourceTokenType>
@@ -78,10 +90,9 @@ SourceToken *SourceParseState::tryExpect(SourceTokenType... tokenType) {
 
 template<typename... SourceTokenType>
 bool SourceParseState::currTokenIsOfType(SourceTokenType... type) const {
-  SourceToken *token = getCurrToken();
-  if (token == nullptr) {
+  if (isEnd()) {
     return false;
   }
 
-  return token->isType(type...);
+  return getCurrToken()->isType(type...);
 }

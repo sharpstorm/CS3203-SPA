@@ -6,12 +6,11 @@ ASTNodePtr StatementContext::generateSubtree(SourceParseState *state) const {
     return invokeSubcontext<ProcedureContextType::ASSIGN_CONTEXT>(state);
   }
 
-  SourceToken *currentToken = state->getCurrToken();
-  if (currentToken == nullptr) {
+  if (state->isEnd()) {
     throw SPError(SPERR_END_OF_STREAM);
   }
 
-  switch (currentToken->getType()) {
+  switch (state->getCurrTokenType()) {
     case SIMPLE_TOKEN_KEYWORD_PRINT:
       return invokeSubcontext<ProcedureContextType::PRINT_CONTEXT>(state);
     case SIMPLE_TOKEN_KEYWORD_IF:
