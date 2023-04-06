@@ -42,11 +42,9 @@ class AbstractTwoArgClause : public SuchThatClause {
     LeftArgType leftArg = leftTransformer(left.get());
     RightArgType rightArg = rightTransformer(right.get());
 
-    LeftArgType leftTransformed = agent.transformArg(left->getName(),
-                                                     leftArg);
-    RightArgType rightTransformed = agent.transformArg(right->getName(),
-                                                       rightArg);
-    if (!agent.isValid(leftTransformed) || !agent.isValid(rightTransformed)) {
+    leftArg = agent.transformArg(left->getName(), leftArg);
+    rightArg = agent.transformArg(right->getName(), rightArg);
+    if (!agent.isValid(leftArg) || !agent.isValid(rightArg)) {
       return new PQLQueryResult();
     }
 
