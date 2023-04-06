@@ -1,6 +1,7 @@
 #include "WithSelectClause.h"
 #include "qps/clauses/arguments/ClauseArgumentFactory.h"
 #include "ClauseScoring.h"
+#include "qps/common/intermediate_result/PQLQueryResultBuilder.h"
 
 WithSelectClause::WithSelectClause(AttributedSynonym aSyn, EntityValue enVal) :
     attrSyn(aSyn), entVal(enVal) { }
@@ -33,7 +34,10 @@ PQLQueryResult *WithSelectClause::evaluateOn(const QueryExecutorAgent &agent) {
         agent, pkbResult, &foundSet);
   }
 
-  return Clause::toQueryResult(attrSyn.getName(), foundSet);
+  PQLQueryResultBuilder<StmtValue, StmtValue> builder;
+  builder.setLeftName(attrSyn.getName());
+  builder.setLeftRef(stmtVar);
+  return builder.build(foundSet);
 }
 
 bool WithSelectClause::validateArgTypes(VariableTable *variables) {

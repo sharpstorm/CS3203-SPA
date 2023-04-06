@@ -8,6 +8,7 @@
 #include "qps/clauses/arguments/ClauseArgumentFactory.h"
 #include "qps/executor/QueryExecutorAgent.h"
 #include "ClauseScoring.h"
+#include "qps/common/intermediate_result/PQLQueryResultBuilder.h"
 
 using std::pair, std::unordered_set, std::vector, std::string, std::to_string;
 
@@ -41,7 +42,10 @@ PQLQueryResult *SelectClause::queryPKB(const QueryExecutorAgent &agent,
     result = pkbGetter(agent, ref);
   }
 
-  return Clause::toQueryResult(synName, result);
+  PQLQueryResultBuilder<ReturnType, ReturnType> builder;
+  builder.setLeftName(synName);
+  builder.setLeftRef(ref);
+  return builder.build(result);
 }
 
 unordered_set<StmtValue> SelectClause::queryStmt(
