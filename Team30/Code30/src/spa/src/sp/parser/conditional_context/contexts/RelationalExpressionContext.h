@@ -9,9 +9,9 @@ class RelationalExpressionContext: public RecursiveConditionalParseContext {
  public:
   explicit RelationalExpressionContext(IConditionalContextProvider* provider):
       RecursiveParseContext(provider) {}
-  ASTNodePtr generateSubtree(SourceParseState* state) override;
+  ASTNodePtr generateSubtree(SourceParseState* state) const override;
 
  private:
   BinaryASTNodePtr
-  generateRelationalNode(SourceTokenType type, ASTNodePtr leftNode);
+  generateRelationalNode(const SourceToken *token, ASTNodePtr leftNode) const;
 };

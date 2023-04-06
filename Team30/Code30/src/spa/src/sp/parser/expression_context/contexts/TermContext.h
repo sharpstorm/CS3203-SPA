@@ -5,12 +5,13 @@
 
 using std::shared_ptr;
 
-class TermContext: public RecursiveExpressionParseContext {
+class TermContext : public RecursiveExpressionParseContext {
  public:
-  explicit TermContext(IExpressionContextProvider* provider):
+  explicit TermContext(IExpressionContextProvider *provider) :
       RecursiveParseContext(provider) {}
-  ASTNodePtr generateSubtree(SourceParseState* state) override;
+  ASTNodePtr generateSubtree(SourceParseState *state) const override;
 
  private:
-  BinaryASTNodePtr generateOperand(SourceParseState *state);
+  BinaryASTNodePtr generateOperand(SourceParseState *state) const;
+  BinaryASTNodePtr makeNode(const SourceToken *token) const;
 };

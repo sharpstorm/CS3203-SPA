@@ -9,14 +9,14 @@
 
 class ConditionalContextProvider : public IConditionalContextProvider {
  public:
-  explicit ConditionalContextProvider(IExpressionParser* exprParser);
+  explicit ConditionalContextProvider(IExpressionParser *exprParser);
   ASTNodePtr generateSubtree(ConditionalContextType type,
-                              SourceParseState* state) override;
+                             SourceParseState *state) const override;
 
  private:
   ConditionalExpressionContext condContext;
   RelationalExpressionContext relContext;
   RelationalFactorContext relFactorContext;
 
-  SourceParseContext* getContext(ConditionalContextType type);
+  const SourceParseContext *getContext(ConditionalContextType type) const;
 };

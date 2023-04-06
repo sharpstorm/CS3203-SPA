@@ -3,7 +3,7 @@
 ProcedureContextProvider::ProcedureContextProvider(
     IEntityParser *entityParser,
     IExpressionParser *exprParser,
-    IConditionalParser *condParser):
+    IConditionalParser *condParser) :
     entityParser(entityParser), exprParser(exprParser), condParser(condParser),
     procedureContext(this),
     stmtListContext(this),
@@ -13,32 +13,31 @@ ProcedureContextProvider::ProcedureContextProvider(
     ifContext(this),
     printContext(this),
     readContext(this),
-    whileContext(this)
-    {}
+    whileContext(this) {}
 
 ASTNodePtr ProcedureContextProvider::generateSubtree(ProcedureContextType type,
-                                                     SourceParseState *state) {
+                                                     SourceParseState *state)
+const {
   return getContext(type)->generateSubtree(state);
 }
 
-ASTNodePtr ProcedureContextProvider::parseVariable(SourceParseState *state) {
+ASTNodePtr ProcedureContextProvider::parseVariable(SourceParseState *state)
+const {
   return entityParser->parseVariable(state);
 }
 
-ASTNodePtr ProcedureContextProvider::parseConstant(SourceParseState *state) {
-  return entityParser->parseConstant(state);
-}
-
-ASTNodePtr ProcedureContextProvider::parseCondition(SourceParseState *state) {
+ASTNodePtr ProcedureContextProvider::parseCondition(SourceParseState *state)
+const {
   return condParser->parse(state);
 }
 
-ASTNodePtr ProcedureContextProvider::parseExpression(SourceParseState *state) {
+ASTNodePtr ProcedureContextProvider::parseExpression(SourceParseState *state)
+const {
   return exprParser->parse(state);
 }
 
-SourceParseContext *ProcedureContextProvider::getContext(
-    ProcedureContextType type) {
+const SourceParseContext *ProcedureContextProvider::getContext(
+    ProcedureContextType type) const {
   switch (type) {
     case ProcedureContextType::PROCEDURE_CONTEXT:
       return &procedureContext;
