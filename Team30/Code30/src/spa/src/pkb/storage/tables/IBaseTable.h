@@ -5,7 +5,7 @@
 #include "pkb/PkbTypes.h"
 #include "pkb/storage/iterators/IBaseTableIterator.h"
 
-using std::unique_ptr, std::make_unique;
+using std::unique_ptr;
 
 /**
  * Table that maps item of type K to an item of type V.

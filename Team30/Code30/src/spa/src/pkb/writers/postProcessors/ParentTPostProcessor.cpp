@@ -1,8 +1,9 @@
 #include "ParentTPostProcessor.h"
 
+#include <utility>
 #include <vector>
 
-using std::vector;
+using std::vector, std::pair;
 
 ParentTPostProcessor::ParentTPostProcessor(PKB* pkb) : pkb(pkb) {}
 
@@ -20,7 +21,7 @@ void ParentTPostProcessor::process() {
     // 2. last child of parent (last stmt in else clause)
     auto lastChild = *(row.second.rbegin());
     lastChildren.insert(lastChild);
-  };
+  }
   for (auto child : lastChildren) {
     StmtValueSet ascendants = StmtValueSet();
     dfsParentRevTable(child, ascendants);

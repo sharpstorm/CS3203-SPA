@@ -1,15 +1,16 @@
 #pragma once
 
+#include <utility>
 #include <vector>
 
 #include "IBaseTableIterator.h"
 
-using std::vector;
+using std::vector, std::pair;
 
 template <typename V>
 class ContiguousTableIterator : public IBaseTableIterator<int, V> {
  public:
-  ContiguousTableIterator(const vector<V>& vector)
+  explicit ContiguousTableIterator(const vector<V>& vector)
       : vector_(vector), index_(1) {}
 
   // Return the next key-value pair in the vector

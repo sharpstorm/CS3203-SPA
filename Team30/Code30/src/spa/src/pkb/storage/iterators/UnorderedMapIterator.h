@@ -1,15 +1,16 @@
 #pragma once
 
 #include <unordered_map>
+#include <utility>
 
 #include "IBaseTableIterator.h"
 
-using std::unordered_map;
+using std::unordered_map, std::pair;
 
 template <typename K, typename V>
 class UnorderedMapIterator : public IBaseTableIterator<K, V> {
  public:
-  UnorderedMapIterator(const unordered_map<K, V>& map)
+  explicit UnorderedMapIterator(const unordered_map<K, V>& map)
       : map_(map), iter_(map.begin()) {}
 
   // Return the next key-value pair in the unordered_map

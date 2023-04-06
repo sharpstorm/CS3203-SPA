@@ -7,7 +7,7 @@
 #include "pkb/storage/iterators/IBaseIterator.h"
 #include "pkb/storage/iterators/IBaseTableIterator.h"
 
-using std::set, std::unique_ptr, std::make_unique;
+using std::set, std::unique_ptr;
 /**
  * Table that maps item of type K to a set of type V items.
  */

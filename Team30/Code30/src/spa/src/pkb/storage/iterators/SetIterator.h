@@ -9,11 +9,11 @@ using std::set;
 template <typename T>
 class SetIterator : public IBaseIterator<T> {
  public:
-  SetIterator(const set<T>* set) : set_(set), iter_(set->begin()) {}
+  explicit SetIterator(const set<T>& set) : set_(set), iter_(set.begin()) {}
 
   // Return the next item in the set
   T getNext() {
-    if (iter_ == set_->end()) {
+    if (iter_ == set_.end()) {
       // End of the set has been reached
       return T();
     }
@@ -23,6 +23,6 @@ class SetIterator : public IBaseIterator<T> {
   }
 
  private:
-  const set<T>* set_;
+  const set<T>& set_;
   typename set<T>::const_iterator iter_;
 };

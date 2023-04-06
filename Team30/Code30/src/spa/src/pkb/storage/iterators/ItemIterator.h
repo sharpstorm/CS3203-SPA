@@ -9,7 +9,7 @@ using std::vector;
 template <typename T>
 class ItemIterator : public IBaseIterator<T> {
  public:
-  ItemIterator(T item) : item(item) {}
+  explicit ItemIterator(T item) : item(item) {}
 
   // Return the next element in the vector
   T getNext() {

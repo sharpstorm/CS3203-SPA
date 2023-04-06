@@ -1,12 +1,13 @@
 #pragma once
 
 #include <cassert>
+#include <memory>
 #include <vector>
 
 #include "IBaseTable.h"
 #include "pkb/storage/iterators/ContiguousTableIterator.h"
 
-using std::vector;
+using std::vector, std::make_unique, std::unique_ptr;
 
 template <typename V>
 class ContiguousTable : public IBaseTable<int, V> {

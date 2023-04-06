@@ -1,13 +1,14 @@
 #pragma once
 
 #include <cassert>
+#include <memory>
 #include <unordered_map>
 
 #include "IBaseTable.h"
 #include "pkb/PkbTypes.h"
 #include "pkb/storage/iterators/UnorderedMapIterator.h"
 
-using std::unordered_map;
+using std::unordered_map, std::make_unique;
 
 template <typename K, typename V>
 class HashKeyTable : public IBaseTable<K, V> {

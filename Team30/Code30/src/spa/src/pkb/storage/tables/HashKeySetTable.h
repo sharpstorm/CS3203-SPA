@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cassert>
+#include <memory>
 #include <set>
 #include <unordered_map>
 
@@ -8,7 +9,7 @@
 #include "IBaseSetTable.h"
 #include "pkb/storage/iterators/SetIterator.h"
 
-using std::set;
+using std::set, std::make_unique;
 
 template <typename K, typename V>
 class HashKeySetTable : public IBaseSetTable<K, V>,
@@ -36,6 +37,6 @@ class HashKeySetTable : public IBaseSetTable<K, V>,
   bool containsKey(K key) const override { return !get(key).empty(); }
 
   unique_ptr<IBaseIterator<V>> getValueIterator(K key) {
-    return make_unique<SetIterator<V>>(&HashKeyTable<K, set<V>>::get(key));
+    return make_unique<SetIterator<V>>(HashKeyTable<K, set<V>>::get(key));
   }
 };

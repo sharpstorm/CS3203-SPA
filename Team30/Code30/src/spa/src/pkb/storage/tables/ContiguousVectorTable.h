@@ -2,13 +2,14 @@
 
 #include <algorithm>
 #include <cassert>
+#include <memory>
 #include <vector>
 
 #include "ContiguousTable.h"
 #include "IBaseSetTable.h"
 #include "pkb/storage/iterators/VectorIterator.h"
 
-using std::vector;
+using std::vector, std::make_unique, std::unique_ptr;
 
 template <typename V>
 class ContiguousVectorTable : public IBaseSetTable<int, V>,
@@ -48,8 +49,7 @@ class ContiguousVectorTable : public IBaseSetTable<int, V>,
   bool containsKey(int key) const override { return !get(key).empty(); }
 
   unique_ptr<IBaseIterator<V>> getValueIterator(int key) {
-    return make_unique<VectorIterator<V>>(
-        &ContiguousTable<vector<V>>::get(key));
+    return make_unique<VectorIterator<V>>(ContiguousTable<vector<V>>::get(key));
   }
 
   V getFirstValue(int key) const {
@@ -69,5 +69,4 @@ class ContiguousVectorTable : public IBaseSetTable<int, V>,
       return values.back();
     }
   }
-
 };

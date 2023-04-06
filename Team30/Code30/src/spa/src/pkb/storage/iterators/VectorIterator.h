@@ -9,12 +9,12 @@ using std::vector;
 template <typename T>
 class VectorIterator : public IBaseIterator<T> {
  public:
-  VectorIterator(const vector<T>* vector)
-      : vector_(vector), it_(vector->begin()) {}
+  explicit VectorIterator(const vector<T>& vector)
+      : vector_(vector), it_(vector.begin()) {}
 
   // Return the next element in the vector
   T getNext() {
-    if (it_ == vector_->end()) {
+    if (it_ == vector_.end()) {
       // End of the vector has been reached
       return T();
     }
@@ -24,6 +24,6 @@ class VectorIterator : public IBaseIterator<T> {
   }
 
  private:
-  const vector<T>* vector_;
+  const vector<T>& vector_;
   typename vector<T>::const_iterator it_;
 };

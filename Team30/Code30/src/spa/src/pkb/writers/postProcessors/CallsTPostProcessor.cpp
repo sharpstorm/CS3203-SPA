@@ -2,7 +2,7 @@
 
 #include <utility>
 
-using std::pair, std::string;
+using std::pair;
 
 CallsTPostProcessor::CallsTPostProcessor(PKB* pkb) : pkb(pkb) {}
 
@@ -17,7 +17,7 @@ void CallsTPostProcessor::process() {
         this->pkb->callsTStorage->insert(p, child);
       }
     }
-  };
+  }
 }
 
 void CallsTPostProcessor::dfsCallsRevTable(EntityValue target,

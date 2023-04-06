@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <set>
 #include <vector>
 
 #include "IStorage.h"
@@ -11,7 +12,7 @@
 #include "pkb/storage/tables/ContiguousVectorTable.h"
 
 using pkb::Predicate;
-using std::make_unique, std::unique_ptr, std::vector;
+using std::make_unique, std::unique_ptr, std::vector, std::set;
 
 /**
  * Table manager for relation, R(arg1, arg2), where args are type K and V
@@ -53,7 +54,7 @@ class FollowsTableManager : public RelationTableManager<StmtValue, StmtValue> {
     return make_unique<ItemIterator<StmtValue>>(rightArg);
   }
 
-  virtual unique_ptr<IBaseIterator<StmtValue>> getLeftValIter(
+  unique_ptr<IBaseIterator<StmtValue>> getLeftValIter(
       StmtValue rightArg) const override {
     auto leftArg = reverseTable->getLastValue(rightArg);
     return make_unique<ItemIterator<StmtValue>>(leftArg);

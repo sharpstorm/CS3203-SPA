@@ -1,15 +1,16 @@
 #pragma once
 
 #include <map>
+#include <utility>
 
 #include "IBaseTableIterator.h"
 
-using std::map;
+using std::map, std::pair;
 
 template <typename K, typename V>
 class MapIterator : public IBaseTableIterator<K, V> {
  public:
-  MapIterator(const map<K, V>& map) : map_(map), iter_(map.begin()) {}
+  explicit MapIterator(const map<K, V>& map) : map_(map), iter_(map.begin()) {}
 
   // Return the next key-value pair in the map
   pair<K, V> getNext() override {

@@ -1,9 +1,11 @@
 #pragma once
 
+#include <set>
+
 #include "common/Types.h"
 #include "pkb/PkbTypes.h"
 
-using pkb::Predicate;
+using pkb::Predicate, std::set;
 
 template <typename K, typename V>
 class IStorage {

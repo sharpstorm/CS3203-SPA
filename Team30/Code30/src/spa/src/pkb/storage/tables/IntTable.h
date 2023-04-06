@@ -2,11 +2,12 @@
 
 #include <cassert>
 #include <map>
+#include <memory>
 
 #include "IBaseTable.h"
 #include "pkb/storage/iterators/MapIterator.h"
 
-using std::map;
+using std::map, std::make_unique;
 
 template <typename V>
 class IntTable : public IBaseTable<int, V> {
