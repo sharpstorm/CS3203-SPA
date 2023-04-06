@@ -9,13 +9,13 @@ class AssignPatternClause : public PatternClause {
   IASTPtr rightArgument;
   bool allowsPartial;
 
-  ExpressionArgumentPtr toExpressionArg(const QueryExecutorAgent &agent);
+  ExpressionArgumentPtr toExpressionArg(const QueryExecutorAgent &agent) const;
 
  public:
   AssignPatternClause(const PQLQuerySynonymProxy &assignSynonym,
                       ClauseArgumentPtr leftArg,
                       IASTPtr rightArg,
                       bool allowsPartial);
-  PQLQueryResult *evaluateOn(const QueryExecutorAgent &agent) override;
-  ComplexityScore getComplexityScore(const OverrideTable *table) override;
+  PQLQueryResult *evaluateOn(const QueryExecutorAgent &agent) const override;
+  ComplexityScore getComplexityScore(const OverrideTable *table) const override;
 };

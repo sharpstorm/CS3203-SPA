@@ -14,13 +14,13 @@ AssignPatternClause::AssignPatternClause(
     const PQLQuerySynonymProxy &assignSynonym,
     ClauseArgumentPtr leftArg,
     IASTPtr rightArg,
-    bool allow) :
+    bool allowsPartial) :
     PatternClause(assignSynonym, std::move(leftArg), PQL_SYN_TYPE_ASSIGN),
     rightArgument(std::move(rightArg)),
-    allowsPartial(allow) {}
+    allowsPartial(allowsPartial) {}
 
 PQLQueryResult *AssignPatternClause::evaluateOn(
-    const QueryExecutorAgent &agent) {
+    const QueryExecutorAgent &agent) const {
   ExpressionArgumentPtr expr = toExpressionArg(agent);
 
   StmtRef leftStatement = {StmtType::Assign, 0};
@@ -55,7 +55,7 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
 }
 
 ComplexityScore AssignPatternClause::getComplexityScore(
-    const OverrideTable *table) {
+    const OverrideTable *table) const {
   if (table->contains(leftArg->getName())) {
     return COMPLEXITY_QUERY_CONSTANT;
   }
@@ -63,7 +63,7 @@ ComplexityScore AssignPatternClause::getComplexityScore(
 }
 
 ExpressionArgumentPtr AssignPatternClause::toExpressionArg(
-    const QueryExecutorAgent &agent) {
+    const QueryExecutorAgent &agent) const {
   // Wildcard case
   if (rightArgument.get() == nullptr) {
     return make_unique<ExpressionArgument>();

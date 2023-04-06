@@ -1,8 +1,8 @@
 #include "ProjectorInstruction.h"
 
 ProjectorInstruction::ProjectorInstruction(
-    const ResultGroupId &groupId,
-    const ResultTableCol &col,
+    const ResultGroupId groupId,
+    const ResultTableCol col,
     const ResultItemProjector &projector) :
     groupId(groupId), tableCol(col), projector(projector) {}
 

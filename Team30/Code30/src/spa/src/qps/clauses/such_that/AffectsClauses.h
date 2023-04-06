@@ -2,7 +2,6 @@
 
 #include <memory>
 #include <utility>
-#include <unordered_set>
 #include <vector>
 
 #include "abstract_clauses/AbstractStmtStmtClause.h"
@@ -29,7 +28,7 @@ constexpr ModifiesGetter<QueryExecutorAgent> modifiesQuerier =
           agent->queryModifies(StmtRef{StmtType::None, stmtNumber},
                                EntityRef{EntityType::Variable, ""});
       EntityIdxSet ret;
-      for (EntityValue v : result->secondArgVals) {
+      for (const EntityValue &v : result->secondArgVals) {
         ret.insert(agent->getIndexOfVariable(v));
       }
       ret.erase(NO_ENT_INDEX);
@@ -42,7 +41,7 @@ constexpr UsesGetter<QueryExecutorAgent> usesQuerier =
           agent->queryUses(StmtRef{StmtType::None, stmtNumber},
                            EntityRef{EntityType::Variable, ""});
       EntityIdxSet ret;
-      for (EntityValue v : result->secondArgVals) {
+      for (const EntityValue &v : result->secondArgVals) {
         ret.insert(agent->getIndexOfVariable(v));
       }
       ret.erase(NO_ENT_INDEX);
@@ -103,7 +102,7 @@ template<class QuerierT>
 constexpr AffectsSameSynInvoker abstractAffectsSymmetricInvoker =
     [](const QueryExecutorAgent &agent,
        const StmtRef &arg) {
-      unordered_set<StmtValue> result;
+      StmtValueSet result;
 
       if (!arg.isType(StmtType::None) && !arg.isType(StmtType::Assign)) {
         return result;
@@ -115,10 +114,10 @@ constexpr AffectsSameSynInvoker abstractAffectsSymmetricInvoker =
       for (auto it = cfgs.begin(); it != cfgs.end(); it++) {
         CFG *cfg = *it;
         QuerierT querier(cfg, agent);
-        int startingStatement = cfg->getStartingStmtNumber();
+        StmtValue startingStatement = cfg->getStartingStmtNumber();
 
         for (int i = 0; i < cfg->getNodeCount(); i++) {
-          int statement = startingStatement + i;
+          StmtValue statement = startingStatement + i;
           if (!typeChecker(agent, StmtType::Assign, statement)) {
             continue;
           }
@@ -150,7 +149,8 @@ class AffectsClause : public AbstractAffectsClause<
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
   }
 
-  ComplexityScore getComplexityScore(const OverrideTable *table) override {
+  ComplexityScore getComplexityScore(const OverrideTable *table)
+  const override {
     return computeComplexityScore<
         COMPLEXITY_AFFECTS_CONST,
         COMPLEXITY_AFFECTS,
@@ -166,7 +166,8 @@ class AffectsTClause : public AbstractAffectsClause<
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
   }
 
-  ComplexityScore getComplexityScore(const OverrideTable *table) override {
+  ComplexityScore getComplexityScore(const OverrideTable *table)
+  const override {
     return computeComplexityScore<
         COMPLEXITY_AFFECTS_T_CONST,
         COMPLEXITY_AFFECTS_T + COMPLEXITY_QUERY_TRANSITIVE,

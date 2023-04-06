@@ -12,7 +12,7 @@ QueryResultItem *QueryResultItemPool::getItem(const StmtValue &value) {
   }
 
   ownedItems.push_back(make_unique<QueryResultItem>(value));
-  QueryResultItem* itemPtr = ownedItems.back().get();
+  QueryResultItem *itemPtr = ownedItems.back().get();
   stmtLookup.emplace(value, itemPtr);
 
   return itemPtr;
@@ -25,13 +25,13 @@ QueryResultItem *QueryResultItemPool::getItem(const EntityValue &value) {
   }
 
   ownedItems.push_back(make_unique<QueryResultItem>(value));
-  QueryResultItem* itemPtr = ownedItems.back().get();
+  QueryResultItem *itemPtr = ownedItems.back().get();
   entLookup.emplace(value, itemPtr);
 
   return itemPtr;
 }
 
-vector<QueryResultItemPtr> QueryResultItemPool::releaseOwned() {
+QueryResultItemPool::OwnedResultItemList QueryResultItemPool::releaseOwned() {
   return std::move(ownedItems);
 }
 

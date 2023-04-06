@@ -11,13 +11,13 @@
 using std::vector;
 
 class ProjectorResultTable {
-  typedef vector<int> RowIndexes;
+  typedef vector<ProjectorResultRow> RowIndexes;
 
   vector<ResultGroupPtr> groupResults;
   bool isBooleanResult;
   bool booleanResult;
 
-  void populateIndexes(RowIndexes *indexes, const int &outputRow) const;
+  void populateIndexes(RowIndexes *indexes, const int outputRow) const;
   void projectForRow(const ProjectorIndex &index,
                      const RowIndexes *row,
                      ProjectedValue *outputCache) const;
@@ -35,5 +35,5 @@ class ProjectorResultTable {
                                       const PkbQueryHandler *pkbHandler) const;
   void projectTo(QPSOutputList *output, const ProjectorIndex &index) const;
 
-  bool operator ==(const ProjectorResultTable &srt) const;
+  bool operator==(const ProjectorResultTable &srt) const;
 };

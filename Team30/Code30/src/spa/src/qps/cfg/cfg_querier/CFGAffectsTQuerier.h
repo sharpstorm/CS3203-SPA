@@ -26,14 +26,15 @@ class CFGAffectsTQuerier : public ICFGClauseQuerier,
                                                   usesGetter>> {
   using ConcreteAffectsQuerier = CFGAffectsQuerier<ClosureType, typePredicate,
                                                    modifiesGetter, usesGetter>;
-  template <class T>
-  using DFSResultCallback = bool(*)(T* dfsClosure,
-                                    const StmtValue& start,
-                                    const StmtValue &stmt);
-  template <class T, class U>
-  using DFSStepGetter = U(*)(T* dfsClosure, const StmtValue &stmt);
+  template<class T>
+  using DFSResultCallback = bool (*)(T *dfsClosure,
+                                     const StmtValue &start,
+                                     const StmtValue &stmt);
+  template<class T, class U>
+  using DFSStepGetter = U(*)(T *dfsClosure, const StmtValue &stmt);
   typedef unordered_set<StmtValue> AffectsResult;
   typedef vector<AffectsResult> AffectsResultList;
+  typedef vector<StmtValue> StmtValueStack;
  public:
   explicit CFGAffectsTQuerier(CFG *cfg, const ClosureType &closure);
 
@@ -67,27 +68,27 @@ class CFGAffectsTQuerier : public ICFGClauseQuerier,
     StmtTransitiveResult *output;
     ConcreteAffectsQuerier affectsQuerier;
     const AffectsResultList *affectsResults;
-    CFG* cfg;
+    CFG *cfg;
   };
 
   bool validateArg(const StmtValue &arg);
 
-  template <class DFSClosureType, class DFSStepType>
+  template<class DFSClosureType, class DFSStepType>
   void runAffectsTDFS(DFSResultCallback<DFSClosureType> callback,
                       DFSStepGetter<DFSClosureType, DFSStepType> stepGetter,
                       DFSClosureType *dfsClosure,
                       const StmtValue &start);
 
-  template <class T>
+  template<class T>
   static constexpr DFSStepGetter<T, AffectsResult> affectsQueryFrom =
-      [](T* dfsClosure, const StmtValue &stmt) {
+      [](T *dfsClosure, const StmtValue &stmt) {
         return dfsClosure->affectsQuerier.queryFrom(stmt, StmtType::Assign)
             .secondArgVals;
       };
 
-  template <class T>
+  template<class T>
   static constexpr DFSStepGetter<T, AffectsResult> affectsQueryTo =
-      [](T* dfsClosure, const StmtValue &stmt) {
+      [](T *dfsClosure, const StmtValue &stmt) {
         return dfsClosure->affectsQuerier.queryTo(StmtType::Assign, stmt)
             .firstArgVals;
       };
@@ -119,8 +120,8 @@ queryBool(const StmtValue &arg0, const StmtValue &arg1) {
 
   BoolDFSClosure dfsClosure{&result, affectsQuerier, arg1};
   constexpr DFSResultCallback<BoolDFSClosure> resultHandler =
-      [](BoolDFSClosure* dfsClosure,
-         const StmtValue& start,
+      [](BoolDFSClosure *dfsClosure,
+         const StmtValue &start,
          const StmtValue &stmt) -> bool {
         if (stmt == dfsClosure->target) {
           dfsClosure->output->add(start, stmt);
@@ -146,8 +147,8 @@ StmtTransitiveResult CFGAffectsTQuerier<ClosureType, typePredicate,
 
   SingleSynDFSClosure dfsClosure{&result, affectsQuerier};
   constexpr DFSResultCallback<SingleSynDFSClosure> resultHandler =
-      [](SingleSynDFSClosure* result,
-         const StmtValue& start,
+      [](SingleSynDFSClosure *result,
+         const StmtValue &start,
          const StmtValue &stmt) -> bool {
         result->output->add(start, stmt);
         return true;
@@ -173,8 +174,8 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
 
   SingleSynDFSClosure dfsClosure{&result, affectsQuerier};
   constexpr DFSResultCallback<SingleSynDFSClosure> resultHandler =
-      [](SingleSynDFSClosure* result,
-         const StmtValue& start,
+      [](SingleSynDFSClosure *result,
+         const StmtValue &start,
          const StmtValue &stmt) -> bool {
         result->output->add(stmt, start);
         return true;
@@ -204,15 +205,15 @@ queryAll(StmtTransitiveResult *resultOut,
 
   AllDFSClosure dfsClosure{resultOut, affectsQuerier, &resultStmts, cfg};
   constexpr DFSResultCallback<AllDFSClosure> resultHandler =
-      [](AllDFSClosure* closure,
-         const StmtValue& start,
+      [](AllDFSClosure *closure,
+         const StmtValue &start,
          const StmtValue &stmt) -> bool {
         closure->output->add(start, stmt);
         return true;
       };
 
   constexpr DFSStepGetter<AllDFSClosure, AffectsResult> stepGetter =
-      [](AllDFSClosure* dfsClosure, const StmtValue &stmt) {
+      [](AllDFSClosure *dfsClosure, const StmtValue &stmt) {
         CFGNode nodeId = dfsClosure->cfg->toCFGNode(stmt);
         return dfsClosure->affectsResults->at(nodeId);
       };
@@ -240,14 +241,14 @@ template<
     StmtTypePredicate<ClosureType> typePredicate,
     ModifiesGetter<ClosureType> modifiesGetter,
     UsesGetter<ClosureType> usesGetter>
-template <class DFSClosureType, class DFSStepType>
+template<class DFSClosureType, class DFSStepType>
 void CFGAffectsTQuerier<ClosureType, typePredicate,
                         modifiesGetter, usesGetter>::
 runAffectsTDFS(DFSResultCallback<DFSClosureType> callback,
                DFSStepGetter<DFSClosureType, DFSStepType> stepGetter,
                DFSClosureType *dfsClosure,
                const StmtValue &start) {
-  vector<StmtValue> dfsStack;
+  StmtValueStack dfsStack;
   BitField seen(cfg->getNodeCount());
   dfsStack.push_back(start);
   while (!dfsStack.empty()) {

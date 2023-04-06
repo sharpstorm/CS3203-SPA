@@ -6,10 +6,10 @@
 #include "CFGQuerier.h"
 #include "qps/cfg/CFGQuerierTypes.h"
 
-template <class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
-class CFGNextTQuerier: public ICFGClauseQuerier,
-                       public CFGQuerier<
-                           CFGNextTQuerier<ClosureType, typePredicate>> {
+template<class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
+class CFGNextTQuerier : public ICFGClauseQuerier,
+                        public CFGQuerier<
+                            CFGNextTQuerier<ClosureType, typePredicate>> {
  public:
   CFGNextTQuerier(CFG *cfg, const ClosureType &closure);
 
@@ -19,30 +19,30 @@ class CFGNextTQuerier: public ICFGClauseQuerier,
                                  const StmtType &type1) final;
   StmtTransitiveResult queryTo(const StmtType &type0,
                                const StmtValue &arg1) final;
-  void queryAll(StmtTransitiveResult* resultOut,
+  void queryAll(StmtTransitiveResult *resultOut,
                 const StmtType &type0,
                 const StmtType &type1) final;
 
  private:
-  CFG* cfg;
+  CFG *cfg;
   CFGWalker walker;
   const ClosureType &closure;
 
   struct ResultClosure {
-    CFG* cfg;
+    CFG *cfg;
     const ClosureType &closure;
-    StmtTransitiveResult* result;
+    StmtTransitiveResult *result;
     StmtType arg0Type;
     StmtType arg1Type;
   };
 };
 
-template <class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
+template<class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
 CFGNextTQuerier<ClosureType, typePredicate>::
 CFGNextTQuerier(CFG *cfg, const ClosureType &closure):
     cfg(cfg), walker(cfg), closure(closure) {}
 
-template <class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
+template<class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
 StmtTransitiveResult CFGNextTQuerier<ClosureType, typePredicate>::
 queryBool(const StmtValue &arg0, const StmtValue &arg1) {
   StmtTransitiveResult result;
@@ -62,11 +62,11 @@ queryBool(const StmtValue &arg0, const StmtValue &arg1) {
   return result;
 }
 
-template <class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
+template<class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
 StmtTransitiveResult CFGNextTQuerier<ClosureType, typePredicate>::
 queryFrom(const StmtValue &arg0, const StmtType &type1) {
   StmtTransitiveResult result;
-  ResultClosure state{ cfg, closure, &result, StmtType::None, type1 };
+  ResultClosure state{cfg, closure, &result, StmtType::None, type1};
 
   if (!cfg->containsStatement(arg0)) {
     return result;
@@ -74,7 +74,7 @@ queryFrom(const StmtValue &arg0, const StmtType &type1) {
 
   constexpr WalkerSingleCallback<ResultClosure> callback =
       [](ResultClosure *state, CFGNode node) {
-        int stmtNumber = state->cfg->fromCFGNode(node);
+        StmtValue stmtNumber = state->cfg->fromCFGNode(node);
         if (!typePredicate(state->closure, state->arg1Type, stmtNumber)) {
           return true;
         }
@@ -88,11 +88,11 @@ queryFrom(const StmtValue &arg0, const StmtType &type1) {
   return result;
 }
 
-template <class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
+template<class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
 StmtTransitiveResult CFGNextTQuerier<ClosureType, typePredicate>::
 queryTo(const StmtType &type0, const StmtValue &arg1) {
   StmtTransitiveResult result;
-  ResultClosure state{ cfg, closure, &result, type0, StmtType::None };
+  ResultClosure state{cfg, closure, &result, type0, StmtType::None};
 
   if (!cfg->containsStatement(arg1)) {
     return result;
@@ -100,7 +100,7 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
 
   constexpr WalkerSingleCallback<ResultClosure> callback =
       [](ResultClosure *state, CFGNode node) -> bool {
-        int stmtNumber = state->cfg->fromCFGNode(node);
+        StmtValue stmtNumber = state->cfg->fromCFGNode(node);
         if (!typePredicate(state->closure, state->arg0Type, stmtNumber)) {
           return true;
         }
@@ -114,17 +114,17 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
   return result;
 }
 
-template <class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
+template<class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
 void CFGNextTQuerier<ClosureType, typePredicate>::
-queryAll(StmtTransitiveResult* resultOut,
+queryAll(StmtTransitiveResult *resultOut,
          const StmtType &type0,
          const StmtType &type1) {
-  ResultClosure state{ cfg, closure, resultOut, type0, type1 };
+  ResultClosure state{cfg, closure, resultOut, type0, type1};
 
   constexpr WalkerPairCallback<ResultClosure> callback =
       [](ResultClosure *state, CFGNode nodeLeft, CFGNode nodeRight) {
-        int fromStmtNumber = state->cfg->fromCFGNode(nodeLeft);
-        int toStmtNumber = state->cfg->fromCFGNode(nodeRight);
+        StmtValue fromStmtNumber = state->cfg->fromCFGNode(nodeLeft);
+        StmtValue toStmtNumber = state->cfg->fromCFGNode(nodeRight);
         if (!typePredicate(state->closure, state->arg0Type, fromStmtNumber)
             || !typePredicate(state->closure, state->arg1Type, toStmtNumber)) {
           return true;

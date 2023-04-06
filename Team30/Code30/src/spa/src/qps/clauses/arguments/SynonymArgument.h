@@ -4,7 +4,7 @@
 #include "../../common/PQLQuerySynonym.h"
 #include "qps/common/PQLQuerySynonymProxy.h"
 
-class SynonymArgument: public ClauseArgument {
+class SynonymArgument : public ClauseArgument {
  private:
   PQLQuerySynonymProxy synProxy;
 
@@ -13,10 +13,10 @@ class SynonymArgument: public ClauseArgument {
 
  public:
   explicit SynonymArgument(const PQLQuerySynonymProxy &synonym);
-  bool synonymSatisfies(SynonymPredicate predicate) override;
-  bool isNamed() override;
-  PQLSynonymName getName() override;
-  ComplexityScore getSynComplexity() override;
-  StmtRef toStmtRef() override;
-  EntityRef toEntityRef() override;
+  bool synonymSatisfies(SynonymPredicate predicate) const override;
+  bool isNamed() const override;
+  PQLSynonymName getName() const override;
+  ComplexityScore getSynComplexity() const override;
+  StmtRef toStmtRef() const override;
+  EntityRef toEntityRef() const override;
 };

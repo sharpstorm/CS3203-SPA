@@ -7,10 +7,10 @@
 
 using std::vector, std::unique_ptr, std::make_unique;
 
-QueryExecutor::QueryExecutor(PkbQueryHandler* pkbQH):
-    orchestrator(QueryOrchestrator(QueryLauncher(pkbQH))) { }
+QueryExecutor::QueryExecutor(const PkbQueryHandler *pkbQH) :
+    orchestrator(QueryOrchestrator(QueryLauncher(pkbQH))) {}
 
-ProjectorResultTable *QueryExecutor::executeQuery(PQLQuery* query) {
+ProjectorResultTable *QueryExecutor::executeQuery(const PQLQuery *query) {
   OverrideTablePtr overrideTable = make_unique<OverrideTable>();
   bool isBoolResult = query->isBooleanResult();
 
@@ -29,12 +29,12 @@ ProjectorResultTable *QueryExecutor::executeQuery(PQLQuery* query) {
   return orchestrator.execute(plan.get(), overrideTable.get());
 }
 
-bool QueryExecutor::resolveConstraints(PQLQuery* query,
-                                       OverrideTable* overrideTable) {
+bool QueryExecutor::resolveConstraints(const PQLQuery *query,
+                                       OverrideTable *overrideTable) const {
   SynonymProxyBuilderPtr synProxyBuilder = make_unique<SynonymProxyBuilder>(
       query->getVarTable());
 
-  for (const auto& con : query->getConstraints()) {
+  for (const auto &con : query->getConstraints()) {
     if (!con->applyConstraint(synProxyBuilder.get(), overrideTable)) {
       return false;
     }

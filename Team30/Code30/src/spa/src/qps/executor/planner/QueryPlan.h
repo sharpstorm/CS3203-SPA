@@ -9,13 +9,15 @@
 
 using std::vector, std::unique_ptr;
 
+typedef int QueryPlanGroupId;
+
 class QueryPlan {
  public:
   explicit QueryPlan(vector<QueryGroupPlanPtr> groups);
-  int getGroupCount();
-  QueryGroupPlan* getGroup(int groupId);
-  bool isEmpty();
-  bool isBooleanQuery();
+  int getGroupCount() const;
+  const QueryGroupPlan *getGroup(const QueryPlanGroupId groupId) const;
+  bool isEmpty() const;
+  bool isBooleanQuery() const;
 
  private:
   vector<QueryGroupPlanPtr> clauseGroups;

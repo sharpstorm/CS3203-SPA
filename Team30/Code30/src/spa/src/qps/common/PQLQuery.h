@@ -1,19 +1,15 @@
 #pragma once
 
-#include <string>
-#include <unordered_map>
 #include <vector>
 #include <memory>
 
 #include "PQLTypes.h"
-#include "PQLQuerySynonym.h"
 #include "qps/clauses/Clause.h"
 #include "AttributedSynonym.h"
 #include "qps/constraints/Constraint.h"
-#include "qps/constraints/OverrideTransformer.h"
 #include "qps/common/VariableTable.h"
 
-using std::string, std::unordered_map, std::vector, std::unique_ptr;
+using  std::unordered_map, std::vector, std::unique_ptr;
 
 class PQLQuery {
  private:
@@ -24,20 +20,20 @@ class PQLQuery {
 
  public:
   PQLQuery(VariableTablePtr vars,
-           AttributedSynonymList resVars,
+           const AttributedSynonymList &resVars,
            vector<ClausePtr> c,
            vector<ConstraintPtr> con);
 
-  VariableTable* getVarTable();
-  AttributedSynonymList * getResultVariables();
+  VariableTable *getVarTable() const;
+  const AttributedSynonymList *getResultVariables() const;
 
-  PQLQuerySynonymProxy* getVariable(PQLSynonymName name);
-  SynonymList getDeclaredSynonyms();
-  vector<IEvaluatable*> getEvaluatables();
-  vector<Constraint*> getConstraints();
+  PQLQuerySynonymProxy *getVariable(const PQLSynonymName &name) const;
+  const PQLSynonymNameList getDeclaredSynonyms() const;
+  const vector<IEvaluatable *> getEvaluatables() const;
+  const vector<Constraint *> getConstraints() const;
 
-  int getClauseCount();
-  bool isBooleanResult();
+  int getClauseCount() const;
+  bool isBooleanResult() const;
 };
 
 typedef unique_ptr<PQLQuery> PQLQueryPtr;

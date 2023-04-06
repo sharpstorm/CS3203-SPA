@@ -1,28 +1,36 @@
 #include "WithClauseEvaluator.h"
+
+#include <string>
+
 #include "qps/clauses/arguments/ClauseArgumentFactory.h"
-#include "qps/clauses/Clause.h"
+
+using std::to_string;
 
 constexpr SynStmtMapExtractor<EntityValue, EntityValue, StmtList> keyExtractor =
-    [](const EntityValue* first, const StmtList* second) -> const EntityValue* {
+    [](const EntityValue *first,
+       const StmtList *second) -> const EntityValue * {
       return first;
     };
 
 constexpr SynStmtMapExtractor<StmtList, EntityValue, StmtList> valueExtractor =
-    [](const EntityValue* first, const StmtList* second) -> const StmtList* {
+    [](const EntityValue *first, const StmtList *second) -> const StmtList * {
       return second;
     };
 
 WithClauseEvaluator::WithClauseEvaluator(const QueryExecutorAgent &agent,
-                                         AttributedSynonym* leftArg,
-                                         AttributedSynonym* rightArg):
+                                         const AttributedSynonym *leftArg,
+                                         const AttributedSynonym *rightArg) :
     agent(agent),
     leftArg(leftArg),
     rightArg(rightArg),
-    result(new PQLQueryResult()) {}
+    result(make_unique<PQLQueryResult>()) {}
 
 PQLQueryResult *WithClauseEvaluator::evaluate() {
+  PQLQueryResult *ret = result.get();
+
   if (isEmptyResult()) {
-    return result;
+    result.release();
+    return ret;
   }
 
   if (leftArg->returnsInteger()) {
@@ -30,7 +38,8 @@ PQLQueryResult *WithClauseEvaluator::evaluate() {
   } else {
     evaluateOnStringAttributes();
   }
-  return result;
+  result.release();
+  return ret;
 }
 
 void WithClauseEvaluator::evaluateOnIntAttributes() {
@@ -48,7 +57,7 @@ void WithClauseEvaluator::evaluateOnStmtStmt() {
   StmtValueSet set2 = queryForStatement(rightArg->getSynProxy());
 
   pair_set<StmtValue, StmtValue> queryResult;
-  for (StmtValue i : set1) {
+  for (const StmtValue &i : set1) {
     if (set2.find(i) == set2.end()) {
       continue;
     }
@@ -57,12 +66,12 @@ void WithClauseEvaluator::evaluateOnStmtStmt() {
   result->add(leftArg->getName(), rightArg->getName(), queryResult);
 }
 
-void WithClauseEvaluator::evaluateOnStmtConst(AttributedSynonym *constant,
-                                              AttributedSynonym *stmt) {
+void WithClauseEvaluator::evaluateOnStmtConst(const AttributedSynonym *constant,
+                                              const AttributedSynonym *stmt) {
   StmtValueSet stmtSet = queryForStatement(stmt->getSynProxy());
   EntityValueSet constantSet = queryForEntity(constant->getSynProxy());
   pair_set<StmtValue, EntityValue> queryResult;
-  for (StmtValue i : stmtSet) {
+  for (const StmtValue &i : stmtSet) {
     EntityValue stringInt = to_string(i);
     if (constantSet.find(stringInt) == constantSet.end()) {
       continue;
@@ -129,18 +138,18 @@ bool WithClauseEvaluator::populateMap(const PQLQuerySynonymProxy &arg,
   }
 
   EntityValueSet entSet = queryForEntity(arg);
-  for (EntityValue s : entSet) {
+  for (const EntityValue &s : entSet) {
     map->emplace(s, StmtList{});
   }
 
   return true;
 }
 
-template <PKBAttributeQuerier querier>
+template<PKBAttributeQuerier querier>
 void WithClauseEvaluator::queryPkbForAttribute(
     SynToStmtMap *map, const PQLQuerySynonymProxy &arg) {
   StmtValueSet statements = queryForStatement(arg);
-  for (int i : statements) {
+  for (const StmtValue &i : statements) {
     EntityValue result = querier(agent, i);
     if (auto search = map->find(result); search != map->end()) {
       search->second.push_back(i);
@@ -151,13 +160,13 @@ void WithClauseEvaluator::queryPkbForAttribute(
 }
 
 StmtValueSet WithClauseEvaluator::queryForStatement(
-    const PQLQuerySynonymProxy &syn) {
+    const PQLQuerySynonymProxy &syn) const {
   ClauseArgumentPtr clauseArg = ClauseArgumentFactory::create(syn);
   StmtRef stmtRef = clauseArg->toStmtRef();
   stmtRef = agent.transformArg(syn->getName(), stmtRef);
   if (stmtRef.isKnown()) {
     if (agent.isValid(stmtRef)) {
-      return StmtValueSet{ stmtRef.getValue() };
+      return StmtValueSet{stmtRef.getValue()};
     }
     return StmtValueSet{};
   }
@@ -166,13 +175,13 @@ StmtValueSet WithClauseEvaluator::queryForStatement(
 }
 
 EntityValueSet WithClauseEvaluator::queryForEntity(
-    const PQLQuerySynonymProxy &syn) {
+    const PQLQuerySynonymProxy &syn) const {
   ClauseArgumentPtr clauseArg = ClauseArgumentFactory::create(syn);
   EntityRef entRef = clauseArg->toEntityRef();
   entRef = agent.transformArg(syn->getName(), entRef);
   if (entRef.isKnown()) {
     if (agent.isValid(entRef)) {
-      return EntityValueSet { entRef.getValue() };
+      return EntityValueSet{entRef.getValue()};
     }
     return EntityValueSet{};
   }
@@ -180,7 +189,7 @@ EntityValueSet WithClauseEvaluator::queryForEntity(
   return agent->getSymbolsOfType(entRef.getType());
 }
 
-bool WithClauseEvaluator::isEmptyResult() {
+bool WithClauseEvaluator::isEmptyResult() const {
   bool leftReturnsInt = leftArg->returnsInteger();
   bool rightReturnsInt = rightArg->returnsInteger();
   bool isLeftIndependent = isIntegerIndependent(leftArg->getType());
@@ -190,7 +199,8 @@ bool WithClauseEvaluator::isEmptyResult() {
       && !isLeftIndependent && !isRightIndependent;
 }
 
-bool WithClauseEvaluator::isIntegerIndependent(const PQLSynonymType &type) {
+bool WithClauseEvaluator::isIntegerIndependent(
+    const PQLSynonymType &type) const {
   return type == PQL_SYN_TYPE_STMT || type == PQL_SYN_TYPE_CONSTANT;
 }
 

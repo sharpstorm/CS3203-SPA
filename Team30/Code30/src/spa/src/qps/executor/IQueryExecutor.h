@@ -7,5 +7,5 @@
 class IQueryExecutor {
  public:
   virtual ~IQueryExecutor() = default;
-  virtual ProjectorResultTable* executeQuery(PQLQuery* query) = 0;
+  virtual ProjectorResultTable* executeQuery(const PQLQuery* query) = 0;
 };

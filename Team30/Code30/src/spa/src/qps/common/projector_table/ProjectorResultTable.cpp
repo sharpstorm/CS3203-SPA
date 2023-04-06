@@ -87,7 +87,7 @@ void ProjectorResultTable::projectTo(QPSOutputList *output,
 }
 
 void ProjectorResultTable::populateIndexes(RowIndexes *indexes,
-                                           const int &outputRow) const {
+                                           const int outputRow) const {
   int workingRow = outputRow;
   for (int i = 0; i < groupResults.size(); i++) {
     int groupSize = groupResults.at(i)->getRowCount();
@@ -104,7 +104,7 @@ void ProjectorResultTable::projectForRow(const ProjectorIndex &index,
   for (int indexPos = 0; indexPos < index.size(); indexPos++) {
     const ProjectorInstruction &inst = index.at(indexPos);
     groupRow = row->at(inst.getGroupId());
-    QueryResultItem* item = groupResults.at(inst.getGroupId())
+    QueryResultItem *item = groupResults.at(inst.getGroupId())
         ->getRowAt(groupRow)
         ->at(inst.getTableCol());
     *outputCache += inst.project(item);

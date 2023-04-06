@@ -3,16 +3,16 @@
 #include "WithArgument.h"
 #include "common/Types.h"
 
-WithArgument::WithArgument(const int &intVal) :
-    intValue(intVal), identValue(NO_ENT), syn(nullptr) { }
+WithArgument::WithArgument(const StmtValue &intVal) :
+    intValue(intVal), identValue(NO_ENT), syn(nullptr) {}
 
-WithArgument::WithArgument(const string &identVal) :
+WithArgument::WithArgument(const EntityValue &identVal) :
     intValue(NO_INT_VAL), identValue(identVal), syn(nullptr) { }
 
 WithArgument::WithArgument(AttributedSynonymPtr syn) :
     intValue(NO_INT_VAL), identValue(NO_ENT), syn(std::move(syn)) { }
 
-bool WithArgument::doesReturnInteger() {
+bool WithArgument::doesReturnInteger() const {
   if (isSyn()) {
     return syn->returnsInteger();
   }
@@ -24,15 +24,15 @@ bool WithArgument::isSyn() const {
   return syn != nullptr;
 }
 
-PQLSynonymName WithArgument::getSynName() {
+PQLSynonymName WithArgument::getSynName() const {
   return syn->getName();
 }
 
-bool WithArgument::isSynStatement() {
+bool WithArgument::isSynStatement() const {
   return syn->isStatementType();
 }
 
-bool WithArgument::isSameSynTypeAs(const WithArgument *other) {
+bool WithArgument::isSameSynTypeAs(const WithArgument *other) const {
   if (!isSyn() || !other->isSyn()) {
     return false;
   }
@@ -40,7 +40,7 @@ bool WithArgument::isSameSynTypeAs(const WithArgument *other) {
   return syn->getType() == other->syn->getType();
 }
 
-bool WithArgument::isStaticValueEqual(const WithArgument &other) {
+bool WithArgument::isStaticValueEqual(const WithArgument &other) const {
   // If either are syn values
   if (isSyn() || other.isSyn()) {
     return false;
@@ -49,18 +49,18 @@ bool WithArgument::isStaticValueEqual(const WithArgument &other) {
   return intValue == other.intValue && identValue == other.identValue;
 }
 
-int WithArgument::toConstInt() {
+StmtValue WithArgument::toConstInt() const {
   return intValue;
 }
 
-string WithArgument::toConstIdent() {
+EntityValue WithArgument::toConstIdent() const {
   return identValue;
 }
 
-AttributedSynonym WithArgument::toAttrSyn() {
+AttributedSynonym WithArgument::toAttrSyn() const {
   return *syn;
 }
 
-bool WithArgument::isDefaultAttribute() {
+bool WithArgument::isDefaultAttribute() const {
   return syn->isDefaultAttribute();
 }

@@ -9,22 +9,20 @@ WithClause::WithClause(const AttributedSynonym &left,
                        const AttributedSynonym &right) :
     leftArg(std::move(left)), rightArg(std::move(right)) {}
 
-PQLQueryResult *WithClause::evaluateOn(const QueryExecutorAgent &agent) {
+PQLQueryResult *WithClause::evaluateOn(const QueryExecutorAgent &agent) const {
   return WithClauseEvaluator(agent, &leftArg, &rightArg).evaluate();
 }
 
-bool WithClause::validateArgTypes(VariableTable *variables) {
-  bool leftRetInt = leftArg.returnsInteger();
-  bool rightRetInt = rightArg.returnsInteger();
-
+bool WithClause::validateArgTypes(const VariableTable *variables) const {
   // They both must return an int or a str
-  return leftRetInt == rightRetInt;
+  return leftArg.returnsInteger() == rightArg.returnsInteger();
 }
 
-SynonymList WithClause::getUsedSynonyms() {
+const PQLSynonymNameList WithClause::getUsedSynonyms() const {
   return {leftArg.getName(), rightArg.getName()};
 }
 
-ComplexityScore WithClause::getComplexityScore(const OverrideTable *table) {
+ComplexityScore WithClause::getComplexityScore(
+    const OverrideTable *table) const {
   return COMPLEXITY_WITH;
 }

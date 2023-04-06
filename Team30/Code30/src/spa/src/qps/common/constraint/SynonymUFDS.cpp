@@ -18,11 +18,11 @@ SynonymUFDS::SynonymUFDS(VariableTable* varTable):
   }
 }
 
-vector<int> SynonymUFDS::getParents() {
+vector<UFDSSet> SynonymUFDS::getParents() const {
   return parent;
 }
 
-int SynonymUFDS::indexOf(const PQLSynonymName &syn) {
+UFDSSet SynonymUFDS::indexOf(const PQLSynonymName &syn) const {
   auto it = synNameMap.find(syn);
   if (it == synNameMap.end()) {
     return -1;
@@ -31,17 +31,17 @@ int SynonymUFDS::indexOf(const PQLSynonymName &syn) {
   return it->second;
 }
 
-PQLQuerySynonym* SynonymUFDS::getSetValue(const PQLSynonymName &syn) {
+PQLQuerySynonym* SynonymUFDS::getSynFor(const PQLSynonymName &syn) {
   int index = indexOf(syn);
   if (index < 0) {
     return nullptr;
   }
 
-  int parent = findSet(index);
+  UFDSSet parent = findSet(index);
   return synArr[parent];
 }
 
-int SynonymUFDS::findSet(int node) {
+UFDSSet SynonymUFDS::findSet(const UFDSSet node) {
   if (parent[node] == node) {
     return node;
   }
@@ -62,7 +62,7 @@ bool SynonymUFDS::isSameSet(const PQLSynonymName &syn1,
 }
 
 bool SynonymUFDS::tryMergeSets(const PQLSynonymName &syn1,
-                            const PQLSynonymName &syn2) {
+                               const PQLSynonymName &syn2) {
   int setA = indexOf(syn1);
   int setB = indexOf(syn2);
   if (setA < 0 || setB < 0) {
@@ -87,7 +87,7 @@ bool SynonymUFDS::tryMergeSets(const PQLSynonymName &syn1,
   return mergeSyns(aParent, bParent);
 }
 
-bool SynonymUFDS::mergeSyns(const int &setA, const int &setB) {
+bool SynonymUFDS::mergeSyns(const UFDSSet setA, const UFDSSet setB) {
   PQLQuerySynonym* synA = synArr[setA];
   PQLQuerySynonym* synB = synArr[setB];
 

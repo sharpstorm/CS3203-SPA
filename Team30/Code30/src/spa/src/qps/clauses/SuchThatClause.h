@@ -6,7 +6,7 @@
 
 using std::unique_ptr;
 
-class SuchThatClause: public Clause {
+class SuchThatClause : public Clause {
 };
 
 typedef unique_ptr<SuchThatClause> SuchThatClausePtr;

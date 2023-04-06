@@ -15,11 +15,11 @@ static const char STATIC_FALSE[] = "FALSE";
 
 class ResultProjector {
  private:
-  PkbQueryHandler* pkbQueryHandler;
+  const PkbQueryHandler* pkbQueryHandler;
 
  public:
-  explicit ResultProjector(PkbQueryHandler* handler);
-  void project(ProjectorResultTable* queryResult,
-               AttributedSynonymList* resultVariables,
+  explicit ResultProjector(const PkbQueryHandler* handler);
+  void project(const ProjectorResultTable* queryResult,
+               const AttributedSynonymList* resultVariables,
                QPSOutputList *output);
 };

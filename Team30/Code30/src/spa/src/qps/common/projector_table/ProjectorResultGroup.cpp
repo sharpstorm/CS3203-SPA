@@ -1,4 +1,3 @@
-#include <utility>
 #include <memory>
 #include <string>
 
@@ -6,11 +5,11 @@
 
 using std::make_unique, std::to_string;
 
-void ProjectorResultGroup::addRow(QueryResultTableRow row) {
-  groupTable.push_back(std::move(row));
+void ProjectorResultGroup::addRow(const QueryResultTableRow &row) {
+  groupTable.push_back(row);
 }
 
-void ProjectorResultGroup::addSynonym(PQLSynonymName name) {
+void ProjectorResultGroup::addSynonym(const PQLSynonymName &name) {
   int curIndex = colIdx.size();
   colMap.emplace(name, curIndex);
   colIdx.push_back(name);
@@ -20,8 +19,22 @@ int ProjectorResultGroup::getRowCount() const {
   return groupTable.size();
 }
 
-const QueryResultTableRow *ProjectorResultGroup::getRowAt(int idx) const {
+const QueryResultTableRow *ProjectorResultGroup::getRowAt(
+    const ProjectorResultRow idx) const {
   return &groupTable.at(idx);
+}
+
+QueryResultItemPool *ProjectorResultGroup::getOwnedPool() {
+  return &ownedItems;
+}
+
+ResultTableCol ProjectorResultGroup::getSynonymCol(const PQLSynonymName &name)
+const {
+  auto it = colMap.find(name);
+  if (it == colMap.end()) {
+    return NO_COL;
+  }
+  return it->second;
 }
 
 bool ProjectorResultGroup::operator==(const ProjectorResultGroup &rg) const {
@@ -37,29 +50,7 @@ bool ProjectorResultGroup::operator==(const ProjectorResultGroup &rg) const {
   }
 
   for (int i = 0; i < groupTable.size(); i++) {
-    bool isFound = false;
-    for (int j = 0; j < rg.groupTable.size(); j++) {
-      // Differing column lengths
-      if (groupTable[i].size() != rg.groupTable[j].size()) {
-        return false;
-      }
-
-      // Go through all the synonyms
-      for (auto it : rg.colMap) {
-        int otherIdx = it.second;
-        int thisIdx = colMap.at(it.first);
-
-        if (*groupTable[i][thisIdx] == *rg.groupTable[j][otherIdx]) {
-          isFound = true;
-          break;
-        }
-      }
-      if (isFound) {
-        break;
-      }
-    }
-
-    if (!isFound) {
+    if (!hasRowIn(groupTable[i], rg)) {
       return false;
     }
   }
@@ -67,15 +58,24 @@ bool ProjectorResultGroup::operator==(const ProjectorResultGroup &rg) const {
   return true;
 }
 
-QueryResultItemPool *ProjectorResultGroup::getOwnedPool() {
-  return &ownedItems;
-}
-
-ResultTableCol ProjectorResultGroup::getSynonymCol(const PQLSynonymName &name)
+bool ProjectorResultGroup::hasRowIn(const QueryResultTableRow &target,
+                                    const ProjectorResultGroup &haystack)
 const {
-  auto it = colMap.find(name);
-  if (it == colMap.end()) {
-    return NO_COL;
+  for (int j = 0; j < haystack.groupTable.size(); j++) {
+    // Differing column lengths
+    if (target.size() != haystack.groupTable[j].size()) {
+      return false;
+    }
+
+    // Go through all the synonyms
+    for (const auto &it : haystack.colMap) {
+      ProjectorResultCol otherIdx = it.second;
+      ProjectorResultCol thisIdx = colMap.at(it.first);
+
+      if (*target[thisIdx] == *haystack.groupTable[j][otherIdx]) {
+        return true;
+      }
+    }
   }
-  return it->second;
+  return false;
 }

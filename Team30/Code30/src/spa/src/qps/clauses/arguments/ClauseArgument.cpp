@@ -1,33 +1,29 @@
-#include <string>
-
 #include "ClauseArgument.h"
 
-using std::to_string;
-
-bool ClauseArgument::synonymSatisfies(SynonymPredicate predicate) {
+bool ClauseArgument::synonymSatisfies(SynonymPredicate predicate) const {
   return true;
 }
 
-bool ClauseArgument::isNamed() {
+bool ClauseArgument::isNamed() const {
   return false;
 }
 
-bool ClauseArgument::isWildcard() {
+bool ClauseArgument::isWildcard() const {
   return false;
 }
 
-bool ClauseArgument::isConstant() {
+bool ClauseArgument::isConstant() const {
   return false;
 }
 
-PQLSynonymName ClauseArgument::getName() {
+PQLSynonymName ClauseArgument::getName() const {
   return "";
 }
 
-ComplexityScore ClauseArgument::getSynComplexity() {
+ComplexityScore ClauseArgument::getSynComplexity() const {
   return 0;
 }
 
-bool ClauseArgument::isStatement(PQLQuerySynonym syn) {
+bool ClauseArgument::isStatement(const PQLQuerySynonym &syn) {
   return syn.isStatementType();
 }

@@ -7,16 +7,16 @@
 
 using std::unique_ptr;
 
-class WithClause: public Clause {
+class WithClause : public Clause {
   AttributedSynonym leftArg;
   AttributedSynonym rightArg;
 
  public:
   WithClause(const AttributedSynonym &left, const AttributedSynonym &right);
-  PQLQueryResult* evaluateOn(const QueryExecutorAgent &agent) override;
-  bool validateArgTypes(VariableTable* variables) override;
-  SynonymList getUsedSynonyms() override;
-  ComplexityScore getComplexityScore(const OverrideTable *table) override;
+  PQLQueryResult *evaluateOn(const QueryExecutorAgent &agent) const override;
+  bool validateArgTypes(const VariableTable *variables) const override;
+  const PQLSynonymNameList getUsedSynonyms() const override;
+  ComplexityScore getComplexityScore(const OverrideTable *table) const override;
 };
 
 typedef unique_ptr<WithClause> WithClausePtr;

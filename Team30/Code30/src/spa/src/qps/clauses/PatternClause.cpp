@@ -5,18 +5,18 @@
 PatternClause::PatternClause(
     const PQLQuerySynonymProxy &synonym,
     ClauseArgumentPtr leftArg,
-    PQLSynonymType synType):
+    PQLSynonymType synType) :
     synonym(synonym), leftArg(std::move(leftArg)), synType(synType) {}
 
-SynonymList PatternClause::getUsedSynonyms() {
-  SynonymList result{ synonym->getName() };
+const PQLSynonymNameList PatternClause::getUsedSynonyms() const {
+  PQLSynonymNameList result{synonym->getName()};
   if (leftArg->isNamed()) {
     result.push_back(leftArg->getName());
   }
   return result;
 }
 
-bool PatternClause::validateArgTypes(VariableTable *variables) {
+bool PatternClause::validateArgTypes(const VariableTable *variables) const {
   if (!synonym->isType(synType)) {
     return false;
   }

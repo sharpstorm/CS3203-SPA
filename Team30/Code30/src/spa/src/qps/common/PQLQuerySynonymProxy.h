@@ -4,15 +4,15 @@
 
 class PQLQuerySynonymProxy {
  private:
-  PQLQuerySynonym** syn;
+  PQLQuerySynonym **syn;
 
  public:
-  explicit PQLQuerySynonymProxy(PQLQuerySynonym** syn);
-  void updatePointer(PQLQuerySynonym* newSyn);
-  PQLQuerySynonym* get() const;
+  explicit PQLQuerySynonymProxy(PQLQuerySynonym **syn);
+  void updatePointer(PQLQuerySynonym *newSyn);
+  PQLQuerySynonym *get() const;
 
-  PQLQuerySynonym* operator->() const;
-  PQLQuerySynonym& operator*() const;
-  bool operator==(const PQLQuerySynonymProxy& other) const;
-  bool operator!=(const PQLQuerySynonymProxy& other) const;
+  PQLQuerySynonym *operator->() const;
+  PQLQuerySynonym &operator*() const;
+  bool operator==(const PQLQuerySynonymProxy &other) const;
+  bool operator!=(const PQLQuerySynonymProxy &other) const;
 };

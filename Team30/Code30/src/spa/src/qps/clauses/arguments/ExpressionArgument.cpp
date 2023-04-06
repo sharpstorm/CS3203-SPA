@@ -2,11 +2,11 @@
 
 #include <utility>
 
-ExpressionArgument::ExpressionArgument():
+ExpressionArgument::ExpressionArgument() :
     isPartial(true), expressionSequence(nullptr) {}
 
 ExpressionArgument::ExpressionArgument(ExpressionSequencePtr expression,
-                                       bool isPartial):
+                                       bool isPartial) :
     expressionSequence(std::move(expression)), isPartial(isPartial) {}
 
 bool ExpressionArgument::isWildcard() const {
@@ -17,6 +17,6 @@ const bool ExpressionArgument::allowsPartial() const {
   return isPartial;
 }
 
-ExpressionSequence* ExpressionArgument::getSequence() const {
+const ExpressionSequence *ExpressionArgument::getSequence() const {
   return expressionSequence.get();
 }

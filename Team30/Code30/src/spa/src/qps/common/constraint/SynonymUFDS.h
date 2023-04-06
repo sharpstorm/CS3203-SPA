@@ -9,27 +9,29 @@
 
 using std::vector, std::unordered_map;
 
+typedef int UFDSSet;
+typedef uint16_t UFDSRank;
+
 class SynonymUFDS {
  private:
-  vector<int> parent;
-  vector<uint16_t> rank;
-  unordered_map<PQLSynonymName, int> synNameMap;
-  vector<PQLQuerySynonym*> synArr;
+  vector<UFDSSet> parent;
+  vector<UFDSRank> rank;
+  unordered_map<PQLSynonymName, UFDSSet> synNameMap;
+  vector<PQLQuerySynonym *> synArr;
 
  public:
-  explicit SynonymUFDS(VariableTable* varTable);
+  explicit SynonymUFDS(VariableTable *varTable);
 
-  int findSet(int set);
+
   bool tryMergeSets(const PQLSynonymName &syn1,
                     const PQLSynonymName &syn2);
   bool isSameSet(const PQLSynonymName &syn1,
                  const PQLSynonymName &syn2);
-  vector<int> getParents();
-  PQLQuerySynonym* getSetValue(const PQLSynonymName &set);
+  vector<UFDSSet> getParents() const;
+  PQLQuerySynonym *getSynFor(const PQLSynonymName &set);
 
  private:
-  int indexOf(const PQLSynonymName &syn);
-  bool mergeSyns(const int &setA,
-                 const int &setB);
+  UFDSSet findSet(const UFDSSet set);
+  UFDSSet indexOf(const PQLSynonymName &syn) const;
+  bool mergeSyns(const UFDSSet setA, const UFDSSet setB);
 };
-

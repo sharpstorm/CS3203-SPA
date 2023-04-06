@@ -5,11 +5,13 @@
 #include <string>
 #include <unordered_set>
 #include <utility>
+#include <vector>
 
 using std::pair;
 using std::set, std::unordered_set;
 using std::string;
 using std::unique_ptr;
+using std::vector;
 
 enum class EntityType { None, Procedure, Variable, Constant, Wildcard };
 
@@ -24,6 +26,7 @@ typedef unordered_set<EntityValue> EntityValueSet;
 typedef unordered_set<EntityIdx> EntityIdxSet;
 typedef set<StmtValue> StmtSet;
 typedef set<EntityValue> EntitySet;
+typedef vector<StmtValue> StmtValueList;
 
 const StmtValue NO_STMT = 0;
 const StmtValue INVALID_STMT = -1;

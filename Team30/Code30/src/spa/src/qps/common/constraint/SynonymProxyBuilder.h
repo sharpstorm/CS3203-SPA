@@ -13,14 +13,13 @@ class SynonymProxyBuilder {
   SynonymUFDS ufds;
 
  public:
-  explicit SynonymProxyBuilder(VariableTable* varTable) :
-      variableTable(varTable), ufds(SynonymUFDS(varTable)) {}
+  explicit SynonymProxyBuilder(VariableTable* varTable);
   bool joinSynonyms(const PQLSynonymName &syn1,
                     const PQLSynonymName &syn2);
   void build();
   bool resolveOverrideMerging(OverrideTable* overrideTable);
 
-  VariableTable* getTable();
+  VariableTable* getTable() const;
 };
 
 typedef unique_ptr<SynonymProxyBuilder> SynonymProxyBuilderPtr;

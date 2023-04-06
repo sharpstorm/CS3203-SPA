@@ -2,11 +2,14 @@
 
 #include <limits.h>
 #include <memory>
+#include <unordered_set>
+#include <vector>
+#include <queue>
 
-using std::make_unique;
+using std::make_unique, std::unordered_set, std::vector, std::priority_queue;
 
-QueryGroupPlanPtr QueryClauseOrderer::orderClauses(QueryGroup *group,
-                                                   OverrideTable* overrides) {
+QueryGroupPlanPtr QueryClauseOrderer::orderClauses(
+    QueryGroup *group, const OverrideTable* overrides) const {
   int evalCount = group->getEvaluatableCount();
   int currentWeightedMin = INT_MAX;
   vector<IEvaluatable*> groupOrdering;
@@ -32,7 +35,8 @@ QueryGroupPlanPtr QueryClauseOrderer::orderClauses(QueryGroup *group,
       curIndex++;
       curModifier--;
 
-      unordered_set<ClauseId>* edges = group->getRelated(curClause.getData());
+      const unordered_set<ClauseId>* edges = group
+          ->getRelated(curClause.getData());
       for (auto it = edges->begin(); it != edges->end(); it++) {
         ClauseId otherClauseId = *it;
         if (seenClauses.isSet(otherClauseId)) {

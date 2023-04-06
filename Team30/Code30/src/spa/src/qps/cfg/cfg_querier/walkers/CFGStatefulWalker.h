@@ -1,41 +1,40 @@
 #pragma once
 
 #include <vector>
-#include <queue>
 
 #include "common/cfg/CFG.h"
 #include "common/data_structs/BitField.h"
 #include "qps/cfg/cfg_querier/CFGHaltWalkerException.h"
 
-using std::vector, std::queue;
+using std::vector;
 
-template <typename T>
-using StatefulWalkerSingleCallback = BitField(*)(T* ptr, CFGNode node,
+template<typename T>
+using StatefulWalkerSingleCallback = BitField(*)(T *ptr, CFGNode node,
                                                  BitField currentState);
 
-template <typename T>
+template<typename T>
 using StatefulDFSCallback = StatefulWalkerSingleCallback<T>;
 
-using DFSLinkGetter = CFGLinks*(*)(CFG* cfg, CFGNode node);
+using DFSLinkGetter = CFGLinks *(*)(CFG *cfg, CFGNode node);
 
 class CFGStatefulWalker {
  private:
-  CFG* cfg;
+  CFG *cfg;
 
  public:
-  explicit CFGStatefulWalker(CFG *cfg): cfg(cfg) {
+  explicit CFGStatefulWalker(CFG *cfg) : cfg(cfg) {
   }
 
-  template <typename T, StatefulWalkerSingleCallback<T> callback>
-  void walkTo(CFGNode end, BitField initialState, T* cbState);
+  template<typename T, StatefulWalkerSingleCallback<T> callback>
+  void walkTo(CFGNode end, BitField initialState, T *cbState);
 
-  template <typename T, StatefulWalkerSingleCallback<T> callback>
-  void walkFrom(CFGNode end, BitField initialState, T* cbState);
+  template<typename T, StatefulWalkerSingleCallback<T> callback>
+  void walkFrom(CFGNode end, BitField initialState, T *cbState);
 
  private:
-  template <typename T, StatefulDFSCallback<T> callback,
+  template<typename T, StatefulDFSCallback<T> callback,
       DFSLinkGetter stepGetter>
-  void runDFS(CFGNode start, const BitField &initialState, T* state) {
+  void runDFS(CFGNode start, const BitField &initialState, T *state) {
     if (!cfg->containsNode(start)) {
       return;
     }
@@ -47,9 +46,9 @@ class CFGStatefulWalker {
     }
   }
 
-  template <typename T, StatefulDFSCallback<T> callback,
+  template<typename T, StatefulDFSCallback<T> callback,
       DFSLinkGetter stepGetter>
-  void runDFSOn(CFGNode start, const BitField &initialState, T* closure) {
+  void runDFSOn(CFGNode start, const BitField &initialState, T *closure) {
     vector<BitField> visitedNodes(cfg->getNodeCount());
 
     vector<CFGNode> currentNodes;
@@ -85,56 +84,55 @@ class CFGStatefulWalker {
     }
   }
 
-  static CFGLinks* forwardLinkGetter(CFG* cfg, CFGNode node) {
+  static CFGLinks *forwardLinkGetter(CFG *cfg, CFGNode node) {
     return cfg->nextLinksOf(node);
   }
 
-  template <typename T, StatefulDFSCallback<T> callback>
-  void runForwardDFS(CFGNode start, BitField initialState, T* state) {
+  template<typename T, StatefulDFSCallback<T> callback>
+  void runForwardDFS(CFGNode start, BitField initialState, T *state) {
     runDFS<T, callback, forwardLinkGetter>(start, initialState, state);
   }
 
-
-  static CFGLinks* backwardLinkGetter(CFG* cfg, CFGNode node) {
+  static CFGLinks *backwardLinkGetter(CFG *cfg, CFGNode node) {
     return cfg->reverseLinksOf(node);
   }
 
-  template <typename T, StatefulDFSCallback<T> callback>
-  void runBackwardDFS(CFGNode start, BitField initialState, T* state) {
+  template<typename T, StatefulDFSCallback<T> callback>
+  void runBackwardDFS(CFGNode start, BitField initialState, T *state) {
     runDFS<T, callback, backwardLinkGetter>(start, initialState, state);
   }
 };
 
-template <typename T>
+template<typename T>
 struct StatefulNodewiseWalkerState {
-  T* callbackState;
+  T *callbackState;
   StatefulWalkerSingleCallback<T> callback;
-  CFG* cfg;
+  CFG *cfg;
 };
 
-template <typename T>
+template<typename T>
 BitField statefulNodewiseWalkerCallback(
-    StatefulNodewiseWalkerState<T>* state,
+    StatefulNodewiseWalkerState<T> *state,
     CFGNode node,
     BitField currentState) {
   return state->callback(state->callbackState, node, currentState);
 }
 
-template <typename T, StatefulWalkerSingleCallback<T> callback>
+template<typename T, StatefulWalkerSingleCallback<T> callback>
 void CFGStatefulWalker::walkTo(CFGNode end,
                                BitField initialState,
-                               T* cbState) {
-  StatefulNodewiseWalkerState<T> state{ cbState, callback, cfg };
+                               T *cbState) {
+  StatefulNodewiseWalkerState<T> state{cbState, callback, cfg};
   runBackwardDFS<StatefulNodewiseWalkerState<T>,
                  statefulNodewiseWalkerCallback<T>>(
       end, initialState, &state);
 }
 
-template <typename T, StatefulWalkerSingleCallback<T> callback>
+template<typename T, StatefulWalkerSingleCallback<T> callback>
 void CFGStatefulWalker::walkFrom(CFGNode end,
                                  BitField initialState,
-                                 T* cbState) {
-  StatefulNodewiseWalkerState<T> state{ cbState, callback, cfg };
+                                 T *cbState) {
+  StatefulNodewiseWalkerState<T> state{cbState, callback, cfg};
   runForwardDFS<StatefulNodewiseWalkerState<T>,
                 statefulNodewiseWalkerCallback<T>>(
       end, initialState, &state);

@@ -1,15 +1,8 @@
 #pragma once
 
-#include <string>
+#include "common/errors/AbstractError.h"
 
-using std::string;
-
-class CFGHaltWalkerException : public std::exception {
+class CFGHaltWalkerException : public AbstractError {
  public:
-  CFGHaltWalkerException() = default;
-
- public:
-  const char* what() const noexcept override {
-    return "CFG Walker Halted";
-  }
+  CFGHaltWalkerException() : AbstractError("CFG Walker Halted") {}
 };

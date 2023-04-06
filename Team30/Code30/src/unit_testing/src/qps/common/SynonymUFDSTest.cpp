@@ -31,27 +31,27 @@ TEST_CASE("SynonymUFDS Test") {
   REQUIRE(v[3] == 3);
   REQUIRE(v[4] == 4);
 
-  REQUIRE(*ufds.getSetValue("a") == syn1);
-  REQUIRE(*ufds.getSetValue("b") == syn2);
-  REQUIRE(*ufds.getSetValue("c") == syn3);
-  REQUIRE(*ufds.getSetValue("d") == syn4);
-  REQUIRE(*ufds.getSetValue("e") == syn5);
+  REQUIRE(*ufds.getSynFor("a") == syn1);
+  REQUIRE(*ufds.getSynFor("b") == syn2);
+  REQUIRE(*ufds.getSynFor("c") == syn3);
+  REQUIRE(*ufds.getSynFor("d") == syn4);
+  REQUIRE(*ufds.getSynFor("e") == syn5);
 
 
   ufds.tryMergeSets("a", "b");
-  REQUIRE(ufds.getSetValue("a") == ufds.getSetValue("b"));
+  REQUIRE(ufds.getSynFor("a") == ufds.getSynFor("b"));
 
   ufds.tryMergeSets("c", "d");
-  REQUIRE(ufds.getSetValue("c") == ufds.getSetValue("d"));
+  REQUIRE(ufds.getSynFor("c") == ufds.getSynFor("d"));
 
   ufds.tryMergeSets("d", "e");
-  REQUIRE(ufds.getSetValue("c") == ufds.getSetValue("d"));
-  REQUIRE(ufds.getSetValue("c") == ufds.getSetValue("e"));
-  REQUIRE(ufds.getSetValue("d") == ufds.getSetValue("e"));
+  REQUIRE(ufds.getSynFor("c") == ufds.getSynFor("d"));
+  REQUIRE(ufds.getSynFor("c") == ufds.getSynFor("e"));
+  REQUIRE(ufds.getSynFor("d") == ufds.getSynFor("e"));
 
   ufds.tryMergeSets("a", "e");
-  REQUIRE(ufds.getSetValue("a") == ufds.getSetValue("b"));
-  REQUIRE(ufds.getSetValue("a") == ufds.getSetValue("c"));
-  REQUIRE(ufds.getSetValue("a") == ufds.getSetValue("d"));
-  REQUIRE(ufds.getSetValue("a") == ufds.getSetValue("e"));
+  REQUIRE(ufds.getSynFor("a") == ufds.getSynFor("b"));
+  REQUIRE(ufds.getSynFor("a") == ufds.getSynFor("c"));
+  REQUIRE(ufds.getSynFor("a") == ufds.getSynFor("d"));
+  REQUIRE(ufds.getSynFor("a") == ufds.getSynFor("e"));
 }

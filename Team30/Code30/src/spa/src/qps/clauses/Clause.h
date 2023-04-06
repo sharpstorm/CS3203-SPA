@@ -12,14 +12,14 @@ using std::unordered_set, std::unique_ptr;
 
 class Clause : public IEvaluatable {
  public:
-  virtual bool validateArgTypes(VariableTable* variables) = 0;
+  virtual bool validateArgTypes(const VariableTable *variables) const = 0;
 
  protected:
-  static EntityRef toEntityRef(ClauseArgument* arg) {
+  static EntityRef toEntityRef(ClauseArgument *arg) {
     return arg->toEntityRef();
   }
 
-  static StmtRef toStmtRef(ClauseArgument* arg) {
+  static StmtRef toStmtRef(ClauseArgument *arg) {
     return arg->toStmtRef();
   }
 };
