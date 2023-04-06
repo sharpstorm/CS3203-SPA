@@ -43,11 +43,12 @@ TEST_CASE("Follows") {
 
   auto result3 =
       *test.handler.queryFollows({StmtType::None, 1}, {StmtType::Read, 0});
-  REQUIRE(result3.pairVals == pair_set<int, int>({{1, 2}}));
-
+//  REQUIRE(result3.pairVals == pair_set<int, int>({{1, 2}}));
+  REQUIRE(result3.secondArgVals == unordered_set<int>({2}));
   auto result4 =
       *test.handler.queryFollows({StmtType::Read, 0}, {StmtType::None, 4});
-  REQUIRE(result4.pairVals == pair_set<int, int>({{3, 4}}));
+//  REQUIRE(result4.pairVals == pair_set<int, int>({{3, 4}}));
+  REQUIRE(result4.firstArgVals == unordered_set<int>({3}));
 }
 
 TEST_CASE("Follows 2 unknowns") {
@@ -69,7 +70,8 @@ TEST_CASE("Follows 2 unknowns") {
 
   auto result6 =
       *test.handler.queryFollows({StmtType::None, 0}, {StmtType::None, 4});
-  REQUIRE(result6.pairVals == pair_set<int, int>({{3, 4}}));
+//  REQUIRE(result6.pairVals == pair_set<int, int>({{3, 4}}));
+  REQUIRE(result6.firstArgVals == unordered_set<int>({3}));
 }
 
 
@@ -121,11 +123,13 @@ TEST_CASE("FollowsStar <= 1 unknown") {
 
   auto result3 =
       *test.handler.queryFollowsStar({StmtType::None, 1}, {StmtType::Read, 0});
-  REQUIRE(result3.pairVals == pair_set<int, int>({{1, 2}, {1, 3}}));
+//  REQUIRE(result3.pairVals == pair_set<int, int>({{1, 2}, {1, 3}}));
+  REQUIRE(result3.secondArgVals == unordered_set<int>({2, 3}));
 
   auto result4 =
       *test.handler.queryFollowsStar({StmtType::Read, 0}, {StmtType::None, 4});
-  REQUIRE(result4.pairVals == pair_set<int, int>({{2, 4}, {3, 4}}));
+//  REQUIRE(result4.pairVals == pair_set<int, int>({{2, 4}, {3, 4}}));
+  REQUIRE(result4.firstArgVals == unordered_set<int>({2, 3}));
 }
 
 TEST_CASE("FollowsStar 2 unknowns") {

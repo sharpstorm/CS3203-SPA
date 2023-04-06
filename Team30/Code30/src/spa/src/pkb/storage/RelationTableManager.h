@@ -5,6 +5,7 @@
 
 #include "common/Types.h"
 #include "pkb/PkbTypes.h"
+#include "pkb/queryHandlers/QueryResultBuilder.h"
 #include "tables/IBaseSetTable.h"
 
 using pkb::Predicate;
@@ -49,107 +50,109 @@ class RelationTableManager {
   /**
    * Find R(arg1, arg2) where arg1 and arg2 are given values.
    */
-  virtual QueryResultPtr<K, V> query(K arg1, V arg2) const {
-    QueryResult<K, V> result;
+  virtual QueryResultPtr<K, V> query(
+      K arg1, V arg2, QueryResultBuilder<K, V> *resultBuilder) const {
     auto arg2Values = getByFirstArg(arg1);
     if (arg2Values.find(arg2) != arg2Values.end()) {
-      result.add(arg1, arg2);
+      resultBuilder->add(arg1, arg2);
     }
 
-    return make_unique<QueryResult<K, V>>(result);
+    return resultBuilder->getResult();
   }
 
   /**
    * Find R(arg1, arg2) where arg1 is in the given arg1Values and arg2 satisfies
    * arg2Predicate.
    */
-  virtual QueryResultPtr<K, V> query(set<K> arg1Values,
-                                     Predicate<V> arg2Predicate) const {
-    QueryResult<K, V> result;
+  virtual QueryResultPtr<K, V> query(
+      set<K> arg1Values, Predicate<V> arg2Predicate,
+      QueryResultBuilder<K, V> *resultBuilder) const {
     for (auto arg1 : arg1Values) {
       auto arg2Values = getByFirstArg(arg1);
       for (auto arg2 : arg2Values) {
         if (arg2Predicate(arg2)) {
-          result.add(arg1, arg2);
+          resultBuilder->add(arg1, arg2);
         }
       }
     }
 
-    return make_unique<QueryResult<K, V>>(result);
+    return resultBuilder->getResult();
   }
 
   /**
    * Find R(arg1, arg2) where arg2 is in the given arg2Values and arg1 satisfies
    * arg1Predicate.
    */
-  virtual QueryResultPtr<K, V> query(Predicate<K> arg1Predicate,
-                                     set<V> arg2Values) const {
-    QueryResult<K, V> result;
+  virtual QueryResultPtr<K, V> query(
+      Predicate<K> arg1Predicate, set<V> arg2Values,
+      QueryResultBuilder<K, V> *resultBuilder) const {
     for (auto arg2 : arg2Values) {
       auto arg1Values = getBySecondArg(arg2);
       for (auto arg1 : arg1Values) {
         if (arg1Predicate(arg1)) {
-          result.add(arg1, arg2);
+          resultBuilder->add(arg1, arg2);
         }
       }
     }
-    return make_unique<QueryResult<K, V>>(result);
+    return resultBuilder->getResult();
   }
 
   /**
    * Find R(arg1, arg2) given arg1 and arg2 satisfies arg2Predicate.
    */
-  virtual QueryResultPtr<K, V> query(K arg1, Predicate<V> arg2Predicate) const {
-    return query(set<K>({arg1}), arg2Predicate);
+  virtual QueryResultPtr<K, V> query(
+      K arg1, Predicate<V> arg2Predicate,
+      QueryResultBuilder<K, V> *resultBuilder) const {
+    return query(set<K>({arg1}), arg2Predicate, resultBuilder);
   }
 
   /**
    * Find R(arg1, arg2) given arg2 and arg1 satisfies arg1Predicate.
    */
-  virtual QueryResultPtr<K, V> query(Predicate<K> arg1Predicate, V arg2) const {
-    return query(arg1Predicate, set<V>({arg2}));
+  virtual QueryResultPtr<K, V> query(
+      Predicate<K> arg1Predicate, V arg2,
+      QueryResultBuilder<K, V> *resultBuilder) const {
+    return query(arg1Predicate, set<V>({arg2}), resultBuilder);
   }
 
   /**
    * Return non-empty result if at least one such relation
    */
-  virtual QueryResultPtr<K, V> hasRelation() const {
-    QueryResult<K, V> result;
+  virtual QueryResultPtr<K, V> hasRelation(
+      QueryResultBuilder<K, V> *resultBuilder) const {
     if (table->size() != 0) {
-      result.isEmpty = false;
+      resultBuilder->setIsNotEmpty();
+    } else {
+      resultBuilder->setIsEmpty();
     }
-    return make_unique<QueryResult<K, V>>(result);
+    return resultBuilder->getResult();
   }
 
   /**
    * Right side wildcard.
    */
   virtual QueryResultPtr<K, V> rightWildcardQuery(
-      const set<K> &arg1Values) const {
-    QueryResult<K, V> result;
+      const set<K> &arg1Values, QueryResultBuilder<K, V> *resultBuilder) const {
     for (auto arg1 : arg1Values) {
       auto arg2Values = getByFirstArg(arg1);
       if (arg2Values.size() > 0) {
-        result.firstArgVals.insert(arg1);
-        result.isEmpty = false;
+        resultBuilder->addLeft(arg1);
       }
     }
-    return make_unique<QueryResult<K, V>>(result);
+    return resultBuilder->getResult();
   }
 
   /**
    * Left side wildcard.
    */
   virtual QueryResultPtr<K, V> leftWildcardQuery(
-      const set<V> &arg2Values) const {
-    QueryResult<K, V> result;
+      const set<V> &arg2Values, QueryResultBuilder<K, V> *resultBuilder) const {
     for (auto arg2 : arg2Values) {
       auto arg1Values = getBySecondArg(arg2);
       if (arg1Values.size() > 0) {
-        result.secondArgVals.insert(arg2);
-        result.isEmpty = false;
+        resultBuilder->addRight(arg2);
       }
     }
-    return make_unique<QueryResult<K, V>>(result);
+    return resultBuilder->getResult();
   }
 };

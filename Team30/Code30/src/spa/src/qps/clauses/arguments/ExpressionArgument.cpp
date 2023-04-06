@@ -9,14 +9,14 @@ ExpressionArgument::ExpressionArgument(ExpressionSequencePtr expression,
                                        bool isPartial):
     expressionSequence(std::move(expression)), isPartial(isPartial) {}
 
-bool ExpressionArgument::isWildcard() {
+bool ExpressionArgument::isWildcard() const {
   return expressionSequence == nullptr && isPartial;
 }
 
-const bool ExpressionArgument::allowsPartial() {
+const bool ExpressionArgument::allowsPartial() const {
   return isPartial;
 }
 
-ExpressionSequence* ExpressionArgument::getSequence() {
+ExpressionSequence* ExpressionArgument::getSequence() const {
   return expressionSequence.get();
 }
