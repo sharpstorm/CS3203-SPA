@@ -24,7 +24,9 @@ class HashKeySetTable : public IBaseSetTable<K, V>,
     this->table[key].insert(value);
   }
 
-  const set<V>& get(K key) const { return HashKeyTable<K, set<V>>::get(key); }
+  const set<V>& get(K key) const override {
+    return HashKeyTable<K, set<V>>::get(key);
+  }
 
   int size() const override { return HashKeyTable<K, set<V>>::size(); };
 
@@ -36,7 +38,7 @@ class HashKeySetTable : public IBaseSetTable<K, V>,
 
   bool containsKey(K key) const override { return !get(key).empty(); }
 
-  unique_ptr<IBaseIterator<V>> getValueIterator(K key) {
+  unique_ptr<IBaseIterator<V>> getValueIterator(K key) override {
     return make_unique<SetIterator<V>>(HashKeyTable<K, set<V>>::get(key));
   }
 };

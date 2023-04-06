@@ -36,7 +36,7 @@ class IntSetTable : public IBaseSetTable<int, V>, public IntTable<set<V>> {
 
   bool containsKey(int key) const override { return !get(key).empty(); }
 
-  unique_ptr<IBaseIterator<V>> getValueIterator(int key) {
+  unique_ptr<IBaseIterator<V>> getValueIterator(int key) override {
     return make_unique<SetIterator<V>>(IntTable<set<V>>::get(key));
   }
 };

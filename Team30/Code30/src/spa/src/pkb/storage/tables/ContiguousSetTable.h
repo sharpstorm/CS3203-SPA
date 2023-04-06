@@ -24,7 +24,9 @@ class ContiguousSetTable : public IBaseSetTable<int, V>,
     this->table[key].insert(value);
   }
 
-  const set<V>& get(int key) const { return ContiguousTable<set<V>>::get(key); }
+  const set<V>& get(int key) const override {
+    return ContiguousTable<set<V>>::get(key);
+  }
 
   int size() const override { return ContiguousTable<set<V>>::size(); };
 
@@ -36,7 +38,7 @@ class ContiguousSetTable : public IBaseSetTable<int, V>,
 
   bool containsKey(int key) const override { return !get(key).empty(); }
 
-  unique_ptr<IBaseIterator<V>> getValueIterator(int key) {
+  unique_ptr<IBaseIterator<V>> getValueIterator(int key) override {
     return make_unique<SetIterator<V>>(ContiguousTable<set<V>>::get(key));
   }
 };

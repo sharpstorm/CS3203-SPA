@@ -32,7 +32,7 @@ class FollowsTableManager : public RelationTableManager<StmtValue, StmtValue> {
         reverseTable(reverseTable),
         RelationTableManager(table, reverseTable) {}
 
-  void insert(StmtValue arg1, StmtValue arg2) {
+  void insert(StmtValue arg1, StmtValue arg2) override {
     table->insert(arg1, arg2);
     reverseTable->insert(arg2, arg1);
   }

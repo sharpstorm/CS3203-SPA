@@ -31,7 +31,7 @@ class ContiguousVectorTable : public IBaseSetTable<int, V>,
     values.push_back(value);
   }
 
-  const vector<V>& get(int key) const {
+  const vector<V>& get(int key) const override {
     return ContiguousTable<vector<V>>::get(key);
   }
 
@@ -48,7 +48,7 @@ class ContiguousVectorTable : public IBaseSetTable<int, V>,
 
   bool containsKey(int key) const override { return !get(key).empty(); }
 
-  unique_ptr<IBaseIterator<V>> getValueIterator(int key) {
+  unique_ptr<IBaseIterator<V>> getValueIterator(int key) override {
     return make_unique<VectorIterator<V>>(ContiguousTable<vector<V>>::get(key));
   }
 
