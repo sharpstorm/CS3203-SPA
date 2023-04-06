@@ -1,12 +1,9 @@
 #pragma once
 
-#include <memory>
 #include <utility>
 
 #include "qps/common/PQLQuerySynonym.h"
 #include "AbstractPatternClause.h"
-
-using std::unique_ptr;
 
 constexpr PatternQueryInvoker whilePatternInvoker =
     [](const QueryExecutorAgent &agent,
@@ -16,10 +13,10 @@ constexpr PatternQueryInvoker whilePatternInvoker =
       return agent->queryWhilePattern(stmtRef, entityRef);
     };
 
-class WhilePatternClause: public AbstractPatternClause<
+class WhilePatternClause : public AbstractPatternClause<
     PQL_SYN_TYPE_WHILE, StmtType::While, whilePatternInvoker> {
  public:
   WhilePatternClause(const PQLQuerySynonymProxy &whileSynonym,
-                     ClauseArgumentPtr leftArg):
+                     ClauseArgumentPtr leftArg) :
       AbstractPatternClause(whileSynonym, std::move(leftArg)) {}
 };

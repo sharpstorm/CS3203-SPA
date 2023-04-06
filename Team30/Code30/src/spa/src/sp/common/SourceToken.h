@@ -1,8 +1,10 @@
 #pragma once
 
 #include <string>
+#include <vector>
+#include <memory>
 
-using std::string;
+using std::string, std::vector, std::unique_ptr;
 
 enum SourceTokenCategory {
   SIMPLE_TOKEN_CATEGORY_SYNTATIC = 0x100,
@@ -67,21 +69,29 @@ const int SIMPLE_TOKEN_CATEGORY_MASK = 0xFFFFFF00;
 const int SIMPLE_VARCHAR_MASK = SIMPLE_TOKEN_CATEGORY_VARCHAR |
     SIMPLE_TOKEN_CATEGORY_KEYWORD;
 
+typedef string TokenValue;
+
 class SourceToken {
  private:
   SourceTokenType type;
-  string value;
+  TokenValue value;
 
  public:
-  SourceToken(SourceTokenType type, string value);
-  SourceTokenType getType();
-  string getValue();
-  bool isVarchar();
-  static bool isCategory(SourceTokenType type, SourceTokenCategory target);
-  bool operator==(const SourceToken& other) const;
+  explicit SourceToken(const SourceTokenType type);
+  SourceToken(const SourceTokenType type, const TokenValue &value);
+  SourceTokenType getType() const;
+  TokenValue getValue() const;
+  bool isVarchar() const;
+  bool operator==(const SourceToken &other) const;
 
   template<typename... SourceTokenType>
-  bool isType(SourceTokenType... tokenType) {
+  bool isType(SourceTokenType... tokenType) const {
     return ((type == tokenType)  || ... || false);
   }
+
+  static bool isCategory(SourceTokenType type,
+                         SourceTokenCategory target);
 };
+
+typedef vector<SourceToken> SourceTokenStream;
+typedef unique_ptr<SourceTokenStream> SourceTokenStreamPtr;

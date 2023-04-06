@@ -1,18 +1,16 @@
 #include "StatementContext.h"
 
-ASTNodePtr StatementContext::generateSubtree(
-    SourceParseState *state) {
+ASTNodePtr StatementContext::generateSubtree(SourceParseState *state) const {
   state->advanceLine();
   if (state->nextTokenIsOfType(SIMPLE_TOKEN_ASSIGN)) {
     return invokeSubcontext<ProcedureContextType::ASSIGN_CONTEXT>(state);
   }
 
-  SourceToken* currentToken = state->getCurrToken();
-  if (currentToken == nullptr) {
-    throw SPError("Unknown token sequence");
+  if (state->isEnd()) {
+    throw SPError(SPERR_END_OF_STREAM);
   }
 
-  switch (currentToken->getType()) {
+  switch (state->getCurrTokenType()) {
     case SIMPLE_TOKEN_KEYWORD_PRINT:
       return invokeSubcontext<ProcedureContextType::PRINT_CONTEXT>(state);
     case SIMPLE_TOKEN_KEYWORD_IF:
@@ -24,12 +22,11 @@ ASTNodePtr StatementContext::generateSubtree(
     case SIMPLE_TOKEN_KEYWORD_CALL:
       return invokeSubcontext<ProcedureContextType::CALL_CONTEXT>(state);
     default:
-      throw SPError("Unknown token sequence");
+      throw SPError(SPERR_UNEXPECTED_TOKEN);
   }
 }
 
 template<ProcedureContextType CONTEXT_TYPE>
-ASTNodePtr StatementContext::invokeSubcontext(SourceParseState *state) {
-  return contextProvider
-      ->generateSubtree(CONTEXT_TYPE, state);
+ASTNodePtr StatementContext::invokeSubcontext(SourceParseState *state) const {
+  return contextProvider->generateSubtree(CONTEXT_TYPE, state);
 }

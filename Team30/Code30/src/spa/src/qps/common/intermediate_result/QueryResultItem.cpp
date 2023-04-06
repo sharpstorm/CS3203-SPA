@@ -2,6 +2,12 @@
 
 using std::to_string;
 
+QueryResultItem::QueryResultItem(const StmtValue &stmt) : stmtRef(stmt),
+                                                          entRef(NO_ENT) {}
+
+QueryResultItem::QueryResultItem(const EntityValue &ent) : stmtRef(NO_STMT),
+                                                           entRef(ent) {}
+
 bool QueryResultItem::operator==(const QueryResultItem &other) const {
   return stmtRef == other.stmtRef && entRef == other.entRef;
 }
@@ -20,8 +26,4 @@ ProjectedValue QueryResultItem::project() const {
   }
 
   return "";
-}
-
-StmtValue QueryResultItem::toStmtValue() const {
-  return stmtRef;
 }

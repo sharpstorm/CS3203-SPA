@@ -7,7 +7,7 @@
 using std::move;
 
 ResultGroupPtr ProjectorResultFactory::extractResults(
-    PQLQueryResult *result, vector<PQLSynonymName> *syns) {
+    PQLQueryResult *result, const PQLSynonymNameList *syns) {
   ResultGroupPtr resultGroup = make_unique<ProjectorResultGroup>();
   // Add synonyms to the new ProjectorResultGroup
   for (const PQLSynonymName &name : *syns) {
@@ -16,8 +16,8 @@ ResultGroupPtr ProjectorResultFactory::extractResults(
 
   IntersectSet<ResultTableRow> rowsToTake = getUniqueRows(result, syns);
 
-  for (ResultTableRow rowIdx : rowsToTake) {
-    QueryResultTableRow *tableRow = result->getTableRowAt(rowIdx);
+  for (const ResultTableRow &rowIdx : rowsToTake) {
+    const QueryResultTableRow *tableRow = result->getTableRowAt(rowIdx);
     QueryResultTableRow newRow{};
     for (const PQLSynonymName &syn : *syns) {
       ResultTableCol tableCol = result->getSynonymCol(syn);
@@ -30,7 +30,7 @@ ResultGroupPtr ProjectorResultFactory::extractResults(
 }
 
 IntersectSet<ResultTableRow> ProjectorResultFactory::getUniqueRows(
-    PQLQueryResult *result, vector<PQLSynonymName> *syns) {
+    PQLQueryResult *result, const PQLSynonymNameList *syns) {
   IntersectSet<ResultTableRow> rowsToTake;
   IntersectSet<ResultTableRow> ignoreRows;
   int rowCounts = result->getRowCount();
@@ -43,7 +43,7 @@ IntersectSet<ResultTableRow> ProjectorResultFactory::getUniqueRows(
     rowsToTake.insert(i);
     for (const PQLSynonymName &syn : *syns) {
       ResultTableCol colIdx = result->getSynonymCol(syn);
-      QueryResultTableRow *currRow = result->getTableRowAt(i);
+      const QueryResultTableRow *currRow = result->getTableRowAt(i);
       RowSetPtr rows = result->getRowsWithValue(colIdx,
                                                 currRow->at(colIdx));
       if (currentIgnoreRows->empty()) {

@@ -16,8 +16,8 @@ class ProjectorInstruction {
   ResultItemProjector projector;
 
  public:
-  ProjectorInstruction(const ResultGroupId &groupId,
-                       const ResultTableCol &col,
+  ProjectorInstruction(const ResultGroupId groupId,
+                       const ResultTableCol col,
                        const ResultItemProjector &projector);
   ResultGroupId getGroupId() const;
   ResultTableCol getTableCol() const;

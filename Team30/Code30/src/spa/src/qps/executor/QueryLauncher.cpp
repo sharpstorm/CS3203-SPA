@@ -1,11 +1,11 @@
 #include "QueryLauncher.h"
 
-QueryLauncher::QueryLauncher(PkbQueryHandler* pkbQH): pkbQueryHandler(pkbQH) {
-}
+QueryLauncher::QueryLauncher(const PkbQueryHandler *pkbQH) :
+    pkbQueryHandler(pkbQH) {}
 
-PQLQueryResult *QueryLauncher::execute(IEvaluatable *evaluatable,
-                                       OverrideTable* table,
-                                       QueryCache *cache) {
+PQLQueryResult *QueryLauncher::execute(const IEvaluatable *evaluatable,
+                                       const OverrideTable *table,
+                                       QueryCache *cache) const {
   QueryExecutorAgent agent(pkbQueryHandler, table, cache);
   return evaluatable->evaluateOn(agent);
 }

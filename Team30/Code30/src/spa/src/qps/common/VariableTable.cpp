@@ -1,26 +1,20 @@
-#include <unordered_set>
-#include <unordered_map>
-
 #include "VariableTable.h"
 #include "PQLQuerySynonymProxy.h"
 
-using std::unordered_set;
-
 VariableTable::VariableTable() {}
 
-VariableTable::VariableTable(unordered_map<string, PQLQuerySynonym> map) {
-  for (auto it : map) {
+VariableTable::VariableTable(const SynonymMap &map) {
+  for (const auto &it : map) {
     add(it.first, it.second);
   }
   finalizeTable();
 }
 
-int VariableTable::size() {
+int VariableTable::size() const {
   return declaredSynonyms.size();
 }
 
-
-PQLQuerySynonymProxy* VariableTable::find(const PQLSynonymName &name) {
+PQLQuerySynonymProxy *const VariableTable::find(const PQLSynonymName &name) {
   auto item = proxyMap.find(name);
   if (item == proxyMap.end()) {
     return nullptr;
@@ -28,24 +22,25 @@ PQLQuerySynonymProxy* VariableTable::find(const PQLSynonymName &name) {
   return &item->second;
 }
 
-void VariableTable::add(const PQLSynonymName &name, PQLQuerySynonym syn) {
+void VariableTable::add(const PQLSynonymName &name,
+                        const PQLQuerySynonym &syn) {
   declaredSynonyms.push_back(syn);
 }
 
 void VariableTable::finalizeTable() {
   for (int i = 0; i < declaredSynonyms.size(); i++) {
-    PQLQuerySynonym* syn = &(declaredSynonyms.at(i));
+    PQLQuerySynonym *syn = &(declaredSynonyms.at(i));
     rawProxy.push_back(syn);
   }
 
   for (int i = 0; i < declaredSynonyms.size(); i++) {
-    PQLQuerySynonym* syn = &(declaredSynonyms.at(i));
+    PQLQuerySynonym *syn = &(declaredSynonyms.at(i));
     proxyMap.emplace(syn->getName(), PQLQuerySynonymProxy(&rawProxy.at(i)));
   }
 }
 
-unordered_set<PQLSynonymName> VariableTable::getReferredSynonyms() {
-  unordered_set<PQLSynonymName> result;
+PQLSynonymNameSet VariableTable::getReferredSynonyms() const {
+  PQLSynonymNameSet result;
 
   for (auto it = proxyMap.begin(); it != proxyMap.end(); it++) {
     result.insert(it->second->getName());
@@ -54,6 +49,6 @@ unordered_set<PQLSynonymName> VariableTable::getReferredSynonyms() {
   return result;
 }
 
-unordered_map<string, PQLQuerySynonymProxy>* VariableTable::getProxyMap() {
+ProxyMap *VariableTable::getProxyMap() {
   return &proxyMap;
 }

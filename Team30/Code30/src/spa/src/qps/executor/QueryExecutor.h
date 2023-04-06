@@ -4,15 +4,16 @@
 #include "QueryOrchestrator.h"
 #include "qps/executor/planner/QueryPlanner.h"
 
-class QueryExecutor: public IQueryExecutor {
+class QueryExecutor : public IQueryExecutor {
  private:
   QueryOrchestrator orchestrator;
   QueryPlanner planner;
 
  public:
-  explicit QueryExecutor(PkbQueryHandler* pkbQH);
-  ProjectorResultTable* executeQuery(PQLQuery* query);
+  explicit QueryExecutor(const PkbQueryHandler *pkbQH);
+  ProjectorResultTable *executeQuery(const PQLQuery *query);
 
  private:
-  bool resolveConstraints(PQLQuery* query, OverrideTable* overrideTable);
+  bool resolveConstraints(const PQLQuery *query,
+                          OverrideTable *overrideTable) const;
 };

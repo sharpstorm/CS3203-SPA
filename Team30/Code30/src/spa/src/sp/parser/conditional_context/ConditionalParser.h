@@ -13,10 +13,10 @@ typedef SubContextParser<ConditionalContextType,
                          ConditionalContextType::COND_CONTEXT>
     IConditionalParser;
 
-class ConditionalParser: public IConditionalParser {
+class ConditionalParser : public IConditionalParser {
  public:
-  explicit ConditionalParser(IExpressionParser* exprParser):
-  SubContextParser(make_unique<ConditionalContextProvider>(exprParser)) {}
+  explicit ConditionalParser(IExpressionParser *exprParser) :
+      SubContextParser(make_unique<ConditionalContextProvider>(exprParser)) {}
 };
 
 typedef unique_ptr<IConditionalParser> IConditionalParserPtr;

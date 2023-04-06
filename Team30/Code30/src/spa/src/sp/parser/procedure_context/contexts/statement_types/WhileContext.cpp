@@ -7,11 +7,10 @@
 
 using std::make_unique;
 
-ASTNodePtr WhileContext::generateSubtree(SourceParseState* state) {
+ASTNodePtr WhileContext::generateSubtree(SourceParseState *state) const {
   // While Node
   state->expect(SIMPLE_TOKEN_KEYWORD_WHILE);
-  ASTNodePtr whileNode = make_unique<WhileNode>(
-      state->getLineNumber());
+  ASTNodePtr whileNode = make_unique<WhileNode>(state->getLineNumber());
 
   // Conditional Expression
   state->expect(SIMPLE_TOKEN_BRACKET_ROUND_LEFT);

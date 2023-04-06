@@ -1,6 +1,7 @@
 #include "CacheTable.h"
 
-void CacheTable::addEntry(StmtValue leftStmt, StmtValue rightStmt) {
+void CacheTable::addEntry(const StmtValue &leftStmt,
+                          const StmtValue &rightStmt) {
   // Insertion to fwd matrix
   if (leftStmt >= forwardMatrix.size()) {
     for (size_t i = forwardMatrix.size(); i < leftStmt; i++) {
@@ -20,40 +21,41 @@ void CacheTable::addEntry(StmtValue leftStmt, StmtValue rightStmt) {
   reverseMatrix[rightStmt - 1].push_back(leftStmt);
 }
 
-CacheRow *CacheTable::queryFull(StmtValue leftStmt, StmtValue rightStmt) {
+const CacheRow *CacheTable::queryFull(const StmtValue &leftStmt,
+                                      const StmtValue &rightStmt) const {
   if (!isValidArg(leftStmt, forwardMatrix.size()) ||
       !isValidArg(rightStmt, reverseMatrix.size())) {
     return nullptr;
   }
 
   if (leftStmt != 0 && fullForward.find(leftStmt) != fullForward.end()) {
-      return &forwardMatrix[leftStmt - 1];
+    return &forwardMatrix[leftStmt - 1];
   }
 
   if (rightStmt != 0 && fullReverse.find(rightStmt) != fullReverse.end()) {
-      return &reverseMatrix[rightStmt - 1];
+    return &reverseMatrix[rightStmt - 1];
   }
 
   return nullptr;
 }
 
-void CacheTable::promoteFrom(StmtValue stmt) {
+void CacheTable::promoteFrom(const StmtValue &stmt) {
   fullForward.insert(stmt);
 }
 
-void CacheTable::promoteTo(StmtValue stmt) {
+void CacheTable::promoteTo(const StmtValue &stmt) {
   fullReverse.insert(stmt);
 }
 
-CacheRow *CacheTable::queryFrom(StmtValue stmt) {
+const CacheRow *CacheTable::queryFrom(const StmtValue &stmt) const {
   if (!isValidIndex(stmt, forwardMatrix.size())) {
     return nullptr;
   }
 
-  return  &forwardMatrix[stmt - 1];
+  return &forwardMatrix[stmt - 1];
 }
 
-CacheRow *CacheTable::queryTo(StmtValue stmt) {
+const CacheRow *CacheTable::queryTo(const StmtValue &stmt) const {
   if (!isValidIndex(stmt, reverseMatrix.size())) {
     return nullptr;
   }
@@ -61,14 +63,15 @@ CacheRow *CacheTable::queryTo(StmtValue stmt) {
   return &reverseMatrix[stmt - 1];
 }
 
-CacheRow *CacheTable::queryPartial(StmtValue leftStmt, StmtValue rightStmt) {
+const CacheRow *CacheTable::queryPartial(const StmtValue &leftStmt,
+                                         const StmtValue &rightStmt) const {
   if (!isValidArg(leftStmt, forwardMatrix.size()) ||
       !isValidArg(rightStmt, reverseMatrix.size())) {
     return nullptr;
   }
 
   if (leftStmt != 0 && rightStmt != 0) {
-    CacheRow* row = &forwardMatrix[leftStmt - 1];
+    const CacheRow *row = &forwardMatrix[leftStmt - 1];
     for (auto r : *row) {
       if (r == rightStmt) {
         return row;
@@ -85,10 +88,12 @@ CacheRow *CacheTable::queryPartial(StmtValue leftStmt, StmtValue rightStmt) {
   return queryFrom(leftStmt);
 }
 
-bool CacheTable::isValidIndex(StmtValue stmt, size_t size) {
+bool CacheTable::isValidIndex(const StmtValue &stmt,
+                              const size_t size) const {
   return 0 < stmt && stmt <= size;
 }
 
-bool CacheTable::isValidArg(StmtValue stmt, size_t size) {
+bool CacheTable::isValidArg(const StmtValue &stmt,
+                            const size_t size) const {
   return 0 == stmt || isValidIndex(stmt, size);
 }

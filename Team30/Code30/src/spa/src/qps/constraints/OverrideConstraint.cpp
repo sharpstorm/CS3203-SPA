@@ -1,15 +1,15 @@
 #include "OverrideConstraint.h"
 
-OverrideConstraint::OverrideConstraint(AttributedSynonym syn,
-                                       int intVal):
+OverrideConstraint::OverrideConstraint(const AttributedSynonym &syn,
+                                       const StmtValue &intVal) :
     attrSyn(syn), overrideTransformer(OverrideTransformer(intVal)) {
 }
 
-OverrideConstraint::OverrideConstraint(AttributedSynonym syn,
-                                       string identVal):
+OverrideConstraint::OverrideConstraint(const AttributedSynonym &syn,
+                                       const EntityValue &identVal) :
     attrSyn(syn), overrideTransformer(OverrideTransformer(identVal)) {}
 
-bool OverrideConstraint::validateConstraint() {
+bool OverrideConstraint::validateConstraint() const {
   switch (attrSyn.getAttribute()) {
     case STMT_NUM:
     case CONST_VALUE:
@@ -22,8 +22,8 @@ bool OverrideConstraint::validateConstraint() {
   }
 }
 
-vector<PQLSynonymName> OverrideConstraint::getAffectedSyns() {
-  return vector<PQLSynonymName>{attrSyn.getName()};
+const PQLSynonymNameList OverrideConstraint::getAffectedSyns() const {
+  return PQLSynonymNameList {attrSyn.getName()};
 }
 
 bool OverrideConstraint::applyConstraint(SynonymProxyBuilder *variableTable,

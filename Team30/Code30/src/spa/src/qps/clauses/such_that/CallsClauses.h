@@ -1,7 +1,6 @@
 #pragma once
 
 #include <utility>
-#include <unordered_set>
 
 #include "abstract_clauses/AbstractEntEntClause.h"
 #include "qps/clauses/SuchThatClause.h"
@@ -9,7 +8,7 @@
 typedef EntEntInvoker CallsInvoker;
 typedef EntInvoker CallsSameSynInvoker;
 
-template <CallsInvoker invoker, CallsSameSynInvoker symmetricInvoker>
+template<CallsInvoker invoker, CallsSameSynInvoker symmetricInvoker>
 using AbstractCallsClause = AbstractEntEntClause<
     invoker,
     symmetricInvoker,
@@ -18,22 +17,22 @@ using AbstractCallsClause = AbstractEntEntClause<
 
 constexpr CallsInvoker callsInvoker = [](const QueryExecutorAgent &agent,
                                          const EntityRef &leftArg,
-                                         const EntityRef &rightArg){
+                                         const EntityRef &rightArg) {
   return agent->queryCalls(leftArg, rightArg);
 };
 
 constexpr CallsInvoker callsTInvoker = [](const QueryExecutorAgent &agent,
                                           const EntityRef &leftArg,
-                                          const EntityRef &rightArg){
+                                          const EntityRef &rightArg) {
   return agent->queryCallsStar(leftArg, rightArg);
 };
 
 constexpr CallsSameSynInvoker callsSymmetricInvoker =
-    [](const QueryExecutorAgent &agent, const EntityRef &arg){
-      return unordered_set<EntityValue>{};
+    [](const QueryExecutorAgent &agent, const EntityRef &arg) {
+      return EntityValueSet{};
     };
 
-class CallsClause: public AbstractCallsClause<
+class CallsClause : public AbstractCallsClause<
     callsInvoker,
     callsSymmetricInvoker> {
  public:
@@ -41,7 +40,8 @@ class CallsClause: public AbstractCallsClause<
       : AbstractEntEntClause(std::move(left), std::move(right)) {
   }
 
-  ComplexityScore getComplexityScore(const OverrideTable *table) override {
+  ComplexityScore getComplexityScore(const OverrideTable *table)
+  const override {
     return computeNoSymmetryComplexityScore<
         COMPLEXITY_MODIFIER_PREFERRED,
         COMPLEXITY_MODIFIER_NONE,
@@ -49,7 +49,7 @@ class CallsClause: public AbstractCallsClause<
   }
 };
 
-class CallsTClause: public AbstractCallsClause<
+class CallsTClause : public AbstractCallsClause<
     callsTInvoker,
     callsSymmetricInvoker> {
  public:
@@ -57,7 +57,8 @@ class CallsTClause: public AbstractCallsClause<
       : AbstractEntEntClause(std::move(left), std::move(right)) {
   }
 
-  ComplexityScore getComplexityScore(const OverrideTable *table) override {
+  ComplexityScore getComplexityScore(const OverrideTable *table)
+  const override {
     return computeNoSymmetryComplexityScore<
         COMPLEXITY_MODIFIER_PREFERRED,
         COMPLEXITY_QUERY_TRANSITIVE,

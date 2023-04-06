@@ -3,7 +3,7 @@
 #include "executor/QueryExecutor.h"
 #include "common/PQLQuerySynonym.h"
 
-QueryDriver::QueryDriver(PkbQueryHandler* pkbQH,
+QueryDriver::QueryDriver(const PkbQueryHandler* pkbQH,
                          ISourceExpressionParser* exprParser):
     parser(new QueryParser(exprParser)),
     executor(new QueryExecutor(pkbQH)),
@@ -19,7 +19,7 @@ void QueryDriver::evaluate(const string &query,
                            QPSOutputList *output) {
   PQLQueryPtr pqlQuery = parser->parseQuery(&query);
   ProjectorResultTable* synTable = executor->executeQuery(pqlQuery.get());
-  AttributedSynonymList* queryVar = pqlQuery->getResultVariables();
+  const AttributedSynonymList* queryVar = pqlQuery->getResultVariables();
   projector->project(synTable, queryVar, output);
   delete(synTable);
 }

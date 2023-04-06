@@ -8,7 +8,7 @@
 
 using std::make_unique;
 
-ASTNodePtr TermContext::generateSubtree(SourceParseState *state) {
+ASTNodePtr TermContext::generateSubtree(SourceParseState *state) const {
   ASTNodePtr leftExpr;
   if (!state->hasCached()) {
     leftExpr = contextProvider
@@ -38,7 +38,7 @@ ASTNodePtr TermContext::generateSubtree(SourceParseState *state) {
   return middleNode;
 }
 
-BinaryASTNodePtr TermContext::generateOperand(SourceParseState *state) {
+BinaryASTNodePtr TermContext::generateOperand(SourceParseState *state) const {
   SourceToken* curToken = state->tryExpect(SIMPLE_TOKEN_TIMES,
                                            SIMPLE_TOKEN_DIV,
                                            SIMPLE_TOKEN_MOD);
@@ -46,7 +46,11 @@ BinaryASTNodePtr TermContext::generateOperand(SourceParseState *state) {
     return nullptr;
   }
 
-  switch (curToken->getType()) {
+  return makeNode(curToken);
+}
+
+BinaryASTNodePtr TermContext::makeNode(const SourceToken *token) const {
+  switch (token->getType()) {
     case SIMPLE_TOKEN_TIMES:
       return make_unique<TimesASTNode>();
     case SIMPLE_TOKEN_DIV:

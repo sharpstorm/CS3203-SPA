@@ -22,6 +22,6 @@ class QueryGrouperIndex {
   void insertConstraint(const PQLSynonymName &name);
   bool selectSynonym(const PQLSynonymName &name);
   unordered_set<PQLSynonymName>* getSelectSynonyms();
-  bool hasSelectables();
-  bool isConstrained(const PQLSynonymName &name);
+  bool hasSelectables() const;
+  bool isConstrained(const PQLSynonymName &name) const;
 };

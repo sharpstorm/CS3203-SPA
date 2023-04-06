@@ -1,6 +1,5 @@
 #pragma once
 
-#include <unordered_set>
 #include <memory>
 
 #include "common/Types.h"
@@ -17,7 +16,7 @@ using QueryInvoker = QueryResultPtr<LeftResultType, RightResultType>(*)(
     const RightArgType &rightArg);
 
 template <typename ResultType, typename ArgType>
-using SymmetricQueryInvoker = unordered_set<ResultType>(*)(
+using SymmetricQueryInvoker = QueryResultSet<ResultType>(*)(
     const QueryExecutorAgent &agent,
     const ArgType &arg);
 

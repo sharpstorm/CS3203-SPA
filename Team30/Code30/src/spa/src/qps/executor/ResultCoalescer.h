@@ -34,7 +34,7 @@ class ResultCoalescer {
     RowSetPtr leftSet;
     RowSetPtr rightSet;
 
-    bool isEmpty() {
+    bool isEmpty() const {
       return leftSet->empty() || rightSet->empty();
     }
   };
@@ -42,15 +42,15 @@ class ResultCoalescer {
   void mergeResults();
   void mergeSynonymList(IntersectState *intersectState);
 
-  IntersectResult findIntersect(QueryResultTableRow *currentRow,
-                                IntersectState *state);
+  IntersectResult findIntersect(const QueryResultTableRow *currentRow,
+                                const IntersectState *state) const;
 
   void crossProduct(set<ResultTableRow> *ignoreSet,
-                    IntersectState *intersectState,
-                    IntersectResult *intersection);
+                    const IntersectState *intersectState,
+                    const IntersectResult *intersection);
 
-  void mergeRow(QueryResultTableRow *rowA,
-                QueryResultTableRow *rowB,
+  void mergeRow(const QueryResultTableRow *rowA,
+                const QueryResultTableRow *rowB,
                 QueryResultTableRow *outputRow,
-                IntersectState *state);
+                const IntersectState *state) const;
 };

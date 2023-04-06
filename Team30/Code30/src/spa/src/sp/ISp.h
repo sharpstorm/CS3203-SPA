@@ -1,11 +1,9 @@
 #pragma once
-#include <string>
 #include "pkb/writers/PkbWriter.h"
-
-using std::string;
+#include "SPTypes.h"
 
 class ISp {
  public:
   virtual ~ISp() = default;
-  virtual void parseSource(string input, PkbWriter* pkbWriter) = 0;
+  virtual void parseSource(const FilePath &input, PkbWriter *pkbWriter) = 0;
 };

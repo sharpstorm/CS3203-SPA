@@ -1,15 +1,15 @@
 #include "ModifiesQueryHandler.h"
-#include "ArgValidators.h"
-#include "ArgTransformers.h"
 
-ModifiesQueryHandler::ModifiesQueryHandler(
-    PkbStmtEntQueryInvoker *invoker,
-    PkbEntEntQueryInvoker *pInvoker,
-    ModifiesStorage *storage,
-    ModifiesPStorage *pStorage)
+#include "ArgTransformers.h"
+#include "ArgValidators.h"
+
+ModifiesQueryHandler::ModifiesQueryHandler(PkbStmtEntQueryInvoker *invoker,
+                                           PkbEntEntQueryInvoker *pInvoker,
+                                           ModifiesStorage *storage,
+                                           ModifiesPStorage *pStorage)
     : PkbStmtEntQueryHandler(invoker, storage),
-    PkbEntEntQueryHandler(pInvoker, pStorage),
-    modifiesStorage(storage) {
+      PkbEntEntQueryHandler(pInvoker, pStorage),
+      modifiesStorage(storage) {
   PkbStmtEntQueryHandler::setLeftValidator(modifiesLeftArgValidator);
   PkbStmtEntQueryHandler::setRightValidator(varRightArgValidator);
   PkbEntEntQueryHandler::setLeftValidator(procLeftArgValidator);

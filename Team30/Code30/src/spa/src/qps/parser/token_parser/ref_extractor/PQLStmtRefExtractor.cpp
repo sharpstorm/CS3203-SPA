@@ -17,7 +17,7 @@ ClauseArgumentPtr PQLStmtRefExtractor::extractStatement(
   PQLToken* token = state->expect(PQL_TOKEN_INTEGER);
   int value = stoi(token->getData());
 
-  if (value <= 0) {
+  if (value < 0) {
     builder->setError(QPS_PARSER_ERR_INVALID_STMT);
     return nullptr;
   }

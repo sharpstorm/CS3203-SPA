@@ -1,0 +1,25 @@
+1 - BUG REPORTED
+
+Select BOOLEAN such that Follows(0, 1)
+FALSE
+5000
+2 - BUG REPORTED
+
+Select BOOLEAN such that Follows(1, 0)
+FALSE
+5000
+3 - BUG REPORTED
+stmt s;
+Select BOOLEAN such that Follows(0, s)
+FALSE
+5000
+4 - BUG REPORTED
+stmt s;
+Select BOOLEAN such that Follows(s, 0)
+FALSE
+5000
+5 - BUG REPORTED
+variable v;
+Select BOOLEAN such that Follows(0, v)
+SemanticError
+5000

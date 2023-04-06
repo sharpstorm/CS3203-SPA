@@ -1,7 +1,7 @@
 #include "ConstantConstraint.h"
 
 ConstantConstraint::ConstantConstraint(WithArgumentPtr arg1,
-                                       WithArgumentPtr arg2):
+                                       WithArgumentPtr arg2) :
     leftArg(std::move(arg1)), rightArg(std::move(arg2)) {}
 
 bool ConstantConstraint::applyConstraint(SynonymProxyBuilder *variableTable,
@@ -9,10 +9,10 @@ bool ConstantConstraint::applyConstraint(SynonymProxyBuilder *variableTable,
   return leftArg->isStaticValueEqual(*rightArg);
 }
 
-vector<PQLSynonymName> ConstantConstraint::getAffectedSyns() {
-  return vector<PQLSynonymName>{};
+const PQLSynonymNameList ConstantConstraint::getAffectedSyns() const {
+  return PQLSynonymNameList{};
 }
 
-bool ConstantConstraint::validateConstraint() {
+bool ConstantConstraint::validateConstraint() const {
   return leftArg->doesReturnInteger() == rightArg->doesReturnInteger();
 }

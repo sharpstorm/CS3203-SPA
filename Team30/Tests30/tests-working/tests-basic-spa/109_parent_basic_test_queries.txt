@@ -581,12 +581,12 @@ Select r1 such that Parent(_, 100)
 117 - Select Negative Parent(_, 0) (Parent)
 read r1;
 Select r1 such that Parent(_, 0)
-SemanticError
+
 5000
 118 - Select Negative Parent(0, _) (Parent)
 read r1;
 Select r1 such that Parent(0, _)
-SemanticError
+
 5000
 119 - Select Negative Parent(variable, _) (Parent)
 variable v;
@@ -617,4 +617,9 @@ SemanticError
 procedure p;
 Select p such that Parent(p, _)
 SemanticError
+5000
+125 - Select Negative Parent(0, 0) (Parent)
+stmt s;
+Select s such that Parent(0, 0)
+
 5000

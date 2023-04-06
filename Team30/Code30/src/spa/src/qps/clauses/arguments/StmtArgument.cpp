@@ -1,16 +1,19 @@
 #include "StmtArgument.h"
 
-StmtArgument::StmtArgument(int stmtNumber): stmtNumber(stmtNumber) {
-}
+StmtArgument::StmtArgument(const StmtValue &stmtNumber) :
+    stmtNumber(stmtNumber) {}
 
-StmtRef StmtArgument::toStmtRef() {
+StmtRef StmtArgument::toStmtRef() const {
+  if (stmtNumber == NO_STMT) {
+    return StmtRef{StmtType::None, INVALID_STMT};
+  }
   return StmtRef{StmtType::None, stmtNumber};
 }
 
-EntityRef StmtArgument::toEntityRef() {
+EntityRef StmtArgument::toEntityRef() const {
   return EntityRef{EntityType::None, ""};
 }
 
-bool StmtArgument::isConstant() {
+bool StmtArgument::isConstant() const {
   return true;
 }

@@ -9,7 +9,7 @@
 
 using std::vector, std::map;
 
-typedef map<QueryResultItem*, QueryResultItem*> QueryResultItemMapping;
+typedef map<QueryResultItem *, QueryResultItem *> QueryResultItemMapping;
 
 class OrphanedResultItemPool {
  private:
@@ -19,7 +19,7 @@ class OrphanedResultItemPool {
  public:
   explicit OrphanedResultItemPool(const QueryResultItemMapping &mapping);
   void adopt(QueryResultItemPtr item);
-  QueryResultItem* getMappingFor(QueryResultItem* item);
+  QueryResultItem *getMappingFor(QueryResultItem *item);
 };
 
 typedef unique_ptr<OrphanedResultItemPool> OrphanedResultItemPoolPtr;

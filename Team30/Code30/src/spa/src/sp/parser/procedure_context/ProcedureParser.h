@@ -1,7 +1,6 @@
 #pragma once
 
 #include <memory>
-#include <utility>
 
 #include "ProcedureContextType.h"
 #include "../SubContextParser.h"
@@ -13,13 +12,13 @@ typedef SubContextParser<ProcedureContextType,
                          ProcedureContextType::PROCEDURE_CONTEXT>
     IProcedureParser;
 
-class ProcedureParser: public IProcedureParser {
+class ProcedureParser : public IProcedureParser {
  public:
-  ProcedureParser(IEntityParser* entityParser,
-                  IExpressionParser* exprParser,
-                  IConditionalParser* condParser):
-                  SubContextParser(make_unique<ProcedureContextProvider>(
-                      entityParser, exprParser, condParser)) {}
+  ProcedureParser(IEntityParser *entityParser,
+                  IExpressionParser *exprParser,
+                  IConditionalParser *condParser) :
+      SubContextParser(make_unique<ProcedureContextProvider>(
+          entityParser, exprParser, condParser)) {}
 };
 
 typedef unique_ptr<IProcedureParser> IProcedureParserPtr;

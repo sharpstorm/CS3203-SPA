@@ -1,12 +1,12 @@
 #pragma once
 
 #include <memory>
-#include <unordered_set>
 #include <unordered_map>
+
 #include "common/Types.h"
 #include "qps/common/PQLTypes.h"
 
-using std::unique_ptr, std::unordered_set, std::unordered_map;
+using std::unique_ptr, std::unordered_map;
 
 template<class ProjectionClosure>
 using StmtAttributeProjector =
@@ -18,16 +18,15 @@ class QueryResultItem {
   EntityValue entRef;
 
  public:
-  explicit QueryResultItem(const StmtValue &stmt) : stmtRef(stmt),
-                                                    entRef(NO_ENT) {}
-  explicit QueryResultItem(const EntityValue &ent) : stmtRef(NO_STMT),
-                                                     entRef(ent) {}
-  StmtValue toStmtValue() const;
+  explicit QueryResultItem(const StmtValue &stmt);
+  explicit QueryResultItem(const EntityValue &ent);
+
   ProjectedValue project() const;
   template<class ProjectionClosure>
   ProjectedValue projectAttribute(
       StmtAttributeProjector<ProjectionClosure> projector,
       const ProjectionClosure *closure) const;
+
   bool operator==(const QueryResultItem &other) const;
   bool operator!=(const QueryResultItem &other) const;
 
@@ -43,13 +42,12 @@ class QueryResultItem {
 };
 
 typedef unique_ptr<QueryResultItem> QueryResultItemPtr;
-
 template<class T>
 using QueryResultItemMap = unordered_map<QueryResultItem, T,
                                          QueryResultItem::hasher>;
 
 template<class ProjectionClosure>
 ProjectedValue QueryResultItem::projectAttribute(StmtAttributeProjector<
-    ProjectionClosure> projector, const ProjectionClosure* closure) const {
+    ProjectionClosure> projector, const ProjectionClosure *closure) const {
   return projector(stmtRef, closure);
 }

@@ -5,11 +5,11 @@
 
 using std::to_string, std::vector, std::make_unique;
 
-ResultProjector::ResultProjector(PkbQueryHandler *handler) :
+ResultProjector::ResultProjector(const PkbQueryHandler *handler) :
     pkbQueryHandler(handler) {}
 
-void ResultProjector::project(ProjectorResultTable *queryResult,
-                              AttributedSynonymList *resultVariables,
+void ResultProjector::project(const ProjectorResultTable *queryResult,
+                              const AttributedSynonymList *resultVariables,
                               QPSOutputList *output) {
   // Check if a BOOLEAN type result
   if (queryResult->getIsBooleanResult()) {

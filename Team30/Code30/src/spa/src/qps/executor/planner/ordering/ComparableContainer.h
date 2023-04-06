@@ -1,6 +1,6 @@
 #pragma once
 
-template <class MetricType, class DataType>
+template<class MetricType, class DataType>
 class ComparableContainer {
  private:
   MetricType metric;
@@ -8,22 +8,22 @@ class ComparableContainer {
 
  public:
   ComparableContainer(const MetricType &metric,
-                   const DataType &data):
+                      const DataType &data) :
       metric(metric), data(data) {}
 
-  DataType getData() {
+  DataType getData() const {
     return data;
   }
 
-  MetricType getMetric() {
+  MetricType getMetric() const {
     return metric;
   }
 
-  bool operator<(const ComparableContainer<MetricType, DataType>& other) const {
+  bool operator<(const ComparableContainer<MetricType, DataType> &other) const {
     return metric > other.metric;
   }
 
-  bool operator>(const ComparableContainer<MetricType, DataType>& other) const {
+  bool operator>(const ComparableContainer<MetricType, DataType> &other) const {
     return metric < other.metric;
   }
 };

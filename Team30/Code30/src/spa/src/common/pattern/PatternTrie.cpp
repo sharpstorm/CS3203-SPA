@@ -10,7 +10,7 @@ PatternTrie::PatternTrie(PatternTrieNodePtr trieRoot,
     root(std::move(trieRoot)),
     longestPathCount(longestPathCount) {}
 
-bool PatternTrie::isMatchFull(ExpressionSequence *sequence) {
+bool PatternTrie::isMatchFull(const ExpressionSequence *sequence) const {
   if (root == nullptr) {
     return false;
   }
@@ -22,7 +22,7 @@ bool PatternTrie::isMatchFull(ExpressionSequence *sequence) {
   return isValidPostfix(sequence);
 }
 
-bool PatternTrie::isMatchPartial(ExpressionSequence *sequence) {
+bool PatternTrie::isMatchPartial(const ExpressionSequence *sequence) const {
   if (root == nullptr) {
     return false;
   }
@@ -30,7 +30,7 @@ bool PatternTrie::isMatchPartial(ExpressionSequence *sequence) {
   return isValidPostfix(sequence);
 }
 
-bool PatternTrie::isValidPostfix(ExpressionSequence *sequence) {
+bool PatternTrie::isValidPostfix(const ExpressionSequence *sequence) const {
   PatternTrieNode* curNode = root.get();
   for (int i = 0; i < sequence->size(); i++) {
     curNode = curNode->traverse(sequence->at(i));

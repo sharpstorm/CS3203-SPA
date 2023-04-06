@@ -6,13 +6,13 @@
 
 using std::unique_ptr;
 
-class PatternClause: public Clause {
+class PatternClause : public Clause {
  public:
   PatternClause(const PQLQuerySynonymProxy &synonym,
                 ClauseArgumentPtr leftArg,
                 PQLSynonymType synType);
-  SynonymList getUsedSynonyms() override;
-  bool validateArgTypes(VariableTable *variables) override;
+  const PQLSynonymNameList getUsedSynonyms() const override;
+  bool validateArgTypes(const VariableTable *variables) const override;
 
  protected:
   PQLQuerySynonymProxy synonym;

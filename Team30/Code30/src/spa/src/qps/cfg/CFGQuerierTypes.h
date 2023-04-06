@@ -1,7 +1,5 @@
 #pragma once
 
-#include <unordered_set>
-
 #include "common/Types.h"
 
 template<class ClosureType>
@@ -15,6 +13,3 @@ using ModifiesGetter = EntityIdxSet(*)(const ClosureType &state,
 template<class ClosureType>
 using UsesGetter = EntityIdxSet(*)(const ClosureType &state,
                                    StmtValue value);
-
-template<class ClosureType>
-using CountGetter = int (*)(const ClosureType &state);

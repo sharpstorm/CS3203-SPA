@@ -1,12 +1,12 @@
 #include "QueryPlanner.h"
 
 #include <utility>
+#include <vector>
 
-#include "qps/common/IEvaluatable.h"
 #include "qps/executor/planner/grouping/QueryGrouper.h"
 
-QueryPlanPtr QueryPlanner::getExecutionPlan(PQLQuery *targetQuery,
-                                            OverrideTable* overrides) {
+QueryPlanPtr QueryPlanner::getExecutionPlan(const PQLQuery *targetQuery,
+                                            const OverrideTable *overrides) {
   vector<QueryGroupPtr> groups = QueryGrouper(targetQuery).groupClauses();
 
   vector<QueryGroupPlanPtr> groupPlans(groups.size());

@@ -5,11 +5,13 @@
 #include <string>
 #include <unordered_set>
 #include <utility>
+#include <vector>
 
 using std::pair;
 using std::set, std::unordered_set;
 using std::string;
 using std::unique_ptr;
+using std::vector;
 
 enum class EntityType { None, Procedure, Variable, Constant, Wildcard };
 
@@ -18,13 +20,17 @@ enum class StmtType { None, Read, Print, Assign, Call, While, If, Wildcard };
 typedef string EntityValue;
 typedef int StmtValue;
 typedef int EntityIdx;
+typedef int IntegerValue;
 typedef unordered_set<StmtValue> StmtValueSet;
 typedef unordered_set<EntityValue> EntityValueSet;
 typedef unordered_set<EntityIdx> EntityIdxSet;
 typedef set<StmtValue> StmtSet;
 typedef set<EntityValue> EntitySet;
+typedef vector<StmtValue> StmtValueList;
 
 const StmtValue NO_STMT = 0;
+const StmtValue INVALID_STMT = -1;
+const IntegerValue NO_INT_VAL = -1;
 const char NO_ENT[] = "";
 const EntityIdx NO_ENT_INDEX = 0;
 
@@ -79,11 +85,18 @@ struct std::hash<pair<T1, T2>> {
 template<typename K, typename V>
 using pair_set = unordered_set<pair<K, V>>;
 
+template<typename T>
+using QueryResultSet = unordered_set<T>;
+
 template<typename T, typename U>
-struct QueryResult {
-  unordered_set<T> firstArgVals;
-  unordered_set<U> secondArgVals;
-  pair_set<T, U> pairVals;
+using QueryResultPairSet = pair_set<T, U>;
+
+template<typename T, typename U>
+class QueryResult {
+ public:
+  QueryResultSet<T> firstArgVals;
+  QueryResultSet<U> secondArgVals;
+  QueryResultPairSet<T, U> pairVals;
   bool isEmpty = true;
 
   void add(T first, U second) {
@@ -91,6 +104,21 @@ struct QueryResult {
     secondArgVals.insert(second);
     pairVals.insert(std::make_pair(first, second));
     isEmpty = false;
+  }
+
+  void addPair(const T &first, const U &second) {
+    isEmpty = false;
+    pairVals.insert(std::make_pair(first, second));
+  }
+
+  void addLeft(const T &first) {
+    isEmpty = false;
+    firstArgVals.insert(first);
+  }
+
+  void addRight(const U &second) {
+    isEmpty = false;
+    secondArgVals.insert(second);
   }
 };
 

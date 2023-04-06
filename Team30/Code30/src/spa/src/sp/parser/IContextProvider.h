@@ -5,13 +5,13 @@
 
 using std::unique_ptr;
 
-template <class ContextType>
+template<class ContextType>
 class IContextProvider {
  public:
   virtual ~IContextProvider() = default;
   virtual ASTNodePtr generateSubtree(ContextType type,
-                                      SourceParseState* state) = 0;
+                                     SourceParseState *state) const = 0;
 };
 
-template <class ContextType>
+template<class ContextType>
 using IContextProviderPtr = unique_ptr<IContextProvider<ContextType>>;

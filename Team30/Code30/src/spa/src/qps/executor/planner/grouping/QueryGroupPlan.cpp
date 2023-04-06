@@ -3,7 +3,7 @@
 #include <utility>
 
 QueryGroupPlan::QueryGroupPlan(
-    vector<IEvaluatable*> conditionalClauses,
+    vector<IEvaluatable *> conditionalClauses,
     vector<PQLSynonymName> selectables,
     vector<IEvaluatablePtr> ownedEvals,
     const ComplexityScore &score,
@@ -12,25 +12,24 @@ QueryGroupPlan::QueryGroupPlan(
     selectables(selectables),
     ownedEvals(std::move(ownedEvals)),
     weightedComplexity(score),
-    canEmpty(canEmpty)
-{}
+    canEmpty(canEmpty) {}
 
-vector<IEvaluatable*> QueryGroupPlan::getConditionalClauses() {
+const vector<IEvaluatable *> QueryGroupPlan::getConditionalClauses() const {
   return conditionalClauses;
 }
 
-bool QueryGroupPlan::isBooleanResult() {
+bool QueryGroupPlan::isBooleanResult() const {
   return selectables.empty();
 }
 
-vector<PQLSynonymName>* QueryGroupPlan::getSelectables() {
+const PQLSynonymNameList *QueryGroupPlan::getSelectables() const {
   return &selectables;
 }
 
-bool QueryGroupPlan::canBeEmpty() {
+bool QueryGroupPlan::canBeEmpty() const {
   return canEmpty;
 }
 
-ComplexityScore QueryGroupPlan::getComplexity() {
+ComplexityScore QueryGroupPlan::getComplexity() const {
   return weightedComplexity;
 }

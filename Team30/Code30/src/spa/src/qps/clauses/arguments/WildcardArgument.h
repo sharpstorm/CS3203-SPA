@@ -2,10 +2,10 @@
 
 #include "ClauseArgument.h"
 
-class WildcardArgument: public ClauseArgument {
+class WildcardArgument : public ClauseArgument {
  public:
   WildcardArgument() = default;
-  bool isWildcard() override;
-  StmtRef toStmtRef() override;
-  EntityRef toEntityRef() override;
+  bool isWildcard() const override;
+  StmtRef toStmtRef() const override;
+  EntityRef toEntityRef() const override;
 };

@@ -1,12 +1,12 @@
 #include "AttributedSynonym.h"
 #include "qps/errors/QPSParserSemanticError.h"
 
-AttributedSynonym::AttributedSynonym(PQLQuerySynonymProxy synProxy) :
-    synProxy(synProxy), attribute(NO_ATTRIBUTE) { }
+AttributedSynonym::AttributedSynonym(const PQLQuerySynonymProxy &synProxy) :
+    synProxy(synProxy), attribute(NO_ATTRIBUTE) {}
 
-AttributedSynonym::AttributedSynonym(PQLQuerySynonymProxy synProxy,
-                                     PQLSynonymAttribute attr) :
-    synProxy(synProxy), attribute(attr) { }
+AttributedSynonym::AttributedSynonym(const PQLQuerySynonymProxy &synProxy,
+                                     const PQLSynonymAttribute &attr) :
+    synProxy(synProxy), attribute(attr) {}
 
 PQLSynonymAttribute AttributedSynonym::getAttribute() const {
   return attribute;
@@ -58,10 +58,6 @@ bool AttributedSynonym::hasAttribute() const {
   return attribute != NO_ATTRIBUTE;
 }
 
-PQLQuerySynonym* AttributedSynonym::getSyn() const {
-  return synProxy.get();
-}
-
 PQLQuerySynonymProxy AttributedSynonym::getSynProxy() const {
   return synProxy;
 }
@@ -78,6 +74,6 @@ bool AttributedSynonym::isDefaultAttribute() const {
   return true;
 }
 
-bool AttributedSynonym::isType(const PQLSynonymType &type) const {
+bool AttributedSynonym::isType(const PQLSynonymType type) const {
   return synProxy->isType(type);
 }

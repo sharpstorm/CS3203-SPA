@@ -1,13 +1,13 @@
 #include "WildcardArgument.h"
 
-StmtRef WildcardArgument::toStmtRef() {
+StmtRef WildcardArgument::toStmtRef() const {
   return StmtRef{StmtType::Wildcard, 0};
 }
 
-EntityRef WildcardArgument::toEntityRef() {
+EntityRef WildcardArgument::toEntityRef() const {
   return EntityRef{EntityType::Wildcard, ""};
 }
 
-bool WildcardArgument::isWildcard() {
+bool WildcardArgument::isWildcard() const {
   return true;
 }

@@ -11,13 +11,17 @@ using std::vector, std::map, std::unordered_map, std::unordered_set;
 
 class QueryResultItemPool {
  private:
-  typedef unordered_set<QueryResultItem*> QueryResultItemSet;
-  vector<QueryResultItemPtr> ownedItems;
+  typedef unordered_set<QueryResultItem *> QueryResultItemSet;
+  typedef map<StmtValue, QueryResultItem *> StmtLookupMap;
+  typedef unordered_map<EntityValue, QueryResultItem *> EntityLookupMap;
+  typedef vector<QueryResultItemPtr> OwnedResultItemList;
 
-  map<StmtValue, QueryResultItem *> stmtLookup;
-  unordered_map<EntityValue, QueryResultItem *> entLookup;
+  OwnedResultItemList ownedItems;
 
-  vector<QueryResultItemPtr> releaseOwned();
+  StmtLookupMap stmtLookup;
+  EntityLookupMap entLookup;
+
+  OwnedResultItemList releaseOwned();
   void adoptStmts(const QueryResultItemPool *other,
                   QueryResultItemSet *adoptedSet,
                   QueryResultItemMapping *translationMap);

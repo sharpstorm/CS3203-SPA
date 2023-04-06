@@ -12,7 +12,8 @@ QueryOrchestrator::QueryOrchestrator(QueryLauncher launcher) :
 
 // Executes every group in the QueryPlan
 ProjectorResultTable *QueryOrchestrator::execute(
-    QueryPlan *plan, OverrideTable* overrideTable) {
+    const QueryPlan *plan,
+    const OverrideTable* overrideTable) const {
   bool isBool = plan->isBooleanQuery();
   if (plan->isEmpty()) {
     return new ProjectorResultTable(isBool, false);
@@ -21,7 +22,7 @@ ProjectorResultTable *QueryOrchestrator::execute(
   QueryCache cache;
   ProjectorResultTable* resultTable = new ProjectorResultTable(isBool, true);
   for (int i = 0; i < plan->getGroupCount(); i++) {
-    QueryGroupPlan* targetGroup = plan->getGroup(i);
+    const QueryGroupPlan* targetGroup = plan->getGroup(i);
     PQLQueryResult* result = executeGroup(targetGroup, overrideTable, &cache);
 
     // If any of the result is empty, return FALSE / EmptyResultTable
@@ -39,7 +40,7 @@ ProjectorResultTable *QueryOrchestrator::execute(
       continue;
     }
 
-    vector<PQLSynonymName>* selectables = targetGroup->getSelectables();
+    const PQLSynonymNameList* selectables = targetGroup->getSelectables();
     ResultGroupPtr resultGroup =
         ProjectorResultFactory::extractResults(result, selectables);
     resultTable->addResultGroup(std::move(resultGroup));
@@ -51,8 +52,9 @@ ProjectorResultTable *QueryOrchestrator::execute(
 
 // Executes each clause in the QueryGroupPlan
 PQLQueryResult *QueryOrchestrator::executeGroup(
-    QueryGroupPlan *plan, OverrideTable* overrideTable,
-    QueryCache *cache) {
+    const QueryGroupPlan *plan,
+    const OverrideTable* overrideTable,
+    QueryCache *cache) const {
   vector<IEvaluatable*> executables = plan->getConditionalClauses();
   PQLQueryResult* currentResult;
   PQLQueryResult* finalResult = nullptr;

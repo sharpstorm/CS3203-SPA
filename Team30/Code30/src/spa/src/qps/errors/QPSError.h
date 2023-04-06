@@ -1,18 +1,11 @@
 #pragma once
 
 #include <string>
+#include "common/errors/AbstractError.h"
 
 using std::string;
 
-class QPSError : public std::exception {
- private:
-  const string errMsg;
-
+class QPSError : public AbstractError {
  protected:
-  explicit QPSError(string message): errMsg(message) {}
-
- public:
-  const char* what() const noexcept override {
-    return errMsg.c_str();
-  }
+  explicit QPSError(const string &message) : AbstractError(message) {}
 };

@@ -1,34 +1,34 @@
 #include "SynonymArgument.h"
 #include "qps/clauses/ClauseScoring.h"
 
-SynonymArgument::SynonymArgument(const PQLQuerySynonymProxy &synProxy):
+SynonymArgument::SynonymArgument(const PQLQuerySynonymProxy &synProxy) :
     synProxy(synProxy) {
 }
 
-bool SynonymArgument::synonymSatisfies(SynonymPredicate predicate) {
+bool SynonymArgument::synonymSatisfies(SynonymPredicate predicate) const {
   return predicate(*synProxy);
 }
 
-bool SynonymArgument::isNamed() {
+bool SynonymArgument::isNamed() const {
   return true;
 }
 
-PQLSynonymName SynonymArgument::getName() {
+PQLSynonymName SynonymArgument::getName() const {
   return synProxy->getName();
 }
 
-ComplexityScore SynonymArgument::getSynComplexity() {
+ComplexityScore SynonymArgument::getSynComplexity() const {
   return COMPLEXITY_SYN_LOOKUP.at(synProxy->getType());
 }
 
-StmtRef SynonymArgument::toStmtRef() {
+StmtRef SynonymArgument::toStmtRef() const {
   StmtType stmtType = convertToStmtType(synProxy->getType());
   return StmtRef{stmtType, 0};
 }
 
-EntityRef SynonymArgument::toEntityRef() {
+EntityRef SynonymArgument::toEntityRef() const {
   EntityType entType = convertToEntityType(synProxy->getType());
-  return EntityRef{ entType, "" };
+  return EntityRef{entType, ""};
 }
 
 EntityType SynonymArgument::convertToEntityType(PQLSynonymType type) {
