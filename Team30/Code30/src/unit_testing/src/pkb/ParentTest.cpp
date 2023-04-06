@@ -32,11 +32,13 @@ TEST_CASE("Parent <= 1 unknowns") {
   REQUIRE(result2.isEmpty == true);
   auto result3 =
       *handler.queryParent({StmtType::None, 3}, {StmtType::Assign, 0});
-  REQUIRE(result3.pairVals == pair_set<int, int>({{3, 5}}));
+  REQUIRE(result3.secondArgVals == unordered_set<int>({5}));
+//  REQUIRE(result3.pairVals == pair_set<int, int>({{3, 5}}));
 
   auto result4 =
       *handler.queryParent({StmtType::While, 0}, {StmtType::None, 3});
-  REQUIRE(result4.pairVals == pair_set<int, int>({{2, 3}}));
+  REQUIRE(result4.firstArgVals == unordered_set<int>({2}));
+//  REQUIRE(result4.pairVals == pair_set<int, int>({{2, 3}}));
 }
 
 TEST_CASE("Parent 2 unknowns)") {

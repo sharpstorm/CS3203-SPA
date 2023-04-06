@@ -58,6 +58,18 @@ class PQLQueryResult {
            const PQLSynonymName &rightName,
            const pair_set<T, U> &data);
 
+  template<class T, class U>
+  void addLeftConst(const PQLSynonymName &leftName,
+                    const PQLSynonymName &rightName,
+                    const T &leftVal,
+                    const unordered_set<U> &data);
+
+  template<class T, class U>
+  void addRightConst(const PQLSynonymName &leftName,
+                     const PQLSynonymName &rightName,
+                     const unordered_set<T> &data,
+                     const U &rightVal);
+
   template<class T>
   void add(const PQLSynonymName &name,
            const unordered_set<T> &data);
@@ -103,6 +115,38 @@ void PQLQueryResult::add(const PQLSynonymName &leftName,
   for (const pair<T, U> &pair : data) {
     QueryResultItem *leftEntry = ownedItemPool.getItem(pair.first);
     QueryResultItem *rightEntry = ownedItemPool.getItem(pair.second);
+    QueryResultTableRow row{leftEntry, rightEntry};
+    putTableRow(row);
+  }
+}
+
+template<class T, class U>
+void PQLQueryResult::addLeftConst(const PQLSynonymName &leftName,
+                                  const PQLSynonymName &rightName,
+                                  const T &leftVal,
+                                  const unordered_set<U> &data) {
+  putSynonym(leftName);
+  putSynonym(rightName);
+
+  QueryResultItem *leftEntry = ownedItemPool.getItem(leftVal);
+  for (const U &rightItem : data) {
+    QueryResultItem *rightEntry = ownedItemPool.getItem(rightItem);
+    QueryResultTableRow row{leftEntry, rightEntry};
+    putTableRow(row);
+  }
+}
+
+template<class T, class U>
+void PQLQueryResult::addRightConst(const PQLSynonymName &leftName,
+                                   const PQLSynonymName &rightName,
+                                   const unordered_set<T> &data,
+                                   const U &rightVal) {
+  putSynonym(leftName);
+  putSynonym(rightName);
+
+  QueryResultItem *rightEntry = ownedItemPool.getItem(rightVal);
+  for (const T &leftItem : data) {
+    QueryResultItem *leftEntry = ownedItemPool.getItem(leftItem);
     QueryResultTableRow row{leftEntry, rightEntry};
     putTableRow(row);
   }
