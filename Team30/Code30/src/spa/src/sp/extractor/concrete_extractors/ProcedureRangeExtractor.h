@@ -21,6 +21,8 @@ class ProcedureRangeExtractor : public AbstractExtractor {
                          LineNumber start,
                          LineNumber end);
   void updateCache(const StatementASTNode *node);
+  void handleProcedure(const ProcedureName &name, const ASTNode *stmtList);
+  void recurseContainer(const ASTNode *stmtList);
 
   PkbWriter *pkbWriter;
   LineNumber lineNumberCache;

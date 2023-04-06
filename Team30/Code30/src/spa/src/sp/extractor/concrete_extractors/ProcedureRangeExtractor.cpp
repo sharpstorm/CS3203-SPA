@@ -12,13 +12,8 @@ void ProcedureRangeExtractor::updateCache(const StatementASTNode *node) {
 }
 
 void ProcedureRangeExtractor::visitProcedure(const ProcedureNode *node) {
-  StatementNumberExtractor statementNoExtractor;
-  ASTNodeRefList statements = node->getMutableChild(0)->getChildren();
-  statements.front()->accept(&statementNoExtractor);
-  statements.back()->accept(this);
-  addProcedureRange(node->getName(),
-                    statementNoExtractor.getStatementNumber(),
-                    lineNumberCache);
+  const ASTNode *stmtList = node->getMutableChild(0);
+  handleProcedure(node->getName(), stmtList);
 }
 
 void ProcedureRangeExtractor::visitRead(const ReadNode *node) {
@@ -38,11 +33,28 @@ void ProcedureRangeExtractor::visitCall(const CallNode *node) {
 }
 
 void ProcedureRangeExtractor::visitIf(const IfNode *node) {
-  node->getMutableChild(2)->getChildren().back()->accept(this);
+  const ASTNode *stmtList = node->getMutableChild(2);
+  recurseContainer(stmtList);
 }
 
 void ProcedureRangeExtractor::visitWhile(const WhileNode *node) {
-  node->getMutableChild(1)->getChildren().back()->accept(this);
+  const ASTNode *stmtList = node->getMutableChild(1);
+  recurseContainer(stmtList);
+}
+
+void ProcedureRangeExtractor::handleProcedure(const ProcedureName &name,
+                                              const ASTNode *stmtList) {
+  StatementNumberExtractor statementNoExtractor;
+  ASTNodeRefList statements = stmtList->getChildren();
+  statements.front()->accept(&statementNoExtractor);
+  statements.back()->accept(this);
+  addProcedureRange(name,
+                    statementNoExtractor.getStatementNumber(),
+                    lineNumberCache);
+}
+
+void ProcedureRangeExtractor::recurseContainer(const ASTNode *stmtList) {
+  stmtList->getChildren().back()->accept(this);
 }
 
 void ProcedureRangeExtractor::

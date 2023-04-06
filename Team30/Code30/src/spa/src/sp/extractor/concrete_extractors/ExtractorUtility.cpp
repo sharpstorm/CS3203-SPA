@@ -14,11 +14,14 @@ void ExtractorUtility::getExprVariables(VariableNameSet *v,
     return;
   }
 
-  if (node->getMutableChild(0) != nullptr) {
-    getExprVariables(v, node->getMutableChild(0));
+  const ASTNode* leftChild = node->getMutableChild(0);
+  if (leftChild != nullptr) {
+    getExprVariables(v, leftChild);
   }
-  if (node->getMutableChild(1) != nullptr) {
-    getExprVariables(v, node->getMutableChild(1));
+
+  const ASTNode* rightChild = node->getMutableChild(1);
+  if (rightChild != nullptr) {
+    getExprVariables(v, rightChild);
   }
 }
 
