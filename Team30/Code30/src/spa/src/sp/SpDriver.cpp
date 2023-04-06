@@ -1,15 +1,9 @@
 #include "SpDriver.h"
 
-#include <memory>
-
-#include "ISourceParser.h"
-#include "pkb/writers/PkbWriter.h"
 #include "sp/extractor/DesignExtractor.h"
 #include "pkb/errors/PKBError.h"
 
-using std::unique_ptr;
-
-void SpDriver::parseSource(string input, PkbWriter* pkbWriter) {
+void SpDriver::parseSource(const FileData &input, PkbWriter *pkbWriter) {
   DesignExtractor designExtractor(pkbWriter);
   ASTPtr ast = parser.parseSource(input);
   designExtractor.extract(ast.get());
@@ -20,6 +14,6 @@ void SpDriver::parseSource(string input, PkbWriter* pkbWriter) {
   }
 }
 
-IASTPtr SpDriver::parseExpression(string expression) {
+IASTPtr SpDriver::parseExpression(const SourceExpression &expression) {
   return parser.parseExpression(expression);
 }

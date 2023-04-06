@@ -2,6 +2,7 @@
 
 #include <unordered_map>
 #include <string>
+
 #include "../common/SourceToken.h"
 
 const char SOURCE_KEYWORD_PROCEDURE[] = "procedure";
@@ -13,11 +14,16 @@ const char SOURCE_KEYWORD_IF[] = "if";
 const char SOURCE_KEYWORD_THEN[] = "then";
 const char SOURCE_KEYWORD_ELSE[] = "else";
 
-using std::unordered_map;
+using std::unordered_map, std::string;
+
+typedef string SourceKeyword;
+typedef SourceKeyword SourceKeywordCandidate;
+typedef int LexerCharacter;
 
 class SourceLexerTokenTable {
- public:
-  unordered_map<string, SourceTokenType> keywordMap = {
+ private:
+  SourceTokenType tokens[256];
+  unordered_map<SourceKeyword, SourceTokenType> keywordMap = {
       {SOURCE_KEYWORD_PROCEDURE, SIMPLE_TOKEN_KEYWORD_PROCEDURE},
       {SOURCE_KEYWORD_READ, SIMPLE_TOKEN_KEYWORD_READ},
       {SOURCE_KEYWORD_PRINT, SIMPLE_TOKEN_KEYWORD_PRINT},
@@ -28,8 +34,10 @@ class SourceLexerTokenTable {
       {SOURCE_KEYWORD_ELSE, SIMPLE_TOKEN_KEYWORD_ELSE},
   };
 
-  SourceTokenType tokens[256];
+ public:
   SourceLexerTokenTable();
-  static bool isDigit(char c);
-  static bool isZero(char c);
+  SourceTokenType lookupToken(const LexerCharacter &c) const;
+  SourceTokenType lookupKeyword(const SourceKeywordCandidate &keyword) const;
+  static bool isDigit(const char &c);
+  static bool isZero(const char &c);
 };
