@@ -38,7 +38,7 @@ PQLQueryResult *SelectClause::queryPKB(const QueryExecutorAgent &agent,
 
   PQLQueryResultBuilder<ReturnType, ReturnType> builder;
   builder.setLeftName(synName);
-  builder.setLeftRef(ref);
+  builder.setLeftRef(transformed);
   return builder.build(result);
 }
 
