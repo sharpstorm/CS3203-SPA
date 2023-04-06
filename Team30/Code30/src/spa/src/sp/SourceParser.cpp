@@ -1,18 +1,15 @@
-#include <string>
 #include <vector>
 
 #include "SourceParser.h"
-#include "sp/lexer/SourceLexer.h"
-#include "sp/parser/SourceTokenParser.h"
 
-using std::string, std::vector;
+using std::vector;
 
-ASTPtr SourceParser::parseSource(string input) {
-  SourceTokenStreamPtr tokens = sourceLexer.tokenize(&input);
+ASTPtr SourceParser::parseSource(const FileData &input) {
+  SourceTokenStreamPtr tokens = lexerFactory.makeLexer(&input).tokenize();
   return sourceTokenParser.parseProgram(tokens.get());
 }
 
-ASTPtr SourceParser::parseExpression(string expression) {
-  SourceTokenStreamPtr tokens = sourceLexer.tokenize(&expression);
+ASTPtr SourceParser::parseExpression(const SourceExpression &expression) {
+  SourceTokenStreamPtr tokens = lexerFactory.makeLexer(&expression).tokenize();
   return sourceTokenParser.parseExpression(tokens.get());
 }

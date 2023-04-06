@@ -64,7 +64,7 @@ ASTNodePtr SourceParseState::consumeCache() {
   return temp;
 }
 
-int SourceParseState::getLineNumber() {
+LineNumber SourceParseState::getLineNumber() {
   return lineNumber;
 }
 

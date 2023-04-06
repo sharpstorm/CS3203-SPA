@@ -8,18 +8,23 @@ OverrideTransformer::OverrideTransformer(const StmtValue &stmt) :
     stmtRef(stmt), entRef(NO_ENT) {}
 
 OverrideTransformer::OverrideTransformer(const EntityValue &ent) :
-    stmtRef(NO_STMT), entRef(ent) {}
+    stmtRef(NO_INT_VAL), entRef(ent) {}
 
 StmtRef OverrideTransformer::transformArg(const StmtRef &input) const {
-  if (stmtRef == NO_STMT) {
+  if (stmtRef == NO_INT_VAL) {
     return input;
   }
-  return StmtRef{input.getType(), stmtRef};
+
+  if (stmtRef == NO_STMT) {
+    return StmtRef { input.getType(), INVALID_STMT };
+  }
+
+  return StmtRef { input.getType(), stmtRef };
 }
 
 EntityRef OverrideTransformer::transformArg(const EntityRef &input) const {
   if (input.getType() == EntityType::Constant) {
-    if (stmtRef == NO_STMT) {
+    if (stmtRef == NO_INT_VAL) {
       return input;
     }
     return EntityRef{EntityType::Constant, to_string(stmtRef)};
@@ -32,7 +37,7 @@ EntityRef OverrideTransformer::transformArg(const EntityRef &input) const {
 }
 
 bool OverrideTransformer::returnsInteger() const {
-  return stmtRef != NO_STMT;
+  return stmtRef != NO_INT_VAL;
 }
 
 bool OverrideTransformer::operator==(const OverrideTransformer &other) const {

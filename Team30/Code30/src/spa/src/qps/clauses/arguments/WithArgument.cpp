@@ -7,17 +7,17 @@ WithArgument::WithArgument(const StmtValue &intVal) :
     intValue(intVal), identValue(NO_ENT), syn(nullptr) {}
 
 WithArgument::WithArgument(const EntityValue &identVal) :
-    intValue(NO_STMT), identValue(identVal), syn(nullptr) {}
+    intValue(NO_INT_VAL), identValue(identVal), syn(nullptr) { }
 
 WithArgument::WithArgument(AttributedSynonymPtr syn) :
-    intValue(NO_STMT), identValue(NO_ENT), syn(std::move(syn)) {}
+    intValue(NO_INT_VAL), identValue(NO_ENT), syn(std::move(syn)) { }
 
 bool WithArgument::doesReturnInteger() const {
   if (isSyn()) {
     return syn->returnsInteger();
   }
 
-  return intValue != NO_STMT;
+  return intValue != NO_INT_VAL;
 }
 
 bool WithArgument::isSyn() const {

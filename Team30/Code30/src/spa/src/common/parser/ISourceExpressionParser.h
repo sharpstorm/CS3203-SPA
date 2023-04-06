@@ -1,12 +1,10 @@
 #pragma once
 
-#include <string>
 #include "common/ast/IAST.h"
-
-using std::string;
+#include "sp/SPTypes.h"
 
 class ISourceExpressionParser {
  public:
   virtual ~ISourceExpressionParser() = default;
-  virtual IASTPtr parseExpression(string expression) = 0;
+  virtual IASTPtr parseExpression(const SourceExpression &expression) = 0;
 };

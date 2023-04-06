@@ -3,5 +3,5 @@
 
 class AndASTNode: public AbstractConditionalNode {
  public:
-  AndASTNode() : AbstractConditionalNode(ASTNODE_AND, ":and") {}
+  AndASTNode() : AbstractConditionalNode(ASTNODE_AND) {}
 };

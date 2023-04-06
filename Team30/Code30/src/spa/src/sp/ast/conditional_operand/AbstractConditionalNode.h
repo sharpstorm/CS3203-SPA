@@ -10,11 +10,10 @@ class AbstractConditionalNode: public BinaryASTNode {
  public:
   virtual ~AbstractConditionalNode() = default;
   void accept(IExtractor* e) override;
-  string toString() override;
 
  protected:
-  AbstractConditionalNode(ASTNodeType type, string identifier) :
-      BinaryASTNode(type), identifier(identifier) {}
+  explicit AbstractConditionalNode(ASTNodeType type) :
+      BinaryASTNode(type) {}
 
  private:
   string identifier;

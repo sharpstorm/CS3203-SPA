@@ -1,11 +1,8 @@
 #pragma once
 
-#include <string>
-
-using std::string;
+#include "SPTypes.h"
 
 class FileReader {
  public:
-  FileReader();
-  string readFromFile(string fileName);
+  static FileDataPtr readFromFile(const FilePath &fileName);
 };

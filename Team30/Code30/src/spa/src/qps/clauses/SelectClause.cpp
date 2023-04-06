@@ -3,6 +3,7 @@
 #include "qps/clauses/arguments/ClauseArgumentFactory.h"
 #include "qps/executor/QueryExecutorAgent.h"
 #include "ClauseScoring.h"
+#include "qps/common/intermediate_result/PQLQueryResultBuilder.h"
 
 SelectClause::SelectClause(const PQLQuerySynonymProxy &target) :
     target(target) {}
@@ -28,14 +29,17 @@ PQLQueryResult *SelectClause::queryPKB(const QueryExecutorAgent &agent,
                                        const PQLSynonymName &synName,
                                        const RefType &ref) const {
   QueryResultSet<ReturnType> result;
-  RefType transformed = agent.transformArg(synName, ref);
+  const RefType transformed = agent.transformArg(synName, ref);
   if (transformed.isKnown() && agent.isValid(transformed)) {
     result.insert(transformed.getValue());
   } else if (!transformed.isKnown()) {
     result = pkbGetter(agent, transformed);
   }
 
-  return Clause::toQueryResult(synName, result);
+  PQLQueryResultBuilder<ReturnType, ReturnType> builder;
+  builder.setLeftName(synName);
+  builder.setLeftRef(transformed);
+  return builder.build(result);
 }
 
 StmtValueSet SelectClause::queryStmt(const QueryExecutorAgent &agent,

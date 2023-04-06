@@ -6,6 +6,7 @@
 #include "qps/clauses/InvokerTypes.h"
 #include "qps/clauses/SuchThatClause.h"
 #include "qps/clauses/ClauseScoring.h"
+#include "qps/common/intermediate_result/PQLQueryResultBuilder.h"
 
 class AbstractTwoArgClause : public SuchThatClause {
  protected:
@@ -31,23 +32,29 @@ class AbstractTwoArgClause : public SuchThatClause {
         return new PQLQueryResult();
       }
 
-      auto queryResult = sameSynInvoker(agent, ref);
-      return Clause::toQueryResult(left->getName(), queryResult);
+      QueryResultSet<LeftResultType> queryResult = sameSynInvoker(agent, ref);
+      PQLQueryResultBuilder<LeftResultType, RightResultType> builder;
+      builder.setLeftName(left.get());
+      builder.setLeftRef(ref);
+      return builder.build(queryResult);
     }
 
     LeftArgType leftArg = leftTransformer(left.get());
     RightArgType rightArg = rightTransformer(right.get());
 
-    LeftArgType leftTransformed = agent.transformArg(left->getName(),
-                                                     leftArg);
-    RightArgType rightTransformed = agent.transformArg(right->getName(),
-                                                       rightArg);
-    if (!agent.isValid(leftTransformed) || !agent.isValid(rightTransformed)) {
+    leftArg = agent.transformArg(left->getName(), leftArg);
+    rightArg = agent.transformArg(right->getName(), rightArg);
+    if (!agent.isValid(leftArg) || !agent.isValid(rightArg)) {
       return new PQLQueryResult();
     }
 
-    auto queryResult = diffSynInvoker(agent, leftTransformed, rightTransformed);
-    return Clause::toQueryResult(left.get(), right.get(), queryResult.get());
+    auto queryResult = diffSynInvoker(agent, leftArg, rightArg);
+    PQLQueryResultBuilder<LeftResultType, RightResultType> builder;
+    builder.setLeftName(left.get());
+    builder.setRightName(right.get());
+    builder.setLeftRef(leftArg);
+    builder.setRightRef(rightArg);
+    return builder.build(queryResult.get());
   }
 
   template<SynonymPredicate leftValidator, SynonymPredicate rightValidator>
@@ -71,7 +78,7 @@ class AbstractTwoArgClause : public SuchThatClause {
       return COMPLEXITY_QUERY_CONSTANT + constantModifier;
     } else if (!isLeftConstant && !isRightConstant) {
       return COMPLEXITY_QUERY_LIST_ALL + twoSynModifier +
-          +left->getSynComplexity() + right->getSynComplexity();
+          left->getSynComplexity() + right->getSynComplexity();
     } else if (isLeftConstant) {
       return right->getSynComplexity() + oneSynModifier;
     } else {

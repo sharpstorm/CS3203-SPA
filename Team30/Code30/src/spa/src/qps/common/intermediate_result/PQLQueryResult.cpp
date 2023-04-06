@@ -17,10 +17,10 @@ OrphanedResultItemPoolPtr PQLQueryResult::releaseOwnedItemsTo(
 }
 
 bool PQLQueryResult::isEmpty() const {
-  return combinedTable.size() == 0;
+  return combinedTable.empty();
 }
 
-void PQLQueryResult::setIsStaticFalse(const bool &staticRes) {
+void PQLQueryResult::setIsStaticFalse(const bool staticRes) {
   isStaticResult = true;
   isStaticFalse = staticRes;
 }

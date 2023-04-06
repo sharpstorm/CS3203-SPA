@@ -13,7 +13,7 @@ class ClausesPKBStub : public StubPKB {
   QueryResultPtr<int, int> queryFollows(StmtRef s1, StmtRef s2) const override {
     auto result = make_unique<QueryResult<int, int>>();
     // Static result but s2 > s1 (Does not hold)
-    if (s1.isKnown() && s2.isKnown() && s2.getValue() > s1.getValue()) {
+    if (s1.isKnown() && s2.isKnown() && s2.getValue() <= s1.getValue()) {
       return result;
     }
 
