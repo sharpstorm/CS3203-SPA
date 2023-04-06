@@ -14,7 +14,6 @@ class SourceParseState {
     LineNumber lineNo;
     friend SourceParseState;
 
-   public:
     explicit SourceParseStateSnapshot(const LineNumber &lineNo) :
         lineNo(lineNo) {}
   };
