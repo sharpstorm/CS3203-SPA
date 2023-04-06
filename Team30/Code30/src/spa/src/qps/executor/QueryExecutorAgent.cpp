@@ -32,6 +32,10 @@ EntityRef QueryExecutorAgent::transformArg(const PQLSynonymName name,
 }
 
 bool QueryExecutorAgent::isValid(const StmtRef &ref) const {
+  if (ref.getValue() < NO_STMT) {
+    return false;
+  }
+
   if (ref.isType(StmtType::None) || ref.isType(StmtType::Wildcard)) {
     return true;
   }

@@ -28,18 +28,18 @@ class CFGExtractor : public AbstractExtractor {
 
  private:
   void advanceStatement(StatementASTNode* node);
-  void addCFGRelation(int from, int to);
+  void addCFGRelation(LineNumber from, LineNumber to);
 
-  void flushStack(stack<int>* source, stack<int>* target);
+  void flushStack(stack<LineNumber>* source, stack<LineNumber>* target);
 
   PkbWriter* pkbWriter;
   CFGSPtr cfgCache;
   string procedureNameCache;
-  stack<int> resetPoint;
-  stack<int> resetCounters;
+  stack<LineNumber> resetPoint;
+  stack<LineNumber> resetCounters;
 
-  stack<stack<int>> cachedLastLines;
-  stack<int> clearableLastLines;
+  stack<stack<LineNumber>> cachedLastLines;
+  stack<LineNumber> clearableLastLines;
 
  protected:
   virtual void addCFGToPKB(CFGSPtr cfg);

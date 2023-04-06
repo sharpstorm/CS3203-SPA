@@ -5,15 +5,6 @@ ProcedureNode::ProcedureNode(string name): procName(name),
                                            ASTNode(ASTNODE_PROCEDURE) {
 }
 
-string ProcedureNode::toString() {
-  string ss = "Procedure:" + procName + " {";
-  for (const ASTNodePtr &node : children) {
-    ss += node->toString() + "\n";
-  }
-  ss += "}";
-  return ss;
-}
-
 string ProcedureNode::getName() {
   return procName;
 }

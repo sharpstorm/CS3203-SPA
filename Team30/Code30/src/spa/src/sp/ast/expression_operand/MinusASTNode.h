@@ -4,5 +4,5 @@
 
 class MinusASTNode: public AbstractExpressionNode {
  public:
-  MinusASTNode() : AbstractExpressionNode(ASTNODE_MINUS, ":minus", "-") {}
+  MinusASTNode() : AbstractExpressionNode(ASTNODE_MINUS, "-") {}
 };

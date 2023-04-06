@@ -3,7 +3,6 @@
 ASTNodePtr StatementContext::generateSubtree(
     SourceParseState *state) {
   state->advanceLine();
-
   if (state->nextTokenIsOfType(SIMPLE_TOKEN_ASSIGN)) {
     return invokeSubcontext<ProcedureContextType::ASSIGN_CONTEXT>(state);
   }

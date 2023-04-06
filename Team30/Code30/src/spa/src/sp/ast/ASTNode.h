@@ -25,7 +25,6 @@ class ASTNode : public IASTNode {
   string getValue() override;
   bool isEquals(IASTNode* other) override;
 
-  virtual string toString() = 0;
   virtual vector<ASTNode*> getChildren();
   virtual void setChild(int index, ASTNodePtr node);
   virtual void addChild(ASTNodePtr node);

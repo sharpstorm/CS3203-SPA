@@ -12,7 +12,7 @@ using std::make_unique;
 
 class SourceParserStub: public ISourceExpressionParser {
  public:
-  IASTPtr parseExpression(string expression) override {
+  IASTPtr parseExpression(const SourceExpression &expression) override {
     auto root = make_unique<VariableASTNode>("a");
     auto tree = make_unique<AST>(std::move(root));
     return tree;

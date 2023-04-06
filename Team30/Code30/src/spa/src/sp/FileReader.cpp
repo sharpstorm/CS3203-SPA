@@ -1,23 +1,29 @@
-#include <string>
 #include <fstream>
+#include <memory>
+#include <string>
+#include <utility>
+
 #include "FileReader.h"
 #include "sp/errors/SPError.h"
 
-using std::string, std::ifstream;
+using std::ifstream, std::make_unique, std::string;
 
-FileReader::FileReader() = default;
+FileDataPtr FileReader::readFromFile(const FilePath &fileName) {
+  FileDataPtr readData = make_unique<FileData>();
 
-string FileReader::readFromFile(string fileName) {
-  string programLines;
-  string line;
   ifstream file;
   file.open(fileName);
   if (!file) {
     throw SPError((fileName + " not found").c_str());
   }
+
+  string line;
+  line.reserve(1024);
   while (getline(file, line)) {
-    programLines += line + "\n";
+    readData->append(line + "\n");
   }
+
   file.close();
-  return programLines;
+
+  return std::move(readData);
 }

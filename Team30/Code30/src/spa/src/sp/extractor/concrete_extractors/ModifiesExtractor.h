@@ -19,9 +19,9 @@ class ModifiesExtractor : public AbstractExtractor {
   void visitProcedure(ProcedureNode* node) override;
 
  private:
-  void addNodeModifies(const int &lineNo, const string &var);
-  void addModifiesRelation(int x, string var);
-  vector<int> statementStartStack;
+  void addNodeModifies(const LineNumber &lineNo, const string &var);
+  void addModifiesRelation(LineNumber x, string var);
+  vector<LineNumber> statementStartStack;
   PkbWriter *pkbWriter;
   string currentProcName;
   int curStatement;

@@ -498,3 +498,18 @@ read r1;
 Select r1 such that Follows(10, 11)
 
 5000
+101 - Select Negative Follows(_, 0) (Follows)
+stmt s;
+Select s such that Follows(_, 0)
+
+5000
+102 - Select Negative Follows(0, _) (Follows)
+stmt s;
+Select s such that Follows(0, _)
+
+5000
+103 - Select Negative Follows(0, 0) (Follows)
+stmt s;
+Select s such that Follows(0, 0)
+
+5000

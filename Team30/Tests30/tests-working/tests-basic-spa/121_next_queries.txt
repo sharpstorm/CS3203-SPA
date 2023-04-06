@@ -223,3 +223,18 @@ while w; stmt s;
 Select w such that Next(w, w)
 
 5000
+46 - Select Negative Next(0, _) (Next)
+stmt s;
+Select s such that Next(0, _)
+
+5000
+47 - Select Negative Next(_, 0) (Next)
+stmt s;
+Select s such that Next(_, 0)
+
+5000
+48 - Select Negative Next(0, 0) (Next)
+stmt s;
+Select s such that Next(0, 0)
+
+5000

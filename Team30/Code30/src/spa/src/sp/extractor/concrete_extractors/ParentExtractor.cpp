@@ -20,7 +20,7 @@ void ParentExtractor::visitWhile(WhileNode* node) {
   addParentOnList(node->getLineNumber(), &stmtList);
 }
 
-void ParentExtractor::addParentOnList(int parentLine,
+void ParentExtractor::addParentOnList(LineNumber parentLine,
                                       vector<ASTNode*> *childList) {
   StatementNumberExtractor statementNoExtractor;
   for (int i = 0; i < childList->size(); i++) {
@@ -31,6 +31,6 @@ void ParentExtractor::addParentOnList(int parentLine,
   }
 }
 
-void ParentExtractor::addParentRelation(int x, int y) {
+void ParentExtractor::addParentRelation(LineNumber x, LineNumber y) {
   pkbWriter->addParent(x, y);
 }

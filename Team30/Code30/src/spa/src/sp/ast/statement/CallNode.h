@@ -9,11 +9,10 @@ using std::string;
 
 class CallNode : public StatementASTNode {
  public:
-  explicit CallNode(int lineNumber, string procName);
+  explicit CallNode(LineNumber line, string procName);
   ~CallNode() = default;
 
   string getName();
-  string toString() override;
   void accept(IExtractor* e) override;
 
  private:

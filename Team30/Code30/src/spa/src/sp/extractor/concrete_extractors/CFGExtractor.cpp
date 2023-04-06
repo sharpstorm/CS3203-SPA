@@ -21,7 +21,7 @@ void CFGExtractor::visitProcedure(ProcedureNode* node) {
   clearableLastLines.push(startingLineIndex);
   resetPoint.push(startingLineIndex);
   resetCounters.push(0);
-  cachedLastLines.push(stack<int>{});
+  cachedLastLines.push(stack<LineNumber>{});
 }
 
 void CFGExtractor::leaveProcedure(ProcedureNode* node) {
@@ -54,14 +54,14 @@ void CFGExtractor::visitIf(IfNode* node) {
   advanceStatement(node);
   resetPoint.push(node->getLineNumber());
   resetCounters.push(1);
-  cachedLastLines.push(stack<int>{});
+  cachedLastLines.push(stack<LineNumber>{});
 }
 
 void CFGExtractor::visitWhile(WhileNode* node) {
   advanceStatement(node);
   resetPoint.push(node->getLineNumber());
   resetCounters.push(0);
-  cachedLastLines.push(stack<int>{});
+  cachedLastLines.push(stack<LineNumber>{});
 }
 
 void CFGExtractor::leaveWhile(WhileNode* node) {
@@ -105,7 +105,8 @@ void CFGExtractor::addCFGToPKB(CFGSPtr cfg) {
   pkbWriter->addCFGs(procedureNameCache, cfg);
 }
 
-void CFGExtractor::flushStack(stack<int> *source, stack<int> *target) {
+void CFGExtractor::flushStack(stack<LineNumber> *source,
+                              stack<LineNumber> *target) {
   stack<int> temp;
   while (!source->empty()) {
     temp.push(source->top());

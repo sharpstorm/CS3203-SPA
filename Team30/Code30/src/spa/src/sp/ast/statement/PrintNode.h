@@ -8,9 +8,8 @@ using std::string;
 
 class PrintNode : public StatementASTNode {
  public:
-  explicit PrintNode(int lineNumber);
+  explicit PrintNode(LineNumber line);
   ~PrintNode() = default;
 
-  string toString() override;
   void accept(IExtractor* e) override;
 };

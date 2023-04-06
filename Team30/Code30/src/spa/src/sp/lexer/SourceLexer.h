@@ -1,43 +1,47 @@
 #pragma once
+
 #include <string>
-#include <vector>
-#include <memory>
 #include "../common/SourceToken.h"
 #include "SourceLexerTokenTable.h"
+#include "../SPTypes.h"
 
-using std::string, std::vector, std::unique_ptr;
-
-typedef vector<SourceToken> SourceTokenStream;
-typedef unique_ptr<SourceTokenStream> SourceTokenStreamPtr;
+using std::string;
 
 class SourceLexer {
+  typedef string LexerBuffer;
+  typedef int LexerCursor;
+
  public:
-  SourceLexer();
-  SourceTokenStreamPtr tokenize(string* programLines);
+  explicit SourceLexer(const SourceLexerTokenTable *tokenTable,
+                       const FileData *programLines);
+  SourceTokenStreamPtr tokenize();
 
  private:
-  SourceLexerTokenTable tokenTable;
+  const SourceLexerTokenTable *tokenTable;
+  const FileData *programLines;
 
-  SourceTokenType parsePartialSymbol(const SourceTokenType &tokenType,
-                                     string* buffer,
-                                     int *posPtr);
+  LexerCursor curPos;
+  LexerBuffer buffer;
+  bool hasSeenChar;
+  SourceTokenType deferredPush;
+
+  bool handleToken(const SourceTokenType tokenType, const char c);
+  SourceTokenType parsePartialSymbol(const SourceTokenType tokenType);
+
   template<SourceTokenType twoCharType, SourceTokenType singleCharType>
-  SourceTokenType tryGreedySymbolRead(string* buffer,
-                                      int* posPtr,
-                                      SourceTokenType expectedType);
+  SourceTokenType tryGreedySymbolRead(const SourceTokenType expectedType);
+  template<SourceTokenType twoCharType>
+  SourceTokenType twoSymbolAssert(const SourceTokenType expectedType);
 
-  template <SourceTokenType twoCharType>
-  SourceTokenType twoSymbolAssert(string* buffer,
-                                  int* posPtr,
-                                  SourceTokenType expectedType);
+  bool isNextOfType(const SourceTokenType expectedType) const;
+  LexerCharacter peekNextChar() const;
 
-  bool isNextOfType(string* buffer, int curPos, SourceTokenType expectedType);
-  int peekNextChar(string* buffer, int curPos);
-  SourceToken resolveStringToken(string buffer, const bool &hasSeenChar);
-  SourceToken validateIdentifier(string *buffer);
-  SourceToken validateIntegerToken(string* buffer);
+  SourceToken resolveStringToken() const;
+  SourceToken validateIdentifier() const;
+  SourceToken validateIntegerToken() const;
 
-  void flushBuffer(SourceTokenStream* result,
-                   string buffer,
-                   const bool &hasSeenChar);
+  void flushBufferTo(SourceTokenStream *result) const;
+  void resetBuffer();
+
+  static LexerCharacter NO_CHAR;
 };

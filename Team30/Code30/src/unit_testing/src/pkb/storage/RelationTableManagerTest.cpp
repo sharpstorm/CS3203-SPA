@@ -1,7 +1,6 @@
-
 #include <memory>
-#include <string>
 #include <set>
+#include <string>
 #include <utility>
 
 #include "catch.hpp"
@@ -14,14 +13,14 @@
 
 using std::make_shared;
 using std::pair;
-using std::string;
 using std::set;
+using std::string;
 
 TEST_CASE("RelationTableManager insert and getByArg1, getByArg2") {
   auto table = make_shared<ContiguousSetTable<string>>();
   auto reverseTable = make_shared<HashKeySetTable<string, int>>();
-  RelationTableManager<int, string>
-      tableManager(table.get(), reverseTable.get());
+  RelationTableManager<int, string> tableManager(table.get(),
+                                                 reverseTable.get());
 
   tableManager.insert(1, "a");
   tableManager.insert(2, "b");
@@ -35,8 +34,8 @@ TEST_CASE("RelationTableManager insert and getByArg1, getByArg2") {
 TEST_CASE("RelationTableManager query known arg1 values with arg2 predicate") {
   auto table = make_shared<ContiguousSetTable<string>>();
   auto reverseTable = make_shared<HashKeySetTable<string, int>>();
-  RelationTableManager<int, string>
-      tableManager(table.get(), reverseTable.get());
+  RelationTableManager<int, string> tableManager(table.get(),
+                                                 reverseTable.get());
 
   tableManager.insert(1, "a");
   tableManager.insert(2, "b");
@@ -49,7 +48,9 @@ TEST_CASE("RelationTableManager query known arg1 values with arg2 predicate") {
     return validValues.find(s) != validValues.end();
   };
 
-  auto res = tableManager.query({1, 2, 4}, isValid);
+  auto resultBuilder = QueryResultBuilder<int, string>();
+  resultBuilder.setAllVals();
+  auto res = tableManager.query({1, 2, 4}, isValid, &resultBuilder);
 
   REQUIRE(res.get()->firstArgVals == unordered_set<int>({1, 4}));
   REQUIRE(res.get()->secondArgVals == unordered_set<string>({"a", "e"}));
@@ -59,9 +60,8 @@ TEST_CASE("RelationTableManager query known arg1 values with arg2 predicate") {
 TEST_CASE("RelationTableManager query known arg2 values with arg1 predicate") {
   auto table = make_shared<ContiguousSetTable<string>>();
   auto reverseTable = make_shared<HashKeySetTable<string, int>>();
-  RelationTableManager<int, string> tableManager(
-      table.get(),
-      reverseTable.get());
+  RelationTableManager<int, string> tableManager(table.get(),
+                                                 reverseTable.get());
 
   tableManager.insert(1, "a");
   tableManager.insert(2, "b");
@@ -74,7 +74,9 @@ TEST_CASE("RelationTableManager query known arg2 values with arg1 predicate") {
     return validValues.find(s) != validValues.end();
   };
 
-  auto res = tableManager.query(isValid, {"a", "b", "f"});
+  auto resultBuilder = QueryResultBuilder<int, string>();
+  resultBuilder.setAllVals();
+  auto res = tableManager.query(isValid, {"a", "b", "f"}, &resultBuilder);
 
   REQUIRE(res.get()->firstArgVals == unordered_set<int>({2, 4}));
   REQUIRE(res.get()->secondArgVals == unordered_set<string>({"a", "b"}));
@@ -84,9 +86,8 @@ TEST_CASE("RelationTableManager query known arg2 values with arg1 predicate") {
 TEST_CASE("RelationTableManager query known arg1 with arg2 predicate") {
   auto table = make_shared<ContiguousSetTable<string>>();
   auto reverseTable = make_shared<HashKeySetTable<string, int>>();
-  RelationTableManager<int, string> tableManager(
-      table.get(),
-      reverseTable.get());
+  RelationTableManager<int, string> tableManager(table.get(),
+                                                 reverseTable.get());
 
   tableManager.insert(1, "a");
   tableManager.insert(2, "b");
@@ -96,7 +97,9 @@ TEST_CASE("RelationTableManager query known arg1 with arg2 predicate") {
   Predicate<string> isValid = [validValues](string const &s) {
     return validValues.find(s) != validValues.end();
   };
-  auto res = tableManager.query(2, isValid);
+  auto resultBuilder = QueryResultBuilder<int, string>();
+  resultBuilder.setAllVals();
+  auto res = tableManager.query(2, isValid, &resultBuilder);
 
   REQUIRE(res.get()->firstArgVals == unordered_set<int>({2}));
   REQUIRE(res.get()->secondArgVals == unordered_set<string>({"b"}));
@@ -106,9 +109,8 @@ TEST_CASE("RelationTableManager query known arg1 with arg2 predicate") {
 TEST_CASE("RelationTableManager query known arg2 with arg1 predicate") {
   auto table = make_shared<ContiguousSetTable<string>>();
   auto reverseTable = make_shared<HashKeySetTable<string, int>>();
-  RelationTableManager<int, string> tableManager(
-      table.get(),
-      reverseTable.get());
+  RelationTableManager<int, string> tableManager(table.get(),
+                                                 reverseTable.get());
 
   tableManager.insert(1, "a");
   tableManager.insert(2, "b");
@@ -118,7 +120,9 @@ TEST_CASE("RelationTableManager query known arg2 with arg1 predicate") {
   Predicate<int> isValid = [validValues](int const &s) {
     return validValues.find(s) != validValues.end();
   };
-  auto res = tableManager.query(isValid, "a");
+  auto resultBuilder = QueryResultBuilder<int, string>();
+  resultBuilder.setAllVals();
+  auto res = tableManager.query(isValid, "a", &resultBuilder);
 
   REQUIRE(res.get()->firstArgVals == unordered_set<int>({4}));
   REQUIRE(res.get()->secondArgVals == unordered_set<string>({"a"}));
@@ -128,22 +132,27 @@ TEST_CASE("RelationTableManager query known arg2 with arg1 predicate") {
 TEST_CASE("RelationTableManager query both known args") {
   auto table = make_shared<ContiguousSetTable<string>>();
   auto reverseTable = make_shared<HashKeySetTable<string, int>>();
-  RelationTableManager<int, string> tableManager(
-      table.get(),
-      reverseTable.get());
+  RelationTableManager<int, string> tableManager(table.get(),
+                                                 reverseTable.get());
 
   tableManager.insert(1, "a");
   tableManager.insert(1, "b");
   tableManager.insert(1, "c");
   tableManager.insert(2, "a");
 
-  auto res1 = tableManager.query(1, "b");
+  auto resultBuilder1 = QueryResultBuilder<int, string>();
+  resultBuilder1.setAllVals();
+  auto res1 = tableManager.query(1, "b", &resultBuilder1);
   REQUIRE(res1.get()->isEmpty == false);
   REQUIRE(res1.get()->pairVals == unordered_set<pair<int, string>>({{1, "b"}}));
 
-  auto res2 = tableManager.query(2, "b");
+  auto resultBuilder2 = QueryResultBuilder<int, string>();
+  resultBuilder2.setAllVals();
+  auto res2 = tableManager.query(2, "b", &resultBuilder2);
   REQUIRE(res2.get()->isEmpty == true);
 
-  auto res3 = tableManager.query(3, "a");
+  auto resultBuilder3 = QueryResultBuilder<int, string>();
+  resultBuilder3.setAllVals();
+  auto res3 = tableManager.query(3, "a", &resultBuilder3);
   REQUIRE(res3.get()->isEmpty == true);
 }

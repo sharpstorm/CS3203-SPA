@@ -62,39 +62,40 @@ void assertQueryAffectsTNotEmpty(CFGAffectsTQuerier<T, U, MG, UG>* querier,
   }
 }
 
+QueryCache globalCache;
 
 CFGTestModifiesUsesProvider transitiveLinearProvider(
     { {"a"}, {"b"}, {"c"}, {"d"}},
     {{}, {"a"}, {"b"}, {"e"}},
-    new QueryCache()
+    &globalCache
 );
 
 CFGTestModifiesUsesProvider whileProvider(
     { {}, {"a"}, {"b"}, {"c"}},
     {{}, {"b"}, {"c"}, {"a"}},
     {{1, StmtType::While}},
-    new QueryCache()
+    &globalCache
 );
 
 CFGTestModifiesUsesProvider ifNoneProvider(
     { {"x"}, {}, {"y"}, {"y"}, {"z"}},
     {{}, {"x"}, {"x"}, {"x"}, {"x"}},
     {{2, StmtType::If}},
-    new QueryCache()
+    &globalCache
 );
 
 CFGTestModifiesUsesProvider ifThenProvider(
     { {"x"}, {}, {"y"}, {"x"}, {"z"}},
     {{}, {"x"}, {"x"}, {}, {"y"}},
     {{2, StmtType::If}},
-    new QueryCache()
+    &globalCache
 );
 
 CFGTestModifiesUsesProvider ifElseProvider(
     { {"x"}, {}, {"x"}, {"y"}, {"z"}},
     {{}, {"x"}, {}, {"x"}, {"y"}},
     {{2, StmtType::If}},
-    new QueryCache()
+    &globalCache
 );
 //
 //CFGTestModifiesUsesProvider ifBothProvider(

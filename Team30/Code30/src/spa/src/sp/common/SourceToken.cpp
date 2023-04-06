@@ -1,15 +1,17 @@
 #include <string>
 #include "SourceToken.h"
 
-SourceToken::SourceToken(SourceTokenType type, string value):
+SourceToken::SourceToken(const SourceTokenType type) : type(type), value("") {}
+
+SourceToken::SourceToken(SourceTokenType type, const TokenValue &value) :
     type(type), value(value) {
 }
 
-SourceTokenType SourceToken::getType() {
+SourceTokenType SourceToken::getType() const {
   return this->type;
 }
 
-string SourceToken::getValue() {
+TokenValue SourceToken::getValue() const {
   return this->value;
 }
 
@@ -20,15 +22,10 @@ bool SourceToken::operator==(const SourceToken &other) const {
   return type == other.type;
 }
 
-bool SourceToken::isCategory(SourceTokenCategory target) {
-  return isCategory(type, target);
-}
-
-bool SourceToken::isCategory(SourceTokenType type,
-                                    SourceTokenCategory target) {
+bool SourceToken::isCategory(SourceTokenType type, SourceTokenCategory target) {
   return (type & SIMPLE_TOKEN_CATEGORY_MASK) == target;
 }
 
-bool SourceToken::isVarchar() {
+bool SourceToken::isVarchar() const {
   return ((type & SIMPLE_TOKEN_CATEGORY_MASK) & SIMPLE_VARCHAR_MASK) > 0;
 }
