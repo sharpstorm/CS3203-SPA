@@ -36,6 +36,16 @@ SynonymHolder OVERRIDE_SYNS(
 
 VariableTable varTable;
 
+TEST_CASE("OverrideConstraint - Get affected Syns") {
+  SynonymProxyBuilder builder(&varTable);
+  OverrideTable overrides;
+
+  AttributedSynonym syn(OVERRIDE_SYNS.getProxy("a"), STMT_NUM);
+  OverrideConstraint constraint(syn, 1);
+  vector<PQLSynonymName> expected = vector<PQLSynonymName>({"a"});
+  REQUIRE(expected == constraint.getAffectedSyns());
+}
+
 TEST_CASE("OverrideConstraint - Validate Constraint Success") {
   SynonymProxyBuilder builder(&varTable);
   OverrideTable overrides;
