@@ -9,11 +9,12 @@ TEST_CASE("Transform StmtRef") {
   // No stmt
   StmtRef inputRef = StmtRef{StmtType::None, NO_STMT};
   StmtRef actual = transformer.transformArg(inputRef);
-  REQUIRE(inputRef.getType() == actual.getType());
-  REQUIRE(inputRef.getValue() == actual.getValue());
+  StmtRef expected = StmtRef{StmtType::None, INVALID_STMT};
+  REQUIRE(expected.getType() == actual.getType());
+  REQUIRE(expected.getValue() == actual.getValue());
 
   transformer = OverrideTransformer(3);
-  StmtRef expected = StmtRef{StmtType::None, 3};
+  expected = StmtRef{StmtType::None, 3};
   inputRef = StmtRef{StmtType::None, 3};
   actual = transformer.transformArg(inputRef);
   REQUIRE(expected.getType() == actual.getType());
@@ -42,11 +43,12 @@ TEST_CASE("Transform EntityRef - Constant case") {
   OverrideTransformer transformer(0);
   EntityRef inputRef = EntityRef{EntityType::Constant, NO_ENT};
   EntityRef actual = transformer.transformArg(inputRef);
-  REQUIRE(inputRef.getType() == actual.getType());
-  REQUIRE(inputRef.getValue() == actual.getValue());
+  EntityRef expected = EntityRef{EntityType::Constant, "0"};
+  REQUIRE(expected.getType() == actual.getType());
+  REQUIRE(expected.getValue() == actual.getValue());
 
   transformer = OverrideTransformer(5);
-  EntityRef expected = EntityRef{EntityType::Constant, "5"};
+  expected = EntityRef{EntityType::Constant, "5"};
   inputRef = EntityRef{EntityType::Constant, "abc"};
   actual = transformer.transformArg(inputRef);
   REQUIRE(expected.getType() == actual.getType());
