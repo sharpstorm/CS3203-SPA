@@ -18,7 +18,7 @@ class ContiguousVectorTable : public IBaseSetTable<int, V>,
   explicit ContiguousVectorTable(int size = 1)
       : ContiguousTable<vector<V>>(size) {}
 
-  void insert(int key, V value) {
+  void insert(int key, V value) override {
     assert(key != 0);
     assert(value != V());
 
