@@ -15,7 +15,7 @@ class TestResultItem {
 
  public:
   explicit TestResultItem(const StmtValue &stmt): stmt(stmt), ent(NO_ENT) {}
-  explicit TestResultItem(const EntityValue &ent): stmt(NO_STMT), ent(ent) {}
+  explicit TestResultItem(const EntityValue &ent): stmt(NO_INT_VAL), ent(ent) {}
 
   StmtValue getStmt() {
     return stmt;
@@ -26,7 +26,7 @@ class TestResultItem {
   }
 
   bool isStmt() {
-    return stmt != NO_STMT;
+    return stmt != NO_INT_VAL;
   }
 };
 
