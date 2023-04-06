@@ -16,7 +16,7 @@ StmtRef OverrideTransformer::transformArg(const StmtRef &input) const {
   }
 
   if (stmtRef == NO_STMT) {
-    return StmtRef { input.getType(), NO_INT_VAL };
+    return StmtRef { input.getType(), INVALID_STMT };
   }
 
   return StmtRef { input.getType(), stmtRef };
