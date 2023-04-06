@@ -21,7 +21,8 @@ ASTNodePtr StatementContext::generateSubtree(SourceParseState *state) const {
       return invokeSubcontext<ProcedureContextType::READ_CONTEXT>(state);
     case SIMPLE_TOKEN_KEYWORD_CALL:
       return invokeSubcontext<ProcedureContextType::CALL_CONTEXT>(state);
-    default:throw SPError(SPERR_UNEXPECTED_TOKEN);
+    default:
+      throw SPError(SPERR_UNEXPECTED_TOKEN);
   }
 }
 
