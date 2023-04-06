@@ -9,6 +9,6 @@ class PQLRefExtractor {
   virtual ~PQLRefExtractor() = default;
 
  protected:
-  static ClauseArgumentPtr extractCommonRef(QueryTokenParseState* state,
-                                            QueryBuilder* builder);
+  static ClauseArgumentPtr extractCommonRef(QueryTokenParseState *state,
+                                            QueryBuilder *builder);
 };

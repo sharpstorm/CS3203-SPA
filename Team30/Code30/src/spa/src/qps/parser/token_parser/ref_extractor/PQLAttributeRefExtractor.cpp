@@ -5,7 +5,7 @@
 using std::make_unique;
 
 AttributedSynonymPtr PQLAttributeRefExtractor::extract(
-    QueryTokenParseState* state, QueryBuilder* builder) {
+    QueryTokenParseState *state, QueryBuilder *builder) {
   PQLSynonymName synName = state->expectSynName();
   PQLSynonymAttribute attr = NO_ATTRIBUTE;
 
@@ -14,7 +14,7 @@ AttributedSynonymPtr PQLAttributeRefExtractor::extract(
     attr = extractAttribute(state);
   }
 
-  PQLQuerySynonymProxy* var = builder->accessSynonym(synName);
+  PQLQuerySynonymProxy *var = builder->accessSynonym(synName);
   if (var == nullptr) {
     return nullptr;
   }
@@ -24,7 +24,7 @@ AttributedSynonymPtr PQLAttributeRefExtractor::extract(
 
 PQLSynonymAttribute PQLAttributeRefExtractor::extractAttribute(
     QueryTokenParseState *state) {
-  PQLToken* token = state->tryExpect(
+  const PQLToken *token = state->tryExpect(
       PQL_TOKEN_VALUE,
       PQL_TOKEN_STMT,
       PQL_TOKEN_PROC_NAME,

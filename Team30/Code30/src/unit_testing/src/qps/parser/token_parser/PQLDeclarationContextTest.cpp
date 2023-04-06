@@ -10,6 +10,13 @@
 
 using std::make_unique, std::string;
 
+class QueryLexerTokenTableSpy : public QueryLexerTokenTable {
+ public:
+  unordered_map<QueryKeyword, PQLTokenType> getLookupMap() {
+    return keywordMap;
+  }
+};
+
 TEST_CASE("Test PQL Declaration parsing") {
   vector<string> vars = vector<string>{"s", "s0", "a0s", "a00sdf00", "abcdefd",
                                        "asDFG", "ASD", "A0Sw9"};
@@ -24,8 +31,8 @@ TEST_CASE("Test PQL Declaration parsing") {
 }
 
 TEST_CASE("Test PQL Declaration Keyword Name") {
-  QueryLexerTokenTable tokenTable;
-  for (auto it : tokenTable.keywordMap) {
+  QueryLexerTokenTableSpy tokenTable;
+  for (auto it : tokenTable.getLookupMap()) {
     testDeclarationParsing<PQLStmtContext>(
         make_unique<PQLTestTokenSequenceBuilder>()
             ->addToken(it.second, it.first)

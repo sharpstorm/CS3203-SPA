@@ -44,8 +44,8 @@ class QueryLexer {
 
   PQLTokenType resolveStringToken(const string &buffer,
                                   const bool &hasSeenChar);
-  void validateIntegerToken(const string &buffer);
-  void validateIdentifier(const string &buffer);
+  void validateIntegerToken(const string &buffer) const;
+  void validateIdentifier(const string &buffer) const;
 };
 
 typedef unique_ptr<QueryLexer> QueryLexerPtr;

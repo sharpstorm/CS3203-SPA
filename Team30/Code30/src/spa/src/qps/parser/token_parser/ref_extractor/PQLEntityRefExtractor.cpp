@@ -1,8 +1,8 @@
 #include "PQLEntityRefExtractor.h"
 #include "qps/clauses/arguments/ClauseArgumentFactory.h"
 
-ClauseArgumentPtr PQLEntityRefExtractor::extract(QueryTokenParseState* state,
-                                                 QueryBuilder* builder) {
+ClauseArgumentPtr PQLEntityRefExtractor::extract(QueryTokenParseState *state,
+                                                 QueryBuilder *builder) {
   if (state->isCurrentTokenType(PQL_TOKEN_STRING_LITERAL)) {
     return extractEntity(state);
   }
@@ -11,7 +11,7 @@ ClauseArgumentPtr PQLEntityRefExtractor::extract(QueryTokenParseState* state,
 }
 
 ClauseArgumentPtr PQLEntityRefExtractor::extractEntity(
-    QueryTokenParseState* state) {
-  PQLToken* entityRef = state->expect(PQL_TOKEN_STRING_LITERAL);
+    QueryTokenParseState *state) {
+  const PQLToken *entityRef = state->expect(PQL_TOKEN_STRING_LITERAL);
   return ClauseArgumentFactory::create(entityRef->getData());
 }

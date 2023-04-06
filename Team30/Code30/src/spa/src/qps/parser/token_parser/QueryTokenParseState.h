@@ -7,27 +7,27 @@
 class QueryTokenParseState {
  private:
   QueryTokenStream tokenStream;
-  static void assertNotNull(PQLToken* token);
+  static void assertNotNull(const PQLToken *token);
 
  public:
-  explicit QueryTokenParseState(PQLTokenVector* tokens);
-  bool isTokenStreamEnd();
+  explicit QueryTokenParseState(PQLTokenVector *tokens);
+  bool isTokenStreamEnd() const;
   void advanceToken();
 
-  PQLTokenType getCurrentTokenType();
-  bool isCurrentTokenType(PQLTokenType type);
-  bool isCurrentTokenCategory(PQLTokenCategory category);
+  PQLTokenType getCurrentTokenType() const;
+  bool isCurrentTokenType(PQLTokenType type) const;
+  bool isCurrentTokenCategory(PQLTokenCategory category) const;
 
   template<typename... T>
-  PQLToken *expect(T... tokenType);
+  const PQLToken *expect(T... tokenType);
   template<typename... T>
-  PQLToken *tryExpect(T... tokenType);
+  const PQLToken *tryExpect(T... tokenType);
   PQLSynonymName expectSynName();
 };
 
 template<typename... PQLTokenType>
-PQLToken* QueryTokenParseState::tryExpect(PQLTokenType... tokenType) {
-  PQLToken* currentToken = tokenStream.getCurrentToken();
+const PQLToken *QueryTokenParseState::tryExpect(PQLTokenType... tokenType) {
+  const PQLToken *currentToken = tokenStream.getCurrentToken();
   if (currentToken == nullptr) {
     return nullptr;
   }
@@ -41,8 +41,8 @@ PQLToken* QueryTokenParseState::tryExpect(PQLTokenType... tokenType) {
 }
 
 template<typename... PQLTokenType>
-PQLToken* QueryTokenParseState::expect(PQLTokenType... tokenType) {
-  PQLToken* currentToken = tryExpect(tokenType...);
+const PQLToken *QueryTokenParseState::expect(PQLTokenType... tokenType) {
+  const PQLToken *currentToken = tryExpect(tokenType...);
   if (currentToken == nullptr) {
     throw QPSParserSyntaxError(QPS_PARSER_ERR_UNEXPECTED);
   }

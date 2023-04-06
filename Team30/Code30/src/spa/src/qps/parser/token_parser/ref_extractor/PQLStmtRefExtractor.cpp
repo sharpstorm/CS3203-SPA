@@ -4,7 +4,7 @@
 #include "qps/errors/QPSParserSemanticError.h"
 
 ClauseArgumentPtr PQLStmtRefExtractor::extract(QueryTokenParseState *state,
-                                               QueryBuilder* builder) {
+                                               QueryBuilder *builder) {
   if (state->isCurrentTokenType(PQL_TOKEN_INTEGER)) {
     return extractStatement(state, builder);
   }
@@ -13,8 +13,8 @@ ClauseArgumentPtr PQLStmtRefExtractor::extract(QueryTokenParseState *state,
 }
 
 ClauseArgumentPtr PQLStmtRefExtractor::extractStatement(
-    QueryTokenParseState* state, QueryBuilder* builder) {
-  PQLToken* token = state->expect(PQL_TOKEN_INTEGER);
+    QueryTokenParseState *state, QueryBuilder *builder) {
+  const PQLToken *token = state->expect(PQL_TOKEN_INTEGER);
   int value = stoi(token->getData());
 
   if (value < 0) {

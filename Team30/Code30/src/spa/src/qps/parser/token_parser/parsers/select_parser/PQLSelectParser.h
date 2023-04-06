@@ -9,11 +9,11 @@ using std::string;
 
 class PQLSelectParser {
  public:
-  void parse(QueryTokenParseState* parserState, QueryBuilder *queryBuilder);
+  void parse(QueryTokenParseState *parserState, QueryBuilder *queryBuilder);
 
  private:
-  static void parseTuple(QueryTokenParseState* parserState,
-                  QueryBuilder *queryBuilder);
-  static void parseSynonym(QueryTokenParseState* parserState,
+  static void parseTuple(QueryTokenParseState *parserState,
+                         QueryBuilder *queryBuilder);
+  static void parseSynonym(QueryTokenParseState *parserState,
                            QueryBuilder *queryBuilder);
 };
