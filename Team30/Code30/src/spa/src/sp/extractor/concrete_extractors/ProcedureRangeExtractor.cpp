@@ -1,20 +1,19 @@
-#include <vector>
 #include "ProcedureRangeExtractor.h"
 #include "StatementNumberExtractor.h"
 #include "pkb/errors/PKBError.h"
 #include "sp/errors/SPError.h"
 
-ProcedureRangeExtractor::ProcedureRangeExtractor(PkbWriter* writer)
+ProcedureRangeExtractor::ProcedureRangeExtractor(PkbWriter *writer)
     : pkbWriter(writer), lineNumberCache(0) {
 }
 
-void ProcedureRangeExtractor::updateCache(StatementASTNode *node) {
+void ProcedureRangeExtractor::updateCache(const StatementASTNode *node) {
   lineNumberCache = node->getLineNumber();
 }
 
-void ProcedureRangeExtractor::visitProcedure(ProcedureNode* node) {
+void ProcedureRangeExtractor::visitProcedure(const ProcedureNode *node) {
   StatementNumberExtractor statementNoExtractor;
-  vector<ASTNode*> statements = node->getChildren()[0]->getChildren();
+  ASTNodeRefList statements = node->getMutableChild(0)->getChildren();
   statements.front()->accept(&statementNoExtractor);
   statements.back()->accept(this);
   addProcedureRange(node->getName(),
@@ -22,32 +21,34 @@ void ProcedureRangeExtractor::visitProcedure(ProcedureNode* node) {
                     lineNumberCache);
 }
 
-void ProcedureRangeExtractor::visitRead(ReadNode* node) {
+void ProcedureRangeExtractor::visitRead(const ReadNode *node) {
   updateCache(node);
 }
 
-void ProcedureRangeExtractor::visitPrint(PrintNode* node) {
+void ProcedureRangeExtractor::visitPrint(const PrintNode *node) {
   updateCache(node);
 }
 
-void ProcedureRangeExtractor::visitAssign(AssignNode* node) {
+void ProcedureRangeExtractor::visitAssign(const AssignNode *node) {
   updateCache(node);
 }
 
-void ProcedureRangeExtractor::visitCall(CallNode* node) {
+void ProcedureRangeExtractor::visitCall(const CallNode *node) {
   updateCache(node);
 }
 
-void ProcedureRangeExtractor::visitIf(IfNode* node) {
-  node->getChildren()[2]->getChildren().back()->accept(this);
+void ProcedureRangeExtractor::visitIf(const IfNode *node) {
+  node->getMutableChild(2)->getChildren().back()->accept(this);
 }
 
-void ProcedureRangeExtractor::visitWhile(WhileNode* node) {
-  node->getChildren()[1]->getChildren().back()->accept(this);
+void ProcedureRangeExtractor::visitWhile(const WhileNode *node) {
+  node->getMutableChild(1)->getChildren().back()->accept(this);
 }
 
 void ProcedureRangeExtractor::
-addProcedureRange(const string &procName, LineNumber start, LineNumber end) {
+addProcedureRange(const ProcedureName &procName,
+                  LineNumber start,
+                  LineNumber end) {
   try {
     pkbWriter->addProcedure(procName, start, end);
   } catch (PKBError e) {

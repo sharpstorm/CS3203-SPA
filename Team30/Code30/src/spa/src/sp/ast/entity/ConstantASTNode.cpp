@@ -1,11 +1,8 @@
-#include <string>
 #include "ConstantASTNode.h"
 
-using std::string;
+ConstantASTNode::ConstantASTNode(const ASTNodeValue &v) :
+    ASTNode(ASTNODE_CONSTANT, v) {}
 
-ConstantASTNode::ConstantASTNode(string v) : ASTNode(ASTNODE_CONSTANT, v) {
-}
-
-void ConstantASTNode::accept(IExtractor* e) {
+void ConstantASTNode::accept(IExtractor *e) const {
   e->visitConstant(this);
 }

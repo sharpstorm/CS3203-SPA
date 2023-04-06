@@ -1,29 +1,28 @@
-#include <unordered_set>
 #include "ExtractorUtility.h"
 
-void ExtractorUtility::
-getExprVariables(unordered_set<string>* v, ASTNode* node) {
+void ExtractorUtility::getExprVariables(VariableNameSet *v,
+                                        const ASTNode *node) {
   if (node->getType() == ASTNodeType::ASTNODE_CONSTANT) {
     return;
   }
 
   if (node->getType() == ASTNodeType::ASTNODE_VARIABLE) {
-    string value = node->getValue();
+    ASTNodeValue value = node->getValue();
     if (!setContains(v, value)) {
       v->insert(value);
     }
     return;
   }
 
-  if (node->getChildren()[0] != nullptr) {
-    getExprVariables(v, node->getChildren()[0]);
+  if (node->getMutableChild(0) != nullptr) {
+    getExprVariables(v, node->getMutableChild(0));
   }
-  if (node->getChildren()[1] != nullptr) {
-    getExprVariables(v, node->getChildren()[1]);
+  if (node->getMutableChild(1) != nullptr) {
+    getExprVariables(v, node->getMutableChild(1));
   }
 }
 
 bool ExtractorUtility::
-setContains(unordered_set<std::string> *v, const std::string &x) {
+setContains(VariableNameSet *v, const VariableName &x) {
   return v->find(x) != v->end();
 }

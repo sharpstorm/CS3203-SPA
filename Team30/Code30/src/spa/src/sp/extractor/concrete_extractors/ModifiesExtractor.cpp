@@ -1,55 +1,56 @@
 #include "ModifiesExtractor.h"
 #include "sp/ast/entity/ProcedureNode.h"
 
-ModifiesExtractor::ModifiesExtractor(PkbWriter* writer) : pkbWriter(writer),
-                                                          curStatement(-1) {
+ModifiesExtractor::ModifiesExtractor(PkbWriter *writer) :
+    pkbWriter(writer), curStatement(NO_LINE) {
 }
 
-void ModifiesExtractor::visitAssign(AssignNode* node) {
+void ModifiesExtractor::visitAssign(const AssignNode *node) {
   curStatement = node->getLineNumber();
 }
 
-void ModifiesExtractor::visitRead(ReadNode* node) {
+void ModifiesExtractor::visitRead(const ReadNode *node) {
   curStatement = node->getLineNumber();
 }
 
-void ModifiesExtractor::visitWhile(WhileNode* node) {
+void ModifiesExtractor::visitWhile(const WhileNode *node) {
   statementStartStack.push_back(node->getLineNumber());
 }
 
-void ModifiesExtractor::visitIf(IfNode* node) {
+void ModifiesExtractor::visitIf(const IfNode *node) {
   statementStartStack.push_back(node->getLineNumber());
 }
 
-void ModifiesExtractor::leaveIf(IfNode* node) {
+void ModifiesExtractor::leaveIf(const IfNode *node) {
   statementStartStack.pop_back();
 }
 
-void ModifiesExtractor::leaveWhile(WhileNode* node) {
+void ModifiesExtractor::leaveWhile(const WhileNode *node) {
   statementStartStack.pop_back();
 }
 
-void ModifiesExtractor::visitProcedure(ProcedureNode* node) {
+void ModifiesExtractor::visitProcedure(const ProcedureNode *node) {
   currentProcName = node->getName();
 }
 
-void ModifiesExtractor::visitVariable(VariableASTNode *node) {
+void ModifiesExtractor::visitVariable(const VariableASTNode *node) {
   if (curStatement < 0) {
     return;
   }
 
   addNodeModifies(curStatement, node->getValue());
-  curStatement = -1;
+  curStatement = NO_LINE;
 }
 
 void ModifiesExtractor::addNodeModifies(const LineNumber &lineNo,
-                                        const string &var) {
+                                        const VariableName &var) {
   addModifiesRelation(lineNo, var);
   for (LineNumber i : statementStartStack) {
     addModifiesRelation(i, var);
   }
 }
 
-void ModifiesExtractor::addModifiesRelation(LineNumber x, string var) {
+void ModifiesExtractor::addModifiesRelation(LineNumber x,
+                                            const VariableName &var) {
   pkbWriter->addModifies(x, var, currentProcName);
 }

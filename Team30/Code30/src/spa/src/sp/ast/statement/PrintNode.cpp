@@ -7,6 +7,6 @@ PrintNode::PrintNode(LineNumber line) :
   children.push_back(nullptr);
 }
 
-void PrintNode::accept(IExtractor* e) {
+void PrintNode::accept(IExtractor* e) const {
   e->visitPrint(this);
 }

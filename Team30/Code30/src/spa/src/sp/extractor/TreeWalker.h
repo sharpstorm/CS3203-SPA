@@ -1,17 +1,17 @@
 #pragma once
 
-#include <vector>
-
 #include "AbstractExtractor.h"
 #include "sp/ast/AST.h"
 #include "common/UtilityTypes.h"
 #include "sp/ast/ASTNode.h"
 
+typedef VectorPtr<IExtractor*> ExtractorRefList;
+
 class TreeWalker {
  public:
   TreeWalker() = default;
-  void walkAST(AST* ast, VectorPtr<IExtractor*> extractors);
+  void walkAST(const AST* ast, const ExtractorRefList extractors) const;
 
  private:
-  void DFS(ASTNode* ast, VectorPtr<IExtractor*> extractors);
+  void DFS(const ASTNode* ast, const ExtractorRefList extractors) const;
 };

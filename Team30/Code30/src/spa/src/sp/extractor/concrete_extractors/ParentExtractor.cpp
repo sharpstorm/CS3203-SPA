@@ -1,30 +1,30 @@
 #include "ParentExtractor.h"
 #include "StatementNumberExtractor.h"
 
-ParentExtractor::ParentExtractor(PkbWriter* writer) : pkbWriter(writer) {
+ParentExtractor::ParentExtractor(PkbWriter *writer) : pkbWriter(writer) {
 }
 
-void ParentExtractor::visitIf(IfNode* node) {
-  vector<ASTNode*> children = node->getChildren();
-  vector<ASTNode*> ifLst = children[1]->getChildren();
-  vector<ASTNode*> elseLst = children[2]->getChildren();
+void ParentExtractor::visitIf(const IfNode *node) {
+  ASTNodeRefList children = node->getChildren();
+  ASTNodeRefList ifLst = children[1]->getChildren();
+  ASTNodeRefList elseLst = children[2]->getChildren();
 
   addParentOnList(node->getLineNumber(), &ifLst);
   addParentOnList(node->getLineNumber(), &elseLst);
 }
 
-void ParentExtractor::visitWhile(WhileNode* node) {
-  vector<ASTNode*> children = node->getChildren();
-  vector<ASTNode*> stmtList = children[1]->getChildren();
+void ParentExtractor::visitWhile(const WhileNode *node) {
+  ASTNodeRefList children = node->getChildren();
+  ASTNodeRefList stmtList = children[1]->getChildren();
 
   addParentOnList(node->getLineNumber(), &stmtList);
 }
 
 void ParentExtractor::addParentOnList(LineNumber parentLine,
-                                      vector<ASTNode*> *childList) {
+                                      ASTNodeRefList *childList) {
   StatementNumberExtractor statementNoExtractor;
-  for (int i = 0; i < childList->size(); i++) {
-    childList->at(i)->accept(&statementNoExtractor);
+  for (const ASTNode *node : *childList) {
+    node->accept(&statementNoExtractor);
     ParentExtractor::addParentRelation(
         parentLine,
         statementNoExtractor.getStatementNumber());

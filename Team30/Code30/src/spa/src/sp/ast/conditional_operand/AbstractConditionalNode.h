@@ -1,20 +1,14 @@
 #pragma once
 
-#include <string>
 #include "sp/extractor/IExtractor.h"
 #include "sp/ast/BinaryASTNode.h"
 
-using std::string;
-
-class AbstractConditionalNode: public BinaryASTNode {
+class AbstractConditionalNode : public BinaryASTNode {
  public:
   virtual ~AbstractConditionalNode() = default;
-  void accept(IExtractor* e) override;
+  void accept(IExtractor *e) const override;
 
  protected:
   explicit AbstractConditionalNode(ASTNodeType type) :
       BinaryASTNode(type) {}
-
- private:
-  string identifier;
 };

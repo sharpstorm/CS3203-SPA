@@ -1,20 +1,17 @@
 #pragma once
 
-#include <string>
-#include "sp/ast/ASTNode.h"
 #include "StatementASTNode.h"
 #include "sp/extractor/IExtractor.h"
-
-using std::string;
+#include "sp/SPTypes.h"
 
 class CallNode : public StatementASTNode {
  public:
-  explicit CallNode(LineNumber line, string procName);
+  explicit CallNode(LineNumber line, const ProcedureName &procName);
   ~CallNode() = default;
 
-  string getName();
-  void accept(IExtractor* e) override;
+  ProcedureName getName() const;
+  void accept(IExtractor *e) const override;
 
  private:
-  string procName;
+  ProcedureName procName;
 };

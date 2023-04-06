@@ -1,27 +1,27 @@
 #pragma once
 
 #include <memory>
-#include <string>
 
 #include "sp/extractor/AbstractExtractor.h"
 #include "sp/ast/entity/ProcedureNode.h"
-
-using std::shared_ptr, std::string;
+#include "sp/SPTypes.h"
 
 class ProcedureRangeExtractor : public AbstractExtractor {
  public:
-  explicit ProcedureRangeExtractor(PkbWriter* pkbWriter);
-  void visitProcedure(ProcedureNode* node) override;
-  void visitRead(ReadNode* node) override;
-  void visitPrint(PrintNode* node) override;
-  void visitWhile(WhileNode* node) override;
-  void visitIf(IfNode* node) override;
-  void visitAssign(AssignNode* node) override;
-  void visitCall(CallNode* node) override;
+  explicit ProcedureRangeExtractor(PkbWriter *pkbWriter);
+  void visitProcedure(const ProcedureNode *node) override;
+  void visitRead(const ReadNode *node) override;
+  void visitPrint(const PrintNode *node) override;
+  void visitWhile(const WhileNode *node) override;
+  void visitIf(const IfNode *node) override;
+  void visitAssign(const AssignNode *node) override;
+  void visitCall(const CallNode *node) override;
  private:
-  void addProcedureRange(const string &name, LineNumber start, LineNumber end);
-  void updateCache(StatementASTNode* node);
+  void addProcedureRange(const ProcedureName &name,
+                         LineNumber start,
+                         LineNumber end);
+  void updateCache(const StatementASTNode *node);
 
-  PkbWriter* pkbWriter;
-  int lineNumberCache;
+  PkbWriter *pkbWriter;
+  LineNumber lineNumberCache;
 };

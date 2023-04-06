@@ -1,4 +1,7 @@
 #include "DesignExtractor.h"
+
+#include <memory>
+
 #include "sp/extractor/concrete_extractors/FollowsExtractor.h"
 #include "sp/extractor/concrete_extractors/ParentExtractor.h"
 #include "sp/extractor/concrete_extractors/EntityExtractor.h"
@@ -19,11 +22,12 @@ DesignExtractor::DesignExtractor(PkbWriter* pkbWriter) {
   ownedExtractors.push_back(make_unique<PatternExtractor>(pkbWriter));
   ownedExtractors.push_back(make_unique<ProcedureRangeExtractor>(pkbWriter));
   ownedExtractors.push_back(make_unique<CFGExtractor>(pkbWriter));
-  for (int i = 0; i < ownedExtractors.size(); i++) {
-    extractorRefs.push_back(ownedExtractors.at(i).get());
+
+  for (const auto &extractor : ownedExtractors) {
+    extractorRefs.push_back(extractor.get());
   }
 }
 
-void DesignExtractor::extract(AST* ast) {
+void DesignExtractor::extract(const AST* ast) {
   treeWalker.walkAST(ast, &extractorRefs);
 }

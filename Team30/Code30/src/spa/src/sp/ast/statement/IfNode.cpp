@@ -1,9 +1,6 @@
 #include "IfNode.h"
 
-#include <vector>
 #include "sp/ast/ASTNode.h"
-
-using std::vector;
 
 IfNode::IfNode(LineNumber line) :
     StatementASTNode(ASTNODE_IF, "", line) {
@@ -15,10 +12,10 @@ IfNode::IfNode(LineNumber line) :
   children.push_back(nullptr);
 }
 
-void IfNode::accept(IExtractor* e) {
+void IfNode::accept(IExtractor *e) const {
   e->visitIf(this);
 }
 
-void IfNode::leave(IExtractor* e) {
+void IfNode::leave(IExtractor *e) const {
   e->leaveIf(this);
 }

@@ -7,11 +7,12 @@
 
 using std::unique_ptr;
 
-class AST: public IAST {
+class AST : public IAST {
  public:
   explicit AST(ASTNodePtr node);
-  ASTNode* getMutableRoot();
-  IASTNode* getRoot();
+  const ASTNode *getMutableRoot() const;
+  IASTNode *getRoot() const override;
+
  private:
   ASTNodePtr root;
 };

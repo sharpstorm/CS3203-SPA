@@ -1,11 +1,7 @@
-#include <string>
-#include <vector>
 #include "UsesExtractor.h"
 #include "sp/ast/entity/ProcedureNode.h"
 
-using std::string, std::vector;
-
-UsesExtractor::UsesExtractor(PkbWriter* writer) : pkbWriter(writer),
+UsesExtractor::UsesExtractor(PkbWriter *writer) : pkbWriter(writer),
                                                   oneShot(false) {
 }
 
@@ -22,24 +18,24 @@ void UsesExtractor::visit(bool addToPkb, bool isDisabled,
   statementStartStack.push_back(lineNumber);
 }
 
-void UsesExtractor::visitAssign(AssignNode* node) {
+void UsesExtractor::visitAssign(const AssignNode *node) {
   visit(false, false, node->getLineNumber());
 }
 
-void UsesExtractor::visitPrint(PrintNode* node) {
+void UsesExtractor::visitPrint(const PrintNode *node) {
   oneShot = true;
   statementStartStack.push_back(node->getLineNumber());
 }
 
-void UsesExtractor::visitWhile(WhileNode* node) {
+void UsesExtractor::visitWhile(const WhileNode *node) {
   visit(true, false, node->getLineNumber());
 }
 
-void UsesExtractor::visitIf(IfNode* node) {
+void UsesExtractor::visitIf(const IfNode *node) {
   visit(true, false, node->getLineNumber());
 }
 
-void UsesExtractor::visitStmtList(StatementListNode *node) {
+void UsesExtractor::visitStmtList(const StatementListNode *node) {
   if (isDisabledFromContainer.empty() || isDisabledFromContainer.back()) {
     return;
   }
@@ -49,42 +45,43 @@ void UsesExtractor::visitStmtList(StatementListNode *node) {
   readVars.clear();
 }
 
-void UsesExtractor::leaveIf(IfNode* node) {
+void UsesExtractor::leaveIf(const IfNode *node) {
   leave();
 }
 
-void UsesExtractor::leaveWhile(WhileNode* node) {
+void UsesExtractor::leaveWhile(const WhileNode *node) {
   leave();
 }
 
-void UsesExtractor::visitProcedure(ProcedureNode* node) {
+void UsesExtractor::visitProcedure(const ProcedureNode *node) {
   procName = node->getName();
 }
 
-void UsesExtractor::updateUses(const unordered_set<string> &v) {
-  for (int i : statementStartStack) {
+void UsesExtractor::updateUses(const VariableNameSet &v) {
+  for (const LineNumber i : statementStartStack) {
     processNode(i, v);
   }
 }
 
-void UsesExtractor::updateUses(const string &v) {
-  for (LineNumber i : statementStartStack) {
+void UsesExtractor::updateUses(const VariableName &v) {
+  for (const LineNumber i : statementStartStack) {
     addUsesRelation(i, v);
   }
 }
 
 void UsesExtractor::processNode(const LineNumber &lineNumber,
-                                const unordered_set<string> &v) {
-  for (const string &s : v) {
+                                const VariableNameSet &v) {
+  for (const VariableName &s : v) {
     addUsesRelation(lineNumber, s);
   }
 }
 
-void UsesExtractor::addUsesRelation(const LineNumber &x, const string &var) {
+void UsesExtractor::addUsesRelation(const LineNumber &x,
+                                    const VariableName &var) {
   pkbWriter->addUses(x, var, procName);
 }
 
-void UsesExtractor::visitVariable(VariableASTNode *node) {
+void UsesExtractor::visitVariable(const VariableASTNode *node) {
   if (!addToPKB.empty() && !addToPKB.back()) {
     addToPKB.pop_back();
     addToPKB.push_back(true);
@@ -107,7 +104,7 @@ void UsesExtractor::visitVariable(VariableASTNode *node) {
   }
 }
 
-void UsesExtractor::leaveAssign(AssignNode *node) {
+void UsesExtractor::leaveAssign(const AssignNode *node) {
   updateUses(readVars);
   leave();
   readVars.clear();

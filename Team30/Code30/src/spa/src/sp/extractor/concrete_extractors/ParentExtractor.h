@@ -1,18 +1,16 @@
 #pragma once
 
-#include <vector>
 #include "sp/extractor/AbstractExtractor.h"
-
-using std::vector;
+#include "sp/SPTypes.h"
 
 class ParentExtractor : public AbstractExtractor {
  public:
-  explicit ParentExtractor(PkbWriter* pkbWriter);
-  void visitIf(IfNode* node) override;
-  void visitWhile(WhileNode* node) override;
+  explicit ParentExtractor(PkbWriter *pkbWriter);
+  void visitIf(const IfNode *node) override;
+  void visitWhile(const WhileNode *node) override;
 
  private:
-  void addParentOnList(LineNumber parentLine, vector<ASTNode*>* childList);
+  void addParentOnList(LineNumber parentLine, ASTNodeRefList *childList);
   void addParentRelation(LineNumber x, LineNumber y);
-  PkbWriter* pkbWriter;
+  PkbWriter *pkbWriter;
 };

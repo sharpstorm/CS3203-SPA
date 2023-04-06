@@ -1,28 +1,30 @@
 #pragma once
 
-#include <string>
 #include <vector>
 #include "sp/extractor/AbstractExtractor.h"
+#include "sp/SPTypes.h"
 
-using std::string, std::vector;
+using std::vector;
 
 class ModifiesExtractor : public AbstractExtractor {
  public:
   explicit ModifiesExtractor(PkbWriter *pkbWriter);
-  void visitAssign(AssignNode* node) override;
-  void visitRead(ReadNode* node) override;
-  void visitWhile(WhileNode* node) override;
-  void leaveWhile(WhileNode* node) override;
-  void visitVariable(VariableASTNode* node) override;
-  void visitIf(IfNode* node) override;
-  void leaveIf(IfNode* node) override;
-  void visitProcedure(ProcedureNode* node) override;
+  void visitAssign(const AssignNode* node) override;
+  void visitRead(const ReadNode* node) override;
+  void visitWhile(const WhileNode* node) override;
+  void leaveWhile(const WhileNode* node) override;
+  void visitVariable(const VariableASTNode* node) override;
+  void visitIf(const IfNode* node) override;
+  void leaveIf(const IfNode* node) override;
+  void visitProcedure(const ProcedureNode* node) override;
 
  private:
-  void addNodeModifies(const LineNumber &lineNo, const string &var);
-  void addModifiesRelation(LineNumber x, string var);
+  void addNodeModifies(const LineNumber &lineNo, const VariableName &var);
+  void addModifiesRelation(LineNumber x, const VariableName &var);
   vector<LineNumber> statementStartStack;
   PkbWriter *pkbWriter;
-  string currentProcName;
-  int curStatement;
+  ProcedureName currentProcName;
+  LineNumber curStatement;
+
+  static const LineNumber NO_LINE = -1;
 };

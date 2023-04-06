@@ -1,7 +1,8 @@
 #pragma once
+
 #include "AbstractConditionalNode.h"
 
-class NotASTNode: public AbstractConditionalNode {
+class NotASTNode : public AbstractConditionalNode {
  public:
   NotASTNode() : AbstractConditionalNode(ASTNODE_NOT) {}
 };
