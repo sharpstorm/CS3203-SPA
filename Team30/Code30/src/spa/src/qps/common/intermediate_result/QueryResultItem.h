@@ -20,7 +20,7 @@ class QueryResultItem {
  public:
   explicit QueryResultItem(const StmtValue &stmt) : stmtRef(stmt),
                                                     entRef(NO_ENT) {}
-  explicit QueryResultItem(const EntityValue &ent) : stmtRef(NO_INT_VAL),
+  explicit QueryResultItem(const EntityValue &ent) : stmtRef(NO_STMT),
                                                      entRef(ent) {}
 
   ProjectedValue project() const;
@@ -34,7 +34,7 @@ class QueryResultItem {
 
   struct hasher {
     std::size_t operator()(const QueryResultItem &k) const {
-      if (k.stmtRef != NO_INT_VAL) {
+      if (k.stmtRef != NO_STMT) {
         return std::hash<StmtValue>()(k.stmtRef);
       } else {
         return std::hash<EntityValue>()(k.entRef);
