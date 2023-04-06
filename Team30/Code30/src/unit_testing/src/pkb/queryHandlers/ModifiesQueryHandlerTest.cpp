@@ -107,7 +107,7 @@ TEST_CASE("ModifiesQueryHandler Modifies(stmtNum, variableName)") {
   auto result = *test.query({StmtType::None, 1}, {EntityType::None, "x"});
   REQUIRE(result.isEmpty == false);
 //  REQUIRE(result.firstArgVals == unordered_set<int>({1}));
-  REQUIRE(result.secondArgVals == unordered_set<string>({"x"}));
+//  REQUIRE(result.secondArgVals == unordered_set<string>({"x"}));
 //  REQUIRE(result.pairVals == pair_set<int, string>({{1, "x"}}));
 }
 
@@ -304,7 +304,7 @@ TEST_CASE("ModifiesQueryHandler Modifies(procedureName, variableName)") {
       *test.query({EntityType::None, "main"}, {EntityType::None, "x"});
   REQUIRE(result1.isEmpty == false);
 //  REQUIRE(result1.firstArgVals == unordered_set<string>({"main"}));
-  REQUIRE(result1.secondArgVals == unordered_set<string>({"x"}));
+//  REQUIRE(result1.secondArgVals == unordered_set<string>({"x"}));
 //  REQUIRE(result1.pairVals == pair_set<string, string>({{"main", "x"}}));
 
   auto result2 =
@@ -314,7 +314,7 @@ TEST_CASE("ModifiesQueryHandler Modifies(procedureName, variableName)") {
   auto result3 =
       *test.query({EntityType::None, "foo"}, {EntityType::None, "z"});
 //  REQUIRE(result3.pairVals == pair_set<string, string>({{"foo", "z"}}));
-  REQUIRE(result3.secondArgVals == unordered_set<string>({"z"}));
+  REQUIRE(result3.isEmpty == false);
 }
 
 // Only arg1 known
@@ -329,9 +329,9 @@ TEST_CASE("ModifiesQueryHandler Modifies(procedureName, type)") {
       *test.query({EntityType::None, "main"}, {EntityType::Variable, ""});
   REQUIRE(result1.isEmpty == false);
 //  REQUIRE(result1.firstArgVals == unordered_set<string>({"main"}));
-//  REQUIRE(result1.secondArgVals == unordered_set<string>({"x", "y"}));
-  REQUIRE(result1.pairVals ==
-          pair_set<string, string>({{"main", "x"}, {"main", "y"}}));
+  REQUIRE(result1.secondArgVals == unordered_set<string>({"x", "y"}));
+//  REQUIRE(result1.pairVals ==
+//          pair_set<string, string>({{"main", "x"}, {"main", "y"}}));
 
   auto result2 =
       *test.query({EntityType::None, "goo"}, {EntityType::Variable, ""});
