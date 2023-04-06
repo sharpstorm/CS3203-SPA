@@ -16,14 +16,14 @@ void testFollowsParsing(vector<PQLToken> inputs,
                                                               synonyms);
   inputs.insert(inputs.begin(), PQLToken(PQL_TOKEN_ASTRIX));
   testSuchThatParsing<PQLFollowsClauseContext, FollowsTClause>(inputs,
-                                                              synonyms);
+                                                               synonyms);
 }
 
 void testFollowsParsing(vector<PQLToken> inputs) {
   testFollowsParsing(
       inputs,
       unordered_map<string, PQLSynonymType>{
-          {"s", PQL_SYN_TYPE_STMT }
+          {"s", PQL_SYN_TYPE_STMT}
       }
   );
 }
@@ -154,27 +154,23 @@ TEST_CASE("Test PQL Follows Entity ref not allowed") {
   );
 }
 
-TEST_CASE("Test PQL Follows Zero Stmt not Allowed") {
-  REQUIRE_THROWS_AS(
-      testFollowsParsing(make_unique<PQLTestTokenSequenceBuilder>()
-                             ->openBracket()
-                             ->integer(0)
-                             ->comma()
-                             ->integer(2)
-                             ->closeBracket()
-                             ->build()
-      ), QPSParserSemanticError
+TEST_CASE("Test PQL Follows Zero Is Not Semantic") {
+  testFollowsParsing(make_unique<PQLTestTokenSequenceBuilder>()
+                         ->openBracket()
+                         ->integer(0)
+                         ->comma()
+                         ->integer(2)
+                         ->closeBracket()
+                         ->build()
   );
 
-  REQUIRE_THROWS_AS(
-      testFollowsParsing(make_unique<PQLTestTokenSequenceBuilder>()
-                             ->openBracket()
-                             ->integer(2)
-                             ->comma()
-                             ->integer(0)
-                             ->closeBracket()
-                             ->build()
-      ), QPSParserSemanticError
+  testFollowsParsing(make_unique<PQLTestTokenSequenceBuilder>()
+                         ->openBracket()
+                         ->integer(2)
+                         ->comma()
+                         ->integer(0)
+                         ->closeBracket()
+                         ->build()
   );
 }
 
