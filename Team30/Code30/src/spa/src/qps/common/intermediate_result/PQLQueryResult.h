@@ -75,7 +75,7 @@ class PQLQueryResult {
            const unordered_set<T> &data);
 
   bool isFalse() const;
-  void setIsStaticFalse(const bool &staticRes);
+  void setIsStaticFalse(const bool staticRes);
 
   const SynonymColMap *getSynonyms() const;
   ResultTableCol getSynonymCol(const PQLSynonymName &name) const;

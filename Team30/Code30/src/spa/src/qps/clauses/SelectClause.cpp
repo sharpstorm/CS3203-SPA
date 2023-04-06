@@ -29,7 +29,7 @@ PQLQueryResult *SelectClause::queryPKB(const QueryExecutorAgent &agent,
                                        const PQLSynonymName &synName,
                                        const RefType &ref) const {
   QueryResultSet<ReturnType> result;
-  RefType transformed = agent.transformArg(synName, ref);
+  const RefType transformed = agent.transformArg(synName, ref);
   if (transformed.isKnown() && agent.isValid(transformed)) {
     result.insert(transformed.getValue());
   } else if (!transformed.isKnown()) {

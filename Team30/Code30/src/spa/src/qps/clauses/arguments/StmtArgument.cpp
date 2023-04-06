@@ -3,7 +3,7 @@
 StmtArgument::StmtArgument(const StmtValue &stmtNumber) :
     stmtNumber(stmtNumber) {}
 
-StmtRef StmtArgument::toStmtRef() {
+StmtRef StmtArgument::toStmtRef() const {
   if (stmtNumber == NO_STMT) {
     return StmtRef{StmtType::None, INVALID_STMT};
   }

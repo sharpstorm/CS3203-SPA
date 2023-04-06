@@ -21,16 +21,21 @@ bool AttributedSynonym::validateAttribute() const {
     case PQL_SYN_TYPE_STMT:
     case PQL_SYN_TYPE_ASSIGN:
     case PQL_SYN_TYPE_IF:
-    case PQL_SYN_TYPE_WHILE:return attribute == STMT_NUM;
+    case PQL_SYN_TYPE_WHILE:
+      return attribute == STMT_NUM;
     case PQL_SYN_TYPE_READ:
     case PQL_SYN_TYPE_PRINT:
       return attribute == STMT_NUM || attribute == VAR_NAME;
     case PQL_SYN_TYPE_CALL:
       return attribute == STMT_NUM || attribute == PROC_NAME;
-    case PQL_SYN_TYPE_CONSTANT:return attribute == CONST_VALUE;
-    case PQL_SYN_TYPE_VARIABLE:return attribute == VAR_NAME;
-    case PQL_SYN_TYPE_PROCEDURE:return attribute == PROC_NAME;
-    default:return false;
+    case PQL_SYN_TYPE_CONSTANT:
+      return attribute == CONST_VALUE;
+    case PQL_SYN_TYPE_VARIABLE:
+      return attribute == VAR_NAME;
+    case PQL_SYN_TYPE_PROCEDURE:
+      return attribute == PROC_NAME;
+    default:
+      return false;
   }
 }
 

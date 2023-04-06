@@ -18,10 +18,8 @@ class QueryResultItem {
   EntityValue entRef;
 
  public:
-  explicit QueryResultItem(const StmtValue &stmt) : stmtRef(stmt),
-                                                    entRef(NO_ENT) {}
-  explicit QueryResultItem(const EntityValue &ent) : stmtRef(NO_STMT),
-                                                     entRef(ent) {}
+  explicit QueryResultItem(const StmtValue &stmt);
+  explicit QueryResultItem(const EntityValue &ent);
 
   ProjectedValue project() const;
   template<class ProjectionClosure>

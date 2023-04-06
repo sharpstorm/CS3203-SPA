@@ -124,13 +124,17 @@ constexpr PKBAttributeQuerier PrintQuerier =
 bool WithClauseEvaluator::populateMap(const PQLQuerySynonymProxy &arg,
                                       SynToStmtMap *map) {
   switch (arg->getType()) {
-    case PQL_SYN_TYPE_CALL:queryPkbForAttribute<CallsQuerier>(map, arg);
+    case PQL_SYN_TYPE_CALL:
+      queryPkbForAttribute<CallsQuerier>(map, arg);
       return false;
-    case PQL_SYN_TYPE_READ:queryPkbForAttribute<ReadQuerier>(map, arg);
+    case PQL_SYN_TYPE_READ:
+      queryPkbForAttribute<ReadQuerier>(map, arg);
       return false;
-    case PQL_SYN_TYPE_PRINT:queryPkbForAttribute<PrintQuerier>(map, arg);
+    case PQL_SYN_TYPE_PRINT:
+      queryPkbForAttribute<PrintQuerier>(map, arg);
       return false;
-    default:break;
+    default:
+      break;
   }
 
   EntityValueSet entSet = queryForEntity(arg);

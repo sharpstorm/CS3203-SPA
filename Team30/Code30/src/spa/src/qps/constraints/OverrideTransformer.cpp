@@ -8,7 +8,7 @@ OverrideTransformer::OverrideTransformer(const StmtValue &stmt) :
     stmtRef(stmt), entRef(NO_ENT) {}
 
 OverrideTransformer::OverrideTransformer(const EntityValue &ent) :
-    stmtRef(NO_STMT), entRef(ent) {}
+    stmtRef(NO_INT_VAL), entRef(ent) {}
 
 StmtRef OverrideTransformer::transformArg(const StmtRef &input) const {
   if (stmtRef == NO_INT_VAL) {
