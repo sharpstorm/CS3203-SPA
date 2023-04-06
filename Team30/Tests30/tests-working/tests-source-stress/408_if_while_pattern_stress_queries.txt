@@ -1,0 +1,190 @@
+1 - Test while Positive
+while w1, w2, w3;
+Select w1 pattern w1("a",_)
+1
+5000
+2 - Test while Positive
+while w1, w2, w3;
+Select w1 pattern w1("b",_)
+1
+5000
+3 - Test while Positive
+while w1, w2, w3;
+Select w1 pattern w1("c",_)
+1
+5000
+4 - Test while Positive
+while w1, w2, w3;
+Select w1 pattern w1("d",_)
+1
+5000
+5 - Test while Positive
+while w1, w2, w3;
+Select w1 pattern w1("e",_)
+1
+5000
+6 - Test while Positive
+while w1, w2, w3;
+Select w1 pattern w1("f",_)
+1
+5000
+7 - Test while Positive
+while w1, w2, w3;
+Select w1 pattern w1("g",_)
+1
+5000
+7 - Test while Positive
+while w1, w2, w3;
+Select w1 pattern w1("h",_)
+1
+5000
+8 - Test while Positive
+while w1, w2, w3;
+Select w1 pattern w1("i",_)
+1
+5000
+9 - Test while Positive
+while w1, w2, w3;
+Select w1 pattern w1("j",_)
+1
+5000
+10 - Test while Positive
+while w1, w2, w3;
+Select w1 pattern w1("k",_)
+1
+5000
+11 - Test while Positive
+while w1, w2, w3;
+Select w1 pattern w1("l",_)
+1
+5000
+12 - Test while Positive
+while w1, w2, w3;
+Select w1 pattern w1("m",_)
+1
+5000
+13 - Test while Positive
+while w1, w2, w3;
+Select w1 pattern w1("n",_)
+1
+5000
+14 - Test while Positive
+while w1, w2, w3;
+Select w1 pattern w1("o",_)
+1
+5000
+15 - Test while Positive
+while w1, w2, w3;
+Select w1 pattern w1("p",_)
+1
+5000
+16 - Test while Positive
+while w1, w2, w3;
+Select w1 pattern w1("q",_)
+1
+5000
+17 - Test while Positive
+while w1, w2, w3;
+Select w1 pattern w1("r",_)
+1
+5000
+18 - Test while Positive
+while w1, w2, w3;
+Select w1 pattern w1("s",_)
+1
+5000
+19 - Test while Positive
+while w1, w2, w3;
+Select w1 pattern w1("x",_)
+1
+5000
+18 - Test while Positive
+while w1, w2, w3;
+Select w1 pattern w1("OhSingaporeHokkienhowsweetyoursoundAblendofculturehistoryandrootssoprofoundFromthebustlingstreetsofChinatowntothehawkercentersdinYourwordsarespokenwithprideheritageandkinWithtonesthatriseandfallyourmelodysingsOfstoriesofoldoftriumphsandsufferingsOffamilyfoodandtraditionsthatbindThepastandpresentheartsandmindsYouruniqueflavorsorichanddiverseAtapestryofdialectsaculturaluniverseFromthewarmestgreetingstotheloudestlaughsYouspeakalanguageoftheheartalanguageofthepastOhSingaporeHokkienhowyoubringustogetherAlanguageofthepeoplealanguagetotreasureAtestamenttotheresilienceandstrengthofanationAlanguagethatspeaksofoursharedaspirationsSoletushonorandcherishthislanguagesodearForitisapartofwhoweareyearafteryearLetusspeakitloudandproudandletitsbeautyshineOhSingaporeHokkienalanguagesodivine",_)
+3
+5000
+19 - Test while Positive
+while w1, w2, w3;
+Select w1 pattern w1("thisIsALongLongNameWahahahahahaMuhahahahahaWheeeeeeeeeHuahuahuahuahuahuahuahuahuahuahuahuahuahuahuahu",_)
+3
+5000
+20 - Test while Positive
+while w1, w2, w3;
+Select w1 pattern w1("aa",_)
+3
+5000
+21 - Test while Positive
+while w1, w2, w3;
+Select w1 pattern w1("bb",_)
+3
+5000
+22 - Test while Positive
+while w1, w2, w3;
+Select w1 pattern w1("cc",_)
+3
+5000
+23 - Test while Positive
+while w1, w2, w3;
+Select w1 pattern w1("dd",_)
+3
+5000
+24 - Test while Positive
+while w1, w2, w3;
+Select w1 pattern w1("ee",_)
+3
+5000
+25 - Test while Positive
+while w1, w2, w3;
+Select w1 pattern w1("ff",_)
+3
+5000
+26 - Test while Negative
+while w1, w2, w3;
+Select w1 pattern w1("gg",_)
+
+5000
+27 - Test while Negative
+while w1, w2, w3;
+Select w1 pattern w1("y",_)
+
+5000
+28 - Test while Negative
+while w1, w2, w3;
+Select w1 pattern w1("OhSingaporeHokkienhowsweetyoursoundAblendofculturehistoryandrootssoprofoundFromthebustlingstreetsofChinatowntothehawkercentersdinYourwordsarespokenwithprideheritageandkinWithtonesthatriseandfallyourmelodysingsOfstoriesofoldoftriumphsandsufferingsOffamilyfoodandtraditionsthatbindThepastandpresentheartsandmindsYouruniqueflavorsorichanddiverseAtapestryofdialectsaculturaluniverseFromthewarmestgreetingstotheloudestlaughsYouspeakalanguageoftheheartalanguageofthepastOhSingaporeHokkienhowyoubringustogetherAlanguageofthepeoplealanguagetotreasureAtestamenttotheresilienceandstrengthofanationAlanguagethatspeaksofoursharedaspirationsSoletushonorandcherishthislanguagesodearForitisapartofwhoweareyearafteryearLetusspeakitloudandproudandletitsbeautyshineOhSingaporeHokkienalanguagesodivin",_)
+
+5000
+29 - Test While Positive
+while w1, w2, w3;
+Select w1 pattern w1("abc", _)
+5,6,7,19,20,21
+5000    
+30 - Test While Positive
+while w1, w2, w3;
+Select w1 pattern w1("bac", _)
+24,25,26,27,28,29
+5000    
+31 - Test While Positive
+while w1, w2, w3;
+Select w1 pattern w1("cab", _)
+31,32,33,34,35,47
+5000
+32 - Test If Positive
+if i1, i2, i3;
+Select i1 pattern i1("xyz",_,_)
+8,9,14,36,37,42
+5000
+33 - Test If Positive
+if i1, i2, i3;
+Select i1 pattern i1("yaz",_,_)
+8,9,14,36,37,42
+5000
+34 - Test If Positive
+if i1, i2, i3;
+Select i1 pattern i1("yaz",_,_)
+8,9,14,36,37,42
+5000
+35 - Test While Positive
+while w1, w2, w3;
+Select w1 pattern w1("hehe", _)
+10,12,15,17,38,40,43,45
+5000
