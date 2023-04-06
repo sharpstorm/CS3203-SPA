@@ -37,15 +37,15 @@ class FollowsTableManager : public RelationTableManager<StmtValue, StmtValue> {
     reverseTable->insert(arg2, arg1);
   }
 
-  QueryResultPtr<StmtValue, StmtValue> query(StmtValue arg1,
-                                             StmtValue arg2) const override {
-    QueryResult<StmtValue, StmtValue> result;
+  QueryResultPtr<StmtValue, StmtValue> query(
+      StmtValue arg1, StmtValue arg2,
+      QueryResultBuilder<StmtValue, StmtValue> *resultBuilder) const override {
     auto firstVal = table->getFirstValue(arg1);
     if (firstVal == arg2) {
-      result.add(arg1, arg2);
+      resultBuilder->add(arg1, arg2);
     }
 
-    return make_unique<QueryResult<StmtValue, StmtValue>>(result);
+    return resultBuilder->getResult();
   }
 
   unique_ptr<IBaseIterator<StmtValue>> getRightValIter(
@@ -61,28 +61,27 @@ class FollowsTableManager : public RelationTableManager<StmtValue, StmtValue> {
   }
 
   QueryResultPtr<StmtValue, StmtValue> rightWildcardQuery(
-      const set<StmtValue> &arg1Values) const override {
-    QueryResult<StmtValue, StmtValue> result;
+      const set<StmtValue> &arg1Values,
+      QueryResultBuilder<StmtValue, StmtValue> *resultBuilder) const override {
     for (auto arg1 : arg1Values) {
       auto arg2 = table->getFirstValue(arg1);
       if (arg2 != 0) {
-        result.firstArgVals.insert(arg1);
-        result.isEmpty = false;
+        resultBuilder->addLeft(arg1);
       }
     }
-    return make_unique<QueryResult<StmtValue, StmtValue>>(result);
+    return resultBuilder->getResult();
   }
 
   QueryResultPtr<StmtValue, StmtValue> leftWildcardQuery(
-      const set<StmtValue> &arg2Values) const override {
+      const set<StmtValue> &arg2Values,
+      QueryResultBuilder<StmtValue, StmtValue> *resultBuilder) const override {
     QueryResult<StmtValue, StmtValue> result;
     for (auto arg2 : arg2Values) {
       auto arg1 = reverseTable->getLastValue(arg2);
       if (arg1 != 0) {
-        result.secondArgVals.insert(arg2);
-        result.isEmpty = false;
+        resultBuilder->addRight(arg2);
       }
     }
-    return make_unique<QueryResult<StmtValue, StmtValue>>(result);
+    return resultBuilder->getResult();
   }
 };
