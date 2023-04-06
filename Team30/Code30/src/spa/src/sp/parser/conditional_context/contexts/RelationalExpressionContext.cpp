@@ -17,13 +17,13 @@ RelationalExpressionContext::generateSubtree(SourceParseState *state) const {
   ASTNodePtr leftNode = contextProvider
       ->generateSubtree(ConditionalContextType::REL_FACTOR_CONTEXT, state);
 
-  SourceTokenType tokenType = state->expectType(SIMPLE_TOKEN_GT,
-                                                SIMPLE_TOKEN_GTE,
-                                                SIMPLE_TOKEN_LT,
-                                                SIMPLE_TOKEN_LTE,
-                                                SIMPLE_TOKEN_EQUALS,
-                                                SIMPLE_TOKEN_NOT_EQUALS);
-  BinaryASTNodePtr newNode = generateRelationalNode(tokenType,
+  SourceToken *token = state->expect(SIMPLE_TOKEN_GT,
+                                     SIMPLE_TOKEN_GTE,
+                                     SIMPLE_TOKEN_LT,
+                                     SIMPLE_TOKEN_LTE,
+                                     SIMPLE_TOKEN_EQUALS,
+                                     SIMPLE_TOKEN_NOT_EQUALS);
+  BinaryASTNodePtr newNode = generateRelationalNode(token,
                                                     std::move(leftNode));
   newNode->setRightChild(
       contextProvider
@@ -33,9 +33,9 @@ RelationalExpressionContext::generateSubtree(SourceParseState *state) const {
 }
 
 BinaryASTNodePtr RelationalExpressionContext::generateRelationalNode(
-    SourceTokenType type, ASTNodePtr leftNode) const {
+    const SourceToken *token, ASTNodePtr leftNode) const {
   BinaryASTNodePtr node;
-  switch (type) {
+  switch (token->getType()) {
     case SIMPLE_TOKEN_GT:
       node = make_unique<GtASTNode>();
       break;

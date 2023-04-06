@@ -40,9 +40,6 @@ class SourceParseState {
   template<typename... SourceTokenType>
   SourceToken *expect(SourceTokenType... tokenType);
 
-  template<typename... TokenType>
-  SourceTokenType expectType(TokenType... tokenType);
-
   template<typename... SourceTokenType>
   SourceToken *tryExpect(SourceTokenType... tokenType);
   SourceToken *expectVarchar();
@@ -66,15 +63,6 @@ SourceToken *SourceParseState::expect(SourceTokenType... tokenType) {
     throw SPError(SPERR_UNEXPECTED_TOKEN);
   }
   return currentToken;
-}
-
-template<typename... TokenType>
-SourceTokenType SourceParseState::expectType(TokenType... tokenType) {
-  SourceToken *currentToken = tryExpect(tokenType...);
-  if (currentToken == nullptr) {
-    throw SPError(SPERR_UNEXPECTED_TOKEN);
-  }
-  return currentToken->getType();
 }
 
 template<typename... SourceTokenType>

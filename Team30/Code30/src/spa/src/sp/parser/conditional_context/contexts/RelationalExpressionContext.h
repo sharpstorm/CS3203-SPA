@@ -13,5 +13,5 @@ class RelationalExpressionContext: public RecursiveConditionalParseContext {
 
  private:
   BinaryASTNodePtr
-  generateRelationalNode(SourceTokenType type, ASTNodePtr leftNode) const;
+  generateRelationalNode(const SourceToken *token, ASTNodePtr leftNode) const;
 };
