@@ -24,11 +24,14 @@ ASTNodePtr ConditionalExpressionContext::generateSubtree(
   }
 
   switch (state->getCurrTokenType()) {
-    case SIMPLE_TOKEN_NOT:newNode = processNotCondition(state);
+    case SIMPLE_TOKEN_NOT:
+      newNode = processNotCondition(state);
       break;
-    case SIMPLE_TOKEN_BRACKET_ROUND_LEFT:newNode = processBiCondition(state);
+    case SIMPLE_TOKEN_BRACKET_ROUND_LEFT:
+      newNode = processBiCondition(state);
       break;
-    default:throw SPError(SPERR_UNEXPECTED_TOKEN);
+    default:
+      throw SPError(SPERR_UNEXPECTED_TOKEN);
   }
   return newNode;
 }
