@@ -143,3 +143,8 @@ variable v;
 Select v such that Modifies (_, v)
 SemanticError
 5000
+32 - Select Negative Modifies(0, _) (Modifies)
+stmt s;
+Select s such that Modifies(0, _)
+
+5000

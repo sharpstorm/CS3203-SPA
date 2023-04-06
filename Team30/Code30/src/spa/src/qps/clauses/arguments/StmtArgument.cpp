@@ -4,6 +4,9 @@ StmtArgument::StmtArgument(int stmtNumber): stmtNumber(stmtNumber) {
 }
 
 StmtRef StmtArgument::toStmtRef() {
+  if (stmtNumber == NO_STMT) {
+    return StmtRef{StmtType::None, INVALID_STMT};
+  }
   return StmtRef{StmtType::None, stmtNumber};
 }
 
