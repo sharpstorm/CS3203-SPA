@@ -6,7 +6,7 @@
 
 using std::make_unique;
 
-ASTNodePtr IfContext::generateSubtree(SourceParseState* state) {
+ASTNodePtr IfContext::generateSubtree(SourceParseState *state) const {
   // If Node
   state->expect(SIMPLE_TOKEN_KEYWORD_IF);
   ASTNodePtr ifNode = make_unique<IfNode>(state->getLineNumber());

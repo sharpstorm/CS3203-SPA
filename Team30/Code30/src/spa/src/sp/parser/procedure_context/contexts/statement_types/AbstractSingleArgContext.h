@@ -6,21 +6,21 @@
 #include "../../ProcedureContextType.h"
 #include "../../IProcedureContextProvider.h"
 
-template <SourceTokenType KEYWORD>
-class AbstractSingleArgContext: public RecursiveProcedureParseContext {
+template<SourceTokenType KEYWORD>
+class AbstractSingleArgContext : public RecursiveProcedureParseContext {
  public:
-  explicit AbstractSingleArgContext(IProcedureContextProvider* provider):
+  explicit AbstractSingleArgContext(IProcedureContextProvider *provider) :
       RecursiveProcedureParseContext(provider) {}
-  ASTNodePtr generateSubtree(SourceParseState* state);
+  ASTNodePtr generateSubtree(SourceParseState *state) const override;
 
  protected:
-  virtual ASTNodePtr makeNode(const int &lineNumber,
-                              ASTNodePtr variableNode) = 0;
+  virtual ASTNodePtr makeNode(const LineNumber lineNumber,
+                              ASTNodePtr variableNode) const = 0;
 };
 
-template <SourceTokenType KEYWORD>
+template<SourceTokenType KEYWORD>
 ASTNodePtr AbstractSingleArgContext<KEYWORD>::
-generateSubtree(SourceParseState* state) {
+generateSubtree(SourceParseState *state) const {
   // Keyword Entity;
   state->expect(KEYWORD);
   ASTNodePtr varNode = contextProvider->parseVariable(state);

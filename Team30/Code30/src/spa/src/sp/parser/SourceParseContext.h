@@ -1,12 +1,10 @@
 #pragma once
 
-#include "sp/common/SourceToken.h"
 #include "sp/parser/SourceParseState.h"
 #include "sp/ast/ASTNode.h"
-#include "sp/errors/SPError.h"
 
 class SourceParseContext {
  public:
   virtual ~SourceParseContext() = default;
-  virtual ASTNodePtr generateSubtree(SourceParseState* state) = 0;
+  virtual ASTNodePtr generateSubtree(SourceParseState *state) const = 0;
 };

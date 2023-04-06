@@ -6,7 +6,7 @@
 
 class ProcedureContext : public RecursiveProcedureParseContext {
  public:
-  explicit ProcedureContext(IProcedureContextProvider* provider):
+  explicit ProcedureContext(IProcedureContextProvider *provider) :
       RecursiveProcedureParseContext(provider) {}
-  ASTNodePtr generateSubtree(SourceParseState* state) override;
+  ASTNodePtr generateSubtree(SourceParseState *state) const override;
 };

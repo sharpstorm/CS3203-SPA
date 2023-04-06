@@ -11,3 +11,4 @@ typedef string FileData;
 typedef unique_ptr<FileData> FileDataPtr;
 
 typedef string SourceExpression;
+typedef int LineNumber;

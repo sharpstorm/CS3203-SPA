@@ -3,14 +3,14 @@
 #include "../ExpressionContextType.h"
 #include "../../entity_context/IEntityParser.h"
 
-class FactorContext: public RecursiveExpressionParseContext {
+class FactorContext : public RecursiveExpressionParseContext {
  public:
-  explicit FactorContext(IExpressionContextProvider* provider,
-                IEntityParser* entityParser):
+  explicit FactorContext(IExpressionContextProvider *provider,
+                         IEntityParser *entityParser) :
       RecursiveParseContext(provider),
       entityParser(entityParser) {}
-  ASTNodePtr generateSubtree(SourceParseState* state) override;
+  ASTNodePtr generateSubtree(SourceParseState *state) const override;
 
  private:
-  IEntityParser* entityParser;
+  IEntityParser *entityParser;
 };

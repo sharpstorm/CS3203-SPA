@@ -2,7 +2,7 @@
 
 #include <utility>
 
-SourceParseState::SourceParseState(vector<SourceToken>* t):
+SourceParseState::SourceParseState(SourceTokenStream *t) :
     curIndex(0),
     lineNumber(0),
     tokenLength(t->size()),
@@ -16,34 +16,41 @@ void SourceParseState::advanceToken() {
   }
 }
 
-bool SourceParseState::isEnd() {
+bool SourceParseState::isEnd() const {
   return curIndex >= tokenLength;
 }
 
-int SourceParseState::getCurrPosition() {
-  return curIndex;
+SourceParseState::SourceParseStateSnapshot SourceParseState::savePosition() {
+  return SourceParseStateSnapshot(curIndex);
 }
 
-void SourceParseState::restorePosition(int pos) {
-  curIndex = pos;
+void SourceParseState::restorePosition(const SourceParseStateSnapshot &pos) {
+  curIndex = pos.lineNo;
 }
 
-SourceToken *SourceParseState::getCurrToken() {
-  if (curIndex >= tokenLength) {
-    return nullptr;
+SourceTokenType SourceParseState::getCurrTokenType() const {
+  if (isEnd()) {
+    return SIMPLE_TOKEN_NULL;
   }
-  return &tokens->at(curIndex);
+  return getCurrToken()->getType();
 }
 
-SourceToken *SourceParseState::peekNextToken() {
+bool SourceParseState::isCurrTokenVarchar() const {
+  if (isEnd()) {
+    return false;
+  }
+  return getCurrToken()->isVarchar();
+}
+
+SourceToken *SourceParseState::peekNextToken() const {
   if (curIndex + 1 >= tokenLength) {
     return nullptr;
   }
   return &tokens->at(curIndex + 1);
 }
 
-bool SourceParseState::nextTokenIsOfType(SourceTokenType type) {
-  SourceToken* token = peekNextToken();
+bool SourceParseState::nextTokenIsOfType(SourceTokenType type) const {
+  SourceToken *token = peekNextToken();
   if (token == nullptr) {
     return false;
   }
@@ -54,7 +61,7 @@ void SourceParseState::cacheNode(ASTNodePtr node) {
   curCache = std::move(node);
 }
 
-bool SourceParseState::hasCached() {
+bool SourceParseState::hasCached() const {
   return curCache != nullptr;
 }
 
@@ -64,7 +71,7 @@ ASTNodePtr SourceParseState::consumeCache() {
   return temp;
 }
 
-LineNumber SourceParseState::getLineNumber() {
+LineNumber SourceParseState::getLineNumber() const {
   return lineNumber;
 }
 
@@ -73,15 +80,18 @@ void SourceParseState::advanceLine() {
 }
 
 SourceToken *SourceParseState::expectVarchar() {
-  SourceToken* currentToken = getCurrToken();
-
-  if (currentToken == nullptr) {
+  if (isEnd()) {
     throw SPError(SPERR_END_OF_STREAM);
   }
 
+  SourceToken *currentToken = getCurrToken();
   if (currentToken->isVarchar()) {
     advanceToken();
     return currentToken;
   }
   throw SPError(SPERR_UNEXPECTED_TOKEN);
+}
+
+SourceToken *SourceParseState::getCurrToken() const {
+  return &tokens->at(curIndex);
 }
