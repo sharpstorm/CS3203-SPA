@@ -78,7 +78,7 @@ class AbstractTwoArgClause : public SuchThatClause {
       return COMPLEXITY_QUERY_CONSTANT + constantModifier;
     } else if (!isLeftConstant && !isRightConstant) {
       return COMPLEXITY_QUERY_LIST_ALL + twoSynModifier +
-          +left->getSynComplexity() + right->getSynComplexity();
+          left->getSynComplexity() + right->getSynComplexity();
     } else if (isLeftConstant) {
       return right->getSynComplexity() + oneSynModifier;
     } else {
