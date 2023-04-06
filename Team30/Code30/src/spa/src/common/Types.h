@@ -26,6 +26,7 @@ typedef set<StmtValue> StmtSet;
 typedef set<EntityValue> EntitySet;
 
 const StmtValue NO_STMT = 0;
+const StmtValue INVALID_STMT = -1;
 const IntegerValue NO_INT_VAL = -1;
 const char NO_ENT[] = "";
 const EntityIdx NO_ENT_INDEX = 0;

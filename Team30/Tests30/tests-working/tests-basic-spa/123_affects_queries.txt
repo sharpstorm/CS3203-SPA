@@ -248,3 +248,18 @@ constant c; stmt s;
 Select s such that Affects(c, s)
 SemanticError
 5000
+51 - Select Negative Affects(0, _) (Affects)
+stmt s;
+Select s such that Affects(0, _)
+
+5000
+52 - Select Negative Affects(_, 0) (Affects)
+stmt s;
+Select s such that Affects(_, 0)
+
+5000
+53 - Select Negative Affects(0, 0) (Affects)
+stmt s;
+Select s such that Affects(0, 0)
+
+5000

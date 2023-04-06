@@ -538,3 +538,8 @@ print a; variable v;
 Select v such that Uses(a, _)
 x,a,b,c,temp,k
 5000
+109 - Select Negative Uses(0, _) (Uses)
+stmt s;
+Select s such that Uses(0, _)
+
+5000

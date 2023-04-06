@@ -665,26 +665,26 @@ TEST_CASE("Zero As Arg Tests") {
   pipeline.query("stmt s; Select s with s.stmt# = 0",{});
   pipeline.query("assign a; Select a with a.stmt# = 0",{});
 
-  pipeline.expectSemanticError("stmt s1; Select s1 such that Follows(0, s1)");
-  pipeline.expectSemanticError("stmt s1; Select s1 such that Follows(s1, 0)");
-  pipeline.expectSemanticError("stmt s1; Select s1 such that Follows*(0, s1)");
-  pipeline.expectSemanticError("stmt s1; Select s1 such that Follows*(s1, 0)");
+  pipeline.query("stmt s1; Select s1 such that Follows(0, s1)", {});
+  pipeline.query("stmt s1; Select s1 such that Follows(s1, 0)", {});
+  pipeline.query("stmt s1; Select s1 such that Follows*(0, s1)", {});
+  pipeline.query("stmt s1; Select s1 such that Follows*(s1, 0)", {});
 
-  pipeline.expectSemanticError("stmt s1; Select s1 such that Parent(0, s1)");
-  pipeline.expectSemanticError("stmt s1; Select s1 such that Parent(s1, 0)");
-  pipeline.expectSemanticError("stmt s1; Select s1 such that Parent*(0, s1)");
-  pipeline.expectSemanticError("stmt s1; Select s1 such that Parent*(s1, 0)");
+  pipeline.query("stmt s1; Select s1 such that Parent(0, s1)", {});
+  pipeline.query("stmt s1; Select s1 such that Parent(s1, 0)", {});
+  pipeline.query("stmt s1; Select s1 such that Parent*(0, s1)", {});
+  pipeline.query("stmt s1; Select s1 such that Parent*(s1, 0)", {});
 
-  pipeline.expectSemanticError("stmt s1; Select s1 such that Next(0, s1)");
-  pipeline.expectSemanticError("stmt s1; Select s1 such that Next(s1, 0)");
-  pipeline.expectSemanticError("stmt s1; Select s1 such that Next*(0, s1)");
-  pipeline.expectSemanticError("stmt s1; Select s1 such that Next*(s1, 0)");
+  pipeline.query("stmt s1; Select s1 such that Next(0, s1)", {});
+  pipeline.query("stmt s1; Select s1 such that Next(s1, 0)", {});
+  pipeline.query("stmt s1; Select s1 such that Next*(0, s1)", {});
+  pipeline.query("stmt s1; Select s1 such that Next*(s1, 0)", {});
 
-  pipeline.expectSemanticError("stmt s1; Select s1 such that Affects(0, s1)");
-  pipeline.expectSemanticError("stmt s1; Select s1 such that Affects(s1, 0)");
-  pipeline.expectSemanticError("stmt s1; Select s1 such that Affects*(0, s1)");
-  pipeline.expectSemanticError("stmt s1; Select s1 such that Affects*(s1, 0)");
+  pipeline.query("stmt s1; Select s1 such that Affects(0, s1)", {});
+  pipeline.query("stmt s1; Select s1 such that Affects(s1, 0)", {});
+  pipeline.query("stmt s1; Select s1 such that Affects*(0, s1)", {});
+  pipeline.query("stmt s1; Select s1 such that Affects*(s1, 0)", {});
 
-  pipeline.expectSemanticError("stmt s1; Select s1 such that Modifies(0, \"x\")");
-  pipeline.expectSemanticError("stmt s1; Select s1 such that Uses(0, \"x\")");
+  pipeline.query("stmt s1; Select s1 such that Modifies(0, \"x\")", {});
+  pipeline.query("stmt s1; Select s1 such that Uses(0, \"x\")", {});
 }
