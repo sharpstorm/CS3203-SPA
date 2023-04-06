@@ -2,7 +2,6 @@
 
 #include <memory>
 #include <utility>
-#include <string>
 #include <unordered_set>
 
 #include "common/pattern/PatternConverter.h"
@@ -10,18 +9,18 @@
 
 using std::shared_ptr, std::move;
 
-PatternExtractor::PatternExtractor(PkbWriter* writer) : pkbWriter(writer) {
+PatternExtractor::PatternExtractor(PkbWriter *writer) : pkbWriter(writer) {
 }
 
-void PatternExtractor::leaveAssign(AssignNode* node) {
+void PatternExtractor::leaveAssign(const AssignNode *node) {
   addPattern(node->getLineNumber(), node->getChild(1));
 }
 
-void PatternExtractor::leave(ASTNodeType type, StatementASTNode* node) {
+void PatternExtractor::leave(ASTNodeType type, const StatementASTNode *node) {
   ExtractorUtility util;
-  unordered_set<string> variableSet;
-  util.getExprVariables(&variableSet, node->getChildren()[0]);
-  for (string s : variableSet) {
+  VariableNameSet variableSet;
+  util.getExprVariables(&variableSet, node->getMutableChild(0));
+  for (const VariableName &s : variableSet) {
     if (type == ASTNODE_IF) {
       pkbWriter->addIfPattern(node->getLineNumber(), s);
       continue;
@@ -30,14 +29,14 @@ void PatternExtractor::leave(ASTNodeType type, StatementASTNode* node) {
   }
 }
 
-void PatternExtractor::leaveWhile(WhileNode* node) {
+void PatternExtractor::leaveWhile(const WhileNode *node) {
   leave(ASTNODE_WHILE, node);
 }
-void PatternExtractor::leaveIf(IfNode* node) {
+void PatternExtractor::leaveIf(const IfNode *node) {
   leave(ASTNODE_IF, node);
 }
 
-void PatternExtractor::addPattern(int x, IASTNode* node) {
+void PatternExtractor::addPattern(LineNumber x, IASTNode *node) {
   PatternTriePtr trie = PatternConverter::convertASTToTrie(node, pkbWriter);
   PatternTrieSPtr sharedPtr = shared_ptr<PatternTrie>(std::move(trie));
   pkbWriter->addAssigns(x, sharedPtr);

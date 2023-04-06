@@ -1,17 +1,14 @@
 #include "BinaryASTNode.h"
 
-#include <vector>
 #include <utility>
 
-using std::vector;
-
-BinaryASTNode::BinaryASTNode(ASTNodeType type, string value)
+BinaryASTNode::BinaryASTNode(ASTNodeType type, const ASTNodeValue &value)
     : ASTNode(type, value) {
   children.push_back(nullptr);
   children.push_back(nullptr);
 }
 
-BinaryASTNode::BinaryASTNode(ASTNodeType type): ASTNode(type) {
+BinaryASTNode::BinaryASTNode(ASTNodeType type) : ASTNode(type) {
   children.push_back(nullptr);
   children.push_back(nullptr);
 }
@@ -22,12 +19,4 @@ void BinaryASTNode::setLeftChild(ASTNodePtr left) {
 
 void BinaryASTNode::setRightChild(ASTNodePtr right) {
   children[1] = std::move(right);
-}
-
-ASTNode* BinaryASTNode::getLeftChild() {
-  return children[0].get();
-}
-
-ASTNode* BinaryASTNode::getRightChild() {
-  return children[1].get();
 }

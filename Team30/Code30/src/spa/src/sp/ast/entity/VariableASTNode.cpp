@@ -1,8 +1,8 @@
 #include "VariableASTNode.h"
-#include "sp/extractor/IExtractor.h"
 
-VariableASTNode::VariableASTNode(string v): ASTNode(ASTNODE_VARIABLE, v) {}
+VariableASTNode::VariableASTNode(const ASTNodeValue &v) :
+    ASTNode(ASTNODE_VARIABLE, v) {}
 
-void VariableASTNode::accept(IExtractor* e) {
+void VariableASTNode::accept(IExtractor *e) const {
   e->visitVariable(this);
 }

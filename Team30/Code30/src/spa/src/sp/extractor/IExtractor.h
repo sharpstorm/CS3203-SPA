@@ -1,6 +1,9 @@
 #pragma once
 
+#include <memory>
 #include "pkb/writers/PkbWriter.h"
+
+using std::unique_ptr;
 
 class ProcedureNode;
 class StatementListNode;
@@ -17,32 +20,32 @@ class AbstractConditionalNode;
 
 class IContainerNodeExtractorPart {
  public:
-  virtual void visitProcedure(ProcedureNode* node) = 0;
-  virtual void visitStmtList(StatementListNode* node) = 0;
-  virtual void visitIf(IfNode* node) = 0;
-  virtual void visitWhile(WhileNode* node) = 0;
+  virtual void visitProcedure(const ProcedureNode* node) = 0;
+  virtual void visitStmtList(const StatementListNode* node) = 0;
+  virtual void visitIf(const IfNode* node) = 0;
+  virtual void visitWhile(const WhileNode* node) = 0;
 
-  virtual void leaveProcedure(ProcedureNode* node) = 0;
-  virtual void leaveStmtList(StatementListNode* node) = 0;
-  virtual void leaveIf(IfNode* node) = 0;
-  virtual void leaveWhile(WhileNode* node) = 0;
+  virtual void leaveProcedure(const ProcedureNode* node) = 0;
+  virtual void leaveStmtList(const StatementListNode* node) = 0;
+  virtual void leaveIf(const IfNode* node) = 0;
+  virtual void leaveWhile(const WhileNode* node) = 0;
 };
 
 class IBinaryNodeExtractorPart {
  public:
-  virtual void visitExpression(AbstractExpressionNode* node) = 0;
-  virtual void visitConditional(AbstractConditionalNode* node) = 0;
+  virtual void visitExpression(const AbstractExpressionNode* node) = 0;
+  virtual void visitConditional(const AbstractConditionalNode* node) = 0;
 };
 
 class ILeafNodeExtractorPart {
  public:
-  virtual void visitRead(ReadNode* node) = 0;
-  virtual void visitPrint(PrintNode* node) = 0;
-  virtual void visitAssign(AssignNode* node) = 0;
-  virtual void visitCall(CallNode* node) = 0;
-  virtual void visitVariable(VariableASTNode* node) = 0;
-  virtual void visitConstant(ConstantASTNode* node) = 0;
-  virtual void leaveAssign(AssignNode* node) = 0;
+  virtual void visitRead(const ReadNode* node) = 0;
+  virtual void visitPrint(const PrintNode* node) = 0;
+  virtual void visitAssign(const AssignNode* node) = 0;
+  virtual void visitCall(const CallNode* node) = 0;
+  virtual void visitVariable(const VariableASTNode* node) = 0;
+  virtual void visitConstant(const ConstantASTNode* node) = 0;
+  virtual void leaveAssign(const AssignNode* node) = 0;
 };
 
 class IExtractor : virtual public IContainerNodeExtractorPart,
@@ -51,3 +54,5 @@ class IExtractor : virtual public IContainerNodeExtractorPart,
  public:
   virtual ~IExtractor() = default;
 };
+
+typedef unique_ptr<IExtractor> IExtractorPtr;

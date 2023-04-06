@@ -1,22 +1,23 @@
 #include "ProcedureNode.h"
 #include "sp/extractor/IExtractor.h"
 
-ProcedureNode::ProcedureNode(string name): procName(name),
-                                           ASTNode(ASTNODE_PROCEDURE) {
+ProcedureNode::ProcedureNode(const ProcedureName &name) :
+    procName(name), ASTNode(ASTNODE_PROCEDURE) {
 }
 
-string ProcedureNode::getName() {
+ProcedureName ProcedureNode::getName() const {
   return procName;
 }
 
-void ProcedureNode::accept(IExtractor* e) {
+void ProcedureNode::accept(IExtractor *e) const {
   e->visitProcedure(this);
 }
 
-void ProcedureNode::leave(IExtractor* e) {
+void ProcedureNode::leave(IExtractor *e) const {
   e->leaveProcedure(this);
 }
 
-ASTNode *ProcedureNode::getChildStatement(const int &statementIndex) {
-  return children.at(0)->getChildren()[statementIndex];
+ASTNode *ProcedureNode::getChildStatement(
+    const ProcedureStmtIndex &statementIndex) const {
+  return children.at(0)->getMutableChild(statementIndex);
 }

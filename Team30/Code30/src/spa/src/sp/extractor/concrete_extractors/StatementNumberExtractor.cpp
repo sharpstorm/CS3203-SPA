@@ -1,33 +1,33 @@
 #include "StatementNumberExtractor.h"
 
-void StatementNumberExtractor::updateLineNumber(StatementASTNode *node) {
+void StatementNumberExtractor::updateLineNumber(const StatementASTNode *node) {
   statementNumber = node->getLineNumber();
 }
 
-void StatementNumberExtractor::visitIf(IfNode *node) {
+void StatementNumberExtractor::visitIf(const IfNode *node) {
   updateLineNumber(node);
 }
 
-void StatementNumberExtractor::visitWhile(WhileNode *node) {
+void StatementNumberExtractor::visitWhile(const WhileNode *node) {
   updateLineNumber(node);
 }
 
-void StatementNumberExtractor::visitRead(ReadNode *node) {
+void StatementNumberExtractor::visitRead(const ReadNode *node) {
   updateLineNumber(node);
 }
 
-void StatementNumberExtractor::visitPrint(PrintNode *node) {
+void StatementNumberExtractor::visitPrint(const PrintNode *node) {
   updateLineNumber(node);
 }
 
-void StatementNumberExtractor::visitAssign(AssignNode *node) {
+void StatementNumberExtractor::visitAssign(const AssignNode *node) {
   updateLineNumber(node);
 }
 
-void StatementNumberExtractor::visitCall(CallNode *node) {
+void StatementNumberExtractor::visitCall(const CallNode *node) {
   updateLineNumber(node);
 }
 
-const int StatementNumberExtractor::getStatementNumber() {
+const LineNumber StatementNumberExtractor::getStatementNumber() {
   return statementNumber;
 }

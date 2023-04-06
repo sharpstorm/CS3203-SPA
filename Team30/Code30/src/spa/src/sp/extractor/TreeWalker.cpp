@@ -2,14 +2,15 @@
 
 #include "sp/ast/StatementListNode.h"
 
-void TreeWalker::walkAST(AST* ast,
-                         VectorPtr<IExtractor*> extractors) {
+void TreeWalker::walkAST(const AST* ast,
+                         const ExtractorRefList extractors) const {
   DFS(ast->getMutableRoot(), extractors);
 }
 
-void TreeWalker::DFS(ASTNode* node, VectorPtr<IExtractor*> extractors) {
-  for (int i = 0; i < extractors->size(); i++) {
-    node->accept(extractors->at(i));
+void TreeWalker::DFS(const ASTNode* node,
+                     const ExtractorRefList extractors) const {
+  for (const auto &extractor : *extractors) {
+    node->accept(extractor);
   }
 
   for (ASTNode* child : node->getChildren()) {
@@ -18,7 +19,7 @@ void TreeWalker::DFS(ASTNode* node, VectorPtr<IExtractor*> extractors) {
     }
   }
 
-  for (int i = 0; i < extractors->size(); i++) {
-    node->leave(extractors->at(i));
+  for (const auto &extractor : *extractors) {
+    node->leave(extractor);
   }
 }

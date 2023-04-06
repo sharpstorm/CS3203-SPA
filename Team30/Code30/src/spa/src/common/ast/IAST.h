@@ -9,7 +9,7 @@ using std::unique_ptr;
 class IAST {
  public:
   virtual ~IAST() = default;
-  virtual IASTNode* getRoot() = 0;
+  virtual IASTNode* getRoot() const = 0;
 };
 
 typedef unique_ptr<IAST> IASTPtr;

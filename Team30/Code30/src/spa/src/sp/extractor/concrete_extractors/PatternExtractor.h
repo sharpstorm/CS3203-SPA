@@ -1,21 +1,18 @@
 #pragma once
 
-#include <memory>
-
 #include "sp/extractor/AbstractExtractor.h"
 #include "sp/ast/entity/VariableASTNode.h"
 #include "sp/ast/entity/ConstantASTNode.h"
-
-using std::shared_ptr;
+#include "sp/SPTypes.h"
 
 class PatternExtractor : public AbstractExtractor {
  public:
-  explicit PatternExtractor(PkbWriter* pkbWriter);
-  void leaveAssign(AssignNode* node) override;
-  void leaveWhile(WhileNode* node) override;
-  void leaveIf(IfNode* node) override;
+  explicit PatternExtractor(PkbWriter *pkbWriter);
+  void leaveAssign(const AssignNode *node) override;
+  void leaveWhile(const WhileNode *node) override;
+  void leaveIf(const IfNode *node) override;
  private:
-  void addPattern(LineNumber x, IASTNode* node);
-  void leave(ASTNodeType type, StatementASTNode *node);
-  PkbWriter* pkbWriter;
+  void addPattern(LineNumber x, IASTNode *node);
+  void leave(ASTNodeType type, const StatementASTNode *node);
+  PkbWriter *pkbWriter;
 };

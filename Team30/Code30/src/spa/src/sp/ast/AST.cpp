@@ -6,10 +6,10 @@ AST::AST(ASTNodePtr node) {
   root = std::move(node);
 }
 
-ASTNode* AST::getMutableRoot() {
+const ASTNode *AST::getMutableRoot() const {
   return root.get();
 }
 
-IASTNode* AST::getRoot() {
+IASTNode *AST::getRoot() const {
   return root.get();
 }

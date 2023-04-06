@@ -2,7 +2,7 @@
 
 #include "AbstractExpressionNode.h"
 
-class PlusASTNode: public AbstractExpressionNode {
+class PlusASTNode : public AbstractExpressionNode {
  public:
   PlusASTNode() : AbstractExpressionNode(ASTNODE_PLUS, "+") {}
 };

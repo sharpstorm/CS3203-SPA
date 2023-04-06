@@ -1,21 +1,20 @@
 #pragma once
 
-#include <string>
-#include <memory>
 #include "sp/ast/ASTNode.h"
 #include "sp/extractor/IExtractor.h"
+#include "sp/SPTypes.h"
 
-using std::string;
+typedef int ProcedureStmtIndex;
 
 class ProcedureNode : public ASTNode {
  public:
-  explicit ProcedureNode(string name);
-  void leave(IExtractor *e) override;
-  void accept(IExtractor *e) override;
+  explicit ProcedureNode(const ProcedureName &name);
+  void leave(IExtractor *e) const override;
+  void accept(IExtractor *e) const override;
 
-  string getName();
-  ASTNode* getChildStatement(const int &statementIndex);
+  ProcedureName getName() const;
+  ASTNode* getChildStatement(const ProcedureStmtIndex &statementIndex) const;
 
  private:
-  string procName;
+  ProcedureName procName;
 };

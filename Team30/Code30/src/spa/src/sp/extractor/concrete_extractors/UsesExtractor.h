@@ -1,34 +1,31 @@
 #pragma once
 
-#include <string>
-#include <memory>
 #include <vector>
-#include <unordered_set>
-#include <stack>
 #include "sp/extractor/AbstractExtractor.h"
+#include "sp/SPTypes.h"
 
-using std::string, std::unordered_set, std::vector, std::stack;
+using std::vector;
 
 class UsesExtractor : public AbstractExtractor {
  public:
   explicit UsesExtractor(PkbWriter *pkbWriter);
-  void visitAssign(AssignNode* node) override;
-  void visitPrint(PrintNode* node) override;
-  void visitWhile(WhileNode* node) override;
-  void visitIf(IfNode* node) override;
-  void leaveWhile(WhileNode* node) override;
-  void leaveIf(IfNode* node) override;
-  void visitProcedure(ProcedureNode* node) override;
-  void visitStmtList(StatementListNode* node) override;
-  void visitVariable(VariableASTNode* node) override;
-  void leaveAssign(AssignNode* node) override;
+  void visitAssign(const AssignNode* node) override;
+  void visitPrint(const PrintNode* node) override;
+  void visitWhile(const WhileNode* node) override;
+  void visitIf(const IfNode* node) override;
+  void leaveWhile(const WhileNode* node) override;
+  void leaveIf(const IfNode* node) override;
+  void visitProcedure(const ProcedureNode* node) override;
+  void visitStmtList(const StatementListNode* node) override;
+  void visitVariable(const VariableASTNode* node) override;
+  void leaveAssign(const AssignNode* node) override;
 
  private:
-  void addUsesRelation(const LineNumber &x, const string &var);
+  void addUsesRelation(const LineNumber &x, const VariableName &var);
   void processNode(const LineNumber &lineNumber,
-                   const unordered_set<string> &v);
-  void updateUses(const unordered_set<string> &v);
-  void updateUses(const string &v);
+                   const VariableNameSet &v);
+  void updateUses(const VariableNameSet &v);
+  void updateUses(const VariableName &v);
   void leave();
   void visit(bool addToPkb, bool isDisabled, LineNumber lineNumber);
 
@@ -36,7 +33,7 @@ class UsesExtractor : public AbstractExtractor {
   vector<bool> addToPKB;
   vector<bool> isDisabledFromContainer;
   bool oneShot;
-  unordered_set<string> readVars;
+  VariableNameSet readVars;
   PkbWriter *pkbWriter;
-  string procName;
+  ProcedureName procName;
 };

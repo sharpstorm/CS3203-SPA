@@ -1,4 +1,3 @@
-#include <string>
 #include "SourceToken.h"
 
 SourceToken::SourceToken(const SourceTokenType type) : type(type), value("") {}
