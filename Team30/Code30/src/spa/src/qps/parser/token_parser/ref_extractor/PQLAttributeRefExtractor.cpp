@@ -35,11 +35,16 @@ PQLSynonymAttribute PQLAttributeRefExtractor::extractAttribute(
   }
 
   switch (token->getType()) {
-    case PQL_TOKEN_VAR_NAME:return VAR_NAME;
-    case PQL_TOKEN_PROC_NAME:return PROC_NAME;
-    case PQL_TOKEN_STMT:state->expect(PQL_TOKEN_NUMBER_SIGN);
+    case PQL_TOKEN_VAR_NAME:
+      return VAR_NAME;
+    case PQL_TOKEN_PROC_NAME:
+      return PROC_NAME;
+    case PQL_TOKEN_STMT:
+      state->expect(PQL_TOKEN_NUMBER_SIGN);
       return STMT_NUM;
-    case PQL_TOKEN_VALUE:return CONST_VALUE;
-    default:throw QPSParserSyntaxError(QPS_PARSER_ERR_WITH_TYPE);
+    case PQL_TOKEN_VALUE:
+      return CONST_VALUE;
+    default:
+      throw QPSParserSyntaxError(QPS_PARSER_ERR_WITH_TYPE);
   }
 }
