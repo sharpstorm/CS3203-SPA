@@ -4,7 +4,7 @@
 #include "QueryLexer.h"
 #include "qps/errors/QPSLexerError.h"
 
-using std::out_of_range, std::string, std::vector;
+using std::string, std::vector;
 
 const int LEXER_BUFFER_SIZE = 2048;
 
