@@ -1,7 +1,7 @@
 #include "SourceLexerTokenTable.h"
 #include "common/lexer/AsciiCharacters.h"
 
-SourceLexerTokenTable::SourceLexerTokenTable() {
+SourceLexerTokenTable::SourceLexerTokenTable(): tokens() {
   for (int i = 0; i < 256; i++) {
     tokens[i] = SIMPLE_TOKEN_INVALID;
   }
@@ -43,10 +43,24 @@ SourceLexerTokenTable::SourceLexerTokenTable() {
   }
 }
 
-bool SourceLexerTokenTable::isDigit(char c) {
+SourceTokenType SourceLexerTokenTable::lookupToken(
+    const LexerCharacter &c) const {
+  return tokens[c];
+}
+
+SourceTokenType SourceLexerTokenTable::lookupKeyword(
+    const SourceKeywordCandidate &keyword) const {
+  const auto &it = keywordMap.find(keyword);
+  if (it == keywordMap.end()) {
+    return SIMPLE_TOKEN_NULL;
+  }
+  return it->second;
+}
+
+bool SourceLexerTokenTable::isDigit(const char &c) {
   return c >= ASCII_0 && c <= ASCII_9;
 }
 
-bool SourceLexerTokenTable::isZero(char c) {
+bool SourceLexerTokenTable::isZero(const char &c) {
   return c == ASCII_0;
 }

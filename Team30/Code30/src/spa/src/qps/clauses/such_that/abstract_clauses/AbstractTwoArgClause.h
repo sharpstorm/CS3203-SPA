@@ -6,6 +6,7 @@
 #include "qps/clauses/InvokerTypes.h"
 #include "qps/clauses/SuchThatClause.h"
 #include "qps/clauses/ClauseScoring.h"
+#include "qps/common/intermediate_result/PQLQueryResultBuilder.h"
 
 class AbstractTwoArgClause : public SuchThatClause {
  protected:
@@ -31,8 +32,11 @@ class AbstractTwoArgClause : public SuchThatClause {
         return new PQLQueryResult();
       }
 
-      auto queryResult = sameSynInvoker(agent, ref);
-      return Clause::toQueryResult(left->getName(), queryResult);
+      QueryResultSet<LeftResultType> queryResult = sameSynInvoker(agent, ref);
+      PQLQueryResultBuilder<LeftResultType, RightResultType> builder;
+      builder.setLeftName(left.get());
+      builder.setLeftRef(ref);
+      return builder.build(queryResult);
     }
 
     LeftArgType leftArg = leftTransformer(left.get());
@@ -46,8 +50,13 @@ class AbstractTwoArgClause : public SuchThatClause {
       return new PQLQueryResult();
     }
 
-    auto queryResult = diffSynInvoker(agent, leftTransformed, rightTransformed);
-    return Clause::toQueryResult(left.get(), right.get(), queryResult.get());
+    auto queryResult = diffSynInvoker(agent, leftArg, rightArg);
+    PQLQueryResultBuilder<LeftResultType, RightResultType> builder;
+    builder.setLeftName(left.get());
+    builder.setRightName(right.get());
+    builder.setLeftRef(leftArg);
+    builder.setRightRef(rightArg);
+    return builder.build(queryResult.get());
   }
 
   template<SynonymPredicate leftValidator, SynonymPredicate rightValidator>

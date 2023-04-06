@@ -9,11 +9,6 @@ class AssignPatternClause : public PatternClause {
   IASTPtr rightArgument;
   bool allowsPartial;
 
-  bool isTrieMatch(PatternTrie *lineRoot, ExpressionArgument *expr) const;
-  void checkTries(const QueryExecutorAgent &agent,
-                  QueryResult<StmtValue, EntityValue> *output,
-                  QueryResult<StmtValue, EntityValue> *modifiesResult,
-                  ExpressionArgument *exprArg) const;
   ExpressionArgumentPtr toExpressionArg(const QueryExecutorAgent &agent) const;
 
  public:

@@ -6,14 +6,16 @@
 
 using std::string;
 
+typedef int LineNumber;
+
 class StatementASTNode: public ASTNode {
  private:
-  int lineNumber;
+  LineNumber line;
 
  public:
-  int getLineNumber() { return lineNumber; }
+  LineNumber getLineNumber() { return line; }
 
  protected:
-  StatementASTNode(ASTNodeType type, string value, int lineNumber):
-      ASTNode(type, value), lineNumber(lineNumber) {}
+  StatementASTNode(ASTNodeType type, string value, LineNumber line):
+      ASTNode(type, value), line(line) {}
 };

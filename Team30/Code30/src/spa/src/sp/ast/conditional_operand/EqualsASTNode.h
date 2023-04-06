@@ -3,5 +3,5 @@
 
 class EqualsASTNode: public AbstractConditionalNode {
  public:
-  EqualsASTNode() : AbstractConditionalNode(ASTNODE_EQUALS, ":eq") {}
+  EqualsASTNode() : AbstractConditionalNode(ASTNODE_EQUALS) {}
 };

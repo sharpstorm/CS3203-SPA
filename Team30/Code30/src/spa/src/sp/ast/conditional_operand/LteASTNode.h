@@ -3,5 +3,5 @@
 
 class LteASTNode: public AbstractConditionalNode {
  public:
-  LteASTNode() : AbstractConditionalNode(ASTNODE_LTE, ":lte") {}
+  LteASTNode() : AbstractConditionalNode(ASTNODE_LTE) {}
 };

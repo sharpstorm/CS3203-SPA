@@ -12,5 +12,4 @@ class ConstantASTNode : public ASTNode {
   explicit ConstantASTNode(string value);
   ~ConstantASTNode() = default;
   void accept(IExtractor* e) override;
-  string toString() override;
 };

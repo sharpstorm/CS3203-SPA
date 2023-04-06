@@ -6,14 +6,16 @@
 
 using std::vector;
 
+typedef int LineNumber;
+
 class SourceParseState {
  public:
   explicit SourceParseState(vector<SourceToken>* tokens);
   void advanceToken();
   SourceToken* getCurrToken();
-
   SourceToken* peekNextToken();
   bool nextTokenIsOfType(SourceTokenType type);
+
   bool isEnd();
   int getCurrPosition();
   void restorePosition(int pos);
@@ -22,7 +24,7 @@ class SourceParseState {
   bool hasCached();
   ASTNodePtr consumeCache();
 
-  int getLineNumber();
+  LineNumber getLineNumber();
   void advanceLine();
 
   template<typename... SourceTokenType>
@@ -39,7 +41,7 @@ class SourceParseState {
  private:
   int curIndex;
   int tokenLength;
-  int lineNumber;
+  LineNumber lineNumber;
   vector<SourceToken>* tokens;
   ASTNodePtr curCache;
 };

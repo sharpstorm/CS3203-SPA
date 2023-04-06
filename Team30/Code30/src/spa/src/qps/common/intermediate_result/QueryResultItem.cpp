@@ -11,7 +11,7 @@ bool QueryResultItem::operator!=(const QueryResultItem &other) const {
 }
 
 ProjectedValue QueryResultItem::project() const {
-  if (stmtRef != NO_STMT) {
+  if (stmtRef != NO_INT_VAL) {
     return to_string(stmtRef);
   }
 

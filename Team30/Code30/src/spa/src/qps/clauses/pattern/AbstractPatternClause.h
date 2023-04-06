@@ -8,6 +8,7 @@
 #include "qps/clauses/PatternClause.h"
 #include "qps/clauses/InvokerTypes.h"
 #include "qps/clauses/ClauseScoring.h"
+#include "qps/common/intermediate_result/PQLQueryResultBuilder.h"
 
 using std::unique_ptr;
 
@@ -36,7 +37,12 @@ class AbstractPatternClause : public PatternClause {
 
     QueryResultPtr<StmtValue, EntityValue> result =
         invoker(agent, leftStatement, leftVar);
-    return Clause::toQueryResult(synName, leftArg.get(), result.get());
+    PQLQueryResultBuilder<StmtValue, EntityValue> builder;
+    builder.setLeftName(synName);
+    builder.setRightName(leftArg.get());
+    builder.setLeftRef(leftStatement);
+    builder.setRightRef(leftVar);
+    return builder.build(result.get());
   }
 
  public:
