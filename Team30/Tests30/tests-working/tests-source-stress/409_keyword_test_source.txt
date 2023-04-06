@@ -1,0 +1,170 @@
+procedure procedure {
+  testing = assign;
+  procedure = procedure;
+  read = read;
+  print = print;
+  call = call;
+  while = while;
+  if = if;
+  then = then;
+  else = else;
+  varchar1234 = varchar1234;
+
+  print testingPrint;
+  print procedure;
+  print read;
+  print print;
+  print call;
+  print while;
+  print if;
+  print then;
+  print else;
+  print varchar1234;
+
+  read testingread;
+  read procedure;
+  read read;
+  read print;
+  read call;
+  read while;
+  read if;
+  read then;
+  read else;
+  read varchar1234;
+
+  call call;
+  call read;
+  call print;
+  call call;
+  call while;
+  call if;
+  call then;
+  call else;
+  call varchar1234;
+
+  while ((procedure==procedure)&&(procedure==procedure)) {
+    print abc;
+  }
+
+  while ((read==read)&&(read==read)) {
+    print abc;
+  }
+
+  while ((print==print)&&(print==print)) {
+    print abc;
+  }
+
+  while ((call==call)&&(call==call)) {
+    print abc;
+  }
+
+  while ((while==while)&&(while==while)) {
+    print abc;
+  }
+
+  while ((if==if)&&(if==if)) {
+    print abc;
+  }
+
+  
+  while ((else==else)&&(else==else)) {
+    print abc;
+  }
+
+  while ((then==then)&&(then==then)) {
+    print abc;
+  }
+
+  while ((varchar1234==varchar1234)&&(varchar1234==varchar1234)) {
+    print abc;
+  }  
+  
+  if ((procedure==procedure)&&(procedure==procedure)) then {
+    print abc;
+  } else {
+    print abc;
+  }
+
+  if ((read==read)&&(read==read)) then {
+    print abc;
+  } else {
+    print abc;
+  }
+
+
+  if ((print==print)&&(print==print)) then {
+    print abc;
+  } else {
+    print abc;
+  }
+
+  if ((call==call)&&(call==call)) then {
+    print abc;
+  } else {
+    print abc;
+  }
+
+  if ((while==while)&&(while==while)) then {
+    print abc;
+  } else {
+    print abc;
+  }
+
+  if ((if==if)&&(if==if)) then {
+    print abc;
+  } else {
+    print abc;
+  }
+  
+  if ((else==else)&&(else==else)) then {
+    print abc;
+  } else {
+    print abc;
+  }
+
+  if ((then==then)&&(then==then)) then {
+    print abc;
+  } else {
+    print abc;
+  }
+
+  if ((varchar1234==varchar1234)&&(varchar1234==varchar1234)) then {
+    print abc;
+  } else {
+    print abc;
+  }
+    
+
+}
+
+procedure read {
+  print abc;
+}
+  
+procedure print {
+  print abc;
+}
+
+procedure call {
+  print abc;
+}
+
+procedure while {
+  print abc;
+}
+
+procedure if {
+  print abc;
+}
+
+procedure then {
+  print abc;
+}
+
+procedure else {
+  print abc;
+}
+
+procedure varchar1234 {
+  print abc;
+}
