@@ -24,14 +24,11 @@ ASTNodePtr ConditionalExpressionContext::generateSubtree(
   }
 
   switch (state->getCurrTokenType()) {
-    case SIMPLE_TOKEN_NOT:
-      newNode = processNotCondition(state);
+    case SIMPLE_TOKEN_NOT:newNode = processNotCondition(state);
       break;
-    case SIMPLE_TOKEN_BRACKET_ROUND_LEFT:
-      newNode = processBiCondition(state);
+    case SIMPLE_TOKEN_BRACKET_ROUND_LEFT:newNode = processBiCondition(state);
       break;
-    default:
-      throw SPError(SPERR_UNEXPECTED_TOKEN);
+    default:throw SPError(SPERR_UNEXPECTED_TOKEN);
   }
   return newNode;
 }
@@ -70,17 +67,12 @@ processBiCondition(SourceParseState *state) const {
 
   // Expect ')' -> '&&' / '||' -> '('
   state->expect(SIMPLE_TOKEN_BRACKET_ROUND_RIGHT);
-  SourceTokenType type = state->expectType(SIMPLE_TOKEN_AND,
-                                           SIMPLE_TOKEN_OR);
+  SourceToken *token = state->expect(SIMPLE_TOKEN_AND,
+                                     SIMPLE_TOKEN_OR);
   state->expect(SIMPLE_TOKEN_BRACKET_ROUND_LEFT);
 
   // Generate Condition node
-  BinaryASTNodePtr newNode;
-  if (type == SIMPLE_TOKEN_AND) {
-    newNode = generateConditionalNode<AndASTNode>(std::move(leftCondition));
-  } else {
-    newNode = generateConditionalNode<OrASTNode>(std::move(leftCondition));
-  }
+  BinaryASTNodePtr newNode = makeNode(token, std::move(leftCondition));
 
   // Parse second condition
   ASTNodePtr rightChild = contextProvider
@@ -94,4 +86,13 @@ ASTNodePtr ConditionalExpressionContext::
 processRelationalExpression(SourceParseState *state) const {
   return contextProvider
       ->generateSubtree(ConditionalContextType::REL_CONTEXT, state);
+}
+
+BinaryASTNodePtr ConditionalExpressionContext::makeNode(
+    const SourceToken *token, ASTNodePtr leftCondition) const {
+  if (token->getType() == SIMPLE_TOKEN_AND) {
+    return generateConditionalNode<AndASTNode>(std::move(leftCondition));
+  } else {
+    return generateConditionalNode<OrASTNode>(std::move(leftCondition));
+  }
 }
