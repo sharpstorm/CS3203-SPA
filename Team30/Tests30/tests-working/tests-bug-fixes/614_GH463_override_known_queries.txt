@@ -1,0 +1,10 @@
+1 - (SUCCESS) Exact PatternAssign Match
+while w;
+Select w pattern w("i", _) with w.stmt# = 1
+1
+5000
+2 - (SUCCESS) Exact PatternAssign Match
+if ifs;
+Select ifs pattern ifs("x", _, _) with ifs.stmt# = 2
+2
+5000
