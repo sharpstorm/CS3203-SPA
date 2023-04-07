@@ -237,7 +237,14 @@ class ClausesPKBStub : public StubPKB {
     return unordered_set<int>();
   };
 
-  StmtType getStatementType(int) const override {
+  StmtType getStatementType(int value) const override {
+    if (value == 1) {
+      return StmtType::If;
+    }
+
+    if (value == 4) {
+      return StmtType::While;
+    }
     return StmtType::Assign;
   }
 

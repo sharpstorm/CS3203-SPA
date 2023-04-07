@@ -52,4 +52,20 @@ class WithSelectPKBStub : public PkbQueryHandler {
 
     return false;
   }
+
+  StmtType getStatementType(int value) const override {
+    if (value == 1) {
+      return StmtType::Read;
+    }
+
+    if (value == 2) {
+      return StmtType::Print;
+    }
+
+    if (value == 3) {
+      return StmtType::Call;
+    }
+
+    return StmtType::Assign;
+  }
 };

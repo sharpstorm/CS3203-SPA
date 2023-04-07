@@ -79,6 +79,7 @@ TEST_CASE("WithSelectClause - evaluateOn - transform (valid sub)") {
     );
 
     auto actual = clause.evaluateOn(agent);
+    INFO(synName);
     REQUIRE(*expected.get() == *actual);
   }
 }
@@ -88,7 +89,7 @@ TEST_CASE("WithSelectClause - evaluateOn - transform (invalid sub)") {
   unique_ptr<PkbQueryHandler> handler = make_unique<WithSelectPKBStub>(&pkb);
   OverrideTable overrideTable;
   overrideTable.insert("r", OverrideTransformer(3));
-  overrideTable.insert("pn", OverrideTransformer(4));
+  overrideTable.insert("pn", OverrideTransformer(8));
   overrideTable.insert("cl", OverrideTransformer(5));
   QueryCache overrideCache;
   QueryExecutorAgent agent(handler.get(), &overrideTable, &overrideCache);

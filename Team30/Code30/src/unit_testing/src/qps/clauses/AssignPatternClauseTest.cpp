@@ -136,6 +136,10 @@ class AssignPatternPKBStub : public StubPKB {
     return res;
   }
 
+  StmtType getStatementType(int) const override {
+    return StmtType::Assign;
+  }
+
   bool isStatementOfType(StmtType type, int value) const override {
     return true;
   }
