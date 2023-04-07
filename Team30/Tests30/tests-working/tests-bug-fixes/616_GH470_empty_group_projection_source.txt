@@ -1,0 +1,4 @@
+procedure proc {
+  a = b;
+  print c;
+}
