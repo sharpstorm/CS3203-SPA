@@ -1,13 +1,13 @@
 #include "CallNode.h"
 
-CallNode::CallNode(LineNumber line, string pName) :
+CallNode::CallNode(LineNumber line, const ProcedureName &pName) :
     StatementASTNode(ASTNODE_CALL, "", line), procName(pName) {
 }
 
-void CallNode::accept(IExtractor* e) {
+void CallNode::accept(IExtractor *e) const {
   e->visitCall(this);
 }
 
-string CallNode::getName() {
+ProcedureName CallNode::getName() const {
   return procName;
 }

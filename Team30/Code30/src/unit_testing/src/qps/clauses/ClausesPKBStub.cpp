@@ -237,6 +237,10 @@ class ClausesPKBStub : public StubPKB {
     return unordered_set<int>();
   };
 
+  StmtType getStatementType(int) const override {
+    return StmtType::Assign;
+  }
+
   bool isStatementOfType(StmtType type, int value) const override {
     if (type == StmtType::If) {
       return value == 1;

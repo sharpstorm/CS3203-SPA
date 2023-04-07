@@ -1,11 +1,10 @@
-#include <stdexcept>
 #include <vector>
 #include <utility>
 
 #include "QueryLexer.h"
 #include "qps/errors/QPSLexerError.h"
 
-using std::out_of_range, std::string, std::vector;
+using std::string, std::vector;
 
 const int LEXER_BUFFER_SIZE = 2048;
 
@@ -37,7 +36,7 @@ PQLTokenStreamPtr QueryLexer::getTokenStream() {
 }
 
 void QueryLexer::processChar(const char &c) {
-  PQLTokenType tokenType = tokenTable->tokens[c];
+  PQLTokenType tokenType = tokenTable->lookupToken(c);
 
   switch (tokenType) {
     case PQL_TOKEN_INVALID:
@@ -133,17 +132,18 @@ void QueryLexer::appendSymbolToken(const PQLTokenType &type,
 
 PQLTokenType QueryLexer::resolveStringToken(const string &buffer,
                                             const bool &hasSeenChar) {
-  try {
-    return tokenTable->keywordMap.at(buffer);
-  } catch (out_of_range&) {
-    if (!hasSeenChar) {
-      validateIntegerToken(buffer);
-      return PQL_TOKEN_INTEGER;
-    }
-
-    validateIdentifier(buffer);
-    return PQL_TOKEN_STRING;
+  PQLTokenType tokenType = tokenTable->lookupKeyword(buffer);
+  if (tokenType != PQL_TOKEN_NULL) {
+    return tokenType;
   }
+
+  if (!hasSeenChar) {
+    validateIntegerToken(buffer);
+    return PQL_TOKEN_INTEGER;
+  }
+
+  validateIdentifier(buffer);
+  return PQL_TOKEN_STRING;
 }
 
 void QueryLexer::clearState() {
@@ -151,13 +151,13 @@ void QueryLexer::clearState() {
   hasSeenChar = false;
 }
 
-void QueryLexer::validateIntegerToken(const string &buffer) {
+void QueryLexer::validateIntegerToken(const string &buffer) const {
   if (buffer.length() > 1 && QueryLexerTokenTable::isZero(buffer.at(0))) {
     throw QPSLexerError(QPS_LEXER_ERR_INTEGER_ZERO);
   }
 }
 
-void QueryLexer::validateIdentifier(const string &buffer) {
+void QueryLexer::validateIdentifier(const string &buffer) const {
   if (QueryLexerTokenTable::isDigit(buffer.at(0))) {
     throw QPSLexerError(QPS_LEXER_ERR_STRING_DIGIT);
   }

@@ -7,7 +7,7 @@ using std::string, std::vector;
 
 typedef string TokenData;
 
-enum PQLTokenCategory: uint16_t {
+enum PQLTokenCategory : uint16_t {
   PQL_PROCESSING_TOKEN = 0x100,
   PQL_SYMBOL_TOKEN = 0x200,
   PQL_DECLARATION_TOKEN = 0x400,
@@ -24,7 +24,7 @@ const uint16_t PQL_TOKEN_SYN_MASK = PQL_DECLARATION_TOKEN | PQL_QUERY_TOKEN |
 const uint16_t PQL_DATA_TOKEN_MASK = PQL_STRING_TOKEN | PQL_INTEGER_TOKEN |
     PQL_LITERAL_TOKEN;
 
-enum PQLTokenType: uint16_t {
+enum PQLTokenType : uint16_t {
   // Processing markers
   PQL_TOKEN_NULL = PQL_PROCESSING_TOKEN,
   PQL_TOKEN_INVALID,
@@ -100,7 +100,7 @@ class PQLToken {
   bool isType(PQLTokenType) const;
   bool isCategory(PQLTokenCategory) const;
   bool isSynName() const;
-  bool operator==(const PQLToken& other) const;
+  bool operator==(const PQLToken &other) const;
 };
 
 typedef vector<PQLToken> PQLTokenVector;

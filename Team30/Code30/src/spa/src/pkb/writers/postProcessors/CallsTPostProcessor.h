@@ -6,12 +6,14 @@
 
 class CallsTPostProcessor : public IPostProcessor {
  public:
-  explicit CallsTPostProcessor(PKB *);
+  explicit CallsTPostProcessor(PKB*);
 
   void process() override;
 
  private:
-  PKB *pkb;
+  CallsTable* callsTable;
+  CallsRevTable* callsRevTable;
+  CallsTStorage* callsTStorage;
 
-  void dfsCallsRevTable(EntityValue, EntityValueSet &) const;
+  void dfsCallsRevTable(EntityValue, EntityValueSet&) const;
 };

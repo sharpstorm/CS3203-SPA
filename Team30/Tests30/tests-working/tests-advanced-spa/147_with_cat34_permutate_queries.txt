@@ -1,0 +1,845 @@
+1 - Comparable Strings
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with pr1.procName = pr2.procName
+TRUE
+5000
+2 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with c1.value = c2.value
+TRUE
+5000
+3 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with pr1.procName = c1.value
+SemanticError
+5000
+4 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select c2.value
+10000
+5000
+5 - Comparable Strings
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with cl1.procName = pr2.procName
+FALSE
+5000
+6 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with cl1.procName = c1.value
+SemanticError
+5000
+7 - Comparable Strings
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with v1.varName = pr2.procName
+FALSE
+5000
+8 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with v1.varName = c1.value
+SemanticError
+5000
+9 - Comparable Strings
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with r1.varName = pr2.procName
+FALSE
+5000
+10 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with r1.varName = c1.value
+SemanticError
+5000
+11 - Comparable Strings
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with p1.varName = pr2.procName
+FALSE
+5000
+12 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with p1.varName = c1.value
+SemanticError
+5000
+13 - Comparable Strings
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with pr1.procName = cl2.procName
+FALSE
+5000
+14 - Comparable Strings
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with cl1.procName = cl2.procName
+FALSE
+5000
+15 - Comparable Strings
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with v1.varName = cl2.procName
+FALSE
+5000
+16 - Comparable Strings
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with r1.varName = cl2.procName
+FALSE
+5000
+17 - Comparable Strings
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with p1.varName = cl2.procName
+FALSE
+5000
+18 - Comparable Strings
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with pr1.procName = v2.varName
+FALSE
+5000
+19 - Comparable Strings
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with cl1.procName = v2.varName
+FALSE
+5000
+20 - Comparable Strings
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with v1.varName = v2.varName
+TRUE
+5000
+21 - Comparable Strings
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with r1.varName = v2.varName
+TRUE
+5000
+22 - Comparable Strings
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with p1.varName = v2.varName
+TRUE
+5000
+23 - Comparable Strings
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with pr1.procName = r2.varName
+FALSE
+5000
+24 - Comparable Strings
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with cl1.procName = r2.varName
+FALSE
+5000
+25 - Comparable Strings
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with v1.varName = r2.varName
+TRUE
+5000
+26 - Comparable Strings
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with r1.varName = r2.varName
+TRUE
+5000
+27 - Comparable Strings
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with p1.varName = r2.varName
+FALSE
+5000
+28 - Comparable Strings
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with pr1.procName = p2.varName
+FALSE
+5000
+29 - Comparable Strings
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with cl1.procName = p2.varName
+FALSE
+5000
+30 - Comparable Strings
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with v1.varName = p2.varName
+TRUE
+5000
+31 - Comparable Strings
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with r1.varName = p2.varName
+FALSE
+5000
+32 - Comparable Strings
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with p1.varName = p2.varName
+TRUE
+5000
+33 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with s1.stmt# = c2.value
+FALSE
+5000
+34 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with pr1.procName = s1.stmt#
+SemanticError
+5000
+35 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with cl1.procName = s1.stmt#
+SemanticError
+5000
+36 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with v1.varName = s1.stmt#
+SemanticError
+5000
+37 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with r1.varName = s1.stmt#
+SemanticError
+5000
+38 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with p1.varName = s1.stmt#
+SemanticError
+5000
+39 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with r1.stmt# = c2.value
+FALSE
+5000
+40 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with pr1.procName = r1.stmt#
+SemanticError
+5000
+41 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with cl1.procName = r1.stmt#
+SemanticError
+5000
+42 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with v1.varName = r1.stmt#
+SemanticError
+5000
+43 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with r1.varName = r1.stmt#
+SemanticError
+5000
+44 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with p1.varName = r1.stmt#
+SemanticError
+5000
+45 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with p1.stmt# = c2.value
+FALSE
+5000
+46 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with pr1.procName = p1.stmt#
+SemanticError
+5000
+47 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with cl1.procName = p1.stmt#
+SemanticError
+5000
+48 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with v1.varName = p1.stmt#
+SemanticError
+5000
+49 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with r1.varName = p1.stmt#
+SemanticError
+5000
+50 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with p1.varName = p1.stmt#
+SemanticError
+5000
+51 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with cl1.stmt# = c2.value
+FALSE
+5000
+52 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with pr1.procName = cl1.stmt#
+SemanticError
+5000
+53 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with cl1.procName = cl1.stmt#
+SemanticError
+5000
+54 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with v1.varName = cl1.stmt#
+SemanticError
+5000
+55 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with r1.varName = cl1.stmt#
+SemanticError
+5000
+56 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with p1.varName = cl1.stmt#
+SemanticError
+5000
+57 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with w1.stmt# = c2.value
+FALSE
+5000
+58 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with pr1.procName = w1.stmt#
+SemanticError
+5000
+59 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with cl1.procName = w1.stmt#
+SemanticError
+5000
+60 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with v1.varName = w1.stmt#
+SemanticError
+5000
+61 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with r1.varName = w1.stmt#
+SemanticError
+5000
+62 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with p1.varName = w1.stmt#
+SemanticError
+5000
+63 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with i1.stmt# = c2.value
+FALSE
+5000
+64 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with pr1.procName = i1.stmt#
+SemanticError
+5000
+65 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with cl1.procName = i1.stmt#
+SemanticError
+5000
+66 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with v1.varName = i1.stmt#
+SemanticError
+5000
+67 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with r1.varName = i1.stmt#
+SemanticError
+5000
+68 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with p1.varName = i1.stmt#
+SemanticError
+5000
+69 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with a1.stmt# = c2.value
+FALSE
+5000
+70 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with pr1.procName = a1.stmt#
+SemanticError
+5000
+71 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with cl1.procName = a1.stmt#
+SemanticError
+5000
+72 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with v1.varName = a1.stmt#
+SemanticError
+5000
+73 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with r1.varName = a1.stmt#
+SemanticError
+5000
+74 - Not Comparable
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with p1.varName = a1.stmt#
+SemanticError
+5000
+75 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with c1.value = s2.stmt#
+FALSE
+5000
+76 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with s1.stmt# = s2.stmt#
+TRUE
+5000
+77 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with r1.stmt# = s2.stmt#
+TRUE
+5000
+78 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with p1.stmt# = s2.stmt#
+TRUE
+5000
+79 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with cl1.stmt# = s2.stmt#
+FALSE
+5000
+80 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with w1.stmt# = s2.stmt#
+FALSE
+5000
+81 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with i1.stmt# = s2.stmt#
+FALSE
+5000
+82 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with a1.stmt# = s2.stmt#
+TRUE
+5000
+83 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with c1.value = r2.stmt#
+FALSE
+5000
+84 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with s1.stmt# = r2.stmt#
+TRUE
+5000
+85 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with r1.stmt# = r2.stmt#
+TRUE
+5000
+86 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with p1.stmt# = r2.stmt#
+FALSE
+5000
+87 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with cl1.stmt# = r2.stmt#
+FALSE
+5000
+88 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with w1.stmt# = r2.stmt#
+FALSE
+5000
+89 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with i1.stmt# = r2.stmt#
+FALSE
+5000
+90 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with a1.stmt# = r2.stmt#
+FALSE
+5000
+91 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with c1.value = p2.stmt#
+FALSE
+5000
+92 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with s1.stmt# = p2.stmt#
+TRUE
+5000
+93 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with r1.stmt# = p2.stmt#
+FALSE
+5000
+94 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with p1.stmt# = p2.stmt#
+TRUE
+5000
+95 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with cl1.stmt# = p2.stmt#
+FALSE
+5000
+96 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with w1.stmt# = p2.stmt#
+FALSE
+5000
+97 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with i1.stmt# = p2.stmt#
+FALSE
+5000
+98 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with a1.stmt# = p2.stmt#
+FALSE
+5000
+99 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with c1.value = cl2.stmt#
+FALSE
+5000
+100 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with s1.stmt# = cl2.stmt#
+FALSE
+5000
+101 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with r1.stmt# = cl2.stmt#
+FALSE
+5000
+102 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with p1.stmt# = cl2.stmt#
+FALSE
+5000
+103 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with cl1.stmt# = cl2.stmt#
+FALSE
+5000
+104 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with w1.stmt# = cl2.stmt#
+FALSE
+5000
+105 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with i1.stmt# = cl2.stmt#
+FALSE
+5000
+106 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with a1.stmt# = cl2.stmt#
+FALSE
+5000
+107 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with c1.value = w2.stmt#
+FALSE
+5000
+108 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with s1.stmt# = w2.stmt#
+FALSE
+5000
+109 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with r1.stmt# = w2.stmt#
+FALSE
+5000
+110 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with p1.stmt# = w2.stmt#
+FALSE
+5000
+111 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with cl1.stmt# = w2.stmt#
+FALSE
+5000
+112 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with w1.stmt# = w2.stmt#
+FALSE
+5000
+113 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with i1.stmt# = w2.stmt#
+FALSE
+5000
+114 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with a1.stmt# = w2.stmt#
+FALSE
+5000
+115 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with c1.value = i2.stmt#
+FALSE
+5000
+116 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with s1.stmt# = i2.stmt#
+FALSE
+5000
+117 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with r1.stmt# = i2.stmt#
+FALSE
+5000
+118 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with p1.stmt# = i2.stmt#
+FALSE
+5000
+119 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with cl1.stmt# = i2.stmt#
+FALSE
+5000
+120 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with w1.stmt# = i2.stmt#
+FALSE
+5000
+121 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with i1.stmt# = i2.stmt#
+FALSE
+5000
+122 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with a1.stmt# = i2.stmt#
+FALSE
+5000
+123 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with c1.value = a2.stmt#
+FALSE
+5000
+124 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with s1.stmt# = a2.stmt#
+TRUE
+5000
+125 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with r1.stmt# = a2.stmt#
+FALSE
+5000
+126 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with p1.stmt# = a2.stmt#
+FALSE
+5000
+127 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with cl1.stmt# = a2.stmt#
+FALSE
+5000
+128 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with w1.stmt# = a2.stmt#
+FALSE
+5000
+129 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with i1.stmt# = a2.stmt#
+FALSE
+5000
+130 - Comparable Ints
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select BOOLEAN with a1.stmt# = a2.stmt#
+TRUE
+5000
+131 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s2.value
+SemanticError
+5000
+132 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select r2.value
+SemanticError
+5000
+133 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select p2.value
+SemanticError
+5000
+134 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select cl2.value
+SemanticError
+5000
+135 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select w2.value
+SemanticError
+5000
+136 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select i2.value
+SemanticError
+5000
+137 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select a2.value
+SemanticError
+5000
+138 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select pr2.value
+SemanticError
+5000
+139 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select v2.value
+SemanticError
+5000
+140 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select c2.stmt#
+SemanticError
+5000
+141 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s2.stmt#
+1,2,3
+5000
+142 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select r2.stmt#
+3
+5000
+143 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select p2.stmt#
+2
+5000
+144 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select cl2.stmt#
+
+5000
+145 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select w2.stmt#
+
+5000
+146 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select i2.stmt#
+
+5000
+147 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select a2.stmt#
+1
+5000
+148 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select pr2.stmt#
+SemanticError
+5000
+149 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select v2.stmt#
+SemanticError
+5000
+150 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select c2.varName
+SemanticError
+5000
+151 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s2.varName
+SemanticError
+5000
+152 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select r2.varName
+e
+5000
+153 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select p2.varName
+d
+5000
+154 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select cl2.varName
+SemanticError
+5000
+155 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select w2.varName
+SemanticError
+5000
+156 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select i2.varName
+SemanticError
+5000
+157 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select a2.varName
+SemanticError
+5000
+158 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select pr2.varName
+SemanticError
+5000
+159 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select v2.varName
+b,d,e
+5000
+160 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select c2.procName
+SemanticError
+5000
+161 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select s2.procName
+SemanticError
+5000
+162 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select r2.procName
+SemanticError
+5000
+163 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select p2.procName
+SemanticError
+5000
+164 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select cl2.procName
+
+5000
+165 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select w2.procName
+SemanticError
+5000
+166 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select i2.procName
+SemanticError
+5000
+167 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select a2.procName
+SemanticError
+5000
+168 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select pr2.procName
+a,c
+5000
+169 - Select Attributes
+stmt s1, s2; assign a1, a2; print p1, p2; read r1, r2; if i1, i2; while w1, w2; call cl1, cl2; procedure pr1, pr2; constant c1, c2; variable v1, v2;
+Select v2.procName
+SemanticError
+5000

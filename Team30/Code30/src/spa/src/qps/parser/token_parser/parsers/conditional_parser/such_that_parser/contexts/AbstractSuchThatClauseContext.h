@@ -12,18 +12,17 @@
 
 using std::unique_ptr, std::make_unique, std::move;
 
-
-class AbstractSuchThatClauseContext: public IPQLSuchThatClauseContext {
+class AbstractSuchThatClauseContext : public IPQLSuchThatClauseContext {
  protected:
   template<class Clause, class LeftArgExtractor, class RightArgExtractor>
   SuchThatClausePtr parseArgs(QueryTokenParseState *parserState,
-                          QueryBuilder* builder);
+                              QueryBuilder *builder);
 };
 
 template<class Clause, class LeftArgExtractor, class RightArgExtractor>
 SuchThatClausePtr AbstractSuchThatClauseContext::parseArgs(
     QueryTokenParseState *parserState,
-    QueryBuilder* builder) {
+    QueryBuilder *builder) {
   parserState->expect(PQL_TOKEN_BRACKET_OPEN);
   ClauseArgumentPtr left = LeftArgExtractor::extract(parserState, builder);
   parserState->expect(PQL_TOKEN_COMMA);

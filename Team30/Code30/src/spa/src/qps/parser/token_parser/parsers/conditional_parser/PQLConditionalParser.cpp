@@ -1,11 +1,11 @@
 #include "PQLConditionalParser.h"
 
-PQLConditionalParser::PQLConditionalParser(ISourceExpressionParser *exprParser):
-    patternParser(exprParser) {}
+PQLConditionalParser::PQLConditionalParser(ISourceExpressionParser *exprParser)
+    : patternParser(exprParser) {}
 
-void PQLConditionalParser::parse(QueryTokenParseState* parserState,
+void PQLConditionalParser::parse(QueryTokenParseState *parserState,
                                  QueryBuilder *queryBuilder) {
-  IPQLParser* context = getParseContext(parserState->getCurrentTokenType());
+  IPQLParser *context = getParseContext(parserState->getCurrentTokenType());
   while (context != nullptr) {
     context->parse(parserState, queryBuilder);
     context = getParseContext(parserState->getCurrentTokenType());

@@ -5,13 +5,13 @@
 
 #include "contexts/PQLDeclarationContextTypes.h"
 
-class PQLDeclarationParser: IPQLParser {
+class PQLDeclarationParser : IPQLParser {
  public:
-  void parse(QueryTokenParseState* parserState,
+  void parse(QueryTokenParseState *parserState,
              QueryBuilder *queryBuilder) override;
 
  private:
-  IPQLDeclarationContext* getContext(PQLTokenType type);
+  IPQLDeclarationContext *getContext(PQLTokenType type);
 
   PQLAssignContext assignContext;
   PQLCallContext callContext;

@@ -1,21 +1,19 @@
 #pragma once
 
-#include <string>
 #include "sp/ast/ASTNode.h"
 #include "sp/extractor/IExtractor.h"
+#include "sp/SPTypes.h"
 
-using std::string;
-
-typedef int LineNumber;
-
-class StatementASTNode: public ASTNode {
+class StatementASTNode : public ASTNode {
  private:
   LineNumber line;
 
  public:
-  LineNumber getLineNumber() { return line; }
+  LineNumber getLineNumber() const { return line; }
 
  protected:
-  StatementASTNode(ASTNodeType type, string value, LineNumber line):
+  StatementASTNode(ASTNodeType type,
+                   const ASTNodeValue &value,
+                   LineNumber line) :
       ASTNode(type, value), line(line) {}
 };

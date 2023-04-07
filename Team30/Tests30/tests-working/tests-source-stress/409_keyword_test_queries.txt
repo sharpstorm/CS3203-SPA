@@ -1,0 +1,5 @@
+1 - Get all vars
+variable v;
+Select v
+assign,call,else,if,print,procedure,read,testing,testingPrint,testingread,then,varchar1234,while,abc
+5000

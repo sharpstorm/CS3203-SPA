@@ -1,10 +1,10 @@
 #include "QueryTokenParseState.h"
 
-QueryTokenParseState::QueryTokenParseState(PQLTokenVector *tokens):
+QueryTokenParseState::QueryTokenParseState(PQLTokenVector *tokens) :
     tokenStream(tokens) {
 }
 
-bool QueryTokenParseState::isTokenStreamEnd() {
+bool QueryTokenParseState::isTokenStreamEnd() const {
   return tokenStream.isTokenStreamEnd();
 }
 
@@ -12,8 +12,8 @@ void QueryTokenParseState::advanceToken() {
   tokenStream.advanceToken();
 }
 
-PQLTokenType QueryTokenParseState::getCurrentTokenType() {
-  PQLToken* curToken = tokenStream.getCurrentToken();
+PQLTokenType QueryTokenParseState::getCurrentTokenType() const {
+  const PQLToken *curToken = tokenStream.getCurrentToken();
   if (curToken == nullptr) {
     return PQL_TOKEN_NULL;
   }
@@ -21,12 +21,13 @@ PQLTokenType QueryTokenParseState::getCurrentTokenType() {
   return curToken->getType();
 }
 
-bool QueryTokenParseState::isCurrentTokenType(PQLTokenType type) {
+bool QueryTokenParseState::isCurrentTokenType(PQLTokenType type) const {
   return getCurrentTokenType() == type;
 }
 
-bool QueryTokenParseState::isCurrentTokenCategory(PQLTokenCategory category) {
-  PQLToken* curToken = tokenStream.getCurrentToken();
+bool QueryTokenParseState::isCurrentTokenCategory(PQLTokenCategory category)
+const {
+  const PQLToken *curToken = tokenStream.getCurrentToken();
   if (curToken == nullptr) {
     return false;
   }
@@ -35,7 +36,7 @@ bool QueryTokenParseState::isCurrentTokenCategory(PQLTokenCategory category) {
 }
 
 PQLSynonymName QueryTokenParseState::expectSynName() {
-  PQLToken* currentToken = tokenStream.getCurrentToken();
+  const PQLToken *currentToken = tokenStream.getCurrentToken();
   assertNotNull(currentToken);
 
   if (!currentToken->isSynName()) {
@@ -46,7 +47,7 @@ PQLSynonymName QueryTokenParseState::expectSynName() {
   return currentToken->getData();
 }
 
-void QueryTokenParseState::assertNotNull(PQLToken* token) {
+void QueryTokenParseState::assertNotNull(const PQLToken *token) {
   if (token == nullptr) {
     throw QPSParserSyntaxError(QPS_PARSER_ERR_EOS);
   }

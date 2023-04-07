@@ -3,10 +3,10 @@
 #include "pkb/errors/PKBError.h"
 
 NonExistentProceduresValidator::NonExistentProceduresValidator(PKB *pkb)
-    : pkb(pkb) {}
+    : procAndCallsStorage(pkb->procAndCallsStorage) {}
 
 void NonExistentProceduresValidator::validate() {
-  if (pkb->procAndCallsStorage->hasUndefinedProcedures()) {
+  if (procAndCallsStorage->hasUndefinedProcedures()) {
     throw PKBError(PKBERR_NONEXISTENT_PROCEDURE);
   }
 }

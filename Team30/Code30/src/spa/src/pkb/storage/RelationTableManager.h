@@ -3,6 +3,7 @@
 #include <memory>
 #include <set>
 
+#include "IStorage.h"
 #include "common/Types.h"
 #include "pkb/PkbTypes.h"
 #include "pkb/queryHandlers/QueryResultBuilder.h"
@@ -20,7 +21,7 @@ using std::unique_ptr;
  */
 
 template <typename K, typename V>
-class RelationTableManager {
+class RelationTableManager : public IStorage<K, V> {
  protected:
   IBaseSetTable<K, V> *table;         // maps K -> set<V>
   IBaseSetTable<V, K> *reverseTable;  // maps V -> set<K>
@@ -35,16 +36,12 @@ class RelationTableManager {
     reverseTable->insert(arg2, arg1);
   }
 
-  /**
-   * Get set of arg2 where R(arg1, arg2) is true, given arg1 value.
-   */
-  virtual set<V> getByFirstArg(K arg1) const { return table->get(arg1); }
+  virtual unique_ptr<IBaseIterator<V>> getRightValIter(K leftArg) const {
+    return table->getValueIterator(leftArg);
+  }
 
-  /**
-   * Get set of arg1 where R(arg1, arg2) is true, given arg2 value.
-   */
-  virtual set<K> getBySecondArg(V arg2) const {
-    return reverseTable->get(arg2);
+  virtual unique_ptr<IBaseIterator<K>> getLeftValIter(V rightArg) const {
+    return reverseTable->getValueIterator(rightArg);
   }
 
   /**
@@ -52,8 +49,7 @@ class RelationTableManager {
    */
   virtual QueryResultPtr<K, V> query(
       K arg1, V arg2, QueryResultBuilder<K, V> *resultBuilder) const {
-    auto arg2Values = getByFirstArg(arg1);
-    if (arg2Values.find(arg2) != arg2Values.end()) {
+    if (table->contains(arg1, arg2)) {
       resultBuilder->add(arg1, arg2);
     }
 
@@ -68,8 +64,9 @@ class RelationTableManager {
       set<K> arg1Values, Predicate<V> arg2Predicate,
       QueryResultBuilder<K, V> *resultBuilder) const {
     for (auto arg1 : arg1Values) {
-      auto arg2Values = getByFirstArg(arg1);
-      for (auto arg2 : arg2Values) {
+      auto it = getRightValIter(arg1);
+      V arg2;
+      while ((arg2 = it->getNext()) != V()) {
         if (arg2Predicate(arg2)) {
           resultBuilder->add(arg1, arg2);
         }
@@ -87,8 +84,9 @@ class RelationTableManager {
       Predicate<K> arg1Predicate, set<V> arg2Values,
       QueryResultBuilder<K, V> *resultBuilder) const {
     for (auto arg2 : arg2Values) {
-      auto arg1Values = getBySecondArg(arg2);
-      for (auto arg1 : arg1Values) {
+      auto it = getLeftValIter(arg2);
+      K arg1;
+      while ((arg1 = it->getNext()) != K()) {
         if (arg1Predicate(arg1)) {
           resultBuilder->add(arg1, arg2);
         }
@@ -120,10 +118,8 @@ class RelationTableManager {
    */
   virtual QueryResultPtr<K, V> hasRelation(
       QueryResultBuilder<K, V> *resultBuilder) const {
-    if (table->size() != 0) {
+    if (!table->isEmpty()) {
       resultBuilder->setIsNotEmpty();
-    } else {
-      resultBuilder->setIsEmpty();
     }
     return resultBuilder->getResult();
   }
@@ -134,8 +130,7 @@ class RelationTableManager {
   virtual QueryResultPtr<K, V> rightWildcardQuery(
       const set<K> &arg1Values, QueryResultBuilder<K, V> *resultBuilder) const {
     for (auto arg1 : arg1Values) {
-      auto arg2Values = getByFirstArg(arg1);
-      if (arg2Values.size() > 0) {
+      if (table->containsKey(arg1)) {
         resultBuilder->addLeft(arg1);
       }
     }
@@ -148,8 +143,7 @@ class RelationTableManager {
   virtual QueryResultPtr<K, V> leftWildcardQuery(
       const set<V> &arg2Values, QueryResultBuilder<K, V> *resultBuilder) const {
     for (auto arg2 : arg2Values) {
-      auto arg1Values = getBySecondArg(arg2);
-      if (arg1Values.size() > 0) {
+      if (reverseTable->containsKey(arg2)) {
         resultBuilder->addRight(arg2);
       }
     }

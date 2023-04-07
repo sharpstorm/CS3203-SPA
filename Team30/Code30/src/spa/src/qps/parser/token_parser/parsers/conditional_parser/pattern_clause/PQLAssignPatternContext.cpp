@@ -11,7 +11,7 @@
 using std::make_unique;
 
 PQLAssignPatternContext::PQLAssignPatternContext(
-    ISourceExpressionParser *exprParser): exprParser(exprParser) {
+    ISourceExpressionParser *exprParser) : exprParser(exprParser) {
 }
 
 PatternClausePtr PQLAssignPatternContext::parse(
@@ -39,7 +39,7 @@ PatternClausePtr PQLAssignPatternContext::parse(
 }
 
 IASTPtr PQLAssignPatternContext::buildPostfix(
-    IntermediateExpressionArgument* arg) {
+    IntermediateExpressionArgument *arg) {
   IASTPtr astTree;
   try {
     astTree = std::move(arg->parse(exprParser));

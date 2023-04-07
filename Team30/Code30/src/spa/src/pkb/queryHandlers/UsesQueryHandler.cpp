@@ -1,6 +1,7 @@
 #include "UsesQueryHandler.h"
-#include "ArgValidators.h"
+
 #include "ArgTransformers.h"
+#include "ArgValidators.h"
 
 UsesQueryHandler::UsesQueryHandler(
     PkbStmtEntQueryInvoker *invoker,
@@ -19,10 +20,11 @@ UsesQueryHandler::UsesQueryHandler(
 
 EntityValue UsesQueryHandler::getPrintDeclarations(StmtValue printStmt) const {
   // assumes input is print stmt
-  auto values = usesStorage->getByFirstArg(printStmt);
-  if (values.empty()) {
+  auto values = usesStorage->getRightValIter(printStmt);
+  EntityValue result;
+  if ((result = values->getNext()).empty()) {
     return "";
   } else {
-    return *values.begin();
+    return result;
   }
 }

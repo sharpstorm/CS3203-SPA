@@ -1,8 +1,8 @@
 #include "StatementStorage.h"
 
 StatementStorage::StatementStorage(
-    IBaseTable<StmtValue, StmtType> *table,
-    IBaseSetTable<StmtType, StmtValue> *reverseTable, StmtSet *values)
+    ContiguousTable<StmtType> *table,
+    HashKeySetTable<StmtType, StmtValue> *reverseTable, StmtSet *values)
     : table(table), reverseTable(reverseTable), allStatements(values) {}
 
 void StatementStorage::insert(StmtValue stmt, StmtType type) {

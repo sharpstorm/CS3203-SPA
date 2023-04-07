@@ -10,12 +10,12 @@
 
 using std::string;
 
-class QueryParser: public IQueryParser {
+class QueryParser : public IQueryParser {
  public:
-  explicit QueryParser(ISourceExpressionParser* exprParser);
+  explicit QueryParser(ISourceExpressionParser *exprParser);
   PQLQueryPtr parseQuery(const string *query) override;
 
  private:
   QueryLexerFactory lexerFactory;
-  ISourceExpressionParser* exprParser;
+  ISourceExpressionParser *exprParser;
 };

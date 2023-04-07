@@ -1,9 +1,8 @@
 #pragma once
 
-#include <memory>
 #include <string>
 
-using std::shared_ptr, std::string;
+using std::string;
 
 enum ASTNodeType {
   ASTNODE_PROGRAM,
@@ -33,12 +32,14 @@ enum ASTNodeType {
   ASTNODE_CONSTANT,
 };
 
+typedef string ASTNodeValue;
+
 class IASTNode {
  public:
   virtual ~IASTNode() = default;
-  virtual IASTNode* getChild(int i) = 0;
-  virtual int getChildCount() = 0;
-  virtual ASTNodeType getType() = 0;
-  virtual string getValue() = 0;
-  virtual bool isEquals(IASTNode *other) = 0;
+  virtual IASTNode* getChild(int index) const = 0;
+  virtual int getChildCount() const = 0;
+  virtual ASTNodeType getType() const = 0;
+  virtual ASTNodeValue getValue() const = 0;
+  virtual bool isEquals(IASTNode *other) const = 0;
 };

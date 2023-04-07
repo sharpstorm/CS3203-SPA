@@ -44,15 +44,28 @@ QueryLexerTokenTable::QueryLexerTokenTable(): tokens() {
   }
 }
 
-bool QueryLexerTokenTable::isDigit(char c) {
+PQLTokenType QueryLexerTokenTable::lookupToken(const QueryCharacter &c) const {
+  return tokens[c];
+}
+
+PQLTokenType QueryLexerTokenTable::lookupKeyword(
+    const QueryKeywordCandidate &keyword) const {
+  const auto &it = keywordMap.find(keyword);
+  if (it == keywordMap.end()) {
+    return PQL_TOKEN_NULL;
+  }
+  return it->second;
+}
+
+bool QueryLexerTokenTable::isDigit(const char c) {
   return c >= ASCII_0 && c <= ASCII_9;
 }
 
-bool QueryLexerTokenTable::isCharacter(char c) {
+bool QueryLexerTokenTable::isCharacter(const char c) {
   return (c >= ASCII_UPPER_A && c <= ASCII_UPPER_Z)
       || (c >= ASCII_LOWER_A && c <= ASCII_LOWER_Z);
 }
 
-bool QueryLexerTokenTable::isZero(char c) {
+bool QueryLexerTokenTable::isZero(const char c) {
   return c == ASCII_0;
 }

@@ -1,0 +1,3 @@
+procedure a {
+    b = 10000;
+}

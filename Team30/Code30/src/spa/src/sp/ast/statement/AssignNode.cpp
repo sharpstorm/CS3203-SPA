@@ -1,9 +1,6 @@
 #include "AssignNode.h"
 
-#include <vector>
 #include "sp/ast/ASTNode.h"
-
-using std::vector;
 
 AssignNode::AssignNode(LineNumber line) :
     StatementASTNode(ASTNODE_ASSIGN, "", line) {
@@ -13,10 +10,10 @@ AssignNode::AssignNode(LineNumber line) :
   children.push_back(nullptr);
 }
 
-void AssignNode::accept(IExtractor* e) {
+void AssignNode::accept(IExtractor *e) const {
   e->visitAssign(this);
 }
 
-void AssignNode::leave(IExtractor *e) {
+void AssignNode::leave(IExtractor *e) const {
   e->leaveAssign(this);
 }

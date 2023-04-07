@@ -1,15 +1,12 @@
 #pragma once
 
-#include <unordered_set>
-#include <string>
 #include "sp/ast/ASTNode.h"
-
-using std::unordered_set;
+#include "sp/SPTypes.h"
 
 class ExtractorUtility {
  public:
   ExtractorUtility() {}
-  void getExprVariables(unordered_set<string>* v, ASTNode* node);
+  void getExprVariables(VariableNameSet* v, const ASTNode* node);
  private:
-  bool setContains(unordered_set<string>* v, const string &x);
+  bool setContains(VariableNameSet* v, const VariableName &x);
 };

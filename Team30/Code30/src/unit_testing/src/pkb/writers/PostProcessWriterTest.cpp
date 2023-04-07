@@ -37,10 +37,10 @@ TEST_CASE("PostProcessWriter post process modifies relation") {
 
   writer.runPostProcessor();
 
-  auto result1 = pkb->modifiesStorage->getByFirstArg(1);
+  auto result1 = pkb->modifiesTable->get(1);
   REQUIRE(result1 == set<string>({"x"}));
 
-  auto result2 = pkb->modifiesPStorage->getByFirstArg("main");
+  auto result2 = pkb->modifiesPTable->get("main");
   REQUIRE(result2 == set<string>({"x"}));
 }
 
@@ -55,10 +55,10 @@ TEST_CASE("PostProcessWriter post process uses relation") {
 
   writer.runPostProcessor();
 
-  auto result1 = pkb->usesStorage->getByFirstArg(1);
+  auto result1 = pkb->usesTable->get(1);
   REQUIRE(result1 == set<string>({"x"}));
 
-  auto result2 = pkb->usesPStorage->getByFirstArg("main");
+  auto result2 = pkb->usesPTable->get("main");
   REQUIRE(result2 == set<string>({"x"}));
 }
 
@@ -100,17 +100,17 @@ TEST_CASE("PostProcessWriter post process callsT relation") {
 
   writer.runPostProcessor();
 
-  auto result1 = pkb->callsTStorage->getByFirstArg("main");
+  auto result1 = pkb->callsTTable->get("main");
   REQUIRE(result1 == EntitySet({"foo", "example"}));
-  auto result2 = pkb->callsTStorage->getByFirstArg("foo");
+  auto result2 = pkb->callsTTable->get("foo");
   REQUIRE(result2 == EntitySet({"example"}));
-  auto result3 = pkb->callsTStorage->getByFirstArg("example");
+  auto result3 = pkb->callsTTable->get("example");
   REQUIRE(result3 == EntitySet({}));
 
-  auto result4 = pkb->callsTStorage->getBySecondArg("example");
+  auto result4 = pkb->callsTRevTable->get("example");
   REQUIRE(result4 == EntitySet({"main", "foo"}));
-  auto result5 = pkb->callsTStorage->getBySecondArg("foo");
+  auto result5 = pkb->callsTRevTable->get("foo");
   REQUIRE(result5 == EntitySet({"main"}));
-  auto result6 = pkb->callsTStorage->getBySecondArg("main");
+  auto result6 = pkb->callsTRevTable->get("main");
   REQUIRE(result6 == EntitySet({}));
 }

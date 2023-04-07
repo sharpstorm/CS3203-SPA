@@ -4,8 +4,8 @@
 #include "PQLStmtRefExtractor.h"
 #include "../../../clauses/arguments/ClauseArgument.h"
 
-class PQLAnyRefExtractor: public PQLStmtRefExtractor, PQLEntityRefExtractor {
+class PQLAnyRefExtractor : public PQLStmtRefExtractor, PQLEntityRefExtractor {
  public:
-  static ClauseArgumentPtr extract(QueryTokenParseState* state,
-                                   QueryBuilder* builder);
+  static ClauseArgumentPtr extract(QueryTokenParseState *state,
+                                   QueryBuilder *builder);
 };

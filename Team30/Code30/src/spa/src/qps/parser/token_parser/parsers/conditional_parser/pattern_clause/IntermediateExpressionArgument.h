@@ -17,7 +17,7 @@ class IntermediateExpressionArgument {
                                  const bool isPartial);
   bool isWildcard();
   bool allowsPartial();
-  IASTPtr parse(ISourceExpressionParser* parser);
+  IASTPtr parse(ISourceExpressionParser *parser);
 };
 
 typedef unique_ptr<IntermediateExpressionArgument>

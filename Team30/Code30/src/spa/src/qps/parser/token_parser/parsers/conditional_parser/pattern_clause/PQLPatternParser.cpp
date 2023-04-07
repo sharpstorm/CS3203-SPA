@@ -11,14 +11,14 @@
 
 using std::make_unique, std::unique_ptr, std::move;
 
-PQLPatternParser::PQLPatternParser(ISourceExpressionParser *exprParser):
+PQLPatternParser::PQLPatternParser(ISourceExpressionParser *exprParser) :
     assignContextParser(exprParser) {}
 
 void PQLPatternParser::parse(QueryTokenParseState *parserState,
-                             QueryBuilder* builder) {
+                             QueryBuilder *builder) {
   parserState->expect(PQL_TOKEN_PATTERN);
   unique_ptr<PQLToken> dummyAnd = make_unique<PQLToken>(PQL_TOKEN_AND);
-  PQLToken* andToken = dummyAnd.get();
+  const PQLToken *andToken = dummyAnd.get();
 
   while (andToken != nullptr) {
     PatternClausePtr clause = parsePatternClause(parserState, builder);
@@ -33,8 +33,8 @@ void PQLPatternParser::parse(QueryTokenParseState *parserState,
 
 PatternClausePtr PQLPatternParser::parsePatternClause(
     QueryTokenParseState *parserState,
-    QueryBuilder* builder) {
-  PQLQuerySynonymProxy* synonym = parseSynonym(parserState, builder);
+    QueryBuilder *builder) {
+  PQLQuerySynonymProxy *synonym = parseSynonym(parserState, builder);
   parserState->expect(PQL_TOKEN_BRACKET_OPEN);
   ClauseArgumentPtr left = PQLEntityRefExtractor::extract(parserState,
                                                           builder);
@@ -45,11 +45,11 @@ PatternClausePtr PQLPatternParser::parsePatternClause(
 
 PatternClausePtr PQLPatternParser::extractRemainingArgs(
     QueryTokenParseState *parserState,
-    PQLQuerySynonymProxy* synonym,
+    PQLQuerySynonymProxy *synonym,
     ClauseArgumentPtr firstArg) {
   IntermediateExpressionArgumentPtr exprArg = extractExpression(parserState);
-  PQLToken* nextToken = parserState->expect(PQL_TOKEN_COMMA,
-                                            PQL_TOKEN_BRACKET_CLOSE);
+  const PQLToken *nextToken = parserState->expect(PQL_TOKEN_COMMA,
+                                                  PQL_TOKEN_BRACKET_CLOSE);
 
   if (nextToken->isType(PQL_TOKEN_BRACKET_CLOSE)) {
     return dispatchTwoArg(synonym, std::move(firstArg),
@@ -62,7 +62,7 @@ PatternClausePtr PQLPatternParser::extractRemainingArgs(
   }
 }
 
-PQLQuerySynonymProxy* PQLPatternParser::parseSynonym(
+PQLQuerySynonymProxy *PQLPatternParser::parseSynonym(
     QueryTokenParseState *parserState,
     QueryBuilder *builder) {
   PQLSynonymName synName = parserState->expectSynName();
@@ -70,7 +70,7 @@ PQLQuerySynonymProxy* PQLPatternParser::parseSynonym(
 }
 
 PatternClausePtr PQLPatternParser::dispatchTwoArg(
-    PQLQuerySynonymProxy* synonym,
+    PQLQuerySynonymProxy *synonym,
     ClauseArgumentPtr firstArg,
     IntermediateExpressionArgumentPtr secondArg) {
   if (synonym == nullptr) {
@@ -89,7 +89,7 @@ PatternClausePtr PQLPatternParser::dispatchTwoArg(
 }
 
 PatternClausePtr PQLPatternParser::dispatchThreeArg(
-    PQLQuerySynonymProxy* synonym,
+    PQLQuerySynonymProxy *synonym,
     ClauseArgumentPtr firstArg,
     IntermediateExpressionArgumentPtr secondArg) {
   if (!secondArg->isWildcard()) {
@@ -105,9 +105,9 @@ PatternClausePtr PQLPatternParser::dispatchThreeArg(
 
 IntermediateExpressionArgumentPtr PQLPatternParser::extractExpression(
     QueryTokenParseState *parserState) {
-  PQLToken* nextToken = parserState->expect(PQL_TOKEN_UNDERSCORE,
-                                            PQL_TOKEN_LITERAL,
-                                            PQL_TOKEN_STRING_LITERAL);
+  const PQLToken *nextToken = parserState->expect(PQL_TOKEN_UNDERSCORE,
+                                                  PQL_TOKEN_LITERAL,
+                                                  PQL_TOKEN_STRING_LITERAL);
   if (nextToken->isCategory(PQL_LITERAL_TOKEN)) {
     return make_unique<IntermediateExpressionArgument>(
         nextToken->getData(), false);

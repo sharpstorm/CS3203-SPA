@@ -9,36 +9,28 @@
 
 using std::make_unique, std::string;
 
-class PQLWithParser: public IPQLParser {
-  static bool parseClause(WithArgumentPtr left,
-                          WithArgumentPtr right,
-                          QueryBuilder* builder);
-
-  static bool parseConstraint(WithArgumentPtr left,
-                              WithArgumentPtr right,
-                              QueryBuilder* builder);
-
+class PQLWithParser : public IPQLParser {
   static void handleConstant(WithArgumentPtr left,
                              WithArgumentPtr right,
-                             QueryBuilder* builder);
+                             QueryBuilder *builder);
 
   static void handleOverride(WithArgumentPtr left,
                              WithArgumentPtr right,
-                             QueryBuilder* builder);
+                             QueryBuilder *builder);
   static void handleTwoSyns(WithArgumentPtr left,
                             WithArgumentPtr right,
-                            QueryBuilder* builder);
+                            QueryBuilder *builder);
 
   static ConstraintPtr parseOverrideConstraint(
       WithArgumentPtr synArg, WithArgumentPtr staticArg);
 
-  static WithArgumentPtr parseWithArg(QueryTokenParseState* state,
-                                      QueryBuilder* builder);
-  static WithArgumentPtr processConstant(PQLToken *token);
+  static WithArgumentPtr parseWithArg(QueryTokenParseState *state,
+                                      QueryBuilder *builder);
+  static WithArgumentPtr processConstant(const PQLToken *token);
 
  public:
-  void parse(QueryTokenParseState* parserState,
-             QueryBuilder* builder) override;
+  void parse(QueryTokenParseState *parserState,
+             QueryBuilder *builder) override;
   static void parseWithClause(
       QueryTokenParseState *parserState, QueryBuilder *builder);
 };

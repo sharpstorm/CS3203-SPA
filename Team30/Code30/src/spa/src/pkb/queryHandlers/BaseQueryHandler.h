@@ -4,6 +4,7 @@
 #include <optional>
 
 #include "BaseQueryInvoker.h"
+#include "pkb/storage/IStorage.h"
 
 using pkb::ArgValidator, pkb::ArgTransformer, pkb::defaultValidator,
     pkb::defaultTransformer;
@@ -16,7 +17,7 @@ class BaseQueryHandler {
  public:
   explicit BaseQueryHandler(BaseQueryInvoker<LeftValue, LeftType, RightValue,
                                              RightType> *queryInvoker,
-                            RelationTableManager<LeftValue, RightValue> *store)
+                            IStorage<LeftValue, RightValue> *store)
       : queryInvoker(queryInvoker), store(store) {}
   BaseQueryHandler() {}
 
@@ -58,7 +59,7 @@ class BaseQueryHandler {
       defaultTransformer<LeftValue, LeftType>;
   ArgTransformer<RightValue, RightType> rightTransformer =
       defaultTransformer<RightValue, RightType>;
-  RelationTableManager<LeftValue, RightValue> *store;
+  IStorage<LeftValue, RightValue> *store;
 };
 
 using PkbStmtStmtQueryHandler =

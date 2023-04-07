@@ -1,6 +1,5 @@
 #pragma once
 
-#include <memory>
 #include <vector>
 
 #include "AbstractExtractor.h"
@@ -9,15 +8,15 @@
 #include "sp/ast/AST.h"
 #include "sp/extractor/concrete_extractors/FollowsExtractor.h"
 
-using std::vector, std::unique_ptr;
+using std::vector;
 
 class DesignExtractor {
  public:
-  explicit DesignExtractor(PkbWriter* pkbWriter);
-  void extract(AST* ast);
+  explicit DesignExtractor(PkbWriter *pkbWriter);
+  void extract(const AST *ast);
 
  private:
   TreeWalker treeWalker;
-  vector<unique_ptr<IExtractor>> ownedExtractors;
-  vector<IExtractor*> extractorRefs;
+  vector<IExtractorPtr> ownedExtractors;
+  vector<IExtractor *> extractorRefs;
 };
