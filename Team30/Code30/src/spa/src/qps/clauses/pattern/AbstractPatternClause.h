@@ -24,6 +24,7 @@ class AbstractPatternClause : public PatternClause {
       PatternClause(synonym, std::move(leftArg), SYN_TYPE) {
   }
 
+ public:
   PQLQueryResult *evaluateOn(const QueryExecutorAgent &agent) const override {
     StmtRef leftStatement = {StatementType, 0};
     EntityRef leftVar = leftArg->toEntityRef();
@@ -45,7 +46,6 @@ class AbstractPatternClause : public PatternClause {
     return builder.build(result.get());
   }
 
- public:
   ComplexityScore getComplexityScore(const OverrideTable *table)
   const override {
     if (table->contains(leftArg->getName())) {
