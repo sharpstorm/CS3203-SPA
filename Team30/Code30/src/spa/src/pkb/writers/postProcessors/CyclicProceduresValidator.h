@@ -5,10 +5,11 @@
 
 class CyclicProceduresValidator : public IPostValidator {
  public:
-  explicit CyclicProceduresValidator(PKB *);
+  explicit CyclicProceduresValidator(PKB*);
 
   void validate() override;
 
  private:
-  PKB *pkb;
+  ProcedureValues* procedureValues;
+  CallsTTable* callsTTable;
 };

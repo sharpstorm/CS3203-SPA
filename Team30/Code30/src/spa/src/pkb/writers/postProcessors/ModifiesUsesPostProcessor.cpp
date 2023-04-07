@@ -5,7 +5,18 @@
 
 using std::unordered_set, std::string;
 
-ModifiesUsesPostProcessor::ModifiesUsesPostProcessor(PKB *pkb) : pkb(pkb) {}
+ModifiesUsesPostProcessor::ModifiesUsesPostProcessor(PKB *pkb)
+    : procedureValues(pkb->procedureValues),
+      callsTTable(pkb->callsTTable),
+      modifiesPTable(pkb->modifiesPTable),
+      modifiesPStorage(pkb->modifiesPStorage),
+      modifiesStorage(pkb->modifiesStorage),
+      usesPTable(pkb->usesPTable),
+      usesPStorage(pkb->usesPStorage),
+      usesStorage(pkb->usesStorage),
+      statementStorage(pkb->statementStorage),
+      callDeclarationTable(pkb->callDeclarationTable),
+      parentTStorage(pkb->parentTStorage) {}
 
 void ModifiesUsesPostProcessor::process() {
   populateProcedureAndVars();
@@ -13,40 +24,40 @@ void ModifiesUsesPostProcessor::process() {
 }
 
 void ModifiesUsesPostProcessor::populateProcedureAndVars() {
-  auto procedures = pkb->procedureValues;
+  auto procedures = procedureValues;
   for (auto it = procedures->begin(); it != procedures->end(); it++) {
     const auto &procedure = *it;
 
     // get descendent procedures
-    auto calledProcedures = pkb->callsTTable->get(procedure);
+    auto calledProcedures = callsTTable->get(procedure);
     for (const auto &calledProcedure : calledProcedures) {
-      auto modifiesVars = pkb->modifiesPTable->get(calledProcedure);
+      auto modifiesVars = modifiesPTable->get(calledProcedure);
       for (const auto &v : modifiesVars) {
-        pkb->modifiesPStorage->insert(procedure, v);
+        modifiesPStorage->insert(procedure, v);
       }
-      auto usesVars = pkb->usesPTable->get(calledProcedure);
+      auto usesVars = usesPTable->get(calledProcedure);
       for (const auto &v : usesVars) {
-        pkb->usesPStorage->insert(procedure, v);
+        usesPStorage->insert(procedure, v);
       }
     }
   }
 }
 
 void ModifiesUsesPostProcessor::populateCallStmtAndContainers() {
-  auto callStmts = pkb->statementStorage->getStatementsOfType(StmtType::Call);
+  auto callStmts = statementStorage->getStatementsOfType(StmtType::Call);
   for (auto &stmt : callStmts) {
-    auto procedure = pkb->callDeclarationTable->get(stmt);
-    auto modifiesVars = pkb->modifiesPTable->get(procedure);
-    auto usesVars = pkb->usesPTable->get(procedure);
+    auto procedure = callDeclarationTable->get(stmt);
+    auto modifiesVars = modifiesPTable->get(procedure);
+    auto usesVars = usesPTable->get(procedure);
     // get container stmts by last sibling
-    auto allStmts = pkb->parentTStorage->getBySecondArg(stmt);
+    auto allStmts = parentTStorage->getBySecondArg(stmt);
     allStmts.insert(stmt);
     for (const auto &s : allStmts) {
       for (const auto &v : modifiesVars) {
-        pkb->modifiesStorage->insert(s, v);
+        modifiesStorage->insert(s, v);
       }
       for (const auto &v : usesVars) {
-        pkb->usesStorage->insert(s, v);
+        usesStorage->insert(s, v);
       }
     }
   }
