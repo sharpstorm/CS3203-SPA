@@ -1,5 +1,6 @@
 #include "ParentTPostProcessor.h"
 
+#include <algorithm>
 #include <utility>
 #include <vector>
 
@@ -13,7 +14,7 @@ ParentTPostProcessor::ParentTPostProcessor(PKB* pkb)
 void ParentTPostProcessor::process() {
   auto it = parentTable->getTableIterator();
   StmtValueSet lastChildren;
-  pair<StmtValue, StmtSet> row;
+  pair<StmtValue, StmtValueSet> row;
   while ((row = it->getNext()).first != 0) {
     // at most two last children with same parent
     // for while, the two last children at the same stmt
@@ -22,7 +23,7 @@ void ParentTPostProcessor::process() {
     StmtValue lastSibling = parentTStorage->getLastSibling(firstChild);
     lastChildren.insert(lastSibling);
     // 2. last child of parent (last stmt in else clause)
-    auto lastChild = *(row.second.rbegin());
+    auto lastChild = *(std::max_element(row.second.begin(), row.second.end()));
     lastChildren.insert(lastChild);
   }
   for (auto child : lastChildren) {

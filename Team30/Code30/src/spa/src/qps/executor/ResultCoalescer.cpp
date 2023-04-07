@@ -1,14 +1,14 @@
-#include <utility>
-#include <unordered_set>
-
 #include "ResultCoalescer.h"
+
+#include <unordered_set>
+#include <utility>
+
 #include "common/SetUtils.h"
 
 using std::make_unique, std::unordered_set;
 
-ResultCoalescer::ResultCoalescer(PQLQueryResult *setA,
-                                 PQLQueryResult *setB) :
-    setA(setA), setB(setB) {}
+ResultCoalescer::ResultCoalescer(PQLQueryResult *setA, PQLQueryResult *setB)
+    : setA(setA), setB(setB) {}
 
 PQLQueryResult *ResultCoalescer::merge() {
   if (setA == nullptr) {
@@ -36,7 +36,7 @@ void ResultCoalescer::mergeResults() {
   output->adoptOwnedItems(setA);
   orphanMap = output->adoptOwnedItems(setB);
 
-  set<ResultTableRow> ignoreRows;
+  unordered_set<ResultTableRow> ignoreRows;
   for (int i = 0; i < setA->getRowCount(); i++) {
     if (ignoreRows.find(i) != ignoreRows.end()) {
       continue;
@@ -84,8 +84,7 @@ void ResultCoalescer::mergeSynonymList(IntersectState *intersectState) {
 }
 
 ResultCoalescer::IntersectResult ResultCoalescer::findIntersect(
-    const QueryResultTableRow *currentRow,
-    const IntersectState *state) const {
+    const QueryResultTableRow *currentRow, const IntersectState *state) const {
   RowSetPtr leftSet = nullptr;
   RowSetPtr rightSet = nullptr;
   for (int j = 0; j < state->leftCommons.size(); j++) {
@@ -111,7 +110,7 @@ ResultCoalescer::IntersectResult ResultCoalescer::findIntersect(
   return {std::move(leftSet), std::move(rightSet)};
 }
 
-void ResultCoalescer::crossProduct(set<ResultTableRow> *ignoreSet,
+void ResultCoalescer::crossProduct(unordered_set<ResultTableRow> *ignoreSet,
                                    const IntersectState *intersectState,
                                    const IntersectResult *intersection) {
   if (intersection->isEmpty()) {

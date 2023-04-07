@@ -4,7 +4,7 @@
 
 EntityMappingProviderStub::EntityMappingProviderStub(){};
 
-const EntitySet& EntityMappingProviderStub::getValuesOfType(
+const EntityValueSet& EntityMappingProviderStub::getValuesOfType(
     EntityType type) const {
   if (type == EntityType::Variable) {
     return allVariables;

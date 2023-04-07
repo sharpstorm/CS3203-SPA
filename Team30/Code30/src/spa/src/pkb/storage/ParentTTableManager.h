@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include <set>
+#include <unordered_set>
 
 #include "FollowsTableManager.h"
 #include "RelationTableManager.h"
@@ -12,7 +12,7 @@
 #include "tables/IBaseSetTable.h"
 
 using pkb::Predicate;
-using std::make_unique, std::unique_ptr, std::set;
+using std::make_unique, std::unique_ptr, std::unordered_set;
 
 class ParentTTableManager {
  private:
@@ -54,7 +54,7 @@ class ParentTTableManager {
   /**
    * Get set of arg1 where R(arg1, arg2) is true, given arg2 value.
    */
-  const StmtSet getBySecondArg(StmtValue arg2) const {
+  const StmtValueSet getBySecondArg(StmtValue arg2) const {
     // find max sibling
     auto maxSibling = getLastSibling(arg2);
     return reverseTable->get(maxSibling);
@@ -88,19 +88,19 @@ class ParentTTableManager {
 
   // const, syn
   QueryResultPtr<StmtValue, StmtValue> query(
-      const StmtSet &arg1Values,
-      const StmtSet &rightValues) const {  // change to set<StmtValue>&
+      const StmtValueSet &arg1Values,
+      Predicate<StmtValue> rightPredicate)
+      const {  // change to unordered_set<StmtValue>&
     QueryResult<StmtValue, StmtValue> result;
     for (auto arg1 : arg1Values) {
       auto maxChild = getByFirstArg(arg1);
       if (maxChild == 0) {
         continue;
       }
-      auto itLower = rightValues.lower_bound(arg1 + 1);
-      auto itUpper = rightValues.upper_bound(maxChild);
-
-      for (auto it = itLower; it != itUpper; it++) {
-        result.add(arg1, *it);
+      for (int i = arg1 + 1; i <= maxChild; i++) {
+        if (rightPredicate(i)) {
+          result.add(arg1, i);
+        }
       }
     }
 
@@ -127,7 +127,7 @@ class ParentTTableManager {
    * Right side wildcard.
    */
   virtual QueryResultPtr<StmtValue, StmtValue> rightWildcardQuery(
-      const set<StmtValue> &leftArgValues) const {
+      const unordered_set<StmtValue> &leftArgValues) const {
     QueryResult<StmtValue, StmtValue> result;
     for (auto leftArg : leftArgValues) {
       auto rightArg = getByFirstArg(leftArg);
@@ -143,7 +143,7 @@ class ParentTTableManager {
    * Left side wildcard.
    */
   virtual QueryResultPtr<StmtValue, StmtValue> leftWildcardQuery(
-      const set<StmtValue> &rightArgValues) const {
+      const unordered_set<StmtValue> &rightArgValues) const {
     QueryResult<StmtValue, StmtValue> result;
     for (auto rightArg : rightArgValues) {
       auto leftArg = getBySecondArg(rightArg);

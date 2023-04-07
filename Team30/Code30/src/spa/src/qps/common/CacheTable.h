@@ -12,8 +12,8 @@ class CacheTable {
   typedef vector<CacheRow> CacheMatrix;
   CacheMatrix forwardMatrix;
   CacheMatrix reverseMatrix;
-  StmtSet fullForward;
-  StmtSet fullReverse;
+  StmtValueSet fullForward;
+  StmtValueSet fullReverse;
 
   const CacheRow *queryFrom(const StmtValue &stmt) const;
   const CacheRow *queryTo(const StmtValue &stmt) const;

@@ -1,15 +1,16 @@
 #pragma once
 
-#include <set>
+#include <unordered_set>
 
 #include "IBaseIterator.h"
 
-using std::set;
+using std::unordered_set;
 
 template <typename T>
 class SetIterator : public IBaseIterator<T> {
  public:
-  explicit SetIterator(const set<T>& set) : set_(set), iter_(set.begin()) {}
+  explicit SetIterator(const unordered_set<T>& set)
+      : set_(set), iter_(set.begin()) {}
 
   // Return the next item in the set
   T getNext() {
@@ -23,6 +24,6 @@ class SetIterator : public IBaseIterator<T> {
   }
 
  private:
-  const set<T>& set_;
-  typename set<T>::const_iterator iter_;
+  const unordered_set<T>& set_;
+  typename unordered_set<T>::const_iterator iter_;
 };

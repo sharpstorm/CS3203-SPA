@@ -38,30 +38,30 @@ TEST_CASE("CallsTPostProcessor") {
   // check CallsTTable
   REQUIRE(pkb->callsTTable->size() == 4);
   auto t1 = pkb->callsTTable->get("One");
-  REQUIRE(t1 == EntitySet({"Two", "Three", "Four"}));
+  REQUIRE(t1 == EntityValueSet({"Two", "Three", "Four"}));
   auto t2 = pkb->callsTTable->get("Two");
-  REQUIRE(t2 == EntitySet({"Three", "Four"}));
+  REQUIRE(t2 == EntityValueSet({"Three", "Four"}));
   auto t3 = pkb->callsTTable->get("Three");
-  REQUIRE(t3 == EntitySet({"Four"}));
+  REQUIRE(t3 == EntityValueSet({"Four"}));
   auto t4 = pkb->callsTTable->get("Four");
-  REQUIRE(t4 == EntitySet({}));
+  REQUIRE(t4 == EntityValueSet({}));
   auto t5 = pkb->callsTTable->get("Five");
-  REQUIRE(t5 == EntitySet({"Six"}));
+  REQUIRE(t5 == EntityValueSet({"Six"}));
   auto t6 = pkb->callsTTable->get("Six");
-  REQUIRE(t6 == EntitySet({}));
+  REQUIRE(t6 == EntityValueSet({}));
 
   // check CallsTRevTable
   REQUIRE(pkb->callsTRevTable->size() == 4);
   auto r1 = pkb->callsTRevTable->get("One");
-  REQUIRE(r1 == EntitySet({}));
+  REQUIRE(r1 == EntityValueSet({}));
   auto r2 = pkb->callsTRevTable->get("Two");
-  REQUIRE(r2 == EntitySet({"One"}));
+  REQUIRE(r2 == EntityValueSet({"One"}));
   auto r3 = pkb->callsTRevTable->get("Three");
-  REQUIRE(r3 == EntitySet({"One", "Two"}));
+  REQUIRE(r3 == EntityValueSet({"One", "Two"}));
   auto r4 = pkb->callsTRevTable->get("Four");
-  REQUIRE(r4 == EntitySet({"One", "Two", "Three"}));
+  REQUIRE(r4 == EntityValueSet({"One", "Two", "Three"}));
   auto r5 = pkb->callsTRevTable->get("Five");
-  REQUIRE(r5 == EntitySet({}));
+  REQUIRE(r5 == EntityValueSet({}));
   auto r6 = pkb->callsTRevTable->get("Six");
-  REQUIRE(r6 == EntitySet({"Five"}));
+  REQUIRE(r6 == EntityValueSet({"Five"}));
 }

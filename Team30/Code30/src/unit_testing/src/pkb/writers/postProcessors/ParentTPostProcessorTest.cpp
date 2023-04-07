@@ -41,11 +41,11 @@ TEST_CASE("ParentTPostProcessor") {
   // check ParentTRevTable
   REQUIRE(pkb->parentTRevTable->size() == 4);
   auto r1 = pkb->parentTRevTable->get(7);
-  REQUIRE(r1 == StmtSet({1}));
+  REQUIRE(r1 == StmtValueSet({1}));
   auto r2 = pkb->parentTRevTable->get(3);
-  REQUIRE(r2 == StmtSet({1, 2}));
+  REQUIRE(r2 == StmtValueSet({1, 2}));
   auto r3 = pkb->parentTRevTable->get(5);
-  REQUIRE(r3 == StmtSet({1, 2, 3}));
+  REQUIRE(r3 == StmtValueSet({1, 2, 3}));
   auto r4 = pkb->parentTRevTable->get(6);
-  REQUIRE(r4 == StmtSet({1, 2, 3}));
+  REQUIRE(r4 == StmtValueSet({1, 2, 3}));
 }
