@@ -117,7 +117,7 @@ void QueryGrouper::findIndependentSelects(vector<QueryGroupPtr> *result) {
   PQLSynonymNameSet *unselected = groupIndex.getSelectSynonyms();
   for (auto it = unselected->begin(); it != unselected->end(); it++) {
     PQLSynonymName name = *it;
-    QueryGroupPtr selectGroup = makeSelectClause(name);
+    QueryGroupPtr selectGroup = makeSelectClause(name, false);
     selectGroup->addSelectable(name);
     result->push_back(std::move(selectGroup));
   }
@@ -125,16 +125,16 @@ void QueryGrouper::findIndependentSelects(vector<QueryGroupPtr> *result) {
 
 void QueryGrouper::selectAllDeclarations(vector<QueryGroupPtr> *result) {
   for (PQLSynonymName name : query->getDeclaredSynonyms()) {
-    result->push_back(makeSelectClause(name));
+    result->push_back(makeSelectClause(name, !groupIndex.isConstrained(name)));
   }
 }
 
-QueryGroupPtr QueryGrouper::makeSelectClause(const PQLSynonymName &name) {
+QueryGroupPtr QueryGrouper::makeSelectClause(const PQLSynonymName &name,
+                                             const bool canBeEmpty) {
   PQLQuerySynonymProxy *synProxy = query->getVariable(name);
   IEvaluatablePtr selectClause = make_unique<SelectClause>(*synProxy);
 
-  QueryGroupPtr selectGroup = make_unique<QueryGroup>(
-      !groupIndex.isConstrained(name));
+  QueryGroupPtr selectGroup = make_unique<QueryGroup>(canBeEmpty);
   selectGroup->addEvaluatable(std::move(selectClause));
   return selectGroup;
 }
