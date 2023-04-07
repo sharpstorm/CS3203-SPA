@@ -5,10 +5,13 @@
 
 using std::vector, std::pair;
 
-ParentTPostProcessor::ParentTPostProcessor(PKB* pkb) : pkb(pkb) {}
+ParentTPostProcessor::ParentTPostProcessor(PKB* pkb)
+    : parentTable(pkb->parentTable),
+      parentTStorage(pkb->parentTStorage),
+      parentRevTable(pkb->parentRevTable) {}
 
 void ParentTPostProcessor::process() {
-  auto it = pkb->parentTable->getTableIterator();
+  auto it = parentTable->getTableIterator();
   StmtValueSet lastChildren;
   pair<StmtValue, StmtSet> row;
   while ((row = it->getNext()).first != 0) {
@@ -16,7 +19,7 @@ void ParentTPostProcessor::process() {
     // for while, the two last children at the same stmt
     // 1. last sibling of first child (last stmt in if clause)
     auto firstChild = *(row.second.begin());
-    StmtValue lastSibling = pkb->parentTStorage->getLastSibling(firstChild);
+    StmtValue lastSibling = parentTStorage->getLastSibling(firstChild);
     lastChildren.insert(lastSibling);
     // 2. last child of parent (last stmt in else clause)
     auto lastChild = *(row.second.rbegin());
@@ -26,14 +29,14 @@ void ParentTPostProcessor::process() {
     StmtValueSet ascendants = StmtValueSet();
     dfsParentRevTable(child, ascendants);
     for (auto p : ascendants) {
-      pkb->parentTStorage->insert(p, child);
+      parentTStorage->insert(p, child);
     }
   }
 }
 
 void ParentTPostProcessor::dfsParentRevTable(StmtValue child,
                                              StmtValueSet& ascendants) const {
-  auto result = pkb->parentRevTable->get(child);
+  auto result = parentRevTable->get(child);
   for (auto r : result) {
     if (ascendants.find(r) != ascendants.end()) {
       continue;

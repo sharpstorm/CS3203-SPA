@@ -5,10 +5,10 @@
 
 class NonExistentProceduresValidator : public IPostValidator {
  public:
-  explicit NonExistentProceduresValidator(PKB *);
+  explicit NonExistentProceduresValidator(PKB*);
 
   void validate() override;
 
  private:
-  PKB *pkb;
+  ProcedureAndCallsStorage* procAndCallsStorage;
 };
