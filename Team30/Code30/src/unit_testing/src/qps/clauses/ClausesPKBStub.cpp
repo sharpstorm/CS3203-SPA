@@ -161,6 +161,36 @@ class ClausesPKBStub : public StubPKB {
     return result;
   }
 
+  QueryResultPtr<int, string> queryIfPattern(StmtRef stmt, EntityRef ent) const override {
+    auto result = make_unique<QueryResult<int, string>>();
+    if (ent.isWildcard()) {
+      result->addLeft(1);
+      result->addLeft(7);
+      return result;
+    }
+
+    if (!ent.isKnown()) {
+      if (stmt.isKnown() && stmt.getValue() == 1 || !stmt.isKnown()) {
+        result->addLeft(1);
+        result->addRight("x");
+        result->addPair(1, "x");
+      }
+
+      if (stmt.isKnown() && stmt.getValue() == 7 || !stmt.isKnown()) {
+        result->addLeft(7);
+        result->addRight("y");
+        result->addPair(7, "y");
+      }
+      return result;
+    }
+
+    if (ent.getValue() == "x") {
+      result->addLeft(1);
+    }
+
+    return result;
+  }
+
   unordered_set<string> getSymbolsOfType(EntityType) const override {
     return unordered_set<string>();
   };
@@ -168,6 +198,22 @@ class ClausesPKBStub : public StubPKB {
   unordered_set<int> getStatementsOfType(StmtType) const override {
     return unordered_set<int>();
   };
+
+  bool isStatementOfType(StmtType type, int value) const override {
+    if (type == StmtType::If) {
+      return value == 1;
+    }
+
+    return false;
+  }
+
+  bool isSymbolOfType(EntityType type, string value) const override {
+    if (type == EntityType::Variable) {
+      return value == "x" || value == "y";
+    }
+
+    return false;
+  }
 
   // Utility functions
   static QueryResultPtr<int, int> createFollowsTResult() {
