@@ -32,8 +32,7 @@ class BaseQueryInvoker {
         rightPredicateFactory(rightPredicateFactory) {}
 
   QueryResultPtr<LeftValue, RightValue> query(
-      RelationTableManager<LeftValue, RightValue> *store,
-      IRef<LeftValue, LeftType> *arg1,
+      IStorage<LeftValue, RightValue> *store, IRef<LeftValue, LeftType> *arg1,
       IRef<RightValue, RightType> *arg2) const {
     auto resultBuilder = QueryResultBuilder<LeftValue, RightValue>();
 

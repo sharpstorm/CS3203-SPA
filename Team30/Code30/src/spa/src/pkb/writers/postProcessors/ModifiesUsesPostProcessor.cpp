@@ -18,13 +18,13 @@ void ModifiesUsesPostProcessor::populateProcedureAndVars() {
     const auto &procedure = *it;
 
     // get descendent procedures
-    auto calledProcedures = pkb->callsTStorage->getByFirstArg(procedure);
+    auto calledProcedures = pkb->callsTTable->get(procedure);
     for (const auto &calledProcedure : calledProcedures) {
-      auto modifiesVars = pkb->modifiesPStorage->getByFirstArg(calledProcedure);
+      auto modifiesVars = pkb->modifiesPTable->get(calledProcedure);
       for (const auto &v : modifiesVars) {
         pkb->modifiesPStorage->insert(procedure, v);
       }
-      auto usesVars = pkb->usesPStorage->getByFirstArg(calledProcedure);
+      auto usesVars = pkb->usesPTable->get(calledProcedure);
       for (const auto &v : usesVars) {
         pkb->usesPStorage->insert(procedure, v);
       }
@@ -36,8 +36,8 @@ void ModifiesUsesPostProcessor::populateCallStmtAndContainers() {
   auto callStmts = pkb->statementStorage->getStatementsOfType(StmtType::Call);
   for (auto &stmt : callStmts) {
     auto procedure = pkb->callDeclarationTable->get(stmt);
-    auto modifiesVars = pkb->modifiesPStorage->getByFirstArg(procedure);
-    auto usesVars = pkb->usesPStorage->getByFirstArg(procedure);
+    auto modifiesVars = pkb->modifiesPTable->get(procedure);
+    auto usesVars = pkb->usesPTable->get(procedure);
     // get container stmts by last sibling
     auto allStmts = pkb->parentTStorage->getBySecondArg(stmt);
     allStmts.insert(stmt);

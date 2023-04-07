@@ -1,12 +1,14 @@
 #pragma once
 
 #include <cassert>
+#include <memory>
 #include <set>
 
 #include "ContiguousTable.h"
 #include "IBaseSetTable.h"
+#include "pkb/storage/iterators/SetIterator.h"
 
-using std::set;
+using std::set, std::unique_ptr, std::make_unique;
 
 template <typename V>
 class ContiguousSetTable : public IBaseSetTable<int, V>,
@@ -26,12 +28,17 @@ class ContiguousSetTable : public IBaseSetTable<int, V>,
     return ContiguousTable<set<V>>::get(key);
   }
 
-  void forEach(pkb::Function<int, set<V>> function,
-               pkb::Terminator<int, set<V>> terminator) const override {
-    return ContiguousTable<set<V>>::forEach(function, terminator);
-  }
+  int size() const override { return ContiguousTable<set<V>>::size(); };
 
-  int size() const override {
-    return ContiguousTable<set<V>>::size();
+  bool isEmpty() const override { return ContiguousTable<set<V>>::isEmpty(); }
+
+  bool contains(int key, V value) const override {
+    return get(key).count(value);
   };
+
+  bool containsKey(int key) const override { return !get(key).empty(); }
+
+  unique_ptr<IBaseIterator<V>> getValueIterator(int key) override {
+    return make_unique<SetIterator<V>>(ContiguousTable<set<V>>::get(key));
+  }
 };

@@ -1,13 +1,13 @@
 #pragma once
 
-#include <vector>
-#include <memory>
 #include <algorithm>
 #include <cassert>
+#include <memory>
+#include <vector>
 
 using std::vector, std::unique_ptr, std::lower_bound;
 
-template<class T>
+template <class T>
 class AppendSet {
  protected:
   vector<T> items;
@@ -27,34 +27,33 @@ class AppendSet {
   typename vector<T>::const_iterator find(const T &item) const;
 };
 
-template<class T>
+template <class T>
 using AppendOnlySetPtr = unique_ptr<AppendSet<T>>;
 
-template<class T>
-AppendSet<T>::AppendSet(const AppendSet<T> &source):
-    items(source.items) {}
+template <class T>
+AppendSet<T>::AppendSet(const AppendSet<T> &source) : items(source.items) {}
 
-template<class T>
+template <class T>
 typename vector<T>::const_iterator AppendSet<T>::begin() const {
   return items.begin();
 }
 
-template<class T>
+template <class T>
 typename vector<T>::const_iterator AppendSet<T>::end() const {
   return items.end();
 }
 
-template<class T>
+template <class T>
 size_t AppendSet<T>::size() const {
   return items.size();
 }
 
-template<class T>
+template <class T>
 bool AppendSet<T>::empty() const {
   return items.empty();
 }
 
-template<class T>
+template <class T>
 void AppendSet<T>::insert(const T &item) {
   items.push_back(item);
   size_t newSize = items.size();
@@ -65,12 +64,12 @@ void AppendSet<T>::insert(const T &item) {
   items[newSize - i] = item;
 }
 
-template<class T>
+template <class T>
 typename vector<T>::const_iterator AppendSet<T>::find(const T &item) const {
   return binarySearch(item);
 }
 
-template<class T>
+template <class T>
 typename vector<T>::const_iterator AppendSet<T>::binarySearch(
     const T &data) const {
   auto it = lower_bound(items.begin(), items.end(), data);

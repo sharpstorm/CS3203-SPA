@@ -55,29 +55,29 @@ struct MUPostProcessorTestInit {
 TEST_CASE("ModifiesUsesPostProcessorTest assert initial modifiesPStorage") {
   auto test = MUPostProcessorTestInit();
 
-  auto m1 = test.pkb->modifiesPStorage->getByFirstArg("main");
+  auto m1 = test.pkb->modifiesPTable->get("main");
   REQUIRE(m1 == set<string>({"x"}));
-  auto m2 = test.pkb->modifiesPStorage->getByFirstArg("foo");
+  auto m2 = test.pkb->modifiesPTable->get("foo");
   REQUIRE(m2 == set<string>({"z"}));
-  auto m3 = test.pkb->modifiesPStorage->getByFirstArg("goo");
+  auto m3 = test.pkb->modifiesPTable->get("goo");
   REQUIRE(m3 == set<string>({"w"}));
-  auto m4 = test.pkb->modifiesPStorage->getByFirstArg("hoo");
+  auto m4 = test.pkb->modifiesPTable->get("hoo");
   REQUIRE(m4 == set<string>({}));
 
-  auto rm1 = test.pkb->modifiesPStorage->getBySecondArg("x");
+  auto rm1 = test.pkb->modifiesPRevTable->get("x");
   REQUIRE(rm1 == set<string>({"main"}));
-  auto rm2 = test.pkb->modifiesPStorage->getBySecondArg("z");
+  auto rm2 = test.pkb->modifiesPRevTable->get("z");
   REQUIRE(rm2 == set<string>({"foo"}));
-  auto rm3 = test.pkb->modifiesPStorage->getBySecondArg("w");
+  auto rm3 = test.pkb->modifiesPRevTable->get("w");
   REQUIRE(rm3 == set<string>({"goo"}));
 
   int calls[] = {3, 5, 8};
   for (int i : calls) {
-    REQUIRE(test.pkb->modifiesStorage->getByFirstArg(i).size() == 0);
+    REQUIRE(test.pkb->modifiesTable->get(i).size() == 0);
   }
-  REQUIRE(test.pkb->modifiesStorage->getBySecondArg("x") == set({1, 2}));
-  REQUIRE(test.pkb->modifiesStorage->getBySecondArg("z") == set({4}));
-  REQUIRE(test.pkb->modifiesStorage->getBySecondArg("w") == set({6}));
+  REQUIRE(test.pkb->modifiesRevTable->get("x") == set({1, 2}));
+  REQUIRE(test.pkb->modifiesRevTable->get("z") == set({4}));
+  REQUIRE(test.pkb->modifiesRevTable->get("w") == set({6}));
 }
 
 TEST_CASE("ModifiesUsesPostProcessorTest assert initial modifiesStorage") {
@@ -85,30 +85,30 @@ TEST_CASE("ModifiesUsesPostProcessorTest assert initial modifiesStorage") {
 
   int calls[] = {3, 5, 8};
   for (int i : calls) {
-    REQUIRE(test.pkb->modifiesStorage->getByFirstArg(i).size() == 0);
+    REQUIRE(test.pkb->modifiesTable->get(i).size() == 0);
   }
-  REQUIRE(test.pkb->modifiesStorage->getBySecondArg("x") == set({1, 2}));
-  REQUIRE(test.pkb->modifiesStorage->getBySecondArg("z") == set({4}));
-  REQUIRE(test.pkb->modifiesStorage->getBySecondArg("w") == set({6}));
+  REQUIRE(test.pkb->modifiesRevTable->get("x") == set({1, 2}));
+  REQUIRE(test.pkb->modifiesRevTable->get("z") == set({4}));
+  REQUIRE(test.pkb->modifiesRevTable->get("w") == set({6}));
 }
 
 TEST_CASE("ModifiesUsesPostProcessorTest assert initial usesPStorage") {
   auto test = MUPostProcessorTestInit();
 
-  auto u1 = test.pkb->usesPStorage->getByFirstArg("main");
+  auto u1 = test.pkb->usesPTable->get("main");
   REQUIRE(u1 == set<string>({"y"}));
-  auto u2 = test.pkb->usesPStorage->getByFirstArg("foo");
+  auto u2 = test.pkb->usesPTable->get("foo");
   REQUIRE(u2 == set<string>({}));
-  auto u3 = test.pkb->usesPStorage->getByFirstArg("goo");
+  auto u3 = test.pkb->usesPTable->get("goo");
   REQUIRE(u3 == set<string>({"x", "z"}));
-  auto u4 = test.pkb->usesPStorage->getByFirstArg("hoo");
+  auto u4 = test.pkb->usesPTable->get("hoo");
   REQUIRE(u4 == set<string>({}));
 
-  auto ru1 = test.pkb->usesPStorage->getBySecondArg("x");
+  auto ru1 = test.pkb->usesPRevTable->get("x");
   REQUIRE(ru1 == set<string>({"goo"}));
-  auto ru2 = test.pkb->usesPStorage->getBySecondArg("y");
+  auto ru2 = test.pkb->usesPRevTable->get("y");
   REQUIRE(ru2 == set<string>({"main"}));
-  auto ru3 = test.pkb->usesPStorage->getBySecondArg("z");
+  auto ru3 = test.pkb->usesPRevTable->get("z");
   REQUIRE(ru3 == set<string>({"goo"}));
 }
 
@@ -117,11 +117,11 @@ TEST_CASE("ModifiesUsesPostProcessorTest assert initial usesStorage") {
 
   int calls[] = {3, 5, 8};
   for (int i : calls) {
-    REQUIRE(test.pkb->usesStorage->getByFirstArg(i).size() == 0);
+    REQUIRE(test.pkb->usesTable->get(i).size() == 0);
   }
-  REQUIRE(test.pkb->usesStorage->getBySecondArg("y") == set({1}));
-  REQUIRE(test.pkb->usesStorage->getBySecondArg("x") == set({6}));
-  REQUIRE(test.pkb->usesStorage->getBySecondArg("z") == set({7}));
+  REQUIRE(test.pkb->usesRevTable->get("y") == set({1}));
+  REQUIRE(test.pkb->usesRevTable->get("x") == set({6}));
+  REQUIRE(test.pkb->usesRevTable->get("z") == set({7}));
 }
 
 TEST_CASE(
@@ -129,20 +129,20 @@ TEST_CASE(
   auto test = MUPostProcessorTestInit();
   test.writer.runPostProcessor();
 
-  auto m1 = test.pkb->modifiesPStorage->getByFirstArg("main");
+  auto m1 = test.pkb->modifiesPTable->get("main");
   REQUIRE(m1 == set<string>({"x", "z", "w"}));
-  auto m2 = test.pkb->modifiesPStorage->getByFirstArg("foo");
+  auto m2 = test.pkb->modifiesPTable->get("foo");
   REQUIRE(m2 == set<string>({"z", "w"}));
-  auto m3 = test.pkb->modifiesPStorage->getByFirstArg("goo");
+  auto m3 = test.pkb->modifiesPTable->get("goo");
   REQUIRE(m3 == set<string>({"w"}));
-  auto m4 = test.pkb->modifiesPStorage->getByFirstArg("hoo");
+  auto m4 = test.pkb->modifiesPTable->get("hoo");
   REQUIRE(m4 == set<string>({"w"}));
 
-  auto rm1 = test.pkb->modifiesPStorage->getBySecondArg("x");
+  auto rm1 = test.pkb->modifiesPRevTable->get("x");
   REQUIRE(rm1 == set<string>({"main"}));
-  auto rm2 = test.pkb->modifiesPStorage->getBySecondArg("z");
+  auto rm2 = test.pkb->modifiesPRevTable->get("z");
   REQUIRE(rm2 == set<string>({"foo", "main"}));
-  auto rm3 = test.pkb->modifiesPStorage->getBySecondArg("w");
+  auto rm3 = test.pkb->modifiesPRevTable->get("w");
   REQUIRE(rm3 == set<string>({"goo", "hoo", "main", "foo"}));
 }
 
@@ -151,21 +151,21 @@ TEST_CASE(
   auto test = MUPostProcessorTestInit();
   test.writer.runPostProcessor();
 
-  auto c1 = test.pkb->modifiesStorage->getByFirstArg(3);
+  auto c1 = test.pkb->modifiesTable->get(3);
   REQUIRE(c1 == set<string>({"w", "z"}));
-  auto c2 = test.pkb->modifiesStorage->getByFirstArg(5);
+  auto c2 = test.pkb->modifiesTable->get(5);
   REQUIRE(c2 == set<string>({"w"}));
-  auto c3 = test.pkb->modifiesStorage->getByFirstArg(8);
+  auto c3 = test.pkb->modifiesTable->get(8);
   REQUIRE(c3 == set<string>({"w"}));
   // while container
-  auto c4 = test.pkb->modifiesStorage->getByFirstArg(1);
+  auto c4 = test.pkb->modifiesTable->get(1);
   REQUIRE(c4 == set<string>({"x", "w", "z"}));
 
-  auto cr1 = test.pkb->modifiesStorage->getBySecondArg("x");
+  auto cr1 = test.pkb->modifiesRevTable->get("x");
   REQUIRE(cr1 == set({1, 2}));
-  auto cr2 = test.pkb->modifiesStorage->getBySecondArg("z");
+  auto cr2 = test.pkb->modifiesRevTable->get("z");
   REQUIRE(cr2 == set({1, 4, 3}));
-  auto cr3 = test.pkb->modifiesStorage->getBySecondArg("w");
+  auto cr3 = test.pkb->modifiesRevTable->get("w");
   REQUIRE(cr3 == set({1, 6, 3, 5, 8}));
 }
 
@@ -173,20 +173,20 @@ TEST_CASE("ModifiesUsesPostProcessorTest check post-processed usesPStorage") {
   auto test = MUPostProcessorTestInit();
   test.writer.runPostProcessor();
 
-  auto u1 = test.pkb->usesPStorage->getByFirstArg("main");
+  auto u1 = test.pkb->usesPTable->get("main");
   REQUIRE(u1 == set<string>({"y", "x", "z"}));
-  auto u2 = test.pkb->usesPStorage->getByFirstArg("foo");
+  auto u2 = test.pkb->usesPTable->get("foo");
   REQUIRE(u2 == set<string>({"x", "z"}));
-  auto u3 = test.pkb->usesPStorage->getByFirstArg("goo");
+  auto u3 = test.pkb->usesPTable->get("goo");
   REQUIRE(u3 == set<string>({"x", "z"}));
-  auto u4 = test.pkb->usesPStorage->getByFirstArg("hoo");
+  auto u4 = test.pkb->usesPTable->get("hoo");
   REQUIRE(u4 == set<string>({"x", "z"}));
 
-  auto ru1 = test.pkb->usesPStorage->getBySecondArg("x");
+  auto ru1 = test.pkb->usesPRevTable->get("x");
   REQUIRE(ru1 == set<string>({"goo", "main", "foo", "hoo"}));
-  auto ru2 = test.pkb->usesPStorage->getBySecondArg("y");
+  auto ru2 = test.pkb->usesPRevTable->get("y");
   REQUIRE(ru2 == set<string>({"main"}));
-  auto ru3 = test.pkb->usesPStorage->getBySecondArg("z");
+  auto ru3 = test.pkb->usesPRevTable->get("z");
   REQUIRE(ru3 == set<string>({"goo", "main", "foo", "hoo"}));
 }
 
@@ -194,21 +194,21 @@ TEST_CASE("ModifiesUsesPostProcessorTest check post-processed usesStorage") {
   auto test = MUPostProcessorTestInit();
   test.writer.runPostProcessor();
 
-  auto c1 = test.pkb->usesStorage->getByFirstArg(3);
+  auto c1 = test.pkb->usesTable->get(3);
   REQUIRE(c1 == set<string>({"x", "z"}));
-  auto c2 = test.pkb->usesStorage->getByFirstArg(5);
+  auto c2 = test.pkb->usesTable->get(5);
   REQUIRE(c2 == set<string>({"x", "z"}));
-  auto c3 = test.pkb->usesStorage->getByFirstArg(8);
+  auto c3 = test.pkb->usesTable->get(8);
   REQUIRE(c3 == set<string>({"x", "z"}));
   // while container
-  auto c4 = test.pkb->usesStorage->getByFirstArg(1);
+  auto c4 = test.pkb->usesTable->get(1);
   REQUIRE(c4 == set<string>({"y", "x", "z"}));
 
-  auto cr1 = test.pkb->usesStorage->getBySecondArg("y");
+  auto cr1 = test.pkb->usesRevTable->get("y");
   REQUIRE(cr1 == set({1}));
-  auto cr2 = test.pkb->usesStorage->getBySecondArg("x");
+  auto cr2 = test.pkb->usesRevTable->get("x");
   REQUIRE(cr2 == set({1, 6, 3, 5, 8}));
-  auto cr3 = test.pkb->usesStorage->getBySecondArg("z");
+  auto cr3 = test.pkb->usesRevTable->get("z");
   REQUIRE(cr3 == set({1, 7, 3, 5, 8}));
 }
 
@@ -250,16 +250,16 @@ TEST_CASE("ModifiesUsesPostProcessorTest check modifies for ontainer stmts") {
   auto test = MUPostProcessorTest2();
   test.writer.runPostProcessor();
 
-  auto c1 = test.pkb->modifiesStorage->getByFirstArg(1);
+  auto c1 = test.pkb->modifiesTable->get(1);
   REQUIRE(c1 == set<string>({"x", "z"}));
-  auto c2 = test.pkb->modifiesStorage->getByFirstArg(2);
+  auto c2 = test.pkb->modifiesTable->get(2);
   REQUIRE(c2 == set<string>({"x", "z"}));
-  auto c3 = test.pkb->modifiesStorage->getByFirstArg(4);
+  auto c3 = test.pkb->modifiesTable->get(4);
   REQUIRE(c3 == set<string>({"z"}));
 
-  auto cr1 = test.pkb->modifiesStorage->getBySecondArg("x");
+  auto cr1 = test.pkb->modifiesRevTable->get("x");
   REQUIRE(cr1 == set({1, 2, 3}));
-  auto cr2 = test.pkb->modifiesStorage->getBySecondArg("z");
+  auto cr2 = test.pkb->modifiesRevTable->get("z");
   REQUIRE(cr2 == set({1, 2, 4, 5}));
 }
 
@@ -267,15 +267,15 @@ TEST_CASE("ModifiesUsesPostProcessorTest check uses for ontainer stmts") {
   auto test = MUPostProcessorTest2();
   test.writer.runPostProcessor();
 
-  auto c1 = test.pkb->usesStorage->getByFirstArg(1);
+  auto c1 = test.pkb->usesTable->get(1);
   REQUIRE(c1 == set<string>({"z"}));
-  auto c2 = test.pkb->usesStorage->getByFirstArg(2);
+  auto c2 = test.pkb->usesTable->get(2);
   REQUIRE(c2 == set<string>({"y", "z"}));
-  auto c3 = test.pkb->usesStorage->getByFirstArg(4);
+  auto c3 = test.pkb->usesTable->get(4);
   REQUIRE(c3 == set<string>({"z"}));
 
-  auto cr1 = test.pkb->usesStorage->getBySecondArg("y");
+  auto cr1 = test.pkb->usesRevTable->get("y");
   REQUIRE(cr1 == set({2}));
-  auto cr2 = test.pkb->usesStorage->getBySecondArg("z");
+  auto cr2 = test.pkb->usesRevTable->get("z");
   REQUIRE(cr2 == set({1, 2, 4, 6}));
 }
