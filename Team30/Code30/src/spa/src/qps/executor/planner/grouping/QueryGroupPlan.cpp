@@ -6,13 +6,11 @@ QueryGroupPlan::QueryGroupPlan(
     vector<IEvaluatable *> conditionalClauses,
     vector<PQLSynonymName> selectables,
     vector<IEvaluatablePtr> ownedEvals,
-    const ComplexityScore &score,
-    bool canEmpty) :
+    const ComplexityScore &score) :
     conditionalClauses(conditionalClauses),
     selectables(selectables),
     ownedEvals(std::move(ownedEvals)),
-    weightedComplexity(score),
-    canEmpty(canEmpty) {}
+    weightedComplexity(score) {}
 
 const vector<IEvaluatable *> QueryGroupPlan::getConditionalClauses() const {
   return conditionalClauses;
@@ -24,10 +22,6 @@ bool QueryGroupPlan::isBooleanResult() const {
 
 const PQLSynonymNameList *QueryGroupPlan::getSelectables() const {
   return &selectables;
-}
-
-bool QueryGroupPlan::canBeEmpty() const {
-  return canEmpty;
 }
 
 ComplexityScore QueryGroupPlan::getComplexity() const {

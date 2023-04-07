@@ -18,12 +18,8 @@ vector<QueryGroupPtr> QueryGrouper::groupClauses() {
   vector<QueryGroupPtr> groups;
   initIndex();
 
-  if (!groupIndex.hasSelectables() && query->getClauseCount() == 0) {
-    selectAllDeclarations(&groups);
-  } else {
-    findGroups(&groups);
-    findIndependentSelects(&groups);
-  }
+  findGroups(&groups);
+  findIndependentSelects(&groups);
 
   return groups;
 }
@@ -87,6 +83,7 @@ void QueryGrouper::registerSeenSynonym(const PQLSynonymName &name,
                                        QueryGroup *result) {
   if (seenSynonyms.find(name) == seenSynonyms.end()) {
     seenSynonyms.insert(name);
+    groupIndex.linkConstraint(name);
     if (groupIndex.selectSynonym(name)) {
       result->addSelectable(name);
     }
@@ -114,18 +111,18 @@ void QueryGrouper::queueClauses(queue<PlanNode> *target,
 }
 
 void QueryGrouper::findIndependentSelects(vector<QueryGroupPtr> *result) {
-  PQLSynonymNameSet *unselected = groupIndex.getSelectSynonyms();
-  for (auto it = unselected->begin(); it != unselected->end(); it++) {
-    PQLSynonymName name = *it;
+  const PQLSynonymNameSet *unselected = groupIndex.getHangingSelects();
+  for (const auto &name : *unselected) {
     QueryGroupPtr selectGroup = makeSelectClause(name);
     selectGroup->addSelectable(name);
     result->push_back(std::move(selectGroup));
   }
-}
 
-void QueryGrouper::selectAllDeclarations(vector<QueryGroupPtr> *result) {
-  for (PQLSynonymName name : query->getDeclaredSynonyms()) {
-    result->push_back(makeSelectClause(name));
+  const PQLSynonymNameSet *hangingConstraints =
+      groupIndex.getHangingConstraints();
+  for (const auto &name : *hangingConstraints) {
+    QueryGroupPtr selectGroup = makeSelectClause(name);
+    result->push_back(std::move(selectGroup));
   }
 }
 
@@ -133,8 +130,7 @@ QueryGroupPtr QueryGrouper::makeSelectClause(const PQLSynonymName &name) {
   PQLQuerySynonymProxy *synProxy = query->getVariable(name);
   IEvaluatablePtr selectClause = make_unique<SelectClause>(*synProxy);
 
-  QueryGroupPtr selectGroup = make_unique<QueryGroup>(
-      !groupIndex.isConstrained(name));
+  QueryGroupPtr selectGroup = make_unique<QueryGroup>();
   selectGroup->addEvaluatable(std::move(selectClause));
   return selectGroup;
 }

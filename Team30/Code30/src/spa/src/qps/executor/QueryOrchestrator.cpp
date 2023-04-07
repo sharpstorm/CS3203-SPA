@@ -26,13 +26,10 @@ ProjectorResultTable *QueryOrchestrator::execute(
     PQLQueryResult* result = executeGroup(targetGroup, overrideTable, &cache);
 
     // If any of the result is empty, return FALSE / EmptyResultTable
-    if (result->isFalse() && !targetGroup->canBeEmpty()) {
+    if (result->isFalse()) {
       delete resultTable;
       delete result;
       return new ProjectorResultTable(isBool, false);
-    } else if (result->isFalse() && targetGroup->canBeEmpty()) {
-      delete result;
-      continue;
     }
 
     if (targetGroup->isBooleanResult()) {
