@@ -170,22 +170,60 @@ class ClausesPKBStub : public StubPKB {
     }
 
     if (!ent.isKnown()) {
-      if (stmt.isKnown() && stmt.getValue() == 1 || !stmt.isKnown()) {
-        result->addLeft(1);
-        result->addRight("x");
+      if (!stmt.isKnown()) {
         result->addPair(1, "x");
+        result->addPair(7, "y");
+        return result;
       }
 
-      if (stmt.isKnown() && stmt.getValue() == 7 || !stmt.isKnown()) {
-        result->addLeft(7);
+      if (stmt.getValue() == 1) {
+        result->addRight("x");
+      }
+
+      if (stmt.getValue() == 7) {
         result->addRight("y");
-        result->addPair(7, "y");
       }
       return result;
     }
 
     if (ent.getValue() == "x") {
       result->addLeft(1);
+    }
+
+    return result;
+  }
+
+  QueryResultPtr<int, string> queryWhilePattern(StmtRef stmt, EntityRef ent) const override {
+    auto result = make_unique<QueryResult<int, string>>();
+    if (ent.isWildcard()) {
+      result->addLeft(4);
+      result->addLeft(11);
+    }
+
+    if (!ent.isKnown()) {
+      if (!stmt.isKnown()) {
+        result->addPair(4, "x");
+        result->addPair(11, "y");
+        return result;
+      }
+
+      if (stmt.getValue() == 4) {
+       result->addRight("x");
+      }
+
+      if (stmt.getValue() == 11) {
+        result->addRight("y");
+      }
+
+      return result;
+    }
+
+    if (ent.getValue() == "x") {
+      result->addLeft(4);
+    }
+
+    if (ent.getValue() == "x") {
+      result->addLeft(4);
     }
 
     return result;
@@ -202,6 +240,10 @@ class ClausesPKBStub : public StubPKB {
   bool isStatementOfType(StmtType type, int value) const override {
     if (type == StmtType::If) {
       return value == 1;
+    }
+
+    if (type == StmtType::While) {
+      return value == 4;
     }
 
     return false;

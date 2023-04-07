@@ -12,8 +12,6 @@
 #include "qps/clauses/arguments/ClauseArgumentFactory.h"
 #include "../../util/QueryResultTestUtil.cpp"
 
-using std::move;
-
 SynonymHolder IF_PATTERN_SYNS({{PQL_SYN_TYPE_IF, "ifs"}, {PQL_SYN_TYPE_VARIABLE, "v"}});
 
 void testIfPattern(const QueryExecutorAgent &agent, ClauseArgumentPtr leftArg, PQLQueryResult* expected) {
@@ -59,7 +57,7 @@ TEST_CASE("If pattern clause") {
   });
   testIfPattern(agent, std::move(leftArg), expected.get());
 
-  // Static - valid if and varName
+  // Static - valid varName
   leftArg = ClauseArgumentFactory::create("x");
   expected = TestQueryResultBuilder::buildExpected(ExpectedParams{
       {"ifs", QueryResultItemVector{
@@ -68,7 +66,7 @@ TEST_CASE("If pattern clause") {
   });
   testIfPattern(agent, std::move(leftArg), expected.get());
 
-  // Static - valid if, invalid varName
+  // Static - invalid varName
   leftArg = ClauseArgumentFactory::create("y");
   testIfPatternFalse(agent, std::move(leftArg));
 }
