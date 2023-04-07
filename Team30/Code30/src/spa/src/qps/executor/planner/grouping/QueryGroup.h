@@ -13,8 +13,7 @@ typedef int GroupClauseIndex;
 
 class QueryGroup {
  public:
-  QueryGroup() : canEmpty(false) {}
-  explicit QueryGroup(bool canEmpty) : canEmpty(canEmpty) {}
+  QueryGroup() = default;
 
   GroupClauseIndex addEvaluatable(IEvaluatable *evaluatable);
   GroupClauseIndex addEvaluatable(IEvaluatablePtr evaluatable);
@@ -35,8 +34,6 @@ class QueryGroup {
   vector<unordered_set<GroupClauseIndex>> edgeList;
   vector<PQLSynonymName> selectables;
   vector<IEvaluatablePtr> ownedEvals;
-
-  bool canEmpty;
 };
 
 typedef unique_ptr<QueryGroup> QueryGroupPtr;

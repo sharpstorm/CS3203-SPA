@@ -57,7 +57,7 @@ TEST_CASE("Queries with Select only") {
     vector<IEvaluatablePtr> dummyOwned;
     auto group = make_unique<QueryGroupPlan>(
         vector<IEvaluatable*>{selectClause.get()},
-        vector<PQLSynonymName>{"s"}, std::move(dummyOwned), 0, false);
+        vector<PQLSynonymName>{"s"}, std::move(dummyOwned), 0);
     vector<QueryGroupPlanPtr> groups;
     groups.push_back(std::move(group));
     auto queryPlan = make_unique<QueryPlan>(std::move(groups));
@@ -91,7 +91,7 @@ TEST_CASE("Queries with Select only") {
     vector<IEvaluatablePtr> dummyOwned;
     auto group = make_unique<QueryGroupPlan>(vector<IEvaluatable*>{&selectClause},
                                              vector<PQLSynonymName>{"ent"},
-                                             std::move(dummyOwned), 0, false);
+                                             std::move(dummyOwned), 0);
     vector<QueryGroupPlanPtr> groups;
     groups.push_back(std::move(group));
     auto queryPlan = make_unique<QueryPlan>(std::move(groups));
