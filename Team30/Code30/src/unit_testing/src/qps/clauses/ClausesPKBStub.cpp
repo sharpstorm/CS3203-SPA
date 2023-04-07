@@ -169,6 +169,10 @@ class ClausesPKBStub : public StubPKB {
     return unordered_set<int>();
   };
 
+  StmtType getStatementType(int) const override {
+    return StmtType::Assign;
+  }
+
   // Utility functions
   static QueryResultPtr<int, int> createFollowsTResult() {
     auto result = make_unique<QueryResult<int, int>>();

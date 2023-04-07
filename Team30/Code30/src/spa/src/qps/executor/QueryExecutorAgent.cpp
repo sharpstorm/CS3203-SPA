@@ -36,12 +36,16 @@ bool QueryExecutorAgent::isValid(const StmtRef &ref) const {
     return false;
   }
 
-  if (ref.isType(StmtType::None) || ref.isType(StmtType::Wildcard)) {
+  if (ref.isType(StmtType::Wildcard) || !ref.isKnown()) {
     return true;
   }
 
-  return !ref.isKnown()
-      || pkbQueryHandler->isStatementOfType(ref.getType(), ref.getValue());
+  const StmtType stmtType = pkbQueryHandler->getStatementType(ref.getValue());
+  if (ref.isType(StmtType::None)) {
+    return stmtType != StmtType::None;
+  }
+
+  return stmtType == ref.getType();
 }
 
 bool QueryExecutorAgent::isValid(const EntityRef &ref) const {
