@@ -36,7 +36,7 @@ void PQLSelectParser::parseTuple(QueryTokenParseState *parserState,
 void PQLSelectParser::parseSynonym(QueryTokenParseState *parserState,
                                    QueryBuilder *queryBuilder) {
   AttributedSynonymPtr attrSyn =
-      PQLAttributeRefExtractor::extract(parserState, queryBuilder);
+      PQLAttributeRefExtractor::extractOptionalAttr(parserState, queryBuilder);
   if (attrSyn == nullptr) {
     return;
   }

@@ -111,7 +111,7 @@ WithArgumentPtr PQLWithParser::parseWithArg(QueryTokenParseState *state,
   }
 
   AttributedSynonymPtr attrSyn =
-      PQLAttributeRefExtractor::extract(state, builder);
+      PQLAttributeRefExtractor::extractCompulsoryAttr(state, builder);
   if (attrSyn == nullptr) {
     return nullptr;
   }
