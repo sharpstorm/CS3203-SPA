@@ -4,12 +4,34 @@
 
 using std::make_unique;
 
+AttributedSynonymPtr PQLAttributeRefExtractor::extractCompulsoryAttr(
+    QueryTokenParseState *state,
+    QueryBuilder *builder) {
+  return extract<expectAttribute>(state, builder);
+}
+
+AttributedSynonymPtr PQLAttributeRefExtractor::extractOptionalAttr(
+    QueryTokenParseState *state,
+    QueryBuilder *builder) {
+  return extract<tryExpectAttribute>(state, builder);
+}
+
+bool PQLAttributeRefExtractor::tryExpectAttribute(QueryTokenParseState *state) {
+  return state->tryExpect(PQL_TOKEN_PERIOD) != nullptr;
+}
+
+bool PQLAttributeRefExtractor::expectAttribute(QueryTokenParseState *state) {
+  state->expect(PQL_TOKEN_PERIOD);
+  return true;
+}
+
+template <PQLAttributeRefExtractor::ParsePredicate expectPredicate>
 AttributedSynonymPtr PQLAttributeRefExtractor::extract(
     QueryTokenParseState *state, QueryBuilder *builder) {
   PQLSynonymName synName = state->expectSynName();
   PQLSynonymAttribute attr = NO_ATTRIBUTE;
 
-  bool hasAttr = state->tryExpect(PQL_TOKEN_PERIOD) != nullptr;
+  bool hasAttr = expectPredicate(state);
   if (hasAttr) {
     attr = extractAttribute(state);
   }
