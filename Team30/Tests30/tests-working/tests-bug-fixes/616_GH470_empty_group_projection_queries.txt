@@ -1,0 +1,15 @@
+1 - BUG REPORTED
+variable v; constant c;
+Select v
+a,b,c
+5000
+2 - BUG REPORTED
+variable v; constant c;
+Select c
+
+5000
+3 - BUG REPORTED
+variable v; constant c;
+Select <v, c>
+
+5000

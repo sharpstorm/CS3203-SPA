@@ -32,14 +32,14 @@ bool QueryGrouperIndex::selectSynonym(const PQLSynonymName &name) {
   return true;
 }
 
-unordered_set<PQLSynonymName>* QueryGrouperIndex::getSelectSynonyms() {
+void QueryGrouperIndex::linkConstraint(const PQLSynonymName &name) {
+  constrainSynonyms.erase(name);
+}
+
+const PQLSynonymNameSet* QueryGrouperIndex::getHangingSelects() const {
   return &selectSynonyms;
 }
 
-bool QueryGrouperIndex::hasSelectables() const {
-  return selectSynonyms.size() > 0;
-}
-
-bool QueryGrouperIndex::isConstrained(const PQLSynonymName &name) const {
-  return constrainSynonyms.find(name) != constrainSynonyms.end();
+const PQLSynonymNameSet *QueryGrouperIndex::getHangingConstraints() const {
+  return &constrainSynonyms;
 }

@@ -12,8 +12,8 @@ typedef unordered_set<PlanNode> PlanNodes;
 class QueryGrouperIndex {
  private:
   unordered_map<PQLSynonymName, PlanNodes> synonymMap;
-  unordered_set<PQLSynonymName> selectSynonyms;
-  unordered_set<PQLSynonymName> constrainSynonyms;
+  PQLSynonymNameSet selectSynonyms;
+  PQLSynonymNameSet constrainSynonyms;
 
  public:
   PlanNodes* getUsages(const PQLSynonymName &key);
@@ -21,7 +21,7 @@ class QueryGrouperIndex {
   void insertSelection(const PQLSynonymName &name);
   void insertConstraint(const PQLSynonymName &name);
   bool selectSynonym(const PQLSynonymName &name);
-  unordered_set<PQLSynonymName>* getSelectSynonyms();
-  bool hasSelectables() const;
-  bool isConstrained(const PQLSynonymName &name) const;
+  void linkConstraint(const PQLSynonymName &name);
+  const PQLSynonymNameSet* getHangingSelects() const;
+  const PQLSynonymNameSet *getHangingConstraints() const;
 };
