@@ -27,5 +27,9 @@ ASTPtr SourceTokenParser::parseProgram(SourceTokenStream *tokens) const {
 
 ASTPtr SourceTokenParser::parseExpression(SourceTokenStream *tokens) const {
   SourceParseState state(tokens);
-  return make_unique<AST>(std::move(exprParser->parse(&state)));
+  ASTPtr ret = make_unique<AST>(std::move(exprParser->parse(&state)));
+  if (!state.isEnd()) {
+    throw SPError(SPERR_UNEXPECTED_TOKEN);
+  }
+  return ret;
 }

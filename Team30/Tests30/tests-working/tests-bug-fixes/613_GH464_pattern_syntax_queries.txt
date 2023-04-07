@@ -1,0 +1,20 @@
+1 - SyntaxError Bug
+assign a;
+Select a pattern a(_, "(a)(b)")
+SyntaxError
+5000
+2 - SyntaxError Bug
+assign a;
+Select a pattern a(_, "a(b)")
+SyntaxError
+5000
+3 - SyntaxError Bug
+assign a;
+Select a pattern a(_, "ab)")
+SyntaxError
+5000
+4 - SyntaxError Bug
+assign a;
+Select a pattern a(_, "(a b")
+SyntaxError
+5000

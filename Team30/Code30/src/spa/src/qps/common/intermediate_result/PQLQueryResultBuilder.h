@@ -25,8 +25,10 @@ class PQLQueryResultBuilder {
   PQLSynonymName rightName;
 
   void populateTwoNamed(const QueryResult<T, U> *queryResult);
-  void populateLeftNamed(const QueryResultSet<T> &queryResult);
-  void populateRightNamed(const QueryResultSet<U> &queryResult);
+  void populateLeftNamed(const QueryResultSet<T> &queryResult,
+                         const bool isEmpty);
+  void populateRightNamed(const QueryResultSet<U> &queryResult,
+                          const bool isEmpty);
 
  public:
   PQLQueryResultBuilder();
@@ -99,9 +101,9 @@ PQLQueryResult *PQLQueryResultBuilder<T, U>::build(
   } else if (isLeftNamed && isRightNamed) {
     populateTwoNamed(queryResult);
   } else if (isLeftNamed) {
-    populateLeftNamed(queryResult->firstArgVals);
+    populateLeftNamed(queryResult->firstArgVals, queryResult->isEmpty);
   } else if (isRightNamed) {
-    populateRightNamed(queryResult->secondArgVals);
+    populateRightNamed(queryResult->secondArgVals, queryResult->isEmpty);
   }
 
   PQLQueryResult *result = inProgress.get();
@@ -115,7 +117,7 @@ PQLQueryResult *PQLQueryResultBuilder<T, U>::build(
   if (!isLeftNamed) {
     inProgress->setIsStaticFalse(queryResult.empty());
   } else {
-    populateLeftNamed(queryResult);
+    populateLeftNamed(queryResult, queryResult.empty());
   }
 
   PQLQueryResult *result = inProgress.get();
@@ -145,9 +147,10 @@ void PQLQueryResultBuilder<T, U>::populateTwoNamed(
 
 template<class T, class U>
 void PQLQueryResultBuilder<T, U>::populateLeftNamed(
-    const QueryResultSet<T> &result) {
+    const QueryResultSet<T> &result,
+    const bool isEmpty) {
   if (isLeftKnown) {
-    if (!result.empty()) {
+    if (!isEmpty) {
       inProgress->add(leftName, QueryResultSet<T>{leftValue});
     }
     return;
@@ -157,9 +160,10 @@ void PQLQueryResultBuilder<T, U>::populateLeftNamed(
 
 template<class T, class U>
 void PQLQueryResultBuilder<T, U>::populateRightNamed(
-    const QueryResultSet<U> &result) {
+    const QueryResultSet<U> &result,
+    const bool isEmpty) {
   if (isRightKnown) {
-    if (!result.empty()) {
+    if (!isEmpty) {
       inProgress->add(rightName, QueryResultSet<U>{rightValue});
     }
     return;
