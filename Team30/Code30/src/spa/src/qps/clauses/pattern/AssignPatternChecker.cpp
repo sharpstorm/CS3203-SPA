@@ -25,7 +25,7 @@ void AssignPatternChecker::checkBoolean(
     const QueryResult<StmtValue, EntityValue> *modifiesResult,
     QueryResult<StmtValue, EntityValue> *assignResult,
     const QueryExecutorAgent &agent) const {
-  if (modifiesResult->isEmpty) {
+  if (modifiesResult->empty()) {
     return;
   }
 
@@ -33,14 +33,14 @@ void AssignPatternChecker::checkBoolean(
     return;
   }
 
-  assignResult->isEmpty = false;
+  assignResult->setNotEmpty();
 }
 
 void AssignPatternChecker::checkStmt(
     const QueryResult<StmtValue, EntityValue> *modifiesResult,
     QueryResult<StmtValue, EntityValue> *assignResult,
     const QueryExecutorAgent &agent) const {
-  for (const StmtValue &stmt : modifiesResult->firstArgVals) {
+  for (const StmtValue &stmt : modifiesResult->getLeftVals()) {
     if (!checkTrie(agent, stmt)) {
       continue;
     }
@@ -53,7 +53,7 @@ void AssignPatternChecker::checkVariable(
     const QueryResult<StmtValue, EntityValue> *modifiesResult,
     QueryResult<StmtValue, EntityValue> *assignResult,
     const QueryExecutorAgent &agent) const {
-  if (modifiesResult->isEmpty) {
+  if (modifiesResult->empty()) {
     return;
   }
 
@@ -61,7 +61,7 @@ void AssignPatternChecker::checkVariable(
     return;
   }
 
-  for (const EntityValue &var : modifiesResult->secondArgVals) {
+  for (const EntityValue &var : modifiesResult->getRightVals()) {
     assignResult->addRight(var);
   }
 }
