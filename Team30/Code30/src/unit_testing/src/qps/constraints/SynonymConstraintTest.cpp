@@ -7,10 +7,25 @@ VariableTable buildVarTable(unordered_map<PQLSynonymName, PQLSynonymType> syns) 
   VariableTable ret;
 
   for (const auto &x : syns) {
-    ret.add(x.first, PQLQuerySynonym(x.second, x.first));
+    ret.add(PQLQuerySynonym(x.second, x.first));
   }
 
   return ret;
+}
+
+TEST_CASE("Synonym Constraint - Get Affected Syns") {
+  VariableTable varTable = buildVarTable(
+      {
+          {"s1", PQL_SYN_TYPE_STMT},
+          {"s2", PQL_SYN_TYPE_STMT},
+      });
+  varTable.finalizeTable();
+  SynonymProxyBuilder builder(varTable.getProxyMap());
+  OverrideTable overrides;
+
+  SynonymConstraint constraint("s1", "s2");
+  vector<PQLSynonymName> expected = vector<PQLSynonymName>({"s1", "s2"});
+  REQUIRE(expected == constraint.getAffectedSyns());
 }
 
 TEST_CASE("Synonym Constraint - Equal Level") {
@@ -34,7 +49,7 @@ TEST_CASE("Synonym Constraint - Equal Level") {
             {"s2", type},
         });
     varTable.finalizeTable();
-    SynonymProxyBuilder builder(&varTable);
+    SynonymProxyBuilder builder(varTable.getProxyMap());
     OverrideTable overrides;
 
     SynonymConstraint constraint("s1", "s2");
@@ -70,7 +85,7 @@ TEST_CASE("Synonym Constraint - Subtype Specialization") {
               {"s2", s2Type},
           });
       varTable.finalizeTable();
-      SynonymProxyBuilder builder(&varTable);
+      SynonymProxyBuilder builder(varTable.getProxyMap());
       OverrideTable overrides;
 
       SynonymConstraint constraint("s1", "s2");
@@ -93,7 +108,7 @@ TEST_CASE("Synonym Constraint - Chained Specialization") {
           {"a3", PQL_SYN_TYPE_ASSIGN},
       });
   varTable.finalizeTable();
-  SynonymProxyBuilder builder(&varTable);
+  SynonymProxyBuilder builder(varTable.getProxyMap());
   OverrideTable overrides;
 
   SynonymConstraint constraint("s1", "a2");
@@ -119,7 +134,7 @@ TEST_CASE("Synonym Constraint - Impossible Specialization") {
           {"w3", PQL_SYN_TYPE_WHILE},
       });
   varTable.finalizeTable();
-  SynonymProxyBuilder builder(&varTable);
+  SynonymProxyBuilder builder(varTable.getProxyMap());
   OverrideTable overrides;
 
   SynonymConstraint constraint("a2", "w3");
@@ -135,7 +150,7 @@ TEST_CASE("Synonym Constraint - Impossible Specialization Chained") {
           {"w3", PQL_SYN_TYPE_WHILE},
       });
   varTable.finalizeTable();
-  SynonymProxyBuilder builder(&varTable);
+  SynonymProxyBuilder builder(varTable.getProxyMap());
   OverrideTable overrides;
 
   SynonymConstraint constraint("s1", "a2");

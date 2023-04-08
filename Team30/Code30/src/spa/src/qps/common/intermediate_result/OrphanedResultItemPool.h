@@ -17,9 +17,10 @@ class OrphanedResultItemPool {
   QueryResultItemMapping lookupMap;
 
  public:
-  explicit OrphanedResultItemPool(const QueryResultItemMapping &mapping);
+  OrphanedResultItemPool() = default;
   void adopt(QueryResultItemPtr item);
   QueryResultItem *getMappingFor(QueryResultItem *item);
+  void insertMapping(QueryResultItem *from, QueryResultItem *to);
 };
 
 typedef unique_ptr<OrphanedResultItemPool> OrphanedResultItemPoolPtr;

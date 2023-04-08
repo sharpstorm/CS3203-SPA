@@ -7,13 +7,14 @@
 #include "qps/executor/QueryOrchestrator.h"
 #include "OrchestratorPKBStub.cpp"
 #include "../util/QueryResultTestUtil.cpp"
+#include "qps/clauses/arguments/SynonymArgument.h"
 
 using std::shared_ptr, std::unordered_map, std::unordered_set, std::make_unique;
-// TODO(KwanHW): Include multiple clauses test
 
-vector<shared_ptr<IEvaluatable>> EMPTY_CONDITIONALS;
-unordered_set<int> EXPECTED_STATEMENT_LINES({1, 2, 3});
-unordered_set<string> EXPECTED_ENTITIES({"x", "y", "z"});
+QueryResultItemVector STMT_ROW {TestResultItem(1), TestResultItem(2), TestResultItem(3)};
+QueryResultItemVector ENT_ROW { TestResultItem("x"), TestResultItem("y"), TestResultItem("z")};
+ExpectedParams EXPECTED_STMTS {{"s", STMT_ROW}};
+ExpectedParams EXPECTED_ENTITIES({{"ent", ENT_ROW}});
 
 TEST_CASE("Queries with Select only") {
   // Set-up PKB Stub
@@ -23,20 +24,19 @@ TEST_CASE("Queries with Select only") {
   QueryOrchestrator orchestrator(launcher);
 
   unique_ptr<PQLQuery> query;
-  PQLQuerySynonym targetVariable;
   vector<shared_ptr<Clause>> emptyClause;
-  unique_ptr<ProjectorResultTable> expectedResult;
-  unique_ptr<ProjectorResultTable> actualResult;
+  unique_ptr<ProjectableTable> expectedResult;
+  unique_ptr<ProjectableTable> actualResult;
 
   // Statement
-  // TODO(KwanHW): To implement once calls are supported
   vector<PQLSynonymType> stmtTypes{
       PQL_SYN_TYPE_STMT,
       PQL_SYN_TYPE_READ,
       PQL_SYN_TYPE_PRINT,
       PQL_SYN_TYPE_WHILE,
       PQL_SYN_TYPE_IF,
-      PQL_SYN_TYPE_ASSIGN
+      PQL_SYN_TYPE_ASSIGN,
+      PQL_SYN_TYPE_CALL
   };
 
   for (auto stmtType : stmtTypes) {
@@ -45,13 +45,7 @@ TEST_CASE("Queries with Select only") {
     PQLQuerySynonymProxy proxy(&synPtr);
     AttributedSynonym attrSyn = AttributedSynonym(proxy);
     auto synList = make_unique<AttributedSynonymList>(AttributedSynonymList({attrSyn}));
-    expectedResult = TestQueryResultBuilder::buildExpectedTable(ExpectedParams{
-        {"s", QueryResultItemVector{
-            TestResultItem(1),
-            TestResultItem(2),
-            TestResultItem(3)
-        }}
-    }, synList.get());
+    expectedResult = TestQueryResultBuilder::buildExpectedTable(EXPECTED_STMTS, synList.get());
 
     IEvaluatablePtr selectClause = make_unique<SelectClause>(proxy);
     vector<IEvaluatablePtr> dummyOwned;
@@ -63,14 +57,14 @@ TEST_CASE("Queries with Select only") {
     auto queryPlan = make_unique<QueryPlan>(std::move(groups));
     auto targetSyns = make_unique<AttributedSynonymList>(AttributedSynonymList ({attrSyn}));
     OverrideTablePtr overrideTable = make_unique<OverrideTable>();
-    actualResult = unique_ptr<ProjectorResultTable>(orchestrator.execute(queryPlan.get(), overrideTable.get()));
+    actualResult = unique_ptr<ProjectableTable>(orchestrator.execute(queryPlan.get(), overrideTable.get()));
     REQUIRE(*expectedResult == *actualResult);
   }
 
-//  // TODO(KwanHW): To implement once procedures are supported
   vector<PQLSynonymType> entTypes{
       PQL_SYN_TYPE_CONSTANT,
-      PQL_SYN_TYPE_VARIABLE
+      PQL_SYN_TYPE_VARIABLE,
+      PQL_SYN_TYPE_PROCEDURE
   };
 
   for (auto entType : entTypes) {
@@ -80,13 +74,7 @@ TEST_CASE("Queries with Select only") {
 
     AttributedSynonym attrSyn = AttributedSynonym(proxy);
     auto synList = make_unique<AttributedSynonymList>(AttributedSynonymList({attrSyn}));
-    expectedResult = TestQueryResultBuilder::buildExpectedTable(ExpectedParams{
-        {"ent", QueryResultItemVector{
-            TestResultItem("x"),
-            TestResultItem("y"),
-            TestResultItem("z")
-        }}
-    }, synList.get());
+    expectedResult = TestQueryResultBuilder::buildExpectedTable(EXPECTED_ENTITIES, synList.get());
     SelectClause selectClause(proxy);
     vector<IEvaluatablePtr> dummyOwned;
     auto group = make_unique<QueryGroupPlan>(vector<IEvaluatable*>{&selectClause},
@@ -97,7 +85,7 @@ TEST_CASE("Queries with Select only") {
     auto queryPlan = make_unique<QueryPlan>(std::move(groups));
     auto targetSyns = make_unique<AttributedSynonymList>(AttributedSynonymList ({attrSyn}));
     OverrideTablePtr overrideTable = make_unique<OverrideTable>();
-    actualResult = unique_ptr<ProjectorResultTable>(orchestrator.execute(queryPlan.get(), overrideTable.get()));
+    actualResult = unique_ptr<ProjectableTable>(orchestrator.execute(queryPlan.get(), overrideTable.get()));
     REQUIRE(*expectedResult == *actualResult);
   }
 }

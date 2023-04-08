@@ -9,7 +9,7 @@ bool ConstantConstraint::applyConstraint(SynonymProxyBuilder *variableTable,
   return leftArg->isStaticValueEqual(*rightArg);
 }
 
-const PQLSynonymNameList ConstantConstraint::getAffectedSyns() const {
+PQLSynonymNameList ConstantConstraint::getAffectedSyns() const {
   return PQLSynonymNameList{};
 }
 

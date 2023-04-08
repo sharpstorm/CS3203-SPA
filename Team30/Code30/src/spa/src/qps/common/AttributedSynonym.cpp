@@ -1,5 +1,4 @@
 #include "AttributedSynonym.h"
-#include "qps/errors/QPSParserSemanticError.h"
 
 AttributedSynonym::AttributedSynonym(const PQLQuerySynonymProxy &synProxy) :
     synProxy(synProxy), attribute(NO_ATTRIBUTE) {}
@@ -46,6 +45,7 @@ PQLSynonymType AttributedSynonym::getType() const {
 PQLSynonymName AttributedSynonym::getName() const {
   return synProxy->getName();
 }
+
 bool AttributedSynonym::returnsInteger() const {
   return (attribute & INT_RETURN_MASK) > 0;
 }
@@ -63,15 +63,14 @@ PQLQuerySynonymProxy AttributedSynonym::getSynProxy() const {
 }
 
 bool AttributedSynonym::isDefaultAttribute() const {
-  PQLSynonymType synType = synProxy->getType();
-
-  if (attribute == VAR_NAME) {
-    return synType == PQL_SYN_TYPE_VARIABLE;
-  } else if (attribute == PROC_NAME) {
-    return synType == PQL_SYN_TYPE_PROCEDURE;
+  switch (attribute) {
+    case VAR_NAME:
+      return isType(PQL_SYN_TYPE_VARIABLE);
+    case PROC_NAME:
+      return isType(PQL_SYN_TYPE_PROCEDURE);
+    default:
+      return true;
   }
-
-  return true;
 }
 
 bool AttributedSynonym::isType(const PQLSynonymType type) const {

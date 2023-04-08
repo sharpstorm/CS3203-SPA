@@ -5,12 +5,12 @@
 
 class OverrideTransformer {
  private:
-  StmtValue stmtRef;
-  EntityValue entRef;
+  IntegerValue intValue;
+  EntityValue entValue;
 
  public:
-  explicit OverrideTransformer(const StmtValue &stmt);
-  explicit OverrideTransformer(const EntityValue &ent);
+  explicit OverrideTransformer(const IntegerValue &intVal);
+  explicit OverrideTransformer(const EntityValue &entVal);
 
   bool returnsInteger() const;
   StmtRef transformArg(const StmtRef &input) const;

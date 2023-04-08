@@ -1,16 +1,15 @@
 #include "SynonymUFDS.h"
 
-SynonymUFDS::SynonymUFDS(VariableTable* varTable):
-    parent(varTable->size()),
-    rank(varTable->size()),
-    synArr(varTable->size()) {
-  for (uint16_t i = 0; i < varTable->size(); i++) {
+SynonymUFDS::SynonymUFDS(const ProxyMap* proxyMap):
+    parent(proxyMap->size()),
+    rank(proxyMap->size()),
+    synArr(proxyMap->size()) {
+  for (int i = 0; i < proxyMap->size(); i++) {
     parent[i] = i;
     rank[i] = 0;
   }
 
   int index = 0;
-  ProxyMap* proxyMap = varTable->getProxyMap();
   for (auto it = proxyMap->begin(); it != proxyMap->end(); it++) {
     synArr[index] = it->second.get();
     synNameMap[it->first] = index;
@@ -23,7 +22,7 @@ vector<UFDSSet> SynonymUFDS::getParents() const {
 }
 
 UFDSSet SynonymUFDS::indexOf(const PQLSynonymName &syn) const {
-  auto it = synNameMap.find(syn);
+  const auto it = synNameMap.find(syn);
   if (it == synNameMap.end()) {
     return -1;
   }
@@ -37,8 +36,8 @@ PQLQuerySynonym* SynonymUFDS::getSynFor(const PQLSynonymName &syn) {
     return nullptr;
   }
 
-  UFDSSet parent = findSet(index);
-  return synArr[parent];
+  UFDSSet setParent = findSet(index);
+  return synArr[setParent];
 }
 
 UFDSSet SynonymUFDS::findSet(const UFDSSet node) {

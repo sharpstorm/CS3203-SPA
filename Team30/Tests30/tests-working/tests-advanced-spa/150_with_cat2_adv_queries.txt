@@ -1,0 +1,275 @@
+1 - Print baseline
+print p;
+Select p
+2,3,7
+5000
+2 - Print Default Select
+print p;
+Select p.stmt#
+2,3,7
+5000
+3 - Print Non Default Select
+print p;
+Select p.varName
+c,d
+5000
+4 - Print Non Default With
+print p;
+Select p with p.varName = "c"
+2,3
+5000
+5 - Print Non Default Select and Non Default With
+print p;
+Select p.varName with p.varName = "c"
+c
+5000
+6 - Print Default and Non Default
+print p;
+Select p with p.varName = "c" and p.stmt# = 2
+2
+5000
+7 - Print Default and Non Default
+print p;
+Select p with p.varName = "d"
+7
+5000
+8 - Print Default and Non Default
+print p;
+Select p with p.varName = "d" and p.stmt# = 7
+7
+5000
+9 - Print Default and Non Default, Wrong Stmt
+print p;
+Select p with p.varName = "d" and p.stmt# = 8
+
+5000
+10 - Print Default and Non Default, Wrong Var
+print p;
+Select p with p.varName = "c" and p.stmt# = 7
+
+5000
+11 - Print Double Override
+print p;
+Select p with p.varName = "d" and p.stmt# = 7 and p.stmt# = 8
+
+5000
+12 - Print Double Override
+print p;
+Select p with p.varName = "d" and p.stmt# = 7 and p.varName = "c"
+
+5000
+13 - Print but Actually not a Print
+print p;
+Select p with p.stmt# = 1
+
+5000
+14 - Print Non-Default no such var
+print p;
+Select p with p.varName = "b"
+
+5000
+15 - Read baseline
+read r;
+Select r
+4,5,6
+5000
+16 - Read Default Select
+read r;
+Select r.stmt#
+4,5,6
+5000
+17 - Read Non Default Select
+read r;
+Select r.varName
+c,d
+5000
+18 - Read Non Default With
+read r;
+Select r with r.varName = "d"
+5,6
+5000
+19 - Read Non Default Select and Non Default With
+read r;
+Select r.varName with r.varName = "d"
+d
+5000
+20 - Read Default and Non Default
+read r;
+Select r with r.varName = "c" and r.stmt# = 4
+4
+5000
+21 - Read Default and Non Default
+read r;
+Select r with r.varName = "c"
+4
+5000
+22 - Read Default and Non Default
+read r;
+Select r with r.varName = "d" and r.stmt# = 5
+5
+5000
+23 - Read Default and Non Default, Wrong Stmt
+read r;
+Select r with r.varName = "d" and r.stmt# = 4
+
+5000
+24 - Read Default and Non Default, Wrong Var
+read r;
+Select r with r.varName = "c" and r.stmt# = 5
+
+5000
+25 - Read Double Override
+read r;
+Select r with r.varName = "d" and r.stmt# = 5 and r.stmt# = 6
+
+5000
+26 - Read Double Override
+read r;
+Select r with r.varName = "d" and r.stmt# = 5 and r.varName = "c"
+
+5000
+27 - Read but Actually not a Read
+read r;
+Select r with r.stmt# = 1
+
+5000
+28 - Read Non-Default no such var
+read r;
+Select r with r.varName = "b"
+
+5000
+29 - Call Baseline
+call cl;
+Select cl
+8,9
+5000
+30 - Call Default Select
+call cl;
+Select cl.stmt#
+8,9
+5000
+31 - Call Non-Default Select
+call cl;
+Select cl.procName
+proc2,proc3
+5000
+32 - Call With Default
+call cl;
+Select cl with cl.stmt# = 8
+8
+5000
+33 - Call With Non-Default
+call cl;
+Select cl with cl.procName = "proc2"
+8
+5000
+34 - Call With Default, but not call
+call cl;
+Select cl with cl.stmt# = 7
+
+5000
+35 - Call With Non-Default, but not call
+call cl;
+Select cl with cl.procName = "proc"
+
+5000
+36 - Call With Non-Default and Default
+call cl;
+Select cl with cl.procName = "proc2" and cl.stmt# = 8
+8
+5000
+37 - Call With Non-Default and Default Wrong Proc
+call cl;
+Select cl with cl.procName = "proc3" and cl.stmt# = 8
+
+5000
+38 - Call With Non-Default and Default Wrong Stmt
+call cl;
+Select cl with cl.procName = "proc2" and cl.stmt# = 9
+
+5000
+39 - Call With Double Override Conflicting
+call cl;
+Select cl with cl.procName = "proc3" and cl.stmt# = 9 and cl.stmt# = 8
+
+5000
+40 - Call With Double Override Conflicting
+call cl;
+Select cl with cl.procName = "proc3" and cl.stmt# = 9 and cl.procName = "proc2"
+
+5000
+41 - Call With Double Override Repeated
+call cl;
+Select cl with cl.procName = "proc3" and cl.stmt# = 9 and cl.procName = "proc3"
+9
+5000
+42 - Call With Double Override Repeated
+call cl;
+Select cl with cl.procName = "proc3" and cl.stmt# = 9 and cl.stmt# = 9
+9
+5000
+43 - Print With Double Override Repeated
+print p;
+Select p with p.varName = "c" and p.stmt# = 3 and p.stmt# = 3
+3
+5000
+44 - Print With Double Override Repeated
+print p;
+Select p with p.varName = "c" and p.stmt# = 3 and p.varName = "c"
+3
+5000
+45 - Read Default and Non Default Repeated
+read r;
+Select r with r.varName = "d" and r.stmt# = 5 and r.stmt# = 5
+5
+5000
+46 - Read Default and Non Default Repeated
+read r;
+Select r with r.varName = "d" and r.stmt# = 5 and r.varName = "d"
+5
+5000
+47 - Read Tuple Projection
+read r;
+Select <r, r.varName, r.stmt#> with r.varName = "d" and r.stmt# = 5 and r.varName = "d"
+5 d 5
+5000
+48 - Print Tuple Projection
+print p;
+Select <p, p.varName, p.stmt#> with p.varName = "c" and p.stmt# = 3
+3 c 3
+5000
+49 - Print Tuple Projection
+call cl;
+Select <cl, cl.procName, cl.stmt#> with cl.procName = "proc3" and cl.stmt# = 9
+9 proc3 9
+5000
+50 - Complex Non-Default
+print p; read r;
+Select <p, r> with p.varName = r.varName
+2 4,3 4,7 5,7 6
+5000
+51 - Complex Non-Default
+print p; read r;
+Select <p, r> with p.varName = r.varName with p.varName = "c"
+2 4,3 4
+5000
+52 - Complex Non-Default
+print p; read r;
+Select <p, r> with p.varName = r.varName with p.stmt# = 2
+2 4
+5000
+53 - Complex Non-Default
+procedure p; call cl;
+Select <p, cl> with p.procName = cl.procName
+proc2 8,proc3 9
+5000
+54 - Complex Non-Default
+procedure p; variable v;
+Select <p, v> with p.procName = v.varName
+
+5000
+55 - Complex Non-Default
+procedure p; read r;
+Select p with p.procName = r.varName
+
+5000

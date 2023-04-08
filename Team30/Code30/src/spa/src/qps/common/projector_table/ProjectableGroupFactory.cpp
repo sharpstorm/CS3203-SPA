@@ -2,14 +2,14 @@
 #include <memory>
 
 #include "common/SetUtils.h"
-#include "ProjectorResultFactory.h"
+#include "ProjectableGroupFactory.h"
 
 using std::move;
 
-ResultGroupPtr ProjectorResultFactory::extractResults(
+ProjectableGroupPtr ProjectableGroupFactory::extractResults(
     PQLQueryResult *result, const PQLSynonymNameList *syns) {
-  ResultGroupPtr resultGroup = make_unique<ProjectorResultGroup>();
-  // Add synonyms to the new ProjectorResultGroup
+  ProjectableGroupPtr resultGroup = make_unique<ProjectableGroup>();
+  // Add synonyms to the new ProjectableGroup
   for (const PQLSynonymName &name : *syns) {
     resultGroup->addSynonym(name);
   }
@@ -18,10 +18,12 @@ ResultGroupPtr ProjectorResultFactory::extractResults(
 
   for (const ResultTableRow &rowIdx : rowsToTake) {
     const QueryResultTableRow *tableRow = result->getTableRowAt(rowIdx);
-    QueryResultTableRow newRow{};
+    QueryResultTableRow newRow;
+    newRow.reserve(syns->size());
+
     for (const PQLSynonymName &syn : *syns) {
       ResultTableCol tableCol = result->getSynonymCol(syn);
-      newRow.push_back(tableRow->at(tableCol));
+      newRow.emplace_back(tableRow->at(tableCol));
     }
     resultGroup->addRow(newRow);
   }
@@ -29,11 +31,12 @@ ResultGroupPtr ProjectorResultFactory::extractResults(
   return resultGroup;
 }
 
-IntersectSet<ResultTableRow> ProjectorResultFactory::getUniqueRows(
+IntersectSet<ResultTableRow> ProjectableGroupFactory::getUniqueRows(
     PQLQueryResult *result, const PQLSynonymNameList *syns) {
   IntersectSet<ResultTableRow> rowsToTake;
   IntersectSet<ResultTableRow> ignoreRows;
   int rowCounts = result->getRowCount();
+
   for (int i = 0; i < rowCounts; i++) {
     if (ignoreRows.find(i) != ignoreRows.end()) {
       continue;
@@ -41,9 +44,10 @@ IntersectSet<ResultTableRow> ProjectorResultFactory::getUniqueRows(
     RowSetPtr currentIgnoreRows = make_unique<RowSet>();
 
     rowsToTake.insert(i);
+    const QueryResultTableRow *currRow = result->getTableRowAt(i);
+
     for (const PQLSynonymName &syn : *syns) {
       ResultTableCol colIdx = result->getSynonymCol(syn);
-      const QueryResultTableRow *currRow = result->getTableRowAt(i);
       RowSetPtr rows = result->getRowsWithValue(colIdx,
                                                 currRow->at(colIdx));
       if (currentIgnoreRows->empty()) {

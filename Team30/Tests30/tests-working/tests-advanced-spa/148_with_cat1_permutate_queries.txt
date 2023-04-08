@@ -1,0 +1,195 @@
+1 - Comparable Ints
+
+Select BOOLEAN with 1 = 1
+TRUE
+5000
+2 - Comparable Ints
+
+Select BOOLEAN with 1 = 2
+FALSE
+5000
+3 - Comparable Ints
+
+Select BOOLEAN with 0 = 0
+TRUE
+5000
+4 - Comparable Ints
+
+Select BOOLEAN with 0 = 1
+FALSE
+5000
+5 - Comparable Ints
+
+Select BOOLEAN with 1 = 0
+FALSE
+5000
+6 - Comparable Ints
+
+Select BOOLEAN with 2147483647 = 0
+FALSE
+5000
+7 - Comparable Ints
+
+Select BOOLEAN with 2147483647 = 2147483647
+TRUE
+5000
+8 - Comparable Ints - Syn True
+stmt s;
+Select s with 1 = 1
+1,2,3
+5000
+9 - Comparable Ints - Syn False
+stmt s;
+Select s with 1 = 0
+
+5000
+10 - Comparable Ints - Syn True
+call cl;
+Select cl with 1 = 1
+
+5000
+11 - Comparable Ints - Syn False
+call cl;
+Select cl with 1 = 0
+
+5000
+12 - Comparable Ints - Syn True
+assign a;
+Select a with 1 = 1
+1
+5000
+13 - Comparable Ints - Syn False
+assign a;
+Select a with 1 = 1
+1
+5000
+14 - Negative Integer Not Allowed
+
+Select BOOLEAN with -1 = 1
+SyntaxError
+5000
+15 - Negative Integer Not Allowed
+
+Select BOOLEAN with -1 = -1
+SyntaxError
+5000
+16 - Negative Integer Not Allowed
+stmt s1;
+Select s1 with -1 = -1
+SyntaxError
+5000
+17 - Negative Int Compare Syn
+stmt s1;
+Select s1 with 1 = s1
+SyntaxError
+5000
+18 - Comparable Strings
+
+Select BOOLEAN with "x" = "x"
+TRUE
+5000
+19 - Comparable Strings
+
+Select BOOLEAN with "x" = "y"
+FALSE
+5000
+20 - Comparable Strings - Long String
+
+Select BOOLEAN with "purple1light2in3the4valley5There6is7where9IwanttobeInfantryClosecompanionWithmyrifleandmybuddyandme" = "purple1light2in3the4valley5There6is7where9IwanttobeInfantryClosecompanionWithmyrifleandmybuddyandme"
+TRUE
+5000
+21 - Comparable Strings - Long String
+
+Select BOOLEAN with "purple1light2in3the4valley5There6is7where9IwanttobeInfantryClosecompanionWithmyrifleandmybuddyandme" = "x"
+FALSE
+5000
+22 - Comparable Strings - Syn True
+stmt s;
+Select s with "x" = "x"
+1,2,3
+5000
+23 - Comparable Strings - Syn False
+stmt s;
+Select s with "x" = "y"
+
+5000
+24 - Comparable Strings - Syn True
+assign a;
+Select a with "x" = "x"
+1
+5000
+25 - Comparable Strings - Syn False
+assign a;
+Select a with "x" = "y"
+
+5000
+26 - Comparable Strings - Spaces Not Allowed In Middle
+
+Select BOOLEAN with "x z" = "y"
+SyntaxError
+5000
+27 - Comparable Strings - Spaces Allowed on sides
+
+Select BOOLEAN with " y    " = "    y	"
+TRUE
+5000
+28 - Comparable Strings - Symbols Not Allowed
+
+Select BOOLEAN with "x,z" = "y"
+SyntaxError
+5000
+29 - Comparable Strings - Strings Cannot start with int
+
+Select BOOLEAN with "1xz" = "y"
+SyntaxError
+5000
+30 - Comparable Strings - Unclosed Quote
+
+Select BOOLEAN with "1xz = "y"
+SyntaxError
+5000
+31 - Comparable Strings - Unclosed Quote
+
+Select BOOLEAN with 1xz" = "y"
+SyntaxError
+5000
+32 - Comparable Strings - Unclosed Quote
+
+Select BOOLEAN with "1xz" = "y
+SyntaxError
+5000
+33 - Comparable Strings - Brackets Not Allowed
+
+Select BOOLEAN with "x" = "(y)"
+SyntaxError
+5000
+34 - Compare string with syn
+stmt s;
+Select BOOLEAN with s = "x"
+SyntaxError
+5000
+35 - Uncomparable Types
+
+Select BOOLEAN with 1 = "x"
+SemanticError
+5000
+36 - Uncomparable Types
+
+Select BOOLEAN with "x" = 2
+SemanticError
+5000
+37 - Uncomparable Types
+stmt s;
+Select s with 1 = "x"
+SemanticError
+5000
+38 - Uncomparable Types
+stmt s;
+Select s with "x" = 2
+SemanticError
+5000
+39 - No Syns
+stmt s1, s2;
+Select BOOLEAN with s1 = s2
+SyntaxError
+5000

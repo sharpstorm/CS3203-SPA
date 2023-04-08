@@ -31,20 +31,20 @@ bool PQLQueryResult::isFalse() const {
 }
 
 const SynonymColMap *PQLQueryResult::getSynonyms() const {
-  return &resultIndex;
+  return &synIndex;
 }
 
 ResultTableCol PQLQueryResult::getSynonymCol(const PQLSynonymName &name) const {
-  const auto &it = resultIndex.find(name);
-  if (it == resultIndex.end()) {
+  const auto &it = synIndex.find(name);
+  if (it == synIndex.end()) {
     return NO_COL;
   }
   return it->second;
 }
 
 void PQLQueryResult::putSynonym(const PQLSynonymName &name) {
-  resultIndex[name] = colMaps.size();
-  colMaps.push_back(make_unique<ColMap>());
+  synIndex[name] = colValueMaps.size();
+  colValueMaps.push_back(make_unique<ColValueMap>());
 }
 
 const QueryResultTableRow *PQLQueryResult::getTableRowAt(
@@ -54,8 +54,8 @@ const QueryResultTableRow *PQLQueryResult::getTableRowAt(
 
 void PQLQueryResult::putTableRow(const vector<QueryResultItem *> &row) {
   ResultTableRow newRowNum = combinedTable.size();
-  for (size_t i = 0; i < colMaps.size(); i++) {
-    ColMap *map = colMaps.at(i).get();
+  for (size_t i = 0; i < colValueMaps.size(); i++) {
+    ColValueMap *map = colValueMaps.at(i).get();
     const QueryResultItem *item = row.at(i);
     auto set = &(*map)[*item];
     set->insert(newRowNum);
@@ -70,7 +70,7 @@ int PQLQueryResult::getRowCount() const {
 
 RowSetPtr PQLQueryResult::getRowsWithValue(const ResultTableCol column,
                                            QueryResultItem *value) const {
-  ColMap *colMap = colMaps.at(column).get();
+  ColValueMap *colMap = colValueMaps.at(column).get();
   const auto &it = colMap->find(*value);
   if (it == colMap->end()) {
     return nullptr;
@@ -79,30 +79,19 @@ RowSetPtr PQLQueryResult::getRowsWithValue(const ResultTableCol column,
 }
 
 bool PQLQueryResult::operator==(const PQLQueryResult &pqr) const {
-  if (resultIndex.size() != pqr.resultIndex.size()
+  if (synIndex.size() != pqr.synIndex.size()
       || combinedTable.size() != pqr.combinedTable.size()) {
     return false;
   }
 
-  for (const auto &it : pqr.resultIndex) {
-    if (resultIndex.find(it.first) == resultIndex.end()) {
+  for (const auto &it : pqr.synIndex) {
+    if (synIndex.find(it.first) == synIndex.end()) {
       return false;
     }
   }
 
-  for (size_t i = 0; i < pqr.combinedTable.size(); i++) {
-    bool isFound = false;
-    for (size_t j = 0; j < combinedTable.size(); j++) {
-      if (combinedTable[j].size() != pqr.combinedTable[i].size()) {
-        return false;
-      }
-
-      if (matchRow(pqr, j, i)) {
-        isFound = true;
-        break;
-      }
-    }
-    if (!isFound) {
+  for (size_t i = 0; i < combinedTable.size(); i++) {
+    if (!hasRowIn(i, pqr)) {
       return false;
     }
   }
@@ -110,14 +99,28 @@ bool PQLQueryResult::operator==(const PQLQueryResult &pqr) const {
   return true;
 }
 
-bool PQLQueryResult::matchRow(const PQLQueryResult &other,
-                              ResultTableRow myRowIndex,
-                              ResultTableRow otherRowIndex) const {
-  for (const auto &it : other.resultIndex) {
-    int otherIndex = it.second;
-    int thisIndex = resultIndex.at(it.first);
+bool PQLQueryResult::hasRowIn(const ResultTableRow &target,
+                              const PQLQueryResult &haystack) const {
+  for (size_t i = 0; i < haystack.combinedTable.size(); i++) {
+    if (haystack.combinedTable[i].size() != combinedTable[target].size()) {
+      return false;
+    }
 
-    if (*combinedTable[myRowIndex][thisIndex] !=
+    if (matchRow(haystack, target, i)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+bool PQLQueryResult::matchRow(const PQLQueryResult &other,
+                              const ResultTableRow &rowIndex,
+                              const ResultTableRow otherRowIndex) const {
+  for (const auto &it : other.synIndex) {
+    int otherIndex = it.second;
+    int thisIndex = synIndex.at(it.first);
+
+    if (*combinedTable[rowIndex][thisIndex] !=
         *other.combinedTable[otherRowIndex][otherIndex]) {
       return false;
     }

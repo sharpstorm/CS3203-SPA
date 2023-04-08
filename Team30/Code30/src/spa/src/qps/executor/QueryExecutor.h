@@ -11,9 +11,5 @@ class QueryExecutor : public IQueryExecutor {
 
  public:
   explicit QueryExecutor(const PkbQueryHandler *pkbQH);
-  ProjectorResultTable *executeQuery(const PQLQuery *query);
-
- private:
-  bool resolveConstraints(const PQLQuery *query,
-                          OverrideTable *overrideTable) const;
+  ProjectableTable *executeQuery(PQLQuery *query);
 };

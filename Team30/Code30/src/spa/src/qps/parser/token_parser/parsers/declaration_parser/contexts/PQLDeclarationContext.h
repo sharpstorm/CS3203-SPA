@@ -1,13 +1,10 @@
 #pragma once
 
-#include <string>
 #include "qps/parser/PQLToken.h"
 #include "qps/common/PQLTypes.h"
 #include "qps/parser/token_parser/QueryTokenParseState.h"
 #include "qps/parser/builder/QueryBuilder.h"
 #include "IPQLDeclarationContext.h"
-
-using std::string;
 
 template <PQLSynonymType PQL_SYN_TYPE>
 class PQLDeclarationContext: public IPQLDeclarationContext {
