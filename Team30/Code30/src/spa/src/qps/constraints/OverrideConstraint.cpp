@@ -1,4 +1,5 @@
 #include "OverrideConstraint.h"
+#include "qps/errors/QPSParserSyntaxError.h"
 
 OverrideConstraint::OverrideConstraint(const AttributedSynonym &syn,
                                        const StmtValue &intVal) :
@@ -10,6 +11,9 @@ OverrideConstraint::OverrideConstraint(const AttributedSynonym &syn,
     attrSyn(syn), overrideTransformer(OverrideTransformer(identVal)) {}
 
 bool OverrideConstraint::validateConstraint() const {
+  if (!attrSyn.hasAttribute()) {
+    throw QPSParserSyntaxError(QPS_PARSER_ERR_WITH_TYPE);
+  }
   return attrSyn.returnsInteger() == overrideTransformer.returnsInteger();
 }
 
