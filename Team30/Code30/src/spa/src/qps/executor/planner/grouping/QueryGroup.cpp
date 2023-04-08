@@ -7,9 +7,9 @@
 using std::make_unique;
 
 GroupClauseIndex QueryGroup::addEvaluatable(IEvaluatable *evaluatable) {
-  int id = evaluatables.size();
+  GroupClauseIndex id = evaluatables.size();
   evaluatables.push_back(evaluatable);
-  edgeList.push_back(unordered_set<GroupClauseIndex>());
+  edgeList.push_back(GroupClauseIndexSet());
   return id;
 }
 
@@ -36,19 +36,20 @@ int QueryGroup::getEvaluatableCount() const {
   return evaluatables.size();
 }
 
-IEvaluatable *QueryGroup::getEvaluatable(GroupClauseIndex evalId) const {
+IEvaluatable *QueryGroup::getEvaluatable(const GroupClauseIndex evalId) const {
   return evaluatables[evalId];
 }
 
-const unordered_set<GroupClauseIndex> *QueryGroup::getRelated(
+const GroupClauseIndexSet *QueryGroup::getRelated(
     const GroupClauseIndex evalId) const {
   return &edgeList[evalId];
 }
 
-QueryGroupPlanPtr QueryGroup::toPlan(IEvaluatableRefList newEvals,
+QueryGroupPlanPtr QueryGroup::toPlan(IEvaluatableRefList &newEvals,
                                      const ComplexityScore &score) {
-  return make_unique<QueryGroupPlan>(newEvals,
-                                     selectables,
-                                     std::move(ownedEvals),
-                                     score);
+  QueryGroupPlanPtr plan = make_unique<QueryGroupPlan>(newEvals,
+                                                       selectables,
+                                                       score);
+  plan->adoptEvals(&ownedEvals);
+  return plan;
 }

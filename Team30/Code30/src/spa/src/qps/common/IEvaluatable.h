@@ -22,3 +22,5 @@ class IEvaluatable {
 
 typedef unique_ptr<IEvaluatable> IEvaluatablePtr;
 typedef vector<IEvaluatable *> IEvaluatableRefList;
+typedef vector<IEvaluatablePtr> IEvaluatablePtrList;
+

@@ -2,14 +2,11 @@
 
 #include <utility>
 
-QueryGroupPlan::QueryGroupPlan(
-    IEvaluatableRefList conditionalClauses,
-    vector<PQLSynonymName> selectables,
-    vector<IEvaluatablePtr> ownedEvals,
-    const ComplexityScore &score) :
+QueryGroupPlan::QueryGroupPlan(IEvaluatableRefList conditionalClauses,
+                               PQLSynonymNameList selectables,
+                               const ComplexityScore &score) :
     conditionalClauses(conditionalClauses),
     selectables(selectables),
-    ownedEvals(std::move(ownedEvals)),
     weightedComplexity(score) {}
 
 const IEvaluatableRefList QueryGroupPlan::getConditionalClauses() const {
@@ -26,4 +23,14 @@ const PQLSynonymNameList *QueryGroupPlan::getSelectables() const {
 
 ComplexityScore QueryGroupPlan::getComplexity() const {
   return weightedComplexity;
+}
+
+void QueryGroupPlan::adoptEvals(IEvaluatablePtrList *otherEvals) {
+  for (auto &it : *otherEvals) {
+    ownedEvals.push_back(std::move(it));
+  }
+}
+
+const IEvaluatablePtrList &QueryGroupPlan::getOwnedEvals() {
+  return ownedEvals;
 }

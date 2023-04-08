@@ -11,24 +11,28 @@
 using std::vector, std::queue;
 
 class QueryGrouper {
+  typedef int ClauseId;
+
  public:
   explicit QueryGrouper(const PQLQuery *query);
-  vector<QueryGroupPtr> groupClauses();
+  QueryGroupPtrList groupClauses();
 
  private:
   const PQLQuery *query;
   QueryGrouperIndex groupIndex;
   IEvaluatableRefList evaluatables;
-  vector<int> groupClauseIdTable;
+  vector<ClauseId> groupClauseIdTable;
   PQLSynonymNameSet seenSynonyms;
 
   void initIndex();
-  void findGroups(vector<QueryGroupPtr> *result);
-  void findIndependentSelects(vector<QueryGroupPtr> *result);
+  void insertSelections(const AttributedSynonymList *selections);
+
+  void findGroups(QueryGroupPtrList *result);
+  void findIndependentSelects(QueryGroupPtrList *result);
   QueryGroupPtr makeSelectClause(const PQLSynonymName &name);
 
-  QueryGroup *BFSFindDependents(const int start);
+  QueryGroup *BFSFindDependents(const PlanNode start);
   void queueClauses(queue<PlanNode> *target, PlanNodes *values,
-                    QueryGroup *result, const int parentClauseId);
+                    QueryGroup *result, const ClauseId parentClauseId);
   void registerSeenSynonym(const PQLSynonymName &name, QueryGroup *result);
 };

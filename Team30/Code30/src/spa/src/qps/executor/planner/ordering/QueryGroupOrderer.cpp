@@ -1,19 +1,21 @@
 #include "QueryGroupOrderer.h"
 
 #include <utility>
+#include <vector>
 #include <algorithm>
 
-vector<QueryGroupPlanPtr> QueryGroupOrderer::orderGroups(
-    vector<QueryGroupPlanPtr> unordered) const {
+using std::vector;
+
+QueryGroupPlanPtrList QueryGroupOrderer::orderGroups(
+    QueryGroupPlanPtrList unordered) const {
   vector<ComparableGroup> groups;
 
   for (size_t i = 0; i < unordered.size(); i++) {
-    groups.push_back(ComparableGroup(unordered.at(i)->getComplexity(),
-                                     i));
+    groups.push_back(ComparableGroup(unordered.at(i)->getComplexity(), i));
   }
 
   std::sort(groups.begin(), groups.end());
-  vector<QueryGroupPlanPtr> result;
+  QueryGroupPlanPtrList result;
 
   for (size_t i = 0; i < groups.size(); i++) {
     GroupId target = groups.at(groups.size() - 1 - i).getData();
