@@ -36,7 +36,7 @@ class WithSelectClause : public Clause {
  public:
   WithSelectClause(const AttributedSynonym &aSyn, const EntityValue &entV);
   PQLQueryResult *evaluateOn(const QueryExecutorAgent &agent) const override;
-  bool validateArgTypes(const VariableTable *variables) const override;
+  bool validateArgTypes() const override;
   PQLSynonymNameList getUsedSynonyms() const override;
   ComplexityScore getComplexityScore(const OverrideTable *table) const override;
 };

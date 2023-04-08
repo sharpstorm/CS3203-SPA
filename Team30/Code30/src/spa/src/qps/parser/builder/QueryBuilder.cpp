@@ -82,7 +82,7 @@ PQLQueryPtr QueryBuilder::build() {
 
   // Clause Validation
   for (int i = 0; i < clauses.size(); i++) {
-    if (!clauses.at(i)->validateArgTypes(variables.get())) {
+    if (!clauses.at(i)->validateArgTypes()) {
       throw QPSParserSemanticError(QPS_PARSER_ERR_SYNONYM_TYPE);
     }
   }

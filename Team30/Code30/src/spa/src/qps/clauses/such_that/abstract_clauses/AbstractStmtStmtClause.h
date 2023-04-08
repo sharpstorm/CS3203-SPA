@@ -16,9 +16,9 @@ class AbstractStmtStmtClause : public AbstractTwoArgClause {
       : AbstractTwoArgClause(std::move(left), std::move(right)) {
   }
 
-  bool validateArgTypes(const VariableTable *table) const override {
+  bool validateArgTypes() const override {
     return AbstractTwoArgClause::validateArgTypes<
-        leftValidator, rightValidator>(table);
+        leftValidator, rightValidator>();
   }
 
   PQLQueryResult *evaluateOn(const QueryExecutorAgent &agent) const override {
