@@ -158,8 +158,6 @@ stmt s; print r; variable v;
 Select v such that Modifies(s, v) with v.varName = "fafnir"
 
 5000
-
-
 33 - Next (left syn) (with result)
 stmt s1, s2;
 Select s1 such that Next(s1, s2) with s1.stmt# = 1
@@ -200,8 +198,6 @@ stmt s; print pn;
 Select pn such that Next(s, pn) with pn.stmt# = 13
 
 5000
-
-
 41 - Next* (left syn) (with result)
 stmt s1, s2;
 Select s1 such that Next*(s1, s2) with s1.stmt# = 1
@@ -240,5 +236,165 @@ Select pn such that Next*(s, pn) with pn.stmt# = 14
 48 - Next* (type checking right) (no result)
 stmt s; print pn;
 Select pn such that Next*(s, pn) with pn.stmt# = 13
+
+5000
+49 - Calls (left syn) (with result)
+procedure p1, p2;
+Select p1 such that Calls(p1, p2) with p1.procName = "VonBon"
+VonBon
+5000
+50 - Calls (left syn) (no result)
+procedure p1, p2;
+Select p1 such that Calls(p1, p2) with p1.procName = "Vellum"
+
+5000
+51 - Calls (right syn) (with result)
+procedure p1, p2;
+Select p2 such that Calls(p1, p2) with p2.procName = "Vellum"
+Vellum
+5000
+52 - Calls (right syn) (no result)
+procedure p1, p2;
+Select p2 such that Calls(p1, p2) with p2.procName = "VonBon"
+
+5000
+53 - Calls* (left syn) (with result)
+procedure p1, p2;
+Select p1 such that Calls*(p1, p2) with p1.procName = "VonBon"
+VonBon
+5000
+54 - Calls* (left syn) (no result)
+procedure p1, p2;
+Select p1 such that Calls*(p1, p2) with p1.procName = "Vellum"
+
+5000
+55 - Calls* (right syn) (with result)
+procedure p1, p2;
+Select p2 such that Calls*(p1, p2) with p2.procName = "Vellum"
+Vellum
+5000
+56 - Calls* (right syn) (no result)
+procedure p1, p2;
+Select p2 such that Calls*(p1, p2) with p2.procName = "VonBon"
+
+5000
+57 - Affects (left syn) (with result)
+stmt s1, s2;
+Select s1 such that Affects(s1, s2) with s1.stmt# = 3
+3
+5000
+58 - Affects (left syn) (no result)
+stmt s1, s2;
+Select s1 such that Affects(s1, s2) with s1.stmt# = 12
+
+5000
+59 - Affects (right syn) (with result)
+stmt s1, s2;
+Select s2 such that Affects(s1, s2) with s2.stmt# = 9
+9
+5000
+60 - Affects (right syn) (no result)
+stmt s1, s2;
+Select s2 such that Affects(s1, s2) with s2.stmt# = 3
+
+5000
+61 - Affects (type checking left) (no result)
+stmt s; print pn;
+Select pn such that Affects(pn, s) with pn.stmt# = 1
+
+5000
+62 - Affects (type checking right) (no result)
+stmt s; print pn;
+Select pn such that Affects(s, pn) with pn.stmt# = 13
+
+5000
+63 - Affects* (left syn) (with result)
+stmt s1, s2;
+Select s1 such that Affects*(s1, s2) with s1.stmt# = 3
+3
+5000
+64 - Affects* (left syn) (no result)
+stmt s1, s2;
+Select s1 such that Affects*(s1, s2) with s1.stmt# = 12
+
+5000
+65 - Affects* (right syn) (with result)
+stmt s1, s2;
+Select s2 such that Affects*(s1, s2) with s2.stmt# = 9
+9
+5000
+66 - Affects* (right syn) (no result)
+stmt s1, s2;
+Select s2 such that Affects*(s1, s2) with s2.stmt# = 3
+
+5000
+67 - Affects* (type checking left) (no result)
+stmt s; print pn;
+Select pn such that Affects*(pn, s) with pn.stmt# = 13
+
+5000
+68 - Affects* (type checking right) (no result)
+stmt s; print pn;
+Select pn such that Affects*(s, pn) with pn.stmt# = 13
+
+5000
+69 - Assign pattern (assign syn) (with result)
+assign a; variable v;
+Select a pattern a (v, _) with a.stmt# = 2
+2
+5000
+70 - Assign pattern (assign syn) (no result)
+assign a; variable v;
+Select a pattern a (v, _) with a.stmt# = 1
+
+5000
+71 - Assign pattern (var syn) (with result)
+assign a; variable v;
+Select v pattern a (v, _) with v.varName = "x"
+x
+5000
+72 - Assign pattern (var syn) (no result)
+assign a; variable v;
+Select v pattern a (v, _) with v.varName = "fafnir"
+
+5000
+73 - If pattern (assign syn) (with result)
+if ifs; variable v;
+Select ifs pattern ifs (v, _, _) with ifs.stmt# = 4
+4
+5000
+74 - If pattern (if syn) (no result)
+if ifs; variable v;
+Select ifs pattern ifs (v, _, _) with ifs.stmt# = 1
+
+5000
+75 - If pattern (var syn) (with result)
+if ifs; variable v;
+Select v pattern ifs (v, _, _) with v.varName = "x"
+x
+5000
+76 - If pattern (var syn) (no result)
+if ifs; variable v;
+Select v pattern ifs (v, _, _) with v.varName = "fafnir"
+
+5000
+77 - While pattern (assign syn) (with result)
+while w; variable v;
+Select w pattern w (v, _) with w.stmt# = 8
+8
+5000
+78 - While pattern (assign syn) (no result)
+while w; variable v;
+Select w pattern w (v, _) with w.stmt# = 1
+
+5000
+79 - While pattern (var syn) (with result)
+while w; variable v;
+Select v pattern w (v, _) with v.varName = "y"
+y
+5000
+80 - While pattern (var syn) (no result)
+while w; variable v;
+Select v pattern w (v, _) with v.varName = "fafnir"
 
 5000
