@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "PQLTypes.h"
 
 class PQLQuerySynonym {
@@ -21,3 +23,6 @@ class PQLQuerySynonym {
   bool isDistinctSubtypeFrom(const PQLQuerySynonym *other) const;
   bool operator==(const PQLQuerySynonym &other) const;
 };
+
+typedef vector<PQLQuerySynonym> PQLQuerySynonymList;
+typedef vector<PQLQuerySynonym *> PQLQuerySynonymRefList;

@@ -1,7 +1,6 @@
 #include "PQLQuerySynonymProxy.h"
 
-PQLQuerySynonymProxy::PQLQuerySynonymProxy(PQLQuerySynonym **syn):
-    syn(syn) {
+PQLQuerySynonymProxy::PQLQuerySynonymProxy(PQLQuerySynonym **syn): syn(syn) {
 }
 
 void PQLQuerySynonymProxy::updatePointer(PQLQuerySynonym *newSyn) {
