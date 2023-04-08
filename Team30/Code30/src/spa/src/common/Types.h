@@ -22,7 +22,9 @@ typedef int StmtValue;
 typedef int EntityIdx;
 typedef int IntegerValue;
 typedef unordered_set<StmtValue> StmtValueSet;
+typedef set<StmtValue> StmtSet;
 typedef unordered_set<EntityValue> EntityValueSet;
+typedef set<EntityValue> EntitySet;
 typedef unordered_set<EntityIdx> EntityIdxSet;
 typedef vector<StmtValue> StmtValueList;
 
