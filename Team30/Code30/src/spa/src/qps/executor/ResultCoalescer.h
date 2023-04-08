@@ -1,8 +1,8 @@
 #pragma once
 
-#include <memory>
-#include <set>
 #include <string>
+#include <set>
+#include <memory>
 #include <vector>
 
 #include "common/UtilityTypes.h"
@@ -34,7 +34,9 @@ class ResultCoalescer {
     RowSetPtr leftSet;
     RowSetPtr rightSet;
 
-    bool isEmpty() const { return leftSet->empty() || rightSet->empty(); }
+    bool isEmpty() const {
+      return leftSet->empty() || rightSet->empty();
+    }
   };
 
   void mergeResults();
@@ -43,11 +45,12 @@ class ResultCoalescer {
   IntersectResult findIntersect(const QueryResultTableRow *currentRow,
                                 const IntersectState *state) const;
 
-  void crossProduct(unordered_set<ResultTableRow> *ignoreSet,
+  void crossProduct(set<ResultTableRow> *ignoreSet,
                     const IntersectState *intersectState,
                     const IntersectResult *intersection);
 
   void mergeRow(const QueryResultTableRow *rowA,
-                const QueryResultTableRow *rowB, QueryResultTableRow *outputRow,
+                const QueryResultTableRow *rowB,
+                QueryResultTableRow *outputRow,
                 const IntersectState *state) const;
 };
