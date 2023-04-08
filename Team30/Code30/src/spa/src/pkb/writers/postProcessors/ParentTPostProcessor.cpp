@@ -1,5 +1,6 @@
 #include "ParentTPostProcessor.h"
 
+#include <algorithm>
 #include <utility>
 #include <vector>
 
@@ -18,22 +19,13 @@ void ParentTPostProcessor::process() {
     // at most two last children with same parent
     // for while, the two last children at the same stmt
     // 1. last sibling of first child (last stmt in if clause)
-    if (row.second.empty()) {
-      continue;
-    }
-    auto firstChild = *(row.second.begin());
+    auto firstChild = *(std::min_element(row.second.begin(), row.second.end()));
     StmtValue lastSibling = parentTStorage->getLastSibling(firstChild);
     lastChildren.insert(lastSibling);
-    if (row.second.size() > 1) {
-      // 2. last child of parent (last stmt in else clause)
-      StmtValue max = firstChild;
-      for (auto i : row.second) {
-        if (i > max) {
-          max = i;
-        }
-      }
-      lastChildren.insert(max);
-    }
+    // 2. last child of parent (last stmt in else clause)
+    auto lastChild = *(std::max_element(row.second.begin(), row.second.end()));
+
+    lastChildren.insert(lastChild);
   }
   for (auto child : lastChildren) {
     StmtValueSet ascendants = StmtValueSet();
