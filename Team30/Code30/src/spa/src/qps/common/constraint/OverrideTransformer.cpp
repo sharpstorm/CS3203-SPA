@@ -4,42 +4,42 @@
 
 using std::to_string;
 
-OverrideTransformer::OverrideTransformer(const StmtValue &stmt) :
-    stmtRef(stmt), entRef(NO_ENT) {}
+OverrideTransformer::OverrideTransformer(const IntegerValue &intVal) :
+    intValue(intVal), entValue(NO_ENT) {}
 
 OverrideTransformer::OverrideTransformer(const EntityValue &ent) :
-    stmtRef(NO_INT_VAL), entRef(ent) {}
+    intValue(NO_INT_VAL), entValue(ent) {}
 
 StmtRef OverrideTransformer::transformArg(const StmtRef &input) const {
-  if (stmtRef == NO_INT_VAL) {
+  if (intValue == NO_INT_VAL) {
     return input;
   }
 
-  if (stmtRef == NO_STMT) {
+  if (intValue == NO_STMT) {
     return StmtRef { input.getType(), INVALID_STMT };
   }
 
-  return StmtRef { input.getType(), stmtRef };
+  return StmtRef { input.getType(), intValue };
 }
 
 EntityRef OverrideTransformer::transformArg(const EntityRef &input) const {
   if (input.getType() == EntityType::Constant) {
-    if (stmtRef == NO_INT_VAL) {
+    if (intValue == NO_INT_VAL) {
       return input;
     }
-    return EntityRef{EntityType::Constant, to_string(stmtRef)};
+    return EntityRef{EntityType::Constant, to_string(intValue)};
   }
 
-  if (entRef == NO_ENT) {
+  if (entValue == NO_ENT) {
     return input;
   }
-  return EntityRef{input.getType(), entRef};
+  return EntityRef{input.getType(), entValue};
 }
 
 bool OverrideTransformer::returnsInteger() const {
-  return stmtRef != NO_INT_VAL;
+  return intValue != NO_INT_VAL;
 }
 
 bool OverrideTransformer::operator==(const OverrideTransformer &other) const {
-  return stmtRef == other.stmtRef && entRef == other.entRef;
+  return intValue == other.intValue && entValue == other.entValue;
 }

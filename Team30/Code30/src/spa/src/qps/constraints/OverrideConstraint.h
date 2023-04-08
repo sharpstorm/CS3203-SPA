@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Constraint.h"
+#include "qps/common/IConstraint.h"
 #include "qps/common/PQLQuerySynonym.h"
-#include "OverrideTransformer.h"
+#include "qps/common/constraint/OverrideTransformer.h"
 #include "qps/errors/QPSParserSemanticError.h"
 #include "qps/common/AttributedSynonym.h"
 
-class OverrideConstraint : public Constraint {
+class OverrideConstraint : public IConstraint {
  private:
   AttributedSynonym attrSyn;
   OverrideTransformer overrideTransformer;
@@ -17,6 +17,6 @@ class OverrideConstraint : public Constraint {
 
   bool applyConstraint(SynonymProxyBuilder *variableTable,
                        OverrideTable *overrideTable) override;
-  const PQLSynonymNameList getAffectedSyns() const override;
+  PQLSynonymNameList getAffectedSyns() const override;
   bool validateConstraint() const override;
 };

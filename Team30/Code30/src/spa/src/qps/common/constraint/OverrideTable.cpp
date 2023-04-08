@@ -26,7 +26,7 @@ OverrideTransformer OverrideTable::get(const PQLSynonymName &name) const {
 template<class T>
 T OverrideTable::transformArgInternal(const PQLSynonymName &name,
                                       const T &ref) const {
-  auto it = table.find(name);
+  const auto it = table.find(name);
   if (it == table.end()) {
     return ref;
   }

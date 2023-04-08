@@ -3,6 +3,7 @@
 #include <string>
 #include "common/UtilityTypes.h"
 #include "qps/common/PQLTypes.h"
+#include "qps/common/QPSTypes.h"
 
 using std::string;
 

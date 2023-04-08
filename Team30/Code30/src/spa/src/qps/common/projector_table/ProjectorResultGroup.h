@@ -6,7 +6,7 @@
 
 #include "qps/common/intermediate_result/PQLQueryResult.h"
 #include "qps/common/AttributedSynonym.h"
-#include "qps/constraints/Constraint.h"
+#include "qps/common/IConstraint.h"
 
 using std::unordered_map, std::unique_ptr, std::vector;
 

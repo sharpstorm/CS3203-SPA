@@ -114,5 +114,5 @@ class AbstractTwoArgClause : public SuchThatClause {
 
  public:
   AbstractTwoArgClause(ClauseArgumentPtr left, ClauseArgumentPtr right);
-  const PQLSynonymNameList getUsedSynonyms() const override;
+  PQLSynonymNameList getUsedSynonyms() const override;
 };

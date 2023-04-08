@@ -24,7 +24,6 @@ TEST_CASE("Queries with Select only") {
   QueryOrchestrator orchestrator(launcher);
 
   unique_ptr<PQLQuery> query;
-  PQLQuerySynonym targetVariable;
   vector<shared_ptr<Clause>> emptyClause;
   unique_ptr<ProjectorResultTable> expectedResult;
   unique_ptr<ProjectorResultTable> actualResult;

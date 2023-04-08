@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Constraint.h"
+#include "qps/common/IConstraint.h"
 
-class SynonymConstraint : public Constraint {
+class SynonymConstraint : public IConstraint {
  private:
   PQLSynonymName syn1;
   PQLSynonymName syn2;
@@ -10,6 +10,6 @@ class SynonymConstraint : public Constraint {
   SynonymConstraint(const PQLSynonymName &syn1, const PQLSynonymName &syn2);
   bool applyConstraint(SynonymProxyBuilder *varTableProxyBuilder,
                        OverrideTable *overrideTable) override;
-  const PQLSynonymNameList getAffectedSyns() const override;
+  PQLSynonymNameList getAffectedSyns() const override;
   bool validateConstraint() const override;
 };

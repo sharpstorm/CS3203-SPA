@@ -18,7 +18,7 @@ bool WithClause::validateArgTypes(const VariableTable *variables) const {
   return leftArg.returnsInteger() == rightArg.returnsInteger();
 }
 
-const PQLSynonymNameList WithClause::getUsedSynonyms() const {
+PQLSynonymNameList WithClause::getUsedSynonyms() const {
   return {leftArg.getName(), rightArg.getName()};
 }
 

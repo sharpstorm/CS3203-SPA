@@ -6,6 +6,7 @@
 #include "qps/parser/IQueryParser.h"
 #include "qps/projector/ResultProjector.h"
 #include "common/parser/ISourceExpressionParser.h"
+#include "qps/common/QPSTypes.h"
 #include "IQPS.h"
 
 using std::string;

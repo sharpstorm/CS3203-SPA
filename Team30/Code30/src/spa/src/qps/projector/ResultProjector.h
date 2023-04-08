@@ -7,6 +7,7 @@
 #include "qps/common/PQLQuerySynonym.h"
 #include "qps/common/projector_table/ProjectorResultTable.h"
 #include "qps/common/AttributedSynonym.h"
+#include "qps/common/QPSTypes.h"
 
 using std::string, std::vector;
 

@@ -5,8 +5,9 @@
 #include "ProjectorResultGroup.h"
 #include "common/SetUtils.h"
 #include "qps/common/intermediate_result/PQLQueryResult.h"
-#include "qps/constraints/Constraint.h"
+#include "qps/common/IConstraint.h"
 #include "qps/projector/ProjectorInstruction.h"
+#include "qps/common/QPSTypes.h"
 
 using std::vector;
 

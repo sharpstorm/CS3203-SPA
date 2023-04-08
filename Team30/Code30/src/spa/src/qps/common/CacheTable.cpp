@@ -1,99 +1,90 @@
 #include "CacheTable.h"
+#include <algorithm>
+
+using std::find;
 
 void CacheTable::addEntry(const StmtValue &leftStmt,
                           const StmtValue &rightStmt) {
-  // Insertion to fwd matrix
-  if (leftStmt >= forwardMatrix.size()) {
-    for (size_t i = forwardMatrix.size(); i < leftStmt; i++) {
-      forwardMatrix.emplace_back();
-    }
-  }
-
-  forwardMatrix[leftStmt - 1].push_back(rightStmt);
-
-  // Insertion to reverse matrix
-  if (rightStmt >= reverseMatrix.size()) {
-    for (size_t i = reverseMatrix.size(); i < rightStmt; i++) {
-      reverseMatrix.emplace_back();
-    }
-  }
-
-  reverseMatrix[rightStmt - 1].push_back(leftStmt);
+  forwardCache.insert(leftStmt, rightStmt);
+  reverseCache.insert(rightStmt, leftStmt);
 }
 
 const CacheRow *CacheTable::queryFull(const StmtValue &leftStmt,
                                       const StmtValue &rightStmt) const {
-  if (!isValidArg(leftStmt, forwardMatrix.size()) ||
-      !isValidArg(rightStmt, reverseMatrix.size())) {
+  if (!forwardCache.isValidArg(leftStmt)
+      || !reverseCache.isValidArg(rightStmt)) {
     return nullptr;
   }
 
-  if (leftStmt != 0 && fullForward.find(leftStmt) != fullForward.end()) {
-    return &forwardMatrix[leftStmt - 1];
+  if (leftStmt != 0 && forwardCache.isPromoted(leftStmt)) {
+    return forwardCache.query(leftStmt);
   }
 
-  if (rightStmt != 0 && fullReverse.find(rightStmt) != fullReverse.end()) {
-    return &reverseMatrix[rightStmt - 1];
+  if (rightStmt != 0 && reverseCache.isPromoted(rightStmt)) {
+    return reverseCache.query(rightStmt);
   }
 
   return nullptr;
 }
 
 void CacheTable::promoteFrom(const StmtValue &stmt) {
-  fullForward.insert(stmt);
+  forwardCache.promote(stmt);
 }
 
 void CacheTable::promoteTo(const StmtValue &stmt) {
-  fullReverse.insert(stmt);
-}
-
-const CacheRow *CacheTable::queryFrom(const StmtValue &stmt) const {
-  if (!isValidIndex(stmt, forwardMatrix.size())) {
-    return nullptr;
-  }
-
-  return &forwardMatrix[stmt - 1];
-}
-
-const CacheRow *CacheTable::queryTo(const StmtValue &stmt) const {
-  if (!isValidIndex(stmt, reverseMatrix.size())) {
-    return nullptr;
-  }
-
-  return &reverseMatrix[stmt - 1];
+  reverseCache.promote(stmt);
 }
 
 const CacheRow *CacheTable::queryPartial(const StmtValue &leftStmt,
                                          const StmtValue &rightStmt) const {
-  if (!isValidArg(leftStmt, forwardMatrix.size()) ||
-      !isValidArg(rightStmt, reverseMatrix.size())) {
+  if (!forwardCache.isValidArg(leftStmt)
+      || !reverseCache.isValidArg(rightStmt)) {
     return nullptr;
   }
 
   if (leftStmt != 0 && rightStmt != 0) {
-    const CacheRow *row = &forwardMatrix[leftStmt - 1];
-    for (auto r : *row) {
-      if (r == rightStmt) {
-        return row;
-      }
+    const CacheRow *row = forwardCache.query(leftStmt);
+
+    auto it = std::find(row->begin(), row->end(), rightStmt);
+    if (it == row->end()) {
+      return nullptr;
     }
 
-    return nullptr;
+    return row;
   }
 
   if (leftStmt == 0) {
-    return queryTo(rightStmt);
+    return reverseCache.query(rightStmt);
   }
 
-  return queryFrom(leftStmt);
+  return forwardCache.query(leftStmt);
 }
 
-bool CacheTable::isValidIndex(const StmtValue &stmt,
-                              const size_t size) const {
-  return 0 < stmt && stmt <= size;
+const CacheRow *CacheTable::CachePart::query(const StmtValue stmt) const {
+  return &matrix[stmt - 1];
 }
 
-bool CacheTable::isValidArg(const StmtValue &stmt,
-                            const size_t size) const {
-  return 0 == stmt || isValidIndex(stmt, size);
+bool CacheTable::CachePart::isPromoted(const StmtValue stmt) const {
+  return promoted.find(stmt) != promoted.end();
+}
+
+void CacheTable::CachePart::promote(const StmtValue stmt) {
+  promoted.insert(stmt);
+}
+
+bool CacheTable::CachePart::isValidIndex(const StmtValue &stmt) const {
+  return 0 < stmt && stmt <= matrix.size();
+}
+
+bool CacheTable::CachePart::isValidArg(const StmtValue &stmt) const {
+  return 0 == stmt || isValidIndex(stmt);
+}
+
+void CacheTable::CachePart::insert(const StmtValue &key,
+                                   const StmtValue &value) {
+  for (size_t i = matrix.size(); i < key; i++) {
+    matrix.emplace_back();
+  }
+
+  matrix[key - 1].push_back(value);
 }
