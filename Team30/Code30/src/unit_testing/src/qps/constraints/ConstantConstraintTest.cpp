@@ -3,7 +3,7 @@
 
 TEST_CASE("Constant Constraint True") {
   VariableTable varTable;
-  SynonymProxyBuilder builder(&varTable);
+  SynonymProxyBuilder builder(varTable.getProxyMap());
   OverrideTable overrides;
 
   auto leftArg = make_unique<WithArgument>(1);
@@ -23,7 +23,7 @@ TEST_CASE("Constant Constraint True") {
 
 TEST_CASE("Constant Constraint False") {
   VariableTable varTable;
-  SynonymProxyBuilder builder(&varTable);
+  SynonymProxyBuilder builder(varTable.getProxyMap());
   OverrideTable overrides;
 
   auto leftArg = make_unique<WithArgument>(1);
@@ -43,7 +43,7 @@ TEST_CASE("Constant Constraint False") {
 
 TEST_CASE("Constant Incomparable Constraint") {
   VariableTable varTable;
-  SynonymProxyBuilder builder(&varTable);
+  SynonymProxyBuilder builder(varTable.getProxyMap());
   OverrideTable overrides;
 
   auto leftArg = make_unique<WithArgument>(1);

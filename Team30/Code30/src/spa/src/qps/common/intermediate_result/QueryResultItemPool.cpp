@@ -6,29 +6,11 @@
 using std::make_unique;
 
 QueryResultItem *QueryResultItemPool::getItem(const StmtValue &value) {
-  const auto &it = stmtLookup.find(value);
-  if (it != stmtLookup.end()) {
-    return it->second;
-  }
-
-  ownedItems.push_back(make_unique<QueryResultItem>(value));
-  QueryResultItem *itemPtr = ownedItems.back().get();
-  stmtLookup.emplace(value, itemPtr);
-
-  return itemPtr;
+  return lookupOrEmplace(&stmtLookup, value);
 }
 
 QueryResultItem *QueryResultItemPool::getItem(const EntityValue &value) {
-  const auto &it = entLookup.find(value);
-  if (it != entLookup.end()) {
-    return it->second;
-  }
-
-  ownedItems.push_back(make_unique<QueryResultItem>(value));
-  QueryResultItem *itemPtr = ownedItems.back().get();
-  entLookup.emplace(value, itemPtr);
-
-  return itemPtr;
+  return lookupOrEmplace(&entLookup, value);
 }
 
 QueryResultItemPool::OwnedResultItemList QueryResultItemPool::releaseOwned() {
@@ -37,13 +19,12 @@ QueryResultItemPool::OwnedResultItemList QueryResultItemPool::releaseOwned() {
 
 OrphanedResultItemPoolPtr QueryResultItemPool::adoptPool(
     QueryResultItemPool *other) {
-  QueryResultItemMapping translationMap;
-  QueryResultItemSet adoptedPtrs;
-  adoptStmts(other, &adoptedPtrs, &translationMap);
-  adoptEntities(other, &adoptedPtrs, &translationMap);
-
   OrphanedResultItemPoolPtr orphanedPtrs =
-      make_unique<OrphanedResultItemPool>(translationMap);
+      make_unique<OrphanedResultItemPool>();
+  QueryResultItemSet adoptedPtrs;
+  adoptStmts(other, &adoptedPtrs, orphanedPtrs.get());
+  adoptEntities(other, &adoptedPtrs, orphanedPtrs.get());
+
   vector<QueryResultItemPtr> otherItems = other->releaseOwned();
   for (QueryResultItemPtr &it : otherItems) {
     if (adoptedPtrs.find(it.get()) != adoptedPtrs.end()) {
@@ -58,29 +39,44 @@ OrphanedResultItemPoolPtr QueryResultItemPool::adoptPool(
 
 void QueryResultItemPool::adoptStmts(const QueryResultItemPool *other,
                                      QueryResultItemSet *adoptedSet,
-                                     QueryResultItemMapping *translationMap) {
-  for (const auto &it : other->stmtLookup) {
-    auto mySamePtr = stmtLookup.find(it.first);
-    if (mySamePtr != stmtLookup.end()) {
-      translationMap->emplace(it.second, mySamePtr->second);
-      continue;
-    }
-    stmtLookup.emplace(it.first, it.second);
-    adoptedSet->insert(it.second);
-  }
+                                     OrphanedResultItemPool *orphanPool) {
+  adoptFrom(&stmtLookup, other->stmtLookup, adoptedSet, orphanPool);
 }
 
 void QueryResultItemPool::adoptEntities(
     const QueryResultItemPool *other,
     QueryResultItemSet *adoptedSet,
-    QueryResultItemMapping *translationMap) {
-  for (const auto &it : other->entLookup) {
-    auto mySamePtr = entLookup.find(it.first);
-    if (mySamePtr != entLookup.end()) {
-      translationMap->emplace(it.second, mySamePtr->second);
+    OrphanedResultItemPool *orphanPool) {
+  adoptFrom(&entLookup, other->entLookup, adoptedSet, orphanPool);
+}
+
+template<class ValueType, class MapType>
+QueryResultItem *QueryResultItemPool::lookupOrEmplace(MapType *lookupMap,
+                                                      const ValueType &value) {
+  const auto &it = lookupMap->find(value);
+  if (it != lookupMap->end()) {
+    return it->second;
+  }
+
+  ownedItems.push_back(make_unique<QueryResultItem>(value));
+  QueryResultItem *itemPtr = ownedItems.back().get();
+  lookupMap->emplace(value, itemPtr);
+
+  return itemPtr;
+}
+
+template<class MapType>
+void QueryResultItemPool::adoptFrom(MapType *lookupMap,
+                                    const MapType &otherMap,
+                                    QueryResultItemSet *adoptedSet,
+                                    OrphanedResultItemPool *orphanPool) {
+  for (const auto &it : otherMap) {
+    auto mySamePtr = lookupMap->find(it.first);
+    if (mySamePtr != lookupMap->end()) {
+      orphanPool->insertMapping(it.second, mySamePtr->second);
       continue;
     }
-    entLookup.emplace(it.first, it.second);
+    lookupMap->emplace(it.first, it.second);
     adoptedSet->insert(it.second);
   }
 }

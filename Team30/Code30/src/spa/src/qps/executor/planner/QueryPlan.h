@@ -5,7 +5,7 @@
 
 #include "qps/executor/planner/grouping/QueryGroupPlan.h"
 #include "qps/common/IEvaluatable.h"
-#include "qps/constraints/Constraint.h"
+#include "qps/common/IConstraint.h"
 
 using std::vector, std::unique_ptr;
 
@@ -17,7 +17,6 @@ class QueryPlan {
   int getGroupCount() const;
   const QueryGroupPlan *getGroup(const QueryPlanGroupId groupId) const;
   bool isEmpty() const;
-  bool isBooleanQuery() const;
 
  private:
   vector<QueryGroupPlanPtr> clauseGroups;

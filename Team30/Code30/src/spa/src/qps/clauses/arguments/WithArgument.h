@@ -3,7 +3,7 @@
 #include <memory>
 
 #include "qps/common/AttributedSynonym.h"
-#include "qps/constraints/OverrideTransformer.h"
+#include "qps/common/constraint/OverrideTransformer.h"
 
 using std::unique_ptr;
 

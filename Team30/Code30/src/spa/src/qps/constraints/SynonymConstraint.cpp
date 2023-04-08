@@ -10,7 +10,7 @@ bool SynonymConstraint::applyConstraint
   return varTableProxyBuilder->joinSynonyms(syn1, syn2);
 }
 
-const PQLSynonymNameList SynonymConstraint::getAffectedSyns() const {
+PQLSynonymNameList SynonymConstraint::getAffectedSyns() const {
   return PQLSynonymNameList{syn1, syn2};
 }
 

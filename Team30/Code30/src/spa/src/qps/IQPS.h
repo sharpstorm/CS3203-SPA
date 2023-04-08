@@ -1,13 +1,11 @@
 #pragma once
 
-#include <string>
 #include "common/UtilityTypes.h"
 #include "qps/common/PQLTypes.h"
-
-using std::string;
+#include "qps/common/QPSTypes.h"
 
 class IQPS {
  public:
   virtual ~IQPS() = default;
-  virtual void evaluate(const string &query, QPSOutputList *output) = 0;
+  virtual void evaluate(const PQLQueryString &query, QPSOutputList *output) = 0;
 };

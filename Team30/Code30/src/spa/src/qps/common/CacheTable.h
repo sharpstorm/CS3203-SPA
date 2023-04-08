@@ -10,15 +10,23 @@ typedef vector<StmtValue> CacheRow;
 
 class CacheTable {
   typedef vector<CacheRow> CacheMatrix;
-  CacheMatrix forwardMatrix;
-  CacheMatrix reverseMatrix;
-  StmtSet fullForward;
-  StmtSet fullReverse;
 
-  const CacheRow *queryFrom(const StmtValue &stmt) const;
-  const CacheRow *queryTo(const StmtValue &stmt) const;
-  bool isValidIndex(const StmtValue &stmt, const size_t size) const;
-  bool isValidArg(const StmtValue &stmt, const size_t size) const;
+  class CachePart {
+   private:
+    CacheMatrix matrix;
+    StmtSet promoted;
+
+   public:
+    const CacheRow *query(const StmtValue stmt) const;
+    void promote(const StmtValue stmt);
+    bool isPromoted(const StmtValue stmt) const;
+    bool isValidIndex(const StmtValue &stmt) const;
+    bool isValidArg(const StmtValue &stmt) const;
+    void insert(const StmtValue &key, const StmtValue &value);
+  };
+
+  CachePart forwardCache;
+  CachePart reverseCache;
 
  public:
   void addEntry(const StmtValue &leftStmt, const StmtValue &rightStmt);

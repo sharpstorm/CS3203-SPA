@@ -34,10 +34,9 @@ SynonymHolder OVERRIDE_SYNS(
         {PQL_SYN_TYPE_READ, "r"}
     });
 
-VariableTable varTable;
-
 TEST_CASE("OverrideConstraint - Get affected Syns") {
-  SynonymProxyBuilder builder(&varTable);
+  VariableTable varTable;
+  SynonymProxyBuilder builder(varTable.getProxyMap());
   OverrideTable overrides;
 
   AttributedSynonym syn(OVERRIDE_SYNS.getProxy("a"), STMT_NUM);
@@ -47,7 +46,8 @@ TEST_CASE("OverrideConstraint - Get affected Syns") {
 }
 
 TEST_CASE("OverrideConstraint - Validate Constraint Success") {
-  SynonymProxyBuilder builder(&varTable);
+  VariableTable varTable;
+  SynonymProxyBuilder builder(varTable.getProxyMap());
   OverrideTable overrides;
 
   AttributedSynonym syn(OVERRIDE_SYNS.getProxy("a"), STMT_NUM);
@@ -80,7 +80,8 @@ TEST_CASE("OverrideConstraint - Validate Constraint Success") {
 }
 
 TEST_CASE("OverrideConstraint - Validate Constraint Failure") {
-  SynonymProxyBuilder builder(&varTable);
+  VariableTable varTable;
+  SynonymProxyBuilder builder(varTable.getProxyMap());
   OverrideTable overrides;
 
   AttributedSynonym syn(OVERRIDE_SYNS.getProxy("a"), STMT_NUM);
@@ -97,7 +98,8 @@ TEST_CASE("OverrideConstraint - Validate Constraint Failure") {
 }
 
 TEST_CASE("OverrideConstraint - Apply Constraint Success") {
-  SynonymProxyBuilder builder(&varTable);
+  VariableTable varTable;
+  SynonymProxyBuilder builder(varTable.getProxyMap());
   OverrideTable overrides;
 
   AttributedSynonym syn(OVERRIDE_SYNS.getProxy("a"), STMT_NUM);
@@ -130,7 +132,8 @@ TEST_CASE("OverrideConstraint - Apply Constraint Success") {
 }
 
 TEST_CASE("OverrideConstraint - Apply Constraint Failure") {
-  SynonymProxyBuilder builder(&varTable);
+  VariableTable varTable;
+  SynonymProxyBuilder builder(varTable.getProxyMap());
   OverrideTable overrides;
 
   AttributedSynonym syn(OVERRIDE_SYNS.getProxy("a"), STMT_NUM);

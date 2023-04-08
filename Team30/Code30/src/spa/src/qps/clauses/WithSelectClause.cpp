@@ -37,7 +37,7 @@ bool WithSelectClause::validateArgTypes(const VariableTable *variables) const {
   return entVal != NO_ENT;
 }
 
-const PQLSynonymNameList WithSelectClause::getUsedSynonyms() const {
+PQLSynonymNameList WithSelectClause::getUsedSynonyms() const {
   return {attrSyn.getName()};
 }
 

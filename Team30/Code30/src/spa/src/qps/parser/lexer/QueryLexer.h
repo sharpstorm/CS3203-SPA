@@ -6,6 +6,7 @@
 
 #include "QueryLexerTokenTable.h"
 #include "../../../common/UtilityTypes.h"
+#include "qps/common/QPSTypes.h"
 
 using std::string, std::vector, std::unique_ptr;
 
@@ -14,12 +15,12 @@ typedef unique_ptr<PQLTokenStream> PQLTokenStreamPtr;
 
 class QueryLexer {
  public:
-  explicit QueryLexer(const string *query,
+  explicit QueryLexer(const PQLQueryString *query,
                       QueryLexerTokenTable* tokenTable);
   PQLTokenStreamPtr getTokenStream();
 
  private:
-  const string *query;
+  const PQLQueryString *query;
   PQLTokenStreamPtr result;
 
   string buffer;

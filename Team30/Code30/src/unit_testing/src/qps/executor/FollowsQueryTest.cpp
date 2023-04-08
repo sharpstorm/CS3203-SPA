@@ -4,7 +4,7 @@
 #include "pkb/queryHandlers/PkbQueryHandler.h"
 #include "qps/common/intermediate_result/PQLQueryResult.h"
 #include "qps/executor/IQueryExecutor.h"
-#include "qps/common/projector_table/ProjectorResultTable.h"
+#include "qps/common/projector_table/ProjectableTable.h"
 #include "qps/executor/QueryExecutor.h"
 #include "qps/parser/builder/QueryBuilder.h"
 #include "qps/clauses/arguments/ClauseArgumentFactory.h"
@@ -35,6 +35,6 @@ TEST_CASE("Test QPS Follows Query") {
   auto query = builder.build();
 
   auto executor = unique_ptr<IQueryExecutor>(new QueryExecutor(pkb.get()));
-  ProjectorResultTable* result = executor->executeQuery(query.get());
+  ProjectableTable* result = executor->executeQuery(query.get());
   delete(result);
 }

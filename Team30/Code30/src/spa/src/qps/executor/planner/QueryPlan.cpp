@@ -17,13 +17,3 @@ const {
 bool QueryPlan::isEmpty() const {
   return clauseGroups.empty();
 }
-
-bool QueryPlan::isBooleanQuery() const {
-  for (const auto &group : clauseGroups) {
-    if (!group->isBooleanResult()) {
-      return false;
-    }
-  }
-
-  return true;
-}

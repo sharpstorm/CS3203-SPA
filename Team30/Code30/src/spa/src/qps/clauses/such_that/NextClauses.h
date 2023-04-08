@@ -83,7 +83,7 @@ constexpr NextSameSynInvoker abstractNextSameSynInvoker = [](
       }
 
       auto relationResult = querier.queryBool(statement, statement);
-      if (!relationResult.isEmpty) {
+      if (!relationResult.empty()) {
         result.insert(statement);
       }
     }

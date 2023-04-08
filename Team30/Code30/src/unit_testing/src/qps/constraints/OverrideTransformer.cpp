@@ -1,7 +1,7 @@
 #include "catch.hpp"
 
 #include "common/Types.h"
-#include "qps/constraints/OverrideTransformer.h"
+#include "qps/common/constraint/OverrideTransformer.h"
 
 TEST_CASE("Transform StmtRef") {
   OverrideTransformer transformer(0);

@@ -56,7 +56,7 @@ bool SelectClause::validateArgTypes(const VariableTable *variables) const {
   return !target->isType(PQL_SYN_TYPE_PROCEDURE);
 }
 
-const PQLSynonymNameList SelectClause::getUsedSynonyms() const {
+PQLSynonymNameList SelectClause::getUsedSynonyms() const {
   return {target->getName()};
 }
 
