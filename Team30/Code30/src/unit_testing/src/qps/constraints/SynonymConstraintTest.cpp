@@ -7,7 +7,7 @@ VariableTable buildVarTable(unordered_map<PQLSynonymName, PQLSynonymType> syns) 
   VariableTable ret;
 
   for (const auto &x : syns) {
-    ret.add(x.first, PQLQuerySynonym(x.second, x.first));
+    ret.add(PQLQuerySynonym(x.second, x.first));
   }
 
   return ret;

@@ -27,7 +27,7 @@ void QueryBuilder::addSynonym(const PQLSynonymName &name,
     return;
   }
 
-  variables->add(name, PQLQuerySynonym(type, name));
+  variables->add(PQLQuerySynonym(type, name));
   declaredNames.insert(name);
 }
 

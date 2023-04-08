@@ -12,11 +12,11 @@ TEST_CASE("SynonymConstraint Test") {
   PQLQuerySynonym syn5{PQL_SYN_TYPE_STMT, "s5"};
 
   VariableTable varTable;
-  varTable.add("s1", syn1);
-  varTable.add("s2", syn2);
-  varTable.add("s3", syn3);
-  varTable.add("s4", syn4);
-  varTable.add("s5", syn5);
+  varTable.add(syn1);
+  varTable.add(syn2);
+  varTable.add(syn3);
+  varTable.add(syn4);
+  varTable.add(syn5);
   varTable.finalizeTable();
 
   SynonymProxyBuilder varTableProxyBuilder(&varTable);

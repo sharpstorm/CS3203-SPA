@@ -15,11 +15,11 @@ TEST_CASE("SynonymUFDS Test") {
   PQLQuerySynonym syn5{PQL_SYN_TYPE_STMT, "e"};
 
   VariableTable varTable;
-  varTable.add("a", syn1);
-  varTable.add("b", syn2);
-  varTable.add("c", syn3);
-  varTable.add("d", syn4);
-  varTable.add("e", syn5);
+  varTable.add(syn1);
+  varTable.add(syn2);
+  varTable.add(syn3);
+  varTable.add(syn4);
+  varTable.add(syn5);
   varTable.finalizeTable();
   SynonymUFDS ufds(&varTable);
 
