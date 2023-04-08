@@ -2,7 +2,7 @@
 
 #include "Constraint.h"
 #include "qps/common/PQLQuerySynonym.h"
-#include "OverrideTransformer.h"
+#include "qps/common/constraint/OverrideTransformer.h"
 #include "qps/errors/QPSParserSemanticError.h"
 #include "qps/common/AttributedSynonym.h"
 

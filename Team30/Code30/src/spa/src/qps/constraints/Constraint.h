@@ -3,7 +3,7 @@
 #include <memory>
 
 #include "qps/common/VariableTable.h"
-#include "OverrideTransformer.h"
+#include "qps/common/constraint/OverrideTransformer.h"
 #include "qps/common/constraint/SynonymProxyBuilder.h"
 #include "qps/common/constraint/OverrideTable.h"
 
