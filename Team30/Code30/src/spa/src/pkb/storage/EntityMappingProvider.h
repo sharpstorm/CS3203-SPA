@@ -17,10 +17,10 @@ class EntityMappingProvider : public IEntityMappingProvider {
   explicit EntityMappingProvider(VariableStorage *, ConstantStorage *,
                                  ProcedureAndCallsStorage *);
   const EntityValueSet &getValuesOfType(EntityType) const override;
-  EntityValue getVariableByIndex(int) const override;
-  EntityValue getConstantByIndex(int) const override;
-  EntityIdx getIndexOfVariable(string) const override;
-  EntityIdx getIndexOfConstant(string) const override;
+  EntityValue getVariableByIndex(EntityIdx) const override;
+  EntityValue getConstantByIndex(EntityIdx) const override;
+  EntityIdx getIndexOfVariable(EntityValue) const override;
+  EntityIdx getIndexOfConstant(EntityValue) const override;
   bool isValueOfType(EntityType, EntityValue) const override;
 
  private:

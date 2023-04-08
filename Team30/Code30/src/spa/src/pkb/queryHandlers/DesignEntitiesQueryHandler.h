@@ -18,16 +18,16 @@ class DesignEntitiesQueryHandler : public IDesignEntitiesQueryHandler {
       const IEntityMappingProvider *entityMappingProvider,
       const IStructureMappingProvider *structureMappingProvider);
 
-  unordered_set<string> getSymbolsOfType(EntityType) const override;
-  unordered_set<int> getStatementsOfType(StmtType) const override;
-  StmtType getStatementType(int) const override;
-  string getVariableByIndex(int) const override;
-  string getConstantByIndex(int) const override;
-  EntityIdx getIndexOfVariable(string) const override;
-  EntityIdx getIndexOfConstant(string) const override;
-  bool isStatementOfType(StmtType, int) const override;
-  bool isSymbolOfType(EntityType, string) const override;
-  string getCalledDeclaration(int) const override;
+  EntityValueSet getSymbolsOfType(EntityType) const override;
+  StmtValueSet getStatementsOfType(StmtType) const override;
+  StmtType getStatementType(StmtValue) const override;
+  EntityValue getVariableByIndex(EntityIdx) const override;
+  EntityValue getConstantByIndex(EntityIdx) const override;
+  EntityIdx getIndexOfVariable(EntityValue) const override;
+  EntityIdx getIndexOfConstant(EntityValue) const override;
+  bool isStatementOfType(StmtType, StmtValue) const override;
+  bool isSymbolOfType(EntityType, EntityValue) const override;
+  EntityValue getCalledDeclaration(StmtValue) const override;
 
  private:
   const IEntityMappingProvider *entityMappingProvider;

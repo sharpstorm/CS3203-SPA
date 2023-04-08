@@ -7,7 +7,7 @@ class ParentWriter : public IParentWriter {
  public:
   explicit ParentWriter(ParentStorage *parentStore);
 
-  void addParent(int arg1, int arg2) override;
+  void addParent(StmtValue arg1, StmtValue arg2) override;
 
  private:
   ParentStorage *store;
