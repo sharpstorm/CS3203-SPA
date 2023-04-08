@@ -17,7 +17,7 @@ class OrphanedResultItemPool {
   QueryResultItemMapping lookupMap;
 
  public:
-  explicit OrphanedResultItemPool() = default;
+  OrphanedResultItemPool() = default;
   void adopt(QueryResultItemPtr item);
   QueryResultItem *getMappingFor(QueryResultItem *item);
   void insertMapping(QueryResultItem *from, QueryResultItem *to);

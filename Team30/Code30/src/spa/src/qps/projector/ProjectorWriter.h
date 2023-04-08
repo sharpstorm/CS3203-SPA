@@ -1,7 +1,11 @@
 #pragma once
 
+#include <vector>
+
 #include "qps/common/projector_table/ProjectableGroup.h"
 #include "ProjectorInstruction.h"
+
+using std::vector;
 
 class ProjectorWriter {
   typedef vector<ProjectorResultRow> RowIndexes;
