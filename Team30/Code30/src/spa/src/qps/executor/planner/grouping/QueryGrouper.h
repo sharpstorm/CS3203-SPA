@@ -25,7 +25,6 @@ class QueryGrouper {
   void initIndex();
   void findGroups(vector<QueryGroupPtr> *result);
   void findIndependentSelects(vector<QueryGroupPtr> *result);
-  void selectAllDeclarations(vector<QueryGroupPtr> *result);
   QueryGroupPtr makeSelectClause(const PQLSynonymName &name);
 
   QueryGroup *BFSFindDependents(const int start);

@@ -1,0 +1,9 @@
+procedure proc {
+  while (i == 0) {
+    if (x == 2) then {
+      a = 1;
+    } else {
+      b = 2;
+    }
+  }
+}

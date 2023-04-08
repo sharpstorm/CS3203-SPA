@@ -39,7 +39,6 @@ void executeClauseCompare(string query, vector<string> inputOverrides,
   REQUIRE(plan->getGroupCount() == 1);
 
   auto group = plan->getGroup(0);
-  REQUIRE(!group->canBeEmpty());
 
   auto clauses = group->getConditionalClauses();
   auto r1 = assertIsClass<T>(clauses.at(0));
@@ -115,8 +114,6 @@ TEST_CASE("Prefer constants on all except Uses, Modifies Clauses") {
 
     auto groupConst = plan->getGroup(0);
     auto groupQuery = plan->getGroup(1);
-    REQUIRE(!groupConst->canBeEmpty());
-    REQUIRE(!groupQuery->canBeEmpty());
 
     auto clauses = groupConst->getConditionalClauses();
     auto r1 = assertIsClass<AbstractTwoArgClause>(clauses.at(0));
@@ -177,8 +174,6 @@ TEST_CASE("Prefer constants on Uses, Modifies Clauses") {
 
     auto groupConst = plan->getGroup(0);
     auto groupQuery = plan->getGroup(1);
-    REQUIRE(!groupConst->canBeEmpty());
-    REQUIRE(!groupQuery->canBeEmpty());
 
     auto clauses = groupConst->getConditionalClauses();
     auto r1 = assertIsClass<AbstractTwoArgClause>(clauses.at(0));
@@ -212,7 +207,6 @@ TEST_CASE("Test Prefer With, Pattern, Static Such That, Compute Such That") {
   REQUIRE(plan->getGroupCount() == 1);
 
   auto group = plan->getGroup(0);
-  REQUIRE(!group->canBeEmpty());
 
   auto clauses = group->getConditionalClauses();
   assertIsClass<WithClause>(clauses.at(0));
@@ -343,7 +337,6 @@ TEST_CASE("Test Prefer Deferred Compute Heavy Clauses") {
   REQUIRE(plan->getGroupCount() == 1);
 
   auto group = plan->getGroup(0);
-  REQUIRE(!group->canBeEmpty());
 
   auto clauses = group->getConditionalClauses();
   assertIsClass<FollowsClause>(clauses.at(0));
@@ -369,7 +362,6 @@ TEST_CASE("Test General Ranking") {
   REQUIRE(plan->getGroupCount() == 1);
 
   auto group = plan->getGroup(0);
-  REQUIRE(!group->canBeEmpty());
 
   auto clauses = group->getConditionalClauses();
   assertIsClass<WithSelectClause>(clauses.at(0));

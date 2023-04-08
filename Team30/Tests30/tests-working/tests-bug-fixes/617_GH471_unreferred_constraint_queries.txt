@@ -1,0 +1,5 @@
+1 - BUG REPORTED
+assign a, a1;
+Select a1 with a.stmt# = 12
+
+5000
