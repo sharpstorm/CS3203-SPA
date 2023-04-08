@@ -1,14 +1,10 @@
 #include <memory>
-#include <string>
-#include <unordered_set>
 
 #include "catch.hpp"
 #include "pkb/queryHandlers/PkbQueryHandler.h"
 #include "pkb/writers/PkbWriter.h"
 
 using std::make_unique;
-using std::string;
-using std::unordered_set;
 
 TEST_CASE("Uses (StmtRef, EntityRef)") {
   auto pkb = make_unique<PKB>();
@@ -32,22 +28,19 @@ TEST_CASE("Uses (StmtRef, EntityRef)") {
 
   auto result1 =
       *handler.queryUses({StmtType::None, 1}, {EntityType::None, "y"});
-  //  REQUIRE(result1.pairVals == pair_set<int, string>({{1, "y"}}));
   REQUIRE(result1.isEmpty == false);
 
   auto result2 =
       *handler.queryUses({StmtType::None, 1}, {EntityType::Variable, ""});
-  //  REQUIRE(result2.pairVals == pair_set<int, string>({{1, "y"}, {1, "x"}}));
-  REQUIRE(result2.secondArgVals == unordered_set<string>({"y", "x"}));
+  REQUIRE(result2.secondArgVals == EntityValueSet({"y", "x"}));
 
   auto result3 =
       *handler.queryUses({StmtType::Assign, 0}, {EntityType::None, "x"});
-  //  REQUIRE(result3.pairVals == pair_set<int, string>({{4, "x"}}));
-  REQUIRE(result3.firstArgVals == unordered_set<int>({4}));
+  REQUIRE(result3.firstArgVals == StmtValueSet({4}));
 
   auto result4 =
       *handler.queryUses({StmtType::None, 0}, {EntityType::Variable, ""});
-  REQUIRE(result4.pairVals == pair_set<int, string>({
+  REQUIRE(result4.pairVals == pair_set<StmtValue, EntityValue>({
                                   {1, "x"},
                                   {1, "y"},
                                   {2, "x"},
@@ -64,7 +57,7 @@ TEST_CASE("Uses (StmtRef, EntityRef)") {
   auto result6 =
       *handler.queryUses({StmtType::None, 0}, {EntityType::Wildcard, ""});
   REQUIRE(result6.isEmpty == false);
-  REQUIRE(result6.firstArgVals == unordered_set<int>({1, 2, 3, 4}));
+  REQUIRE(result6.firstArgVals == StmtValueSet({1, 2, 3, 4}));
   // print Declaration
   REQUIRE(handler.getPrintDeclarations(3) == "x");
 }
@@ -91,31 +84,24 @@ TEST_CASE("Uses (EntityRef, EntityRef)") {
 
   auto result1 = *handler.queryUses({EntityType::Procedure, "foo"},
                                     {EntityType::None, "w"});
-  //  REQUIRE(result1.pairVals == pair_set<string, string>({{"foo", "w"}}));
   REQUIRE(result1.isEmpty == false);
   auto result2 = *handler.queryUses({EntityType::Procedure, "main"},
                                     {EntityType::Variable, ""});
-  //  REQUIRE(
-  //      result2.pairVals ==
-  //      pair_set<string, string>({{"main", "x"}, {"main", "y"}, {"main",
-  //      "z"}}));
-  REQUIRE(result2.secondArgVals == unordered_set<string>({"x", "y", "z"}));
+  REQUIRE(result2.secondArgVals == EntityValueSet({"x", "y", "z"}));
   auto result3 =
       *handler.queryUses({EntityType::Procedure, ""}, {EntityType::None, "z"});
-  //  REQUIRE(result3.pairVals ==
-  //          pair_set<string, string>({{"main", "z"}, {"goo", "z"}}));
-  REQUIRE(result3.firstArgVals == unordered_set<string>({"main", "goo"}));
+  REQUIRE(result3.firstArgVals == EntityValueSet({"main", "goo"}));
   auto result4 = *handler.queryUses({EntityType::Procedure, ""},
                                     {EntityType::Variable, ""});
-  REQUIRE(result4.pairVals == pair_set<string, string>({{"main", "x"},
-                                                        {"main", "y"},
-                                                        {"main", "z"},
-                                                        {"foo", "w"},
-                                                        {"goo", "z"}}));
+  REQUIRE(result4.pairVals ==
+          pair_set<EntityValue, EntityValue>({{"main", "x"},
+                                              {"main", "y"},
+                                              {"main", "z"},
+                                              {"foo", "w"},
+                                              {"goo", "z"}}));
   auto result5 = *handler.queryUses({EntityType::Procedure, ""},
                                     {EntityType::Wildcard, ""});
-  REQUIRE(result5.firstArgVals ==
-          unordered_set<string>({"main", "foo", "goo"}));
+  REQUIRE(result5.firstArgVals == EntityValueSet({"main", "foo", "goo"}));
   auto result6 = *handler.queryUses({EntityType::Procedure, "foo"},
                                     {EntityType::Wildcard, ""});
   REQUIRE(result6.isEmpty == false);

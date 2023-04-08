@@ -1,14 +1,10 @@
-#include <string>
-#include <utility>
 
 #include "catch.hpp"
-#include "pkb/storage/tables/HashKeyTable.h"
 #include "common/Types.h"
-
-using std::string;
+#include "pkb/storage/tables/HashKeyTable.h"
 
 TEST_CASE("HashKeyTable with different key value types") {
-  HashKeyTable<string, int> table;
+  HashKeyTable<EntityValue, StmtValue> table;
   table.insert("x", 1);
   table.insert("y", 4);
 
@@ -17,19 +13,19 @@ TEST_CASE("HashKeyTable with different key value types") {
 }
 
 TEST_CASE("HashKeyTable get unset key") {
-  HashKeyTable<int, int> table;
+  HashKeyTable<StmtValue, StmtValue> table;
 
   REQUIRE(table.get(10) == 0);
 }
 
 TEST_CASE("HashKeyTable get unset StmtType") {
-  HashKeyTable<int, StmtType> table;
+  HashKeyTable<StmtValue, StmtType> table;
 
   REQUIRE(table.get(10) == StmtType::None);
 }
 
 TEST_CASE("HashKeyTable get unset EntityType") {
-  HashKeyTable<int, EntityType> table;
+  HashKeyTable<StmtValue, EntityType> table;
 
   REQUIRE(table.get(10) == EntityType::None);
 }

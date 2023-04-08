@@ -1,12 +1,8 @@
-#include <string>
-#include <unordered_set>
-
 #include "catch.hpp"
+#include "common/Types.h"
 #include "pkb/errors/PKBError.h"
 #include "pkb/storage/PKB.h"
 #include "pkb/writers/PkbWriter.h"
-
-using std::string, std::unordered_set;
 
 TEST_CASE("PostProcessWriter cyclic calls throws error") {
   unique_ptr<PKB> pkb = std::make_unique<PKB>();
@@ -38,10 +34,10 @@ TEST_CASE("PostProcessWriter post process modifies relation") {
   writer.runPostProcessor();
 
   auto result1 = pkb->modifiesTable->get(1);
-  REQUIRE(result1 == unordered_set<string>({"x"}));
+  REQUIRE(result1 == EntityValueSet({"x"}));
 
   auto result2 = pkb->modifiesPTable->get("main");
-  REQUIRE(result2 == unordered_set<string>({"x"}));
+  REQUIRE(result2 == EntityValueSet({"x"}));
 }
 
 TEST_CASE("PostProcessWriter post process uses relation") {
@@ -56,10 +52,10 @@ TEST_CASE("PostProcessWriter post process uses relation") {
   writer.runPostProcessor();
 
   auto result1 = pkb->usesTable->get(1);
-  REQUIRE(result1 == unordered_set<string>({"x"}));
+  REQUIRE(result1 == EntityValueSet({"x"}));
 
   auto result2 = pkb->usesPTable->get("main");
-  REQUIRE(result2 == unordered_set<string>({"x"}));
+  REQUIRE(result2 == EntityValueSet({"x"}));
 }
 
 TEST_CASE("PostProcessWriter post process parentT relation") {
