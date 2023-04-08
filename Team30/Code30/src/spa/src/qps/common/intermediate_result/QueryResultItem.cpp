@@ -1,4 +1,5 @@
 #include "QueryResultItem.h"
+#include "qps/common/QPSTypes.h"
 
 using std::to_string;
 

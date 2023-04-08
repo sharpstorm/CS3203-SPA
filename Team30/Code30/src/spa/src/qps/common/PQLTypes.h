@@ -1,11 +1,10 @@
 #pragma once
 
 #include <string>
-#include <list>
 #include <vector>
 #include <unordered_set>
 
-using std::string, std::list, std::unordered_set, std::vector;
+using std::string, std::unordered_set, std::vector;
 
 enum PQLSynonymType {
   PQL_SYN_TYPE_VARIABLE,
@@ -38,6 +37,3 @@ const int PQL_SYN_STMT_MASK = PQL_SYN_TYPE_STMT;
 typedef string PQLSynonymName;
 typedef unordered_set<PQLSynonymName> PQLSynonymNameSet;
 typedef vector<PQLSynonymName> PQLSynonymNameList;
-
-typedef string ProjectedValue;
-typedef list<ProjectedValue> QPSOutputList;
