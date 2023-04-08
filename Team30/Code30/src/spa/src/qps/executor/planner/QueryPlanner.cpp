@@ -1,8 +1,11 @@
 #include "QueryPlanner.h"
 
 #include <utility>
+#include <memory>
 
 #include "qps/executor/planner/grouping/QueryGrouper.h"
+
+using std::make_unique;
 
 QueryPlanPtr QueryPlanner::getExecutionPlan(const PQLQuery *targetQuery,
                                             const OverrideTable *overrides)

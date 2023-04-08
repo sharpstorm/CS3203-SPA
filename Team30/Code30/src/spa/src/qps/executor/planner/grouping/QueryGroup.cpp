@@ -45,7 +45,7 @@ const GroupClauseIndexSet *QueryGroup::getRelated(
   return &edgeList[evalId];
 }
 
-QueryGroupPlanPtr QueryGroup::toPlan(IEvaluatableRefList &newEvals,
+QueryGroupPlanPtr QueryGroup::toPlan(const IEvaluatableRefList &newEvals,
                                      const ComplexityScore &score) {
   QueryGroupPlanPtr plan = make_unique<QueryGroupPlan>(newEvals,
                                                        selectables,

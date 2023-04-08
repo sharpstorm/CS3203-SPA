@@ -26,7 +26,7 @@ class QueryGroup {
   IEvaluatable *getEvaluatable(const GroupClauseIndex evalId) const;
   const GroupClauseIndexSet *getRelated(const GroupClauseIndex evalId) const;
 
-  QueryGroupPlanPtr toPlan(IEvaluatableRefList &evaluatables,
+  QueryGroupPlanPtr toPlan(const IEvaluatableRefList &evaluatables,
                            const ComplexityScore &score);
 
  private:
