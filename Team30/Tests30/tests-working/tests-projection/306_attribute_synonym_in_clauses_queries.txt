@@ -1,0 +1,225 @@
+1 - Select Statement (Variable) (Follows)
+stmt s1,s2;
+Select s1 such that Follows(s1.stmt#, s2)
+SyntaxError
+5000
+2 - Select Statement (Variable) (Follows)
+stmt s1,s2;
+Select s1 such that Follows(s1, s2.stmt#)
+SyntaxError
+5000
+3 - Select Statement (Variable) (Follows)
+stmt s1,s2;
+Select s1 such that Follows(s1.stmt#, s2.stmt#)
+SyntaxError
+5000
+4 - Select Statement (Variable) (Follows)
+stmt s1;
+Select s1 such that Follows(s1, s1.stmt#)
+SyntaxError
+5000
+5 - Select Statement (Variable) (Follows)
+stmt s1;
+Select s1 such that Follows(s1.stmt#, s1)
+SyntaxError
+5000
+6 - Select Statement (Variable) (Follows)
+stmt s1;
+Select s1 such that Follows(s1.stmt#, s1.stmt#)
+SyntaxError
+5000
+7 - Select Statement (Read) (Follows)
+read s1,s2;
+Select s1 such that Follows(s1.stmt#, s2)
+SyntaxError
+5000
+8 - Select Statement (Read) (Follows)
+read s1,s2;
+Select s1 such that Follows(s1, s2.stmt#)
+SyntaxError
+5000
+9 - Select Statement (Read) (Follows)
+read s1,s2;
+Select s1 such that Follows(s1.stmt#, s2.stmt#)
+SyntaxError
+5000
+10 - Select Statement (Read) (Follows)
+read s1;
+Select s1 such that Follows(s1, s1.stmt#)
+SyntaxError
+5000
+11 - Select Statement (Read) (Follows)
+read s1;
+Select s1 such that Follows(s1.stmt#, s1)
+SyntaxError
+5000
+12 - Select Statement (Read) (Follows)
+read s1;
+Select s1 such that Follows(s1.stmt#, s1.stmt#)
+SyntaxError
+5000
+13 - Select Statement (Print) (Follows)
+print s1,s2;
+Select s1 such that Follows(s1.stmt#, s2)
+SyntaxError
+5000
+14 - Select Statement (Print) (Follows)
+print s1,s2;
+Select s1 such that Follows(s1, s2.stmt#)
+SyntaxError
+5000
+15 - Select Statement (Print) (Follows)
+print s1,s2;
+Select s1 such that Follows(s1.stmt#, s2.stmt#)
+SyntaxError
+5000
+16 - Select Statement (Print) (Follows)
+print s1;
+Select s1 such that Follows(s1, s1.stmt#)
+SyntaxError
+5000
+17 - Select Statement (Print) (Follows)
+print s1;
+Select s1 such that Follows(s1.stmt#, s1)
+SyntaxError
+5000
+18 - Select Statement (Print) (Follows)
+print s1;
+Select s1 such that Follows(s1.stmt#, s1.stmt#)
+SyntaxError
+5000
+19 - Select Statement (Assign) (Follows)
+assign s1,s2;
+Select s1 such that Follows(s1.stmt#, s2)
+SyntaxError
+5000
+20 - Select Statement (Assign) (Follows)
+assign s1,s2;
+Select s1 such that Follows(s1, s2.stmt#)
+SyntaxError
+5000
+21 - Select Statement (Assign) (Follows)
+assign s1,s2;
+Select s1 such that Follows(s1.stmt#, s2.stmt#)
+SyntaxError
+5000
+22 - Select Statement (Assign) (Follows)
+assign s1;
+Select s1 such that Follows(s1, s1.stmt#)
+SyntaxError
+5000
+23 - Select Statement (Assign) (Follows)
+assign s1;
+Select s1 such that Follows(s1.stmt#, s1)
+SyntaxError
+5000
+24 - Select Statement (Assign) (Follows)
+assign s1;
+Select s1 such that Follows(s1.stmt#, s1.stmt#)
+SyntaxError
+5000
+25 - Select Statement (Call) (Follows)
+call s1,s2;
+Select s1 such that Follows(s1.stmt#, s2)
+SyntaxError
+5000
+26 - Select Statement (Call) (Follows)
+call s1,s2;
+Select s1 such that Follows(s1, s2.stmt#)
+SyntaxError
+5000
+27 - Select Statement (Call) (Follows)
+call s1,s2;
+Select s1 such that Follows(s1.stmt#, s2.stmt#)
+SyntaxError
+5000
+28 - Select Statement (Call) (Follows)
+call s1;
+Select s1 such that Follows(s1, s1.stmt#)
+SyntaxError
+5000
+29 - Select Statement (Call) (Follows)
+call s1;
+Select s1 such that Follows(s1.stmt#, s1)
+SyntaxError
+5000
+30 - Select Statement (Call) (Follows)
+call s1;
+Select s1 such that Follows(s1.stmt#, s1.stmt#)
+SyntaxError
+5000
+31 - Select Statement (If) (Follows)
+if s1,s2;
+Select s1 such that Follows(s1.stmt#, s2)
+SyntaxError
+5000
+32 - Select Statement (If) (Follows)
+if s1,s2;
+Select s1 such that Follows(s1, s2.stmt#)
+SyntaxError
+5000
+33 - Select Statement (If) (Follows)
+if s1,s2;
+Select s1 such that Follows(s1.stmt#, s2.stmt#)
+SyntaxError
+5000
+34 - Select Statement (If) (Follows)
+if s1;
+Select s1 such that Follows(s1, s1.stmt#)
+SyntaxError
+5000
+35 - Select Statement (If) (Follows)
+if s1;
+Select s1 such that Follows(s1.stmt#, s1)
+SyntaxError
+5000
+36 - Select Statement (If) (Follows)
+if s1;
+Select s1 such that Follows(s1.stmt#, s1.stmt#)
+SyntaxError
+5000
+37 - Select Statement (While) (Follows)
+while s1,s2;
+Select s1 such that Follows(s1.stmt#, s2)
+SyntaxError
+5000
+38 - Select Statement (While) (Follows)
+while s1,s2;
+Select s1 such that Follows(s1, s2.stmt#)
+SyntaxError
+5000
+39 - Select Statement (While) (Follows)
+while s1,s2;
+Select s1 such that Follows(s1.stmt#, s2.stmt#)
+SyntaxError
+5000
+40 - Select Statement (While) (Follows)
+while s1;
+Select s1 such that Follows(s1, s1.stmt#)
+SyntaxError
+5000
+41 - Select Statement (While) (Follows)
+while s1;
+Select s1 such that Follows(s1.stmt#, s1)
+SyntaxError
+5000
+42 - Select Statement (While) (Follows)
+while s1;
+Select s1 such that Follows(s1.stmt#, s1.stmt#)
+SyntaxError
+5000
+43 - Select Statement (While) (Uses)
+stmt s; variable varName;
+Select s such that Uses(s, varName.varName)
+SyntaxError
+5000
+44 - Select Statement (While) (Uses)
+stmt s; variable varName;
+Select s such that Uses(s.stmt#, varName)
+SyntaxError
+5000
+45 - NEGATIVE Select Statement (While) (Uses)
+stmt stmt; variable varName;
+Select stmt such that Uses(stmt, varName)
+1,6,8,9,10,11,12,14
+5000
