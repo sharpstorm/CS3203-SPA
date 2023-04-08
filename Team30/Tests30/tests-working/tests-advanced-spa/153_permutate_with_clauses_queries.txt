@@ -1,0 +1,244 @@
+1 - Follows (left syn) (with result)
+stmt s1, s2;
+Select s1 such that Follows(s1, s2) with s1.stmt# = 1
+1
+5000
+2 - Follows (left syn) (no result)
+stmt s1, s2;
+Select s1 such that Follows(s1, s2) with s1.stmt# = 14
+
+5000
+3 - Follows (right syn) (with result)
+stmt s1, s2;
+Select s2 such that Follows(s1, s2) with s2.stmt# = 2
+2
+5000
+4 - Follows (right syn) (no result)
+stmt s1, s2;
+Select s2 such that Follows(s1, s2) with s2.stmt# = 23
+
+5000
+5 - Follows (type checking left) (with result)
+stmt s; print pn;
+Select pn such that Follows(pn, s) with pn.stmt# = 16
+16
+5000
+6 - Follows (type checking left) (no result)
+stmt s; print pn;
+Select pn such that Follows(pn, s) with pn.stmt# = 1
+
+5000
+7 - Follows (type checking right) (with result)
+stmt s; print pn;
+Select pn such that Follows(s, pn) with pn.stmt# = 14
+14
+5000
+8 - Follows (type checking right) (no result)
+stmt s; print pn;
+Select pn such that Follows(s, pn) with pn.stmt# = 13
+
+5000
+9 - Follows* (left syn) (with result)
+stmt s1, s2;
+Select s1 such that Follows*(s1, s2) with s1.stmt# = 1
+1
+5000
+10 - Follows* (left syn) (no result)
+stmt s1, s2;
+Select s1 such that Follows*(s1, s2) with s1.stmt# = 14
+
+5000
+11 - Follows* (right syn) (with result)
+stmt s1, s2;
+Select s2 such that Follows*(s1, s2) with s2.stmt# = 2
+2
+5000
+12 - Follows* (right syn) (no result)
+stmt s1, s2;
+Select s2 such that Follows*(s1, s2) with s2.stmt# = 23
+
+5000
+13 - Follows* (type checking left) (with result)
+stmt s; print pn;
+Select pn such that Follows*(pn, s) with pn.stmt# = 16
+16
+5000
+14 - Follows* (type checking left) (no result)
+stmt s; print pn;
+Select pn such that Follows*(pn, s) with pn.stmt# = 1
+
+5000
+15 - Follows* (type checking right) (with result)
+stmt s; print pn;
+Select pn such that Follows*(s, pn) with pn.stmt# = 14
+14
+5000
+16 - Follows* (type checking right) (no result)
+stmt s; print pn;
+Select pn such that Follows*(s, pn) with pn.stmt# = 13
+
+5000
+17 - Uses (left syn) (with result)
+stmt s1; variable v;
+Select s1 such that Uses(s1, v) with s1.stmt# = 2
+2
+5000
+18 - Uses (left syn) (no result)
+stmt s1; variable v;
+Select s1 such that Uses(s1, v) with s1.stmt# = 1
+
+5000
+19 - Uses (right syn) (with result)
+stmt s1; variable v;
+Select v such that Uses(s1, v) with s1.stmt# = 2
+x
+5000
+20 - Uses (right syn) (no result)
+stmt s1; variable v;
+Select v such that Uses(s1, v) with s1.stmt# = 1
+
+5000
+21 - Uses (type checking left) (with result)
+stmt s; print pn; variable v;
+Select pn such that Uses(pn, v) with pn.stmt# = 16
+16
+5000
+22 - Uses (type checking left) (no result)
+stmt s; print pn; variable v;
+Select pn such that Uses(pn, v) with pn.stmt# = 1
+
+5000
+23 - Uses (type checking right) (with result)
+stmt s; print pn; variable v;
+Select v such that Uses(s, v) with v.varName = "x" 
+x
+5000
+24 - Uses (type checking right) (no result)
+stmt s; print pn; variable v;
+Select v such that Uses(s, v) with v.varName = "fafnir"
+
+5000
+25 - Modifies (left syn) (with result)
+stmt s1; variable v;
+Select s1 such that Modifies(s1, v) with s1.stmt# = 2
+2
+5000
+26 - Modifies (left syn) (no result)
+stmt s1; variable v;
+Select s1 such that Modifies(s1, v) with s1.stmt# = 5
+
+5000
+27 - Modifies (right syn) (with result)
+stmt s1; variable v;
+Select v such that Modifies(s1, v) with s1.stmt# = 2
+a
+5000
+28 - Modifies (right syn) (no result)
+stmt s1; variable v;
+Select v such that Modifies(s1, v) with s1.stmt# = 5
+
+5000
+29 - Modifies (type checking left) (with result)
+stmt s; read r; variable v;
+Select r such that Modifies(r, v) with r.stmt# = 15
+15
+5000
+30 - Modifies (type checking left) (no result)
+stmt s; print r; variable v;
+Select r such that Modifies(r, v) with r.stmt# = 2
+
+5000
+31 - Modifies (type checking right) (with result)
+stmt s; print r; variable v;
+Select v such that Modifies(s, v) with v.varName = "x" 
+x
+5000
+32 - Modifies (type checking right) (no result)
+stmt s; print r; variable v;
+Select v such that Modifies(s, v) with v.varName = "fafnir"
+
+5000
+
+
+33 - Next (left syn) (with result)
+stmt s1, s2;
+Select s1 such that Next(s1, s2) with s1.stmt# = 1
+1
+5000
+34 - Next (left syn) (no result)
+stmt s1, s2;
+Select s1 such that Next(s1, s2) with s1.stmt# = 14
+
+5000
+35 - Next (right syn) (with result)
+stmt s1, s2;
+Select s2 such that Next(s1, s2) with s2.stmt# = 2
+2
+5000
+36 - Next (right syn) (no result)
+stmt s1, s2;
+Select s2 such that Next(s1, s2) with s2.stmt# = 23
+
+5000
+37 - Next (type checking left) (with result)
+stmt s; print pn;
+Select pn such that Next(pn, s) with pn.stmt# = 16
+16
+5000
+38 - Next (type checking left) (no result)
+stmt s; print pn;
+Select pn such that Next(pn, s) with pn.stmt# = 1
+
+5000
+39 - Next (type checking right) (with result)
+stmt s; print pn;
+Select pn such that Next(s, pn) with pn.stmt# = 14
+14
+5000
+40 - Next (type checking right) (no result)
+stmt s; print pn;
+Select pn such that Next(s, pn) with pn.stmt# = 13
+
+5000
+
+
+41 - Next* (left syn) (with result)
+stmt s1, s2;
+Select s1 such that Next*(s1, s2) with s1.stmt# = 1
+1
+5000
+42 - Next* (left syn) (no result)
+stmt s1, s2;
+Select s1 such that Next*(s1, s2) with s1.stmt# = 14
+
+5000
+43 - Next* (right syn) (with result)
+stmt s1, s2;
+Select s2 such that Next*(s1, s2) with s2.stmt# = 2
+2
+5000
+44 - Next* (right syn) (no result)
+stmt s1, s2;
+Select s2 such that Next*(s1, s2) with s2.stmt# = 23
+
+5000
+45 - Next* (type checking left) (with result)
+stmt s; print pn;
+Select pn such that Next*(pn, s) with pn.stmt# = 16
+16
+5000
+46 - Next* (type checking left) (no result)
+stmt s; print pn;
+Select pn such that Next*(pn, s) with pn.stmt# = 1
+
+5000
+47 - Next* (type checking right) (with result)
+stmt s; print pn;
+Select pn such that Next*(s, pn) with pn.stmt# = 14
+14
+5000
+48 - Next* (type checking right) (no result)
+stmt s; print pn;
+Select pn such that Next*(s, pn) with pn.stmt# = 13
+
+5000
