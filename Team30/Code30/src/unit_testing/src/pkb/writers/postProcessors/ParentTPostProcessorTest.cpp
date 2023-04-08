@@ -17,9 +17,9 @@ TEST_CASE("ParentTPostProcessor") {
   writer.addParent(1, 2);
   writer.addParent(1, 7);
   writer.addParent(2, 3);
+  writer.addParent(3, 6);
   writer.addParent(3, 4);
   writer.addParent(3, 5);
-  writer.addParent(3, 6);
   writer.addFollows(1, 8);
   writer.addFollows(2, 7);
   writer.addFollows(4, 5);
