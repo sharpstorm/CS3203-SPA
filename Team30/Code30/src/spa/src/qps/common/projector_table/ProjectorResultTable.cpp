@@ -30,7 +30,7 @@ bool ProjectorResultTable::operator==(const ProjectorResultTable &srt) const {
   }
 
   for (int i = 0; i < groupResults.size(); i++) {
-    if (*groupResults[i].get() == *srt.groupResults[i].get()) {
+    if (*groupResults[i] == *srt.groupResults[i]) {
       continue;
     } else {
       return false;
@@ -46,7 +46,7 @@ int ProjectorResultTable::getFinalRowCount() const {
   }
 
   int resultSize = groupResults.at(0)->getRowCount();
-  for (int i = 1; i < groupResults.size(); i++) {
+  for (size_t i = 1; i < groupResults.size(); i++) {
     resultSize *= groupResults.at(i)->getRowCount();
   }
 
@@ -64,7 +64,7 @@ ProjectorIndex ProjectorResultTable::buildProjectionIndex(
           ->getSynonymCol(it->getName());
       if (col != ProjectorResultGroup::NO_COL) {
         ResultItemProjector itemProjector(pkbHandler, &(*it));
-        ret.emplace_back(ProjectorInstruction(groupId, col, itemProjector));
+        ret.push_back(ProjectorInstruction(groupId, col, itemProjector));
       }
     }
   }
@@ -75,7 +75,7 @@ ProjectorIndex ProjectorResultTable::buildProjectionIndex(
 void ProjectorResultTable::projectTo(QPSOutputList *output,
                                      const ProjectorIndex &index) const {
   int finalRowCount = getFinalRowCount();
-  vector<int> rowIndexes(groupResults.size(), 0);
+  vector<ResultTableRow> rowIndexes(groupResults.size(), 0);
 
   ProjectedValue rowOut;
   rowOut.reserve(1024);
@@ -87,9 +87,9 @@ void ProjectorResultTable::projectTo(QPSOutputList *output,
 }
 
 void ProjectorResultTable::populateIndexes(RowIndexes *indexes,
-                                           const int outputRow) const {
-  int workingRow = outputRow;
-  for (int i = 0; i < groupResults.size(); i++) {
+                                           const ProjectedRow outputRow) const {
+  ProjectedRow workingRow = outputRow;
+  for (size_t i = 0; i < groupResults.size(); i++) {
     int groupSize = groupResults.at(i)->getRowCount();
     indexes->at(i) = workingRow % groupSize;
     workingRow /= groupSize;
@@ -99,16 +99,21 @@ void ProjectorResultTable::populateIndexes(RowIndexes *indexes,
 void ProjectorResultTable::projectForRow(const ProjectorIndex &index,
                                          const RowIndexes *row,
                                          ProjectedValue *outputCache) const {
-  int groupRow;
+  ResultGroupId groupId;
+  ResultTableCol groupCol;
+  ResultTableRow groupRow;
   outputCache->clear();
-  for (int indexPos = 0; indexPos < index.size(); indexPos++) {
-    const ProjectorInstruction &inst = index.at(indexPos);
-    groupRow = row->at(inst.getGroupId());
-    QueryResultItem *item = groupResults.at(inst.getGroupId())
-        ->getRowAt(groupRow)
-        ->at(inst.getTableCol());
-    *outputCache += inst.project(item);
 
+  for (size_t indexPos = 0; indexPos < index.size(); indexPos++) {
+    const ProjectorInstruction &inst = index.at(indexPos);
+    groupId = inst.getGroupId();
+    groupCol = inst.getTableCol();
+    groupRow = row->at(groupId);
+
+    const QueryResultItem *item = groupResults.at(groupId)
+        ->getEntryAt(groupRow, groupCol);
+
+    *outputCache += inst.project(item);
     if (indexPos >= index.size() - 1) {
       continue;
     }

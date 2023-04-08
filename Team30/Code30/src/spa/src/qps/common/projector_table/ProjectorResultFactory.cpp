@@ -18,10 +18,12 @@ ResultGroupPtr ProjectorResultFactory::extractResults(
 
   for (const ResultTableRow &rowIdx : rowsToTake) {
     const QueryResultTableRow *tableRow = result->getTableRowAt(rowIdx);
-    QueryResultTableRow newRow{};
+    QueryResultTableRow newRow;
+    newRow.reserve(syns->size());
+
     for (const PQLSynonymName &syn : *syns) {
       ResultTableCol tableCol = result->getSynonymCol(syn);
-      newRow.push_back(tableRow->at(tableCol));
+      newRow.emplace_back(tableRow->at(tableCol));
     }
     resultGroup->addRow(newRow);
   }
@@ -34,6 +36,7 @@ IntersectSet<ResultTableRow> ProjectorResultFactory::getUniqueRows(
   IntersectSet<ResultTableRow> rowsToTake;
   IntersectSet<ResultTableRow> ignoreRows;
   int rowCounts = result->getRowCount();
+
   for (int i = 0; i < rowCounts; i++) {
     if (ignoreRows.find(i) != ignoreRows.end()) {
       continue;
@@ -41,9 +44,10 @@ IntersectSet<ResultTableRow> ProjectorResultFactory::getUniqueRows(
     RowSetPtr currentIgnoreRows = make_unique<RowSet>();
 
     rowsToTake.insert(i);
+    const QueryResultTableRow *currRow = result->getTableRowAt(i);
+
     for (const PQLSynonymName &syn : *syns) {
       ResultTableCol colIdx = result->getSynonymCol(syn);
-      const QueryResultTableRow *currRow = result->getTableRowAt(i);
       RowSetPtr rows = result->getRowsWithValue(colIdx,
                                                 currRow->at(colIdx));
       if (currentIgnoreRows->empty()) {

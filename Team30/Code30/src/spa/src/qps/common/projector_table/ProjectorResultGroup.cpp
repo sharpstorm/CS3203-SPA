@@ -5,46 +5,46 @@
 
 using std::make_unique, std::to_string;
 
-void ProjectorResultGroup::addRow(const QueryResultTableRow &row) {
+void ProjectorResultGroup::addRow(const ProjectorTableRow &row) {
   groupTable.push_back(row);
 }
 
 void ProjectorResultGroup::addSynonym(const PQLSynonymName &name) {
-  int curIndex = colIdx.size();
-  colMap.emplace(name, curIndex);
-  colIdx.push_back(name);
+  ProjectorResultCol curIndex = synIndex.size();
+  synIndex.emplace(name, curIndex);
 }
 
 int ProjectorResultGroup::getRowCount() const {
   return groupTable.size();
 }
 
-const QueryResultTableRow *ProjectorResultGroup::getRowAt(
-    const ProjectorResultRow idx) const {
-  return &groupTable.at(idx);
+const QueryResultItem *ProjectorResultGroup::getEntryAt(
+    const ProjectorResultRow row,
+    const ProjectorResultCol col) const {
+  return groupTable.at(row).at(col);
 }
 
 QueryResultItemPool *ProjectorResultGroup::getOwnedPool() {
   return &ownedItems;
 }
 
-ResultTableCol ProjectorResultGroup::getSynonymCol(const PQLSynonymName &name)
-const {
-  auto it = colMap.find(name);
-  if (it == colMap.end()) {
+ProjectorResultCol ProjectorResultGroup::getSynonymCol(
+    const PQLSynonymName &name) const {
+  const auto it = synIndex.find(name);
+  if (it == synIndex.end()) {
     return NO_COL;
   }
   return it->second;
 }
 
 bool ProjectorResultGroup::operator==(const ProjectorResultGroup &rg) const {
-  if (colMap.size() != rg.colMap.size() ||
+  if (synIndex.size() != rg.synIndex.size() ||
       groupTable.size() != groupTable.size()) {
     return false;
   }
 
-  for (const auto &it : colMap) {
-    if (rg.colMap.find(it.first) == rg.colMap.end()) {
+  for (const auto &it : synIndex) {
+    if (rg.synIndex.find(it.first) == rg.synIndex.end()) {
       return false;
     }
   }
@@ -58,7 +58,7 @@ bool ProjectorResultGroup::operator==(const ProjectorResultGroup &rg) const {
   return true;
 }
 
-bool ProjectorResultGroup::hasRowIn(const QueryResultTableRow &target,
+bool ProjectorResultGroup::hasRowIn(const ProjectorTableRow &target,
                                     const ProjectorResultGroup &haystack)
 const {
   for (int j = 0; j < haystack.groupTable.size(); j++) {
@@ -68,9 +68,9 @@ const {
     }
 
     // Go through all the synonyms
-    for (const auto &it : haystack.colMap) {
+    for (const auto &it : haystack.synIndex) {
       ProjectorResultCol otherIdx = it.second;
-      ProjectorResultCol thisIdx = colMap.at(it.first);
+      ProjectorResultCol thisIdx = synIndex.at(it.first);
 
       if (*target[thisIdx] == *haystack.groupTable[j][otherIdx]) {
         return true;

@@ -3,9 +3,6 @@
 #include <vector>
 
 #include "ProjectorResultGroup.h"
-#include "common/SetUtils.h"
-#include "qps/common/intermediate_result/PQLQueryResult.h"
-#include "qps/common/IConstraint.h"
 #include "qps/projector/ProjectorInstruction.h"
 #include "qps/common/QPSTypes.h"
 
@@ -13,12 +10,14 @@ using std::vector;
 
 class ProjectorResultTable {
   typedef vector<ProjectorResultRow> RowIndexes;
+  typedef int ProjectedRow;
 
   vector<ResultGroupPtr> groupResults;
   bool isBooleanResult;
   bool booleanResult;
 
-  void populateIndexes(RowIndexes *indexes, const int outputRow) const;
+  void populateIndexes(RowIndexes *indexes,
+                       const ProjectedRow outputRow) const;
   void projectForRow(const ProjectorIndex &index,
                      const RowIndexes *row,
                      ProjectedValue *outputCache) const;
