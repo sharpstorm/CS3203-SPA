@@ -73,7 +73,7 @@ class TestQueryResultBuilder {
   }
 
   static unique_ptr<ProjectableTable> buildExpectedTable(const ExpectedParams &expectedParams, AttributedSynonymList* syns) {
-    auto result = make_unique<ProjectableTable>(syns->empty(), true);
+    auto result = make_unique<ProjectableTable>(true);
     vector<PQLSynonymName>* names = new vector<PQLSynonymName>();
     for (auto it : *syns) {
       names->push_back(it.getName());
@@ -89,7 +89,7 @@ class TestQueryResultBuilder {
   template <class ...ExpectedParams>
   static unique_ptr<ProjectableTable> buildExpectedTable(AttributedSynonymList* syns,
                                                          const ExpectedParams&... expectedParams) {
-    auto result = make_unique<ProjectableTable>(syns->empty(), true);
+    auto result = make_unique<ProjectableTable>(true);
     ([&]
     {
       auto queryResult = buildExpected(expectedParams);
@@ -104,7 +104,7 @@ class TestQueryResultBuilder {
   }
 
   static unique_ptr<ProjectableTable> buildExpectedTable(vector<ExpectedParams> paramsList) {
-    auto result = make_unique<ProjectableTable>(paramsList.empty() , true);
+    auto result = make_unique<ProjectableTable>(true);
 
     for (size_t i = 0; i < paramsList.size() ;i++) {
       ExpectedParams params = paramsList[i];

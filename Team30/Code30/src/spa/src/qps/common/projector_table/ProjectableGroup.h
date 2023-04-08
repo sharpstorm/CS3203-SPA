@@ -40,3 +40,4 @@ class ProjectableGroup {
 };
 
 typedef unique_ptr<ProjectableGroup> ProjectableGroupPtr;
+typedef vector<ProjectableGroupPtr> ProjectableGroupPtrList;

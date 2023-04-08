@@ -17,7 +17,6 @@ class QueryPlan {
   int getGroupCount() const;
   const QueryGroupPlan *getGroup(const QueryPlanGroupId groupId) const;
   bool isEmpty() const;
-  bool isBooleanQuery() const;
 
  private:
   vector<QueryGroupPlanPtr> clauseGroups;

@@ -12,17 +12,16 @@ QueryExecutor::QueryExecutor(const PkbQueryHandler *pkbQH) :
 
 ProjectableTable *QueryExecutor::executeQuery(PQLQuery *query) {
   OverrideTable overrideTable;
-  bool isBoolResult = query->isBooleanResult();
 
   bool areConstraintsResolved = query->resolveConstraints(&overrideTable);
   if (!areConstraintsResolved) {
-    return new ProjectableTable(isBoolResult, false);
+    return new ProjectableTable(false);
   }
 
   QueryPlanPtr plan = planner.getExecutionPlan(query, &overrideTable);
   // Query just have constraints
   if (plan->isEmpty()) {
-    return new ProjectableTable(isBoolResult, true);
+    return new ProjectableTable(true);
   }
 
   return orchestrator.execute(plan.get(), &overrideTable);

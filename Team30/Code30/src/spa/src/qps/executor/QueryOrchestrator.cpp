@@ -14,13 +14,12 @@ QueryOrchestrator::QueryOrchestrator(QueryLauncher launcher) :
 ProjectableTable *QueryOrchestrator::execute(
     const QueryPlan *plan,
     const OverrideTable* overrideTable) const {
-  bool isBool = plan->isBooleanQuery();
   if (plan->isEmpty()) {
-    return new ProjectableTable(isBool, false);
+    return new ProjectableTable(false);
   }
 
   QueryCache cache;
-  ProjectableTable* resultTable = new ProjectableTable(isBool, true);
+  ProjectableTable* resultTable = new ProjectableTable(true);
   for (int i = 0; i < plan->getGroupCount(); i++) {
     const QueryGroupPlan* targetGroup = plan->getGroup(i);
     PQLQueryResult* result = executeGroup(targetGroup, overrideTable, &cache);
@@ -29,7 +28,7 @@ ProjectableTable *QueryOrchestrator::execute(
     if (result->isFalse()) {
       delete resultTable;
       delete result;
-      return new ProjectableTable(isBool, false);
+      return new ProjectableTable(false);
     }
 
     if (targetGroup->isBooleanResult()) {

@@ -66,13 +66,13 @@ TEST_CASE("Projection on BOOLEAN") {
   unique_ptr<ProjectableTable> result;
   vector<AttributedSynonym> emptyAttr = vector<AttributedSynonym>();
 
-  result = make_unique<ProjectableTable>(true, true);
+  result = make_unique<ProjectableTable>(true);
   expected = UniqueVectorPtr<string>(new vector<string>({"TRUE"}));
   projector->project(result.get(), &emptyAttr, &actual);
   testResultProjection(expected.get(), &actual);
 
   actual = list<ProjectedValue>();
-  result = make_unique<ProjectableTable>(true, false);
+  result = make_unique<ProjectableTable>(false);
   expected = UniqueVectorPtr<string>(new vector<string>({"FALSE"}));
   projector->project(result.get(), &emptyAttr, &actual);
   testResultProjection(expected.get(), &actual);
@@ -82,7 +82,7 @@ TEST_CASE("Project when result is static") {
   PKB pkbStore;
   unique_ptr<PkbQueryHandler> pkbQH = make_unique<PkbQueryHandler>(&pkbStore);
   unique_ptr<ResultProjector> projector = make_unique<ResultProjector>(pkbQH.get());
-  ProjectableTable result(false, true);
+  ProjectableTable result(true);
   QPSOutputList projectedResult;
   projector->project(&result, &TARGET_RESULT_VARS, &projectedResult);
   REQUIRE(projectedResult.empty());
