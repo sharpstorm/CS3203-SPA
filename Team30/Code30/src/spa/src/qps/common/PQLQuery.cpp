@@ -44,10 +44,6 @@ int PQLQuery::getClauseCount() const {
   return clauses.size();
 }
 
-bool PQLQuery::isBooleanResult() const {
-  return resultVariables.empty();
-}
-
 int PQLQuery::getDeclaredVariableCount() const {
   return variables->size();
 }

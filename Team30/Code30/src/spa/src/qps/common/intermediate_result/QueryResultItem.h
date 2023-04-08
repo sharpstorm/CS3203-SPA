@@ -48,7 +48,8 @@ using QueryResultItemMap = unordered_map<QueryResultItem, T,
                                          QueryResultItem::hasher>;
 
 template<class ProjectionClosure>
-ProjectedValue QueryResultItem::projectAttribute(StmtAttributeProjector<
-    ProjectionClosure> projector, const ProjectionClosure *closure) const {
+ProjectedValue QueryResultItem::projectAttribute(
+    StmtAttributeProjector<ProjectionClosure> projector,
+    const ProjectionClosure *closure) const {
   return projector(stmtRef, closure);
 }

@@ -1,8 +1,5 @@
 #include "OrphanedResultItemPool.h"
 
-OrphanedResultItemPool::OrphanedResultItemPool(
-    const QueryResultItemMapping &mapping) : lookupMap(mapping) {}
-
 void OrphanedResultItemPool::adopt(QueryResultItemPtr item) {
   owned.push_back(std::move(item));
 }
@@ -14,4 +11,9 @@ QueryResultItem *OrphanedResultItemPool::getMappingFor(QueryResultItem *item) {
   }
 
   return it->second;
+}
+
+void OrphanedResultItemPool::insertMapping(QueryResultItem *from,
+                                           QueryResultItem *to) {
+  lookupMap.emplace(from, to);
 }

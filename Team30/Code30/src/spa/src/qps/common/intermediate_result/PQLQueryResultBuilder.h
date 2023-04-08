@@ -97,13 +97,13 @@ template<class T, class U>
 PQLQueryResult *PQLQueryResultBuilder<T, U>::build(
     const QueryResult<T, U> *queryResult) {
   if (!isLeftNamed && !isRightNamed) {
-    inProgress->setIsStaticFalse(queryResult->isEmpty);
+    inProgress->setIsStaticFalse(queryResult->empty());
   } else if (isLeftNamed && isRightNamed) {
     populateTwoNamed(queryResult);
   } else if (isLeftNamed) {
-    populateLeftNamed(queryResult->firstArgVals, queryResult->isEmpty);
+    populateLeftNamed(queryResult->getLeftVals(), queryResult->empty());
   } else if (isRightNamed) {
-    populateRightNamed(queryResult->secondArgVals, queryResult->isEmpty);
+    populateRightNamed(queryResult->getRightVals(), queryResult->empty());
   }
 
   PQLQueryResult *result = inProgress.get();
@@ -129,19 +129,19 @@ template<class T, class U>
 void PQLQueryResultBuilder<T, U>::populateTwoNamed(
     const QueryResult<T, U> *queryResult) {
   if (isLeftKnown && isRightKnown) {
-    if (!queryResult->isEmpty) {
-      pair_set<T, U> dummySet;
+    if (!queryResult->empty()) {
+      QueryResultPairSet<T, U> dummySet;
       dummySet.insert(pair<T, U>{leftValue, rightValue});
       inProgress->add(leftName, rightName, dummySet);
     }
   } else if (isLeftKnown) {
     inProgress->addLeftConst(leftName, rightName,
-                             leftValue, queryResult->secondArgVals);
+                             leftValue, queryResult->getRightVals());
   } else if (isRightKnown) {
     inProgress->addRightConst(leftName, rightName,
-                              queryResult->firstArgVals, rightValue);
+                              queryResult->getLeftVals(), rightValue);
   } else {
-    inProgress->add(leftName, rightName, queryResult->pairVals);
+    inProgress->add(leftName, rightName, queryResult->getPairVals());
   }
 }
 

@@ -35,7 +35,6 @@ class PQLQuery {
   bool resolveConstraints(OverrideTable *tableOut);
 
   int getClauseCount() const;
-  bool isBooleanResult() const;
 };
 
 typedef unique_ptr<PQLQuery> PQLQueryPtr;

@@ -120,6 +120,26 @@ class QueryResult {
     isEmpty = false;
     secondArgVals.insert(second);
   }
+
+  void setNotEmpty() {
+    isEmpty = false;
+  }
+
+  const QueryResultSet<T>& getLeftVals() const {
+    return firstArgVals;
+  }
+
+  const QueryResultSet<U>& getRightVals() const {
+    return secondArgVals;
+  }
+
+  const QueryResultPairSet<T, U>& getPairVals() const {
+    return pairVals;
+  }
+
+  bool empty() const {
+    return isEmpty;
+  }
 };
 
 template<typename T, typename U>
