@@ -59,3 +59,10 @@ TEST_CASE("Constant Incomparable Constraint") {
   REQUIRE_FALSE(constraint.validateConstraint());
 }
 
+TEST_CASE("Affected Syn Test") {
+  auto leftArg = make_unique<WithArgument>(1);
+  auto rightArg = make_unique<WithArgument>(2);
+  ConstantConstraint constraint(std::move(leftArg), std::move(rightArg));
+  REQUIRE(constraint.getAffectedSyns().empty());
+}
+

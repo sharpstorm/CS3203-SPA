@@ -13,6 +13,21 @@ VariableTable buildVarTable(unordered_map<PQLSynonymName, PQLSynonymType> syns) 
   return ret;
 }
 
+TEST_CASE("Synonym Constraint - Get Affected Syns") {
+  VariableTable varTable = buildVarTable(
+      {
+          {"s1", PQL_SYN_TYPE_STMT},
+          {"s2", PQL_SYN_TYPE_STMT},
+      });
+  varTable.finalizeTable();
+  SynonymProxyBuilder builder(&varTable);
+  OverrideTable overrides;
+
+  SynonymConstraint constraint("s1", "s2");
+  vector<PQLSynonymName> expected = vector<PQLSynonymName>({"s1", "s2"});
+  REQUIRE(expected == constraint.getAffectedSyns());
+}
+
 TEST_CASE("Synonym Constraint - Equal Level") {
   vector<PQLSynonymType> types = {
       PQL_SYN_TYPE_VARIABLE,
