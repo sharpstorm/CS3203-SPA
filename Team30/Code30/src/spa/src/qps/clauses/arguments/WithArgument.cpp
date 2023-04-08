@@ -3,7 +3,7 @@
 #include "WithArgument.h"
 #include "common/Types.h"
 
-WithArgument::WithArgument(const StmtValue &intVal) :
+WithArgument::WithArgument(const IntegerValue &intVal) :
     intValue(intVal), identValue(NO_ENT), syn(nullptr) {}
 
 WithArgument::WithArgument(const EntityValue &identVal) :
@@ -12,7 +12,7 @@ WithArgument::WithArgument(const EntityValue &identVal) :
 WithArgument::WithArgument(AttributedSynonymPtr syn) :
     intValue(NO_INT_VAL), identValue(NO_ENT), syn(std::move(syn)) { }
 
-bool WithArgument::doesReturnInteger() const {
+bool WithArgument::returnsInteger() const {
   if (isSyn()) {
     return syn->returnsInteger();
   }
@@ -49,7 +49,7 @@ bool WithArgument::isStaticValueEqual(const WithArgument &other) const {
   return intValue == other.intValue && identValue == other.identValue;
 }
 
-StmtValue WithArgument::toConstInt() const {
+IntegerValue WithArgument::toConstInt() const {
   return intValue;
 }
 

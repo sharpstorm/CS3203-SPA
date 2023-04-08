@@ -8,7 +8,7 @@ class SynonymConstraint : public IConstraint {
   PQLSynonymName syn2;
  public:
   SynonymConstraint(const PQLSynonymName &syn1, const PQLSynonymName &syn2);
-  bool applyConstraint(SynonymProxyBuilder *varTableProxyBuilder,
+  bool applyConstraint(SynonymProxyBuilder *synProxyBuilder,
                        OverrideTable *overrideTable) override;
   PQLSynonymNameList getAffectedSyns() const override;
   bool validateConstraint() const override;

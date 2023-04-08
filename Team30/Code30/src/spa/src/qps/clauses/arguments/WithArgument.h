@@ -9,16 +9,16 @@ using std::unique_ptr;
 
 class WithArgument {
   AttributedSynonymPtr syn;
-  StmtValue intValue;
+  IntegerValue intValue;
   EntityValue identValue;
 
  public:
-  explicit WithArgument(const StmtValue &intVal);
+  explicit WithArgument(const IntegerValue &intVal);
   explicit WithArgument(const EntityValue &identVal);
   explicit WithArgument(AttributedSynonymPtr syn);
 
   bool isDefaultAttribute() const;
-  bool doesReturnInteger() const;
+  bool returnsInteger() const;
 
   PQLSynonymName getSynName() const;
   bool isSynStatement() const;
@@ -27,7 +27,7 @@ class WithArgument {
 
   bool isSyn() const;
 
-  StmtValue toConstInt() const;
+  IntegerValue toConstInt() const;
   EntityValue toConstIdent() const;
   AttributedSynonym toAttrSyn() const;
 };

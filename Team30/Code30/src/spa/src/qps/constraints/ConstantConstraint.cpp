@@ -1,5 +1,7 @@
 #include "ConstantConstraint.h"
 
+#include <utility>
+
 ConstantConstraint::ConstantConstraint(WithArgumentPtr arg1,
                                        WithArgumentPtr arg2) :
     leftArg(std::move(arg1)), rightArg(std::move(arg2)) {}
@@ -14,5 +16,5 @@ PQLSynonymNameList ConstantConstraint::getAffectedSyns() const {
 }
 
 bool ConstantConstraint::validateConstraint() const {
-  return leftArg->doesReturnInteger() == rightArg->doesReturnInteger();
+  return leftArg->returnsInteger() == rightArg->returnsInteger();
 }

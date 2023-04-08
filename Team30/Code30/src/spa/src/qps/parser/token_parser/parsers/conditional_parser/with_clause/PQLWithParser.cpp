@@ -93,7 +93,7 @@ void PQLWithParser::handleTwoSyns(WithArgumentPtr left,
 
 ConstraintPtr PQLWithParser::parseOverrideConstraint(
     WithArgumentPtr synArg, WithArgumentPtr staticArg) {
-  if (staticArg->doesReturnInteger()) {
+  if (staticArg->returnsInteger()) {
     return make_unique<OverrideConstraint>(
         synArg->toAttrSyn(), staticArg->toConstInt());
   } else {

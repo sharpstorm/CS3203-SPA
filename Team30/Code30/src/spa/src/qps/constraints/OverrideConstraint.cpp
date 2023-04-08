@@ -10,16 +10,7 @@ OverrideConstraint::OverrideConstraint(const AttributedSynonym &syn,
     attrSyn(syn), overrideTransformer(OverrideTransformer(identVal)) {}
 
 bool OverrideConstraint::validateConstraint() const {
-  switch (attrSyn.getAttribute()) {
-    case STMT_NUM:
-    case CONST_VALUE:
-      return overrideTransformer.returnsInteger();
-    case PROC_NAME:
-    case VAR_NAME:
-      return !overrideTransformer.returnsInteger();
-    default:
-      throw QPSParserSemanticError(QPS_PARSER_ERR_UNKNOWN_SYNONYM);
-  }
+  return attrSyn.returnsInteger() == overrideTransformer.returnsInteger();
 }
 
 PQLSynonymNameList OverrideConstraint::getAffectedSyns() const {
@@ -28,7 +19,7 @@ PQLSynonymNameList OverrideConstraint::getAffectedSyns() const {
 
 bool OverrideConstraint::applyConstraint(SynonymProxyBuilder *variableTable,
                                          OverrideTable *overrideTable) {
-  PQLSynonymName synName = attrSyn.getName();
+  const PQLSynonymName synName = attrSyn.getName();
 
   if (overrideTable->contains(synName)) {
     return overrideTable->get(synName) == overrideTransformer;
