@@ -1,5 +1,4 @@
 #include <memory>
-#include <string>
 
 #include "pkb/queryHandlers/interfaces/IFollowsQueryHandler.h"
 #include "pkb/queryHandlers/PkbQueryHandler.h"

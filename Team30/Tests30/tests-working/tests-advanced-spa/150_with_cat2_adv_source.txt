@@ -1,0 +1,20 @@
+procedure proc1 {
+    b = 10000;
+    print c;
+    print c;
+    read c;
+    read d;
+    read d;
+    print d;
+    call proc2;
+    call proc3;
+}
+
+procedure proc2 {
+    x = 1;
+}
+
+procedure proc3 {
+    y = 2;
+    z = 2;
+}

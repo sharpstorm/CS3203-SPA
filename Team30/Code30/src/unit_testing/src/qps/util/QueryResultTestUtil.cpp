@@ -102,4 +102,22 @@ class TestQueryResultBuilder {
     } (), ...);
     return result;
   }
+
+  static unique_ptr<ProjectorResultTable> buildExpectedTable(vector<ExpectedParams> paramsList) {
+    auto result = make_unique<ProjectorResultTable>(paramsList.empty() ,true);
+
+    for (size_t i = 0; i < paramsList.size() ;i++) {
+      ExpectedParams params = paramsList[i];
+
+      auto queryResult = buildExpected(params);
+      vector<PQLSynonymName> names;
+      for (auto x : params) {
+        names.push_back(x.first);
+      }
+      ResultGroupPtr rg = ProjectorResultFactory::extractResults(queryResult.get() , &names);
+      result->addResultGroup(std::move(rg));
+    }
+
+    return result;
+  }
 };
