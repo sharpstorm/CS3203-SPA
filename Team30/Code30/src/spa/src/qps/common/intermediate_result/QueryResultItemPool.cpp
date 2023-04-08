@@ -19,13 +19,12 @@ QueryResultItemPool::OwnedResultItemList QueryResultItemPool::releaseOwned() {
 
 OrphanedResultItemPoolPtr QueryResultItemPool::adoptPool(
     QueryResultItemPool *other) {
-  QueryResultItemMapping translationMap;
-  QueryResultItemSet adoptedPtrs;
-  adoptStmts(other, &adoptedPtrs, &translationMap);
-  adoptEntities(other, &adoptedPtrs, &translationMap);
-
   OrphanedResultItemPoolPtr orphanedPtrs =
-      make_unique<OrphanedResultItemPool>(translationMap);
+      make_unique<OrphanedResultItemPool>();
+  QueryResultItemSet adoptedPtrs;
+  adoptStmts(other, &adoptedPtrs, orphanedPtrs.get());
+  adoptEntities(other, &adoptedPtrs, orphanedPtrs.get());
+
   vector<QueryResultItemPtr> otherItems = other->releaseOwned();
   for (QueryResultItemPtr &it : otherItems) {
     if (adoptedPtrs.find(it.get()) != adoptedPtrs.end()) {
@@ -40,15 +39,15 @@ OrphanedResultItemPoolPtr QueryResultItemPool::adoptPool(
 
 void QueryResultItemPool::adoptStmts(const QueryResultItemPool *other,
                                      QueryResultItemSet *adoptedSet,
-                                     QueryResultItemMapping *translationMap) {
-  adoptFrom(&stmtLookup, other->stmtLookup, adoptedSet, translationMap);
+                                     OrphanedResultItemPool *orphanPool) {
+  adoptFrom(&stmtLookup, other->stmtLookup, adoptedSet, orphanPool);
 }
 
 void QueryResultItemPool::adoptEntities(
     const QueryResultItemPool *other,
     QueryResultItemSet *adoptedSet,
-    QueryResultItemMapping *translationMap) {
-  adoptFrom(&entLookup, other->entLookup, adoptedSet, translationMap);
+    OrphanedResultItemPool *orphanPool) {
+  adoptFrom(&entLookup, other->entLookup, adoptedSet, orphanPool);
 }
 
 template<class ValueType, class MapType>
@@ -70,11 +69,11 @@ template<class MapType>
 void QueryResultItemPool::adoptFrom(MapType *lookupMap,
                                     const MapType &otherMap,
                                     QueryResultItemSet *adoptedSet,
-                                    QueryResultItemMapping *translationMap) {
+                                    OrphanedResultItemPool *orphanPool) {
   for (const auto &it : otherMap) {
     auto mySamePtr = lookupMap->find(it.first);
     if (mySamePtr != lookupMap->end()) {
-      translationMap->emplace(it.second, mySamePtr->second);
+      orphanPool->insertMapping(it.second, mySamePtr->second);
       continue;
     }
     lookupMap->emplace(it.first, it.second);

@@ -25,20 +25,20 @@ class QueryResultItemPool {
   OwnedResultItemList releaseOwned();
   void adoptStmts(const QueryResultItemPool *other,
                   QueryResultItemSet *adoptedSet,
-                  QueryResultItemMapping *translationMap);
+                  OrphanedResultItemPool *orphanPool);
   void adoptEntities(const QueryResultItemPool *other,
                      QueryResultItemSet *adoptedSet,
-                     QueryResultItemMapping *translationMap);
+                     OrphanedResultItemPool *orphanPool);
 
   template<class ValueType, class MapType>
   QueryResultItem *lookupOrEmplace(MapType *lookupMap,
                                    const ValueType &value);
 
   template<class MapType>
-  void adoptFrom(MapType *lookupMap,
-                 const MapType &other,
-                 QueryResultItemSet *adoptedSet,
-                 QueryResultItemMapping *translationMap);
+  static void adoptFrom(MapType *lookupMap,
+                        const MapType &other,
+                        QueryResultItemSet *adoptedSet,
+                        OrphanedResultItemPool *orphanPool);
 
  public:
   QueryResultItem *getItem(const StmtValue &value);
