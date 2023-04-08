@@ -12,6 +12,7 @@ using std::set, std::unique_ptr, std::vector;
 class ResultCoalescer {
   typedef vector<ResultTableCol> ResultTableColList;
   typedef set<ResultTableRow> ResultTableRowSet;
+
  private:
   struct IntersectResult {
     RowSetPtr leftSet;

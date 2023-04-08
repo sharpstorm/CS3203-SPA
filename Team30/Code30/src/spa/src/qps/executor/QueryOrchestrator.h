@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "../common/PQLQuery.h"
 #include "qps/common/intermediate_result/PQLQueryResult.h"
 #include "../common/IEvaluatable.h"
@@ -9,6 +11,8 @@
 #include "qps/common/projector_table/ProjectableTable.h"
 #include "qps/executor/planner/QueryPlan.h"
 #include "QueryCache.h"
+
+using std::vector;
 
 class QueryOrchestrator {
  public:
