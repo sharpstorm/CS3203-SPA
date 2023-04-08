@@ -1,0 +1,15 @@
+1 - BUG REPORTED
+stmt s;
+Select s with sss = s.stmt#
+SyntaxError
+5000
+2 - BUG REPORTED
+stmt s;
+Select s with s.stmt# = sss
+SyntaxError
+5000
+3 - BUG REPORTED
+stmt s;
+Select s with s.stmt# = sss.stmt#
+SemanticError
+5000
