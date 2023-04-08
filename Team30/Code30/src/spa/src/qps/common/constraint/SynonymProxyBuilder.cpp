@@ -18,7 +18,7 @@ void SynonymProxyBuilder::SynonymProxyBuilder::build() {
 bool SynonymProxyBuilder::resolveOverrideMerging(OverrideTable *overrideTable) {
   for (auto i = proxyMap->begin(); i != proxyMap->end(); i++) {
     PQLQuerySynonym *mappedSynonym = ufds.getSynFor(i->first);
-    PQLSynonymName newName = mappedSynonym->getName();
+    const PQLSynonymName newName = mappedSynonym->getName();
     if (i->first == newName) {
       continue;
     }

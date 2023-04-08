@@ -41,7 +41,7 @@ bool ProjectorResultTable::operator==(const ProjectorResultTable &srt) const {
 }
 
 int ProjectorResultTable::getFinalRowCount() const {
-  if (groupResults.size() == 0) {
+  if (groupResults.empty()) {
     return 0;
   }
 
@@ -64,7 +64,7 @@ ProjectorIndex ProjectorResultTable::buildProjectionIndex(
           ->getSynonymCol(it->getName());
       if (col != ProjectorResultGroup::NO_COL) {
         ResultItemProjector itemProjector(pkbHandler, &(*it));
-        ret.push_back(ProjectorInstruction(groupId, col, itemProjector));
+        ret.emplace_back(ProjectorInstruction(groupId, col, itemProjector));
       }
     }
   }

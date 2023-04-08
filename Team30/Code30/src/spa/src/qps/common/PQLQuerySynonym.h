@@ -10,7 +10,6 @@ class PQLQuerySynonym {
   PQLSynonymName name;
 
  public:
-  PQLQuerySynonym() = default;
   PQLQuerySynonym(const PQLSynonymType type, const PQLSynonymName &name);
   PQLQuerySynonym(const PQLQuerySynonym &copy) = default;
 

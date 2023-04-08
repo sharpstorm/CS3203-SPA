@@ -18,7 +18,7 @@ class VariableTable {
   PQLQuerySynonymRefList rawProxy;
 
  public:
-  VariableTable();
+  VariableTable() = default;
   explicit VariableTable(const SynonymMap &map);
   int size() const;
   void add(const PQLQuerySynonym &syn);

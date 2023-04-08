@@ -1,11 +1,7 @@
 #pragma once
 
-#include <memory>
-
 #include "SynonymUFDS.h"
 #include "OverrideTable.h"
-
-using std::unique_ptr;
 
 class SynonymProxyBuilder {
  private:
@@ -19,5 +15,3 @@ class SynonymProxyBuilder {
   void build();
   bool resolveOverrideMerging(OverrideTable* overrideTable);
 };
-
-typedef unique_ptr<SynonymProxyBuilder> SynonymProxyBuilderPtr;

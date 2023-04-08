@@ -49,8 +49,8 @@ bool ProjectorResultGroup::operator==(const ProjectorResultGroup &rg) const {
     }
   }
 
-  for (int i = 0; i < groupTable.size(); i++) {
-    if (!hasRowIn(groupTable[i], rg)) {
+  for (const auto &row : groupTable) {
+    if (!hasRowIn(row, rg)) {
       return false;
     }
   }

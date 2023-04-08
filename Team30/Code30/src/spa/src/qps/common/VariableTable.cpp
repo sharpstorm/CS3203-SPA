@@ -1,8 +1,6 @@
 #include "VariableTable.h"
 #include "PQLQuerySynonymProxy.h"
 
-VariableTable::VariableTable() {}
-
 VariableTable::VariableTable(const SynonymMap &map) {
   for (const auto &it : map) {
     add(it.second);

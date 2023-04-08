@@ -4,7 +4,7 @@ SynonymUFDS::SynonymUFDS(const ProxyMap* proxyMap):
     parent(proxyMap->size()),
     rank(proxyMap->size()),
     synArr(proxyMap->size()) {
-  for (size_t i = 0; i < proxyMap->size(); i++) {
+  for (int i = 0; i < proxyMap->size(); i++) {
     parent[i] = i;
     rank[i] = 0;
   }
@@ -36,8 +36,8 @@ PQLQuerySynonym* SynonymUFDS::getSynFor(const PQLSynonymName &syn) {
     return nullptr;
   }
 
-  UFDSSet parent = findSet(index);
-  return synArr[parent];
+  UFDSSet setParent = findSet(index);
+  return synArr[setParent];
 }
 
 UFDSSet SynonymUFDS::findSet(const UFDSSet node) {

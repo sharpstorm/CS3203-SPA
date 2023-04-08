@@ -32,6 +32,7 @@ PQLQuerySynonymProxy* PQLQuery::getVariable(const PQLSynonymName &name) const {
 
 const vector<IEvaluatable*> PQLQuery::getEvaluatables() const {
   vector<IEvaluatable*> evals;
+  evals.reserve(clauses.size());
   for (const ClausePtr &ie : clauses) {
       evals.push_back(ie.get());
   }
