@@ -3,7 +3,7 @@
 #include <utility>
 
 QueryGroupPlan::QueryGroupPlan(
-    vector<IEvaluatable *> conditionalClauses,
+    IEvaluatableRefList conditionalClauses,
     vector<PQLSynonymName> selectables,
     vector<IEvaluatablePtr> ownedEvals,
     const ComplexityScore &score) :
@@ -12,7 +12,7 @@ QueryGroupPlan::QueryGroupPlan(
     ownedEvals(std::move(ownedEvals)),
     weightedComplexity(score) {}
 
-const vector<IEvaluatable *> QueryGroupPlan::getConditionalClauses() const {
+const IEvaluatableRefList QueryGroupPlan::getConditionalClauses() const {
   return conditionalClauses;
 }
 

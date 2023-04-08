@@ -26,11 +26,11 @@ class QueryGroup {
   const unordered_set<GroupClauseIndex> *getRelated(
       const GroupClauseIndex evalId) const;
 
-  QueryGroupPlanPtr toPlan(vector<IEvaluatable *> evaluatables,
+  QueryGroupPlanPtr toPlan(IEvaluatableRefList evaluatables,
                            const ComplexityScore &score);
 
  private:
-  vector<IEvaluatable *> evaluatables;
+  IEvaluatableRefList evaluatables;
   vector<unordered_set<GroupClauseIndex>> edgeList;
   vector<PQLSynonymName> selectables;
   vector<IEvaluatablePtr> ownedEvals;

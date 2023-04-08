@@ -18,7 +18,7 @@ class QueryGrouper {
  private:
   const PQLQuery *query;
   QueryGrouperIndex groupIndex;
-  vector<IEvaluatable *> evaluatables;
+  IEvaluatableRefList evaluatables;
   vector<int> groupClauseIdTable;
   PQLSynonymNameSet seenSynonyms;
 

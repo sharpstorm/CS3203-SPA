@@ -57,7 +57,7 @@ bool QueryOrchestrator::executeGroup(const QueryGroupPlan *targetGroup,
 
 // Executes each clause in the QueryGroupPlan
 PQLQueryResult *QueryOrchestrator::executeClauses(
-    const vector<IEvaluatable *> &executables,
+    const IEvaluatableRefList &executables,
     const OverrideTable *overrideTable,
     QueryCache *cache) const {
   PQLQueryResult *currentResult;
