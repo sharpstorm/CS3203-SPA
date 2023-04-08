@@ -7,6 +7,7 @@
 
 class AssignPatternChecker {
   typedef QueryResult<StmtValue, EntityValue> ConcreteQueryResult;
+
  private:
   const StmtRef *assignRef;
   const EntityRef *variableRef;
