@@ -15,7 +15,7 @@ template <typename V>
 class ContiguousVectorTable : public IBaseSetTable<int, V>,
                               public ContiguousTable<vector<V>> {
  public:
-  explicit ContiguousVectorTable(int size = 1)
+  explicit ContiguousVectorTable(int size = 0)
       : ContiguousTable<vector<V>>(size) {}
 
   void insert(int key, V value) override {
