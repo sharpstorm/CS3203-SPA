@@ -4,7 +4,6 @@
 #include "AssignPatternClause.h"
 #include "qps/clauses/ClauseScoring.h"
 #include "common/pattern/PatternConverter.h"
-#include "qps/errors/QPSParserSyntaxError.h"
 #include "qps/common/intermediate_result/PQLQueryResultBuilder.h"
 #include "AssignPatternChecker.h"
 

@@ -161,6 +161,74 @@ class ClausesPKBStub : public StubPKB {
     return result;
   }
 
+  QueryResultPtr<int, string> queryIfPattern(StmtRef stmt, EntityRef ent) const override {
+    auto result = make_unique<QueryResult<int, string>>();
+    if (ent.isWildcard()) {
+      result->addLeft(1);
+      result->addLeft(7);
+      return result;
+    }
+
+    if (!ent.isKnown()) {
+      if (!stmt.isKnown()) {
+        result->addPair(1, "x");
+        result->addPair(7, "y");
+        return result;
+      }
+
+      if (stmt.getValue() == 1) {
+        result->addRight("x");
+      }
+
+      if (stmt.getValue() == 7) {
+        result->addRight("y");
+      }
+      return result;
+    }
+
+    if (ent.getValue() == "x") {
+      result->addLeft(1);
+    }
+
+    return result;
+  }
+
+  QueryResultPtr<int, string> queryWhilePattern(StmtRef stmt, EntityRef ent) const override {
+    auto result = make_unique<QueryResult<int, string>>();
+    if (ent.isWildcard()) {
+      result->addLeft(4);
+      result->addLeft(11);
+    }
+
+    if (!ent.isKnown()) {
+      if (!stmt.isKnown()) {
+        result->addPair(4, "x");
+        result->addPair(11, "y");
+        return result;
+      }
+
+      if (stmt.getValue() == 4) {
+       result->addRight("x");
+      }
+
+      if (stmt.getValue() == 11) {
+        result->addRight("y");
+      }
+
+      return result;
+    }
+
+    if (ent.getValue() == "x") {
+      result->addLeft(4);
+    }
+
+    if (ent.getValue() == "x") {
+      result->addLeft(4);
+    }
+
+    return result;
+  }
+
   unordered_set<string> getSymbolsOfType(EntityType) const override {
     return unordered_set<string>();
   };
@@ -169,8 +237,35 @@ class ClausesPKBStub : public StubPKB {
     return unordered_set<int>();
   };
 
-  StmtType getStatementType(int) const override {
+  StmtType getStatementType(int value) const override {
+    if (value == 1) {
+      return StmtType::If;
+    }
+
+    if (value == 4) {
+      return StmtType::While;
+    }
     return StmtType::Assign;
+  }
+
+  bool isStatementOfType(StmtType type, int value) const override {
+    if (type == StmtType::If) {
+      return value == 1;
+    }
+
+    if (type == StmtType::While) {
+      return value == 4;
+    }
+
+    return false;
+  }
+
+  bool isSymbolOfType(EntityType type, string value) const override {
+    if (type == EntityType::Variable) {
+      return value == "x" || value == "y";
+    }
+
+    return false;
   }
 
   // Utility functions
