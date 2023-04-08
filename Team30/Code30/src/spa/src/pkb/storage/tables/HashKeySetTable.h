@@ -21,7 +21,7 @@ class HashKeySetTable : public IBaseSetTable<K, V>,
     assert(key != K());
     assert(value != V());
 
-    this->table[key].emplace(value);
+    this->table[key].insert(value);
   }
 
   const unordered_set<V>& get(K key) const override {
