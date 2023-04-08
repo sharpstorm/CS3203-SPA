@@ -31,19 +31,19 @@ bool PQLQueryResult::isFalse() const {
 }
 
 const SynonymColMap *PQLQueryResult::getSynonyms() const {
-  return &resultIndex;
+  return &synIndex;
 }
 
 ResultTableCol PQLQueryResult::getSynonymCol(const PQLSynonymName &name) const {
-  const auto &it = resultIndex.find(name);
-  if (it == resultIndex.end()) {
+  const auto &it = synIndex.find(name);
+  if (it == synIndex.end()) {
     return NO_COL;
   }
   return it->second;
 }
 
 void PQLQueryResult::putSynonym(const PQLSynonymName &name) {
-  resultIndex[name] = colValueMaps.size();
+  synIndex[name] = colValueMaps.size();
   colValueMaps.push_back(make_unique<ColValueMap>());
 }
 
@@ -79,13 +79,13 @@ RowSetPtr PQLQueryResult::getRowsWithValue(const ResultTableCol column,
 }
 
 bool PQLQueryResult::operator==(const PQLQueryResult &pqr) const {
-  if (resultIndex.size() != pqr.resultIndex.size()
+  if (synIndex.size() != pqr.synIndex.size()
       || combinedTable.size() != pqr.combinedTable.size()) {
     return false;
   }
 
-  for (const auto &it : pqr.resultIndex) {
-    if (resultIndex.find(it.first) == resultIndex.end()) {
+  for (const auto &it : pqr.synIndex) {
+    if (synIndex.find(it.first) == synIndex.end()) {
       return false;
     }
   }
@@ -113,9 +113,9 @@ bool PQLQueryResult::operator==(const PQLQueryResult &pqr) const {
 bool PQLQueryResult::matchRow(const PQLQueryResult &other,
                               ResultTableRow myRowIndex,
                               ResultTableRow otherRowIndex) const {
-  for (const auto &it : other.resultIndex) {
+  for (const auto &it : other.synIndex) {
     int otherIndex = it.second;
-    int thisIndex = resultIndex.at(it.first);
+    int thisIndex = synIndex.at(it.first);
 
     if (*combinedTable[myRowIndex][thisIndex] !=
         *other.combinedTable[otherRowIndex][otherIndex]) {

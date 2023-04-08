@@ -31,7 +31,7 @@ typedef unordered_map<PQLSynonymName, ResultTableCol> SynonymColMap;
 
 class PQLQueryResult {
  private:
-  unordered_map<PQLSynonymName, ResultTableCol> resultIndex;
+  SynonymColMap synIndex;
   QueryResultTable combinedTable;
   vector<ColValueMapPtr> colValueMaps;
 
@@ -56,23 +56,23 @@ class PQLQueryResult {
   template<class T, class U>
   void add(const PQLSynonymName &leftName,
            const PQLSynonymName &rightName,
-           const pair_set<T, U> &data);
+           const QueryResultPairSet<T, U> &data);
 
   template<class T, class U>
   void addLeftConst(const PQLSynonymName &leftName,
                     const PQLSynonymName &rightName,
                     const T &leftVal,
-                    const unordered_set<U> &data);
+                    const QueryResultSet<U> &data);
 
   template<class T, class U>
   void addRightConst(const PQLSynonymName &leftName,
                      const PQLSynonymName &rightName,
-                     const unordered_set<T> &data,
+                     const QueryResultSet<T> &data,
                      const U &rightVal);
 
   template<class T>
   void add(const PQLSynonymName &name,
-           const unordered_set<T> &data);
+           const QueryResultSet<T> &data);
 
   bool isFalse() const;
   void setIsStaticFalse(const bool staticRes);
@@ -108,7 +108,7 @@ void PQLQueryResult::add(const PQLSynonymName &name,
 template<class T, class U>
 void PQLQueryResult::add(const PQLSynonymName &leftName,
                          const PQLSynonymName &rightName,
-                         const pair_set<T, U> &data) {
+                         const QueryResultPairSet<T, U> &data) {
   putSynonym(leftName);
   putSynonym(rightName);
 
@@ -124,7 +124,7 @@ template<class T, class U>
 void PQLQueryResult::addLeftConst(const PQLSynonymName &leftName,
                                   const PQLSynonymName &rightName,
                                   const T &leftVal,
-                                  const unordered_set<U> &data) {
+                                  const QueryResultSet<U> &data) {
   putSynonym(leftName);
   putSynonym(rightName);
 
@@ -139,7 +139,7 @@ void PQLQueryResult::addLeftConst(const PQLSynonymName &leftName,
 template<class T, class U>
 void PQLQueryResult::addRightConst(const PQLSynonymName &leftName,
                                    const PQLSynonymName &rightName,
-                                   const unordered_set<T> &data,
+                                   const QueryResultSet<T> &data,
                                    const U &rightVal) {
   putSynonym(leftName);
   putSynonym(rightName);
