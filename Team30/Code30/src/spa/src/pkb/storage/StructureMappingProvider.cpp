@@ -10,18 +10,16 @@ StmtType StructureMappingProvider::getStatementType(int lineNumber) const {
   return statementStorage->getTypeOfStatement(lineNumber);
 }
 
-const StmtSet& StructureMappingProvider::getValuesOfType(
+const StmtValueSet& StructureMappingProvider::getValuesOfType(
     StmtType stmtType) const {
   return statementStorage->getStatementsOfType(stmtType);
 }
 
-string StructureMappingProvider::getProcedureForLine(
-    int lineNumber) const {
+string StructureMappingProvider::getProcedureForLine(int lineNumber) const {
   return procAndCallsStorage->getProcedureForLine(lineNumber);
 }
 
-string StructureMappingProvider::getCalledDeclaration(
-    int lineNumber) const {
+string StructureMappingProvider::getCalledDeclaration(int lineNumber) const {
   return procAndCallsStorage->getCalledDeclaration(lineNumber);
 }
 

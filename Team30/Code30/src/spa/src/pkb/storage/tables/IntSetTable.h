@@ -2,18 +2,19 @@
 
 #include <cassert>
 #include <memory>
-#include <set>
+#include <unordered_set>
 
 #include "IBaseSetTable.h"
 #include "IntTable.h"
 #include "pkb/storage/iterators/SetIterator.h"
 
-using std::set, std::make_unique;
+using std::unordered_set, std::make_unique;
 
 template <typename V>
-class IntSetTable : public IBaseSetTable<int, V>, public IntTable<set<V>> {
+class IntSetTable : public IBaseSetTable<int, V>,
+                    public IntTable<unordered_set<V>> {
  public:
-  using IntTable<set<V>>::IntTable;
+  using IntTable<unordered_set<V>>::IntTable;
 
   void insert(int key, V value) override {
     assert(key != 0);
@@ -22,13 +23,15 @@ class IntSetTable : public IBaseSetTable<int, V>, public IntTable<set<V>> {
     this->table[key].insert(value);
   }
 
-  const set<V>& get(int key) const override {
-    return IntTable<set<V>>::get(key);
+  const unordered_set<V>& get(int key) const override {
+    return IntTable<unordered_set<V>>::get(key);
   }
 
-  int size() const override { return IntTable<set<V>>::size(); };
+  int size() const override { return IntTable<unordered_set<V>>::size(); };
 
-  bool isEmpty() const override { return IntTable<set<V>>::isEmpty(); }
+  bool isEmpty() const override {
+    return IntTable<unordered_set<V>>::isEmpty();
+  }
 
   bool contains(int key, V value) const override {
     return get(key).count(value);
@@ -37,6 +40,6 @@ class IntSetTable : public IBaseSetTable<int, V>, public IntTable<set<V>> {
   bool containsKey(int key) const override { return !get(key).empty(); }
 
   unique_ptr<IBaseIterator<V>> getValueIterator(int key) override {
-    return make_unique<SetIterator<V>>(IntTable<set<V>>::get(key));
+    return make_unique<SetIterator<V>>(IntTable<unordered_set<V>>::get(key));
   }
 };

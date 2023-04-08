@@ -11,7 +11,7 @@ CallsTPostProcessor::CallsTPostProcessor(PKB* pkb)
 
 void CallsTPostProcessor::process() {
   auto it = callsTable->getTableIterator();
-  pair<EntityValue, EntitySet> row;
+  pair<EntityValue, EntityValueSet> row;
   while (!(row = it->getNext()).first.empty()) {
     for (const auto& child : row.second) {
       EntityValueSet ascendants = EntityValueSet();

@@ -12,9 +12,9 @@ using std::string;
 
 class EntityMappingProviderStub : public IEntityMappingProvider {
  public:
-  EntitySet allVariables;
-  EntitySet allConstants;
-  EntitySet allProcedures;
+  EntityValueSet allVariables;
+  EntityValueSet allConstants;
+  EntityValueSet allProcedures;
 
   ContiguousTable<string> variableTable;
   ContiguousTable<string> constantTable;
@@ -25,7 +25,7 @@ class EntityMappingProviderStub : public IEntityMappingProvider {
   HashKeyTable<string, int> procedureToStmtNumTable;
 
   EntityMappingProviderStub();
-  const EntitySet& getValuesOfType(EntityType) const override;
+  const EntityValueSet& getValuesOfType(EntityType) const override;
   bool isValueOfType(EntityType, EntityValue) const override;
   string getVariableByIndex(int) const override;
   string getConstantByIndex(int) const override;

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include <set>
+#include <unordered_set>
 
 #include "IStorage.h"
 #include "common/Types.h"
@@ -23,8 +23,8 @@ using std::unique_ptr;
 template <typename K, typename V>
 class RelationTableManager : public IStorage<K, V> {
  protected:
-  IBaseSetTable<K, V> *table;         // maps K -> set<V>
-  IBaseSetTable<V, K> *reverseTable;  // maps V -> set<K>
+  IBaseSetTable<K, V> *table;         // maps K -> unordered_set<V>
+  IBaseSetTable<V, K> *reverseTable;  // maps V -> unordered_set<K>
 
  public:
   RelationTableManager(IBaseSetTable<K, V> *table,
@@ -61,7 +61,7 @@ class RelationTableManager : public IStorage<K, V> {
    * arg2Predicate.
    */
   virtual QueryResultPtr<K, V> query(
-      set<K> arg1Values, Predicate<V> arg2Predicate,
+      unordered_set<K> arg1Values, Predicate<V> arg2Predicate,
       QueryResultBuilder<K, V> *resultBuilder) const {
     for (auto arg1 : arg1Values) {
       auto it = getRightValIter(arg1);
@@ -81,7 +81,7 @@ class RelationTableManager : public IStorage<K, V> {
    * arg1Predicate.
    */
   virtual QueryResultPtr<K, V> query(
-      Predicate<K> arg1Predicate, set<V> arg2Values,
+      Predicate<K> arg1Predicate, unordered_set<V> arg2Values,
       QueryResultBuilder<K, V> *resultBuilder) const {
     for (auto arg2 : arg2Values) {
       auto it = getLeftValIter(arg2);
@@ -101,7 +101,7 @@ class RelationTableManager : public IStorage<K, V> {
   virtual QueryResultPtr<K, V> query(
       K arg1, Predicate<V> arg2Predicate,
       QueryResultBuilder<K, V> *resultBuilder) const {
-    return query(set<K>({arg1}), arg2Predicate, resultBuilder);
+    return query(unordered_set<K>({arg1}), arg2Predicate, resultBuilder);
   }
 
   /**
@@ -110,7 +110,7 @@ class RelationTableManager : public IStorage<K, V> {
   virtual QueryResultPtr<K, V> query(
       Predicate<K> arg1Predicate, V arg2,
       QueryResultBuilder<K, V> *resultBuilder) const {
-    return query(arg1Predicate, set<V>({arg2}), resultBuilder);
+    return query(arg1Predicate, unordered_set<V>({arg2}), resultBuilder);
   }
 
   /**
@@ -128,7 +128,8 @@ class RelationTableManager : public IStorage<K, V> {
    * Right side wildcard.
    */
   virtual QueryResultPtr<K, V> rightWildcardQuery(
-      const set<K> &arg1Values, QueryResultBuilder<K, V> *resultBuilder) const {
+      const unordered_set<K> &arg1Values,
+      QueryResultBuilder<K, V> *resultBuilder) const {
     for (auto arg1 : arg1Values) {
       if (table->containsKey(arg1)) {
         resultBuilder->addLeft(arg1);
@@ -141,7 +142,8 @@ class RelationTableManager : public IStorage<K, V> {
    * Left side wildcard.
    */
   virtual QueryResultPtr<K, V> leftWildcardQuery(
-      const set<V> &arg2Values, QueryResultBuilder<K, V> *resultBuilder) const {
+      const unordered_set<V> &arg2Values,
+      QueryResultBuilder<K, V> *resultBuilder) const {
     for (auto arg2 : arg2Values) {
       if (reverseTable->containsKey(arg2)) {
         resultBuilder->addRight(arg2);

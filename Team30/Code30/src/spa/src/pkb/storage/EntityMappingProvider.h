@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <set>
+#include <unordered_set>
 #include <utility>
 
 #include "ProcedureAndCallsStorage.h"
@@ -10,13 +10,13 @@
 #include "interfaces/IEntityMappingProvider.h"
 
 using std::string;
-using std::set;
+using std::unordered_set;
 
 class EntityMappingProvider : public IEntityMappingProvider {
  public:
   explicit EntityMappingProvider(VariableStorage *, ConstantStorage *,
                                  ProcedureAndCallsStorage *);
-  const EntitySet& getValuesOfType(EntityType) const override;
+  const EntityValueSet &getValuesOfType(EntityType) const override;
   EntityValue getVariableByIndex(int) const override;
   EntityValue getConstantByIndex(int) const override;
   EntityIdx getIndexOfVariable(string) const override;

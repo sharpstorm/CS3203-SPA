@@ -10,18 +10,18 @@ class StatementStorage {
  private:
   ContiguousTable<StmtType>* table;
   HashKeySetTable<StmtType, StmtValue>* reverseTable;
-  StmtSet* allStatements;
+  StmtValueSet* allStatements;
 
  public:
   StatementStorage(ContiguousTable<StmtType>* table,
                    HashKeySetTable<StmtType, StmtValue>* reverseTable,
-                   StmtSet* values);
+                   StmtValueSet* values);
 
   void insert(StmtValue stmt, StmtType type);
 
-  const StmtSet& getStatementsOfType(StmtType type) const;
+  const StmtValueSet& getStatementsOfType(StmtType type) const;
 
-  const StmtSet& getAllStatements() const;
+  const StmtValueSet& getAllStatements() const;
 
   StmtType getTypeOfStatement(StmtValue stmt) const;
 };
