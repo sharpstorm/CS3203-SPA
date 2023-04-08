@@ -9,7 +9,7 @@
 #include "qps/constraints/Constraint.h"
 #include "qps/common/VariableTable.h"
 
-using  std::unordered_map, std::vector, std::unique_ptr;
+using std::vector, std::unique_ptr;
 
 class PQLQuery {
  private:
@@ -28,7 +28,6 @@ class PQLQuery {
   const AttributedSynonymList *getResultVariables() const;
 
   PQLQuerySynonymProxy *getVariable(const PQLSynonymName &name) const;
-  const PQLSynonymNameList getDeclaredSynonyms() const;
   const vector<IEvaluatable *> getEvaluatables() const;
   const vector<Constraint *> getConstraints() const;
 

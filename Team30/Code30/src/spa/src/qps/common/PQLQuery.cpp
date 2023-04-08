@@ -23,15 +23,6 @@ PQLQuerySynonymProxy* PQLQuery::getVariable(const PQLSynonymName &name) const {
   return variables->find(name);
 }
 
-const PQLSynonymNameList PQLQuery::getDeclaredSynonyms() const {
-  PQLSynonymNameList result;
-  for (auto i : variables->getReferredSynonyms()) {
-    result.push_back(i);
-  }
-
-  return result;
-}
-
 const vector<IEvaluatable*> PQLQuery::getEvaluatables() const {
   vector<IEvaluatable*> evals;
   for (const ClausePtr &ie : clauses) {
@@ -41,10 +32,6 @@ const vector<IEvaluatable*> PQLQuery::getEvaluatables() const {
   return evals;
 }
 
-int PQLQuery::getClauseCount() const {
-  return clauses.size();
-}
-
 const vector<Constraint*> PQLQuery::getConstraints() const {
   vector<Constraint*> ret;
   for (const ConstraintPtr &c : constraints) {
@@ -52,6 +39,10 @@ const vector<Constraint*> PQLQuery::getConstraints() const {
   }
 
   return ret;
+}
+
+int PQLQuery::getClauseCount() const {
+  return clauses.size();
 }
 
 bool PQLQuery::isBooleanResult() const {
