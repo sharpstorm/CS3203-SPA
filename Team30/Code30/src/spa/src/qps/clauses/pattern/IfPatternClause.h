@@ -2,7 +2,7 @@
 
 #include <utility>
 
-#include "qps/common/PQLQuerySynonym.h"
+#include "qps/common/synonym/PQLQuerySynonym.h"
 #include "AbstractPatternClause.h"
 
 constexpr PatternQueryInvoker ifPatternInvoker =

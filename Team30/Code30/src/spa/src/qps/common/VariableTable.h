@@ -3,8 +3,8 @@
 #include <unordered_map>
 #include <memory>
 
-#include "PQLQuerySynonym.h"
-#include "PQLQuerySynonymProxy.h"
+#include "qps/common/synonym/PQLQuerySynonym.h"
+#include "qps/common/synonym/PQLQuerySynonymProxy.h"
 
 using std::unordered_map, std::unique_ptr;
 

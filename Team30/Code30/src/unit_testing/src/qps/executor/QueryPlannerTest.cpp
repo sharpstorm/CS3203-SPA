@@ -4,7 +4,7 @@
 #include <unordered_map>
 
 #include "qps/executor/planner/QueryPlanner.h"
-#include "qps/common/PQLQuerySynonym.h"
+#include "qps/common/synonym/PQLQuerySynonym.h"
 #include "qps/clauses/arguments/ClauseArgumentFactory.h"
 #include "qps/clauses/such_that/FollowsClauses.h"
 

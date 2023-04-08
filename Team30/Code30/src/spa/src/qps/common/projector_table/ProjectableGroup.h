@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "qps/common/AttributedSynonym.h"
+#include "qps/common/synonym/AttributedSynonym.h"
 #include "qps/common/IConstraint.h"
 #include "qps/common/intermediate_result/QueryResultItemPool.h"
 

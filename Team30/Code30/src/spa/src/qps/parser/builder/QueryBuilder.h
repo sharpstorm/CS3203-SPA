@@ -5,9 +5,9 @@
 #include <unordered_set>
 #include <utility>
 
-#include "../../common/PQLTypes.h"
+#include "qps/common/synonym/PQLTypes.h"
 #include "../../common/PQLQuery.h"
-#include "../../common/PQLQuerySynonym.h"
+#include "qps/common/synonym/PQLQuerySynonym.h"
 #include "../../clauses/SuchThatClause.h"
 #include "../../clauses/PatternClause.h"
 #include "qps/clauses/WithClause.h"

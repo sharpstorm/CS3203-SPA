@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Clause.h"
-#include "qps/common/PQLQuerySynonymProxy.h"
+#include "qps/common/synonym/PQLQuerySynonymProxy.h"
 
 template<class ReturnType, class RefType>
 using SelectPKBGetter = QueryResultSet<ReturnType>(*)(

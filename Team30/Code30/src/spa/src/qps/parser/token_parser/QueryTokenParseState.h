@@ -2,7 +2,7 @@
 
 #include "token_stream/QueryTokenStream.h"
 #include "../../errors/QPSParserSyntaxError.h"
-#include "qps/common/PQLTypes.h"
+#include "qps/common/synonym/PQLTypes.h"
 
 class QueryTokenParseState {
  private:

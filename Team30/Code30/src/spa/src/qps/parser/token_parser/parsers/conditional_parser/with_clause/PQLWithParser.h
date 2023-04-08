@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "qps/common/PQLQuerySynonym.h"
+#include "qps/common/synonym/PQLQuerySynonym.h"
 #include "qps/parser/token_parser/parsers/IPQLParser.h"
 #include "qps/clauses/WithClause.h"
 

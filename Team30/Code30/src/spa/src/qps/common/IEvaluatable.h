@@ -4,7 +4,7 @@
 
 #include "qps/common/intermediate_result/PQLQueryResult.h"
 #include "qps/executor/QueryExecutorAgent.h"
-#include "qps/common/PQLTypes.h"
+#include "qps/common/synonym/PQLTypes.h"
 
 using std::unique_ptr;
 

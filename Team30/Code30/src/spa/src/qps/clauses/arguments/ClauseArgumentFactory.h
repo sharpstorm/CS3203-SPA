@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ClauseArgument.h"
-#include "qps/common/PQLQuerySynonymProxy.h"
+#include "qps/common/synonym/PQLQuerySynonymProxy.h"
 
 class ClauseArgumentFactory {
  public:

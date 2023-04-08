@@ -3,9 +3,9 @@
 #include <vector>
 #include <memory>
 
-#include "PQLTypes.h"
+#include "qps/common/synonym/PQLTypes.h"
 #include "qps/clauses/Clause.h"
-#include "AttributedSynonym.h"
+#include "qps/common/synonym/AttributedSynonym.h"
 #include "IConstraint.h"
 #include "qps/common/VariableTable.h"
 

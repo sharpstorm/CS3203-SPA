@@ -4,7 +4,7 @@
 #include <unordered_map>
 
 #include "common/Types.h"
-#include "qps/common/PQLTypes.h"
+#include "qps/common/synonym/PQLTypes.h"
 #include "qps/common/QPSTypes.h"
 
 using std::unique_ptr, std::unordered_map;

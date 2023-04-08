@@ -6,7 +6,7 @@
 #include "qps/parser/token_parser/QueryTokenParser.h"
 #include "qps/parser/PQLToken.h"
 #include "qps/common/PQLQuery.h"
-#include "qps/common/PQLQuerySynonym.h"
+#include "qps/common/synonym/PQLQuerySynonym.h"
 #include "qps/errors/QPSError.h"
 #include "../SourceParserStub.h"
 

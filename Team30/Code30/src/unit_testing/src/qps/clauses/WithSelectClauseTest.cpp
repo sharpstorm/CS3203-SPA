@@ -5,7 +5,7 @@
 #include "pkb/queryHandlers/PkbQueryHandler.h"
 #include "pkb/storage/PKB.h"
 #include "WithSelectPKBStub.cpp"
-#include "qps/common/AttributedSynonym.h"
+#include "qps/common/synonym/AttributedSynonym.h"
 #include "../util/SynonymHolder.h"
 #include "../util/QueryResultTestUtil.cpp"
 #include "qps/clauses/WithSelectClause.h"

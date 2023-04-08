@@ -3,7 +3,7 @@
 #include <memory>
 
 #include "common/Types.h"
-#include "../../common/PQLQuerySynonym.h"
+#include "qps/common/synonym/PQLQuerySynonym.h"
 #include "qps/common/IConstraint.h"
 #include "qps/common/IEvaluatable.h"
 

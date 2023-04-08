@@ -1,7 +1,7 @@
 #include "QueryDriver.h"
 #include "parser/QueryParser.h"
 #include "executor/QueryExecutor.h"
-#include "common/PQLQuerySynonym.h"
+#include "qps/common/synonym/PQLQuerySynonym.h"
 
 QueryDriver::QueryDriver(const PkbQueryHandler *pkbQH,
                          ISourceExpressionParser *exprParser) :

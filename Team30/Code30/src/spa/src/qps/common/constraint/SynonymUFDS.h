@@ -4,7 +4,7 @@
 #include <unordered_map>
 
 #include "common/cfg/CFG.h"
-#include "qps/common/PQLQuerySynonym.h"
+#include "qps/common/synonym/PQLQuerySynonym.h"
 #include "qps/common/VariableTable.h"
 
 using std::vector, std::unordered_map;

@@ -3,9 +3,9 @@
 #include <memory>
 #include <unordered_map>
 
-#include "qps/common/PQLQuerySynonym.h"
-#include "qps/common/PQLQuerySynonymProxy.h"
-#include "qps/common/AttributedSynonym.h"
+#include "qps/common/synonym/PQLQuerySynonym.h"
+#include "qps/common/synonym/PQLQuerySynonymProxy.h"
+#include "qps/common/synonym/AttributedSynonym.h"
 
 using std::unique_ptr, std::make_unique, std::unordered_map;
 
