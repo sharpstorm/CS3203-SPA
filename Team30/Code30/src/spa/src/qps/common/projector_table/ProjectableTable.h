@@ -1,7 +1,11 @@
 #pragma once
 
+#include <memory>
+
 #include "qps/common/projector_table/ProjectableGroup.h"
 #include "qps/common/QPSTypes.h"
+
+using std::unique_ptr;
 
 class ProjectableTable {
  private:
@@ -19,3 +23,5 @@ class ProjectableTable {
 
   bool operator==(const ProjectableTable &srt) const;
 };
+
+typedef unique_ptr<ProjectableTable> ProjectableTablePtr;

@@ -6,10 +6,10 @@
 
 class QueryExecutor : public IQueryExecutor {
  private:
-  QueryOrchestrator orchestrator;
+  QueryLauncher launcher;
   QueryPlanner planner;
 
  public:
   explicit QueryExecutor(const PkbQueryHandler *pkbQH);
-  ProjectableTable *executeQuery(PQLQuery *query);
+  ProjectableTable *executeQuery(PQLQuery *query) const;
 };

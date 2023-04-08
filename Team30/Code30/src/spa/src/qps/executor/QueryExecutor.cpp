@@ -1,16 +1,11 @@
-#include <memory>
-#include <vector>
-
 #include "qps/common/IConstraint.h"
 #include "QueryExecutor.h"
 #include "qps/common/IEvaluatable.h"
 
-using std::vector, std::unique_ptr, std::make_unique;
-
 QueryExecutor::QueryExecutor(const PkbQueryHandler *pkbQH) :
-    orchestrator(QueryOrchestrator(QueryLauncher(pkbQH))) {}
+    launcher(pkbQH) {}
 
-ProjectableTable *QueryExecutor::executeQuery(PQLQuery *query) {
+ProjectableTable *QueryExecutor::executeQuery(PQLQuery *query) const {
   OverrideTable overrideTable;
 
   bool areConstraintsResolved = query->resolveConstraints(&overrideTable);
@@ -19,10 +14,6 @@ ProjectableTable *QueryExecutor::executeQuery(PQLQuery *query) {
   }
 
   QueryPlanPtr plan = planner.getExecutionPlan(query, &overrideTable);
-  // Query just have constraints
-  if (plan->isEmpty()) {
-    return new ProjectableTable(true);
-  }
-
+  QueryOrchestrator orchestrator(&launcher);
   return orchestrator.execute(plan.get(), &overrideTable);
 }
