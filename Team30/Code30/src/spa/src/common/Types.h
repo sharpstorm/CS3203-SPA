@@ -5,13 +5,11 @@
 #include <string>
 #include <unordered_set>
 #include <utility>
-#include <vector>
 
 using std::pair;
 using std::set, std::unordered_set;
 using std::string;
 using std::unique_ptr;
-using std::vector;
 
 enum class EntityType { None, Procedure, Variable, Constant, Wildcard };
 
@@ -22,11 +20,10 @@ typedef int StmtValue;
 typedef int EntityIdx;
 typedef int IntegerValue;
 typedef unordered_set<StmtValue> StmtValueSet;
-typedef set<StmtValue> StmtSet;
 typedef unordered_set<EntityValue> EntityValueSet;
-typedef set<EntityValue> EntitySet;
 typedef unordered_set<EntityIdx> EntityIdxSet;
-typedef vector<StmtValue> StmtValueList;
+typedef set<StmtValue> StmtSet;
+typedef set<EntityValue> EntitySet;
 
 const StmtValue NO_STMT = 0;
 const StmtValue INVALID_STMT = -1;
@@ -34,7 +31,7 @@ const IntegerValue NO_INT_VAL = -1;
 const char NO_ENT[] = "";
 const EntityIdx NO_ENT_INDEX = 0;
 
-template <typename Value, typename Type>
+template<typename Value, typename Type>
 class IRef {
  private:
   Type type;
@@ -54,8 +51,8 @@ class IRef {
 
   bool isType(const Type &targetType) const { return type == targetType; }
 
-  template <class... T>
-  bool isAnyType(const T &...types) const {
+  template <class ...T>
+  bool isAnyType(const T&... types) const {
     return (isType(types) || ... || false);
   }
 
@@ -76,22 +73,22 @@ class EntityRef : public IRef<EntityValue, EntityType> {
   bool isKnown() const override { return getValue() != NO_ENT; }
 };
 
-template <class T1, class T2>
+template<class T1, class T2>
 struct std::hash<pair<T1, T2>> {
   std::size_t operator()(const pair<T1, T2> &pair) const {
     return std::hash<T1>()(pair.first) ^ std::hash<T2>()(pair.second);
   }
 };
-template <typename K, typename V>
+template<typename K, typename V>
 using pair_set = unordered_set<pair<K, V>>;
 
-template <typename T>
+template<typename T>
 using QueryResultSet = unordered_set<T>;
 
-template <typename T, typename U>
+template<typename T, typename U>
 using QueryResultPairSet = pair_set<T, U>;
 
-template <typename T, typename U>
+template<typename T, typename U>
 class QueryResult {
  public:
   QueryResultSet<T> firstArgVals;
@@ -122,5 +119,5 @@ class QueryResult {
   }
 };
 
-template <typename T, typename U>
+template<typename T, typename U>
 using QueryResultPtr = unique_ptr<QueryResult<T, U>>;

@@ -38,7 +38,7 @@ class ParentTTableManager {
   /**
    * Get set of arg2 where R(arg1, arg2) is true, given arg1 value.
    */
-  const StmtValue getByFirstArg(StmtValue arg1) const {
+  StmtValue getByFirstArg(StmtValue arg1) const {
     return table->get(arg1);
   }
 
