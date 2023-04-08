@@ -20,7 +20,7 @@ TEST_CASE("Synonym Constraint - Get Affected Syns") {
           {"s2", PQL_SYN_TYPE_STMT},
       });
   varTable.finalizeTable();
-  SynonymProxyBuilder builder(&varTable);
+  SynonymProxyBuilder builder(varTable.getProxyMap());
   OverrideTable overrides;
 
   SynonymConstraint constraint("s1", "s2");
