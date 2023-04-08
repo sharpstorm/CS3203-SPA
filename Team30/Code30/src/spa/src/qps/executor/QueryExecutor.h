@@ -11,5 +11,5 @@ class QueryExecutor : public IQueryExecutor {
 
  public:
   explicit QueryExecutor(const PkbQueryHandler *pkbQH);
-  ProjectorResultTable *executeQuery(const PQLQuery *query);
+  ProjectorResultTable *executeQuery(PQLQuery *query);
 };

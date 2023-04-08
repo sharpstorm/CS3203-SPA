@@ -10,7 +10,7 @@ using std::vector, std::unique_ptr, std::make_unique;
 QueryExecutor::QueryExecutor(const PkbQueryHandler *pkbQH) :
     orchestrator(QueryOrchestrator(QueryLauncher(pkbQH))) {}
 
-ProjectorResultTable *QueryExecutor::executeQuery(const PQLQuery *query) {
+ProjectorResultTable *QueryExecutor::executeQuery(PQLQuery *query) {
   OverrideTable overrideTable;
   bool isBoolResult = query->isBooleanResult();
 

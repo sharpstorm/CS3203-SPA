@@ -4,6 +4,19 @@
 #include "qps/common/IConstraint.h"
 #include "qps/constraints/SynonymConstraint.h"
 
+bool isVarTableSynEqual(VariableTable *varTable,
+                            const PQLSynonymName var1,
+                            const PQLSynonymName var2) {
+  auto syn1 = varTable->find(var1);
+  auto syn2 = varTable->find(var2);
+  REQUIRE(syn1 != nullptr);
+  REQUIRE(syn2 != nullptr);
+
+  auto syn1Proxy = *syn1;
+  auto syn2Proxy = *syn2;
+  return *syn1Proxy == *syn2Proxy;
+}
+
 TEST_CASE("SynonymConstraint Test") {
   PQLQuerySynonym syn1{PQL_SYN_TYPE_STMT, "s1"};
   PQLQuerySynonym syn2{PQL_SYN_TYPE_STMT, "s2"};
@@ -19,41 +32,40 @@ TEST_CASE("SynonymConstraint Test") {
   varTable.add(syn5);
   varTable.finalizeTable();
 
-  SynonymProxyBuilder varTableProxyBuilder(&varTable);
+  SynonymProxyBuilder varTableProxyBuilder(varTable.getProxyMap());
   OverrideTable overrideTable;
 
   SynonymConstraint constraint1("s1", "s2");
   SynonymConstraint constraint2("s2", "s3");
   SynonymConstraint constraint3("s4", "s1");
+
   constraint1.applyConstraint(&varTableProxyBuilder, &overrideTable);
   varTableProxyBuilder.build();
 
-  REQUIRE(*varTableProxyBuilder.getTable()->getProxyMap()->at("s1")
-              == *varTableProxyBuilder.getTable()->getProxyMap()->at("s2"));
+  REQUIRE(isVarTableSynEqual(&varTable, "s1", "s2"));
+  REQUIRE_FALSE(isVarTableSynEqual(&varTable, "s1", "s3"));
+  REQUIRE_FALSE(isVarTableSynEqual(&varTable, "s2", "s3"));
+  REQUIRE_FALSE(isVarTableSynEqual(&varTable, "s1", "s4"));
+  REQUIRE_FALSE(isVarTableSynEqual(&varTable, "s2", "s4"));
+  REQUIRE_FALSE(isVarTableSynEqual(&varTable, "s3", "s4"));
 
   constraint2.applyConstraint(&varTableProxyBuilder, &overrideTable);
   varTableProxyBuilder.build();
 
-  REQUIRE(*varTableProxyBuilder.getTable()->getProxyMap()->at("s1")
-              == *varTableProxyBuilder.getTable()->getProxyMap()->at("s2"));
-  REQUIRE(*varTableProxyBuilder.getTable()->getProxyMap()->at("s1")
-              == *varTableProxyBuilder.getTable()->getProxyMap()->at("s3"));
-  REQUIRE(*varTableProxyBuilder.getTable()->getProxyMap()->at("s2")
-              == *varTableProxyBuilder.getTable()->getProxyMap()->at("s3"));
+  REQUIRE(isVarTableSynEqual(&varTable, "s1", "s2"));
+  REQUIRE(isVarTableSynEqual(&varTable, "s1", "s3"));
+  REQUIRE(isVarTableSynEqual(&varTable, "s2", "s3"));
+  REQUIRE_FALSE(isVarTableSynEqual(&varTable, "s1", "s4"));
+  REQUIRE_FALSE(isVarTableSynEqual(&varTable, "s2", "s4"));
+  REQUIRE_FALSE(isVarTableSynEqual(&varTable, "s3", "s4"));
 
   constraint3.applyConstraint(&varTableProxyBuilder, &overrideTable);
   varTableProxyBuilder.build();
 
-  REQUIRE(*varTableProxyBuilder.getTable()->getProxyMap()->at("s1")
-              == *varTableProxyBuilder.getTable()->getProxyMap()->at("s2"));
-  REQUIRE(*varTableProxyBuilder.getTable()->getProxyMap()->at("s1")
-              == *varTableProxyBuilder.getTable()->getProxyMap()->at("s3"));
-  REQUIRE(*varTableProxyBuilder.getTable()->getProxyMap()->at("s2")
-              == *varTableProxyBuilder.getTable()->getProxyMap()->at("s3"));
-  REQUIRE(*varTableProxyBuilder.getTable()->getProxyMap()->at("s1")
-              == *varTableProxyBuilder.getTable()->getProxyMap()->at("s4"));
-  REQUIRE(*varTableProxyBuilder.getTable()->getProxyMap()->at("s2")
-              == *varTableProxyBuilder.getTable()->getProxyMap()->at("s4"));
-  REQUIRE(*varTableProxyBuilder.getTable()->getProxyMap()->at("s3")
-              == *varTableProxyBuilder.getTable()->getProxyMap()->at("s4"));
+  REQUIRE(isVarTableSynEqual(&varTable, "s1", "s2"));
+  REQUIRE(isVarTableSynEqual(&varTable, "s1", "s3"));
+  REQUIRE(isVarTableSynEqual(&varTable, "s2", "s3"));
+  REQUIRE(isVarTableSynEqual(&varTable, "s1", "s4"));
+  REQUIRE(isVarTableSynEqual(&varTable, "s2", "s4"));
+  REQUIRE(isVarTableSynEqual(&varTable, "s3", "s4"));
 }

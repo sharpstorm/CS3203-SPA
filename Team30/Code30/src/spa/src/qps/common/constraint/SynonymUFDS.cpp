@@ -1,16 +1,15 @@
 #include "SynonymUFDS.h"
 
-SynonymUFDS::SynonymUFDS(VariableTable* varTable):
-    parent(varTable->size()),
-    rank(varTable->size()),
-    synArr(varTable->size()) {
-  for (size_t i = 0; i < varTable->size(); i++) {
+SynonymUFDS::SynonymUFDS(const ProxyMap* proxyMap):
+    parent(proxyMap->size()),
+    rank(proxyMap->size()),
+    synArr(proxyMap->size()) {
+  for (size_t i = 0; i < proxyMap->size(); i++) {
     parent[i] = i;
     rank[i] = 0;
   }
 
   int index = 0;
-  ProxyMap* proxyMap = varTable->getProxyMap();
   for (auto it = proxyMap->begin(); it != proxyMap->end(); it++) {
     synArr[index] = it->second.get();
     synNameMap[it->first] = index;

@@ -57,7 +57,7 @@ bool PQLQuery::resolveConstraints(OverrideTable* table) {
   }
 
   hasAppliedConstraints = true;
-  SynonymProxyBuilder synProxyBuilder(variables.get());
+  SynonymProxyBuilder synProxyBuilder(variables->getProxyMap());
 
   for (const auto &con : constraints) {
     if (!con->applyConstraint(&synProxyBuilder, table)) {

@@ -1,7 +1,7 @@
 #include "SynonymProxyBuilder.h"
 
-SynonymProxyBuilder::SynonymProxyBuilder(VariableTable *varTable) :
-    variableTable(varTable), ufds(SynonymUFDS(varTable)) {}
+SynonymProxyBuilder::SynonymProxyBuilder(ProxyMap *proxyMap) :
+    proxyMap(proxyMap), ufds(SynonymUFDS(proxyMap)) {}
 
 bool SynonymProxyBuilder::joinSynonyms(const PQLSynonymName &syn1,
                                        const PQLSynonymName &syn2) {
@@ -9,7 +9,6 @@ bool SynonymProxyBuilder::joinSynonyms(const PQLSynonymName &syn1,
 }
 
 void SynonymProxyBuilder::SynonymProxyBuilder::build() {
-  ProxyMap *proxyMap = variableTable->getProxyMap();
   for (auto it = proxyMap->begin(); it != proxyMap->end(); it++) {
     PQLQuerySynonym *newPtr = ufds.getSynFor(it->first);
     it->second.updatePointer(newPtr);
@@ -17,7 +16,6 @@ void SynonymProxyBuilder::SynonymProxyBuilder::build() {
 }
 
 bool SynonymProxyBuilder::resolveOverrideMerging(OverrideTable *overrideTable) {
-  ProxyMap *proxyMap = variableTable->getProxyMap();
   for (auto i = proxyMap->begin(); i != proxyMap->end(); i++) {
     PQLQuerySynonym *mappedSynonym = ufds.getSynFor(i->first);
     PQLSynonymName newName = mappedSynonym->getName();
@@ -45,8 +43,4 @@ bool SynonymProxyBuilder::resolveOverrideMerging(OverrideTable *overrideTable) {
   }
 
   return true;
-}
-
-VariableTable *SynonymProxyBuilder::getTable() const {
-  return variableTable;
 }

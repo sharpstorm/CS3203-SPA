@@ -9,7 +9,7 @@ bool contains(vector<PQLQuerySynonym*>* v, PQLQuerySynonym* target) {
 
 class SynonymUFDSSpy : public SynonymUFDS {
  public:
-  SynonymUFDSSpy(VariableTable* table) : SynonymUFDS(table) {}
+  SynonymUFDSSpy(ProxyMap* proxyMap) : SynonymUFDS(proxyMap) {}
   vector<UFDSSet> getParentsTesting() const {
     return getParents();
   }
@@ -29,7 +29,7 @@ TEST_CASE("SynonymUFDS Test") {
   varTable.add(syn4);
   varTable.add(syn5);
   varTable.finalizeTable();
-  SynonymUFDSSpy ufds(&varTable);
+  SynonymUFDSSpy ufds(varTable.getProxyMap());
 
   vector<int> v = ufds.getParentsTesting();
 

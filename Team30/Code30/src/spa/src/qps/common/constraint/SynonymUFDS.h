@@ -23,7 +23,7 @@ class SynonymUFDS {
   vector<UFDSSet> getParents() const;
 
  public:
-  explicit SynonymUFDS(VariableTable *varTable);
+  explicit SynonymUFDS(const ProxyMap *varTable);
 
   bool tryMergeSets(const PQLSynonymName &syn1,
                     const PQLSynonymName &syn2);
