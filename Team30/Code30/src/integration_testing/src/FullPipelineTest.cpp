@@ -550,7 +550,7 @@ TEST_CASE("Override With Clause Test, Default") {
                  {"2"});
 }
 
-TEST_CASE("With Clause Constant IConstraint") {
+TEST_CASE("With Clause Constant Constraint") {
   auto pipeline = TestPipelineProvider(SOURCE2);
 
   pipeline.query("Select BOOLEAN with 2 = 3",
