@@ -1,12 +1,12 @@
 1 - Select varName (Variable)
 variable varName;
 Select varName 
-something, notVar, var, test
+nothing, something, notVar, var, test
 5000
 2 - Select varName (Variable)
 variable varName;
 Select varName.varName
-something, notVar, var, test
+nothing, something, notVar, var, test
 5000
 3 - Select varName (Variable) - with clause
 variable varName;
@@ -211,7 +211,7 @@ Select stmt.stmt#
 40 - Select stmt (Assign) - with clause
 assign stmt;
 Select stmt.stmt# with stmt.stmt# = 2
-2,3,4,7,12,13
+2
 5000
 41 - Select stmt (Assign) - with clause
 assign stmt;
