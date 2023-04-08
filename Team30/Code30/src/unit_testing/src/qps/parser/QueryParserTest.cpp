@@ -47,7 +47,7 @@ void expectPQLSyntaxError(string testCase) {
 }
 
 void requireSynonyms(PQLQuery* result, vector<PQLQuerySynonym> expectedVariables) {
-  REQUIRE(result->getVarTable()->size() == expectedVariables.size());
+  REQUIRE(result->getDeclaredVariableCount() == expectedVariables.size());
   for (int i = 0; i < expectedVariables.size(); i++) {
     auto expectedVar = expectedVariables.at(i);
     auto var = result->getVariable(expectedVar.getName());

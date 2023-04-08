@@ -9,14 +9,21 @@ PQLQuery::PQLQuery(VariableTablePtr vars,
                    vector<ClausePtr> c,
                    vector<ConstraintPtr> con):
                    variables(std::move(vars)), resultVariables(resVar),
-                   clauses(std::move(c)), constraints(std::move(con)) { }
-
-VariableTable* PQLQuery::getVarTable() const {
-  return variables.get();
-}
+                   clauses(std::move(c)), constraints(std::move(con)),
+                   hasAppliedConstraints(false) { }
 
 const AttributedSynonymList* PQLQuery::getResultVariables() const {
   return &resultVariables;
+}
+
+const PQLSynonymNameListPtr PQLQuery::getConstrainedVariables() const {
+  auto ret = make_unique<PQLSynonymNameList>();
+  for (const ConstraintPtr &c : constraints) {
+    for (const PQLSynonymName &name : c->getAffectedSyns()) {
+      ret->push_back(name);
+    }
+  }
+  return std::move(ret);
 }
 
 PQLQuerySynonymProxy* PQLQuery::getVariable(const PQLSynonymName &name) const {
@@ -32,19 +39,32 @@ const vector<IEvaluatable*> PQLQuery::getEvaluatables() const {
   return evals;
 }
 
-const vector<IConstraint*> PQLQuery::getConstraints() const {
-  vector<IConstraint*> ret;
-  for (const ConstraintPtr &c : constraints) {
-    ret.push_back(c.get());
-  }
-
-  return ret;
-}
-
 int PQLQuery::getClauseCount() const {
   return clauses.size();
 }
 
 bool PQLQuery::isBooleanResult() const {
   return resultVariables.empty();
+}
+
+int PQLQuery::getDeclaredVariableCount() const {
+  return variables->size();
+}
+
+bool PQLQuery::resolveConstraints(OverrideTable* table) {
+  if (hasAppliedConstraints) {
+    return true;
+  }
+
+  hasAppliedConstraints = true;
+  SynonymProxyBuilder synProxyBuilder(variables.get());
+
+  for (const auto &con : constraints) {
+    if (!con->applyConstraint(&synProxyBuilder, table)) {
+      return false;
+    }
+  }
+
+  synProxyBuilder.build();
+  return synProxyBuilder.resolveOverrideMerging(table);
 }

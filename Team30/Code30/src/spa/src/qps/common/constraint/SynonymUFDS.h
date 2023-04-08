@@ -25,7 +25,6 @@ class SynonymUFDS {
  public:
   explicit SynonymUFDS(VariableTable *varTable);
 
-
   bool tryMergeSets(const PQLSynonymName &syn1,
                     const PQLSynonymName &syn2);
   bool isSameSet(const PQLSynonymName &syn1,

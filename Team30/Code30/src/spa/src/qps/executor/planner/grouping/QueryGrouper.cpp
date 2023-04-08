@@ -37,11 +37,9 @@ void QueryGrouper::initIndex() {
     groupIndex.insertSelection(it->getName());
   }
 
-  auto constraints = query->getConstraints();
-  for (IConstraint *constraint : constraints) {
-    for (PQLSynonymName syn : constraint->getAffectedSyns()) {
-      groupIndex.insertConstraint(syn);
-    }
+  PQLSynonymNameListPtr constrainedSyns = query->getConstrainedVariables();
+  for (const PQLSynonymName &synName : *constrainedSyns) {
+    groupIndex.insertConstraint(synName);
   }
 }
 

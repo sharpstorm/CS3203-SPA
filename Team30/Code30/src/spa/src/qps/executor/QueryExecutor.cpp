@@ -11,34 +11,19 @@ QueryExecutor::QueryExecutor(const PkbQueryHandler *pkbQH) :
     orchestrator(QueryOrchestrator(QueryLauncher(pkbQH))) {}
 
 ProjectorResultTable *QueryExecutor::executeQuery(const PQLQuery *query) {
-  OverrideTablePtr overrideTable = make_unique<OverrideTable>();
+  OverrideTable overrideTable;
   bool isBoolResult = query->isBooleanResult();
 
-  bool areConstraintsResolved =
-      resolveConstraints(query, overrideTable.get());
+  bool areConstraintsResolved = query->resolveConstraints(&overrideTable);
   if (!areConstraintsResolved) {
     return new ProjectorResultTable(isBoolResult, false);
   }
 
-  QueryPlanPtr plan = planner.getExecutionPlan(query, overrideTable.get());
+  QueryPlanPtr plan = planner.getExecutionPlan(query, &overrideTable);
   // Query just have constraints
   if (plan->isEmpty()) {
     return new ProjectorResultTable(isBoolResult, true);
   }
 
-  return orchestrator.execute(plan.get(), overrideTable.get());
-}
-
-bool QueryExecutor::resolveConstraints(const PQLQuery *query,
-                                       OverrideTable *overrideTable) const {
-  SynonymProxyBuilderPtr synProxyBuilder = make_unique<SynonymProxyBuilder>(
-      query->getVarTable());
-
-  for (const auto &con : query->getConstraints()) {
-    if (!con->applyConstraint(synProxyBuilder.get(), overrideTable)) {
-      return false;
-    }
-  }
-  synProxyBuilder->build();
-  return synProxyBuilder->resolveOverrideMerging(overrideTable);
+  return orchestrator.execute(plan.get(), &overrideTable);
 }
