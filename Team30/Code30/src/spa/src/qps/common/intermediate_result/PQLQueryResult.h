@@ -23,8 +23,8 @@ typedef vector<QueryResultTableRow> QueryResultTable;
 
 typedef AppendSet<ResultTableRow> RowSet;
 
-typedef QueryResultItemMap<RowSet> ColMap;
-typedef unique_ptr<ColMap> ColMapPtr;
+typedef QueryResultItemMap<RowSet> ColValueMap;
+typedef unique_ptr<ColValueMap> ColValueMapPtr;
 typedef unique_ptr<RowSet> RowSetPtr;
 
 typedef unordered_map<PQLSynonymName, ResultTableCol> SynonymColMap;
@@ -33,7 +33,7 @@ class PQLQueryResult {
  private:
   unordered_map<PQLSynonymName, ResultTableCol> resultIndex;
   QueryResultTable combinedTable;
-  vector<ColMapPtr> colMaps;
+  vector<ColValueMapPtr> colValueMaps;
 
   bool isStaticResult;
   bool isStaticFalse;

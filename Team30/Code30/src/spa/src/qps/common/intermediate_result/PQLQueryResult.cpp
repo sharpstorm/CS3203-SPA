@@ -43,8 +43,8 @@ ResultTableCol PQLQueryResult::getSynonymCol(const PQLSynonymName &name) const {
 }
 
 void PQLQueryResult::putSynonym(const PQLSynonymName &name) {
-  resultIndex[name] = colMaps.size();
-  colMaps.push_back(make_unique<ColMap>());
+  resultIndex[name] = colValueMaps.size();
+  colValueMaps.push_back(make_unique<ColValueMap>());
 }
 
 const QueryResultTableRow *PQLQueryResult::getTableRowAt(
@@ -54,8 +54,8 @@ const QueryResultTableRow *PQLQueryResult::getTableRowAt(
 
 void PQLQueryResult::putTableRow(const vector<QueryResultItem *> &row) {
   ResultTableRow newRowNum = combinedTable.size();
-  for (size_t i = 0; i < colMaps.size(); i++) {
-    ColMap *map = colMaps.at(i).get();
+  for (size_t i = 0; i < colValueMaps.size(); i++) {
+    ColValueMap *map = colValueMaps.at(i).get();
     const QueryResultItem *item = row.at(i);
     auto set = &(*map)[*item];
     set->insert(newRowNum);
@@ -70,7 +70,7 @@ int PQLQueryResult::getRowCount() const {
 
 RowSetPtr PQLQueryResult::getRowsWithValue(const ResultTableCol column,
                                            QueryResultItem *value) const {
-  ColMap *colMap = colMaps.at(column).get();
+  ColValueMap *colMap = colValueMaps.at(column).get();
   const auto &it = colMap->find(*value);
   if (it == colMap->end()) {
     return nullptr;
