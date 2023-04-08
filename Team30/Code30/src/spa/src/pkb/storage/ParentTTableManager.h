@@ -20,12 +20,12 @@ class ParentTTableManager {
   IntTable<StmtValue> *table;
   // max_child of block -> parents*
   IntSetTable<StmtValue> *reverseTable;
-  IntSetTable<StmtValue> *followsTable;
+  ContiguousVectorTable<StmtValue> *followsTable;
 
  public:
   ParentTTableManager(IntTable<StmtValue> *table,
                       IntSetTable<StmtValue> *reverseTable,
-                      IntSetTable<StmtValue> *followsTable)
+                      ContiguousVectorTable<StmtValue> *followsTable)
       : table(table), reverseTable(reverseTable), followsTable(followsTable) {}
   void insert(StmtValue arg1, StmtValue arg2) {
     // keep only maxChild
@@ -43,11 +43,11 @@ class ParentTTableManager {
   }
 
   StmtValue getLastSibling(StmtValue stmt) const {
-    const StmtSet &values = followsTable->get(stmt);
-    if (values.empty()) {
+    const StmtValue lastVal = followsTable->getLastValue(stmt);
+    if (lastVal == 0) {
       return stmt;
     } else {
-      return *values.rbegin();
+      return lastVal;
     }
   }
 

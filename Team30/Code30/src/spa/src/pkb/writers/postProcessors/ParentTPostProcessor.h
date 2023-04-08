@@ -6,12 +6,14 @@
 
 class ParentTPostProcessor : public IPostProcessor {
  public:
-  explicit ParentTPostProcessor(PKB *);
+  explicit ParentTPostProcessor(PKB*);
 
   void process() override;
 
  private:
-  PKB *pkb;
+  ParentTable* parentTable;
+  ParentTStorage* parentTStorage;
+  ParentRevTable* parentRevTable;
 
-  void dfsParentRevTable(StmtValue, StmtValueSet &) const;
+  void dfsParentRevTable(StmtValue, StmtValueSet&) const;
 };

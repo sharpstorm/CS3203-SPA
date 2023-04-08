@@ -1,24 +1,32 @@
 #include "CallsTPostProcessor.h"
-CallsTPostProcessor::CallsTPostProcessor(PKB* pkb) : pkb(pkb) {}
+
+#include <utility>
+
+using std::pair;
+
+CallsTPostProcessor::CallsTPostProcessor(PKB* pkb)
+    : callsTable(pkb->callsTable),
+      callsRevTable(pkb->callsRevTable),
+      callsTStorage(pkb->callsTStorage) {}
 
 void CallsTPostProcessor::process() {
-  pkb::Function<EntityValue, EntitySet> func = [this](const EntityValue& key,
-                                                      const EntitySet& values) {
-    for (auto child : values) {
+  auto it = callsTable->getTableIterator();
+  pair<EntityValue, EntitySet> row;
+  while (!(row = it->getNext()).first.empty()) {
+    for (const auto& child : row.second) {
       EntityValueSet ascendants = EntityValueSet();
       dfsCallsRevTable(child, ascendants);
       for (auto p : ascendants) {
-        this->pkb->callsTStorage->insert(p, child);
+        callsTStorage->insert(p, child);
       }
     }
-  };
-  pkb->callsTable->forEach(func, nullptr);
+  }
 }
 
-void CallsTPostProcessor::dfsCallsRevTable(EntityValue taget,
+void CallsTPostProcessor::dfsCallsRevTable(EntityValue target,
                                            EntityValueSet& ascendants) const {
-  auto result = pkb->callsRevTable->get(taget);
-  for (auto r : result) {
+  auto result = callsRevTable->get(target);
+  for (const auto& r : result) {
     if (ascendants.find(r) != ascendants.end()) {
       continue;
     }

@@ -50,6 +50,5 @@ QueryGroupPlanPtr QueryGroup::toPlan(vector<IEvaluatable *> newEvals,
   return make_unique<QueryGroupPlan>(newEvals,
                                      selectables,
                                      std::move(ownedEvals),
-                                     score,
-                                     canEmpty);
+                                     score);
 }

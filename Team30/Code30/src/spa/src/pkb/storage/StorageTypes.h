@@ -32,8 +32,8 @@ using CallDeclarationTable = HashKeyTable<StmtValue, EntityValue>;
 
 using FollowsStorage = FollowsTableManager;
 using FollowsTStorage = RelationTableManager<StmtValue, StmtValue>;
-using FollowsTable = IntSetTable<StmtValue>;
-using FollowsRevTable = IntSetTable<StmtValue>;
+using FollowsTable = ContiguousVectorTable<StmtValue>;
+using FollowsRevTable = ContiguousVectorTable<StmtValue>;
 
 using ParentStorage = RelationTableManager<StmtValue, StmtValue>;
 using ParentTStorage = ParentTTableManager;

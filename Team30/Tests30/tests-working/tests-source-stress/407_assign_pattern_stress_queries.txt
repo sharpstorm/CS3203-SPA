@@ -1,0 +1,2650 @@
+1 - Test Full Pattern 1
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, "((((a+b))))-(c/d)%(e*f/g)-((((((h))))))+(i*j)/(k%l)-(m+n-o+p+q+r)-(s)/((t/u))/v%w%x%y/z-A-B-C-D-E-F+G+H/I-J+K/L+M+N%O%P*Q*R/S/T/U+V-W-X-Y-Z")
+1
+5000
+2 - Test Pattern left
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1("patternAlphabets", _)
+1
+5000
+3 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"a+b"_)
+1
+5000
+4 - Test pattern parital (Negative)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"b-c"_)
+
+5000
+5 - Test pattern parital (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"h"_)
+1
+5000
+6 - Test pattern parital (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"m+n-o+p+q+r"_)
+1
+5000
+7 - Test pattern parital (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"z"_)
+1
+5000
+8 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"a+b-(c/d)%(e*f/g)"_)
+1
+5000
+9 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"A-B"_)
+
+5000
+10 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"B-C"_)
+
+5000
+11 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"((((a+b))))-(c/d)%(e*f/g)-((((((h))))))+(i*j) /(k%l)-(m+n-o+p+q+r)-(s)/((t/u))/v%w%x%y"_)
+
+5000
+12 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"((((a+b))))-(c/d)%(e*f/g)-((((((h))))))+(i*j)/(k%l)-(m+n-o+p+q+r)-(s)/((t/u))/v%w%x%y/z-A-B-C-D-E-F+G+H/I-J+K/L+M+N%O%P*Q*R/S/T/U+V-W-X-Y"_)
+1
+5000
+13 - Test pattern full (Negative)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, "((((a+b))))-(c/d)%(e*f/g)-((((((h))))))+(i*j)/(k%l)-(m+n-o+p+q+r)-(s)/((t/u))/v%w%x%y/z-A-B-C-D-E-F+G+H/I-J+K/L+M+N%O%P*Q*R/S/T/U+V-W-X-Y")
+
+5000
+14 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"((((a+b))))-(c/d)%(e*f/g)-((((((h))))))+(i*j)/(k%l)-(m+n-o+p+q+r)-(s)/((t/u))/v%w%x%y/z-A-B-C-D-E-F+G+H/I-J+K/L+M+N%O%P*Q*R/S/T/U+V-W-X-Y-Z"_)
+1
+5000
+15 - Test Pattern long name full (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_,_"thisIsALongLongNameWahahahahahaMuhahahahahaWheeeeeeeeeHuahuahuahuahuahuahuahuahuahuahuahuahuahuahuahu+MeowwwwwwwwwwwwwwwwwwwwwwwwwwwwwwWooooffffffffffffffffffffffffffffffffffffffffMuhahahahahahhaHehehehhehe+OhSingaporeHokkienhowsweetyoursoundAblendofculturehistoryandrootssoprofoundFromthebustlingstreetsofChinatowntothehawkercentersdinYourwordsarespokenwithprideheritageandkinWithtonesthatriseandfallyourmelodysingsOfstoriesofoldoftriumphsandsufferingsOffamilyfoodandtraditionsthatbindThepastandpresentheartsandmindsYouruniqueflavorsorichanddiverseAtapestryofdialectsaculturaluniverseFromthewarmestgreetingstotheloudestlaughsYouspeakalanguageoftheheartalanguageofthepastOhSingaporeHokkienhowyoubringustogetherAlanguageofthepeoplealanguagetotreasureAtestamenttotheresilienceandstrengthofanationAlanguagethatspeaksofoursharedaspirationsSoletushonorandcherishthislanguagesodearForitisapartofwhoweareyearafteryearLetusspeakitloudandproudandletitsbeautyshineOhSingaporeHokkienalanguagesodivine"_)
+5
+5000
+16 - Test pattern Partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"thisIsALongLongNameWahahahahahaMuhahahahahaWheeeeeeeeeHuahuahuahuahuahuahuahuahuahuahuahuahuahuahuahu"_)
+2, 5
+5000
+17 - Test pattern Partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"thisIsALongLongNameWahahahahahaMuhahahahahaWheeeeeeeeeHuahuahuahuahuahuahuahuahuahuahuahuahuahuahuahu"_)
+2, 5
+5000
+18 - Test pattern Partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"MeowwwwwwwwwwwwwwwwwwwwwwwwwwwwwwWooooffffffffffffffffffffffffffffffffffffffffMuhahahahahahhaHehehehhehe"_)
+3, 5
+5000
+19 - Test pattern Partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"OhSingaporeHokkienhowsweetyoursoundAblendofculturehistoryandrootssoprofoundFromthebustlingstreetsofChinatowntothehawkercentersdinYourwordsarespokenwithprideheritageandkinWithtonesthatriseandfallyourmelodysingsOfstoriesofoldoftriumphsandsufferingsOffamilyfoodandtraditionsthatbindThepastandpresentheartsandmindsYouruniqueflavorsorichanddiverseAtapestryofdialectsaculturaluniverseFromthewarmestgreetingstotheloudestlaughsYouspeakalanguageoftheheartalanguageofthepastOhSingaporeHokkienhowyoubringustogetherAlanguageofthepeoplealanguagetotreasureAtestamenttotheresilienceandstrengthofanationAlanguagethatspeaksofoursharedaspirationsSoletushonorandcherishthislanguagesodearForitisapartofwhoweareyearafteryearLetusspeakitloudandproudandletitsbeautyshineOhSingaporeHokkienalanguagesodivine"_)
+4, 5
+5000
+20 - Test pattern Partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"thisIsALongLongNameWahahahahahaMuhahahahahaWheeeeeeeeeHuahuahuahuahuahuahuahuahuahuahuahuahuahuahuahu+MeowwwwwwwwwwwwwwwwwwwwwwwwwwwwwwWooooffffffffffffffffffffffffffffffffffffffffMuhahahahahahhaHehehehhehe"_)
+5
+5000
+21 - Test pattern Partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"thisIsALongLongNameWahahahahahaMuhahahahahaWheeeeeeeeeHuahuahuahuahuahuahuahuahuahuahuahuahuahuahuahu+MeowwwwwwwwwwwwwwwwwwwwwwwwwwwwwwWooooffffffffffffffffffffffffffffffffffffffffMuhahahahahahhaHehehehhehe+OhSingaporeHokkienhowsweetyoursoundAblendofculturehistoryandrootssoprofoundFromthebustlingstreetsofChinatowntothehawkercentersdinYourwordsarespokenwithprideheritageandkinWithtonesthatriseandfallyourmelodysingsOfstoriesofoldoftriumphsandsufferingsOffamilyfoodandtraditionsthatbindThepastandpresentheartsandmindsYouruniqueflavorsorichanddiverseAtapestryofdialectsaculturaluniverseFromthewarmestgreetingstotheloudestlaughsYouspeakalanguageoftheheartalanguageofthepastOhSingaporeHokkienhowyoubringustogetherAlanguageofthepeoplealanguagetotreasureAtestamenttotheresilienceandstrengthofanationAlanguagethatspeaksofoursharedaspirationsSoletushonorandcherishthislanguagesodearForitisapartofwhoweareyearafteryearLetusspeakitloudandproudandletitsbeautyshineOhSingaporeHokkienalanguagesodivine"_)
+5
+5000
+22 - Test pattern Full many vars (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, "aa/ab/ac-ad-ae+af%ag/ah+ai/aj%ak%al%am%an*ao/ap*aq%ar%as*at-au*av+aw-ax/ay%az*ba*bb+bc*bd/be*bf%bg+bh*bi/bj%bk+bl+bm+bn-bo/bp-bq/br+bs-bt/bu-bv%bw/bx%by*bz+ca/cb%cc/cd+ce*cf%cg+ch*ci-cj/ck%cl%cm/cn+co%cp/cq/cr-cs+ct/cu*cv/cw+cx%cy/cz%da+db+dc*dd+de*df%dg/dh/di+dj-dk-dl-dm*dn%do*dp-dq%dr-ds*dt*du-dv%dw*dx%dy%dz-ea-eb-ec-ed*ee/ef-eg%eh%ei/ej%ek%el/em%en+eo+ep%eq%er-es/et-eu-ev*ew-ex*ey*ez%fa%fb%fc%fd*fe*ff/fg%fh/fi*fj%fk+fl+fm/fn*fo*fp/fq/fr/fs+ft*fu+fv+fw-fx/fy-fz%ga-gb+gc-gd%ge/gf+gg+gh+gi-gj-gk-gl/gm/gn%go+gp%gq*gr/gs-gt/gu+gv*gw-gx*gy%gz*ha+hb-hc%hd+he*hf*hg/hh*hi*hj/hk-hl-hm+hn*ho-hp-hq-hr%hs-ht-hu%hv/hw-hx/hy*hz%ia*ib-ic+id*ie+if+ig*ih+ii-ij+ik+il+im+in/io+ip*iq/ir+is%it+iu-iv*iw*ix+iy%iz%ja%jb-jc*jd+je*jf+jg%jh%ji*jj*jk-jl/jm+jn%jo-jp-jq+jr-js%jt*ju+jv%jw-jx+jy/jz+ka/kb%kc%kd+ke/kf-kg*kh/ki-kj*kk%kl/km+kn+ko+kp%kq%kr+ks/kt+ku+kv*kw+kx%ky/kz*la/lb-lc+ld+le/lf-lg-lh+li%lj+lk/ll+lm-ln%lo*lp/lq+lr/ls%lt+lu-lv%lw/lx%ly%lz/ma*mb-mc-md-me*mf%mg-mh-mi-mj*mk-ml*mm/mn/mo*mp-mq%mr/ms*mt/mu*mv%mw+mx-my+mz%na*nb/nc%nd-ne%nf%ng+nh-ni/nj*nk%nl+nm*nn/no-np*nq+nr*ns%nt/nu*nv%nw%nx/ny+nz%oa/ob-oc/od/oe+of*og-oh+oi%oj%ok+ol+om*on*oo+op+oq/or*os/ot-ou%ov-ow-ox*oy-oz*pa+pb%pc+pd+pe-pf+pg/ph+pi*pj-pk%pl+pm-pn%po/pp%pq%pr+ps%pt/pu-pv%pw+px/py%pz+qa%qb*qc%qd+qe%qf-qg+qh%qi-qj/qk+ql%qm*qn%qo*qp%qq%qr+qs%qt%qu-qv+qw*qx*qy%qz+ra/rb*rc/rd-re*rf*rg*rh*ri%rj/rk%rl-rm%rn*ro+rp-rq*rr%rs/rt%ru*rv+rw-rx*ry+rz-sa%sb/sc*sd/se+sf*sg*sh-si-sj-sk/sl*sm-sn/so+sp*sq*sr-ss+st/su*sv+sw+sx/sy*sz-ta*tb-tc/td/te")
+6
+5000
+23 - Test pattern Full with partial many vars (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"aa/ab/ac-ad-ae+af%ag/ah+ai/aj%ak%al%am%an*ao/ap*aq%ar%as*at-au*av+aw-ax/ay%az*ba*bb+bc*bd/be*bf%bg+bh*bi/bj%bk+bl+bm+bn-bo/bp-bq/br+bs-bt/bu-bv%bw/bx%by*bz+ca/cb%cc/cd+ce*cf%cg+ch*ci-cj/ck%cl%cm/cn+co%cp/cq/cr-cs+ct/cu*cv/cw+cx%cy/cz%da+db+dc*dd+de*df%dg/dh/di+dj-dk-dl-dm*dn%do*dp-dq%dr-ds*dt*du-dv%dw*dx%dy%dz-ea-eb-ec-ed*ee/ef-eg%eh%ei/ej%ek%el/em%en+eo+ep%eq%er-es/et-eu-ev*ew-ex*ey*ez%fa%fb%fc%fd*fe*ff/fg%fh/fi*fj%fk+fl+fm/fn*fo*fp/fq/fr/fs+ft*fu+fv+fw-fx/fy-fz%ga-gb+gc-gd%ge/gf+gg+gh+gi-gj-gk-gl/gm/gn%go+gp%gq*gr/gs-gt/gu+gv*gw-gx*gy%gz*ha+hb-hc%hd+he*hf*hg/hh*hi*hj/hk-hl-hm+hn*ho-hp-hq-hr%hs-ht-hu%hv/hw-hx/hy*hz%ia*ib-ic+id*ie+if+ig*ih+ii-ij+ik+il+im+in/io+ip*iq/ir+is%it+iu-iv*iw*ix+iy%iz%ja%jb-jc*jd+je*jf+jg%jh%ji*jj*jk-jl/jm+jn%jo-jp-jq+jr-js%jt*ju+jv%jw-jx+jy/jz+ka/kb%kc%kd+ke/kf-kg*kh/ki-kj*kk%kl/km+kn+ko+kp%kq%kr+ks/kt+ku+kv*kw+kx%ky/kz*la/lb-lc+ld+le/lf-lg-lh+li%lj+lk/ll+lm-ln%lo*lp/lq+lr/ls%lt+lu-lv%lw/lx%ly%lz/ma*mb-mc-md-me*mf%mg-mh-mi-mj*mk-ml*mm/mn/mo*mp-mq%mr/ms*mt/mu*mv%mw+mx-my+mz%na*nb/nc%nd-ne%nf%ng+nh-ni/nj*nk%nl+nm*nn/no-np*nq+nr*ns%nt/nu*nv%nw%nx/ny+nz%oa/ob-oc/od/oe+of*og-oh+oi%oj%ok+ol+om*on*oo+op+oq/or*os/ot-ou%ov-ow-ox*oy-oz*pa+pb%pc+pd+pe-pf+pg/ph+pi*pj-pk%pl+pm-pn%po/pp%pq%pr+ps%pt/pu-pv%pw+px/py%pz+qa%qb*qc%qd+qe%qf-qg+qh%qi-qj/qk+ql%qm*qn%qo*qp%qq%qr+qs%qt%qu-qv+qw*qx*qy%qz+ra/rb*rc/rd-re*rf*rg*rh*ri%rj/rk%rl-rm%rn*ro+rp-rq*rr%rs/rt%ru*rv+rw-rx*ry+rz-sa%sb/sc*sd/se+sf*sg*sh-si-sj-sk/sl*sm-sn/so+sp*sq*sr-ss+st/su*sv+sw+sx/sy*sz-ta*tb-tc/td/te"_)
+6
+5000
+24 - Test pattern Full many vars (Negative)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, "aa/ab/ac-ad-ae+af%ag/ah+ai/aj%ak%al%am%an*ao/ap*aq%ar%as*at-au*av+aw-ax/ay%az*ba*bb+bc*bd/be*bf%bg+bh*bi/bj%bk+bl+bm+bn-bo/bp-bq/br+bs-bt/bu-bv%bw/bx%by*bz+ca/cb%cc/cd+ce*cf%cg+ch*ci-cj/ck%cl%cm/cn+co%cp/cq/cr-cs+ct/cu*cv/cw+cx%cy/cz%da+db+dc*dd+de*df%dg/dh/di+dj-dk-dl-dm*dn%do*dp-dq%dr-ds*dt*du-dv%dw*dx%dy%dz-ea-eb-ec-ed*ee/ef-eg%eh%ei/ej%ek%el/em%en+eo+ep%eq%er-es/et-eu-ev*ew-ex*ey*ez%fa%fb%fc%fd*fe*ff/fg%fh/fi*fj%fk+fl+fm/fn*fo*fp/fq/fr/fs+ft*fu+fv+fw-fx/fy-fz%ga-gb+gc-gd%ge/gf+gg+gh+gi-gj-gk-gl/gm/gn%go+gp%gq*gr/gs-gt/gu+gv*gw-gx*gy%gz*ha+hb-hc%hd+he*hf*hg/hh*hi*hj/hk-hl-hm+hn*ho-hp-hq-hr%hs-ht-hu%hv/hw-hx/hy*hz%ia*ib-ic+id*ie+if+ig*ih+ii-ij+ik+il+im+in/io+ip*iq/ir+is%it+iu-iv*iw*ix+iy%iz%ja%jb-jc*jd+je*jf+jg%jh%ji*jj*jk-jl/jm+jn%jo-jp-jq+jr-js%jt*ju+jv%jw-jx+jy/jz+ka/kb%kc%kd+ke/kf-kg*kh/ki-kj*kk%kl/km+kn+ko+kp%kq%kr+ks/kt+ku+kv*kw+kx%ky/kz*la/lb-lc+ld+le/lf-lg-lh+li%lj+lk/ll+lm-ln%lo*lp/lq+lr/ls%lt+lu-lv%lw/lx%ly%lz/ma*mb-mc-md-me*mf%mg-mh-mi-mj*mk-ml*mm/mn/mo*mp-mq%mr/ms*mt/mu*mv%mw+mx-my+mz%na*nb/nc%nd-ne%nf%ng+nh-ni/nj*nk%nl+nm*nn/no-np*nq+nr*ns%nt/nu*nv%nw%nx/ny+nz%oa/ob-oc/od/oe+of*og-oh+oi%oj%ok+ol+om*on*oo+op+oq/or*os/ot-ou%ov-ow-ox*oy-oz*pa+pb%pc+pd+pe-pf+pg/ph+pi*pj-pk%pl+pm-pn%po/pp%pq%pr+ps%pt/pu-pv%pw+px/py%pz+qa%qb*qc%qd+qe%qf-qg+qh%qi-qj/qk+ql%qm*qn%qo*qp%qq%qr+qs%qt%qu-qv+qw*qx*qy%qz+ra/rb*rc/rd-re*rf*rg*rh*ri%rj/rk%rl-rm%rn*ro+rp-rq*rr%rs/rt%ru*rv+rw-rx*ry+rz-sa%sb/sc*sd/se+sf*sg*sh-si-sj-sk/sl*sm-sn/so+sp*sq*sr-ss+st/su*sv+sw+sx/sy*sz-ta*tb-tc/td")
+
+5000
+25 - Test pattern Full with partial many vars (Negative)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"aa/ab/ac-ad-ae+af%ag/ah+ai/aj%ak%al%am%an*ao/ap*aq%ar%as*at-au*av+aw-ax/ay%az*ba*bb+bc*bd/be*bf%bg+bh*bi/bj%bk+bl+bm+bn-bo/bp-bq/br+bs-bt/bu-bv%bw/bx%by*bz+ca/cb%cc/cd+ce*cf%cg+ch*ci-cj/ck%cl%cm/cn+co%cp/cq/cr-cs+ct/cu*cv/cw+cx%cy/cz%da+db+dc*dd+de*df%dg/dh/di+dj-dk-dl-dm*dn%do*dp-dq%dr-ds*dt*du-dv%dw*dx%dy%dz-ea-eb-ec-ed*ee/ef-eg%eh%ei/ej%ek%el/em%en+eo+ep%eq%er-es/et-eu-ev*ew-ex*ey*ez%fa%fb%fc%fd*fe*ff/fg%fh/fi*fj%fk+fl+fm/fn*fo*fp/fq/fr/fs+ft*fu+fv+fw-fx/fy-fz%ga-gb+gc-gd%ge/gf+gg+gh+gi-gj-gk-gl/gm/gn%go+gp%gq*gr/gs-gt/gu+gv*gw-gx*gy%gz*ha+hb-hc%hd+he*hf*hg/hh*hi*hj/hk-hl-hm+hn*ho-hp-hq-hr%hs-ht-hu%hv/hw-hx/hy*hz%ia*ib-ic+id*ie+if+ig*ih+ii-ij+ik+il+im+in/io+ip*iq/ir+is%it+iu-iv*iw*ix+iy%iz%ja%jb-jc*jd+je*jf+jg%jh%ji*jj*jk-jl/jm+jn%jo-jp-jq+jr-js%jt*ju+jv%jw-jx+jy/jz+ka/kb%kc%kd+ke/kf-kg*kh/ki-kj*kk%kl/km+kn+ko+kp%kq%kr+ks/kt+ku+kv*kw+kx%ky/kz*la/lb-lc+ld+le/lf-lg-lh+li%lj+lk/ll+lm-ln%lo*lp/lq+lr/ls%lt+lu-lv%lw/lx%ly%lz/ma*mb-mc-md-me*mf%mg-mh-mi-mj*mk-ml*mm/mn/mo*mp-mq%mr/ms*mt/mu*mv%mw+mx-my+mz%na*nb/nc%nd-ne%nf%ng+nh-ni/nj*nk%nl+nm*nn/no-np*nq+nr*ns%nt/nu*nv%nw%nx/ny+nz%oa/ob-oc/od/oe+of*og-oh+oi%oj%ok+ol+om*on*oo+op+oq/or*os/ot-ou%ov-ow-ox*oy-oz*pa+pb%pc+pd+pe-pf+pg/ph+pi*pj-pk%pl+pm-pn%po/pp%pq%pr+ps%pt/pu-pv%pw+px/py%pz+qa%qb*qc%qd+qe%qf-qg+qh%qi-qj/qk+ql%qm*qn%qo*qp%qq%qr+qs%qt%qu-qv+qw*qx*qy%qz+ra/rb*rc/rd-re*rf*rg*rh*ri%rj/rk%rl-rm%rn*ro+rp-rq*rr%rs/rt%ru*rv+rw-rx*ry+rz-sa%sb/sc*sd/se+sf*sg*sh-si-sj-sk/sl*sm-sn/so+sp*sq*sr-ss+st/su*sv+sw+sx/sy*sz-ta*tb/td/te"_)
+
+5000
+26 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"aa"_)
+6
+5000
+27 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ab"_)
+6
+5000
+28 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ac"_)
+6
+5000
+29 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ad"_)
+6
+5000
+30 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ae"_)
+6
+5000
+31 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"af"_)
+6
+5000
+32 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ag"_)
+6
+5000
+33 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ah"_)
+6
+5000
+34 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ai"_)
+6
+5000
+35 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"aj"_)
+6
+5000
+36 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ak"_)
+6
+5000
+37 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"al"_)
+6
+5000
+38 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"am"_)
+6
+5000
+39 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"an"_)
+6
+5000
+40 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ao"_)
+6
+5000
+41 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ap"_)
+6
+5000
+42 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"aq"_)
+6
+5000
+43 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ar"_)
+6
+5000
+44 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"as"_)
+6
+5000
+45 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"at"_)
+6
+5000
+46 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"au"_)
+6
+5000
+47 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"av"_)
+6
+5000
+48 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"aw"_)
+6
+5000
+49 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ax"_)
+6
+5000
+50 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ay"_)
+6
+5000
+51 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"az"_)
+6
+5000
+52 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ba"_)
+6
+5000
+53 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"bb"_)
+6
+5000
+54 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"bc"_)
+6
+5000
+55 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"bd"_)
+6
+5000
+56 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"be"_)
+6
+5000
+57 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"bf"_)
+6
+5000
+58 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"bg"_)
+6
+5000
+59 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"bh"_)
+6
+5000
+60 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"bi"_)
+6
+5000
+61 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"bj"_)
+6
+5000
+62 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"bk"_)
+6
+5000
+63 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"bl"_)
+6
+5000
+64 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"bm"_)
+6
+5000
+65 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"bn"_)
+6
+5000
+66 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"bo"_)
+6
+5000
+67 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"bp"_)
+6
+5000
+68 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"bq"_)
+6
+5000
+69 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"br"_)
+6
+5000
+70 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"bs"_)
+6
+5000
+71 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"bt"_)
+6
+5000
+72 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"bu"_)
+6
+5000
+73 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"bv"_)
+6
+5000
+74 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"bw"_)
+6
+5000
+75 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"bx"_)
+6
+5000
+76 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"by"_)
+6
+5000
+77 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"bz"_)
+6
+5000
+78 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ca"_)
+6
+5000
+79 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"cb"_)
+6
+5000
+80 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"cc"_)
+6
+5000
+81 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"cd"_)
+6
+5000
+82 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ce"_)
+6
+5000
+83 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"cf"_)
+6
+5000
+84 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"cg"_)
+6
+5000
+85 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ch"_)
+6
+5000
+86 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ci"_)
+6
+5000
+87 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"cj"_)
+6
+5000
+88 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ck"_)
+6
+5000
+89 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"cl"_)
+6
+5000
+90 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"cm"_)
+6
+5000
+91 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"cn"_)
+6
+5000
+92 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"co"_)
+6
+5000
+93 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"cp"_)
+6
+5000
+94 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"cq"_)
+6
+5000
+95 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"cr"_)
+6
+5000
+96 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"cs"_)
+6
+5000
+97 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ct"_)
+6
+5000
+98 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"cu"_)
+6
+5000
+99 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"cv"_)
+6
+5000
+100 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"cw"_)
+6
+5000
+101 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"cx"_)
+6
+5000
+102 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"cy"_)
+6
+5000
+103 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"cz"_)
+6
+5000
+104 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"da"_)
+6
+5000
+105 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"db"_)
+6
+5000
+106 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"dc"_)
+6
+5000
+107 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"dd"_)
+6
+5000
+108 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"de"_)
+6
+5000
+109 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"df"_)
+6
+5000
+110 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"dg"_)
+6
+5000
+111 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"dh"_)
+6
+5000
+112 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"di"_)
+6
+5000
+113 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"dj"_)
+6
+5000
+114 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"dk"_)
+6
+5000
+115 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"dl"_)
+6
+5000
+116 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"dm"_)
+6
+5000
+117 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"dn"_)
+6
+5000
+118 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"do"_)
+6
+5000
+119 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"dp"_)
+6
+5000
+120 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"dq"_)
+6
+5000
+121 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"dr"_)
+6
+5000
+122 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ds"_)
+6
+5000
+123 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"dt"_)
+6
+5000
+124 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"du"_)
+6
+5000
+125 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"dv"_)
+6
+5000
+126 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"dw"_)
+6
+5000
+127 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"dx"_)
+6
+5000
+128 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"dy"_)
+6
+5000
+129 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"dz"_)
+6
+5000
+130 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ea"_)
+6
+5000
+131 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"eb"_)
+6
+5000
+132 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ec"_)
+6
+5000
+133 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ed"_)
+6
+5000
+134 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ee"_)
+6
+5000
+135 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ef"_)
+6
+5000
+136 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"eg"_)
+6
+5000
+137 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"eh"_)
+6
+5000
+138 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ei"_)
+6
+5000
+139 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ej"_)
+6
+5000
+140 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ek"_)
+6
+5000
+141 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"el"_)
+6
+5000
+142 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"em"_)
+6
+5000
+143 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"en"_)
+6
+5000
+144 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"eo"_)
+6
+5000
+145 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ep"_)
+6
+5000
+146 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"eq"_)
+6
+5000
+147 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"er"_)
+6
+5000
+148 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"es"_)
+6
+5000
+149 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"et"_)
+6
+5000
+150 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"eu"_)
+6
+5000
+151 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ev"_)
+6
+5000
+152 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ew"_)
+6
+5000
+153 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ex"_)
+6
+5000
+154 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ey"_)
+6
+5000
+155 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ez"_)
+6
+5000
+156 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"fa"_)
+6
+5000
+157 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"fb"_)
+6
+5000
+158 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"fc"_)
+6
+5000
+159 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"fd"_)
+6
+5000
+160 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"fe"_)
+6
+5000
+161 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ff"_)
+6
+5000
+162 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"fg"_)
+6
+5000
+163 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"fh"_)
+6
+5000
+164 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"fi"_)
+6
+5000
+165 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"fj"_)
+6
+5000
+166 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"fk"_)
+6
+5000
+167 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"fl"_)
+6
+5000
+168 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"fm"_)
+6
+5000
+169 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"fn"_)
+6
+5000
+170 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"fo"_)
+6
+5000
+171 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"fp"_)
+6
+5000
+172 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"fq"_)
+6
+5000
+173 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"fr"_)
+6
+5000
+174 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"fs"_)
+6
+5000
+175 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ft"_)
+6
+5000
+176 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"fu"_)
+6
+5000
+177 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"fv"_)
+6
+5000
+178 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"fw"_)
+6
+5000
+179 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"fx"_)
+6
+5000
+180 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"fy"_)
+6
+5000
+181 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"fz"_)
+6
+5000
+182 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ga"_)
+6
+5000
+183 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"gb"_)
+6
+5000
+184 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"gc"_)
+6
+5000
+185 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"gd"_)
+6
+5000
+186 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ge"_)
+6
+5000
+187 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"gf"_)
+6
+5000
+188 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"gg"_)
+6
+5000
+189 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"gh"_)
+6
+5000
+190 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"gi"_)
+6
+5000
+191 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"gj"_)
+6
+5000
+192 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"gk"_)
+6
+5000
+193 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"gl"_)
+6
+5000
+194 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"gm"_)
+6
+5000
+195 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"gn"_)
+6
+5000
+196 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"go"_)
+6
+5000
+197 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"gp"_)
+6
+5000
+198 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"gq"_)
+6
+5000
+199 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"gr"_)
+6
+5000
+200 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"gs"_)
+6
+5000
+201 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"gt"_)
+6
+5000
+202 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"gu"_)
+6
+5000
+203 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"gv"_)
+6
+5000
+204 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"gw"_)
+6
+5000
+205 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"gx"_)
+6
+5000
+206 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"gy"_)
+6
+5000
+207 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"gz"_)
+6
+5000
+208 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ha"_)
+6
+5000
+209 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"hb"_)
+6
+5000
+210 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"hc"_)
+6
+5000
+211 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"hd"_)
+6
+5000
+212 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"he"_)
+6
+5000
+213 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"hf"_)
+6
+5000
+214 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"hg"_)
+6
+5000
+215 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"hh"_)
+6
+5000
+216 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"hi"_)
+6
+5000
+217 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"hj"_)
+6
+5000
+218 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"hk"_)
+6
+5000
+219 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"hl"_)
+6
+5000
+220 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"hm"_)
+6
+5000
+221 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"hn"_)
+6
+5000
+222 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ho"_)
+6
+5000
+223 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"hp"_)
+6
+5000
+224 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"hq"_)
+6
+5000
+225 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"hr"_)
+6
+5000
+226 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"hs"_)
+6
+5000
+227 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ht"_)
+6
+5000
+228 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"hu"_)
+6
+5000
+229 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"hv"_)
+6
+5000
+230 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"hw"_)
+6
+5000
+231 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"hx"_)
+6
+5000
+232 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"hy"_)
+6
+5000
+233 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"hz"_)
+6
+5000
+234 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ia"_)
+6
+5000
+235 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ib"_)
+6
+5000
+236 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ic"_)
+6
+5000
+237 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"id"_)
+6
+5000
+238 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ie"_)
+6
+5000
+239 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"if"_)
+6
+5000
+240 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ig"_)
+6
+5000
+241 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ih"_)
+6
+5000
+242 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ii"_)
+6
+5000
+243 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ij"_)
+6
+5000
+244 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ik"_)
+6
+5000
+245 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"il"_)
+6
+5000
+246 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"im"_)
+6
+5000
+247 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"in"_)
+6
+5000
+248 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"io"_)
+6
+5000
+249 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ip"_)
+6
+5000
+250 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"iq"_)
+6
+5000
+251 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ir"_)
+6
+5000
+252 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"is"_)
+6
+5000
+253 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"it"_)
+6
+5000
+254 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"iu"_)
+6
+5000
+255 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"iv"_)
+6
+5000
+256 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"iw"_)
+6
+5000
+257 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ix"_)
+6
+5000
+258 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"iy"_)
+6
+5000
+259 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"iz"_)
+6
+5000
+260 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ja"_)
+6
+5000
+261 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"jb"_)
+6
+5000
+262 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"jc"_)
+6
+5000
+263 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"jd"_)
+6
+5000
+264 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"je"_)
+6
+5000
+265 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"jf"_)
+6
+5000
+266 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"jg"_)
+6
+5000
+267 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"jh"_)
+6
+5000
+268 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ji"_)
+6
+5000
+269 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"jj"_)
+6
+5000
+270 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"jk"_)
+6
+5000
+271 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"jl"_)
+6
+5000
+272 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"jm"_)
+6
+5000
+273 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"jn"_)
+6
+5000
+274 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"jo"_)
+6
+5000
+275 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"jp"_)
+6
+5000
+276 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"jq"_)
+6
+5000
+277 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"jr"_)
+6
+5000
+278 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"js"_)
+6
+5000
+279 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"jt"_)
+6
+5000
+280 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ju"_)
+6
+5000
+281 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"jv"_)
+6
+5000
+282 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"jw"_)
+6
+5000
+283 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"jx"_)
+6
+5000
+284 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"jy"_)
+6
+5000
+285 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"jz"_)
+6
+5000
+286 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ka"_)
+6
+5000
+287 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"kb"_)
+6
+5000
+288 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"kc"_)
+6
+5000
+289 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"kd"_)
+6
+5000
+290 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ke"_)
+6
+5000
+291 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"kf"_)
+6
+5000
+292 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"kg"_)
+6
+5000
+293 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"kh"_)
+6
+5000
+294 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ki"_)
+6
+5000
+295 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"kj"_)
+6
+5000
+296 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"kk"_)
+6
+5000
+297 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"kl"_)
+6
+5000
+298 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"km"_)
+6
+5000
+299 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"kn"_)
+6
+5000
+300 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ko"_)
+6
+5000
+301 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"kp"_)
+6
+5000
+302 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"kq"_)
+6
+5000
+303 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"kr"_)
+6
+5000
+304 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ks"_)
+6
+5000
+305 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"kt"_)
+6
+5000
+306 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ku"_)
+6
+5000
+307 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"kv"_)
+6
+5000
+308 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"kw"_)
+6
+5000
+309 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"kx"_)
+6
+5000
+310 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ky"_)
+6
+5000
+311 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"kz"_)
+6
+5000
+312 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"la"_)
+6
+5000
+313 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"lb"_)
+6
+5000
+314 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"lc"_)
+6
+5000
+315 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ld"_)
+6
+5000
+316 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"le"_)
+6
+5000
+317 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"lf"_)
+6
+5000
+318 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"lg"_)
+6
+5000
+319 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"lh"_)
+6
+5000
+320 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"li"_)
+6
+5000
+321 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"lj"_)
+6
+5000
+322 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"lk"_)
+6
+5000
+323 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ll"_)
+6
+5000
+324 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"lm"_)
+6
+5000
+325 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ln"_)
+6
+5000
+326 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"lo"_)
+6
+5000
+327 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"lp"_)
+6
+5000
+328 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"lq"_)
+6
+5000
+329 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"lr"_)
+6
+5000
+330 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ls"_)
+6
+5000
+331 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"lt"_)
+6
+5000
+332 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"lu"_)
+6
+5000
+333 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"lv"_)
+6
+5000
+334 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"lw"_)
+6
+5000
+335 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"lx"_)
+6
+5000
+336 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ly"_)
+6
+5000
+337 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"lz"_)
+6
+5000
+338 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ma"_)
+6
+5000
+339 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"mb"_)
+6
+5000
+340 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"mc"_)
+6
+5000
+341 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"md"_)
+6
+5000
+342 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"me"_)
+6
+5000
+343 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"mf"_)
+6
+5000
+344 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"mg"_)
+6
+5000
+345 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"mh"_)
+6
+5000
+346 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"mi"_)
+6
+5000
+347 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"mj"_)
+6
+5000
+348 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"mk"_)
+6
+5000
+349 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ml"_)
+6
+5000
+350 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"mm"_)
+6
+5000
+351 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"mn"_)
+6
+5000
+352 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"mo"_)
+6
+5000
+353 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"mp"_)
+6
+5000
+354 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"mq"_)
+6
+5000
+355 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"mr"_)
+6
+5000
+356 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ms"_)
+6
+5000
+357 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"mt"_)
+6
+5000
+358 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"mu"_)
+6
+5000
+359 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"mv"_)
+6
+5000
+360 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"mw"_)
+6
+5000
+361 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"mx"_)
+6
+5000
+362 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"my"_)
+6
+5000
+363 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"mz"_)
+6
+5000
+364 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"na"_)
+6
+5000
+365 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"nb"_)
+6
+5000
+366 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"nc"_)
+6
+5000
+367 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"nd"_)
+6
+5000
+368 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ne"_)
+6
+5000
+369 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"nf"_)
+6
+5000
+370 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ng"_)
+6
+5000
+371 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"nh"_)
+6
+5000
+372 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ni"_)
+6
+5000
+373 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"nj"_)
+6
+5000
+374 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"nk"_)
+6
+5000
+375 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"nl"_)
+6
+5000
+376 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"nm"_)
+6
+5000
+377 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"nn"_)
+6
+5000
+378 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"no"_)
+6
+5000
+379 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"np"_)
+6
+5000
+380 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"nq"_)
+6
+5000
+381 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"nr"_)
+6
+5000
+382 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ns"_)
+6
+5000
+383 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"nt"_)
+6
+5000
+384 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"nu"_)
+6
+5000
+385 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"nv"_)
+6
+5000
+386 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"nw"_)
+6
+5000
+387 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"nx"_)
+6
+5000
+388 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ny"_)
+6
+5000
+389 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"nz"_)
+6
+5000
+390 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"oa"_)
+6
+5000
+391 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ob"_)
+6
+5000
+392 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"oc"_)
+6
+5000
+393 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"od"_)
+6
+5000
+394 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"oe"_)
+6
+5000
+395 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"of"_)
+6
+5000
+396 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"og"_)
+6
+5000
+397 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"oh"_)
+6
+5000
+398 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"oi"_)
+6
+5000
+399 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"oj"_)
+6
+5000
+400 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ok"_)
+6
+5000
+401 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ol"_)
+6
+5000
+402 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"om"_)
+6
+5000
+403 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"on"_)
+6
+5000
+404 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"oo"_)
+6
+5000
+405 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"op"_)
+6
+5000
+406 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"oq"_)
+6
+5000
+407 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"or"_)
+6
+5000
+408 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"os"_)
+6
+5000
+409 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ot"_)
+6
+5000
+410 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ou"_)
+6
+5000
+411 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ov"_)
+6
+5000
+412 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ow"_)
+6
+5000
+413 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ox"_)
+6
+5000
+414 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"oy"_)
+6
+5000
+415 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"oz"_)
+6
+5000
+416 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"pa"_)
+6
+5000
+417 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"pb"_)
+6
+5000
+418 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"pc"_)
+6
+5000
+419 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"pd"_)
+6
+5000
+420 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"pe"_)
+6
+5000
+421 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"pf"_)
+6
+5000
+422 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"pg"_)
+6
+5000
+423 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ph"_)
+6
+5000
+424 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"pi"_)
+6
+5000
+425 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"pj"_)
+6
+5000
+426 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"pk"_)
+6
+5000
+427 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"pl"_)
+6
+5000
+428 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"pm"_)
+6
+5000
+429 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"pn"_)
+6
+5000
+430 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"po"_)
+6
+5000
+431 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"pp"_)
+6
+5000
+432 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"pq"_)
+6
+5000
+433 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"pr"_)
+6
+5000
+434 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ps"_)
+6
+5000
+435 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"pt"_)
+6
+5000
+436 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"pu"_)
+6
+5000
+437 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"pv"_)
+6
+5000
+438 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"pw"_)
+6
+5000
+439 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"px"_)
+6
+5000
+440 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"py"_)
+6
+5000
+441 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"pz"_)
+6
+5000
+442 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"qa"_)
+6
+5000
+443 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"qb"_)
+6
+5000
+444 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"qc"_)
+6
+5000
+445 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"qd"_)
+6
+5000
+446 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"qe"_)
+6
+5000
+447 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"qf"_)
+6
+5000
+448 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"qg"_)
+6
+5000
+449 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"qh"_)
+6
+5000
+450 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"qi"_)
+6
+5000
+451 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"qj"_)
+6
+5000
+452 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"qk"_)
+6
+5000
+453 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ql"_)
+6
+5000
+454 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"qm"_)
+6
+5000
+455 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"qn"_)
+6
+5000
+456 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"qo"_)
+6
+5000
+457 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"qp"_)
+6
+5000
+458 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"qq"_)
+6
+5000
+459 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"qr"_)
+6
+5000
+460 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"qs"_)
+6
+5000
+461 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"qt"_)
+6
+5000
+462 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"qu"_)
+6
+5000
+463 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"qv"_)
+6
+5000
+464 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"qw"_)
+6
+5000
+465 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"qx"_)
+6
+5000
+466 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"qy"_)
+6
+5000
+467 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"qz"_)
+6
+5000
+468 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ra"_)
+6
+5000
+469 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"rb"_)
+6
+5000
+470 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"rc"_)
+6
+5000
+471 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"rd"_)
+6
+5000
+472 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"re"_)
+6
+5000
+473 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"rf"_)
+6
+5000
+474 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"rg"_)
+6
+5000
+475 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"rh"_)
+6
+5000
+476 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ri"_)
+6
+5000
+477 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"rj"_)
+6
+5000
+478 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"rk"_)
+6
+5000
+479 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"rl"_)
+6
+5000
+480 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"rm"_)
+6
+5000
+481 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"rn"_)
+6
+5000
+482 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ro"_)
+6
+5000
+483 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"rp"_)
+6
+5000
+484 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"rq"_)
+6
+5000
+485 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"rr"_)
+6
+5000
+486 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"rs"_)
+6
+5000
+487 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"rt"_)
+6
+5000
+488 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ru"_)
+6
+5000
+489 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"rv"_)
+6
+5000
+490 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"rw"_)
+6
+5000
+491 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"rx"_)
+6
+5000
+492 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ry"_)
+6
+5000
+493 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"rz"_)
+6
+5000
+494 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"sa"_)
+6
+5000
+495 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"sb"_)
+6
+5000
+496 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"sc"_)
+6
+5000
+497 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"sd"_)
+6
+5000
+498 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"se"_)
+6
+5000
+499 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"sf"_)
+6
+5000
+500 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"sg"_)
+6
+5000
+501 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"sh"_)
+6
+5000
+502 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"si"_)
+6
+5000
+503 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"sj"_)
+6
+5000
+504 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"sk"_)
+6
+5000
+505 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"sl"_)
+6
+5000
+506 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"sm"_)
+6
+5000
+507 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"sn"_)
+6
+5000
+508 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"so"_)
+6
+5000
+509 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"sp"_)
+6
+5000
+510 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"sq"_)
+6
+5000
+511 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"sr"_)
+6
+5000
+512 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ss"_)
+6
+5000
+513 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"st"_)
+6
+5000
+514 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"su"_)
+6
+5000
+515 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"sv"_)
+6
+5000
+516 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"sw"_)
+6
+5000
+517 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"sx"_)
+6
+5000
+518 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"sy"_)
+6
+5000
+519 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"sz"_)
+6
+5000
+520 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ta"_)
+6
+5000
+521 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"tb"_)
+6
+5000
+522 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"tc"_)
+6
+5000
+523 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"td"_)
+6
+5000
+524 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"te"_)
+6
+5000
+525 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"aa/ab/ac-ad-ae"_)
+6
+5000
+526 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"au*av"_)
+6
+5000
+527 - Test pattern partial (Positive)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"ox*oy"_)
+6
+5000
+528 - Test pattern partial (Negative)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"aa/ab/ac-ad-ae+af"_)
+
+5000
+529 - Test pattern partial (Negative Syntax)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"aa/ab/ac-ad-ae+af%"_)
+SyntaxError
+5000
+530 - Test pattern partial (Negative Syntax)
+stmt s1, s2, s3; variable v1, v2, v3; assign a1, a2, a3;
+Select a1 pattern a1(_, _"aa/ab/ac-ad-ae+af%ag/cg"_)
+
+5000

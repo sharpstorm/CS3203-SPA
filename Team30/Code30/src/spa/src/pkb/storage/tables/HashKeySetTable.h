@@ -1,13 +1,15 @@
 #pragma once
 
 #include <cassert>
+#include <memory>
 #include <set>
 #include <unordered_map>
 
 #include "HashKeyTable.h"
 #include "IBaseSetTable.h"
+#include "pkb/storage/iterators/SetIterator.h"
 
-using std::set;
+using std::set, std::make_unique;
 
 template <typename K, typename V>
 class HashKeySetTable : public IBaseSetTable<K, V>,
@@ -26,12 +28,17 @@ class HashKeySetTable : public IBaseSetTable<K, V>,
     return HashKeyTable<K, set<V>>::get(key);
   }
 
-  void forEach(pkb::Function<K, set<V>> function,
-               pkb::Terminator<K, set<V>> terminator) const override {
-    return HashKeyTable<K, set<V>>::forEach(function, terminator);
-  }
+  int size() const override { return HashKeyTable<K, set<V>>::size(); };
 
-  int size() const override {
-    return HashKeyTable<K, set<V>>::size();
+  bool isEmpty() const override { return HashKeyTable<K, set<V>>::isEmpty(); }
+
+  bool contains(K key, V value) const override {
+    return get(key).count(value);
   };
+
+  bool containsKey(K key) const override { return !get(key).empty(); }
+
+  unique_ptr<IBaseIterator<V>> getValueIterator(K key) override {
+    return make_unique<SetIterator<V>>(HashKeyTable<K, set<V>>::get(key));
+  }
 };
