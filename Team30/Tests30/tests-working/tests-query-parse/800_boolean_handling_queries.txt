@@ -121,12 +121,12 @@ a,b,c,d
 25 - Boolean Syn
 stmt BOOLEAN;
 Select BOOLEAN such that Uses(BOOLEAN, _)
-
+2,4
 5000
 26 - Boolean Syn
 variable BOOLEAN; stmt s;
 Select BOOLEAN such that Uses(s, BOOLEAN)
-
+a,c
 5000
 27 - Boolean Syn
 variable BOOLEAN; assign a;
