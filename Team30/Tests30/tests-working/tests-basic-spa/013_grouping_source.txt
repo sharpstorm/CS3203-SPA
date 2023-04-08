@@ -1,0 +1,18 @@
+procedure main {
+  print abc;
+  read abc;
+  while ((a==1)&&(b==1)) {
+    if (abc==3) then {
+      read abc;
+    } else {
+      read abc;
+    }
+  }
+  call abc;
+  abc = a + b + c;
+}
+
+procedure abc {
+  print abc;
+  read abc;  
+}
