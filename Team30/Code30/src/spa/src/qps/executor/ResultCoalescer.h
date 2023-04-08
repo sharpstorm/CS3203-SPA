@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include <set>
 #include <memory>
 #include <vector>
@@ -8,7 +7,7 @@
 #include "common/UtilityTypes.h"
 #include "qps/common/intermediate_result/PQLQueryResult.h"
 
-using std::string, std::set, std::unique_ptr, std::vector;
+using std::set, std::unique_ptr, std::vector;
 
 class ResultCoalescer {
  private:

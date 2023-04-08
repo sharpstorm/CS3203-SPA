@@ -1,10 +1,5 @@
-#include <vector>
-#include <memory>
-
 #include "ResultProjector.h"
 #include "ProjectorWriter.h"
-
-using std::vector, std::make_unique;
 
 ResultProjector::ResultProjector(const PkbQueryHandler *handler) :
     pkbQueryHandler(handler) {}

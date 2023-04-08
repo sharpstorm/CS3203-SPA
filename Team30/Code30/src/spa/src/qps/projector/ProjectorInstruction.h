@@ -6,6 +6,8 @@
 #include "ResultItemProjector.h"
 #include "qps/common/QPSTypes.h"
 
+using std::vector;
+
 class ProjectorInstruction;
 typedef int ResultGroupId;
 typedef vector<ProjectorInstruction> ProjectorIndex;

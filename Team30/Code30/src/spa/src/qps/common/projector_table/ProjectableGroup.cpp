@@ -1,9 +1,8 @@
 #include <memory>
-#include <string>
 
 #include "ProjectableGroup.h"
 
-using std::make_unique, std::to_string;
+using std::make_unique;
 
 void ProjectableGroup::addRow(const ProjectorTableRow &row) {
   groupTable.push_back(row);

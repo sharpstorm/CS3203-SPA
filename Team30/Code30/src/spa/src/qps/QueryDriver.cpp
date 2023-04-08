@@ -15,7 +15,7 @@ QueryDriver::~QueryDriver() {
   delete (projector);
 }
 
-void QueryDriver::evaluate(const string &query,
+void QueryDriver::evaluate(const PQLQueryString &query,
                            QPSOutputList *output) {
   PQLQueryPtr pqlQuery = parser->parseQuery(&query);
   ProjectableTable *synTable = executor->executeQuery(pqlQuery.get());

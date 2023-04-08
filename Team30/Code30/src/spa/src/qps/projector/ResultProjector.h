@@ -8,8 +8,6 @@
 #include "qps/common/AttributedSynonym.h"
 #include "qps/common/QPSTypes.h"
 
-using std::vector;
-
 static const char STATIC_TRUE[] = "TRUE";
 static const char STATIC_FALSE[] = "FALSE";
 

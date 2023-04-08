@@ -7,13 +7,15 @@
 
 using std::string, std::unique_ptr;
 
+typedef string PatternString;
+
 class IntermediateExpressionArgument {
  private:
-  string literalPattern;
+  PatternString literalPattern;
   bool isPartial;
 
  public:
-  IntermediateExpressionArgument(const string &literalPattern,
+  IntermediateExpressionArgument(const PatternString &literalPattern,
                                  const bool isPartial);
   bool isWildcard();
   bool allowsPartial();

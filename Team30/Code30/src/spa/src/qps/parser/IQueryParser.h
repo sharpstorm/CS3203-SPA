@@ -1,12 +1,10 @@
 #pragma once
 
-#include <string>
 #include "../common/PQLQuery.h"
-
-using std::string;
+#include "qps/common/QPSTypes.h"
 
 class IQueryParser {
  public:
   virtual ~IQueryParser() = default;
-  virtual PQLQueryPtr parseQuery(const string *query) = 0;
+  virtual PQLQueryPtr parseQuery(const PQLQueryString *query) = 0;
 };
