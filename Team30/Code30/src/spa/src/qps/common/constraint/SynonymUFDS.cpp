@@ -4,7 +4,7 @@ SynonymUFDS::SynonymUFDS(VariableTable* varTable):
     parent(varTable->size()),
     rank(varTable->size()),
     synArr(varTable->size()) {
-  for (uint16_t i = 0; i < varTable->size(); i++) {
+  for (size_t i = 0; i < varTable->size(); i++) {
     parent[i] = i;
     rank[i] = 0;
   }
@@ -23,7 +23,7 @@ vector<UFDSSet> SynonymUFDS::getParents() const {
 }
 
 UFDSSet SynonymUFDS::indexOf(const PQLSynonymName &syn) const {
-  auto it = synNameMap.find(syn);
+  const auto it = synNameMap.find(syn);
   if (it == synNameMap.end()) {
     return -1;
   }

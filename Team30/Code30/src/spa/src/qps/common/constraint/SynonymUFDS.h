@@ -19,6 +19,9 @@ class SynonymUFDS {
   unordered_map<PQLSynonymName, UFDSSet> synNameMap;
   vector<PQLQuerySynonym *> synArr;
 
+ protected:
+  vector<UFDSSet> getParents() const;
+
  public:
   explicit SynonymUFDS(VariableTable *varTable);
 
@@ -27,7 +30,6 @@ class SynonymUFDS {
                     const PQLSynonymName &syn2);
   bool isSameSet(const PQLSynonymName &syn1,
                  const PQLSynonymName &syn2);
-  vector<UFDSSet> getParents() const;
   PQLQuerySynonym *getSynFor(const PQLSynonymName &set);
 
  private:
