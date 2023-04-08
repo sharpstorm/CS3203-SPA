@@ -6,7 +6,8 @@ StructureMappingProvider::StructureMappingProvider(
     : statementStorage(statementStorage),
       procAndCallsStorage(procAndCallsStorage) {}
 
-StmtType StructureMappingProvider::getStatementType(StmtValue lineNumber) const {
+StmtType StructureMappingProvider::getStatementType(
+    StmtValue lineNumber) const {
   return statementStorage->getTypeOfStatement(lineNumber);
 }
 
