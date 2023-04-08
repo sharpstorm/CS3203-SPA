@@ -25,7 +25,7 @@ class VariableTable {
   void finalizeTable();
 
   ProxyMap *getProxyMap();
-  PQLQuerySynonymProxy *const find(const PQLSynonymName &name);
+  PQLQuerySynonymProxy *find(const PQLSynonymName &name);
 };
 
 typedef unique_ptr<VariableTable> VariableTablePtr;

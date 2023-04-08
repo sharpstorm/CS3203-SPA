@@ -12,7 +12,7 @@ int VariableTable::size() const {
   return declaredSynonyms.size();
 }
 
-PQLQuerySynonymProxy *const VariableTable::find(const PQLSynonymName &name) {
+PQLQuerySynonymProxy *VariableTable::find(const PQLSynonymName &name) {
   auto item = proxyMap.find(name);
   if (item == proxyMap.end()) {
     return nullptr;

@@ -17,6 +17,6 @@ class OverrideConstraint : public IConstraint {
 
   bool applyConstraint(SynonymProxyBuilder *variableTable,
                        OverrideTable *overrideTable) override;
-  const PQLSynonymNameList getAffectedSyns() const override;
+  PQLSynonymNameList getAffectedSyns() const override;
   bool validateConstraint() const override;
 };

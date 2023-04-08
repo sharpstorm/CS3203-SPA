@@ -22,7 +22,7 @@ bool OverrideConstraint::validateConstraint() const {
   }
 }
 
-const PQLSynonymNameList OverrideConstraint::getAffectedSyns() const {
+PQLSynonymNameList OverrideConstraint::getAffectedSyns() const {
   return PQLSynonymNameList {attrSyn.getName()};
 }
 

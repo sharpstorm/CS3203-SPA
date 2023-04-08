@@ -28,10 +28,10 @@ class PQLQuery {
 
   int getDeclaredVariableCount() const;
   const AttributedSynonymList *getResultVariables() const;
-  const PQLSynonymNameListPtr getConstrainedVariables() const;
+  PQLSynonymNameListPtr getConstrainedVariables() const;
 
   PQLQuerySynonymProxy *getVariable(const PQLSynonymName &name) const;
-  const vector<IEvaluatable *> getEvaluatables() const;
+  vector<IEvaluatable *> getEvaluatables() const;
   bool resolveConstraints(OverrideTable *tableOut);
 
   int getClauseCount() const;

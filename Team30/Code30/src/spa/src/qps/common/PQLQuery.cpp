@@ -16,7 +16,7 @@ const AttributedSynonymList* PQLQuery::getResultVariables() const {
   return &resultVariables;
 }
 
-const PQLSynonymNameListPtr PQLQuery::getConstrainedVariables() const {
+PQLSynonymNameListPtr PQLQuery::getConstrainedVariables() const {
   auto ret = make_unique<PQLSynonymNameList>();
   for (const ConstraintPtr &c : constraints) {
     for (const PQLSynonymName &name : c->getAffectedSyns()) {
@@ -30,7 +30,7 @@ PQLQuerySynonymProxy* PQLQuery::getVariable(const PQLSynonymName &name) const {
   return variables->find(name);
 }
 
-const vector<IEvaluatable*> PQLQuery::getEvaluatables() const {
+vector<IEvaluatable*> PQLQuery::getEvaluatables() const {
   vector<IEvaluatable*> evals;
   evals.reserve(clauses.size());
   for (const ClausePtr &ie : clauses) {

@@ -13,6 +13,6 @@ class ConstantConstraint : public IConstraint {
   ConstantConstraint(WithArgumentPtr arg1, WithArgumentPtr arg2);
   bool applyConstraint(SynonymProxyBuilder *variableTable,
                        OverrideTable *overrideTable) override;
-  const PQLSynonymNameList getAffectedSyns() const override;
+  PQLSynonymNameList getAffectedSyns() const override;
   bool validateConstraint() const override;
 };
