@@ -8,7 +8,7 @@ using std::to_string, std::vector, std::make_unique;
 ResultProjector::ResultProjector(const PkbQueryHandler *handler) :
     pkbQueryHandler(handler) {}
 
-void ResultProjector::project(const ProjectorResultTable *queryResult,
+void ResultProjector::project(const ProjectableTable *queryResult,
                               const AttributedSynonymList *resultVariables,
                               QPSOutputList *output) {
   // Check if a BOOLEAN type result

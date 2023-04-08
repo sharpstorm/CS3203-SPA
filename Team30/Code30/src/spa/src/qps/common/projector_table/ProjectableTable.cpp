@@ -1,29 +1,29 @@
 #include <utility>
 
-#include "ProjectorResultTable.h"
+#include "ProjectableTable.h"
 
-ProjectorResultTable::ProjectorResultTable(bool isBooleanResult,
-                                           bool booleanResult) :
+ProjectableTable::ProjectableTable(bool isBooleanResult,
+                                   bool booleanResult) :
     isBooleanResult(isBooleanResult),
     booleanResult(booleanResult) {}
 
-void ProjectorResultTable::addResultGroup(ResultGroupPtr rg) {
+void ProjectableTable::addResultGroup(ProjectableGroupPtr rg) {
   groupResults.push_back(std::move(rg));
 }
 
-bool ProjectorResultTable::getIsBooleanResult() const {
+bool ProjectableTable::getIsBooleanResult() const {
   return isBooleanResult;
 }
 
-bool ProjectorResultTable::getBooleanResult() const {
+bool ProjectableTable::getBooleanResult() const {
   return booleanResult;
 }
 
-int ProjectorResultTable::getResultGroupCount() const {
+int ProjectableTable::getResultGroupCount() const {
   return groupResults.size();
 }
 
-bool ProjectorResultTable::operator==(const ProjectorResultTable &srt) const {
+bool ProjectableTable::operator==(const ProjectableTable &srt) const {
   if (booleanResult != srt.booleanResult ||
       groupResults.size() != srt.groupResults.size()) {
     return false;
@@ -40,7 +40,7 @@ bool ProjectorResultTable::operator==(const ProjectorResultTable &srt) const {
   return true;
 }
 
-int ProjectorResultTable::getFinalRowCount() const {
+int ProjectableTable::getFinalRowCount() const {
   if (groupResults.empty()) {
     return 0;
   }
@@ -53,7 +53,7 @@ int ProjectorResultTable::getFinalRowCount() const {
   return resultSize;
 }
 
-ProjectorIndex ProjectorResultTable::buildProjectionIndex(
+ProjectorIndex ProjectableTable::buildProjectionIndex(
     const AttributedSynonymList *synList,
     const PkbQueryHandler *pkbHandler) const {
   ProjectorIndex ret;
@@ -62,7 +62,7 @@ ProjectorIndex ProjectorResultTable::buildProjectionIndex(
     for (int groupId = 0; groupId < groupResults.size(); groupId++) {
       ResultTableCol col = groupResults.at(groupId)
           ->getSynonymCol(it->getName());
-      if (col != ProjectorResultGroup::NO_COL) {
+      if (col != ProjectableGroup::NO_COL) {
         ResultItemProjector itemProjector(pkbHandler, &(*it));
         ret.push_back(ProjectorInstruction(groupId, col, itemProjector));
       }
@@ -72,8 +72,8 @@ ProjectorIndex ProjectorResultTable::buildProjectionIndex(
   return ret;
 }
 
-void ProjectorResultTable::projectTo(QPSOutputList *output,
-                                     const ProjectorIndex &index) const {
+void ProjectableTable::projectTo(QPSOutputList *output,
+                                 const ProjectorIndex &index) const {
   int finalRowCount = getFinalRowCount();
   vector<ResultTableRow> rowIndexes(groupResults.size(), 0);
 
@@ -86,8 +86,8 @@ void ProjectorResultTable::projectTo(QPSOutputList *output,
   }
 }
 
-void ProjectorResultTable::populateIndexes(RowIndexes *indexes,
-                                           const ProjectedRow outputRow) const {
+void ProjectableTable::populateIndexes(RowIndexes *indexes,
+                                       const ProjectedRow outputRow) const {
   ProjectedRow workingRow = outputRow;
   for (size_t i = 0; i < groupResults.size(); i++) {
     int groupSize = groupResults.at(i)->getRowCount();
@@ -96,9 +96,9 @@ void ProjectorResultTable::populateIndexes(RowIndexes *indexes,
   }
 }
 
-void ProjectorResultTable::projectForRow(const ProjectorIndex &index,
-                                         const RowIndexes *row,
-                                         ProjectedValue *outputCache) const {
+void ProjectableTable::projectForRow(const ProjectorIndex &index,
+                                     const RowIndexes *row,
+                                     ProjectedValue *outputCache) const {
   ResultGroupId groupId;
   ResultTableCol groupCol;
   ResultTableRow groupRow;

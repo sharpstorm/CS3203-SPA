@@ -1,34 +1,34 @@
 #include <memory>
 #include <string>
 
-#include "ProjectorResultGroup.h"
+#include "ProjectableGroup.h"
 
 using std::make_unique, std::to_string;
 
-void ProjectorResultGroup::addRow(const ProjectorTableRow &row) {
+void ProjectableGroup::addRow(const ProjectorTableRow &row) {
   groupTable.push_back(row);
 }
 
-void ProjectorResultGroup::addSynonym(const PQLSynonymName &name) {
+void ProjectableGroup::addSynonym(const PQLSynonymName &name) {
   ProjectorResultCol curIndex = synIndex.size();
   synIndex.emplace(name, curIndex);
 }
 
-int ProjectorResultGroup::getRowCount() const {
+int ProjectableGroup::getRowCount() const {
   return groupTable.size();
 }
 
-const QueryResultItem *ProjectorResultGroup::getEntryAt(
+const QueryResultItem *ProjectableGroup::getEntryAt(
     const ProjectorResultRow row,
     const ProjectorResultCol col) const {
   return groupTable.at(row).at(col);
 }
 
-QueryResultItemPool *ProjectorResultGroup::getOwnedPool() {
+QueryResultItemPool *ProjectableGroup::getOwnedPool() {
   return &ownedItems;
 }
 
-ProjectorResultCol ProjectorResultGroup::getSynonymCol(
+ProjectorResultCol ProjectableGroup::getSynonymCol(
     const PQLSynonymName &name) const {
   const auto it = synIndex.find(name);
   if (it == synIndex.end()) {
@@ -37,7 +37,7 @@ ProjectorResultCol ProjectorResultGroup::getSynonymCol(
   return it->second;
 }
 
-bool ProjectorResultGroup::operator==(const ProjectorResultGroup &rg) const {
+bool ProjectableGroup::operator==(const ProjectableGroup &rg) const {
   if (synIndex.size() != rg.synIndex.size() ||
       groupTable.size() != groupTable.size()) {
     return false;
@@ -58,8 +58,8 @@ bool ProjectorResultGroup::operator==(const ProjectorResultGroup &rg) const {
   return true;
 }
 
-bool ProjectorResultGroup::hasRowIn(const ProjectorTableRow &target,
-                                    const ProjectorResultGroup &haystack)
+bool ProjectableGroup::hasRowIn(const ProjectorTableRow &target,
+                                const ProjectableGroup &haystack)
 const {
   for (int j = 0; j < haystack.groupTable.size(); j++) {
     // Differing column lengths

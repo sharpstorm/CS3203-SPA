@@ -15,17 +15,17 @@ typedef int ProjectorResultCol;
 typedef vector<QueryResultItem *> ProjectorTableRow;
 typedef vector<ProjectorTableRow> ProjectorTable;
 
-class ProjectorResultGroup {
+class ProjectableGroup {
   ProjectorTable groupTable;
   unordered_map<PQLSynonymName, ProjectorResultCol> synIndex;
   QueryResultItemPool ownedItems;
 
   bool hasRowIn(const ProjectorTableRow &target,
-                const ProjectorResultGroup &haystack) const;
+                const ProjectableGroup &haystack) const;
 
  public:
-  ProjectorResultGroup() = default;
-  virtual ~ProjectorResultGroup() = default;
+  ProjectableGroup() = default;
+  virtual ~ProjectableGroup() = default;
   void addRow(const ProjectorTableRow &row);
   void addSynonym(const PQLSynonymName &name);
   int getRowCount() const;
@@ -34,9 +34,9 @@ class ProjectorResultGroup {
   QueryResultItemPool *getOwnedPool();
   ProjectorResultCol getSynonymCol(const PQLSynonymName &name) const;
 
-  bool operator==(const ProjectorResultGroup &rg) const;
+  bool operator==(const ProjectableGroup &rg) const;
 
   static const ProjectorResultCol NO_COL = -1;
 };
 
-typedef unique_ptr<ProjectorResultGroup> ResultGroupPtr;
+typedef unique_ptr<ProjectableGroup> ProjectableGroupPtr;

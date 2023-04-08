@@ -2,17 +2,17 @@
 
 #include <vector>
 
-#include "ProjectorResultGroup.h"
+#include "qps/common/projector_table/ProjectableGroup.h"
 #include "qps/projector/ProjectorInstruction.h"
 #include "qps/common/QPSTypes.h"
 
 using std::vector;
 
-class ProjectorResultTable {
+class ProjectableTable {
   typedef vector<ProjectorResultRow> RowIndexes;
   typedef int ProjectedRow;
 
-  vector<ResultGroupPtr> groupResults;
+  vector<ProjectableGroupPtr> groupResults;
   bool isBooleanResult;
   bool booleanResult;
 
@@ -24,10 +24,10 @@ class ProjectorResultTable {
   int getFinalRowCount() const;
 
  public:
-  ProjectorResultTable(bool isBooleanResult, bool booleanResult);
-  ~ProjectorResultTable() = default;
+  ProjectableTable(bool isBooleanResult, bool booleanResult);
+  ~ProjectableTable() = default;
 
-  void addResultGroup(ResultGroupPtr rg);
+  void addResultGroup(ProjectableGroupPtr rg);
   bool getIsBooleanResult() const;
   bool getBooleanResult() const;
   int getResultGroupCount() const;
@@ -35,5 +35,5 @@ class ProjectorResultTable {
                                       const PkbQueryHandler *pkbHandler) const;
   void projectTo(QPSOutputList *output, const ProjectorIndex &index) const;
 
-  bool operator==(const ProjectorResultTable &srt) const;
+  bool operator==(const ProjectableTable &srt) const;
 };

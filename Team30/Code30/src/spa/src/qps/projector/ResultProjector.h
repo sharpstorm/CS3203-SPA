@@ -5,7 +5,7 @@
 
 #include "qps/common/intermediate_result/PQLQueryResult.h"
 #include "qps/common/PQLQuerySynonym.h"
-#include "qps/common/projector_table/ProjectorResultTable.h"
+#include "qps/common/projector_table/ProjectableTable.h"
 #include "qps/common/AttributedSynonym.h"
 #include "qps/common/QPSTypes.h"
 
@@ -20,7 +20,7 @@ class ResultProjector {
 
  public:
   explicit ResultProjector(const PkbQueryHandler* handler);
-  void project(const ProjectorResultTable* queryResult,
+  void project(const ProjectableTable* queryResult,
                const AttributedSynonymList* resultVariables,
                QPSOutputList *output);
 };

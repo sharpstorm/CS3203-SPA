@@ -63,16 +63,16 @@ TEST_CASE("Projection on BOOLEAN") {
   unique_ptr<ResultProjector> projector = make_unique<ResultProjector>(pkbQH.get());
   QPSOutputList actual;
   UniqueVectorPtr<string> expected;
-  unique_ptr<ProjectorResultTable> result;
+  unique_ptr<ProjectableTable> result;
   vector<AttributedSynonym> emptyAttr = vector<AttributedSynonym>();
 
-  result = make_unique<ProjectorResultTable>(true, true);
+  result = make_unique<ProjectableTable>(true, true);
   expected = UniqueVectorPtr<string>(new vector<string>({"TRUE"}));
   projector->project(result.get(), &emptyAttr, &actual);
   testResultProjection(expected.get(), &actual);
 
   actual = list<ProjectedValue>();
-  result = make_unique<ProjectorResultTable>(true, false);
+  result = make_unique<ProjectableTable>(true, false);
   expected = UniqueVectorPtr<string>(new vector<string>({"FALSE"}));
   projector->project(result.get(), &emptyAttr, &actual);
   testResultProjection(expected.get(), &actual);
@@ -82,7 +82,7 @@ TEST_CASE("Project when result is static") {
   PKB pkbStore;
   unique_ptr<PkbQueryHandler> pkbQH = make_unique<PkbQueryHandler>(&pkbStore);
   unique_ptr<ResultProjector> projector = make_unique<ResultProjector>(pkbQH.get());
-  ProjectorResultTable result(false, true);
+  ProjectableTable result(false, true);
   QPSOutputList projectedResult;
   projector->project(&result, &TARGET_RESULT_VARS, &projectedResult);
   REQUIRE(projectedResult.empty());
@@ -92,7 +92,7 @@ TEST_CASE("Projecting Statements") {
   PKB pkbStore;
   unique_ptr<PkbQueryHandler> pkbQH = make_unique<PkbQueryHandler>(&pkbStore);
   unique_ptr<ResultProjector> projector = make_unique<ResultProjector>(pkbQH.get());
-  unique_ptr<ProjectorResultTable> result;
+  unique_ptr<ProjectableTable> result;
   QPSOutputList actual;
   UniqueVectorPtr<string> expected;
 
@@ -112,7 +112,7 @@ TEST_CASE("Projecting Entities") {
   PKB pkbStore;
   unique_ptr<PkbQueryHandler> pkbQH = make_unique<PkbQueryHandler>(&pkbStore);
   unique_ptr<ResultProjector> projector = make_unique<ResultProjector>(pkbQH.get());
-  unique_ptr<ProjectorResultTable> result;
+  unique_ptr<ProjectableTable> result;
   QPSOutputList actual;
   UniqueVectorPtr<string> expected;
 
@@ -177,7 +177,7 @@ TEST_CASE("Projecting Tuples - Same Types - Same Group") {
   PKB pkbStore;
   unique_ptr<PkbQueryHandler> pkbQH = make_unique<PkbQueryHandler>(&pkbStore);
   unique_ptr<ResultProjector> projector = make_unique<ResultProjector>(pkbQH.get());
-  unique_ptr<ProjectorResultTable> result;
+  unique_ptr<ProjectableTable> result;
   QPSOutputList actual;
   UniqueVectorPtr<string> expected;
 
@@ -206,7 +206,7 @@ TEST_CASE("Projecting Tuples - Different Types - Same Group") {
   PKB pkbStore;
   unique_ptr<PkbQueryHandler> pkbQH = make_unique<PkbQueryHandler>(&pkbStore);
   unique_ptr<ResultProjector> projector = make_unique<ResultProjector>(pkbQH.get());
-  unique_ptr<ProjectorResultTable> result;
+  unique_ptr<ProjectableTable> result;
   QPSOutputList actual;
   UniqueVectorPtr<string> expected;
 
@@ -225,7 +225,7 @@ TEST_CASE("Projecting Tuples - Different Group") {
   PKB pkbStore;
   unique_ptr<PkbQueryHandler> pkbQH = make_unique<PkbQueryHandler>(&pkbStore);
   unique_ptr<ResultProjector> projector = make_unique<ResultProjector>(pkbQH.get());
-  unique_ptr<ProjectorResultTable> result;
+  unique_ptr<ProjectableTable> result;
   QPSOutputList actual;
   UniqueVectorPtr<string> expected;
 
