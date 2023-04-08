@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Constraint.h"
+#include "qps/common/IConstraint.h"
 
-class SynonymConstraint : public Constraint {
+class SynonymConstraint : public IConstraint {
  private:
   PQLSynonymName syn1;
   PQLSynonymName syn2;

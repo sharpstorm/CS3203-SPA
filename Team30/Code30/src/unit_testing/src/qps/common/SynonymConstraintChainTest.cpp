@@ -1,7 +1,7 @@
 #include "catch.hpp"
 #include "qps/common/PQLQuerySynonym.h"
 #include "qps/common/VariableTable.h"
-#include "qps/constraints/Constraint.h"
+#include "qps/common/IConstraint.h"
 #include "qps/constraints/SynonymConstraint.h"
 
 TEST_CASE("SynonymConstraint Test") {

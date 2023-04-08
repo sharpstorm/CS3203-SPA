@@ -1,7 +1,7 @@
 #include <memory>
 #include <vector>
 
-#include "qps/constraints/Constraint.h"
+#include "qps/common/IConstraint.h"
 #include "QueryExecutor.h"
 #include "qps/common/IEvaluatable.h"
 

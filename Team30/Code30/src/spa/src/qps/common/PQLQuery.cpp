@@ -32,8 +32,8 @@ const vector<IEvaluatable*> PQLQuery::getEvaluatables() const {
   return evals;
 }
 
-const vector<Constraint*> PQLQuery::getConstraints() const {
-  vector<Constraint*> ret;
+const vector<IConstraint*> PQLQuery::getConstraints() const {
+  vector<IConstraint*> ret;
   for (const ConstraintPtr &c : constraints) {
     ret.push_back(c.get());
   }

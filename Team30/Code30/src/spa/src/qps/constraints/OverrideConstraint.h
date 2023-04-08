@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Constraint.h"
+#include "qps/common/IConstraint.h"
 #include "qps/common/PQLQuerySynonym.h"
 #include "qps/common/constraint/OverrideTransformer.h"
 #include "qps/errors/QPSParserSemanticError.h"
 #include "qps/common/AttributedSynonym.h"
 
-class OverrideConstraint : public Constraint {
+class OverrideConstraint : public IConstraint {
  private:
   AttributedSynonym attrSyn;
   OverrideTransformer overrideTransformer;

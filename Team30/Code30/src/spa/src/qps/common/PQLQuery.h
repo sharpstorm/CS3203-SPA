@@ -6,7 +6,7 @@
 #include "PQLTypes.h"
 #include "qps/clauses/Clause.h"
 #include "AttributedSynonym.h"
-#include "qps/constraints/Constraint.h"
+#include "IConstraint.h"
 #include "qps/common/VariableTable.h"
 
 using std::vector, std::unique_ptr;
@@ -29,7 +29,7 @@ class PQLQuery {
 
   PQLQuerySynonymProxy *getVariable(const PQLSynonymName &name) const;
   const vector<IEvaluatable *> getEvaluatables() const;
-  const vector<Constraint *> getConstraints() const;
+  const vector<IConstraint *> getConstraints() const;
 
   int getClauseCount() const;
   bool isBooleanResult() const;

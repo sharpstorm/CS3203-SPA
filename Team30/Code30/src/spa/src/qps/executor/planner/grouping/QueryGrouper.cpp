@@ -38,7 +38,7 @@ void QueryGrouper::initIndex() {
   }
 
   auto constraints = query->getConstraints();
-  for (Constraint *constraint : constraints) {
+  for (IConstraint *constraint : constraints) {
     for (PQLSynonymName syn : constraint->getAffectedSyns()) {
       groupIndex.insertConstraint(syn);
     }

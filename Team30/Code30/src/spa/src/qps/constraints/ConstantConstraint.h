@@ -2,10 +2,10 @@
 
 #include <utility>
 
-#include "Constraint.h"
+#include "qps/common/IConstraint.h"
 #include "qps/clauses/arguments/WithArgument.h"
 
-class ConstantConstraint : public Constraint {
+class ConstantConstraint : public IConstraint {
  private:
   WithArgumentPtr leftArg;
   WithArgumentPtr rightArg;
