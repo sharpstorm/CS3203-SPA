@@ -40,16 +40,6 @@ void VariableTable::finalizeTable() {
   }
 }
 
-PQLSynonymNameSet VariableTable::getReferredSynonyms() const {
-  PQLSynonymNameSet result;
-
-  for (auto it = proxyMap.begin(); it != proxyMap.end(); it++) {
-    result.insert(it->second->getName());
-  }
-
-  return result;
-}
-
 ProxyMap *VariableTable::getProxyMap() {
   return &proxyMap;
 }

@@ -25,7 +25,6 @@ class VariableTable {
   void finalizeTable();
 
   ProxyMap *getProxyMap();
-  PQLSynonymNameSet getReferredSynonyms() const;
   PQLQuerySynonymProxy *const find(const PQLSynonymName &name);
 };
 
