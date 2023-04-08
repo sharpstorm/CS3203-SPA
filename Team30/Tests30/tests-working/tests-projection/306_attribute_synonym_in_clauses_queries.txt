@@ -223,3 +223,8 @@ stmt stmt; variable varName;
 Select stmt such that Uses(stmt, varName)
 1,6,8,9,10,11,12,14
 5000
+46 - NEGATIVE Select Statement (While) (Uses)
+stmt stmt; variable varName;
+Select varName such that Uses(stmt, varName)
+something, notVar, var, test
+5000
