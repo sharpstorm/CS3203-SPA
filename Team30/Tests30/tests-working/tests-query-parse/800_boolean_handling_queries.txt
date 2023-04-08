@@ -143,3 +143,48 @@ variable BOOLEAN; if ifs;
 Select BOOLEAN pattern ifs(BOOLEAN, _, _)
 
 5000
+30 - Boolean Syn
+stmt BOOLEAN;
+Select BOOLEAN such that Next(BOOLEAN, BOOLEAN)
+
+5000
+31 - Boolean Syn
+stmt BOOLEAN, s1;
+Select BOOLEAN such that Next*(s1, BOOLEAN)
+2,3,4
+5000
+32 - Boolean Syn
+stmt BOOLEAN, s1;
+Select BOOLEAN such that Affects(BOOLEAN, s1)
+1,3
+5000
+33 - Boolean Syn
+stmt BOOLEAN, s1;
+Select BOOLEAN such that Affects(s1, BOOLEAN)
+2,4
+5000
+34 - Boolean Syn
+stmt BOOLEAN;
+Select BOOLEAN such that Affects(BOOLEAN, BOOLEAN)
+
+5000
+35 - Boolean Syn
+stmt BOOLEAN, s1;
+Select BOOLEAN such that Affects*(BOOLEAN, s1)
+1,3
+5000
+36 - Boolean Syn
+stmt BOOLEAN, s1;
+Select BOOLEAN such that Affects*(s1, BOOLEAN)
+2,4
+5000
+37 - Boolean Syn
+stmt BOOLEAN;
+Select BOOLEAN such that Affects*(BOOLEAN, BOOLEAN)
+
+5000
+38 - Boolean Syn; Error
+stmt BOOLEAN,s;
+Select BOOLEAN such that Next(BOLEAN, s)
+SemanticError
+5000
