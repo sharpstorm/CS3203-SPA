@@ -90,19 +90,8 @@ bool PQLQueryResult::operator==(const PQLQueryResult &pqr) const {
     }
   }
 
-  for (size_t i = 0; i < pqr.combinedTable.size(); i++) {
-    bool isFound = false;
-    for (size_t j = 0; j < combinedTable.size(); j++) {
-      if (combinedTable[j].size() != pqr.combinedTable[i].size()) {
-        return false;
-      }
-
-      if (matchRow(pqr, j, i)) {
-        isFound = true;
-        break;
-      }
-    }
-    if (!isFound) {
+  for (size_t i = 0; i < combinedTable.size(); i++) {
+    if (!hasRowIn(i, pqr)) {
       return false;
     }
   }
@@ -110,14 +99,28 @@ bool PQLQueryResult::operator==(const PQLQueryResult &pqr) const {
   return true;
 }
 
+bool PQLQueryResult::hasRowIn(const ResultTableRow &target,
+                              const PQLQueryResult &haystack) const {
+  for (size_t i = 0; i < haystack.combinedTable.size(); i++) {
+    if (haystack.combinedTable[i].size() != combinedTable[target].size()) {
+      return false;
+    }
+
+    if (matchRow(haystack, target, i)) {
+      return true;
+    }
+  }
+  return false;
+}
+
 bool PQLQueryResult::matchRow(const PQLQueryResult &other,
-                              ResultTableRow myRowIndex,
-                              ResultTableRow otherRowIndex) const {
+                              const ResultTableRow &rowIndex,
+                              const ResultTableRow otherRowIndex) const {
   for (const auto &it : other.synIndex) {
     int otherIndex = it.second;
     int thisIndex = synIndex.at(it.first);
 
-    if (*combinedTable[myRowIndex][thisIndex] !=
+    if (*combinedTable[rowIndex][thisIndex] !=
         *other.combinedTable[otherRowIndex][otherIndex]) {
       return false;
     }

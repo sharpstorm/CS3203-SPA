@@ -39,8 +39,10 @@ class PQLQueryResult {
   bool isStaticFalse;
 
   bool isEmpty() const;
+  bool hasRowIn(const ResultTableRow &target,
+                const PQLQueryResult &haystack) const;
   bool matchRow(const PQLQueryResult &other,
-                const ResultTableRow myRowIndex,
+                const ResultTableRow &target,
                 const ResultTableRow otherRowIndex) const;
 
  protected:
