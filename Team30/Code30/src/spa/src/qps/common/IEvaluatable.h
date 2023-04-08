@@ -13,7 +13,7 @@ typedef int ComplexityScore;
 class IEvaluatable {
  public:
   virtual ~IEvaluatable() = default;
-  virtual PQLQueryResult* evaluateOn(const QueryExecutorAgent &agent) const = 0;
+  virtual PQLQueryResult *evaluateOn(const QueryExecutorAgent &agent) const = 0;
   virtual PQLSynonymNameList getUsedSynonyms() const = 0;
   virtual ComplexityScore getComplexityScore(
       const OverrideTable *table) const = 0;

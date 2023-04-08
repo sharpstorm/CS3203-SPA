@@ -63,7 +63,7 @@ PQLQuerySynonymProxy AttributedSynonym::getSynProxy() const {
 }
 
 bool AttributedSynonym::isDefaultAttribute() const {
-  switch(attribute) {
+  switch (attribute) {
     case VAR_NAME:
       return isType(PQL_SYN_TYPE_VARIABLE);
     case PROC_NAME:
