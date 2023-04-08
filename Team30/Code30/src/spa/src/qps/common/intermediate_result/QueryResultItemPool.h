@@ -4,6 +4,7 @@
 #include <map>
 #include <unordered_map>
 #include <unordered_set>
+
 #include "QueryResultItem.h"
 #include "OrphanedResultItemPool.h"
 
@@ -28,6 +29,16 @@ class QueryResultItemPool {
   void adoptEntities(const QueryResultItemPool *other,
                      QueryResultItemSet *adoptedSet,
                      QueryResultItemMapping *translationMap);
+
+  template<class ValueType, class MapType>
+  QueryResultItem *lookupOrEmplace(MapType *lookupMap,
+                                   const ValueType &value);
+
+  template<class MapType>
+  void adoptFrom(MapType *lookupMap,
+                 const MapType &other,
+                 QueryResultItemSet *adoptedSet,
+                 QueryResultItemMapping *translationMap);
 
  public:
   QueryResultItem *getItem(const StmtValue &value);
