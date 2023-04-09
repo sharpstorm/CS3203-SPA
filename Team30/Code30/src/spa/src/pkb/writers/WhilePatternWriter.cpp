@@ -4,6 +4,6 @@
 WhilePatternWriter::WhilePatternWriter(WhilePatternStorage *store)
     : store(store) {}
 
-void WhilePatternWriter::addWhilePattern(int stmt, string variable) {
+void WhilePatternWriter::addWhilePattern(StmtValue stmt, EntityValue variable) {
   store->insert(stmt, variable);
 }

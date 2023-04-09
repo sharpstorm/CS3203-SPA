@@ -1,6 +1,4 @@
 #include <memory>
-#include <string>
-#include <unordered_set>
 #include <utility>
 
 #include "EntityMappingProviderStub.h"
@@ -12,9 +10,7 @@
 using std::make_shared;
 using std::make_unique;
 using std::pair;
-using std::string;
 using std::unique_ptr;
-using std::unordered_set;
 
 static unique_ptr<EntityMappingProviderStub> setUpEntityMappingProvider() {
   auto provider = make_unique<EntityMappingProviderStub>();
@@ -88,10 +84,10 @@ TEST_CASE(
 
   auto result =
       *test.query({EntityType::None, "main"}, {EntityType::Procedure, ""});
-  REQUIRE(result.secondArgVals == unordered_set<string>({"foo", "goo"}));
+  REQUIRE(result.secondArgVals == EntityValueSet({"foo", "goo"}));
   auto result2 =
       *test.query({EntityType::Procedure, ""}, {EntityType::None, "goo"});
-  REQUIRE(result2.firstArgVals == unordered_set<string>({"foo", "main"}));
+  REQUIRE(result2.firstArgVals == EntityValueSet({"foo", "main"}));
 }
 
 TEST_CASE("CallsQueryHandler calls(_, entityName)") {
@@ -133,12 +129,12 @@ TEST_CASE("CallsQueryHandler calls(_, procedure) / calls(procedure,_)") {
   auto result =
       *test.query({EntityType::Wildcard, ""}, {EntityType::Procedure, ""});
   REQUIRE(result.isEmpty == false);
-  REQUIRE(result.secondArgVals == unordered_set<string>({"foo", "goo"}));
+  REQUIRE(result.secondArgVals == EntityValueSet({"foo", "goo"}));
 
   auto result2 =
       *test.query({EntityType::Procedure, ""}, {EntityType::Wildcard, ""});
   REQUIRE(result2.isEmpty == false);
-  REQUIRE(result2.firstArgVals == unordered_set<string>({"main", "foo"}));
+  REQUIRE(result2.firstArgVals == EntityValueSet({"main", "foo"}));
 }
 
 TEST_CASE("CallsQueryHandler calls(_, _)") {
@@ -194,10 +190,10 @@ TEST_CASE(
 
   auto result =
       *test.queryT({EntityType::None, "main"}, {EntityType::Procedure, ""});
-  REQUIRE(result.secondArgVals == unordered_set<string>({"foo", "goo"}));
+  REQUIRE(result.secondArgVals == EntityValueSet({"foo", "goo"}));
   auto result2 =
       *test.queryT({EntityType::Procedure, ""}, {EntityType::None, "goo"});
-  REQUIRE(result2.firstArgVals == unordered_set<string>({"foo", "main"}));
+  REQUIRE(result2.firstArgVals == EntityValueSet({"foo", "main"}));
 }
 
 TEST_CASE("CallsQueryHandler callsStar(_, entityName)") {
@@ -243,12 +239,12 @@ TEST_CASE("CallsQueryHandler Calls*(_, procedure) / Calls*(procedure,_)") {
   auto result =
       *test.query({EntityType::Wildcard, ""}, {EntityType::Procedure, ""});
   REQUIRE(result.isEmpty == false);
-  REQUIRE(result.secondArgVals == unordered_set<string>({"foo", "goo"}));
+  REQUIRE(result.secondArgVals == EntityValueSet({"foo", "goo"}));
 
   auto result2 =
       *test.query({EntityType::Procedure, ""}, {EntityType::Wildcard, ""});
   REQUIRE(result2.isEmpty == false);
-  REQUIRE(result2.firstArgVals == unordered_set<string>({"main", "foo"}));
+  REQUIRE(result2.firstArgVals == EntityValueSet({"main", "foo"}));
 }
 
 TEST_CASE("CallsQueryHandler callsStar(_, _)") {

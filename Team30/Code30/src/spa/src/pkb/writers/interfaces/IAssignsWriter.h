@@ -2,10 +2,11 @@
 
 #include <memory>
 
+#include "common/Types.h"
 #include "common/pattern/PatternTrie.h"
 
 class IAssignsWriter {
  public:
   virtual ~IAssignsWriter() {}
-  virtual void addAssigns(int arg1, PatternTrieSPtr arg2) = 0;
+  virtual void addAssigns(StmtValue arg1, PatternTrieSPtr arg2) = 0;
 };

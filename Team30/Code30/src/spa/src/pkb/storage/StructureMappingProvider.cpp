@@ -6,7 +6,8 @@ StructureMappingProvider::StructureMappingProvider(
     : statementStorage(statementStorage),
       procAndCallsStorage(procAndCallsStorage) {}
 
-StmtType StructureMappingProvider::getStatementType(int lineNumber) const {
+StmtType StructureMappingProvider::getStatementType(
+    StmtValue lineNumber) const {
   return statementStorage->getTypeOfStatement(lineNumber);
 }
 
@@ -15,11 +16,13 @@ const StmtValueSet& StructureMappingProvider::getValuesOfType(
   return statementStorage->getStatementsOfType(stmtType);
 }
 
-string StructureMappingProvider::getProcedureForLine(int lineNumber) const {
+EntityValue StructureMappingProvider::getProcedureForLine(
+    StmtValue lineNumber) const {
   return procAndCallsStorage->getProcedureForLine(lineNumber);
 }
 
-string StructureMappingProvider::getCalledDeclaration(int lineNumber) const {
+EntityValue StructureMappingProvider::getCalledDeclaration(
+    StmtValue lineNumber) const {
   return procAndCallsStorage->getCalledDeclaration(lineNumber);
 }
 

@@ -3,6 +3,6 @@
 ConstantWriter::ConstantWriter(ConstantStorage *constantStorage)
     : constantStorage(constantStorage) {}
 
-EntityIdx ConstantWriter::addConstant(string constant) {
+EntityIdx ConstantWriter::addConstant(EntityValue constant) {
   return constantStorage->insert(constant);
 }

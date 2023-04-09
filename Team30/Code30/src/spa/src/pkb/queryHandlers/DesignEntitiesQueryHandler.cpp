@@ -6,46 +6,51 @@ DesignEntitiesQueryHandler::DesignEntitiesQueryHandler(
     : entityMappingProvider(entityMappingProvider),
       structureMappingProvider(structureMappingProvider) {}
 
-unordered_set<string> DesignEntitiesQueryHandler::getSymbolsOfType(
+EntityValueSet DesignEntitiesQueryHandler::getSymbolsOfType(
     EntityType entityType) const {
   return entityMappingProvider->getValuesOfType(entityType);
 }
 
-unordered_set<int> DesignEntitiesQueryHandler::getStatementsOfType(
+StmtValueSet DesignEntitiesQueryHandler::getStatementsOfType(
     StmtType stmtType) const {
   return structureMappingProvider->getValuesOfType(stmtType);
 }
 
-StmtType DesignEntitiesQueryHandler::getStatementType(int stmtNo) const {
+StmtType DesignEntitiesQueryHandler::getStatementType(StmtValue stmtNo) const {
   return structureMappingProvider->getStatementType(stmtNo);
 }
 
-string DesignEntitiesQueryHandler::getVariableByIndex(int index) const {
+EntityValue DesignEntitiesQueryHandler::getVariableByIndex(
+    EntityIdx index) const {
   return entityMappingProvider->getVariableByIndex(index);
 }
 
-string DesignEntitiesQueryHandler::getConstantByIndex(int index) const {
+EntityValue DesignEntitiesQueryHandler::getConstantByIndex(
+    EntityIdx index) const {
   return entityMappingProvider->getConstantByIndex(index);
 }
 
-EntityIdx DesignEntitiesQueryHandler::getIndexOfVariable(string name) const {
+EntityIdx DesignEntitiesQueryHandler::getIndexOfVariable(
+    EntityValue name) const {
   return entityMappingProvider->getIndexOfVariable(name);
 }
 
-EntityIdx DesignEntitiesQueryHandler::getIndexOfConstant(string name) const {
+EntityIdx DesignEntitiesQueryHandler::getIndexOfConstant(
+    EntityValue name) const {
   return entityMappingProvider->getIndexOfConstant(name);
 }
 
 bool DesignEntitiesQueryHandler::isStatementOfType(StmtType stmtType,
-                                                   int stmtNo) const {
+                                                   StmtValue stmtNo) const {
   return structureMappingProvider->isValueOfType(stmtType, stmtNo);
 }
 
 bool DesignEntitiesQueryHandler::isSymbolOfType(EntityType entityType,
-                                                string name) const {
+                                                EntityValue name) const {
   return entityMappingProvider->isValueOfType(entityType, name);
 }
 
-string DesignEntitiesQueryHandler::getCalledDeclaration(int callStmt) const {
+EntityValue DesignEntitiesQueryHandler::getCalledDeclaration(
+    StmtValue callStmt) const {
   return structureMappingProvider->getCalledDeclaration(callStmt);
 }

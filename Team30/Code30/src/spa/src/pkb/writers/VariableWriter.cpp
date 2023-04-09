@@ -3,6 +3,6 @@
 VariableWriter::VariableWriter(VariableStorage *variableStorage)
     : variableStorage(variableStorage) {}
 
-EntityIdx VariableWriter::addVariable(string variable) {
+EntityIdx VariableWriter::addVariable(EntityValue variable) {
   return variableStorage->insert(variable);
 }
