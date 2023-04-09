@@ -3,6 +3,6 @@
 AssignsWriter::AssignsWriter(AssignStorage *assignStorage)
     : assignStorage(assignStorage) {}
 
-void AssignsWriter::addAssigns(int stmtNum, PatternTrieSPtr astNode) {
+void AssignsWriter::addAssigns(StmtValue stmtNum, PatternTrieSPtr astNode) {
   assignStorage->insert(stmtNum, astNode);
 }

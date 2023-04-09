@@ -70,76 +70,74 @@ QueryResultPtr<int, int> PkbQueryHandler::queryParentStar(StmtRef s1,
   return parentTHandler->query(&s1, &s2);
 }
 
-std::unordered_set<std::string> PkbQueryHandler::getSymbolsOfType(
-    EntityType entityType) const {
+EntityValueSet PkbQueryHandler::getSymbolsOfType(EntityType entityType) const {
   return designEntityHandler->getSymbolsOfType(entityType);
 }
 
-string PkbQueryHandler::getVariableByIndex(int index) const {
+EntityValue PkbQueryHandler::getVariableByIndex(EntityIdx index) const {
   return designEntityHandler->getVariableByIndex(index);
 }
 
-string PkbQueryHandler::getConstantByIndex(int index) const {
+EntityValue PkbQueryHandler::getConstantByIndex(EntityIdx index) const {
   return designEntityHandler->getConstantByIndex(index);
 }
 
-EntityIdx PkbQueryHandler::getIndexOfVariable(string name) const {
+EntityIdx PkbQueryHandler::getIndexOfVariable(EntityValue name) const {
   return designEntityHandler->getIndexOfVariable(name);
 }
 
-EntityIdx PkbQueryHandler::getIndexOfConstant(string name) const {
+EntityIdx PkbQueryHandler::getIndexOfConstant(EntityValue name) const {
   return designEntityHandler->getIndexOfConstant(name);
 }
 
-std::unordered_set<int> PkbQueryHandler::getStatementsOfType(
-    StmtType stmtType) const {
+StmtValueSet PkbQueryHandler::getStatementsOfType(StmtType stmtType) const {
   return designEntityHandler->getStatementsOfType(stmtType);
 }
 
-StmtType PkbQueryHandler::getStatementType(int stmtNo) const {
+StmtType PkbQueryHandler::getStatementType(StmtValue stmtNo) const {
   return designEntityHandler->getStatementType(stmtNo);
 }
 
-QueryResultPtr<int, string> PkbQueryHandler::queryUses(StmtRef arg1,
-                                                       EntityRef arg2) const {
+QueryResultPtr<StmtValue, EntityValue> PkbQueryHandler::queryUses(
+    StmtRef arg1, EntityRef arg2) const {
   return usesHandler->query(&arg1, &arg2);
 }
 
-QueryResultPtr<string, string> PkbQueryHandler::queryUses(
+QueryResultPtr<EntityValue, EntityValue> PkbQueryHandler::queryUses(
     EntityRef arg1, EntityRef arg2) const {
   return usesHandler->query(&arg1, &arg2);
 }
-QueryResultPtr<int, string> PkbQueryHandler::queryModifies(
+QueryResultPtr<StmtValue, EntityValue> PkbQueryHandler::queryModifies(
     StmtRef arg1, EntityRef arg2) const {
   return modifiesHandler->query(&arg1, &arg2);
 }
 
-QueryResultPtr<string, string> PkbQueryHandler::queryModifies(
+QueryResultPtr<EntityValue, EntityValue> PkbQueryHandler::queryModifies(
     EntityRef arg1, EntityRef arg2) const {
   return modifiesHandler->query(&arg1, &arg2);
 }
 
-QueryResultPtr<int, PatternTrie *> PkbQueryHandler::queryAssigns(
+QueryResultPtr<StmtValue, PatternTrie *> PkbQueryHandler::queryAssigns(
     StmtRef arg1) const {
   return assignHandler->queryAssigns(arg1);
 }
 
-QueryResultPtr<string, string> PkbQueryHandler::queryCalls(
+QueryResultPtr<EntityValue, EntityValue> PkbQueryHandler::queryCalls(
     EntityRef arg1, EntityRef arg2) const {
   return callsHandler->query(&arg1, &arg2);
 }
 
-QueryResultPtr<string, string> PkbQueryHandler::queryCallsStar(
+QueryResultPtr<EntityValue, EntityValue> PkbQueryHandler::queryCallsStar(
     EntityRef arg1, EntityRef arg2) const {
   return callsTHandler->query(&arg1, &arg2);
 }
 
-QueryResultPtr<int, string> PkbQueryHandler::queryIfPattern(
+QueryResultPtr<StmtValue, EntityValue> PkbQueryHandler::queryIfPattern(
     StmtRef arg1, EntityRef arg2) const {
   return ifPatternHandler->query(&arg1, &arg2);
 }
 
-QueryResultPtr<int, string> PkbQueryHandler::queryWhilePattern(
+QueryResultPtr<StmtValue, EntityValue> PkbQueryHandler::queryWhilePattern(
     StmtRef arg1, EntityRef arg2) const {
   return whilePatternHandler->query(&arg1, &arg2);
 }
@@ -148,22 +146,24 @@ vector<CFG *> PkbQueryHandler::queryCFGs(StmtRef arg1) const {
   return cfgsHandler->queryCFGs(arg1);
 }
 
-bool PkbQueryHandler::isStatementOfType(StmtType stmtType, int stmtNo) const {
+bool PkbQueryHandler::isStatementOfType(StmtType stmtType,
+                                        StmtValue stmtNo) const {
   return designEntityHandler->isStatementOfType(stmtType, stmtNo);
 }
 
-bool PkbQueryHandler::isSymbolOfType(EntityType entityType, string name) const {
+bool PkbQueryHandler::isSymbolOfType(EntityType entityType,
+                                     EntityValue name) const {
   return designEntityHandler->isSymbolOfType(entityType, name);
 }
 
-string PkbQueryHandler::getCalledDeclaration(int callStmt) const {
+EntityValue PkbQueryHandler::getCalledDeclaration(StmtValue callStmt) const {
   return designEntityHandler->getCalledDeclaration(callStmt);
 }
 
-string PkbQueryHandler::getReadDeclarations(int readStmt) const {
+EntityValue PkbQueryHandler::getReadDeclarations(StmtValue readStmt) const {
   return modifiesHandler->getReadDeclarations(readStmt);
 }
 
-string PkbQueryHandler::getPrintDeclarations(int printStmt) const {
+EntityValue PkbQueryHandler::getPrintDeclarations(StmtValue printStmt) const {
   return usesHandler->getPrintDeclarations(printStmt);
 }

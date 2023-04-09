@@ -17,24 +17,28 @@ const EntityValueSet& EntityMappingProviderStub::getValuesOfType(
   }
 }
 
-string EntityMappingProviderStub::getVariableByIndex(int index) const {
+EntityValue EntityMappingProviderStub::getVariableByIndex(
+    EntityIdx index) const {
   return variableTable.get(index);
 }
 
-string EntityMappingProviderStub::getConstantByIndex(int index) const {
+EntityValue EntityMappingProviderStub::getConstantByIndex(
+    EntityIdx index) const {
   return constantTable.get(index);
 }
 
-EntityIdx EntityMappingProviderStub::getIndexOfVariable(string name) const {
+EntityIdx EntityMappingProviderStub::getIndexOfVariable(
+    EntityValue name) const {
   return variableToIndexTable.get(name);
 }
 
-EntityIdx EntityMappingProviderStub::getIndexOfConstant(string name) const {
+EntityIdx EntityMappingProviderStub::getIndexOfConstant(
+    EntityValue name) const {
   return constantToIndexTable.get(name);
 }
 
 bool EntityMappingProviderStub::isValueOfType(EntityType type,
-                                              string value) const {
+                                              EntityValue value) const {
   if (type == EntityType::Variable) {
     return variableToIndexTable.get(value) != 0;
   } else if (type == EntityType::Constant) {

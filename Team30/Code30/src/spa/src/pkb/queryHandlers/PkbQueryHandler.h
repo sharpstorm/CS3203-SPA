@@ -1,8 +1,6 @@
 #pragma once
 
 #include <memory>
-#include <string>
-#include <unordered_set>
 #include <vector>
 
 #include "DesignEntitiesQueryHandler.h"
@@ -21,44 +19,51 @@
 #include "pkb/queryHandlers/interfaces/IWhilePatternQueryHandler.h"
 #include "pkb/storage/PKB.h"
 
-using std::string;
 using std::unique_ptr, std::shared_ptr;
-using std::unordered_set, std::vector;
+using std::vector;
 
 class PkbQueryHandler : public IPkbQueryHandler {
  public:
   explicit PkbQueryHandler(PKB *pkb);
 
-  QueryResultPtr<int, int> queryFollows(StmtRef, StmtRef) const override;
-  QueryResultPtr<int, int> queryFollowsStar(StmtRef, StmtRef) const override;
-  QueryResultPtr<int, int> queryParent(StmtRef, StmtRef) const override;
-  QueryResultPtr<int, int> queryParentStar(StmtRef, StmtRef) const override;
-  QueryResultPtr<int, string> queryUses(StmtRef, EntityRef) const override;
-  QueryResultPtr<string, string> queryUses(EntityRef, EntityRef) const override;
-  QueryResultPtr<int, string> queryModifies(StmtRef, EntityRef) const override;
-  QueryResultPtr<string, string> queryModifies(EntityRef,
-                                               EntityRef) const override;
-  QueryResultPtr<int, PatternTrie *> queryAssigns(StmtRef) const override;
-  QueryResultPtr<string, string> queryCalls(EntityRef,
-                                            EntityRef) const override;
-  QueryResultPtr<string, string> queryCallsStar(EntityRef,
-                                                EntityRef) const override;
-  QueryResultPtr<int, string> queryIfPattern(StmtRef, EntityRef) const override;
-  QueryResultPtr<int, string> queryWhilePattern(StmtRef,
-                                                EntityRef) const override;
-  unordered_set<string> getSymbolsOfType(EntityType) const override;
-  unordered_set<int> getStatementsOfType(StmtType) const override;
-  StmtType getStatementType(int) const override;
-  string getVariableByIndex(int) const override;
-  string getConstantByIndex(int) const override;
-  EntityIdx getIndexOfVariable(string) const override;
-  EntityIdx getIndexOfConstant(string) const override;
+  QueryResultPtr<StmtValue, StmtValue> queryFollows(StmtRef,
+                                                    StmtRef) const override;
+  QueryResultPtr<StmtValue, StmtValue> queryFollowsStar(StmtRef,
+                                                        StmtRef) const override;
+  QueryResultPtr<StmtValue, StmtValue> queryParent(StmtRef,
+                                                   StmtRef) const override;
+  QueryResultPtr<StmtValue, StmtValue> queryParentStar(StmtRef,
+                                                       StmtRef) const override;
+  QueryResultPtr<StmtValue, EntityValue> queryUses(StmtRef,
+                                                   EntityRef) const override;
+  QueryResultPtr<EntityValue, EntityValue> queryUses(EntityRef,
+                                                     EntityRef) const override;
+  QueryResultPtr<StmtValue, EntityValue> queryModifies(
+      StmtRef, EntityRef) const override;
+  QueryResultPtr<EntityValue, EntityValue> queryModifies(
+      EntityRef, EntityRef) const override;
+  QueryResultPtr<StmtValue, PatternTrie *> queryAssigns(StmtRef) const override;
+  QueryResultPtr<EntityValue, EntityValue> queryCalls(EntityRef,
+                                                      EntityRef) const override;
+  QueryResultPtr<EntityValue, EntityValue> queryCallsStar(
+      EntityRef, EntityRef) const override;
+  QueryResultPtr<StmtValue, EntityValue> queryIfPattern(
+      StmtRef, EntityRef) const override;
+  QueryResultPtr<StmtValue, EntityValue> queryWhilePattern(
+      StmtRef, EntityRef) const override;
+  EntityValueSet getSymbolsOfType(EntityType) const override;
+  StmtValueSet getStatementsOfType(StmtType) const override;
+  StmtType getStatementType(StmtValue) const override;
+  EntityValue getVariableByIndex(EntityIdx) const override;
+  EntityValue getConstantByIndex(EntityIdx) const override;
+  EntityIdx getIndexOfVariable(EntityValue) const override;
+  EntityIdx getIndexOfConstant(EntityValue) const override;
   vector<CFG *> queryCFGs(StmtRef) const override;
-  bool isStatementOfType(StmtType, int) const override;
-  bool isSymbolOfType(EntityType, string) const override;
-  string getCalledDeclaration(int) const override;
-  string getReadDeclarations(int) const override;
-  string getPrintDeclarations(int) const override;
+  bool isStatementOfType(StmtType, StmtValue) const override;
+  bool isSymbolOfType(EntityType, EntityValue) const override;
+  EntityValue getCalledDeclaration(StmtValue) const override;
+  EntityValue getReadDeclarations(StmtValue) const override;
+  EntityValue getPrintDeclarations(StmtValue) const override;
 
  private:
   unique_ptr<PkbStmtStmtQueryInvoker> stmtStmtQueryInvoker;

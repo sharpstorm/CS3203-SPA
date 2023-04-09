@@ -1,7 +1,6 @@
 #pragma once
 
 #include <memory>
-#include <string>
 
 #include "common/Types.h"
 #include "pkb/storage/PKB.h"
@@ -25,20 +24,22 @@ class PkbWriter : public IPkbWriter {
  public:
   explicit PkbWriter(PKB *pkb);
 
-  void addAssigns(int stmtNum, PatternTrieSPtr ast) override;
-  void addFollows(int stmtNum, int stmtNum2) override;
-  void addParent(int stmtNum, int stmtNum2) override;
-  EntityIdx addVariable(string name) override;
-  EntityIdx addConstant(string name) override;
-  void addProcedure(string name, int start, int end) override;
-  void addStatement(int, StmtType) override;
-  void addUses(int stmtNum, string variable, string procedure) override;
-  void addModifies(int stmtNum, string variable, string procedure) override;
-  void addCalls(int stmtNum, string currProcedure,
-                string calledProcedure) override;
-  void addIfPattern(int stmtNum, string variable) override;
-  void addWhilePattern(int stmtNum, string variable) override;
-  void addCFGs(string name, CFGSPtr cfg) override;
+  void addAssigns(StmtValue stmtNum, PatternTrieSPtr ast) override;
+  void addFollows(StmtValue stmtNum, StmtValue stmtNum2) override;
+  void addParent(StmtValue stmtNum, StmtValue stmtNum2) override;
+  EntityIdx addVariable(EntityValue name) override;
+  EntityIdx addConstant(EntityValue name) override;
+  void addProcedure(EntityValue name, StmtValue start, StmtValue end) override;
+  void addStatement(StmtValue, StmtType) override;
+  void addUses(StmtValue stmtNum, EntityValue variable,
+               EntityValue procedure) override;
+  void addModifies(StmtValue stmtNum, EntityValue variable,
+                   EntityValue procedure) override;
+  void addCalls(StmtValue stmtNum, EntityValue currProcedure,
+                EntityValue calledProcedure) override;
+  void addIfPattern(StmtValue stmtNum, EntityValue variable) override;
+  void addWhilePattern(StmtValue stmtNum, EntityValue variable) override;
+  void addCFGs(EntityValue name, CFGSPtr cfg) override;
 
   void runPostProcessor() override;
 

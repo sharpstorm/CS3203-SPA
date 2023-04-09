@@ -6,6 +6,8 @@
 #include "qps/executor/QueryExecutorAgent.h"
 
 class AssignPatternChecker {
+  typedef QueryResult<StmtValue, EntityValue> ConcreteQueryResult;
+
  private:
   const StmtRef *assignRef;
   const EntityRef *variableRef;
@@ -16,8 +18,8 @@ class AssignPatternChecker {
                        const StmtRef *assignRef,
                        const EntityRef *variableRef);
   void filterModifiesInto(
-      const QueryResult<StmtValue, EntityValue> *modifiesResult,
-      QueryResult<StmtValue, EntityValue> *assignResult,
+      const ConcreteQueryResult *modifiesResult,
+      ConcreteQueryResult *assignResult,
       const QueryExecutorAgent &agent) const;
 
  private:
@@ -25,16 +27,16 @@ class AssignPatternChecker {
                  const StmtValue &stmtNumber) const;
   bool isTrieMatch(PatternTrie *lineRoot) const;
 
-  void checkBoolean(const QueryResult<StmtValue, EntityValue> *modifiesResult,
-                    QueryResult<StmtValue, EntityValue> *assignResult,
+  void checkBoolean(const ConcreteQueryResult *modifiesResult,
+                    ConcreteQueryResult *assignResult,
                     const QueryExecutorAgent &agent) const;
-  void checkStmt(const QueryResult<StmtValue, EntityValue> *modifiesResult,
-                 QueryResult<StmtValue, EntityValue> *assignResult,
+  void checkStmt(const ConcreteQueryResult *modifiesResult,
+                 ConcreteQueryResult *assignResult,
                  const QueryExecutorAgent &agent) const;
-  void checkVariable(const QueryResult<StmtValue, EntityValue> *modifiesResult,
-                     QueryResult<StmtValue, EntityValue> *assignResult,
+  void checkVariable(const ConcreteQueryResult *modifiesResult,
+                     ConcreteQueryResult *assignResult,
                      const QueryExecutorAgent &agent) const;
-  void checkBoth(const QueryResult<StmtValue, EntityValue> *modifiesResult,
-                 QueryResult<StmtValue, EntityValue> *assignResult,
+  void checkBoth(const ConcreteQueryResult *modifiesResult,
+                 ConcreteQueryResult *assignResult,
                  const QueryExecutorAgent &agent) const;
 };

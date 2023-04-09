@@ -16,7 +16,7 @@ PQLSynonymNameList PatternClause::getUsedSynonyms() const {
   return result;
 }
 
-bool PatternClause::validateArgTypes(const VariableTable *variables) const {
+bool PatternClause::validateArgTypes() const {
   if (!synonym->isType(synType)) {
     return false;
   }

@@ -21,19 +21,19 @@ const EntityValueSet &EntityMappingProvider::getValuesOfType(
   }
 }
 
-EntityValue EntityMappingProvider::getVariableByIndex(int index) const {
+EntityValue EntityMappingProvider::getVariableByIndex(EntityIdx index) const {
   return variableStorage->getValueByIdx(index);
 }
 
-EntityValue EntityMappingProvider::getConstantByIndex(int index) const {
+EntityValue EntityMappingProvider::getConstantByIndex(EntityIdx index) const {
   return constantStorage->getValueByIdx(index);
 }
 
-EntityIdx EntityMappingProvider::getIndexOfVariable(string name) const {
+EntityIdx EntityMappingProvider::getIndexOfVariable(EntityValue name) const {
   return variableStorage->getIdxOfValue(name);
 }
 
-EntityIdx EntityMappingProvider::getIndexOfConstant(string name) const {
+EntityIdx EntityMappingProvider::getIndexOfConstant(EntityValue name) const {
   return constantStorage->getIdxOfValue(name);
 }
 

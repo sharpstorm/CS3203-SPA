@@ -1,14 +1,13 @@
-#include <set>
 #include <memory>
 #include <utility>
 
 #include "catch.hpp"
+#include "common/pattern/PatternConverter.h"
+#include "pkb/storage/StorageTypes.h"
 #include "sp/ast/entity/VariableASTNode.h"
 #include "sp/ast/expression_operand/PlusASTNode.h"
-#include "pkb/storage/StorageTypes.h"
-#include "common/pattern/PatternConverter.h"
 
-using std::set, std::make_unique, std::shared_ptr;
+using std::make_unique, std::shared_ptr;
 
 TEST_CASE("AssignStorage addAssign") {
   PKB pkb;

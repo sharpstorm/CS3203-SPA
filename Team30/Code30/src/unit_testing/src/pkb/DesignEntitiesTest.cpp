@@ -1,5 +1,4 @@
 #include <memory>
-#include <string>
 #include <unordered_set>
 
 #include "catch.hpp"
@@ -9,8 +8,6 @@
 #include "pkb/writers/PkbWriter.h"
 
 using std::make_unique;
-using std::string;
-using std::unordered_set;
 
 TEST_CASE("Entities write and read") {
   auto pkb = make_unique<PKB>();
@@ -25,9 +22,9 @@ TEST_CASE("Entities write and read") {
   writer.addProcedure("main", 3, 4);
 
   REQUIRE(queryHandler.getSymbolsOfType(EntityType::Variable) ==
-          unordered_set<string>({"a", "b", "c"}));
+          EntityValueSet({"a", "b", "c"}));
   REQUIRE(queryHandler.getSymbolsOfType(EntityType::Constant) ==
-          unordered_set<string>({"0", "1"}));
+          EntityValueSet({"0", "1"}));
 
   REQUIRE(queryHandler.isSymbolOfType(EntityType::Constant, "0") == true);
   REQUIRE(queryHandler.isSymbolOfType(EntityType::Variable, "a") == true);
@@ -54,12 +51,12 @@ TEST_CASE("Statements write and read") {
   writer.addCalls(5, "main", "sub");
 
   REQUIRE(queryHandler.getStatementsOfType(StmtType::Assign) ==
-          unordered_set<int>({1, 2, 3}));
+          StmtValueSet({1, 2, 3}));
   REQUIRE(queryHandler.getStatementsOfType(StmtType::Read) ==
-          unordered_set<int>({4}));
+          StmtValueSet({4}));
   // get all statement_types
   REQUIRE(queryHandler.getStatementsOfType(StmtType::None) ==
-          unordered_set<int>({1, 2, 3, 4, 5}));
+          StmtValueSet({1, 2, 3, 4, 5}));
   REQUIRE(queryHandler.getStatementType(1) == StmtType::Assign);
   REQUIRE(queryHandler.isStatementOfType(StmtType::Assign, 1) == true);
   REQUIRE(queryHandler.isStatementOfType(StmtType::Read, 1) == false);

@@ -1,7 +1,9 @@
 #pragma once
 
+#include "common/Types.h"
+
 class IParentWriter {
  public:
   virtual ~IParentWriter() {}
-  virtual void addParent(int arg1, int arg2) = 0;
+  virtual void addParent(StmtValue arg1, StmtValue arg2) = 0;
 };

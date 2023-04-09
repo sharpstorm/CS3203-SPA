@@ -22,7 +22,7 @@ PQLQueryResult *AssignPatternClause::evaluateOn(
     const QueryExecutorAgent &agent) const {
   ExpressionArgumentPtr expr = toExpressionArg(agent);
 
-  StmtRef leftStatement = {StmtType::Assign, 0};
+  StmtRef leftStatement = {StmtType::Assign, NO_STMT};
   EntityRef rightVariable = leftArg->toEntityRef();
 
   leftStatement = agent.transformArg(synonym->getName(), leftStatement);

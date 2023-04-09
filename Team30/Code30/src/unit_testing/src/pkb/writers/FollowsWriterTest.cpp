@@ -1,12 +1,11 @@
 #include <memory>
-#include <vector>
 
 #include "catch.hpp"
+#include "common/Types.h"
 #include "pkb/writers/FollowsWriter.h"
 
 using std::make_shared;
 using std::make_unique;
-using std::vector;
 
 TEST_CASE("FollowsWriter addFollows") {
   auto table = make_shared<FollowsTable>();
@@ -18,8 +17,8 @@ TEST_CASE("FollowsWriter addFollows") {
   writer.addFollows(3, 4);
   writer.addFollows(1, 4);
 
-  REQUIRE(table->get(1) == vector<int>({3, 4}));
-  REQUIRE(table->get(3) == vector<int>({4}));
-  REQUIRE(reverseTable->get(3) == vector<int>({1}));
-  REQUIRE(reverseTable->get(4) == vector<int>({3, 1}));
+  REQUIRE(table->get(1) == StmtValueList({3, 4}));
+  REQUIRE(table->get(3) == StmtValueList({4}));
+  REQUIRE(reverseTable->get(3) == StmtValueList({1}));
+  REQUIRE(reverseTable->get(4) == StmtValueList({3, 1}));
 }

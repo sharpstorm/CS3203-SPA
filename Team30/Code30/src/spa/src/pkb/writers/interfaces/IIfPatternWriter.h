@@ -1,9 +1,9 @@
 #pragma once
 
-#include <string>
+#include "common/Types.h"
 
 class IIfPatternWriter {
  public:
   virtual ~IIfPatternWriter() {}
-  virtual void addIfPattern(int stmt, std::string variable) = 0;
+  virtual void addIfPattern(StmtValue stmt, EntityValue variable) = 0;
 };

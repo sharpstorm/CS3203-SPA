@@ -2,7 +2,7 @@
 #include "qps/parser/builder/QueryBuilder.h"
 
 QueryTokenParser::QueryTokenParser(ISourceExpressionParser *exprParser,
-                                   PQLTokenVector *tokens) :
+                                   PQLTokenList *tokens) :
     tokens(tokens),
     conditionalParser(exprParser) {
 }

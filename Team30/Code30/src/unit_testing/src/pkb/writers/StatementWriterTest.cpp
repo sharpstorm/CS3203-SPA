@@ -1,6 +1,4 @@
 #include <memory>
-#include <set>
-#include <string>
 
 #include "catch.hpp"
 #include "pkb/storage/tables/HashKeySetTable.h"
@@ -8,8 +6,6 @@
 
 using std::make_shared;
 using std::make_unique;
-using std::set;
-using std::string;
 
 TEST_CASE("StatementWriter addStatement") {
   auto table = make_shared<StmtTable>();
@@ -25,6 +21,6 @@ TEST_CASE("StatementWriter addStatement") {
 
   REQUIRE(table->get(1) == StmtType::Assign);
   REQUIRE(table->get(3) == StmtType::Read);
-  REQUIRE(reverseTable->get(StmtType::Assign) == unordered_set<int>({1, 2}));
-  REQUIRE(reverseTable->get(StmtType::Read) == unordered_set<int>({3}));
+  REQUIRE(reverseTable->get(StmtType::Assign) == StmtValueSet({1, 2}));
+  REQUIRE(reverseTable->get(StmtType::Read) == StmtValueSet({3}));
 }
