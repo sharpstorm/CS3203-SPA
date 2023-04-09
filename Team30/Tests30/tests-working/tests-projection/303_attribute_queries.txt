@@ -100,7 +100,7 @@ Select w.stmt# such that Parent(w, 5)
 5000
 21 - Select while.stmt# pattern
 while w;
-Select w pattern w(_,_,_)
+Select w pattern w(_,_)
 4
 5000
 22 - Select while.stmt# such that (Negative)
@@ -115,7 +115,7 @@ Select ifs such that Parent(ifs, 7)
 5000
 24 - Select if.stmt# pattern
 if ifs;
-Select ifs.stmt# pattern ifs(_,_)
+Select ifs.stmt# pattern ifs(_,_,_)
 6
 5000
 25 - Select if.stmt# such that (Negative)
