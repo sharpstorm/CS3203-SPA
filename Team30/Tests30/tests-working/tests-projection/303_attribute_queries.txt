@@ -1,0 +1,340 @@
+1 - Select statement.stmt#
+stmt s;
+Select s.stmt#
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17
+5000
+2 - Select assign.stmt#
+assign a;
+Select a.stmt#
+1,2,3,5,7,8,9,12,13,17
+5000
+3 - Select assign.stmt#
+assign a;
+Select a.stmt#
+1,2,3,5,7,8,9,12,13,17
+5000
+4 - Select if.stmt#
+if ifs;
+Select ifs.stmt#
+6
+5000
+5 - Select while.stmt#
+while w;
+Select w.stmt#
+4
+5000
+6 - Select read.stmt#
+read r;
+Select r.stmt#
+10,15
+5000
+7 - Select read.varName
+read r;
+Select r.varName
+x,y
+5000
+8 - Select print.stmt#
+print pn;
+Select pn.stmt#
+11,16
+5000
+9 - Select print.varName
+print pn;
+Select pn.varName
+w,z
+5000
+10 - Select call.stmt#
+call cl;
+Select cl.stmt#
+14
+5000
+11 - Select call.procName
+call cl;
+Select cl.procName
+Foo
+5000
+12 - Select procedure.procName
+procedure p;
+Select p.procName
+Example,Foo
+5000
+13 - Select variable.varName
+variable v;
+Select v.varName
+x,z,i,y,w
+5000
+14 - Select constant.value
+constant c;
+Select c.value
+2,3,5,0,1
+5000
+15 - Select statement.stmt# such that
+stmt s;
+Select s.stmt# such that Follows*(s, 3)
+1,2
+5000
+16 - Select statement.stmt# such that (Negative)
+stmt s;
+Select s.stmt# such that Follows(s, 1)
+
+5000
+17 - Select assign.stmt# such that 
+assign a;
+Select a.stmt# such that Parent(4, a)
+5,9,12
+5000
+18 - Select assign.stmt# pattern
+assign a;
+Select a.stmt# pattern a("i",_)
+3,12
+5000
+19 - Select assign.stmt# such that (Negative)
+assign a;
+Select a.stmt# such that Follows(1, 1)
+
+5000
+20 - Select while.stmt# such that
+while w;
+Select w.stmt# such that Parent(w, 5)
+4
+5000
+21 - Select while.stmt# pattern
+while w;
+Select w pattern w(_,_,_)
+4
+5000
+22 - Select while.stmt# such that (Negative)
+while w;
+Select w.stmt# such that Follows(w, 1)
+
+5000
+23 - Select if.stmt# such that
+if ifs;
+Select ifs such that Parent(ifs, 7)
+6
+5000
+24 - Select if.stmt# pattern
+if ifs;
+Select ifs.stmt# pattern ifs(_,_)
+6
+5000
+25 - Select if.stmt# such that (Negative)
+if ifs;
+Select ifs.stmt# such that Follows(ifs, 1)
+
+5000
+26 - Select read.stmt# such that
+read r;
+Select r.stmt# such that Parent(4, r)
+10
+5000
+27 - Select read.varName such that
+read r;
+Select r.varName such that Parent(4, r)
+x
+5000
+28 - Select read.stmt# such that (Negative)
+read r;
+Select r.stmt# such that Follows(r, 1)
+
+5000
+29 - Select print.stmt# such that
+print pn;
+Select pn.stmt# such that Parent(4, pn)
+11
+5000
+30 - Select print.varName such that
+print pn;
+Select pn.varName such that Parent(4, pn)
+w
+5000
+31 - Select print.stmt# such that (Negative)
+print pn;
+Select pn.stmt# such that Follows(pn, 1)
+
+5000
+32 - Select call.stmt# such that
+call cl;
+Select cl.stmt# such that Follows*(1, cl)
+14
+5000
+33 - Select call.procName such that
+call cl;
+Select cl.procName such that Follows*(1, cl)
+Foo
+5000
+34 - Select call.procName such that (Negative)
+call cl;
+Select cl.procName such that Follows(1, 1)
+
+5000
+35 - Select procedure.procName such that
+procedure p;
+Select p.procName such that Calls(p, "Foo")
+Example
+5000
+36 - Select procedure.procName such that (Negative)
+procedure p;
+Select p.procName such that Calls(p, p)
+
+5000
+37 - Select s.stmt invalid attribute name
+stmt s;
+Select s.stmt such that Follows(1, 2)
+SyntaxError
+5000
+38 - Select statement wrong attribute name (value)
+stmt s;
+Select s.value such that Follows(1, 2)
+SemanticError
+5000
+39 - Select statement wrong attribute name (varName)
+stmt s;
+Select s.varName such that Follows (1, 2)
+SemanticError
+5000
+40 - Select statement wrong attribute name (procName)
+stmt s;
+Select s.procName such that Follows (1, 2)
+SemanticError
+5000
+41 - Select statement wrong attribute name (procName) (Negative)
+stmt s;
+Select s.procName such that Follows (1, 1)
+SemanticError
+5000
+42 - Select while wrong attribute name (value)
+while w;
+Select w.value such that Follows(1, 2)
+SemanticError
+5000
+43 - Select while wrong attribute name (varName)
+while w;
+Select w.varName such that Follows (1, 2)
+SemanticError
+5000
+44 - Select while wrong attribute name (procName)
+while w;
+Select w.procName such that Follows (1, 2)
+SemanticError
+5000
+45 - Select if wrong attribute name (value)
+if ifs;
+Select ifs.value such that Follows(1, 2)
+SemanticError
+5000
+46 - Select if wrong attribute name (varName)
+if ifs;
+Select ifs.varName such that Follows (1, 2)
+SemanticError
+5000
+47 - Select if wrong attribute name (procName)
+if ifs;
+Select ifs.procName such that Follows (1, 2)
+SemanticError
+5000
+48 - Select assign wrong attribute name (value)
+assign a;
+Select a.value such that Follows(1, 2)
+SemanticError
+5000
+49 - Select assign wrong attribute name (varName)
+assign a;
+Select a.varName such that Follows (1, 2)
+SemanticError
+5000
+50 - Select assign wrong attribute name (procName)
+assign a;
+Select a.procName such that Follows (1, 2)
+SemanticError
+5000
+51 - Select read wrong attribute name (value)
+read r;
+Select r.value such that Follows(1, 2)
+SemanticError
+5000
+52 - Select assign wrong attribute name (procName)
+read r;
+Select r.procName such that Follows (1, 2)
+SemanticError
+5000
+53 - Select print wrong attribute name (value)
+print pn;
+Select pn.value such that Follows(1, 2)
+SemanticError
+5000
+54 - Select print wrong attribute name (procName)
+print pn;
+Select pn.procName such that Follows (1, 2)
+SemanticError
+5000
+55 - Select call wrong attribute name (value)
+call cl;
+Select cl.value such that Follows(1, 2)
+SemanticError
+5000
+56 - Select call wrong attribute name (varName)
+call cl;
+Select cl.varName such that Follows (1, 2)
+SemanticError
+5000
+57 - Select constant wrong attribute name (stmt#)
+constant c;
+Select c.stmt# such that Follows (1, 2)
+SemanticError
+5000
+58 - Select constant wrong attribute name (varName)
+constant c;
+Select c.varName such that Follows (1, 2)
+SemanticError
+5000
+59 - Select constant wrong attribute name (procName)
+constant c;
+Select c.procName such that Follows (1, 2)
+SemanticError
+5000
+60 - Select constant wrong attribute name (procName) (Negative)
+constant c;
+Select c.procName such that Follows (1, 1)
+SemanticError
+5000
+61 - Select variable wrong attribute name (procName)
+variable v;
+Select v.procName such that Follows (1, 2)
+SemanticError
+5000
+62 - Select variable wrong attribute name (value)
+variable v;
+Select v.value such that Follows (1, 2)
+SemanticError
+5000
+63 - Select variable wrong attribute name (stmt#)
+variable v;
+Select v.stmt# such that Follows (1, 2)
+SemanticError
+5000
+64 - Select variable wrong attribute name (stmt#) (Negative)
+variable v;
+Select v.stmt# such that Follows (1, 1)
+SemanticError
+5000
+65 - Select procedure wrong attribute name (value)
+procedure p;
+Select p.value such that Follows (1, 2)
+SemanticError
+5000
+66 - Select procedure wrong attribute name (stmt#)
+procedure p;
+Select p.stmt# such that Follows (1, 2)
+SemanticError
+5000
+67 - Select procedure wrong attribute name (varName)
+procedure p;
+Select p.varName such that Follows (1, 2)
+SemanticError
+5000
+68 - Select procedure wrong attribute name (stmt#) (Negative)
+procedure p;
+Select p.stmt# such that Follows (1, 1)
+SemanticError
+5000
