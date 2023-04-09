@@ -38,6 +38,14 @@ class CFGBoolResultWriter : public BaseCFGResultWriter<T> {
     return writeInternal();
   }
 
+  bool writeBool(StmtValue stmt) const final {
+    if (stmt == to) {
+      result->setNotEmpty();
+      return false;
+    }
+    return true;
+  }
+
   void setLeft(StmtValue val) final {
     from = val;
   }

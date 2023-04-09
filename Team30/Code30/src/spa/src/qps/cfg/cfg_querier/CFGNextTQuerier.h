@@ -38,8 +38,7 @@ class CFGNextTQuerier : public CFGQuerier<
                                  const StmtValue &arg1) {
     StmtTransitiveResult result;
 
-    if (!cfg->containsStatement(arg0)
-        || !cfg->containsStatement(arg1)) {
+    if (!cfg->containsStatement(arg0) || !cfg->containsStatement(arg1)) {
       return result;
     }
 
@@ -101,6 +100,10 @@ class CFGNextTQuerier : public CFGQuerier<
       }
 
       queryForward(stmtNumber, writer.get());
+      if (type0 == StmtType::Wildcard && type1 == StmtType::Wildcard
+          && !resultOut->empty()) {
+        break;
+      }
     }
   }
 };

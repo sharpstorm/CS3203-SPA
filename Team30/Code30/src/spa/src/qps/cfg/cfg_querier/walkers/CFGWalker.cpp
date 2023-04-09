@@ -1,6 +1,6 @@
 #include "CFGWalker.h"
 
-#include "qps/cfg/cfg_querier/CFGHaltWalkerException.h"
+#include "CFGHaltWalkerException.h"
 
 
 CFGWalker::CFGWalker(CFG *cfg) : cfg(cfg) {

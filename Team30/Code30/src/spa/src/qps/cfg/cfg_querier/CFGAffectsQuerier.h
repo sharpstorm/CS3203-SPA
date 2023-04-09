@@ -17,7 +17,8 @@
 
 using std::map;
 
-typedef map<EntityIdx, int> EntitySymbolMap;
+typedef int BitPosition;
+typedef map<EntityIdx, BitPosition> EntitySymbolMap;
 
 template<
     class ClosureType,
@@ -49,6 +50,8 @@ class CFGAffectsQuerier : public CFGQuerier<
         || typeChecker(closure, StmtType::If, stmtNumber));
   }
 
+  bool validateArg(const StmtValue &arg) const;
+
  private:
   struct BoolResultClosure {
     CFG *cfg;
@@ -77,8 +80,6 @@ class CFGAffectsQuerier : public CFGQuerier<
   CFG *cfg;
   CFGWalker walker;
   const ClosureType &closure;
-
-  bool validateArg(const StmtValue &arg);
 
   void queryForward(StmtTransitiveResult *resultOut,
                     const StmtValue &start);
@@ -352,7 +353,7 @@ template<
     UsesGetter<ClosureType> usesGetter>
 bool CFGAffectsQuerier<ClosureType, typePredicate,
                        modifiesGetter, usesGetter>::
-validateArg(const StmtValue &arg) {
+validateArg(const StmtValue &arg) const {
   return cfg->containsStatement(arg)
       && typePredicate(closure, StmtType::Assign, arg);
 }

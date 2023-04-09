@@ -64,8 +64,7 @@ class AffectsClauseInvokers {
                             modifiesQuerier, usesQuerier>
       ConcreteAffectsQuerier;
 
-  typedef CFGAffectsTQuerier<QueryExecutorAgent, typeChecker,
-                             modifiesQuerier, usesQuerier>
+  typedef CFGAffectsTQuerier<ConcreteAffectsQuerier>
       ConcreteAffectsTQuerier;
 
   static constexpr auto validateAffectsType = [](const StmtRef &ref) {
@@ -74,7 +73,10 @@ class AffectsClauseInvokers {
                          StmtType::Wildcard);
   };
 
-  template<class QuerierT>
+  template<class Querier>
+  using QuerierFactory = Querier(*)(CFG *cfg, const QueryExecutorAgent &agent);
+
+  template<class QuerierT, QuerierFactory<QuerierT> makeQuerier>
   static constexpr AffectsInvoker abstractAffectsInvoker = [](
       const QueryExecutorAgent &agent,
       const StmtRef &leftArg,
@@ -99,19 +101,19 @@ class AffectsClauseInvokers {
     }
 
     if (leftArg.isKnown() || rightArg.isKnown()) {
-      QuerierT querier(cfgs[0], agent);
+      QuerierT querier = makeQuerier(cfgs[0], agent);
       return make_unique<QueryResult<StmtValue, StmtValue>>(
           querier.queryArgs(leftArg, rightArg));
     }
 
     for (auto it = cfgs.begin(); it != cfgs.end(); it++) {
-      QuerierT querier(*it, agent);
+      QuerierT querier = makeQuerier(*it, agent);
       querier.queryArgs(leftArg, rightArg, result.get());
     }
     return result;
   };
 
-  template<class QuerierT>
+  template<class QuerierT, QuerierFactory<QuerierT> makeQuerier>
   static constexpr AffectsSameSynInvoker abstractAffectsSymmetricInvoker =
       [](const QueryExecutorAgent &agent,
          const StmtRef &arg) {
@@ -126,7 +128,7 @@ class AffectsClauseInvokers {
 
         for (auto it = cfgs.begin(); it != cfgs.end(); it++) {
           CFG *cfg = *it;
-          QuerierT querier(cfg, agent);
+          QuerierT querier = makeQuerier(cfg, agent);
           StmtValue startingStatement = cfg->getStartingStmtNumber();
 
           for (int i = 0; i < cfg->getNodeCount(); i++) {
@@ -145,15 +147,25 @@ class AffectsClauseInvokers {
         return result;
       };
 
+  static constexpr QuerierFactory<ConcreteAffectsQuerier>
+      affectsQuerierFactory = [](CFG *cfg, const QueryExecutorAgent &agent) {
+    return ConcreteAffectsQuerier(cfg, agent);
+  };
+
+  static constexpr QuerierFactory<ConcreteAffectsTQuerier>
+      affectsTQuerierFactory = [](CFG *cfg, const QueryExecutorAgent &agent) {
+    return ConcreteAffectsTQuerier(cfg, ConcreteAffectsQuerier(cfg, agent));
+  };
+
  public:
   static constexpr AffectsInvoker affectsInvoker =
-      abstractAffectsInvoker<ConcreteAffectsQuerier>;
+      abstractAffectsInvoker<ConcreteAffectsQuerier, affectsQuerierFactory>;
   static constexpr AffectsInvoker affectsTInvoker =
-      abstractAffectsInvoker<ConcreteAffectsTQuerier>;
+      abstractAffectsInvoker<ConcreteAffectsTQuerier, affectsTQuerierFactory>;
   static constexpr AffectsSameSynInvoker affectsSymmetricInvoker =
-      abstractAffectsSymmetricInvoker<ConcreteAffectsQuerier>;
+      abstractAffectsSymmetricInvoker<ConcreteAffectsQuerier, affectsQuerierFactory>;
   static constexpr AffectsSameSynInvoker affectsTSymmetricInvoker =
-      abstractAffectsSymmetricInvoker<ConcreteAffectsTQuerier>;
+      abstractAffectsSymmetricInvoker<ConcreteAffectsTQuerier, affectsTQuerierFactory>;
 };
 
 class AffectsClause : public AbstractAffectsClause<

@@ -4,7 +4,7 @@
 
 #include "common/cfg/CFG.h"
 #include "common/data_structs/BitField.h"
-#include "qps/cfg/cfg_querier/CFGHaltWalkerException.h"
+#include "CFGHaltWalkerException.h"
 #include "ParallelStack.h"
 
 using std::vector;

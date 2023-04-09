@@ -18,14 +18,10 @@ class CFGNextQuerier : public CFGQuerier<
  public:
   explicit CFGNextQuerier(CFG *cfg, const ClosureType &closure);
 
-  StmtTransitiveResult queryBool(const StmtValue &arg0,
-                                 const StmtValue &arg1);
-  StmtTransitiveResult queryFrom(const StmtValue &arg0,
-                                 const StmtType &type1);
-  StmtTransitiveResult queryTo(const StmtType &type0,
-                               const StmtValue &arg1);
-  void queryAll(StmtTransitiveResult *resultOut,
-                const StmtType &type0,
+  StmtTransitiveResult queryBool(const StmtValue &arg0, const StmtValue &arg1);
+  StmtTransitiveResult queryFrom(const StmtValue &arg0, const StmtType &type1);
+  StmtTransitiveResult queryTo(const StmtType &type0, const StmtValue &arg1);
+  void queryAll(StmtTransitiveResult *resultOut, const StmtType &type0,
                 const StmtType &type1);
 
  private:
@@ -144,6 +140,10 @@ queryAll(StmtTransitiveResult *resultOut, const StmtType &type0,
       if (!writer->writeRight(toStmtNumber)) {
         break;
       }
+    }
+    if (type0 == StmtType::Wildcard && type1 == StmtType::Wildcard
+        && !resultOut->empty()) {
+      break;
     }
   }
 }

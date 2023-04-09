@@ -44,4 +44,8 @@ class BaseCFGResultWriter : public ICFGWriter {
   bool writeRight(StmtValue stmt) const override {
     return false;
   }
+
+  bool writeBool(StmtValue stmt) const override {
+    return false;
+  }
 };
