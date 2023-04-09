@@ -22,85 +22,91 @@ using AbstractNextClause = AbstractStmtStmtClause<
     ClauseArgument::isStatement,
     ClauseArgument::isStatement>;
 
-constexpr StmtTypePredicate<QueryExecutorAgent> typeChecker =
-    [](const QueryExecutorAgent &agent,
-       StmtType type,
-       StmtValue stmtNumber) -> bool {
-      if (type == StmtType::None || type == StmtType::Wildcard) {
-        return true;
-      }
-      return agent->getStatementType(stmtNumber) == type;
-    };
+class NextClauseInvokers {
+  static constexpr StmtTypePredicate<QueryExecutorAgent> typeChecker =
+      [](const QueryExecutorAgent &agent,
+         StmtType type,
+         StmtValue stmtNumber) -> bool {
+        if (type == StmtType::None || type == StmtType::Wildcard) {
+          return true;
+        }
+        return agent->getStatementType(stmtNumber) == type;
+      };
 
-typedef CFGNextQuerier<QueryExecutorAgent, typeChecker> ConcreteNextQuerier;
-typedef CFGNextTQuerier<QueryExecutorAgent, typeChecker> ConcreteNextTQuerier;
+  typedef CFGNextQuerier<QueryExecutorAgent, typeChecker> ConcreteNextQuerier;
+  typedef CFGNextTQuerier<QueryExecutorAgent, typeChecker> ConcreteNextTQuerier;
 
-template<class T>
-constexpr NextInvoker abstractNextInvoker = [](const QueryExecutorAgent &agent,
-                                               const StmtRef &leftArg,
-                                               const StmtRef &rightArg) {
-  vector<CFG *> cfgs;
-  auto result = make_unique<QueryResult<StmtValue, StmtValue>>();
+  template<class T>
+  static constexpr NextInvoker
+      abstractNextInvoker = [](const QueryExecutorAgent &agent,
+                               const StmtRef &leftArg,
+                               const StmtRef &rightArg) {
+    vector<CFG *> cfgs;
+    auto result = make_unique<QueryResult<StmtValue, StmtValue>>();
 
-  if (leftArg.isKnown()) {
-    cfgs = agent->queryCFGs(leftArg);
-  } else {
-    cfgs = agent->queryCFGs(rightArg);
-  }
+    if (leftArg.isKnown()) {
+      cfgs = agent->queryCFGs(leftArg);
+    } else {
+      cfgs = agent->queryCFGs(rightArg);
+    }
 
-  if (cfgs.empty()) {
+    if (cfgs.empty()) {
+      return result;
+    }
+
+    if (leftArg.isKnown() || rightArg.isKnown()) {
+      T querier(cfgs[0], agent);
+      return make_unique<QueryResult<StmtValue, StmtValue>>(
+          querier.queryArgs(leftArg, rightArg));
+    }
+
+    for (auto it = cfgs.begin(); it != cfgs.end(); it++) {
+      T querier(*it, agent);
+      querier.queryArgs(leftArg, rightArg, result.get());
+    }
     return result;
-  }
+  };
 
-  if (leftArg.isKnown() || rightArg.isKnown()) {
-    T querier(cfgs[0], agent);
-    return make_unique<QueryResult<StmtValue, StmtValue>>(
-        querier.queryArgs(leftArg, rightArg));
-  }
+  template<class T>
+  static constexpr NextSameSynInvoker abstractNextSameSynInvoker = [](
+      const QueryExecutorAgent &agent, const StmtRef &arg) -> StmtValueSet {
+    vector<CFG *> cfgs = agent->queryCFGs(StmtRef{StmtType::None, 0});
+    StmtValueSet result;
 
-  for (auto it = cfgs.begin(); it != cfgs.end(); it++) {
-    T querier(*it, agent);
-    querier.queryArgs(leftArg, rightArg, result.get());
-  }
-  return result;
-};
+    for (auto it = cfgs.begin(); it != cfgs.end(); it++) {
+      CFG *cfg = *it;
+      T querier(cfg, agent);
+      StmtValue startingStatement = cfg->getStartingStmtNumber();
 
-template<class T>
-constexpr NextSameSynInvoker abstractNextSameSynInvoker = [](
-    const QueryExecutorAgent &agent, const StmtRef &arg) -> StmtValueSet {
-  vector<CFG *> cfgs = agent->queryCFGs(StmtRef{StmtType::None, 0});
-  StmtValueSet result;
+      for (int i = 0; i < cfg->getNodeCount(); i++) {
+        StmtValue statement = startingStatement + i;
+        if (!typeChecker(agent, arg.getType(), statement)) {
+          continue;
+        }
 
-  for (auto it = cfgs.begin(); it != cfgs.end(); it++) {
-    CFG *cfg = *it;
-    T querier(cfg, agent);
-    StmtValue startingStatement = cfg->getStartingStmtNumber();
-
-    for (int i = 0; i < cfg->getNodeCount(); i++) {
-      StmtValue statement = startingStatement + i;
-      if (!typeChecker(agent, arg.getType(), statement)) {
-        continue;
-      }
-
-      auto relationResult = querier.queryBool(statement, statement);
-      if (!relationResult.empty()) {
-        result.insert(statement);
+        auto relationResult = querier.queryBool(statement, statement);
+        if (!relationResult.empty()) {
+          result.insert(statement);
+        }
       }
     }
-  }
-  return result;
+    return result;
+  };
+
+ public:
+  static constexpr NextInvoker
+      nextInvoker = abstractNextInvoker<ConcreteNextQuerier>;
+  static constexpr NextInvoker
+      nextTInvoker = abstractNextInvoker<ConcreteNextTQuerier>;
+  static constexpr NextSameSynInvoker nextSameSynInvoker =
+      abstractNextSameSynInvoker<ConcreteNextQuerier>;
+  static constexpr NextSameSynInvoker nextTSameSynInvoker =
+      abstractNextSameSynInvoker<ConcreteNextTQuerier>;
 };
 
-constexpr NextInvoker nextInvoker = abstractNextInvoker<ConcreteNextQuerier>;
-constexpr NextInvoker nextTInvoker = abstractNextInvoker<ConcreteNextTQuerier>;
-constexpr NextSameSynInvoker nextSameSynInvoker =
-    abstractNextSameSynInvoker<ConcreteNextQuerier>;
-constexpr NextSameSynInvoker nextTSameSynInvoker =
-    abstractNextSameSynInvoker<ConcreteNextTQuerier>;
-
 class NextClause : public AbstractNextClause<
-    nextInvoker,
-    nextSameSynInvoker> {
+    NextClauseInvokers::nextInvoker,
+    NextClauseInvokers::nextSameSynInvoker> {
  public:
   NextClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
@@ -116,8 +122,8 @@ class NextClause : public AbstractNextClause<
 };
 
 class NextTClause : public AbstractNextClause<
-    nextTInvoker,
-    nextTSameSynInvoker> {
+    NextClauseInvokers::nextTInvoker,
+    NextClauseInvokers::nextTSameSynInvoker> {
  public:
   NextTClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
