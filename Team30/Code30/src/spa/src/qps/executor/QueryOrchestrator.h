@@ -1,7 +1,6 @@
 #pragma once
 
 #include <vector>
-#include <memory>
 
 #include "../common/PQLQuery.h"
 #include "qps/common/intermediate_result/PQLQueryResult.h"
@@ -13,18 +12,25 @@
 #include "qps/executor/planner/QueryPlan.h"
 #include "QueryCache.h"
 
-using std::vector, std::unique_ptr;
+using std::vector;
 
 class QueryOrchestrator {
  public:
-  explicit QueryOrchestrator(QueryLauncher launcher);
+  explicit QueryOrchestrator(const QueryLauncher *launcher);
   ProjectableTable *execute(const QueryPlan *plan,
-                            const OverrideTable *table) const;
+                            const OverrideTable *table);
 
  private:
-  QueryLauncher launcher;
+  const QueryLauncher *launcher;
+  ProjectableTablePtr resultTable;
 
-  PQLQueryResult *executeGroup(const QueryGroupPlan *plan,
+  bool executeGroup(const QueryGroupPlan *targetGroup,
                                const OverrideTable *table,
-                               QueryCache *cache) const;
+                               QueryCache *cache);
+
+  PQLQueryResult *executeClauses(const vector<IEvaluatable *> &executables,
+                                 const OverrideTable *overrideTable,
+                                 QueryCache *cache) const;
+  void extractProjectables(const QueryGroupPlan *targetGroup,
+                           PQLQueryResult *result);
 };

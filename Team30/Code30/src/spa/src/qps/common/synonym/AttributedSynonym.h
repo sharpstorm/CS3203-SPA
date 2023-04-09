@@ -3,7 +3,7 @@
 #include <memory>
 #include <vector>
 
-#include "qps/common/PQLTypes.h"
+#include "PQLTypes.h"
 #include "PQLQuerySynonymProxy.h"
 
 using std::unique_ptr, std::vector;

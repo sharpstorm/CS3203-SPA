@@ -21,7 +21,6 @@ TEST_CASE("Queries with Select only") {
   PKB pkbStore;
   auto pkb = make_unique<OrchestratorPKBStub>(&pkbStore);
   QueryLauncher launcher(pkb.get());
-  QueryOrchestrator orchestrator(launcher);
 
   unique_ptr<PQLQuery> query;
   vector<shared_ptr<Clause>> emptyClause;
@@ -56,8 +55,9 @@ TEST_CASE("Queries with Select only") {
     groups.push_back(std::move(group));
     auto queryPlan = make_unique<QueryPlan>(std::move(groups));
     auto targetSyns = make_unique<AttributedSynonymList>(AttributedSynonymList ({attrSyn}));
-    OverrideTablePtr overrideTable = make_unique<OverrideTable>();
-    actualResult = unique_ptr<ProjectableTable>(orchestrator.execute(queryPlan.get(), overrideTable.get()));
+    OverrideTable overrideTable;
+    QueryOrchestrator orchestrator(&launcher);
+    actualResult = unique_ptr<ProjectableTable>(orchestrator.execute(queryPlan.get(), &overrideTable));
     REQUIRE(*expectedResult == *actualResult);
   }
 
@@ -85,6 +85,7 @@ TEST_CASE("Queries with Select only") {
     auto queryPlan = make_unique<QueryPlan>(std::move(groups));
     auto targetSyns = make_unique<AttributedSynonymList>(AttributedSynonymList ({attrSyn}));
     OverrideTablePtr overrideTable = make_unique<OverrideTable>();
+    QueryOrchestrator orchestrator(&launcher);
     actualResult = unique_ptr<ProjectableTable>(orchestrator.execute(queryPlan.get(), overrideTable.get()));
     REQUIRE(*expectedResult == *actualResult);
   }

@@ -6,7 +6,8 @@
 #include "qps/executor/planner/grouping/QueryGrouper.h"
 
 QueryPlanPtr QueryPlanner::getExecutionPlan(const PQLQuery *targetQuery,
-                                            const OverrideTable *overrides) {
+                                            const OverrideTable *overrides)
+const {
   vector<QueryGroupPtr> groups = QueryGrouper(targetQuery).groupClauses();
 
   vector<QueryGroupPlanPtr> groupPlans(groups.size());

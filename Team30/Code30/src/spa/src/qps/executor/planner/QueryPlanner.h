@@ -12,7 +12,7 @@ using std::unique_ptr, std::vector;
 class QueryPlanner {
  public:
   QueryPlanPtr getExecutionPlan(const PQLQuery *query,
-                                const OverrideTable *overrides);
+                                const OverrideTable *overrides) const;
 
  private:
   QueryClauseOrderer clauseOrderer;

@@ -6,78 +6,80 @@
 
 using std::make_unique;
 
-QueryOrchestrator::QueryOrchestrator(QueryLauncher launcher) :
-    launcher(launcher) {
-}
+QueryOrchestrator::QueryOrchestrator(const QueryLauncher *launcher) :
+    launcher(launcher),
+    resultTable(make_unique<ProjectableTable>(true)) {}
 
 // Executes every group in the QueryPlan
 ProjectableTable *QueryOrchestrator::execute(
     const QueryPlan *plan,
-    const OverrideTable* overrideTable) const {
+    const OverrideTable *overrideTable) {
+  // Default to True
   if (plan->isEmpty()) {
-    return new ProjectableTable(false);
+    ProjectableTable *resultTableRef = resultTable.get();
+    resultTable.release();
+    return resultTableRef;
   }
 
   QueryCache cache;
-  ProjectableTable* resultTable = new ProjectableTable(true);
   for (int i = 0; i < plan->getGroupCount(); i++) {
-    const QueryGroupPlan* targetGroup = plan->getGroup(i);
-    PQLQueryResult* result = executeGroup(targetGroup, overrideTable, &cache);
+    const QueryGroupPlan *targetGroup = plan->getGroup(i);
+    bool shouldContinue = executeGroup(targetGroup, overrideTable, &cache);
 
-    // If any of the result is empty, return FALSE / EmptyResultTable
-    if (result->isFalse()) {
-      delete resultTable;
-      delete result;
-      return new ProjectableTable(false);
+    if (!shouldContinue) {
+      break;
     }
+  }
+  ProjectableTable *resultTableRef = resultTable.get();
+  resultTable.release();
+  return resultTableRef;
+}
 
-    if (targetGroup->isBooleanResult()) {
-      delete result;
-      continue;
-    }
-
-    const PQLSynonymNameList* selectables = targetGroup->getSelectables();
-    ProjectableGroupPtr resultGroup =
-        ProjectableGroupFactory::extractResults(result, selectables);
-    resultTable->addResultGroup(std::move(resultGroup));
+bool QueryOrchestrator::executeGroup(const QueryGroupPlan *targetGroup,
+                                     const OverrideTable *overrideTable,
+                                     QueryCache *cache) {
+  PQLQueryResult *result = executeClauses(targetGroup->getConditionalClauses(),
+                                          overrideTable, cache);
+  // If group is empty, return false result
+  if (result->isFalse()) {
+    resultTable = make_unique<ProjectableTable>(false);
     delete result;
+    return false;
   }
 
-  return resultTable;
+  if (!targetGroup->isBooleanResult()) {
+    extractProjectables(targetGroup, result);
+  }
+
+  delete result;
+  return true;
 }
 
 // Executes each clause in the QueryGroupPlan
-PQLQueryResult *QueryOrchestrator::executeGroup(
-    const QueryGroupPlan *plan,
-    const OverrideTable* overrideTable,
+PQLQueryResult *QueryOrchestrator::executeClauses(
+    const vector<IEvaluatable *> &executables,
+    const OverrideTable *overrideTable,
     QueryCache *cache) const {
-  vector<IEvaluatable*> executables = plan->getConditionalClauses();
-  PQLQueryResult* currentResult;
-  PQLQueryResult* finalResult = nullptr;
+  PQLQueryResult *currentResult;
+  PQLQueryResult *finalResult = nullptr;
 
   for (int i = 0; i < executables.size(); i++) {
-    currentResult = launcher.execute(executables[i], overrideTable, cache);
-    if (currentResult->isFalse()) {
-      delete currentResult;
-      delete finalResult;
-      return new PQLQueryResult();
-    }
-
-    if (i == 0) {
-      delete finalResult;
-      finalResult = currentResult;
-      currentResult = nullptr;
-      continue;
-    }
-
+    currentResult = launcher->execute(executables.at(i), overrideTable, cache);
     finalResult = ResultCoalescer(currentResult, finalResult).merge();
-    if (finalResult->isFalse()) {
+    if (finalResult == nullptr || finalResult->isFalse()) {
       delete finalResult;
       return new PQLQueryResult();
     }
-
     currentResult = nullptr;
   }
 
   return finalResult;
+}
+
+void QueryOrchestrator::extractProjectables(const QueryGroupPlan *targetGroup,
+                                            PQLQueryResult *result) {
+  const PQLSynonymNameList *selectables = targetGroup->getSelectables();
+  ProjectableGroupPtr resultGroup =
+      ProjectableGroupFactory::extractResults(result, selectables);
+  resultTable->addResultGroup(std::move(resultGroup));
 }

@@ -2,7 +2,7 @@
 
 #include <unordered_map>
 #include <unordered_set>
-#include "qps/common/PQLTypes.h"
+#include "qps/common/synonym/PQLTypes.h"
 
 using std::unordered_set, std::unordered_map;
 

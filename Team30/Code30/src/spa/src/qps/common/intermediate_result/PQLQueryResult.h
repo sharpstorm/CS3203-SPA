@@ -6,8 +6,8 @@
 #include <unordered_set>
 #include <vector>
 
-#include "qps/common/PQLTypes.h"
-#include "qps/common/PQLQuerySynonym.h"
+#include "qps/common/synonym/PQLTypes.h"
+#include "qps/common/synonym/PQLQuerySynonym.h"
 #include "pkb/queryHandlers/PkbQueryHandler.h"
 #include "QueryResultItem.h"
 #include "QueryResultItemPool.h"

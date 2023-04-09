@@ -1,7 +1,7 @@
 #pragma once
 
 #include "qps/parser/PQLToken.h"
-#include "qps/common/PQLTypes.h"
+#include "qps/common/synonym/PQLTypes.h"
 #include "qps/parser/token_parser/QueryTokenParseState.h"
 #include "qps/parser/builder/QueryBuilder.h"
 #include "IPQLDeclarationContext.h"

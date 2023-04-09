@@ -1,6 +1,6 @@
 #pragma once
 
-#include "qps/common/PQLQuerySynonym.h"
+#include "qps/common/synonym/PQLQuerySynonym.h"
 #include "common/Types.h"
 
 class OverrideTransformer {

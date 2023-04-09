@@ -66,6 +66,7 @@ class StmtRef : public IRef<StmtValue, StmtType> {
  public:
   StmtRef(StmtType type, StmtValue lineNum) : IRef(type, lineNum) {}
   bool isKnown() const override { return getValue() != NO_STMT; }
+  bool isValid() const { return getValue() >= NO_STMT; }
 };
 
 class EntityRef : public IRef<EntityValue, EntityType> {

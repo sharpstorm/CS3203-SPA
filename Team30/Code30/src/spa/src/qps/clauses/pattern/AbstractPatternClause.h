@@ -3,7 +3,7 @@
 #include <memory>
 #include <utility>
 
-#include "qps/common/PQLTypes.h"
+#include "qps/common/synonym/PQLTypes.h"
 #include "common/Types.h"
 #include "qps/clauses/PatternClause.h"
 #include "qps/clauses/InvokerTypes.h"

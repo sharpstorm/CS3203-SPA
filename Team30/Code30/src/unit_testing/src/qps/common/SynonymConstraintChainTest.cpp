@@ -1,5 +1,5 @@
 #include "catch.hpp"
-#include "qps/common/PQLQuerySynonym.h"
+#include "qps/common/synonym/PQLQuerySynonym.h"
 #include "qps/common/VariableTable.h"
 #include "qps/common/IConstraint.h"
 #include "qps/constraints/SynonymConstraint.h"

@@ -21,6 +21,10 @@ PQLQueryResult *ResultCoalescer::merge() {
 
   output = new PQLQueryResult();
   if (!setA->isFalse() && !setB->isFalse()) {
+    // Optimization: Set A should be smaller set
+    if (setB->getRowCount() < setA->getRowCount()) {
+      swapSets();
+    }
     mergeResults();
   }
 
@@ -30,9 +34,8 @@ PQLQueryResult *ResultCoalescer::merge() {
 }
 
 void ResultCoalescer::mergeResults() {
-  IntersectState intersectState;
   // init syn list
-  mergeSynonymList(&intersectState);
+  mergeSynonymList();
   output->adoptOwnedItems(setA);
   orphanMap = output->adoptOwnedItems(setB);
 
@@ -43,33 +46,33 @@ void ResultCoalescer::mergeResults() {
     }
 
     auto row = setA->getTableRowAt(i);
-    IntersectResult intersect = findIntersect(row, &intersectState);
+    IntersectResult intersect = findIntersect(row);
     if (intersect.leftSet == nullptr || intersect.rightSet == nullptr) {
       continue;
     }
-    crossProduct(&ignoreRows, &intersectState, &intersect);
+    crossProduct(&ignoreRows, &intersect);
   }
 }
 
-void ResultCoalescer::mergeSynonymList(IntersectState *intersectState) {
+void ResultCoalescer::mergeSynonymList() {
   auto synonymsA = setA->getSynonyms();
   auto synonymsB = setB->getSynonyms();
-  unordered_set<ResultTableCol> rightColsToIgnore;
+  set<ResultTableCol> rightColsToIgnore;
 
   for (auto it = synonymsA->begin(); it != synonymsA->end(); it++) {
     output->putSynonym(it->first);
-    intersectState->leftColsToCopy.push_back(it->second);
+    leftColsToCopy.push_back(it->second);
     ResultTableCol rightCol = setB->getSynonymCol(it->first);
     if (rightCol == PQLQueryResult::NO_COL) {
       continue;
     }
 
-    intersectState->leftCommons.push_back(it->second);
-    intersectState->rightCommons.push_back(rightCol);
+    leftCommons.push_back(it->second);
+    rightCommons.push_back(rightCol);
     rightColsToIgnore.insert(rightCol);
   }
 
-  if (intersectState->leftCommons.size() == 0) {
+  if (leftCommons.empty()) {
     return;
   }
 
@@ -78,19 +81,18 @@ void ResultCoalescer::mergeSynonymList(IntersectState *intersectState) {
       continue;
     }
 
-    intersectState->rightColsToCopy.push_back(it->second);
+    rightColsToCopy.push_back(it->second);
     output->putSynonym(it->first);
   }
 }
 
 ResultCoalescer::IntersectResult ResultCoalescer::findIntersect(
-    const QueryResultTableRow *currentRow,
-    const IntersectState *state) const {
+    const QueryResultTableRow *currentRow) const {
   RowSetPtr leftSet = nullptr;
   RowSetPtr rightSet = nullptr;
-  for (int j = 0; j < state->leftCommons.size(); j++) {
-    ResultTableCol leftCol = state->leftCommons.at(j);
-    ResultTableCol rightCol = state->rightCommons.at(j);
+  for (size_t j = 0; j < leftCommons.size(); j++) {
+    ResultTableCol leftCol = leftCommons.at(j);
+    ResultTableCol rightCol = rightCommons.at(j);
     auto referenceValue = currentRow->at(leftCol);
     auto leftSearch = setA->getRowsWithValue(leftCol, referenceValue);
     auto rightSearch = setB->getRowsWithValue(rightCol, referenceValue);
@@ -103,7 +105,7 @@ ResultCoalescer::IntersectResult ResultCoalescer::findIntersect(
     leftSet = SetUtils::intersectSet(leftSet.get(), leftSearch.get());
     rightSet = SetUtils::intersectSet(rightSet.get(), rightSearch.get());
 
-    if (rightSet == nullptr || rightSet == nullptr) {
+    if (leftSet == nullptr || rightSet == nullptr) {
       break;
     }
   }
@@ -112,24 +114,25 @@ ResultCoalescer::IntersectResult ResultCoalescer::findIntersect(
 }
 
 void ResultCoalescer::crossProduct(set<ResultTableRow> *ignoreSet,
-                                   const IntersectState *intersectState,
                                    const IntersectResult *intersection) {
   if (intersection->isEmpty()) {
     return;
   }
 
-  for (auto it = intersection->leftSet->begin();
-       it != intersection->leftSet->end(); it++) {
+  const RowSetPtr &leftSet = intersection->leftSet;
+  const RowSetPtr &rightSet = intersection->rightSet;
+
+  for (auto it = leftSet->begin(); it != leftSet->end(); it++) {
     ResultTableRow leftRowNumber = *it;
     ignoreSet->insert(leftRowNumber);
     auto leftRow = setA->getTableRowAt(leftRowNumber);
 
-    for (auto it2 = intersection->rightSet->begin();
-         it2 != intersection->rightSet->end(); it2++) {
+    for (auto it2 = rightSet->begin(); it2 != rightSet->end(); it2++) {
       ResultTableRow rightRowNumber = *it2;
       auto rightRow = setB->getTableRowAt(rightRowNumber);
-      QueryResultTableRow mergedRow{};
-      mergeRow(leftRow, rightRow, &mergedRow, intersectState);
+      QueryResultTableRow mergedRow;
+      mergedRow.reserve(leftColsToCopy.size() + rightColsToCopy.size());
+      mergeRow(leftRow, rightRow, &mergedRow);
       output->putTableRow(mergedRow);
     }
   }
@@ -137,15 +140,24 @@ void ResultCoalescer::crossProduct(set<ResultTableRow> *ignoreSet,
 
 void ResultCoalescer::mergeRow(const QueryResultTableRow *rowA,
                                const QueryResultTableRow *rowB,
-                               QueryResultTableRow *outputRow,
-                               const IntersectState *state) const {
-  for (int j = 0; j < state->leftColsToCopy.size(); j++) {
-    ResultTableCol copyCol = state->leftColsToCopy.at(j);
+                               QueryResultTableRow *outputRow) const {
+  for (int j = 0; j < leftColsToCopy.size(); j++) {
+    ResultTableCol copyCol = leftColsToCopy.at(j);
     outputRow->push_back(orphanMap->getMappingFor(rowA->at(copyCol)));
   }
 
-  for (int j = 0; j < state->rightColsToCopy.size(); j++) {
-    ResultTableCol copyCol = state->rightColsToCopy[j];
+  for (int j = 0; j < rightColsToCopy.size(); j++) {
+    ResultTableCol copyCol = rightColsToCopy[j];
     outputRow->push_back(orphanMap->getMappingFor(rowB->at(copyCol)));
   }
+}
+
+bool ResultCoalescer::IntersectResult::isEmpty() const {
+  return leftSet->empty() || rightSet->empty();
+}
+
+void ResultCoalescer::swapSets() {
+  PQLQueryResult *temp = setA;
+  setA = setB;
+  setB = temp;
 }

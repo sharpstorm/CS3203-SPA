@@ -1,7 +1,7 @@
 #pragma once
 
 #include "common/UtilityTypes.h"
-#include "qps/common/PQLTypes.h"
+#include "qps/common/synonym/PQLTypes.h"
 #include "qps/common/QPSTypes.h"
 
 class IQPS {

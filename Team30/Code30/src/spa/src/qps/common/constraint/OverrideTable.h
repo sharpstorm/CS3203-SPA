@@ -3,7 +3,7 @@
 #include <memory>
 #include <unordered_map>
 
-#include "qps/common/PQLTypes.h"
+#include "qps/common/synonym/PQLTypes.h"
 #include "OverrideTransformer.h"
 
 using std::unique_ptr, std::unordered_map;
