@@ -17,7 +17,7 @@ using WalkerPairCallback = bool (*)(T *ptr,
                                     CFGNode nodeRight);
 
 class CFGWalker {
-  template<typename T>
+  template <typename T>
   using DFSCallback = bool (*)(T *ptr, CFGNode node);
   using DFSLinkGetter = CFGLinks *(*)(CFG *cfg, CFGNode node);
 

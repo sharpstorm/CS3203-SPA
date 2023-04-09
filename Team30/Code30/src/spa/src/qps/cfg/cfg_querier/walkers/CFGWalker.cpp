@@ -2,6 +2,7 @@
 
 #include "qps/cfg/cfg_querier/CFGHaltWalkerException.h"
 
+
 CFGWalker::CFGWalker(CFG *cfg) : cfg(cfg) {
 }
 

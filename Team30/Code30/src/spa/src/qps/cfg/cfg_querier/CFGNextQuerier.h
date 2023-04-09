@@ -4,6 +4,8 @@
 #include "qps/cfg/cfg_querier/walkers/CFGWalker.h"
 #include "CFGQuerier.h"
 #include "qps/cfg/CFGQuerierTypes.h"
+#include "qps/cfg/cfg_querier/writers/ICFGResultWriter.h"
+#include "qps/cfg/cfg_querier/writers/CFGResultWriterFactory.h"
 
 template<class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
 class CFGNextQuerier : public CFGQuerier<
@@ -48,9 +50,9 @@ queryBool(const StmtValue &arg0, const StmtValue &arg1) {
     return result;
   }
 
-  for (auto it = links->begin(); it != links->end(); it++) {
-    if (*it == nodeTo) {
-      result.add(arg0, arg1);
+  for (const auto &node : *links) {
+    if (node == nodeTo) {
+      result.setNotEmpty();
       break;
     }
   }
@@ -69,19 +71,19 @@ queryFrom(const StmtValue &arg0, const StmtType &type1) {
 
   CFGNode nodeFrom = cfg->toCFGNode(arg0);
   CFGLinks *links = cfg->nextLinksOf(nodeFrom);
-  for (auto it = links->begin(); it != links->end(); it++) {
-    CFGNode node = *it;
+  ICFGWriterPtr writer = makeCFGResultWriterFactory(cfg, &closure, &result)
+      .makeRightWriter<typePredicate>(arg0, type1);
+
+  for (const CFGNode &node : *links) {
     if (node == CFG_END_NODE) {
       continue;
     }
 
-    int stmtNumber = cfg->fromCFGNode(node);
-    if (!typePredicate(closure, type1, stmtNumber)) {
-      continue;
+    const StmtValue stmtNumber = writer->toStmtNumber(node);
+    if (!writer->writeRight(stmtNumber)) {
+      break;
     }
-    result.add(arg0, stmtNumber);
   }
-
   return result;
 }
 
@@ -96,17 +98,18 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
 
   CFGNode nodeTo = cfg->toCFGNode(arg1);
   CFGLinks *links = cfg->reverseLinksOf(nodeTo);
-  for (auto it = links->begin(); it != links->end(); it++) {
-    CFGNode node = *it;
+  ICFGWriterPtr writer = makeCFGResultWriterFactory(cfg, &closure, &result)
+      .makeLeftWriter<typePredicate>(type0, arg1);
+
+  for (const CFGNode &node : *links) {
     if (node == CFG_END_NODE) {
       continue;
     }
 
-    int stmtNumber = cfg->fromCFGNode(node);
-    if (!typePredicate(closure, type0, stmtNumber)) {
-      continue;
+    const StmtValue stmtNumber = writer->toStmtNumber(node);
+    if (!writer->writeLeft(stmtNumber)) {
+      break;
     }
-    result.add(stmtNumber, arg1);
   }
 
   return result;
@@ -114,27 +117,28 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
 
 template<class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
 void CFGNextQuerier<ClosureType, typePredicate>::
-queryAll(StmtTransitiveResult *resultOut,
-         const StmtType &type0,
+queryAll(StmtTransitiveResult *resultOut, const StmtType &type0,
          const StmtType &type1) {
+  auto factory = makeCFGResultWriterFactory(cfg, &closure, resultOut);
+  ICFGWriterPtr writer = factory.makePairWriter<typePredicate>(0, type0, type1);
+
   for (CFGNode nodeFrom = 0; nodeFrom < cfg->getNodeCount(); nodeFrom++) {
-    int fromStmtNumber = cfg->fromCFGNode(nodeFrom);
+    StmtValue fromStmtNumber = cfg->fromCFGNode(nodeFrom);
+    writer->setLeft(fromStmtNumber);
     if (!typePredicate(closure, type0, fromStmtNumber)) {
       continue;
     }
 
     CFGLinks *links = cfg->nextLinksOf(nodeFrom);
-    for (auto it = links->begin(); it != links->end(); it++) {
-      CFGNode nodeTo = *it;
+    for (const CFGNode &nodeTo : *links) {
       if (nodeTo == CFG_END_NODE) {
         continue;
       }
 
-      int toStmtNumber = cfg->fromCFGNode(nodeTo);
-      if (!typePredicate(closure, type1, toStmtNumber)) {
-        continue;
+      StmtValue toStmtNumber = cfg->fromCFGNode(nodeTo);
+      if (!writer->writeRight(toStmtNumber)) {
+        break;
       }
-      resultOut->add(fromStmtNumber, toStmtNumber);
     }
   }
 }

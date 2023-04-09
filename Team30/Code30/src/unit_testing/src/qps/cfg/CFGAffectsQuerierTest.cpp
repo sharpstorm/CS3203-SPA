@@ -107,6 +107,37 @@ TEST_CASE("Affects Linear (Const, _)") {
 }
 
 /*
+ * 0 |  x = 1;
+ * 1 |  y = 2;
+ * 2 |  z = x;
+ * 3 |  w = y;
+ */
+TEST_CASE("Affects Linear (_, Const)") {
+  auto cfg = TestCFGProvider::getLinearCFG();
+  QueryCache cache;
+  auto pkbProvider =
+      CFGTestModifiesUsesProvider({{"x"}, {"y"}, {"z"}, {"w"}},
+                                  {{}, {}, {"x"}, {"y"}},
+                                  &cache);
+
+  CFGTestAffectsQuerier querier(&cfg, pkbProvider);
+
+  auto result = queryAffects(&querier, 0, 1);
+  REQUIRE(result.isEmpty);
+
+  result = queryAffects(&querier, 0, 2);
+  REQUIRE(result.isEmpty);
+
+  result = queryAffects(&querier, 0, 3);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1});
+
+  result = queryAffects(&querier, 0, 4);
+  REQUIRE_FALSE(result.isEmpty);
+  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{2});
+}
+
+/*
  * 1 |  x = 1;
  * 2 |  if (x != 1) then {
  * 3 |    x = x;
