@@ -11,33 +11,32 @@ using std::vector, std::string, std::unique_ptr;
 
 class TrieBuilder {
  public:
-  explicit TrieBuilder(IASTNode* astRoot, PkbWriter* pkbWriter);
+  explicit TrieBuilder(IASTNode *astRoot, PkbWriter *pkbWriter);
   PatternTriePtr build();
 
  private:
   struct ProcessingNode {
-    ProcessingNode* next;
+    ProcessingNode *next;
     SymbolIdent ident;
-    ProcessingNode(ProcessingNode* next, SymbolIdent ident):
+    ProcessingNode(ProcessingNode *next, SymbolIdent ident) :
         next(next), ident(ident) {}
   };
 
   typedef unique_ptr<ProcessingNode> ProcessingNodePtr;
 
   struct BuildState {
-    PatternTrieNode* node;
-    ProcessingNode* postfixHead;
-    ProcessingNode* postfixTail;
+    PatternTrieNode *node;
+    ProcessingNode *postfixHead;
+    ProcessingNode *postfixTail;
   };
 
-  IASTNode* astRoot;
+  IASTNode *astRoot;
   PatternTrieNodePtr rootNode;
   int nodeCount;
-  SymbolIdent symbolIdCounter;
   vector<ProcessingNodePtr> ownedProcessingNodes;
-  PkbWriter* pkbWriter;
+  PkbWriter *pkbWriter;
 
-  SymbolIdent registerSymbol(IASTNode* node);
-  SymbolIdent registerLeaf(IASTNode* node);
-  BuildState walkAST(IASTNode* node);
+  SymbolIdent registerSymbol(IASTNode *node);
+  SymbolIdent registerLeaf(IASTNode *node);
+  BuildState walkAST(IASTNode *node);
 };
