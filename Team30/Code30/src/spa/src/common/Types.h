@@ -99,13 +99,6 @@ class QueryResult {
   QueryResultPairSet<T, U> pairVals;
   bool isEmpty = true;
 
-  void add(T first, U second) {
-    firstArgVals.insert(first);
-    secondArgVals.insert(second);
-    pairVals.insert(std::make_pair(first, second));
-    isEmpty = false;
-  }
-
   void addPair(const T &first, const U &second) {
     isEmpty = false;
     pairVals.insert(std::make_pair(first, second));

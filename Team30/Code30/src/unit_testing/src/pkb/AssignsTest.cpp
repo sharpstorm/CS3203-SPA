@@ -21,8 +21,5 @@ TEST_CASE("Assign write and read") {
   auto result = *queryHandler.queryAssigns({StmtType::Assign, 1});
 
   REQUIRE(result.isEmpty == false);
-  REQUIRE(result.firstArgVals == StmtValueSet({1}));
   REQUIRE(*result.secondArgVals.begin() == node1.get());
-  REQUIRE(result.pairVals ==
-          pair_set<StmtValue, PatternTrie *>({{1, node1.get()}}));
 }

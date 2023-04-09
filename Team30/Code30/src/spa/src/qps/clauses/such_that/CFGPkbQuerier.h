@@ -24,7 +24,7 @@ class CFGPkbQuerier {
         agent->queryModifies(StmtRef{StmtType::None, value},
                              EntityRef{EntityType::Variable, ""});
     EntityIdxSet ret;
-    for (const EntityValue &v : result->secondArgVals) {
+    for (const EntityValue &v : result->getRightVals()) {
       ret.insert(agent->getIndexOfVariable(v));
     }
     ret.erase(NO_ENT_INDEX);
@@ -36,7 +36,7 @@ class CFGPkbQuerier {
         agent->queryUses(StmtRef{StmtType::None, value},
                          EntityRef{EntityType::Variable, ""});
     EntityIdxSet ret;
-    for (const EntityValue &v : result->secondArgVals) {
+    for (const EntityValue &v : result->getRightVals()) {
       ret.insert(agent->getIndexOfVariable(v));
     }
     ret.erase(NO_ENT_INDEX);

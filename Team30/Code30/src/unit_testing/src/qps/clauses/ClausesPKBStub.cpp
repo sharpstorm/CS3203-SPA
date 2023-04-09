@@ -17,17 +17,17 @@ class ClausesPKBStub : public StubPKB {
       return result;
     }
 
-    result->add(1, 2);
+    addTo(result.get(), 1, 2, s1, s2);
     return result;
   };
 
   QueryResultPtr<int, int> queryFollowsStar(StmtRef s1,
-                                         StmtRef s2) const override {
+                                            StmtRef s2) const override {
     if (s1.isKnown() && s2.isKnown() && s2.getValue() > s1.getValue()) {
       return make_unique<QueryResult<int, int>>();
     }
 
-    return createFollowsTResult();
+    return createFollowsTResult(s1, s2);
   };
 
   QueryResultPtr<int, int> queryParent(StmtRef s1, StmtRef s2) const override {
@@ -36,79 +36,107 @@ class ClausesPKBStub : public StubPKB {
       return result;
     }
 
-    result->add(6, 7);
+    addTo(result.get(), 6, 7, s1, s2);
     return result;
   };
 
-  QueryResultPtr<int, int> queryParentStar(StmtRef s1, StmtRef s2) const override {
+  QueryResultPtr<int, int> queryParentStar(StmtRef s1,
+                                           StmtRef s2) const override {
     if (s1.isKnown() && s2.isKnown() && s2.getValue() > s1.getValue()) {
       return make_unique<QueryResult<int, int>>();
     }
 
-    return createParentTResult();
+    return createParentTResult(s1, s2);
   };
 
   QueryResultPtr<int, string> queryUses(StmtRef sRef,
-                                     EntityRef eRef) const override {
+                                        EntityRef eRef) const override {
     auto result = make_unique<QueryResult<int, string>>();
     if (sRef.isKnown() && eRef.isKnown()) {
       return result;
     }
 
     if (!sRef.isKnown() && eRef.isKnown()) {
-      result->add(6, "count");
-      result->add(7, "cenX");
-      result->add(7, "x");
-      result->add(8, "cenY");
-      result->add(8, "y");
+      addTo<int, string>(result.get(), 6, "count", sRef, eRef);
+      addTo<int, string>(result.get(), 7, "cenX", sRef, eRef);
+      addTo<int, string>(result.get(), 7, "x", sRef, eRef);
+      addTo<int, string>(result.get(), 8, "cenY", sRef, eRef);
+      addTo<int, string>(result.get(), 8, "y", sRef, eRef);
     } else if (sRef.isKnown() && !eRef.isKnown()) {
-      result->add(6, "count");
+      addTo<int, string>(result.get(), 6, "count", sRef, eRef);
     } else {
-      result->add(6, "count");
-      result->add(7, "cenX");
-      result->add(7, "x");
-      result->add(8, "cenY");
-      result->add(8, "y");
+      addTo<int, string>(result.get(), 6, "count", sRef, eRef);
+      addTo<int, string>(result.get(), 7, "cenX", sRef, eRef);
+      addTo<int, string>(result.get(), 7, "x", sRef, eRef);
+      addTo<int, string>(result.get(), 8, "cenY", sRef, eRef);
+      addTo<int, string>(result.get(), 8, "y", sRef, eRef);
     }
 
     return result;
   };
 
-  QueryResultPtr<string, string> queryUses(EntityRef, EntityRef) const override {
+  QueryResultPtr<string, string> queryUses(EntityRef,
+                                           EntityRef) const override {
     return make_unique<QueryResult<string, string>>();
   };
 
   QueryResultPtr<int, string> queryModifies(StmtRef sRef,
-                                         EntityRef eRef) const override {
+                                            EntityRef eRef) const override {
     auto result = make_unique<QueryResult<int, string>>();
     if (sRef.isKnown() && eRef.isKnown()) {
       return result;
     }
 
     if (!sRef.isKnown() && eRef.isKnown()) {
-      result->add(1, "count");
-      result->add(6, "count");
+      addTo<int, string>(result.get(), 1, "count", sRef, eRef);
+      addTo<int, string>(result.get(), 6, "count", sRef, eRef);
     } else if (sRef.isKnown() && !eRef.isKnown()) {
-      result->add(8, "cenY");
+      addTo<int, string>(result.get(), 8, "cenY", sRef, eRef);
     } else {
-      result->add(1, "count");
-      result->add(2, "cenX");
-      result->add(3, "cenY");
-      result->add(6, "count");
-      result->add(7, "cenX");
-      result->add(8, "cenY");
+      addTo<int, string>(result.get(), 1, "count", sRef, eRef);
+      addTo<int, string>(result.get(), 2, "cenX", sRef, eRef);
+      addTo<int, string>(result.get(), 3, "cenY", sRef, eRef);
+      addTo<int, string>(result.get(), 6, "count", sRef, eRef);
+      addTo<int, string>(result.get(), 7, "cenX", sRef, eRef);
+      addTo<int, string>(result.get(), 8, "cenY", sRef, eRef);
     }
 
     return result;
   }
 
   QueryResultPtr<string, string> queryModifies(EntityRef,
-                                            EntityRef) const override {
+                                               EntityRef) const override {
     return make_unique<QueryResult<string, string>>();
   };
 
   QueryResultPtr<string, string> queryCalls(EntityRef e1,
-                                         EntityRef e2) const override {
+                                            EntityRef e2) const override {
+    auto result = make_unique<QueryResult<EntityValue, EntityValue>>();
+
+    if (e1.isType(EntityType::None) && e2.isType(EntityType::None)) {
+      // Both wildcards and Static Results
+      return result;
+    }
+
+    if (!e1.isKnown() && e2.isKnown()) {
+      // (syn, static)
+      addTo<string, string>(result.get(), "Ironhide", "Barricade", e1, e2);
+    } else if (e1.isKnown() && !e2.isKnown()) {
+      // (static, syn) or (static, wildcard)
+      addTo<string, string>(result.get(), "Bumblebee", "Megatron", e1, e2);
+      addTo<string, string>(result.get(), "Bumblebee", "Ironhide", e1, e2);
+    } else {
+      // Both syns or (syn, _) or (_, syn)
+      addTo<string, string>(result.get(), "Bumblebee", "Megatron", e1, e2);
+      addTo<string, string>(result.get(), "Bumblebee", "Ironhide", e1, e2);
+      addTo<string, string>(result.get(), "Ironhide", "Barricade", e1, e2);
+    }
+
+    return result;
+  };
+
+  QueryResultPtr<string, string> queryCallsStar(EntityRef e1,
+                                                EntityRef e2) const override {
     auto result = make_unique<QueryResult<string, string>>();
 
     if (e1.isType(EntityType::None) && e2.isType(EntityType::None)) {
@@ -118,50 +146,25 @@ class ClausesPKBStub : public StubPKB {
 
     if (!e1.isKnown() && e2.isKnown()) {
       // (syn, static)
-      result->add("Ironhide", "Barricade");
+      addTo<string, string>(result.get(), "Ironhide", "Barricade", e1, e2);
     } else if (e1.isKnown() && !e2.isKnown()) {
       // (static, syn) or (static, wildcard)
-      result->add("Bumblebee", "Megatron");
-      result->add("Bumblebee", "Ironhide");
+      addTo<string, string>(result.get(), "Bumblebee", "Megatron", e1, e2);
+      addTo<string, string>(result.get(), "Bumblebee", "Ironhide", e1, e2);
+      addTo<string, string>(result.get(), "Bumblebee", "Barricade", e1, e2);
     } else {
       // Both syns or (syn, _) or (_, syn)
-      result->add("Bumblebee", "Megatron");
-      result->add("Bumblebee", "Ironhide");
-      result->add("Ironhide", "Barricade");
-    }
-
-    return result;
-  };
-
-  QueryResultPtr<string, string> queryCallsStar(EntityRef e1,
-                                             EntityRef e2) const override {
-    auto result = make_unique<QueryResult<string,string>>();
-
-    if (e1.isType(EntityType::None) && e2.isType(EntityType::None)) {
-      // Both wildcards and Static Results
-      return result;
-    }
-
-    if (!e1.isKnown() && e2.isKnown()) {
-      // (syn, static)
-      result->add("Ironhide", "Barricade");
-    } else if (e1.isKnown() && !e2.isKnown()) {
-      // (static, syn) or (static, wildcard)
-      result->add("Bumblebee", "Megatron");
-      result->add("Bumblebee", "Ironhide");
-      result->add("Bumblebee", "Barricade");
-    } else {
-      // Both syns or (syn, _) or (_, syn)
-      result->add("Bumblebee", "Megatron");
-      result->add("Bumblebee", "Ironhide");
-      result->add("Bumblebee", "Barricade");
-      result->add("Ironhide", "Barricade");
+      addTo<string, string>(result.get(), "Bumblebee", "Megatron", e1, e2);
+      addTo<string, string>(result.get(), "Bumblebee", "Ironhide", e1, e2);
+      addTo<string, string>(result.get(), "Bumblebee", "Barricade", e1, e2);
+      addTo<string, string>(result.get(), "Ironhide", "Barricade", e1, e2);
     }
 
     return result;
   }
 
-  QueryResultPtr<int, string> queryIfPattern(StmtRef stmt, EntityRef ent) const override {
+  QueryResultPtr<int, string> queryIfPattern(StmtRef stmt,
+                                             EntityRef ent) const override {
     auto result = make_unique<QueryResult<int, string>>();
     if (ent.isWildcard()) {
       result->addLeft(1);
@@ -193,7 +196,8 @@ class ClausesPKBStub : public StubPKB {
     return result;
   }
 
-  QueryResultPtr<int, string> queryWhilePattern(StmtRef stmt, EntityRef ent) const override {
+  QueryResultPtr<int, string> queryWhilePattern(StmtRef stmt,
+                                                EntityRef ent) const override {
     auto result = make_unique<QueryResult<int, string>>();
     if (ent.isWildcard()) {
       result->addLeft(4);
@@ -208,7 +212,7 @@ class ClausesPKBStub : public StubPKB {
       }
 
       if (stmt.getValue() == 4) {
-       result->addRight("x");
+        result->addRight("x");
       }
 
       if (stmt.getValue() == 11) {
@@ -268,23 +272,42 @@ class ClausesPKBStub : public StubPKB {
     return false;
   }
 
+  template<class T, class U, class V, class X>
+  static void addTo(QueryResult<T, U> *target,
+                    T left, U right,
+                    V leftRef, X rightRef) {
+    bool isLeftKnown = leftRef.isKnown() || leftRef.isWildcard();
+    bool isRightKnown = rightRef.isKnown() || rightRef.isWildcard();
+    if (isLeftKnown && isRightKnown) {
+      target->setNotEmpty();
+    } else if (!isLeftKnown && !isRightKnown) {
+      target->addPair(left, right);
+    } else if (isLeftKnown) {
+      target->addRight(right);
+    } else {
+      target->addLeft(left);
+    }
+  }
+
   // Utility functions
-  static QueryResultPtr<int, int> createFollowsTResult() {
+  static QueryResultPtr<int, int> createFollowsTResult(StmtRef leftRef,
+                                                       StmtRef rightRef) {
     auto result = make_unique<QueryResult<int, int>>();
-    result->add(1, 2);
-    result->add(1, 3);
-    result->add(1, 4);
-    result->add(2, 3);
-    result->add(2, 4);
-    result->add(3, 4);
+    addTo(result.get(), 1, 2, leftRef, rightRef);
+    addTo(result.get(), 1, 3, leftRef, rightRef);
+    addTo(result.get(), 1, 4, leftRef, rightRef);
+    addTo(result.get(), 2, 3, leftRef, rightRef);
+    addTo(result.get(), 2, 4, leftRef, rightRef);
+    addTo(result.get(), 3, 4, leftRef, rightRef);
     return result;
   }
 
-  static QueryResultPtr<int, int> createParentTResult() {
+  static QueryResultPtr<int, int> createParentTResult(StmtRef leftRef,
+                                                      StmtRef rightRef) {
     auto result = make_unique<QueryResult<int, int>>();
-    result->add(6, 7);
-    result->add(6, 8);
-    result->add(6, 9);
+    addTo(result.get(), 6, 7, leftRef, rightRef);
+    addTo(result.get(), 6, 8, leftRef, rightRef);
+    addTo(result.get(), 6, 9, leftRef, rightRef);
     return result;
   }
 };
