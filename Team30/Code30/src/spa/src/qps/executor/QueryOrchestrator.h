@@ -28,7 +28,7 @@ class QueryOrchestrator {
                                const OverrideTable *table,
                                QueryCache *cache);
 
-  PQLQueryResult *executeClauses(const vector<IEvaluatable *> &executables,
+  PQLQueryResult *executeClauses(const IEvaluatableRefList &executables,
                                  const OverrideTable *overrideTable,
                                  QueryCache *cache) const;
   void extractProjectables(const QueryGroupPlan *targetGroup,

@@ -2,7 +2,7 @@
 
 #include <utility>
 
-QueryPlan::QueryPlan(vector<QueryGroupPlanPtr> groups) :
+QueryPlan::QueryPlan(QueryGroupPlanPtrList groups) :
     clauseGroups(std::move(groups)) {}
 
 int QueryPlan::getGroupCount() const {

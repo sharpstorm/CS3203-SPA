@@ -31,7 +31,7 @@ class PQLQuery {
   PQLSynonymNameListPtr getConstrainedVariables() const;
 
   PQLQuerySynonymProxy *getVariable(const PQLSynonymName &name) const;
-  vector<IEvaluatable *> getEvaluatables() const;
+  IEvaluatableRefList getEvaluatables() const;
   bool resolveConstraints(OverrideTable *tableOut);
 
   int getClauseCount() const;

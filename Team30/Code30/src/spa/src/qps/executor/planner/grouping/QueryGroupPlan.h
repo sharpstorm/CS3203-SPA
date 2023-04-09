@@ -8,21 +8,25 @@
 using std::unique_ptr, std::vector;
 
 class QueryGroupPlan {
+ protected:
+  const IEvaluatablePtrList &getOwnedEvals();
+
  public:
-  QueryGroupPlan(vector<IEvaluatable *> conditionalClauses,
-                 vector<PQLSynonymName> selectables,
-                 vector<IEvaluatablePtr> ownedEvals,
+  QueryGroupPlan(IEvaluatableRefList conditionalClauses,
+                 PQLSynonymNameList selectables,
                  const ComplexityScore &score);
-  const vector<IEvaluatable *> getConditionalClauses() const;
+  const IEvaluatableRefList getConditionalClauses() const;
   bool isBooleanResult() const;
   const PQLSynonymNameList *getSelectables() const;
   ComplexityScore getComplexity() const;
+  void adoptEvals(IEvaluatablePtrList *otherEvals);
 
  private:
-  vector<IEvaluatable *> conditionalClauses;
-  vector<PQLSynonymName> selectables;
-  vector<IEvaluatablePtr> ownedEvals;
+  IEvaluatableRefList conditionalClauses;
+  PQLSynonymNameList selectables;
+  IEvaluatablePtrList ownedEvals;
   ComplexityScore weightedComplexity;
 };
 
 typedef unique_ptr<QueryGroupPlan> QueryGroupPlanPtr;
+typedef vector<QueryGroupPlanPtr> QueryGroupPlanPtrList;

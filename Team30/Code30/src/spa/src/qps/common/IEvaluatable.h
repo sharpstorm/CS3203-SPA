@@ -1,12 +1,13 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 
 #include "qps/common/intermediate_result/PQLQueryResult.h"
 #include "qps/executor/QueryExecutorAgent.h"
 #include "qps/common/synonym/PQLTypes.h"
 
-using std::unique_ptr;
+using std::unique_ptr, std::vector;
 
 typedef int ComplexityScore;
 
@@ -20,3 +21,6 @@ class IEvaluatable {
 };
 
 typedef unique_ptr<IEvaluatable> IEvaluatablePtr;
+typedef vector<IEvaluatable *> IEvaluatableRefList;
+typedef vector<IEvaluatablePtr> IEvaluatablePtrList;
+
