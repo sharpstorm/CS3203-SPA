@@ -7,9 +7,7 @@
 #include "pkb/storage/IStorage.h"
 
 using pkb::ArgValidator, pkb::ArgTransformer, pkb::defaultValidator,
-    pkb::defaultTransformer;
-using std::make_unique;
-using std::optional, std::nullopt;
+    pkb::defaultTransformer, std::make_unique;
 
 template <typename LeftValue, typename LeftType, typename RightValue,
           typename RightType>

@@ -61,7 +61,7 @@ class FollowsTableManager : public RelationTableManager<StmtValue, StmtValue> {
   }
 
   QueryResultPtr<StmtValue, StmtValue> rightWildcardQuery(
-      const unordered_set<StmtValue> &arg1Values,
+      const StmtValueSet &arg1Values,
       QueryResultBuilder<StmtValue, StmtValue> *resultBuilder) const override {
     for (auto arg1 : arg1Values) {
       auto arg2 = table->getFirstValue(arg1);
@@ -73,9 +73,8 @@ class FollowsTableManager : public RelationTableManager<StmtValue, StmtValue> {
   }
 
   QueryResultPtr<StmtValue, StmtValue> leftWildcardQuery(
-      const unordered_set<StmtValue> &arg2Values,
+      const StmtValueSet &arg2Values,
       QueryResultBuilder<StmtValue, StmtValue> *resultBuilder) const override {
-    QueryResult<StmtValue, StmtValue> result;
     for (auto arg2 : arg2Values) {
       auto arg1 = reverseTable->getLastValue(arg2);
       if (arg1 != 0) {

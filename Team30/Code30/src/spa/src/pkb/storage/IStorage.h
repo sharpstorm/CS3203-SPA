@@ -25,7 +25,7 @@ class IStorage {
    * Find R(arg1, arg2) where arg1 is in the given arg1Values and arg2 satisfies
    * arg2Predicate.
    */
-  virtual QueryResultPtr<K, V> query(unordered_set<K> arg1Values,
+  virtual QueryResultPtr<K, V> query(const unordered_set<K> &arg1Values,
                                      Predicate<V> arg2Predicate,
                                      QueryResultBuilder<K, V> *) const = 0;
 
@@ -34,19 +34,7 @@ class IStorage {
    * arg1Predicate.
    */
   virtual QueryResultPtr<K, V> query(Predicate<K> arg1Predicate,
-                                     unordered_set<V> arg2Values,
-                                     QueryResultBuilder<K, V> *) const = 0;
-
-  /**
-   * Find R(arg1, arg2) given arg1 and arg2 satisfies arg2Predicate.
-   */
-  virtual QueryResultPtr<K, V> query(K arg1, Predicate<V> arg2Predicate,
-                                     QueryResultBuilder<K, V> *) const = 0;
-
-  /**
-   * Find R(arg1, arg2) given arg2 and arg1 satisfies arg1Predicate.
-   */
-  virtual QueryResultPtr<K, V> query(Predicate<K> arg1Predicate, V arg2,
+                                     const unordered_set<V> &arg2Values,
                                      QueryResultBuilder<K, V> *) const = 0;
 
   /**

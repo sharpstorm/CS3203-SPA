@@ -10,5 +10,5 @@ class ParentQueryHandler : public IParentQueryHandler {
  public:
   ParentQueryHandler(
       PkbStmtStmtQueryInvoker *invoker,
-      ParentStorage *storage);
+      IStorage<StmtValue, StmtValue> *storage);
 };
