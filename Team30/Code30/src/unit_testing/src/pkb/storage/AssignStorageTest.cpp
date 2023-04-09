@@ -2,7 +2,6 @@
 #include <utility>
 
 #include "catch.hpp"
-#include "common/pattern/PatternConverter.h"
 #include "pkb/storage/StorageTypes.h"
 #include "sp/ast/entity/VariableASTNode.h"
 #include "sp/ast/expression_operand/PlusASTNode.h"
