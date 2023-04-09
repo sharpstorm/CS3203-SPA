@@ -1,0 +1,45 @@
+1 - Multiple attributes (read) (positive)
+read r;
+Select r with r.stmt# = 1 and r.varName = "y"
+1
+5000
+2 - Multiple attributes (read) (empty - invalid var assignment)
+read r;
+Select r with r.stmt# = 1 and r.varName = "x"
+
+5000
+3 - Multiple attributes (read) (empty - invalid stmt# assignment)
+read r;
+Select r with r.stmt# = 4 and r.varName = "x"
+
+5000
+4 - Multiple attributes (print) (positive)
+print pn;
+Select pn with pn.stmt# = 3 and pn.varName = "a"
+3
+5000
+5 - Multiple attributes (print) (empty - invalid var assignment)
+print pn;
+Select pn with pn.stmt# = 3 and pn.varName = "x"
+
+5000
+6 - Multiple attributes (print) (empty - invalid stmt# assignment)
+print pn;
+Select pn with pn.stmt# = 1 and pn.varName = "a"
+
+5000
+7 - Multiple attributes (call) (positive)
+call cl;
+Select cl with cl.stmt# = 5 and cl.procName = "HornTail"
+5
+5000
+8 - Multiple attributes (call) (empty - invalid proc assignment)
+call cl;
+Select cl with cl.stmt# = 5 and cl.procName = "PinkBean"
+
+5000
+9 - Multiple attributes (call) (empty - invalid stmt# assignment)
+call cl;
+Select cl with cl.stmt# = 1 and cl.procName = "HornTail"
+
+5000

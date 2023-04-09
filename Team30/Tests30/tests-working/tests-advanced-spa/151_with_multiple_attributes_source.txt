@@ -1,0 +1,11 @@
+procedure PinkBean {
+	read y;
+	read x;
+	print a;
+	print b;
+	call HornTail;
+}
+
+procedure HornTail {
+	x = 5;
+}
