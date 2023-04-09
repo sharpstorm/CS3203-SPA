@@ -21,7 +21,7 @@ using SymmetricQueryInvoker = QueryResultSet<ResultType>(*)(
     const ArgType &arg);
 
 template <typename ResultType>
-using ArgumentTransformer = ResultType(*)(ClauseArgument* arg);
+using ArgumentTransformer = ResultType(*)(const ClauseArgument* arg);
 
 typedef QueryInvoker<EntityValue, EntityRef, EntityValue, EntityRef>
     EntEntInvoker;

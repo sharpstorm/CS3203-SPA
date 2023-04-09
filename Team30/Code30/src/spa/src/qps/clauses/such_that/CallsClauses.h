@@ -15,26 +15,32 @@ using AbstractCallsClause = AbstractEntEntClause<
     ClauseArgument::isType<PQL_SYN_TYPE_PROCEDURE>,
     ClauseArgument::isType<PQL_SYN_TYPE_PROCEDURE>>;
 
-constexpr CallsInvoker callsInvoker = [](const QueryExecutorAgent &agent,
-                                         const EntityRef &leftArg,
-                                         const EntityRef &rightArg) {
-  return agent->queryCalls(leftArg, rightArg);
-};
+class CallsClauseInvokers {
+ public:
+  static constexpr CallsInvoker
+      callsInvoker = [](const QueryExecutorAgent &agent,
+                        const EntityRef &leftArg,
+                        const EntityRef &rightArg) {
+    return agent->queryCalls(leftArg, rightArg);
+  };
 
-constexpr CallsInvoker callsTInvoker = [](const QueryExecutorAgent &agent,
-                                          const EntityRef &leftArg,
-                                          const EntityRef &rightArg) {
-  return agent->queryCallsStar(leftArg, rightArg);
-};
+  static constexpr CallsInvoker
+      callsTInvoker = [](const QueryExecutorAgent &agent,
+                         const EntityRef &leftArg,
+                         const EntityRef &rightArg) {
+    return agent->queryCallsStar(leftArg, rightArg);
+  };
 
-constexpr CallsSameSynInvoker callsSymmetricInvoker =
-    [](const QueryExecutorAgent &agent, const EntityRef &arg) {
-      return EntityValueSet{};
-    };
+  static constexpr CallsSameSynInvoker
+      callsSymmetricInvoker =
+      [](const QueryExecutorAgent &agent, const EntityRef &arg) {
+        return EntityValueSet{};
+      };
+};
 
 class CallsClause : public AbstractCallsClause<
-    callsInvoker,
-    callsSymmetricInvoker> {
+    CallsClauseInvokers::callsInvoker,
+    CallsClauseInvokers::callsSymmetricInvoker> {
  public:
   CallsClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractEntEntClause(std::move(left), std::move(right)) {
@@ -50,8 +56,8 @@ class CallsClause : public AbstractCallsClause<
 };
 
 class CallsTClause : public AbstractCallsClause<
-    callsTInvoker,
-    callsSymmetricInvoker> {
+    CallsClauseInvokers::callsTInvoker,
+    CallsClauseInvokers::callsSymmetricInvoker> {
  public:
   CallsTClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractEntEntClause(std::move(left), std::move(right)) {
@@ -62,7 +68,6 @@ class CallsTClause : public AbstractCallsClause<
     return computeNoSymmetryComplexityScore<
         COMPLEXITY_MODIFIER_PREFERRED,
         COMPLEXITY_QUERY_TRANSITIVE,
-        COMPLEXITY_QUERY_TRANSITIVE
-    >(table);
+        COMPLEXITY_QUERY_TRANSITIVE>(table);
   }
 };

@@ -8,21 +8,26 @@
 typedef StmtEntInvoker UsesSInvoker;
 typedef EntEntInvoker UsesPInvoker;
 
-constexpr UsesSInvoker usesSInvoker = [](const QueryExecutorAgent &agent,
-                                         const StmtRef &leftArg,
-                                         const EntityRef &rightArg) {
-  return agent->queryUses(leftArg, rightArg);
-};
+class UsesClauseInvokers {
+ public:
+  static constexpr UsesSInvoker
+      usesSInvoker = [](const QueryExecutorAgent &agent,
+                        const StmtRef &leftArg,
+                        const EntityRef &rightArg) {
+    return agent->queryUses(leftArg, rightArg);
+  };
 
-constexpr UsesPInvoker usesPInvoker = [](const QueryExecutorAgent &agent,
-                                         const EntityRef &leftArg,
-                                         const EntityRef &rightArg) {
-  return agent->queryUses(leftArg, rightArg);
+  static constexpr UsesPInvoker
+      usesPInvoker = [](const QueryExecutorAgent &agent,
+                        const EntityRef &leftArg,
+                        const EntityRef &rightArg) {
+    return agent->queryUses(leftArg, rightArg);
+  };
 };
 
 typedef AbstractAnyEntClause<
-    usesPInvoker,
-    usesSInvoker,
+    UsesClauseInvokers::usesPInvoker,
+    UsesClauseInvokers::usesSInvoker,
     ClauseArgument::isEither<ClauseArgument::isStatement,
                              ClauseArgument::isType<PQL_SYN_TYPE_PROCEDURE>>,
     ClauseArgument::isType<PQL_SYN_TYPE_VARIABLE>> AbstractUsesClause;

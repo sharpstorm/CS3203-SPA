@@ -5,6 +5,8 @@
 #include "qps/errors/QPSParserSemanticError.h"
 #include "qps/clauses/InvokerTypes.h"
 #include "AbstractTwoArgClause.h"
+#include "RefEvalulator.h"
+#include "TwoArgEvaluator.h"
 
 template<
     EntEntInvoker entInvoker,
@@ -39,27 +41,23 @@ class AbstractAnyEntClause : public AbstractTwoArgClause {
       isLeftStatement = stmtRef.isKnown();
     }
 
-    if (isLeftStatement) {
-      return AbstractTwoArgClause::abstractEvaluateOn(
-          agent,
-          Clause::toStmtRef,
-          Clause::toEntityRef,
-          stmtInvoker,
-          AbstractAnyEntClause::dummySymmetricInvoker<StmtValue, StmtRef>);
-    } else {
-      return AbstractTwoArgClause::abstractEvaluateOn(
-          agent,
-          Clause::toEntityRef,
-          Clause::toEntityRef,
-          entInvoker,
-          AbstractAnyEntClause::dummySymmetricInvoker<EntityValue, EntityRef>);
-    }
-  }
+    EntityRef rightRef = RefEvalulator::makeRef(agent,
+                                                right.get(),
+                                                Clause::toEntityRef);
 
- private:
-  template<class ValueType, class RefType>
-  static QueryResultSet<ValueType> dummySymmetricInvoker(
-      const QueryExecutorAgent &agent, const RefType &arg) {
-    return {};
+    if (isLeftStatement) {
+      StmtRef leftRef = RefEvalulator::makeRef(agent,
+                                               left.get(),
+                                               Clause::toStmtRef);
+      return TwoArgEvaluator<StmtRef, EntityRef>(agent, left.get(), right.get())
+          .evaluate(leftRef, rightRef, stmtInvoker);
+    } else {
+      EntityRef leftRef = RefEvalulator::makeRef(agent,
+                                                 left.get(),
+                                                 Clause::toEntityRef);
+      return TwoArgEvaluator<EntityRef, EntityRef>(agent, left.get(),
+                                                   right.get())
+          .evaluate(leftRef, rightRef, entInvoker);
+    }
   }
 };

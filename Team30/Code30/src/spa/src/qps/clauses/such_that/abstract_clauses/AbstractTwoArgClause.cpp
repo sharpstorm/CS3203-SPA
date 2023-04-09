@@ -30,3 +30,12 @@ ComplexityScore AbstractTwoArgClause::computeComplexityScore(
       COMPLEXITY_MODIFIER_NONE,
       COMPLEXITY_MODIFIER_NONE>(table);
 }
+
+ComplexityScore AbstractTwoArgClause::computeNoSymmetryComplexityScore(
+    const OverrideTable *table) const {
+  if (isSameSynonym()) {
+    return COMPLEXITY_QUERY_CONSTANT;
+  }
+
+  return computeComplexityScore(table);
+}

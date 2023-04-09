@@ -15,48 +15,6 @@ class AbstractTwoArgClause : public SuchThatClause {
 
   bool isSameSynonym() const;
 
-  template<
-      typename LeftResultType, typename LeftArgType,
-      typename RightResultType, typename RightArgType>
-  PQLQueryResult *abstractEvaluateOn(
-      const QueryExecutorAgent &agent,
-      ArgumentTransformer<LeftArgType> leftTransformer,
-      ArgumentTransformer<RightArgType> rightTransformer,
-      QueryInvoker<LeftResultType, LeftArgType,
-                   RightResultType, RightArgType> diffSynInvoker,
-      SymmetricQueryInvoker<LeftResultType, LeftArgType> sameSynInvoker) const {
-    if (isSameSynonym()) {
-      auto baseRef = leftTransformer(left.get());
-      auto ref = agent.transformArg(left->getName(), baseRef);
-      if (!agent.isValid(ref)) {
-        return new PQLQueryResult();
-      }
-
-      QueryResultSet<LeftResultType> queryResult = sameSynInvoker(agent, ref);
-      PQLQueryResultBuilder<LeftResultType, RightResultType> builder;
-      builder.setLeftName(left.get());
-      builder.setLeftRef(ref);
-      return builder.build(queryResult);
-    }
-
-    LeftArgType leftArg = leftTransformer(left.get());
-    RightArgType rightArg = rightTransformer(right.get());
-
-    leftArg = agent.transformArg(left->getName(), leftArg);
-    rightArg = agent.transformArg(right->getName(), rightArg);
-    if (!agent.isValid(leftArg) || !agent.isValid(rightArg)) {
-      return new PQLQueryResult();
-    }
-
-    auto queryResult = diffSynInvoker(agent, leftArg, rightArg);
-    PQLQueryResultBuilder<LeftResultType, RightResultType> builder;
-    builder.setLeftName(left.get());
-    builder.setRightName(right.get());
-    builder.setLeftRef(leftArg);
-    builder.setRightRef(rightArg);
-    return builder.build(queryResult.get());
-  }
-
   template<SynonymPredicate leftValidator, SynonymPredicate rightValidator>
   bool validateArgTypes() const {
     bool isLeftValid = left->synonymSatisfies(leftValidator);
@@ -102,13 +60,7 @@ class AbstractTwoArgClause : public SuchThatClause {
   }
 
   ComplexityScore computeNoSymmetryComplexityScore(const OverrideTable *table)
-  const {
-    if (isSameSynonym()) {
-      return COMPLEXITY_QUERY_CONSTANT;
-    }
-
-    return computeComplexityScore(table);
-  }
+  const;
 
   ComplexityScore computeComplexityScore(const OverrideTable *table) const;
 

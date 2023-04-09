@@ -15,25 +15,31 @@ using AbstractParentClause = AbstractStmtStmtClause<
     ClauseArgument::isStatement,
     ClauseArgument::isStatement>;
 
-constexpr ParentInvoker parentInvoker = [](const QueryExecutorAgent &agent,
-                                           const StmtRef &leftArg,
-                                           const StmtRef &rightArg) {
-  return agent->queryParent(leftArg, rightArg);
+class ParentClauseInvokers {
+ public:
+  static constexpr ParentInvoker
+      parentInvoker = [](const QueryExecutorAgent &agent,
+                         const StmtRef &leftArg,
+                         const StmtRef &rightArg) {
+    return agent->queryParent(leftArg, rightArg);
+  };
+
+  static constexpr ParentInvoker
+      parentTInvoker = [](const QueryExecutorAgent &agent,
+                          const StmtRef &leftArg,
+                          const StmtRef &rightArg) {
+    return agent->queryParentStar(leftArg, rightArg);
+  };
+
+  static constexpr ParentSameSynInvoker parentSymmetricInvoker =
+      [](const QueryExecutorAgent &agent, const StmtRef &arg) {
+        return StmtValueSet{};
+      };
 };
 
-constexpr ParentInvoker parentTInvoker = [](const QueryExecutorAgent &agent,
-                                            const StmtRef &leftArg,
-                                            const StmtRef &rightArg) {
-  return agent->queryParentStar(leftArg, rightArg);
-};
-
-constexpr ParentSameSynInvoker parentSymmetricInvoker =
-    [](const QueryExecutorAgent &agent, const StmtRef &arg) {
-      return StmtValueSet{};
-    };
-
-class ParentClause : public AbstractParentClause<parentInvoker,
-                                                 parentSymmetricInvoker> {
+class ParentClause : public AbstractParentClause<
+    ParentClauseInvokers::parentInvoker,
+    ParentClauseInvokers::parentSymmetricInvoker> {
  public:
   ParentClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
@@ -48,8 +54,9 @@ class ParentClause : public AbstractParentClause<parentInvoker,
   }
 };
 
-class ParentTClause : public AbstractParentClause<parentTInvoker,
-                                                  parentSymmetricInvoker> {
+class ParentTClause : public AbstractParentClause<
+    ParentClauseInvokers::parentTInvoker,
+    ParentClauseInvokers::parentSymmetricInvoker> {
  public:
   ParentTClause(ClauseArgumentPtr left, ClauseArgumentPtr right)
       : AbstractStmtStmtClause(std::move(left), std::move(right)) {
