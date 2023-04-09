@@ -11,7 +11,7 @@ StmtRef StmtArgument::toStmtRef() const {
 }
 
 EntityRef StmtArgument::toEntityRef() const {
-  return EntityRef{EntityType::None, ""};
+  return EntityRef{EntityType::None, NO_ENT};
 }
 
 bool StmtArgument::isConstant() const {
