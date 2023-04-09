@@ -11,7 +11,7 @@ class QueryDriver : public IQPS {
  private:
   IQueryParser *parser;
   IQueryExecutor *executor;
-  ResultProjector *projector;
+  IProjector *projector;
  public:
   explicit QueryDriver(const PkbQueryHandler *pkbQH,
                        ISourceExpressionParser *exprParser);
