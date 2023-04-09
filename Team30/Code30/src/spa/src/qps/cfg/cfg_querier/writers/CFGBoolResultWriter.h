@@ -10,7 +10,6 @@
 
 template<class T>
 class CFGBoolResultWriter : public BaseCFGResultWriter<T> {
-
  private:
   StmtValue from;
   StmtValue to;

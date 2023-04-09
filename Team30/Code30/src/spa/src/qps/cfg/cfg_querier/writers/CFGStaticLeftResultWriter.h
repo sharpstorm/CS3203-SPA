@@ -10,7 +10,6 @@
 
 template<class T>
 class CFGStaticLeftResultWriter : public BaseCFGResultWriter<T> {
-
  private:
   StmtValue value;
 

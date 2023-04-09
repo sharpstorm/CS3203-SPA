@@ -1,6 +1,7 @@
 #pragma once
 
 #include <utility>
+#include <memory>
 #include "ICFGWriter.h"
 #include "CFGBaseResultWriter.h"
 #include "CFGBoolResultWriter.h"
@@ -42,9 +43,8 @@ class CFGResultWriterFactory {
       writer->setParams(arg1Val, NO_STMT);
       return writer;
     }
-    auto writer = make_unique<CFGSingleResultWriter<T, typePredicate>>(cfg,
-                                                                       closure,
-                                                                       result);
+    auto writer = make_unique<CFGSingleResultWriter<T, typePredicate>>
+    (cfg, closure, result);
     writer->setParams(arg1Val, type0);
     return writer;
   }
@@ -57,9 +57,8 @@ class CFGResultWriterFactory {
       writer->setParams(arg0Val, NO_STMT);
       return writer;
     }
-    auto writer = make_unique<CFGSingleResultWriter<T, typePredicate>>(cfg,
-                                                                       closure,
-                                                                       result);
+    auto writer = make_unique<CFGSingleResultWriter<T, typePredicate>>
+    (cfg, closure, result);
     writer->setParams(arg0Val, type1);
     return writer;
   }
@@ -73,15 +72,13 @@ class CFGResultWriterFactory {
       writer->setParams(arg0Val, NO_STMT);
       return writer;
     } else if (type0 != StmtType::Wildcard && type1 != StmtType::Wildcard) {
-      auto writer = make_unique<CFGPairResultWriter<T, typePredicate>>(cfg,
-                                                                       closure,
-                                                                       result);
+      auto writer = make_unique<CFGPairResultWriter<T, typePredicate>>
+      (cfg, closure, result);
       writer->setParams(arg0Val, type1);
       return writer;
     } else if (type0 == StmtType::Wildcard) {
-      auto writer = make_unique<CFGSingleResultWriter<T, typePredicate>>(cfg,
-                                                                         closure,
-                                                                         result);
+      auto writer = make_unique<CFGSingleResultWriter<T, typePredicate>>
+      (cfg, closure, result);
       writer->setParams(arg0Val, type1);
       return writer;
     }
@@ -93,8 +90,7 @@ class CFGResultWriterFactory {
 };
 
 template<class T>
-CFGResultWriterFactory<T> makeCFGResultWriterFactory(CFG *cfg,
-                                                     const T *closure,
-                                                     StmtTransitiveResult *result) {
+CFGResultWriterFactory<T> makeCFGResultWriterFactory(
+    CFG *cfg, const T *closure, StmtTransitiveResult *result) {
   return CFGResultWriterFactory(cfg, closure, result);
 }

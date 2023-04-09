@@ -25,7 +25,6 @@ typedef map<EntityIdx, BitPosition> EntitySymbolMap;
 
 template<class QuerierType>
 class CFGAffectsQuerier : public CFGQuerier<CFGAffectsQuerier<QuerierType>> {
-
  private:
   QuerierType querier;
   CFG *cfg;
@@ -43,7 +42,6 @@ class CFGAffectsQuerier : public CFGQuerier<CFGAffectsQuerier<QuerierType>> {
   void queryAll(StmtTransitiveResult *resultOut,
                 const StmtType &type0,
                 const StmtType &type1);
-  
   static constexpr bool isContainer(QuerierType *querier,
                                     const StmtValue &stmtNumber) {
     return (querier->isStmtType(StmtType::While, stmtNumber)

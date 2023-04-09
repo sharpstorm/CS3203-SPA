@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "common/Types.h"
 #include "common/data_structs/BitField.h"
 #include "common/cfg/CFGLinks.h"
