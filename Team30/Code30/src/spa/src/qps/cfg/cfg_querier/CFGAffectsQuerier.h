@@ -123,6 +123,10 @@ template<class T>
 StmtTransitiveResult CFGAffectsQuerier<T>::queryFrom(const StmtValue &arg0,
                                                      const StmtType &type1) {
   StmtTransitiveResult result;
+  if (!validateArg(arg0)) {
+    return result;
+  }
+
   CFGNode nodeFrom = cfg->toCFGNode(arg0);
 
   ICFGWriterPtr writer = makeCFGResultWriterFactory(cfg, &querier, &result)
@@ -235,6 +239,7 @@ void CFGAffectsQuerier<T>::queryAll(StmtTransitiveResult *resultOut,
       .template makePairWriter<CFGAffectsQuerier::dummyTypePredicate>(0,
                                                                       type0,
                                                                       type1);
+
   for (CFGNode start = 0; start < cfg->getNodeCount(); start++) {
     StmtValue stmtNumber = cfg->fromCFGNode(start);
     writer->setLeft(stmtNumber);
@@ -245,6 +250,11 @@ void CFGAffectsQuerier<T>::queryAll(StmtTransitiveResult *resultOut,
       }
       continue;
     }
+
+    if (!validateArg(stmtNumber)) {
+      continue;
+    }
+
     queryForward(writer.get(), start);
     if (type1 != StmtType::Wildcard) {
       querier.promoteAffectsFrom(stmtNumber);
