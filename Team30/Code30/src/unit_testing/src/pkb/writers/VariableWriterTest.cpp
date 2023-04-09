@@ -1,14 +1,10 @@
 #include <memory>
-#include <string>
-#include <unordered_set>
 
 #include "catch.hpp"
 #include "pkb/writers/VariableWriter.h"
 
 using std::make_shared;
 using std::make_unique;
-using std::string;
-using std::unordered_set;
 
 TEST_CASE("VariableWriter addVariable") {
   auto table = make_shared<VarTable>();

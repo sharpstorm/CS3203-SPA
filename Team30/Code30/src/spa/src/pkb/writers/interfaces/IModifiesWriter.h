@@ -1,8 +1,6 @@
 #pragma once
 
-#include <string>
-
-using std::string;
+#include "common/Types.h"
 
 class IModifiesWriter {
  public:
@@ -10,5 +8,6 @@ class IModifiesWriter {
   /**
    * Adds relation where statement directly modifies variable.
    */
-  virtual void addModifies(int stmtNum, string variable, string procedure) = 0;
+  virtual void addModifies(StmtValue stmtNum, EntityValue variable,
+                           EntityValue procedure) = 0;
 };

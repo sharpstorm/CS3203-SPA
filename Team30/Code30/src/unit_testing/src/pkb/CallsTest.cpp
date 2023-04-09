@@ -1,5 +1,4 @@
 #include <memory>
-#include <unordered_set>
 
 #include "catch.hpp"
 #include "pkb/queryHandlers/PkbQueryHandler.h"
@@ -8,7 +7,6 @@
 #include "pkb/writers/PkbWriter.h"
 
 using std::make_unique;
-using std::unordered_set;
 
 TEST_CASE("Calls & callsStar 2 knowns") {
   auto pkb = make_unique<PKB>();

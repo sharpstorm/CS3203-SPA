@@ -1,10 +1,5 @@
 #include "ModifiesUsesPostProcessor.h"
 
-#include <string>
-#include <unordered_set>
-
-using std::unordered_set, std::string;
-
 ModifiesUsesPostProcessor::ModifiesUsesPostProcessor(PKB *pkb)
     : procedureValues(pkb->procedureValues),
       callsTTable(pkb->callsTTable),

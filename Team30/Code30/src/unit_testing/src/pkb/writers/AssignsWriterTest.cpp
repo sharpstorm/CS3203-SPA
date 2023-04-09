@@ -1,14 +1,12 @@
 #include <memory>
-#include <unordered_set>
 
 #include "catch.hpp"
-#include "sp/ast/entity/VariableASTNode.h"
 #include "pkb/writers/AssignsWriter.h"
+#include "sp/ast/entity/VariableASTNode.h"
 #include "sp/pattern/TrieBuilder.h"
 
 using std::make_shared;
 using std::make_unique, std::unique_ptr;
-using std::unordered_set;
 
 TEST_CASE("AssignWriter addAssigns") {
   PKB pkb;

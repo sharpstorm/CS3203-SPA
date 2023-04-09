@@ -1,9 +1,9 @@
 #pragma once
 
-#include <string>
+#include "common/Types.h"
 
 class IWhilePatternWriter {
  public:
   virtual ~IWhilePatternWriter() {}
-  virtual void addWhilePattern(int stmt, std::string variable) = 0;
+  virtual void addWhilePattern(StmtValue stmt, EntityValue variable) = 0;
 };

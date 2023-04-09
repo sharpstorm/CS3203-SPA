@@ -1,5 +1,4 @@
 #include <memory>
-#include <unordered_set>
 
 #include "catch.hpp"
 #include "common/Types.h"
@@ -10,7 +9,6 @@
 #include "sp/pattern/TrieBuilder.h"
 
 using std::make_unique, std::make_shared;
-using std::unordered_set;
 
 TEST_CASE("Assign write and read") {
   auto pkb = make_unique<PKB>();
@@ -23,8 +21,8 @@ TEST_CASE("Assign write and read") {
   auto result = *queryHandler.queryAssigns({StmtType::Assign, 1});
 
   REQUIRE(result.isEmpty == false);
-  REQUIRE(result.firstArgVals == unordered_set<int>({1}));
+  REQUIRE(result.firstArgVals == StmtValueSet({1}));
   REQUIRE(*result.secondArgVals.begin() == node1.get());
   REQUIRE(result.pairVals ==
-          pair_set<int, PatternTrie *>({{1, node1.get()}}));
+          pair_set<StmtValue, PatternTrie *>({{1, node1.get()}}));
 }

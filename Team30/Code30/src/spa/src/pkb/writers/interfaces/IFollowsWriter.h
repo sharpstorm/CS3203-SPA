@@ -1,7 +1,8 @@
 #pragma once
+#include "common/Types.h"
 
 class IFollowsWriter {
  public:
   virtual ~IFollowsWriter() {}
-  virtual void addFollows(int arg1, int arg2) = 0;
+  virtual void addFollows(StmtValue arg1, StmtValue arg2) = 0;
 };

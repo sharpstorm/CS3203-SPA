@@ -1,5 +1,4 @@
 #include <memory>
-#include <unordered_set>
 
 #include "catch.hpp"
 #include "common/Types.h"
@@ -12,7 +11,6 @@ using std::make_shared;
 using std::make_unique;
 using std::shared_ptr;
 using std::unique_ptr;
-using std::unordered_set;
 
 struct assignTestInit {
   unique_ptr<AssignStorage> store;
@@ -37,8 +35,8 @@ TEST_CASE("AssignQueryHandler Assigns(stmtRef)") {
 
   auto result = *test.handler.queryAssigns({StmtType::Assign, 1});
   REQUIRE(result.isEmpty == false);
-  REQUIRE(result.firstArgVals == unordered_set<int>({1}));
+  REQUIRE(result.firstArgVals == StmtValueSet({1}));
   REQUIRE(*result.secondArgVals.begin() == sTrie.get());
   REQUIRE(result.pairVals ==
-          pair_set<int, PatternTrie *>({{1, sTrie.get()}}));
+          pair_set<StmtValue, PatternTrie *>({{1, sTrie.get()}}));
 }

@@ -5,8 +5,9 @@
 ProcedureWriter::ProcedureWriter(ProcedureAndCallsStorage *procedureStorage)
     : procedureStorage(procedureStorage) {}
 
-void ProcedureWriter::addProcedure(string procedureName, int startLineNum,
-                                   int endLineNum) {
+void ProcedureWriter::addProcedure(EntityValue procedureName,
+                                   StmtValue startLineNum,
+                                   StmtValue endLineNum) {
   if (procedureStorage->procedureExists(procedureName)) {
     throw PKBError(PKBERR_DUPLICATE_PROCEDURE);
   }
