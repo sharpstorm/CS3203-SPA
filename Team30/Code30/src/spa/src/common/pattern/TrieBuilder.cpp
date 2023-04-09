@@ -2,6 +2,7 @@
 #include <utility>
 
 #include "TrieBuilder.h"
+#include "PatternNodeConverter.h"
 
 using std::make_unique;
 
@@ -73,22 +74,15 @@ SymbolIdent TrieBuilder::registerLeaf(IASTNode *node) {
 }
 
 SymbolIdent TrieBuilder::registerSymbol(IASTNode *node) {
-  switch (node->getType()) {
-    case ASTNODE_CONSTANT:
-      return pkbWriter->addConstant(node->getValue()) | TRIE_CONST_MASK;
-    case ASTNODE_VARIABLE:
-      return pkbWriter->addVariable(node->getValue());
-    case ASTNODE_PLUS:
-      return TRIE_PLUS;
-    case ASTNODE_MINUS:
-      return TRIE_MINUS;
-    case ASTNODE_TIMES:
-      return TRIE_TIMES;
-    case ASTNODE_DIV:
-      return TRIE_DIV;
-    case ASTNODE_MOD:
-      return TRIE_MOD;
-    default:
-      return TRIE_INVALID_SYMBOL;
-  }
+  return PatternNodeConverter<PkbWriter>::indexFromNode<
+      TrieBuilder::writeVariable,
+      TrieBuilder::writeConstant>(node, pkbWriter);
+}
+
+SymbolIdent TrieBuilder::writeVariable(IASTNode *node, PkbWriter *writer) {
+  return writer->addVariable(node->getValue());
+}
+
+SymbolIdent TrieBuilder::writeConstant(IASTNode *node, PkbWriter *writer) {
+  return writer->addConstant(node->getValue());
 }

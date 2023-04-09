@@ -14,6 +14,9 @@ class TrieBuilder {
   explicit TrieBuilder(IASTNode *astRoot, PkbWriter *pkbWriter);
   PatternTriePtr build();
 
+  static SymbolIdent writeVariable(IASTNode *node, PkbWriter *writer);
+  static SymbolIdent writeConstant(IASTNode *node, PkbWriter *writer);
+
  private:
   struct ProcessingNode {
     ProcessingNode *next;

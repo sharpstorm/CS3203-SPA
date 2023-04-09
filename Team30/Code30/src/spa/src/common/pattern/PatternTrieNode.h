@@ -10,6 +10,7 @@ using std::unique_ptr, std::map;
 typedef uint16_t SymbolIdent;
 
 const SymbolIdent TRIE_CONST_MASK = 0x8000;
+const SymbolIdent TRIE_SAFETY_MASK = 0x7FFF;
 const SymbolIdent TRIE_PLUS = 65529;
 const SymbolIdent TRIE_MINUS = 65530;
 const SymbolIdent TRIE_TIMES = 65531;

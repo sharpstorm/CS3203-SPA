@@ -69,7 +69,7 @@ ExpressionArgumentPtr AssignPatternClause::toExpressionArg(
   }
 
   ExpressionSequencePtr exprSeq = PatternConverter::convertASTToPostfix(
-      rightArgument.get(), agent);
+      rightArgument.get(), agent.getPkbQueryHandler());
 
   ExpressionArgumentPtr expr = make_unique<ExpressionArgument>(
       std::move(exprSeq), allowsPartial);
