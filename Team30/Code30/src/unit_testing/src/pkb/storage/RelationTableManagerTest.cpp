@@ -5,13 +5,13 @@
 #include "common/Types.h"
 #include "pkb/PkbTypes.h"
 #include "pkb/storage/RelationTableManager.h"
-#include "pkb/storage/tables/ContiguousSetTable.h"
 #include "pkb/storage/tables/HashKeySetTable.h"
+#include "pkb/storage/tables/IntSetTable.h"
 
 using std::make_shared;
 
 TEST_CASE("RelationTableManager insert and getByArg1, getByArg2") {
-  auto table = make_shared<ContiguousSetTable<EntityValue>>();
+  auto table = make_shared<IntSetTable<EntityValue>>();
   auto reverseTable = make_shared<HashKeySetTable<EntityValue, StmtValue>>();
   RelationTableManager<StmtValue, EntityValue> tableManager(table.get(),
                                                             reverseTable.get());
@@ -26,7 +26,7 @@ TEST_CASE("RelationTableManager insert and getByArg1, getByArg2") {
 }
 
 TEST_CASE("RelationTableManager query known arg1 values with arg2 predicate") {
-  auto table = make_shared<ContiguousSetTable<EntityValue>>();
+  auto table = make_shared<IntSetTable<EntityValue>>();
   auto reverseTable = make_shared<HashKeySetTable<EntityValue, StmtValue>>();
   RelationTableManager<StmtValue, EntityValue> tableManager(table.get(),
                                                             reverseTable.get());
@@ -53,7 +53,7 @@ TEST_CASE("RelationTableManager query known arg1 values with arg2 predicate") {
 }
 
 TEST_CASE("RelationTableManager query known arg2 values with arg1 predicate") {
-  auto table = make_shared<ContiguousSetTable<EntityValue>>();
+  auto table = make_shared<IntSetTable<EntityValue>>();
   auto reverseTable = make_shared<HashKeySetTable<EntityValue, StmtValue>>();
   RelationTableManager<StmtValue, EntityValue> tableManager(table.get(),
                                                             reverseTable.get());
@@ -80,7 +80,7 @@ TEST_CASE("RelationTableManager query known arg2 values with arg1 predicate") {
 }
 
 TEST_CASE("RelationTableManager query known arg1 with arg2 predicate") {
-  auto table = make_shared<ContiguousSetTable<EntityValue>>();
+  auto table = make_shared<IntSetTable<EntityValue>>();
   auto reverseTable = make_shared<HashKeySetTable<EntityValue, StmtValue>>();
   RelationTableManager<StmtValue, EntityValue> tableManager(table.get(),
                                                             reverseTable.get());
@@ -104,7 +104,7 @@ TEST_CASE("RelationTableManager query known arg1 with arg2 predicate") {
 }
 
 TEST_CASE("RelationTableManager query known arg2 with arg1 predicate") {
-  auto table = make_shared<ContiguousSetTable<EntityValue>>();
+  auto table = make_shared<IntSetTable<EntityValue>>();
   auto reverseTable = make_shared<HashKeySetTable<EntityValue, StmtValue>>();
   RelationTableManager<StmtValue, EntityValue> tableManager(table.get(),
                                                             reverseTable.get());
@@ -128,7 +128,7 @@ TEST_CASE("RelationTableManager query known arg2 with arg1 predicate") {
 }
 
 TEST_CASE("RelationTableManager query both known args") {
-  auto table = make_shared<ContiguousSetTable<EntityValue>>();
+  auto table = make_shared<IntSetTable<EntityValue>>();
   auto reverseTable = make_shared<HashKeySetTable<EntityValue, StmtValue>>();
   RelationTableManager<StmtValue, EntityValue> tableManager(table.get(),
                                                             reverseTable.get());

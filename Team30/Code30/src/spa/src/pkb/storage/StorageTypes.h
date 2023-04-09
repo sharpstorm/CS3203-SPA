@@ -10,7 +10,6 @@
 #include "common/Types.h"
 #include "common/cfg/CFG.h"
 #include "common/pattern/PatternTrie.h"
-#include "pkb/storage/tables/ContiguousSetTable.h"
 #include "pkb/storage/tables/ContiguousTable.h"
 #include "pkb/storage/tables/SingleIntSetTable.h"
 #include "tables/HashKeySetTable.h"
