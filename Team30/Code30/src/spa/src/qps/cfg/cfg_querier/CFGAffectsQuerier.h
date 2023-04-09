@@ -2,7 +2,6 @@
 
 #include <map>
 
-#include "ICFGClauseQuerier.h"
 #include "common/cfg/CFG.h"
 #include "qps/cfg/cfg_querier/walkers/CFGWalker.h"
 #include "CFGQuerier.h"
@@ -20,12 +19,11 @@ template<
     StmtTypePredicate<ClosureType> typePredicate,
     ModifiesGetter<ClosureType> modifiesGetter,
     UsesGetter<ClosureType> usesGetter>
-class CFGAffectsQuerier : public ICFGClauseQuerier,
-                          public CFGQuerier<
-                              CFGAffectsQuerier<ClosureType,
-                                                typePredicate,
-                                                modifiesGetter,
-                                                usesGetter>> {
+class CFGAffectsQuerier : public CFGQuerier<
+    CFGAffectsQuerier<ClosureType,
+                      typePredicate,
+                      modifiesGetter,
+                      usesGetter>> {
  public:
   explicit CFGAffectsQuerier(CFG *cfg, const ClosureType &closure);
 
@@ -105,7 +103,7 @@ queryBool(const StmtValue &arg0, const StmtValue &arg1) {
     return result;
   }
 
-  CacheTable* cacheTable = closure.getAffectsCache();
+  CacheTable *cacheTable = closure.getAffectsCache();
   if (cacheTable->queryPartial(arg0, arg1) != nullptr) {
     result.add(arg0, arg1);
     return result;
@@ -172,7 +170,7 @@ StmtTransitiveResult CFGAffectsQuerier<ClosureType, typePredicate,
 queryFrom(const StmtValue &arg0, const StmtType &type1) {
   StmtTransitiveResult result;
   CFGNode nodeFrom = cfg->toCFGNode(arg0);
-  CacheTable* cacheTable = closure.getAffectsCache();
+  CacheTable *cacheTable = closure.getAffectsCache();
   auto row = cacheTable->queryFull(arg0, 0);
   if (row != nullptr) {
     for (const StmtValue &i : *row) {
@@ -197,7 +195,7 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
     return result;
   }
 
-  CacheTable* cacheTable = closure.getAffectsCache();
+  CacheTable *cacheTable = closure.getAffectsCache();
   auto row = cacheTable->queryFull(0, arg1);
   if (row != nullptr) {
     for (const StmtValue &i : *row) {
@@ -283,7 +281,7 @@ void CFGAffectsQuerier<ClosureType, typePredicate,
 queryAll(StmtTransitiveResult *resultOut,
          const StmtType &type0,
          const StmtType &type1) {
-  CacheTable* cacheTable = closure.getAffectsCache();
+  CacheTable *cacheTable = closure.getAffectsCache();
   for (CFGNode start = 0; start < cfg->getNodeCount(); start++) {
     StmtValue stmtNumber = cfg->fromCFGNode(start);
     auto row = cacheTable->queryFull(stmtNumber, 0);

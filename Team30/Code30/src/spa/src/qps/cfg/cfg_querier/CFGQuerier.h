@@ -1,9 +1,19 @@
 #pragma once
 
-#include <cassert>
-
 #include "common/Types.h"
-#include "ICFGClauseQuerier.h"
+
+typedef QueryResult<StmtValue, StmtValue> StmtTransitiveResult;
+
+/*
+ * Implements an Abstract class using the Curiously Recurring Template Pattern
+ * It enforces that inheriting classes must implement 4 methods:
+ *  - queryBool
+ *  - queryFrom
+ *  - queryTo
+ *  - queryAll
+ *
+ * See: https://en.wikipedia.org/wiki/Curiously_recurring_template_pattern
+ */
 
 template<class T>
 class CFGQuerier {
@@ -25,7 +35,7 @@ StmtTransitiveResult CFGQuerier<T>::queryArgs(const StmtRef &arg0,
   } else if (arg1.isKnown()) {
     return static_cast<T *>(this)->queryTo(arg0.getType(), arg1.getValue());
   }
-  assert(false);
+
   return StmtTransitiveResult();
 }
 

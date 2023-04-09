@@ -1,15 +1,13 @@
 #pragma once
 
-#include "ICFGClauseQuerier.h"
 #include "common/cfg/CFG.h"
 #include "qps/cfg/cfg_querier/walkers/CFGWalker.h"
 #include "CFGQuerier.h"
 #include "qps/cfg/CFGQuerierTypes.h"
 
 template<class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
-class CFGNextTQuerier : public ICFGClauseQuerier,
-                        public CFGQuerier<
-                            CFGNextTQuerier<ClosureType, typePredicate>> {
+class CFGNextTQuerier : public CFGQuerier<
+    CFGNextTQuerier<ClosureType, typePredicate>> {
  public:
   CFGNextTQuerier(CFG *cfg, const ClosureType &closure);
 

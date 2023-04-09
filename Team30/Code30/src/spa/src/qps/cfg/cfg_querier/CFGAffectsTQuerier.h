@@ -3,7 +3,6 @@
 #include <vector>
 #include <unordered_set>
 
-#include "ICFGClauseQuerier.h"
 #include "common/cfg/CFG.h"
 #include "qps/cfg/cfg_querier/walkers/CFGWalker.h"
 #include "CFGQuerier.h"
@@ -18,12 +17,11 @@ template<
     StmtTypePredicate<ClosureType> typePredicate,
     ModifiesGetter<ClosureType> modifiesGetter,
     UsesGetter<ClosureType> usesGetter>
-class CFGAffectsTQuerier : public ICFGClauseQuerier,
-                           public CFGQuerier<
-                               CFGAffectsTQuerier<ClosureType,
-                                                  typePredicate,
-                                                  modifiesGetter,
-                                                  usesGetter>> {
+class CFGAffectsTQuerier : public CFGQuerier<
+    CFGAffectsTQuerier<ClosureType,
+                       typePredicate,
+                       modifiesGetter,
+                       usesGetter>> {
   using ConcreteAffectsQuerier = CFGAffectsQuerier<ClosureType, typePredicate,
                                                    modifiesGetter, usesGetter>;
   template<class T>
