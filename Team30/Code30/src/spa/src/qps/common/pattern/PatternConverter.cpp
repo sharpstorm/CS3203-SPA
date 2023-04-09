@@ -3,9 +3,8 @@
 #include <memory>
 #include <utility>
 
-#include "TrieBuilder.h"
 #include "pkb/writers/PkbWriter.h"
-#include "PatternNodeConverter.h"
+#include "common/pattern/PatternNodeConverter.h"
 
 using std::make_unique;
 
@@ -18,11 +17,6 @@ ExpressionSequencePtr PatternConverter::convertASTToPostfix(
   ExpressionSequencePtr result = make_unique<ExpressionSequence>();
   traversePostfix(tree->getRoot(), result.get(), agent);
   return std::move(result);
-}
-
-PatternTriePtr PatternConverter::
-convertASTToTrie(IASTNode *tree, PkbWriter *pkbWriter) {
-  return TrieBuilder(tree, pkbWriter).build();
 }
 
 void PatternConverter::traversePostfix(IASTNode *node,

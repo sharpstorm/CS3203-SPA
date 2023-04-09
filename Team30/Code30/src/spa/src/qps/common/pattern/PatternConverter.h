@@ -1,8 +1,9 @@
 #pragma once
 
-#include "ExpressionSequence.h"
+#include "common/pattern/ExpressionSequence.h"
 #include "common/ast/IAST.h"
-#include "PatternTrie.h"
+#include "common/pattern/PatternTrie.h"
+
 #include "pkb/writers/PkbWriter.h"
 #include "pkb/queryHandlers/PkbQueryHandler.h"
 
@@ -10,8 +11,6 @@ class PatternConverter {
  public:
   static ExpressionSequencePtr convertASTToPostfix(
       IAST *tree, const PkbQueryHandler *agent);
-  static PatternTriePtr convertASTToTrie(IASTNode *tree, PkbWriter *pkbWriter);
-
   static SymbolIdent queryVariable(IASTNode *node,
                                    const PkbQueryHandler *agent);
   static SymbolIdent queryConstant(IASTNode *node,

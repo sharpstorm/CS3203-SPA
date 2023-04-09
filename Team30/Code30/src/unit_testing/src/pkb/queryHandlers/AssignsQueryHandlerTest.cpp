@@ -3,10 +3,10 @@
 
 #include "catch.hpp"
 #include "common/Types.h"
-#include "common/pattern/PatternConverter.h"
 #include "pkb/queryHandlers/AssignsQueryHandler.h"
 #include "sp/ast/entity/VariableASTNode.h"
 #include "sp/ast/expression_operand/PlusASTNode.h"
+#include "sp/pattern/TrieBuilder.h"
 
 using std::make_shared;
 using std::make_unique;
@@ -31,7 +31,7 @@ TEST_CASE("AssignQueryHandler Assigns(stmtRef)") {
   // x = a
 
   auto root = make_unique<VariableASTNode>("a");
-  PatternTriePtr trie = PatternConverter::convertASTToTrie(root.get(), writer.get());
+  PatternTriePtr trie = TrieBuilder(root.get(), writer.get()).build();
   auto sTrie = shared_ptr<PatternTrie>(std::move(trie));
   test.store->insert(1, sTrie);
 

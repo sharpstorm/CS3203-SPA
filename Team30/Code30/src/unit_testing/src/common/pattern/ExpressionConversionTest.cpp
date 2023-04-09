@@ -1,7 +1,7 @@
 #include <memory>
 
 #include "catch.hpp"
-#include "common/pattern/PatternConverter.h"
+#include "qps/common/pattern/PatternConverter.h"
 #include "TestASTProvider.h"
 #include "qps/common/constraint/OverrideTable.h"
 #include "qps/executor/QueryCache.h"

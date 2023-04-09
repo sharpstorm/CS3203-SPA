@@ -2,7 +2,7 @@
 #include <utility>
 
 #include "TrieBuilder.h"
-#include "PatternNodeConverter.h"
+#include "common/pattern/PatternNodeConverter.h"
 
 using std::make_unique;
 

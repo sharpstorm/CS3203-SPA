@@ -4,9 +4,6 @@
 #include <utility>
 #include "qps/clauses/pattern/AssignPatternClause.h"
 #include "qps/errors/QPSParserSyntaxError.h"
-#include "common/pattern/PatternConverter.h"
-#include "sp/ast/StatementListNode.h"
-#include "sp/ast/AST.h"
 
 using std::make_unique;
 

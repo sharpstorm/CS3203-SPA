@@ -4,7 +4,7 @@
 #include <string>
 #include <memory>
 
-#include "PatternTrie.h"
+#include "common/pattern/PatternTrie.h"
 #include "pkb/writers/PkbWriter.h"
 
 using std::vector, std::string, std::unique_ptr;
