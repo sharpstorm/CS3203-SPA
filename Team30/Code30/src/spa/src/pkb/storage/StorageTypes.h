@@ -12,6 +12,7 @@
 #include "common/pattern/PatternTrie.h"
 #include "pkb/storage/tables/ContiguousSetTable.h"
 #include "pkb/storage/tables/ContiguousTable.h"
+#include "pkb/storage/tables/SingleIntSetTable.h"
 #include "tables/HashKeySetTable.h"
 #include "tables/HashKeyTable.h"
 
@@ -39,7 +40,7 @@ using ParentStorage = RelationTableManager<StmtValue, StmtValue>;
 using ParentTStorage = ParentTTableManager;
 using ParentTable = IntSetTable<StmtValue>;
 using ParentRevTable = IntSetTable<StmtValue>;
-using ParentTTable = IntTable<StmtValue>;
+using ParentTTable = SingleIntSetTable<StmtValue>;
 using ParentTRevTable = IntSetTable<StmtValue>;
 
 using ModifiesStorage = RelationTableManager<StmtValue, EntityValue>;
