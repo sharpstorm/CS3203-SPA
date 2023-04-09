@@ -16,12 +16,11 @@ using WalkerPairCallback = bool (*)(T *ptr,
                                     CFGNode nodeLeft,
                                     CFGNode nodeRight);
 
-template<typename T>
-using DFSCallback = bool (*)(T *ptr, CFGNode node);
-
-using DFSLinkGetter = CFGLinks *(*)(CFG *cfg, CFGNode node);
-
 class CFGWalker {
+  template<typename T>
+  using DFSCallback = bool (*)(T *ptr, CFGNode node);
+  using DFSLinkGetter = CFGLinks *(*)(CFG *cfg, CFGNode node);
+
  private:
   CFG *cfg;
 
@@ -43,81 +42,49 @@ class CFGWalker {
   template<
       typename T, DFSCallback<T> callback,
       DFSLinkGetter stepGetter>
-  void runDFS(CFGNode start, T *state) {
-    if (!cfg->containsNode(start)) {
-      return;
-    }
-
-    try {
-      runDFSOn<T, callback, stepGetter>(start, state);
-    } catch (CFGHaltWalkerException) {
-      // Expected halt, ignore signal
-    }
-  }
+  void runDFS(CFGNode start, T *state);
 
   template<
       typename T, DFSCallback<T> callback,
       DFSLinkGetter stepGetter>
-  void runDFSOn(CFGNode start, T *state) {
-    BitField seenNodes(cfg->getNodeCount());
-    vector<CFGNode> currentNodes;
-
-    currentNodes.push_back(start);
-    while (!currentNodes.empty()) {
-      CFGNode curNode = currentNodes.back();
-      currentNodes.pop_back();
-
-      auto step = stepGetter(cfg, curNode);
-      for (auto it = step->begin(); it != step->end(); it++) {
-        CFGNode nextNode = *it;
-        if (nextNode == CFG_END_NODE) {
-          continue;
-        }
-
-        if (seenNodes.isSet(nextNode)) {
-          continue;
-        }
-
-        seenNodes.set(nextNode);
-        bool shouldQueue = callback(state, nextNode);
-        if (shouldQueue && nextNode != start) {
-          currentNodes.push_back(nextNode);
-        }
-      }
-    }
-  }
-
-  static CFGLinks *forwardLinkGetter(CFG *cfg, CFGNode node) {
-    return cfg->nextLinksOf(node);
-  }
+  void runDFSOn(CFGNode start, T *state);
 
   template<typename T, DFSCallback<T> callback>
-  void runForwardDFS(CFGNode start, T *state) {
-    runDFS<T, callback, forwardLinkGetter>(start, state);
-  }
-
-  static CFGLinks *backwardLinkGetter(CFG *cfg, CFGNode node) {
-    return cfg->reverseLinksOf(node);
-  }
+  void runForwardDFS(CFGNode start, T *state);
 
   template<typename T, DFSCallback<T> callback>
-  void runBackwardDFS(CFGNode start, T *state) {
-    runDFS<T, callback, backwardLinkGetter>(start, state);
+  void runBackwardDFS(CFGNode start, T *state);
+
+  static CFGLinks *forwardLinkGetter(CFG *cfg, CFGNode node);
+  static CFGLinks *backwardLinkGetter(CFG *cfg, CFGNode node);
+
+  template<typename T>
+  struct NodewiseWalkerState {
+    T *callbackState;
+    WalkerSingleCallback<T> callback;
+    CFG *cfg;
+  };
+
+  template<typename T>
+  static constexpr bool nodewiseWalkerCallback(NodewiseWalkerState<T> *state,
+                                     CFGNode node) {
+    return state->callback(state->callbackState, node);
+  }
+
+  template<typename T>
+  struct PairwiseWalkerState {
+    T *cbState;
+    WalkerPairCallback<T> callback;
+    CFGNode startNode;
+    CFG *cfg;
+  };
+
+  template<typename T>
+  static constexpr bool pairwiseWalkerCallback(PairwiseWalkerState<T> *state,
+                                        CFGNode node) {
+    return state->callback(state->cbState, state->startNode, node);
   }
 };
-
-template<typename T>
-struct NodewiseWalkerState {
-  T *callbackState;
-  WalkerSingleCallback<T> callback;
-  CFG *cfg;
-};
-
-template<typename T>
-constexpr bool nodewiseWalkerCallback(NodewiseWalkerState<T> *state,
-                                      CFGNode node) {
-  return state->callback(state->callbackState, node);
-}
 
 template<typename T, WalkerSingleCallback<T> callback>
 void CFGWalker::walkFrom(CFGNode start, T *cbState) {
@@ -133,20 +100,6 @@ void CFGWalker::walkTo(CFGNode end, T *cbState) {
       end, &state);
 }
 
-template<typename T>
-struct PairwiseWalkerState {
-  T *cbState;
-  WalkerPairCallback<T> callback;
-  CFGNode startNode;
-  CFG *cfg;
-};
-
-template<typename T>
-constexpr bool pairwiseWalkerCallback(PairwiseWalkerState<T> *state,
-                                      CFGNode node) {
-  return state->callback(state->cbState, state->startNode, node);
-}
-
 template<typename T, WalkerPairCallback<T> callback>
 void CFGWalker::walkAll(T *cbState) {
   if (cfg->getNodeCount() == 0) {
@@ -158,4 +111,61 @@ void CFGWalker::walkAll(T *cbState) {
     runForwardDFS<PairwiseWalkerState<T>, pairwiseWalkerCallback<T>>(
         start, &state);
   }
+}
+
+template<typename T,
+    CFGWalker::DFSCallback<T> callback,
+    CFGWalker::DFSLinkGetter stepGetter>
+void CFGWalker::runDFS(CFGNode start, T *state) {
+  if (!cfg->containsNode(start)) {
+    return;
+  }
+
+  try {
+    runDFSOn<T, callback, stepGetter>(start, state);
+  } catch (CFGHaltWalkerException) {
+    // Expected halt, ignore signal
+  }
+}
+
+template<typename T,
+    CFGWalker::DFSCallback<T> callback,
+    CFGWalker::DFSLinkGetter stepGetter>
+void CFGWalker::runDFSOn(CFGNode start, T *state) {
+  BitField seenNodes(cfg->getNodeCount());
+  vector<CFGNode> currentNodes;
+
+  currentNodes.push_back(start);
+  while (!currentNodes.empty()) {
+    CFGNode curNode = currentNodes.back();
+    currentNodes.pop_back();
+
+    auto step = stepGetter(cfg, curNode);
+    for (auto it = step->begin(); it != step->end(); it++) {
+      CFGNode nextNode = *it;
+      if (nextNode == CFG_END_NODE) {
+        continue;
+      }
+
+      if (seenNodes.isSet(nextNode)) {
+        continue;
+      }
+
+      seenNodes.set(nextNode);
+      bool shouldQueue = callback(state, nextNode);
+      if (shouldQueue && nextNode != start) {
+        currentNodes.push_back(nextNode);
+      }
+    }
+  }
+}
+
+template<typename T, CFGWalker::DFSCallback<T> callback>
+void CFGWalker::runForwardDFS(CFGNode start, T *state) {
+  runDFS<T, callback, forwardLinkGetter>(start, state);
+}
+
+template<typename T, CFGWalker::DFSCallback<T> callback>
+void CFGWalker::runBackwardDFS(CFGNode start, T *state) {
+  runDFS<T, callback, backwardLinkGetter>(start, state);
 }

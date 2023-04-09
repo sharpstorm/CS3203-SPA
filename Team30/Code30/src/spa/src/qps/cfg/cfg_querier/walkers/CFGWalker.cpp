@@ -24,3 +24,11 @@ bool CFGWalker::walkStatic(CFGNode start, CFGNode end) {
 
   return state.isFound;
 }
+
+CFGLinks *CFGWalker::forwardLinkGetter(CFG *cfg, CFGNode node) {
+  return cfg->nextLinksOf(node);
+}
+
+CFGLinks *CFGWalker::backwardLinkGetter(CFG *cfg, CFGNode node) {
+  return cfg->reverseLinksOf(node);
+}
