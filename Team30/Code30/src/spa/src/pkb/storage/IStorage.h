@@ -1,12 +1,12 @@
 #pragma once
 
-#include <set>
+#include <unordered_set>
 
 #include "common/Types.h"
 #include "pkb/PkbTypes.h"
 #include "pkb/queryHandlers/QueryResultBuilder.h"
 
-using pkb::Predicate, std::set;
+using pkb::Predicate, std::unordered_set;
 
 template <typename K, typename V>
 class IStorage {
@@ -25,7 +25,7 @@ class IStorage {
    * Find R(arg1, arg2) where arg1 is in the given arg1Values and arg2 satisfies
    * arg2Predicate.
    */
-  virtual QueryResultPtr<K, V> query(set<K> arg1Values,
+  virtual QueryResultPtr<K, V> query(unordered_set<K> arg1Values,
                                      Predicate<V> arg2Predicate,
                                      QueryResultBuilder<K, V> *) const = 0;
 
@@ -34,7 +34,7 @@ class IStorage {
    * arg1Predicate.
    */
   virtual QueryResultPtr<K, V> query(Predicate<K> arg1Predicate,
-                                     set<V> arg2Values,
+                                     unordered_set<V> arg2Values,
                                      QueryResultBuilder<K, V> *) const = 0;
 
   /**
@@ -59,11 +59,11 @@ class IStorage {
    * Right side wildcard.
    */
   virtual QueryResultPtr<K, V> rightWildcardQuery(
-      const set<K> &arg1Values, QueryResultBuilder<K, V> *) const = 0;
+      const unordered_set<K> &arg1Values, QueryResultBuilder<K, V> *) const = 0;
 
   /**
    * Left side wildcard.
    */
   virtual QueryResultPtr<K, V> leftWildcardQuery(
-      const set<V> &arg2Values, QueryResultBuilder<K, V> *) const = 0;
+      const unordered_set<V> &arg2Values, QueryResultBuilder<K, V> *) const = 0;
 };

@@ -1,13 +1,13 @@
 #pragma once
 
 #include <memory>
-#include <set>
+#include <unordered_set>
 
 #include "pkb/PkbTypes.h"
 #include "pkb/storage/iterators/IBaseIterator.h"
 #include "pkb/storage/iterators/IBaseTableIterator.h"
 
-using std::set, std::unique_ptr;
+using std::unordered_set, std::unique_ptr;
 /**
  * Table that maps item of type K to a set of type V items.
  */

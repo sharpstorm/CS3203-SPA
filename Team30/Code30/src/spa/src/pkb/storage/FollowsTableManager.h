@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include <set>
+#include <unordered_set>
 #include <vector>
 
 #include "IStorage.h"
@@ -12,7 +12,7 @@
 #include "pkb/storage/tables/ContiguousVectorTable.h"
 
 using pkb::Predicate;
-using std::make_unique, std::unique_ptr, std::vector, std::set;
+using std::make_unique, std::unique_ptr, std::vector, std::unordered_set;
 
 /**
  * Table manager for relation, R(arg1, arg2), where args are type K and V
@@ -61,7 +61,7 @@ class FollowsTableManager : public RelationTableManager<StmtValue, StmtValue> {
   }
 
   QueryResultPtr<StmtValue, StmtValue> rightWildcardQuery(
-      const set<StmtValue> &arg1Values,
+      const unordered_set<StmtValue> &arg1Values,
       QueryResultBuilder<StmtValue, StmtValue> *resultBuilder) const override {
     for (auto arg1 : arg1Values) {
       auto arg2 = table->getFirstValue(arg1);
@@ -73,7 +73,7 @@ class FollowsTableManager : public RelationTableManager<StmtValue, StmtValue> {
   }
 
   QueryResultPtr<StmtValue, StmtValue> leftWildcardQuery(
-      const set<StmtValue> &arg2Values,
+      const unordered_set<StmtValue> &arg2Values,
       QueryResultBuilder<StmtValue, StmtValue> *resultBuilder) const override {
     QueryResult<StmtValue, StmtValue> result;
     for (auto arg2 : arg2Values) {

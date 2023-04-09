@@ -1,10 +1,10 @@
 #include "ParentTQueryHandler.h"
 
 #include <memory>
-#include <set>
+#include <unordered_set>
 
 #include "ArgValidators.h"
-using std::make_unique, std::set;
+using std::make_unique, std::unordered_set;
 
 ParentTQueryHandler::ParentTQueryHandler(ParentTStorage *storage,
                                          IStructureMappingProvider *provider,
@@ -19,10 +19,11 @@ QueryResultPtr<StmtValue, StmtValue> ParentTQueryHandler::query(
   if (leftArg->isWildcard() && rightArg->isWildcard()) {
     return store->hasRelation();
   } else if (leftArg->isKnown() && rightArg->isWildcard()) {
-    const auto leftArgValues = set<StmtValue>({leftArg->getValue()});
+    const auto leftArgValues = unordered_set<StmtValue>({leftArg->getValue()});
     return store->rightWildcardQuery(leftArgValues);
   } else if (leftArg->isWildcard() && rightArg->isKnown()) {
-    const auto rightArgValues = set<StmtValue>({rightArg->getValue()});
+    const auto rightArgValues =
+        unordered_set<StmtValue>({rightArg->getValue()});
     return store->leftWildcardQuery(rightArgValues);
   } else if (leftArg->isWildcard()) {
     return store->leftWildcardQuery(
@@ -35,12 +36,11 @@ QueryResultPtr<StmtValue, StmtValue> ParentTQueryHandler::query(
   if (leftArg->isKnown() && rightArg->isKnown()) {
     return store->query(leftArg->getValue(), rightArg->getValue());
   } else if (leftArg->isKnown() && !rightArg->isKnown()) {
-    return store->query({leftArg->getValue()},
-                        provider->getValuesOfType(rightArg->getType()));
+    return store->query({leftArg->getValue()}, factory->getPredicate(rightArg));
   } else if (rightArg->isKnown()) {
     return store->query(factory->getPredicate(leftArg), rightArg->getValue());
   } else {
     return store->query(provider->getValuesOfType(leftArg->getType()),
-                        provider->getValuesOfType(rightArg->getType()));
+                        factory->getPredicate(rightArg));
   }
 }

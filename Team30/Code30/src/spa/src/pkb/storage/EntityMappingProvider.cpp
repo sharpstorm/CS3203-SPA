@@ -7,7 +7,7 @@ EntityMappingProvider::EntityMappingProvider(
       constantStorage(constantStorage),
       procedureStorage(procedureStorage) {}
 
-const EntitySet &EntityMappingProvider::getValuesOfType(
+const EntityValueSet &EntityMappingProvider::getValuesOfType(
     EntityType entityType) const {
   if (entityType == EntityType::Variable) {
     return variableStorage->getAllValues();

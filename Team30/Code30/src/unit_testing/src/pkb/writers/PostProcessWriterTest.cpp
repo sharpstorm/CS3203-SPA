@@ -38,10 +38,10 @@ TEST_CASE("PostProcessWriter post process modifies relation") {
   writer.runPostProcessor();
 
   auto result1 = pkb->modifiesTable->get(1);
-  REQUIRE(result1 == set<string>({"x"}));
+  REQUIRE(result1 == unordered_set<string>({"x"}));
 
   auto result2 = pkb->modifiesPTable->get("main");
-  REQUIRE(result2 == set<string>({"x"}));
+  REQUIRE(result2 == unordered_set<string>({"x"}));
 }
 
 TEST_CASE("PostProcessWriter post process uses relation") {
@@ -56,10 +56,10 @@ TEST_CASE("PostProcessWriter post process uses relation") {
   writer.runPostProcessor();
 
   auto result1 = pkb->usesTable->get(1);
-  REQUIRE(result1 == set<string>({"x"}));
+  REQUIRE(result1 == unordered_set<string>({"x"}));
 
   auto result2 = pkb->usesPTable->get("main");
-  REQUIRE(result2 == set<string>({"x"}));
+  REQUIRE(result2 == unordered_set<string>({"x"}));
 }
 
 TEST_CASE("PostProcessWriter post process parentT relation") {
@@ -82,11 +82,11 @@ TEST_CASE("PostProcessWriter post process parentT relation") {
   REQUIRE(result2 == 4);
 
   auto result3 = pkb->parentTStorage->getBySecondArg(4);
-  REQUIRE(result3 == StmtSet({1, 2}));
+  REQUIRE(result3 == StmtValueSet({1, 2}));
   auto result4 = pkb->parentTStorage->getBySecondArg(3);
-  REQUIRE(result4 == StmtSet({1, 2}));
+  REQUIRE(result4 == StmtValueSet({1, 2}));
   auto result5 = pkb->parentTStorage->getBySecondArg(2);
-  REQUIRE(result5 == StmtSet({1}));
+  REQUIRE(result5 == StmtValueSet({1}));
 }
 
 TEST_CASE("PostProcessWriter post process callsT relation") {
@@ -101,16 +101,16 @@ TEST_CASE("PostProcessWriter post process callsT relation") {
   writer.runPostProcessor();
 
   auto result1 = pkb->callsTTable->get("main");
-  REQUIRE(result1 == EntitySet({"foo", "example"}));
+  REQUIRE(result1 == EntityValueSet({"foo", "example"}));
   auto result2 = pkb->callsTTable->get("foo");
-  REQUIRE(result2 == EntitySet({"example"}));
+  REQUIRE(result2 == EntityValueSet({"example"}));
   auto result3 = pkb->callsTTable->get("example");
-  REQUIRE(result3 == EntitySet({}));
+  REQUIRE(result3 == EntityValueSet({}));
 
   auto result4 = pkb->callsTRevTable->get("example");
-  REQUIRE(result4 == EntitySet({"main", "foo"}));
+  REQUIRE(result4 == EntityValueSet({"main", "foo"}));
   auto result5 = pkb->callsTRevTable->get("foo");
-  REQUIRE(result5 == EntitySet({"main"}));
+  REQUIRE(result5 == EntityValueSet({"main"}));
   auto result6 = pkb->callsTRevTable->get("main");
-  REQUIRE(result6 == EntitySet({}));
+  REQUIRE(result6 == EntityValueSet({}));
 }

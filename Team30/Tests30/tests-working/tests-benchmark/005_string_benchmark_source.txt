@@ -1,0 +1,2229 @@
+procedure Listen {
+    print soprano;
+    hostility = extraterrestrial;
+    read inn;
+    read abortion;
+    read admire;
+    burn = sense + association + confusion + skate;
+    print skate;
+    while (admire == bird + musical + admire + weakness) {
+        if (intervention == weakness + satellite + check) then {
+            call Advertise ;
+        } else {
+            while (noble == check) {
+                if (hostility == moon + management + weakness + incentive) then {
+                    if (incentive == bird + confusion + management + management) then {
+                        alarm = admire + moon + skate + burn + musical;
+                        read fat;
+                    } else {
+                        while (lump == satellite) {
+                            musical = stumble + incentive + hostility + sense;
+                            while (lump == association + hostility + inn + weakness) {
+                                bird = association + profit + hostility + sense;
+                                if (inn == fat) then {
+                                    hostility = moon + satellite;
+                                } else {
+                                    extraterrestrial = abortion + alarm;
+                                    if (extraterrestrial == management) then {
+                                        print soprano;
+                                    } else {
+                                        call Reduce ;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    check = noble + management + cabin + admire + alarm + moon;
+                }
+            }
+        }
+    }
+}
+procedure Borrow {
+    call Kick ;
+    if (check == stumble + confusion + art + management + admire + sense) then {
+        if (intervention == bird + bird + noble) then {
+            if (lump == check) then {
+                while (inn == ambition + check + management + fat + satellite + bird) {
+                    hostility = incentive + fat + musical + inn;
+                }
+                read soprano;
+            } else {
+                read admire;
+                while (bird == inn) {
+                    read alarm;
+                    print lump;
+                    print cabin;
+                }
+                bird = sense + alarm;
+            }
+            read skate;
+        } else {
+            abortion = weakness + noble + extraterrestrial + moon + confusion + bird;
+            lump = dump;
+            read alarm;
+        }
+    } else {
+        moon = inn + moon + check + check + hostility + dump;
+        while (satellite == soprano + satellite + lump + extraterrestrial + fat) {
+            if (burn == hostility + noble + noble + skate) then {
+                read satellite;
+            } else {
+                if (admire == extraterrestrial + extraterrestrial) then {
+                    if (noble == cabin + incentive + bird) then {
+                        if (inn == admire) then {
+                            fat = inn + intervention + skate + burn + skate;
+                            read fat;
+                            call Manipulate ;
+                        } else {
+                            while (incentive == alarm + intervention + admire + association + lump + dump) {
+                                while (soprano == fat) {
+                                    profit = noble + profit + fat + admire;
+                                    call Advertise ;
+                                    ambition = confusion;
+                                }
+                                print admire;
+                                if (art == check + inn + intervention) then {
+                                    while (ambition == hostility + noble + moon + art) {
+                                        noble = profit + association + lump;
+                                        read moon;
+                                        if (hostility == check) then {
+                                            if (admire == association + noble) then {
+                                                abortion = bird + inn + abortion + dump;
+                                                moon = stumble + stumble;
+                                            } else {
+                                                read moon;
+                                                while (weakness == check + sense + intervention + musical) {
+                                                    print moon;
+                                                }
+                                            }
+                                        } else {
+                                            while (bird == fat) {
+                                                print profit;
+                                                print association;
+                                                if (soprano == extraterrestrial + inn + hostility) then {
+                                                    while (profit == noble + skate + noble + musical + bird + moon) {
+                                                        call Dissolve ;
+                                                        if (alarm == satellite + profit + profit + musical + skate) then {
+                                                            while (stumble == incentive + cabin + confusion + intervention + abortion) {
+                                                                if (inn == abortion + bird) then {
+                                                                    if (dump == noble + abortion + abortion) then {
+                                                                        sense = confusion + association + satellite + cabin;
+                                                                        intervention = satellite + bird + dump + incentive;
+                                                                    } else {
+                                                                        if (intervention == bird + extraterrestrial) then {
+                                                                            if (dump == extraterrestrial + lump + lump + burn + stumble) then {
+                                                                                if (cabin == moon) then {
+                                                                                    read satellite;
+                                                                                } else {
+                                                                                    while (check == incentive + admire) {
+                                                                                        lump = soprano;
+                                                                                        intervention = satellite + burn + inn + fat;
+                                                                                    }
+                                                                                }
+                                                                            } else {
+                                                                                admire = fat + musical + soprano + hostility + management;
+                                                                                read management;
+                                                                                lump = check + management + association + noble + confusion + incentive;
+                                                                                admire = skate + association + stumble + musical + cabin + abortion;
+                                                                            }
+                                                                        } else {
+                                                                            print confusion;
+                                                                        }
+                                                                    }
+                                                                    while (art == stumble + extraterrestrial + hostility) {
+                                                                        read management;
+                                                                    }
+                                                                    while (stumble == association + fat + management + admire + admire + ambition) {
+                                                                        while (admire == alarm) {
+                                                                            print noble;
+                                                                        }
+                                                                        if (extraterrestrial == cabin + admire) then {
+                                                                            print dump;
+                                                                            read dump;
+                                                                            read dump;
+                                                                            read musical;
+                                                                            print intervention;
+                                                                        } else {
+                                                                            if (stumble == burn) then {
+                                                                                association = alarm + hostility + bird + association + management + bird;
+                                                                                bird = cabin + association + art;
+                                                                                read art;
+                                                                                while (satellite == satellite + ambition + fat + incentive + check + soprano) {
+                                                                                    profit = intervention;
+                                                                                    print intervention;
+                                                                                }
+                                                                                if (art == ambition + burn) then {
+                                                                                    if (soprano == alarm + ambition + intervention + cabin + noble) then {
+                                                                                        print incentive;
+                                                                                        while (admire == weakness + bird + incentive + lump + fat + inn) {
+                                                                                            print check;
+                                                                                            if (skate == moon + dump + moon + intervention + profit) then {
+                                                                                                cabin = satellite;
+                                                                                                moon = skate + skate + bird;
+                                                                                                print lump;
+                                                                                                print extraterrestrial;
+                                                                                                print hostility;
+                                                                                                if (cabin == inn + check + admire) then {
+                                                                                                    read burn;
+                                                                                                    print confusion;
+                                                                                                    read abortion;
+                                                                                                    read satellite;
+                                                                                                } else {
+                                                                                                    stumble = fat + abortion + soprano + satellite + profit + intervention;
+                                                                                                    while (musical == check + check + intervention) {
+                                                                                                        read sense;
+                                                                                                    }
+                                                                                                    if (abortion == ambition + soprano + satellite + incentive + association + moon) then {
+                                                                                                        read ambition;
+                                                                                                        lump = confusion;
+                                                                                                        check = profit + hostility;
+                                                                                                        while (moon == ambition + lump + satellite + admire) {
+                                                                                                            call Publish ;
+                                                                                                        }
+                                                                                                        print skate;
+                                                                                                        read management;
+                                                                                                    } else {
+                                                                                                        incentive = bird + art + sense;
+                                                                                                        while (cabin == burn + musical + intervention) {
+                                                                                                            while (intervention == association + ambition) {
+                                                                                                                while (extraterrestrial == noble + sense + incentive) {
+                                                                                                                    read musical;
+                                                                                                                    if (musical == management + bird) then {
+                                                                                                                        while (alarm == dump + satellite + dump + weakness + noble) {
+                                                                                                                            while (art == dump + incentive + art + stumble + art) {
+                                                                                                                                management = soprano + extraterrestrial + abortion + moon + check;
+                                                                                                                            }
+                                                                                                                        }
+                                                                                                                        while (stumble == management + noble) {
+                                                                                                                            cabin = alarm + profit + association + check + sense;
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        read incentive;
+                                                                                                                        incentive = profit + moon + bird + soprano + art;
+                                                                                                                        inn = satellite + weakness;
+                                                                                                                    }
+                                                                                                                }
+                                                                                                                print cabin;
+                                                                                                                moon = alarm + profit + extraterrestrial + sense + dump;
+                                                                                                                alarm = weakness + art + soprano;
+                                                                                                            }
+                                                                                                        }
+                                                                                                        call Frighten ;
+                                                                                                        read noble;
+                                                                                                    }
+                                                                                                    call Dissolve ;
+                                                                                                    alarm = alarm + skate + stumble + weakness;
+                                                                                                }
+                                                                                            } else {
+                                                                                                while (bird == intervention + satellite + art + musical + lump) {
+                                                                                                    print inn;
+                                                                                                    fat = soprano;
+                                                                                                    if (burn == weakness + lump + admire + weakness) then {
+                                                                                                        if (intervention == musical + dump) then {
+                                                                                                            lump = cabin;
+                                                                                                        } else {
+                                                                                                            read extraterrestrial;
+                                                                                                        }
+                                                                                                        while (intervention == intervention + hostility + check) {
+                                                                                                            soprano = association;
+                                                                                                            read incentive;
+                                                                                                            cabin = musical + profit + association;
+                                                                                                            print musical;
+                                                                                                        }
+                                                                                                        if (ambition == hostility + lump) then {
+                                                                                                            call Frighten ;
+                                                                                                            if (lump == confusion + sense + musical) then {
+                                                                                                                read confusion;
+                                                                                                                admire = incentive + intervention + alarm + sense;
+                                                                                                            } else {
+                                                                                                                print incentive;
+                                                                                                                print satellite;
+                                                                                                                read bird;
+                                                                                                                print skate;
+                                                                                                                print dump;
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            while (weakness == noble + weakness + bird + confusion) {
+                                                                                                                print extraterrestrial;
+                                                                                                                read musical;
+                                                                                                            }
+                                                                                                            if (art == dump) then {
+                                                                                                                while (fat == hostility + ambition + hostility + incentive) {
+                                                                                                                    read hostility;
+                                                                                                                    read profit;
+                                                                                                                    while (check == confusion + moon + sense) {
+                                                                                                                        association = skate + abortion + inn + intervention + stumble + dump;
+                                                                                                                        if (moon == moon + hostility + cabin) then {
+                                                                                                                            if (extraterrestrial == association) then {
+                                                                                                                                if (soprano == lump + moon + alarm) then {
+                                                                                                                                    stumble = intervention + admire + noble + art + abortion + abortion;
+                                                                                                                                    read skate;
+                                                                                                                                    hostility = profit + stumble + abortion + sense + extraterrestrial;
+                                                                                                                                    read alarm;
+                                                                                                                                    read hostility;
+                                                                                                                                } else {
+                                                                                                                                    print lump;
+                                                                                                                                    if (fat == hostility + noble) then {
+                                                                                                                                        read dump;
+                                                                                                                                        while (bird == intervention + noble + soprano) {
+                                                                                                                                            read soprano;
+                                                                                                                                        }
+                                                                                                                                        if (soprano == association + moon + admire + noble + moon) then {
+                                                                                                                                            soprano = burn + burn + intervention + profit + hostility + incentive;
+                                                                                                                                            read art;
+                                                                                                                                        } else {
+                                                                                                                                            while (alarm == bird + lump + hostility + association + alarm) {
+                                                                                                                                                alarm = bird + cabin + abortion + satellite + incentive + hostility;
+                                                                                                                                            }
+                                                                                                                                        }
+                                                                                                                                        read association;
+                                                                                                                                        read abortion;
+                                                                                                                                        if (inn == alarm + alarm + weakness + confusion) then {
+                                                                                                                                            while (incentive == soprano) {
+                                                                                                                                                print management;
+                                                                                                                                            }
+                                                                                                                                            if (incentive == extraterrestrial + bird) then {
+                                                                                                                                                while (soprano == weakness + intervention + cabin + alarm) {
+                                                                                                                                                    profit = extraterrestrial + bird + incentive + skate;
+                                                                                                                                                }
+                                                                                                                                                admire = moon + musical + alarm + profit + cabin;
+                                                                                                                                                while (moon == abortion + burn + noble + incentive + bird) {
+                                                                                                                                                    read confusion;
+                                                                                                                                                    while (abortion == moon + bird) {
+                                                                                                                                                        print dump;
+                                                                                                                                                        burn = sense + bird + management + confusion + dump;
+                                                                                                                                                        if (fat == lump + lump + noble + musical) then {
+                                                                                                                                                            if (lump == bird + intervention + extraterrestrial + noble + inn + noble) then {
+                                                                                                                                                                if (soprano == confusion + alarm) then {
+                                                                                                                                                                    while (cabin == dump + hostility + bird) {
+                                                                                                                                                                        satellite = art + fat + management + check + incentive + musical;
+                                                                                                                                                                        read dump;
+                                                                                                                                                                    }
+                                                                                                                                                                } else {
+                                                                                                                                                                    read fat;
+                                                                                                                                                                }
+                                                                                                                                                                call Dry ;
+                                                                                                                                                                call Advertise ;
+                                                                                                                                                                read abortion;
+                                                                                                                                                                read inn;
+                                                                                                                                                            } else {
+                                                                                                                                                                call Indicate ;
+                                                                                                                                                            }
+                                                                                                                                                        } else {
+                                                                                                                                                            read hostility;
+                                                                                                                                                            if (art == hostility + check + lump) then {
+                                                                                                                                                                read moon;
+                                                                                                                                                            } else {
+                                                                                                                                                                stumble = skate + noble + bird;
+                                                                                                                                                            }
+                                                                                                                                                            stumble = sense + hostility + stumble + management + noble;
+                                                                                                                                                            while (burn == weakness) {
+                                                                                                                                                                while (abortion == art + hostility + dump + intervention + fat) {
+                                                                                                                                                                    fat = weakness + cabin + admire + check;
+                                                                                                                                                                    soprano = extraterrestrial + burn + profit + admire;
+                                                                                                                                                                    inn = inn;
+                                                                                                                                                                }
+                                                                                                                                                                while (association == satellite + moon + abortion) {
+                                                                                                                                                                    print dump;
+                                                                                                                                                                }
+                                                                                                                                                                moon = association + soprano + noble + soprano + profit;
+                                                                                                                                                                read association;
+                                                                                                                                                            }
+                                                                                                                                                            while (noble == lump + ambition) {
+                                                                                                                                                                satellite = burn + hostility + extraterrestrial + satellite + skate + management;
+                                                                                                                                                                sense = abortion + skate + ambition + inn;
+                                                                                                                                                                satellite = satellite + bird;
+                                                                                                                                                            }
+                                                                                                                                                            while (ambition == lump) {
+                                                                                                                                                                noble = skate + fat + inn + abortion + cabin;
+                                                                                                                                                            }
+                                                                                                                                                            read profit;
+                                                                                                                                                        }
+                                                                                                                                                        while (art == abortion) {
+                                                                                                                                                            print inn;
+                                                                                                                                                            call Indicate ;
+                                                                                                                                                        }
+                                                                                                                                                        read confusion;
+                                                                                                                                                        cabin = admire + burn + soprano;
+                                                                                                                                                        incentive = intervention + bird + dump + hostility + stumble + fat;
+                                                                                                                                                        call Depend ;
+                                                                                                                                                        while (satellite == noble) {
+                                                                                                                                                            while (skate == inn + stumble) {
+                                                                                                                                                                while (fat == extraterrestrial + management + ambition) {
+                                                                                                                                                                    intervention = moon + musical + sense;
+                                                                                                                                                                    print ambition;
+                                                                                                                                                                    confusion = extraterrestrial + profit;
+                                                                                                                                                                }
+                                                                                                                                                                read incentive;
+                                                                                                                                                                read cabin;
+                                                                                                                                                                print alarm;
+                                                                                                                                                                while (soprano == abortion + intervention + musical + art) {
+                                                                                                                                                                    while (lump == satellite + stumble + check + stumble + stumble) {
+                                                                                                                                                                        bird = intervention;
+                                                                                                                                                                    }
+                                                                                                                                                                }
+                                                                                                                                                            }
+                                                                                                                                                        }
+                                                                                                                                                    }
+                                                                                                                                                }
+                                                                                                                                            } else {
+                                                                                                                                                satellite = cabin + soprano + satellite + hostility + ambition + fat;
+                                                                                                                                            }
+                                                                                                                                        } else {
+                                                                                                                                            call Enhance ;
+                                                                                                                                        }
+                                                                                                                                    } else {
+                                                                                                                                        print noble;
+                                                                                                                                    }
+                                                                                                                                }
+                                                                                                                            } else {
+                                                                                                                                read musical;
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                            read bird;
+                                                                                                                        }
+                                                                                                                    }
+                                                                                                                }
+                                                                                                            } else {
+                                                                                                                read association;
+                                                                                                            }
+                                                                                                        }
+                                                                                                    } else {
+                                                                                                        call Analyse ;
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    } else {
+                                                                                        fat = stumble;
+                                                                                    }
+                                                                                } else {
+                                                                                    print association;
+                                                                                }
+                                                                            } else {
+                                                                                print profit;
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                } else {
+                                                                    abortion = lump + sense + sense + stumble;
+                                                                }
+                                                            }
+                                                        } else {
+                                                            skate = skate;
+                                                        }
+                                                    }
+                                                } else {
+                                                    moon = skate + musical + check + inn + bird + noble;
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    hostility = profit + intervention + moon + art + sense;
+                                }
+                            }
+                        }
+                    } else {
+                        read musical;
+                    }
+                } else {
+                    soprano = soprano + cabin;
+                }
+            }
+        }
+    }
+}
+procedure Frighten {
+    if (skate == extraterrestrial + abortion + burn) then {
+        call Analyse ;
+        if (art == incentive + sense + musical + satellite + admire) then {
+            read profit;
+            if (association == bird) then {
+                if (moon == abortion + soprano + abortion + abortion + stumble) then {
+                    read noble;
+                    if (dump == sense + musical + stumble + extraterrestrial + intervention) then {
+                        while (noble == musical) {
+                            noble = musical + incentive + hostility + association + cabin + profit;
+                            alarm = musical + hostility + lump + extraterrestrial + profit + noble;
+                            while (inn == bird + profit + weakness + ambition + management) {
+                                if (soprano == dump + management + dump + ambition + hostility) then {
+                                    read weakness;
+                                    print noble;
+                                    call Analyse ;
+                                    if (art == admire + skate + check + inn + soprano + fat) then {
+                                        soprano = check + burn + noble + incentive;
+                                    } else {
+                                        call Blame ;
+                                    }
+                                } else {
+                                    fat = sense + moon + musical + noble;
+                                }
+                                call Blame ;
+                                while (abortion == soprano + confusion + burn + burn) {
+                                    if (abortion == extraterrestrial + profit + hostility) then {
+                                        if (skate == abortion + dump + admire + admire) then {
+                                            while (stumble == fat) {
+                                                while (cabin == skate) {
+                                                    burn = noble + dump + fat;
+                                                }
+                                                moon = extraterrestrial + hostility + skate + abortion + fat + alarm;
+                                                if (cabin == fat + dump) then {
+                                                    read sense;
+                                                } else {
+                                                    call Analyse ;
+                                                    if (skate == inn + hostility + alarm + hostility) then {
+                                                        while (fat == hostility + burn) {
+                                                            print musical;
+                                                            while (cabin == fat + inn + satellite + moon + burn + weakness) {
+                                                                print cabin;
+                                                                if (art == burn + sense) then {
+                                                                    cabin = ambition + ambition + incentive + lump + skate + ambition;
+                                                                    noble = extraterrestrial + incentive;
+                                                                } else {
+                                                                    bird = hostility + moon;
+                                                                    read profit;
+                                                                }
+                                                                read management;
+                                                            }
+                                                            while (admire == incentive + association + admire + intervention) {
+                                                                print stumble;
+                                                                read fat;
+                                                            }
+                                                            print sense;
+                                                            if (intervention == dump + intervention + stumble + inn + profit + ambition) then {
+                                                                read burn;
+                                                                while (sense == inn + check + skate + profit + check) {
+                                                                    read confusion;
+                                                                }
+                                                                read check;
+                                                            } else {
+                                                                hostility = hostility + association + ambition + bird;
+                                                                call Blame ;
+                                                            }
+                                                        }
+                                                        read profit;
+                                                    } else {
+                                                        while (satellite == hostility + satellite) {
+                                                            print sense;
+                                                        }
+                                                        while (association == extraterrestrial + bird) {
+                                                            call Sell ;
+                                                        }
+                                                        while (bird == dump + abortion) {
+                                                            if (skate == bird + confusion + check + intervention + inn + moon) then {
+                                                                call Sell ;
+                                                                admire = association + management + satellite + check + extraterrestrial;
+                                                                while (association == management + check + weakness + hostility + musical + alarm) {
+                                                                    if (incentive == ambition + art + musical) then {
+                                                                        alarm = alarm;
+                                                                        while (burn == art) {
+                                                                            sense = soprano + bird;
+                                                                        }
+                                                                        print weakness;
+                                                                        read moon;
+                                                                    } else {
+                                                                        inn = confusion + lump + association + moon + art;
+                                                                        print intervention;
+                                                                        if (cabin == satellite + incentive + extraterrestrial + skate + moon + inn) then {
+                                                                            read burn;
+                                                                            call Last ;
+                                                                        } else {
+                                                                            stumble = abortion + burn + admire + satellite + fat + art;
+                                                                        }
+                                                                    }
+                                                                }
+                                                            } else {
+                                                                inn = association + incentive;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        } else {
+                                            read stumble;
+                                        }
+                                    } else {
+                                        intervention = profit;
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        weakness = cabin + moon + bird;
+                    }
+                } else {
+                    read art;
+                }
+            } else {
+                management = admire + sense + soprano;
+            }
+        } else {
+            check = incentive + intervention + alarm + ambition + fat;
+        }
+    } else {
+        read admire;
+    }
+}
+procedure Publish {
+    if (alarm == intervention) then {
+        while (art == alarm + association + satellite + intervention) {
+            satellite = intervention + weakness + confusion + stumble;
+        }
+        dump = check + inn + extraterrestrial;
+    } else {
+        print bird;
+        musical = extraterrestrial + fat + sense + alarm + dump + association;
+        if (profit == admire + cabin + admire + bird) then {
+            print soprano;
+            print dump;
+            if (check == extraterrestrial + stumble) then {
+                inn = bird + musical + moon + skate;
+                while (alarm == association + management + abortion + moon) {
+                    while (weakness == incentive + confusion + abortion) {
+                        while (confusion == moon + check) {
+                            while (alarm == profit + ambition + bird + skate) {
+                                read intervention;
+                                read association;
+                                sense = fat + hostility + check + noble;
+                            }
+                        }
+                    }
+                }
+            } else {
+                confusion = admire + abortion + extraterrestrial;
+            }
+        } else {
+            management = dump + management;
+        }
+    }
+}
+procedure Deny {
+    art = stumble + profit + lump;
+    moon = association + confusion + check + soprano;
+    read association;
+    read ambition;
+    read bird;
+    while (extraterrestrial == abortion + alarm + extraterrestrial) {
+        print soprano;
+        while (incentive == confusion + alarm + weakness + art + soprano) {
+            call Last ;
+        }
+    }
+    while (dump == art + fat + ambition + bird) {
+        while (weakness == alarm + cabin + intervention + profit + cabin) {
+            read dump;
+            while (lump == management + management + burn) {
+                association = musical + extraterrestrial + association + incentive;
+                print weakness;
+                read noble;
+                print abortion;
+                bird = cabin + inn + association;
+                while (check == dump + association + alarm + moon + hostility) {
+                    if (fat == burn + fat + extraterrestrial) then {
+                        print lump;
+                        weakness = skate + extraterrestrial;
+                    } else {
+                        while (inn == moon) {
+                            if (satellite == profit + confusion) then {
+                                ambition = burn + association;
+                                while (check == satellite + noble + dump + abortion + abortion + noble) {
+                                    while (extraterrestrial == cabin + intervention + confusion + hostility + alarm) {
+                                        call Release ;
+                                        while (abortion == lump + alarm + skate + dump) {
+                                            if (intervention == stumble + weakness + skate + musical + profit) then {
+                                                while (lump == lump) {
+                                                    read inn;
+                                                    while (check == hostility + lump + sense + moon + soprano) {
+                                                        while (admire == cabin + moon + profit + ambition + profit) {
+                                                            read hostility;
+                                                            if (extraterrestrial == confusion + inn + abortion) then {
+                                                                inn = management + extraterrestrial + management + abortion + cabin + extraterrestrial;
+                                                                read noble;
+                                                            } else {
+                                                                read sense;
+                                                            }
+                                                            call Indicate ;
+                                                        }
+                                                    }
+                                                }
+                                                read confusion;
+                                                read alarm;
+                                                read ambition;
+                                                if (confusion == hostility + check + confusion + cabin) then {
+                                                    call Update ;
+                                                    print skate;
+                                                    inn = lump + fat + lump;
+                                                    read fat;
+                                                    print dump;
+                                                    while (fat == soprano + alarm + profit + skate) {
+                                                        bird = weakness + soprano + musical;
+                                                        lump = hostility + bird;
+                                                    }
+                                                    call Enhance ;
+                                                } else {
+                                                    musical = fat + art + management + abortion + dump;
+                                                    read soprano;
+                                                }
+                                                dump = profit;
+                                                skate = burn + noble + lump + satellite;
+                                                call Calculate ;
+                                                print abortion;
+                                            } else {
+                                                while (satellite == sense + musical + intervention) {
+                                                    while (musical == alarm + soprano) {
+                                                        weakness = check + musical;
+                                                    }
+                                                }
+                                                inn = weakness + abortion + management + satellite + abortion;
+                                                if (fat == admire + admire + abortion + moon + check + management) then {
+                                                    print abortion;
+                                                } else {
+                                                    print skate;
+                                                }
+                                                call Accept ;
+                                                print admire;
+                                            }
+                                            while (abortion == alarm + art + satellite + abortion + confusion + incentive) {
+                                                noble = confusion + moon;
+                                                print intervention;
+                                                if (profit == admire + extraterrestrial) then {
+                                                    print lump;
+                                                } else {
+                                                    read extraterrestrial;
+                                                }
+                                                while (moon == noble + stumble) {
+                                                    read satellite;
+                                                    while (sense == inn + musical + intervention + lump + cabin) {
+                                                        if (fat == ambition + soprano + management + incentive + management) then {
+                                                            while (abortion == management + association + hostility + profit) {
+                                                                print stumble;
+                                                            }
+                                                            if (extraterrestrial == association + profit) then {
+                                                                print abortion;
+                                                                if (ambition == alarm + profit + abortion) then {
+                                                                    print ambition;
+                                                                    cabin = sense + association;
+                                                                    while (intervention == extraterrestrial + skate + profit + cabin + profit) {
+                                                                        if (inn == inn + bird + lump + extraterrestrial) then {
+                                                                            while (satellite == art) {
+                                                                                if (dump == burn + profit + stumble + fat + admire) then {
+                                                                                    read fat;
+                                                                                    abortion = admire;
+                                                                                } else {
+                                                                                    inn = sense + admire + ambition;
+                                                                                }
+                                                                                while (inn == confusion + weakness + extraterrestrial + bird + soprano) {
+                                                                                    print admire;
+                                                                                }
+                                                                                read confusion;
+                                                                                print art;
+                                                                                print ambition;
+                                                                                print alarm;
+                                                                                read fat;
+                                                                                call Enhance ;
+                                                                                read skate;
+                                                                                if (dump == satellite + burn + art + weakness) then {
+                                                                                    read soprano;
+                                                                                    musical = art + profit + incentive + noble + satellite;
+                                                                                } else {
+                                                                                    read association;
+                                                                                    call Advertise ;
+                                                                                }
+                                                                                read association;
+                                                                                confusion = check + musical + ambition + moon + soprano + lump;
+                                                                            }
+                                                                        } else {
+                                                                            read sense;
+                                                                        }
+                                                                    }
+                                                                } else {
+                                                                    read noble;
+                                                                }
+                                                            } else {
+                                                                print cabin;
+                                                            }
+                                                        } else {
+                                                            print fat;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            } else {
+                                print dump;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+procedure Depend {
+    confusion = hostility;
+    bird = fat + moon + extraterrestrial + profit + profit;
+    while (cabin == musical + weakness + lump) {
+        print incentive;
+        while (art == extraterrestrial + incentive) {
+            read association;
+            read inn;
+        }
+        bird = association + soprano + noble;
+        if (ambition == alarm + hostility + musical + fat) then {
+            if (lump == check + art + abortion + incentive) then {
+                call Update ;
+            } else {
+                while (profit == lump + fat + weakness + extraterrestrial) {
+                    print inn;
+                }
+                if (inn == soprano + admire + stumble + inn) then {
+                    if (extraterrestrial == abortion) then {
+                        satellite = abortion + alarm + hostility;
+                    } else {
+                        soprano = profit + burn;
+                    }
+                    read ambition;
+                    print musical;
+                    while (skate == weakness + bird + hostility + soprano + inn + weakness) {
+                        if (profit == soprano + inn) then {
+                            read weakness;
+                        } else {
+                            print confusion;
+                            call Permit ;
+                        }
+                        profit = intervention + check + check;
+                        print extraterrestrial;
+                    }
+                } else {
+                    art = fat + soprano;
+                    if (bird == admire + admire + profit) then {
+                        lump = noble + profit + moon + abortion + art;
+                        if (confusion == fat + profit + fat + admire + extraterrestrial + art) then {
+                            admire = weakness + alarm;
+                            read skate;
+                            moon = bird + incentive + alarm + burn;
+                            print fat;
+                        } else {
+                            while (ambition == confusion + incentive + satellite + check + dump) {
+                                bird = fat + check + hostility + admire + sense;
+                                noble = hostility + lump + incentive + weakness;
+                                call Advertise ;
+                                call Sell ;
+                                art = skate + extraterrestrial;
+                            }
+                            dump = stumble + check + burn + admire;
+                            print noble;
+                            musical = soprano + skate + sense;
+                            if (admire == soprano) then {
+                                read check;
+                                call Analyse ;
+                                while (incentive == incentive + confusion + skate + hostility) {
+                                    confusion = musical + skate + incentive;
+                                    weakness = moon + satellite;
+                                    extraterrestrial = musical;
+                                    if (admire == association + lump + bird + hostility + hostility + extraterrestrial) then {
+                                        while (association == confusion) {
+                                            profit = abortion + incentive + skate + management;
+                                            if (bird == satellite + alarm + extraterrestrial + dump) then {
+                                                if (abortion == burn) then {
+                                                    print check;
+                                                    while (association == admire + dump + sense + cabin + inn) {
+                                                        read intervention;
+                                                    }
+                                                } else {
+                                                    abortion = lump + ambition + musical;
+                                                    print sense;
+                                                }
+                                            } else {
+                                                intervention = noble + inn + burn + dump + incentive;
+                                                cabin = inn + musical + ambition + management + intervention;
+                                            }
+                                            association = intervention + lump;
+                                            hostility = extraterrestrial + lump + soprano + bird + incentive + lump;
+                                            while (bird == check + alarm) {
+                                                print sense;
+                                            }
+                                        }
+                                        while (alarm == musical + weakness + stumble + sense + stumble + admire) {
+                                            while (art == extraterrestrial + profit + moon) {
+                                                if (lump == fat) then {
+                                                    print incentive;
+                                                    hostility = sense;
+                                                    read extraterrestrial;
+                                                    association = intervention + intervention + lump;
+                                                    while (inn == stumble + fat + satellite + incentive + intervention) {
+                                                        while (association == bird + dump + noble) {
+                                                            if (inn == noble + incentive + association) then {
+                                                                print skate;
+                                                                read skate;
+                                                            } else {
+                                                                call Last ;
+                                                                while (alarm == lump + ambition + sense + fat + skate) {
+                                                                    confusion = association + noble + noble + stumble;
+                                                                    if (moon == alarm) then {
+                                                                        while (moon == sense + moon + admire + association) {
+                                                                            extraterrestrial = art + weakness + association + check + fat;
+                                                                            read confusion;
+                                                                            while (stumble == hostility + lump + bird + art + extraterrestrial + check) {
+                                                                                while (incentive == bird + moon) {
+                                                                                    read stumble;
+                                                                                    while (moon == sense + ambition + admire) {
+                                                                                        extraterrestrial = confusion + fat;
+                                                                                        if (management == association + skate + extraterrestrial + sense + inn + dump) then {
+                                                                                            while (intervention == confusion + noble + intervention + lump + soprano) {
+                                                                                                if (bird == hostility + extraterrestrial + extraterrestrial + profit) then {
+                                                                                                    skate = profit;
+                                                                                                } else {
+                                                                                                    read association;
+                                                                                                }
+                                                                                            }
+                                                                                        } else {
+                                                                                            intervention = abortion + alarm;
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    } else {
+                                                                        call Enhance ;
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                } else {
+                                                    print admire;
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        print burn;
+                                    }
+                                }
+                            } else {
+                                check = lump + management + extraterrestrial + management + check;
+                            }
+                        }
+                    } else {
+                        read noble;
+                    }
+                }
+            }
+        } else {
+            read profit;
+        }
+    }
+}
+procedure Permit {
+    while (confusion == fat + cabin + check + fat + alarm) {
+        print intervention;
+    }
+}
+procedure Last {
+    call Release ;
+    if (lump == musical + moon) then {
+        print hostility;
+        sense = fat + abortion;
+        lump = intervention + ambition + extraterrestrial + soprano + stumble;
+        dump = confusion + inn;
+    } else {
+        while (abortion == bird + soprano) {
+            if (bird == ambition + extraterrestrial + satellite) then {
+                call Sell ;
+                if (check == sense) then {
+                    read profit;
+                } else {
+                    moon = incentive + alarm + lump;
+                }
+            } else {
+                print inn;
+            }
+        }
+    }
+}
+procedure Dissolve {
+    skate = management + stumble + admire + confusion + noble;
+    stumble = incentive + hostility;
+    if (alarm == cabin + extraterrestrial + lump + stumble + lump) then {
+        read art;
+        print inn;
+        read inn;
+        if (burn == noble + intervention) then {
+            while (soprano == fat + profit + skate + admire + cabin) {
+                management = noble + extraterrestrial + confusion + noble + alarm + soprano;
+                while (intervention == burn + stumble + stumble + admire + moon + weakness) {
+                    noble = alarm + skate;
+                    print satellite;
+                }
+            }
+        } else {
+            skate = fat + confusion + association + hostility;
+            if (noble == skate + sense + management + sense + art) then {
+                alarm = admire;
+                if (association == satellite + cabin + sense + noble + cabin + abortion) then {
+                    noble = profit + weakness + incentive + admire;
+                    read intervention;
+                    sense = cabin + confusion + sense + cabin + weakness;
+                    admire = alarm + musical + management + intervention;
+                } else {
+                    while (hostility == admire + alarm + cabin + soprano) {
+                        if (inn == management + cabin + lump) then {
+                            print confusion;
+                            if (inn == bird) then {
+                                check = art + art + hostility + ambition;
+                            } else {
+                                call Accept ;
+                                moon = weakness + soprano + sense + alarm + admire;
+                            }
+                            call Update ;
+                            while (management == satellite + lump + musical + soprano + inn) {
+                                while (moon == alarm + skate + bird) {
+                                    lump = intervention + satellite + management + moon + burn + fat;
+                                    while (noble == extraterrestrial + inn + soprano + profit + cabin) {
+                                        if (incentive == musical + noble + satellite + soprano) then {
+                                            while (bird == confusion + moon + ambition + stumble + ambition) {
+                                                read hostility;
+                                            }
+                                            read dump;
+                                        } else {
+                                            call Accept ;
+                                        }
+                                        if (profit == burn + extraterrestrial + incentive + extraterrestrial + inn) then {
+                                            call Advertise ;
+                                        } else {
+                                            association = abortion + moon + check + association + bird + check;
+                                        }
+                                        print intervention;
+                                        while (weakness == bird) {
+                                            extraterrestrial = dump;
+                                        }
+                                        moon = extraterrestrial + sense + admire + management;
+                                        print inn;
+                                        while (check == sense + ambition + lump + profit) {
+                                            check = stumble + satellite + association + association + moon;
+                                        }
+                                        lump = fat + extraterrestrial + weakness + check;
+                                        print noble;
+                                    }
+                                }
+                            }
+                        } else {
+                            read satellite;
+                        }
+                    }
+                }
+            } else {
+                print satellite;
+            }
+        }
+    } else {
+        print bird;
+    }
+}
+procedure Release {
+    profit = check;
+    while (sense == association + admire + inn + musical + association) {
+        if (fat == dump) then {
+            while (profit == lump + dump + incentive + satellite + moon) {
+                while (lump == noble + noble + noble + abortion) {
+                    cabin = fat;
+                }
+            }
+        } else {
+            print abortion;
+            association = admire + art;
+        }
+        while (weakness == incentive + soprano + admire + inn) {
+            if (lump == cabin + association + intervention + satellite) then {
+                while (extraterrestrial == incentive + noble + musical + ambition) {
+                    burn = skate + management + fat + satellite + check;
+                }
+            } else {
+                read burn;
+            }
+        }
+    }
+}
+procedure Accept {
+    read abortion;
+    extraterrestrial = extraterrestrial + moon + confusion + check + lump + weakness;
+    call Interpret ;
+    cabin = stumble + burn + association + bird;
+    read fat;
+    while (stumble == sense + abortion) {
+        while (art == moon + profit + sense + moon + admire) {
+            read alarm;
+            while (art == admire + stumble + ambition + check) {
+                call Blame ;
+                satellite = management + admire;
+            }
+            profit = skate + inn + stumble + stumble;
+            weakness = sense + weakness + check;
+            read dump;
+        }
+        while (soprano == moon + inn + check + hostility + lump + admire) {
+            read profit;
+            if (satellite == moon + hostility + burn) then {
+                read hostility;
+            } else {
+                soprano = check;
+                if (association == alarm + sense + sense + noble + soprano) then {
+                    print incentive;
+                    if (inn == art + burn) then {
+                        call Update ;
+                    } else {
+                        while (satellite == skate) {
+                            print dump;
+                        }
+                        read ambition;
+                        read admire;
+                        while (noble == extraterrestrial + moon + musical + sense + ambition + burn) {
+                            read association;
+                            lump = satellite + inn + inn + management + bird;
+                            noble = abortion + management + extraterrestrial + musical;
+                            read incentive;
+                        }
+                        if (intervention == musical) then {
+                            read cabin;
+                        } else {
+                            read art;
+                            print weakness;
+                            if (noble == burn + musical + inn) then {
+                                print bird;
+                                while (burn == hostility + lump + hostility) {
+                                    if (extraterrestrial == musical + admire + check + inn + check + burn) then {
+                                        while (fat == sense + weakness + lump + alarm + noble) {
+                                            abortion = satellite + extraterrestrial + fat + admire;
+                                        }
+                                        intervention = art;
+                                    } else {
+                                        dump = weakness + skate;
+                                        noble = intervention;
+                                        while (dump == abortion + stumble) {
+                                            read intervention;
+                                        }
+                                    }
+                                }
+                            } else {
+                                if (sense == sense + soprano + burn + weakness + fat) then {
+                                    read intervention;
+                                    print management;
+                                    soprano = satellite + fat + moon;
+                                    print stumble;
+                                } else {
+                                    incentive = incentive + burn + profit;
+                                }
+                                read check;
+                                if (abortion == hostility + lump) then {
+                                    call Kick ;
+                                    while (skate == noble + association) {
+                                        call Indicate ;
+                                        read noble;
+                                        weakness = hostility + dump + hostility + abortion + skate + intervention;
+                                        if (management == burn + extraterrestrial + skate + intervention + hostility + lump) then {
+                                            musical = art;
+                                            call Manipulate ;
+                                            call Blame ;
+                                            print confusion;
+                                        } else {
+                                            dump = bird + admire + moon;
+                                            print noble;
+                                        }
+                                    }
+                                } else {
+                                    inn = sense + association + management + hostility + intervention + inn;
+                                    management = association + extraterrestrial + check + burn + intervention + moon;
+                                }
+                            }
+                            read bird;
+                            if (soprano == noble + lump + check) then {
+                                while (bird == abortion + cabin + association + moon + sense) {
+                                    while (incentive == soprano + inn) {
+                                        while (management == soprano + stumble + ambition) {
+                                            if (soprano == bird + burn + check + weakness + management + skate) then {
+                                                call Kick ;
+                                            } else {
+                                                while (burn == stumble + hostility + incentive + noble) {
+                                                    read noble;
+                                                    dump = skate;
+                                                    call Update ;
+                                                    while (soprano == satellite + noble + cabin + bird + sense + inn) {
+                                                        while (art == management + burn + association + alarm) {
+                                                            call Interpret ;
+                                                            profit = soprano + association;
+                                                            association = association + stumble;
+                                                            print stumble;
+                                                            read dump;
+                                                            read dump;
+                                                            ambition = art;
+                                                            print extraterrestrial;
+                                                            if (noble == weakness + admire + abortion + sense + extraterrestrial) then {
+                                                                hostility = soprano;
+                                                            } else {
+                                                                while (admire == sense + soprano + intervention) {
+                                                                    association = stumble + satellite + soprano + extraterrestrial + inn + art;
+                                                                    print incentive;
+                                                                    print confusion;
+                                                                }
+                                                                if (burn == stumble + stumble + skate + extraterrestrial + cabin + fat) then {
+                                                                    if (association == management + management + musical + dump + weakness + ambition) then {
+                                                                        satellite = confusion;
+                                                                        satellite = association + stumble + association + confusion;
+                                                                        if (management == lump + soprano + fat + dump + burn + abortion) then {
+                                                                            while (musical == satellite + intervention + weakness + skate + confusion + satellite) {
+                                                                                call Update ;
+                                                                                cabin = intervention + cabin + inn + admire + incentive + extraterrestrial;
+                                                                            }
+                                                                        } else {
+                                                                            while (alarm == lump + fat + admire + moon + check + ambition) {
+                                                                                read musical;
+                                                                                if (weakness == bird + soprano + ambition + musical + profit + incentive) then {
+                                                                                    hostility = profit + admire + musical + fat + stumble + musical;
+                                                                                    while (art == association) {
+                                                                                        call Kick ;
+                                                                                        if (soprano == cabin + burn + admire + cabin + moon + inn) then {
+                                                                                            soprano = extraterrestrial + intervention + abortion;
+                                                                                            if (lump == cabin + management + admire) then {
+                                                                                                while (moon == abortion + confusion + lump) {
+                                                                                                    print inn;
+                                                                                                    print incentive;
+                                                                                                    if (skate == lump + noble) then {
+                                                                                                        admire = intervention;
+                                                                                                        moon = burn + art;
+                                                                                                        read profit;
+                                                                                                        management = noble + weakness + hostility + noble + intervention + check;
+                                                                                                        print management;
+                                                                                                        while (extraterrestrial == extraterrestrial + fat) {
+                                                                                                            if (noble == skate + lump + fat + cabin + bird + lump) then {
+                                                                                                                art = musical + incentive;
+                                                                                                                print admire;
+                                                                                                            } else {
+                                                                                                                ambition = skate + profit + profit;
+                                                                                                            }
+                                                                                                        }
+                                                                                                    } else {
+                                                                                                        read stumble;
+                                                                                                    }
+                                                                                                }
+                                                                                            } else {
+                                                                                                skate = sense + noble + intervention;
+                                                                                            }
+                                                                                        } else {
+                                                                                            read bird;
+                                                                                        }
+                                                                                    }
+                                                                                } else {
+                                                                                    inn = check + musical + profit + satellite;
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    } else {
+                                                                        read incentive;
+                                                                    }
+                                                                } else {
+                                                                    call Stimulate ;
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            } else {
+                                read confusion;
+                            }
+                        }
+                    }
+                } else {
+                    skate = stumble + sense + hostility + lump + weakness;
+                }
+            }
+        }
+    }
+}
+procedure Interpret {
+    dump = art + check + weakness + alarm + stumble;
+    read soprano;
+    while (incentive == extraterrestrial + satellite + art + cabin) {
+        while (moon == intervention + dump + profit + burn) {
+            admire = stumble + profit + weakness;
+        }
+    }
+    while (art == intervention + musical + inn + noble) {
+        check = hostility + abortion + check + fat;
+        dump = sense + weakness + check + admire + hostility + ambition;
+    }
+    print inn;
+    call Analyse ;
+    while (art == soprano + hostility + sense + hostility + check) {
+        while (hostility == check + hostility) {
+            call Stimulate ;
+            print stumble;
+        }
+        admire = stumble + soprano + sense;
+        read noble;
+        while (profit == weakness + skate + check + association + fat) {
+            print abortion;
+            lump = musical;
+        }
+        print profit;
+        while (bird == art + profit) {
+            if (weakness == profit + fat + musical + hostility + abortion + weakness) then {
+                read incentive;
+            } else {
+                read abortion;
+            }
+        }
+        while (dump == check + satellite + skate) {
+            moon = burn;
+            read confusion;
+            print hostility;
+        }
+        print skate;
+        if (ambition == alarm) then {
+            noble = lump + cabin + management;
+            read stumble;
+        } else {
+            read moon;
+        }
+    }
+}
+procedure Calculate {
+    call Dry ;
+    while (musical == satellite + hostility + art) {
+        call Enhance ;
+        if (check == extraterrestrial + moon + noble + cabin + profit) then {
+            intervention = incentive + musical + ambition + association + incentive + management;
+        } else {
+            read extraterrestrial;
+            read fat;
+            while (satellite == burn + skate + satellite + extraterrestrial + skate) {
+                noble = burn;
+                if (association == sense) then {
+                    if (stumble == intervention + ambition) then {
+                        while (satellite == sense + association + soprano) {
+                            if (fat == profit + confusion) then {
+                                satellite = burn + sense + intervention + dump;
+                                print art;
+                                read soprano;
+                            } else {
+                                musical = association + confusion + intervention + lump + lump + burn;
+                            }
+                            read inn;
+                        }
+                        while (soprano == musical + abortion + management + association + management + association) {
+                            fat = cabin + intervention + inn + ambition + check + dump;
+                            print burn;
+                            print association;
+                        }
+                    } else {
+                        musical = intervention + bird + bird + ambition;
+                    }
+                    read association;
+                    cabin = check;
+                } else {
+                    stumble = abortion;
+                }
+            }
+            call Sell ;
+            read art;
+            print fat;
+        }
+        read cabin;
+        noble = skate;
+        read weakness;
+    }
+    skate = admire + ambition + musical;
+    soprano = burn;
+    read intervention;
+}
+procedure Stimulate {
+    while (association == association + dump + ambition + lump + skate) {
+        read association;
+        print profit;
+        read admire;
+        print burn;
+    }
+    while (satellite == ambition + art + extraterrestrial + lump) {
+        read dump;
+        print cabin;
+    }
+    read satellite;
+    satellite = sense + musical;
+    lump = abortion + admire + ambition + confusion + stumble;
+    if (intervention == abortion) then {
+        print bird;
+        call Update ;
+        association = incentive + cabin;
+    } else {
+        print extraterrestrial;
+    }
+}
+procedure Manipulate {
+    art = bird + stumble + fat + incentive + weakness + art;
+    read inn;
+    print stumble;
+    print satellite;
+    read burn;
+    print noble;
+    while (stumble == cabin) {
+        if (inn == musical + abortion + extraterrestrial + intervention + confusion + hostility) then {
+            if (ambition == intervention + lump + check + association + management) then {
+                satellite = admire + extraterrestrial + abortion + bird;
+            } else {
+                if (association == profit + weakness + sense + intervention + management) then {
+                    inn = incentive + intervention + incentive + check + dump;
+                    call Enhance ;
+                    print management;
+                } else {
+                    burn = ambition + musical + inn + profit + dump + moon;
+                    read hostility;
+                }
+                inn = admire;
+            }
+        } else {
+            print confusion;
+        }
+        if (confusion == incentive + weakness) then {
+            sense = management + noble + soprano;
+            read ambition;
+            dump = abortion + extraterrestrial;
+            while (soprano == confusion + confusion + hostility + management) {
+                call Update ;
+            }
+        } else {
+            read skate;
+        }
+    }
+    print inn;
+}
+procedure Enhance {
+    while (abortion == weakness + management + satellite + fat) {
+        if (inn == alarm + moon + incentive + art + lump) then {
+            read cabin;
+        } else {
+            print moon;
+        }
+        read satellite;
+    }
+    hostility = skate + satellite + confusion + intervention + profit;
+    cabin = intervention + skate;
+    if (intervention == association + incentive + bird + profit + art) then {
+        print moon;
+        print musical;
+        noble = confusion + alarm + admire;
+        while (satellite == inn + alarm) {
+            ambition = musical + dump + dump + soprano + moon + admire;
+            call Update ;
+            print lump;
+        }
+    } else {
+        print admire;
+    }
+    call Advertise ;
+    while (moon == soprano + moon) {
+        print satellite;
+    }
+    print satellite;
+    while (management == noble + fat + weakness + cabin) {
+        intervention = lump + incentive;
+    }
+    incentive = art + satellite;
+    print noble;
+    association = stumble + musical + stumble + art + satellite + abortion;
+    alarm = stumble;
+    print association;
+    inn = confusion + noble + abortion + profit + moon + skate;
+    if (incentive == extraterrestrial + incentive + burn + cabin + noble + hostility) then {
+        lump = incentive;
+        read lump;
+        print noble;
+    } else {
+        read management;
+        call Advertise ;
+    }
+    while (incentive == noble + profit + inn + skate) {
+        musical = cabin + art;
+        print soprano;
+        if (cabin == moon + weakness + cabin) then {
+            while (cabin == dump) {
+                call Advertise ;
+                if (hostility == art) then {
+                    sense = incentive + bird + bird;
+                    while (noble == dump + moon + lump + noble) {
+                        call Update ;
+                        while (inn == abortion + confusion + satellite + confusion) {
+                            if (admire == cabin + musical + musical + satellite + moon) then {
+                                print bird;
+                                skate = skate + inn + ambition + moon;
+                            } else {
+                                print burn;
+                                stumble = association;
+                                read weakness;
+                            }
+                            read art;
+                        }
+                        while (fat == intervention + hostility + intervention + alarm) {
+                            print noble;
+                            if (check == noble + burn + weakness) then {
+                                read hostility;
+                                call Advertise ;
+                                print art;
+                                print ambition;
+                                read abortion;
+                                management = burn + musical;
+                                if (confusion == soprano + dump + check) then {
+                                    print fat;
+                                } else {
+                                    hostility = incentive + association + incentive;
+                                }
+                            } else {
+                                call Sell ;
+                            }
+                            if (extraterrestrial == profit + skate + satellite) then {
+                                call Update ;
+                            } else {
+                                read association;
+                            }
+                        }
+                    }
+                } else {
+                    skate = ambition;
+                }
+            }
+        } else {
+            association = abortion + incentive + skate + moon + soprano + moon;
+        }
+    }
+}
+procedure Analyse {
+    if (fat == fat + bird) then {
+        read cabin;
+        read ambition;
+        management = art + skate;
+        moon = stumble + admire;
+        print bird;
+    } else {
+        read ambition;
+        while (abortion == stumble + alarm + ambition + ambition + ambition) {
+            if (profit == ambition + dump + lump) then {
+                while (admire == hostility + extraterrestrial + check) {
+                    call Indicate ;
+                    if (check == check + stumble) then {
+                        while (abortion == bird) {
+                            if (stumble == bird + burn + inn + hostility + hostility) then {
+                                bird = dump + sense + bird + incentive + moon + inn;
+                                ambition = soprano + inn + cabin + alarm + profit + weakness;
+                            } else {
+                                if (admire == lump + fat + check) then {
+                                    while (sense == management + weakness + fat + lump + alarm + extraterrestrial) {
+                                        while (bird == management + soprano + cabin + burn) {
+                                            print noble;
+                                        }
+                                        read ambition;
+                                    }
+                                } else {
+                                    print check;
+                                }
+                            }
+                        }
+                    } else {
+                        noble = management + association;
+                    }
+                }
+            } else {
+                print lump;
+            }
+        }
+    }
+}
+procedure Update {
+    while (lump == fat + lump + confusion + sense + dump + stumble) {
+        read alarm;
+        print musical;
+    }
+    check = cabin;
+    skate = satellite;
+    art = soprano;
+    print lump;
+    if (sense == art + fat + hostility + dump + satellite) then {
+        moon = inn + weakness + ambition;
+    } else {
+        call Dry ;
+        admire = management + noble + extraterrestrial + art + weakness + hostility;
+    }
+    hostility = lump + stumble + bird + incentive;
+    print association;
+    print profit;
+    if (stumble == abortion) then {
+        moon = hostility;
+    } else {
+        dump = extraterrestrial + dump + dump + cabin;
+        while (management == moon + stumble + intervention + skate) {
+            call Reduce ;
+            if (skate == admire + check + satellite + check + moon + ambition) then {
+                print check;
+                call Kick ;
+            } else {
+                check = abortion + management;
+                if (cabin == management + dump) then {
+                    if (ambition == art + inn + admire + cabin + stumble) then {
+                        if (abortion == soprano + ambition) then {
+                            if (noble == bird + soprano) then {
+                                print abortion;
+                            } else {
+                                read intervention;
+                            }
+                        } else {
+                            lump = cabin + profit;
+                            inn = moon;
+                        }
+                    } else {
+                        read extraterrestrial;
+                        print extraterrestrial;
+                    }
+                    call Sell ;
+                    print incentive;
+                    art = dump;
+                } else {
+                    call Advertise ;
+                    call Advertise ;
+                }
+            }
+            soprano = check + art + dump;
+        }
+    }
+    read moon;
+    read burn;
+    read noble;
+    moon = abortion + satellite + profit + extraterrestrial + profit + intervention;
+    while (skate == incentive) {
+        while (burn == admire) {
+            read check;
+            print burn;
+            if (weakness == intervention + burn + stumble + hostility) then {
+                while (alarm == intervention + art + abortion) {
+                    if (abortion == ambition + musical + moon + cabin) then {
+                        print musical;
+                        print fat;
+                    } else {
+                        call Blame ;
+                    }
+                }
+                print bird;
+                check = lump + lump + incentive;
+                bird = weakness + alarm + abortion + alarm + extraterrestrial;
+                read inn;
+            } else {
+                if (intervention == confusion) then {
+                    moon = profit + inn + skate + weakness;
+                } else {
+                    if (hostility == sense) then {
+                        if (weakness == intervention + confusion + alarm + bird) then {
+                            print soprano;
+                            print association;
+                            while (incentive == weakness) {
+                                call Indicate ;
+                                if (musical == sense + skate + weakness + intervention + lump + incentive) then {
+                                    if (check == abortion) then {
+                                        print weakness;
+                                        read intervention;
+                                    } else {
+                                        read stumble;
+                                        read noble;
+                                        while (incentive == burn + burn) {
+                                            call Advertise ;
+                                            call Indicate ;
+                                        }
+                                        burn = sense + management + check + burn;
+                                        print noble;
+                                        while (satellite == weakness + check + lump + abortion) {
+                                            while (fat == check + cabin + inn + admire + satellite + sense) {
+                                                read management;
+                                            }
+                                            while (moon == bird + inn + sense + moon + extraterrestrial + noble) {
+                                                sense = skate + fat + alarm + soprano;
+                                                if (fat == cabin) then {
+                                                    print sense;
+                                                    print sense;
+                                                    read management;
+                                                    moon = soprano + satellite + noble + alarm + hostility + musical;
+                                                } else {
+                                                    print inn;
+                                                    if (burn == intervention + abortion + dump + burn) then {
+                                                        skate = noble + weakness;
+                                                    } else {
+                                                        association = lump + confusion;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    hostility = skate + cabin;
+                                }
+                            }
+                        } else {
+                            print soprano;
+                        }
+                    } else {
+                        alarm = skate + confusion;
+                    }
+                }
+            }
+        }
+    }
+}
+procedure Sell {
+    print sense;
+    while (hostility == management + moon + cabin) {
+        check = profit + cabin + skate;
+        while (cabin == confusion + satellite + dump + profit + check + lump) {
+            read abortion;
+            while (dump == inn + dump + check) {
+                print hostility;
+                while (check == musical + abortion) {
+                    read satellite;
+                }
+                if (noble == cabin + sense) then {
+                    call Dry ;
+                    while (stumble == profit + art + skate + profit + noble + alarm) {
+                        call Reduce ;
+                        intervention = management + soprano + association;
+                    }
+                    read intervention;
+                    print bird;
+                } else {
+                    check = confusion + dump + musical;
+                    read ambition;
+                    if (incentive == noble + fat + musical + hostility + stumble + abortion) then {
+                        read sense;
+                    } else {
+                        soprano = musical + bird + skate + management;
+                    }
+                }
+            }
+            sense = abortion + extraterrestrial;
+            call Reduce ;
+        }
+        read inn;
+    }
+    if (intervention == weakness + association) then {
+        satellite = abortion;
+        while (burn == weakness + inn + burn) {
+            if (bird == weakness + art) then {
+                print profit;
+                profit = burn + noble + dump + cabin + bird;
+            } else {
+                fat = musical + moon + fat + noble + burn + alarm;
+                if (profit == sense + confusion + ambition + hostility + profit + skate) then {
+                    read soprano;
+                    if (ambition == weakness + lump + sense + burn + stumble + intervention) then {
+                        read admire;
+                    } else {
+                        while (intervention == moon) {
+                            confusion = abortion;
+                            read management;
+                            print profit;
+                            read stumble;
+                        }
+                        lump = soprano + art + inn + inn;
+                        print extraterrestrial;
+                    }
+                    art = alarm + satellite + association + incentive + profit + management;
+                } else {
+                    if (alarm == musical + intervention + dump + cabin + moon) then {
+                        print abortion;
+                    } else {
+                        call Advertise ;
+                        call Kick ;
+                        print skate;
+                    }
+                    read moon;
+                }
+                print soprano;
+                bird = moon + art + lump;
+            }
+            read cabin;
+            print ambition;
+            if (incentive == confusion + burn + weakness) then {
+                call Blame ;
+                while (noble == lump + soprano + stumble + soprano + noble) {
+                    read incentive;
+                }
+                while (confusion == lump + bird + admire + lump) {
+                    read admire;
+                    call Reduce ;
+                }
+                print management;
+                burn = dump + satellite + sense;
+                call Advertise ;
+                while (noble == admire + lump) {
+                    print alarm;
+                    call Indicate ;
+                    lump = admire + management + musical;
+                    alarm = abortion + art + skate;
+                    read profit;
+                    lump = association + lump + noble + hostility + art + hostility;
+                }
+                call Reduce ;
+                while (fat == profit) {
+                    read soprano;
+                }
+            } else {
+                while (cabin == incentive + art + moon + extraterrestrial) {
+                    if (confusion == extraterrestrial + noble + stumble + confusion + satellite) then {
+                        while (check == hostility + noble + intervention) {
+                            print stumble;
+                        }
+                        read stumble;
+                    } else {
+                        read noble;
+                        if (satellite == hostility + inn + association + fat + confusion) then {
+                            while (abortion == confusion + extraterrestrial + inn + check) {
+                                read stumble;
+                            }
+                        } else {
+                            alarm = profit + hostility;
+                        }
+                        while (alarm == profit + association + association + lump + musical) {
+                            inn = alarm + dump + moon + fat + soprano;
+                            read check;
+                            while (intervention == dump) {
+                                print confusion;
+                            }
+                            abortion = weakness + fat;
+                        }
+                        while (extraterrestrial == weakness) {
+                            if (burn == sense) then {
+                                soprano = intervention;
+                            } else {
+                                if (abortion == lump + soprano + management + abortion + moon) then {
+                                    while (cabin == soprano + confusion + ambition) {
+                                        inn = profit + moon + satellite + association + alarm + confusion;
+                                    }
+                                } else {
+                                    print extraterrestrial;
+                                }
+                            }
+                            if (soprano == soprano + sense + soprano + abortion) then {
+                                if (ambition == profit + moon + weakness + dump + weakness) then {
+                                    print fat;
+                                    satellite = profit;
+                                    fat = admire + incentive + weakness + dump + skate + abortion;
+                                    print ambition;
+                                    print alarm;
+                                    moon = confusion + cabin + ambition + weakness;
+                                    while (satellite == sense + skate + confusion + fat) {
+                                        while (soprano == incentive + satellite + fat + ambition + confusion + stumble) {
+                                            while (alarm == inn + stumble + admire + association + inn) {
+                                                print hostility;
+                                                if (burn == skate + bird + confusion + cabin + musical) then {
+                                                    call Indicate ;
+                                                } else {
+                                                    read abortion;
+                                                    read lump;
+                                                    while (cabin == incentive + dump + stumble + fat + abortion + hostility) {
+                                                        incentive = intervention + profit + satellite;
+                                                        print abortion;
+                                                        print ambition;
+                                                    }
+                                                }
+                                                intervention = extraterrestrial + art;
+                                                read moon;
+                                                if (fat == inn + profit + lump) then {
+                                                    print skate;
+                                                    if (admire == soprano + skate + inn + satellite + soprano) then {
+                                                        while (cabin == sense + profit + hostility + abortion) {
+                                                            if (lump == art + bird + fat + association) then {
+                                                                print hostility;
+                                                            } else {
+                                                                inn = stumble + abortion;
+                                                                read musical;
+                                                            }
+                                                            read management;
+                                                        }
+                                                        while (weakness == satellite + sense) {
+                                                            read alarm;
+                                                            call Kick ;
+                                                        }
+                                                    } else {
+                                                        if (intervention == association + hostility) then {
+                                                            call Blame ;
+                                                            read skate;
+                                                        } else {
+                                                            print noble;
+                                                            noble = hostility + confusion + confusion + ambition;
+                                                            if (noble == skate + alarm + skate + cabin + management) then {
+                                                                association = lump;
+                                                            } else {
+                                                                read intervention;
+                                                            }
+                                                        }
+                                                    }
+                                                } else {
+                                                    read bird;
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    noble = burn + hostility + moon + lump;
+                                }
+                            } else {
+                                read moon;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    } else {
+        print confusion;
+    }
+}
+procedure Indicate {
+    while (association == inn + satellite + profit) {
+        read soprano;
+        call Reduce ;
+    }
+    alarm = art + noble;
+}
+procedure Kick {
+    while (intervention == abortion + lump) {
+        management = moon + fat + art + sense + burn + intervention;
+        call Advertise ;
+        while (satellite == confusion + extraterrestrial + management + intervention + confusion + abortion) {
+            if (confusion == alarm + skate + cabin) then {
+                while (abortion == noble + weakness) {
+                    if (bird == dump + satellite + burn + hostility) then {
+                        print sense;
+                        art = cabin + fat + cabin + lump + musical + moon;
+                        read musical;
+                        read bird;
+                        read lump;
+                    } else {
+                        intervention = check + stumble + dump + association + management;
+                    }
+                }
+            } else {
+                skate = bird + admire + art;
+            }
+        }
+    }
+}
+procedure Advertise {
+    check = bird + lump + incentive;
+    read dump;
+    read skate;
+    read profit;
+    management = burn + soprano + cabin + stumble + stumble;
+    while (art == association + admire + hostility) {
+        admire = fat + dump + stumble + incentive + moon;
+    }
+    if (lump == soprano + association + profit + weakness + bird) then {
+        call Blame ;
+    } else {
+        print abortion;
+        read sense;
+        print noble;
+        management = hostility + weakness + noble;
+    }
+    skate = inn;
+    print art;
+    if (lump == art + cabin + skate + abortion + intervention) then {
+        hostility = association + profit + inn + hostility + sense;
+        read dump;
+        intervention = intervention + incentive + abortion;
+    } else {
+        while (abortion == incentive) {
+            while (association == bird + hostility) {
+                if (profit == hostility + cabin + profit + intervention + intervention + incentive) then {
+                    call Blame ;
+                    art = skate + association + sense;
+                } else {
+                    print association;
+                    if (satellite == ambition + satellite + cabin + extraterrestrial + admire) then {
+                        while (skate == hostility + stumble + sense + hostility + skate) {
+                            while (confusion == art + skate + admire + lump + lump) {
+                                cabin = sense;
+                                call Dry ;
+                                read moon;
+                            }
+                            if (profit == satellite + weakness + profit + bird + musical) then {
+                                read management;
+                                read art;
+                                read soprano;
+                                if (intervention == soprano + association + extraterrestrial + extraterrestrial) then {
+                                    burn = moon;
+                                    call Blame ;
+                                    while (burn == stumble + management) {
+                                        read lump;
+                                        if (soprano == alarm + soprano + noble + association + lump) then {
+                                            if (check == moon + sense + lump) then {
+                                                while (stumble == dump + check + abortion + skate + confusion) {
+                                                    if (confusion == check + confusion + lump) then {
+                                                        if (admire == incentive + fat + inn + soprano + stumble) then {
+                                                            moon = stumble + dump + extraterrestrial + musical + bird + association;
+                                                            while (check == hostility) {
+                                                                read check;
+                                                                association = cabin + bird + bird + skate + alarm;
+                                                                lump = moon + confusion + association + ambition;
+                                                                if (cabin == skate + sense) then {
+                                                                    read art;
+                                                                    while (inn == abortion + dump + incentive + abortion + admire + inn) {
+                                                                        print lump;
+                                                                        while (dump == extraterrestrial + weakness) {
+                                                                            lump = alarm + inn + confusion;
+                                                                            call Dry ;
+                                                                            while (moon == admire + dump) {
+                                                                                while (musical == inn + association + satellite + art) {
+                                                                                    while (skate == management) {
+                                                                                        read bird;
+                                                                                        read soprano;
+                                                                                        read alarm;
+                                                                                        weakness = soprano + cabin + musical + confusion + art;
+                                                                                    }
+                                                                                    if (management == admire + art + weakness + sense) then {
+                                                                                        print burn;
+                                                                                    } else {
+                                                                                        print dump;
+                                                                                        if (fat == moon + incentive + hostility) then {
+                                                                                            management = fat;
+                                                                                            while (hostility == soprano + association + profit) {
+                                                                                                if (check == check + intervention + soprano + weakness + ambition + skate) then {
+                                                                                                    admire = cabin;
+                                                                                                    read check;
+                                                                                                    call Blame ;
+                                                                                                    profit = extraterrestrial + noble + skate + profit;
+                                                                                                    association = hostility + admire;
+                                                                                                } else {
+                                                                                                    lump = moon + inn + satellite;
+                                                                                                }
+                                                                                                bird = noble + intervention + alarm + dump + soprano;
+                                                                                            }
+                                                                                        } else {
+                                                                                            read bird;
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                } else {
+                                                                    print incentive;
+                                                                }
+                                                            }
+                                                        } else {
+                                                            satellite = incentive + admire + lump + lump + stumble + weakness;
+                                                        }
+                                                    } else {
+                                                        read cabin;
+                                                    }
+                                                }
+                                            } else {
+                                                abortion = cabin + inn + intervention + fat + moon + sense;
+                                            }
+                                        } else {
+                                            sense = burn + extraterrestrial + admire + admire + management + satellite;
+                                        }
+                                    }
+                                } else {
+                                    read profit;
+                                }
+                            } else {
+                                call Reduce ;
+                            }
+                        }
+                    } else {
+                        read profit;
+                    }
+                }
+            }
+        }
+    }
+}
+procedure Dry {
+    call Reduce ;
+    print lump;
+    print soprano;
+    while (ambition == check + inn + soprano + admire) {
+        while (admire == abortion) {
+            read bird;
+            read hostility;
+            call Blame ;
+        }
+    }
+    burn = bird + admire + check;
+    call Reduce ;
+    read moon;
+    read stumble;
+    read check;
+    profit = confusion + art + musical;
+    profit = alarm + soprano + profit + skate;
+}
+procedure Reduce {
+    alarm = confusion;
+    print confusion;
+    print association;
+    while (noble == art + confusion + intervention) {
+        noble = bird + soprano + management + weakness;
+        if (sense == profit + abortion + skate + admire) then {
+            if (moon == skate + check + admire + association + sense) then {
+                print management;
+            } else {
+                if (stumble == inn + check + inn + musical) then {
+                    check = alarm + musical;
+                } else {
+                    extraterrestrial = stumble + abortion + ambition + stumble;
+                }
+                musical = association + burn + management + profit;
+                read dump;
+            }
+        } else {
+            print burn;
+            musical = satellite + fat + soprano + hostility + confusion;
+        }
+    }
+    satellite = stumble + art + alarm + stumble + moon + art;
+    read cabin;
+    profit = noble;
+    read skate;
+    ambition = extraterrestrial;
+    noble = dump + ambition + soprano;
+    check = hostility + ambition + incentive + hostility;
+    read weakness;
+    print burn;
+    call Blame ;
+    while (profit == check + fat + abortion + profit) {
+        while (weakness == lump) {
+            satellite = abortion + sense + art + hostility + weakness + association;
+        }
+    }
+    print burn;
+    print intervention;
+    print ambition;
+    management = soprano + musical;
+    call Blame ;
+    hostility = fat + inn + skate;
+    while (check == weakness + inn + admire) {
+        read incentive;
+        while (soprano == inn + profit) {
+            read association;
+            print fat;
+            read dump;
+        }
+        call Blame ;
+        if (abortion == incentive + satellite) then {
+            read profit;
+            management = ambition + inn + skate + hostility + hostility;
+            call Blame ;
+        } else {
+            read ambition;
+            if (sense == dump) then {
+                read satellite;
+                hostility = burn + association + lump + lump + burn + confusion;
+                print fat;
+            } else {
+                print art;
+                dump = soprano + alarm + musical + weakness + abortion + moon;
+                print cabin;
+                burn = musical + dump + check + fat;
+            }
+        }
+    }
+    print alarm;
+    call Blame ;
+    read moon;
+    dump = cabin + lump + skate;
+    if (admire == confusion + dump + noble + cabin) then {
+        while (musical == weakness) {
+            alarm = stumble + management + inn + burn + weakness + fat;
+        }
+        if (lump == intervention + cabin + admire + musical + intervention) then {
+            read satellite;
+            hostility = lump + sense + ambition + fat;
+            read confusion;
+        } else {
+            read extraterrestrial;
+        }
+        read weakness;
+        read management;
+        stumble = management + art + ambition;
+        call Blame ;
+        management = sense + lump + lump + management + fat;
+    } else {
+        if (soprano == lump + confusion + musical) then {
+            while (cabin == soprano + management + abortion + satellite) {
+                while (hostility == check + skate + ambition + stumble) {
+                    incentive = confusion;
+                    while (musical == noble + ambition + alarm + intervention + cabin + soprano) {
+                        if (profit == admire + burn + noble) then {
+                            if (stumble == noble + management + fat + bird + skate + alarm) then {
+                                while (skate == ambition + musical + cabin) {
+                                    print ambition;
+                                }
+                            } else {
+                                extraterrestrial = skate + stumble + cabin;
+                            }
+                        } else {
+                            read lump;
+                        }
+                    }
+                }
+            }
+        } else {
+            read incentive;
+        }
+    }
+}
+procedure Blame {
+    print dump;
+    while (profit == inn) {
+        if (sense == art + stumble + management + confusion + sense + abortion) then {
+            read moon;
+            read stumble;
+            ambition = burn + ambition + abortion + lump;
+        } else {
+            read profit;
+            weakness = hostility + incentive;
+            while (bird == alarm + cabin + association + cabin + abortion + association) {
+                while (fat == dump) {
+                    if (satellite == dump + management + cabin + bird + association + noble) then {
+                        abortion = noble;
+                    } else {
+                        print bird;
+                        while (profit == stumble + ambition) {
+                            read lump;
+                        }
+                        print management;
+                        abortion = musical + weakness + check + management;
+                        print admire;
+                        if (hostility == moon + check + alarm + extraterrestrial) then {
+                            check = skate + art + inn + art + abortion + soprano;
+                            association = art + profit;
+                        } else {
+                            while (musical == fat + soprano + burn + satellite + sense + musical) {
+                                confusion = fat + soprano;
+                                print musical;
+                                art = profit;
+                            }
+                            read extraterrestrial;
+                            burn = check;
+                            while (alarm == weakness + musical + burn) {
+                                read skate;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

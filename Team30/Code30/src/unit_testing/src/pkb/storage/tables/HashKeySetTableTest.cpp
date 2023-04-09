@@ -1,5 +1,5 @@
-#include <string>
 #include <set>
+#include <string>
 
 #include "catch.hpp"
 #include "pkb/storage/tables/HashKeySetTable.h"
@@ -12,13 +12,13 @@ TEST_CASE("HashKeySetTable with different key value types") {
   table.insert("y", 4);
   table.insert("x", 3);
 
-  REQUIRE(table.get("x") == set<int>{1, 3});
-  REQUIRE(table.get("y") == set<int>{4});
+  REQUIRE(table.get("x") == unordered_set<int>{1, 3});
+  REQUIRE(table.get("y") == unordered_set<int>{4});
 }
 
 TEST_CASE("HashKeySetTable get unset key") {
   HashKeySetTable<int, int> table;
 
-  REQUIRE(table.get(10) == set<int>{});
+  REQUIRE(table.get(10) == unordered_set<int>{});
 }
 
