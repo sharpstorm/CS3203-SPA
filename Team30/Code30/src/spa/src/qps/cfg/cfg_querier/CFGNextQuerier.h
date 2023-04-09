@@ -73,7 +73,7 @@ queryFrom(const StmtValue &arg0, const StmtType &type1) {
   CFGNode nodeFrom = cfg->toCFGNode(arg0);
   CFGLinks *links = cfg->nextLinksOf(nodeFrom);
   ICFGWriterPtr writer = makeCFGResultWriterFactory(cfg, &closure, &result)
-      .makeRightWriter<typePredicate>(arg0, type1);
+      .template makeRightWriter<typePredicate>(arg0, type1);
 
   for (const CFGNode &node : *links) {
     if (node == CFG_END_NODE) {
@@ -100,7 +100,7 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
   CFGNode nodeTo = cfg->toCFGNode(arg1);
   CFGLinks *links = cfg->reverseLinksOf(nodeTo);
   ICFGWriterPtr writer = makeCFGResultWriterFactory(cfg, &closure, &result)
-      .makeLeftWriter<typePredicate>(type0, arg1);
+      .template makeLeftWriter<typePredicate>(type0, arg1);
 
   for (const CFGNode &node : *links) {
     if (node == CFG_END_NODE) {
@@ -121,7 +121,8 @@ void CFGNextQuerier<ClosureType, typePredicate>::
 queryAll(StmtTransitiveResult *resultOut, const StmtType &type0,
          const StmtType &type1) {
   auto factory = makeCFGResultWriterFactory(cfg, &closure, resultOut);
-  ICFGWriterPtr writer = factory.makePairWriter<typePredicate>(0, type0, type1);
+  ICFGWriterPtr writer = factory
+      .template makePairWriter<typePredicate>(0, type0, type1);
 
   for (CFGNode nodeFrom = 0; nodeFrom < cfg->getNodeCount(); nodeFrom++) {
     StmtValue fromStmtNumber = cfg->fromCFGNode(nodeFrom);
