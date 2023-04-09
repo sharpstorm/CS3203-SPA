@@ -99,7 +99,8 @@ TEST_CASE("RelationTableManager query known arg1 with arg2 predicate") {
   };
   auto resultBuilder = QueryResultBuilder<int, string>();
   resultBuilder.setAllVals();
-  auto res = tableManager.query(2, isValid, &resultBuilder);
+  auto arg1Values = StmtValueSet({2});
+  auto res = tableManager.query(arg1Values, isValid, &resultBuilder);
 
   REQUIRE(res.get()->firstArgVals == unordered_set<int>({2}));
   REQUIRE(res.get()->secondArgVals == unordered_set<string>({"b"}));
@@ -122,7 +123,8 @@ TEST_CASE("RelationTableManager query known arg2 with arg1 predicate") {
   };
   auto resultBuilder = QueryResultBuilder<int, string>();
   resultBuilder.setAllVals();
-  auto res = tableManager.query(isValid, "a", &resultBuilder);
+  auto arg2Values = EntityValueSet({"a"});
+  auto res = tableManager.query(isValid, arg2Values, &resultBuilder);
 
   REQUIRE(res.get()->firstArgVals == unordered_set<int>({4}));
   REQUIRE(res.get()->secondArgVals == unordered_set<string>({"a"}));

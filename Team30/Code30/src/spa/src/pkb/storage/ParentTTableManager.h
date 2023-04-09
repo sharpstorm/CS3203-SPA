@@ -71,7 +71,7 @@ class ParentTTableManager : public IStorage<StmtValue, StmtValue> {
 
   // syn, const
   QueryResultPtr<StmtValue, StmtValue> query(
-      Predicate<StmtValue> arg1Predicate, StmtValueSet arg2Values,
+      Predicate<StmtValue> arg1Predicate, const StmtValueSet &arg2Values,
       QueryResultBuilder<StmtValue, StmtValue> *resultBuilder) const override {
     QueryResult<StmtValue, StmtValue> result;
     for (auto arg2 : arg2Values) {
@@ -87,7 +87,7 @@ class ParentTTableManager : public IStorage<StmtValue, StmtValue> {
 
   // const, syn
   QueryResultPtr<StmtValue, StmtValue> query(
-      StmtValueSet arg1Values, Predicate<StmtValue> rightPredicate,
+      const StmtValueSet &arg1Values, Predicate<StmtValue> rightPredicate,
       QueryResultBuilder<StmtValue, StmtValue> *resultBuilder) const override {
     for (auto arg1 : arg1Values) {
       auto maxChild = getByFirstArg(arg1);
@@ -101,18 +101,6 @@ class ParentTTableManager : public IStorage<StmtValue, StmtValue> {
       }
     }
     return resultBuilder->getResult();
-  }
-
-  QueryResultPtr<StmtValue, StmtValue> query(
-      StmtValue arg1, Predicate<StmtValue> arg2Predicate,
-      QueryResultBuilder<StmtValue, StmtValue> *resultBuilder) const override {
-    return query(StmtValueSet({arg1}), arg2Predicate, resultBuilder);
-  }
-
-  QueryResultPtr<StmtValue, StmtValue> query(
-      Predicate<StmtValue> arg1Predicate, StmtValue arg2,
-      QueryResultBuilder<StmtValue, StmtValue> *resultBuilder) const override {
-    return query(arg1Predicate, StmtValueSet({arg2}), resultBuilder);
   }
 
   /**
