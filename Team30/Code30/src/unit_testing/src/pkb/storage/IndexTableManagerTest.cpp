@@ -1,6 +1,6 @@
 #include <memory>
-#include <string>
 #include <set>
+#include <string>
 
 #include "catch.hpp"
 #include "pkb/storage/IndexTableManager.h"
@@ -12,7 +12,7 @@ using std::make_unique, std::string, std::set;
 TEST_CASE("IndexTableManager empty") {
   auto table = make_unique<ContiguousTable<string>>();
   auto reverseTable = make_unique<HashKeyTable<string, int>>();
-  auto values = make_unique<set<string>>();
+  auto values = make_unique<unordered_set<string>>();
   IndexTableManager<string> tableManager(table.get(), reverseTable.get(),
                                          values.get());
 
@@ -23,7 +23,7 @@ TEST_CASE("IndexTableManager empty") {
 TEST_CASE("IndexTableManager <string>") {
   auto table = make_unique<ContiguousTable<string>>();
   auto reverseTable = make_unique<HashKeyTable<string, int>>();
-  auto values = make_unique<set<string>>();
+  auto values = make_unique<unordered_set<string>>();
   IndexTableManager<string> tableManager(table.get(), reverseTable.get(),
                                          values.get());
 

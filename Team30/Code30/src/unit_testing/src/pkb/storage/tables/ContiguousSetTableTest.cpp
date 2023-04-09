@@ -1,5 +1,5 @@
-#include <string>
 #include <set>
+#include <string>
 
 #include "catch.hpp"
 #include "pkb/storage/tables/ContiguousSetTable.h"
@@ -13,13 +13,13 @@ TEST_CASE("ContinuousSetTable set multiple values to key") {
   table.insert(1, "c");
   table.insert(3, "d");
 
-  REQUIRE(table.get(1) == set<string>({"a", "b", "c"}));
-  REQUIRE(table.get(3) == set<string>({"d"}));
+  REQUIRE(table.get(1) == unordered_set<string>({"a", "b", "c"}));
+  REQUIRE(table.get(3) == unordered_set<string>({"d"}));
 }
 
 TEST_CASE("ContinuousSetTable get unset key") {
   ContiguousSetTable<string> table(2);
 
-  REQUIRE(table.get(1) == set<string>({}));
-  REQUIRE(table.get(10) == set<string>({}));
+  REQUIRE(table.get(1) == unordered_set<string>({}));
+  REQUIRE(table.get(10) == unordered_set<string>({}));
 }

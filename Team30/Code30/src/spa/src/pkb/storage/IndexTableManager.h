@@ -1,25 +1,25 @@
 #pragma once
 
-#include <set>
+#include <unordered_set>
 
 #include "common/Types.h"
 #include "pkb/storage/tables/HashKeyTable.h"
 #include "pkb/storage/tables/IBaseTable.h"
 
-using std::set;
+using std::unordered_set;
 
 template <typename Value>
 class IndexTableManager {
  private:
   IBaseTable<EntityIdx, Value> *table;
   IBaseTable<Value, EntityIdx> *reverseTable;
-  set<Value> *allValues;
+  unordered_set<Value> *allValues;
   EntityIdx index;
 
  public:
   IndexTableManager(IBaseTable<EntityIdx, Value> *table,
                     IBaseTable<Value, EntityIdx> *reverseTable,
-                    set<Value> *values)
+                    unordered_set<Value> *values)
       : table(table), reverseTable(reverseTable), allValues(values), index(0) {}
 
   EntityIdx insert(Value value) {
@@ -40,7 +40,6 @@ class IndexTableManager {
     return reverseTable->get(value);
   }
 
-  const set<Value>& getAllValues() {
-    return *allValues;
+  const unordered_set<Value> &getAllValues() { return *allValues;
   }
 };

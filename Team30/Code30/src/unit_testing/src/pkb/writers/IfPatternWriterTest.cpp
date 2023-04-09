@@ -18,8 +18,8 @@ TEST_CASE("IfPatternWriterTest addIfPattern") {
   writer.addIfPattern(2, "x");
   writer.addIfPattern(3, "z");
 
-  REQUIRE(table->get(1) == set<string>({"x", "y"}));
-  REQUIRE(table->get(3) == set<string>({"z"}));
-  REQUIRE(reverseTable->get("x") == set<int>({1, 2}));
-  REQUIRE(reverseTable->get("z") == set<int>({3}));
+  REQUIRE(table->get(1) == unordered_set<string>({"x", "y"}));
+  REQUIRE(table->get(3) == unordered_set<string>({"z"}));
+  REQUIRE(reverseTable->get("x") == unordered_set<int>({1, 2}));
+  REQUIRE(reverseTable->get("z") == unordered_set<int>({3}));
 }

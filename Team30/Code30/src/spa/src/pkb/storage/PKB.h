@@ -18,13 +18,13 @@ class PKB {
 
   VarTable *variableTable = new VarTable();
   VarRevTable *variableRevTable = new VarRevTable();
-  EntitySet *variableValues = new EntitySet;
+  EntityValueSet *variableValues = new EntityValueSet;
   VariableStorage *variableStorage =
       new VariableStorage(variableTable, variableRevTable, variableValues);
 
   ConstTable *constantTable = new ConstTable();
   ConstRevTable *constantRevTable = new ConstRevTable();
-  EntitySet *constantValues = new EntitySet;
+  EntityValueSet *constantValues = new EntityValueSet;
 
   ConstantStorage *constantStorage =
       new ConstantStorage(constantTable, constantRevTable, constantValues);
@@ -37,7 +37,7 @@ class PKB {
 
   StmtTable *stmtTable = new StmtTable();
   StmtRevTable *stmtRevTable = new StmtRevTable();
-  StmtSet *stmtValues = new StmtSet();
+  StmtValueSet *stmtValues = new StmtValueSet();
   StatementStorage *statementStorage =
       new StatementStorage(stmtTable, stmtRevTable, stmtValues);
 

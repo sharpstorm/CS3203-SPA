@@ -1,12 +1,12 @@
 #pragma once
 
-#include <set>
+#include <unordered_set>
 #include <utility>
 
 #include "IProvider.h"
 #include "common/Types.h"
 
-using std::set;
+using std::unordered_set;
 
 class IEntityMappingProvider : public IProvider<EntityValue, EntityType> {
  public:

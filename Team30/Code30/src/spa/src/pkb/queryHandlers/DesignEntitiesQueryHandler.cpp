@@ -8,16 +8,12 @@ DesignEntitiesQueryHandler::DesignEntitiesQueryHandler(
 
 unordered_set<string> DesignEntitiesQueryHandler::getSymbolsOfType(
     EntityType entityType) const {
-  EntitySet entitySet = entityMappingProvider->getValuesOfType(entityType);
-  unordered_set<string> result(entitySet.begin(), entitySet.end());
-  return result;
+  return entityMappingProvider->getValuesOfType(entityType);
 }
 
 unordered_set<int> DesignEntitiesQueryHandler::getStatementsOfType(
     StmtType stmtType) const {
-  StmtSet stmtSet = structureMappingProvider->getValuesOfType(stmtType);
-  unordered_set<int> result(stmtSet.begin(), stmtSet.end());
-  return result;
+  return structureMappingProvider->getValuesOfType(stmtType);
 }
 
 StmtType DesignEntitiesQueryHandler::getStatementType(int stmtNo) const {

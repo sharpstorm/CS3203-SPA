@@ -473,3 +473,10 @@ TEST_CASE("FollowsQueryHandler followsStar(_,_)") {
   //  REQUIRE(result1.pairVals ==
   //          pair_set<int, int>({{11, 12}, {11, 14}, {12, 14}, {15, 16}}));
 }
+
+TEST_CASE("FollowsQueryHandler followsStar(_,_) is empty") {
+  auto test = followsQHTest();
+
+  auto result1 = *test.queryT({StmtType::Wildcard, 0}, {StmtType::Wildcard, 0});
+  REQUIRE(result1.isEmpty == true);
+}
