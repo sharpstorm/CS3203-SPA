@@ -1,0 +1,124 @@
+procedure pokemon {
+  bulbasaur = bulbasaur;
+  ivysaur = ivysaur;
+  venusaur = venusaur;
+  charmander = charmander;
+  charmeleon = charmeleon;
+  charizard = charizard;
+  squirtle = squirtle;
+  wartotle = wartotle;
+  blastoise = blastoise;
+  starter1 = bulbasaur + ivysaur + venusaur;
+  starter2 = charmander + charmeleon + charizard;
+  starter3 = squirtle + wartotle + blastoise;
+  print grass;
+  print fire;
+  print water;
+  read grass;
+  print fire;
+  print water;
+  while (pokemonIsAlive == 1) {
+    if ((a==1)&&(b==1)) then {
+      call checkType;
+    } else {
+      while (someCondition == 1) {
+        call endBattle;
+
+      }
+    }
+  }
+}
+
+procedure checkType {
+  if ((type1 == grass) && (type2 == fire)) then {
+    print fireWins;
+  } else {
+    if ((type1 == grass) && (type2 == water)) then {
+      print grassWins;
+    } else {
+      if ((type1 == fire) && (type2 == water)) then {
+        print waterWins;
+      } else {
+        print hehe;
+      }
+    }
+  }
+}
+
+procedure endBattle {
+  print endBattle;
+}
+
+procedure nestingWhileIf {
+  while (a > b) {
+    if (a > b) then {
+      while (a>b) {
+        if (a>b) then {
+          while (a>b) {
+            print abc;
+          }
+        } else {
+          while (a>b) {
+            print abc;
+          }
+        }
+      }
+    } else {
+      while (a>b) {
+        if (a>b) then {
+          while (a>b) {
+            print abc;
+          }
+        } else {
+          while (a>b) {
+            print abc;
+          }
+        }
+      }
+    }
+  }
+}
+
+procedure proc1 {
+ call proc2;
+}
+
+procedure proc2 {
+  call proc3;
+}
+
+procedure proc3 {
+  call proc4;
+}
+
+procedure proc4 {
+  call proc5;
+}
+
+procedure proc5 {
+  call proc6;
+}
+
+procedure proc6 {
+  call proc7;
+}
+
+procedure proc7 {
+  call proc8;
+}
+
+procedure proc8 {
+  call proc9;
+}
+
+procedure proc9 {
+  call proc10;
+}
+
+procedure proc10 {
+  call proc11;
+}
+
+procedure proc11 {
+  print noMore;
+}
