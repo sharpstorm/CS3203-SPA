@@ -1,0 +1,90 @@
+1 - Negative Calls (static, static)
+procedure s1, s2;
+Select BOOLEAN such that Calls("Lotus", "Damien")
+FALSE
+5000
+2 - Negative Calls (static, syn)
+procedure s1, s2;
+Select BOOLEAN such that Calls("Lotus", s2)
+FALSE
+5000
+3 - Negative Calls (static, wildcard)
+procedure s1, s2;
+Select BOOLEAN such that Calls("Lotus", _)
+FALSE
+5000
+4 - Negative Calls (syn, static)
+procedure s1, s2;
+Select BOOLEAN such that Calls(s1, "Damien")
+FALSE
+5000
+5 - Negative Calls (syn, syn)
+procedure s1, s2;
+Select BOOLEAN such that Calls(s1, s2)
+FALSE
+5000
+6 - Negative Calls (syn, wildcard)
+procedure s1, s2;
+Select BOOLEAN such that Calls(s1, _)
+FALSE
+5000
+7 - Negative Calls (wildcard, static)
+procedure s1, s2;
+Select BOOLEAN such that Calls(_, "Damien")
+FALSE
+5000
+8 - Negative Calls (wildcard, syn)
+procedure s1, s2;
+Select BOOLEAN such that Calls(_, s2)
+FALSE
+5000
+9 - Negative Calls (wildcard, wildcard)
+procedure s1, s2;
+Select BOOLEAN such that Calls(_, _)
+FALSE
+5000
+10 - Negative Calls* (static, static)
+procedure s1, s2;
+Select BOOLEAN such that Calls*("Lotus", "Damien")
+FALSE
+5000
+11 - Negative Calls* (static, syn)
+procedure s1, s2;
+Select BOOLEAN such that Calls*("Lotus", s2)
+FALSE
+5000
+12 - Negative Calls* (static, wildcard)
+procedure s1, s2;
+Select BOOLEAN such that Calls*("Lotus", _)
+FALSE
+5000
+13 - Negative Calls* (syn, static)
+procedure s1, s2;
+Select BOOLEAN such that Calls*(s1, "Damien")
+FALSE
+5000
+14 - Negative Calls* (syn, syn)
+procedure s1, s2;
+Select BOOLEAN such that Calls*(s1, s2)
+FALSE
+5000
+15 - Negative Calls* (syn, wildcard)
+procedure s1, s2;
+Select BOOLEAN such that Calls*(s1, _)
+FALSE
+5000
+16 - Negative Calls* (wildcard, static)
+procedure s1, s2;
+Select BOOLEAN such that Calls*(_, "Damien")
+FALSE
+5000
+17 - Negative Calls* (wildcard, syn)
+procedure s1, s2;
+Select BOOLEAN such that Calls*(_, s2)
+FALSE
+5000
+18 - Negative Calls* (wildcard, wildcard)
+procedure s1, s2;
+Select BOOLEAN such that Calls*(_, _)
+FALSE
+5000

@@ -10,7 +10,7 @@ class QueryTokenParseState {
   static void assertNotNull(const PQLToken *token);
 
  public:
-  explicit QueryTokenParseState(PQLTokenVector *tokens);
+  explicit QueryTokenParseState(PQLTokenList *tokens);
   bool isTokenStreamEnd() const;
   void advanceToken();
 

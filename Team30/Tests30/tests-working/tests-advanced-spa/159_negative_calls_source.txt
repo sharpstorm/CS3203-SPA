@@ -1,0 +1,7 @@
+procedure Lotus {
+	read l;
+}
+
+procedure Damien {
+	read d;
+}

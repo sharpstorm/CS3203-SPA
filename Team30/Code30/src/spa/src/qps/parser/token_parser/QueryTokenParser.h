@@ -1,6 +1,5 @@
 #pragma once
 
-#include <memory>
 #include "../../common/PQLQuery.h"
 #include "QueryTokenParseState.h"
 #include "common/parser/ISourceExpressionParser.h"
@@ -10,7 +9,7 @@
 
 class QueryTokenParser {
  private:
-  PQLTokenVector *tokens;
+  PQLTokenList *tokens;
 
   PQLSelectParser selectParser;
   PQLDeclarationParser declarationParser;
@@ -18,6 +17,6 @@ class QueryTokenParser {
 
  public:
   explicit QueryTokenParser(ISourceExpressionParser *exprParser,
-                            PQLTokenVector *tokens);
+                            PQLTokenList *tokens);
   PQLQueryPtr build();
 };

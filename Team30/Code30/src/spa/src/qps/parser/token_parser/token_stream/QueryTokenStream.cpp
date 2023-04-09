@@ -1,6 +1,6 @@
 #include "QueryTokenStream.h"
 
-QueryTokenStream::QueryTokenStream(PQLTokenVector *tokens) {
+QueryTokenStream::QueryTokenStream(PQLTokenList *tokens) {
   this->tokens = tokens;
   currentIndex = 0;
   totalTokenSize = tokens->size();

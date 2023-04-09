@@ -1,0 +1,50 @@
+procedure VonBon {
+	read x;
+	a = x + 4;
+	y = x + 5;
+	if (y > 90) then {
+		print y;
+		b = x + y;
+		call CrimsonQueen;
+	} else {
+		while (y > 0) {
+			y = y + 1;
+			b = b - 1;
+		}
+		call Pierre;
+	}
+	x = y + a;
+	call Vellum;
+	print x;
+}
+
+procedure Pierre {
+	read c;
+	print c;
+	c = a + x;
+}
+
+procedure CrimsonQueen {
+	call Pierre;
+	while (x > 0) {
+		x = x - 5;
+		a = x + 3;
+	}
+
+	x = 2;
+}
+
+procedure Vellum {
+	if (x > 10) then {
+		b = 33;
+	} else {
+		x = x % 3;
+		y = x + 20;
+		a = y + 3;
+		while (b > 0) {
+			b = x - 10;
+			x = c - 1;
+		}
+	}
+	print b;
+}

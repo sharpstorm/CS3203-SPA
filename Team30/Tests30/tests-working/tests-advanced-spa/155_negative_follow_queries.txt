@@ -1,0 +1,90 @@
+1 - Negative Follows (static, static)
+stmt s1, s2;
+Select BOOLEAN such that Follows(1, 2)
+FALSE
+5000
+2 - Negative Follows (static, syn)
+stmt s1, s2;
+Select BOOLEAN such that Follows(1, s2)
+FALSE
+5000
+3 - Negative Follows (static, wildcard)
+stmt s1, s2;
+Select BOOLEAN such that Follows(1, _)
+FALSE
+5000
+4 - Negative Follows (syn, static)
+stmt s1, s2;
+Select BOOLEAN such that Follows(s1, 2)
+FALSE
+5000
+5 - Negative Follows (syn, syn)
+stmt s1, s2;
+Select BOOLEAN such that Follows(s1, s2)
+FALSE
+5000
+6 - Negative Follows (syn, wildcard)
+stmt s1, s2;
+Select BOOLEAN such that Follows(s1, _)
+FALSE
+5000
+7 - Negative Follows (wildcard, static)
+stmt s1, s2;
+Select BOOLEAN such that Follows(_, 2)
+FALSE
+5000
+8 - Negative Follows (wildcard, syn)
+stmt s1, s2;
+Select BOOLEAN such that Follows(_, s2)
+FALSE
+5000
+9 - Negative Follows (wildcard, wildcard)
+stmt s1, s2;
+Select BOOLEAN such that Follows(_, _)
+FALSE
+5000
+10 - Negative Follows* (static, static)
+stmt s1, s2;
+Select BOOLEAN such that Follows*(1, 2)
+FALSE
+5000
+11 - Negative Follows* (static, syn)
+stmt s1, s2;
+Select BOOLEAN such that Follows*(1, s2)
+FALSE
+5000
+12 - Negative Follows* (static, wildcard)
+stmt s1, s2;
+Select BOOLEAN such that Follows*(1, _)
+FALSE
+5000
+13 - Negative Follows* (syn, static)
+stmt s1, s2;
+Select BOOLEAN such that Follows*(s1, 2)
+FALSE
+5000
+14 - Negative Follows* (syn, syn)
+stmt s1, s2;
+Select BOOLEAN such that Follows*(s1, s2)
+FALSE
+5000
+15 - Negative Follows* (syn, wildcard)
+stmt s1, s2;
+Select BOOLEAN such that Follows*(s1, _)
+FALSE
+5000
+16 - Negative Follows* (wildcard, static)
+stmt s1, s2;
+Select BOOLEAN such that Follows*(_, 2)
+FALSE
+5000
+17 - Negative Follows* (wildcard, syn)
+stmt s1, s2;
+Select BOOLEAN such that Follows*(_, s2)
+FALSE
+5000
+18 - Negative Follows* (wildcard, wildcard)
+stmt s1, s2;
+Select BOOLEAN such that Follows*(_, _)
+FALSE
+5000

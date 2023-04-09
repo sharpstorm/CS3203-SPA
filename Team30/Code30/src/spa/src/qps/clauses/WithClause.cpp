@@ -13,7 +13,7 @@ PQLQueryResult *WithClause::evaluateOn(const QueryExecutorAgent &agent) const {
   return WithClauseEvaluator(agent, &leftArg, &rightArg).evaluate();
 }
 
-bool WithClause::validateArgTypes(const VariableTable *variables) const {
+bool WithClause::validateArgTypes() const {
   // They both must return an int or a str
   return leftArg.returnsInteger() == rightArg.returnsInteger();
 }

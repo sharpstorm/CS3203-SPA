@@ -1,0 +1,180 @@
+1 - Negative Next (static, static)
+stmt s1, s2;
+Select BOOLEAN such that Next(1, 2)
+FALSE
+5000
+2 - Negative Next (static, syn)
+stmt s1, s2;
+Select BOOLEAN such that Next(1, s2)
+FALSE
+5000
+3 - Negative Next (static, wildcard)
+stmt s1, s2;
+Select BOOLEAN such that Next(1, _)
+FALSE
+5000
+4 - Negative Next (syn, static)
+stmt s1, s2;
+Select BOOLEAN such that Next(s1, 2)
+FALSE
+5000
+5 - Negative Next (syn, syn)
+stmt s1, s2;
+Select BOOLEAN such that Next(s1, s2)
+FALSE
+5000
+6 - Negative Next (syn, wildcard)
+stmt s1, s2;
+Select BOOLEAN such that Next(s1, _)
+FALSE
+5000
+7 - Negative Next (wildcard, static)
+stmt s1, s2;
+Select BOOLEAN such that Next(_, 2)
+FALSE
+5000
+8 - Negative Next (wildcard, syn)
+stmt s1, s2;
+Select BOOLEAN such that Next(_, s2)
+FALSE
+5000
+9 - Negative Next (wildcard, wildcard)
+stmt s1, s2;
+Select BOOLEAN such that Next(_, _)
+FALSE
+5000
+10 - Negative Next* (static, static)
+stmt s1, s2;
+Select BOOLEAN such that Next*(1, 2)
+FALSE
+5000
+11 - Negative Next* (static, syn)
+stmt s1, s2;
+Select BOOLEAN such that Next*(1, s2)
+FALSE
+5000
+12 - Negative Next* (static, wildcard)
+stmt s1, s2;
+Select BOOLEAN such that Next*(1, _)
+FALSE
+5000
+13 - Negative Next* (syn, static)
+stmt s1, s2;
+Select BOOLEAN such that Next*(s1, 2)
+FALSE
+5000
+14 - Negative Next* (syn, syn)
+stmt s1, s2;
+Select BOOLEAN such that Next*(s1, s2)
+FALSE
+5000
+15 - Negative Next* (syn, wildcard)
+stmt s1, s2;
+Select BOOLEAN such that Next*(s1, _)
+FALSE
+5000
+16 - Negative Next* (wildcard, static)
+stmt s1, s2;
+Select BOOLEAN such that Next*(_, 2)
+FALSE
+5000
+17 - Negative Next* (wildcard, syn)
+stmt s1, s2;
+Select BOOLEAN such that Next*(_, s2)
+FALSE
+5000
+18 - Negative Next* (wildcard, wildcard)
+stmt s1, s2;
+Select BOOLEAN such that Next*(_, _)
+FALSE
+5000
+19 - Negative Affects (static, static)
+stmt s1, s2;
+Select BOOLEAN such that Affects(1, 2)
+FALSE
+5000
+20 - Negative Affects (static, syn)
+stmt s1, s2;
+Select BOOLEAN such that Affects(1, s2)
+FALSE
+5000
+21 - Negative Affects (static, wildcard)
+stmt s1, s2;
+Select BOOLEAN such that Affects(1, _)
+FALSE
+5000
+22 - Negative Affects (syn, static)
+stmt s1, s2;
+Select BOOLEAN such that Affects(s1, 2)
+FALSE
+5000
+23 - Negative Affects (syn, syn)
+stmt s1, s2;
+Select BOOLEAN such that Affects(s1, s2)
+FALSE
+5000
+24 - Negative Affects (syn, wildcard)
+stmt s1, s2;
+Select BOOLEAN such that Affects(s1, _)
+FALSE
+5000
+25 - Negative Affects (wildcard, static)
+stmt s1, s2;
+Select BOOLEAN such that Affects(_, 2)
+FALSE
+5000
+26 - Negative Affects (wildcard, syn)
+stmt s1, s2;
+Select BOOLEAN such that Affects(_, s2)
+FALSE
+5000
+27 - Negative Affects (wildcard, wildcard)
+stmt s1, s2;
+Select BOOLEAN such that Affects(_, _)
+FALSE
+5000
+28 - Negative Affects* (static, static)
+stmt s1, s2;
+Select BOOLEAN such that Affects*(1, 2)
+FALSE
+5000
+29 - Negative Affects* (static, syn)
+stmt s1, s2;
+Select BOOLEAN such that Affects*(1, s2)
+FALSE
+5000
+30 Negative Affects* (static, wildcard)
+stmt s1, s2;
+Select BOOLEAN such that Affects*(1, _)
+FALSE
+5000
+31 Negative Affects* (syn, static)
+stmt s1, s2;
+Select BOOLEAN such that Affects*(s1, 2)
+FALSE
+5000
+32 - Negative Affects* (syn, syn)
+stmt s1, s2;
+Select BOOLEAN such that Affects*(s1, s2)
+FALSE
+5000
+33 - Negative Affects* (syn, wildcard)
+stmt s1, s2;
+Select BOOLEAN such that Affects*(s1, _)
+FALSE
+5000
+34 - Negative Affects* (wildcard, static)
+stmt s1, s2;
+Select BOOLEAN such that Affects*(_, 2)
+FALSE
+5000
+35 - Negative Affects* (wildcard, syn)
+stmt s1, s2;
+Select BOOLEAN such that Affects*(_, s2)
+FALSE
+5000
+36 - Negative Affects* (wildcard, wildcard)
+stmt s1, s2;
+Select BOOLEAN such that Affects*(_, _)
+FALSE
+5000
