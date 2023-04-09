@@ -4,7 +4,7 @@
 
 ParentQueryHandler::ParentQueryHandler(
     PkbStmtStmtQueryInvoker *invoker,
-    ParentStorage *storage) :
+    IStorage<StmtValue, StmtValue> *storage) :
     PkbStmtStmtQueryHandler(invoker, storage) {
   PkbStmtStmtQueryHandler::setLeftValidator(parentLeftArgValidator);
 }

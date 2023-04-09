@@ -33,12 +33,12 @@ TEST_CASE("Parent <= 1 unknowns") {
   auto result3 =
       *handler.queryParent({StmtType::None, 3}, {StmtType::Assign, 0});
   REQUIRE(result3.secondArgVals == unordered_set<int>({5}));
-//  REQUIRE(result3.pairVals == pair_set<int, int>({{3, 5}}));
+  //  REQUIRE(result3.pairVals == pair_set<int, int>({{3, 5}}));
 
   auto result4 =
       *handler.queryParent({StmtType::While, 0}, {StmtType::None, 3});
   REQUIRE(result4.firstArgVals == unordered_set<int>({2}));
-//  REQUIRE(result4.pairVals == pair_set<int, int>({{2, 3}}));
+  //  REQUIRE(result4.pairVals == pair_set<int, int>({{2, 3}}));
 }
 
 TEST_CASE("Parent 2 unknowns)") {
@@ -110,11 +110,11 @@ TEST_CASE("ParentStar <= 1 unknowns") {
 
   auto result3 =
       *handler.queryParentStar({StmtType::None, 1}, {StmtType::Print, 0});
-  REQUIRE(result3.pairVals == pair_set<int, int>({{1, 3}, {1, 4}, {1, 7}}));
+  REQUIRE(result3.secondArgVals == StmtValueSet({3, 4, 7}));
 
   auto result4 =
       *handler.queryParentStar({StmtType::While, 0}, {StmtType::None, 6});
-  REQUIRE(result4.pairVals == pair_set<int, int>({{1, 6}}));
+  REQUIRE(result4.firstArgVals == StmtValueSet({1}));
 }
 
 TEST_CASE("ParentStar 2 unknowns") {
@@ -160,7 +160,7 @@ TEST_CASE("ParentStar 2 unknowns") {
   // wildcard
   auto result3 =
       *handler.queryParentStar({StmtType::Wildcard, 0}, {StmtType::None, 0});
-  REQUIRE(result3.secondArgVals == unordered_set<int>({2,3,4,5,6,7}));
+  REQUIRE(result3.secondArgVals == unordered_set<int>({2, 3, 4, 5, 6, 7}));
 
   auto result4 =
       *handler.queryParentStar({StmtType::Wildcard, 0}, {StmtType::None, 4});
@@ -169,5 +169,4 @@ TEST_CASE("ParentStar 2 unknowns") {
   auto result5 =
       *handler.queryParentStar({StmtType::Wildcard, 0}, {StmtType::If, 0});
   REQUIRE(result5.secondArgVals == unordered_set<int>({2}));
-
 }

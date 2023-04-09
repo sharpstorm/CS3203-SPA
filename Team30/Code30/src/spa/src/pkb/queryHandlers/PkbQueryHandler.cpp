@@ -9,7 +9,6 @@
 #include "IfPatternQueryHandler.h"
 #include "ModifiesQueryHandler.h"
 #include "ParentQueryHandler.h"
-#include "ParentTQueryHandler.h"
 #include "UsesQueryHandler.h"
 #include "WhilePatternQueryHandler.h"
 
@@ -29,9 +28,8 @@ PkbQueryHandler::PkbQueryHandler(PKB *pkb)
                                               pkb->followsTStorage)),
       parentHandler(new ParentQueryHandler(stmtStmtQueryInvoker.get(),
                                            pkb->parentStorage)),
-      parentTHandler(new ParentTQueryHandler(pkb->parentTStorage,
-                                             pkb->structureProvider,
-                                             pkb->stmtPredicateFactory)),
+      parentTHandler(new ParentQueryHandler(stmtStmtQueryInvoker.get(),
+                                            pkb->parentTStorage)),
       modifiesHandler(new ModifiesQueryHandler(
           stmtEntQueryInvoker.get(), entEntQueryInvoker.get(),
           pkb->modifiesStorage, pkb->modifiesPStorage)),

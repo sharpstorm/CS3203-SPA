@@ -6,7 +6,6 @@
 #include "catch.hpp"
 #include "common/Types.h"
 #include "pkb/queryHandlers/ParentQueryHandler.h"
-#include "pkb/queryHandlers/ParentTQueryHandler.h"
 #include "pkb/storage/StructureMappingProvider.h"
 
 using std::make_shared;
@@ -78,9 +77,9 @@ TEST_CASE("ParentQueryHandler parent(stmtNum,stmtType)") {
 
   auto result1 = *test.query({StmtType::None, 1}, {StmtType::Assign, 0});
   REQUIRE(result1.isEmpty == false);
-//  REQUIRE(result1.firstArgVals == unordered_set<int>({1}));
+  //  REQUIRE(result1.firstArgVals == unordered_set<int>({1}));
   REQUIRE(result1.secondArgVals == unordered_set<int>({2}));
-//  REQUIRE(result1.pairVals == pair_set<int, int>({{1, 2}}));
+  //  REQUIRE(result1.pairVals == pair_set<int, int>({{1, 2}}));
 
   auto result2 = *test.query({StmtType::None, 2}, {StmtType::Read, 0});
   REQUIRE(result2.isEmpty == true);
@@ -94,8 +93,8 @@ TEST_CASE("ParentQueryHandler parent(stmtType, stmtNum)") {
   auto result1 = *test.query({StmtType::If, 0}, {StmtType::None, 12});
   REQUIRE(result1.isEmpty == false);
   REQUIRE(result1.firstArgVals == unordered_set<int>({11}));
-//  REQUIRE(result1.secondArgVals == unordered_set<int>({12}));
-//  REQUIRE(result1.pairVals == pair_set<int, int>({{11, 12}}));
+  //  REQUIRE(result1.secondArgVals == unordered_set<int>({12}));
+  //  REQUIRE(result1.pairVals == pair_set<int, int>({{11, 12}}));
 
   auto result2 = *test.query({StmtType::Read, 0}, {StmtType::None, 8});
   REQUIRE(result2.isEmpty == true);
@@ -110,8 +109,8 @@ TEST_CASE("ParentQueryHandler parent(stmtType, stmtType)") {
 
   auto result1 = *test.query({StmtType::If, 0}, {StmtType::While, 0});
   REQUIRE(result1.isEmpty == false);
-//  REQUIRE(result1.firstArgVals == unordered_set<int>({11}));
-//  REQUIRE(result1.secondArgVals == unordered_set<int>({12}));
+  //  REQUIRE(result1.firstArgVals == unordered_set<int>({11}));
+  //  REQUIRE(result1.secondArgVals == unordered_set<int>({12}));
   REQUIRE(result1.pairVals == pair_set<int, int>({{11, 12}}));
 }
 
@@ -162,8 +161,10 @@ struct parentTTest {
       make_unique<StructureMappingProviderStub>();
   unique_ptr<StmtPredicateFactory> factory =
       make_unique<StmtPredicateFactory>(structureProvider.get());
-  ParentTQueryHandler handlerT =
-      ParentTQueryHandler(storeT.get(), structureProvider.get(), factory.get());
+  unique_ptr<PkbStmtStmtQueryInvoker> invoker =
+      make_unique<PkbStmtStmtQueryInvoker>(structureProvider.get(),
+                                           factory.get());
+  ParentQueryHandler handlerT = ParentQueryHandler(invoker.get(), storeT.get());
 
   QueryResultPtr<StmtValue, StmtValue> queryT(StmtRef leftArg,
                                               StmtRef rightArg) {
