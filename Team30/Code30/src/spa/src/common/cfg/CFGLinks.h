@@ -7,6 +7,7 @@
 
 using std::vector, std::array;
 
+// uint_16 is used to save 2 bytes per node reference
 typedef uint16_t CFGNode;
 static const CFGNode CFG_END_NODE = 65534;
 

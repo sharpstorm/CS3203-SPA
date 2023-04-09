@@ -13,6 +13,7 @@ using std::string, std::vector, std::shared_ptr;
 // CFG can only handle up to 65534 Nodes
 class CFG {
  public:
+  static const int MASK_LOWER_16 = 0xFFFF;
   explicit CFG(const int &start);
 
   bool containsStatement(const int &stmtNo);

@@ -15,8 +15,8 @@
 #include "qps/clauses/pattern/AssignPatternClause.h"
 #include "qps/clauses/arguments/SynonymArgument.h"
 #include "qps/clauses/arguments/WildcardArgument.h"
-#include "common/pattern/PatternConverter.h"
 #include "sp/ast/AST.h"
+#include "sp/pattern/TrieBuilder.h"
 
 using std::shared_ptr, std::make_shared, std::make_unique, std::unique_ptr, std::to_string;
 
@@ -55,15 +55,15 @@ class AssignPatternPKBStub : public StubPKB {
  public:
   AssignPatternPKBStub(PKB* in, PkbWriter* wr):
       StubPKB(in),
-      line1(PatternConverter::convertASTToTrie(genInteger(1).get(), wr)),
-      line2(PatternConverter::convertASTToTrie(genVariable("x").get(), wr)),
-      line3(PatternConverter::convertASTToTrie(
+      line1(TrieBuilder(genInteger(1).get(), wr).build()),
+      line2(TrieBuilder(genVariable("x").get(), wr).build()),
+      line3(TrieBuilder(
           genPlus(std::move(genInteger(1)),
-                  std::move(genInteger(2))).get(), wr)),
-      line4(PatternConverter::convertASTToTrie(
-          genPlus(genVariable("y"), genVariable("x")).get(), wr)),
-      line5(PatternConverter::convertASTToTrie(genPlus(genPlus(genInteger(2),genVariable("z")),
-                                                       genVariable("y")).get(), wr)) {
+                  std::move(genInteger(2))).get(), wr).build()),
+      line4(TrieBuilder(
+          genPlus(genVariable("y"), genVariable("x")).get(), wr).build()),
+      line5(TrieBuilder(genPlus(genPlus(genInteger(2),genVariable("z")),
+                                                       genVariable("y")).get(), wr).build()) {
   }
 
   QueryResultPtr<int, string> queryModifies(StmtRef stmtRef, EntityRef entRef) const override {

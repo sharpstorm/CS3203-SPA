@@ -60,3 +60,7 @@ bool QueryExecutorAgent::isValid(const EntityRef &ref) const {
 CacheTable *QueryExecutorAgent::getAffectsCache() const {
   return cache->getAffectsCache();
 }
+
+const PkbQueryHandler *QueryExecutorAgent::getPkbQueryHandler() const {
+  return pkbQueryHandler;
+}
