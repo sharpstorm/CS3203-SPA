@@ -1,0 +1,125 @@
+1 - Select constants
+constant const1;
+Select const1
+1
+5000
+2 - Select grass starters
+assign a1; variable v1;
+Select v1 pattern a1("starter1", _) such that Uses(a1, v1)
+bulbasaur, ivysaur, venusaur
+5000
+3 - Select fire starters
+assign a1; variable v1;
+Select v1 pattern a1("starter2", _) such that Uses(a1, v1)
+charmander, charmeleon, charizard
+5000
+4 - Select water starters
+assign a1; variable v1;
+Select v1 pattern a1("starter3", _) such that Uses(a1, v1)
+squirtle, wartotle, blastoise
+5000
+5 - check procs called by proc 1
+assign a1; variable v1; procedure p1, p2;
+Select p2 such that Calls*(p1, p2) with p1.procName = "proc1"
+proc2,proc3,proc4,proc5,proc6,proc7,proc8,proc9,proc10,proc11
+5000
+6 - select starters from statement
+assign a1, a2, a3; variable v1, v2, v3; procedure p1, p2; stmt s1, s2, s3, s4; 
+Select <s1, v2> pattern a1(v1, _) with v1.varName = "starter1"  with s1.stmt# = a1.stmt# such that Uses(s1, v2) 
+10 bulbasaur,10 ivysaur,10 venusaur
+5000
+7 - Select procname that are as variables
+assign a1, a2, a3; variable v1, v2, v3; procedure p1, p2; stmt s1, s2, s3, s4;
+Select <s1, v1> with v1.varName = p1.procName such that Uses(s1, v1)
+19 endBattle,20 endBattle,22 endBattle,23 endBattle,31 endBattle
+5000
+8 - Procedure - variable
+while w1, w2, w3; assign a1, a2; variable v1, v2; stmt s1, s2, s3; procedure p1, p2; if if1, if2, if3;
+Select <p1, v2> such that Calls*(p1, p2) with v2.varName = p2.procName
+pokemon endBattle
+5000
+9 - Pattern partial match
+while w1, w2, w3; assign a1, a2;
+Select a1 pattern a1(_,_"charmander+charmeleon"_)
+11
+5000
+10 - Pattern partial match with random spaces
+while w1, w2, w3; assign a1, a2;
+Select a1 pattern a1(_, _ "     charmander  +     charmeleon                               " _ )
+11
+5000
+11 - Pattern exact match
+while w1, w2, w3; assign a1, a2;
+Select a1 pattern a1(_, "charmander+charmeleon+charizard")
+11
+5000
+12 - 12
+while w1, w2, w3; assign a1, a2; variable v1, v2, v3, v4; stmt s1, s2, s3; procedure p1, p2; if if1, if2, if3;
+Select s1 such that Uses(s1, v1) and Modifies(s1, v1) pattern a1(v2,_) with s1.stmt# = a1.stmt# and v2.varName = "a"
+
+5000
+13 - 13
+while w1, w2, w3; assign a1, a2; variable v1, v2, v3, v4; stmt s1, s2, s3; procedure p1, p2; if if1, if2, if3;
+Select s2 such that Uses(s2, v3) and Modifies(s2, v3) pattern a1(v4,_) with s2.stmt# = a2.stmt# and v3.varName = "a"
+
+5000
+14 - 14
+while w1, w2, w3; assign a1, a2; variable v1, v2, v3, v4; stmt s1, s2, s3; procedure p1, p2; if if1, if2, if3;
+Select <s1,s2> such that Uses(s1, v1) and Modifies(s1, v1) pattern a1(v2,_) with s1.stmt# = a1.stmt# and v2.varName = "a" such that Uses(s2, v3) and Modifies(s2, v3) pattern a1(v4,_) with s2.stmt# = a2.stmt# and v3.varName = "endBattle"
+
+5000
+15 - Call
+procedure p1, p2, p3;
+Select p3 such that Calls(p1, p2) and Calls(p2, p3)
+proc10,proc11,proc3,proc4,proc5,proc6,proc7,proc8,proc9
+5000
+16 - Call*
+procedure p1, p2, p3;
+Select p3 such that Calls*(p1, p2) and Calls*(p2, p3)
+proc10,proc11,proc3,proc4,proc5,proc6,proc7,proc8,proc9
+5000
+17 - Select while following a1 
+while w1, w2, w3; assign a1, a2; variable v1, v2, v3, v4; stmt s1, s2, s3; procedure p1, p2; if if1, if2, if3;
+Select w1 such that Follows(a1, w1) pattern a1(v1, _) with v1.varName = "a"
+
+5000
+18 - Select while following a1 
+while w1, w2, w3; assign a1, a2; variable v1, v2, v3, v4; stmt s1, s2, s3; procedure p1, p2; if if1, if2, if3; print pn1, pn2; read r1, r2;
+Select <pn1, r1> such that Uses(pn1, v1) and Modifies(r1, v1)
+13 16
+5000
+19 - Affects
+while w1, w2, w3; assign a1, a2; variable v1, v2, v3, v4; stmt s1, s2, s3; procedure p1, p2; if if1, if2, if3; print pn1, pn2; read r1, r2;
+Select a1 such that Affects(a1, a2)
+1,2,3,4,5,6,7,8,9
+5000
+20 - Affects
+while w1, w2, w3; assign a1, a2, a3, a4, a5; variable v1, v2, v3, v4; stmt s1, s2, s3; procedure p1, p2; if if1, if2, if3; print pn1, pn2; read r1, r2;
+Select a1 such that Affects(a1, a2) and Affects(a2, a3) and Affects(a3, a4) and Affects(a4, a5)
+
+5000
+21 - Affects and next
+while w1, w2, w3; assign a1, a2, a3, a4, a5; variable v1, v2, v3, v4; stmt s1, s2, s3; procedure p1, p2; if if1, if2, if3; print pn1, pn2; read r1, r2;
+Select s1 such that Next(s1,s2) with s1.stmt# = a1.stmt# such that Affects(s1, s2)
+
+5000
+22 - empty case
+while w1, w2, w3; assign a1, a2, a3, a4, a5; variable v1, v2, v3, v4; stmt s1, s2, s3; procedure p1, p2; if if1, if2, if3; print pn1, pn2; read r1, r2;
+Select s1 such that Next(s1, s2) and Follows(s1, s2) and Parent(s1, s2)
+
+5000
+22 - empty case
+while w1, w2, w3; assign a1, a2, a3, a4, a5; variable v1, v2, v3, v4; stmt s1, s2, s3; procedure p1, p2; if if1, if2, if3; print pn1, pn2; read r1, r2;
+Select s1 such that Next*(s1, s2) and Follows*(s1, s2) and Uses(s1, "charmander")
+11,4
+5000
+23 - Bool - ifs followed by assign
+while w1, w2, w3; assign a1, a2, a3, a4, a5; variable v1, v2, v3, v4; stmt s1, s2, s3; procedure p1, p2; if if1, if2, if3; print pn1, pn2; read r1, r2;
+Select BOOLEAN pattern if1("x", _, _) such that Next(s1, s2) with s1.stmt# = a1.stmt# and s2.stmt# = if1.stmt#
+FALSE
+5000
+24 - Bool - ifs followed by assign negative
+while w1, w2, w3; assign a1, a2, a3, a4, a5; variable v1, v2, v3, v4; stmt s1, s2, s3; procedure p1, p2; if if1, if2, if3; print pn1, pn2; read r1, r2;
+Select BOOLEAN pattern if1("xxxx", _, _) such that Next(s1, s2) with s1.stmt# = a1.stmt# and s2.stmt# = if1.stmt#
+FALSE
+5000
