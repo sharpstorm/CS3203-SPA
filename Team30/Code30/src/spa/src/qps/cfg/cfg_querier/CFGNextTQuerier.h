@@ -60,7 +60,7 @@ class CFGNextTQuerier : public CFGQuerier<
     }
 
     ICFGWriterPtr writer = makeCFGResultWriterFactory(cfg, &closure, &result)
-        .makeRightWriter<typePredicate>(arg0, type1);
+        .template makeRightWriter<typePredicate>(arg0, type1);
     queryForward(arg0, writer.get());
     return result;
   }
@@ -73,7 +73,7 @@ class CFGNextTQuerier : public CFGQuerier<
     }
 
     ICFGWriterPtr writer = makeCFGResultWriterFactory(cfg, &closure, &result)
-        .makeLeftWriter<typePredicate>(type0, arg1);
+        .template makeLeftWriter<typePredicate>(type0, arg1);
 
     constexpr WalkerSingleCallback<ICFGWriter> callback =
         [](ICFGWriter *writer, CFGNode node) {
@@ -90,7 +90,7 @@ class CFGNextTQuerier : public CFGQuerier<
   void queryAll(StmtTransitiveResult *resultOut, const StmtType &type0,
                 const StmtType &type1) {
     ICFGWriterPtr writer = makeCFGResultWriterFactory(cfg, &closure, resultOut)
-        .makePairWriter<typePredicate>(0, type0, type1);
+        .template makePairWriter<typePredicate>(0, type0, type1);
     for (CFGNode start = 0; start < cfg->getNodeCount(); start++) {
       StmtValue stmtNumber = cfg->fromCFGNode(start);
       writer->setLeft(stmtNumber);

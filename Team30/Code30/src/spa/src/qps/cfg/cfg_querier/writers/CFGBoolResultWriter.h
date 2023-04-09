@@ -16,7 +16,7 @@ class CFGBoolResultWriter : public BaseCFGResultWriter<T> {
   StmtValue to;
 
   bool writeInternal() const {
-    result->setNotEmpty();
+    BaseCFGResultWriter<T>::result->setNotEmpty();
     return false;
   }
 
@@ -40,7 +40,7 @@ class CFGBoolResultWriter : public BaseCFGResultWriter<T> {
 
   bool writeBool(StmtValue stmt) const final {
     if (stmt == to) {
-      result->setNotEmpty();
+      BaseCFGResultWriter<T>::result->setNotEmpty();
       return false;
     }
     return true;
@@ -50,11 +50,7 @@ class CFGBoolResultWriter : public BaseCFGResultWriter<T> {
     from = val;
   }
 
-  StmtValue getFrom() {
+  StmtValue getLeft() const final {
     return from;
-  }
-
-  StmtValue getTo() {
-    return to;
   }
 };

@@ -24,16 +24,20 @@ class CFGStaticLeftResultWriter : public BaseCFGResultWriter<T> {
   }
 
   bool writeLeft(StmtValue stmt) const final {
-    result->addLeft(value);
+    BaseCFGResultWriter<T>::result->addLeft(value);
     return false;
   }
 
   bool writeRight(StmtValue stmt) const final {
-    result->addLeft(value);
+    BaseCFGResultWriter<T>::result->addLeft(value);
     return false;
   }
 
   void setLeft(StmtValue val) final {
     value = val;
+  }
+
+  StmtValue getLeft() const final {
+    return value;
   }
 };

@@ -3,7 +3,7 @@
 #include "qps/cfg/CFGQuerierTypes.h"
 #include "common/cfg/CFG.h"
 #include "qps/cfg/cfg_querier/CFGQuerier.h"
-#include "qps/cfg/cfg_querier/writers/ICFGResultWriter.h"
+#include "qps/cfg/cfg_querier/writers/ICFGWriter.h"
 
 /*
  * Because this is a templated class, the implementation must be fully
@@ -33,7 +33,7 @@ class BaseCFGResultWriter : public ICFGWriter {
     return result;
   }
 
-  StmtValue toStmtNumber(CFGNode node) const {
+  StmtValue toStmtNumber(CFGNode node) const override {
     return cfg->fromCFGNode(node);
   }
 

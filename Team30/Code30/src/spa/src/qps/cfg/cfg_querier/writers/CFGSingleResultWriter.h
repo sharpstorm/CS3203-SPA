@@ -25,16 +25,16 @@ class CFGSingleResultWriter : public BaseCFGResultWriter<T> {
   }
 
   bool writeLeft(StmtValue stmt) const final {
-    if (typePredicate(*closure, targetType, stmt)) {
-      result->addLeft(stmt);
+    if (typePredicate(*BaseCFGResultWriter<T>::closure, targetType, stmt)) {
+      BaseCFGResultWriter<T>::result->addLeft(stmt);
     }
 
     return true;
   }
 
   bool writeRight(StmtValue stmt) const final {
-    if (typePredicate(*closure, targetType, stmt)) {
-      result->addRight(stmt);
+    if (typePredicate(*BaseCFGResultWriter<T>::closure, targetType, stmt)) {
+      BaseCFGResultWriter<T>::result->addRight(stmt);
     }
 
     return true;
@@ -44,7 +44,7 @@ class CFGSingleResultWriter : public BaseCFGResultWriter<T> {
     pivot = val;
   }
 
-  StmtValue getPivot() const {
+  StmtValue getLeft() const final {
     return pivot;
   }
 };

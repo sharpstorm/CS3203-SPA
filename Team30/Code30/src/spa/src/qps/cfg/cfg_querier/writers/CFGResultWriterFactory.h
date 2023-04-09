@@ -1,7 +1,7 @@
 #pragma once
 
 #include <utility>
-#include "ICFGResultWriter.h"
+#include "ICFGWriter.h"
 #include "CFGBaseResultWriter.h"
 #include "CFGBoolResultWriter.h"
 #include "CFGSingleResultWriter.h"
@@ -39,7 +39,7 @@ class CFGResultWriterFactory {
                                const StmtValue arg1Val) const {
     if (type0 == StmtType::Wildcard) {
       auto writer = make_unique<CFGBoolResultWriter<T>>(cfg, closure, result);
-      writer->setParams(NO_STMT, arg1Val);
+      writer->setParams(arg1Val, NO_STMT);
       return writer;
     }
     auto writer = make_unique<CFGSingleResultWriter<T, typePredicate>>(cfg,

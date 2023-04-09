@@ -73,7 +73,7 @@ queryBool(const StmtValue &arg0, const StmtValue &arg1) {
   }
 
   ICFGWriterPtr writer = CFGResultWriterFactory(cfg, cfg, &result)
-      .makeBoolWriter<dummyTypePredicate<CFG>>(arg0, arg1);
+      .template makeBoolWriter<dummyTypePredicate<CFG>>(arg0, arg1);
   constexpr LinkerResultCallback<ICFGWriter> resultHandler =
       [](ICFGWriter *writer, const StmtValue &stmt) -> bool {
         return writer->writeBool(stmt);
@@ -94,7 +94,7 @@ queryFrom(const StmtValue &arg0, const StmtType &type1) {
   }
 
   ICFGWriterPtr writer = CFGResultWriterFactory(cfg, cfg, &result)
-      .makeRightWriter<dummyTypePredicate<CFG>>(arg0, type1);
+      .template makeRightWriter<dummyTypePredicate<CFG>>(arg0, type1);
   constexpr LinkerResultCallback<ICFGWriter> resultHandler =
       [](ICFGWriter *writer, const StmtValue &stmt) -> bool {
         return writer->writeRight(stmt);
@@ -114,7 +114,7 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
   }
 
   ICFGWriterPtr writer = CFGResultWriterFactory(cfg, cfg, &result)
-      .makeLeftWriter<dummyTypePredicate<CFG>>(type0, arg1);
+      .template makeLeftWriter<dummyTypePredicate<CFG>>(type0, arg1);
   constexpr LinkerResultCallback<ICFGWriter> resultHandler =
       [](ICFGWriter *writer, const StmtValue &stmt) -> bool {
         return writer->writeLeft(stmt);
@@ -146,7 +146,9 @@ queryAll(StmtTransitiveResult *resultOut,
 
   ICFGWriterPtr writer =
       CFGResultWriterFactory(cfg, &affectsResults, resultOut)
-          .makePairWriter<dummyTypePredicate<ResultTable>>(0, type0, type1);
+          .template makePairWriter<dummyTypePredicate<ResultTable>>(0,
+                                                                    type0,
+                                                                    type1);
 
   for (CFGNode start = 0; start < cfg->getNodeCount(); start++) {
     StmtValue startStmt = cfg->fromCFGNode(start);

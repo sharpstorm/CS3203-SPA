@@ -25,8 +25,8 @@ class CFGPairResultWriter : public BaseCFGResultWriter<T> {
   }
 
   bool writeRight(StmtValue stmt) const final {
-    if (typePredicate(*closure, targetType, stmt)) {
-      result->addPair(left, stmt);
+    if (typePredicate(*BaseCFGResultWriter<T>::closure, targetType, stmt)) {
+      BaseCFGResultWriter<T>::result->addPair(left, stmt);
     }
 
     return true;
@@ -36,7 +36,7 @@ class CFGPairResultWriter : public BaseCFGResultWriter<T> {
     left = val;
   }
 
-  StmtValue getLeft() const {
+  StmtValue getLeft() const final {
     return left;
   }
 };

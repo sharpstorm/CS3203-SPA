@@ -4,7 +4,7 @@
 #include "qps/cfg/cfg_querier/walkers/CFGWalker.h"
 #include "CFGQuerier.h"
 #include "qps/cfg/CFGQuerierTypes.h"
-#include "qps/cfg/cfg_querier/writers/ICFGResultWriter.h"
+#include "qps/cfg/cfg_querier/writers/ICFGWriter.h"
 #include "qps/cfg/cfg_querier/writers/CFGResultWriterFactory.h"
 
 /*
