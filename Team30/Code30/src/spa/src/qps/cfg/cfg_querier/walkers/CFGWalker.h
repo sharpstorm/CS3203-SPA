@@ -8,17 +8,15 @@
 
 using std::vector;
 
+/*
+ * Because this is a templated class, the implementation must be fully
+ * in the header file, or linker errors will occur
+ */
+
 template<typename T>
 using WalkerSingleCallback = bool (*)(T *ptr, CFGNode node);
 
-template<typename T>
-using WalkerPairCallback = bool (*)(T *ptr,
-                                    CFGNode nodeLeft,
-                                    CFGNode nodeRight);
-
 class CFGWalker {
-  template <typename T>
-  using DFSCallback = bool (*)(T *ptr, CFGNode node);
   using DFSLinkGetter = CFGLinks *(*)(CFG *cfg, CFGNode node);
 
  private:
@@ -35,24 +33,21 @@ class CFGWalker {
   template<typename T, WalkerSingleCallback<T> callback>
   void walkTo(CFGNode end, T *cbState);
 
-  template<typename T, WalkerPairCallback<T> callback>
-  void walkAll(T *cbState);
-
  private:
   template<
-      typename T, DFSCallback<T> callback,
+      typename T, WalkerSingleCallback<T> callback,
       DFSLinkGetter stepGetter>
   void runDFS(CFGNode start, T *state);
 
   template<
-      typename T, DFSCallback<T> callback,
+      typename T, WalkerSingleCallback<T> callback,
       DFSLinkGetter stepGetter>
   void runDFSOn(CFGNode start, T *state);
 
-  template<typename T, DFSCallback<T> callback>
+  template<typename T, WalkerSingleCallback<T> callback>
   void runForwardDFS(CFGNode start, T *state);
 
-  template<typename T, DFSCallback<T> callback>
+  template<typename T, WalkerSingleCallback<T> callback>
   void runBackwardDFS(CFGNode start, T *state);
 
   static CFGLinks *forwardLinkGetter(CFG *cfg, CFGNode node);
@@ -70,51 +65,20 @@ class CFGWalker {
                                      CFGNode node) {
     return state->callback(state->callbackState, node);
   }
-
-  template<typename T>
-  struct PairwiseWalkerState {
-    T *cbState;
-    WalkerPairCallback<T> callback;
-    CFGNode startNode;
-    CFG *cfg;
-  };
-
-  template<typename T>
-  static constexpr bool pairwiseWalkerCallback(PairwiseWalkerState<T> *state,
-                                        CFGNode node) {
-    return state->callback(state->cbState, state->startNode, node);
-  }
 };
 
 template<typename T, WalkerSingleCallback<T> callback>
 void CFGWalker::walkFrom(CFGNode start, T *cbState) {
-  NodewiseWalkerState<T> state{cbState, callback, cfg};
-  runForwardDFS<NodewiseWalkerState<T>, nodewiseWalkerCallback<T>>(
-      start, &state);
+  runForwardDFS<T, callback>(start, cbState);
 }
 
 template<typename T, WalkerSingleCallback<T> callback>
 void CFGWalker::walkTo(CFGNode end, T *cbState) {
-  NodewiseWalkerState<T> state{cbState, callback, cfg};
-  runBackwardDFS<NodewiseWalkerState<T>, nodewiseWalkerCallback<T>>(
-      end, &state);
-}
-
-template<typename T, WalkerPairCallback<T> callback>
-void CFGWalker::walkAll(T *cbState) {
-  if (cfg->getNodeCount() == 0) {
-    return;
-  }
-
-  for (CFGNode start = 0; start < cfg->getNodeCount(); start++) {
-    PairwiseWalkerState<T> state{cbState, callback, start, cfg};
-    runForwardDFS<PairwiseWalkerState<T>, pairwiseWalkerCallback<T>>(
-        start, &state);
-  }
+  runBackwardDFS<T, callback>(end, cbState);
 }
 
 template<typename T,
-    CFGWalker::DFSCallback<T> callback,
+    WalkerSingleCallback<T> callback,
     CFGWalker::DFSLinkGetter stepGetter>
 void CFGWalker::runDFS(CFGNode start, T *state) {
   if (!cfg->containsNode(start)) {
@@ -129,7 +93,7 @@ void CFGWalker::runDFS(CFGNode start, T *state) {
 }
 
 template<typename T,
-    CFGWalker::DFSCallback<T> callback,
+    WalkerSingleCallback<T> callback,
     CFGWalker::DFSLinkGetter stepGetter>
 void CFGWalker::runDFSOn(CFGNode start, T *state) {
   BitField seenNodes(cfg->getNodeCount());
@@ -160,12 +124,12 @@ void CFGWalker::runDFSOn(CFGNode start, T *state) {
   }
 }
 
-template<typename T, CFGWalker::DFSCallback<T> callback>
+template<typename T, WalkerSingleCallback<T> callback>
 void CFGWalker::runForwardDFS(CFGNode start, T *state) {
   runDFS<T, callback, forwardLinkGetter>(start, state);
 }
 
-template<typename T, CFGWalker::DFSCallback<T> callback>
+template<typename T, WalkerSingleCallback<T> callback>
 void CFGWalker::runBackwardDFS(CFGNode start, T *state) {
   runDFS<T, callback, backwardLinkGetter>(start, state);
 }
