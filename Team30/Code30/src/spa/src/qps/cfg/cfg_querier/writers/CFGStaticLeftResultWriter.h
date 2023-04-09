@@ -19,7 +19,7 @@ class CFGStaticLeftResultWriter : public BaseCFGResultWriter<T> {
       BaseCFGResultWriter<T>(cfg, closure, result) {}
 
   void setParams(StmtValue val) {
-    value = vall;
+    value = val;
   }
 
   bool writeLeft(StmtValue stmt) const final {
