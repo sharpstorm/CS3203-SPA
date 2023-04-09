@@ -8,6 +8,7 @@
 #include "qps/clauses/SuchThatClause.h"
 #include "qps/cfg/cfg_querier/CFGAffectsQuerier.h"
 #include "qps/cfg/cfg_querier/CFGAffectsTQuerier.h"
+#include "CFGPkbQuerier.h"
 
 using std::unique_ptr, std::make_unique;
 
@@ -32,38 +33,7 @@ class AffectsClauseInvokers {
         return agent->getStatementType(stmtNumber) == type;
       };
 
-  static constexpr ModifiesGetter<QueryExecutorAgent> modifiesQuerier =
-      [](const QueryExecutorAgent &agent,
-         StmtValue stmtNumber) -> EntityIdxSet {
-        QueryResultPtr<StmtValue, EntityValue> result =
-            agent->queryModifies(StmtRef{StmtType::None, stmtNumber},
-                                 EntityRef{EntityType::Variable, ""});
-        EntityIdxSet ret;
-        for (const EntityValue &v : result->secondArgVals) {
-          ret.insert(agent->getIndexOfVariable(v));
-        }
-        ret.erase(NO_ENT_INDEX);
-        return ret;
-      };
-
-  static constexpr UsesGetter<QueryExecutorAgent> usesQuerier =
-      [](const QueryExecutorAgent &agent,
-         StmtValue stmtNumber) -> EntityIdxSet {
-        QueryResultPtr<StmtValue, EntityValue> result =
-            agent->queryUses(StmtRef{StmtType::None, stmtNumber},
-                             EntityRef{EntityType::Variable, ""});
-        EntityIdxSet ret;
-        for (const EntityValue &v : result->secondArgVals) {
-          ret.insert(agent->getIndexOfVariable(v));
-        }
-        ret.erase(NO_ENT_INDEX);
-        return ret;
-      };
-
-  typedef CFGAffectsQuerier<QueryExecutorAgent, typeChecker,
-                            modifiesQuerier, usesQuerier>
-      ConcreteAffectsQuerier;
-
+  typedef CFGAffectsQuerier<CFGPkbQuerier> ConcreteAffectsQuerier;
   typedef CFGAffectsTQuerier<ConcreteAffectsQuerier>
       ConcreteAffectsTQuerier;
 
@@ -148,13 +118,15 @@ class AffectsClauseInvokers {
       };
 
   static constexpr QuerierFactory<ConcreteAffectsQuerier>
-      affectsQuerierFactory = [](CFG *cfg, const QueryExecutorAgent &agent) {
-    return ConcreteAffectsQuerier(cfg, agent);
+      affectsQuerierFactory = [](CFG *cfg, const QueryExecutorAgent &agent) -> ConcreteAffectsQuerier {
+    CFGPkbQuerier querier(agent);
+    return ConcreteAffectsQuerier(cfg, querier);
   };
 
   static constexpr QuerierFactory<ConcreteAffectsTQuerier>
-      affectsTQuerierFactory = [](CFG *cfg, const QueryExecutorAgent &agent) {
-    return ConcreteAffectsTQuerier(cfg, ConcreteAffectsQuerier(cfg, agent));
+      affectsTQuerierFactory = [](CFG *cfg, const QueryExecutorAgent &agent) -> ConcreteAffectsTQuerier {
+    CFGPkbQuerier querier(agent);
+    return ConcreteAffectsTQuerier(cfg, ConcreteAffectsQuerier(cfg, querier));
   };
 
  public:

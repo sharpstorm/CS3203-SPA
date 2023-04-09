@@ -4,14 +4,11 @@
 #include "qps/cfg/cfg_querier/CFGAffectsQuerier.h"
 #include "CFGTestModifiesUsesProvider.h"
 
-typedef CFGAffectsQuerier<CFGTestModifiesUsesProvider,
-                          CFGTestModifiesUsesProvider::typePredicate,
-                          CFGTestModifiesUsesProvider::getModifies,
-                          CFGTestModifiesUsesProvider::getUses>
+typedef CFGAffectsQuerier<CFGTestModifiesUsesProvider>
     CFGTestAffectsQuerier;
 
-template<typename T, StmtTypePredicate<T> U, ModifiesGetter<T> MG, UsesGetter<T> UG>
-StmtTransitiveResult queryAffects(CFGAffectsQuerier<T, U, MG, UG> *querier,
+template<typename T>
+StmtTransitiveResult queryAffects(CFGAffectsQuerier<T> *querier,
                                   int left, int right) {
   return querier->queryArgs(
       StmtRef{StmtType::None, left},
@@ -19,8 +16,8 @@ StmtTransitiveResult queryAffects(CFGAffectsQuerier<T, U, MG, UG> *querier,
   );
 }
 
-template<typename T, StmtTypePredicate<T> U, ModifiesGetter<T> MG, UsesGetter<T> UG>
-void queryAffects(CFGAffectsQuerier<T, U, MG, UG> *querier,
+template<typename T>
+void queryAffects(CFGAffectsQuerier<T> *querier,
                   StmtTransitiveResult *output,
                   int left, int right) {
   querier->queryArgs(
@@ -30,23 +27,23 @@ void queryAffects(CFGAffectsQuerier<T, U, MG, UG> *querier,
   );
 }
 
-template<typename T, StmtTypePredicate<T> U, ModifiesGetter<T> MG, UsesGetter<T> UG>
-StmtTransitiveResult queryAffects(CFGAffectsQuerier<T, U, MG, UG> *querier,
+template<typename T>
+StmtTransitiveResult queryAffects(CFGAffectsQuerier<T> *querier,
                                   StmtRef left,
                                   StmtRef right) {
   return querier->queryArgs(left, right);
 }
 
-template<typename T, StmtTypePredicate<T> U, ModifiesGetter<T> MG, UsesGetter<T> UG>
-void queryAffects(CFGAffectsQuerier<T, U, MG, UG> *querier,
+template<typename T>
+void queryAffects(CFGAffectsQuerier<T> *querier,
                   StmtTransitiveResult *output,
                   StmtRef left,
                   StmtRef right) {
   querier->queryArgs(left, right, output);
 }
 
-template<typename T, StmtTypePredicate<T> U, ModifiesGetter<T> MG, UsesGetter<T> UG>
-void assertQueryAffectsEmpty(CFGAffectsQuerier<T, U, MG, UG> *querier,
+template<typename T>
+void assertQueryAffectsEmpty(CFGAffectsQuerier<T> *querier,
                              int left,
                              unordered_set<int> rights) {
   for (auto it = rights.begin(); it != rights.end(); it++) {
@@ -54,8 +51,8 @@ void assertQueryAffectsEmpty(CFGAffectsQuerier<T, U, MG, UG> *querier,
   }
 }
 
-template<typename T, StmtTypePredicate<T> U, ModifiesGetter<T> MG, UsesGetter<T> UG>
-void assertQueryAffectsNotEmpty(CFGAffectsQuerier<T, U, MG, UG> *querier,
+template<typename T>
+void assertQueryAffectsNotEmpty(CFGAffectsQuerier<T> *querier,
                                 int left,
                                 unordered_set<int> rights) {
   for (auto it = rights.begin(); it != rights.end(); it++) {
