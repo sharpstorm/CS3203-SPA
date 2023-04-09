@@ -32,8 +32,8 @@ class PQLQueryResultBuilder {
 
  public:
   PQLQueryResultBuilder();
-  void setLeftName(ClauseArgument *arg);
-  void setRightName(ClauseArgument *arg);
+  void setLeftName(const ClauseArgument *arg);
+  void setRightName(const ClauseArgument *arg);
   void setLeftName(const PQLSynonymName &name);
   void setRightName(const PQLSynonymName &name);
 
@@ -54,7 +54,7 @@ PQLQueryResultBuilder<T, U>::PQLQueryResultBuilder() :
     leftName(DEFAULT_REF), rightName(DEFAULT_REF) {}
 
 template<class T, class U>
-void PQLQueryResultBuilder<T, U>::setLeftName(ClauseArgument *arg) {
+void PQLQueryResultBuilder<T, U>::setLeftName(const ClauseArgument *arg) {
   if (arg->isNamed()) {
     setLeftName(arg->getName());
   }
@@ -67,7 +67,7 @@ void PQLQueryResultBuilder<T, U>::setLeftName(const PQLSynonymName &name) {
 }
 
 template<class T, class U>
-void PQLQueryResultBuilder<T, U>::setRightName(ClauseArgument *arg) {
+void PQLQueryResultBuilder<T, U>::setRightName(const ClauseArgument *arg) {
   if (arg->isNamed()) {
     setRightName(arg->getName());
   }

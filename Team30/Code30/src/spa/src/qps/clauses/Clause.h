@@ -14,11 +14,11 @@ class Clause : public IEvaluatable {
   virtual bool validateArgTypes() const = 0;
 
  protected:
-  static EntityRef toEntityRef(ClauseArgument *arg) {
+  static EntityRef toEntityRef(const ClauseArgument *arg) {
     return arg->toEntityRef();
   }
 
-  static StmtRef toStmtRef(ClauseArgument *arg) {
+  static StmtRef toStmtRef(const ClauseArgument *arg) {
     return arg->toStmtRef();
   }
 };

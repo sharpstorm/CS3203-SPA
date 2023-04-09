@@ -4,6 +4,9 @@
 
 #include "AbstractTwoArgClause.h"
 #include "qps/clauses/InvokerTypes.h"
+#include "RefEvalulator.h"
+#include "OneArgEvaluator.h"
+#include "TwoArgEvaluator.h"
 
 template<
     EntEntInvoker invoker,
@@ -22,10 +25,19 @@ class AbstractEntEntClause : public AbstractTwoArgClause {
   }
 
   PQLQueryResult *evaluateOn(const QueryExecutorAgent &agent) const override {
-    return AbstractTwoArgClause::abstractEvaluateOn(agent,
-                                                    Clause::toEntityRef,
-                                                    Clause::toEntityRef,
-                                                    invoker,
-                                                    symmetricInvoker);
+    EntityRef leftRef = RefEvalulator::makeRef(agent,
+                                             left.get(),
+                                             Clause::toEntityRef);
+    EntityRef rightRef = RefEvalulator::makeRef(agent,
+                                              right.get(),
+                                              Clause::toEntityRef);
+
+    if (isSameSynonym()) {
+      return OneArgEvaluator<EntityRef>(agent, left.get())
+          .evaluate(leftRef, symmetricInvoker);
+    }
+
+    return TwoArgEvaluator<EntityRef, EntityRef>(agent, left.get(), right.get())
+        .evaluate(leftRef, rightRef, invoker);
   }
 };

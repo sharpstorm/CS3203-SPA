@@ -4,6 +4,9 @@
 
 #include "qps/clauses/InvokerTypes.h"
 #include "AbstractTwoArgClause.h"
+#include "OneArgEvaluator.h"
+#include "TwoArgEvaluator.h"
+#include "common/Types.h"
 
 template<
     StmtStmtInvoker invoker,
@@ -22,10 +25,19 @@ class AbstractStmtStmtClause : public AbstractTwoArgClause {
   }
 
   PQLQueryResult *evaluateOn(const QueryExecutorAgent &agent) const override {
-    return AbstractTwoArgClause::abstractEvaluateOn(agent,
-                                                    Clause::toStmtRef,
-                                                    Clause::toStmtRef,
-                                                    invoker,
-                                                    symmetricInvoker);
+    StmtRef leftRef = RefEvalulator::makeRef(agent,
+                                             left.get(),
+                                             Clause::toStmtRef);
+    StmtRef rightRef = RefEvalulator::makeRef(agent,
+                                              right.get(),
+                                              Clause::toStmtRef);
+
+    if (isSameSynonym()) {
+      return OneArgEvaluator<StmtRef>(agent, left.get())
+          .evaluate(leftRef, symmetricInvoker);
+    }
+
+    return TwoArgEvaluator<StmtRef, StmtRef>(agent, left.get(), right.get())
+        .evaluate(leftRef, rightRef, invoker);
   }
 };
