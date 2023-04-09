@@ -37,14 +37,14 @@ class CFGAffectsTQuerier : public CFGQuerier<
   explicit CFGAffectsTQuerier(CFG *cfg, const ClosureType &closure);
 
   StmtTransitiveResult queryBool(const StmtValue &arg0,
-                                 const StmtValue &arg1) final;
+                                 const StmtValue &arg1);
   StmtTransitiveResult queryFrom(const StmtValue &arg0,
-                                 const StmtType &type1) final;
+                                 const StmtType &type1);
   StmtTransitiveResult queryTo(const StmtType &type0,
-                               const StmtValue &arg1) final;
+                               const StmtValue &arg1);
   void queryAll(StmtTransitiveResult *resultOut,
                 const StmtType &type0,
-                const StmtType &type1) final;
+                const StmtType &type1);
 
  private:
   CFG *cfg;
