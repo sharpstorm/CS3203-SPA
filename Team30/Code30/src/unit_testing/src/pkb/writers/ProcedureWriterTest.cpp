@@ -1,6 +1,4 @@
 #include <memory>
-#include <string>
-#include <unordered_set>
 
 #include "catch.hpp"
 #include "pkb/errors/PKBError.h"
@@ -8,8 +6,6 @@
 
 using std::make_shared;
 using std::make_unique;
-using std::string;
-using std::unordered_set;
 
 TEST_CASE("ProcedureWriter addProcedure") {
   auto table = make_shared<ProcedureStmtTable>();

@@ -1,5 +1,4 @@
 #include <memory>
-#include <unordered_set>
 #include <utility>
 
 #include "StructureMappingProviderStub.h"
@@ -13,7 +12,6 @@ using std::make_shared;
 using std::make_unique;
 using std::pair;
 using std::unique_ptr;
-using std::unordered_set;
 
 static std::unique_ptr<StructureMappingProviderStub>
 setUpStructureMappingProvider() {
@@ -78,9 +76,7 @@ TEST_CASE("ParentQueryHandler parent(stmtNum,stmtType)") {
 
   auto result1 = *test.query({StmtType::None, 1}, {StmtType::Assign, 0});
   REQUIRE(result1.isEmpty == false);
-//  REQUIRE(result1.firstArgVals == unordered_set<int>({1}));
-  REQUIRE(result1.secondArgVals == unordered_set<int>({2}));
-//  REQUIRE(result1.pairVals == pair_set<int, int>({{1, 2}}));
+  REQUIRE(result1.secondArgVals == StmtValueSet({2}));
 
   auto result2 = *test.query({StmtType::None, 2}, {StmtType::Read, 0});
   REQUIRE(result2.isEmpty == true);
@@ -93,9 +89,7 @@ TEST_CASE("ParentQueryHandler parent(stmtType, stmtNum)") {
 
   auto result1 = *test.query({StmtType::If, 0}, {StmtType::None, 12});
   REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.firstArgVals == unordered_set<int>({11}));
-//  REQUIRE(result1.secondArgVals == unordered_set<int>({12}));
-//  REQUIRE(result1.pairVals == pair_set<int, int>({{11, 12}}));
+  REQUIRE(result1.firstArgVals == StmtValueSet({11}));
 
   auto result2 = *test.query({StmtType::Read, 0}, {StmtType::None, 8});
   REQUIRE(result2.isEmpty == true);
@@ -110,9 +104,7 @@ TEST_CASE("ParentQueryHandler parent(stmtType, stmtType)") {
 
   auto result1 = *test.query({StmtType::If, 0}, {StmtType::While, 0});
   REQUIRE(result1.isEmpty == false);
-//  REQUIRE(result1.firstArgVals == unordered_set<int>({11}));
-//  REQUIRE(result1.secondArgVals == unordered_set<int>({12}));
-  REQUIRE(result1.pairVals == pair_set<int, int>({{11, 12}}));
+  REQUIRE(result1.pairVals == pair_set<StmtValue, StmtValue>({{11, 12}}));
 }
 
 TEST_CASE("ParentQueryHandler parent(_, stmtType)") {
@@ -124,7 +116,7 @@ TEST_CASE("ParentQueryHandler parent(_, stmtType)") {
 
   auto result1 = *test.query({StmtType::Wildcard, 0}, {StmtType::None, 0});
   REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.secondArgVals == unordered_set<int>({11, 12, 16}));
+  REQUIRE(result1.secondArgVals == StmtValueSet({11, 12, 16}));
 }
 
 TEST_CASE("ParentQueryHandler parent(_, stmtNum)") {
@@ -200,7 +192,7 @@ struct parentTTest {
 TEST_CASE("ParentQueryHandler parentStar(stmtNum,stmtNum)") {
   auto test = parentTTest();
   // level 2
-  unordered_set<int> level2({2, 7});
+  StmtValueSet level2({2, 7});
   for (auto i : level2) {
     SECTION("Test with Parent: 1, Child: " + std::to_string(i)) {
       auto result = (*test.queryT({StmtType::None, 1}, {StmtType::None, i}));
@@ -209,7 +201,7 @@ TEST_CASE("ParentQueryHandler parentStar(stmtNum,stmtNum)") {
   }
 
   // level 3
-  unordered_set<int> parentsL3({1, 2});
+  StmtValueSet parentsL3({1, 2});
   for (auto i : parentsL3) {
     SECTION("Test with Parent: " + std::to_string(i) + ", Child: 3") {
       auto result = (*test.queryT({StmtType::None, i}, {StmtType::None, 3}));
@@ -218,8 +210,8 @@ TEST_CASE("ParentQueryHandler parentStar(stmtNum,stmtNum)") {
   }
 
   // level 4
-  unordered_set<int> parentsL4({1, 2, 3});
-  unordered_set<int> level4({4, 5, 6});
+  StmtValueSet parentsL4({1, 2, 3});
+  StmtValueSet level4({4, 5, 6});
   for (auto p : parentsL4) {
     SECTION("Test with Parent: " + std::to_string(p)) {
       for (auto c : level4) {
@@ -244,114 +236,116 @@ TEST_CASE("ParentQueryHandler parentStar(stmtNum,stmtType)") {
   auto test = parentTTest();
 
   auto result1 = *test.queryT({StmtType::None, 1}, {StmtType::Assign, 0});
-  REQUIRE(result1.secondArgVals == unordered_set<int>({4, 6, 7}));
+  REQUIRE(result1.secondArgVals == StmtValueSet({4, 6, 7}));
   auto result2 = *test.queryT({StmtType::None, 2}, {StmtType::Assign, 0});
-  REQUIRE(result2.secondArgVals == unordered_set<int>({4, 6}));
+  REQUIRE(result2.secondArgVals == StmtValueSet({4, 6}));
   auto result3 = *test.queryT({StmtType::None, 1}, {StmtType::While, 0});
-  REQUIRE(result3.secondArgVals == unordered_set<int>({2}));
+  REQUIRE(result3.secondArgVals == StmtValueSet({2}));
   auto result4 = *test.queryT({StmtType::None, 1}, {StmtType::None, 0});
-  REQUIRE(result4.secondArgVals == unordered_set<int>({2, 3, 4, 5, 6, 7}));
+  REQUIRE(result4.secondArgVals == StmtValueSet({2, 3, 4, 5, 6, 7}));
   auto result5 = *test.queryT({StmtType::None, 2}, {StmtType::None, 0});
-  REQUIRE(result5.secondArgVals == unordered_set<int>({3, 4, 5, 6}));
+  REQUIRE(result5.secondArgVals == StmtValueSet({3, 4, 5, 6}));
 
   auto result6 = *test.queryT({StmtType::None, 4}, {StmtType::None, 0});
-  REQUIRE(result6.secondArgVals == unordered_set<int>({}));
+  REQUIRE(result6.secondArgVals == StmtValueSet({}));
   auto result7 = *test.queryT({StmtType::None, 6}, {StmtType::None, 0});
-  REQUIRE(result7.secondArgVals == unordered_set<int>({}));
+  REQUIRE(result7.secondArgVals == StmtValueSet({}));
   auto result8 = *test.queryT({StmtType::None, 1}, {StmtType::Print, 0});
-  REQUIRE(result7.secondArgVals == unordered_set<int>({}));
+  REQUIRE(result7.secondArgVals == StmtValueSet({}));
 }
 
 TEST_CASE("ParentQueryHandler parentStar(stmtType,stmtNum)") {
   auto test = parentTTest();
 
   // level 1
-  unordered_set<int> level1({1, 8});
+  StmtValueSet level1({1, 8});
   for (auto i : level1) {
     SECTION("Test with Child: " + std::to_string(i)) {
       auto result1 = (*test.queryT({StmtType::None, 0}, {StmtType::None, i}));
-      REQUIRE(result1.firstArgVals == unordered_set<int>({}));
+      REQUIRE(result1.firstArgVals == StmtValueSet({}));
     }
   }
   // level 2
-  unordered_set<int> level2({2, 7});
+  StmtValueSet level2({2, 7});
   for (auto i : level2) {
     SECTION("Test with Child: " + std::to_string(i)) {
       auto result1 = (*test.queryT({StmtType::While, 0}, {StmtType::None, i}));
-      REQUIRE(result1.firstArgVals == unordered_set<int>({1}));
+      REQUIRE(result1.firstArgVals == StmtValueSet({1}));
       auto result2 = (*test.queryT({StmtType::If, 0}, {StmtType::None, i}));
-      REQUIRE(result2.firstArgVals == unordered_set<int>({}));
+      REQUIRE(result2.firstArgVals == StmtValueSet({}));
       auto result3 = (*test.queryT({StmtType::None, 0}, {StmtType::None, i}));
-      REQUIRE(result3.firstArgVals == unordered_set<int>({1}));
+      REQUIRE(result3.firstArgVals == StmtValueSet({1}));
     }
   }
   // level 3
   auto result1 = (*test.queryT({StmtType::While, 0}, {StmtType::None, 3}));
-  REQUIRE(result1.firstArgVals == unordered_set<int>({1, 2}));
+  REQUIRE(result1.firstArgVals == StmtValueSet({1, 2}));
   auto result2 = (*test.queryT({StmtType::If, 0}, {StmtType::None, 3}));
-  REQUIRE(result2.firstArgVals == unordered_set<int>({}));
+  REQUIRE(result2.firstArgVals == StmtValueSet({}));
   auto result3 = (*test.queryT({StmtType::None, 0}, {StmtType::None, 3}));
-  REQUIRE(result3.firstArgVals == unordered_set<int>({1, 2}));
+  REQUIRE(result3.firstArgVals == StmtValueSet({1, 2}));
 
   // level 4
-  unordered_set<int> level4({4, 5, 6});
+  StmtValueSet level4({4, 5, 6});
   for (auto i : level4) {
     SECTION("Test with Child: " + std::to_string(i)) {
       auto result1 = (*test.queryT({StmtType::While, 0}, {StmtType::None, i}));
-      REQUIRE(result1.firstArgVals == unordered_set<int>({1, 2}));
+      REQUIRE(result1.firstArgVals == StmtValueSet({1, 2}));
       auto result2 = (*test.queryT({StmtType::If, 0}, {StmtType::None, i}));
-      REQUIRE(result2.firstArgVals == unordered_set<int>({3}));
+      REQUIRE(result2.firstArgVals == StmtValueSet({3}));
       auto result3 = (*test.queryT({StmtType::None, 0}, {StmtType::None, i}));
-      REQUIRE(result3.firstArgVals == unordered_set<int>({1, 2, 3}));
+      REQUIRE(result3.firstArgVals == StmtValueSet({1, 2, 3}));
     }
   }
   auto result4 = (*test.queryT({StmtType::Assign, 0}, {StmtType::None, 8}));
-  REQUIRE(result4.firstArgVals == unordered_set<int>({}));
+  REQUIRE(result4.firstArgVals == StmtValueSet({}));
 }
 
 TEST_CASE("ParentQueryHandler parentStar(stmtType,stmtType)") {
   auto test = parentTTest();
 
   auto result1 = *test.queryT({StmtType::While, 0}, {StmtType::If, 0});
-  REQUIRE(result1.pairVals == pair_set<int, int>({{1, 3}, {2, 3}}));
+  REQUIRE(result1.pairVals == pair_set<StmtValue, StmtValue>({{1, 3}, {2, 3}}));
   auto result2 = *test.queryT({StmtType::While, 0}, {StmtType::While, 0});
-  REQUIRE(result2.pairVals == pair_set<int, int>({{1, 2}}));
+  REQUIRE(result2.pairVals == pair_set<StmtValue, StmtValue>({{1, 2}}));
   auto result3 = *test.queryT({StmtType::While, 0}, {StmtType::Assign, 0});
-  REQUIRE(result3.pairVals ==
-          pair_set<int, int>({{1, 4}, {1, 6}, {1, 7}, {2, 4}, {2, 6}}));
+  REQUIRE(result3.pairVals == pair_set<StmtValue, StmtValue>(
+                                  {{1, 4}, {1, 6}, {1, 7}, {2, 4}, {2, 6}}));
   auto result4 = *test.queryT({StmtType::If, 0}, {StmtType::None, 0});
-  REQUIRE(result4.pairVals == pair_set<int, int>({{3, 4}, {3, 5}, {3, 6}}));
+  REQUIRE(result4.pairVals ==
+          pair_set<StmtValue, StmtValue>({{3, 4}, {3, 5}, {3, 6}}));
   auto result5 = *test.queryT({StmtType::None, 0}, {StmtType::Read, 0});
-  REQUIRE(result5.pairVals == pair_set<int, int>({{1, 5}, {2, 5}, {3, 5}}));
+  REQUIRE(result5.pairVals ==
+          pair_set<StmtValue, StmtValue>({{1, 5}, {2, 5}, {3, 5}}));
   auto result6 = *test.queryT({StmtType::None, 0}, {StmtType::None, 0});
-  REQUIRE(result6.pairVals == pair_set<int, int>({{1, 2},
-                                                  {1, 3},
-                                                  {1, 4},
-                                                  {1, 5},
-                                                  {1, 6},
-                                                  {1, 7},
-                                                  {2, 3},
-                                                  {2, 4},
-                                                  {2, 5},
-                                                  {2, 6},
-                                                  {3, 4},
-                                                  {3, 5},
-                                                  {3, 6}}));
+  REQUIRE(result6.pairVals == pair_set<StmtValue, StmtValue>({{1, 2},
+                                                              {1, 3},
+                                                              {1, 4},
+                                                              {1, 5},
+                                                              {1, 6},
+                                                              {1, 7},
+                                                              {2, 3},
+                                                              {2, 4},
+                                                              {2, 5},
+                                                              {2, 6},
+                                                              {3, 4},
+                                                              {3, 5},
+                                                              {3, 6}}));
 
   auto result7 = *test.queryT({StmtType::Assign, 0}, {StmtType::None, 0});
-  REQUIRE(result7.pairVals == pair_set<int, int>({}));
+  REQUIRE(result7.pairVals == pair_set<StmtValue, StmtValue>({}));
   auto result8 = *test.queryT({StmtType::None, 0}, {StmtType::Print, 0});
-  REQUIRE(result8.pairVals == pair_set<int, int>({}));
+  REQUIRE(result8.pairVals == pair_set<StmtValue, StmtValue>({}));
 }
 
 TEST_CASE("ParentQueryHandler parentStar(_,stmtType)") {
   auto test = parentTTest();
   // 1(->2(->3(->4,5|6)),7),8
   auto result1 = *test.queryT({StmtType::Wildcard, 0}, {StmtType::If, 0});
-  REQUIRE(result1.secondArgVals == unordered_set<int>({3}));
+  REQUIRE(result1.secondArgVals == StmtValueSet({3}));
 
   auto result2 = *test.queryT({StmtType::Wildcard, 0}, {StmtType::None, 0});
-  REQUIRE(result2.secondArgVals == unordered_set<int>({2, 3, 4, 5, 6, 7}));
+  REQUIRE(result2.secondArgVals == StmtValueSet({2, 3, 4, 5, 6, 7}));
 }
 
 TEST_CASE("ParentQueryHandler parentStar(_,stmtNum)") {

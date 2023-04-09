@@ -1,11 +1,9 @@
 #pragma once
 
-#include <string>
-
-using std::string;
+#include "common/Types.h"
 
 class ICallsWriter {
  public:
   virtual ~ICallsWriter() {}
-  virtual void addCalls(int arg1, string arg2, string arg3) = 0;
+  virtual void addCalls(StmtValue arg1, EntityValue arg2, EntityValue arg3) = 0;
 };

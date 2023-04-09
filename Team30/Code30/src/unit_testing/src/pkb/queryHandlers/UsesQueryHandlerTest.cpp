@@ -1,5 +1,4 @@
 #include <memory>
-#include <unordered_set>
 
 #include "EntityMappingProviderStub.h"
 #include "StructureMappingProviderStub.h"
@@ -12,7 +11,6 @@ using std::make_shared;
 using std::make_unique;
 using std::shared_ptr;
 using std::unique_ptr;
-using std::unordered_set;
 
 static unique_ptr<StructureMappingProviderStub>
 setUpStructureMappingProvider() {
@@ -101,9 +99,6 @@ TEST_CASE("UsesQueryHandler Uses(stmtNum, variableName)") {
 
   auto result = *test.query({StmtType::None, 1}, {EntityType::None, "x"});
   REQUIRE(result.isEmpty == false);
-//  REQUIRE(result.firstArgVals == unordered_set<int>({1}));
-//  REQUIRE(result.secondArgVals == unordered_set<string>({"x"}));
-//  REQUIRE(result.pairVals == pair_set<int, string>({{1, "x"}}));
 }
 
 // Only arg1 known
@@ -116,9 +111,7 @@ TEST_CASE("UsesQueryHandler Uses(stmtNum, variableType)") {
 
   auto result = *test.query({StmtType::None, 1}, {EntityType::Variable, ""});
   REQUIRE(result.isEmpty == false);
-//  REQUIRE(result.firstArgVals == unordered_set<int>({1}));
-  REQUIRE(result.secondArgVals == unordered_set<string>({"x", "y"}));
-//  REQUIRE(result.pairVals == pair_set<int, string>({{1, "x"}, {1, "y"}}));
+  REQUIRE(result.secondArgVals == EntityValueSet({"x", "y"}));
 }
 
 TEST_CASE("UsesQueryHandler Uses(stmtNum, _)") {
@@ -156,16 +149,12 @@ TEST_CASE("UsesQueryHandler Uses(type, variableName), assign, print") {
       *test.query({StmtType::Assign, 0}, {EntityType::Variable, "x"});
 
   REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.firstArgVals == unordered_set<int>({1, 2}));
-//  REQUIRE(result1.secondArgVals == unordered_set<string>({"x"}));
-//  REQUIRE(result1.pairVals == pair_set<int, string>({{1, "x"}, {2, "x"}}));
+  REQUIRE(result1.firstArgVals == StmtValueSet({1, 2}));
 
   auto result2 = *test.query({StmtType::Print, 0}, {EntityType::Variable, "x"});
 
   REQUIRE(result2.isEmpty == false);
-  REQUIRE(result2.firstArgVals == unordered_set<int>({4}));
-//  REQUIRE(result2.secondArgVals == unordered_set<string>({"x"}));
-//  REQUIRE(result2.pairVals == pair_set<int, string>({{4, "x"}}));
+  REQUIRE(result2.firstArgVals == StmtValueSet({4}));
 }
 
 TEST_CASE("UsesQueryHandler Uses(type, variableName), if, while") {
@@ -178,16 +167,12 @@ TEST_CASE("UsesQueryHandler Uses(type, variableName), if, while") {
   auto result1 = *test.query({StmtType::If, 0}, {EntityType::Variable, "y"});
 
   REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.firstArgVals == unordered_set<int>({6}));
-//  REQUIRE(result1.secondArgVals == unordered_set<string>({"y"}));
-//  REQUIRE(result1.pairVals == pair_set<int, string>({{6, "y"}}));
+  REQUIRE(result1.firstArgVals == StmtValueSet({6}));
 
   auto result2 = *test.query({StmtType::While, 0}, {EntityType::Variable, "y"});
 
   REQUIRE(result2.isEmpty == false);
-  REQUIRE(result2.firstArgVals == unordered_set<int>({7}));
-//  REQUIRE(result2.secondArgVals == unordered_set<string>({"y"}));
-//  REQUIRE(result2.pairVals == pair_set<int, string>({{7, "y"}}));
+  REQUIRE(result2.firstArgVals == StmtValueSet({7}));
 }
 
 TEST_CASE("UsesQueryHandler Uses(type, variableName), read") {
@@ -211,10 +196,7 @@ TEST_CASE("UsesQueryHandler Uses(type, variableName), stmt") {
   auto result1 = *test.query({StmtType::None, 0}, {EntityType::Variable, "x"});
 
   REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.firstArgVals == unordered_set<int>({1, 4, 6}));
-//  REQUIRE(result1.secondArgVals == unordered_set<string>({"x"}));
-//  REQUIRE(result1.pairVals ==
-//          pair_set<int, string>({{1, "x"}, {4, "x"}, {6, "x"}}));
+  REQUIRE(result1.firstArgVals == StmtValueSet({1, 4, 6}));
 }
 
 // Both args unknown
@@ -236,10 +218,8 @@ TEST_CASE("UsesQueryHandler Uses(stmtType, varType)") {
   auto result1 = *test.query({StmtType::Assign, 0}, {EntityType::Variable, ""});
 
   REQUIRE(result1.isEmpty == false);
-//  REQUIRE(result1.firstArgVals == unordered_set<int>({1, 2, 3}));
-//  REQUIRE(result1.secondArgVals == unordered_set<string>({"x", "y", "z"}));
-  REQUIRE(result1.pairVals ==
-          pair_set<int, string>({{1, "x"}, {1, "z"}, {2, "y"}, {3, "x"}}));
+  REQUIRE(result1.pairVals == pair_set<StmtValue, EntityValue>(
+                                  {{1, "x"}, {1, "z"}, {2, "y"}, {3, "x"}}));
 }
 
 TEST_CASE("UsesQueryHandler Uses(statement, _)") {
@@ -258,7 +238,7 @@ TEST_CASE("UsesQueryHandler Uses(statement, _)") {
   auto result1 = *test.query({StmtType::None, 0}, {EntityType::Wildcard, ""});
 
   REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.firstArgVals == unordered_set<int>({1, 4, 6}));
+  REQUIRE(result1.firstArgVals == StmtValueSet({1, 4, 6}));
 }
 
 TEST_CASE("UsesQueryHandler call statement") {
@@ -277,10 +257,11 @@ TEST_CASE("UsesQueryHandler call statement") {
   // arg2 known
   auto result2 = *test.query({StmtType::Call, 0}, {EntityType::Variable, ""});
 
-  REQUIRE(result2.pairVals == pair_set<int, string>({{8, "x"}, {8, "y"}}));
+  REQUIRE(result2.pairVals ==
+          pair_set<StmtValue, EntityValue>({{8, "x"}, {8, "y"}}));
   // Both args unknown
   auto result3 = *test.query({StmtType::None, 0}, {EntityType::Wildcard, ""});
-  REQUIRE(result3.firstArgVals == unordered_set<int>({1, 8}));
+  REQUIRE(result3.firstArgVals == StmtValueSet({1, 8}));
 }
 
 /** Uses(EntityRef, EntityRef) */
@@ -295,9 +276,6 @@ TEST_CASE("UsesQueryHandler Uses(procedureName, variableName)") {
   auto result1 =
       *test.query({EntityType::None, "main"}, {EntityType::None, "x"});
   REQUIRE(result1.isEmpty == false);
-//  REQUIRE(result1.firstArgVals == unordered_set<string>({"main"}));
-//  REQUIRE(result1.secondArgVals == unordered_set<string>({"x"}));
-//  REQUIRE(result1.pairVals == pair_set<string, string>({{"main", "x"}}));
 
   auto result2 =
       *test.query({EntityType::None, "main"}, {EntityType::None, "z"});
@@ -305,7 +283,6 @@ TEST_CASE("UsesQueryHandler Uses(procedureName, variableName)") {
 
   auto result3 =
       *test.query({EntityType::None, "foo"}, {EntityType::None, "z"});
-//  REQUIRE(result3.pairVals == pair_set<string, string>({{"foo", "z"}}));
   REQUIRE(result3.isEmpty == false);
 }
 
@@ -320,10 +297,7 @@ TEST_CASE("UsesQueryHandler Uses(procedureName, type)") {
   auto result1 =
       *test.query({EntityType::None, "main"}, {EntityType::Variable, ""});
   REQUIRE(result1.isEmpty == false);
-//  REQUIRE(result1.firstArgVals == unordered_set<string>({"main"}));
-  REQUIRE(result1.secondArgVals == unordered_set<string>({"x", "y"}));
-//  REQUIRE(result1.pairVals ==
-//          pair_set<string, string>({{"main", "x"}, {"main", "y"}}));
+  REQUIRE(result1.secondArgVals == EntityValueSet({"x", "y"}));
 
   auto result2 =
       *test.query({EntityType::None, "goo"}, {EntityType::Variable, ""});
@@ -342,10 +316,7 @@ TEST_CASE("UsesQueryHandler Uses(type, variable)") {
   auto result1 =
       *test.query({EntityType::Procedure, ""}, {EntityType::Variable, "x"});
   REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.firstArgVals == unordered_set<string>({"main", "foo"}));
-//  REQUIRE(result1.secondArgVals == unordered_set<string>({"x"}));
-//  REQUIRE(result1.pairVals ==
-//          pair_set<string, string>({{"main", "x"}, {"foo", "x"}}));
+  REQUIRE(result1.firstArgVals == EntityValueSet({"main", "foo"}));
 
   // invalid arg1
   auto result2 =
@@ -365,7 +336,7 @@ TEST_CASE("UsesQueryHandler Uses(type, type)") {
   auto result1 =
       *test.query({EntityType::Procedure, ""}, {EntityType::Wildcard, ""});
   REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.firstArgVals == unordered_set<string>({"main", "foo"}));
+  REQUIRE(result1.firstArgVals == EntityValueSet({"main", "foo"}));
 
   // invalid arg1
   auto result2 =

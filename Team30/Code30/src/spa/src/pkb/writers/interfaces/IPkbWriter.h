@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-
 #include "ICFGsWriter.h"
 #include "IIfPatternWriter.h"
 #include "IWhilePatternWriter.h"
@@ -18,8 +16,6 @@
 #include "pkb/writers/interfaces/ISymbolWriter.h"
 #include "pkb/writers/interfaces/IUsesWriter.h"
 #include "pkb/writers/interfaces/IVariableWriter.h"
-
-using std::string;
 
 class IPkbWriter : public IFollowsWriter,
                    public IParentWriter,
