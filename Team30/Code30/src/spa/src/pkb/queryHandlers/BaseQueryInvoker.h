@@ -1,3 +1,6 @@
+/* * Because this is a templated class, the implementation must be fully
+ * in the header file, or linker errors will occur */
+
 #pragma once
 #include <unordered_set>
 
@@ -53,30 +56,21 @@ class BaseQueryInvoker {
           leftProvider->getValuesOfType(arg1->getType()), &resultBuilder);
     }
 
-    // set result field
-    auto skipLeftResult = arg1->isKnown();
-    auto skipRightResult = arg2->isKnown();
-    if (skipLeftResult && skipRightResult) {
-      resultBuilder.setIsEmpty();
-    } else if (skipLeftResult && !skipRightResult) {
-      resultBuilder.setRightVals();
-    } else if (!skipLeftResult && skipRightResult) {
-      resultBuilder.setLeftVals();
-    } else {
-      resultBuilder.setPairVals();
-    }
-
-    // query
     if (arg1->isKnown() && arg2->isKnown()) {
+      resultBuilder.setIsEmpty();
       return store->query(arg1->getValue(), arg2->getValue(), &resultBuilder);
     } else if (arg1->isKnown()) {
-      return store->query(arg1->getValue(),
-                          rightPredicateFactory->getPredicate(arg2),
+      resultBuilder.setRightVals();
+      const auto arg1Values = unordered_set<LeftValue>({arg1->getValue()});
+      return store->query(arg1Values, rightPredicateFactory->getPredicate(arg2),
                           &resultBuilder);
     } else if (arg2->isKnown()) {
-      return store->query(leftPredicateFactory->getPredicate(arg1),
-                          arg2->getValue(), &resultBuilder);
+      resultBuilder.setLeftVals();
+      const auto arg2Values = unordered_set<RightValue>({arg2->getValue()});
+      return store->query(leftPredicateFactory->getPredicate(arg1), arg2Values,
+                          &resultBuilder);
     } else {
+      resultBuilder.setPairVals();
       return store->query(leftProvider->getValuesOfType(arg1->getType()),
                           rightPredicateFactory->getPredicate(arg2),
                           &resultBuilder);

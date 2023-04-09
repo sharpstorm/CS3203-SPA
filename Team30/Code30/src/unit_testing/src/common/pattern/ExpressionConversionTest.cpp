@@ -1,8 +1,11 @@
 #include <memory>
 
 #include "catch.hpp"
-#include "common/pattern/PatternConverter.h"
+#include "qps/common/pattern/PatternConverter.h"
 #include "TestASTProvider.h"
+#include "qps/common/constraint/OverrideTable.h"
+#include "qps/executor/QueryCache.h"
+#include "qps/executor/QueryExecutorAgent.h"
 
 using std::make_shared, std::make_unique, std::unique_ptr;
 
@@ -18,7 +21,7 @@ TEST_CASE("ExpressionSequence Conversion - Balanced") {
 
   TestASTProvider treeProvider;
   auto expr = PatternConverter::convertASTToPostfix(
-      treeProvider.balancedTree.get(), agent);
+      treeProvider.balancedTree.get(), agent.getPkbQueryHandler());
 
   // x * y + x * z;
 //  ExpressionSequence expected{ "x", "y", "*", "x", "z", "*", "+" };
@@ -38,7 +41,7 @@ TEST_CASE("ExpressionSequence Conversion - Right Heavy") {
 
   TestASTProvider treeProvider;
   auto expr = PatternConverter::convertASTToPostfix(
-      treeProvider.rightHeavyTree.get(), agent);
+      treeProvider.rightHeavyTree.get(), agent.getPkbQueryHandler());
 
   // x + y * z;
   ExpressionSequence expected{ 1, 2, 3, TRIE_TIMES, TRIE_PLUS };
@@ -57,7 +60,7 @@ TEST_CASE("ExpressionSequence Conversion - Left Heavy") {
 
   TestASTProvider treeProvider;
   auto expr = PatternConverter::convertASTToPostfix(
-      treeProvider.leftHeavyTree.get(), agent);
+      treeProvider.leftHeavyTree.get(), agent.getPkbQueryHandler());
 
   // x * y + z;
   ExpressionSequence expected{ 1, 2, TRIE_TIMES, 3, TRIE_PLUS };

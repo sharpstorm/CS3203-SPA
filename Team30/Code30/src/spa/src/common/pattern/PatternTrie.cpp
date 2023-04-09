@@ -1,12 +1,9 @@
 #include "PatternTrie.h"
 
 #include <utility>
-#include <string>
-
-using std::to_string;
 
 PatternTrie::PatternTrie(PatternTrieNodePtr trieRoot,
-                         int longestPathCount):
+                         int longestPathCount) :
     root(std::move(trieRoot)),
     longestPathCount(longestPathCount) {}
 
@@ -31,7 +28,7 @@ bool PatternTrie::isMatchPartial(const ExpressionSequence *sequence) const {
 }
 
 bool PatternTrie::isValidPostfix(const ExpressionSequence *sequence) const {
-  PatternTrieNode* curNode = root.get();
+  PatternTrieNode *curNode = root.get();
   for (int i = 0; i < sequence->size(); i++) {
     curNode = curNode->traverse(sequence->at(i));
     if (curNode == nullptr) {

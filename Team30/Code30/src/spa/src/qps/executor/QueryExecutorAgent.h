@@ -16,6 +16,7 @@ class QueryExecutorAgent {
   bool isValid(const EntityRef &ref) const;
 
   CacheTable *getAffectsCache() const;
+  const PkbQueryHandler* getPkbQueryHandler() const;
 
   const PkbQueryHandler *operator->() const;
 

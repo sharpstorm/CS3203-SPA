@@ -1,0 +1,85 @@
+1 - Select all Vars
+variable v;
+Select v
+SyntaxError, SemanticError
+5000
+2 - SyntaxError as stmt
+stmt SyntaxError;
+Select SyntaxError
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
+5000
+3 - SyntaxError as print
+print SyntaxError;
+Select SyntaxError
+5, 12
+5000
+4 - SyntaxError as read
+read SyntaxError;
+Select SyntaxError
+6, 13
+5000
+5 - SyntaxError as call
+call SyntaxError;
+Select SyntaxError
+1, 2
+5000
+6 - SyntaxError as while
+while SyntaxError;
+Select SyntaxError
+4, 11
+5000
+7 - SyntaxError as if
+if SyntaxError;
+Select SyntaxError
+7, 14
+5000
+8 - SyntaxError as assign
+assign SyntaxError;
+Select SyntaxError
+3, 8, 9, 10, 15, 16
+5000
+9 - SyntaxError as Assign with Pattern
+assign SyntaxError;
+Select SyntaxError pattern SyntaxError(_,_)
+3, 8, 9, 10, 15, 16
+5000
+10 - SemanticError as stmt
+stmt SemanticError;
+Select SemanticError
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
+5000
+11 - SemanticError as print
+print SemanticError;
+Select SemanticError
+5, 12
+5000
+12 - SemanticError as read
+read SemanticError;
+Select SemanticError
+6, 13
+5000
+13 - SemanticError as call
+call SemanticError;
+Select SemanticError
+1, 2
+5000
+14 - SemanticError as while
+while SemanticError;
+Select SemanticError
+4, 11
+5000
+15 - SemanticError as if
+if SemanticError;
+Select SemanticError
+7, 14
+5000
+16 - SemanticError as assign
+assign SemanticError;
+Select SemanticError
+3, 8, 9, 10, 15, 16
+5000
+17 - SemanticError as Assign with Pattern
+assign SemanticError;
+Select SemanticError pattern SemanticError(_,_)
+3, 8, 9, 10, 15, 16
+5000

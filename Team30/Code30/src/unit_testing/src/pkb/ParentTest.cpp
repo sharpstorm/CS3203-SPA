@@ -107,12 +107,11 @@ TEST_CASE("ParentStar <= 1 unknowns") {
 
   auto result3 =
       *handler.queryParentStar({StmtType::None, 1}, {StmtType::Print, 0});
-  REQUIRE(result3.pairVals ==
-          pair_set<StmtValue, StmtValue>({{1, 3}, {1, 4}, {1, 7}}));
+  REQUIRE(result3.secondArgVals == StmtValueSet({3, 4, 7}));
 
   auto result4 =
       *handler.queryParentStar({StmtType::While, 0}, {StmtType::None, 6});
-  REQUIRE(result4.pairVals == pair_set<StmtValue, StmtValue>({{1, 6}}));
+  REQUIRE(result4.firstArgVals == StmtValueSet({1}));
 }
 
 TEST_CASE("ParentStar 2 unknowns") {

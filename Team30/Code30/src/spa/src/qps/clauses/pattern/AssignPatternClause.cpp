@@ -3,7 +3,7 @@
 
 #include "AssignPatternClause.h"
 #include "qps/clauses/ClauseScoring.h"
-#include "common/pattern/PatternConverter.h"
+#include "qps/common/pattern/PatternConverter.h"
 #include "qps/common/intermediate_result/PQLQueryResultBuilder.h"
 #include "AssignPatternChecker.h"
 
@@ -69,7 +69,7 @@ ExpressionArgumentPtr AssignPatternClause::toExpressionArg(
   }
 
   ExpressionSequencePtr exprSeq = PatternConverter::convertASTToPostfix(
-      rightArgument.get(), agent);
+      rightArgument.get(), agent.getPkbQueryHandler());
 
   ExpressionArgumentPtr expr = make_unique<ExpressionArgument>(
       std::move(exprSeq), allowsPartial);

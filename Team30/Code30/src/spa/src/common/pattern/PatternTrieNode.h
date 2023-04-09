@@ -6,9 +6,11 @@
 
 using std::unique_ptr, std::map;
 
+// uint_16 is used to save 2 bytes per node reference
 typedef uint16_t SymbolIdent;
 
 const SymbolIdent TRIE_CONST_MASK = 0x8000;
+const SymbolIdent TRIE_SAFETY_MASK = 0x7FFF;
 const SymbolIdent TRIE_PLUS = 65529;
 const SymbolIdent TRIE_MINUS = 65530;
 const SymbolIdent TRIE_TIMES = 65531;
@@ -22,12 +24,12 @@ typedef unique_ptr<PatternTrieNode> PatternTrieNodePtr;
 
 class PatternTrieNode {
  private:
-  map<uint16_t, PatternTrieNodePtr> next;
+  map<SymbolIdent, PatternTrieNodePtr> next;
 
  public:
   PatternTrieNode();
-  PatternTrieNode* addNext(uint16_t nodeId);
-  PatternTrieNode* traverse(uint16_t nodeId);
+  PatternTrieNode *addNext(SymbolIdent nodeId);
+  PatternTrieNode *traverse(SymbolIdent nodeId);
 
   void addEnd();
   bool isEnd();

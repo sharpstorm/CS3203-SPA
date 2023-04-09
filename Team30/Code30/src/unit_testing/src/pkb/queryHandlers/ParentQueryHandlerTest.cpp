@@ -5,7 +5,6 @@
 #include "catch.hpp"
 #include "common/Types.h"
 #include "pkb/queryHandlers/ParentQueryHandler.h"
-#include "pkb/queryHandlers/ParentTQueryHandler.h"
 #include "pkb/storage/StructureMappingProvider.h"
 
 using std::make_shared;
@@ -154,8 +153,10 @@ struct parentTTest {
       make_unique<StructureMappingProviderStub>();
   unique_ptr<StmtPredicateFactory> factory =
       make_unique<StmtPredicateFactory>(structureProvider.get());
-  ParentTQueryHandler handlerT =
-      ParentTQueryHandler(storeT.get(), structureProvider.get(), factory.get());
+  unique_ptr<PkbStmtStmtQueryInvoker> invoker =
+      make_unique<PkbStmtStmtQueryInvoker>(structureProvider.get(),
+                                           factory.get());
+  ParentQueryHandler handlerT = ParentQueryHandler(invoker.get(), storeT.get());
 
   QueryResultPtr<StmtValue, StmtValue> queryT(StmtRef leftArg,
                                               StmtRef rightArg) {

@@ -1,6 +1,6 @@
 #include "EntityMappingProviderStub.h"
 
-#include "pkb/storage/tables/ContiguousSetTable.h"
+#include "pkb/storage/tables/HashKeySetTable.h"
 
 EntityMappingProviderStub::EntityMappingProviderStub(){};
 
@@ -13,7 +13,7 @@ const EntityValueSet& EntityMappingProviderStub::getValuesOfType(
   } else if (type == EntityType::Procedure) {
     return allProcedures;
   } else {  // when type = Entity::None
-    return ContiguousSetTable<EntityValue>::getEmptyValue();
+    return HashKeySetTable<StmtValue, EntityValue>::getEmptyValue();
   }
 }
 

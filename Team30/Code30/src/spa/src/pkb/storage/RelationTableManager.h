@@ -1,3 +1,6 @@
+/* * Because this is a templated class, the implementation must be fully
+ * in the header file, or linker errors will occur */
+
 #pragma once
 
 #include <memory>
@@ -23,8 +26,8 @@ using std::unique_ptr;
 template <typename K, typename V>
 class RelationTableManager : public IStorage<K, V> {
  protected:
-  IBaseSetTable<K, V> *table;         // maps K -> unordered_set<V>
-  IBaseSetTable<V, K> *reverseTable;  // maps V -> unordered_set<K>
+  IBaseSetTable<K, V> *table;
+  IBaseSetTable<V, K> *reverseTable;
 
  public:
   RelationTableManager(IBaseSetTable<K, V> *table,
@@ -61,7 +64,7 @@ class RelationTableManager : public IStorage<K, V> {
    * arg2Predicate.
    */
   virtual QueryResultPtr<K, V> query(
-      unordered_set<K> arg1Values, Predicate<V> arg2Predicate,
+      const unordered_set<K> &arg1Values, Predicate<V> arg2Predicate,
       QueryResultBuilder<K, V> *resultBuilder) const {
     for (auto arg1 : arg1Values) {
       auto it = getRightValIter(arg1);
@@ -81,7 +84,7 @@ class RelationTableManager : public IStorage<K, V> {
    * arg1Predicate.
    */
   virtual QueryResultPtr<K, V> query(
-      Predicate<K> arg1Predicate, unordered_set<V> arg2Values,
+      Predicate<K> arg1Predicate, const unordered_set<V> &arg2Values,
       QueryResultBuilder<K, V> *resultBuilder) const {
     for (auto arg2 : arg2Values) {
       auto it = getLeftValIter(arg2);
@@ -93,24 +96,6 @@ class RelationTableManager : public IStorage<K, V> {
       }
     }
     return resultBuilder->getResult();
-  }
-
-  /**
-   * Find R(arg1, arg2) given arg1 and arg2 satisfies arg2Predicate.
-   */
-  virtual QueryResultPtr<K, V> query(
-      K arg1, Predicate<V> arg2Predicate,
-      QueryResultBuilder<K, V> *resultBuilder) const {
-    return query(unordered_set<K>({arg1}), arg2Predicate, resultBuilder);
-  }
-
-  /**
-   * Find R(arg1, arg2) given arg2 and arg1 satisfies arg1Predicate.
-   */
-  virtual QueryResultPtr<K, V> query(
-      Predicate<K> arg1Predicate, V arg2,
-      QueryResultBuilder<K, V> *resultBuilder) const {
-    return query(arg1Predicate, unordered_set<V>({arg2}), resultBuilder);
   }
 
   /**

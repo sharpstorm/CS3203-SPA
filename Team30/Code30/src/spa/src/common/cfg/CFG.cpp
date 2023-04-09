@@ -38,7 +38,7 @@ CFGNode CFG::toCFGNode(const int &stmtNo) {
   if (stmtNo == CFG_END_NODE) {
     return (stmtNo & 0xFFFF);
   }
-  return (stmtNo - startingLineIndex) & 0xFFFF;  // Only take lower 16
+  return (stmtNo - startingLineIndex) & MASK_LOWER_16;  // Only take lower 16
 }
 
 int CFG::fromCFGNode(const CFGNode &node) {

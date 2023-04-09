@@ -1,0 +1,30 @@
+procedure main {
+  call SyntaxError;
+  call SemanticError; 
+}
+
+procedure SyntaxError {
+  SyntaxError = SyntaxError;
+  while (SyntaxError == 1) {
+    print SyntaxError;
+    read SyntaxError;
+    if (SyntaxError == 1) then {
+      SyntaxError = SyntaxError;
+    } else {
+      SyntaxError = SyntaxError;
+    }
+  }
+}
+
+procedure SemanticError {
+  SemanticError = SemanticError;
+  while (SemanticError == 1) {
+    print SemanticError;
+    read SemanticError;
+    if (SemanticError == 1) then {
+      SemanticError = SemanticError;
+    } else {
+      SemanticError = SemanticError;
+    }
+  }
+}

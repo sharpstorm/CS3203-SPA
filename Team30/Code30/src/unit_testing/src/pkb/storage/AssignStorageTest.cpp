@@ -2,10 +2,10 @@
 #include <utility>
 
 #include "catch.hpp"
-#include "common/pattern/PatternConverter.h"
 #include "pkb/storage/StorageTypes.h"
 #include "sp/ast/entity/VariableASTNode.h"
 #include "sp/ast/expression_operand/PlusASTNode.h"
+#include "sp/pattern/TrieBuilder.h"
 
 using std::make_unique, std::shared_ptr;
 
@@ -19,7 +19,7 @@ TEST_CASE("AssignStorage addAssign") {
   node3->setChild(0, std::move(node1));
   node3->setChild(1, std::move(node2));
 
-  auto trie = PatternConverter::convertASTToTrie(node3.get(), writer.get());
+  auto trie = TrieBuilder(node3.get(), writer.get()).build();
   auto sTrie = shared_ptr<PatternTrie>(std::move(trie));
   AssignStorage store = AssignStorage();
   store.insert(1, sTrie);
