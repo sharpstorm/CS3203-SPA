@@ -14,7 +14,7 @@ TEST_CASE("ContinuousSetTable set multiple values to key") {
 }
 
 TEST_CASE("ContinuousSetTable get unset key") {
-  ContiguousSetTable<string> table(2);
+  ContiguousSetTable<EntityValue> table(2);
 
   REQUIRE(table.get(1) == EntityValueSet({}));
   REQUIRE(table.get(10) == EntityValueSet({}));

@@ -9,7 +9,6 @@
 #include "pkb/storage/tables/HashKeySetTable.h"
 
 using std::make_shared;
-using std::pair;
 
 TEST_CASE("RelationTableManager insert and getByArg1, getByArg2") {
   auto table = make_shared<ContiguousSetTable<EntityValue>>();
@@ -45,11 +44,11 @@ TEST_CASE("RelationTableManager query known arg1 values with arg2 predicate") {
 
   auto resultBuilder = QueryResultBuilder<StmtValue, EntityValue>();
   resultBuilder.setAllVals();
-  auto res = tableManager.query({1, 2, 4}, isValid, &resultBuilder);
+  auto res = *tableManager.query({1, 2, 4}, isValid, &resultBuilder);
 
-  REQUIRE(res.get()->firstArgVals == StmtValueSet({1, 4}));
-  REQUIRE(res.get()->secondArgVals == EntityValueSet({"a", "e"}));
-  REQUIRE(res.get()->pairVals ==
+  REQUIRE(res.firstArgVals == StmtValueSet({1, 4}));
+  REQUIRE(res.secondArgVals == EntityValueSet({"a", "e"}));
+  REQUIRE(res.pairVals ==
           pair_set<StmtValue, EntityValue>({{1, "a"}, {4, "e"}}));
 }
 
@@ -72,11 +71,11 @@ TEST_CASE("RelationTableManager query known arg2 values with arg1 predicate") {
 
   auto resultBuilder = QueryResultBuilder<StmtValue, EntityValue>();
   resultBuilder.setAllVals();
-  auto res = tableManager.query(isValid, {"a", "b", "f"}, &resultBuilder);
+  auto res = *tableManager.query(isValid, {"a", "b", "f"}, &resultBuilder);
 
-  REQUIRE(res.get()->firstArgVals == StmtValueSet({2, 4}));
-  REQUIRE(res.get()->secondArgVals == EntityValueSet({"a", "b"}));
-  REQUIRE(res.get()->pairVals ==
+  REQUIRE(res.firstArgVals == StmtValueSet({2, 4}));
+  REQUIRE(res.secondArgVals == EntityValueSet({"a", "b"}));
+  REQUIRE(res.pairVals ==
           pair_set<StmtValue, EntityValue>({{4, "a"}, {2, "b"}}));
 }
 
@@ -96,11 +95,11 @@ TEST_CASE("RelationTableManager query known arg1 with arg2 predicate") {
   };
   auto resultBuilder = QueryResultBuilder<StmtValue, EntityValue>();
   resultBuilder.setAllVals();
-  auto res = tableManager.query(2, isValid, &resultBuilder);
+  auto res = *tableManager.query(2, isValid, &resultBuilder);
 
-  REQUIRE(res.get()->firstArgVals == StmtValueSet({2}));
-  REQUIRE(res.get()->secondArgVals == EntityValueSet({"b"}));
-  REQUIRE(res.get()->pairVals == pair_set<StmtValue, EntityValue>({{2, "b"}}));
+  REQUIRE(res.firstArgVals == StmtValueSet({2}));
+  REQUIRE(res.secondArgVals == EntityValueSet({"b"}));
+  REQUIRE(res.pairVals == pair_set<StmtValue, EntityValue>({{2, "b"}}));
 }
 
 TEST_CASE("RelationTableManager query known arg2 with arg1 predicate") {
@@ -119,12 +118,11 @@ TEST_CASE("RelationTableManager query known arg2 with arg1 predicate") {
   };
   auto resultBuilder = QueryResultBuilder<StmtValue, EntityValue>();
   resultBuilder.setAllVals();
-  auto res = tableManager.query(isValid, "a", &resultBuilder);
+  auto res = *tableManager.query(isValid, "a", &resultBuilder);
 
-  REQUIRE(res.get()->firstArgVals == StmtValueSet({4}));
-  REQUIRE(res.get()->secondArgVals == EntityValueSet({"a"}));
-  REQUIRE(res.get()->pairVals ==
-          unordered_set<pair<StmtValue, EntityValue>>({{4, "a"}}));
+  REQUIRE(res.firstArgVals == StmtValueSet({4}));
+  REQUIRE(res.secondArgVals == EntityValueSet({"a"}));
+  REQUIRE(res.pairVals == pair_set<StmtValue, EntityValue>({{4, "a"}}));
 }
 
 TEST_CASE("RelationTableManager query both known args") {
@@ -140,18 +138,17 @@ TEST_CASE("RelationTableManager query both known args") {
 
   auto resultBuilder1 = QueryResultBuilder<StmtValue, EntityValue>();
   resultBuilder1.setAllVals();
-  auto res1 = tableManager.query(1, "b", &resultBuilder1);
-  REQUIRE(res1.get()->isEmpty == false);
-  REQUIRE(res1.get()->pairVals ==
-          unordered_set<pair<StmtValue, EntityValue>>({{1, "b"}}));
+  auto res1 = *tableManager.query(1, "b", &resultBuilder1);
+  REQUIRE(res1.isEmpty == false);
+  REQUIRE(res1.pairVals == pair_set<StmtValue, EntityValue>({{1, "b"}}));
 
   auto resultBuilder2 = QueryResultBuilder<StmtValue, EntityValue>();
   resultBuilder2.setAllVals();
-  auto res2 = tableManager.query(2, "b", &resultBuilder2);
-  REQUIRE(res2.get()->isEmpty == true);
+  auto res2 = *tableManager.query(2, "b", &resultBuilder2);
+  REQUIRE(res2.isEmpty == true);
 
   auto resultBuilder3 = QueryResultBuilder<StmtValue, EntityValue>();
   resultBuilder3.setAllVals();
-  auto res3 = tableManager.query(3, "a", &resultBuilder3);
-  REQUIRE(res3.get()->isEmpty == true);
+  auto res3 = *tableManager.query(3, "a", &resultBuilder3);
+  REQUIRE(res3.isEmpty == true);
 }

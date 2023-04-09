@@ -1,16 +1,10 @@
 #pragma once
 
-#include <string>
-#include <unordered_set>
-
 #include "common/Types.h"
 #include "pkb/queryHandlers/interfaces/IDesignEntitiesQueryHandler.h"
 #include "pkb/storage/EntityMappingProvider.h"
 #include "pkb/storage/StorageTypes.h"
 #include "pkb/storage/StructureMappingProvider.h"
-
-using std::string;
-using std::unordered_set;
 
 class DesignEntitiesQueryHandler : public IDesignEntitiesQueryHandler {
  public:

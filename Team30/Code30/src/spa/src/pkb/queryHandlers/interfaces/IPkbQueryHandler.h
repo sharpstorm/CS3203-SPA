@@ -1,14 +1,12 @@
 #pragma once
 
 #include <memory>
-#include <string>
-#include <unordered_set>
 #include <vector>
 
 #include "common/pattern/PatternTrie.h"
 
-using std::string, std::unordered_set, std::vector;
 using std::unique_ptr;
+using std::vector;
 
 class IPkbQueryHandler {
  public:

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-
 #include "common/Types.h"
 #include "pkb/storage/StorageTypes.h"
 #include "pkb/writers/interfaces/IStatementWriter.h"

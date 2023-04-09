@@ -1,12 +1,6 @@
 #pragma once
 
-#include <string>
-#include <unordered_set>
-
 #include "common/Types.h"
-
-using std::string;
-using std::unordered_set;
 
 class IDesignEntitiesQueryHandler {
  public:

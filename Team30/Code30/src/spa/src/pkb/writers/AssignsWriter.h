@@ -1,7 +1,6 @@
 #pragma once
 
 #include <memory>
-#include <string>
 
 #include "common/Types.h"
 #include "pkb/storage/StorageTypes.h"

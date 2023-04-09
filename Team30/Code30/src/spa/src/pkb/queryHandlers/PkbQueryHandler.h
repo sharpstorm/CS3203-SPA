@@ -1,8 +1,6 @@
 #pragma once
 
 #include <memory>
-#include <string>
-#include <unordered_set>
 #include <vector>
 
 #include "DesignEntitiesQueryHandler.h"
@@ -22,9 +20,8 @@
 #include "pkb/queryHandlers/interfaces/IWhilePatternQueryHandler.h"
 #include "pkb/storage/PKB.h"
 
-using std::string;
 using std::unique_ptr, std::shared_ptr;
-using std::unordered_set, std::vector;
+using std::vector;
 
 class PkbQueryHandler : public IPkbQueryHandler {
  public:

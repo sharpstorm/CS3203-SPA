@@ -1,10 +1,5 @@
 #include "CFGsQueryHandler.h"
 
-#include <string>
-#include <unordered_set>
-
-using std::string;
-
 CFGsQueryHandler::CFGsQueryHandler(
     const CFGStorage *cfgsStorage, const IEntityMappingProvider *entityProvider,
     const IStructureMappingProvider *structureProvider)

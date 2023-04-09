@@ -28,8 +28,8 @@ TEST_CASE("IfPattern unknown if") {
 
   auto res2 =
       *handler.queryIfPattern({StmtType::If, 0}, {EntityType::Variable, ""});
-  REQUIRE(res2.pairVals ==
-          pair_set<int, string>({{1, "a"}, {1, "b"}, {2, "a"}, {3, "c"}}));
+  REQUIRE(res2.pairVals == pair_set<StmtValue, EntityValue>(
+                               {{1, "a"}, {1, "b"}, {2, "a"}, {3, "c"}}));
 
   auto res3 =
       *handler.queryIfPattern({StmtType::If, 0}, {EntityType::Wildcard, ""});
