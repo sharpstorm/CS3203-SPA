@@ -32,12 +32,6 @@ class SetUtils {
 
  public:
   template<class T>
-  static IntersectSetPtr<T> intersectSet(IntersectSet<T> *s1,
-                                         IntersectSet<T> *s2) {
-    return intersectSetInternal(s1, s2);
-  }
-
-  template<class T>
   static AppendOnlySetPtr<T> intersectSet(AppendSet<T> *s1,
                                           AppendSet<T> *s2) {
     return intersectSetInternal(s1, s2);
