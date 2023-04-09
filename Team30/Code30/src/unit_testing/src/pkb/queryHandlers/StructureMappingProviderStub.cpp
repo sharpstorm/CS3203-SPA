@@ -4,11 +4,11 @@
 
 StructureMappingProviderStub::StructureMappingProviderStub() {}
 
-StmtType StructureMappingProviderStub::getStatementType(int stmt) const {
+StmtType StructureMappingProviderStub::getStatementType(StmtValue stmt) const {
   return stmtNumToType.get(stmt);
 }
 
-const StmtSet& StructureMappingProviderStub::getValuesOfType(
+const StmtValueSet& StructureMappingProviderStub::getValuesOfType(
     StmtType stmtType) const {
   if (stmtType == StmtType::None || stmtType == StmtType::Wildcard) {
     return allStmts;
@@ -16,11 +16,13 @@ const StmtSet& StructureMappingProviderStub::getValuesOfType(
   return stmtTypeToNum.get(stmtType);
 }
 
-string StructureMappingProviderStub::getProcedureForLine(int stmt) const {
+EntityValue StructureMappingProviderStub::getProcedureForLine(
+    StmtValue stmt) const {
   return stmtNumToProcedure.get(stmt);
 }
 
-string StructureMappingProviderStub::getCalledDeclaration(int stmt) const {
+EntityValue StructureMappingProviderStub::getCalledDeclaration(
+    StmtValue stmt) const {
   return stmtNumToCalledProcedure.get(stmt);
 }
 

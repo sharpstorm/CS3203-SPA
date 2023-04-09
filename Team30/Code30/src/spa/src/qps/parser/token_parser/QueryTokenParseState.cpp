@@ -1,6 +1,6 @@
 #include "QueryTokenParseState.h"
 
-QueryTokenParseState::QueryTokenParseState(PQLTokenVector *tokens) :
+QueryTokenParseState::QueryTokenParseState(PQLTokenList *tokens) :
     tokenStream(tokens) {
 }
 

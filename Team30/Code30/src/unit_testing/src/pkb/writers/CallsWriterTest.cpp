@@ -1,14 +1,11 @@
 #include <memory>
-#include <string>
-#include <set>
 
 #include "catch.hpp"
+#include "common/Types.h"
 #include "pkb/writers/CallsWriter.h"
 
 using std::make_shared;
 using std::make_unique;
-using std::string;
-using std::set;
 
 TEST_CASE("CallsWriter addCalls") {
   auto table = make_shared<CallsTable>();
@@ -24,8 +21,8 @@ TEST_CASE("CallsWriter addCalls") {
   writer.addCalls(2, "main", "called");
 
   // call table
-  REQUIRE(table->get("main") == set<string>({"called"}));
-  REQUIRE(reverseTable->get("called") == set<string>({"main"}));
+  REQUIRE(table->get("main") == EntityValueSet({"called"}));
+  REQUIRE(reverseTable->get("called") == EntityValueSet({"main"}));
 
   // call stmt tables
   REQUIRE(stmtTable->get(2) == "called");

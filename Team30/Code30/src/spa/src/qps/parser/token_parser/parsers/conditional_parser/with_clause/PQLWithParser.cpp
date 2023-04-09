@@ -4,7 +4,7 @@
 #include "PQLWithParser.h"
 #include "qps/clauses/WithClause.h"
 #include "qps/clauses/arguments/WithArgument.h"
-#include "qps/constraints/Constraint.h"
+#include "qps/common/IConstraint.h"
 #include "qps/constraints/ConstantConstraint.h"
 #include "qps/constraints/OverrideConstraint.h"
 #include "qps/constraints/SynonymConstraint.h"
@@ -93,7 +93,7 @@ void PQLWithParser::handleTwoSyns(WithArgumentPtr left,
 
 ConstraintPtr PQLWithParser::parseOverrideConstraint(
     WithArgumentPtr synArg, WithArgumentPtr staticArg) {
-  if (staticArg->doesReturnInteger()) {
+  if (staticArg->returnsInteger()) {
     return make_unique<OverrideConstraint>(
         synArg->toAttrSyn(), staticArg->toConstInt());
   } else {

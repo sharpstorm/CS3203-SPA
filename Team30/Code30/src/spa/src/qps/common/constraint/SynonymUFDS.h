@@ -4,7 +4,7 @@
 #include <unordered_map>
 
 #include "common/cfg/CFG.h"
-#include "qps/common/PQLQuerySynonym.h"
+#include "qps/common/synonym/PQLQuerySynonym.h"
 #include "qps/common/VariableTable.h"
 
 using std::vector, std::unordered_map;
@@ -19,15 +19,16 @@ class SynonymUFDS {
   unordered_map<PQLSynonymName, UFDSSet> synNameMap;
   vector<PQLQuerySynonym *> synArr;
 
- public:
-  explicit SynonymUFDS(VariableTable *varTable);
+ protected:
+  vector<UFDSSet> getParents() const;
 
+ public:
+  explicit SynonymUFDS(const ProxyMap *varTable);
 
   bool tryMergeSets(const PQLSynonymName &syn1,
                     const PQLSynonymName &syn2);
   bool isSameSet(const PQLSynonymName &syn1,
                  const PQLSynonymName &syn2);
-  vector<UFDSSet> getParents() const;
   PQLQuerySynonym *getSynFor(const PQLSynonymName &set);
 
  private:

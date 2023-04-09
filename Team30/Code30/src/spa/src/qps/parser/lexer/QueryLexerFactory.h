@@ -1,14 +1,11 @@
 #pragma once
 
 #include "QueryLexer.h"
-
-#include <string>
-
-using std::string;
+#include "qps/common/QPSTypes.h"
 
 class QueryLexerFactory {
  public:
-  QueryLexerPtr makeLexer(const string *query);
+  QueryLexerPtr makeLexer(const PQLQueryString *query);
 
  private:
   QueryLexerTokenTable tokenTable;

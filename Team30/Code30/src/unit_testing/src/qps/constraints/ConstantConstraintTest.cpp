@@ -3,7 +3,7 @@
 
 TEST_CASE("Constant Constraint True") {
   VariableTable varTable;
-  SynonymProxyBuilder builder(&varTable);
+  SynonymProxyBuilder builder(varTable.getProxyMap());
   OverrideTable overrides;
 
   auto leftArg = make_unique<WithArgument>(1);
@@ -23,7 +23,7 @@ TEST_CASE("Constant Constraint True") {
 
 TEST_CASE("Constant Constraint False") {
   VariableTable varTable;
-  SynonymProxyBuilder builder(&varTable);
+  SynonymProxyBuilder builder(varTable.getProxyMap());
   OverrideTable overrides;
 
   auto leftArg = make_unique<WithArgument>(1);
@@ -43,7 +43,7 @@ TEST_CASE("Constant Constraint False") {
 
 TEST_CASE("Constant Incomparable Constraint") {
   VariableTable varTable;
-  SynonymProxyBuilder builder(&varTable);
+  SynonymProxyBuilder builder(varTable.getProxyMap());
   OverrideTable overrides;
 
   auto leftArg = make_unique<WithArgument>(1);
@@ -57,5 +57,12 @@ TEST_CASE("Constant Incomparable Constraint") {
   constraint = ConstantConstraint(std::move(leftArg), std::move(rightArg));
 
   REQUIRE_FALSE(constraint.validateConstraint());
+}
+
+TEST_CASE("Affected Syn Test") {
+  auto leftArg = make_unique<WithArgument>(1);
+  auto rightArg = make_unique<WithArgument>(2);
+  ConstantConstraint constraint(std::move(leftArg), std::move(rightArg));
+  REQUIRE(constraint.getAffectedSyns().empty());
 }
 

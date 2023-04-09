@@ -1,17 +1,13 @@
 #pragma once
 
-#include <string>
-
 #include "pkb/storage/StorageTypes.h"
 #include "pkb/writers/interfaces/IIfPatternWriter.h"
-
-using std::string;
 
 class IfPatternWriter : public IIfPatternWriter {
  public:
   explicit IfPatternWriter(IfPatternStorage *store);
 
-  void addIfPattern(int stmt, string variable) override;
+  void addIfPattern(StmtValue stmt, EntityValue variable) override;
 
  private:
   IfPatternStorage *store;

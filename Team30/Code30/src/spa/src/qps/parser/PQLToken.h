@@ -103,4 +103,4 @@ class PQLToken {
   bool operator==(const PQLToken &other) const;
 };
 
-typedef vector<PQLToken> PQLTokenVector;
+typedef vector<PQLToken> PQLTokenList;

@@ -8,7 +8,7 @@ PatternClause::PatternClause(
     PQLSynonymType synType) :
     synonym(synonym), leftArg(std::move(leftArg)), synType(synType) {}
 
-const PQLSynonymNameList PatternClause::getUsedSynonyms() const {
+PQLSynonymNameList PatternClause::getUsedSynonyms() const {
   PQLSynonymNameList result{synonym->getName()};
   if (leftArg->isNamed()) {
     result.push_back(leftArg->getName());
@@ -16,7 +16,7 @@ const PQLSynonymNameList PatternClause::getUsedSynonyms() const {
   return result;
 }
 
-bool PatternClause::validateArgTypes(const VariableTable *variables) const {
+bool PatternClause::validateArgTypes() const {
   if (!synonym->isType(synType)) {
     return false;
   }

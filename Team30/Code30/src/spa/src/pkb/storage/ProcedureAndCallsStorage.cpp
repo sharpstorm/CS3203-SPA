@@ -55,6 +55,6 @@ EntityValue ProcedureAndCallsStorage::getCalledDeclaration(
   return callDeclarationTable->get(stmt);
 }
 
-const EntitySet& ProcedureAndCallsStorage::getProcedures() const {
+const EntityValueSet &ProcedureAndCallsStorage::getProcedures() const {
   return *procedureValues;
 }

@@ -1,11 +1,10 @@
 #include <memory>
-#include <set>
-#include <string>
 
 #include "catch.hpp"
+#include "common/Types.h"
 #include "pkb/writers/IfPatternWriter.h"
 
-using std::make_shared, std::make_unique, std::set, std::string;
+using std::make_shared, std::make_unique;
 
 TEST_CASE("IfPatternWriterTest addIfPattern") {
   auto table = make_shared<IfPatternTable>();
@@ -18,8 +17,8 @@ TEST_CASE("IfPatternWriterTest addIfPattern") {
   writer.addIfPattern(2, "x");
   writer.addIfPattern(3, "z");
 
-  REQUIRE(table->get(1) == set<string>({"x", "y"}));
-  REQUIRE(table->get(3) == set<string>({"z"}));
-  REQUIRE(reverseTable->get("x") == set<int>({1, 2}));
-  REQUIRE(reverseTable->get("z") == set<int>({3}));
+  REQUIRE(table->get(1) == EntityValueSet({"x", "y"}));
+  REQUIRE(table->get(3) == EntityValueSet({"z"}));
+  REQUIRE(reverseTable->get("x") == StmtValueSet({1, 2}));
+  REQUIRE(reverseTable->get("z") == StmtValueSet({3}));
 }

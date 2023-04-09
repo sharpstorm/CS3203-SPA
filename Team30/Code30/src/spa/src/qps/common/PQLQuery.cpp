@@ -7,35 +7,34 @@ using std::pair;
 PQLQuery::PQLQuery(VariableTablePtr vars,
                    const AttributedSynonymList &resVar,
                    vector<ClausePtr> c,
-                   vector<ConstraintPtr> con):
-                   variables(std::move(vars)), resultVariables(resVar),
-                   clauses(std::move(c)), constraints(std::move(con)) { }
+                   vector<ConstraintPtr> con) :
+    variables(std::move(vars)), resultVariables(resVar),
+    clauses(std::move(c)), constraints(std::move(con)),
+    hasAppliedConstraints(false) {}
 
-VariableTable* PQLQuery::getVarTable() const {
-  return variables.get();
-}
-
-const AttributedSynonymList* PQLQuery::getResultVariables() const {
+const AttributedSynonymList *PQLQuery::getResultVariables() const {
   return &resultVariables;
 }
 
-PQLQuerySynonymProxy* PQLQuery::getVariable(const PQLSynonymName &name) const {
+PQLSynonymNameListPtr PQLQuery::getConstrainedVariables() const {
+  auto ret = make_unique<PQLSynonymNameList>();
+  for (const ConstraintPtr &c : constraints) {
+    for (const PQLSynonymName &name : c->getAffectedSyns()) {
+      ret->push_back(name);
+    }
+  }
+  return std::move(ret);
+}
+
+PQLQuerySynonymProxy *PQLQuery::getVariable(const PQLSynonymName &name) const {
   return variables->find(name);
 }
 
-const PQLSynonymNameList PQLQuery::getDeclaredSynonyms() const {
-  PQLSynonymNameList result;
-  for (auto i : variables->getReferredSynonyms()) {
-    result.push_back(i);
-  }
-
-  return result;
-}
-
-const vector<IEvaluatable*> PQLQuery::getEvaluatables() const {
-  vector<IEvaluatable*> evals;
+IEvaluatableRefList PQLQuery::getEvaluatables() const {
+  IEvaluatableRefList evals;
+  evals.reserve(clauses.size());
   for (const ClausePtr &ie : clauses) {
-      evals.push_back(ie.get());
+    evals.push_back(ie.get());
   }
 
   return evals;
@@ -45,15 +44,24 @@ int PQLQuery::getClauseCount() const {
   return clauses.size();
 }
 
-const vector<Constraint*> PQLQuery::getConstraints() const {
-  vector<Constraint*> ret;
-  for (const ConstraintPtr &c : constraints) {
-    ret.push_back(c.get());
-  }
-
-  return ret;
+int PQLQuery::getDeclaredVariableCount() const {
+  return variables->size();
 }
 
-bool PQLQuery::isBooleanResult() const {
-  return resultVariables.empty();
+bool PQLQuery::resolveConstraints(OverrideTable *table) {
+  if (hasAppliedConstraints) {
+    return true;
+  }
+
+  hasAppliedConstraints = true;
+  SynonymProxyBuilder synProxyBuilder(variables->getProxyMap());
+
+  for (const auto &con : constraints) {
+    if (!con->applyConstraint(&synProxyBuilder, table)) {
+      return false;
+    }
+  }
+
+  synProxyBuilder.build();
+  return synProxyBuilder.resolveOverrideMerging(table);
 }

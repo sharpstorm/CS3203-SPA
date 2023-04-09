@@ -4,8 +4,8 @@
 #include <utility>
 #include <unordered_set>
 
-#include "common/pattern/PatternConverter.h"
 #include "ExtractorUtility.h"
+#include "sp/pattern/TrieBuilder.h"
 
 using std::shared_ptr, std::move;
 
@@ -37,7 +37,7 @@ void PatternExtractor::leaveIf(const IfNode *node) {
 }
 
 void PatternExtractor::addPattern(LineNumber x, IASTNode *node) {
-  PatternTriePtr trie = PatternConverter::convertASTToTrie(node, pkbWriter);
+  PatternTriePtr trie = TrieBuilder(node, pkbWriter).build();
   PatternTrieSPtr sharedPtr = shared_ptr<PatternTrie>(std::move(trie));
   pkbWriter->addAssigns(x, sharedPtr);
 }

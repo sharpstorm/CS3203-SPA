@@ -6,7 +6,7 @@
 #include "qps/parser/token_parser/QueryTokenParser.h"
 #include "qps/parser/PQLToken.h"
 #include "qps/common/PQLQuery.h"
-#include "qps/common/PQLQuerySynonym.h"
+#include "qps/common/synonym/PQLQuerySynonym.h"
 #include "qps/errors/QPSError.h"
 #include "../SourceParserStub.h"
 
@@ -38,7 +38,7 @@ unique_ptr<PQLQuery> testPQLParsing(vector<PQLToken> testcase, vector<PQLQuerySy
     FAIL("Failed with unknown exception");
   }
 
-  REQUIRE(result->getVarTable()->size() == expectedVariables.size());
+  REQUIRE(result->getDeclaredVariableCount() == expectedVariables.size());
   for (int i = 0; i < expectedVariables.size(); i++) {
     auto expectedVar = expectedVariables.at(i);
     auto var = result->getVariable(expectedVar.getName());

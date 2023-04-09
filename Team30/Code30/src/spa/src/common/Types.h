@@ -14,7 +14,6 @@ using std::unique_ptr;
 using std::vector;
 
 enum class EntityType { None, Procedure, Variable, Constant, Wildcard };
-
 enum class StmtType { None, Read, Print, Assign, Call, While, If, Wildcard };
 
 typedef string EntityValue;
@@ -64,16 +63,17 @@ class IRef {
 
 class StmtRef : public IRef<StmtValue, StmtType> {
  public:
-  StmtRef(StmtType type, StmtValue lineNum) : IRef(type, lineNum) {}
-  bool isKnown() const override { return getValue() != NO_STMT; }
+  StmtRef(StmtType type, StmtValue lineNum);
+  bool isKnown() const override;
+  bool isValid() const;
 };
 
 class EntityRef : public IRef<EntityValue, EntityType> {
  public:
-  explicit EntityRef(EntityType type) : IRef(type, NO_ENT) {}
-  EntityRef(EntityType type, EntityValue name) : IRef(type, name) {}
+  explicit EntityRef(EntityType type);
+  EntityRef(EntityType type, const EntityValue &name);
 
-  bool isKnown() const override { return getValue() != NO_ENT; }
+  bool isKnown() const override;
 };
 
 template<class T1, class T2>
@@ -119,6 +119,26 @@ class QueryResult {
   void addRight(const U &second) {
     isEmpty = false;
     secondArgVals.insert(second);
+  }
+
+  void setNotEmpty() {
+    isEmpty = false;
+  }
+
+  const QueryResultSet<T>& getLeftVals() const {
+    return firstArgVals;
+  }
+
+  const QueryResultSet<U>& getRightVals() const {
+    return secondArgVals;
+  }
+
+  const QueryResultPairSet<T, U>& getPairVals() const {
+    return pairVals;
+  }
+
+  bool empty() const {
+    return isEmpty;
   }
 };
 

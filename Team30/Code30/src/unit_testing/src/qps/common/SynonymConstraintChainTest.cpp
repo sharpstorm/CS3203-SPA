@@ -1,8 +1,21 @@
 #include "catch.hpp"
-#include "qps/common/PQLQuerySynonym.h"
+#include "qps/common/synonym/PQLQuerySynonym.h"
 #include "qps/common/VariableTable.h"
-#include "qps/constraints/Constraint.h"
+#include "qps/common/IConstraint.h"
 #include "qps/constraints/SynonymConstraint.h"
+
+bool isVarTableSynEqual(VariableTable *varTable,
+                            const PQLSynonymName var1,
+                            const PQLSynonymName var2) {
+  auto syn1 = varTable->find(var1);
+  auto syn2 = varTable->find(var2);
+  REQUIRE(syn1 != nullptr);
+  REQUIRE(syn2 != nullptr);
+
+  auto syn1Proxy = *syn1;
+  auto syn2Proxy = *syn2;
+  return *syn1Proxy == *syn2Proxy;
+}
 
 TEST_CASE("SynonymConstraint Test") {
   PQLQuerySynonym syn1{PQL_SYN_TYPE_STMT, "s1"};
@@ -12,48 +25,47 @@ TEST_CASE("SynonymConstraint Test") {
   PQLQuerySynonym syn5{PQL_SYN_TYPE_STMT, "s5"};
 
   VariableTable varTable;
-  varTable.add("s1", syn1);
-  varTable.add("s2", syn2);
-  varTable.add("s3", syn3);
-  varTable.add("s4", syn4);
-  varTable.add("s5", syn5);
+  varTable.add(syn1);
+  varTable.add(syn2);
+  varTable.add(syn3);
+  varTable.add(syn4);
+  varTable.add(syn5);
   varTable.finalizeTable();
 
-  SynonymProxyBuilder varTableProxyBuilder(&varTable);
+  SynonymProxyBuilder varTableProxyBuilder(varTable.getProxyMap());
   OverrideTable overrideTable;
 
   SynonymConstraint constraint1("s1", "s2");
   SynonymConstraint constraint2("s2", "s3");
   SynonymConstraint constraint3("s4", "s1");
+
   constraint1.applyConstraint(&varTableProxyBuilder, &overrideTable);
   varTableProxyBuilder.build();
 
-  REQUIRE(*varTableProxyBuilder.getTable()->getProxyMap()->at("s1")
-              == *varTableProxyBuilder.getTable()->getProxyMap()->at("s2"));
+  REQUIRE(isVarTableSynEqual(&varTable, "s1", "s2"));
+  REQUIRE_FALSE(isVarTableSynEqual(&varTable, "s1", "s3"));
+  REQUIRE_FALSE(isVarTableSynEqual(&varTable, "s2", "s3"));
+  REQUIRE_FALSE(isVarTableSynEqual(&varTable, "s1", "s4"));
+  REQUIRE_FALSE(isVarTableSynEqual(&varTable, "s2", "s4"));
+  REQUIRE_FALSE(isVarTableSynEqual(&varTable, "s3", "s4"));
 
   constraint2.applyConstraint(&varTableProxyBuilder, &overrideTable);
   varTableProxyBuilder.build();
 
-  REQUIRE(*varTableProxyBuilder.getTable()->getProxyMap()->at("s1")
-              == *varTableProxyBuilder.getTable()->getProxyMap()->at("s2"));
-  REQUIRE(*varTableProxyBuilder.getTable()->getProxyMap()->at("s1")
-              == *varTableProxyBuilder.getTable()->getProxyMap()->at("s3"));
-  REQUIRE(*varTableProxyBuilder.getTable()->getProxyMap()->at("s2")
-              == *varTableProxyBuilder.getTable()->getProxyMap()->at("s3"));
+  REQUIRE(isVarTableSynEqual(&varTable, "s1", "s2"));
+  REQUIRE(isVarTableSynEqual(&varTable, "s1", "s3"));
+  REQUIRE(isVarTableSynEqual(&varTable, "s2", "s3"));
+  REQUIRE_FALSE(isVarTableSynEqual(&varTable, "s1", "s4"));
+  REQUIRE_FALSE(isVarTableSynEqual(&varTable, "s2", "s4"));
+  REQUIRE_FALSE(isVarTableSynEqual(&varTable, "s3", "s4"));
 
   constraint3.applyConstraint(&varTableProxyBuilder, &overrideTable);
   varTableProxyBuilder.build();
 
-  REQUIRE(*varTableProxyBuilder.getTable()->getProxyMap()->at("s1")
-              == *varTableProxyBuilder.getTable()->getProxyMap()->at("s2"));
-  REQUIRE(*varTableProxyBuilder.getTable()->getProxyMap()->at("s1")
-              == *varTableProxyBuilder.getTable()->getProxyMap()->at("s3"));
-  REQUIRE(*varTableProxyBuilder.getTable()->getProxyMap()->at("s2")
-              == *varTableProxyBuilder.getTable()->getProxyMap()->at("s3"));
-  REQUIRE(*varTableProxyBuilder.getTable()->getProxyMap()->at("s1")
-              == *varTableProxyBuilder.getTable()->getProxyMap()->at("s4"));
-  REQUIRE(*varTableProxyBuilder.getTable()->getProxyMap()->at("s2")
-              == *varTableProxyBuilder.getTable()->getProxyMap()->at("s4"));
-  REQUIRE(*varTableProxyBuilder.getTable()->getProxyMap()->at("s3")
-              == *varTableProxyBuilder.getTable()->getProxyMap()->at("s4"));
+  REQUIRE(isVarTableSynEqual(&varTable, "s1", "s2"));
+  REQUIRE(isVarTableSynEqual(&varTable, "s1", "s3"));
+  REQUIRE(isVarTableSynEqual(&varTable, "s2", "s3"));
+  REQUIRE(isVarTableSynEqual(&varTable, "s1", "s4"));
+  REQUIRE(isVarTableSynEqual(&varTable, "s2", "s4"));
+  REQUIRE(isVarTableSynEqual(&varTable, "s3", "s4"));
 }

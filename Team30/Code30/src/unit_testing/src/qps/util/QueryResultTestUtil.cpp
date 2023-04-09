@@ -3,8 +3,8 @@
 #include <utility>
 
 #include "qps/common/intermediate_result/PQLQueryResult.h"
-#include "qps/common/projector_table/ProjectorResultTable.h"
-#include "qps/common/projector_table/ProjectorResultFactory.h"
+#include "qps/common/projector_table/ProjectableTable.h"
+#include "qps/common/projector_table/ProjectableGroupFactory.h"
 
 using std::vector, std::move, std::make_unique, std::unique_ptr;
 
@@ -72,24 +72,24 @@ class TestQueryResultBuilder {
     return result;
   }
 
-  static unique_ptr<ProjectorResultTable> buildExpectedTable(const ExpectedParams &expectedParams, AttributedSynonymList* syns) {
-    auto result = make_unique<ProjectorResultTable>(syns->empty(), true);
+  static unique_ptr<ProjectableTable> buildExpectedTable(const ExpectedParams &expectedParams, AttributedSynonymList* syns) {
+    auto result = make_unique<ProjectableTable>(true);
     vector<PQLSynonymName>* names = new vector<PQLSynonymName>();
     for (auto it : *syns) {
       names->push_back(it.getName());
     }
 
     auto queryResult = buildExpected(expectedParams);
-    ResultGroupPtr rg = ProjectorResultFactory::extractResults(queryResult.get() , names);
+    ProjectableGroupPtr rg = ProjectableGroupFactory::extractResults(queryResult.get() , names);
     result->addResultGroup(std::move(rg));
     delete names;
     return result;
   }
 
   template <class ...ExpectedParams>
-  static unique_ptr<ProjectorResultTable> buildExpectedTable(AttributedSynonymList* syns,
-                                                             const ExpectedParams&... expectedParams) {
-    auto result = make_unique<ProjectorResultTable>(syns->empty(), true);
+  static unique_ptr<ProjectableTable> buildExpectedTable(AttributedSynonymList* syns,
+                                                         const ExpectedParams&... expectedParams) {
+    auto result = make_unique<ProjectableTable>(true);
     ([&]
     {
       auto queryResult = buildExpected(expectedParams);
@@ -97,9 +97,27 @@ class TestQueryResultBuilder {
       for (auto x : expectedParams) {
         names.push_back(x.first);
       }
-      ResultGroupPtr rg = ProjectorResultFactory::extractResults(queryResult.get() , &names);
+      ProjectableGroupPtr rg = ProjectableGroupFactory::extractResults(queryResult.get() , &names);
       result->addResultGroup(std::move(rg));
     } (), ...);
+    return result;
+  }
+
+  static unique_ptr<ProjectableTable> buildExpectedTable(vector<ExpectedParams> paramsList) {
+    auto result = make_unique<ProjectableTable>(true);
+
+    for (size_t i = 0; i < paramsList.size() ;i++) {
+      ExpectedParams params = paramsList[i];
+
+      auto queryResult = buildExpected(params);
+      vector<PQLSynonymName> names;
+      for (auto x : params) {
+        names.push_back(x.first);
+      }
+      ProjectableGroupPtr rg = ProjectableGroupFactory::extractResults(queryResult.get() , &names);
+      result->addResultGroup(std::move(rg));
+    }
+
     return result;
   }
 };

@@ -1,8 +1,8 @@
 #pragma once
 
 #include "ClauseArgument.h"
-#include "../../common/PQLQuerySynonym.h"
-#include "qps/common/PQLQuerySynonymProxy.h"
+#include "qps/common/synonym/PQLQuerySynonym.h"
+#include "qps/common/synonym/PQLQuerySynonymProxy.h"
 
 class SynonymArgument : public ClauseArgument {
  private:

@@ -2,7 +2,7 @@
 
 #include <utility>
 
-QueryPlan::QueryPlan(vector<QueryGroupPlanPtr> groups) :
+QueryPlan::QueryPlan(QueryGroupPlanPtrList groups) :
     clauseGroups(std::move(groups)) {}
 
 int QueryPlan::getGroupCount() const {
@@ -16,14 +16,4 @@ const {
 
 bool QueryPlan::isEmpty() const {
   return clauseGroups.empty();
-}
-
-bool QueryPlan::isBooleanQuery() const {
-  for (const auto &group : clauseGroups) {
-    if (!group->isBooleanResult()) {
-      return false;
-    }
-  }
-
-  return true;
 }

@@ -10,6 +10,7 @@
 using std::unique_ptr, std::vector, std::unordered_set;
 
 typedef int GroupClauseIndex;
+typedef unordered_set<GroupClauseIndex> GroupClauseIndexSet;
 
 class QueryGroup {
  public:
@@ -22,18 +23,18 @@ class QueryGroup {
   void addSelectable(const PQLSynonymName &synonym);
 
   int getEvaluatableCount() const;
-  IEvaluatable *getEvaluatable(GroupClauseIndex evalId) const;
-  const unordered_set<GroupClauseIndex> *getRelated(
-      const GroupClauseIndex evalId) const;
+  IEvaluatable *getEvaluatable(const GroupClauseIndex evalId) const;
+  const GroupClauseIndexSet *getRelated(const GroupClauseIndex evalId) const;
 
-  QueryGroupPlanPtr toPlan(vector<IEvaluatable *> evaluatables,
+  QueryGroupPlanPtr toPlan(const IEvaluatableRefList &evaluatables,
                            const ComplexityScore &score);
 
  private:
-  vector<IEvaluatable *> evaluatables;
-  vector<unordered_set<GroupClauseIndex>> edgeList;
-  vector<PQLSynonymName> selectables;
-  vector<IEvaluatablePtr> ownedEvals;
+  IEvaluatableRefList evaluatables;
+  vector<GroupClauseIndexSet> edgeList;
+  PQLSynonymNameList selectables;
+  IEvaluatablePtrList ownedEvals;
 };
 
 typedef unique_ptr<QueryGroup> QueryGroupPtr;
+typedef vector<QueryGroupPtr> QueryGroupPtrList;

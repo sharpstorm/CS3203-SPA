@@ -3,7 +3,7 @@
 #include <memory>
 #include <utility>
 
-#include "qps/common/PQLTypes.h"
+#include "qps/common/synonym/PQLTypes.h"
 #include "common/Types.h"
 #include "qps/clauses/PatternClause.h"
 #include "qps/clauses/InvokerTypes.h"
@@ -24,13 +24,14 @@ class AbstractPatternClause : public PatternClause {
       PatternClause(synonym, std::move(leftArg), SYN_TYPE) {
   }
 
+ public:
   PQLQueryResult *evaluateOn(const QueryExecutorAgent &agent) const override {
-    StmtRef leftStatement = {StatementType, 0};
+    StmtRef leftStatement = {StatementType, NO_STMT};
     EntityRef leftVar = leftArg->toEntityRef();
     const PQLSynonymName &synName = synonym->getName();
+
     leftStatement = agent.transformArg(synName, leftStatement);
     leftVar = agent.transformArg(leftArg->getName(), leftVar);
-
     if (!agent.isValid(leftStatement) || !agent.isValid(leftVar)) {
       return new PQLQueryResult();
     }
@@ -45,7 +46,6 @@ class AbstractPatternClause : public PatternClause {
     return builder.build(result.get());
   }
 
- public:
   ComplexityScore getComplexityScore(const OverrideTable *table)
   const override {
     if (table->contains(leftArg->getName())) {

@@ -29,7 +29,7 @@ class ProcedureAndCallsStorage {
 
   EntityValue getCalledDeclaration(StmtValue stmt) const;
 
-  const EntitySet& getProcedures() const;
+  const EntityValueSet& getProcedures() const;
 
  private:
   void insertFromTo(StmtValue startNum, StmtValue endNum,

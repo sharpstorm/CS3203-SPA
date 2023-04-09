@@ -1,11 +1,10 @@
 #include <memory>
-#include <set>
-#include <string>
 
 #include "catch.hpp"
+#include "common/Types.h"
 #include "pkb/writers/UsesWriter.h"
 
-using std::make_shared, std::make_unique, std::set, std::string;
+using std::make_shared, std::make_unique;
 
 TEST_CASE("UsesWriter addUses") {
   auto table = make_shared<UsesTable>();
@@ -22,12 +21,12 @@ TEST_CASE("UsesWriter addUses") {
   writer.addUses(3, "y", "main");
   writer.addUses(4, "y", "foo");
 
-  REQUIRE(table->get(1) == set<string>({"x", "y"}));
-  REQUIRE(table->get(3) == set<string>({"y"}));
-  REQUIRE(reverseTable->get("y") == set<int>({1, 3, 4}));
-  REQUIRE(reverseTable->get("x") == set<int>({1}));
+  REQUIRE(table->get(1) == EntityValueSet({"x", "y"}));
+  REQUIRE(table->get(3) == EntityValueSet({"y"}));
+  REQUIRE(reverseTable->get("y") == StmtValueSet({1, 3, 4}));
+  REQUIRE(reverseTable->get("x") == StmtValueSet({1}));
 
-  REQUIRE(pTable->get("main") == set<string>({"x", "y"}));
-  REQUIRE(reversePTable->get("x") == set<string>({"main"}));
-  REQUIRE(reversePTable->get("y") == set<string>({"main", "foo"}));
+  REQUIRE(pTable->get("main") == EntityValueSet({"x", "y"}));
+  REQUIRE(reversePTable->get("x") == EntityValueSet({"main"}));
+  REQUIRE(reversePTable->get("y") == EntityValueSet({"main", "foo"}));
 }

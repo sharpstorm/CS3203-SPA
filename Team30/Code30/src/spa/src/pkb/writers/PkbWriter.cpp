@@ -32,58 +32,60 @@ PkbWriter::PkbWriter(PKB *pkb)
       constantWriter(new ConstantWriter(pkb->constantStorage)),
       cfgsWriter(new CFGsWriter(pkb->cfgStorage)) {}
 
-void PkbWriter::addFollows(int arg1, int arg2) {
+void PkbWriter::addFollows(StmtValue arg1, StmtValue arg2) {
   followsWriter->addFollows(arg1, arg2);
 }
 
-void PkbWriter::addParent(int arg1, int arg2) {
+void PkbWriter::addParent(StmtValue arg1, StmtValue arg2) {
   parentWriter->addParent(arg1, arg2);
 }
 
-void PkbWriter::addProcedure(string procedureName, int startLineNum,
-                             int endLineNum) {
+void PkbWriter::addProcedure(EntityValue procedureName, StmtValue startLineNum,
+                             StmtValue endLineNum) {
   procedureWriter->addProcedure(procedureName, startLineNum, endLineNum);
 }
 
-void PkbWriter::addStatement(int lineNumber, StmtType stmtType) {
+void PkbWriter::addStatement(StmtValue lineNumber, StmtType stmtType) {
   statementWriter->addStatement(lineNumber, stmtType);
 }
 
-void PkbWriter::addUses(int stmtNum, string variable, string procedure) {
+void PkbWriter::addUses(StmtValue stmtNum, EntityValue variable,
+                        EntityValue procedure) {
   usesWriter->addUses(stmtNum, variable, procedure);
 }
 
-void PkbWriter::addModifies(int stmtNum, string variable, string procedure) {
+void PkbWriter::addModifies(StmtValue stmtNum, EntityValue variable,
+                            EntityValue procedure) {
   modifiesWriter->addModifies(stmtNum, variable, procedure);
 }
 
-void PkbWriter::addAssigns(int stmtNum, PatternTrieSPtr ast) {
+void PkbWriter::addAssigns(StmtValue stmtNum, PatternTrieSPtr ast) {
   assignsWriter->addAssigns(stmtNum, ast);
 }
 
-void PkbWriter::addCalls(int stmtNum, string currProcedure,
-                         string calledProcedure) {
+void PkbWriter::addCalls(StmtValue stmtNum, EntityValue currProcedure,
+                         EntityValue calledProcedure) {
   callsWriter->addCalls(stmtNum, currProcedure, calledProcedure);
 }
 
-void PkbWriter::addIfPattern(int stmtNum, string variable) {
+void PkbWriter::addIfPattern(StmtValue stmtNum, EntityValue variable) {
   ifPatternWriter->addIfPattern(stmtNum, variable);
 }
 
-void PkbWriter::addWhilePattern(int stmtNum, string variable) {
+void PkbWriter::addWhilePattern(StmtValue stmtNum, EntityValue variable) {
   whilePatternWriter->addWhilePattern(stmtNum, variable);
 }
 
 void PkbWriter::runPostProcessor() { postProcessWriter->runPostProcessor(); }
 
-EntityIdx PkbWriter::addVariable(string name) {
+EntityIdx PkbWriter::addVariable(EntityValue name) {
   return variableWriter->addVariable(name);
 }
 
-EntityIdx PkbWriter::addConstant(string name) {
+EntityIdx PkbWriter::addConstant(EntityValue name) {
   return constantWriter->addConstant(name);
 }
 
-void PkbWriter::addCFGs(string name, CFGSPtr cfg) {
+void PkbWriter::addCFGs(EntityValue name, CFGSPtr cfg) {
   cfgsWriter->addCFGs(name, cfg);
 }

@@ -1,8 +1,9 @@
 #pragma once
 
-#include "qps/common/AttributedSynonym.h"
+#include "qps/common/synonym/AttributedSynonym.h"
 #include "pkb/queryHandlers/PkbQueryHandler.h"
 #include "qps/common/intermediate_result/QueryResultItem.h"
+#include "qps/common/QPSTypes.h"
 
 class ResultItemProjector {
  private:

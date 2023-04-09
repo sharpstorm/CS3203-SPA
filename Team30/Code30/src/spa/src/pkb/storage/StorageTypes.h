@@ -24,7 +24,7 @@ using ConstRevTable = HashKeyTable<EntityValue, EntityIdx>;
 
 // stmtNum -> procedure
 using ProcedureStmtTable = ContiguousTable<EntityValue>;
-using ProcedureValues = EntitySet;
+using ProcedureValues = EntityValueSet;
 using StmtTable = ContiguousTable<StmtType>;
 using StmtRevTable = HashKeySetTable<StmtType, StmtValue>;
 

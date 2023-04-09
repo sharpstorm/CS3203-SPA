@@ -4,6 +4,9 @@
 
 #include "qps/common/intermediate_result/PQLQueryResult.h"
 #include "ResultItemProjector.h"
+#include "qps/common/QPSTypes.h"
+
+using std::vector;
 
 class ProjectorInstruction;
 typedef int ResultGroupId;

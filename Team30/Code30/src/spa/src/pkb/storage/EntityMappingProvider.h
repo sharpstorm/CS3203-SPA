@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-#include <set>
 #include <utility>
 
 #include "ProcedureAndCallsStorage.h"
@@ -9,18 +7,15 @@
 #include "common/Types.h"
 #include "interfaces/IEntityMappingProvider.h"
 
-using std::string;
-using std::set;
-
 class EntityMappingProvider : public IEntityMappingProvider {
  public:
   explicit EntityMappingProvider(VariableStorage *, ConstantStorage *,
                                  ProcedureAndCallsStorage *);
-  const EntitySet& getValuesOfType(EntityType) const override;
-  EntityValue getVariableByIndex(int) const override;
-  EntityValue getConstantByIndex(int) const override;
-  EntityIdx getIndexOfVariable(string) const override;
-  EntityIdx getIndexOfConstant(string) const override;
+  const EntityValueSet &getValuesOfType(EntityType) const override;
+  EntityValue getVariableByIndex(EntityIdx) const override;
+  EntityValue getConstantByIndex(EntityIdx) const override;
+  EntityIdx getIndexOfVariable(EntityValue) const override;
+  EntityIdx getIndexOfConstant(EntityValue) const override;
   bool isValueOfType(EntityType, EntityValue) const override;
 
  private:

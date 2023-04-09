@@ -24,7 +24,10 @@ TEST_CASE("Test QueryResultItem Pool Adoption") {
   REQUIRE(ptr4 == poolB.getItem(4));
   REQUIRE(ptrD == poolB.getItem("d"));
 
-  poolA.adoptPool(&poolB);
+  auto orphans = poolA.adoptPool(&poolB);
   REQUIRE(ptr4 == poolA.getItem(4));
   REQUIRE(ptrD == poolA.getItem("d"));
+
+  REQUIRE(orphans->getMappingFor(ptrB1) == ptr1);
+  REQUIRE(orphans->getMappingFor(ptrBa) == ptrA);
 }

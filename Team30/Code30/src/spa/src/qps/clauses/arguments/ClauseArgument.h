@@ -3,8 +3,8 @@
 #include <memory>
 
 #include "common/Types.h"
-#include "../../common/PQLQuerySynonym.h"
-#include "qps/constraints/Constraint.h"
+#include "qps/common/synonym/PQLQuerySynonym.h"
+#include "qps/common/IConstraint.h"
 #include "qps/common/IEvaluatable.h"
 
 using std::unique_ptr;

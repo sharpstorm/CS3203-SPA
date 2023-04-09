@@ -1,6 +1,7 @@
 #include "QueryGrouperIndex.h"
 
-void QueryGrouperIndex::insertUsage(const PQLSynonymName &name, int value) {
+void QueryGrouperIndex::insertUsage(const PQLSynonymName &name,
+                                    PlanNode value) {
   if (synonymMap.find(name) != synonymMap.end()) {
     synonymMap[name].insert(value);
   } else {
@@ -36,7 +37,7 @@ void QueryGrouperIndex::linkConstraint(const PQLSynonymName &name) {
   constrainSynonyms.erase(name);
 }
 
-const PQLSynonymNameSet* QueryGrouperIndex::getHangingSelects() const {
+const PQLSynonymNameSet *QueryGrouperIndex::getHangingSelects() const {
   return &selectSynonyms;
 }
 

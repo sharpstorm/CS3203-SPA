@@ -3,7 +3,7 @@
 #include <memory>
 
 #include "Clause.h"
-#include "qps/common/AttributedSynonym.h"
+#include "qps/common/synonym/AttributedSynonym.h"
 
 using std::unique_ptr;
 
@@ -36,8 +36,8 @@ class WithSelectClause : public Clause {
  public:
   WithSelectClause(const AttributedSynonym &aSyn, const EntityValue &entV);
   PQLQueryResult *evaluateOn(const QueryExecutorAgent &agent) const override;
-  bool validateArgTypes(const VariableTable *variables) const override;
-  const PQLSynonymNameList getUsedSynonyms() const override;
+  bool validateArgTypes() const override;
+  PQLSynonymNameList getUsedSynonyms() const override;
   ComplexityScore getComplexityScore(const OverrideTable *table) const override;
 };
 

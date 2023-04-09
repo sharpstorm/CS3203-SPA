@@ -58,7 +58,7 @@ class AbstractTwoArgClause : public SuchThatClause {
   }
 
   template<SynonymPredicate leftValidator, SynonymPredicate rightValidator>
-  bool validateArgTypes(const VariableTable *variables) const {
+  bool validateArgTypes() const {
     bool isLeftValid = left->synonymSatisfies(leftValidator);
     bool isRightValid = right->synonymSatisfies(rightValidator);
     return isLeftValid && isRightValid;
@@ -114,5 +114,5 @@ class AbstractTwoArgClause : public SuchThatClause {
 
  public:
   AbstractTwoArgClause(ClauseArgumentPtr left, ClauseArgumentPtr right);
-  const PQLSynonymNameList getUsedSynonyms() const override;
+  PQLSynonymNameList getUsedSynonyms() const override;
 };

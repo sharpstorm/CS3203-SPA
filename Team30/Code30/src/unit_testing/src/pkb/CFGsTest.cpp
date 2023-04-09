@@ -1,6 +1,4 @@
 #include <memory>
-#include <string>
-#include <unordered_set>
 
 #include "catch.hpp"
 #include "common/Types.h"
@@ -9,7 +7,6 @@
 #include "pkb/writers/PkbWriter.h"
 
 using std::make_unique, std::make_shared;
-using std::unordered_set;
 
 TEST_CASE("CFGs write and read") {
   auto pkb = make_unique<PKB>();

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-#include <memory>
 #include "../../common/PQLQuery.h"
 #include "QueryTokenParseState.h"
 #include "common/parser/ISourceExpressionParser.h"
@@ -9,11 +7,9 @@
 #include "parsers/declaration_parser/PQLDeclarationParser.h"
 #include "qps/parser/token_parser/parsers/conditional_parser/PQLConditionalParser.h"
 
-using std::string;
-
 class QueryTokenParser {
  private:
-  PQLTokenVector *tokens;
+  PQLTokenList *tokens;
 
   PQLSelectParser selectParser;
   PQLDeclarationParser declarationParser;
@@ -21,6 +17,6 @@ class QueryTokenParser {
 
  public:
   explicit QueryTokenParser(ISourceExpressionParser *exprParser,
-                            PQLTokenVector *tokens);
+                            PQLTokenList *tokens);
   PQLQueryPtr build();
 };

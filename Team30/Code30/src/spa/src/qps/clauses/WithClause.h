@@ -14,8 +14,8 @@ class WithClause : public Clause {
  public:
   WithClause(const AttributedSynonym &left, const AttributedSynonym &right);
   PQLQueryResult *evaluateOn(const QueryExecutorAgent &agent) const override;
-  bool validateArgTypes(const VariableTable *variables) const override;
-  const PQLSynonymNameList getUsedSynonyms() const override;
+  bool validateArgTypes() const override;
+  PQLSynonymNameList getUsedSynonyms() const override;
   ComplexityScore getComplexityScore(const OverrideTable *table) const override;
 };
 

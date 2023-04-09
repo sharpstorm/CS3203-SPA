@@ -1,5 +1,4 @@
 #include "AssignPatternChecker.h"
-#include <utility>
 
 AssignPatternChecker::AssignPatternChecker(const ExpressionArgument *expr,
                                            const StmtRef *assignRef,
@@ -7,8 +6,8 @@ AssignPatternChecker::AssignPatternChecker(const ExpressionArgument *expr,
     assignRef(assignRef), variableRef(variableRef), expr(expr) {}
 
 void AssignPatternChecker::filterModifiesInto(
-    const QueryResult<StmtValue, EntityValue> *modifiesResult,
-    QueryResult<StmtValue, EntityValue> *assignResult,
+    const ConcreteQueryResult *modifiesResult,
+    ConcreteQueryResult *assignResult,
     const QueryExecutorAgent &agent) const {
   if (assignRef->isKnown() && variableRef->isKnown()) {
     checkBoolean(modifiesResult, assignResult, agent);
@@ -22,10 +21,10 @@ void AssignPatternChecker::filterModifiesInto(
 }
 
 void AssignPatternChecker::checkBoolean(
-    const QueryResult<StmtValue, EntityValue> *modifiesResult,
-    QueryResult<StmtValue, EntityValue> *assignResult,
+    const ConcreteQueryResult *modifiesResult,
+    ConcreteQueryResult *assignResult,
     const QueryExecutorAgent &agent) const {
-  if (modifiesResult->isEmpty) {
+  if (modifiesResult->empty()) {
     return;
   }
 
@@ -33,14 +32,14 @@ void AssignPatternChecker::checkBoolean(
     return;
   }
 
-  assignResult->isEmpty = false;
+  assignResult->setNotEmpty();
 }
 
 void AssignPatternChecker::checkStmt(
-    const QueryResult<StmtValue, EntityValue> *modifiesResult,
-    QueryResult<StmtValue, EntityValue> *assignResult,
+    const ConcreteQueryResult *modifiesResult,
+    ConcreteQueryResult *assignResult,
     const QueryExecutorAgent &agent) const {
-  for (const StmtValue &stmt : modifiesResult->firstArgVals) {
+  for (const StmtValue stmt : modifiesResult->getLeftVals()) {
     if (!checkTrie(agent, stmt)) {
       continue;
     }
@@ -50,10 +49,10 @@ void AssignPatternChecker::checkStmt(
 }
 
 void AssignPatternChecker::checkVariable(
-    const QueryResult<StmtValue, EntityValue> *modifiesResult,
-    QueryResult<StmtValue, EntityValue> *assignResult,
+    const ConcreteQueryResult *modifiesResult,
+    ConcreteQueryResult *assignResult,
     const QueryExecutorAgent &agent) const {
-  if (modifiesResult->isEmpty) {
+  if (modifiesResult->empty()) {
     return;
   }
 
@@ -61,21 +60,21 @@ void AssignPatternChecker::checkVariable(
     return;
   }
 
-  for (const EntityValue &var : modifiesResult->secondArgVals) {
+  for (const EntityValue &var : modifiesResult->getRightVals()) {
     assignResult->addRight(var);
   }
 }
 
 void AssignPatternChecker::checkBoth(
-    const QueryResult<StmtValue, EntityValue> *modifiesResult,
-    QueryResult<StmtValue, EntityValue> *assignResult,
+    const ConcreteQueryResult *modifiesResult,
+    ConcreteQueryResult *assignResult,
     const QueryExecutorAgent &agent) const {
   if (variableRef->isWildcard()) {
     checkStmt(modifiesResult, assignResult, agent);
     return;
   }
 
-  for (const auto &it : modifiesResult->pairVals) {
+  for (const auto &it : modifiesResult->getPairVals()) {
     if (!checkTrie(agent, it.first)) {
       continue;
     }
@@ -89,7 +88,7 @@ bool AssignPatternChecker::checkTrie(const QueryExecutorAgent &agent,
   // Call assigns to retrieve the node
   StmtRef assignRef = {StmtType::Assign, stmtNumber};
   auto nodes = agent->queryAssigns(assignRef);
-  PatternTrie *lineRoot = *nodes->secondArgVals.begin();
+  PatternTrie *lineRoot = *nodes->getRightVals().begin();
   return isTrieMatch(lineRoot);
 }
 

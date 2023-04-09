@@ -1,4 +1,5 @@
 #include "OverrideConstraint.h"
+#include "qps/errors/QPSParserSyntaxError.h"
 
 OverrideConstraint::OverrideConstraint(const AttributedSynonym &syn,
                                        const StmtValue &intVal) :
@@ -10,25 +11,19 @@ OverrideConstraint::OverrideConstraint(const AttributedSynonym &syn,
     attrSyn(syn), overrideTransformer(OverrideTransformer(identVal)) {}
 
 bool OverrideConstraint::validateConstraint() const {
-  switch (attrSyn.getAttribute()) {
-    case STMT_NUM:
-    case CONST_VALUE:
-      return overrideTransformer.returnsInteger();
-    case PROC_NAME:
-    case VAR_NAME:
-      return !overrideTransformer.returnsInteger();
-    default:
-      throw QPSParserSemanticError(QPS_PARSER_ERR_UNKNOWN_SYNONYM);
+  if (!attrSyn.hasAttribute()) {
+    throw QPSParserSyntaxError(QPS_PARSER_ERR_WITH_TYPE);
   }
+  return attrSyn.returnsInteger() == overrideTransformer.returnsInteger();
 }
 
-const PQLSynonymNameList OverrideConstraint::getAffectedSyns() const {
+PQLSynonymNameList OverrideConstraint::getAffectedSyns() const {
   return PQLSynonymNameList {attrSyn.getName()};
 }
 
 bool OverrideConstraint::applyConstraint(SynonymProxyBuilder *variableTable,
                                          OverrideTable *overrideTable) {
-  PQLSynonymName synName = attrSyn.getName();
+  const PQLSynonymName synName = attrSyn.getName();
 
   if (overrideTable->contains(synName)) {
     return overrideTable->get(synName) == overrideTransformer;

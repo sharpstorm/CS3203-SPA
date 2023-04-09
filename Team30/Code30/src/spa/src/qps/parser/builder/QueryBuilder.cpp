@@ -9,7 +9,7 @@ using std::make_unique;
 QueryBuilder::QueryBuilder(): variables(make_unique<VariableTable>()) {
 }
 
-void QueryBuilder::setError(const string &msg) {
+void QueryBuilder::setError(const ErrorMessage &msg) {
   if (!errorMsg.empty()) {
     return;
   }
@@ -27,7 +27,7 @@ void QueryBuilder::addSynonym(const PQLSynonymName &name,
     return;
   }
 
-  variables->add(name, PQLQuerySynonym(type, name));
+  variables->add(PQLQuerySynonym(type, name));
   declaredNames.insert(name);
 }
 
@@ -82,7 +82,7 @@ PQLQueryPtr QueryBuilder::build() {
 
   // Clause Validation
   for (int i = 0; i < clauses.size(); i++) {
-    if (!clauses.at(i)->validateArgTypes(variables.get())) {
+    if (!clauses.at(i)->validateArgTypes()) {
       throw QPSParserSemanticError(QPS_PARSER_ERR_SYNONYM_TYPE);
     }
   }

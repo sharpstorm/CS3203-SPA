@@ -1,11 +1,9 @@
 #pragma once
 
-#include <string>
-
-using std::string;
+#include "common/Types.h"
 
 class IProcedureWriter {
  public:
   virtual ~IProcedureWriter() {}
-  virtual void addProcedure(string, int, int) = 0;
+  virtual void addProcedure(EntityValue, StmtValue, StmtValue) = 0;
 };

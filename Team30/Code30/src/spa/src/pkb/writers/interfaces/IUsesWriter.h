@@ -1,8 +1,6 @@
 #pragma once
 
-#include <string>
-
-using std::string;
+#include "common/Types.h"
 
 class IUsesWriter {
  public:
@@ -10,5 +8,6 @@ class IUsesWriter {
   /**
    * Adds relation where statement directly uses variable.
    */
-  virtual void addUses(int stmtNum, string variable, string procedure) = 0;
+  virtual void addUses(StmtValue stmtNum, EntityValue variable,
+                       EntityValue procedure) = 0;
 };

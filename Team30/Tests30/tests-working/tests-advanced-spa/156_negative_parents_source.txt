@@ -1,0 +1,4 @@
+procedure Magnus {
+	read r;
+	print r;
+}

@@ -33,11 +33,11 @@ const {
   return builder.build(foundSet);
 }
 
-bool WithSelectClause::validateArgTypes(const VariableTable *variables) const {
+bool WithSelectClause::validateArgTypes() const {
   return entVal != NO_ENT;
 }
 
-const PQLSynonymNameList WithSelectClause::getUsedSynonyms() const {
+PQLSynonymNameList WithSelectClause::getUsedSynonyms() const {
   return {attrSyn.getName()};
 }
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Clause.h"
-#include "qps/common/PQLQuerySynonymProxy.h"
+#include "qps/common/synonym/PQLQuerySynonymProxy.h"
 
 template<class ReturnType, class RefType>
 using SelectPKBGetter = QueryResultSet<ReturnType>(*)(
@@ -25,7 +25,7 @@ class SelectClause : public Clause {
  public:
   explicit SelectClause(const PQLQuerySynonymProxy &target);
   PQLQueryResult *evaluateOn(const QueryExecutorAgent &agent) const override;
-  bool validateArgTypes(const VariableTable *variables) const override;
-  const PQLSynonymNameList getUsedSynonyms() const override;
+  bool validateArgTypes() const override;
+  PQLSynonymNameList getUsedSynonyms() const override;
   ComplexityScore getComplexityScore(const OverrideTable *table) const override;
 };

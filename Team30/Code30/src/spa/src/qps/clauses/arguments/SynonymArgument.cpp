@@ -23,12 +23,12 @@ ComplexityScore SynonymArgument::getSynComplexity() const {
 
 StmtRef SynonymArgument::toStmtRef() const {
   StmtType stmtType = convertToStmtType(synProxy->getType());
-  return StmtRef{stmtType, 0};
+  return StmtRef{stmtType, NO_STMT};
 }
 
 EntityRef SynonymArgument::toEntityRef() const {
   EntityType entType = convertToEntityType(synProxy->getType());
-  return EntityRef{entType, ""};
+  return EntityRef{entType, NO_ENT};
 }
 
 EntityType SynonymArgument::convertToEntityType(PQLSynonymType type) {

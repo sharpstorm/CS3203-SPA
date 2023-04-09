@@ -1,0 +1,90 @@
+1 - Negative Parent (static, static)
+stmt s1, s2;
+Select BOOLEAN such that Parent(1, 2)
+FALSE
+5000
+2 - Negative Parent (static, syn)
+stmt s1, s2;
+Select BOOLEAN such that Parent(1, s2)
+FALSE
+5000
+3 - Negative Parent (static, wildcard)
+stmt s1, s2;
+Select BOOLEAN such that Parent(1, _)
+FALSE
+5000
+4 - Negative Parent (syn, static)
+stmt s1, s2;
+Select BOOLEAN such that Parent(s1, 2)
+FALSE
+5000
+5 - Negative Parent (syn, syn)
+stmt s1, s2;
+Select BOOLEAN such that Parent(s1, s2)
+FALSE
+5000
+6 - Negative Parent (syn, wildcard)
+stmt s1, s2;
+Select BOOLEAN such that Parent(s1, _)
+FALSE
+5000
+7 - Negative Parent (wildcard, static)
+stmt s1, s2;
+Select BOOLEAN such that Parent(_, 2)
+FALSE
+5000
+8 - Negative Parent (wildcard, syn)
+stmt s1, s2;
+Select BOOLEAN such that Parent(_, s2)
+FALSE
+5000
+9 - Negative Parent (wildcard, wildcard)
+stmt s1, s2;
+Select BOOLEAN such that Parent(_, _)
+FALSE
+5000
+10 - Negative Parent* (static, static)
+stmt s1, s2;
+Select BOOLEAN such that Parent*(1, 2)
+FALSE
+5000
+11 - Negative Parent* (static, syn)
+stmt s1, s2;
+Select BOOLEAN such that Parent*(1, s2)
+FALSE
+5000
+12 - Negative Parent* (static, wildcard)
+stmt s1, s2;
+Select BOOLEAN such that Parent*(1, _)
+FALSE
+5000
+13 - Negative Parent* (syn, static)
+stmt s1, s2;
+Select BOOLEAN such that Parent*(s1, 2)
+FALSE
+5000
+14 - Negative Parent* (syn, syn)
+stmt s1, s2;
+Select BOOLEAN such that Parent*(s1, s2)
+FALSE
+5000
+15 - Negative Parent* (syn, wildcard)
+stmt s1, s2;
+Select BOOLEAN such that Parent*(s1, _)
+FALSE
+5000
+16 - Negative Parent* (wildcard, static)
+stmt s1, s2;
+Select BOOLEAN such that Parent*(_, 2)
+FALSE
+5000
+17 - Negative Parent* (wildcard, syn)
+stmt s1, s2;
+Select BOOLEAN such that Parent*(_, s2)
+FALSE
+5000
+18 - Negative Parent* (wildcard, wildcard)
+stmt s1, s2;
+Select BOOLEAN such that Parent*(_, _)
+FALSE
+5000

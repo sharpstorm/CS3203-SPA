@@ -1,18 +1,21 @@
 #include "QueryPlanner.h"
 
 #include <utility>
-#include <vector>
+#include <memory>
 
 #include "qps/executor/planner/grouping/QueryGrouper.h"
 
-QueryPlanPtr QueryPlanner::getExecutionPlan(const PQLQuery *targetQuery,
-                                            const OverrideTable *overrides) {
-  vector<QueryGroupPtr> groups = QueryGrouper(targetQuery).groupClauses();
+using std::make_unique;
 
-  vector<QueryGroupPlanPtr> groupPlans(groups.size());
+QueryPlanPtr QueryPlanner::getExecutionPlan(const PQLQuery *targetQuery,
+                                            const OverrideTable *overrides)
+const {
+  QueryGroupPtrList groups = QueryGrouper(targetQuery).groupClauses();
+  QueryGroupPlanPtrList groupPlans(groups.size());
+
   for (int i = 0; i < groups.size(); i++) {
-    QueryGroupPlanPtr groupOrder = clauseOrderer.orderClauses(groups[i].get(),
-                                                              overrides);
+    QueryClauseOrderer orderer(groups[i].get(), overrides);
+    QueryGroupPlanPtr groupOrder = orderer.orderClauses();
     groupPlans[i] = std::move(groupOrder);
   }
 

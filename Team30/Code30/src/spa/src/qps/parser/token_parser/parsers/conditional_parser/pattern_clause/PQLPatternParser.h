@@ -1,6 +1,6 @@
 #pragma once
 
-#include "qps/common/PQLQuerySynonym.h"
+#include "qps/common/synonym/PQLQuerySynonym.h"
 #include "common/parser/ISourceExpressionParser.h"
 #include "PQLAssignPatternContext.h"
 #include "IntermediateExpressionArgument.h"

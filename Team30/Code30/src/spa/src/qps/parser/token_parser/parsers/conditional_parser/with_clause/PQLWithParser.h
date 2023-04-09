@@ -1,13 +1,12 @@
 #pragma once
 
 #include <memory>
-#include <string>
 
-#include "qps/common/PQLQuerySynonym.h"
+#include "qps/common/synonym/PQLQuerySynonym.h"
 #include "qps/parser/token_parser/parsers/IPQLParser.h"
 #include "qps/clauses/WithClause.h"
 
-using std::make_unique, std::string;
+using std::make_unique;
 
 class PQLWithParser : public IPQLParser {
   static void handleConstant(WithArgumentPtr left,

@@ -10,7 +10,7 @@ QueryExecutorAgent::QueryExecutorAgent(const PkbQueryHandler *pkb,
     pkbQueryHandler(pkb), overrideTable(table), cache(cache) {}
 
 const PkbQueryHandler *QueryExecutorAgent::operator->() const {
-  return this->pkbQueryHandler;
+  return pkbQueryHandler;
 }
 
 StmtRef QueryExecutorAgent::transformArg(const PQLSynonymName name,
@@ -32,7 +32,7 @@ EntityRef QueryExecutorAgent::transformArg(const PQLSynonymName name,
 }
 
 bool QueryExecutorAgent::isValid(const StmtRef &ref) const {
-  if (ref.getValue() < NO_STMT) {
+  if (!ref.isValid()) {
     return false;
   }
 
@@ -53,10 +53,14 @@ bool QueryExecutorAgent::isValid(const EntityRef &ref) const {
     return true;
   }
 
-  return !ref.isKnown() ||
-      pkbQueryHandler->isSymbolOfType(ref.getType(), ref.getValue());
+  return !ref.isKnown() || pkbQueryHandler->isSymbolOfType(ref.getType(),
+                                                           ref.getValue());
 }
 
 CacheTable *QueryExecutorAgent::getAffectsCache() const {
   return cache->getAffectsCache();
+}
+
+const PkbQueryHandler *QueryExecutorAgent::getPkbQueryHandler() const {
+  return pkbQueryHandler;
 }

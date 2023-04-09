@@ -23,7 +23,8 @@ ProjectedValue ResultItemProjector::projectNonDefaultAttribute(
     case PQL_SYN_TYPE_CALL:
       return item->projectAttribute(ResultItemProjector::projectCall,
                                     pkbHandler);
-    default:return "";
+    default:
+      return "";
   }
 }
 

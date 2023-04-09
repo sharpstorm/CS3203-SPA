@@ -1,5 +1,4 @@
 #include <memory>
-#include <unordered_set>
 
 #include "EntityMappingProviderStub.h"
 #include "StructureMappingProviderStub.h"
@@ -11,7 +10,6 @@ using std::make_shared;
 using std::make_unique;
 using std::shared_ptr;
 using std::unique_ptr;
-using std::unordered_set;
 
 static unique_ptr<EntityMappingProviderStub> setUpEntityMappingProvider() {
   auto provider = make_unique<EntityMappingProviderStub>();

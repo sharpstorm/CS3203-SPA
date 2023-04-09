@@ -7,6 +7,14 @@ bool contains(vector<PQLQuerySynonym*>* v, PQLQuerySynonym* target) {
   return std::count(v->begin(), v->end(), target);
 }
 
+class SynonymUFDSSpy : public SynonymUFDS {
+ public:
+  SynonymUFDSSpy(ProxyMap* proxyMap) : SynonymUFDS(proxyMap) {}
+  vector<UFDSSet> getParentsTesting() const {
+    return getParents();
+  }
+};
+
 TEST_CASE("SynonymUFDS Test") {
   PQLQuerySynonym syn1{PQL_SYN_TYPE_STMT, "a"};
   PQLQuerySynonym syn2{PQL_SYN_TYPE_STMT, "b"};
@@ -15,15 +23,15 @@ TEST_CASE("SynonymUFDS Test") {
   PQLQuerySynonym syn5{PQL_SYN_TYPE_STMT, "e"};
 
   VariableTable varTable;
-  varTable.add("a", syn1);
-  varTable.add("b", syn2);
-  varTable.add("c", syn3);
-  varTable.add("d", syn4);
-  varTable.add("e", syn5);
+  varTable.add(syn1);
+  varTable.add(syn2);
+  varTable.add(syn3);
+  varTable.add(syn4);
+  varTable.add(syn5);
   varTable.finalizeTable();
-  SynonymUFDS ufds(&varTable);
+  SynonymUFDSSpy ufds(varTable.getProxyMap());
 
-  vector<int> v = ufds.getParents();
+  vector<int> v = ufds.getParentsTesting();
 
   REQUIRE(v[0] == 0);
   REQUIRE(v[1] == 1);

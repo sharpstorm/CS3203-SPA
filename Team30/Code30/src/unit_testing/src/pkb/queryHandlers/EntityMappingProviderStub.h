@@ -1,34 +1,29 @@
 #pragma once
 
-#include <set>
-#include <string>
-
+#include "common/Types.h"
 #include "pkb/storage/interfaces/IEntityMappingProvider.h"
 #include "pkb/storage/tables/ContiguousTable.h"
 #include "pkb/storage/tables/HashKeySetTable.h"
 
-using std::set;
-using std::string;
-
 class EntityMappingProviderStub : public IEntityMappingProvider {
  public:
-  EntitySet allVariables;
-  EntitySet allConstants;
-  EntitySet allProcedures;
+  EntityValueSet allVariables;
+  EntityValueSet allConstants;
+  EntityValueSet allProcedures;
 
-  ContiguousTable<string> variableTable;
-  ContiguousTable<string> constantTable;
-  ContiguousTable<string> procedureTable;
+  ContiguousTable<EntityValue> variableTable;
+  ContiguousTable<EntityValue> constantTable;
+  ContiguousTable<EntityValue> procedureTable;
 
-  HashKeyTable<string, int> variableToIndexTable;
-  HashKeyTable<string, int> constantToIndexTable;
-  HashKeyTable<string, int> procedureToStmtNumTable;
+  HashKeyTable<EntityValue, EntityIdx> variableToIndexTable;
+  HashKeyTable<EntityValue, EntityIdx> constantToIndexTable;
+  HashKeyTable<EntityValue, EntityIdx> procedureToStmtNumTable;
 
   EntityMappingProviderStub();
-  const EntitySet& getValuesOfType(EntityType) const override;
+  const EntityValueSet& getValuesOfType(EntityType) const override;
   bool isValueOfType(EntityType, EntityValue) const override;
-  string getVariableByIndex(int) const override;
-  string getConstantByIndex(int) const override;
-  EntityIdx getIndexOfVariable(string) const override;
-  EntityIdx getIndexOfConstant(string) const override;
+  EntityValue getVariableByIndex(EntityIdx) const override;
+  EntityValue getConstantByIndex(EntityIdx) const override;
+  EntityIdx getIndexOfVariable(EntityValue) const override;
+  EntityIdx getIndexOfConstant(EntityValue) const override;
 };
