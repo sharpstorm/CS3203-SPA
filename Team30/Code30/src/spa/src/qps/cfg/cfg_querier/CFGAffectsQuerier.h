@@ -260,12 +260,9 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
       };
 
   QueryToResultClosure state{cfg, closure, &result, arg1, symbolMap};
-  CFGStatefulWalker statefulWalker(cfg);
-
-  statefulWalker.walkTo<QueryToResultClosure,
-                        backwardWalkerCallback>(nodeTo,
-                                                initialState,
-                                                &state);
+  CFGStatefulWalker<QueryToResultClosure,
+                    backwardWalkerCallback> statefulWalker(cfg, &state);
+  statefulWalker.walkTo(nodeTo, initialState);
 
   closure.getAffectsCache()->promoteTo(arg1);
   return result;
