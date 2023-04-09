@@ -32,55 +32,23 @@ class FollowsTableManager : public RelationTableManager<StmtValue, StmtValue> {
         reverseTable(reverseTable),
         RelationTableManager(table, reverseTable) {}
 
-  void insert(StmtValue arg1, StmtValue arg2) override {
-    table->insert(arg1, arg2);
-    reverseTable->insert(arg2, arg1);
-  }
+  void insert(StmtValue arg1, StmtValue arg2) override;
 
   QueryResultPtr<StmtValue, StmtValue> query(
       StmtValue arg1, StmtValue arg2,
-      QueryResultBuilder<StmtValue, StmtValue> *resultBuilder) const override {
-    auto firstVal = table->getFirstValue(arg1);
-    if (firstVal == arg2) {
-      resultBuilder->add(arg1, arg2);
-    }
-
-    return resultBuilder->getResult();
-  }
+      QueryResultBuilder<StmtValue, StmtValue> *resultBuilder) const override;
 
   unique_ptr<IBaseIterator<StmtValue>> getRightValIter(
-      StmtValue leftArg) const override {
-    auto rightArg = table->getFirstValue(leftArg);
-    return make_unique<ItemIterator<StmtValue>>(rightArg);
-  }
+      StmtValue leftArg) const override;
 
   unique_ptr<IBaseIterator<StmtValue>> getLeftValIter(
-      StmtValue rightArg) const override {
-    auto leftArg = reverseTable->getLastValue(rightArg);
-    return make_unique<ItemIterator<StmtValue>>(leftArg);
-  }
+      StmtValue rightArg) const override;
 
   QueryResultPtr<StmtValue, StmtValue> rightWildcardQuery(
       const StmtValueSet &arg1Values,
-      QueryResultBuilder<StmtValue, StmtValue> *resultBuilder) const override {
-    for (auto arg1 : arg1Values) {
-      auto arg2 = table->getFirstValue(arg1);
-      if (arg2 != 0) {
-        resultBuilder->addLeft(arg1);
-      }
-    }
-    return resultBuilder->getResult();
-  }
+      QueryResultBuilder<StmtValue, StmtValue> *resultBuilder) const override;
 
   QueryResultPtr<StmtValue, StmtValue> leftWildcardQuery(
       const StmtValueSet &arg2Values,
-      QueryResultBuilder<StmtValue, StmtValue> *resultBuilder) const override {
-    for (auto arg2 : arg2Values) {
-      auto arg1 = reverseTable->getLastValue(arg2);
-      if (arg1 != 0) {
-        resultBuilder->addRight(arg2);
-      }
-    }
-    return resultBuilder->getResult();
-  }
+      QueryResultBuilder<StmtValue, StmtValue> *resultBuilder) const override;
 };
