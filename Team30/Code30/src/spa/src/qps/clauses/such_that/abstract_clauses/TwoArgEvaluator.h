@@ -7,6 +7,11 @@
 #include "qps/common/intermediate_result/PQLQueryResultBuilder.h"
 #include "RefEvalulator.h"
 
+/*
+ * Because this is a templated class, the implementation must be fully
+ * in the header file, or linker errors will occur
+ */
+
 template<typename LeftArgType, typename RightArgType>
 class TwoArgEvaluator {
  private:

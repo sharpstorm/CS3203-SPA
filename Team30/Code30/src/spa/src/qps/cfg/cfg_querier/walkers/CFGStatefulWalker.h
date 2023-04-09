@@ -9,6 +9,11 @@
 
 using std::vector;
 
+/*
+ * Because this is a templated class, the implementation must be fully
+ * in the header file, or linker errors will occur
+ */
+
 template<typename T>
 using StatefulWalkerSingleCallback = void (*)(T *ptr, CFGNode node,
                                               BitField *currentState);

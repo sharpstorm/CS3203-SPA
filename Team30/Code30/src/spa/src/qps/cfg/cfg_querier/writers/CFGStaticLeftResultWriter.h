@@ -3,6 +3,11 @@
 #include "common/Types.h"
 #include "CFGBaseResultWriter.h"
 
+/*
+ * Because this is a templated class, the implementation must be fully
+ * in the header file, or linker errors will occur
+ */
+
 template<class T>
 class CFGStaticLeftResultWriter : public BaseCFGResultWriter<T> {
 

@@ -6,6 +6,11 @@
 #include "qps/cfg/CFGQuerierTypes.h"
 #include "qps/cfg/cfg_querier/writers/CFGResultWriterFactory.h"
 
+/*
+ * Because this is a templated class, the implementation must be fully
+ * in the header file, or linker errors will occur
+ */
+
 template<class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
 class CFGNextTQuerier : public CFGQuerier<
     CFGNextTQuerier<ClosureType, typePredicate>> {

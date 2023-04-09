@@ -8,6 +8,11 @@
 #include "CFGPairResultWriter.h"
 #include "CFGStaticLeftResultWriter.h"
 
+/*
+ * Because this is a templated class, the implementation must be fully
+ * in the header file, or linker errors will occur
+ */
+
 template<class T>
 class CFGResultWriterFactory {
  private:

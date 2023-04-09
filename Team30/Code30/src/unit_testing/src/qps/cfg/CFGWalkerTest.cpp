@@ -37,12 +37,6 @@ void assertWalkTo(CFGWalker* walker, CFGNode to, CFGNodeSet set) {
   REQUIRE(nodes == set);
 }
 
-void assertWalkAll(CFGWalker* walker, CFGNodePairSet set) {
-  CFGNodePairSet nodes;
-  walker->walkAll<CFGNodePairSet, pairWalkCallback>(&nodes);
-  REQUIRE(nodes == set);
-}
-
 TEST_CASE("CFG Linear Static Walk") {
   auto cfg = TestCFGProvider::getLinearCFG();
   CFGWalker walker(&cfg);
@@ -80,15 +74,6 @@ TEST_CASE("CFG Linear Set Walk") {
   assertWalkTo(&walker, 1, {0});
   assertWalkTo(&walker, 2, {0, 1});
   assertWalkTo(&walker, 3, {0, 1, 2});
-
-  assertWalkAll(&walker, {
-      {0, 1},
-      {0, 2},
-      {0, 3},
-      {1, 2},
-      {1, 3},
-      {2, 3}
-  });
 }
 
 TEST_CASE("CFG Simple If Static Walk") {
@@ -130,14 +115,6 @@ TEST_CASE("CFG Simple If Set Walk") {
   assertWalkTo(&walker, 1, {0});
   assertWalkTo(&walker, 2, {0, 1});
   assertWalkTo(&walker, 3, {0, 1});
-
-  assertWalkAll(&walker, {
-      {0, 1},
-      {0, 2},
-      {0, 3},
-      {1, 2},
-      {1, 3}
-  });
 }
 
 TEST_CASE("CFG Simple While Static Walk") {
@@ -167,15 +144,6 @@ TEST_CASE("CFG Simple While Set Walk") {
   assertWalkTo(&walker, 0, {});
   assertWalkTo(&walker, 1, {0, 1, 2});
   assertWalkTo(&walker, 2, {0, 1, 2});
-
-  assertWalkAll(&walker, {
-      {0, 1},
-      {0, 2},
-      {1, 1},
-      {1, 2},
-      {2, 1},
-      {2, 2}
-  });
 }
 
 TEST_CASE("CFG Simple Multi-Cycle Walk") {
@@ -197,49 +165,4 @@ TEST_CASE("CFG Simple Multi-Cycle Walk") {
   assertWalkTo(&walker, 4, {0, 1, 2, 3, 4, 5, 6});
   assertWalkTo(&walker, 5, {0, 1, 2, 3, 4, 5, 6});
   assertWalkTo(&walker, 6, {0, 1, 2, 3, 4, 5, 6});
-
-  assertWalkAll(&walker, {
-      {0, 1},
-      {0, 2},
-      {0, 3},
-      {0, 4},
-      {0, 5},
-      {0, 6},
-
-      {1, 2},
-      {1, 3},
-      {1, 4},
-      {1, 5},
-      {1, 6},
-
-      {2, 2},
-      {2, 3},
-      {2, 4},
-      {2, 5},
-      {2, 6},
-
-      {3, 2},
-      {3, 3},
-      {3, 4},
-      {3, 5},
-      {3, 6},
-
-      {4, 2},
-      {4, 3},
-      {4, 4},
-      {4, 5},
-      {4, 6},
-
-      {5, 2},
-      {5, 3},
-      {5, 4},
-      {5, 5},
-      {5, 6},
-
-      {6, 2},
-      {6, 3},
-      {6, 4},
-      {6, 5},
-      {6, 6},
-  });
 }

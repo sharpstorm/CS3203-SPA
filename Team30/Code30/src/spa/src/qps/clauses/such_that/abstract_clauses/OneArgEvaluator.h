@@ -3,6 +3,11 @@
 #include "RefEvalulator.h"
 #include "qps/common/intermediate_result/PQLQueryResultBuilder.h"
 
+/*
+ * Because this is a templated class, the implementation must be fully
+ * in the header file, or linker errors will occur
+ */
+
 template<typename ArgType>
 class OneArgEvaluator {
  private:

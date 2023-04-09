@@ -10,6 +10,11 @@
 #include "common/SetUtils.h"
 #include "qps/common/CacheTable.h"
 
+/*
+ * Because this is a templated class, the implementation must be fully
+ * in the header file, or linker errors will occur
+ */
+
 using std::map;
 
 typedef map<EntityIdx, int> EntitySymbolMap;
