@@ -10,8 +10,8 @@
 using std::vector;
 
 template<typename T>
-using StatefulWalkerSingleCallback = BitField (*)(T *ptr, CFGNode node,
-                                              BitField currentState);
+using StatefulWalkerSingleCallback = void (*)(T *ptr, CFGNode node,
+                                              BitField *currentState);
 
 template<class T, StatefulWalkerSingleCallback<T> callback>
 class CFGStatefulWalker {
@@ -89,8 +89,9 @@ exploreNode(vector<BitField> *visitedNodes,
       continue;
     }
 
-    BitField newState = callback(state, nextNode, curState);
-    auto const curHistory = visitedNodes->at(nextNode);
+    BitField newState = curState;
+    callback(state, nextNode, &newState);
+    auto const &curHistory = visitedNodes->at(nextNode);
     if (curHistory.contains(newState)) {
       continue;
     }

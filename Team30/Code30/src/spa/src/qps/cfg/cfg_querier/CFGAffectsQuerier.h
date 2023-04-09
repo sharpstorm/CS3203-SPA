@@ -224,14 +224,14 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
 
   constexpr StatefulWalkerSingleCallback<QueryToResultClosure>
       backwardWalkerCallback =
-      [](QueryToResultClosure *state, CFGNode nextNode, BitField curState)
-          -> BitField {
+      [](QueryToResultClosure *state, CFGNode nextNode, BitField *curState)
+          -> void {
         bool isAffected = false;
         StmtValue stmtNumber = state->cfg->fromCFGNode(nextNode);
 
         if (isContainer<ClosureType,
                         typePredicate>(state->closure, stmtNumber)) {
-          return curState;
+          return;
         }
 
         EntityIdxSet modifiedVars = modifiesGetter(state->closure, stmtNumber);
@@ -241,10 +241,10 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
             continue;
           }
 
-          if (!curState.isSet(it->second)) {
+          if (!curState->isSet(it->second)) {
             continue;
           }
-          curState.unset(it->second);
+          curState->unset(it->second);
           isAffected = isAffected || typePredicate(state->closure,
                                                    StmtType::Assign,
                                                    stmtNumber);
@@ -256,7 +256,7 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
               addEntry(stmtNumber, state->endingStmt);
         }
 
-        return curState;
+        return;
       };
 
   QueryToResultClosure state{cfg, closure, &result, arg1, symbolMap};
