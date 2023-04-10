@@ -8,6 +8,11 @@
 #include "OneArgEvaluator.h"
 #include "TwoArgEvaluator.h"
 
+/*
+ * Because this is a templated class, the implementation must be fully
+ * in the header file, or linker errors will occur
+ */
+
 template<
     EntEntInvoker invoker,
     EntInvoker symmetricInvoker,

@@ -3,7 +3,7 @@
 CFGTestModifiesUsesProvider::CFGTestModifiesUsesProvider(
     vector<unordered_set<EntityValue>> modifies,
     vector<unordered_set<EntityValue>> uses,
-    QueryCache* cache):
+    QueryCache *cache) :
     modifies(modifies), uses(uses), cache(cache) {
   fillSymbolTable();
 }
@@ -12,8 +12,11 @@ CFGTestModifiesUsesProvider::CFGTestModifiesUsesProvider(
     vector<unordered_set<EntityValue>> modifies,
     vector<unordered_set<EntityValue>> uses,
     unordered_map<StmtValue, StmtType> typeExclusions,
-    QueryCache* cache):
-    modifies(modifies), uses(uses), typeExclusions(typeExclusions), cache(cache) {
+    QueryCache *cache) :
+    modifies(modifies),
+    uses(uses),
+    typeExclusions(typeExclusions),
+    cache(cache) {
   fillSymbolTable();
 }
 
@@ -64,7 +67,7 @@ int CFGTestModifiesUsesProvider::getCount(const CFGTestModifiesUsesProvider &sta
   return state.symbolTable.size() + 1;
 }
 
-CacheTable* CFGTestModifiesUsesProvider::getAffectsCache() const {
+CacheTable *CFGTestModifiesUsesProvider::getAffectsCache() const {
   return cache->getAffectsCache();
 }
 
@@ -106,4 +109,27 @@ void CFGTestModifiesUsesProvider::fillSymbolTable() {
       }
     }
   }
+}
+
+EntityIdxSet CFGTestModifiesUsesProvider::getUses(StmtValue value) const {
+  return getUses(*this, value);
+}
+
+EntityIdxSet CFGTestModifiesUsesProvider::getModifies(StmtValue value) const {
+  return getModifies(*this, value);
+}
+
+bool CFGTestModifiesUsesProvider::isStmtType(StmtType type,
+                                             StmtValue value) const {
+  return typePredicate(*this, type, value);
+}
+
+bool CFGTestModifiesUsesProvider::queryAffectsPartial(StmtValue arg0,
+                                                      StmtValue arg1) const {
+  return false;
+}
+
+const CacheRow *CFGTestModifiesUsesProvider::queryAffectsFull(StmtValue arg0,
+                                                              StmtValue arg1) const {
+  return nullptr;
 }

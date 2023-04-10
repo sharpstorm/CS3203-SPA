@@ -1,5 +1,10 @@
 #pragma once
 
+/*
+ * Because this is a templated class, templated methods must be
+ * in the header file, or linker errors will occur
+ */
+
 template<class MetricType, class DataType>
 class ComparableContainer {
  private:

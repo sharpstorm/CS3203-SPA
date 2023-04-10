@@ -124,7 +124,7 @@ TEST_CASE("Test Writer Pattern") {
   spDriver.parseSource(testSource, &pkbWriter);
   PatternTrie* trie = *queryHandler.
           queryAssigns(StmtRef{StmtType::None, 2})
-      ->secondArgVals.begin();
+      ->getRightVals().begin();
   ExpressionSequence expected{1};
   REQUIRE(trie->isMatchPartial(&expected));
   expected = {3};

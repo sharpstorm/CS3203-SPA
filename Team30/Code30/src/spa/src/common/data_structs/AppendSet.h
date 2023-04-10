@@ -5,6 +5,11 @@
 #include <memory>
 #include <vector>
 
+/*
+ * Because this is a templated class, templated methods must be
+ * in the header file, or linker errors will occur
+ */
+
 using std::vector, std::unique_ptr, std::lower_bound;
 
 template <class T>

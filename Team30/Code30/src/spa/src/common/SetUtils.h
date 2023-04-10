@@ -5,6 +5,11 @@
 #include "UtilityTypes.h"
 #include "common/data_structs/AppendSet.h"
 
+/*
+ * Because this is a templated class, templated methods must be
+ * in the header file, or linker errors will occur
+ */
+
 using std::make_unique, std::unordered_set;
 
 class SetUtils {

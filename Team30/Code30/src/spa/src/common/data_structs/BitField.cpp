@@ -109,6 +109,9 @@ bool BitField::contains(const BitField &other) const {
   return true;
 }
 
+/*
+ * All set bits in this bitfield are unset on the other bitfield
+ */
 BitField BitField::projectOnto(const BitField &other) const {
   const int minCap = (capacity < other.capacity) ? capacity : other.capacity;
 

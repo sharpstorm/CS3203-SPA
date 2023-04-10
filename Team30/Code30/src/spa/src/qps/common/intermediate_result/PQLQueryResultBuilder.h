@@ -6,6 +6,11 @@
 #include "PQLQueryResult.h"
 #include "qps/clauses/arguments/ClauseArgument.h"
 
+/*
+ * Because this is a templated class, templated methods must be
+ * in the header file, or linker errors will occur
+ */
+
 using std::make_unique, std::pair;
 
 template<class T, class U>

@@ -50,10 +50,10 @@ class AssignPatternPKBStub : public StubPKB {
   PatternTriePtr line3;
   PatternTriePtr line4;
   PatternTriePtr line5;
-  PkbWriter* writer;
+  PkbWriter *writer;
 
  public:
-  AssignPatternPKBStub(PKB* in, PkbWriter* wr):
+  AssignPatternPKBStub(PKB *in, PkbWriter *wr) :
       StubPKB(in),
       line1(TrieBuilder(genInteger(1).get(), wr).build()),
       line2(TrieBuilder(genVariable("x").get(), wr).build()),
@@ -62,74 +62,89 @@ class AssignPatternPKBStub : public StubPKB {
                   std::move(genInteger(2))).get(), wr).build()),
       line4(TrieBuilder(
           genPlus(genVariable("y"), genVariable("x")).get(), wr).build()),
-      line5(TrieBuilder(genPlus(genPlus(genInteger(2),genVariable("z")),
-                                                       genVariable("y")).get(), wr).build()) {
+      line5(TrieBuilder(genPlus(genPlus(genInteger(2), genVariable("z")),
+                                genVariable("y")).get(), wr).build()) {
   }
 
-  QueryResultPtr<int, string> queryModifies(StmtRef stmtRef, EntityRef entRef) const override {
-    auto res = make_unique<QueryResult<int,string>>();
+  void add(QueryResult<StmtValue, EntityValue> *target,
+           StmtValue left,
+           EntityValue right) const {
+    target->addPair(left, right);
+    target->addLeft(left);
+    target->addRight(right);
+  }
+
+  void addTo(QueryResult<StmtValue, EntityValue> *target,
+             StmtValue left, EntityValue right,
+             StmtRef leftRef, EntityRef rightRef) const {
+    bool isLeftKnown = leftRef.isKnown() || leftRef.isWildcard();
+    bool isRightKnown = rightRef.isKnown() || rightRef.isWildcard();
+    if (isLeftKnown && isRightKnown) {
+      target->setNotEmpty();
+    } else if (!isLeftKnown && !isRightKnown) {
+      target->addPair(left, right);
+    } else if (isLeftKnown) {
+      target->addRight(right);
+    } else {
+      target->addLeft(left);
+    }
+  }
+
+  QueryResultPtr<int, string> queryModifies(StmtRef stmtRef,
+                                            EntityRef entRef) const override {
+    auto res = make_unique<QueryResult<int, string>>();
     if (stmtRef.isKnown()) {
       if (!entRef.isKnown()) {
         switch (stmtRef.getValue()) {
-          case 1:
-            res->add(1, "a");
+          case 1:addTo(res.get(), 1, "a", stmtRef, entRef);
             break;
-          case 2:
-            res->add(2, "b");
+          case 2:addTo(res.get(), 2, "b", stmtRef, entRef);
             break;
-          case 3:
-            res->add(3, "a");
+          case 3:addTo(res.get(), 3, "a", stmtRef, entRef);
             break;
-          case 4:
-            res->add(4, "b");
+          case 4:addTo(res.get(), 4, "b", stmtRef, entRef);
             break;
-          case 5:
-            res->add(5, "c");
+          case 5:addTo(res.get(), 5, "c", stmtRef, entRef);
             break;
         }
       } else if (stmtRef.getValue() == 1 && entRef.getValue() == "a") {
-        res->add(1, "a");
+        addTo(res.get(), 1, "a", stmtRef, entRef);
       }
 
       return res;
     }
 
     if (!entRef.isKnown()) {
-      res->add(1, "a");
-      res->add(2, "b");
-      res->add(3, "a");
-      res->add(4, "b");
-      res->add(5, "c");
+      addTo(res.get(), 1, "a", stmtRef, entRef);
+      addTo(res.get(), 2, "b", stmtRef, entRef);
+      addTo(res.get(), 3, "a", stmtRef, entRef);
+      addTo(res.get(), 4, "b", stmtRef, entRef);
+      addTo(res.get(), 5, "c", stmtRef, entRef);
     } else if (entRef.getValue() == "a") {
-      res->add(1, "a");
-      res->add(3, "a");
+      addTo(res.get(), 1, "a", stmtRef, entRef);
+      addTo(res.get(), 3, "a", stmtRef, entRef);
     } else if (entRef.getValue() == "b") {
-      res->add(2, "b");
-      res->add(4, "b");
+      addTo(res.get(), 2, "b", stmtRef, entRef);
+      addTo(res.get(), 4, "b", stmtRef, entRef);
     } else if (entRef.getValue() == "c") {
-      res->add(5, "c");
+      addTo(res.get(), 5, "c", stmtRef, entRef);
     }
 
     return res;
   }
 
-  QueryResultPtr<int, PatternTrie*> queryAssigns(StmtRef ref) const override {
-    auto res = make_unique<QueryResult<int,PatternTrie*>>();
+  QueryResultPtr<int, PatternTrie *> queryAssigns(StmtRef ref) const override {
+    auto res = make_unique<QueryResult<int, PatternTrie *>>();
     switch (ref.getValue()) {
-      case 1:
-        res->add(1, line1.get());
+      case 1:res->addRight(line1.get());
         break;
-      case 2:
-        res->add(2, line2.get());
+      case 2:res->addRight(line2.get());
         break;
-      case 3:
-        res->add(3, line3.get());
+      case 3:res->addRight(line3.get());
         break;
-      case 4:
-        res->add(4, line4.get());
+      case 4:res->addRight(line4.get());
         break;
-      case 5:
-        res->add(5, line5.get());
+      case 5:res->addRight(line5.get());
         break;
     }
 
@@ -154,7 +169,8 @@ IASTPtr makeIASTNode(ASTNodePtr node) {
   return make_unique<AST>(std::move(node));
 }
 
-SynonymHolder ASSIGN_PATTERN_SYNS({{PQL_SYN_TYPE_ASSIGN, "a"}, {PQL_SYN_TYPE_VARIABLE, "v"}});
+SynonymHolder ASSIGN_PATTERN_SYNS
+    ({{PQL_SYN_TYPE_ASSIGN, "a"}, {PQL_SYN_TYPE_VARIABLE, "v"}});
 
 TEST_CASE("Assign Pattern Constant-Exact") {
   PKB pkbStore;
@@ -176,7 +192,7 @@ TEST_CASE("Assign Pattern Constant-Exact") {
       false);
 
   expected = make_unique<PQLQueryResult>();
-  expected->add("a", unordered_set<int>{ 2 });
+  expected->add("a", unordered_set<int>{2});
   actual = PQLQueryResultPtr(patternClause->evaluateOn(agent));
   REQUIRE(*expected == *actual);
 
@@ -189,7 +205,7 @@ TEST_CASE("Assign Pattern Constant-Exact") {
       false);
 
   expected = make_unique<PQLQueryResult>();
-  expected->add("a", unordered_set<int>{ 1 });
+  expected->add("a", unordered_set<int>{1});
   actual = PQLQueryResultPtr(patternClause->evaluateOn(agent));
   REQUIRE(*expected == *actual);
 }
@@ -265,7 +281,7 @@ TEST_CASE("Assign Pattern Variable-Exact") {
       false);
 
   expected = make_unique<PQLQueryResult>();
-  expected->add("a", "v", pair_set<int, string>{{ 1, "a" }});
+  expected->add("a", "v", pair_set<int, string>{{1, "a"}});
   actual = PQLQueryResultPtr(patternClause->evaluateOn(agent));
   REQUIRE(*expected == *actual);
 
@@ -278,7 +294,7 @@ TEST_CASE("Assign Pattern Variable-Exact") {
       false);
 
   expected = make_unique<PQLQueryResult>();
-  expected->add("a", "v", pair_set<int, string>{{ 2, "b" }});
+  expected->add("a", "v", pair_set<int, string>{{2, "b"}});
   actual = PQLQueryResultPtr(patternClause->evaluateOn(agent));
   REQUIRE(*expected == *actual);
 
@@ -291,7 +307,7 @@ TEST_CASE("Assign Pattern Variable-Exact") {
       false);
 
   expected = make_unique<PQLQueryResult>();
-  expected->add("a", unordered_set<int>{ 1 });
+  expected->add("a", unordered_set<int>{1});
   actual = PQLQueryResultPtr(patternClause->evaluateOn(agent));
   REQUIRE(*expected == *actual);
 
@@ -304,7 +320,7 @@ TEST_CASE("Assign Pattern Variable-Exact") {
       false);
 
   expected = make_unique<PQLQueryResult>();
-  expected->add("a", unordered_set<int>{ 2 });
+  expected->add("a", unordered_set<int>{2});
   actual = PQLQueryResultPtr(patternClause->evaluateOn(agent));
   REQUIRE(*expected == *actual);
 }
@@ -331,8 +347,8 @@ TEST_CASE("Assign Pattern Variable-Partial") {
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", "v", pair_set<int, string>{
-      { 1, "a" },
-      { 3, "a" }
+      {1, "a"},
+      {3, "a"}
   });
   actual = PQLQueryResultPtr(patternClause->evaluateOn(agent));
   REQUIRE(*expected == *actual);
@@ -347,8 +363,8 @@ TEST_CASE("Assign Pattern Variable-Partial") {
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", "v", pair_set<int, string>{
-      { 2, "b" },
-      { 4, "b" }
+      {2, "b"},
+      {4, "b"}
   });
   actual = PQLQueryResultPtr(patternClause->evaluateOn(agent));
   REQUIRE(*expected == *actual);
@@ -362,7 +378,7 @@ TEST_CASE("Assign Pattern Variable-Partial") {
       true);
 
   expected = make_unique<PQLQueryResult>();
-  expected->add("a", unordered_set<int>{ 3, 5 });
+  expected->add("a", unordered_set<int>{3, 5});
   actual = PQLQueryResultPtr(patternClause->evaluateOn(agent));
   REQUIRE(*expected == *actual);
 
@@ -375,7 +391,7 @@ TEST_CASE("Assign Pattern Variable-Partial") {
       true);
 
   expected = make_unique<PQLQueryResult>();
-  expected->add("a", unordered_set<int>{ 4, 5 });
+  expected->add("a", unordered_set<int>{4, 5});
   actual = PQLQueryResultPtr(patternClause->evaluateOn(agent));
   REQUIRE(*expected == *actual);
 }
@@ -403,7 +419,7 @@ TEST_CASE("Assign Pattern - with Clause") {
 
   expected = make_unique<PQLQueryResult>();
   expected->add("a", "v", pair_set<int, string>{
-      { 1, "a" },
+      {1, "a"},
   });
   actual = PQLQueryResultPtr(patternClause->evaluateOn(agent));
   REQUIRE(*expected == *actual);

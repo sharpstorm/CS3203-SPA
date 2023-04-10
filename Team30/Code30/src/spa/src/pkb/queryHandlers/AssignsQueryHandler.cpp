@@ -11,6 +11,6 @@ AssignsQueryHandler::queryAssigns(StmtRef stmt) const {
   if (!stmt.isKnown()) {
     return make_unique<QueryResult<StmtValue, PatternTrie *>>();
   }
-  result.add(stmt.getValue(), assignStore->get(stmt.getValue()).get());
+  result.addRight(assignStore->get(stmt.getValue()).get());
   return make_unique<QueryResult<StmtValue, PatternTrie *>>(result);
 }

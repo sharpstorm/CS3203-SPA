@@ -56,8 +56,8 @@ class NextClauseInvokers {
 
     if (leftArg.isKnown() || rightArg.isKnown()) {
       T querier(cfgs[0], agent);
-      return make_unique<QueryResult<StmtValue, StmtValue>>(
-          querier.queryArgs(leftArg, rightArg));
+      querier.queryArgs(leftArg, rightArg, result.get());
+      return result;
     }
 
     for (auto it = cfgs.begin(); it != cfgs.end(); it++) {
@@ -68,27 +68,33 @@ class NextClauseInvokers {
   };
 
   template<class T>
+  static const void queryBoolCFG(const QueryExecutorAgent &agent,
+                                 CFG *cfg,
+                                 StmtValueSet *result,
+                                 StmtType type) {
+    T querier(cfg, agent);
+    for (int i = 0; i < cfg->getNodeCount(); i++) {
+      StmtValue statement = cfg->fromCFGNode(i);
+      if (!typeChecker(agent, type, statement)) {
+        continue;
+      }
+
+      StmtTransitiveResult relationResult;
+      querier.queryBool(&relationResult, statement, statement);
+      if (!relationResult.empty()) {
+        result->insert(statement);
+      }
+    }
+  }
+
+  template<class T>
   static constexpr NextSameSynInvoker abstractNextSameSynInvoker = [](
       const QueryExecutorAgent &agent, const StmtRef &arg) -> StmtValueSet {
     vector<CFG *> cfgs = agent->queryCFGs(StmtRef{StmtType::None, 0});
     StmtValueSet result;
 
-    for (auto it = cfgs.begin(); it != cfgs.end(); it++) {
-      CFG *cfg = *it;
-      T querier(cfg, agent);
-      StmtValue startingStatement = cfg->getStartingStmtNumber();
-
-      for (int i = 0; i < cfg->getNodeCount(); i++) {
-        StmtValue statement = startingStatement + i;
-        if (!typeChecker(agent, arg.getType(), statement)) {
-          continue;
-        }
-
-        auto relationResult = querier.queryBool(statement, statement);
-        if (!relationResult.empty()) {
-          result.insert(statement);
-        }
-      }
+    for (CFG *cfg : cfgs) {
+      queryBoolCFG<T>(agent, cfg, &result, arg.getType());
     }
     return result;
   };

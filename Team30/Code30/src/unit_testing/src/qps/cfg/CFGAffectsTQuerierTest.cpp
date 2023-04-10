@@ -4,22 +4,22 @@
 #include "qps/cfg/cfg_querier/CFGAffectsTQuerier.h"
 #include "CFGTestModifiesUsesProvider.h"
 
-typedef CFGAffectsTQuerier<CFGTestModifiesUsesProvider,
-                           CFGTestModifiesUsesProvider::typePredicate,
-                           CFGTestModifiesUsesProvider::getModifies,
-                           CFGTestModifiesUsesProvider::getUses> CFGTestAffectsTQuerier;
+typedef CFGAffectsQuerier<CFGTestModifiesUsesProvider> ConcreteAffectsQuerier;
+typedef CFGAffectsTQuerier<ConcreteAffectsQuerier> CFGTestAffectsTQuerier;
 
-template <typename T, StmtTypePredicate<T> U, ModifiesGetter<T> MG, UsesGetter<T> UG>
-StmtTransitiveResult queryAffectsT(CFGAffectsTQuerier<T, U, MG, UG>* querier,
+template <typename T>
+StmtTransitiveResult queryAffectsT(CFGAffectsTQuerier<T>* querier,
                                    int left, int right) {
-  return querier->queryArgs(
+  StmtTransitiveResult ret;
+  querier->queryArgs(
       StmtRef{StmtType::None, left},
-      StmtRef{StmtType::None, right}
-  );
+      StmtRef{StmtType::None, right},
+      &ret);
+  return ret;
 }
 
-template <typename T, StmtTypePredicate<T> U, ModifiesGetter<T> MG, UsesGetter<T> UG>
-void queryAffectsT(CFGAffectsTQuerier<T, U, MG, UG>* querier,
+template <typename T>
+void queryAffectsT(CFGAffectsTQuerier<T>* querier,
                    StmtTransitiveResult* output,
                    int left, int right) {
   querier->queryArgs(
@@ -29,23 +29,23 @@ void queryAffectsT(CFGAffectsTQuerier<T, U, MG, UG>* querier,
   );
 }
 
-template <typename T, StmtTypePredicate<T> U, ModifiesGetter<T> MG, UsesGetter<T> UG>
-StmtTransitiveResult queryAffectsT(CFGAffectsTQuerier<T, U, MG, UG>* querier,
+template <typename T>
+StmtTransitiveResult queryAffectsT(CFGAffectsTQuerier<T>* querier,
                                    StmtRef left,
                                    StmtRef right) {
   return querier->queryArgs(left, right);
 }
 
-template <typename T, StmtTypePredicate<T> U, ModifiesGetter<T> MG, UsesGetter<T> UG>
-void queryAffectsT(CFGAffectsTQuerier<T, U, MG, UG>* querier,
+template <typename T>
+void queryAffectsT(CFGAffectsTQuerier<T>* querier,
                    StmtTransitiveResult* output,
                    StmtRef left,
                    StmtRef right) {
   querier->queryArgs(left, right, output);
 }
 
-template <typename T, StmtTypePredicate<T> U, ModifiesGetter<T> MG, UsesGetter<T> UG>
-void assertQueryAffectsTEmpty(CFGAffectsTQuerier<T, U, MG, UG>* querier,
+template <typename T>
+void assertQueryAffectsTEmpty(CFGAffectsTQuerier<T>* querier,
                               int left,
                               unordered_set<int> rights) {
   for (auto it = rights.begin(); it != rights.end(); it++) {
@@ -53,8 +53,8 @@ void assertQueryAffectsTEmpty(CFGAffectsTQuerier<T, U, MG, UG>* querier,
   }
 }
 
-template <typename T, StmtTypePredicate<T> U, ModifiesGetter<T> MG, UsesGetter<T> UG>
-void assertQueryAffectsTNotEmpty(CFGAffectsTQuerier<T, U, MG, UG>* querier,
+template <typename T>
+void assertQueryAffectsTNotEmpty(CFGAffectsTQuerier<T>* querier,
                                  int left,
                                  unordered_set<int> rights) {
   for (auto it = rights.begin(); it != rights.end(); it++) {
@@ -110,7 +110,8 @@ TEST_CASE("AffectsT Linear (Const, Const)") {
       CFGTestModifiesUsesProvider({ {"a"}, {"b"}, {"c"}, {"d"}},
                                   {{}, {"a"}, {"b"}, {"e"}},
                                   &cache);
-  CFGTestAffectsTQuerier querier(&cfg, pkbProvider);
+  ConcreteAffectsQuerier affectsQ(&cfg, pkbProvider);
+  CFGTestAffectsTQuerier querier(&cfg, affectsQ);
   assertQueryAffectsTNotEmpty(&querier, 1, {2, 3});
   assertQueryAffectsTNotEmpty(&querier, 2, {3});
   assertQueryAffectsTEmpty(&querier, 1, {4});
@@ -127,7 +128,8 @@ TEST_CASE("AffectsT While (Const, Const)") {
                                    {{}, {"b"}, {"c"}, {"a"}},
                                    {{1, StmtType::While}},
                                    &cache);
-  CFGTestAffectsTQuerier querier(&cfg, pkbProvider);
+  ConcreteAffectsQuerier affectsQ(&cfg, pkbProvider);
+  CFGTestAffectsTQuerier querier(&cfg, affectsQ);
 
   assertQueryAffectsTNotEmpty(&querier, 2, {3, 4, 2});
   assertQueryAffectsTNotEmpty(&querier, 3, {2, 3, 4});
@@ -142,7 +144,8 @@ TEST_CASE("AffectsT If None path (Const, Const)") {
                                      {{}, {"x"}, {"x"}, {"x"}, {"x"}},
                                      {{2, StmtType::If}},
                                      &cache);
-  CFGTestAffectsTQuerier querier(&cfg, pkbProvider);
+  ConcreteAffectsQuerier affectsQ(&cfg, pkbProvider);
+  CFGTestAffectsTQuerier querier(&cfg, affectsQ);
   assertQueryAffectsTNotEmpty(&querier, 1, {3, 4, 5});
 }
 
@@ -154,7 +157,8 @@ TEST_CASE("AffectsT If Then path (Const, Const)") {
                                         {{}, {"x"}, {"x"}, {}, {"y"}},
                                         {{2, StmtType::If}},
                                         &cache);
-  CFGTestAffectsTQuerier querier(&cfg, pkbProvider);
+  ConcreteAffectsQuerier affectsQ(&cfg, pkbProvider);
+  CFGTestAffectsTQuerier querier(&cfg, affectsQ);
   assertQueryAffectsTNotEmpty(&querier, 1, {3, 5});
   assertQueryAffectsTNotEmpty(&querier, 3, {5});
 }
@@ -167,7 +171,8 @@ TEST_CASE("AffectsT If Else path (Const, Const)") {
                                   {{}, {"x"}, {}, {"x"}, {"y"}},
                                   {{2, StmtType::If}},
                                   &cache);
-  CFGTestAffectsTQuerier querier(&cfg, pkbProvider);
+  ConcreteAffectsQuerier affectsQ(&cfg, pkbProvider);
+  CFGTestAffectsTQuerier querier(&cfg, affectsQ);
   assertQueryAffectsTNotEmpty(&querier, 1, {4, 5});
   assertQueryAffectsTNotEmpty(&querier, 4, {5});
 }
@@ -180,8 +185,8 @@ TEST_CASE("AffectsT If Both path (Const, Const)") {
                                   {{}, {"x"}, {"x"}, {"x"}, {"y"}},
                                   {{2, StmtType::If}},
                                   &cache);
-
-  CFGTestAffectsTQuerier querier(&cfg, pkbProvider);
+  ConcreteAffectsQuerier affectsQ(&cfg, pkbProvider);
+  CFGTestAffectsTQuerier querier(&cfg, affectsQ);
 
   assertQueryAffectsTNotEmpty(&querier, 1, {3, 4, 5});
   assertQueryAffectsTNotEmpty(&querier, 3, {5});
@@ -195,7 +200,8 @@ TEST_CASE("AffectsT Linear (Const, _)") {
       CFGTestModifiesUsesProvider({ {"a"}, {"b"}, {"c"}, {"d"}},
                                   {{}, {"a"}, {"b"}, {"e"}},
                                   &cache);
-  CFGTestAffectsTQuerier querier(&cfg, pkbProvider);
+  ConcreteAffectsQuerier affectsQ(&cfg, pkbProvider);
+  CFGTestAffectsTQuerier querier(&cfg, affectsQ);
   StmtTransitiveResult  result;
   result = queryAffectsT(&querier, 1, 0);
   REQUIRE_FALSE(result.isEmpty);
@@ -221,7 +227,8 @@ TEST_CASE("AffectsT While (Const, _)") {
                                    {{}, {"b"}, {"c"}, {"a"}},
                                    {{1, StmtType::While}},
                                    &cache);
-  CFGTestAffectsTQuerier querier(&cfg, pkbProvider);
+  ConcreteAffectsQuerier affectsQ(&cfg, pkbProvider);
+  CFGTestAffectsTQuerier querier(&cfg, affectsQ);
 
   StmtTransitiveResult result;
   result = queryAffectsT(&querier, 1, 0);
@@ -248,7 +255,8 @@ TEST_CASE("AffectsT If None path (Const, _)") {
                                      {{}, {"x"}, {"x"}, {"x"}, {"x"}},
                                      {{2, StmtType::If}},
                                      &cache);
-  CFGTestAffectsTQuerier querier(&cfg, pkbProvider);
+  ConcreteAffectsQuerier affectsQ(&cfg, pkbProvider);
+  CFGTestAffectsTQuerier querier(&cfg, affectsQ);
 
   assertQueryAffectsTNotEmpty(&querier, 1, {3, 4});
 
@@ -278,7 +286,8 @@ TEST_CASE("AffectsT If Then path (Const, _)") {
                                   {{}, {"x"}, {"x"}, {}, {"y"}},
                                   {{2, StmtType::If}},
                                   &cache);
-  CFGTestAffectsTQuerier querier(&cfg, pkbProvider);
+  ConcreteAffectsQuerier affectsQ(&cfg, pkbProvider);
+  CFGTestAffectsTQuerier querier(&cfg, affectsQ);
 
   assertQueryAffectsTNotEmpty(&querier, 1, {3, 5});
   assertQueryAffectsTNotEmpty(&querier, 3, {5});
@@ -310,7 +319,8 @@ TEST_CASE("AffectsT If Else path (Const, _)") {
                                   {{}, {"x"}, {}, {"x"}, {"y"}},
                                   {{2, StmtType::If}},
                                   &cache);
-  CFGTestAffectsTQuerier querier(&cfg, pkbProvider);
+  ConcreteAffectsQuerier affectsQ(&cfg, pkbProvider);
+  CFGTestAffectsTQuerier querier(&cfg, affectsQ);
 
   StmtTransitiveResult result;
   result = queryAffectsT(&querier, 1, 0);
@@ -340,8 +350,8 @@ TEST_CASE("AffectsT If Both path (Const, _)") {
                                   {{}, {"x"}, {"x"}, {"x"}, {"y"}},
                                   {{2, StmtType::If}},
                                   &cache);
-
-  CFGTestAffectsTQuerier querier(&cfg, pkbProvider);
+  ConcreteAffectsQuerier affectsQ(&cfg, pkbProvider);
+  CFGTestAffectsTQuerier querier(&cfg, affectsQ);
 
   StmtTransitiveResult result;
   result = queryAffectsT(&querier, 1, 0);
@@ -371,7 +381,8 @@ TEST_CASE("AffectsT Linear (_, Const)") {
       CFGTestModifiesUsesProvider({ {"a"}, {"b"}, {"c"}, {"d"}},
                                   {{}, {"a"}, {"b"}, {"e"}},
                                   &cache);
-  CFGTestAffectsTQuerier querier(&cfg, pkbProvider);
+  ConcreteAffectsQuerier affectsQ(&cfg, pkbProvider);
+  CFGTestAffectsTQuerier querier(&cfg, affectsQ);
 
   StmtTransitiveResult  result;
   result = queryAffectsT(&querier, 0, 1);
@@ -397,7 +408,8 @@ TEST_CASE("AffectsT While (_, Const)") {
                                    {{}, {"b"}, {"c"}, {"a"}},
                                    {{1, StmtType::While}},
                                    &cache);
-  CFGTestAffectsTQuerier querier(&cfg, pkbProvider);
+  ConcreteAffectsQuerier affectsQ(&cfg, pkbProvider);
+  CFGTestAffectsTQuerier querier(&cfg, affectsQ);
 
   StmtTransitiveResult result;
   result = queryAffectsT(&querier, 0, 1);
@@ -424,7 +436,8 @@ TEST_CASE("AffectsT If None path (_, Const)") {
                                      {{}, {"x"}, {"x"}, {"x"}, {"x"}},
                                      {{2, StmtType::If}},
                                      &cache);
-  CFGTestAffectsTQuerier querier(&cfg, pkbProvider);
+  ConcreteAffectsQuerier affectsQ(&cfg, pkbProvider);
+  CFGTestAffectsTQuerier querier(&cfg, affectsQ);
 
   assertQueryAffectsTNotEmpty(&querier, 1, {3, 4});
 
@@ -456,7 +469,8 @@ TEST_CASE("AffectsT If Then path (_, Const)") {
                                   {{}, {"x"}, {"x"}, {}, {"y"}},
                                   {{2, StmtType::If}},
                                   &cache);
-  CFGTestAffectsTQuerier querier(&cfg, pkbProvider);
+  ConcreteAffectsQuerier affectsQ(&cfg, pkbProvider);
+  CFGTestAffectsTQuerier querier(&cfg, affectsQ);
 
   assertQueryAffectsTNotEmpty(&querier, 1, {3, 5});
   assertQueryAffectsTNotEmpty(&querier, 3, {5});
@@ -488,7 +502,8 @@ TEST_CASE("AffectsT If Else path (_, Const)") {
                                   {{}, {"x"}, {}, {"x"}, {"y"}},
                                   {{2, StmtType::If}},
                                   &cache);
-  CFGTestAffectsTQuerier querier(&cfg, pkbProvider);
+  ConcreteAffectsQuerier affectsQ(&cfg, pkbProvider);
+  CFGTestAffectsTQuerier querier(&cfg, affectsQ);
 
   StmtTransitiveResult result;
   result = queryAffectsT(&querier, 0, 1);
@@ -517,8 +532,8 @@ TEST_CASE("AffectsT If Both path (_, Const)") {
                                   {{}, {"x"}, {"x"}, {"x"}, {"y"}},
                                   {{2, StmtType::If}},
                                   &cache);
-
-  CFGTestAffectsTQuerier querier(&cfg, pkbProvider);
+  ConcreteAffectsQuerier affectsQ(&cfg, pkbProvider);
+  CFGTestAffectsTQuerier querier(&cfg, affectsQ);
 
   StmtTransitiveResult result;
   result = queryAffectsT(&querier, 0, 1);
@@ -547,7 +562,8 @@ TEST_CASE("AffectsT Linear (_, _)") {
       CFGTestModifiesUsesProvider({ {"a"}, {"b"}, {"c"}, {"d"}},
                                   {{}, {"a"}, {"b"}, {"e"}},
                                   &cache);
-  CFGTestAffectsTQuerier querier(&cfg, pkbProvider);
+  ConcreteAffectsQuerier affectsQ(&cfg, pkbProvider);
+  CFGTestAffectsTQuerier querier(&cfg, affectsQ);
 
   auto result = StmtTransitiveResult();
   queryAffectsT(&querier, &result, 0, 0);
@@ -567,7 +583,8 @@ TEST_CASE("AffectsT While (_, _)") {
                                    {{}, {"b"}, {"c"}, {"a"}},
                                    {{1, StmtType::While}},
                                    &cache);
-  CFGTestAffectsTQuerier querier(&cfg, pkbProvider);
+  ConcreteAffectsQuerier affectsQ(&cfg, pkbProvider);
+  CFGTestAffectsTQuerier querier(&cfg, affectsQ);
 
   auto result = StmtTransitiveResult();
   queryAffectsT(&querier, &result, 0, 0);
@@ -587,7 +604,8 @@ TEST_CASE("AffectsT If None path (_, _)") {
                                      {{}, {"x"}, {"x"}, {"x"}, {"x"}},
                                      {{2, StmtType::If}},
                                      &cache);
-  CFGTestAffectsTQuerier querier(&cfg, pkbProvider);
+  ConcreteAffectsQuerier affectsQ(&cfg, pkbProvider);
+  CFGTestAffectsTQuerier querier(&cfg, affectsQ);
 
   auto result = StmtTransitiveResult();
   queryAffectsT(&querier, &result, 0, 0);
@@ -607,7 +625,8 @@ TEST_CASE("AffectsT If Then path (_, _)") {
                                   {{}, {"x"}, {"x"}, {}, {"y"}},
                                   {{2, StmtType::If}},
                                   &cache);
-  CFGTestAffectsTQuerier querier(&cfg, pkbProvider);
+  ConcreteAffectsQuerier affectsQ(&cfg, pkbProvider);
+  CFGTestAffectsTQuerier querier(&cfg, affectsQ);
 
   auto result = StmtTransitiveResult();
   queryAffectsT(&querier, &result, 0, 0);
@@ -627,7 +646,8 @@ TEST_CASE("AffectsT If Else path (_, _)") {
                                   {{}, {"x"}, {}, {"x"}, {"y"}},
                                   {{2, StmtType::If}},
                                   &cache);
-  CFGTestAffectsTQuerier querier(&cfg, pkbProvider);
+  ConcreteAffectsQuerier affectsQ(&cfg, pkbProvider);
+  CFGTestAffectsTQuerier querier(&cfg, affectsQ);
 
   auto result = StmtTransitiveResult();
   queryAffectsT(&querier, &result, 0, 0);
@@ -647,8 +667,8 @@ TEST_CASE("AffectsT If Both path (_, _)") {
                                   {{}, {"x"}, {"x"}, {"x"}, {"y"}},
                                   {{2, StmtType::If}},
                                   &cache);
-
-  CFGTestAffectsTQuerier querier(&cfg, pkbProvider);
+  ConcreteAffectsQuerier affectsQ(&cfg, pkbProvider);
+  CFGTestAffectsTQuerier querier(&cfg, affectsQ);
 
   auto result = StmtTransitiveResult();
   queryAffectsT(&querier, &result, 0, 0);

@@ -2,7 +2,6 @@
 
 #include <map>
 
-#include "ICFGClauseQuerier.h"
 #include "common/cfg/CFG.h"
 #include "qps/cfg/cfg_querier/walkers/CFGWalker.h"
 #include "CFGQuerier.h"
@@ -10,212 +9,220 @@
 #include "qps/cfg/cfg_querier/walkers/CFGStatefulWalker.h"
 #include "common/SetUtils.h"
 #include "qps/common/CacheTable.h"
+#include "qps/cfg/cfg_querier/writers/ICFGWriter.h"
+#include "qps/cfg/cfg_querier/writers/CFGBaseResultWriter.h"
+#include "qps/cfg/cfg_querier/writers/CFGResultWriterFactory.h"
+
+/*
+ * Because this is a templated class, the implementation must be fully
+ * in the header file, or linker errors will occur
+ */
 
 using std::map;
 
-typedef map<EntityIdx, int> EntitySymbolMap;
+typedef int BitPosition;
+typedef map<EntityIdx, BitPosition> EntitySymbolMap;
 
-template<
-    class ClosureType,
-    StmtTypePredicate<ClosureType> typePredicate,
-    ModifiesGetter<ClosureType> modifiesGetter,
-    UsesGetter<ClosureType> usesGetter>
-class CFGAffectsQuerier : public ICFGClauseQuerier,
-                          public CFGQuerier<
-                              CFGAffectsQuerier<ClosureType,
-                                                typePredicate,
-                                                modifiesGetter,
-                                                usesGetter>> {
- public:
-  explicit CFGAffectsQuerier(CFG *cfg, const ClosureType &closure);
-
-  StmtTransitiveResult queryBool(const StmtValue &arg0,
-                                 const StmtValue &arg1) final;
-  StmtTransitiveResult queryFrom(const StmtValue &arg0,
-                                 const StmtType &type1) final;
-  StmtTransitiveResult queryTo(const StmtType &type0,
-                               const StmtValue &arg1) final;
-  void queryAll(StmtTransitiveResult *resultOut,
-                const StmtType &type0,
-                const StmtType &type1) final;
-
-  template<class T, StmtTypePredicate<T> typeChecker>
-  static constexpr bool isContainer(const T &closure,
-                                    const StmtValue &stmtNumber) {
-    return (typeChecker(closure, StmtType::While, stmtNumber)
-        || typeChecker(closure, StmtType::If, stmtNumber));
-  }
-
+template<class QuerierType>
+class CFGAffectsQuerier : public CFGQuerier<CFGAffectsQuerier<QuerierType>> {
  private:
-  struct BoolResultClosure {
-    CFG *cfg;
-    const ClosureType &closure;
-    EntityIdx target;
-    StmtValue targetStmt;
-    bool isValidPathFound;
-  };
-
-  struct QueryFromResultClosure {
-    CFG *cfg;
-    const ClosureType &closure;
-    StmtTransitiveResult *result;
-    StmtValue startingStmt;
-    EntityIdx target;
-  };
-
-  struct QueryToResultClosure {
-    CFG *cfg;
-    const ClosureType &closure;
-    StmtTransitiveResult *result;
-    StmtValue endingStmt;
-    EntitySymbolMap symbolMap;
-  };
-
+  QuerierType querier;
   CFG *cfg;
   CFGWalker walker;
-  const ClosureType &closure;
 
-  bool validateArg(const StmtValue &arg);
+ public:
+  explicit CFGAffectsQuerier(CFG *cfg, QuerierType querier);
 
-  void queryForward(StmtTransitiveResult *resultOut,
-                    const StmtValue &start);
+  void queryBool(StmtTransitiveResult *result, const StmtValue &arg0,
+                 const StmtValue &arg1);
+  void queryFrom(StmtTransitiveResult *result, const StmtValue &arg0,
+                 const StmtType &type1);
+  void queryTo(StmtTransitiveResult *result, const StmtType &type0,
+               const StmtValue &arg1);
+  void queryAll(StmtTransitiveResult *resultOut,
+                const StmtType &type0,
+                const StmtType &type1);
+  static constexpr bool isContainer(QuerierType *querier,
+                                    const StmtValue &stmtNumber) {
+    return (querier->isStmtType(StmtType::While, stmtNumber)
+        || querier->isStmtType(StmtType::If, stmtNumber));
+  }
+
+  bool validateArg(const StmtValue &arg) const;
+
+ private:
+  void queryForward(ICFGWriter *writer, const CFGNode &start);
+  struct QueryState {
+    ICFGWriter *writer;
+    QuerierType *querier;
+    EntityIdx target;
+  };
+
+  struct QueryToQueryState : public QueryState {
+    EntitySymbolMap *symbolMap;
+  };
+
+  static constexpr TypePredicate<QuerierType> dummyTypePredicate =
+      [](const QuerierType &state, StmtType type,
+         StmtValue value) -> bool {
+        return true;
+      };
+
+  // This section is using the querystate object created within this class, so
+  // it should not be considered an LOD. It is simply a private container
+  static constexpr StatefulWalkerSingleCallback<QueryToQueryState>
+      backwardWalkerCallback = [](QueryToQueryState *state, CFGNode nextNode,
+                                  BitField *curState) -> void {
+    bool isAffected = false;
+    StmtValue stmtNumber = state->writer->toStmtNumber(nextNode);
+
+    if (CFGAffectsQuerier::isContainer(state->querier, stmtNumber)) {
+      return;
+    }
+
+    EntityIdxSet modifiedVars = state->querier->getModifies(stmtNumber);
+    for (const EntityIdx &item : modifiedVars) {
+      auto it = state->symbolMap->find(item);
+      if (it == state->symbolMap->end() || !curState->isSet(it->second)) {
+        continue;
+      }
+      curState->unset(it->second);
+      isAffected = isAffected || state->querier->isStmtType(StmtType::Assign,
+                                                            stmtNumber);
+    }
+
+    if (isAffected) {
+      state->querier->addAffectsCache(stmtNumber, state->writer->getLeft());
+      if (!state->writer->writeLeft(stmtNumber)) {
+        throw CFGHaltWalkerException();
+      }
+    }
+  };
+
+  BitField buildSymbolMap(EntitySymbolMap *output,
+                          const EntityIdxSet &usedVars);
 };
 
-template<
-    class ClosureType,
-    StmtTypePredicate<ClosureType> typePredicate,
-    ModifiesGetter<ClosureType> modifiesGetter,
-    UsesGetter<ClosureType> usesGetter>
-CFGAffectsQuerier<ClosureType, typePredicate,
-                  modifiesGetter, usesGetter>::CFGAffectsQuerier(
-    CFG *cfg, const ClosureType &closure): cfg(cfg), walker(cfg),
-                                           closure(closure) {}
+template<class T>
+CFGAffectsQuerier<T>::CFGAffectsQuerier(CFG *cfg, T querier):
+    cfg(cfg), walker(cfg), querier(querier) {}
 
-template<
-    class ClosureType,
-    StmtTypePredicate<ClosureType> typePredicate,
-    ModifiesGetter<ClosureType> modifiesGetter,
-    UsesGetter<ClosureType> usesGetter>
-StmtTransitiveResult CFGAffectsQuerier<ClosureType, typePredicate,
-                                       modifiesGetter, usesGetter>::
-queryBool(const StmtValue &arg0, const StmtValue &arg1) {
-  StmtTransitiveResult result;
-
+template<class T>
+void CFGAffectsQuerier<T>::queryBool(StmtTransitiveResult *result,
+                                     const StmtValue &arg0,
+                                     const StmtValue &arg1) {
   if (!validateArg(arg0) || !validateArg(arg1)) {
-    return result;
+    return;
   }
 
-  CacheTable* cacheTable = closure.getAffectsCache();
-  if (cacheTable->queryPartial(arg0, arg1) != nullptr) {
-    result.add(arg0, arg1);
-    return result;
-  }
-
-  auto row = cacheTable->queryFull(arg0, 0);
-  if (row != nullptr) {
-    if (std::find(row->begin(), row->end(), arg1) != row->end()) {
-      result.add(arg0, arg1);
-      return result;
-    }
-  }
-
-  row = cacheTable->queryFull(0, arg1);
-  if (row != nullptr) {
-    if (std::find(row->begin(), row->end(), arg0) != row->end()) {
-      result.add(arg0, arg1);
-      return result;
-    }
+  if (querier.queryAffectsPartial(arg0, arg1)) {
+    result->setNotEmpty();
+    return;
   }
 
   CFGNode nodeFrom = cfg->toCFGNode(arg0);
-
-  EntityIdxSet modifiedVars = modifiesGetter(closure, arg0);
+  EntityIdxSet modifiedVars = querier.getModifies(arg0);
   EntityIdx modifiedVar = SetUtils::firstItemOfSet(modifiedVars, NO_ENT_INDEX);
-  EntityIdxSet targetVars = usesGetter(closure, arg1);
+  EntityIdxSet targetVars = querier.getUses(arg1);
   if (targetVars.find(modifiedVar) == targetVars.end()) {
-    return result;
+    return;
   }
 
-  BoolResultClosure state{cfg, closure, modifiedVar, arg1, false};
-  constexpr WalkerSingleCallback<BoolResultClosure> callback =
-      [](BoolResultClosure *state, CFGNode nextNode) -> bool {
-        StmtValue stmtNumber = state->cfg->fromCFGNode(nextNode);
-        if (stmtNumber == state->targetStmt) {
-          state->isValidPathFound = true;
+  ICFGWriterPtr writer = makeCFGResultWriterFactory(cfg, &querier, result)
+      .template makeBoolWriter<CFGAffectsQuerier::dummyTypePredicate>(arg0,
+                                                                      arg1);
+  QueryState queryState{writer.get(), &querier, modifiedVar};
+  // This section is using the above querystate object, so it should not
+  // be considered an LOD. It is simply a private container struct
+  constexpr WalkerSingleCallback<QueryState> callback =
+      [](QueryState *queryState, CFGNode nextNode) -> bool {
+        StmtValue stmtNumber = queryState->writer->toStmtNumber(nextNode);
+        if (!queryState->writer->writeBool(stmtNumber)) {
           throw CFGHaltWalkerException();
         }
 
-        if (CFGAffectsQuerier::isContainer<ClosureType, typePredicate>(
-            state->closure, stmtNumber)) {
+        if (CFGAffectsQuerier::isContainer(queryState->querier, stmtNumber)) {
           return true;
         }
         return !SetUtils::setContains(
-            modifiesGetter(state->closure, stmtNumber),
-            state->target);
+            queryState->querier->getModifies(stmtNumber),
+            queryState->target);
       };
 
-  walker.walkFrom<BoolResultClosure, callback>(nodeFrom, &state);
-  if (state.isValidPathFound) {
-    cacheTable->addEntry(arg0, arg1);
-    result.add(arg0, arg1);
-  }
-  return result;
+  walker.walkFrom<QueryState, callback>(nodeFrom, &queryState);
 }
 
-template<
-    class ClosureType,
-    StmtTypePredicate<ClosureType> typePredicate,
-    ModifiesGetter<ClosureType> modifiesGetter,
-    UsesGetter<ClosureType> usesGetter>
-StmtTransitiveResult CFGAffectsQuerier<ClosureType, typePredicate,
-                                       modifiesGetter, usesGetter>::
-queryFrom(const StmtValue &arg0, const StmtType &type1) {
-  StmtTransitiveResult result;
+template<class T>
+void CFGAffectsQuerier<T>::queryFrom(StmtTransitiveResult *result,
+                                     const StmtValue &arg0,
+                                     const StmtType &type1) {
+  if (!validateArg(arg0)) {
+    return;
+  }
+
   CFGNode nodeFrom = cfg->toCFGNode(arg0);
-  CacheTable* cacheTable = closure.getAffectsCache();
-  auto row = cacheTable->queryFull(arg0, 0);
+
+  ICFGWriterPtr writer = makeCFGResultWriterFactory(cfg, &querier, result)
+      .template makeRightWriter<CFGAffectsQuerier::dummyTypePredicate>(arg0,
+                                                                       type1);
+  auto row = querier.queryAffectsFull(arg0, 0);
   if (row != nullptr) {
     for (const StmtValue &i : *row) {
-      result.add(arg0, i);
+      writer->writeRight(i);
     }
-    return result;
+    return;
   }
-  queryForward(&result, nodeFrom);
-  return result;
+
+  queryForward(writer.get(), nodeFrom);
+  if (type1 != StmtType::Wildcard) {
+    querier.promoteAffectsFrom(arg0);
+  }
 }
 
-template<
-    class ClosureType,
-    StmtTypePredicate<ClosureType> typePredicate,
-    ModifiesGetter<ClosureType> modifiesGetter,
-    UsesGetter<ClosureType> usesGetter>
-StmtTransitiveResult CFGAffectsQuerier<ClosureType, typePredicate,
-                                       modifiesGetter, usesGetter>::
-queryTo(const StmtType &type0, const StmtValue &arg1) {
-  StmtTransitiveResult result;
+template<class T>
+void CFGAffectsQuerier<T>::queryTo(StmtTransitiveResult *result,
+                                   const StmtType &type0,
+                                   const StmtValue &arg1) {
   if (!validateArg(arg1)) {
-    return result;
+    return;
   }
 
-  CacheTable* cacheTable = closure.getAffectsCache();
-  auto row = cacheTable->queryFull(0, arg1);
+  ICFGWriterPtr writer = makeCFGResultWriterFactory(cfg, &querier, result)
+      .template makeLeftWriter<CFGAffectsQuerier::dummyTypePredicate>(type0,
+                                                                      arg1);
+  auto row = querier.queryAffectsFull(0, arg1);
   if (row != nullptr) {
     for (const StmtValue &i : *row) {
-      result.add(i, arg1);
+      writer->writeLeft(i);
     }
-    return result;
+    return;
   }
 
   CFGNode nodeTo = cfg->toCFGNode(arg1);
-  EntityIdxSet usedVars = usesGetter(closure, arg1);
-  EntitySymbolMap symbolMap;
+  EntityIdxSet usedVars = querier.getUses(arg1);
   if (usedVars.empty()) {
-    return result;
+    return;
   }
 
+  EntitySymbolMap symbolMap;
+  BitField initialState = buildSymbolMap(&symbolMap, usedVars);
+  QueryToQueryState queryState{writer.get(), &querier,
+                               NO_ENT_INDEX, &symbolMap};
+  CFGStatefulWalker<QueryToQueryState,
+                    backwardWalkerCallback> statefulWalker(cfg, &queryState);
+  statefulWalker.walkTo(nodeTo, initialState);
+
+  if (type0 != StmtType::Wildcard) {
+    querier.promoteAffectsTo(arg1);
+  }
+}
+
+template<class T>
+BitField CFGAffectsQuerier<T>::buildSymbolMap(EntitySymbolMap *output,
+                                              const EntityIdxSet &usedVars) {
   int counter = 0;
   for (const EntityIdx &idx : usedVars) {
-    symbolMap.emplace(idx, counter);
+    output->emplace(idx, counter);
     counter++;
   }
 
@@ -223,136 +230,87 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
   for (int i = 0; i < counter; i++) {
     initialState.set(i);
   }
-
-  constexpr StatefulWalkerSingleCallback<QueryToResultClosure>
-      backwardWalkerCallback =
-      [](QueryToResultClosure *state, CFGNode nextNode, BitField curState)
-          -> BitField {
-        bool isAffected = false;
-        StmtValue stmtNumber = state->cfg->fromCFGNode(nextNode);
-
-        if (isContainer<ClosureType,
-                        typePredicate>(state->closure, stmtNumber)) {
-          return curState;
-        }
-
-        EntityIdxSet modifiedVars = modifiesGetter(state->closure, stmtNumber);
-        for (const EntityIdx &item : modifiedVars) {
-          auto it = state->symbolMap.find(item);
-          if (it == state->symbolMap.end()) {
-            continue;
-          }
-
-          if (!curState.isSet(it->second)) {
-            continue;
-          }
-          curState.unset(it->second);
-          isAffected = isAffected || typePredicate(state->closure,
-                                                   StmtType::Assign,
-                                                   stmtNumber);
-        }
-
-        if (isAffected) {
-          state->result->add(stmtNumber, state->endingStmt);
-          state->closure.getAffectsCache()->
-              addEntry(stmtNumber, state->endingStmt);
-        }
-
-        return curState;
-      };
-
-  QueryToResultClosure state{cfg, closure, &result, arg1, symbolMap};
-  CFGStatefulWalker statefulWalker(cfg);
-
-  statefulWalker.walkTo<QueryToResultClosure,
-                        backwardWalkerCallback>(nodeTo,
-                                                initialState,
-                                                &state);
-
-  closure.getAffectsCache()->promoteTo(arg1);
-  return result;
+  return initialState;
 }
 
-template<
-    class ClosureType,
-    StmtTypePredicate<ClosureType> typePredicate,
-    ModifiesGetter<ClosureType> modifiesGetter,
-    UsesGetter<ClosureType> usesGetter>
-void CFGAffectsQuerier<ClosureType, typePredicate,
-                       modifiesGetter, usesGetter>::
-queryAll(StmtTransitiveResult *resultOut,
-         const StmtType &type0,
-         const StmtType &type1) {
-  CacheTable* cacheTable = closure.getAffectsCache();
+template<class T>
+void CFGAffectsQuerier<T>::queryAll(StmtTransitiveResult *resultOut,
+                                    const StmtType &type0,
+                                    const StmtType &type1) {
+  ICFGWriterPtr writer = makeCFGResultWriterFactory(cfg, &querier, resultOut)
+      .template makePairWriter<CFGAffectsQuerier::dummyTypePredicate>(0,
+                                                                      type0,
+                                                                      type1);
+
   for (CFGNode start = 0; start < cfg->getNodeCount(); start++) {
     StmtValue stmtNumber = cfg->fromCFGNode(start);
-    auto row = cacheTable->queryFull(stmtNumber, 0);
+    writer->setLeft(stmtNumber);
+    auto row = querier.queryAffectsFull(stmtNumber, 0);
     if (row != nullptr) {
       for (const StmtValue &i : *row) {
-        resultOut->add(stmtNumber, i);
+        writer->writeRight(i);
       }
       continue;
     }
-    queryForward(resultOut, start);
+
+    if (!validateArg(stmtNumber)) {
+      continue;
+    }
+
+    queryForward(writer.get(), start);
+    if (type1 != StmtType::Wildcard) {
+      querier.promoteAffectsFrom(stmtNumber);
+    }
+
+    if (type0 == StmtType::Wildcard && type1 == StmtType::Wildcard
+        && !resultOut->empty()) {
+      break;
+    }
   }
 }
 
-template<
-    class ClosureType,
-    StmtTypePredicate<ClosureType> typePredicate,
-    ModifiesGetter<ClosureType> modifiesGetter,
-    UsesGetter<ClosureType> usesGetter>
-void CFGAffectsQuerier<ClosureType, typePredicate,
-                       modifiesGetter, usesGetter>::
-queryForward(StmtTransitiveResult *resultOut,
-             const StmtValue &start) {
+template<class T>
+void CFGAffectsQuerier<T>::queryForward(ICFGWriter *writer,
+                                        const CFGNode &start) {
   StmtValue stmtNumber = cfg->fromCFGNode(start);
   if (!validateArg(stmtNumber)) {
     return;
   }
 
-  constexpr WalkerSingleCallback<QueryFromResultClosure> forwardWalkerCallback
-      = [](QueryFromResultClosure *state, CFGNode nextNode) -> bool {
-        StmtValue stmtNumber = 0;
-        stmtNumber = state->cfg->fromCFGNode(nextNode);
+  EntityIdxSet modifiedVars = querier.getModifies(stmtNumber);
+  EntityIdx modifiedVar = SetUtils::firstItemOfSet(modifiedVars, NO_ENT_INDEX);
+  QueryState queryState{writer, &querier, modifiedVar};
 
-        if (typePredicate(state->closure, StmtType::Assign, stmtNumber)) {
-          EntityIdxSet usedVars = usesGetter(state->closure,
-                                             stmtNumber);
-          if (usedVars.find(state->target) != usedVars.end()) {
-            state->closure.getAffectsCache()->
-                addEntry(state->startingStmt, stmtNumber);
-            state->result->add(state->startingStmt, stmtNumber);
+  // This section is using the above querystate object, so it should not
+  // be considered an LOD. It is simply a private container struct
+  constexpr WalkerSingleCallback<QueryState> forwardWalkerCallback
+      = [](QueryState *queryState, CFGNode nextNode) -> bool {
+        StmtValue stmtNumber = queryState->writer->toStmtNumber(nextNode);
+
+        if (queryState->querier->isStmtType(StmtType::Assign, stmtNumber)) {
+          EntityIdxSet usedVars = queryState->querier->getUses(stmtNumber);
+          if (usedVars.find(queryState->target) != usedVars.end()) {
+            queryState->querier->addAffectsCache(queryState->writer->getLeft(),
+                                                 stmtNumber);
+            if (!queryState->writer->writeRight(stmtNumber)) {
+              throw CFGHaltWalkerException();
+            }
           }
         }
 
-        if (isContainer<ClosureType,
-                        typePredicate>(state->closure, stmtNumber)) {
+        if (CFGAffectsQuerier::isContainer(queryState->querier, stmtNumber)) {
           return true;
         }
 
         return !SetUtils::setContains(
-            modifiesGetter(state->closure, stmtNumber),
-            state->target);
+            queryState->querier->getModifies(stmtNumber),
+            queryState->target);
       };
-
-  EntityIdxSet modifiedVars = modifiesGetter(closure, stmtNumber);
-  EntityIdx modifiedVar = SetUtils::firstItemOfSet(modifiedVars, NO_ENT_INDEX);
-  QueryFromResultClosure state{cfg, closure, resultOut,
-                               stmtNumber, modifiedVar};
-  walker.walkFrom<QueryFromResultClosure, forwardWalkerCallback>(start,
-                                                                 &state);
-  closure.getAffectsCache()->promoteFrom(stmtNumber);
+  walker.walkFrom<QueryState, forwardWalkerCallback>(start, &queryState);
 }
 
-template<
-    class ClosureType,
-    StmtTypePredicate<ClosureType> typePredicate,
-    ModifiesGetter<ClosureType> modifiesGetter,
-    UsesGetter<ClosureType> usesGetter>
-bool CFGAffectsQuerier<ClosureType, typePredicate,
-                       modifiesGetter, usesGetter>::
-validateArg(const StmtValue &arg) {
+template<class T>
+bool CFGAffectsQuerier<T>::validateArg(const StmtValue &arg) const {
   return cfg->containsStatement(arg)
-      && typePredicate(closure, StmtType::Assign, arg);
+      && querier.isStmtType(StmtType::Assign, arg);
 }

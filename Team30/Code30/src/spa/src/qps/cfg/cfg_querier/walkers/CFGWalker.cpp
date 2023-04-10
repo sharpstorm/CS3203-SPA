@@ -1,6 +1,7 @@
 #include "CFGWalker.h"
 
-#include "qps/cfg/cfg_querier/CFGHaltWalkerException.h"
+#include "CFGHaltWalkerException.h"
+
 
 CFGWalker::CFGWalker(CFG *cfg) : cfg(cfg) {
 }
@@ -23,4 +24,12 @@ bool CFGWalker::walkStatic(CFGNode start, CFGNode end) {
   runForwardDFS<StaticWalkerState, staticWalkerCallback>(start, &state);
 
   return state.isFound;
+}
+
+CFGLinks *CFGWalker::forwardLinkGetter(CFG *cfg, CFGNode node) {
+  return cfg->nextLinksOf(node);
+}
+
+CFGLinks *CFGWalker::backwardLinkGetter(CFG *cfg, CFGNode node) {
+  return cfg->reverseLinksOf(node);
 }
