@@ -67,6 +67,40 @@ class CFGAffectsQuerier : public CFGQuerier<CFGAffectsQuerier<QuerierType>> {
          StmtValue value) -> bool {
         return true;
       };
+
+  // This section is using the querystate object created within this class, so
+  // it should not be considered an LOD. It is simply a private container
+  static constexpr StatefulWalkerSingleCallback<QueryToQueryState>
+      backwardWalkerCallback = [](QueryToQueryState *state, CFGNode nextNode,
+                                  BitField *curState) -> void {
+    bool isAffected = false;
+    StmtValue stmtNumber = state->writer->toStmtNumber(nextNode);
+
+    if (CFGAffectsQuerier::isContainer(state->querier, stmtNumber)) {
+      return;
+    }
+
+    EntityIdxSet modifiedVars = state->querier->getModifies(stmtNumber);
+    for (const EntityIdx &item : modifiedVars) {
+      auto it = state->symbolMap->find(item);
+      if (it == state->symbolMap->end() || !curState->isSet(it->second)) {
+        continue;
+      }
+      curState->unset(it->second);
+      isAffected = isAffected || state->querier->isStmtType(StmtType::Assign,
+                                                            stmtNumber);
+    }
+
+    if (isAffected) {
+      state->querier->addAffectsCache(stmtNumber, state->writer->getLeft());
+      if (!state->writer->writeLeft(stmtNumber)) {
+        throw CFGHaltWalkerException();
+      }
+    }
+  };
+
+  BitField buildSymbolMap(EntitySymbolMap *output,
+                          const EntityIdxSet &usedVars);
 };
 
 template<class T>
@@ -98,7 +132,8 @@ void CFGAffectsQuerier<T>::queryBool(StmtTransitiveResult *result,
       .template makeBoolWriter<CFGAffectsQuerier::dummyTypePredicate>(arg0,
                                                                       arg1);
   QueryState queryState{writer.get(), &querier, modifiedVar};
-
+  // This section is using the above querystate object, so it should not
+  // be considered an LOD. It is simply a private container struct
   constexpr WalkerSingleCallback<QueryState> callback =
       [](QueryState *queryState, CFGNode nextNode) -> bool {
         StmtValue stmtNumber = queryState->writer->toStmtNumber(nextNode);
@@ -165,59 +200,14 @@ void CFGAffectsQuerier<T>::queryTo(StmtTransitiveResult *result,
 
   CFGNode nodeTo = cfg->toCFGNode(arg1);
   EntityIdxSet usedVars = querier.getUses(arg1);
-  EntitySymbolMap symbolMap;
   if (usedVars.empty()) {
     return;
   }
 
-  int counter = 0;
-  for (const EntityIdx &idx : usedVars) {
-    symbolMap.emplace(idx, counter);
-    counter++;
-  }
-
-  BitField initialState(counter);
-  for (int i = 0; i < counter; i++) {
-    initialState.set(i);
-  }
-
+  EntitySymbolMap symbolMap;
+  BitField initialState = buildSymbolMap(&symbolMap, usedVars);
   QueryToQueryState queryState{writer.get(), &querier,
                                NO_ENT_INDEX, &symbolMap};
-  constexpr StatefulWalkerSingleCallback<QueryToQueryState>
-      backwardWalkerCallback = [](QueryToQueryState *state, CFGNode nextNode,
-                                  BitField *curState) -> void {
-    bool isAffected = false;
-    StmtValue stmtNumber = state->writer->toStmtNumber(nextNode);
-
-    if (CFGAffectsQuerier::isContainer(state->querier, stmtNumber)) {
-      return;
-    }
-
-    EntityIdxSet modifiedVars = state->querier->getModifies(stmtNumber);
-    for (const EntityIdx &item : modifiedVars) {
-      auto it = state->symbolMap->find(item);
-      if (it == state->symbolMap->end()) {
-        continue;
-      }
-
-      if (!curState->isSet(it->second)) {
-        continue;
-      }
-      curState->unset(it->second);
-      isAffected = isAffected || state->querier->isStmtType(StmtType::Assign,
-                                                            stmtNumber);
-    }
-
-    if (isAffected) {
-      state->querier->addAffectsCache(stmtNumber, state->writer->getLeft());
-      if (!state->writer->writeLeft(stmtNumber)) {
-        throw CFGHaltWalkerException();
-      }
-    }
-
-    return;
-  };
-
   CFGStatefulWalker<QueryToQueryState,
                     backwardWalkerCallback> statefulWalker(cfg, &queryState);
   statefulWalker.walkTo(nodeTo, initialState);
@@ -225,6 +215,22 @@ void CFGAffectsQuerier<T>::queryTo(StmtTransitiveResult *result,
   if (type0 != StmtType::Wildcard) {
     querier.promoteAffectsTo(arg1);
   }
+}
+
+template<class T>
+BitField CFGAffectsQuerier<T>::buildSymbolMap(EntitySymbolMap *output,
+                                              const EntityIdxSet &usedVars) {
+  int counter = 0;
+  for (const EntityIdx &idx : usedVars) {
+    output->emplace(idx, counter);
+    counter++;
+  }
+
+  BitField initialState(counter);
+  for (int i = 0; i < counter; i++) {
+    initialState.set(i);
+  }
+  return initialState;
 }
 
 template<class T>
@@ -275,6 +281,8 @@ void CFGAffectsQuerier<T>::queryForward(ICFGWriter *writer,
   EntityIdx modifiedVar = SetUtils::firstItemOfSet(modifiedVars, NO_ENT_INDEX);
   QueryState queryState{writer, &querier, modifiedVar};
 
+  // This section is using the above querystate object, so it should not
+  // be considered an LOD. It is simply a private container struct
   constexpr WalkerSingleCallback<QueryState> forwardWalkerCallback
       = [](QueryState *queryState, CFGNode nextNode) -> bool {
         StmtValue stmtNumber = queryState->writer->toStmtNumber(nextNode);
