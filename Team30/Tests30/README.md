@@ -7,7 +7,6 @@ The following table summarises the directory structure
 | Folder | Purpose |
 | ------ | ------- |
 | `query-source` | This folder contains the source files which are used to generate the TXT tests required by autotester. |
-| `tests-broken` | This folder contains tests which are not working, as some features have not been implemented |
 | `tests-working` | This folder contains tests which work, and are tested against autotester by a CI workflow |
 | `tools` | this folder contains tooling that are used to help in the creation of tests |
 | `auto-autotester.py` | This python script runs autotester against all the test cases in a batch |
