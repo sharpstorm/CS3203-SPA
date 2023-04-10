@@ -7,6 +7,11 @@
 #include "common/data_structs/BitField.h"
 #include "CFGQuerier.h"
 
+/*
+ * Because this is a templated class, the implementation must be fully
+ * in the header file, or linker errors will occur
+ */
+
 typedef QueryResultSet<StmtValue> AffectsResult;
 typedef vector<AffectsResult> AffectsResultList;
 

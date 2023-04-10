@@ -9,7 +9,7 @@
 using std::vector;
 
 /*
- * Because this is a templated class, the implementation must be fully
+ * Because this is a templated class, the implementation must be
  * in the header file, or linker errors will occur
  */
 

@@ -7,6 +7,11 @@
 #include "qps/common/synonym/PQLTypes.h"
 #include "qps/common/QPSTypes.h"
 
+/*
+ * Because this is a templated class, templated methods must be
+ * in the header file, or linker errors will occur
+ */
+
 using std::unique_ptr, std::unordered_map;
 
 template<class ProjectionClosure>

@@ -3,6 +3,11 @@
 #include "ExpressionSequence.h"
 #include "common/ast/IASTNode.h"
 
+/*
+ * Because this is a templated class, templated methods must be
+ * in the header file, or linker errors will occur
+ */
+
 template<class T>
 using PatternSymbolIdentGetter = SymbolIdent(*)(IASTNode *node, T *state);
 
