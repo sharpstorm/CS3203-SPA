@@ -63,7 +63,8 @@ void CFGNextQuerier<ClosureType, typePredicate>::queryBool(
 
 template<class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
 void CFGNextQuerier<ClosureType, typePredicate>::queryFrom(
-    StmtTransitiveResult *result, const StmtValue &arg0, const StmtType &type1) {
+    StmtTransitiveResult *result, const StmtValue &arg0,
+    const StmtType &type1) {
   if (!cfg->containsStatement(arg0)) {
     return;
   }
