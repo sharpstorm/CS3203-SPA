@@ -18,12 +18,14 @@ void testWhilePattern(const QueryExecutorAgent &agent, ClauseArgumentPtr leftArg
   WhilePatternClause clause = WhilePatternClause(WHILE_PATTERN_SYNS.getProxy("w"), std::move(leftArg));
   auto actual = clause.evaluateOn(agent);
   REQUIRE(*expected == *actual);
+  delete actual;
 }
 
 void testWhilePatternFalse(const QueryExecutorAgent &agent, ClauseArgumentPtr leftArg) {
   WhilePatternClause clause = WhilePatternClause(WHILE_PATTERN_SYNS.getProxy("w"), std::move(leftArg));
   auto actual = clause.evaluateOn(agent);
   REQUIRE(actual->isFalse());
+  delete actual;
 }
 
 TEST_CASE("While pattern clause") {
