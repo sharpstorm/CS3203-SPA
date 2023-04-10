@@ -25,14 +25,6 @@ class BaseCFGResultWriter : public ICFGWriter {
       cfg(cfg), closure(closure), result(result) {}
 
  public:
-  const T *getClosure() const {
-    return closure;
-  }
-
-  const StmtTransitiveResult *getResult() const {
-    return result;
-  }
-
   StmtValue toStmtNumber(CFGNode node) const override {
     return cfg->fromCFGNode(node);
   }
