@@ -150,6 +150,9 @@ void CFGAffectsQuerier<T>::queryBool(StmtTransitiveResult *result,
       };
 
   walker.walkFrom<QueryState, callback>(nodeFrom, &queryState);
+  if (!result->empty()) {
+    querier.addAffectsCache(arg0, arg1);
+  }
 }
 
 template<class T>

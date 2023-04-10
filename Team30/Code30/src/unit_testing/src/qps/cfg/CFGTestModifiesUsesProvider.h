@@ -41,9 +41,15 @@ class CFGTestModifiesUsesProvider {
   bool queryAffectsPartial(StmtValue arg0, StmtValue arg1) const;
   const CacheRow *queryAffectsFull(StmtValue arg0, StmtValue arg1) const;
 
-  void addAffectsCache(StmtValue arg0, StmtValue arg1) {}
-  void promoteAffectsFrom(StmtValue from) {}
-  void promoteAffectsTo(StmtValue to) {}
+  void addAffectsCache(StmtValue arg0, StmtValue arg1) {
+    cache->getAffectsCache()->addEntry(arg0, arg1);
+  }
+  void promoteAffectsFrom(StmtValue from) {
+    cache->getAffectsCache()->promoteFrom(from);
+  }
+  void promoteAffectsTo(StmtValue to) {
+    cache->getAffectsCache()->promoteTo(to);
+  }
 
  private:
   unordered_map<EntityValue, EntityIdx> symbolTable;

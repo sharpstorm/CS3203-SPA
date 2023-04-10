@@ -18,12 +18,14 @@ void testIfPattern(const QueryExecutorAgent &agent, ClauseArgumentPtr leftArg, P
   IfPatternClause clause = IfPatternClause(IF_PATTERN_SYNS.getProxy("ifs"), std::move(leftArg));
   auto actual = clause.evaluateOn(agent);
   REQUIRE(*expected == *actual);
+  delete actual;
 }
 
 void testIfPatternFalse(const QueryExecutorAgent &agent, ClauseArgumentPtr leftArg) {
   IfPatternClause clause = IfPatternClause(IF_PATTERN_SYNS.getProxy("ifs"), std::move(leftArg));
   auto actual = clause.evaluateOn(agent);
   REQUIRE(actual->isFalse());
+  delete actual;
 }
 
 TEST_CASE("If pattern clause") {

@@ -44,25 +44,7 @@ class CFGPkbQuerier {
   }
 
   bool queryAffectsPartial(StmtValue arg0, StmtValue arg1) const {
-    if (affectsCache->queryPartial(arg0, arg1) != nullptr) {
-      return true;
-    }
-
-    auto row = affectsCache->queryFull(arg0, 0);
-    if (row != nullptr) {
-      if (std::find(row->begin(), row->end(), arg1) != row->end()) {
-        return true;
-      }
-    }
-
-    row = affectsCache->queryFull(0, arg1);
-    if (row != nullptr) {
-      if (std::find(row->begin(), row->end(), arg0) != row->end()) {
-        return true;
-      }
-    }
-
-    return false;
+    return affectsCache->queryPartial(arg0, arg1) != nullptr;
   }
 
   const CacheRow *queryAffectsFull(StmtValue arg0, StmtValue arg1) const {

@@ -50,6 +50,7 @@ TEST_CASE("WithSelectClause - evaluateOn - no transform") {
 
     auto actual = clause.evaluateOn(agent);
     REQUIRE(*expected.get() == *actual);
+    delete actual;
   }
 }
 
@@ -81,6 +82,7 @@ TEST_CASE("WithSelectClause - evaluateOn - transform (valid sub)") {
     auto actual = clause.evaluateOn(agent);
     INFO(synName);
     REQUIRE(*expected.get() == *actual);
+    delete actual;
   }
 }
 
@@ -104,5 +106,6 @@ TEST_CASE("WithSelectClause - evaluateOn - transform (invalid sub)") {
 
     auto actual = clause.evaluateOn(agent);
     REQUIRE(expected == *actual);
+    delete actual;
   }
 }

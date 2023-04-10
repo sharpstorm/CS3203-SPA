@@ -36,9 +36,6 @@ const ComplexityScore COMPLEXITY_AFFECTS_T = 700;
 // Minor Tunings
 const ComplexityScore COMPLEXITY_MODIFIER_PREFERRED = -5;
 const ComplexityScore COMPLEXITY_MODIFIER_NONE = 0;
-const ComplexityScore COMPLEXITY_MODIFIER_SMALL = 5;
-const ComplexityScore COMPLEXITY_MODIFIER_MEDIUM = 10;
-const ComplexityScore COMPLEXITY_MODIFIER_LARGE = 30;
 
 const ComplexityScore COMPLEXITY_QUERY_TRANSITIVE = 50;
 const ComplexityScore COMPLEXITY_QUERY_LIST_ALL = 30;
