@@ -84,6 +84,26 @@ class AffectsClauseInvokers {
   };
 
   template<class QuerierT, QuerierFactory<QuerierT> makeQuerier>
+  static constexpr void queryBoolCFG(const QueryExecutorAgent &agent,
+                                     CFG *cfg,
+                                     StmtValueSet *result) {
+    QuerierT querier = makeQuerier(cfg, agent);
+    StmtValue startingStatement = cfg->getStartingStmtNumber();
+
+    for (int i = 0; i < cfg->getNodeCount(); i++) {
+      StmtValue statement = startingStatement + i;
+      if (!typeChecker(agent, StmtType::Assign, statement)) {
+        continue;
+      }
+
+      auto relationResult = querier.queryBool(statement, statement);
+      if (!relationResult.empty()) {
+        result->insert(statement);
+      }
+    }
+  }
+
+  template<class QuerierT, QuerierFactory<QuerierT> makeQuerier>
   static constexpr AffectsSameSynInvoker abstractAffectsSymmetricInvoker =
       [](const QueryExecutorAgent &agent,
          const StmtRef &arg) {
@@ -93,25 +113,10 @@ class AffectsClauseInvokers {
           return result;
         }
 
-        vector<CFG *> cfgs = agent->queryCFGs(
-            StmtRef{StmtType::None, 0});
+        vector<CFG *> cfgs = agent->queryCFGs(StmtRef{StmtType::None, 0});
 
-        for (auto it = cfgs.begin(); it != cfgs.end(); it++) {
-          CFG *cfg = *it;
-          QuerierT querier = makeQuerier(cfg, agent);
-          StmtValue startingStatement = cfg->getStartingStmtNumber();
-
-          for (int i = 0; i < cfg->getNodeCount(); i++) {
-            StmtValue statement = startingStatement + i;
-            if (!typeChecker(agent, StmtType::Assign, statement)) {
-              continue;
-            }
-
-            auto relationResult = querier.queryBool(statement, statement);
-            if (!relationResult.empty()) {
-              result.insert(statement);
-            }
-          }
+        for (CFG *cfg : cfgs) {
+          queryBoolCFG<QuerierT, makeQuerier>(agent, cfg, &result);
         }
 
         return result;
