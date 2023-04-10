@@ -8,5 +8,5 @@
 class ICFGsWriter {
  public:
   virtual ~ICFGsWriter() {}
-  virtual void addCFGs(EntityValue arg1, CFGSPtr arg2) = 0;
+  virtual void addCFGs(EntityValue leftArg, CFGSPtr rightArg) = 0;
 };

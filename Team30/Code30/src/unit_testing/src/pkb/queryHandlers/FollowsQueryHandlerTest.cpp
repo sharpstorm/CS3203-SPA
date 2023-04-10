@@ -84,13 +84,13 @@ TEST_CASE("FollowsQueryHandler follows(stmtNum,stmtNum)") {
   test.table->insert(4, 5);
 
   auto res1 = *test.query({StmtType::None, 1}, {StmtType::None, 2});
-  REQUIRE(res1.isEmpty == false);
+  REQUIRE(res1.empty() == false);
   auto res2 = *test.query({StmtType::None, 2}, {StmtType::None, 1});
-  REQUIRE(res2.isEmpty == true);
+  REQUIRE(res2.empty() == true);
   auto res3 = *test.query({StmtType::None, 5}, {StmtType::None, 4});
-  REQUIRE(res3.isEmpty == true);
+  REQUIRE(res3.empty() == true);
   auto res4 = *test.query({StmtType::None, 1}, {StmtType::None, 1});
-  REQUIRE(res4.isEmpty == true);
+  REQUIRE(res4.empty() == true);
 }
 
 TEST_CASE("FollowsQueryHandler follows(stmtNum,stmtType)") {
@@ -105,11 +105,11 @@ TEST_CASE("FollowsQueryHandler follows(stmtNum,stmtType)") {
   test.table->insert(3, 5);
 
   auto result1 = *test.query({StmtType::None, 1}, {StmtType::Assign, 0});
-  REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.secondArgVals == StmtValueSet({2}));
+  REQUIRE(result1.empty() == false);
+  REQUIRE(result1.getRightVals() == StmtValueSet({2}));
 
   auto result2 = *test.query({StmtType::None, 2}, {StmtType::Read, 0});
-  REQUIRE(result2.isEmpty == true);
+  REQUIRE(result2.empty() == true);
 }
 
 TEST_CASE("FollowsQueryHandler follows(stmtType, stmtNum)") {
@@ -124,11 +124,11 @@ TEST_CASE("FollowsQueryHandler follows(stmtType, stmtNum)") {
   test.reverseTable->insert(8, 6);
 
   auto result1 = *test.query({StmtType::Assign, 0}, {StmtType::None, 5});
-  REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.firstArgVals == StmtValueSet({2}));
+  REQUIRE(result1.empty() == false);
+  REQUIRE(result1.getLeftVals() == StmtValueSet({2}));
 
   auto result2 = *test.query({StmtType::Read, 0}, {StmtType::None, 8});
-  REQUIRE(result2.isEmpty == true);
+  REQUIRE(result2.empty() == true);
 }
 
 TEST_CASE("FollowsQueryHandler follows(stmtType, stmtType)") {
@@ -142,11 +142,12 @@ TEST_CASE("FollowsQueryHandler follows(stmtType, stmtType)") {
 
   auto result1 = *test.query({StmtType::Assign, 0}, {StmtType::Read, 0});
 
-  REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.pairVals == pair_set<StmtValue, StmtValue>({{2, 5}, {3, 4}}));
+  REQUIRE(result1.empty() == false);
+  REQUIRE(result1.getPairVals() ==
+          pair_set<StmtValue, StmtValue>({{2, 5}, {3, 4}}));
 
   auto result2 = *test.query({StmtType::Assign, 0}, {StmtType::Print, 0});
-  REQUIRE(result2.isEmpty == true);
+  REQUIRE(result2.empty() == true);
 }
 
 TEST_CASE("FollowsQueryHandler follows(syn, syn)") {
@@ -159,14 +160,16 @@ TEST_CASE("FollowsQueryHandler follows(syn, syn)") {
   test.store->insert(3, 4);
 
   auto result1 = *test.query({StmtType::None, 0}, {StmtType::None, 0});
-  REQUIRE(result1.pairVals ==
+  REQUIRE(result1.getPairVals() ==
           pair_set<StmtValue, StmtValue>({{2, 5}, {5, 6}, {3, 4}}));
 
   auto result2 = *test.query({StmtType::None, 0}, {StmtType::Read, 0});
-  REQUIRE(result2.pairVals == pair_set<StmtValue, StmtValue>({{2, 5}, {3, 4}}));
+  REQUIRE(result2.getPairVals() ==
+          pair_set<StmtValue, StmtValue>({{2, 5}, {3, 4}}));
 
   auto result3 = *test.query({StmtType::Assign, 0}, {StmtType::None, 0});
-  REQUIRE(result3.pairVals == pair_set<StmtValue, StmtValue>({{2, 5}, {3, 4}}));
+  REQUIRE(result3.getPairVals() ==
+          pair_set<StmtValue, StmtValue>({{2, 5}, {3, 4}}));
 }
 
 TEST_CASE("FollowsQueryHandler follows(stmtNum, _)") {
@@ -179,10 +182,10 @@ TEST_CASE("FollowsQueryHandler follows(stmtNum, _)") {
   test.store->insert(3, 4);
 
   auto result1 = *test.query({StmtType::None, 2}, {StmtType::Wildcard, 0});
-  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.empty() == false);
 
   auto result2 = *test.query({StmtType::None, 4}, {StmtType::Wildcard, 0});
-  REQUIRE(result2.isEmpty == true);
+  REQUIRE(result2.empty() == true);
 }
 
 TEST_CASE("FollowsQueryHandler follows(_, stmtNum)") {
@@ -195,10 +198,10 @@ TEST_CASE("FollowsQueryHandler follows(_, stmtNum)") {
   test.store->insert(3, 4);
 
   auto result1 = *test.query({StmtType::Wildcard, 0}, {StmtType::None, 6});
-  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.empty() == false);
 
   auto result2 = *test.query({StmtType::Wildcard, 0}, {StmtType::None, 3});
-  REQUIRE(result2.isEmpty == true);
+  REQUIRE(result2.empty() == true);
 }
 
 TEST_CASE("FollowsQueryHandler follows(syn, _)") {
@@ -211,10 +214,10 @@ TEST_CASE("FollowsQueryHandler follows(syn, _)") {
   test.store->insert(3, 4);
 
   auto result1 = *test.query({StmtType::None, 0}, {StmtType::Wildcard, 0});
-  REQUIRE(result1.firstArgVals == StmtValueSet({2, 5, 3}));
+  REQUIRE(result1.getLeftVals() == StmtValueSet({2, 5, 3}));
 
   auto result2 = *test.query({StmtType::Assign, 0}, {StmtType::Wildcard, 0});
-  REQUIRE(result2.firstArgVals == StmtValueSet({2, 3}));
+  REQUIRE(result2.getLeftVals() == StmtValueSet({2, 3}));
 }
 
 TEST_CASE("FollowsQueryHandler follows(_, syn)") {
@@ -227,10 +230,10 @@ TEST_CASE("FollowsQueryHandler follows(_, syn)") {
   test.store->insert(3, 4);
 
   auto result1 = *test.query({StmtType::Wildcard, 0}, {StmtType::None, 0});
-  REQUIRE(result1.secondArgVals == StmtValueSet({5, 6, 4}));
+  REQUIRE(result1.getRightVals() == StmtValueSet({5, 6, 4}));
 
   auto result2 = *test.query({StmtType::Wildcard, 0}, {StmtType::Read, 0});
-  REQUIRE(result2.secondArgVals == StmtValueSet({5, 4}));
+  REQUIRE(result2.getRightVals() == StmtValueSet({5, 4}));
 }
 
 TEST_CASE("FollowsQueryHandler follows(_, _)") {
@@ -243,7 +246,7 @@ TEST_CASE("FollowsQueryHandler follows(_, _)") {
   test.store->insert(3, 4);
 
   auto result1 = *test.query({StmtType::Wildcard, 0}, {StmtType::Wildcard, 0});
-  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.empty() == false);
 }
 
 /* FollowsStar */
@@ -256,16 +259,16 @@ TEST_CASE("FollowsQueryHandler followsStar(stmtNum,stmtNum)") {
   test.table->insert(2, 5);
 
   auto res1 = *test.queryT({StmtType::None, 1}, {StmtType::None, 2});
-  REQUIRE(res1.isEmpty == false);
+  REQUIRE(res1.empty() == false);
 
   auto res2 = *test.queryT({StmtType::None, 1}, {StmtType::None, 5});
-  REQUIRE(res2.isEmpty == false);
+  REQUIRE(res2.empty() == false);
 
   auto res3 = *test.queryT({StmtType::None, 1}, {StmtType::None, 1});
-  REQUIRE(res3.isEmpty == true);
+  REQUIRE(res3.empty() == true);
 
   auto res4 = *test.queryT({StmtType::None, 5}, {StmtType::None, 2});
-  REQUIRE(res4.isEmpty == true);
+  REQUIRE(res4.empty() == true);
 }
 
 TEST_CASE("FollowsQueryHandler followsStar(stmtNum,stmtType)") {
@@ -280,11 +283,11 @@ TEST_CASE("FollowsQueryHandler followsStar(stmtNum,stmtType)") {
   test.table->insert(12, 16);
 
   auto result1 = *test.queryT({StmtType::None, 10}, {StmtType::While, 0});
-  REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.secondArgVals == StmtValueSet({12, 16}));
+  REQUIRE(result1.empty() == false);
+  REQUIRE(result1.getRightVals() == StmtValueSet({12, 16}));
 
   auto result2 = *test.queryT({StmtType::None, 12}, {StmtType::If, 0});
-  REQUIRE(result2.isEmpty == true);
+  REQUIRE(result2.empty() == true);
 }
 
 TEST_CASE("FollowsQueryHandler followsStar(stmtType,stmtNum)") {
@@ -299,11 +302,11 @@ TEST_CASE("FollowsQueryHandler followsStar(stmtType,stmtNum)") {
   test.reverseTable->insert(14, 13);
 
   auto result1 = *test.queryT({StmtType::If, 0}, {StmtType::None, 13});
-  REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.firstArgVals == StmtValueSet({11}));
+  REQUIRE(result1.empty() == false);
+  REQUIRE(result1.getLeftVals() == StmtValueSet({11}));
 
   auto result2 = *test.queryT({StmtType::If, 0}, {StmtType::None, 11});
-  REQUIRE(result2.isEmpty == true);
+  REQUIRE(result2.empty() == true);
 }
 
 TEST_CASE("FollowsQueryHandler followsStar(stmtType,stmtType)") {
@@ -322,19 +325,19 @@ TEST_CASE("FollowsQueryHandler followsStar(stmtType,stmtType)") {
   test.table->insert(15, 16);
 
   auto result1 = *test.queryT({StmtType::If, 0}, {StmtType::While, 0});
-  REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.pairVals ==
+  REQUIRE(result1.empty() == false);
+  REQUIRE(result1.getPairVals() ==
           pair_set<StmtValue, StmtValue>({{11, 12}, {11, 16}, {14, 16}}));
 
   auto result2 = *test.queryT({StmtType::None, 0}, {StmtType::While, 0});
-  REQUIRE(result2.isEmpty == false);
-  REQUIRE(result2.pairVals ==
+  REQUIRE(result2.empty() == false);
+  REQUIRE(result2.getPairVals() ==
           pair_set<StmtValue, StmtValue>(
               {{11, 12}, {11, 16}, {12, 16}, {14, 16}, {15, 16}}));
 
   auto result3 = *test.queryT({StmtType::If, 0}, {StmtType::None, 0});
-  REQUIRE(result3.isEmpty == false);
-  REQUIRE(result3.pairVals ==
+  REQUIRE(result3.empty() == false);
+  REQUIRE(result3.getPairVals() ==
           pair_set<StmtValue, StmtValue>(
               {{11, 12}, {11, 14}, {11, 15}, {11, 16}, {14, 15}, {14, 16}}));
 }
@@ -355,22 +358,22 @@ TEST_CASE("FollowsQueryHandler followsStar(syn,syn)") {
   test.store->insert(15, 16);
 
   auto result1 = *test.queryT({StmtType::None, 0}, {StmtType::None, 0});
-  REQUIRE(result1.pairVals == pair_set<StmtValue, StmtValue>({{11, 12},
-                                                              {11, 14},
-                                                              {11, 15},
-                                                              {11, 16},
-                                                              {12, 14},
-                                                              {12, 15},
-                                                              {12, 16},
-                                                              {14, 15},
-                                                              {14, 16},
-                                                              {15, 16}}));
+  REQUIRE(result1.getPairVals() == pair_set<StmtValue, StmtValue>({{11, 12},
+                                                                   {11, 14},
+                                                                   {11, 15},
+                                                                   {11, 16},
+                                                                   {12, 14},
+                                                                   {12, 15},
+                                                                   {12, 16},
+                                                                   {14, 15},
+                                                                   {14, 16},
+                                                                   {15, 16}}));
   auto result2 = *test.queryT({StmtType::None, 0}, {StmtType::While, 0});
-  REQUIRE(result2.pairVals ==
+  REQUIRE(result2.getPairVals() ==
           pair_set<StmtValue, StmtValue>(
               {{11, 12}, {11, 16}, {12, 16}, {14, 16}, {15, 16}}));
   auto result3 = *test.queryT({StmtType::If, 0}, {StmtType::None, 0});
-  REQUIRE(result3.pairVals ==
+  REQUIRE(result3.getPairVals() ==
           pair_set<StmtValue, StmtValue>(
               {{11, 12}, {11, 14}, {11, 15}, {11, 16}, {14, 15}, {14, 16}}));
 }
@@ -384,10 +387,10 @@ TEST_CASE("FollowsQueryHandler followsStar(_,stmtNum)") {
   test.store->insert(12, 14);
 
   auto result1 = *test.queryT({StmtType::Wildcard, 0}, {StmtType::None, 14});
-  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.empty() == false);
 
   auto result2 = *test.queryT({StmtType::Wildcard, 0}, {StmtType::None, 11});
-  REQUIRE(result2.isEmpty == true);
+  REQUIRE(result2.empty() == true);
 }
 
 TEST_CASE("FollowsQueryHandler followsStar(stmtNum,_)") {
@@ -399,10 +402,10 @@ TEST_CASE("FollowsQueryHandler followsStar(stmtNum,_)") {
   test.store->insert(12, 14);
 
   auto result1 = *test.queryT({StmtType::None, 11}, {StmtType::Wildcard, 0});
-  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.empty() == false);
 
   auto result2 = *test.queryT({StmtType::None, 14}, {StmtType::Wildcard, 0});
-  REQUIRE(result2.isEmpty == true);
+  REQUIRE(result2.empty() == true);
 }
 
 TEST_CASE("FollowsQueryHandler followsStar(_,syn)") {
@@ -415,10 +418,10 @@ TEST_CASE("FollowsQueryHandler followsStar(_,syn)") {
   test.store->insert(15, 16);
 
   auto result1 = *test.queryT({StmtType::Wildcard, 0}, {StmtType::None, 0});
-  REQUIRE(result1.secondArgVals == StmtValueSet({12, 14, 16}));
+  REQUIRE(result1.getRightVals() == StmtValueSet({12, 14, 16}));
 
   auto result2 = *test.queryT({StmtType::Wildcard, 0}, {StmtType::While, 0});
-  REQUIRE(result2.secondArgVals == StmtValueSet({12, 16}));
+  REQUIRE(result2.getRightVals() == StmtValueSet({12, 16}));
 }
 
 TEST_CASE("FollowsQueryHandler followsStar(syn,_)") {
@@ -431,10 +434,10 @@ TEST_CASE("FollowsQueryHandler followsStar(syn,_)") {
   test.store->insert(15, 16);
 
   auto result1 = *test.queryT({StmtType::None, 0}, {StmtType::Wildcard, 0});
-  REQUIRE(result1.firstArgVals == StmtValueSet({11, 12, 15}));
+  REQUIRE(result1.getLeftVals() == StmtValueSet({11, 12, 15}));
 
   auto result2 = *test.queryT({StmtType::If, 0}, {StmtType::Wildcard, 0});
-  REQUIRE(result2.firstArgVals == StmtValueSet({11}));
+  REQUIRE(result2.getLeftVals() == StmtValueSet({11}));
 }
 
 TEST_CASE("FollowsQueryHandler followsStar(_,_)") {
@@ -447,12 +450,12 @@ TEST_CASE("FollowsQueryHandler followsStar(_,_)") {
   test.store->insert(15, 16);
 
   auto result1 = *test.queryT({StmtType::Wildcard, 0}, {StmtType::Wildcard, 0});
-  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.empty() == false);
 }
 
 TEST_CASE("FollowsQueryHandler followsStar(_,_) is empty") {
   auto test = followsQHTest();
 
   auto result1 = *test.queryT({StmtType::Wildcard, 0}, {StmtType::Wildcard, 0});
-  REQUIRE(result1.isEmpty == true);
+  REQUIRE(result1.empty() == true);
 }

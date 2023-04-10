@@ -27,23 +27,25 @@ class ParentTTableManager : public IStorage<StmtValue, StmtValue> {
                       IntSetTable<StmtValue> *reverseTable,
                       ContiguousVectorTable<StmtValue> *followsTable)
       : table(table), reverseTable(reverseTable), followsTable(followsTable) {}
-  void insert(StmtValue arg1, StmtValue arg2) override;
+  void insert(StmtValue leftArg, StmtValue rightArg) override;
 
   /**
-   * Get set of arg2 where R(arg1, arg2) is true, given arg1 value.
+   * Get set of rightArg where R(leftArg, rightArg) is true, given leftArg
+   * value.
    */
-  StmtValue getByFirstArg(StmtValue arg1) const;
+  StmtValue getByFirstArg(StmtValue leftArg) const;
 
   StmtValue getLastSibling(StmtValue stmt) const;
 
   /**
-   * Get set of arg1 where R(arg1, arg2) is true, given arg2 value.
+   * Get set of leftArg where R(leftArg, rightArg) is true, given rightArg
+   * value.
    */
-  const StmtValueSet getBySecondArg(StmtValue arg2) const;
+  const StmtValueSet getBySecondArg(StmtValue rightArg) const;
 
   // const, const
   QueryResultPtr<StmtValue, StmtValue> query(
-      StmtValue arg1, StmtValue arg2,
+      StmtValue leftArg, StmtValue rightArg,
       QueryResultBuilder<StmtValue, StmtValue> *resultBuilder) const override;
 
   // syn, const

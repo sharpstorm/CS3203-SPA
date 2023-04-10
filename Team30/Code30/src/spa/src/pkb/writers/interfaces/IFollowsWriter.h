@@ -4,5 +4,5 @@
 class IFollowsWriter {
  public:
   virtual ~IFollowsWriter() {}
-  virtual void addFollows(StmtValue arg1, StmtValue arg2) = 0;
+  virtual void addFollows(StmtValue leftArg, StmtValue rightArg) = 0;
 };

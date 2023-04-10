@@ -40,24 +40,13 @@ class QueryResultBuilder {
 
   void setPairVals() { isPairVals = true; }
 
-  void setIsEmpty() { result.isEmpty = true; }
+  void setIsNotEmpty() { result.setNotEmpty(); }
 
-  void setIsNotEmpty() { result.isEmpty = false; }
+  void addLeft(L leftVal) { result.addLeft(leftVal); }
 
-  void addLeft(L leftVal) {
-    result.firstArgVals.insert(leftVal);
-    setIsNotEmpty();
-  }
+  void addRight(R rightVal) { result.addRight(rightVal); }
 
-  void addRight(R rightVal) {
-    result.secondArgVals.insert(rightVal);
-    setIsNotEmpty();
-  }
-
-  void addPair(L leftVal, R rightVal) {
-    result.pairVals.insert(std::make_pair(leftVal, rightVal));
-    setIsNotEmpty();
-  }
+  void addPair(L leftVal, R rightVal) { result.addPair(leftVal, rightVal); }
 
   void setAllVals() {
     isLeftVals = true;

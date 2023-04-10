@@ -56,13 +56,13 @@ TEST_CASE("ParentQueryHandler parent(stmtNum,stmtNum)") {
   test.table->insert(1, 2);
   test.table->insert(2, 4);
 
-  REQUIRE(test.query({StmtType::None, 1}, {StmtType::None, 2}).get()->isEmpty ==
+  REQUIRE(test.query({StmtType::None, 1}, {StmtType::None, 2}).get()->empty() ==
           false);
-  REQUIRE(test.query({StmtType::None, 2}, {StmtType::None, 1}).get()->isEmpty ==
+  REQUIRE(test.query({StmtType::None, 2}, {StmtType::None, 1}).get()->empty() ==
           true);
-  REQUIRE(test.query({StmtType::None, 4}, {StmtType::None, 4}).get()->isEmpty ==
+  REQUIRE(test.query({StmtType::None, 4}, {StmtType::None, 4}).get()->empty() ==
           true);
-  REQUIRE(test.query({StmtType::None, 1}, {StmtType::None, 1}).get()->isEmpty ==
+  REQUIRE(test.query({StmtType::None, 1}, {StmtType::None, 1}).get()->empty() ==
           true);
 }
 
@@ -74,11 +74,11 @@ TEST_CASE("ParentQueryHandler parent(stmtNum,stmtType)") {
   test.table->insert(3, 5);
 
   auto result1 = *test.query({StmtType::None, 1}, {StmtType::Assign, 0});
-  REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.secondArgVals == StmtValueSet({2}));
+  REQUIRE(result1.empty() == false);
+  REQUIRE(result1.getRightVals() == StmtValueSet({2}));
 
   auto result2 = *test.query({StmtType::None, 2}, {StmtType::Read, 0});
-  REQUIRE(result2.isEmpty == true);
+  REQUIRE(result2.empty() == true);
 }
 
 TEST_CASE("ParentQueryHandler parent(stmtType, stmtNum)") {
@@ -87,11 +87,11 @@ TEST_CASE("ParentQueryHandler parent(stmtType, stmtNum)") {
   test.reverseTable->insert(12, 11);
 
   auto result1 = *test.query({StmtType::If, 0}, {StmtType::None, 12});
-  REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.firstArgVals == StmtValueSet({11}));
+  REQUIRE(result1.empty() == false);
+  REQUIRE(result1.getLeftVals() == StmtValueSet({11}));
 
   auto result2 = *test.query({StmtType::Read, 0}, {StmtType::None, 8});
-  REQUIRE(result2.isEmpty == true);
+  REQUIRE(result2.empty() == true);
 }
 
 TEST_CASE("ParentQueryHandler parent(stmtType, stmtType)") {
@@ -102,8 +102,8 @@ TEST_CASE("ParentQueryHandler parent(stmtType, stmtType)") {
   test.table->insert(12, 16);
 
   auto result1 = *test.query({StmtType::If, 0}, {StmtType::While, 0});
-  REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.pairVals == pair_set<StmtValue, StmtValue>({{11, 12}}));
+  REQUIRE(result1.empty() == false);
+  REQUIRE(result1.getPairVals() == pair_set<StmtValue, StmtValue>({{11, 12}}));
 }
 
 TEST_CASE("ParentQueryHandler parent(_, stmtType)") {
@@ -114,8 +114,8 @@ TEST_CASE("ParentQueryHandler parent(_, stmtType)") {
   test.store->insert(12, 16);
 
   auto result1 = *test.query({StmtType::Wildcard, 0}, {StmtType::None, 0});
-  REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.secondArgVals == StmtValueSet({11, 12, 16}));
+  REQUIRE(result1.empty() == false);
+  REQUIRE(result1.getRightVals() == StmtValueSet({11, 12, 16}));
 }
 
 TEST_CASE("ParentQueryHandler parent(_, stmtNum)") {
@@ -124,7 +124,7 @@ TEST_CASE("ParentQueryHandler parent(_, stmtNum)") {
   test.store->insert(10, 11);
 
   auto result1 = *test.query({StmtType::Wildcard, 0}, {StmtType::None, 11});
-  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.empty() == false);
 }
 
 TEST_CASE("ParentQueryHandler parent(_, _)") {
@@ -133,14 +133,14 @@ TEST_CASE("ParentQueryHandler parent(_, _)") {
   test.store->insert(10, 11);
 
   auto result1 = *test.query({StmtType::Wildcard, 0}, {StmtType::Wildcard, 0});
-  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.empty() == false);
 }
 
 TEST_CASE("ParentQueryHandler parent(_, _) no results") {
   auto test = parentTest();
 
   auto result1 = *test.query({StmtType::Wildcard, 0}, {StmtType::Wildcard, 0});
-  REQUIRE(result1.isEmpty == true);
+  REQUIRE(result1.empty() == true);
 }
 
 struct parentTTest {
@@ -197,7 +197,7 @@ TEST_CASE("ParentQueryHandler parentStar(stmtNum,stmtNum)") {
   for (auto i : level2) {
     SECTION("Test with Parent: 1, Child: " + std::to_string(i)) {
       auto result = (*test.queryT({StmtType::None, 1}, {StmtType::None, i}));
-      REQUIRE(result.isEmpty == false);
+      REQUIRE(result.empty() == false);
     }
   }
 
@@ -206,7 +206,7 @@ TEST_CASE("ParentQueryHandler parentStar(stmtNum,stmtNum)") {
   for (auto i : parentsL3) {
     SECTION("Test with Parent: " + std::to_string(i) + ", Child: 3") {
       auto result = (*test.queryT({StmtType::None, i}, {StmtType::None, 3}));
-      REQUIRE(result.isEmpty == false);
+      REQUIRE(result.empty() == false);
     }
   }
 
@@ -219,40 +219,40 @@ TEST_CASE("ParentQueryHandler parentStar(stmtNum,stmtNum)") {
         SECTION("Test with Child: " + std::to_string(c)) {
           auto result =
               (*test.queryT({StmtType::None, p}, {StmtType::None, c}));
-          REQUIRE(result.isEmpty == false);
+          REQUIRE(result.empty() == false);
         }
       }
     }
   }
 
   auto result1 = *test.queryT({StmtType::None, 1}, {StmtType::None, 1});
-  REQUIRE(result1.isEmpty == true);
+  REQUIRE(result1.empty() == true);
   auto result2 = *test.queryT({StmtType::None, 1}, {StmtType::None, 8});
-  REQUIRE(result2.isEmpty == true);
+  REQUIRE(result2.empty() == true);
   auto result3 = *test.queryT({StmtType::None, 2}, {StmtType::None, 1});
-  REQUIRE(result3.isEmpty == true);
+  REQUIRE(result3.empty() == true);
 }
 
 TEST_CASE("ParentQueryHandler parentStar(stmtNum,stmtType)") {
   auto test = parentTTest();
 
   auto result1 = *test.queryT({StmtType::None, 1}, {StmtType::Assign, 0});
-  REQUIRE(result1.secondArgVals == StmtValueSet({4, 6, 7}));
+  REQUIRE(result1.getRightVals() == StmtValueSet({4, 6, 7}));
   auto result2 = *test.queryT({StmtType::None, 2}, {StmtType::Assign, 0});
-  REQUIRE(result2.secondArgVals == StmtValueSet({4, 6}));
+  REQUIRE(result2.getRightVals() == StmtValueSet({4, 6}));
   auto result3 = *test.queryT({StmtType::None, 1}, {StmtType::While, 0});
-  REQUIRE(result3.secondArgVals == StmtValueSet({2}));
+  REQUIRE(result3.getRightVals() == StmtValueSet({2}));
   auto result4 = *test.queryT({StmtType::None, 1}, {StmtType::None, 0});
-  REQUIRE(result4.secondArgVals == StmtValueSet({2, 3, 4, 5, 6, 7}));
+  REQUIRE(result4.getRightVals() == StmtValueSet({2, 3, 4, 5, 6, 7}));
   auto result5 = *test.queryT({StmtType::None, 2}, {StmtType::None, 0});
-  REQUIRE(result5.secondArgVals == StmtValueSet({3, 4, 5, 6}));
+  REQUIRE(result5.getRightVals() == StmtValueSet({3, 4, 5, 6}));
 
   auto result6 = *test.queryT({StmtType::None, 4}, {StmtType::None, 0});
-  REQUIRE(result6.secondArgVals == StmtValueSet({}));
+  REQUIRE(result6.getRightVals() == StmtValueSet({}));
   auto result7 = *test.queryT({StmtType::None, 6}, {StmtType::None, 0});
-  REQUIRE(result7.secondArgVals == StmtValueSet({}));
+  REQUIRE(result7.getRightVals() == StmtValueSet({}));
   auto result8 = *test.queryT({StmtType::None, 1}, {StmtType::Print, 0});
-  REQUIRE(result7.secondArgVals == StmtValueSet({}));
+  REQUIRE(result7.getRightVals() == StmtValueSet({}));
 }
 
 TEST_CASE("ParentQueryHandler parentStar(stmtType,stmtNum)") {
@@ -263,7 +263,7 @@ TEST_CASE("ParentQueryHandler parentStar(stmtType,stmtNum)") {
   for (auto i : level1) {
     SECTION("Test with Child: " + std::to_string(i)) {
       auto result1 = (*test.queryT({StmtType::None, 0}, {StmtType::None, i}));
-      REQUIRE(result1.firstArgVals == StmtValueSet({}));
+      REQUIRE(result1.getLeftVals() == StmtValueSet({}));
     }
   }
   // level 2
@@ -271,89 +271,91 @@ TEST_CASE("ParentQueryHandler parentStar(stmtType,stmtNum)") {
   for (auto i : level2) {
     SECTION("Test with Child: " + std::to_string(i)) {
       auto result1 = (*test.queryT({StmtType::While, 0}, {StmtType::None, i}));
-      REQUIRE(result1.firstArgVals == StmtValueSet({1}));
+      REQUIRE(result1.getLeftVals() == StmtValueSet({1}));
       auto result2 = (*test.queryT({StmtType::If, 0}, {StmtType::None, i}));
-      REQUIRE(result2.firstArgVals == StmtValueSet({}));
+      REQUIRE(result2.getLeftVals() == StmtValueSet({}));
       auto result3 = (*test.queryT({StmtType::None, 0}, {StmtType::None, i}));
-      REQUIRE(result3.firstArgVals == StmtValueSet({1}));
+      REQUIRE(result3.getLeftVals() == StmtValueSet({1}));
     }
   }
   // level 3
   auto result1 = (*test.queryT({StmtType::While, 0}, {StmtType::None, 3}));
-  REQUIRE(result1.firstArgVals == StmtValueSet({1, 2}));
+  REQUIRE(result1.getLeftVals() == StmtValueSet({1, 2}));
   auto result2 = (*test.queryT({StmtType::If, 0}, {StmtType::None, 3}));
-  REQUIRE(result2.firstArgVals == StmtValueSet({}));
+  REQUIRE(result2.getLeftVals() == StmtValueSet({}));
   auto result3 = (*test.queryT({StmtType::None, 0}, {StmtType::None, 3}));
-  REQUIRE(result3.firstArgVals == StmtValueSet({1, 2}));
+  REQUIRE(result3.getLeftVals() == StmtValueSet({1, 2}));
 
   // level 4
   StmtValueSet level4({4, 5, 6});
   for (auto i : level4) {
     SECTION("Test with Child: " + std::to_string(i)) {
       auto result1 = (*test.queryT({StmtType::While, 0}, {StmtType::None, i}));
-      REQUIRE(result1.firstArgVals == StmtValueSet({1, 2}));
+      REQUIRE(result1.getLeftVals() == StmtValueSet({1, 2}));
       auto result2 = (*test.queryT({StmtType::If, 0}, {StmtType::None, i}));
-      REQUIRE(result2.firstArgVals == StmtValueSet({3}));
+      REQUIRE(result2.getLeftVals() == StmtValueSet({3}));
       auto result3 = (*test.queryT({StmtType::None, 0}, {StmtType::None, i}));
-      REQUIRE(result3.firstArgVals == StmtValueSet({1, 2, 3}));
+      REQUIRE(result3.getLeftVals() == StmtValueSet({1, 2, 3}));
     }
   }
   auto result4 = (*test.queryT({StmtType::Assign, 0}, {StmtType::None, 8}));
-  REQUIRE(result4.firstArgVals == StmtValueSet({}));
+  REQUIRE(result4.getLeftVals() == StmtValueSet({}));
 }
 
 TEST_CASE("ParentQueryHandler parentStar(stmtType,stmtType)") {
   auto test = parentTTest();
 
   auto result1 = *test.queryT({StmtType::While, 0}, {StmtType::If, 0});
-  REQUIRE(result1.pairVals == pair_set<StmtValue, StmtValue>({{1, 3}, {2, 3}}));
+  REQUIRE(result1.getPairVals() ==
+          pair_set<StmtValue, StmtValue>({{1, 3}, {2, 3}}));
   auto result2 = *test.queryT({StmtType::While, 0}, {StmtType::While, 0});
-  REQUIRE(result2.pairVals == pair_set<StmtValue, StmtValue>({{1, 2}}));
+  REQUIRE(result2.getPairVals() == pair_set<StmtValue, StmtValue>({{1, 2}}));
   auto result3 = *test.queryT({StmtType::While, 0}, {StmtType::Assign, 0});
-  REQUIRE(result3.pairVals == pair_set<StmtValue, StmtValue>(
-                                  {{1, 4}, {1, 6}, {1, 7}, {2, 4}, {2, 6}}));
+  REQUIRE(
+      result3.getPairVals() ==
+      pair_set<StmtValue, StmtValue>({{1, 4}, {1, 6}, {1, 7}, {2, 4}, {2, 6}}));
   auto result4 = *test.queryT({StmtType::If, 0}, {StmtType::None, 0});
-  REQUIRE(result4.pairVals ==
+  REQUIRE(result4.getPairVals() ==
           pair_set<StmtValue, StmtValue>({{3, 4}, {3, 5}, {3, 6}}));
   auto result5 = *test.queryT({StmtType::None, 0}, {StmtType::Read, 0});
-  REQUIRE(result5.pairVals ==
+  REQUIRE(result5.getPairVals() ==
           pair_set<StmtValue, StmtValue>({{1, 5}, {2, 5}, {3, 5}}));
   auto result6 = *test.queryT({StmtType::None, 0}, {StmtType::None, 0});
-  REQUIRE(result6.pairVals == pair_set<StmtValue, StmtValue>({{1, 2},
-                                                              {1, 3},
-                                                              {1, 4},
-                                                              {1, 5},
-                                                              {1, 6},
-                                                              {1, 7},
-                                                              {2, 3},
-                                                              {2, 4},
-                                                              {2, 5},
-                                                              {2, 6},
-                                                              {3, 4},
-                                                              {3, 5},
-                                                              {3, 6}}));
+  REQUIRE(result6.getPairVals() == pair_set<StmtValue, StmtValue>({{1, 2},
+                                                                   {1, 3},
+                                                                   {1, 4},
+                                                                   {1, 5},
+                                                                   {1, 6},
+                                                                   {1, 7},
+                                                                   {2, 3},
+                                                                   {2, 4},
+                                                                   {2, 5},
+                                                                   {2, 6},
+                                                                   {3, 4},
+                                                                   {3, 5},
+                                                                   {3, 6}}));
 
   auto result7 = *test.queryT({StmtType::Assign, 0}, {StmtType::None, 0});
-  REQUIRE(result7.pairVals == pair_set<StmtValue, StmtValue>({}));
+  REQUIRE(result7.getPairVals() == pair_set<StmtValue, StmtValue>({}));
   auto result8 = *test.queryT({StmtType::None, 0}, {StmtType::Print, 0});
-  REQUIRE(result8.pairVals == pair_set<StmtValue, StmtValue>({}));
+  REQUIRE(result8.getPairVals() == pair_set<StmtValue, StmtValue>({}));
 }
 
 TEST_CASE("ParentQueryHandler parentStar(_,stmtType)") {
   auto test = parentTTest();
   // 1(->2(->3(->4,5|6)),7),8
   auto result1 = *test.queryT({StmtType::Wildcard, 0}, {StmtType::If, 0});
-  REQUIRE(result1.secondArgVals == StmtValueSet({3}));
+  REQUIRE(result1.getRightVals() == StmtValueSet({3}));
 
   auto result2 = *test.queryT({StmtType::Wildcard, 0}, {StmtType::None, 0});
-  REQUIRE(result2.secondArgVals == StmtValueSet({2, 3, 4, 5, 6, 7}));
+  REQUIRE(result2.getRightVals() == StmtValueSet({2, 3, 4, 5, 6, 7}));
 }
 
 TEST_CASE("ParentQueryHandler parentStar(_,stmtNum)") {
   auto test = parentTTest();
   auto result1 = *test.queryT({StmtType::Wildcard, 0}, {StmtType::None, 5});
-  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.empty() == false);
 
   auto result2 = *test.queryT({StmtType::Wildcard, 0}, {StmtType::None, 1});
-  REQUIRE(result2.isEmpty == true);
+  REQUIRE(result2.empty() == true);
 }

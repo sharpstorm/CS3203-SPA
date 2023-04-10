@@ -8,5 +8,5 @@
 class IAssignsWriter {
  public:
   virtual ~IAssignsWriter() {}
-  virtual void addAssigns(StmtValue arg1, PatternTrieSPtr arg2) = 0;
+  virtual void addAssigns(StmtValue leftArg, PatternTrieSPtr rightArg) = 0;
 };

@@ -62,15 +62,15 @@ TEST_CASE("CallsQueryHandler calls(entityName, entityName)") {
   REQUIRE(test.query({EntityType::Procedure, "main"},
                      {EntityType::Procedure, "foo"})
               .get()
-              ->isEmpty == false);
+              ->empty() == false);
   REQUIRE(
       test.query({EntityType::Procedure, "foo"}, {EntityType::Procedure, "goo"})
           .get()
-          ->isEmpty == false);
+          ->empty() == false);
   REQUIRE(test.query({EntityType::Procedure, "main"},
                      {EntityType::Procedure, "goo"})
               .get()
-              ->isEmpty == true);
+              ->empty() == true);
 }
 
 TEST_CASE(
@@ -84,10 +84,10 @@ TEST_CASE(
 
   auto result =
       *test.query({EntityType::None, "main"}, {EntityType::Procedure, ""});
-  REQUIRE(result.secondArgVals == EntityValueSet({"foo", "goo"}));
+  REQUIRE(result.getRightVals() == EntityValueSet({"foo", "goo"}));
   auto result2 =
       *test.query({EntityType::Procedure, ""}, {EntityType::None, "goo"});
-  REQUIRE(result2.firstArgVals == EntityValueSet({"foo", "main"}));
+  REQUIRE(result2.getLeftVals() == EntityValueSet({"foo", "main"}));
 }
 
 TEST_CASE("CallsQueryHandler calls(_, entityName)") {
@@ -99,10 +99,10 @@ TEST_CASE("CallsQueryHandler calls(_, entityName)") {
 
   auto result =
       *test.query({EntityType::Wildcard, ""}, {EntityType::Procedure, "foo"});
-  REQUIRE(result.isEmpty == false);
+  REQUIRE(result.empty() == false);
   auto result2 =
       *test.query({EntityType::Wildcard, ""}, {EntityType::Procedure, "main"});
-  REQUIRE(result2.isEmpty == true);
+  REQUIRE(result2.empty() == true);
 }
 
 TEST_CASE("CallsQueryHandler calls(entityName, _)") {
@@ -114,10 +114,10 @@ TEST_CASE("CallsQueryHandler calls(entityName, _)") {
 
   auto result =
       *test.query({EntityType::Procedure, "main"}, {EntityType::Wildcard, ""});
-  REQUIRE(result.isEmpty == false);
+  REQUIRE(result.empty() == false);
   auto result2 =
       *test.query({EntityType::Procedure, "goo"}, {EntityType::Wildcard, ""});
-  REQUIRE(result2.isEmpty == true);
+  REQUIRE(result2.empty() == true);
 }
 
 TEST_CASE("CallsQueryHandler calls(_, procedure) / calls(procedure,_)") {
@@ -128,13 +128,13 @@ TEST_CASE("CallsQueryHandler calls(_, procedure) / calls(procedure,_)") {
 
   auto result =
       *test.query({EntityType::Wildcard, ""}, {EntityType::Procedure, ""});
-  REQUIRE(result.isEmpty == false);
-  REQUIRE(result.secondArgVals == EntityValueSet({"foo", "goo"}));
+  REQUIRE(result.empty() == false);
+  REQUIRE(result.getRightVals() == EntityValueSet({"foo", "goo"}));
 
   auto result2 =
       *test.query({EntityType::Procedure, ""}, {EntityType::Wildcard, ""});
-  REQUIRE(result2.isEmpty == false);
-  REQUIRE(result2.firstArgVals == EntityValueSet({"main", "foo"}));
+  REQUIRE(result2.empty() == false);
+  REQUIRE(result2.getLeftVals() == EntityValueSet({"main", "foo"}));
 }
 
 TEST_CASE("CallsQueryHandler calls(_, _)") {
@@ -146,7 +146,7 @@ TEST_CASE("CallsQueryHandler calls(_, _)") {
 
   auto result =
       *test.query({EntityType::Wildcard, ""}, {EntityType::Wildcard, ""});
-  REQUIRE(result.isEmpty == false);
+  REQUIRE(result.empty() == false);
 }
 
 TEST_CASE("CallsQueryHandler calls(_, _) no results") {
@@ -154,7 +154,7 @@ TEST_CASE("CallsQueryHandler calls(_, _) no results") {
 
   auto result =
       *test.query({EntityType::Wildcard, ""}, {EntityType::Wildcard, ""});
-  REQUIRE(result.isEmpty == true);
+  REQUIRE(result.empty() == true);
 }
 
 /* Call Star */
@@ -168,15 +168,15 @@ TEST_CASE("CallsQueryHandler callsStar(entityName, entityName)") {
   REQUIRE(test.queryT({EntityType::Procedure, "main"},
                       {EntityType::Procedure, "foo"})
               .get()
-              ->isEmpty == false);
+              ->empty() == false);
   REQUIRE(test.queryT({EntityType::Procedure, "foo"},
                       {EntityType::Procedure, "goo"})
               .get()
-              ->isEmpty == false);
+              ->empty() == false);
   REQUIRE(test.queryT({EntityType::Procedure, "main"},
                       {EntityType::Procedure, "goo"})
               .get()
-              ->isEmpty == false);
+              ->empty() == false);
 }
 
 TEST_CASE(
@@ -190,10 +190,10 @@ TEST_CASE(
 
   auto result =
       *test.queryT({EntityType::None, "main"}, {EntityType::Procedure, ""});
-  REQUIRE(result.secondArgVals == EntityValueSet({"foo", "goo"}));
+  REQUIRE(result.getRightVals() == EntityValueSet({"foo", "goo"}));
   auto result2 =
       *test.queryT({EntityType::Procedure, ""}, {EntityType::None, "goo"});
-  REQUIRE(result2.firstArgVals == EntityValueSet({"foo", "main"}));
+  REQUIRE(result2.getLeftVals() == EntityValueSet({"foo", "main"}));
 }
 
 TEST_CASE("CallsQueryHandler callsStar(_, entityName)") {
@@ -208,10 +208,10 @@ TEST_CASE("CallsQueryHandler callsStar(_, entityName)") {
 
   auto result =
       *test.queryT({EntityType::Wildcard, ""}, {EntityType::Procedure, "goo"});
-  REQUIRE(result.isEmpty == false);
+  REQUIRE(result.empty() == false);
   auto result2 =
       *test.queryT({EntityType::Wildcard, ""}, {EntityType::Procedure, "main"});
-  REQUIRE(result2.isEmpty == true);
+  REQUIRE(result2.empty() == true);
 }
 
 TEST_CASE("CallsQueryHandler callsStar(entityName, _)") {
@@ -224,10 +224,10 @@ TEST_CASE("CallsQueryHandler callsStar(entityName, _)") {
 
   auto result =
       *test.queryT({EntityType::Procedure, "main"}, {EntityType::Wildcard, ""});
-  REQUIRE(result.isEmpty == false);
+  REQUIRE(result.empty() == false);
   auto result2 =
       *test.queryT({EntityType::Procedure, "goo"}, {EntityType::Wildcard, ""});
-  REQUIRE(result2.isEmpty == true);
+  REQUIRE(result2.empty() == true);
 }
 
 TEST_CASE("CallsQueryHandler Calls*(_, procedure) / Calls*(procedure,_)") {
@@ -238,13 +238,13 @@ TEST_CASE("CallsQueryHandler Calls*(_, procedure) / Calls*(procedure,_)") {
 
   auto result =
       *test.query({EntityType::Wildcard, ""}, {EntityType::Procedure, ""});
-  REQUIRE(result.isEmpty == false);
-  REQUIRE(result.secondArgVals == EntityValueSet({"foo", "goo"}));
+  REQUIRE(result.empty() == false);
+  REQUIRE(result.getRightVals() == EntityValueSet({"foo", "goo"}));
 
   auto result2 =
       *test.query({EntityType::Procedure, ""}, {EntityType::Wildcard, ""});
-  REQUIRE(result2.isEmpty == false);
-  REQUIRE(result2.firstArgVals == EntityValueSet({"main", "foo"}));
+  REQUIRE(result2.empty() == false);
+  REQUIRE(result2.getLeftVals() == EntityValueSet({"main", "foo"}));
 }
 
 TEST_CASE("CallsQueryHandler callsStar(_, _)") {
@@ -257,7 +257,7 @@ TEST_CASE("CallsQueryHandler callsStar(_, _)") {
 
   auto result =
       *test.queryT({EntityType::Wildcard, ""}, {EntityType::Wildcard, ""});
-  REQUIRE(result.isEmpty == false);
+  REQUIRE(result.empty() == false);
 }
 
 TEST_CASE("CallsQueryHandler callsStar(_, _) no result") {
@@ -265,5 +265,5 @@ TEST_CASE("CallsQueryHandler callsStar(_, _) no result") {
 
   auto result =
       *test.queryT({EntityType::Wildcard, ""}, {EntityType::Wildcard, ""});
-  REQUIRE(result.isEmpty == true);
+  REQUIRE(result.empty() == true);
 }

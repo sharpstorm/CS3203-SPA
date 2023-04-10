@@ -33,18 +33,18 @@ TEST_CASE("Follows") {
 
   auto result1 =
       *test.handler.queryFollows({StmtType::None, 1}, {StmtType::None, 2});
-  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.empty() == false);
 
   auto result2 =
       *test.handler.queryFollows({StmtType::None, 1}, {StmtType::None, 3});
-  REQUIRE(result2.isEmpty == true);
+  REQUIRE(result2.empty() == true);
 
   auto result3 =
       *test.handler.queryFollows({StmtType::None, 1}, {StmtType::Read, 0});
-  REQUIRE(result3.secondArgVals == StmtValueSet({2}));
+  REQUIRE(result3.getRightVals() == StmtValueSet({2}));
   auto result4 =
       *test.handler.queryFollows({StmtType::Read, 0}, {StmtType::None, 4});
-  REQUIRE(result4.firstArgVals == StmtValueSet({3}));
+  REQUIRE(result4.getLeftVals() == StmtValueSet({3}));
 }
 
 TEST_CASE("Follows 2 unknowns") {
@@ -52,22 +52,23 @@ TEST_CASE("Follows 2 unknowns") {
 
   auto result1 =
       *test.handler.queryFollows({StmtType::None, 0}, {StmtType::Read, 0});
-  REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.pairVals == pair_set<StmtValue, StmtValue>({{1, 2}, {2, 3}}));
+  REQUIRE(result1.empty() == false);
+  REQUIRE(result1.getPairVals() ==
+          pair_set<StmtValue, StmtValue>({{1, 2}, {2, 3}}));
 
   auto result2 =
       *test.handler.queryFollows({StmtType::None, 0}, {StmtType::None, 0});
-  REQUIRE(result2.isEmpty == false);
-  REQUIRE(result2.pairVals ==
+  REQUIRE(result2.empty() == false);
+  REQUIRE(result2.getPairVals() ==
           pair_set<StmtValue, StmtValue>({{1, 2}, {2, 3}, {3, 4}}));
 
   auto result5 =
       *test.handler.queryFollows({StmtType::Read, 0}, {StmtType::Print, 0});
-  REQUIRE(result5.pairVals == pair_set<StmtValue, StmtValue>({{3, 4}}));
+  REQUIRE(result5.getPairVals() == pair_set<StmtValue, StmtValue>({{3, 4}}));
 
   auto result6 =
       *test.handler.queryFollows({StmtType::None, 0}, {StmtType::None, 4});
-  REQUIRE(result6.firstArgVals == StmtValueSet({3}));
+  REQUIRE(result6.getLeftVals() == StmtValueSet({3}));
 }
 
 TEST_CASE("Follows wildcard rightArg") {
@@ -75,16 +76,16 @@ TEST_CASE("Follows wildcard rightArg") {
 
   auto result1 =
       *test.handler.queryFollows({StmtType::Wildcard, 0}, {StmtType::None, 3});
-  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.empty() == false);
   auto result2 =
       *test.handler.queryFollows({StmtType::Wildcard, 0}, {StmtType::None, 1});
-  REQUIRE(result2.isEmpty == true);
+  REQUIRE(result2.empty() == true);
   auto result3 =
       *test.handler.queryFollows({StmtType::Wildcard, 0}, {StmtType::None, 0});
-  REQUIRE(result3.secondArgVals == StmtValueSet({2, 3, 4}));
+  REQUIRE(result3.getRightVals() == StmtValueSet({2, 3, 4}));
   auto result4 =
       *test.handler.queryFollows({StmtType::Wildcard, 0}, {StmtType::Read, 0});
-  REQUIRE(result4.secondArgVals == StmtValueSet({2, 3}));
+  REQUIRE(result4.getRightVals() == StmtValueSet({2, 3}));
 }
 
 TEST_CASE("Follows wildcard leftArg") {
@@ -92,16 +93,16 @@ TEST_CASE("Follows wildcard leftArg") {
 
   auto result1 =
       *test.handler.queryFollows({StmtType::None, 2}, {StmtType::Wildcard, 0});
-  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.empty() == false);
   auto result2 =
       *test.handler.queryFollows({StmtType::None, 4}, {StmtType::Wildcard, 0});
-  REQUIRE(result2.isEmpty == true);
+  REQUIRE(result2.empty() == true);
   auto result3 =
       *test.handler.queryFollows({StmtType::None, 0}, {StmtType::Wildcard, 0});
-  REQUIRE(result3.firstArgVals == StmtValueSet({1, 2, 3}));
+  REQUIRE(result3.getLeftVals() == StmtValueSet({1, 2, 3}));
   auto result4 =
       *test.handler.queryFollows({StmtType::Read, 0}, {StmtType::Wildcard, 0});
-  REQUIRE(result4.firstArgVals == StmtValueSet({2, 3}));
+  REQUIRE(result4.getLeftVals() == StmtValueSet({2, 3}));
 }
 
 TEST_CASE("FollowsStar <= 1 unknown") {
@@ -109,19 +110,19 @@ TEST_CASE("FollowsStar <= 1 unknown") {
 
   auto result1 =
       *test.handler.queryFollowsStar({StmtType::None, 1}, {StmtType::None, 4});
-  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.empty() == false);
 
   auto result2 =
       *test.handler.queryFollowsStar({StmtType::None, 3}, {StmtType::None, 1});
-  REQUIRE(result2.isEmpty == true);
+  REQUIRE(result2.empty() == true);
 
   auto result3 =
       *test.handler.queryFollowsStar({StmtType::None, 1}, {StmtType::Read, 0});
-  REQUIRE(result3.secondArgVals == StmtValueSet({2, 3}));
+  REQUIRE(result3.getRightVals() == StmtValueSet({2, 3}));
 
   auto result4 =
       *test.handler.queryFollowsStar({StmtType::Read, 0}, {StmtType::None, 4});
-  REQUIRE(result4.firstArgVals == StmtValueSet({2, 3}));
+  REQUIRE(result4.getLeftVals() == StmtValueSet({2, 3}));
 }
 
 TEST_CASE("FollowsStar 2 unknowns") {
@@ -129,18 +130,19 @@ TEST_CASE("FollowsStar 2 unknowns") {
 
   auto result1 =
       *test.handler.queryFollowsStar({StmtType::None, 0}, {StmtType::Read, 0});
-  REQUIRE(result1.pairVals ==
+  REQUIRE(result1.getPairVals() ==
           pair_set<StmtValue, StmtValue>({{1, 2}, {2, 3}, {1, 3}}));
 
   auto result2 =
       *test.handler.queryFollowsStar({StmtType::None, 0}, {StmtType::None, 0});
-  REQUIRE(result2.pairVals ==
+  REQUIRE(result2.getPairVals() ==
           pair_set<StmtValue, StmtValue>(
               {{1, 2}, {2, 3}, {3, 4}, {1, 3}, {1, 4}, {2, 4}}));
 
   auto result3 =
       *test.handler.queryFollowsStar({StmtType::Read, 0}, {StmtType::Print, 0});
-  REQUIRE(result3.pairVals == pair_set<StmtValue, StmtValue>({{2, 4}, {3, 4}}));
+  REQUIRE(result3.getPairVals() ==
+          pair_set<StmtValue, StmtValue>({{2, 4}, {3, 4}}));
 }
 
 TEST_CASE("FollowsStar wildcard rightArg") {
@@ -148,16 +150,16 @@ TEST_CASE("FollowsStar wildcard rightArg") {
 
   auto result1 = *test.handler.queryFollowsStar({StmtType::Wildcard, 0},
                                                 {StmtType::None, 3});
-  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.empty() == false);
   auto result2 = *test.handler.queryFollowsStar({StmtType::Wildcard, 0},
                                                 {StmtType::None, 1});
-  REQUIRE(result2.isEmpty == true);
+  REQUIRE(result2.empty() == true);
   auto result3 = *test.handler.queryFollowsStar({StmtType::Wildcard, 0},
                                                 {StmtType::None, 0});
-  REQUIRE(result3.secondArgVals == StmtValueSet({2, 3, 4}));
+  REQUIRE(result3.getRightVals() == StmtValueSet({2, 3, 4}));
   auto result4 = *test.handler.queryFollowsStar({StmtType::Wildcard, 0},
                                                 {StmtType::Read, 0});
-  REQUIRE(result4.secondArgVals == StmtValueSet({2, 3}));
+  REQUIRE(result4.getRightVals() == StmtValueSet({2, 3}));
 }
 
 TEST_CASE("FollowsStar wildcard leftArg") {
@@ -165,14 +167,14 @@ TEST_CASE("FollowsStar wildcard leftArg") {
 
   auto result1 = *test.handler.queryFollowsStar({StmtType::None, 2},
                                                 {StmtType::Wildcard, 0});
-  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.empty() == false);
   auto result2 = *test.handler.queryFollowsStar({StmtType::None, 4},
                                                 {StmtType::Wildcard, 0});
-  REQUIRE(result2.isEmpty == true);
+  REQUIRE(result2.empty() == true);
   auto result3 = *test.handler.queryFollowsStar({StmtType::None, 0},
                                                 {StmtType::Wildcard, 0});
-  REQUIRE(result3.firstArgVals == StmtValueSet({1, 2, 3}));
+  REQUIRE(result3.getLeftVals() == StmtValueSet({1, 2, 3}));
   auto result4 = *test.handler.queryFollowsStar({StmtType::Read, 0},
                                                 {StmtType::Wildcard, 0});
-  REQUIRE(result4.firstArgVals == StmtValueSet({2, 3}));
+  REQUIRE(result4.getLeftVals() == StmtValueSet({2, 3}));
 }

@@ -9,7 +9,7 @@
 class AssignsWriter : public IAssignsWriter {
  public:
   explicit AssignsWriter(AssignStorage *assignStorage);
-  void addAssigns(StmtValue arg1, PatternTrieSPtr arg2) override;
+  void addAssigns(StmtValue leftArg, PatternTrieSPtr rightArg) override;
 
  private:
   AssignStorage *assignStorage;

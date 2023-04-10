@@ -1,16 +1,16 @@
 #include "FollowsTableManager.h"
 
-void FollowsTableManager::insert(StmtValue arg1, StmtValue arg2) {
-  table->insert(arg1, arg2);
-  reverseTable->insert(arg2, arg1);
+void FollowsTableManager::insert(StmtValue leftArg, StmtValue rightArg) {
+  table->insert(leftArg, rightArg);
+  reverseTable->insert(rightArg, leftArg);
 }
 
 QueryResultPtr<StmtValue, StmtValue> FollowsTableManager::query(
-    StmtValue arg1, StmtValue arg2,
+    StmtValue leftArg, StmtValue rightArg,
     QueryResultBuilder<StmtValue, StmtValue> *resultBuilder) const {
-  auto firstVal = table->getFirstValue(arg1);
-  if (firstVal == arg2) {
-    resultBuilder->add(arg1, arg2);
+  auto firstVal = table->getFirstValue(leftArg);
+  if (firstVal == rightArg) {
+    resultBuilder->add(leftArg, rightArg);
   }
 
   return resultBuilder->getResult();
@@ -31,10 +31,10 @@ unique_ptr<IBaseIterator<StmtValue>> FollowsTableManager::getLeftValIter(
 QueryResultPtr<StmtValue, StmtValue> FollowsTableManager::rightWildcardQuery(
     const StmtValueSet &arg1Values,
     QueryResultBuilder<StmtValue, StmtValue> *resultBuilder) const {
-  for (auto arg1 : arg1Values) {
-    auto arg2 = table->getFirstValue(arg1);
-    if (arg2 != 0) {
-      resultBuilder->addLeft(arg1);
+  for (auto leftArg : arg1Values) {
+    auto rightArg = table->getFirstValue(leftArg);
+    if (rightArg != 0) {
+      resultBuilder->addLeft(leftArg);
     }
   }
   return resultBuilder->getResult();
@@ -43,10 +43,10 @@ QueryResultPtr<StmtValue, StmtValue> FollowsTableManager::rightWildcardQuery(
 QueryResultPtr<StmtValue, StmtValue> FollowsTableManager::leftWildcardQuery(
     const StmtValueSet &arg2Values,
     QueryResultBuilder<StmtValue, StmtValue> *resultBuilder) const {
-  for (auto arg2 : arg2Values) {
-    auto arg1 = reverseTable->getLastValue(arg2);
-    if (arg1 != 0) {
-      resultBuilder->addRight(arg2);
+  for (auto rightArg : arg2Values) {
+    auto leftArg = reverseTable->getLastValue(rightArg);
+    if (leftArg != 0) {
+      resultBuilder->addRight(rightArg);
     }
   }
   return resultBuilder->getResult();

@@ -13,25 +13,25 @@ class IStorage {
  public:
   virtual ~IStorage() = default;
 
-  virtual void insert(K arg1, V arg2) = 0;
+  virtual void insert(K leftArg, V rightArg) = 0;
 
   /**
-   * Find R(arg1, arg2) where arg1 and arg2 are given values.
+   * Find R(leftArg, rightArg) where leftArg and rightArg are given values.
    */
-  virtual QueryResultPtr<K, V> query(K arg1, V arg2,
+  virtual QueryResultPtr<K, V> query(K leftArg, V rightArg,
                                      QueryResultBuilder<K, V> *) const = 0;
 
   /**
-   * Find R(arg1, arg2) where arg1 is in the given arg1Values and arg2 satisfies
-   * arg2Predicate.
+   * Find R(leftArg, rightArg) where leftArg is in the given arg1Values and
+   * rightArg satisfies arg2Predicate.
    */
   virtual QueryResultPtr<K, V> query(const unordered_set<K> &arg1Values,
                                      Predicate<V> arg2Predicate,
                                      QueryResultBuilder<K, V> *) const = 0;
 
   /**
-   * Find R(arg1, arg2) where arg2 is in the given arg2Values and arg1 satisfies
-   * arg1Predicate.
+   * Find R(leftArg, rightArg) where rightArg is in the given arg2Values and
+   * leftArg satisfies arg1Predicate.
    */
   virtual QueryResultPtr<K, V> query(Predicate<K> arg1Predicate,
                                      const unordered_set<V> &arg2Values,

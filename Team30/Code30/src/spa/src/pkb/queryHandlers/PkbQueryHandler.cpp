@@ -99,51 +99,51 @@ StmtType PkbQueryHandler::getStatementType(StmtValue stmtNo) const {
 }
 
 QueryResultPtr<StmtValue, EntityValue> PkbQueryHandler::queryUses(
-    StmtRef arg1, EntityRef arg2) const {
-  return usesHandler->query(&arg1, &arg2);
+    StmtRef leftArg, EntityRef rightArg) const {
+  return usesHandler->query(&leftArg, &rightArg);
 }
 
 QueryResultPtr<EntityValue, EntityValue> PkbQueryHandler::queryUses(
-    EntityRef arg1, EntityRef arg2) const {
-  return usesHandler->query(&arg1, &arg2);
+    EntityRef leftArg, EntityRef rightArg) const {
+  return usesHandler->query(&leftArg, &rightArg);
 }
 QueryResultPtr<StmtValue, EntityValue> PkbQueryHandler::queryModifies(
-    StmtRef arg1, EntityRef arg2) const {
-  return modifiesHandler->query(&arg1, &arg2);
+    StmtRef leftArg, EntityRef rightArg) const {
+  return modifiesHandler->query(&leftArg, &rightArg);
 }
 
 QueryResultPtr<EntityValue, EntityValue> PkbQueryHandler::queryModifies(
-    EntityRef arg1, EntityRef arg2) const {
-  return modifiesHandler->query(&arg1, &arg2);
+    EntityRef leftArg, EntityRef rightArg) const {
+  return modifiesHandler->query(&leftArg, &rightArg);
 }
 
 QueryResultPtr<StmtValue, PatternTrie *> PkbQueryHandler::queryAssigns(
-    StmtRef arg1) const {
-  return assignHandler->queryAssigns(arg1);
+    StmtRef leftArg) const {
+  return assignHandler->queryAssigns(leftArg);
 }
 
 QueryResultPtr<EntityValue, EntityValue> PkbQueryHandler::queryCalls(
-    EntityRef arg1, EntityRef arg2) const {
-  return callsHandler->query(&arg1, &arg2);
+    EntityRef leftArg, EntityRef rightArg) const {
+  return callsHandler->query(&leftArg, &rightArg);
 }
 
 QueryResultPtr<EntityValue, EntityValue> PkbQueryHandler::queryCallsStar(
-    EntityRef arg1, EntityRef arg2) const {
-  return callsTHandler->query(&arg1, &arg2);
+    EntityRef leftArg, EntityRef rightArg) const {
+  return callsTHandler->query(&leftArg, &rightArg);
 }
 
 QueryResultPtr<StmtValue, EntityValue> PkbQueryHandler::queryIfPattern(
-    StmtRef arg1, EntityRef arg2) const {
-  return ifPatternHandler->query(&arg1, &arg2);
+    StmtRef leftArg, EntityRef rightArg) const {
+  return ifPatternHandler->query(&leftArg, &rightArg);
 }
 
 QueryResultPtr<StmtValue, EntityValue> PkbQueryHandler::queryWhilePattern(
-    StmtRef arg1, EntityRef arg2) const {
-  return whilePatternHandler->query(&arg1, &arg2);
+    StmtRef leftArg, EntityRef rightArg) const {
+  return whilePatternHandler->query(&leftArg, &rightArg);
 }
 
-vector<CFG *> PkbQueryHandler::queryCFGs(StmtRef arg1) const {
-  return cfgsHandler->queryCFGs(arg1);
+vector<CFG *> PkbQueryHandler::queryCFGs(StmtRef leftArg) const {
+  return cfgsHandler->queryCFGs(leftArg);
 }
 
 bool PkbQueryHandler::isStatementOfType(StmtType stmtType,

@@ -18,7 +18,7 @@ using std::shared_ptr;
 using std::unique_ptr;
 
 /**
- * Table manager for relation, R(arg1, arg2), where args are type K and V
+ * Table manager for relation, R(leftArg, rightArg), where args are type K and V
  * respectively. Stores mapping of K -> Set<V> and V-> Set<K>. Provides insert
  * and query functionalities.
  */
@@ -34,9 +34,9 @@ class RelationTableManager : public IStorage<K, V> {
                        IBaseSetTable<V, K> *reverseTable)
       : table(table), reverseTable(reverseTable) {}
 
-  void insert(K arg1, V arg2) {
-    table->insert(arg1, arg2);
-    reverseTable->insert(arg2, arg1);
+  void insert(K leftArg, V rightArg) {
+    table->insert(leftArg, rightArg);
+    reverseTable->insert(rightArg, leftArg);
   }
 
   virtual unique_ptr<IBaseIterator<V>> getRightValIter(K leftArg) const {
@@ -48,30 +48,30 @@ class RelationTableManager : public IStorage<K, V> {
   }
 
   /**
-   * Find R(arg1, arg2) where arg1 and arg2 are given values.
+   * Find R(leftArg, rightArg) where leftArg and rightArg are given values.
    */
   virtual QueryResultPtr<K, V> query(
-      K arg1, V arg2, QueryResultBuilder<K, V> *resultBuilder) const {
-    if (table->contains(arg1, arg2)) {
-      resultBuilder->add(arg1, arg2);
+      K leftArg, V rightArg, QueryResultBuilder<K, V> *resultBuilder) const {
+    if (table->contains(leftArg, rightArg)) {
+      resultBuilder->add(leftArg, rightArg);
     }
 
     return resultBuilder->getResult();
   }
 
   /**
-   * Find R(arg1, arg2) where arg1 is in the given arg1Values and arg2 satisfies
-   * arg2Predicate.
+   * Find R(leftArg, rightArg) where leftArg is in the given arg1Values and
+   * rightArg satisfies arg2Predicate.
    */
   virtual QueryResultPtr<K, V> query(
       const unordered_set<K> &arg1Values, Predicate<V> arg2Predicate,
       QueryResultBuilder<K, V> *resultBuilder) const {
-    for (auto arg1 : arg1Values) {
-      auto it = getRightValIter(arg1);
-      V arg2;
-      while ((arg2 = it->getNext()) != V()) {
-        if (arg2Predicate(arg2)) {
-          resultBuilder->add(arg1, arg2);
+    for (auto leftArg : arg1Values) {
+      auto it = getRightValIter(leftArg);
+      V rightArg;
+      while ((rightArg = it->getNext()) != V()) {
+        if (arg2Predicate(rightArg)) {
+          resultBuilder->add(leftArg, rightArg);
         }
       }
     }
@@ -80,18 +80,18 @@ class RelationTableManager : public IStorage<K, V> {
   }
 
   /**
-   * Find R(arg1, arg2) where arg2 is in the given arg2Values and arg1 satisfies
-   * arg1Predicate.
+   * Find R(leftArg, rightArg) where rightArg is in the given arg2Values and
+   * leftArg satisfies arg1Predicate.
    */
   virtual QueryResultPtr<K, V> query(
       Predicate<K> arg1Predicate, const unordered_set<V> &arg2Values,
       QueryResultBuilder<K, V> *resultBuilder) const {
-    for (auto arg2 : arg2Values) {
-      auto it = getLeftValIter(arg2);
-      K arg1;
-      while ((arg1 = it->getNext()) != K()) {
-        if (arg1Predicate(arg1)) {
-          resultBuilder->add(arg1, arg2);
+    for (auto rightArg : arg2Values) {
+      auto it = getLeftValIter(rightArg);
+      K leftArg;
+      while ((leftArg = it->getNext()) != K()) {
+        if (arg1Predicate(leftArg)) {
+          resultBuilder->add(leftArg, rightArg);
         }
       }
     }
@@ -115,9 +115,9 @@ class RelationTableManager : public IStorage<K, V> {
   virtual QueryResultPtr<K, V> rightWildcardQuery(
       const unordered_set<K> &arg1Values,
       QueryResultBuilder<K, V> *resultBuilder) const {
-    for (auto arg1 : arg1Values) {
-      if (table->containsKey(arg1)) {
-        resultBuilder->addLeft(arg1);
+    for (auto leftArg : arg1Values) {
+      if (table->containsKey(leftArg)) {
+        resultBuilder->addLeft(leftArg);
       }
     }
     return resultBuilder->getResult();
@@ -129,9 +129,9 @@ class RelationTableManager : public IStorage<K, V> {
   virtual QueryResultPtr<K, V> leftWildcardQuery(
       const unordered_set<V> &arg2Values,
       QueryResultBuilder<K, V> *resultBuilder) const {
-    for (auto arg2 : arg2Values) {
-      if (reverseTable->containsKey(arg2)) {
-        resultBuilder->addRight(arg2);
+    for (auto rightArg : arg2Values) {
+      if (reverseTable->containsKey(rightArg)) {
+        resultBuilder->addRight(rightArg);
       }
     }
     return resultBuilder->getResult();

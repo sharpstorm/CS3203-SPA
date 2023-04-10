@@ -15,7 +15,7 @@ using pkb::Predicate;
 using std::make_unique, std::unique_ptr, std::vector, std::unordered_set;
 
 /**
- * Table manager for relation, R(arg1, arg2), where args are type K and V
+ * Table manager for relation, R(leftArg, rightArg), where args are type K and V
  * respectively. Stores mapping of K -> Set<StmtValue> and V-> Set<StmtValue>.
  * Provides insert and query functionalities.
  */
@@ -32,10 +32,10 @@ class FollowsTableManager : public RelationTableManager<StmtValue, StmtValue> {
         reverseTable(reverseTable),
         RelationTableManager(table, reverseTable) {}
 
-  void insert(StmtValue arg1, StmtValue arg2) override;
+  void insert(StmtValue leftArg, StmtValue rightArg) override;
 
   QueryResultPtr<StmtValue, StmtValue> query(
-      StmtValue arg1, StmtValue arg2,
+      StmtValue leftArg, StmtValue rightArg,
       QueryResultBuilder<StmtValue, StmtValue> *resultBuilder) const override;
 
   unique_ptr<IBaseIterator<StmtValue>> getRightValIter(

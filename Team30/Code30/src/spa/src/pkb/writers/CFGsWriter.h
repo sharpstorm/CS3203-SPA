@@ -9,7 +9,7 @@
 class CFGsWriter : public ICFGsWriter {
  public:
   explicit CFGsWriter(CFGStorage *cfgStorage);
-  void addCFGs(EntityValue arg1, CFGSPtr arg2) override;
+  void addCFGs(EntityValue leftArg, CFGSPtr rightArg) override;
 
  private:
   CFGStorage *cfgStorage;

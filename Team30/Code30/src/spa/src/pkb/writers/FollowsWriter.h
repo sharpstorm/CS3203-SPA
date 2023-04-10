@@ -7,7 +7,7 @@ class FollowsWriter : public IFollowsWriter {
  public:
   explicit FollowsWriter(FollowsStorage *followsStore);
 
-  void addFollows(StmtValue arg1, StmtValue arg2) override;
+  void addFollows(StmtValue leftArg, StmtValue rightArg) override;
 
  private:
   FollowsStorage *store;
