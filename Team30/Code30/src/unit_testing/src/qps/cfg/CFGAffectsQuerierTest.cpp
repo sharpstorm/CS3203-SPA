@@ -10,10 +10,13 @@ typedef CFGAffectsQuerier<CFGTestModifiesUsesProvider>
 template<typename T>
 StmtTransitiveResult queryAffects(CFGAffectsQuerier<T> *querier,
                                   int left, int right) {
-  return querier->queryArgs(
+  StmtTransitiveResult ret;
+  querier->queryArgs(
       StmtRef{StmtType::None, left},
-      StmtRef{StmtType::None, right}
+      StmtRef{StmtType::None, right},
+      &ret
   );
+  return ret;
 }
 
 template<typename T>

@@ -8,10 +8,13 @@ typedef CFGNextTQuerier<int, CFGTestUtils::dummyTypePredicate> CFGTestNextTQueri
 
 template <typename T, StmtTypePredicate<T> U>
 StmtTransitiveResult queryNextT(CFGNextTQuerier<T, U>* querier, int left, int right) {
-  return querier->queryArgs(
+  StmtTransitiveResult ret;
+  querier->queryArgs(
       StmtRef{StmtType::None, left},
-      StmtRef{StmtType::None, right}
+      StmtRef{StmtType::None, right},
+      &ret
   );
+  return ret;
 }
 
 template <typename T, StmtTypePredicate<T> U>
@@ -29,7 +32,9 @@ template <typename T, StmtTypePredicate<T> U>
 StmtTransitiveResult queryNextT(CFGNextTQuerier<T, U>* querier,
                                 StmtRef left,
                                 StmtRef right) {
-  return querier->queryArgs(left, right);
+  StmtTransitiveResult ret;
+  querier->queryArgs(left, right, &ret);
+  return ret;
 }
 
 template <typename T, StmtTypePredicate<T> U>
