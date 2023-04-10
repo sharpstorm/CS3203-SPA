@@ -24,19 +24,19 @@ TEST_CASE("Calls & callsStar 2 knowns") {
 
   auto result1 = *handler.queryCalls({EntityType::Procedure, "main"},
                                      {EntityType::Procedure, "foo"});
-  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.empty() == false);
 
   auto result2 = *handler.queryCalls({EntityType::Procedure, "main"},
                                      {EntityType::Procedure, "goo"});
-  REQUIRE(result2.isEmpty == true);
+  REQUIRE(result2.empty() == true);
 
   auto result3 = *handler.queryCallsStar({EntityType::Procedure, "main"},
                                          {EntityType::Procedure, "foo"});
-  REQUIRE(result3.isEmpty == false);
+  REQUIRE(result3.empty() == false);
 
   auto result4 = *handler.queryCallsStar({EntityType::Procedure, "main"},
                                          {EntityType::Procedure, "goo"});
-  REQUIRE(result4.isEmpty == false);
+  REQUIRE(result4.empty() == false);
 }
 
 TEST_CASE("Calls & CallsStar wildcard") {
@@ -55,26 +55,26 @@ TEST_CASE("Calls & CallsStar wildcard") {
 
   auto result1 = *handler.queryCalls({EntityType::Wildcard, ""},
                                      {EntityType::Procedure, "foo"});
-  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.empty() == false);
 
   auto result2 = *handler.queryCalls({EntityType::Procedure, "main"},
                                      {EntityType::Wildcard, ""});
-  REQUIRE(result2.isEmpty == false);
+  REQUIRE(result2.empty() == false);
 
   auto result3 = *handler.queryCallsStar({EntityType::Wildcard, ""},
                                          {EntityType::Procedure, "goo"});
-  REQUIRE(result3.isEmpty == false);
+  REQUIRE(result3.empty() == false);
 
   auto result4 = *handler.queryCallsStar({EntityType::Procedure, "main"},
                                          {EntityType::Wildcard, ""});
-  REQUIRE(result4.isEmpty == false);
+  REQUIRE(result4.empty() == false);
   auto result5 = *handler.queryCallsStar({EntityType::Wildcard, ""},
                                          {EntityType::Procedure, "main"});
-  REQUIRE(result5.isEmpty == true);
+  REQUIRE(result5.empty() == true);
 
   auto result6 = *handler.queryCallsStar({EntityType::Procedure, "goo"},
                                          {EntityType::Wildcard, ""});
-  REQUIRE(result6.isEmpty == true);
+  REQUIRE(result6.empty() == true);
 }
 
 TEST_CASE("Calls & CallsStar 2 unknowns") {
@@ -93,7 +93,7 @@ TEST_CASE("Calls & CallsStar 2 unknowns") {
 
   auto result1 = *handler.queryCalls({EntityType::Wildcard, ""},
                                      {EntityType::Wildcard, ""});
-  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.empty() == false);
 }
 
 TEST_CASE("Calls & CallsStar 2 unknowns no results") {
@@ -109,5 +109,5 @@ TEST_CASE("Calls & CallsStar 2 unknowns no results") {
 
   auto result1 = *handler.queryCalls({EntityType::Wildcard, ""},
                                      {EntityType::Wildcard, ""});
-  REQUIRE(result1.isEmpty == true);
+  REQUIRE(result1.empty() == true);
 }

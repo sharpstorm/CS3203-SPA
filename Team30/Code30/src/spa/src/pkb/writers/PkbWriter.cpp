@@ -32,12 +32,12 @@ PkbWriter::PkbWriter(PKB *pkb)
       constantWriter(new ConstantWriter(pkb->constantStorage)),
       cfgsWriter(new CFGsWriter(pkb->cfgStorage)) {}
 
-void PkbWriter::addFollows(StmtValue arg1, StmtValue arg2) {
-  followsWriter->addFollows(arg1, arg2);
+void PkbWriter::addFollows(StmtValue leftArg, StmtValue rightArg) {
+  followsWriter->addFollows(leftArg, rightArg);
 }
 
-void PkbWriter::addParent(StmtValue arg1, StmtValue arg2) {
-  parentWriter->addParent(arg1, arg2);
+void PkbWriter::addParent(StmtValue leftArg, StmtValue rightArg) {
+  parentWriter->addParent(leftArg, rightArg);
 }
 
 void PkbWriter::addProcedure(EntityValue procedureName, StmtValue startLineNum,

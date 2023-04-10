@@ -20,6 +20,6 @@ TEST_CASE("Assign write and read") {
   writer.addAssigns(1, node1);
   auto result = *queryHandler.queryAssigns({StmtType::Assign, 1});
 
-  REQUIRE(result.isEmpty == false);
-  REQUIRE(*result.secondArgVals.begin() == node1.get());
+  REQUIRE(result.empty() == false);
+  REQUIRE(*result.getRightVals().begin() == node1.get());
 }

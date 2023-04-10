@@ -93,12 +93,13 @@ using QueryResultPairSet = pair_set<T, U>;
 
 template<typename T, typename U>
 class QueryResult {
- public:
+ private:
   QueryResultSet<T> firstArgVals;
   QueryResultSet<U> secondArgVals;
   QueryResultPairSet<T, U> pairVals;
   bool isEmpty = true;
 
+ public:
   void addPair(const T &first, const U &second) {
     isEmpty = false;
     pairVals.insert(std::make_pair(first, second));

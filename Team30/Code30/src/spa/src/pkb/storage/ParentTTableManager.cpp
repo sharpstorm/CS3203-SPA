@@ -1,15 +1,15 @@
 #include "ParentTTableManager.h"
 
-void ParentTTableManager::insert(StmtValue arg1, StmtValue arg2) {
+void ParentTTableManager::insert(StmtValue leftArg, StmtValue rightArg) {
   // keep only maxChild
-  if (table->get(arg1) < arg2) {
-    table->insert(arg1, arg2);
+  if (table->get(leftArg) < rightArg) {
+    table->insert(leftArg, rightArg);
   }
-  reverseTable->insert(arg2, arg1);
+  reverseTable->insert(rightArg, leftArg);
 }
 
-StmtValue ParentTTableManager::getByFirstArg(StmtValue arg1) const {
-  return table->get(arg1);
+StmtValue ParentTTableManager::getByFirstArg(StmtValue leftArg) const {
+  return table->get(leftArg);
 }
 
 StmtValue ParentTTableManager::getLastSibling(StmtValue stmt) const {
@@ -21,18 +21,19 @@ StmtValue ParentTTableManager::getLastSibling(StmtValue stmt) const {
   }
 }
 
-const StmtValueSet ParentTTableManager::getBySecondArg(StmtValue arg2) const {
+const StmtValueSet ParentTTableManager::getBySecondArg(
+    StmtValue rightArg) const {
   // find max sibling
-  auto maxSibling = getLastSibling(arg2);
+  auto maxSibling = getLastSibling(rightArg);
   return reverseTable->get(maxSibling);
 }
 
 QueryResultPtr<StmtValue, StmtValue> ParentTTableManager::query(
-    StmtValue arg1, StmtValue arg2,
+    StmtValue leftArg, StmtValue rightArg,
     QueryResultBuilder<StmtValue, StmtValue> *resultBuilder) const {
-  auto maxChild = getByFirstArg(arg1);
-  if (arg1 < arg2 && arg2 <= maxChild) {
-    resultBuilder->add(arg1, arg2);
+  auto maxChild = getByFirstArg(leftArg);
+  if (leftArg < rightArg && rightArg <= maxChild) {
+    resultBuilder->add(leftArg, rightArg);
   }
   return resultBuilder->getResult();
 }
@@ -41,11 +42,11 @@ QueryResultPtr<StmtValue, StmtValue> ParentTTableManager::query(
     Predicate<StmtValue> arg1Predicate, const StmtValueSet &arg2Values,
     QueryResultBuilder<StmtValue, StmtValue> *resultBuilder) const {
   QueryResult<StmtValue, StmtValue> result;
-  for (auto arg2 : arg2Values) {
-    auto arg1Values = getBySecondArg(arg2);
-    for (auto arg1 : arg1Values) {
-      if (arg1Predicate(arg1)) {
-        resultBuilder->add(arg1, arg2);
+  for (auto rightArg : arg2Values) {
+    auto arg1Values = getBySecondArg(rightArg);
+    for (auto leftArg : arg1Values) {
+      if (arg1Predicate(leftArg)) {
+        resultBuilder->add(leftArg, rightArg);
       }
     }
   }
@@ -55,14 +56,14 @@ QueryResultPtr<StmtValue, StmtValue> ParentTTableManager::query(
 QueryResultPtr<StmtValue, StmtValue> ParentTTableManager::query(
     const StmtValueSet &arg1Values, Predicate<StmtValue> rightPredicate,
     QueryResultBuilder<StmtValue, StmtValue> *resultBuilder) const {
-  for (auto arg1 : arg1Values) {
-    auto maxChild = getByFirstArg(arg1);
+  for (auto leftArg : arg1Values) {
+    auto maxChild = getByFirstArg(leftArg);
     if (maxChild == 0) {
       continue;
     }
-    for (int i = arg1 + 1; i <= maxChild; i++) {
+    for (int i = leftArg + 1; i <= maxChild; i++) {
       if (rightPredicate(i)) {
-        resultBuilder->add(arg1, i);
+        resultBuilder->add(leftArg, i);
       }
     }
   }

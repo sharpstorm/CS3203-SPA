@@ -101,7 +101,7 @@ TEST_CASE("ModifiesQueryHandler Modifies(stmtNum, variableName)") {
   test.table->insert(3, "z");
 
   auto result = *test.query({StmtType::None, 1}, {EntityType::None, "x"});
-  REQUIRE(result.isEmpty == false);
+  REQUIRE(result.empty() == false);
 }
 
 // Only arg1 known
@@ -113,8 +113,8 @@ TEST_CASE("ModifiesQueryHandler Modifies(stmtNum, variableType)") {
   test.table->insert(1, "y");
 
   auto result = *test.query({StmtType::None, 1}, {EntityType::Variable, ""});
-  REQUIRE(result.isEmpty == false);
-  REQUIRE(result.secondArgVals == EntityValueSet({"x", "y"}));
+  REQUIRE(result.empty() == false);
+  REQUIRE(result.getRightVals() == EntityValueSet({"x", "y"}));
 }
 
 TEST_CASE("ModifiesQueryHandler Modifies(stmtNum, _)") {
@@ -125,10 +125,10 @@ TEST_CASE("ModifiesQueryHandler Modifies(stmtNum, _)") {
   test.table->insert(1, "y");
 
   auto result = *test.query({StmtType::None, 1}, {EntityType::Wildcard, ""});
-  REQUIRE(result.isEmpty == false);
+  REQUIRE(result.empty() == false);
 
   auto result2 = *test.query({StmtType::None, 3}, {EntityType::Wildcard, ""});
-  REQUIRE(result2.isEmpty == true);
+  REQUIRE(result2.empty() == true);
 }
 
 TEST_CASE("ModifiesQueryHandler Modifies(stmtNum, constant)") {
@@ -137,7 +137,7 @@ TEST_CASE("ModifiesQueryHandler Modifies(stmtNum, constant)") {
   test.table->insert(1, "x");
 
   auto result = *test.query({StmtType::None, 1}, {EntityType::Constant, ""});
-  REQUIRE(result.isEmpty == true);
+  REQUIRE(result.empty() == true);
 }
 
 // Only arg2 known
@@ -154,13 +154,13 @@ TEST_CASE("ModifiesQueryHandler Modifies(type, variableName), assign, read") {
   auto result1 =
       *test.query({StmtType::Assign, 0}, {EntityType::Variable, "x"});
 
-  REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.firstArgVals == StmtValueSet({1, 2}));
+  REQUIRE(result1.empty() == false);
+  REQUIRE(result1.getLeftVals() == StmtValueSet({1, 2}));
 
   auto result2 = *test.query({StmtType::Read, 0}, {EntityType::Variable, "x"});
 
-  REQUIRE(result2.isEmpty == false);
-  REQUIRE(result2.firstArgVals == StmtValueSet({4}));
+  REQUIRE(result2.empty() == false);
+  REQUIRE(result2.getLeftVals() == StmtValueSet({4}));
 }
 
 TEST_CASE("ModifiesQueryHandler Modifies(type, variableName), if, while") {
@@ -172,13 +172,13 @@ TEST_CASE("ModifiesQueryHandler Modifies(type, variableName), if, while") {
 
   auto result1 = *test.query({StmtType::If, 0}, {EntityType::Variable, "y"});
 
-  REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.firstArgVals == StmtValueSet({6}));
+  REQUIRE(result1.empty() == false);
+  REQUIRE(result1.getLeftVals() == StmtValueSet({6}));
 
   auto result2 = *test.query({StmtType::While, 0}, {EntityType::Variable, "y"});
 
-  REQUIRE(result2.isEmpty == false);
-  REQUIRE(result2.firstArgVals == StmtValueSet({7}));
+  REQUIRE(result2.empty() == false);
+  REQUIRE(result2.getLeftVals() == StmtValueSet({7}));
 }
 
 TEST_CASE("ModifiesQueryHandler Modifies(type, variableName), print") {
@@ -188,7 +188,7 @@ TEST_CASE("ModifiesQueryHandler Modifies(type, variableName), print") {
 
   auto result1 = *test.query({StmtType::Print, 0}, {EntityType::Variable, "x"});
 
-  REQUIRE(result1.isEmpty == true);
+  REQUIRE(result1.empty() == true);
 }
 
 TEST_CASE("ModifiesQueryHandler Modifies(type, variableName), stmt") {
@@ -201,8 +201,8 @@ TEST_CASE("ModifiesQueryHandler Modifies(type, variableName), stmt") {
 
   auto result1 = *test.query({StmtType::None, 0}, {EntityType::Variable, "x"});
 
-  REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.firstArgVals == StmtValueSet({1, 4, 6}));
+  REQUIRE(result1.empty() == false);
+  REQUIRE(result1.getLeftVals() == StmtValueSet({1, 4, 6}));
 }
 
 // Both args unknown
@@ -223,9 +223,10 @@ TEST_CASE("ModifiesQueryHandler Modifies(stmtType, varType)") {
 
   auto result1 = *test.query({StmtType::Assign, 0}, {EntityType::Variable, ""});
 
-  REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.pairVals == pair_set<StmtValue, EntityValue>(
-                                  {{1, "x"}, {1, "z"}, {2, "y"}, {3, "x"}}));
+  REQUIRE(result1.empty() == false);
+  REQUIRE(result1.getPairVals() ==
+          pair_set<StmtValue, EntityValue>(
+              {{1, "x"}, {1, "z"}, {2, "y"}, {3, "x"}}));
 }
 
 TEST_CASE("ModifiesQueryHandler Modifies(statement, _)") {
@@ -243,8 +244,8 @@ TEST_CASE("ModifiesQueryHandler Modifies(statement, _)") {
 
   auto result1 = *test.query({StmtType::None, 0}, {EntityType::Wildcard, ""});
 
-  REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.firstArgVals == StmtValueSet({1, 4, 6}));
+  REQUIRE(result1.empty() == false);
+  REQUIRE(result1.getLeftVals() == StmtValueSet({1, 4, 6}));
 }
 
 TEST_CASE("ModifiesQueryHandler call statement") {
@@ -259,15 +260,15 @@ TEST_CASE("ModifiesQueryHandler call statement") {
 
   // arg1 known
   auto result1 = *test.query({StmtType::None, 8}, {EntityType::Wildcard, ""});
-  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.empty() == false);
   // arg2 known
   auto result2 = *test.query({StmtType::Call, 0}, {EntityType::Variable, ""});
 
-  REQUIRE(result2.pairVals ==
+  REQUIRE(result2.getPairVals() ==
           pair_set<StmtValue, EntityValue>({{8, "x"}, {8, "y"}}));
   // Both args unknown
   auto result3 = *test.query({StmtType::None, 0}, {EntityType::Wildcard, ""});
-  REQUIRE(result3.firstArgVals == StmtValueSet({1, 8}));
+  REQUIRE(result3.getLeftVals() == StmtValueSet({1, 8}));
 }
 
 /** Modifies(EntityRef, EntityRef) */
@@ -281,15 +282,15 @@ TEST_CASE("ModifiesQueryHandler Modifies(procedureName, variableName)") {
 
   auto result1 =
       *test.query({EntityType::None, "main"}, {EntityType::None, "x"});
-  REQUIRE(result1.isEmpty == false);
+  REQUIRE(result1.empty() == false);
 
   auto result2 =
       *test.query({EntityType::None, "main"}, {EntityType::None, "z"});
-  REQUIRE(result2.isEmpty == true);
+  REQUIRE(result2.empty() == true);
 
   auto result3 =
       *test.query({EntityType::None, "foo"}, {EntityType::None, "z"});
-  REQUIRE(result3.isEmpty == false);
+  REQUIRE(result3.empty() == false);
 }
 
 // Only arg1 known
@@ -302,12 +303,12 @@ TEST_CASE("ModifiesQueryHandler Modifies(procedureName, type)") {
 
   auto result1 =
       *test.query({EntityType::None, "main"}, {EntityType::Variable, ""});
-  REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.secondArgVals == EntityValueSet({"x", "y"}));
+  REQUIRE(result1.empty() == false);
+  REQUIRE(result1.getRightVals() == EntityValueSet({"x", "y"}));
 
   auto result2 =
       *test.query({EntityType::None, "goo"}, {EntityType::Variable, ""});
-  REQUIRE(result2.isEmpty == true);
+  REQUIRE(result2.empty() == true);
 }
 
 // Only arg2 known
@@ -321,13 +322,13 @@ TEST_CASE("ModifiesQueryHandler Modifies(type, variable)") {
 
   auto result1 =
       *test.query({EntityType::Procedure, ""}, {EntityType::Variable, "x"});
-  REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.firstArgVals == EntityValueSet({"main", "foo"}));
+  REQUIRE(result1.empty() == false);
+  REQUIRE(result1.getLeftVals() == EntityValueSet({"main", "foo"}));
 
   // invalid arg1
   auto result2 =
       *test.query({EntityType::Wildcard, ""}, {EntityType::None, "y"});
-  REQUIRE(result2.isEmpty == true);
+  REQUIRE(result2.empty() == true);
 }
 
 // Both args unknown
@@ -341,13 +342,13 @@ TEST_CASE("ModifiesQueryHandler Modifies(type, type)") {
 
   auto result1 =
       *test.query({EntityType::Procedure, ""}, {EntityType::Wildcard, ""});
-  REQUIRE(result1.isEmpty == false);
-  REQUIRE(result1.firstArgVals == EntityValueSet({"main", "foo"}));
+  REQUIRE(result1.empty() == false);
+  REQUIRE(result1.getLeftVals() == EntityValueSet({"main", "foo"}));
 
   // invalid arg1
   auto result2 =
       *test.query({EntityType::Wildcard, ""}, {EntityType::Variable, ""});
-  REQUIRE(result2.isEmpty == true);
+  REQUIRE(result2.empty() == true);
 }
 
 TEST_CASE("ModifiesQueryHandler getReadDeclarations(readStmt)") {

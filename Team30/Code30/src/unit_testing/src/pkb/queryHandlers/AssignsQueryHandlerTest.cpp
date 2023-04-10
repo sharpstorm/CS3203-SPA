@@ -34,6 +34,6 @@ TEST_CASE("AssignQueryHandler Assigns(stmtRef)") {
   test.store->insert(1, sTrie);
 
   auto result = *test.handler.queryAssigns({StmtType::Assign, 1});
-  REQUIRE(result.isEmpty == false);
-  REQUIRE(*result.secondArgVals.begin() == sTrie.get());
+  REQUIRE(result.empty() == false);
+  REQUIRE(*result.getRightVals().begin() == sTrie.get());
 }

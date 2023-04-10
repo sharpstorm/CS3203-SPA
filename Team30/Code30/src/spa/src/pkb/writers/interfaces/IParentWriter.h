@@ -5,5 +5,5 @@
 class IParentWriter {
  public:
   virtual ~IParentWriter() {}
-  virtual void addParent(StmtValue arg1, StmtValue arg2) = 0;
+  virtual void addParent(StmtValue leftArg, StmtValue rightArg) = 0;
 };

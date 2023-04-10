@@ -1,75 +1,59 @@
-#include "catch.hpp"
-
-#include "TestCFGProvider.h"
-#include "qps/cfg/cfg_querier/CFGAffectsQuerier.h"
 #include "CFGTestModifiesUsesProvider.h"
+#include "TestCFGProvider.h"
+#include "catch.hpp"
+#include "qps/cfg/cfg_querier/CFGAffectsQuerier.h"
 
-typedef CFGAffectsQuerier<CFGTestModifiesUsesProvider>
-    CFGTestAffectsQuerier;
+typedef CFGAffectsQuerier<CFGTestModifiesUsesProvider> CFGTestAffectsQuerier;
 
-template<typename T>
-StmtTransitiveResult queryAffects(CFGAffectsQuerier<T> *querier,
-                                  int left, int right) {
+template <typename T>
+StmtTransitiveResult queryAffects(CFGAffectsQuerier<T> *querier, int left,
+                                  int right) {
   StmtTransitiveResult ret;
-  querier->queryArgs(
-      StmtRef{StmtType::None, left},
-      StmtRef{StmtType::None, right},
-      &ret
-  );
+  querier->queryArgs(StmtRef{StmtType::None, left},
+                     StmtRef{StmtType::None, right}, &ret);
   return ret;
 }
 
-template<typename T>
-void queryAffects(CFGAffectsQuerier<T> *querier,
-                  StmtTransitiveResult *output,
+template <typename T>
+void queryAffects(CFGAffectsQuerier<T> *querier, StmtTransitiveResult *output,
                   int left, int right) {
-  querier->queryArgs(
-      StmtRef{StmtType::None, left},
-      StmtRef{StmtType::None, right},
-      output
-  );
+  querier->queryArgs(StmtRef{StmtType::None, left},
+                     StmtRef{StmtType::None, right}, output);
 }
 
-template<typename T>
-StmtTransitiveResult queryAffects(CFGAffectsQuerier<T> *querier,
-                                  StmtRef left,
+template <typename T>
+StmtTransitiveResult queryAffects(CFGAffectsQuerier<T> *querier, StmtRef left,
                                   StmtRef right) {
   return querier->queryArgs(left, right);
 }
 
-template<typename T>
-void queryAffects(CFGAffectsQuerier<T> *querier,
-                  StmtTransitiveResult *output,
-                  StmtRef left,
-                  StmtRef right) {
+template <typename T>
+void queryAffects(CFGAffectsQuerier<T> *querier, StmtTransitiveResult *output,
+                  StmtRef left, StmtRef right) {
   querier->queryArgs(left, right, output);
 }
 
-template<typename T>
-void assertQueryAffectsEmpty(CFGAffectsQuerier<T> *querier,
-                             int left,
+template <typename T>
+void assertQueryAffectsEmpty(CFGAffectsQuerier<T> *querier, int left,
                              unordered_set<int> rights) {
   for (auto it = rights.begin(); it != rights.end(); it++) {
-    REQUIRE(queryAffects(querier, left, *it).isEmpty);
+    REQUIRE(queryAffects(querier, left, *it).empty());
   }
 }
 
-template<typename T>
-void assertQueryAffectsNotEmpty(CFGAffectsQuerier<T> *querier,
-                                int left,
+template <typename T>
+void assertQueryAffectsNotEmpty(CFGAffectsQuerier<T> *querier, int left,
                                 unordered_set<int> rights) {
   for (auto it = rights.begin(); it != rights.end(); it++) {
-    REQUIRE_FALSE(queryAffects(querier, left, *it).isEmpty);
+    REQUIRE_FALSE(queryAffects(querier, left, *it).empty());
   }
 }
 
 TEST_CASE("Affects Linear (Const, Const)") {
   auto cfg = TestCFGProvider::getLinearCFG();
   QueryCache cache;
-  auto pkbProvider =
-      CFGTestModifiesUsesProvider({{"x"}, {"y"}, {"z"}, {"w"}},
-                                  {{}, {}, {"x"}, {"y"}},
-                                  &cache);
+  auto pkbProvider = CFGTestModifiesUsesProvider(
+      {{"x"}, {"y"}, {"z"}, {"w"}}, {{}, {}, {"x"}, {"y"}}, &cache);
   CFGTestAffectsQuerier querier(&cfg, pkbProvider);
 
   assertQueryAffectsNotEmpty(&querier, 1, {3});
@@ -84,26 +68,24 @@ TEST_CASE("Affects Linear (Const, Const)") {
 TEST_CASE("Affects Linear (Const, _)") {
   auto cfg = TestCFGProvider::getLinearCFG();
   QueryCache cache;
-  auto pkbProvider =
-      CFGTestModifiesUsesProvider({{"x"}, {"y"}, {"z"}, {"w"}},
-                                  {{}, {}, {"x"}, {"y"}},
-                                  &cache);
+  auto pkbProvider = CFGTestModifiesUsesProvider(
+      {{"x"}, {"y"}, {"z"}, {"w"}}, {{}, {}, {"x"}, {"y"}}, &cache);
 
   CFGTestAffectsQuerier querier(&cfg, pkbProvider);
 
   auto result = queryAffects(&querier, 1, 0);
-  REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{3});
+  REQUIRE_FALSE(result.empty());
+  REQUIRE(result.getRightVals() == unordered_set<StmtValue>{3});
 
   result = queryAffects(&querier, 2, 0);
-  REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{4});
+  REQUIRE_FALSE(result.empty());
+  REQUIRE(result.getRightVals() == unordered_set<StmtValue>{4});
 
   result = queryAffects(&querier, 3, 0);
-  REQUIRE(result.isEmpty);
+  REQUIRE(result.empty());
 
   result = queryAffects(&querier, 4, 0);
-  REQUIRE(result.isEmpty);
+  REQUIRE(result.empty());
 }
 
 /*
@@ -115,26 +97,24 @@ TEST_CASE("Affects Linear (Const, _)") {
 TEST_CASE("Affects Linear (_, Const)") {
   auto cfg = TestCFGProvider::getLinearCFG();
   QueryCache cache;
-  auto pkbProvider =
-      CFGTestModifiesUsesProvider({{"x"}, {"y"}, {"z"}, {"w"}},
-                                  {{}, {}, {"x"}, {"y"}},
-                                  &cache);
+  auto pkbProvider = CFGTestModifiesUsesProvider(
+      {{"x"}, {"y"}, {"z"}, {"w"}}, {{}, {}, {"x"}, {"y"}}, &cache);
 
   CFGTestAffectsQuerier querier(&cfg, pkbProvider);
 
   auto result = queryAffects(&querier, 0, 1);
-  REQUIRE(result.isEmpty);
+  REQUIRE(result.empty());
 
   result = queryAffects(&querier, 0, 2);
-  REQUIRE(result.isEmpty);
+  REQUIRE(result.empty());
 
   result = queryAffects(&querier, 0, 3);
-  REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1});
+  REQUIRE_FALSE(result.empty());
+  REQUIRE(result.getLeftVals() == unordered_set<StmtValue>{1});
 
   result = queryAffects(&querier, 0, 4);
-  REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{2});
+  REQUIRE_FALSE(result.empty());
+  REQUIRE(result.getLeftVals() == unordered_set<StmtValue>{2});
 }
 
 /*
@@ -149,30 +129,28 @@ TEST_CASE("Affects Linear (_, Const)") {
 TEST_CASE("Affects If No Through Path (Const, _)") {
   auto cfg = TestCFGProvider::getAffectsIfCFG();
   QueryCache cache;
-  auto pkbProvider =
-      CFGTestModifiesUsesProvider({{"x"}, {}, {"x"}, {"x"}, {"x"}},
-                                  {{}, {"x"}, {"x"}, {}, {"x"}},
-                                  {{2, StmtType::If}},
-                                  &cache);
+  auto pkbProvider = CFGTestModifiesUsesProvider(
+      {{"x"}, {}, {"x"}, {"x"}, {"x"}}, {{}, {"x"}, {"x"}, {}, {"x"}},
+      {{2, StmtType::If}}, &cache);
   CFGTestAffectsQuerier querier(&cfg, pkbProvider);
 
   auto result = queryAffects(&querier, 1, 0);
-  REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{3});
+  REQUIRE_FALSE(result.empty());
+  REQUIRE(result.getRightVals() == unordered_set<StmtValue>{3});
 
   result = queryAffects(&querier, 2, 0);
-  REQUIRE(result.isEmpty);
+  REQUIRE(result.empty());
 
   result = queryAffects(&querier, 3, 0);
-  REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{5});
+  REQUIRE_FALSE(result.empty());
+  REQUIRE(result.getRightVals() == unordered_set<StmtValue>{5});
 
   result = queryAffects(&querier, 4, 0);
-  REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{5});
+  REQUIRE_FALSE(result.empty());
+  REQUIRE(result.getRightVals() == unordered_set<StmtValue>{5});
 
   result = queryAffects(&querier, 5, 0);
-  REQUIRE(result.isEmpty);
+  REQUIRE(result.empty());
 }
 
 /*
@@ -187,29 +165,27 @@ TEST_CASE("Affects If No Through Path (Const, _)") {
 TEST_CASE("Affects If Then Through Path (Const, _)") {
   auto cfg = TestCFGProvider::getAffectsIfCFG();
   QueryCache cache;
-  auto pkbProvider =
-      CFGTestModifiesUsesProvider({{"x"}, {}, {"y"}, {"x"}, {"x"}},
-                                  {{}, {"x"}, {"x"}, {}, {"x"}},
-                                  {{2, StmtType::If}},
-                                  &cache);
+  auto pkbProvider = CFGTestModifiesUsesProvider(
+      {{"x"}, {}, {"y"}, {"x"}, {"x"}}, {{}, {"x"}, {"x"}, {}, {"x"}},
+      {{2, StmtType::If}}, &cache);
   CFGTestAffectsQuerier querier(&cfg, pkbProvider);
 
   auto result = queryAffects(&querier, 1, 0);
-  REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{3, 5});
+  REQUIRE_FALSE(result.empty());
+  REQUIRE(result.getRightVals() == unordered_set<StmtValue>{3, 5});
 
   result = queryAffects(&querier, 2, 0);
-  REQUIRE(result.isEmpty);
+  REQUIRE(result.empty());
 
   result = queryAffects(&querier, 3, 0);
-  REQUIRE(result.isEmpty);
+  REQUIRE(result.empty());
 
   result = queryAffects(&querier, 4, 0);
-  REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{5});
+  REQUIRE_FALSE(result.empty());
+  REQUIRE(result.getRightVals() == unordered_set<StmtValue>{5});
 
   result = queryAffects(&querier, 5, 0);
-  REQUIRE(result.isEmpty);
+  REQUIRE(result.empty());
 }
 
 /*
@@ -224,29 +200,27 @@ TEST_CASE("Affects If Then Through Path (Const, _)") {
 TEST_CASE("Affects If Else Through Path (Const, _)") {
   auto cfg = TestCFGProvider::getAffectsIfCFG();
   QueryCache cache;
-  auto pkbProvider =
-      CFGTestModifiesUsesProvider({{"x"}, {}, {"x"}, {"y"}, {"x"}},
-                                  {{}, {"x"}, {"x"}, {}, {"x"}},
-                                  {{2, StmtType::If}},
-                                  &cache);
+  auto pkbProvider = CFGTestModifiesUsesProvider(
+      {{"x"}, {}, {"x"}, {"y"}, {"x"}}, {{}, {"x"}, {"x"}, {}, {"x"}},
+      {{2, StmtType::If}}, &cache);
   CFGTestAffectsQuerier querier(&cfg, pkbProvider);
 
   auto result = queryAffects(&querier, 1, 0);
-  REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{3, 5});
+  REQUIRE_FALSE(result.empty());
+  REQUIRE(result.getRightVals() == unordered_set<StmtValue>{3, 5});
 
   result = queryAffects(&querier, 2, 0);
-  REQUIRE(result.isEmpty);
+  REQUIRE(result.empty());
 
   result = queryAffects(&querier, 3, 0);
-  REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{5});
+  REQUIRE_FALSE(result.empty());
+  REQUIRE(result.getRightVals() == unordered_set<StmtValue>{5});
 
   result = queryAffects(&querier, 4, 0);
-  REQUIRE(result.isEmpty);
+  REQUIRE(result.empty());
 
   result = queryAffects(&querier, 5, 0);
-  REQUIRE(result.isEmpty);
+  REQUIRE(result.empty());
 }
 
 /*
@@ -261,28 +235,26 @@ TEST_CASE("Affects If Else Through Path (Const, _)") {
 TEST_CASE("Affects If Both Through Path (Const, _)") {
   auto cfg = TestCFGProvider::getAffectsIfCFG();
   QueryCache cache;
-  auto pkbProvider =
-      CFGTestModifiesUsesProvider({{"x"}, {}, {"z"}, {"y"}, {"x"}},
-                                  {{}, {"x"}, {"x"}, {}, {"x"}},
-                                  {{2, StmtType::If}},
-                                  &cache);
+  auto pkbProvider = CFGTestModifiesUsesProvider(
+      {{"x"}, {}, {"z"}, {"y"}, {"x"}}, {{}, {"x"}, {"x"}, {}, {"x"}},
+      {{2, StmtType::If}}, &cache);
   CFGTestAffectsQuerier querier(&cfg, pkbProvider);
 
   auto result = queryAffects(&querier, 1, 0);
-  REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{3, 5});
+  REQUIRE_FALSE(result.empty());
+  REQUIRE(result.getRightVals() == unordered_set<StmtValue>{3, 5});
 
   result = queryAffects(&querier, 2, 0);
-  REQUIRE(result.isEmpty);
+  REQUIRE(result.empty());
 
   result = queryAffects(&querier, 3, 0);
-  REQUIRE(result.isEmpty);
+  REQUIRE(result.empty());
 
   result = queryAffects(&querier, 4, 0);
-  REQUIRE(result.isEmpty);
+  REQUIRE(result.empty());
 
   result = queryAffects(&querier, 5, 0);
-  REQUIRE(result.isEmpty);
+  REQUIRE(result.empty());
 }
 
 /*
@@ -295,26 +267,24 @@ TEST_CASE("Affects If Both Through Path (Const, _)") {
 TEST_CASE("Affects While (Const, _)") {
   auto cfg = TestCFGProvider::getAffectsWhileCFG();
   QueryCache cache;
-  auto pkbProvider =
-      CFGTestModifiesUsesProvider({{"x"}, {}, {"x"}, {"x"}},
-                                  {{}, {"x"}, {"x"}, {"x"}},
-                                  {{2, StmtType::While}},
-                                  &cache);
+  auto pkbProvider = CFGTestModifiesUsesProvider(
+      {{"x"}, {}, {"x"}, {"x"}}, {{}, {"x"}, {"x"}, {"x"}},
+      {{2, StmtType::While}}, &cache);
   CFGTestAffectsQuerier querier(&cfg, pkbProvider);
 
   auto result = queryAffects(&querier, 1, 0);
-  REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{3, 4});
+  REQUIRE_FALSE(result.empty());
+  REQUIRE(result.getRightVals() == unordered_set<StmtValue>{3, 4});
 
   result = queryAffects(&querier, 2, 0);
-  REQUIRE(result.isEmpty);
+  REQUIRE(result.empty());
 
   result = queryAffects(&querier, 3, 0);
-  REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.secondArgVals == unordered_set<StmtValue>{3, 4});
+  REQUIRE_FALSE(result.empty());
+  REQUIRE(result.getRightVals() == unordered_set<StmtValue>{3, 4});
 
   result = queryAffects(&querier, 4, 0);
-  REQUIRE(result.isEmpty);
+  REQUIRE(result.empty());
 }
 
 /*
@@ -329,29 +299,27 @@ TEST_CASE("Affects While (Const, _)") {
 TEST_CASE("Affects If No Through Path (_, Const)") {
   auto cfg = TestCFGProvider::getAffectsIfCFG();
   QueryCache cache;
-  auto pkbProvider =
-      CFGTestModifiesUsesProvider({{"x"}, {}, {"x"}, {"x"}, {"x"}},
-                                  {{}, {"x"}, {"x"}, {}, {"x"}},
-                                  {{2, StmtType::If}},
-                                  &cache);
+  auto pkbProvider = CFGTestModifiesUsesProvider(
+      {{"x"}, {}, {"x"}, {"x"}, {"x"}}, {{}, {"x"}, {"x"}, {}, {"x"}},
+      {{2, StmtType::If}}, &cache);
   CFGTestAffectsQuerier querier(&cfg, pkbProvider);
 
   auto result = queryAffects(&querier, 0, 1);
-  REQUIRE(result.isEmpty);
+  REQUIRE(result.empty());
 
   result = queryAffects(&querier, 0, 2);
-  REQUIRE(result.isEmpty);
+  REQUIRE(result.empty());
 
   result = queryAffects(&querier, 0, 3);
-  REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1});
+  REQUIRE_FALSE(result.empty());
+  REQUIRE(result.getLeftVals() == unordered_set<StmtValue>{1});
 
   result = queryAffects(&querier, 0, 4);
-  REQUIRE(result.isEmpty);
+  REQUIRE(result.empty());
 
   result = queryAffects(&querier, 0, 5);
-  REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{3, 4});
+  REQUIRE_FALSE(result.empty());
+  REQUIRE(result.getLeftVals() == unordered_set<StmtValue>{3, 4});
 }
 
 /*
@@ -366,30 +334,28 @@ TEST_CASE("Affects If No Through Path (_, Const)") {
 TEST_CASE("Affects If Then Through Path (_, Const)") {
   auto cfg = TestCFGProvider::getAffectsIfCFG();
   QueryCache cache;
-  auto pkbProvider =
-      CFGTestModifiesUsesProvider({{"x"}, {}, {"y"}, {"x"}, {"x"}},
-                                  {{}, {"x"}, {"x"}, {"x"}, {"x"}},
-                                  {{2, StmtType::If}},
-                                  &cache);
+  auto pkbProvider = CFGTestModifiesUsesProvider(
+      {{"x"}, {}, {"y"}, {"x"}, {"x"}}, {{}, {"x"}, {"x"}, {"x"}, {"x"}},
+      {{2, StmtType::If}}, &cache);
   CFGTestAffectsQuerier querier(&cfg, pkbProvider);
 
   auto result = queryAffects(&querier, 0, 1);
-  REQUIRE(result.isEmpty);
+  REQUIRE(result.empty());
 
   result = queryAffects(&querier, 0, 2);
-  REQUIRE(result.isEmpty);
+  REQUIRE(result.empty());
 
   result = queryAffects(&querier, 0, 3);
-  REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1});
+  REQUIRE_FALSE(result.empty());
+  REQUIRE(result.getLeftVals() == unordered_set<StmtValue>{1});
 
   result = queryAffects(&querier, 0, 4);
-  REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1});
+  REQUIRE_FALSE(result.empty());
+  REQUIRE(result.getLeftVals() == unordered_set<StmtValue>{1});
 
   result = queryAffects(&querier, 0, 5);
-  REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1, 4});
+  REQUIRE_FALSE(result.empty());
+  REQUIRE(result.getLeftVals() == unordered_set<StmtValue>{1, 4});
 }
 
 /*
@@ -404,30 +370,28 @@ TEST_CASE("Affects If Then Through Path (_, Const)") {
 TEST_CASE("Affects If Else Through Path (_, Const)") {
   auto cfg = TestCFGProvider::getAffectsIfCFG();
   QueryCache cache;
-  auto pkbProvider =
-      CFGTestModifiesUsesProvider({{"x"}, {}, {"x"}, {"y"}, {"x"}},
-                                  {{}, {"x"}, {"x"}, {"x"}, {"x"}},
-                                  {{2, StmtType::If}},
-                                  &cache);
+  auto pkbProvider = CFGTestModifiesUsesProvider(
+      {{"x"}, {}, {"x"}, {"y"}, {"x"}}, {{}, {"x"}, {"x"}, {"x"}, {"x"}},
+      {{2, StmtType::If}}, &cache);
   CFGTestAffectsQuerier querier(&cfg, pkbProvider);
 
   auto result = queryAffects(&querier, 0, 1);
-  REQUIRE(result.isEmpty);
+  REQUIRE(result.empty());
 
   result = queryAffects(&querier, 0, 2);
-  REQUIRE(result.isEmpty);
+  REQUIRE(result.empty());
 
   result = queryAffects(&querier, 0, 3);
-  REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1});
+  REQUIRE_FALSE(result.empty());
+  REQUIRE(result.getLeftVals() == unordered_set<StmtValue>{1});
 
   result = queryAffects(&querier, 0, 4);
-  REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1});
+  REQUIRE_FALSE(result.empty());
+  REQUIRE(result.getLeftVals() == unordered_set<StmtValue>{1});
 
   result = queryAffects(&querier, 0, 5);
-  REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1, 3});
+  REQUIRE_FALSE(result.empty());
+  REQUIRE(result.getLeftVals() == unordered_set<StmtValue>{1, 3});
 }
 
 /*
@@ -442,30 +406,28 @@ TEST_CASE("Affects If Else Through Path (_, Const)") {
 TEST_CASE("Affects If Both Through Path (_, Const)") {
   auto cfg = TestCFGProvider::getAffectsIfCFG();
   QueryCache cache;
-  auto pkbProvider =
-      CFGTestModifiesUsesProvider({{"x"}, {}, {"z"}, {"y"}, {"x"}},
-                                  {{}, {"x"}, {"x"}, {"x"}, {"x"}},
-                                  {{2, StmtType::If}},
-                                  &cache);
+  auto pkbProvider = CFGTestModifiesUsesProvider(
+      {{"x"}, {}, {"z"}, {"y"}, {"x"}}, {{}, {"x"}, {"x"}, {"x"}, {"x"}},
+      {{2, StmtType::If}}, &cache);
   CFGTestAffectsQuerier querier(&cfg, pkbProvider);
 
   auto result = queryAffects(&querier, 0, 1);
-  REQUIRE(result.isEmpty);
+  REQUIRE(result.empty());
 
   result = queryAffects(&querier, 0, 2);
-  REQUIRE(result.isEmpty);
+  REQUIRE(result.empty());
 
   result = queryAffects(&querier, 0, 3);
-  REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1});
+  REQUIRE_FALSE(result.empty());
+  REQUIRE(result.getLeftVals() == unordered_set<StmtValue>{1});
 
   result = queryAffects(&querier, 0, 4);
-  REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1});
+  REQUIRE_FALSE(result.empty());
+  REQUIRE(result.getLeftVals() == unordered_set<StmtValue>{1});
 
   result = queryAffects(&querier, 0, 5);
-  REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1});
+  REQUIRE_FALSE(result.empty());
+  REQUIRE(result.getLeftVals() == unordered_set<StmtValue>{1});
 }
 
 /*
@@ -478,26 +440,24 @@ TEST_CASE("Affects If Both Through Path (_, Const)") {
 TEST_CASE("Affects While (_, Const)") {
   auto cfg = TestCFGProvider::getAffectsWhileCFG();
   QueryCache cache;
-  auto pkbProvider =
-      CFGTestModifiesUsesProvider({{"x"}, {}, {"x"}, {"x"}},
-                                  {{}, {"x"}, {"x"}, {"x"}},
-                                  {{2, StmtType::While}},
-                                  &cache);
+  auto pkbProvider = CFGTestModifiesUsesProvider(
+      {{"x"}, {}, {"x"}, {"x"}}, {{}, {"x"}, {"x"}, {"x"}},
+      {{2, StmtType::While}}, &cache);
   CFGTestAffectsQuerier querier(&cfg, pkbProvider);
 
   auto result = queryAffects(&querier, 0, 1);
-  REQUIRE(result.isEmpty);
+  REQUIRE(result.empty());
 
   result = queryAffects(&querier, 0, 2);
-  REQUIRE(result.isEmpty);
+  REQUIRE(result.empty());
 
   result = queryAffects(&querier, 0, 3);
-  REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1, 3});
+  REQUIRE_FALSE(result.empty());
+  REQUIRE(result.getLeftVals() == unordered_set<StmtValue>{1, 3});
 
   result = queryAffects(&querier, 0, 4);
-  REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1, 3});
+  REQUIRE_FALSE(result.empty());
+  REQUIRE(result.getLeftVals() == unordered_set<StmtValue>{1, 3});
 }
 
 /*
@@ -510,26 +470,24 @@ TEST_CASE("Affects While (_, Const)") {
 TEST_CASE("Affects While No Mod in Loop (_, Const)") {
   auto cfg = TestCFGProvider::getAffectsWhileCFG();
   QueryCache cache;
-  auto pkbProvider =
-      CFGTestModifiesUsesProvider({{"x"}, {}, {"y"}, {"x"}},
-                                  {{}, {"x"}, {"x"}, {"x"}},
-                                  {{2, StmtType::While}},
-                                  &cache);
+  auto pkbProvider = CFGTestModifiesUsesProvider(
+      {{"x"}, {}, {"y"}, {"x"}}, {{}, {"x"}, {"x"}, {"x"}},
+      {{2, StmtType::While}}, &cache);
   CFGTestAffectsQuerier querier(&cfg, pkbProvider);
 
   auto result = queryAffects(&querier, 0, 1);
-  REQUIRE(result.isEmpty);
+  REQUIRE(result.empty());
 
   result = queryAffects(&querier, 0, 2);
-  REQUIRE(result.isEmpty);
+  REQUIRE(result.empty());
 
   result = queryAffects(&querier, 0, 3);
-  REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1});
+  REQUIRE_FALSE(result.empty());
+  REQUIRE(result.getLeftVals() == unordered_set<StmtValue>{1});
 
   result = queryAffects(&querier, 0, 4);
-  REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.firstArgVals == unordered_set<StmtValue>{1});
+  REQUIRE_FALSE(result.empty());
+  REQUIRE(result.getLeftVals() == unordered_set<StmtValue>{1});
 }
 
 /*
@@ -544,23 +502,17 @@ TEST_CASE("Affects While No Mod in Loop (_, Const)") {
 TEST_CASE("Affects If No Through Path (_, _)") {
   auto cfg = TestCFGProvider::getAffectsIfCFG();
   QueryCache cache;
-  auto pkbProvider =
-      CFGTestModifiesUsesProvider({{"x"}, {}, {"x"}, {"x"}, {"x"}},
-                                  {{}, {"x"}, {"x"}, {}, {"x"}},
-                                  {{2, StmtType::If}},
-                                  &cache);
+  auto pkbProvider = CFGTestModifiesUsesProvider(
+      {{"x"}, {}, {"x"}, {"x"}, {"x"}}, {{}, {"x"}, {"x"}, {}, {"x"}},
+      {{2, StmtType::If}}, &cache);
   CFGTestAffectsQuerier querier(&cfg, pkbProvider);
 
   auto result = StmtTransitiveResult();
   queryAffects(&querier, &result, 0, 0);
-  REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.pairVals == pair_set<StmtValue, StmtValue>{
-      {1, 3},
-      {3, 5},
-      {4, 5}
-  });
+  REQUIRE_FALSE(result.empty());
+  REQUIRE(result.getPairVals() ==
+          pair_set<StmtValue, StmtValue>{{1, 3}, {3, 5}, {4, 5}});
 }
-
 
 /*
  * 1 |  x = 1;
@@ -574,20 +526,14 @@ TEST_CASE("Affects If No Through Path (_, _)") {
 TEST_CASE("Affects If Then Through Path (_, _)") {
   auto cfg = TestCFGProvider::getAffectsIfCFG();
   QueryCache cache;
-  auto pkbProvider =
-      CFGTestModifiesUsesProvider({{"x"}, {}, {"y"}, {"x"}, {"x"}},
-                                  {{}, {"x"}, {"x"}, {"x"}, {"x"}},
-                                  {{2, StmtType::If}},
-                                  &cache);
+  auto pkbProvider = CFGTestModifiesUsesProvider(
+      {{"x"}, {}, {"y"}, {"x"}, {"x"}}, {{}, {"x"}, {"x"}, {"x"}, {"x"}},
+      {{2, StmtType::If}}, &cache);
   CFGTestAffectsQuerier querier(&cfg, pkbProvider);
 
   auto result = StmtTransitiveResult();
   queryAffects(&querier, &result, 0, 0);
-  REQUIRE_FALSE(result.isEmpty);
-  REQUIRE(result.pairVals == pair_set<StmtValue, StmtValue>{
-      {1, 3},
-      {1, 4},
-      {1, 5},
-      {4, 5}
-  });
+  REQUIRE_FALSE(result.empty());
+  REQUIRE(result.getPairVals() ==
+          pair_set<StmtValue, StmtValue>{{1, 3}, {1, 4}, {1, 5}, {4, 5}});
 }

@@ -78,29 +78,29 @@ TEST_CASE("IfPatternQueryHandler ifs(varname,_,_)") {
 
   // positive
   auto res1 = *test.query({StmtType::If, 0}, {EntityType::None, "a"});
-  REQUIRE(res1.firstArgVals == StmtValueSet({1, 2}));
+  REQUIRE(res1.getLeftVals() == StmtValueSet({1, 2}));
 
   auto res2 = *test.query({StmtType::If, 0}, {EntityType::None, "c"});
-  REQUIRE(res2.firstArgVals == StmtValueSet({3}));
+  REQUIRE(res2.getLeftVals() == StmtValueSet({3}));
 
   // negative
   auto res3 = *test.query({StmtType::If, 0}, {EntityType::None, "f"});
-  REQUIRE(res3.isEmpty == true);
+  REQUIRE(res3.empty() == true);
 }
 
 TEST_CASE("IfPatternQueryHandler ifs(v,_,_) or ifs(_,_,_)") {
   auto test = ifPatternTest();
 
   auto res1 = *test.query({StmtType::If, 0}, {EntityType::Wildcard, ""});
-  REQUIRE(res1.firstArgVals == StmtValueSet({1, 2, 3}));
+  REQUIRE(res1.getLeftVals() == StmtValueSet({1, 2, 3}));
 
   auto res2 = *test.query({StmtType::If, 0}, {EntityType::Variable, ""});
-  REQUIRE(res2.pairVals == pair_set<StmtValue, EntityValue>(
-                               {{1, "a"}, {1, "b"}, {2, "a"}, {3, "c"}}));
+  REQUIRE(res2.getPairVals() == pair_set<StmtValue, EntityValue>(
+                                    {{1, "a"}, {1, "b"}, {2, "a"}, {3, "c"}}));
 
   // invalid arg2
   auto res3 = *test.query({StmtType::If, 0}, {EntityType::Procedure, ""});
-  REQUIRE(res3.isEmpty == true);
+  REQUIRE(res3.empty() == true);
 }
 
 TEST_CASE("IfPatternQueryHandler ifs(varname,_,_) with ifs.stmt# ") {
@@ -108,23 +108,23 @@ TEST_CASE("IfPatternQueryHandler ifs(varname,_,_) with ifs.stmt# ") {
 
   // positive
   auto res1 = *test.query({StmtType::None, 1}, {EntityType::None, "a"});
-  REQUIRE(res1.isEmpty == false);
+  REQUIRE(res1.empty() == false);
 
   // negative
   auto res3 = *test.query({StmtType::None, 1}, {EntityType::None, "c"});
-  REQUIRE(res3.isEmpty == true);
+  REQUIRE(res3.empty() == true);
 }
 
 TEST_CASE("IfPatternQueryHandler ifs(v,_,_) / ifs(_,_,_) with ifs.stmt# ") {
   auto test = ifPatternTest();
 
   auto res1 = *test.query({StmtType::None, 1}, {EntityType::Wildcard, ""});
-  REQUIRE(res1.isEmpty == false);
+  REQUIRE(res1.empty() == false);
 
   auto res2 = *test.query({StmtType::None, 3}, {EntityType::Variable, ""});
-  REQUIRE(res2.secondArgVals == EntityValueSet({"c"}));
+  REQUIRE(res2.getRightVals() == EntityValueSet({"c"}));
 
   // invalid arg1
   auto res3 = *test.query({StmtType::While, 1}, {EntityType::Variable, ""});
-  REQUIRE(res3.isEmpty == true);
+  REQUIRE(res3.empty() == true);
 }

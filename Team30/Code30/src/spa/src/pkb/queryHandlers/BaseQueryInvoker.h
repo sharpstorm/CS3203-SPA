@@ -35,44 +35,46 @@ class BaseQueryInvoker {
         rightPredicateFactory(rightPredicateFactory) {}
 
   QueryResultPtr<LeftValue, RightValue> query(
-      IStorage<LeftValue, RightValue> *store, IRef<LeftValue, LeftType> *arg1,
-      IRef<RightValue, RightType> *arg2) const {
+      IStorage<LeftValue, RightValue> *store,
+      IRef<LeftValue, LeftType> *leftArg,
+      IRef<RightValue, RightType> *rightArg) const {
     auto resultBuilder = QueryResultBuilder<LeftValue, RightValue>();
 
     // wildcard
-    if (arg1->isWildcard() && arg2->isWildcard()) {
+    if (leftArg->isWildcard() && rightArg->isWildcard()) {
       return store->hasRelation(&resultBuilder);
-    } else if (arg1->isKnown() && arg2->isWildcard()) {
-      const auto arg1Values = unordered_set<LeftValue>({arg1->getValue()});
+    } else if (leftArg->isKnown() && rightArg->isWildcard()) {
+      const auto arg1Values = unordered_set<LeftValue>({leftArg->getValue()});
       return store->rightWildcardQuery(arg1Values, &resultBuilder);
-    } else if (arg1->isWildcard() && arg2->isKnown()) {
-      const auto arg2Values = unordered_set<RightValue>({arg2->getValue()});
+    } else if (leftArg->isWildcard() && rightArg->isKnown()) {
+      const auto arg2Values = unordered_set<RightValue>({rightArg->getValue()});
       return store->leftWildcardQuery(arg2Values, &resultBuilder);
-    } else if (arg1->isWildcard()) {
+    } else if (leftArg->isWildcard()) {
       return store->leftWildcardQuery(
-          rightProvider->getValuesOfType(arg2->getType()), &resultBuilder);
-    } else if (arg2->isWildcard()) {
+          rightProvider->getValuesOfType(rightArg->getType()), &resultBuilder);
+    } else if (rightArg->isWildcard()) {
       return store->rightWildcardQuery(
-          leftProvider->getValuesOfType(arg1->getType()), &resultBuilder);
+          leftProvider->getValuesOfType(leftArg->getType()), &resultBuilder);
     }
 
-    if (arg1->isKnown() && arg2->isKnown()) {
-      resultBuilder.setIsEmpty();
-      return store->query(arg1->getValue(), arg2->getValue(), &resultBuilder);
-    } else if (arg1->isKnown()) {
+    if (leftArg->isKnown() && rightArg->isKnown()) {
+      return store->query(leftArg->getValue(), rightArg->getValue(),
+                          &resultBuilder);
+    } else if (leftArg->isKnown()) {
       resultBuilder.setRightVals();
-      const auto arg1Values = unordered_set<LeftValue>({arg1->getValue()});
-      return store->query(arg1Values, rightPredicateFactory->getPredicate(arg2),
+      const auto arg1Values = unordered_set<LeftValue>({leftArg->getValue()});
+      return store->query(arg1Values,
+                          rightPredicateFactory->getPredicate(rightArg),
                           &resultBuilder);
-    } else if (arg2->isKnown()) {
+    } else if (rightArg->isKnown()) {
       resultBuilder.setLeftVals();
-      const auto arg2Values = unordered_set<RightValue>({arg2->getValue()});
-      return store->query(leftPredicateFactory->getPredicate(arg1), arg2Values,
-                          &resultBuilder);
+      const auto arg2Values = unordered_set<RightValue>({rightArg->getValue()});
+      return store->query(leftPredicateFactory->getPredicate(leftArg),
+                          arg2Values, &resultBuilder);
     } else {
       resultBuilder.setPairVals();
-      return store->query(leftProvider->getValuesOfType(arg1->getType()),
-                          rightPredicateFactory->getPredicate(arg2),
+      return store->query(leftProvider->getValuesOfType(leftArg->getType()),
+                          rightPredicateFactory->getPredicate(rightArg),
                           &resultBuilder);
     }
   }
