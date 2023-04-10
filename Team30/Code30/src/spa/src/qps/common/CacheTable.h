@@ -10,6 +10,7 @@ typedef vector<StmtValue> CacheRow;
 
 class CacheTable {
   typedef vector<CacheRow> CacheMatrix;
+  static const CacheRow emptyRow;
 
   class CachePart {
    private:
@@ -21,7 +22,6 @@ class CacheTable {
     void promote(const StmtValue stmt);
     bool isPromoted(const StmtValue stmt) const;
     bool isValidIndex(const StmtValue &stmt) const;
-    bool isValidArg(const StmtValue &stmt) const;
     void insert(const StmtValue &key, const StmtValue &value);
   };
 
