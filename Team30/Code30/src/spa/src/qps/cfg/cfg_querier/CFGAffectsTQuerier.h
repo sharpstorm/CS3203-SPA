@@ -29,9 +29,12 @@ class CFGAffectsTQuerier :
   explicit CFGAffectsTQuerier(CFG *cfg,
                               const ConcreteAffectsQuerier &affectsQuerier);
 
-  StmtTransitiveResult queryBool(const StmtValue &arg0, const StmtValue &arg1);
-  StmtTransitiveResult queryFrom(const StmtValue &arg0, const StmtType &type1);
-  StmtTransitiveResult queryTo(const StmtType &type0, const StmtValue &arg1);
+  void queryBool(StmtTransitiveResult *result, const StmtValue &arg0,
+                 const StmtValue &arg1);
+  void queryFrom(StmtTransitiveResult *result, const StmtValue &arg0,
+                 const StmtType &type1);
+  void queryTo(StmtTransitiveResult *result, const StmtType &type0,
+               const StmtValue &arg1);
   void queryAll(StmtTransitiveResult *resultOut, const StmtType &type0,
                 const StmtType &type1);
 
@@ -48,13 +51,17 @@ class CFGAffectsTQuerier :
   static constexpr LinkerStepGetter<ConcreteAffectsQuerier> affectsQueryFrom =
       [](ConcreteAffectsQuerier *querier,
          const StmtValue &stmt) -> const AffectsResult {
-        return querier->queryFrom(stmt, StmtType::Assign).getRightVals();
+        StmtTransitiveResult result;
+        querier->queryFrom(&result, stmt, StmtType::Assign);
+        return result.getRightVals();
       };
 
   static constexpr LinkerStepGetter<ConcreteAffectsQuerier> affectsQueryTo =
       [](ConcreteAffectsQuerier *querier,
          const StmtValue &stmt) -> const AffectsResult {
-        return querier->queryTo(StmtType::Assign, stmt).getLeftVals();
+        StmtTransitiveResult result;
+        querier->queryTo(&result, StmtType::Assign, stmt);
+        return result.getLeftVals();
       };
 };
 
@@ -64,15 +71,14 @@ CFGAffectsTQuerier<ConcreteAffectsQuerier>::CFGAffectsTQuerier(
     cfg(cfg), affectsQuerier(closure) {}
 
 template<class ConcreteAffectsQuerier>
-StmtTransitiveResult CFGAffectsTQuerier<ConcreteAffectsQuerier>::
-queryBool(const StmtValue &arg0, const StmtValue &arg1) {
-  StmtTransitiveResult result;
-
+void CFGAffectsTQuerier<ConcreteAffectsQuerier>::queryBool(
+    StmtTransitiveResult *result, const StmtValue &arg0,
+    const StmtValue &arg1) {
   if (!affectsQuerier.validateArg(arg0) || !affectsQuerier.validateArg(arg1)) {
-    return result;
+    return;
   }
 
-  ICFGWriterPtr writer = CFGResultWriterFactory(cfg, cfg, &result)
+  ICFGWriterPtr writer = CFGResultWriterFactory(cfg, cfg, result)
       .template makeBoolWriter<dummyTypePredicate<CFG>>(arg0, arg1);
   constexpr LinkerResultCallback<ICFGWriter> resultHandler =
       [](ICFGWriter *writer, const StmtValue &stmt) -> bool {
@@ -81,19 +87,17 @@ queryBool(const StmtValue &arg0, const StmtValue &arg1) {
 
   DefaultLinker linker(&affectsQuerier, writer.get(), cfg);
   linker.linkFrom(resultHandler, affectsQueryFrom, arg0);
-  return result;
 }
 
 template<class ConcreteAffectsQuerier>
-StmtTransitiveResult CFGAffectsTQuerier<ConcreteAffectsQuerier>::
-queryFrom(const StmtValue &arg0, const StmtType &type1) {
-  StmtTransitiveResult result;
-
+void CFGAffectsTQuerier<ConcreteAffectsQuerier>::queryFrom(
+    StmtTransitiveResult *result, const StmtValue &arg0,
+    const StmtType &type1) {
   if (!affectsQuerier.validateArg(arg0)) {
-    return result;
+    return;
   }
 
-  ICFGWriterPtr writer = CFGResultWriterFactory(cfg, cfg, &result)
+  ICFGWriterPtr writer = CFGResultWriterFactory(cfg, cfg, result)
       .template makeRightWriter<dummyTypePredicate<CFG>>(arg0, type1);
   constexpr LinkerResultCallback<ICFGWriter> resultHandler =
       [](ICFGWriter *writer, const StmtValue &stmt) -> bool {
@@ -102,18 +106,17 @@ queryFrom(const StmtValue &arg0, const StmtType &type1) {
 
   DefaultLinker linker(&affectsQuerier, writer.get(), cfg);
   linker.linkFrom(resultHandler, affectsQueryFrom, arg0);
-  return result;
 }
 
 template<class ConcreteAffectsQuerier>
-StmtTransitiveResult CFGAffectsTQuerier<ConcreteAffectsQuerier>::
-queryTo(const StmtType &type0, const StmtValue &arg1) {
-  StmtTransitiveResult result;
+void CFGAffectsTQuerier<ConcreteAffectsQuerier>::queryTo(
+    StmtTransitiveResult *result, const StmtType &type0,
+    const StmtValue &arg1) {
   if (!affectsQuerier.validateArg(arg1)) {
-    return result;
+    return;
   }
 
-  ICFGWriterPtr writer = CFGResultWriterFactory(cfg, cfg, &result)
+  ICFGWriterPtr writer = CFGResultWriterFactory(cfg, cfg, result)
       .template makeLeftWriter<dummyTypePredicate<CFG>>(type0, arg1);
   constexpr LinkerResultCallback<ICFGWriter> resultHandler =
       [](ICFGWriter *writer, const StmtValue &stmt) -> bool {
@@ -122,7 +125,6 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
 
   DefaultLinker linker(&affectsQuerier, writer.get(), cfg);
   linker.linkFrom(resultHandler, affectsQueryTo, arg1);
-  return result;
 }
 
 template<class ConcreteAffectsQuerier>

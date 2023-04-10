@@ -34,45 +34,38 @@ class CFGNextTQuerier : public CFGQuerier<
   CFGNextTQuerier(CFG *cfg, const ClosureType &closure) :
       cfg(cfg), walker(cfg), closure(closure) {}
 
-  StmtTransitiveResult queryBool(const StmtValue &arg0,
-                                 const StmtValue &arg1) {
-    StmtTransitiveResult result;
-
+  void queryBool(StmtTransitiveResult *result, const StmtValue &arg0,
+                 const StmtValue &arg1) {
     if (!cfg->containsStatement(arg0) || !cfg->containsStatement(arg1)) {
-      return result;
+      return;
     }
 
     CFGNode nodeStart = cfg->toCFGNode(arg0);
     CFGNode nodeEnd = cfg->toCFGNode(arg1);
 
     if (walker.walkStatic(nodeStart, nodeEnd)) {
-      result.setNotEmpty();
+      result->setNotEmpty();
     }
-
-    return result;
   }
 
-  StmtTransitiveResult queryFrom(const StmtValue &arg0,
-                                 const StmtType &type1) {
-    StmtTransitiveResult result;
+  void queryFrom(StmtTransitiveResult *result, const StmtValue &arg0,
+                 const StmtType &type1) {
     if (!cfg->containsStatement(arg0)) {
-      return result;
+      return;
     }
 
-    ICFGWriterPtr writer = makeCFGResultWriterFactory(cfg, &closure, &result)
+    ICFGWriterPtr writer = makeCFGResultWriterFactory(cfg, &closure, result)
         .template makeRightWriter<typePredicate>(arg0, type1);
     queryForward(arg0, writer.get());
-    return result;
   }
 
-  StmtTransitiveResult queryTo(const StmtType &type0,
-                               const StmtValue &arg1) {
-    StmtTransitiveResult result;
+  void queryTo(StmtTransitiveResult *result, const StmtType &type0,
+               const StmtValue &arg1) {
     if (!cfg->containsStatement(arg1)) {
-      return result;
+      return;
     }
 
-    ICFGWriterPtr writer = makeCFGResultWriterFactory(cfg, &closure, &result)
+    ICFGWriterPtr writer = makeCFGResultWriterFactory(cfg, &closure, result)
         .template makeLeftWriter<typePredicate>(type0, arg1);
 
     constexpr WalkerSingleCallback<ICFGWriter> callback =
@@ -83,8 +76,6 @@ class CFGNextTQuerier : public CFGQuerier<
 
     CFGNode nodeEnd = cfg->toCFGNode(arg1);
     walker.walkTo<ICFGWriter, callback>(nodeEnd, writer.get());
-
-    return result;
   }
 
   void queryAll(StmtTransitiveResult *resultOut, const StmtType &type0,

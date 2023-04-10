@@ -33,12 +33,12 @@ class CFGAffectsQuerier : public CFGQuerier<CFGAffectsQuerier<QuerierType>> {
  public:
   explicit CFGAffectsQuerier(CFG *cfg, QuerierType querier);
 
-  StmtTransitiveResult queryBool(const StmtValue &arg0,
-                                 const StmtValue &arg1);
-  StmtTransitiveResult queryFrom(const StmtValue &arg0,
-                                 const StmtType &type1);
-  StmtTransitiveResult queryTo(const StmtType &type0,
-                               const StmtValue &arg1);
+  void queryBool(StmtTransitiveResult *result, const StmtValue &arg0,
+                 const StmtValue &arg1);
+  void queryFrom(StmtTransitiveResult *result, const StmtValue &arg0,
+                 const StmtType &type1);
+  void queryTo(StmtTransitiveResult *result, const StmtType &type0,
+               const StmtValue &arg1);
   void queryAll(StmtTransitiveResult *resultOut,
                 const StmtType &type0,
                 const StmtType &type1);
@@ -74,17 +74,16 @@ CFGAffectsQuerier<T>::CFGAffectsQuerier(CFG *cfg, T querier):
     cfg(cfg), walker(cfg), querier(querier) {}
 
 template<class T>
-StmtTransitiveResult CFGAffectsQuerier<T>::queryBool(const StmtValue &arg0,
-                                                     const StmtValue &arg1) {
-  StmtTransitiveResult result;
-
+void CFGAffectsQuerier<T>::queryBool(StmtTransitiveResult *result,
+                                     const StmtValue &arg0,
+                                     const StmtValue &arg1) {
   if (!validateArg(arg0) || !validateArg(arg1)) {
-    return result;
+    return;
   }
 
   if (querier.queryAffectsPartial(arg0, arg1)) {
-    result.setNotEmpty();
-    return result;
+    result->setNotEmpty();
+    return;
   }
 
   CFGNode nodeFrom = cfg->toCFGNode(arg0);
@@ -92,10 +91,10 @@ StmtTransitiveResult CFGAffectsQuerier<T>::queryBool(const StmtValue &arg0,
   EntityIdx modifiedVar = SetUtils::firstItemOfSet(modifiedVars, NO_ENT_INDEX);
   EntityIdxSet targetVars = querier.getUses(arg1);
   if (targetVars.find(modifiedVar) == targetVars.end()) {
-    return result;
+    return;
   }
 
-  ICFGWriterPtr writer = makeCFGResultWriterFactory(cfg, &querier, &result)
+  ICFGWriterPtr writer = makeCFGResultWriterFactory(cfg, &querier, result)
       .template makeBoolWriter<CFGAffectsQuerier::dummyTypePredicate>(arg0,
                                                                       arg1);
   QueryState queryState{writer.get(), &querier, modifiedVar};
@@ -116,20 +115,19 @@ StmtTransitiveResult CFGAffectsQuerier<T>::queryBool(const StmtValue &arg0,
       };
 
   walker.walkFrom<QueryState, callback>(nodeFrom, &queryState);
-  return result;
 }
 
 template<class T>
-StmtTransitiveResult CFGAffectsQuerier<T>::queryFrom(const StmtValue &arg0,
-                                                     const StmtType &type1) {
-  StmtTransitiveResult result;
+void CFGAffectsQuerier<T>::queryFrom(StmtTransitiveResult *result,
+                                     const StmtValue &arg0,
+                                     const StmtType &type1) {
   if (!validateArg(arg0)) {
-    return result;
+    return;
   }
 
   CFGNode nodeFrom = cfg->toCFGNode(arg0);
 
-  ICFGWriterPtr writer = makeCFGResultWriterFactory(cfg, &querier, &result)
+  ICFGWriterPtr writer = makeCFGResultWriterFactory(cfg, &querier, result)
       .template makeRightWriter<CFGAffectsQuerier::dummyTypePredicate>(arg0,
                                                                        type1);
   auto row = querier.queryAffectsFull(arg0, 0);
@@ -137,25 +135,24 @@ StmtTransitiveResult CFGAffectsQuerier<T>::queryFrom(const StmtValue &arg0,
     for (const StmtValue &i : *row) {
       writer->writeRight(i);
     }
-    return result;
+    return;
   }
 
   queryForward(writer.get(), nodeFrom);
   if (type1 != StmtType::Wildcard) {
     querier.promoteAffectsFrom(arg0);
   }
-  return result;
 }
 
 template<class T>
-StmtTransitiveResult CFGAffectsQuerier<T>::queryTo(const StmtType &type0,
-                                                   const StmtValue &arg1) {
-  StmtTransitiveResult result;
+void CFGAffectsQuerier<T>::queryTo(StmtTransitiveResult *result,
+                                   const StmtType &type0,
+                                   const StmtValue &arg1) {
   if (!validateArg(arg1)) {
-    return result;
+    return;
   }
 
-  ICFGWriterPtr writer = makeCFGResultWriterFactory(cfg, &querier, &result)
+  ICFGWriterPtr writer = makeCFGResultWriterFactory(cfg, &querier, result)
       .template makeLeftWriter<CFGAffectsQuerier::dummyTypePredicate>(type0,
                                                                       arg1);
   auto row = querier.queryAffectsFull(0, arg1);
@@ -163,14 +160,14 @@ StmtTransitiveResult CFGAffectsQuerier<T>::queryTo(const StmtType &type0,
     for (const StmtValue &i : *row) {
       writer->writeLeft(i);
     }
-    return result;
+    return;
   }
 
   CFGNode nodeTo = cfg->toCFGNode(arg1);
   EntityIdxSet usedVars = querier.getUses(arg1);
   EntitySymbolMap symbolMap;
   if (usedVars.empty()) {
-    return result;
+    return;
   }
 
   int counter = 0;
@@ -228,7 +225,6 @@ StmtTransitiveResult CFGAffectsQuerier<T>::queryTo(const StmtType &type0,
   if (type0 != StmtType::Wildcard) {
     querier.promoteAffectsTo(arg1);
   }
-  return result;
 }
 
 template<class T>

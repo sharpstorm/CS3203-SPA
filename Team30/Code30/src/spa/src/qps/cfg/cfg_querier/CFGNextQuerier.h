@@ -18,9 +18,12 @@ class CFGNextQuerier : public CFGQuerier<
  public:
   explicit CFGNextQuerier(CFG *cfg, const ClosureType &closure);
 
-  StmtTransitiveResult queryBool(const StmtValue &arg0, const StmtValue &arg1);
-  StmtTransitiveResult queryFrom(const StmtValue &arg0, const StmtType &type1);
-  StmtTransitiveResult queryTo(const StmtType &type0, const StmtValue &arg1);
+  void queryBool(StmtTransitiveResult *resultOut, const StmtValue &arg0,
+                 const StmtValue &arg1);
+  void queryFrom(StmtTransitiveResult *resultOut, const StmtValue &arg0,
+                 const StmtType &type1);
+  void queryTo(StmtTransitiveResult *resultOut, const StmtType &type0,
+               const StmtValue &arg1);
   void queryAll(StmtTransitiveResult *resultOut, const StmtType &type0,
                 const StmtType &type1);
 
@@ -34,13 +37,12 @@ CFGNextQuerier<ClosureType, typePredicate>::CFGNextQuerier(
     CFG *cfg, const ClosureType &closure): cfg(cfg), closure(closure) {}
 
 template<class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
-StmtTransitiveResult CFGNextQuerier<ClosureType, typePredicate>::
-queryBool(const StmtValue &arg0, const StmtValue &arg1) {
-  StmtTransitiveResult result;
-
+void CFGNextQuerier<ClosureType, typePredicate>::queryBool(
+    StmtTransitiveResult *result, const StmtValue &arg0,
+    const StmtValue &arg1) {
   if (!cfg->containsStatement(arg0)
       || !cfg->containsStatement(arg1)) {
-    return result;
+    return;
   }
 
   CFGNode nodeFrom = cfg->toCFGNode(arg0);
@@ -48,31 +50,27 @@ queryBool(const StmtValue &arg0, const StmtValue &arg1) {
 
   CFGLinks *links = cfg->nextLinksOf(nodeFrom);
   if (links == nullptr) {
-    return result;
+    return;
   }
 
   for (const auto &node : *links) {
     if (node == nodeTo) {
-      result.setNotEmpty();
+      result->setNotEmpty();
       break;
     }
   }
-
-  return result;
 }
 
 template<class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
-StmtTransitiveResult CFGNextQuerier<ClosureType, typePredicate>::
-queryFrom(const StmtValue &arg0, const StmtType &type1) {
-  StmtTransitiveResult result;
-
+void CFGNextQuerier<ClosureType, typePredicate>::queryFrom(
+    StmtTransitiveResult *result, const StmtValue &arg0, const StmtType &type1) {
   if (!cfg->containsStatement(arg0)) {
-    return result;
+    return;
   }
 
   CFGNode nodeFrom = cfg->toCFGNode(arg0);
   CFGLinks *links = cfg->nextLinksOf(nodeFrom);
-  ICFGWriterPtr writer = makeCFGResultWriterFactory(cfg, &closure, &result)
+  ICFGWriterPtr writer = makeCFGResultWriterFactory(cfg, &closure, result)
       .template makeRightWriter<typePredicate>(arg0, type1);
 
   for (const CFGNode &node : *links) {
@@ -85,21 +83,19 @@ queryFrom(const StmtValue &arg0, const StmtType &type1) {
       break;
     }
   }
-  return result;
 }
 
 template<class ClosureType, StmtTypePredicate<ClosureType> typePredicate>
-StmtTransitiveResult CFGNextQuerier<ClosureType, typePredicate>::
-queryTo(const StmtType &type0, const StmtValue &arg1) {
-  StmtTransitiveResult result;
-
+void CFGNextQuerier<ClosureType, typePredicate>::queryTo(
+    StmtTransitiveResult *result, const StmtType &type0,
+    const StmtValue &arg1) {
   if (!cfg->containsStatement(arg1)) {
-    return result;
+    return;
   }
 
   CFGNode nodeTo = cfg->toCFGNode(arg1);
   CFGLinks *links = cfg->reverseLinksOf(nodeTo);
-  ICFGWriterPtr writer = makeCFGResultWriterFactory(cfg, &closure, &result)
+  ICFGWriterPtr writer = makeCFGResultWriterFactory(cfg, &closure, result)
       .template makeLeftWriter<typePredicate>(type0, arg1);
 
   for (const CFGNode &node : *links) {
@@ -112,8 +108,6 @@ queryTo(const StmtType &type0, const StmtValue &arg1) {
       break;
     }
   }
-
-  return result;
 }
 
 template<class ClosureType, StmtTypePredicate<ClosureType> typePredicate>

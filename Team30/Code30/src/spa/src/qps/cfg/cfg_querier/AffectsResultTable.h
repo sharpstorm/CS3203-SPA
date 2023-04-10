@@ -29,7 +29,8 @@ class AffectsResultTable {
   const AffectsResult &getResultAt(const StmtValue stmt) {
     CFGNode nodeId = cfg->toCFGNode(stmt);
     if (!queried.isSet(nodeId)) {
-      StmtTransitiveResult result = querier->queryFrom(stmt, StmtType::Assign);
+      StmtTransitiveResult result;
+      querier->queryFrom(&result, stmt, StmtType::Assign);
       affectsResults[nodeId] = result.getRightVals();
       queried.set(nodeId);
     }

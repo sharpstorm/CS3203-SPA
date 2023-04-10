@@ -72,8 +72,8 @@ class AffectsClauseInvokers {
 
     if (leftArg.isKnown() || rightArg.isKnown()) {
       QuerierT querier = makeQuerier(cfgs[0], agent);
-      return make_unique<QueryResult<StmtValue, StmtValue>>(
-          querier.queryArgs(leftArg, rightArg));
+      querier.queryArgs(leftArg, rightArg, result.get());
+      return result;
     }
 
     for (auto it = cfgs.begin(); it != cfgs.end(); it++) {
@@ -84,7 +84,7 @@ class AffectsClauseInvokers {
   };
 
   template<class QuerierT, QuerierFactory<QuerierT> makeQuerier>
-  static constexpr void queryBoolCFG(const QueryExecutorAgent &agent,
+  static const void queryBoolCFG(const QueryExecutorAgent &agent,
                                      CFG *cfg,
                                      StmtValueSet *result) {
     QuerierT querier = makeQuerier(cfg, agent);
@@ -96,7 +96,8 @@ class AffectsClauseInvokers {
         continue;
       }
 
-      auto relationResult = querier.queryBool(statement, statement);
+      StmtTransitiveResult relationResult;
+      querier.queryBool(&relationResult, statement, statement);
       if (!relationResult.empty()) {
         result->insert(statement);
       }

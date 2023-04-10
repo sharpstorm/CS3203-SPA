@@ -56,8 +56,8 @@ class NextClauseInvokers {
 
     if (leftArg.isKnown() || rightArg.isKnown()) {
       T querier(cfgs[0], agent);
-      return make_unique<QueryResult<StmtValue, StmtValue>>(
-          querier.queryArgs(leftArg, rightArg));
+      querier.queryArgs(leftArg, rightArg, result.get());
+      return result;
     }
 
     for (auto it = cfgs.begin(); it != cfgs.end(); it++) {
@@ -68,10 +68,10 @@ class NextClauseInvokers {
   };
 
   template<class T>
-  static constexpr void queryBoolCFG(const QueryExecutorAgent &agent,
-                                     CFG *cfg,
-                                     StmtValueSet *result,
-                                     StmtType type) {
+  static const void queryBoolCFG(const QueryExecutorAgent &agent,
+                                 CFG *cfg,
+                                 StmtValueSet *result,
+                                 StmtType type) {
     T querier(cfg, agent);
     for (int i = 0; i < cfg->getNodeCount(); i++) {
       StmtValue statement = cfg->fromCFGNode(i);
@@ -79,7 +79,8 @@ class NextClauseInvokers {
         continue;
       }
 
-      auto relationResult = querier.queryBool(statement, statement);
+      StmtTransitiveResult relationResult;
+      querier.queryBool(&relationResult, statement, statement);
       if (!relationResult.empty()) {
         result->insert(statement);
       }
